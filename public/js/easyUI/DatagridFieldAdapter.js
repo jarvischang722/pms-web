@@ -74,14 +74,26 @@ var DatagridFieldAdapter = {
         tmpFieldObj.title = '<span title="' + fieldAttrObj.ui_hint + '">' + fieldAttrObj.ui_display_name + '</span>';
         tmpFieldObj.sortable = true;
 
-        tmpFieldObj.editor = {
-            type: dataType,
-            options: {
-                required: fieldAttrObj.requirable == "Y",
-                readonly: fieldAttrObj.modificable == "N",
-                validType: fieldAttrObj.format_func_name != "" ? fieldAttrObj.format_func_name.split(",") : []
-            }
-        };
+        if( typeof fieldAttrObj.format_func_name === "object"){
+            tmpFieldObj.editor = {
+                type: dataType,
+                options: {
+                    required: fieldAttrObj.requirable == "Y",
+                    readonly: fieldAttrObj.modificable == "N",
+                    validType: fieldAttrObj.format_func_name.validate != "" ? fieldAttrObj.format_func_name.validate.split(",") : []
+                }
+            };
+        }
+        else{
+            tmpFieldObj.editor = {
+                type: dataType,
+                options: {
+                    required: fieldAttrObj.requirable == "Y",
+                    readonly: fieldAttrObj.modificable == "N",
+                    validType: fieldAttrObj.format_func_name != "" ? fieldAttrObj.format_func_name.split(",") : []
+                }
+            };
+        }
 
         /** 長度限制  **/
         var mixLength = fieldAttrObj.requirable == "Y" ? '1' : '0';
@@ -311,6 +323,21 @@ var DatagridFieldAdapter = {
                     return fieldName;
                 };
             }
+
+            var formatFunc = function (val) {
+                if( typeof fieldAttrObj.format_func_name === "object"){
+                    val = go_formatDisplayClass.amtFormat(val || "0", fieldAttrObj.format_func_name.rule_val);
+                }
+                return val;
+            };
+
+            tmpFieldObj.formatter = formatFunc;
+            tmpFieldObj.editor.options.formatter = formatFunc;
+
+            tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+                var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+            };
         }
         else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {

@@ -84,8 +84,8 @@ app.use(i18n.init);
 app.use(flash());
 
 //session setting
-var maxAgeSec = 20 * 60;                //session 設定過期時間（秒）
-var sessionMiddleware = session({
+const maxAgeSec = 180 * 60;                //session 設定過期時間（秒）
+let sessionMiddleware = session({
     secret: sysConfig.secret,             // 防止cookie竊取
     proxy: true,                          //安全cookie的反向代理，通过x-forwarded-proto實現
     resave: false,                       //即使 session 没有被修改，也保存 session 值，預設為 true。
@@ -98,8 +98,6 @@ var sessionMiddleware = session({
         ttl: maxAgeSec                   //單位 秒
     })
 });
-
-
 
 //設定socket.io 可以取得session
 io.use(function (socket, next) {
@@ -124,12 +122,12 @@ app.use(function (req, res, next) {
 
 //設定系統提供語系
 app.use(function (req, res, next) {
-    var options = {
-        maxAge: 1000 * 60 * 15, // would expire after 15 minutes
+    let options = {
+        maxAge: 1000 * 60 * 15 // would expire after 15 minutes
         //httpOnly: true, // The cookie only accessible by the web server
         //signed: true // Indicates if the cookie should be signed
     };
-    var localeInfo = [
+    let localeInfo = [
         {lang: 'en', sort: 1, name: 'English'},
         {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')},
         {lang: 'ja', sort: 3, name: encodeURIComponent('日本語')}
@@ -142,7 +140,7 @@ routing(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
@@ -173,7 +171,8 @@ function tableUnlockforAllPrg() {
     dbSvc.doTableAllUnLock(function (err, success) {
         if (err) {
             console.error(err);
-        } else {
+        }
+        else {
             console.log("Table unlock all program ID.");
         }
 

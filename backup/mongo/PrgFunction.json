@@ -14,3 +14,13 @@
     "rule_func_name" : "", 
     "link_prg_id" : ""
 }
+{ 
+    "_id" : ObjectId("5a321d30d602a173f4f51ff0"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0200", 
+    "rule_func_name" : "defaultStatusCod1", 
+    "link_prg_id" : "", 
+    "template_id" : ""
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [RS0W212010] 廳別下拉-->
+    <dao name="SEL_RSPT_COD">
+        <statement><![CDATA[
+             SELECT RSPT_RF.RSPT_COD as value, RSPT_RF.RSPT_NAM as display, RSPT_RF.RSPT_ENG
+             FROM RSPT_RF
+             WHERE RSPT_RF.SYS_COD = 'RS'
+             ORDER BY RSPT_RF.RSPT_COD
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- [RS0W212010] 取得廳別-->
+    <!--<dao name="SEL_RSPT_COD">-->
+        <!--<statement><![CDATA[-->
+             <!--select rspt_nam from rspt_rf where trim(rspt_cod)= trim(:rspt_cod)-->
+        <!--]]>-->
+        <!--</statement>-->
+        <!--<parameter type="string" kind="3">rspt_cod</parameter>-->
+    <!--</dao>-->
+
+</root>

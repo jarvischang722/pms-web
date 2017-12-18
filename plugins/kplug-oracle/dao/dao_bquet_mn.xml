@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [RS0W212010] 平面圖訂席場地狀態顯示 -->
+    <dao name="QRY_RESV_ORDER_STA">
+        <statement><![CDATA[
+			select mn.bquet_nos, mn.order_sta, mn.wait_seq, mn.title_nam, dt.place_cod, dt.begin_tim, dt.end_tim from bquet_mn mn, bqplace_dt dt
+            where mn.bquet_nos = dt.bquet_nos
+            and dt.use_dat = to_date(:use_dat, 'YYYY/MM/DD')
+            and mn.order_sta in ('N','W','Q')
+            and mn.bq_ver = '3'
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">use_dat</parameter>
+    </dao>
+
+    <!-- [RS0W212010] 取單筆MN資料 -->
+    <dao name="QRY_BQUET_MN_SINGLE">
+        <statement><![CDATA[
+            select bquet_nos, trim(bq.use_typ) as use_typ, bq.inter_cod, bq.order_sta, bq.confirm_sta, bq.wait_seq, bq.expire_dat, bq.begin_dat, bq.begin_tim, bq.end_tim, bq.title_nam, bq.atten_nam, bq.contact1_cod, bq.contact1_rmk, bq.contact2_cod, bq.contact2_rmk, bq.bride_nam, bq.groom_nam, bq.alt_nam, bq.first_nam, bq.last_nam, bq.cust_cod, cust.show_cod, bq.uni_cod, bq.uni_title, trim(bq.meal_typ) as meal_typ, bq.desk_qnt, bq.pmdesk_qnt, bq.adult_qnt, bq.poadult_qnt, bq.hpdpst_amt, bq.cal_serv, bq.hotel_cod, bq.sales_cod, bq.opsales_cod, bq.cancel_dat, bq.cancel_tim, bq.cancel_usr, bq.ins_dat, bq.ins_tim, bq.ins_usr, bq.upd_dat, bq.upd_tim, bq.upd_usr, bq.rspt_cod, bq.proc_sta, bq.cancel_rmk, bq.bquet_src, bq.sponsor_nam, bq.place_amt, bq.bquet_rmk, dp.banlance_amt deposit_amt
+            from bquet_mn bq
+            left join deposit_mn dp on bq.bquet_nos = dp.deposit_nos
+            left join vi_rs_cust_idx cust on bq.cust_cod = cust.cust_cod
+            where trim(bquet_nos) = trim(:bquet_nos)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">bquet_nos</parameter>
+    </dao>
+
+</root>

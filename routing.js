@@ -7,12 +7,8 @@ var _ = require("underscore");
 var fs = require("fs");
 var routersDirectory = __dirname+"/routes/";
 
-module.exports = function(app,passport){
-
+module.exports = function(app, passport){
     fs.readdirSync(routersDirectory).filter(function(file) {
-
         require(routersDirectory + file )(app);
-
-
-    })
+    });
 };
