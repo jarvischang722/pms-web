@@ -450,7 +450,7 @@ function qrySelectOption(la_dgFieldData, callback) {
             la_asyncParaFunc.push(
               function (cb) {
                   la_dgFieldData[fIdx].selectData = [];
-                  ruleAgent[lo_dgField.rule_func_name](lo_dgField, go_session.user, function (err, result) {
+                  ruleAgent[field.rule_func_name](field, userInfo, function (err, result) {
                       la_dgFieldData[fIdx].selectData = result.selectOptions;
                       cb(null, la_dgFieldData[fIdx]);
                   });
