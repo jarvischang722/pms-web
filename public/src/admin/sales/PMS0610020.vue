@@ -820,6 +820,10 @@
                     resizable: true
                 });
             },
+            doSaveContractStatus(){},
+            doCloseContractStatusDialog(){
+                $("#contractStatusChange").dialog('close');
+            },
             loadChangeLog: function () {
                 var self = this;
                 $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0610020"}, function (result) {
