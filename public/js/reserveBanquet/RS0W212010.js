@@ -171,11 +171,26 @@ var singlePage = Vue.extend({
                         if (self.singleData.title_nam.toString().trim() == "") {
                             result.data["title_nam"] = result.data.alt_nam;
                         }
-                        self.singleData = _.extend(self.singleData, result.data);
                     }
                     else {
                         alert(result.error.errorMsg);
                     }
+
+                    //帶回前先將舊值清掉
+                    self.singleData.cust_cod = "";
+                    self.singleData.first_nam = "";
+                    self.singleData.last_nam = "";
+                    self.singleData.uni_cod = "";
+                    self.singleData.uni_title = "";
+                    self.singleData.atten_nam = "";
+                    self.singleData.title_nam = "";
+                    self.singleData.sales_cod = "";
+                    self.singleData.contact1_cod = "";
+                    self.singleData.contact2_cod = "";
+                    self.singleData.contact1_rmk = "";
+                    self.singleData.contact2_rmk = "";
+
+                    self.singleData = _.extend(self.singleData, result.data);
                     self.singleData = _.extend(self.singleData, chooseData);
                 });
             }

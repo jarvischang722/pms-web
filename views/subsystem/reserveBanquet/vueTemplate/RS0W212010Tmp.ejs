@@ -55,7 +55,7 @@
                                         </div>
                                         <div class="grid-item">
                                             <label>聯絡人</label>
-                                            <input type="text" @click="chkClickPopUpGrid('atten_nam')" v-model="singleData.atten_nam" class="input-medium resvCard-date" :disabled="readonly"/>
+                                            <input type="text" @click="chkClickPopUpGrid('atten_nam')" @keyup="chkClickPopUpGrid('atten_nam')" v-model="singleData.atten_nam" class="input-medium resvCard-date" :disabled="readonly"/>
                                         </div>
                                     </div>
                                     <div class="grid">
