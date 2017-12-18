@@ -206,6 +206,7 @@ var vm = new Vue({
             }).dialog('open');
         },
         editSalesClerk() {
+            var self = this;
             this.isLoading = true;
             var la_editRow = $('#PMS0610010_dg').datagrid('getSelections');
 
@@ -223,12 +224,17 @@ var vm = new Vue({
                     maxwidth: 1920,
                     // autoOpen: true,
                     dialogClass: "test",
-                    resizable: true
+                    resizable: true,
+                    onBeforeClose: function () {
+                        self.editRows = [];
+                        self.isEditSalesClerk = false;
+                    }
                 });
             }
             this.isLoading = false;
         },
         addVisitPlan() {
+            var self = this;
             this.isLoading = true;
             var la_editRow = $('#PMS0610010_dg').datagrid('getSelections');
 
@@ -250,7 +256,11 @@ var vm = new Vue({
                     maxwidth: 1920,
                     // autoOpen: true,
                     dialogClass: "test",
-                    resizable: true
+                    resizable: true,
+                    onBeforeClose: function () {
+                        self.editRows = [];
+                        self.fetchDataParams = {};
+                    }
                 });
             }
             this.isLoading = false;
