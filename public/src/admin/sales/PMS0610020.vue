@@ -795,7 +795,7 @@
             },
             //ststus chg.(公司狀態)
             doSetCompanyStatus() {
-                var dialog = $('#statusChg').removeClass('hide').dialog({
+                var dialog = $('#companyStatusChg').removeClass('hide').dialog({
                     autoOpen: false,
                     modal: true,
                     title: go_i18nLang["program"]["PMS0610020"].company_status,
