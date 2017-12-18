@@ -126,7 +126,6 @@ var vm = new Vue({
         },
         showDataGrid() {
             var self = this;
-            this.isLoading = false;
 
             var colOption = [{field: 'ck', checkbox: true}];
             colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0610010_dg'));
@@ -162,6 +161,7 @@ var vm = new Vue({
                 afterPageText: "頁,共{pages}頁",
                 displayMsg: "顯示{from}到{to}筆資料, 共{total}筆資料"
             });
+            this.isLoading = false;
         },
         appendRow() {
             this.isLoading = true;
@@ -171,6 +171,7 @@ var vm = new Vue({
             this.initTmpCUD();
 
             this.showSingleGridDialog();
+            this.isLoading = false;
         },
         editRow() {
             this.isLoading = true;
@@ -192,6 +193,7 @@ var vm = new Vue({
                 this.editingRow = lo_editRow;
                 this.showSingleGridDialog();
             }
+            this.isLoading = false;
         },
         showSingleGridDialog() {
             var dialog = $('#PMS0610020').removeClass('hide').dialog({
@@ -204,6 +206,7 @@ var vm = new Vue({
             }).dialog('open');
         },
         editSalesClerk() {
+            this.isLoading = true;
             var la_editRow = $('#PMS0610010_dg').datagrid('getSelections');
 
             if (la_editRow.length == 0) {
@@ -223,8 +226,10 @@ var vm = new Vue({
                     resizable: true
                 });
             }
+            this.isLoading = false;
         },
         addVisitPlan() {
+            this.isLoading = true;
             var la_editRow = $('#PMS0610010_dg').datagrid('getSelections');
 
             if (la_editRow.length == 0) {
@@ -248,6 +253,7 @@ var vm = new Vue({
                     resizable: true
                 });
             }
+            this.isLoading = false;
         }
     }
 });

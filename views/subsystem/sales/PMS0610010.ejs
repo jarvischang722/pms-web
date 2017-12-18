@@ -1,59 +1,59 @@
 <!--page-content-->
-<div id="PMS0610010App">
-    <div class="page-header"></div><!-- /.page-header -->
-    <!-- 商務公司(Accounts) Page-->
-    <div class="pageMain">
-        <search-comp
-                :search-fields="searchFields"
-                :search-cond.sync="searchCond"
-                :fetch-data="loadDataGridByPrgID"
-        ></search-comp>
-        <div class="clearfix"></div>
-
-        <div class="col-xs-12 col-sm-12 businessCompanyData">
-            <div class="col-xs-11 col-sm-11">
-                <div class="row no-margin-right">
-                    <div>
-                        <table id="PMS0610010_dg" class="gridTableHt"></table>
+<div id="PMS0610010App" >
+    <div v-loading="isLoading" element-loading-text="Loading...">
+        <div class="page-header"></div><!-- /.page-header -->
+        <!-- 商務公司(Accounts) Page-->
+        <div class="pageMain" >
+            <search-comp
+                    :search-fields="searchFields"
+                    :search-cond.sync="searchCond"
+                    :fetch-data="loadDataGridByPrgID"
+            ></search-comp>
+            <div class="clearfix"></div>
+            <div class="col-xs-12 col-sm-12 businessCompanyData">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="row no-margin-right">
+                        <div>
+                            <table id="PMS0610010_dg" class="gridTableHt"></table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xs-1 col-sm-1">
-                <div class="row">
-                    <div class="right-menu-co">
-                        <ul>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain"
-                                        role="button" @click="appendRow"><%= __("SystemCommon")["Add"] %>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain"
-                                        role="button" @click="editRow"><%= __("SystemCommon")["Modify"] %>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth btn-skin"
-                                        role="button"><%= __("program")["PMS0610010"]["save_as"] %>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button" @click="editSalesClerk"><%= __("program")["PMS0610010"]["sales_assign"] %>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button" @click="addVisitPlan"><%= __("program")["PMS0610010"]["visit_plan"] %>
-                                </button>
-                            </li>
-                        </ul>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain"
+                                            role="button" @click="appendRow"><%= __("SystemCommon")["Add"] %>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain"
+                                            role="button" @click="editRow"><%= __("SystemCommon")["Modify"] %>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth btn-skin"
+                                            role="button"><%= __("program")["PMS0610010"]["save_as"] %>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" @click="editSalesClerk"><%= __("program")["PMS0610010"]["sales_assign"] %>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" @click="addVisitPlan"><%= __("program")["PMS0610010"]["visit_plan"] %>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <!--商務公司資料編輯-->
     <pms0610020
             :row-data="editingRow"

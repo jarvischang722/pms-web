@@ -280,6 +280,7 @@
         watch: {
             editRows(val) {
                 if (!_.isEmpty(this.fetchDataParams)) {
+                    this.isLoadingDialog = true;
                     this.initData();
                     this.fetchSingleGridFieldData();
                 }
