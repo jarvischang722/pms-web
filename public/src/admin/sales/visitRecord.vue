@@ -285,8 +285,10 @@
                 }
             },
             rowData(val) {
-                this.fetchRowData(val);
-                this.setIndexData(val);
+                if (!_.isEmpty(this.fetchDataParams)) {
+                    this.fetchRowData(val);
+                    this.setIndexData(val);
+                }
             }
         },
         methods: {

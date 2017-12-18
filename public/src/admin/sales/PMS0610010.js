@@ -1,7 +1,7 @@
 import visitRecord from './visitRecord.vue';
 import searchComp from '../../common/searchComp.vue';
 import editSalesClerk from './editSalesClerk.vue';
-import PMS0610020 from './PMS0610020.vue';
+import pms0610020 from './PMS0610020.vue';
 
 Vue.prototype.$eventHub = new Vue();
 
@@ -15,7 +15,7 @@ var vm = new Vue({
         this.setSearchCond();
         this.loadDataGridByPrgID();
     },
-    components: {visitRecord, searchComp, editSalesClerk, PMS0610020},
+    components: {visitRecord, searchComp, editSalesClerk, pms0610020},
     data() {
         return {
             userInfo: {},
@@ -171,9 +171,13 @@ var vm = new Vue({
             this.initTmpCUD();
 
             var lo_editRow = $('#PMS0610010_dg').datagrid('getSelected');
+            var la_editRows = $('#PMS0610010_dg').datagrid('getSelections');
 
             if (!lo_editRow) {
-                alert(go_i18nLang["SystemCommon"].selectData);
+                alert(go_i18nLang["SystemCommon"].SelectData);
+            }
+            else if(la_editRows.length > 1){
+                alert(go_i18nLang["SystemCommon"].SelectData);
             }
             else {
                 this.editingRow = lo_editRow;
@@ -181,7 +185,7 @@ var vm = new Vue({
             }
         },
         showSingleGridDialog() {
-            var dialog = $('#singleGridPMS0610010').removeClass('hide').dialog({
+            var dialog = $('#PMS0610020').removeClass('hide').dialog({
                 autoOpen: false,
                 modal: true,
                 title: go_i18nLang["program"]["PMS0610010"].compamy_maintain,
