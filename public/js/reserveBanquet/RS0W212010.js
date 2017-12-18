@@ -171,12 +171,12 @@ var singlePage = Vue.extend({
                         if (self.singleData.title_nam.toString().trim() == "") {
                             result.data["title_nam"] = result.data.alt_nam;
                         }
-                        self.singleData.cust_cod = chooseData["cust_cod"];
                         self.singleData = _.extend(self.singleData, result.data);
                     }
                     else {
                         alert(result.error.errorMsg);
                     }
+                    self.singleData = _.extend(self.singleData, chooseData);
                 });
             }
             else if (self.popupFieldName == "place_cod_button") {
@@ -1281,9 +1281,11 @@ Vue.component('text-select-grid-dialog-tmp', {
                             align: "left",
                             hidden: field == "cust_cod" || field == "unit_amt" ? true : false
                         });
+                        if(field != "cust_cod" && field != "unit_amt"){
+                            self.fieldNameConditionTmp.push({value: field, display: name});
+                            self.fieldConditionTmp.push({value: field});
+                        }
 
-                        self.fieldNameConditionTmp.push({value: field, display: name});
-                        self.fieldConditionTmp.push({value: field});
                     }
                 });
             }
