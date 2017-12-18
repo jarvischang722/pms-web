@@ -1425,7 +1425,7 @@ table.treetable span.indenter {
 
 /*-------- login.html -------- */
 .login-bg {
-  background: #DFE0E2 url("images/pattern.jpg") repeat;
+  background: #DFE0E2 url("../css/images/pattern.jpg") repeat;
 }
 
 .loginPage {
