@@ -46,7 +46,8 @@ Vue.component('single-grid-pms0620020-tmp', {
             classCodSelectedOption: [],
             loadingText: "",
             isLoadingDialog: "",
-            BTN_action: false
+            BTN_action: false,
+            hotelDtRow: 0
         };
     },
     created: function () {
@@ -78,6 +79,7 @@ Vue.component('single-grid-pms0620020-tmp', {
         },
         singleData: function (val) {
             this.isLoadingDialog = true;
+            this.BTN_action = false;
             this.initData();
             this.fetchFieldData();
         },
@@ -296,6 +298,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.dgHoatelDt.init("PMS0620020", "hotelDt_dg", DatagridFieldAdapter.combineFieldOption(this.hotelDtFieldData, 'hotelDt_dg'), this.hotelDtFieldData);
             this.dgHoatelDt.loadDgData(this.hotelDtRowData);
             this.dgHoatelDt.getOriDtRowData(this.oriHotelDtRowData);
+            this.hotelDtRow = this.oriHotelDtRowData.length;
 
             this.dgClassHs = new DatagridSingleGridClass();
             this.dgClassHs.init("PMS0620020", "classHs_dg", DatagridFieldAdapter.combineFieldOption(this.classHsFieldData, 'classHs_dg'));
@@ -303,7 +306,13 @@ Vue.component('single-grid-pms0620020-tmp', {
 
         },
         appendDtRow: function () {
-            this.dgHoatelDt.appendRow();
+            this.BTN_action = true;
+            this.hotelDtRow ++;
+            var ln_addRows = $('#hotelDt_dg').datagrid('getRows').length + 1;
+            if(this.hotelDtRow == ln_addRows){
+                this.BTN_action = false;
+                this.dgHoatelDt.appendRow();
+            }
         },
         removeDtRow: function () {
             this.dgHoatelDt.removeRow();
