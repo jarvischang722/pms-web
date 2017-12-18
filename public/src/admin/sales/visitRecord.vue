@@ -1,6 +1,6 @@
 <template>
     <div id="visitRecord" class="hide padding-5">
-        <div class="col-sm-12 newVisitRecord-wrap">
+        <div class="col-sm-12 newVisitRecord-wrap" v-loading="isLoadingDialog" :element-loading-text="loadingText">
             <div class="row">
                 <div class="borderFrame" v-if="!isOnlySingleGrid">
                     <div class="col-sm-11 col-xs-11">
@@ -279,8 +279,10 @@
         },
         watch: {
             editRows(val) {
-                this.initData();
-                this.fetchSingleGridFieldData();
+                if (!_.isEmpty(this.fetchDataParams)) {
+                    this.initData();
+                    this.fetchSingleGridFieldData();
+                }
             },
             rowData(val) {
                 this.fetchRowData(val);
@@ -312,7 +314,10 @@
                     else {
                         self.rowData = self.editRows[0];
                     }
+
+                    self.isLoadingDialog = false;
                 });
+
             },
             loadSettingGrid() {
                 var self = this;

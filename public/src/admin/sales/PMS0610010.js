@@ -1,6 +1,7 @@
 import visitRecord from './visitRecord.vue';
 import searchComp from '../../common/searchComp.vue';
 import editSalesClerk from './editSalesClerk.vue';
+import PMS0610020 from './PMS0610020.vue';
 
 Vue.prototype.$eventHub = new Vue();
 
@@ -13,9 +14,8 @@ var vm = new Vue({
         this.fetchUserInfo();
         this.setSearchCond();
         this.loadDataGridByPrgID();
-        this.setComponentParams();
     },
-    components: {visitRecord, searchComp, editSalesClerk},
+    components: {visitRecord, searchComp, editSalesClerk, PMS0610020},
     data() {
         return {
             userInfo: {},
@@ -40,7 +40,8 @@ var vm = new Vue({
             isModifiable: true,
             isCreateStatus: false,
             isEditStatus: false,
-            isOnlySingleGrid: false, //拜訪紀錄為新增多筆、單筆
+            isEditSalesClerk: false,
+            isOnlySingleVisitRecord: false, //拜訪紀錄為新增多筆、單筆
             fetchDataParams: {} //拜訪紀錄所需參數
         };
     },
@@ -98,7 +99,7 @@ var vm = new Vue({
                 vm.showDataGrid();
             });
         },
-        setComponentParams(){
+        setVisitRecordParams() {
             this.fetchDataParams = {
                 settingGrid: {
                     prg_id: "PMS0610010",
@@ -196,6 +197,7 @@ var vm = new Vue({
                 alert(go_i18nLang["SystemCommon"].SelectData);
             }
             else {
+                this.isEditSalesClerk = true;
                 this.editRows = la_editRow;
                 var dialog = $("#salesEditClerk").removeClass('hide').dialog({
                     modal: true,
@@ -220,6 +222,7 @@ var vm = new Vue({
                 this.isOnlySingleGrid = false;
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
+                this.setVisitRecordParams();
 
                 var dialog = $("#visitRecord").removeClass('hide').dialog({
                     modal: true,

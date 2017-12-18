@@ -63,13 +63,15 @@
     <!--:is-edit-status="isEditStatus"-->
     <!--&gt;</single-grid-pms0610010-tmp>-->
 
+    <pms0610020></pms0610020>
     <edit-sales-clerk
             :edit-rows="editRows"
+            :is-edit-sales-clerk="isEditSalesClerk"
     ></edit-sales-clerk>
     <visit-record
             :is-create-status="isCreateStatus"
             :is-edit-status="isEditStatus"
-            :is-only-single-grid="isOnlySingleGrid"
+            :is-only-single-grid="isOnlySingleVisitRecord"
             :edit-rows="editRows"
             :fetch-data-params="fetchDataParams"
     ></visit-record>
