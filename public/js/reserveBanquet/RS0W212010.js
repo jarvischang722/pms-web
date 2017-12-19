@@ -1439,6 +1439,69 @@ var RS00202010VM = new Vue({
         },
 
         addReserve: function () {
+
+            let ln_td;
+            let rspt_cod;
+            let place_cod;
+
+            if(arguments.length != 0){
+                ln_td = arguments[0];
+                rspt_cod = arguments[1];
+                place_cod = arguments[2];
+
+                let ln_time_hour = 0;
+                let ln_time_min = 0;
+                if(ln_td != 0){
+                    ln_time_hour = Math.floor(ln_td / 2);
+                    ln_time_min = (ln_td % 2) * 30;
+                }
+
+                /**
+                 * 取新增時間點
+                 * ls_beginTimeByAdd    {string} 開始時間
+                 * ls_endTimeByAdd      {string} 結束時間
+                 */
+                let ls_beginTimeByAdd = moment(this.pageOneData.time_range[ln_time_hour], "HH:mm");
+                let ls_endTimeByAdd;
+                if(ln_time_min == 0){
+                    ls_endTimeByAdd = ls_beginTimeByAdd.clone().add(30, "m").format("HH:mm");
+                }
+                else{
+                    ls_beginTimeByAdd = ls_beginTimeByAdd.clone().add(30, "m");
+                    ls_endTimeByAdd = ls_beginTimeByAdd.clone().add(30, "m").format("HH:mm");
+                }
+                ls_beginTimeByAdd = ls_beginTimeByAdd.format("HH:mm");
+
+                /**
+                 * 取新增餐期
+                 * @type {{name: string 餐期名稱, mtime_cod: string 餐期代碼}}
+                 */
+                let lo_mtimeByAdd = {
+                    name: "",
+                    mtime_cod: ""
+                };
+                let la_rspt = _.where(this.pageOneData.rowData, {datatype: "RSPT", rspt_cod: rspt_cod});
+                _.each(la_rspt, function(lo_rspt){
+                    _.each(lo_rspt.banquet_dt, function(lo_mtime){
+                        if(lo_mtime.name != ""){
+                            let ls_begin_tim = moment(lo_mtime.beg_tim, "HH:mm");
+                            let ls_end_tim = moment(lo_mtime.end_tim, "HH:mm");
+                            let isBetween = moment(ls_beginTimeByAdd, "HH:mm").isBetween(ls_begin_tim, ls_end_tim, null, '[)');
+                            if(isBetween){
+                                lo_mtimeByAdd = {
+                                    name: lo_mtime.name,
+                                    mtime_cod: lo_mtime.mtime_cod
+                                };
+                            }
+                        }
+                    });
+                });
+
+                // 取新增桌數
+                let ln_desk_qnt = _.findWhere(this.pageOneData.rowData, {datatype: "PLACE", place_cod: place_cod}).desk_qnt;
+
+                console.log(ls_beginTimeByAdd, ls_endTimeByAdd, lo_mtimeByAdd, place_cod, ln_desk_qnt);
+            }
             vmHub.$emit("showReserve", {bquet_nos: ""});
         },
 
