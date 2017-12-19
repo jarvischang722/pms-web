@@ -8,6 +8,7 @@
     <!--data-options="url:'../../../jsonData/authorRole_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>-->
     <!--</div>-->
     <div>
+        <p class="topTitle">角色權限</p>
         <select class="form-control authorSelect" v-model="selRole">
             <option v-for="role in allRoles" :value="role.role_id">{{role.role_id}} : {{role.role_nam}}</option>
         </select>
@@ -36,7 +37,10 @@
                     return this.$store.getters.selRole
                 },
                 set(role_id) {
-                    this.$store.dispatch("changeRoleEvent", role_id).then(() => {});
+                    if (this.$store.state.permissionModel == "authByRole") {
+                        this.$store.dispatch("changeRoleEvent", role_id).then(() => {
+                        });
+                    }
                 }
             }
         },

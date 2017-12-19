@@ -1,6 +1,6 @@
 <template>
     <div class="author-navbar">
-        <p class="topTitle float-left">新增角色權限</p>
+        <p class="topTitle float-left">{{navbarName}}</p>
         <div class="float-right author-nav-btn">
 
             <div class="btn-group">
@@ -15,7 +15,7 @@
                 </button>
             </div>
             <div class="btn-group">
-                <el-select clearable placeholder="選擇權限" size="small" v-model="permissionModel">
+                <el-select placeholder="選擇權限" size="small" v-model="permissionModel">
                     <el-option value="authByRole" label="角色權限">角色權限</el-option>
                     <el-option value="authByFunc" label="功能權限">功能權限</el-option>
                     <el-option value="authByStaff" label="人員權限">人員權限</el-option>
@@ -30,18 +30,32 @@
 
     export default {
         name: "auth-navbar",
+        data() {
+            return {
+                navbarName: ""
+            }
+        },
         computed: {
             permissionModel: {
-                get(){
+                get() {
+                    let ls_permissionModel = this.$store.state.permissionModel;
+                    if(ls_permissionModel == "authByRole"){
+                        this.navbarName = "新增角色權限";
+                    }
+                    else if(ls_permissionModel == "authByStaff"){
+                        this.navbarName = "新增人員權限";
+                    }
+                    else{
+                        this.navbarName = "新增功能權限";
+                    }
                     return this.$store.state.permissionModel;
                 },
-                set(newValue){
+                set(newValue) {
                     this.$store.commit("setPermissionModel", newValue);
                 }
             }
         },
-        methods: {
-        }
+        methods: {}
     }
 </script>
 

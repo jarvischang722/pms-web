@@ -26,21 +26,6 @@
         created() {
             this.watchStaffOfRole();
         },
-        mounted() {
-            // this.qryCompGrpList();
-        },
-        // computed: {
-        //     staffOfRole: {
-        //         get() {
-        //             this.la_staffOfRole = this.$store.state.staffOfRole;
-        //             this.updateAccountChkedTree(this.$store.state.staffOfRole);
-        //             return this.$store.state.staffOfRole;
-        //         },
-        //         set(value) {
-        //             this.$store.commit("updateStaffOfRole", value);
-        //         }
-        //     }
-        // },
 
         methods: {
             watchStaffOfRole() {
@@ -68,17 +53,14 @@
                 else {
                     cb(null, "");
                 }
-
             },
 
             //創立一棵Tree
             createAccountTree(la_compGrpList4Tree) {
                 let la_plugin = ["search", "state", "types", "wholerow", "checkbox"];
-                console.log(this.permissionModel, la_plugin);
                 if (this.permissionModel == "authByStaff") {
                     la_plugin.splice(4,1);
                 }
-                console.log(la_plugin);
 
                 $('#permissionAccountTree').jstree({
                     "core": {
@@ -114,6 +96,10 @@
                     },
                     "plugins": la_plugin
                 });
+
+                $("#permissionAccountTree").on("select_node.jstree", function(evt, data){
+                });
+
                 this.treeIns = $("#permissionAccountTree").jstree(true);
             },
 
@@ -146,6 +132,14 @@
 
 
             },
+
+            selectedNode(e, data){
+                var i, j, r = [];
+                for(i = 0, j = data.selected.length; i < j; i++) {
+                    r.push(data.instance.get_node(data.selected[i]).text);
+                }
+                console.log(r);
+            }
         }
     }
 </script>

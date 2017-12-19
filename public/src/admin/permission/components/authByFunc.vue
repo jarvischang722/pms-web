@@ -8,7 +8,7 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <auth-navbar></auth-navbar>
-                            <auth-role-comp></auth-role-comp>
+                            <auth-func-comp></auth-func-comp>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -17,12 +17,12 @@
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="row no-margin-right">
-                                    <auth-staff-comp></auth-staff-comp>
+                                    <auth-role-comp></auth-role-comp>
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="row">
-                                    <auth-func-comp></auth-func-comp>
+                                    <auth-staff-comp></auth-staff-comp>
                                 </div>
                             </div>
                         </div>
@@ -73,13 +73,13 @@
 </template>
 
 <script>
+
     import authNavbar from './authNavbar';
     import authRoleComp from './authRoleComp';
     import authStaffComp from './authStaffComp';
     import authFuncComp from './authFuncComp';
-
     export default {
-        name: "auth-by-role",
+        name: "auth-by-func",
         components: {
             authNavbar,
             authRoleComp,
