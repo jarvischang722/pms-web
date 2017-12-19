@@ -686,7 +686,7 @@ a
     .input-spc-1
       +input-s1
       height: $defHt
-  .tab-block
+  .grid-item
     +bsCompany-content
     .checkbox-width
       width: auto
@@ -963,9 +963,17 @@ ul.newVisitOther-btn
 // reservationRoomType.ejs 訂房卡table資料
 // margin-left: 25px 看html-->min-width
 .resvCard-data
-  margin-left: 25px
+  margin-left: 10px
+  &.single
+    font-weight: 300
+    span
+      font-weight: 300
+  &.total
+    font-weight: 700
+    span
+      font-weight: 700
   span
-    padding-right: 20px
+    padding-right: 5px
 
 // 訂房卡 changeLog
 .resv-changeRecord
