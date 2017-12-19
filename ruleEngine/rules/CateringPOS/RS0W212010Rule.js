@@ -206,6 +206,9 @@ module.exports = {
             return;
         }
 
+        postData.editRowData.begin_tim = postData.editRowData.begin_tim.replace(":", "");
+        postData.editRowData.end_tim = postData.editRowData.end_tim.replace(":", "");
+
         if(Number(postData.editRowData.begin_tim.toString().substr(0,2)) > 23 || Number(postData.editRowData.begin_tim.toString().substr(2,2) > 60) || Number(postData.editRowData.end_tim.toString().substr(0,2)) > 23 || Number(postData.editRowData.end_tim.toString().substr(2,2) > 60)){
             callback(lo_error, lo_result);
             return;

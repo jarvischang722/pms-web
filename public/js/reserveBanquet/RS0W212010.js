@@ -115,8 +115,6 @@ var singlePage = Vue.extend({
 
             isShowReserve: true,
 
-            canSave: true,
-
             dgIns: {},
             dtFieldData: [],
             dataGridRows: [],
@@ -285,8 +283,6 @@ var singlePage = Vue.extend({
                 if (!_.isUndefined(this.mask_hfd)) {
                     this.singleData.place_amt = go_formatDisplayClass.amtFormat(tot_amt, this.mask_hfd);
                 }
-
-                this.canSave = false;
             },
             deep: true
         },
@@ -1004,20 +1000,19 @@ var singlePage = Vue.extend({
         save: function () {
             var self = this;
 
-            if (!self.canSave) {
-                alert('必須先通過庫存檢查！');
+            if (self.dataGridRows.length == 0) {
+                alert('場地明細無資料！');
                 return;
             }
 
             if (self.dgIns.endEditing()) {
-
-                if (self.singleData.contact1_cod != null && (self.singleData.contact1_rmk == null || self.singleData.contact1_rmk == "")) {
-                    alert('聯絡方式1未輸入!');
+                if (self.singleData.contact1_rmk != null && (self.singleData.contact1_cod == null || self.singleData.contact1_cod == "")) {
+                    alert('聯絡方式1的種類未選擇!');
                     return;
                 }
 
-                if (self.singleData.contact2_cod != null && (self.singleData.contact2_rmk == null || self.singleData.contact2_rmk == "")) {
-                    alert('聯絡方式2未輸入!');
+                if (self.singleData.contact2_rmk != null && (self.singleData.contact2_cod == null || self.singleData.contact2_cod == "")) {
+                    alert('聯絡方式2的種類未選擇!');
                     return;
                 }
 
@@ -1034,7 +1029,12 @@ var singlePage = Vue.extend({
                 var func_id = self.createStatus ? '0200' : '0400';
 
                 self.saveToTmpCud();
-                self.callSaveAPI(func_id);
+                self.callBeforeSaveAPI('2030', function (result) {
+                    if(result){
+                        self.callSaveAPI(func_id);
+                    }
+                });
+
             }
             else {
                 alert('場地明細尚未編輯完成！');
@@ -1138,7 +1138,7 @@ var singlePage = Vue.extend({
          */
         CheckInventory: function () {
             if (this.dataGridRows.length == 0) {
-                alert('請先新增明細！');
+                alert('場地明細無資料！');
                 return;
             }
             if (this.dgIns.endEditing()) {
@@ -1150,9 +1150,8 @@ var singlePage = Vue.extend({
             }
         },
 
-        updateInventory: function (data) {
+        updateInventory: function (data, callback) {
             var self = this;
-            self.canSave = true;
 
             _.each(self.dataGridRows, function (value) {
                 if (value.is_allplace == "Y") {
@@ -1167,6 +1166,34 @@ var singlePage = Vue.extend({
             });
 
             self.dgIns.loadDgData(self.dataGridRows);
+            callback();
+        },
+
+        callBeforeSaveAPI: function (func_id, callback) {
+            var self = this;
+
+            var lo_params = {
+                trans_cod: prg_id,
+                prg_id: prg_id,
+                page_id: 2,
+                func_id: func_id,
+                tmpCUD: self.tmpCud
+            };
+
+            RS00202010VM.isLoading = true;
+
+            $.post("/api/doOperationSave", lo_params, function (result) {
+                RS00202010VM.isLoading = false;
+                if (result.success) {
+                    self.updateInventory(result.data, function () {
+                        callback(true);
+                    });
+                }
+                if (result.msg != "") {
+                    alert(result.msg);
+                    callback(false);
+                }
+            });
         },
 
         callAPI: function (func_id) {
