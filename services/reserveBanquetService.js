@@ -95,6 +95,10 @@ class ResvBanquetData {
         return la_rtnData;
     }
 
+    /**
+     * 取時間區間
+     * @returns {Array}
+     */
     getTimeRange() {
         let la_time_range = [];
         let ln_time_range;
@@ -108,6 +112,10 @@ class ResvBanquetData {
         return la_time_range;
     }
 
+    /**
+     * 產生地圖資料
+     * @returns {Array}
+     */
     genRowData() {
         let self = this;
         let la_rowData = [];
@@ -119,6 +127,7 @@ class ResvBanquetData {
                 tr_class: "no-cursor-tr h23-tr",
                 datatype: lo_rspt.datatype,
                 name: lo_rspt.rspt_nam,
+                rspt_cod: lo_rspt.rspt_cod,
                 parent_cod: null,
                 place_cod: null,
                 banquet_dt: self.genBanquet_dt(lo_rspt.datatype, lo_rspt.rspt_cod),
@@ -128,30 +137,49 @@ class ResvBanquetData {
 
             // 地區
             let la_place = _.where(self.la_place, {rspt_cod: lo_rspt.rspt_cod});
-            _.each(la_place, function (lo_place) {
-
-                let ls_parent_cod = (lo_place.parent_cod != null) ? lo_place.parent_cod.trim() : "";
-                let ls_place_cod = (lo_place.place_cod != null) ? lo_place.place_cod.trim() : "";
-
-                if(lo_place.is_child == "N"){
-                    ls_parent_cod = "";
-                }
-
+            let la_parent = _.where(la_place, {is_child: "N"});
+            _.each(la_parent, function(lo_parent){
+                // 母場地
                 lo_rowData = {
                     tr_class: "",
                     datatype: "PLACE",
-                    name: lo_place.place_nam,
-                    parent_cod: ls_parent_cod,
-                    place_cod: ls_place_cod,
-                    banquet_dt: self.genBanquet_dt("Reserve", lo_place.place_cod),
+                    name: lo_parent.place_nam,
+                    rspt_cod: lo_parent.rspt_cod,
+                    desk_qnt: lo_parent.desk_qnt,
+                    parent_cod: "",
+                    place_cod: lo_parent.place_cod,
+                    banquet_dt: self.genBanquet_dt("Reserve", lo_parent.place_cod),
                     rowspan: 0
                 };
                 la_rowData.push(lo_rowData);
+
+                // 子場地
+                let la_child = _.where(la_place, {parent_cod: lo_parent.place_cod, is_child: "Y"});
+                _.each(la_child, function(lo_child){
+                    lo_rowData = {
+                        tr_class: "",
+                        datatype: "PLACE",
+                        name: lo_child.place_nam,
+                        rspt_cod: lo_child.rspt_cod,
+                        desk_qnt: lo_child.desk_qnt,
+                        parent_cod: lo_child.parent_cod,
+                        place_cod: lo_child.place_cod,
+                        banquet_dt: self.genBanquet_dt("Reserve", lo_child.place_cod),
+                        rowspan: 0
+                    };
+                    la_rowData.push(lo_rowData);
+                });
             });
         });
         return la_rowData;
     }
 
+    /**
+     * 產生訂位資料
+     * @param datatype      {string} 判斷餐期或訂席
+     * @param parent_cod    {string} 父層
+     * @returns {Array}
+     */
     genBanquet_dt(datatype, parent_cod) {
         let self = this;
         let la_banquet_dt = [];
@@ -173,6 +201,7 @@ class ResvBanquetData {
                             beg_tim: self.ls_beg_hour.format("HH:mm"),
                             end_tim: lo_begin_tim.format("HH:mm"),
                             colspan: ln_colspan,
+                            mtime_cod: lo_mtim.mtime_cod,
                             datatype: lo_mtim.datatype
                         };
                         if (ln_colspan != 0) {
@@ -187,6 +216,7 @@ class ResvBanquetData {
                         beg_tim: moment(la_banquet_dt[la_banquet_dt.length - 1].end_tim, "HH:mm").format("HH:mm"),
                         end_tim: lo_begin_tim.format("HH:mm"),
                         colspan: ln_colspan,
+                        mtime_cod: lo_mtim.mtime_cod,
                         datatype: lo_mtim.datatype
                     };
                     if (ln_colspan != 0) {
@@ -200,6 +230,7 @@ class ResvBanquetData {
                     beg_tim: lo_begin_tim.format("HH:mm"),
                     end_tim: lo_end_tim.format("HH:mm"),
                     colspan: ln_colspan,
+                    mtime_cod: lo_mtim.mtime_cod,
                     datatype: lo_mtim.datatype
                 };
                 la_banquet_dt.push(lo_banquet_dt);
@@ -213,6 +244,7 @@ class ResvBanquetData {
                     beg_tim: moment(lo_last.end_tim, "HH:mm").format("HH:mm"),
                     end_tim: self.ls_end_hour.format("HH:mm"),
                     colspan: ln_colspan,
+                    mtime_cod: "",
                     datatype: "MTIME"
                 };
                 la_banquet_dt.push(lo_banquet_dt);
@@ -225,6 +257,7 @@ class ResvBanquetData {
                     beg_tim: self.ls_beg_hour.format("HH:mm"),
                     end_tim: self.ls_end_hour.format("HH:mm"),
                     colspan: ln_colspan,
+                    mtime_cod: "",
                     datatype: "MTIME"
                 };
                 la_banquet_dt.push(lo_banquet_dt);
@@ -312,9 +345,16 @@ class ResvBanquetData {
         return la_banquet_dt;
     }
 
+    /**
+     * 計算地圖欄位合併數
+     * @param lo_begin_tim  {string} 開始時間
+     * @param lo_end_tim    {string} 結束時間
+     * @returns {number}    合併格數
+     */
     calcColSpan(lo_begin_tim, lo_end_tim) {
         let ln_diffMin = lo_end_tim.diff(lo_begin_tim, "minutes");
         let ln_colspan = Math.round(ln_diffMin / 30);
+
         return ln_colspan;
     }
 }
