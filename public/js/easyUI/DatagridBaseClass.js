@@ -183,7 +183,11 @@ function DatagridBaseClass() {
     /**
      * 新增一個Row
      */
-    this.appendRow = function () {
+    this.appendRow = function (callback) {
+        if (_.isUndefined(callback)) {
+            callback = function (result) {
+            };
+        }
         if (self.endEditing()) {
             $.post("/api/handleDataGridAddEventRule", {prg_id: self.prg_id}, function (result) {
                 var prgDefaultObj = {createRow: 'Y'};
@@ -194,6 +198,7 @@ function DatagridBaseClass() {
                 self.editIndex = $('#' + self.dgName).datagrid('getRows').length - 1;
                 $('#' + self.dgName).datagrid('selectRow', self.editIndex)
                     .datagrid('beginEdit', self.editIndex);
+                callback(true);
             });
             // $("#gridEdit").val(self.tmpCUD);
         }

@@ -306,13 +306,14 @@ Vue.component('single-grid-pms0620020-tmp', {
 
         },
         appendDtRow: function () {
+            var self = this;
             this.BTN_action = true;
-            this.hotelDtRow ++;
-            var ln_addRows = $('#hotelDt_dg').datagrid('getRows').length + 1;
-            if(this.hotelDtRow == ln_addRows){
-                this.BTN_action = false;
-                this.dgHoatelDt.appendRow();
-            }
+            this.dgHoatelDt.appendRow(function (result) {
+                if (result) {
+                    self.BTN_action = false;
+                }
+            });
+
         },
         removeDtRow: function () {
             this.dgHoatelDt.removeRow();
