@@ -27,4 +27,6 @@ module.exports = function(app, passport){
 
     app.post("/reserveBanquet/chgOrderStaAPI", apiMiddles, resvbanquetCtrl.chgOrderStaAPI);
 
+    app.post("/reserveBanquet/getPlaceUnitAmt", apiMiddles, resvbanquetCtrl.getPlaceUnitAmt);
+
 };

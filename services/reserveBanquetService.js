@@ -435,7 +435,6 @@ exports.chk_use_typ = function (postData, session, callback) {
     });
 };
 
-
 //[RS0W212010] 取預約處理預設值
 exports.def_proc_sta = function (postData, session, callback) {
     var lo_error = null;
@@ -457,7 +456,6 @@ exports.def_proc_sta = function (postData, session, callback) {
         }
     });
 };
-
 
 //[RS0W212010] 取客戶資料
 exports.qry_bqcust_mn = function (postData, session, callback) {
@@ -506,7 +504,6 @@ exports.qry_bqcust_mn = function (postData, session, callback) {
     });
 };
 
-
 //[RS0W212010] 異動表單狀態
 exports.chgOrderStaAPI = function (postData, session, callback) {
     var apiParams = {
@@ -541,4 +538,29 @@ exports.chgOrderStaAPI = function (postData, session, callback) {
 
         callback(errorMsg, success);
     });
+};
+
+//[RS0W212010] 取場地單價
+exports.getPlaceUnitAmt = function (postData, session, callback) {
+    var lo_error = null;
+
+    var lo_params = {
+        place_cod: postData.place_cod
+    };
+
+    queryAgent.query("QRY_PLACE_UNIT_AMT", lo_params, function (err, Result) {
+        if (!err) {
+            if (Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+
 };

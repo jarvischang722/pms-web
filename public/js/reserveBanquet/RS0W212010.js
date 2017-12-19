@@ -149,11 +149,11 @@ var singlePage = Vue.extend({
                     self.dataGridRows = [];
 
                     self.singleData = _.clone(self.singleDataEmpty);
-                    self.defaultValue();
+                    self.defaultValue(PostData);
                 }
                 self.initPurview();
                 self.showReserve();
-                self.fetchDataGridData(PostData.bquet_nos);
+                self.fetchDataGridData(PostData);
             });
         });
 
@@ -691,13 +691,13 @@ var singlePage = Vue.extend({
         /**
          * 取DT資料
          */
-        fetchDataGridData: function (bquet_nos) {
+        fetchDataGridData: function (postData) {
             var self = this;
             $.post("/api/singlePageRowDataQuery", {
                 prg_id: prg_id,
                 page_id: 2,
                 singleRowData: self.editingRow,
-                bquet_nos: bquet_nos
+                bquet_nos: postData.bquet_nos
             }, function (result) {
 
                 //依參數『前檯金額格式』顯示, 因取欄位資料的方式不是用作業的方式，所以要自己塞format_func_name.rule_val
@@ -718,15 +718,76 @@ var singlePage = Vue.extend({
                 self.dgIns = new DTGridClass();
                 self.dgIns.init(prg_id, 'RS0W212010_dt', DatagridFieldAdapter.combineFieldOption(self.dtFieldData, 'RS0W212010_dt'), self.dtFieldData);
                 self.dgIns.initTmpCUD();
-                self.dgIns.loadDgData(self.dataGridRows);
                 self.dgIns.tmpCUD.oriData = self.oriDataGridRows;
+
+                //新增模式時，如有預設值，直接將預設值帶入明細
+                if(self.createStatus && postData.begin_tim != ""){
+                    var defaultData = {};
+                    $.post("/reserveBanquet/getPlaceUnitAmt", {place_cod: postData.place_cod}, function (result) {
+                        if (!_.isUndefined(result.data)) {
+                            defaultData["bquet_nos"] = "";
+                            defaultData["seq_nos"] = "";
+                            defaultData["rspt_cod"] = postData.rspt_cod;
+                            defaultData["place_cod"] = postData.place_cod;
+                            defaultData["begin_tim"] = postData.begin_tim;
+                            defaultData["end_tim"] = postData.end_tim;
+                            defaultData["desk_qnt"] = postData.desk_qnt;
+                            defaultData["is_allplace"] = 'N';
+                            defaultData["inv_qnt"] = "0";
+                            defaultData["createRow"] = "Y";
+                            defaultData["unit_amt"] = result.data.unit_amt;
+
+                            //計算價格
+                            defaultData["begin_tim"] = defaultData["begin_tim"].toString().replace(":", "");
+                            defaultData["end_tim"] = defaultData["end_tim"].toString().replace(":", "");
+
+                            var begin_hour = Number(defaultData["begin_tim"].toString().substr(0,2));
+                            var begin_min = Number(defaultData["begin_tim"].toString().substr(2,2));
+                            var end_hour = Number(defaultData["end_tim"].toString().substr(0,2));
+                            var end_min = Number(defaultData["end_tim"].toString().substr(2,2));
+
+                            if(end_hour < begin_hour){
+                                end_hour += 24;
+                            }
+
+                            var div_hour = end_hour - begin_hour;
+                            var div_min = end_min - begin_min;
+
+                            var total_min = (div_hour * 60) + div_min;
+
+                            defaultData["order_qnt"] = go_MathTool.formatFloat(total_min / 60, 1);
+
+                            defaultData["place_amt"] = go_MathTool.formatFloat(defaultData["unit_amt"] * defaultData["order_qnt"], self.round_hfd);
+                            defaultData["special_amt"] = defaultData["place_amt"];
+
+                            var disc_amt = go_MathTool.formatFloat((defaultData["place_amt"] - defaultData["special_amt"]), self.round_hfd);
+
+                            if(disc_amt < 0){
+                                disc_amt = 0;
+                            }
+
+                            defaultData["disc_amt"] = disc_amt;
+
+                            self.dataGridRows.push(defaultData);
+                            self.dgIns.loadDgData(self.dataGridRows);
+
+                        } else {
+                            alert(result.error.errorMsg);
+                        }
+                    });
+                }
+                else {
+                    self.dgIns.loadDgData(self.dataGridRows);
+                    self.dgIns.tmpCUD.oriData = self.oriDataGridRows;
+                }
+
             });
         },
 
         /**
          * 塞預設值
          */
-        defaultValue: function () {
+        defaultValue: function (postData) {
 
             this.singleData.use_typ = this.default_use_typ_common;
             this.useTypeOnChange();
@@ -745,6 +806,13 @@ var singlePage = Vue.extend({
             this.singleData.begin_tim = "00:00";
             this.singleData.end_tim = "23:59";
             this.singleData.begin_dat = RS00202010VM.searchDate;
+
+            //帶地圖的預設值過來
+            if(postData.begin_tim != null){
+                this.singleData.rspt_cod = postData.rspt_cod;
+                this.singleData.begin_tim = postData.begin_tim;
+                this.singleData.end_tim = postData.end_tim;
+            }
 
             //保留日計算
             this.singleData.expire_dat = (moment(this.rent_cal_dat).add(this.default_expire_dat, 'day')).format("YYYY/MM/DD");
@@ -771,7 +839,6 @@ var singlePage = Vue.extend({
             this.singleData.proc_sta = this.default_proc_sta;
 
             this.singleData.place_amt = "0";
-
         },
 
         /**
@@ -1000,6 +1067,11 @@ var singlePage = Vue.extend({
         save: function () {
             var self = this;
 
+            if(self.singleData.atten_nam == null || self.singleData.atten_nam == ""){
+                alert("聯絡人為必填！");
+                return;
+            }
+
             if (self.dataGridRows.length == 0) {
                 alert('場地明細無資料！');
                 return;
@@ -1213,7 +1285,9 @@ var singlePage = Vue.extend({
                 RS00202010VM.isLoading = false;
                 if (result.success) {
                     alert("檢查通過！");
-                    self.updateInventory(result.data);
+                    self.updateInventory(result.data, function () {
+                        
+                    });
                 }
                 if (result.msg != "") {
                     alert(result.msg);
@@ -1444,6 +1518,11 @@ var RS00202010VM = new Vue({
             let rspt_cod;
             let place_cod;
 
+            let ls_beginTimeByAdd;
+            let ls_endTimeByAdd;
+
+            let ln_desk_qnt;
+
             if(arguments.length != 0){
                 ln_td = arguments[0];
                 rspt_cod = arguments[1];
@@ -1461,8 +1540,8 @@ var RS00202010VM = new Vue({
                  * ls_beginTimeByAdd    {string} 開始時間
                  * ls_endTimeByAdd      {string} 結束時間
                  */
-                let ls_beginTimeByAdd = moment(this.pageOneData.time_range[ln_time_hour], "HH:mm");
-                let ls_endTimeByAdd;
+                ls_beginTimeByAdd = moment(this.pageOneData.time_range[ln_time_hour], "HH:mm");
+
                 if(ln_time_min == 0){
                     ls_endTimeByAdd = ls_beginTimeByAdd.clone().add(30, "m").format("HH:mm");
                 }
@@ -1498,11 +1577,10 @@ var RS00202010VM = new Vue({
                 });
 
                 // 取新增桌數
-                let ln_desk_qnt = _.findWhere(this.pageOneData.rowData, {datatype: "PLACE", place_cod: place_cod}).desk_qnt;
+                ln_desk_qnt = _.findWhere(this.pageOneData.rowData, {datatype: "PLACE", place_cod: place_cod}).desk_qnt;
 
-                console.log(ls_beginTimeByAdd, ls_endTimeByAdd, lo_mtimeByAdd, place_cod, ln_desk_qnt);
             }
-            vmHub.$emit("showReserve", {bquet_nos: ""});
+            vmHub.$emit("showReserve", {bquet_nos: "", begin_tim: ls_beginTimeByAdd, end_tim: ls_endTimeByAdd, place_cod: place_cod, desk_qnt: ln_desk_qnt, rspt_cod: rspt_cod});
         },
 
         showReserve: function (bquet_nos) {
