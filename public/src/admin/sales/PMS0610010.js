@@ -9,11 +9,17 @@ var gs_prgId = "PMS0610010";
 
 var vm = new Vue({
     el: "#PMS0610010App",
-    created(){
+    created() {
         var self = this;
-        this.$eventHub.$on('getChangeLogData', function(changeLogData){
+        this.$eventHub.$on('getChangeLogData', function (changeLogData) {
             self.openChangeLogDialog = changeLogData.openChangeLogDialog;
             self.allChangeLogList = changeLogData.allChangeLogList;
+        });
+
+        this.$eventHub.$on('doEditSalesClerk',function(editSalesClerkData) {
+            self.isEditSalesClerk = editSalesClerkData.isEditSalesClerk;
+            self.editRows = editSalesClerkData.editRows;
+            self.doEditSalesClerk();
         });
     },
     mounted() {
@@ -167,6 +173,8 @@ var vm = new Vue({
             this.isLoading = true;
             this.isCreateStatus = true;
             this.isEditStatus = false;
+            this.isEditSalesClerk = false;
+            this.isOnlySingleVisitRecord = false;
             this.editingRow = {};
             this.initTmpCUD();
 
@@ -177,6 +185,8 @@ var vm = new Vue({
             this.isLoading = true;
             this.isCreateStatus = false;
             this.isEditStatus = true;
+            this.isEditSalesClerk = false;
+            this.isOnlySingleVisitRecord = false;
             this.editingRow = {};
             this.initTmpCUD();
 
@@ -184,10 +194,10 @@ var vm = new Vue({
             var la_editRows = $('#PMS0610010_dg').datagrid('getSelections');
 
             if (!lo_editRow) {
-                alert(go_i18nLang["SystemCommon"].SelectData);
+                alert(go_i18nLang["SystemCommon"].SelectOneData);
             }
-            else if(la_editRows.length > 1){
-                alert(go_i18nLang["SystemCommon"].SelectData);
+            else if (la_editRows.length > 1 || lo_editRow != la_editRows[0]) {
+                alert(go_i18nLang["SystemCommon"].SelectOneData);
             }
             else {
                 this.editingRow = lo_editRow;
@@ -199,14 +209,13 @@ var vm = new Vue({
             var dialog = $('#PMS0610020').removeClass('hide').dialog({
                 autoOpen: false,
                 modal: true,
-                title: go_i18nLang["program"]["PMS0610010"].compamy_maintain,
+                title: go_i18nLang["program"]["PMS0610020"].compamy_maintain,
                 width: 1000,
                 maxHeight: 1920,
                 resizable: true
             }).dialog('open');
         },
-        editSalesClerk() {
-            var self = this;
+        doEditSalesClerk() {
             this.isLoading = true;
             var la_editRow = $('#PMS0610010_dg').datagrid('getSelections');
 
@@ -215,21 +224,7 @@ var vm = new Vue({
             }
             else {
                 this.isEditSalesClerk = true;
-                this.editRows = la_editRow;
-                var dialog = $("#salesEditClerk").removeClass('hide').dialog({
-                    modal: true,
-                    title: "修改業務員",
-                    title_html: true,
-                    width: 500,
-                    maxwidth: 1920,
-                    // autoOpen: true,
-                    dialogClass: "test",
-                    resizable: true,
-                    onBeforeClose: function () {
-                        self.editRows = [];
-                        self.isEditSalesClerk = false;
-                    }
-                });
+                this.editRows = this.editRow.length == 0? la_editRow: this.editRows;
             }
             this.isLoading = false;
         },
@@ -243,19 +238,21 @@ var vm = new Vue({
             }
             else {
                 this.editRows = la_editRow;
-                this.isOnlySingleGrid = false;
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
+                this.isEditSalesClerk = false;
+                this.isOnlySingleVisitRecord = false;
+
                 this.setVisitRecordParams();
 
                 var dialog = $("#visitRecord").removeClass('hide').dialog({
                     modal: true,
-                    title: "新增拜訪記錄",
+                    title: go_i18nLang["program"]["PMS0610010"].add_visit_plan,
                     title_html: true,
                     width: 1000,
                     maxwidth: 1920,
-                    // autoOpen: true,
                     dialogClass: "test",
+                    zIndex: 9999,
                     resizable: true,
                     onBeforeClose: function () {
                         self.editRows = [];

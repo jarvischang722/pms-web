@@ -164,6 +164,11 @@
       "save_as": "Save As",
       "sales_assign": "Sales Assign",
       "visit_plan": "Visit Plan",
+      "edit_sales": "修改業務員(英)",
+      "add_visit_plan": "新增拜訪計畫(英)"
+    },
+    "PMS0610020":{
+      "company_status":"Status chg.",
       "compamy_maintain" : "商務公司維護(英)",
       "company_related_diagram": "公司關聯圖(英)",
       "company_status": "Status chg.",
@@ -175,10 +180,15 @@
       "visit_record": "拜訪紀錄(英)",
       "business_notes": "業務備註(英)",
       "historical_consumption": "歷史消費(英)",
-      "contribution": "貢獻度(英)"
-    },
-    "PMS0610020":{
-      "company_status":"Status chg."
+      "contribution": "貢獻度(英)",
+      "change_credit_limit": "信用額度變更(英)",
+      "append_contact_person": "新增聯絡人(英)",
+      "remove_contact_person": "刪除聯絡人(英)",
+      "hide_leaving_staff": "離職不顯示(英)",
+      "append_contract": "新增合約(英)",
+      "remove_contract": "刪除合約(英)",
+      "special_contract": "特殊合約(英)",
+      "hide_expired": "過期不顯示(英)"
     },
     "PMS0620020": {
       "sales_cod": "Sales Id",
@@ -227,6 +237,7 @@
     "ChangeLog": "Change Log",
     "LogOutTime": "Logout remaining time",
     "SelectData": "請選擇資料(英)",
+    "SelectOneData": "請選擇一筆資料(英)",
     "Time": "Time",
     "User": "User",
     "Action_type": "Action Type",

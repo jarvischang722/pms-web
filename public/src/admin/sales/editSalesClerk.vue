@@ -1,5 +1,6 @@
 <template>
-    <div id="salesEditClerk" class="hide padding-5">
+    <el-dialog :close-on-click-modal="true" :show-close="true"
+    :visible.sync="isEditSalesClerk" size="small" class="openChangeLogDialog">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
@@ -45,7 +46,7 @@
             </div>
         </div>
         <div class="clearfix"></div>
-    </div>
+    </el-dialog>
 </template>
 
 <script>
@@ -68,8 +69,8 @@
             };
         },
         watch: {
-            editRows(val) {
-                if (this.isEditSalesClerk) {
+            isEditSalesClerk(val){
+                if(val){
                     this.initData();
                     this.fetchSingleGridFieldData();
                 }
@@ -79,6 +80,7 @@
             initData() {
                 this.singleData = {};
                 this.fieldData = [];
+                console.log(this.editRows);
             },
             fetchSingleGridFieldData() {
                 var self = this;

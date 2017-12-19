@@ -1,5 +1,5 @@
 <template>
-    <div id="PMS0610020" class="hide padding-5" style="top: 0 !important;">
+    <div id="PMS0610020" class="hide padding-5" style="top: 0 !important; z-index: 1">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
@@ -102,269 +102,49 @@
                             <div class="space-6"></div>
                             <!--------/.單筆 -------->
                             <!-------- tabPage -------->
-                            <el-tabs v-model="tabName" type="card" @tab_click="doChangeTab">
-                                <el-tab-pane :label="i18nLang.program.PMS0610010.related_set " name="set">
+                            <el-tabs v-model="tabName" type="card" @tab_click="doChangeTab" >
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.related_set" name="set">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0610010.related_personnel" name="personnel">
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.related_personnel" name="personnel">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0610010.sales" name="sales">
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.sales" name="sales">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0610010.contract_content" name="contract">
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.contract_content" name="contract">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0610010.visit_record" name="visit">
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.visit_record" name="visit">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0610010.business_notes" name="business">
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.business_notes" name="business">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0610010.historical_consumption" name="historical">
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.historical_consumption" name="historical">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0610010.contribution" name="contribution" disabled>
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.contribution" name="contribution" disabled>
                                 </el-tab-pane>
                             </el-tabs>
-                            <div class="easyui-tabs easyUi-custom1"
+                            <div class="easyui-tabs easyUi-custom1 borderFrame"
                                  style="min-height: 0; height: 380px !important; overflow-y: auto;">
                                 <div id="setPanel" v-show="tabName=='set'" class="padding-tabs">
-                                    <div class="col-xs-12 col-sm-12">
-                                        <div class="row">
-                                            <div class="billInfo content">
-                                                <div class="grid">
-                                                    <!--style="width: 263px;"-->
-                                                    <div class="grid-item">
-                                                        <label>信用額度</label>
-                                                        <input type="number" class="input-medium bill-input-s1"
-                                                               disabled="disabled" placeholder="50000"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>目前簽帳金額</label>
-                                                        <input type="number" class="input-medium bill-input-s1"
-                                                               disabled="disabled" placeholder="23456"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>信用額度餘額</label>
-                                                        <input type="number" class="input-medium bill-input-s1"
-                                                               disabled="disabled" placeholder="476544"/>
-                                                    </div>
-                                                    <div class="pull-right grid-item">
-                                                        <button class="btn btn-primary btn-white pull-right btn-sm sales_changeCreditLimit"
-                                                                role="button">信用額度變更
-                                                        </button>
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                </div>
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>公司關係別</label>
-                                                        <input type="text" class="input-medium bill-input-s1"
-                                                               disabled="disabled" placeholder="1-關係"/>
-                                                    </div>
-                                                    <div class="tab-block grid-item billCheckbox relatedCheck"
-                                                         style="margin-right: 87px;">
-                                                        <span class="checkbox">
-                                                          <label class="checkbox-width width-auto">
-                                                              <input name="form-field-checkbox" type="checkbox"
-                                                                     class="ace" disabled="disabled" checked>
-                                                              <span class="lbl">可簽帳</span>
-                                                          </label>
-                                                        </span>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>簽帳公司</label>
-                                                        <input type="text" class="input-medium bill-input-s2"
-                                                               disabled="disabled" placeholder="23598231:德安資訊國際股份有限公司"/>
-                                                    </div>
-                                                </div>
-
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>公司類別</label>
-                                                        <input type="text" class="input-medium bill-input-s1"
-                                                               placeholder="簽約公司"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>區域別</label>
-                                                        <input type="text" class="input-medium bill-input-s1"
-                                                               placeholder="北區"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>行業別</label>
-                                                        <input type="text" class="input-medium bill-input-s1"
-                                                               placeholder="資訊業"/>
-                                                    </div>
-                                                </div>
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>收取DM</label>
-                                                        <select class="input-medium bill-input-s1">
-                                                            <option value="yes">Y:是</option>
-                                                            <option value="no">Ｎ:否</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>訂房備註</label>
-                                                        <textarea class="input-medium bill-input-full height-auto rzNone" rows="4"
-                                                                  placeholder="1.每天免費洗衣一套工作服 2.免費市區電費"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="space-6"></div>
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Add Date</label>
-                                                        <input type="text" class="input-medium bill-input-s1"
-                                                               disabled="disabled" placeholder="2015/01/01 12:30:00"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Add By</label>
-                                                        <input type="text" class="input-medium bill-input-s1"
-                                                               disabled="disabled" placeholder="2015 0101 12:30"/>
-                                                    </div>
-                                                </div>
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Upd Date</label>
-                                                        <!--addedDate-->
-                                                        <input type="text" class="input-medium bill-input-s1"
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Upd by</label>
-                                                        <!--addedBy-->
-                                                        <input type="text" class="input-medium bill-input-s1"
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
+                                    <related-setting
+                                            :rowData="rowData"
+                                            :is-related-setting="tabStatus.isSet"
+                                    ></related-setting>
                                 </div>
                                 <div id="personnelPanel" v-show="tabName=='personnel'" class="padding-tabs">
-                                    <div class="col-xs-12 col-sm-12">
-                                        <div class="row">
-                                            <div class="col-xs-11 col-sm-11">
-                                                <div class="row no-margin-right">
-                                                    <!-- 相關人員 table -->
-                                                    <table id="relatedPerson-table" style="height: 310px;"></table>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-1 col-sm-1">
-                                                <div class="row">
-                                                    <div class="right-menu-co">
-                                                        <ul>
-                                                            <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                        role="button">新增聯絡人
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                        role="button">刪除聯絡人
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button class="btn btn-gray btn-defaultWidth"
-                                                                        role="button">加入秘書積點
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <span class="checkbox">
-                                                                  <label class="checkbox-width">
-                                                                      <input name="form-field-checkbox" type="checkbox"
-                                                                             class="ace">
-                                                                      <span class="lbl font-btn">離職不顯示</span>
-                                                                  </label>
-                                                                </span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <related-personnel
+                                            :rowData="rowData"
+                                            :is-related-personnel="tabStatus.isPersonnel"
+                                    ></related-personnel>
                                 </div>
                                 <div id="salesPanel" v-show="tabName=='sales'" class="padding-tabs">
-                                    <div class="col-xs-12 col-sm-12">
-                                        <div class="row">
-                                            <div class="col-xs-11 col-sm-11">
-                                                <div class="row no-margin-right">
-                                                    <!-- 業務員 dataGrid -->
-                                                    <table id="clerk-table" style="height: 310px;"></table>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-1 col-sm-1">
-                                                <div class="row">
-                                                    <div class="right-menu-co">
-                                                        <ul>
-                                                            <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales_editClerk"
-                                                                        role="button">修改業務員
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <sales-clerk
+                                            :row-data="rowData"
+                                            :is-sales-clerk="tabStatus.isSales"
+                                    ></sales-clerk>
                                 </div>
                                 <div id="contractPanel" v-show="tabName=='contract'" class="padding-tabs">
-                                    <div class="col-xs-12 col-sm-12">
-                                        <div class="row">
-                                            <div class="col-xs-11 col-sm-11">
-                                                <div class="row no-margin-right">
-                                                    <div class="dealContent-select">
-                                                        <div class="float-left">
-                                                            <select class="input-medium">
-                                                                <option value="-1">房價代號</option>
-                                                                <option value="1">101</option>
-                                                                <option value="2">102</option>
-                                                                <option value="3">103</option>
-                                                                <option value="4">104</option>
-                                                                <option value="5">105</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="float-left">
-                                                            <span class="checkbox">
-                                                              <label class="checkbox-width">
-                                                                  <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace">
-                                                                  <span class="lbl"><span
-                                                                          class="txt">過期不顯示</span></span>
-                                                              </label>
-                                                            </span>
-                                                            <!--<input type="checkbox" disabled="disabled"/>-->
-                                                        </div>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                    <!-- 合約內容 dataGrid -->
-                                                    <table id="dealContent-table" style="height: 280px;"></table>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-1 col-sm-1">
-                                                <div class="row">
-                                                    <div class="right-menu-co">
-                                                        <ul>
-                                                            <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                        role="button">新增合約
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                        role="button">刪除合約
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button class="btn btn-gray btn-defaultWidth"
-                                                                        role="button">特殊合約
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <contract-content
+                                            :row-data="rowData"
+                                            :is-contract-content="tabStatus.isContract"
+                                    ></contract-content>
                                 </div>
                                 <div id="visitPanel" v-show="tabName=='visit'" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
@@ -405,42 +185,7 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div id="businessPanel" v-show="tabName=='business'" class="padding-tabs">
-                                    <div class="col-xs-12 col-sm-12">
-                                        <div class="row">
-                                            <div class="col-xs-11 col-sm-11">
-                                                <div class="row no-margin-right">
 
-                                                    <!-- 其他備註 dataGrid -->
-                                                    <table id="otherRemarks-table" style="height: 310px;"></table>
-                                                    <div class="clearfix"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-1 col-sm-1">
-                                                <div class="row">
-                                                    <div class="right-menu-co">
-                                                        <ul>
-                                                            <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark"
-                                                                        role="button">新增備註
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark"
-                                                                        role="button">修改備註
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                        role="button">刪除備註
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
                                 </div>
                                 <div id="historicalPanel" v-show="tabName=='historical'" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
@@ -556,6 +301,7 @@
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
+                            <!--------/. tabPage -------->
                         </div>
                     </div>
                     <!--按鈕-->
@@ -575,19 +321,19 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-gray btn-defaultWidth"
-                                                role="button">{{i18nLang.program.PMS0610010.company_related_diagram}}
+                                                role="button">{{i18nLang.program.PMS0610020.company_related_diagram}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales_statusChg"
                                                 role="button" @click="doSetCompanyStatus">
-                                            {{i18nLang.program.PMS0610010.company_status}}
+                                            {{i18nLang.program.PMS0610020.company_status}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales_stateChange"
                                                 role="button" @click="doSetContractStatus">
-                                            {{i18nLang.program.PMS0610010.contract_status}}
+                                            {{i18nLang.program.PMS0610020.contract_status}}
                                         </button>
                                     </li>
                                     <li>
@@ -627,12 +373,14 @@
                                                 <ul>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button" @click="doSaveCompanyStatus">{{i18nLang.SystemCommon.Save}}
+                                                                role="button" @click="doSaveCompanyStatus">
+                                                            {{i18nLang.SystemCommon.Save}}
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                role="button" @click="doCloseCompanyStatusDialog">{{i18nLang.SystemCommon.Leave}}
+                                                                role="button" @click="doCloseCompanyStatusDialog">
+                                                            {{i18nLang.SystemCommon.Leave}}
                                                         </button>
                                                     </li>
                                                 </ul>
@@ -704,12 +452,14 @@
                                                 <ul>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">Save
+                                                                role="button" @click="doSaveContractStatus">
+                                                            {{i18nLang.SystemCommon.Save}}
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                role="button">Quit
+                                                                role="button" @click="doCloseContractStatusDialog">
+                                                            {{i18nLang.SystemCommon.Leave}}
                                                         </button>
                                                     </li>
                                                 </ul>
@@ -730,11 +480,17 @@
 </template>
 
 <script>
+    import _s from 'underscore.string';
+    import relatedSetting from './companyRelatedSetting.vue';
+    import relatedPersonnel from './companyRelatedPersonnel.vue';
+    import salesClerk from './companySalesClerk.vue';
+    import contractContent from './companyContract.vue';
+
     export default {
         name: 'pms0610020',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
+        components: {relatedSetting, relatedPersonnel, salesClerk, contractContent},
         mounted() {
-            this.tabName = "set";
             this.panelName = ["setPanel", "personnelPanel", "salesPanel", "contractPanel",
                 "visitPanel", "businessPanel", "historicalPanel", "contributionPanel"];
             this.isLoadingDialog = true;
@@ -752,26 +508,48 @@
                 oriFieldsData: [],
                 tabPageId: 1,
                 tabName: "",
-                panelName: []
+                panelName: [],
+                tabStatus: {
+                    isSet: false,
+                    isPersonnel: false,
+                    isSales: false,
+                    isContract: false,
+                    isVisit: false,
+                    isBusiness: false,
+                    isHistorical: false,
+                    isContribution: false
+                }
             };
         },
         watch: {
             tabName(val) {
+                this.setTabStatus(val);
                 this.showTabContent(val);
             },
             rowData(val) {
                 this.initData();
-                // this.fetchFieldData(val);
+                this.fetchFieldData(val);
             }
         },
         methods: {
             initData() {
+                this.tabName = "set";
                 this.singleData = {};
                 this.oriSingleData = {};
                 this.fieldsData = [];
                 this.oriFieldsData = [];
             },
-            showTabContent: function (tabName) {
+            setTabStatus(tabName) {
+                var self = this;
+
+                _.each(this.tabStatus, function (val, key) {
+                    self.tabStatus[key] = false;
+                });
+
+                var ls_tabNae = _s.capitalize(tabName);
+                this.tabStatus["is" + ls_tabNae] = true;
+            },
+            showTabContent(tabName) {
                 var la_panelName = this.panelName;
                 var ls_showPanelName = tabName + "Panel";
                 _.each(la_panelName, function (ls_panelName) {
@@ -804,15 +582,16 @@
                     resizable: true
                 }).dialog('open');
             },
-            doSaveCompanyStatus(){},
-            doCloseCompanyStatusDialog(){
+            doSaveCompanyStatus() {
+            },
+            doCloseCompanyStatusDialog() {
                 $("#companyStatusChg").dialog('close');
             },
             //合約狀態變更
             doSetContractStatus() {
                 var dialog = $("#contractStatusChange").removeClass('hide').dialog({
                     modal: true,
-                    title: "合約狀態變更",
+                    title: go_i18nLang["program"]["PMS0610020"].contract_status,
                     title_html: true,
                     width: 500,
                     maxwidth: 1920,
@@ -820,10 +599,12 @@
                     resizable: true
                 });
             },
-            doSaveContractStatus(){},
-            doCloseContractStatusDialog(){
+            doSaveContractStatus() {
+            },
+            doCloseContractStatusDialog() {
                 $("#contractStatusChange").dialog('close');
             },
+            //異動紀錄(change log)
             loadChangeLog: function () {
                 var self = this;
                 $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0610020"}, function (result) {
