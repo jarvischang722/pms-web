@@ -19,28 +19,38 @@
                 treeIns: null,
                 role_id: "",
                 staffOfRole: [],
-                isLoading: true,
-                permissionModel: ""
+                isLoading: false,
+                ls_permissionModel: ""
             }
         },
-        created() {
-            this.watchStaffOfRole();
+        computed: {
+            permissionModel: {
+                get() {
+                    this.ls_permissionModel = this.$store.state.gs_permissionModel;
+                    return this.ls_permissionModel;
+                }
+            }
+        },
+        watch: {
+            permissionModel() {
+                console.log("test");
+            }
         },
 
         methods: {
-            watchStaffOfRole() {
-                let self = this;
-                this.$store.watch(
-                    (state) => {
-                        return state.staffOfRole;
-                    },
-                    (newValue, oldValue) => {
-                        self.staffOfRole = newValue;
-                        self.permissionModel = this.$store.state.permissionModel;
-                        self.updateAccountChkedTree();
-                    }
-                )
-            },
+            // watchStaffOfRole() {
+            //     let self = this;
+            //     this.$store.watch(
+            //         (state) => {
+            //             return state.ga_staffOfRole;
+            //         },
+            //         (newValue, oldValue) => {
+            //             self.staffOfRole = newValue;
+            //             self.permissionModel = this.$store.state.gs_permissionModel;
+            //             self.updateAccountChkedTree();
+            //         }
+            //     )
+            // },
 
             qryCompGrpList(cb) {
                 let self = this;
@@ -59,7 +69,7 @@
             createAccountTree(la_compGrpList4Tree) {
                 let la_plugin = ["search", "state", "types", "wholerow", "checkbox"];
                 if (this.permissionModel == "authByStaff") {
-                    la_plugin.splice(4,1);
+                    la_plugin.splice(4, 1);
                 }
 
                 $('#permissionAccountTree').jstree({
@@ -97,7 +107,7 @@
                     "plugins": la_plugin
                 });
 
-                $("#permissionAccountTree").on("select_node.jstree", function(evt, data){
+                $("#permissionAccountTree").on("select_node.jstree", function (evt, data) {
                 });
 
                 this.treeIns = $("#permissionAccountTree").jstree(true);
@@ -107,7 +117,7 @@
             updateAccountChkedTree() {
                 let la_staffOfRole = this.staffOfRole;
                 let self = this;
-                let la_allRoles = this.$store.state.allRoles;
+                let la_allRoles = this.$store.state.ga_allRoles;
                 this.isLoading = true;
                 async.waterfall([
                     function (cb) {
@@ -133,9 +143,9 @@
 
             },
 
-            selectedNode(e, data){
+            selectedNode(e, data) {
                 var i, j, r = [];
-                for(i = 0, j = data.selected.length; i < j; i++) {
+                for (i = 0, j = data.selected.length; i < j; i++) {
                     r.push(data.instance.get_node(data.selected[i]).text);
                 }
                 console.log(r);

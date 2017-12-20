@@ -38,7 +38,7 @@
         computed: {
             permissionModel: {
                 get() {
-                    let ls_permissionModel = this.$store.state.permissionModel;
+                    let ls_permissionModel = this.$store.state.gs_permissionModel;
                     if(ls_permissionModel == "authByRole"){
                         this.navbarName = "新增角色權限";
                     }
@@ -48,7 +48,7 @@
                     else{
                         this.navbarName = "新增功能權限";
                     }
-                    return this.$store.state.permissionModel;
+                    return this.$store.state.gs_permissionModel;
                 },
                 set(newValue) {
                     this.$store.commit("setPermissionModel", newValue);

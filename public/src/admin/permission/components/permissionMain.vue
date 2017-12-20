@@ -1,9 +1,9 @@
 <template>
     <div id="permissionMain">
         <div class="col-xs-12 col-sm-12" v-loading="false" element-loading-text="Saving">
-            <auth-by-role v-if="permissionModel == 'authByRole'"></auth-by-role>
-            <auth-by-func v-else-if="permissionModel == 'authByFunc'"></auth-by-func>
-            <auth-by-staff v-else-if="permissionModel == 'authByStaff'"></auth-by-staff>
+            <auth-by-role v-if="gs_permissionModel == 'authByRole'"></auth-by-role>
+            <auth-by-func v-else-if="gs_permissionModel == 'authByFunc'"></auth-by-func>
+            <auth-by-staff v-else-if="gs_permissionModel == 'authByStaff'"></auth-by-staff>
             <!--<auth-by-staff v-show="true"></auth-by-staff>-->
 
         </div>
@@ -18,14 +18,13 @@
 
     export default {
         name: "permission-main",
-
         components: {
             authByRole,
             authByStaff,
             authByFunc
         },
         computed: mapState([
-            "permissionModel"
+            "gs_permissionModel"
         ])
     }
 </script>

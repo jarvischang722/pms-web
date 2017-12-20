@@ -7,15 +7,15 @@ Vue.use(Vuex);
 // root state object.
 // each Vuex instance is just a single state tree.
 const state = {
-    permissionModel: "authByStaff",
-    allRoles: [],
-    selRole: "",
-    staffOfRole: [],
-    funcsOfRole: [],
-    compGrpList: [],
-    compGrpList4Tree: [],
-    funcList: [],
-    funcList4Tree: []
+    gs_permissionModel: "authByRole",
+    ga_allRoles: [],
+    gs_selRole: "",
+    ga_staffOfRole: [],
+    ga_funcsOfRole: [],
+    ga_compGrpList: [],
+    ga_compGrpList4Tree: [],
+    ga_funcList: [],
+    ga_funcList4Tree: []
 }
 
 // mutations are operations that actually mutates the state.
@@ -24,32 +24,32 @@ const state = {
 // mutations must be synchronous and can be recorded by plugins
 // for debugging purposes.
 const mutations = {
-    setAllRoles(state, allRoles) {
-        state.allRoles = allRoles;
+    setAllRoles(state, ga_allRoles) {
+        state.ga_allRoles = ga_allRoles;
     },
-    setSelRole(state, selRole) {
-        state.selRole = selRole;
+    setSelRole(state, gs_selRole) {
+        state.gs_selRole = gs_selRole;
     },
     setCompGrpList(state, la_compGrpList) {
-        state.compGrpList = la_compGrpList;
+        state.ga_compGrpList = la_compGrpList;
     },
     setCompGrpList4Tree(state, la_compGrpList) {
-        state.compGrpList4Tree = la_compGrpList;
+        state.ga_compGrpList4Tree = la_compGrpList;
     },
     setFuncList4Tree(state, la_funcList4Tree) {
-        state.funcList4Tree = la_funcList4Tree
+        state.ga_funcList4Tree = la_funcList4Tree
     },
     setStaffOfRole(state, la_staffOfRole) {
-        state.staffOfRole = la_staffOfRole;
+        state.ga_staffOfRole = la_staffOfRole;
     },
     setFuncsOfRole(state, la_funcsOfRole){
-        state.funcsOfRole = la_funcsOfRole;
+        state.ga_funcsOfRole = la_funcsOfRole;
     },
     setAllModules(state, la_funcList) {
-        state.funcList = la_funcList;
+        state.ga_funcList = la_funcList;
     },
     setPermissionModel(state, ls_permissionModel){
-        state.permissionModel = ls_permissionModel;
+        state.gs_permissionModel = ls_permissionModel;
     }
 }
 
@@ -75,7 +75,7 @@ const actions = {
             commit("setAllModules", result.funcList);
         });
         dispatch("combineFuncListTree");
-        return state.funcList4Tree;
+        return state.ga_funcList4Tree;
     },
 
     //選擇角色觸發Event
@@ -105,12 +105,12 @@ const actions = {
             commit("setCompGrpList", result.compGrpList);
         });
         dispatch("combineCompGrpTree");
-        return state.compGrpList4Tree;
+        return state.ga_compGrpList4Tree;
     },
 
     //組合tree的格式給compGrpList4Tree
     combineCompGrpTree({commit, state}) {
-        let la_compGrpList = state.compGrpList;
+        let la_compGrpList = state.ga_compGrpList;
         let la_compGrpList4Tree = [];
         let lo_treeData = {
             id: la_compGrpList[0].cmp_id,
@@ -141,7 +141,7 @@ const actions = {
 
     //組合tree的格式給funcList4Tree
     combineFuncListTree({commit, state}) {
-        let la_funcList = state.funcList;
+        let la_funcList = state.ga_funcList;
         let la_funcList4Tree = [];
         let ls_node_text = "";
 
@@ -181,8 +181,6 @@ function treeDataObj(id, parent, text) {
 
 // getters are functions
 const getters = {
-    allRoles: state => state.allRoles,
-    selRole: state => state.selRole
 }
 
 // A Vuex instance is created by combining the state, mutations, actions,

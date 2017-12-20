@@ -21,38 +21,44 @@
                 isLoading: false
             }
         },
-        created() {
-            this.watchFuncsOfRole();
+        // created() {
+        //     this.watchFuncsOfRole();
+        // },
+        computed: {
+            permissionModel: {
+                get() {
+                    // this.createFuncTree();
+                    return this.$store.state.gs_permissionModel;
+                }
+            }
         },
-        mounted() {
-            // this.qryFuncList();
+        watch: {
+            permissionModel(){}
         },
         methods: {
-            watchFuncsOfRole() {
+            createFuncTree() {
                 let self = this;
-                this.$store.watch(
-                    (state) => {
-                        return state.funcsOfRole
-                    },
-                    (newValue, oldValue) => {
-                        self.funcsOfRole = newValue;
-                        self.updateFuncChkedTree();
-                    }
-                )
+                this.isLoading = true;
+                async.waterfall([
+                    self.qryFuncList,
+                    self.initTree
+                ], function(err, result){
+                    self.isLoading = false;
+                });
             },
+
             qryFuncList(cb) {
-                let self = this;
                 if (this.treeIns == null) {
                     this.$store.dispatch("qryFuncList").then((la_funcList4Tree) => {
-                        self.createFuncListTree(la_funcList4Tree);
-                        cb(null, "");
+                        cb(null, la_funcList4Tree);
                     });
                 }
                 else {
                     cb(null, "");
                 }
             },
-            createFuncListTree(la_funcList4Tree) {
+
+            initTree(la_funcList4Tree, cb){
                 $('#permissionFuncTree').jstree({
                     "core": {
                         "animation": 0,
@@ -88,33 +94,7 @@
                     "plugins": ["search", "state", "types", "wholerow", "checkbox"]
                 });
                 this.treeIns = $("#permissionFuncTree").jstree(true);
-            },
-            updateFuncChkedTree() {
-                let la_funcsOfRole = this.funcsOfRole;
-                let self = this;
-                let la_allRoles = this.$store.state.allRoles;
-                this.isLoading = true;
-                async.waterfall([
-                    function (cb) {
-                        self.qryFuncList(cb)
-                    },
-                    function (data, cb) {
-                        setTimeout(function () {
-                            if (la_allRoles.length > 0) {
-                                self.treeIns.uncheck_all();
-                                _.each(la_funcsOfRole, function (lo_func) {
-                                    self.treeIns.check_node("#" + lo_func.current_id);
-                                });
-                            }
-                            self.isLoading = false;
-                        }, 100);
-
-                        cb(null, "");
-                    }
-                ], function (err, result) {
-                });
-
-
+                cb(null, "");
             }
         }
     }

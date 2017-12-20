@@ -1,25 +1,19 @@
 <template>
-    <!--跳頁-->
-    <!--<a>-->
-    <!--<p class="topTitle">角色權限</p>-->
-    <!--</a>-->
-    <!--<div class="easyui-panel tree-body">-->
-    <!--<ul id="tt" class="easyui-tree"-->
-    <!--data-options="url:'../../../jsonData/authorRole_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>-->
-    <!--</div>-->
     <div>
         <p class="topTitle">角色權限</p>
-        <select class="form-control authorSelect" v-model="selRole">
+        <select class="form-control authorSelect" v-model="selRole" v-if="gs_permissionModel=='authByRole'">
             <option v-for="role in allRoles" :value="role.role_id">{{role.role_id}} : {{role.role_nam}}</option>
         </select>
+
+        <template v-for="role in allRoles" v-else>
+            <input type="checkbox" :id="role.role_id" :value="role.role_id">
+            <label :for="role.role_id">{{role.role_nam}}</label><br>
+        </template>
     </div>
-    <!--<select>-->
-    <!--<option>請選擇</option>-->
-    <!--</select>-->
 </template>
 
 <script>
-    import {mapActions} from 'vuex';
+    import {mapState, mapActions} from 'vuex';
 
     export default {
         name: "auth-role-comp",
@@ -29,12 +23,12 @@
         computed: {
             allRoles: {
                 get() {
-                    return this.$store.getters.allRoles
-                },
+                    return this.$store.state.ga_allRoles;
+                }
             },
             selRole: {
                 get() {
-                    return this.$store.getters.selRole
+                    return this.$store.state.gs_selRole
                 },
                 set(role_id) {
                     if (this.$store.state.permissionModel == "authByRole") {
@@ -42,15 +36,13 @@
                         });
                     }
                 }
-            }
+            },
+            ...mapState([
+                "gs_permissionModel"
+            ])
         },
-        // computed: mapGetters([
-        //     'allRoles',
-        //     'selRole'
-        // ]),
         methods: mapActions([
             "qryAllRoles"
-            // "changeRoleEvent"
         ])
     }
 </script>
