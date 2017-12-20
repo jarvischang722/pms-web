@@ -4,7 +4,7 @@
 let ruleSVC = require("../services/DataRuleService");
 let commonTools = require("../utils/CommonTools");
 let ruleAgent = require("../ruleEngine/ruleAgent");
-
+let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 /**
  * 欄位規則檢查
  */
@@ -25,7 +25,7 @@ exports.chkFieldRule = function (req, res) {
 };
 
 exports.chkDtFieldRule = function (req, res) {
-    ruleSVC.handleClickUiRow(req.body, req.session, function(err, result){
+    ruleSVC.handleClickUiRow(req.body, req.session, function (err, result) {
         res.json(commonTools.mergeRtnErrResultJson(err, result));
     });
 };
@@ -62,8 +62,8 @@ exports.deleteFuncRule = function (req, res) {
 /**
  * 復原此RoomCod 原來的房間名稱
  */
-exports.revertRoomNam = function(req,res){
-    ruleAgent.getOriRoomNamByRoomCod(req.body,req.session,function(err,result){
+exports.revertRoomNam = function (req, res) {
+    ruleAgent.getOriRoomNamByRoomCod(req.body, req.session, function (err, result) {
         res.json(commonTools.mergeRtnErrResultJson(err, result));
     });
 };
@@ -71,8 +71,32 @@ exports.revertRoomNam = function(req,res){
 /**
  * 復原此RoomCod 原來的房間簡稱
  */
-exports.revertRoomSna = function(req,res){
-    ruleAgent.getOriRoomSnaByRoomCod(req.body,req.session,function(err,result){
+exports.revertRoomSna = function (req, res) {
+    ruleAgent.getOriRoomSnaByRoomCod(req.body, req.session, function (err, result) {
         res.json(commonTools.mergeRtnErrResultJson(err, result));
     });
+};
+
+
+/**
+ * 動態取得Select 資料
+ */
+exports.getSelectOptions = function (req, res) {
+    let _ = require("underscore");
+    let ls_keyword = req.body.q || "";
+    if (_.isEmpty(ls_keyword)) {
+        return res.json([]);
+    }
+    console.log(`關鍵字 :  ${ls_keyword}`);
+    queryAgent.queryList("QRY_HFD_ARRIVE_RF", {athena_id: 1, hotel_cod: "02"}, 0, 10, function (err, data) {
+        data = _.filter(data, function (data) {
+            return  _.values(data).join(" ").indexOf( ls_keyword) > -1;
+        });
+        let select_data = _.map(data, function (item) {
+            return {value: item.arrive_cod, display: item.arrive_spot};
+        });
+        res.json(select_data);
+    });
+
+    // res.json([{text: "哈囉", value: "20"}]);
 };

@@ -10,14 +10,14 @@
     <meta http-equiv="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 </head>
 
 <%- include ../common/cssFile/importFiles_CssBase %>
 <%- include ../common/jsFile/importFiles_JsBase %>
 
 
-<body class="login-bg" id="app">
+<body>
 
 <div class="loginPage" id="loginAPP">
     <div class="logoCompany">
@@ -36,6 +36,18 @@
                 </div>
                 <div class="main">
                     <form>
+                        <div class="block input-icon input-icon-right">
+                            <input class="easyui-combobox" style="width:100%;" data-options="
+                    loader: myloader,
+                    mode: 'remote',
+                    valueField: 'id',
+                    textField: 'name',
+                    label: 'State:',
+                    labelPosition: 'top',
+                    valueField: 'value',
+		            textField: 'display'
+                    ">
+                        </div>
                         <div class="block input-icon input-icon-right">
                             <input class="form-control" v-model="username"
                                    placeholder="<%= __("BAC01P0110")["user"] %>"/>
@@ -101,8 +113,37 @@
 
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
+    var people = [{name:'A' , id:'a'},{name:'B' , id:'b'},{name:'C' , id:'c'},];
+
+    var filteredPeople = _.filter(people, function(person) {
+        console.log(_.values(person));
+        return person.name.indexOf("im") > -1;
+    });
+
+
+
     var gs_locale = '<%= session.locale %>';
     var gs_account = '<%= account %>';
+    var myloader = function (param, success, error) {
+        var q = param.q || '';
+        if (q.length <= 2) {
+            return false
+        }
+        console.log(q);
+        $.post();
+        $.post('/api/getSelectOptions', {q: q})
+            .done(function (items) {
+                console.log(items);
+                success(items);
+            })
+            .error(function () {
+                console.error('errr@@@');
+                error.apply(this, arguments);
+
+            });
+
+
+    }
 </script>
 
 <script src="/js/system/loginPage.js"></script>
