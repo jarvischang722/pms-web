@@ -1,4 +1,4 @@
-import visitRecord from './visitRecord.vue';
+import visitPlan from './visitPlan.vue';
 import searchComp from '../../common/searchComp.vue';
 import editSalesClerk from './editSalesClerk.vue';
 import pms0610020 from './PMS0610020.vue';
@@ -28,7 +28,7 @@ var vm = new Vue({
         this.setSearchCond();
         this.loadDataGridByPrgID();
     },
-    components: {visitRecord, searchComp, editSalesClerk, pms0610020},
+    components: {visitPlan, searchComp, editSalesClerk, pms0610020},
     data() {
         return {
             userInfo: {},

@@ -61,21 +61,24 @@
             :is-create-status="isCreateStatus"
             :is-edit-status="isEditStatus"
     ></pms0610020>
+    <!--/.商務公司資料編輯-->
     <!--業務員指派-->
     <edit-sales-clerk
             :edit-rows="editRows"
             :is-edit-sales-clerk="isEditSalesClerk"
     ></edit-sales-clerk>
-    <!--拜訪紀錄-->
+    <!--/.業務員指派-->
+    <!--拜訪計畫-->
     <div id="addVisitPlan" class="hide">
-        <visit-record
+        <visit-plan
                 :is-create-status="isCreateStatus"
                 :is-edit-status="isEditStatus"
                 :is-only-single-grid="isOnlySingleVisitRecord"
                 :edit-rows="editRows"
                 :fetch-data-params="fetchDataParams"
-        ></visit-record>
+        ></visit-plan>
     </div>
+    <!--/.拜訪計畫-->
     <!--異動紀錄-->
     <el-dialog
             title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
@@ -131,6 +134,7 @@
              <el-button @click="openChangeLogDialog = false"><%= __("SystemCommon.OK") %></el-button>
         </span>
     </el-dialog>
+    <!--/.異動紀錄-->
 </div><!-- /.page-content -->
 
 <script src="/js/sales/PMS0610010.main.js"></script>

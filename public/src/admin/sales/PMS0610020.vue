@@ -147,10 +147,10 @@
                                     ></contract-content>
                                 </div>
                                 <div id="visitPanel" v-show="tabName=='visit'" class="padding-tabs">
-                                    <!--<company-visit-record-->
-                                    <!--:row-data="rowData"-->
-                                    <!--:is-visit-record="tabStatus.isVisit"-->
-                                    <!--&gt;</company-visit-record>-->
+                                    <company-visit-record
+                                            :row-data="rowData"
+                                            :is-visit-record="tabStatus.isVisit"
+                                    ></company-visit-record>
                                 </div>
                                 <div id="remarkPanel" v-show="tabName=='remark'" class="padding-tabs">
                                     <other-remark
@@ -439,7 +439,7 @@
     import relatedPersonnel from './companyRelatedPersonnel.vue';
     import salesClerk from './companySalesClerk.vue';
     import contractContent from './companyContract.vue';
-    //    import companyVisitRecord from './companyVisitRecord.vue';
+    import companyVisitRecord from './companyVisitRecord.vue';
     import otherRemark from './companyRemark.vue';
     import historicalConsumption from './companyHistoricalConsumption.vue';
 
@@ -451,7 +451,7 @@
             relatedPersonnel,
             salesClerk,
             contractContent,
-//            companyVisitRecord,
+            companyVisitRecord,
             otherRemark,
             historicalConsumption
         },

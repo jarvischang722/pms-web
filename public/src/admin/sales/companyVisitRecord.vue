@@ -38,15 +38,14 @@
                     </div>
                 </div>
                 <!--/.按鈕-->
-                <div id="gridSingleVisitRecord" class="hide">
-                    <!--<visit-record-->
-                    <!--:is-create-status="isCreateStatus"-->
-                    <!--:is-edit-status="isEditStatus"-->
-                    <!--:is-only-single-grid="isOnlySingleVisitRecord"-->
-                    <!--:edit-rows="editingRow"-->
-                    <!--:fetch-data-params="fetchVisitRecordDataParams"-->
-                    <!--&gt;</visit-record>-->
-                </div>
+                <!--單筆 拜訪紀錄-->
+                <visit-record
+                        :row-data="editingRow"
+                        :params-data="paramsData"
+                        :is-create-status="isCreateStatus"
+                        :is-edit-status="isEditStatus"
+                ></visit-record>
+                <!--/.單筆 拜訪紀錄-->
             </div>
         </div>
         <div class="clearfix"></div>
@@ -68,19 +67,18 @@
     };
     /*** Class End  ***/
 
-//    import visitRecord from './visitRecord.vue';
+    import visitRecord from './visitRecord.vue';
 
     export default {
         name: 'company-visit-record',
         props: ["rowData", "isVisitRecord"],
+        components: {visitRecord},
         data() {
             return {
                 i18nLang: go_i18nLang,
                 BTN_action: false,
                 isCreateStatus: false,
                 isEditStatus: false,
-                isModificable: false,
-                isOnlySingleVisitRecord: false,
                 tmpCUD: {
                     createData: [],
                     updateData: [],
@@ -91,9 +89,9 @@
                 oriDataGridRowsData: [],
                 fieldsData: [],
                 oriFieldsData: [],
-                dgCompanyIns: {},
+                dgIns: {},
                 editingRow: {},
-                fetchVisitRecordDataParams: {}
+                paramsData: {}
             };
         },
         watch: {
@@ -119,6 +117,7 @@
                 this.fieldsData = [];
                 this.oriFieldsData = [];
                 this.dgIns = {};
+                this.editingRow = {};
             },
             fetchFieldData(rowData) {
                 var self = this;
@@ -152,53 +151,48 @@
                     ]]
                 });
             },
-            setVisitRecordParams() {
-                this.fetchVisitRecordDataParams = {
-                    settingGrid: {
-                        prg_id: "PMS0610010",
-                        page_id: 1020
-                    },
-                    dataGrid: {
-                        prg_id: "PMS0610010",
-                        page_id: 1020
-                    },
-                    //todo: 這樣欄位會有公司編號和公司名稱
-                    singleGrid: {
-                        prg_id: "PMS0620050",
-                        page_id: 2
-                    }
+            setParamsData() {
+                var self = this;
+
+                this.paramsData = {
+                    dgId: "companyVisitRecord_dg",
+                    pageOneDataGridRows: self.dataGridRowsData,
+                    gridSinglePrgId: "PMS0610020",
+                    gridSinglePageId: 3
                 };
             },
             appendRow() {
 //                this.BTN_action = true;
-                this.isOnlySingleVisitRecord = true;
+                this.initTmpCUD();
+                this.setParamsData();
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
-                this.editingRow = [{}];
-                this.initTmpCUD();
-                this.setVisitRecordParams();
+                this.editingRow = {
+                    avisit_dat: "",
+                    cust_cod: ""
+                };
+
                 this.showSingleGridDialog();
             },
             editRow() {
-                this.isOnlySingleVisitRecord = true;
+                this.initTmpCUD();
+                this.setParamsData();
+//                this.BTN_action = true;
                 this.isCreateStatus = false;
                 this.isEditStatus = true;
-                this.editingRow = {};
-                this.initTmpCUD();
-                this.setVisitRecordParams();
 
-                var lo_editRow = $('#otherRemark_dg').datagrid('getSelected');
+                var lo_editRow = $('#companyVisitRecord_dg').datagrid('getSelected');
 
                 if (!lo_editRow) {
                     alert(go_i18nLang["SystemCommon"].SelectData);
                 }
                 else {
-                    this.editingRow = [lo_editRow];
+                    this.editingRow = lo_editRow;
                     this.showSingleGridDialog();
                 }
             },
             removeRow() {
-                var lo_delRow = $('#otherRemark_dg').datagrid("getSelected");
+                var lo_delRow = $('#companyVisitRecord_dg').datagrid("getSelected");
 
                 if (!lo_delRow) {
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
@@ -212,11 +206,11 @@
                 var self = this;
                 this.BTN_action = false;
 
-                var dialog = $("#gridSingleVisitRecord").removeClass('hide').dialog({
+                var dialog = $("#visitRecord").removeClass('hide').dialog({
                     modal: true,
                     title: go_i18nLang["program"]["PMS0610010"].add_visit_plan,
                     title_html: true,
-                    width: 1000,
+                    width: 800,
                     maxwidth: 1920,
                     dialogClass: "test",
                     zIndex: 9999,
