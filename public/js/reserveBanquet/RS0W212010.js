@@ -1078,12 +1078,12 @@ var singlePage = Vue.extend({
             }
 
             if (self.dgIns.endEditing()) {
-                if (self.singleData.contact1_rmk != null && (self.singleData.contact1_cod == null || self.singleData.contact1_cod == "")) {
+                if (self.singleData.contact1_rmk != "" && (self.singleData.contact1_cod == null || self.singleData.contact1_cod == "")) {
                     alert('聯絡方式1的種類未選擇!');
                     return;
                 }
 
-                if (self.singleData.contact2_rmk != null && (self.singleData.contact2_cod == null || self.singleData.contact2_cod == "")) {
+                if (self.singleData.contact2_rmk != "" && (self.singleData.contact2_cod == null || self.singleData.contact2_cod == "")) {
                     alert('聯絡方式2的種類未選擇!');
                     return;
                 }
