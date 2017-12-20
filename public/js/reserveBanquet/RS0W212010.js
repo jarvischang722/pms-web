@@ -161,18 +161,7 @@ var singlePage = Vue.extend({
 
             if (self.popupFieldName == "alt_nam") {
 
-                var lo_params = {
-                    cust_cod: chooseData["cust_cod"]
-                };
-                $.post("/reserveBanquet/qry_bqcust_mn", lo_params, function (result) {
-                    if (!_.isUndefined(result.data)) {
-                        if (self.singleData.title_nam.toString().trim() == "") {
-                            result.data["title_nam"] = result.data.alt_nam;
-                        }
-                    }
-                    else {
-                        alert(result.error.errorMsg);
-                    }
+                $.post("/reserveBanquet/qry_bqcust_mn", {cust_cod: chooseData["cust_cod"]}, function (result) {
 
                     //帶回前先將舊值清掉
                     self.singleData.cust_cod = "";
@@ -181,7 +170,6 @@ var singlePage = Vue.extend({
                     self.singleData.uni_cod = "";
                     self.singleData.uni_title = "";
                     self.singleData.atten_nam = "";
-                    self.singleData.title_nam = "";
                     self.singleData.sales_cod = "";
                     self.singleData.contact1_cod = "";
                     self.singleData.contact2_cod = "";
@@ -190,6 +178,10 @@ var singlePage = Vue.extend({
 
                     self.singleData = _.extend(self.singleData, result.data);
                     self.singleData = _.extend(self.singleData, chooseData);
+
+                    if (self.singleData.title_nam.toString().trim() == "") {
+                        self.singleData.title_nam = self.singleData.alt_nam;
+                    }
                 });
             }
             else if (self.popupFieldName == "place_cod_button") {
@@ -974,6 +966,9 @@ var singlePage = Vue.extend({
             self.singleData.begin_tim = earliest.substring(0, 2) + ":" + earliest.substring(2, 4);
             self.singleData.end_tim = latest.substring(0, 2) + ":" + latest.substring(2, 4);
 
+            self.singleData.ins_tim = moment(new Date()).format('HH:mm');
+            self.singleData.upd_tim = moment(new Date()).format('HH:mm');
+
             var tempSingleData = _.clone(self.singleData);
 
             _.each(Object.keys(tempSingleData), function (objKey) {
@@ -1067,50 +1062,116 @@ var singlePage = Vue.extend({
         save: function () {
             var self = this;
 
-            if(self.singleData.atten_nam == null || self.singleData.atten_nam == ""){
-                alert("聯絡人為必填！");
-                return;
-            }
+            var isPass = self.beforeSave();
 
-            if (self.dataGridRows.length == 0) {
-                alert('場地明細無資料！');
-                return;
-            }
-
-            if (self.dgIns.endEditing()) {
-                if (self.singleData.contact1_rmk != "" && (self.singleData.contact1_cod == null || self.singleData.contact1_cod == "")) {
-                    alert('聯絡方式1的種類未選擇!');
-                    return;
-                }
-
-                if (self.singleData.contact2_rmk != "" && (self.singleData.contact2_cod == null || self.singleData.contact2_cod == "")) {
-                    alert('聯絡方式2的種類未選擇!');
-                    return;
-                }
-
-                if (self.singleData.inter_cod == "MARRY" && required_bride_nam == "Y") {
-                    if (self.singleData.groom_nam == null || self.singleData.groom_nam == "") {
-                        alert("新郎為必填!");
-                    }
-                    if (self.singleData.bride_nam == null || self.singleData.bride_nam == "") {
-                        alert("新娘為必填!");
-                    }
-                    return;
-                }
-
+            if(isPass){
                 var func_id = self.createStatus ? '0200' : '0400';
-
                 self.saveToTmpCud();
                 self.callBeforeSaveAPI('2030', function (result) {
                     if(result){
                         self.callSaveAPI(func_id);
                     }
                 });
+            }
+        },
 
+        /**
+         * 儲存前驗證
+         */
+        beforeSave: function () {
+            var self = this;
+
+            if (self.dataGridRows.length == 0) {
+                alert('場地明細無資料！');
+                return false;
             }
-            else {
+
+            if (!self.dgIns.endEditing()) {
                 alert('場地明細尚未編輯完成！');
+                return false;
             }
+
+            if(self.singleData.wait_seq === null || self.singleData.wait_seq === ""){
+                alert("等待為必填！");
+                return false;
+            }
+
+            if ((self.singleData.contact1_rmk != null && self.singleData.contact1_rmk != "") && (self.singleData.contact1_cod == null || self.singleData.contact1_cod === "")) {
+                alert('聯絡方式1的種類未選擇!');
+                return false;
+            }
+
+            if ((self.singleData.contact2_rmk != null && self.singleData.contact2_rmk != "") && (self.singleData.contact2_cod == null || self.singleData.contact2_cod === "")) {
+                alert('聯絡方式2的種類未選擇!');
+                return false;
+            }
+
+            if (self.singleData.inter_cod == "MARRY" && required_bride_nam == "Y") {
+                if (self.singleData.groom_nam === null || self.singleData.groom_nam === "") {
+                    alert("新郎為必填!");
+                }
+                if (self.singleData.bride_nam === null || self.singleData.bride_nam === "") {
+                    alert("新娘為必填!");
+                }
+                return false;
+            }
+
+            if(self.singleData.alt_nam === null || self.singleData.alt_nam === ""){
+                alert("客戶姓名為必填！");
+                return false;
+            }
+
+            if(self.singleData.title_nam === null || self.singleData.title_nam === ""){
+                alert("宴會名稱為必填！");
+                return false;
+            }
+
+            if(self.singleData.atten_nam === null || self.singleData.atten_nam === ""){
+                alert("聯絡人為必填！");
+                return false;
+            }
+
+            if(self.singleData.desk_qnt === null || self.singleData.desk_qnt === ""){
+                alert("預訂桌數為必填！");
+                return false;
+            }
+
+            if(self.singleData.pmdesk_qnt === null || self.singleData.pmdesk_qnt === ""){
+                alert("保證桌數為必填！");
+                return false;
+            }
+
+            if(self.singleData.adult_qnt === null || self.singleData.adult_qnt === ""){
+                alert("預訂人數為必填！");
+                return false;
+            }
+
+            if(self.singleData.poadult_qnt === null || self.singleData.poadult_qnt === ""){
+                alert("保證人數為必填！");
+                return false;
+            }
+
+            if(self.singleData.hpdpst_amt === null || self.singleData.hpdpst_amt === ""){
+                alert("應付訂金為必填！");
+                return false;
+            }
+
+            if(self.singleData.deposit_amt === null || self.singleData.deposit_amt === ""){
+                alert("已付訂金為必填！");
+                return false;
+            }
+
+            if(self.singleData.rspt_cod === null || self.singleData.rspt_cod === ""){
+                alert("廳別為必填！");
+                return false;
+            }
+
+            if(self.singleData.place_amt === null || self.singleData.place_amt === ""){
+                alert("場地金額為必填！");
+                return false;
+            }
+
+            return true;
         },
 
         /**
