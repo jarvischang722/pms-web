@@ -167,9 +167,9 @@
       "edit_sales": "修改業務員(英)",
       "add_visit_plan": "新增拜訪計畫(英)"
     },
-    "PMS0610020":{
-      "company_status":"Status chg.",
-      "compamy_maintain" : "商務公司維護(英)",
+    "PMS0610020": {
+      "company_status": "Status chg.",
+      "compamy_maintain": "商務公司維護(英)",
       "company_related_diagram": "公司關聯圖(英)",
       "company_status": "Status chg.",
       "contract_status": "合約狀態變更(英)",
@@ -178,7 +178,7 @@
       "sales": "業務員(英)",
       "contract_content": "合約內容(英)",
       "visit_record": "拜訪紀錄(英)",
-      "business_notes": "業務備註(英)",
+      "other_remark": "業務備註(英)",
       "historical_consumption": "歷史消費(英)",
       "contribution": "貢獻度(英)",
       "change_credit_limit": "信用額度變更(英)",
@@ -188,7 +188,11 @@
       "append_contract": "新增合約(英)",
       "remove_contract": "刪除合約(英)",
       "special_contract": "特殊合約(英)",
-      "hide_expired": "過期不顯示(英)"
+      "hide_expired": "過期不顯示(英)",
+      "append_remark": "新增備註(英)",
+      "update_remark": "修改備註(英)",
+      "remove_remark": "刪除備註(英)",
+      "appear_consumption_dt": "顯示消費明細(英)"
     },
     "PMS0620020": {
       "sales_cod": "Sales Id",
@@ -210,7 +214,9 @@
       "delSuccess": "Delete Success"
     },
     "PMS0620050": {
-      "edit_vist_mn": "修改拜訪紀錄(英)"
+      "add_visit_mn": "新增拜訪紀錄(英)",
+      "edit_vist_mn": "修改拜訪紀錄(英)",
+      "remove_visit_mn": "刪除拜訪紀錄(英)"
     }
   },
   "table_in_use": "Table in use (%s)",

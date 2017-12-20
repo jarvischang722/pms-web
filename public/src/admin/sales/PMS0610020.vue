@@ -102,7 +102,7 @@
                             <div class="space-6"></div>
                             <!--------/.單筆 -------->
                             <!-------- tabPage -------->
-                            <el-tabs v-model="tabName" type="card" @tab_click="doChangeTab" >
+                            <el-tabs v-model="tabName" type="card" @tab_click="doChangeTab">
                                 <el-tab-pane :label="i18nLang.program.PMS0610020.related_set" name="set">
                                 </el-tab-pane>
                                 <el-tab-pane :label="i18nLang.program.PMS0610020.related_personnel" name="personnel">
@@ -113,7 +113,7 @@
                                 </el-tab-pane>
                                 <el-tab-pane :label="i18nLang.program.PMS0610020.visit_record" name="visit">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0610020.business_notes" name="business">
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.other_remark" name="remark">
                                 </el-tab-pane>
                                 <el-tab-pane :label="i18nLang.program.PMS0610020.historical_consumption" name="historical">
                                 </el-tab-pane>
@@ -147,70 +147,22 @@
                                     ></contract-content>
                                 </div>
                                 <div id="visitPanel" v-show="tabName=='visit'" class="padding-tabs">
-                                    <div class="col-xs-12 col-sm-12">
-                                        <div class="row">
-                                            <div class="col-xs-11 col-sm-11">
-                                                <div class="row no-margin-right">
-                                                    <!-- 拜訪紀錄 dataGrid -->
-                                                    <table id="visitRecord-table" style="height: 310px;"></table>
-
-                                                    <div class="clearfix"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-1 col-sm-1">
-                                                <div class="row">
-                                                    <div class="right-menu-co">
-                                                        <ul>
-                                                            <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales-visitRecord"
-                                                                        role="button">新增拜訪紀錄
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales-editVisitRecord"
-                                                                        role="button">修改拜訪紀錄
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                        role="button">刪除拜訪紀錄
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
+                                    <!--<company-visit-record-->
+                                    <!--:row-data="rowData"-->
+                                    <!--:is-visit-record="tabStatus.isVisit"-->
+                                    <!--&gt;</company-visit-record>-->
                                 </div>
-                                <div id="businessPanel" v-show="tabName=='business'" class="padding-tabs">
-
+                                <div id="remarkPanel" v-show="tabName=='remark'" class="padding-tabs">
+                                    <other-remark
+                                            :row-data="rowData"
+                                            :is-other-remark="tabStatus.isRemark"
+                                    ></other-remark>
                                 </div>
                                 <div id="historicalPanel" v-show="tabName=='historical'" class="padding-tabs">
-                                    <div class="col-xs-12 col-sm-12">
-                                        <div class="row">
-                                            <div class="col-xs-11 col-sm-11">
-                                                <div class="row no-margin-right">
-                                                    <!-- 歷史消費 dataGrid -->
-                                                    <table id="historyConsumption-table" style="height: 310px;"></table>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-1 col-sm-1">
-                                                <div class="row">
-                                                    <div class="right-menu-co">
-                                                        <ul>
-                                                            <li>
-                                                                <button class="btn btn-gray btn-defaultWidth"
-                                                                        role="button">顯示消費明細
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <historical-consumption
+                                            :row-data="rowData"
+                                            :is-historical-consumption="tabStatus.isHistorical"
+                                    ></historical-consumption>
                                 </div>
                                 <div id="contributionPanel" v-show="tabName=='contribution'" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
@@ -338,13 +290,15 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales_changeRecord"
-                                                role="button" @click="loadChangeLog">{{i18nLang.SystemCommon.ChangeLog}}
+                                                role="button" :disabled="isOpenChangeLog" @click="loadChangeLog">
+                                            {{i18nLang.SystemCommon.ChangeLog}}
                                         </button>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
+                    <!--/.按鈕-->
                     <!--Ststus chg-->
                     <div id="companyStatusChg" class="hide padding-5">
                         <div class="businessCompanyData">
@@ -485,14 +439,31 @@
     import relatedPersonnel from './companyRelatedPersonnel.vue';
     import salesClerk from './companySalesClerk.vue';
     import contractContent from './companyContract.vue';
+    //    import companyVisitRecord from './companyVisitRecord.vue';
+    import otherRemark from './companyRemark.vue';
+    import historicalConsumption from './companyHistoricalConsumption.vue';
 
     export default {
         name: 'pms0610020',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
-        components: {relatedSetting, relatedPersonnel, salesClerk, contractContent},
+        components: {
+            relatedSetting,
+            relatedPersonnel,
+            salesClerk,
+            contractContent,
+//            companyVisitRecord,
+            otherRemark,
+            historicalConsumption
+        },
+        created() {
+            var self = this;
+            this.$eventHub.$on('getCloseChangeLogData', function (closeChangeLogData) {
+                self.isOpenChangeLog = closeChangeLogData.isOpenChangeLog;
+            });
+        },
         mounted() {
             this.panelName = ["setPanel", "personnelPanel", "salesPanel", "contractPanel",
-                "visitPanel", "businessPanel", "historicalPanel", "contributionPanel"];
+                "visitPanel", "remarkPanel", "historicalPanel", "contributionPanel"];
             this.isLoadingDialog = true;
             this.loadingText = "Loading...";
         },
@@ -502,6 +473,7 @@
                 BTN_action: false,
                 isLoadingDialog: false,
                 loadingText: "",
+                isOpenChangeLog: false,
                 singleData: {},
                 oriSingleData: {},
                 fieldsData: [],
@@ -515,7 +487,7 @@
                     isSales: false,
                     isContract: false,
                     isVisit: false,
-                    isBusiness: false,
+                    isRemark: false,
                     isHistorical: false,
                     isContribution: false
                 }
@@ -605,12 +577,13 @@
                 $("#contractStatusChange").dialog('close');
             },
             //異動紀錄(change log)
-            loadChangeLog: function () {
+            loadChangeLog() {
                 var self = this;
+                this.isOpenChangeLog = true;
                 $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0610020"}, function (result) {
                     if (result.success) {
                         self.$eventHub.$emit('getChangeLogData', {
-                            openChangeLogDialog: true,
+                            openChangeLogDialog: self.isOpenChangeLog,
                             allChangeLogList: result.allChangeLogList
                         });
                     }

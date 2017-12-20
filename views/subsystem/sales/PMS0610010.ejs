@@ -1,9 +1,9 @@
 <!--page-content-->
-<div id="PMS0610010App" >
+<div id="PMS0610010App">
     <div v-loading="isLoading" element-loading-text="Loading...">
         <div class="page-header"></div><!-- /.page-header -->
         <!-- 商務公司(Accounts) Page-->
-        <div class="pageMain" >
+        <div class="pageMain">
             <search-comp
                     :search-fields="searchFields"
                     :search-cond.sync="searchCond"
@@ -67,13 +67,15 @@
             :is-edit-sales-clerk="isEditSalesClerk"
     ></edit-sales-clerk>
     <!--拜訪紀錄-->
-    <visit-record
-            :is-create-status="isCreateStatus"
-            :is-edit-status="isEditStatus"
-            :is-only-single-grid="isOnlySingleVisitRecord"
-            :edit-rows="editRows"
-            :fetch-data-params="fetchDataParams"
-    ></visit-record>
+    <div id="addVisitPlan" class="hide">
+        <visit-record
+                :is-create-status="isCreateStatus"
+                :is-edit-status="isEditStatus"
+                :is-only-single-grid="isOnlySingleVisitRecord"
+                :edit-rows="editRows"
+                :fetch-data-params="fetchDataParams"
+        ></visit-record>
+    </div>
     <!--異動紀錄-->
     <el-dialog
             title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
@@ -96,7 +98,6 @@
                         </div>
                         <div class="tbl-content02" style="height: 300px;">
                             <table class="custab">
-
                                 <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
                                 <tr v-for="logData in allChangeLogList">
                                     <td class="width-15">{{logData.event_time}}</td>
@@ -122,7 +123,6 @@
                         </div>
                     </div>
                     <div class="clearfix"></div>
-
                 </div>
             </div>
         </div> <!-- /.col-sm-12 -->

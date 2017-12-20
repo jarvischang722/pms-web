@@ -16,7 +16,7 @@ var vm = new Vue({
             self.allChangeLogList = changeLogData.allChangeLogList;
         });
 
-        this.$eventHub.$on('doEditSalesClerk',function(editSalesClerkData) {
+        this.$eventHub.$on('doEditSalesClerk', function (editSalesClerkData) {
             self.isEditSalesClerk = editSalesClerkData.isEditSalesClerk;
             self.editRows = editSalesClerkData.editRows;
             self.doEditSalesClerk();
@@ -59,6 +59,13 @@ var vm = new Vue({
             openChangeLogDialog: false,
             allChangeLogList: {}
         };
+    },
+    watch: {
+        openChangeLogDialog(val) {
+            if (!val) {
+                this.$eventHub.$emit('getCloseChangeLogData', {isOpenChangeLog: val});
+            }
+        }
     },
     methods: {
         initTmpCUD() {
@@ -224,7 +231,7 @@ var vm = new Vue({
             }
             else {
                 this.isEditSalesClerk = true;
-                this.editRows = this.editRow.length == 0? la_editRow: this.editRows;
+                this.editRows = this.editRow.length == 0 ? la_editRow : this.editRows;
             }
             this.isLoading = false;
         },
@@ -245,7 +252,7 @@ var vm = new Vue({
 
                 this.setVisitRecordParams();
 
-                var dialog = $("#visitRecord").removeClass('hide').dialog({
+                var dialog = $("#addVisitPlan").removeClass('hide').dialog({
                     modal: true,
                     title: go_i18nLang["program"]["PMS0610010"].add_visit_plan,
                     title_html: true,

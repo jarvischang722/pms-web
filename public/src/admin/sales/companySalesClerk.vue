@@ -83,6 +83,7 @@
 //                this.dgIns = new DatagridBaseClass();
 //                this.dgIns.init("PMS0610020", "salesClerk_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
 //                this.dgIns.loadDgData(this.dataGridRowsData);
+//                this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
 
                 $('#salesClerk_dg').datagrid({
                     singleSelect: true,

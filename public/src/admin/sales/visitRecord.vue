@@ -1,5 +1,5 @@
 <template>
-    <div id="visitRecord" class="hide padding-5">
+    <div class="padding-5">
         <div class="col-sm-12 newVisitRecord-wrap" v-loading="isLoadingDialog" :element-loading-text="loadingText">
             <div class="row">
                 <div class="borderFrame" v-if="!isOnlySingleGrid">
@@ -81,7 +81,7 @@
                         <!--多筆拜訪紀錄-->
                         <div class="col-sm-5 col-xs-5" v-if="!isOnlySingleGrid">
                             <div class="row">
-                                <table id="visitRecord_dg" style="height: 350px;"></table>
+                                <table id="visitPlan_dg" style="height: 350px;"></table>
                             </div>
                         </div>
                         <!--單筆拜訪紀錄-->
@@ -274,11 +274,12 @@
                 oriSingleData: {},
                 fieldsData: [],
                 oriFieldsData: [],
-                dgIns: {}
+                dgVisitPlanIns: {}
             };
         },
         watch: {
             editRows(val) {
+                console.log(val);
                 if (!_.isEmpty(this.fetchDataParams)) {
                     this.isLoadingDialog = true;
                     this.initData();
@@ -286,9 +287,8 @@
                 }
             },
             rowData(val) {
-                if (!_.isEmpty(this.fetchDataParams)) {
+                if (!_.isEmpty(this.fetchDataParams) && !_.isEmpty(val)) {
                     this.fetchRowData(val);
-                    this.setIndexData(val);
                 }
             }
         },
@@ -383,29 +383,32 @@
                 this.showDataGrid();
             },
             showDataGrid() {
+                console.log(this.dataGridFieldsData);
+                console.log(this.editRows);
                 var colOption = [{field: 'ck', checkbox: true}];
-                colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.dataGridFieldsData, 'visitRecord_dg'));
-                this.dgIns = new DatagridSingleGridClass();
-                this.dgIns.init(this.fetchDataParams.dataGrid.prg_id, "visitRecord_dg", colOption, this.dataGridFieldsData, {
+                colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.dataGridFieldsData, 'visitPlan_dg'));
+                this.dgVisitPlanIns = new DatagridSingleGridClass();
+                this.dgVisitPlanIns.init(this.fetchDataParams.dataGrid.prg_id, "visitPlan_dg", colOption, this.dataGridFieldsData, {
                     singleSelect: false
                 });
-                this.dgIns.loadDgData(this.editRows);
+                this.dgVisitPlanIns.loadDgData(this.editRows);
+                this.setIndexData(this.rowData);
             },
             setIndexData(val) {
-                var nowDatagridRowIndex = $("#visitRecord_dg").datagrid('getRowIndex', val);
+                var nowDatagridRowIndex = $("#visitPlan_dg").datagrid('getRowIndex', val);
 
-                $("#visitRecord_dg").datagrid('selectRow', nowDatagridRowIndex);
+                $("#visitPlan_dg").datagrid('selectRow', nowDatagridRowIndex);
 
-                if ($("#visitRecord_dg").datagrid('getRowIndex', val) == 0) {
+                if ($("#visitPlan_dg").datagrid('getRowIndex', val) == 0) {
                     //已經到第一筆
                     this.isFirstData = true;
                     this.isLastData = false;
-                    if ($("#visitRecord_dg").datagrid('getRowIndex', val) == this.editRows.length - 1) {
+                    if ($("#visitPlan_dg").datagrid('getRowIndex', val) == this.editRows.length - 1) {
                         this.isLastData = true;
                     }
 
                 }
-                else if ($("#visitRecord_dg").datagrid('getRowIndex', val) == this.editRows.length - 1) {
+                else if ($("#visitPlan_dg").datagrid('getRowIndex', val) == this.editRows.length - 1) {
                     //已經到最後一筆
                     this.isFirstData = false;
                     this.isLastData = true;
@@ -500,7 +503,7 @@
                 }
             },
             doSetting() {
-                var la_editRows = $("#visitRecord_dg").datagrid('getSelections');
+                var la_editRows = $("#visitPlan_dg").datagrid('getSelections');
             },
             toFirstData() {
                 this.isFirstData = true;
@@ -508,11 +511,11 @@
                 this.rowData = _.first(this.editRows);
             },
             toPreData() {
-                var nowRowIndex = $("#visitRecord_dg").datagrid('getRowIndex', this.rowData);
+                var nowRowIndex = $("#visitPlan_dg").datagrid('getRowIndex', this.rowData);
                 this.rowData = this.editRows[nowRowIndex - 1];
             },
             toNextData() {
-                var nowRowIndex = $("#visitRecord_dg").datagrid('getRowIndex', this.rowData);
+                var nowRowIndex = $("#visitPlan_dg").datagrid('getRowIndex', this.rowData);
                 this.rowData = this.editRows[nowRowIndex + 1];
             },
             toLastData() {
@@ -521,10 +524,10 @@
                 this.rowData = _.last(this.editRows);
             },
             doRemoveRow() {
-                this.dgIns.removeRow();
+                this.dgVisitPlanIns.removeRow();
             },
             doSaveRow() {
-                var lo_editRow = $("#visitRecord_dg").datagrid('getSelected');
+                var lo_editRow = $("#visitPlan_dg").datagrid('getSelected');
             },
             doCloseDialog() {
                 this.initData();

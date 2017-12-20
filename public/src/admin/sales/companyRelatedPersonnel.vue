@@ -94,29 +94,30 @@
 //                this.dgIns = new DatagridBaseClass();
 //                this.dgIns.init("PMS0610020", "relatedPerson_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
 //                this.dgIns.loadDgData(this.dataGridRowsData);
+//                this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
 
                 $('#relatedPerson_dg').datagrid({
                     singleSelect: true,
                     collapsible: true,
                     url: '/jsonData/sales/bsCompany_relatedMan.json',
                     method: 'get',
-                    columns:[[
-                            {field: 'mainContact', title: '主要聯絡人', width: 100},
-                            {field: 'name', title: '姓名', width: 80},
-                            {field: 'department', title: '部門', width: 80},
-                            {field: 'jobTitle', title: '職稱', width: 80},
-                            {field: 'status', title: '狀態', width: 80},
-                            {field: 'telphone', title: '行動電話', width: 80},
-                            {field: 'companyPhone', title: '公司電話', width: 80},
-                            {field: 'homePhone', title: '住家電話', width: 80},
-                            {field: 'fax', title: '傳真電話', width: 80},
-                            {field: 'email', title: '電子郵件', width: 80},
-                            {field: 'remark', title: '備註', width: 80},
-                            {field: 'endDate', title: '離職日', width: 80},
-                            {field: 'sex', title: '性別', width: 80},
-                            {field: 'birth', title: '生日', width: 80},
-                            {field: 'pointNum', title: '<span class="grayDisable">秘書積點會員編號</span>', width: 120}
-                        ]]
+                    columns: [[
+                        {field: 'mainContact', title: '主要聯絡人', width: 100},
+                        {field: 'name', title: '姓名', width: 80},
+                        {field: 'department', title: '部門', width: 80},
+                        {field: 'jobTitle', title: '職稱', width: 80},
+                        {field: 'status', title: '狀態', width: 80},
+                        {field: 'telphone', title: '行動電話', width: 80},
+                        {field: 'companyPhone', title: '公司電話', width: 80},
+                        {field: 'homePhone', title: '住家電話', width: 80},
+                        {field: 'fax', title: '傳真電話', width: 80},
+                        {field: 'email', title: '電子郵件', width: 80},
+                        {field: 'remark', title: '備註', width: 80},
+                        {field: 'endDate', title: '離職日', width: 80},
+                        {field: 'sex', title: '性別', width: 80},
+                        {field: 'birth', title: '生日', width: 80},
+                        {field: 'pointNum', title: '<span class="grayDisable">秘書積點會員編號</span>', width: 120}
+                    ]]
                 });
             },
             appendRow() {

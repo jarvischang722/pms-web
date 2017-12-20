@@ -1,6 +1,6 @@
 <template>
-    <el-dialog :close-on-click-modal="true" :show-close="true"
-    :visible.sync="isEditSalesClerk" size="small" class="openChangeLogDialog">
+    <el-dialog :close-on-click-modal="true" :show-close="false"
+               :visible.sync="isEditSalesClerk">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
@@ -69,8 +69,8 @@
             };
         },
         watch: {
-            isEditSalesClerk(val){
-                if(val){
+            isEditSalesClerk(val) {
+                if (val) {
                     this.initData();
                     this.fetchSingleGridFieldData();
                 }
@@ -168,6 +168,7 @@
                 }
             },
             doEditSales() {
+                this.isEditSalesClerk = false;
             }
         }
     }
