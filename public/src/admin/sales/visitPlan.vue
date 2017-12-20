@@ -2,7 +2,7 @@
     <div class="padding-5">
         <div class="col-sm-12 newVisitRecord-wrap" v-loading="isLoadingDialog" :element-loading-text="loadingText">
             <div class="row">
-                <div class="borderFrame" v-if="!isOnlySingleGrid">
+                <div class="borderFrame">
                     <div class="col-sm-11 col-xs-11">
                         <div class="row" v-for="fields in settingGridFieldsData">
                             <div class="grid">
@@ -17,7 +17,7 @@
                                           :class="{'input_sta_required' : field.requirable == 'Y' }"
                                           v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                           :style="{width:field.width + 'px' , height:field.height + 'px'}">
-                                        <button :disabled="field.modificable == 'N' || (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                        <button :disabled="field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
                                                 class="btn btn-default btn-white dropdown-toggle btn-height"
                                                 style="text-align: left!important;"
                                                 type="button" data-toggle="dropdown"
@@ -42,15 +42,13 @@
                                            :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                            :required="field.requirable == 'Y'" min="0"
                                            :maxlength="field.ui_field_length"
-                                           :disabled=" field.modificable == 'N'|| (field.modificable == 'I'&& isEditStatus) || (field.modificable == 'E'&& isCreateStatus)">
+                                           :disabled=" field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')">
 
                                     <!-- 日期選擇器 -->
                                     <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'date'"
                                                     v-model="settingGridRowData[field.ui_field_name]"
-                                                    type="date"
-                                                    size="small"
-                                                    :disabled="field.modificable == 'N' || (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                    format="yyyy/MM/dd"
+                                                    type="date" size="small" format="yyyy/MM/dd"
+                                                    :disabled="field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}">
                                     </el-date-picker>
                                 </div>
@@ -79,7 +77,7 @@
                 <div class="col-sm-11 col-xs-11">
                     <div class="row">
                         <!--多筆拜訪紀錄-->
-                        <div class="col-sm-5 col-xs-5" v-if="!isOnlySingleGrid">
+                        <div class="col-sm-5 col-xs-5">
                             <div class="row">
                                 <table id="visitPlan_dg" style="height: 350px;"></table>
                             </div>
@@ -101,7 +99,7 @@
                                                :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                                :required="field.requirable == 'Y'" min="0"
                                                :maxlength="field.ui_field_length"
-                                               :disabled="field.modificable == 'N'|| (field.modificable == 'I'&& isEditStatus) || (field.modificable == 'E'&& isCreateStatus)"
+                                               :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
                                                @click="chkClickPopUpGrid(field)">
 
                                         <!--number 金額顯示format-->
@@ -115,7 +113,7 @@
                                         <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'date'"
                                                         v-model="singleData[field.ui_field_name]"
                                                         type="date" size="small"
-                                                        :disabled="field.modificable == 'N' || (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                        :disabled="field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
                                                         format="yyyy/MM/dd"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         @change="chkFieldRule(field.ui_field_name,field.rule_func_name.validate)">
@@ -125,7 +123,7 @@
                                         <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
                                                         v-model="singleData[field.ui_field_name]" type="datetime"
                                                         change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
                                                         size="small" format="yyyy/MM/dd HH:mm:ss"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
@@ -136,7 +134,7 @@
                                               class="dropdown margin-adjust" align="left"
                                               :class="{'input_sta_required' : field.requirable == 'Y' }"
                                               :style="{width:field.width + 'px' , height:field.height + 'px'}">
-                                            <button :disabled=" field.modificable == 'N' || (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                            <button :disabled=" field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
                                                     class="btn btn-default btn-white dropdown-toggle btn-height"
                                                     style="text-align: left!important;"
                                                     type="button" data-toggle="dropdown"
@@ -161,7 +159,7 @@
                                                   :style="{width:field.width + 'px'}" style="resize: none;"
                                                   :required="field.requirable == 'Y'"
                                                   :maxlength="field.ui_field_length"
-                                                  :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                  :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
                                                   @click="chkFieldRule(field.ui_field_name,field.rule_func_name.validate)">
                                         </textarea>
 
@@ -246,11 +244,11 @@
 
     export default {
         name: 'visit-plan',
-        props: ["isCreateStatus", "isEditStatus", "isOnlySingleGrid", "editRows", "fetchDataParams"],
+        props: ["editRows"],
         created() {
             var self = this;
             vmHub.$on("selectDataGridRow", function (data) {
-                self.dgIns.onSelect(data.index, data.row);
+                self.dgVisitPlanIns.onSelect(data.index, data.row);
                 self.rowData = data.row;
             });
         },
@@ -279,14 +277,14 @@
         },
         watch: {
             editRows(val) {
-                if (!_.isEmpty(this.fetchDataParams)) {
+                if (!_.isEmpty(val)) {
                     this.isLoadingDialog = true;
                     this.initData();
                     this.fetchSingleGridFieldData();
                 }
             },
             rowData(val) {
-                if (!_.isEmpty(this.fetchDataParams) && !_.isEmpty(val)) {
+                if (!_.isEmpty(val)) {
                     this.fetchRowData(val);
                 }
             }
@@ -304,26 +302,23 @@
             },
             fetchSingleGridFieldData() {
                 var self = this;
-                var lo_params = this.fetchDataParams.singleGrid;
+                var lo_params = {
+                    prg_id: "PMS0620050",
+                    page_id: 2
+                };
 
                 $.post("/api/fetchOnlySinglePageFieldData", lo_params, function (result) {
                     self.oriFieldsData = result.gsFieldsData;
                     self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
-
-                    if (!self.isOnlySingleGrid) {
-                        self.loadSettingGrid();
-                    }
-                    else {
-                        self.rowData = self.editRows[0];
-                    }
-
-                    self.isLoadingDialog = false;
+                    self.loadSettingGrid();
                 });
-
             },
             loadSettingGrid() {
                 var self = this;
-                var lo_params = this.fetchDataParams.settingGrid;
+                var lo_params = {
+                    prg_id: "PMS0610010",
+                    page_id: 1020
+                };
 
                 //取欄位資料
                 $.post("/api/fetchOnlySinglePageFieldData", lo_params, function (result) {
@@ -333,61 +328,43 @@
                         visit_dat: moment(new Date()).format("YYYY/MM/DD"),
                         visit_sta: 'N',
                         visit_typ: '1'
-                    }
-
+                    };
                     self.loadDataGridByPrgID();
                 });
             },
             loadDataGridByPrgID() {
                 var self = this;
-                var lo_params = this.fetchDataParams.dataGrid;
+                var lo_params = {
+                    prg_id: "PMS0610010",
+                    page_id: 1020
+                };
 
                 $.post("/api/fetchOnlyDataGridFieldData", lo_params, function (result) {
                     self.dataGridFieldsData = result.dgFieldsData;
-
-                    if (self.editRows.length > 0) {
-                        self.rowData = self.editRows[0];
-                    }
-                    else {
-
-                    }
+                    self.rowData = self.editRows[0];
                 });
             },
             fetchRowData(editingRow) {
                 var self = this;
 
-                if (this.isCreateStatus) {
-                    this.singleData = {
-                        show_cod: editingRow.cust_mn_show_cod,
-                        cust_cod: editingRow.cust_mn_cust_cod,
-                        cust_nam: editingRow.cust_mn_cust_nam,
-                        status_cod: editingRow.cust_mn_status_cod,
-                        status_desc: editingRow.contract_status_rf_status_desc,
-                        visit_typ: '1',
-                        visit_sta: 'N'
-                    };
-                }
-                else if (this.isEditStatus) {
-                    editingRow.visit_dat = moment(new Date(editingRow.visit_dat)).format("YYYY/MM/DD");
-                    editingRow.avisit_dat = moment(new Date(editingRow.avisit_dat)).format("YYYY/MM/DD");
-                    $.post("/api/fetchSinglePageFieldData", {
-                        prg_id: self.fetchDataParams.singleGrid.prg_id,
-                        page_id: self.fetchDataParams.singleGrid.page_id,
-                        searchCond: editingRow
-                    }, function (result) {
-                        console.log(result);
-                    });
-                }
+                //暫時
+                this.singleData = {
+                    show_cod: editingRow.cust_mn_show_cod,
+                    cust_cod: editingRow.cust_mn_cust_cod,
+                    cust_nam: editingRow.cust_mn_cust_nam,
+                    status_cod: editingRow.cust_mn_status_cod,
+                    status_desc: editingRow.contract_status_rf_status_desc,
+                    visit_typ: '1',
+                    visit_sta: 'N'
+                };
 
                 this.showDataGrid();
             },
             showDataGrid() {
-                console.log(this.dataGridFieldsData);
-                console.log(this.editRows);
                 var colOption = [{field: 'ck', checkbox: true}];
                 colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.dataGridFieldsData, 'visitPlan_dg'));
                 this.dgVisitPlanIns = new DatagridSingleGridClass();
-                this.dgVisitPlanIns.init(this.fetchDataParams.dataGrid.prg_id, "visitPlan_dg", colOption, this.dataGridFieldsData, {
+                this.dgVisitPlanIns.init("PMS0610010", "visitPlan_dg", colOption, this.dataGridFieldsData, {
                     singleSelect: false
                 });
                 this.dgVisitPlanIns.loadDgData(this.editRows);
@@ -416,6 +393,8 @@
                     this.isFirstData = false;
                     this.isLastData = false;
                 }
+
+                this.isLoadingDialog = false;
             },
             chkFieldRule(ui_field_name, rule_func_name) {
                 if (rule_func_name === "") {
@@ -531,7 +510,7 @@
             doCloseDialog() {
                 this.initData();
                 this.editRows = [];
-                $("#visitRecord").dialog('close');
+                $("#addVisitPlan").dialog('close');
             }
         }
     }

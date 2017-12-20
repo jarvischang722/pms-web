@@ -245,12 +245,6 @@ var vm = new Vue({
             }
             else {
                 this.editRows = la_editRow;
-                this.isCreateStatus = true;
-                this.isEditStatus = false;
-                this.isEditSalesClerk = false;
-                this.isOnlySingleVisitRecord = false;
-
-                this.setVisitRecordParams();
 
                 var dialog = $("#addVisitPlan").removeClass('hide').dialog({
                     modal: true,
@@ -263,7 +257,6 @@ var vm = new Vue({
                     resizable: true,
                     onBeforeClose: function () {
                         self.editRows = [];
-                        self.fetchDataParams = {};
                     }
                 });
             }
