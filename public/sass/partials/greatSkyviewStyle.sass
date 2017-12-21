@@ -5,6 +5,7 @@
   //overflow: scroll !important
   .gs-rese-table
     width: 100%
+    TABLE-LAYOUT: fixed
     thead
       tr
         th
@@ -17,12 +18,14 @@
           border-bottom-color: #d0d0d0
           background-clip: padding-box
           z-index: 105 !important
+          width: 92px
           &:first-child
             border-left-color: #d0d0d0
           &:last-child
             border-right-color: #d0d0d0
           &.gs-frist-th
             z-index: 110 !important
+            width: 142px
         &.h23-tr
           td,th
             height: 23px !important
@@ -221,3 +224,10 @@ tr.no-cursor-tr
   width: auto
 .vue-treeselect
   display: inline-block
+.gs-td-content
+  width: 100%
+  display: inline-block
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+  vertical-align: middle

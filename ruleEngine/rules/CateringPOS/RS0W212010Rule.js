@@ -206,6 +206,9 @@ module.exports = {
             return;
         }
 
+        postData.editRowData.begin_tim = postData.editRowData.begin_tim.replace(":", "");
+        postData.editRowData.end_tim = postData.editRowData.end_tim.replace(":", "");
+
         if(Number(postData.editRowData.begin_tim.toString().substr(0,2)) > 23 || Number(postData.editRowData.begin_tim.toString().substr(2,2) > 60) || Number(postData.editRowData.end_tim.toString().substr(0,2)) > 23 || Number(postData.editRowData.end_tim.toString().substr(2,2) > 60)){
             callback(lo_error, lo_result);
             return;
@@ -235,7 +238,7 @@ module.exports = {
             if (!err) {
                 var round = Result.round_hfd;
                 lo_result.effectValues.place_amt = formatFloat(postData.editRowData.unit_amt * lo_result.effectValues.order_qnt, round);
-                lo_result.effectValues.special_amt = formatFloat(postData.editRowData.unit_amt * lo_result.effectValues.order_qnt, round);
+                lo_result.effectValues.special_amt = lo_result.effectValues.place_amt;
 
                 var disc_amt = formatFloat((lo_result.effectValues.place_amt - lo_result.effectValues.special_amt), round);
 

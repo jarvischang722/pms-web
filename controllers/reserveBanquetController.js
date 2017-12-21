@@ -56,9 +56,17 @@ exports.qry_bqcust_mn = function (req, res) {
     });
 };
 
+//[RS0W212010] 取場地單價
+exports.getPlaceUnitAmt = function (req, res) {
+    resvBanquetSvc.getPlaceUnitAmt(req.body, req.session, function (err, result) {
+        res.json({data: result, error: err});
+    });
+};
+
 //[RS0W212010] 異動表單狀態
 exports.chgOrderStaAPI = function (req, res) {
     resvBanquetSvc.chgOrderStaAPI(req.body, req.session, function (err, result) {
         res.json({success: result, msg: err});
     });
 };
+
