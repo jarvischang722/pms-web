@@ -280,9 +280,9 @@ var DatagridFieldAdapter = {
                         return val;
                     }
                     return "";
-                } 
+                }
                     return val;
-                
+
             }
 
             tmpFieldObj.editor.type = dataType;
@@ -401,104 +401,101 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             oldValue: oldValue
         };
 
-        //確認驗證
-        if ($('#' + dgName).datagrid('validateRow', indexRow)) {
+        isUserEdit = false;
 
-            isUserEdit = false;
+        $.post('/api/chkFieldRule', postData, function (result) {
+            if (result.success) {
+                //是否要show出訊息
+                if (result.showAlert) {
+                    alert(result.alertMsg);
+                }
 
-            $.post('/api/chkFieldRule', postData, function (result) {
-                if (result.success) {
-                    //是否要show出訊息
-                    if (result.showAlert) {
-                        alert(result.alertMsg);
-                    }
-
-                    //是否要show出詢問視窗
-                    if (result.showConfirm) {
-                        if (confirm(result.confirmMsg)) {
-                            //有沒有要再打一次ajax到後端
-                            if (result.isGoPostAjax) {
-                                $.post(result.ajaxURL, postData, function (ajaxResult) {
-                                    if (!ajaxResult.success) {
-                                        alert(ajaxResult.errorMsg);
-                                    }
-                                });
-                            }
+                //是否要show出詢問視窗
+                if (result.showConfirm) {
+                    if (confirm(result.confirmMsg)) {
+                        //有沒有要再打一次ajax到後端
+                        if (result.isGoPostAjax) {
+                            $.post(result.ajaxURL, postData, function (ajaxResult) {
+                                if (!ajaxResult.success) {
+                                    alert(ajaxResult.errorMsg);
+                                }
+                            });
                         }
                     }
                 }
-                else {
-                    alert(result.errorMsg);
-                }
-                //連動帶回的值
-                if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
-                    var effectValues = result.effectValues;
-                    if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
+            }
+            else {
+                alert(result.errorMsg);
+            }
+            //連動帶回的值
+            if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
+                var effectValues = result.effectValues;
+                if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
 
+                    $('#' + dgName).datagrid('updateRow', {
+                        index: indexRow,
+                        row: effectValues
+                    });
+
+                    if (!_.isUndefined(effectValues.day_sta_color)) {
+                        var col = $("#" + dgName).datagrid('getColumnOption', 'day_sta');
+                        col.styler = function () {
+                            return 'background-color:' + effectValues.day_sta_color;
+                        };
+                    }
+
+                    //確認現在datagrid的editIndex為何
+                    var lo_nowIndexRow = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
+                    if (lo_nowIndexRow != indexRow) {
+                        $('#' + dgName).datagrid('unselectRow', lo_nowIndexRow);
+                        $('#' + dgName).datagrid('endEdit', lo_nowIndexRow);
+                    }
+
+                    //現在datagrid的editIndex已經不是indexRow，切換editIndex為indexRow
+                    $('#' + dgName).datagrid('beginEdit', indexRow);
+                    $('#' + dgName).datagrid('endEdit', indexRow);
+
+                    //將連動欄位的那列打開編輯
+                    $('#' + dgName).datagrid('beginEdit', indexRow);
+                    $('#' + dgName).datagrid('selectRow', indexRow);
+                }
+                else {
+                    _.each(effectValues, function (item, index) {
+
+                        var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
                         $('#' + dgName).datagrid('updateRow', {
                             index: indexRow,
-                            row: effectValues
+                            row: item
                         });
-
-                        if (!_.isUndefined(effectValues.day_sta_color)) {
-                            var col = $("#" + dgName).datagrid('getColumnOption', 'day_sta');
-                            col.styler = function () {
-                                return 'background-color:' + effectValues.day_sta_color;
-                            };
-                        }
-
-                        //確認現在datagrid的editIndex為何
-                        var lo_nowIndexRow = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
-                        if (lo_nowIndexRow != indexRow) {
-                            $('#' + dgName).datagrid('unselectRow', lo_nowIndexRow);
-                            $('#' + dgName).datagrid('endEdit', lo_nowIndexRow);
-
-                            //現在datagrid的editIndex已經不是indexRow，切換editIndex為indexRow
-                            $('#' + dgName).datagrid('beginEdit', indexRow);
-                            $('#' + dgName).datagrid('endEdit', indexRow);
-                        }
-
-                        $('#' + dgName).datagrid('beginEdit', indexRow);
-                        $('#' + dgName).datagrid('selectRow', indexRow);
-                    }
-                    else {
-                        _.each(effectValues, function (item, index) {
-
-                            var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
-                            $('#' + dgName).datagrid('updateRow', {
-                                index: indexRow,
-                                row: item
-                            });
-                            adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
-                        });
-
-                    }
-
-                }
-
-                if (!result.isModifiable) {
-                    ga_readonlyFields = _.uniq(result.readonlyFields);
-                    _.each(ga_readonlyFields, function (field) {
-                        var lo_editor = $('#' + dgName).datagrid('getEditor', {
-                            index: indexRow,
-                            field: field
-                        });
-                        $(lo_editor.target).textbox("readonly", true);
+                        adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
                     });
-                }
-                else {
-                    _.each(ga_readonlyFields, function (field) {
-                        var lo_editor = $('#' + dgName).datagrid('getEditor', {
-                            index: indexRow,
-                            field: field
-                        });
-                        $(lo_editor.target).textbox("readonly", true);
-                    });
+
                 }
 
-                isUserEdit = true;
-            });
-        }
+            }
+
+            if (!result.isModifiable) {
+                ga_readonlyFields = _.uniq(result.readonlyFields);
+                _.each(ga_readonlyFields, function (field) {
+                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                        index: indexRow,
+                        field: field
+                    });
+                    $(lo_editor.target).textbox("readonly", true);
+                });
+            }
+            else {
+                _.each(ga_readonlyFields, function (field) {
+                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                        index: indexRow,
+                        field: field
+                    });
+                    $(lo_editor.target).textbox("readonly", true);
+                });
+            }
+
+            isUserEdit = true;
+        });
 
     }
 
