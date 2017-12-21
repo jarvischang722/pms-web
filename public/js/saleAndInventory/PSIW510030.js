@@ -191,7 +191,7 @@ var PSIW510030 = new Vue({
         this.initSearchComp();
         this.getSystemParam();
         this.fetchUserInfo();
-        this.loadDataGrid();
+        this.initDataGridField();
     },
     components: {
         "search-comp": go_searchComp
@@ -228,14 +228,12 @@ var PSIW510030 = new Vue({
         dgIns: {},
         dgInsDT: {},
 
-        FieldData: [],              //多筆欄位
         DataGridRows: [],           //多筆資料
 
         originData: {},             //原始單筆資料
         singleData: {},             //單筆資料
         singleDataTemp: {},         //單筆資料暫存
 
-        pageTwoDTFieldData: [],     //單筆 DT 欄位
         singleDataGridRows: [],     //單筆 DT 資料
         oriSingleDataGridRows: [],  //單筆 DT 原始資料
 
@@ -498,6 +496,20 @@ var PSIW510030 = new Vue({
             });
         },
 
+        /**
+         * 初始化DataGrid
+         */
+        initDataGridField: function () {
+            var self = this;
+
+            self.dgIns = new DatagridRmSingleGridClass();
+            self.dgIns.init(prg_id, 'PSIW510030_dg', DatagridFieldAdapter.combineFieldOption(self.bindingFieldData(), 'PSIW510030_dg'));
+
+            self.dgInsDT = new DatagridRmSingleDTGridClass();
+            self.dgInsDT.init(prg_id, 'PSIW510030_dt', DatagridFieldAdapter.combineFieldOption(self.bindingDTFieldData(), 'PSIW510030_dt'));
+            $("#PSIW510030_dt").datagrid({}).datagrid("keyCtr");
+        },
+        
         /**
          * 組多筆的欄位(未來可能改用Mongo)
          */
@@ -1056,28 +1068,21 @@ var PSIW510030 = new Vue({
          * 取得多筆資料
          */
         loadDataGrid: function () {
+            var self = this;
 
             var lo_params = {
                 prg_id: prg_id,
                 func : "getDataGridRows",
                 searchCond: this.searchCond
             };
-            var self = this;
+
             self.isLoading = true;
             //撈多筆資料
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
                     self.DataGridRows = result.data;
-                    self.FieldData = self.bindingFieldData();
-                    self.dgIns = new DatagridRmSingleGridClass();
-                    self.dgIns.init(prg_id, 'PSIW510030_dg', DatagridFieldAdapter.combineFieldOption(self.FieldData, 'PSIW510030_dg'));
                     self.dgIns.loadDgData(self.DataGridRows);
-
-                    self.pageTwoDTFieldData = self.bindingDTFieldData();    //組DT欄位
-                    self.dgInsDT = new DatagridRmSingleDTGridClass();
-                    self.dgInsDT.init(prg_id, 'PSIW510030_dt', DatagridFieldAdapter.combineFieldOption(self.pageTwoDTFieldData, 'PSIW510030_dt'));
-                    $("#PSIW510030_dt").datagrid({}).datagrid("keyCtr");
                 } else {
                     alert(result.error.errorMsg);
                 }
@@ -1143,9 +1148,9 @@ var PSIW510030 = new Vue({
 
                     //db撈出來小數超亂, 直接做四捨五入
                     _.each(result.data, function (value) {
-                        value.item_qnt = formatFloat(value.item_qnt, 3);
-                        value.order_qnt = formatFloat(value.order_qnt, 3);
-                        value.thu_qty = formatFloat(value.thu_qty, 3);
+                        value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 3);
+                        value.order_qnt = go_MathTool.formatFloat(value.order_qnt, 3);
+                        value.thu_qty = go_MathTool.formatFloat(value.thu_qty, 3);
                     });
 
                     self.singleDataGridRows = result.data;
@@ -1605,8 +1610,8 @@ var PSIW510030 = new Vue({
                 value.trans_nos = '';
                 value.trans_typ = '';
 
-                value.sorder_amt = formatFloat(value.sale_amt * value.item_qnt, self.ship_dt_round_nos) || 0;    // 小計 = 售價 * 數量(訂購量) (取單據明細小計小數位數)
-                value.sorder_tax = formatFloat(value.sorder_amt * value.tax_rat, 2) || 0;                        // 稅額 = 小計 * 稅率 (取小數第二位)
+                value.sorder_amt = go_MathTool.formatFloat(value.sale_amt * value.item_qnt, self.ship_dt_round_nos) || 0;    // 小計 = 售價 * 數量(訂購量) (取單據明細小計小數位數)
+                value.sorder_tax = go_MathTool.formatFloat(value.sorder_amt * value.tax_rat, 2) || 0;                        // 稅額 = 小計 * 稅率 (取小數第二位)
                 value.remain_qnt = value.item_qnt * value.unit_nos || 0;                                         // 未出貨量 = 數量(訂購量) * 單位轉換率
 
                 self.singleData.order_amt += value.sorder_amt;
@@ -1616,8 +1621,8 @@ var PSIW510030 = new Vue({
             var lf_temp_amt = self.singleData.order_amt;
             var lf_temp_tax = self.singleData.order_tax;
 
-            self.singleData.order_amt = formatFloat(self.singleData.order_amt, self.ship_mn_round_nos) || 0;
-            self.singleData.order_tax = formatFloat(self.singleData.order_tax, self.ship_mn_round_nos) || 0;
+            self.singleData.order_amt = go_MathTool.formatFloat(self.singleData.order_amt, self.ship_mn_round_nos) || 0;
+            self.singleData.order_tax = go_MathTool.formatFloat(self.singleData.order_tax, self.ship_mn_round_nos) || 0;
             self.singleData.order_tot = self.singleData.order_amt + self.singleData.order_tax;
 
             var lf_div_amt = self.singleData.order_amt - lf_temp_amt;
@@ -1629,8 +1634,8 @@ var PSIW510030 = new Vue({
             });
 
             if(index != -1){
-                self.singleDataGridRows[index].sorder_amt = formatFloat(self.singleDataGridRows[index].sorder_amt + lf_div_amt, self.ship_dt_round_nos);
-                self.singleDataGridRows[index].sorder_tax = formatFloat(self.singleDataGridRows[index].sorder_tax + lf_div_tax, 2);
+                self.singleDataGridRows[index].sorder_amt = go_MathTool.formatFloat(self.singleDataGridRows[index].sorder_amt + lf_div_amt, self.ship_dt_round_nos);
+                self.singleDataGridRows[index].sorder_tax = go_MathTool.formatFloat(self.singleDataGridRows[index].sorder_tax + lf_div_tax, 2);
             }
 
             //endregion
@@ -2018,17 +2023,6 @@ $(window).on('beforeunload', function () {
     return PSIW510030.doRowUnLock();
 });
 
-/**
- * 四捨五入
- * @param num {Double}
- * @param pos {Int}
- */
-function formatFloat(num, pos)
-{
-    var size = Math.pow(10, pos);
-    return Math.round(num * size) / size;
-}
-
 var adpterDg = new DatagridAdapter(PSIW510030);
 
 //region//套件
@@ -2280,4 +2274,3 @@ $('.dominos-inventory-right').resize(function(){
 });
 
 //endregion
-
