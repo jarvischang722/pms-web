@@ -874,8 +874,8 @@ Vue.component('sigle-grid-dialog-tmp', {
 
         //DT datagrid資料放入暫存
         tempExecData: function (rowData) {
-            rowData["mnRowData"] = _.clone(this.singleData);
-            rowData = _.extend(rowData, rowData["mnRowData"]);
+            rowData["mnRowData"] = JSON.parse(JSON.stringify(this.singleData));
+            rowData = _.extend(JSON.parse(JSON.stringify(this.singleData)), rowData);
 
             //檢查資料是否有重複
             this.examineTmpData(rowData, vm.tmpCud);
