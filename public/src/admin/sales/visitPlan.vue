@@ -264,15 +264,19 @@
                 BTN_action: false,
                 isLoadingDialog: false,
                 loadingText: "",
+                tmpCUD: {
+                    createData: []
+                },
                 settingGridFieldsData: [],
                 settingGridRowData: {},
                 dataGridFieldsData: [],
-                rowData: {},
-                singleData: {},
+                rowData: {},                //多筆的每一列資料
+                singleData: {},             //單筆的每一筆資料
                 oriSingleData: {},
                 fieldsData: [],
                 oriFieldsData: [],
-                dgVisitPlanIns: {}
+                dgVisitPlanIns: {},
+                tmpRowsData: []             //多筆與單筆所對應的資料
             };
         },
         watch: {
@@ -285,6 +289,7 @@
             },
             rowData(val) {
                 if (!_.isEmpty(val)) {
+                    this.setSingleData(val);
                     this.fetchRowData(val);
                 }
             }
@@ -341,13 +346,10 @@
 
                 $.post("/api/fetchOnlyDataGridFieldData", lo_params, function (result) {
                     self.dataGridFieldsData = result.dgFieldsData;
-                    self.rowData = self.editRows[0];
+                    self.setSingleData(self.editRows[0]);
                 });
             },
-            fetchRowData(editingRow) {
-                var self = this;
-
-                //暫時
+            setSingleData(editingRow) {
                 this.singleData = {
                     show_cod: editingRow.cust_mn_show_cod,
                     cust_cod: editingRow.cust_mn_cust_cod,
@@ -355,8 +357,14 @@
                     status_cod: editingRow.cust_mn_status_cod,
                     status_desc: editingRow.contract_status_rf_status_desc,
                     visit_typ: '1',
-                    visit_sta: 'N'
+                    visit_sta: 'N',
+                    visit_dat: '',
+                    avisit_dat: '',
+                    traffic_amt: 0,
+                    purport_rmk: '',
+                    remark: ''
                 };
+                this.rowData = editingRow;
 
                 this.showDataGrid();
             },
@@ -369,6 +377,19 @@
                 });
                 this.dgVisitPlanIns.loadDgData(this.editRows);
                 this.setIndexData(this.rowData);
+            },
+            fetchRowData(editingRow){
+                var self = this;
+                _.each(this.singleData, function(val, key){
+                    editingRow[key] = val;
+                });
+                //重複的先刪除再新增
+                var existIdx = _.findIndex(this.tmpRowsData, {cust_cod: this.singleData.cust_cod});
+                if(existIdx > -1){
+                    this.tmpRowsData.splice(existIdx, 1);
+                }
+
+                this.tmpRowsData.push(editingRow);
             },
             setIndexData(val) {
                 var nowDatagridRowIndex = $("#visitPlan_dg").datagrid('getRowIndex', val);
@@ -481,7 +502,32 @@
                 }
             },
             doSetting() {
-                var la_editRows = $("#visitPlan_dg").datagrid('getSelections');
+                var self = this;
+                var la_editRows = JSON.parse(JSON.stringify($("#visitPlan_dg").datagrid('getSelections'))) ;
+                var lo_editRowSingleData = JSON.parse(JSON.stringify(self.singleData));
+                delete lo_editRowSingleData[""]
+                this.settingGridRowData.visit_dat = moment(new Date(this.settingGridRowData.visit_dat)).format("YYYY/MM/DD");
+
+                _.each(this.settingGridRowData, function(val, key){
+                    lo_editRowSingleData[key] = val;
+                })
+
+                _.each(la_editRows, function(lo_editRow, idx){
+                    la_editRows[idx]["cust_nam"] = _.clone(lo_editRow["cust_mn_cust_nam"]);
+                    la_editRows[idx]["show_cod"] = _.clone(lo_editRow["cust_mn_show_cod"]);
+                    la_editRows[idx]["cust_cod"] = _.clone(lo_editRow["cust_mn_cust_cod"]);
+
+                    delete lo_editRow["cust_mn_cust_nam"];
+                    delete lo_editRow["cust_mn_show_cod"];
+                    delete lo_editRow["cust_mn_cust_cod"];
+
+                    la_editRows[idx] = _.extend(lo_editRow, lo_editRowSingleData);
+                });
+
+                console.log(la_editRows);
+//                _.each(la_editRows, function(lo_editRow, idx){
+//
+//                });
             },
             toFirstData() {
                 this.isFirstData = true;
@@ -506,6 +552,7 @@
             },
             doSaveRow() {
                 var lo_editRow = $("#visitPlan_dg").datagrid('getSelected');
+                console.log(this.tmpRowsData);
             },
             doCloseDialog() {
                 this.initData();
