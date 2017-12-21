@@ -23,9 +23,11 @@
                 ls_permissionModel: ""
             }
         },
+
         computed: {
             permissionModel: {
                 get() {
+                    console.log("staff");
                     this.ls_permissionModel = this.$store.state.gs_permissionModel;
                     return this.ls_permissionModel;
                 }

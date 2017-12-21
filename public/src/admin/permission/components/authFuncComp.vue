@@ -28,12 +28,15 @@
             permissionModel: {
                 get() {
                     // this.createFuncTree();
+                    console.log("func");
                     return this.$store.state.gs_permissionModel;
                 }
             }
         },
         watch: {
-            permissionModel(){}
+            permissionModel(){
+                console.log("test1");
+            }
         },
         methods: {
             createFuncTree() {
