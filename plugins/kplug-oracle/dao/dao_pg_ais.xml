@@ -82,7 +82,7 @@
     </dao>
 
     <!-- ['RS0W212010'] 滾房租日期 -->
-    <dao name="QRY_RENT_CAL_DAT">
+    <dao name="QRY_PG_AIS_RENT_CAL_DAT">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval('NULL', 'HFD', 'rent_cal_dat') as rent_cal_dat from dual
         ]]>

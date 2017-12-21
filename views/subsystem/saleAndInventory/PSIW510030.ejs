@@ -105,10 +105,9 @@
                                         <label>客戶代號</label>
                                         <select v-model="singleData.cust_cod" class="input-medium resvCardSpec1" @change="custSelectChange()" :disabled="!isModificableFormat">
                                             <option v-for="opt in custSelectData" :value="opt.cust_cod">
-                                                {{opt.show_cod}}
+                                                {{opt.show_cod}} : {{opt.cust_nam}}
                                             </option>
                                         </select>
-                                        <input v-model="singleData.cust_nam" type="text" class="input-medium w304px input-second-2" placeholder="" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
