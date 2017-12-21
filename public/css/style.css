@@ -198,6 +198,15 @@
   box-sizing: border-box;
   cursor: pointer;
 }
+.css_table .css_td .moreClick.moreHtAuto {
+  height: auto;
+  bottom: 8px;
+  width: auto;
+}
+.css_table .css_td .moreClick.moreAbso-t10 {
+  top: 7px;
+  bottom: auto;
+}
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
@@ -274,6 +283,15 @@
   padding: 4px 5px 0 5px;
   box-sizing: border-box;
   cursor: pointer;
+}
+.horizTable-outer .css_table .css_td .moreClick.moreHtAuto {
+  height: auto;
+  bottom: 8px;
+  width: auto;
+}
+.horizTable-outer .css_table .css_td .moreClick.moreAbso-t10 {
+  top: 7px;
+  bottom: auto;
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
@@ -2718,19 +2736,10 @@ ul.newVisitOther-btn {
 }
 
 .resvCard-data {
-  margin-left: 10px;
+  margin: 5px auto auto 10px;
 }
-.resvCard-data.single {
-  font-weight: 300;
-}
-.resvCard-data.single span {
-  font-weight: 300;
-}
-.resvCard-data.total {
-  font-weight: 700;
-}
-.resvCard-data.total span {
-  font-weight: 700;
+.resvCard-data .divideLine {
+  padding: 2px 5px 0 5px;
 }
 .resvCard-data span {
   padding-right: 5px;
@@ -4613,6 +4622,10 @@ td div.act-box span.act-text {
   width: 100%;
 }
 
+.lineDelTgh {
+  text-decoration: line-through;
+}
+
 .width-3 {
   width: 3% !important;
 }
@@ -4815,6 +4828,10 @@ a {
 
 .bgTGreen {
   background: #4ed8aa !important;
+}
+
+.bgLGreen {
+  background: #B0D877 !important;
 }
 
 .light-grey {
