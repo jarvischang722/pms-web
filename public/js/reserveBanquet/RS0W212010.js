@@ -76,7 +76,6 @@ var singlePage = Vue.extend({
             default_meal_typ: "",       //餐別預設值
             default_expire_dat: "",     //保留期限天數預設值
             default_adult_qnt: "",      //預定人數預設值
-            default_poadult_qnt: "",    //保證人數預設值
             default_proc_sta: "",       //預約處理預設值
 
             tmpCud: {               //新刪修暫存
@@ -104,7 +103,6 @@ var singlePage = Vue.extend({
 
             isModificable: true,       //決定是否可以修改資料
             readonly: false,
-
 
             cancelEnable: true,
             reserveEnable: true,
@@ -182,6 +180,10 @@ var singlePage = Vue.extend({
                     if (self.singleData.title_nam.toString().trim() == "") {
                         self.singleData.title_nam = self.singleData.alt_nam;
                     }
+
+                    if (self.singleData.atten_nam.toString().trim() == "") {
+                        self.singleData.atten_nam = self.singleData.alt_nam;
+                    }
                 });
             }
             else if (self.popupFieldName == "place_cod_button") {
@@ -217,11 +219,6 @@ var singlePage = Vue.extend({
                     $('#RS0W212010_dt').datagrid('selectRow', self.dataGridRows.length - 1)
                         .datagrid('beginEdit', self.dataGridRows.length - 1);
                     go_currentIndex = self.dataGridRows.length - 1;
-
-                    // $('#RS0W212010_dt').datagrid('appendRow', chooseData);
-                    // self.dgIns.editIndex = $('#RS0W212010_dt').datagrid('getRows').length - 1;
-                    // $('#RS0W212010_dt').datagrid('selectRow', self.dgIns.editIndex)
-                    //     .datagrid('beginEdit', self.dgIns.editIndex);
                 }
             }
             else {
@@ -717,6 +714,7 @@ var singlePage = Vue.extend({
                     var defaultData = {};
                     $.post("/reserveBanquet/getPlaceUnitAmt", {place_cod: postData.place_cod}, function (result) {
                         if (!_.isUndefined(result.data)) {
+
                             defaultData["bquet_nos"] = "";
                             defaultData["seq_nos"] = "";
                             defaultData["rspt_cod"] = postData.rspt_cod;
@@ -724,8 +722,8 @@ var singlePage = Vue.extend({
                             defaultData["begin_tim"] = postData.begin_tim;
                             defaultData["end_tim"] = postData.end_tim;
                             defaultData["desk_qnt"] = postData.desk_qnt;
-                            defaultData["is_allplace"] = 'N';
-                            defaultData["inv_qnt"] = "0";
+                            defaultData["is_allplace"] = 'Y';
+                            defaultData["inv_qnt"] = postData.desk_qnt;
                             defaultData["createRow"] = "Y";
                             defaultData["unit_amt"] = result.data.unit_amt;
 
@@ -748,7 +746,6 @@ var singlePage = Vue.extend({
                             var total_min = (div_hour * 60) + div_min;
 
                             defaultData["order_qnt"] = go_MathTool.formatFloat(total_min / 60, 1);
-
                             defaultData["place_amt"] = go_MathTool.formatFloat(defaultData["unit_amt"] * defaultData["order_qnt"], self.round_hfd);
                             defaultData["special_amt"] = defaultData["place_amt"];
 
@@ -799,13 +796,6 @@ var singlePage = Vue.extend({
             this.singleData.end_tim = "23:59";
             this.singleData.begin_dat = RS00202010VM.searchDate;
 
-            //帶地圖的預設值過來
-            if(postData.begin_tim != null){
-                this.singleData.rspt_cod = postData.rspt_cod;
-                this.singleData.begin_tim = postData.begin_tim;
-                this.singleData.end_tim = postData.end_tim;
-            }
-
             //保留日計算
             this.singleData.expire_dat = (moment(this.rent_cal_dat).add(this.default_expire_dat, 'day')).format("YYYY/MM/DD");
 
@@ -820,7 +810,7 @@ var singlePage = Vue.extend({
             this.singleData.pmdesk_qnt = "0";
 
             this.singleData.adult_qnt = this.default_adult_qnt;
-            this.singleData.poadult_qnt = this.default_poadult_qnt;
+            this.singleData.poadult_qnt = this.default_adult_qnt;
 
             this.singleData.hpdpst_amt = "0";
             this.singleData.deposit_amt = "0";
@@ -831,6 +821,16 @@ var singlePage = Vue.extend({
             this.singleData.proc_sta = this.default_proc_sta;
 
             this.singleData.place_amt = "0";
+
+            //帶地圖的預設值過來
+            if(postData.begin_tim != null){
+                this.singleData.rspt_cod = postData.rspt_cod;
+                this.singleData.begin_tim = postData.begin_tim;
+                this.singleData.end_tim = postData.end_tim;
+                this.singleData.desk_qnt = postData.desk_qnt;
+                this.singleData.pmdesk_qnt = postData.desk_qnt;
+            }
+
         },
 
         /**
