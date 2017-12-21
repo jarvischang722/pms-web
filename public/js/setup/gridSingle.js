@@ -609,11 +609,11 @@ Vue.component('sigle-grid-dialog-tmp', {
                         //取下一筆
                         targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx + 1];
                     }
-                    self.editingRow = targetRowAfterDelete;
+                    this.editingRow = targetRowAfterDelete;
                 }
 
                 if (this.createStatus) {
-                    this.editingRow = self.pageOneDataGridRows[0];
+                    this.editingRow = this.pageOneDataGridRows[0];
                     this.tmpCud.createData = [this.singleData];
                 }
                 else if (this.editStatus) {
