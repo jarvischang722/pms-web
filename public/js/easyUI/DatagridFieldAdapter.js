@@ -402,7 +402,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         };
 
         isUserEdit = false;
-
         $.post('/api/chkFieldRule', postData, function (result) {
             if (result.success) {
                 //是否要show出訊息

@@ -203,7 +203,7 @@ module.exports = {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        //如果是刪除dt資料就不做規則驗證
+        //刪除dt資料就不做規則驗證
         if (postData.isDtData) {
             callback(lo_error, lo_result);
         }
