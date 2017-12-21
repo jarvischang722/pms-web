@@ -713,7 +713,7 @@ var singlePage = Vue.extend({
                 self.dgIns.tmpCUD.oriData = self.oriDataGridRows;
 
                 //新增模式時，如有預設值，直接將預設值帶入明細
-                if(self.createStatus && postData.begin_tim != ""){
+                if (self.createStatus && postData.begin_tim != "") {
                     var defaultData = {};
                     $.post("/reserveBanquet/getPlaceUnitAmt", {place_cod: postData.place_cod}, function (result) {
                         if (!_.isUndefined(result.data)) {
@@ -733,12 +733,12 @@ var singlePage = Vue.extend({
                             defaultData["begin_tim"] = defaultData["begin_tim"].toString().replace(":", "");
                             defaultData["end_tim"] = defaultData["end_tim"].toString().replace(":", "");
 
-                            var begin_hour = Number(defaultData["begin_tim"].toString().substr(0,2));
-                            var begin_min = Number(defaultData["begin_tim"].toString().substr(2,2));
-                            var end_hour = Number(defaultData["end_tim"].toString().substr(0,2));
-                            var end_min = Number(defaultData["end_tim"].toString().substr(2,2));
+                            var begin_hour = Number(defaultData["begin_tim"].toString().substr(0, 2));
+                            var begin_min = Number(defaultData["begin_tim"].toString().substr(2, 2));
+                            var end_hour = Number(defaultData["end_tim"].toString().substr(0, 2));
+                            var end_min = Number(defaultData["end_tim"].toString().substr(2, 2));
 
-                            if(end_hour < begin_hour){
+                            if (end_hour < begin_hour) {
                                 end_hour += 24;
                             }
 
@@ -754,7 +754,7 @@ var singlePage = Vue.extend({
 
                             var disc_amt = go_MathTool.formatFloat((defaultData["place_amt"] - defaultData["special_amt"]), self.round_hfd);
 
-                            if(disc_amt < 0){
+                            if (disc_amt < 0) {
                                 disc_amt = 0;
                             }
 
@@ -800,7 +800,7 @@ var singlePage = Vue.extend({
             this.singleData.begin_dat = RS00202010VM.searchDate;
 
             //帶地圖的預設值過來
-            if(postData.begin_tim != null){
+            if (postData.begin_tim != null) {
                 this.singleData.rspt_cod = postData.rspt_cod;
                 this.singleData.begin_tim = postData.begin_tim;
                 this.singleData.end_tim = postData.end_tim;
@@ -1064,11 +1064,11 @@ var singlePage = Vue.extend({
 
             var isPass = self.beforeSave();
 
-            if(isPass){
+            if (isPass) {
                 var func_id = self.createStatus ? '0200' : '0400';
                 self.saveToTmpCud();
                 self.callBeforeSaveAPI('2030', function (result) {
-                    if(result){
+                    if (result) {
                         self.callSaveAPI(func_id);
                     }
                 });
@@ -1091,7 +1091,7 @@ var singlePage = Vue.extend({
                 return false;
             }
 
-            if(self.singleData.wait_seq === null || self.singleData.wait_seq === ""){
+            if (self.singleData.wait_seq === null || self.singleData.wait_seq === "") {
                 alert("等待為必填！");
                 return false;
             }
@@ -1116,57 +1116,57 @@ var singlePage = Vue.extend({
                 return false;
             }
 
-            if(self.singleData.alt_nam === null || self.singleData.alt_nam === ""){
+            if (self.singleData.alt_nam === null || self.singleData.alt_nam === "") {
                 alert("客戶姓名為必填！");
                 return false;
             }
 
-            if(self.singleData.title_nam === null || self.singleData.title_nam === ""){
+            if (self.singleData.title_nam === null || self.singleData.title_nam === "") {
                 alert("宴會名稱為必填！");
                 return false;
             }
 
-            if(self.singleData.atten_nam === null || self.singleData.atten_nam === ""){
+            if (self.singleData.atten_nam === null || self.singleData.atten_nam === "") {
                 alert("聯絡人為必填！");
                 return false;
             }
 
-            if(self.singleData.desk_qnt === null || self.singleData.desk_qnt === ""){
+            if (self.singleData.desk_qnt === null || self.singleData.desk_qnt === "") {
                 alert("預訂桌數為必填！");
                 return false;
             }
 
-            if(self.singleData.pmdesk_qnt === null || self.singleData.pmdesk_qnt === ""){
+            if (self.singleData.pmdesk_qnt === null || self.singleData.pmdesk_qnt === "") {
                 alert("保證桌數為必填！");
                 return false;
             }
 
-            if(self.singleData.adult_qnt === null || self.singleData.adult_qnt === ""){
+            if (self.singleData.adult_qnt === null || self.singleData.adult_qnt === "") {
                 alert("預訂人數為必填！");
                 return false;
             }
 
-            if(self.singleData.poadult_qnt === null || self.singleData.poadult_qnt === ""){
+            if (self.singleData.poadult_qnt === null || self.singleData.poadult_qnt === "") {
                 alert("保證人數為必填！");
                 return false;
             }
 
-            if(self.singleData.hpdpst_amt === null || self.singleData.hpdpst_amt === ""){
+            if (self.singleData.hpdpst_amt === null || self.singleData.hpdpst_amt === "") {
                 alert("應付訂金為必填！");
                 return false;
             }
 
-            if(self.singleData.deposit_amt === null || self.singleData.deposit_amt === ""){
+            if (self.singleData.deposit_amt === null || self.singleData.deposit_amt === "") {
                 alert("已付訂金為必填！");
                 return false;
             }
 
-            if(self.singleData.rspt_cod === null || self.singleData.rspt_cod === ""){
+            if (self.singleData.rspt_cod === null || self.singleData.rspt_cod === "") {
                 alert("廳別為必填！");
                 return false;
             }
 
-            if(self.singleData.place_amt === null || self.singleData.place_amt === ""){
+            if (self.singleData.place_amt === null || self.singleData.place_amt === "") {
                 alert("場地金額為必填！");
                 return false;
             }
@@ -1347,7 +1347,7 @@ var singlePage = Vue.extend({
                 if (result.success) {
                     alert("檢查通過！");
                     self.updateInventory(result.data, function () {
-                        
+
                     });
                 }
                 if (result.msg != "") {
@@ -1458,7 +1458,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                             align: "left",
                             hidden: field == "cust_cod" || field == "unit_amt" ? true : false
                         });
-                        if(field != "cust_cod" && field != "unit_amt"){
+                        if (field != "cust_cod" && field != "unit_amt") {
                             self.fieldNameConditionTmp.push({value: field, display: name});
                             self.fieldConditionTmp.push({value: field});
                         }
@@ -1537,7 +1537,7 @@ var RS00202010VM = new Vue({
     },
     watch: {
         searchDate: function () {
-            this.searchDate = moment(this.searchDate).format("YYYY/MM/DD");
+            // this.searchDate = moment(this.searchDate).format("YYYY/MM/DD");
         }
     },
     mounted: function () {
@@ -1547,7 +1547,7 @@ var RS00202010VM = new Vue({
     },
     updated: function () {
         if (this.isFirst == false && this.isLoading == false) {
-            $("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
+            $("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files", expandable: true});
             this.isFirst = true;
         }
     },
@@ -1560,9 +1560,7 @@ var RS00202010VM = new Vue({
             self.nowDate = self.searchDate;
             var lo_params = {use_dat: this.searchDate};
             this.isLoading = true;
-            // waitingDialog.show("Loading...");
             $.post("/reserveBanquet/qryPageOneData", lo_params, function (result) {
-                // waitingDialog.hide();
                 if (result.success) {
                     self.pageOneData = result.pageOneData;
                 }
@@ -1574,7 +1572,7 @@ var RS00202010VM = new Vue({
         },
 
         addReserve: function () {
-
+            let self = this;
             let ln_td;
             let rspt_cod;
             let place_cod;
@@ -1584,14 +1582,14 @@ var RS00202010VM = new Vue({
 
             let ln_desk_qnt;
 
-            if(arguments.length != 0){
+            if (arguments.length != 0) {
                 ln_td = arguments[0];
                 rspt_cod = arguments[1];
                 place_cod = arguments[2];
 
                 let ln_time_hour = 0;
                 let ln_time_min = 0;
-                if(ln_td != 0){
+                if (ln_td != 0) {
                     ln_time_hour = Math.floor(ln_td / 2);
                     ln_time_min = (ln_td % 2) * 30;
                 }
@@ -1603,10 +1601,10 @@ var RS00202010VM = new Vue({
                  */
                 ls_beginTimeByAdd = moment(this.pageOneData.time_range[ln_time_hour], "HH:mm");
 
-                if(ln_time_min == 0){
+                if (ln_time_min == 0) {
                     ls_endTimeByAdd = ls_beginTimeByAdd.clone().add(30, "m").format("HH:mm");
                 }
-                else{
+                else {
                     ls_beginTimeByAdd = ls_beginTimeByAdd.clone().add(30, "m");
                     ls_endTimeByAdd = ls_beginTimeByAdd.clone().add(30, "m").format("HH:mm");
                 }
@@ -1616,32 +1614,84 @@ var RS00202010VM = new Vue({
                  * 取新增餐期
                  * @type {{name: string 餐期名稱, mtime_cod: string 餐期代碼}}
                  */
-                let lo_mtimeByAdd = {
-                    name: "",
-                    mtime_cod: ""
-                };
+                let lo_mtimeData;
+                let lb_isBreak = false;
                 let la_rspt = _.where(this.pageOneData.rowData, {datatype: "RSPT", rspt_cod: rspt_cod});
-                _.each(la_rspt, function(lo_rspt){
-                    _.each(lo_rspt.banquet_dt, function(lo_mtime){
-                        if(lo_mtime.name != ""){
-                            let ls_begin_tim = moment(lo_mtime.beg_tim, "HH:mm");
-                            let ls_end_tim = moment(lo_mtime.end_tim, "HH:mm");
-                            let isBetween = moment(ls_beginTimeByAdd, "HH:mm").isBetween(ls_begin_tim, ls_end_tim, null, '[)');
-                            if(isBetween){
-                                lo_mtimeByAdd = {
-                                    name: lo_mtime.name,
-                                    mtime_cod: lo_mtime.mtime_cod
-                                };
+                console.log(la_rspt);
+                _.some(la_rspt, function (lo_rspt) {
+                    _.some(lo_rspt.banquet_dt, function (lo_mtime, index) {
+                        // 餐期
+                        if (lo_mtime.name != "") {
+                            lo_mtimeData = self.chkMtime(lo_mtime, ls_beginTimeByAdd);
+
+                            if (!_.isEmpty(lo_mtimeData)) {
+                                lb_isBreak = true;
+                                return true;
+                            }
+                        }
+                        // 空白餐期
+                        else {
+                            let ls_index = index + 1;
+                            if (ls_index >= lo_rspt.banquet_dt.length) {
+                                ls_index = 0;
+                            }
+                            lo_mtimeData = self.chkMtime(lo_rspt.banquet_dt[ls_index], ls_beginTimeByAdd);
+                            if (!_.isEmpty(lo_mtimeData)) {
+                                lb_isBreak = true;
+                                return true;
                             }
                         }
                     });
+                    if (lb_isBreak) {
+                        return true;
+                    }
                 });
 
+                console.log(lo_mtimeData);
                 // 取新增桌數
                 ln_desk_qnt = _.findWhere(this.pageOneData.rowData, {datatype: "PLACE", place_cod: place_cod}).desk_qnt;
 
             }
-            vmHub.$emit("showReserve", {bquet_nos: "", begin_tim: ls_beginTimeByAdd, end_tim: ls_endTimeByAdd, place_cod: place_cod, desk_qnt: ln_desk_qnt, rspt_cod: rspt_cod});
+
+            vmHub.$emit("showReserve", {
+                bquet_nos: "",
+                begin_tim: ls_beginTimeByAdd,
+                end_tim: ls_endTimeByAdd,
+                place_cod: place_cod,
+                desk_qnt: ln_desk_qnt,
+                rspt_cod: rspt_cod
+            });
+        },
+
+        chkMtime: function (lo_mtime, ls_beginTimeByAdd) {
+            let lo_mtimeByAdd = {};
+            let ln_begin_tim = moment.duration(lo_mtime.beg_tim).asMinutes();
+            let ln_end_tim = moment.duration(lo_mtime.end_tim).asMinutes();
+            let ln_beginTimeByAdd = moment.duration(ls_beginTimeByAdd).asMinutes();
+
+            if(ln_end_tim < ln_begin_tim){
+                ln_end_tim = ln_end_tim + moment.duration(1, "d").asMinutes();
+            }
+
+            let lb_isBetween = false;
+            let lb_isAfter = false;
+            if(ln_beginTimeByAdd >= ln_begin_tim && ln_beginTimeByAdd < ln_end_tim){
+                lb_isBetween = true;
+            }
+
+            if(ln_beginTimeByAdd <= ln_begin_tim){
+                lb_isAfter = true;
+            }
+
+            if (lb_isBetween || lb_isAfter) {
+                lo_mtimeByAdd = {
+                    name: lo_mtime.name,
+                    mtime_cod: lo_mtime.mtime_cod,
+                    beg_tim: lo_mtime.beg_tim,
+                    end_tim: lo_mtime.end_tim
+                };
+            }
+            return lo_mtimeByAdd;
         },
 
         showReserve: function (bquet_nos) {
