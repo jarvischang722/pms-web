@@ -440,7 +440,7 @@ var singlePage = Vue.extend({
 
             //滾房租日期
             lo_params = {
-                paramName: "rent_cal_dat"
+                paramName: "pg_ais_rent_cal_dat"
             };
             $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
