@@ -3,6 +3,7 @@
 }
 .gs-rese-contaoner .gs-rese-table {
   width: 100%;
+  TABLE-LAYOUT: fixed;
 }
 .gs-rese-contaoner .gs-rese-table thead tr th {
   background-color: #a5c9f2;
@@ -14,6 +15,7 @@
   border-bottom-color: #d0d0d0;
   background-clip: padding-box;
   z-index: 105 !important;
+  width: 92px;
 }
 .gs-rese-contaoner .gs-rese-table thead tr th:first-child {
   border-left-color: #d0d0d0;
@@ -23,6 +25,7 @@
 }
 .gs-rese-contaoner .gs-rese-table thead tr th.gs-frist-th {
   z-index: 110 !important;
+  width: 142px;
 }
 .gs-rese-contaoner .gs-rese-table thead tr.h23-tr td, .gs-rese-contaoner .gs-rese-table thead tr.h23-tr th {
   height: 23px !important;
@@ -276,4 +279,13 @@ tr.no-cursor-tr td {
 
 .vue-treeselect {
   display: inline-block;
+}
+
+.gs-td-content {
+  width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 }

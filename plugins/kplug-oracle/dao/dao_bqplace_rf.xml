@@ -31,4 +31,15 @@
         </statement>
         <parameter type="string" kind="3">place_cod</parameter>
     </dao>
+
+    <!-- [RS0W212010] 取得場地單價-->
+    <dao name="QRY_PLACE_UNIT_AMT">
+        <statement><![CDATA[
+            select unit_amt
+            from bqplace_rf
+            where trim(place_cod) = trim(:place_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">place_cod</parameter>
+    </dao>
 </root>
