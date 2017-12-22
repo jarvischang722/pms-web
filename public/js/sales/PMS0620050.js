@@ -103,7 +103,6 @@ Vue.component('single-grid-pms0620050-tmp', {
         fetchRowData: function (editingRow) {
             var self = this;
             editingRow = _.extend(editingRow, {prg_id: gs_prgId});
-            this.isLoadingDialog = false;
 
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 if (result.success) {
@@ -112,6 +111,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                 } else {
                     console.error(result.errorMsg);
                 }
+                self.isLoadingDialog = false;
             });
 
             editingRow.visit_dat = moment(new Date(editingRow.visit_dat)).format("YYYY/MM/DD");
@@ -250,19 +250,23 @@ Vue.component('single-grid-pms0620050-tmp', {
         toFirstData: function () {
             this.isFirstData = true;
             this.isLastData = false;
+            this.isLoadingDialog = true;
             this.rowData = _.first(vm.pageOneDataGridRows);
         },
         toPreData: function () {
+            this.isLoadingDialog = true;
             var nowRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', this.rowData);
             this.rowData = vm.pageOneDataGridRows[nowRowIndex - 1];
         },
         toNextData: function () {
+            this.isLoadingDialog = true;
             var nowRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', this.rowData);
             this.rowData = vm.pageOneDataGridRows[nowRowIndex + 1];
         },
         toLastData: function () {
             this.isFirstData = false;
             this.isLastData = true;
+            this.isLoadingDialog = true;
             this.rowData = _.last(vm.pageOneDataGridRows);
         },
         doDelGrid: function () {

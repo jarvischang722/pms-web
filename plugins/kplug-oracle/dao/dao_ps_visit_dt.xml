@@ -56,8 +56,8 @@
             ps.remark, cust.show_cod, cust.cust_nam, cust.status_cod, rf.status_desc, ps.ins_usr, ps.ins_dat, ps.upd_usr, ps.upd_dat
             from ps_visit_dt ps, cust_mn cust, contract_status_rf rf
             where ps.athena_id = cust.athena_id and ps.cust_cod = cust.cust_cod
-            and cust.athena_id = rf.athena_id
-            and cust.contract_sta = rf.status_cod
+            and cust.athena_id = rf.athena_id(+)
+            and cust.contract_sta = rf.status_cod(+)
             and ps.athena_id =:athena_id and trim(ps.cust_cod) =trim(:cust_cod) and ps.visit_typ = :visit_typ and ps.visit_dat = to_date(:visit_dat, 'YYYY/MM/DD')
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>

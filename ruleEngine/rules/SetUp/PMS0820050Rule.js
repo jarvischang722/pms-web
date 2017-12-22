@@ -101,7 +101,10 @@ module.exports = {
                 lo_endDat = "";
             }
 
-            // 判斷修改時，小於滾房租日不能修改
+            /**
+             * r_HfduserfBegindatAttr
+             */
+            // 判斷修改時，小於滾房租日不能修改(1.開始日期大於等於滾房租日期可修改、2.結束日期大於等於滾房租日期可修改)
             if (postData.rowData.createRow != "Y" && postData.oldValue == "") {
                 if (lo_endDat != "") {
                     // 2) 判斷結束日與滾房租日，不能修改
@@ -126,14 +129,17 @@ module.exports = {
                 }
             }
 
-            // 2) 判斷結束日與滾房租日
+            /**
+             * chk_hfd_use_dt_begin_end_dat
+             */
+            // 2) 判斷結束日與滾房租日(結束日大於等於滾房租日)
             if (lo_endDat != "") {
                 if (lo_endDat.diff(moment(rent_cal_dat), "days") < 0) {
                     ls_errMsg = commandRules.getMsgByCod("pms82msg18", session.locale);
                     return cb(true, ls_errMsg);
                 }
             }
-            // 3) 判斷開始日與滾房租日
+            // 3) 判斷開始日與滾房租日(開始日大於等於滾房租日)
             if (lo_beginDat != "") {
                 if (lo_beginDat.diff(moment(rent_cal_dat), "days") < 0) {
                     ls_errMsg = commandRules.getMsgByCod("pms82msg17", session.locale);
@@ -142,13 +148,13 @@ module.exports = {
             }
 
             if (lo_beginDat != "" && lo_endDat != "") {
-                // 1) 判斷開始日語結束日
+                // 1) 判斷開始日語結束日(結束日期不可以早於開始日期)
                 if (lo_endDat.diff(lo_beginDat) < 0) {
                     ls_errMsg = commandRules.getMsgByCod("pms81msg2", session.locale);
                     return cb(true, ls_errMsg);
                 }
 
-                // 4) 判斷區間是否重疊
+                // 4) 判斷區間是否重疊(每筆明細日期不能重疊)
                 let lb_chkOverLap;
                 let li_curIdx;
                 if (!_.isUndefined(postData.editRowData.key_nos)) {
@@ -197,18 +203,24 @@ module.exports = {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        async.waterfall([
-            chkSysDefault,
-            chkItemIsUse
-        ], function (err, chkResult) {
-            if (err) {
-                lo_result.success = false;
-                lo_error = new ErrorClass();
-                lo_error.errorMsg = chkResult;
-                lo_error.errorCod = "1111";
-            }
+        //刪除dt資料就不做規則驗證
+        if (postData.isDtData) {
             callback(lo_error, lo_result);
-        });
+        }
+        else {
+            async.waterfall([
+                chkSysDefault,
+                chkItemIsUse
+            ], function (err, chkResult) {
+                if (err) {
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = chkResult;
+                    lo_error.errorCod = "1111";
+                }
+                callback(lo_error, lo_result);
+            });
+        }
 
         function chkSysDefault(cb) {
             if (postData.singleRowData.sys_default == "Y") {

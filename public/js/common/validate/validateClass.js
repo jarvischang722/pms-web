@@ -14,7 +14,7 @@ function validateClass() {
     this.required = function () {
         var ls_value = arguments[0];
         var ls_ui_display_name = arguments[1];
-        var lb_result = !_.isUndefined(ls_value)  && ls_value !== "";
+        var lb_result = !_.isUndefined(ls_value) && ls_value !== "";
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.Required, ls_ui_display_name) : sprintf(this.ls_msg.Required, "");
 
         return {success: lb_result, msg: ls_msg};
@@ -144,13 +144,28 @@ function validateClass() {
         return {success: lb_result, msg: ls_msg};
     };
 
+    //時間格式HHMM or HH:MM
+    this.ChkHHMM = function () {
+        var ls_value = arguments[0];
+        var ls_ui_display_name = arguments[1];
+        var reg = /([0-1][0-9]|2[0-3]):?[0-5][0-9]/;
+        var lb_result = reg.test(ls_value);
+
+        if(ls_value.length > 4 && ls_value.indexOf(":") == -1){
+            lb_result = false;
+        }
+
+        var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.ChkHHMM, ls_ui_display_name) : sprintf(this.ls_msg.ChkHHMM, "");
+        return {success: lb_result, msg: ls_msg};
+    };
+
     // 判斷是否為整數
-    this.chkInteger = function(ls_value){
+    this.chkInteger = function (ls_value) {
         var lb_result;
         if (ls_value.toString().indexOf(".") > -1) {
             lb_result = false;
         }
-        else{
+        else {
             lb_result = true;
         }
         return lb_result;
@@ -165,7 +180,7 @@ function validateClass() {
         if (this.chkInteger(ls_value)) {
             lb_result = Number(ls_value) >= 0 && Number(ls_value) <= 100;
         }
-        else{
+        else {
             lb_result = false;
         }
 
@@ -181,7 +196,7 @@ function validateClass() {
         if (this.chkInteger(ls_value)) {
             lb_result = Number(ls_value) >= 0 && Number(ls_value) <= 99999;
         }
-        else{
+        else {
             lb_result = false;
         }
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.ChkZeroToMaxNum, ls_ui_display_name) : sprintf(this.ls_msg.ChkZeroToMaxNum, "");

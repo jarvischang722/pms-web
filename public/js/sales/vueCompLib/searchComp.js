@@ -15,7 +15,7 @@ var ga_selectGridDialogComp = Vue.extend({
             isFistData: false,
             isLastData: false,
             dtEditIndex: undefined,
-            fieldData:{}
+            fieldData: {}
         };
     },
     created: function () {
@@ -61,7 +61,7 @@ var ga_selectGridDialogComp = Vue.extend({
             var width = document.documentElement.clientWidth / 2 - 25;    //browser 寬度 - 200功能列
             $('#chooseGrid').datagrid({
                 columns: [columnsData],
-                singleSelect: (self.fieldData.ui_type == 'popupgrid')? true : false ,
+                singleSelect: self.fieldData.ui_type == 'popupgrid' ? true : false,
                 data: textDataGridArray,
                 height: height,
                 width: width
@@ -75,7 +75,7 @@ var ga_selectGridDialogComp = Vue.extend({
             var chooseData = self.updateFieldNameTmp;
             var updateFieldName = self.updateFieldNameTmp;
 
-            if(this.fieldData.ui_type == 'popupgrid'){
+            if (this.fieldData.ui_type == 'popupgrid') {
                 selectTable = $('#chooseGrid').datagrid('getSelected');
 
                 if (selectTable != null) {
@@ -93,7 +93,7 @@ var ga_selectGridDialogComp = Vue.extend({
                     });
                 }
             }
-            else{
+            else {
                 selectTable = $('#chooseGrid').datagrid('getSelections');
 
                 _.each(updateFieldName, function (updateValue, updateField) {
@@ -202,19 +202,6 @@ var go_searchComp = Vue.extend({
 
             this.$parent.searchCond = lo_searchCond;
             this.fetchData();
-        },
-        doClear: function(){
-            var self = this;
-            var lo_searchCond =  JSON.parse(JSON.stringify(this.searchCond));
-
-            _.each(lo_searchCond, function(val, key){
-                if(typeof val === "string"){
-                    self.searchCond[key] = "";
-                }
-                else if (Array.isArray(val)){
-                    self.searchCond[key] = [];
-                }
-            });
         },
         chkClickPopUpGrid: function (field) {
             var self = this;

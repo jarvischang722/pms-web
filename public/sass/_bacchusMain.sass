@@ -686,7 +686,7 @@ a
     .input-spc-1
       +input-s1
       height: $defHt
-  .tab-block
+  .grid-item
     +bsCompany-content
     .checkbox-width
       width: auto
@@ -963,9 +963,11 @@ ul.newVisitOther-btn
 // reservationRoomType.ejs 訂房卡table資料
 // margin-left: 25px 看html-->min-width
 .resvCard-data
-  margin-left: 25px
+  margin: 5px auto auto 10px
+  .divideLine
+    padding: 2px 5px 0 5px
   span
-    padding-right: 20px
+    padding-right: 5px
 
 // 訂房卡 changeLog
 .resv-changeRecord
@@ -2251,4 +2253,4 @@ td
     box-shadow: none !important
 
 /*---- 達美樂介面 ----*/
-@import partials/_dominosStyle
+@import partials/_dominosStyle.sass

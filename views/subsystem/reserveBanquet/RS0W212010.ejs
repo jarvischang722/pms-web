@@ -20,7 +20,7 @@
                             role="button" @click="doSearch">查詢
                     </button>
                     <button class="btn btn-primary btn-white gs-add-order"
-                            role="button" @click="addReserve">新增訂席
+                            role="button" @click="addReserve()">新增訂席
                     </button>
                     <button id="today-btn" class="btn btn-primary btn-white today-btn"
                             role="button" @click="initToday">今日
@@ -53,12 +53,12 @@
                             <!-- 地區 rowspan -->
                             <td class="no-cursor middle td-first lightPurpleTag" :rowspan="la_rowData.rowspan"
                                 v-else-if="la_rowData.rowspan > 0">
-                                {{la_rowData.name}}
+                                {{la_rowData.name}}({{la_rowData.desk_qnt}})
                             </td>
 
                             <!-- 地區 -->
                             <td class="no-cursor middle td-first lightPurpleTag" v-else>
-                                {{la_rowData.name}}
+                                {{la_rowData.name}}({{la_rowData.desk_qnt}})
                             </td>
 
                             <template v-for="lo_banquetDt in la_rowData.banquet_dt">
@@ -98,7 +98,7 @@
 
                                 <!-- 補空白 -->
                                 <td v-else-if="lo_banquetDt.datatype == ''" v-for="repeat in lo_banquetDt.repeat"
-                                    @click="addReserve"></td>
+                                    @click="addReserve(repeat-1, la_rowData.rspt_cod, la_rowData.place_cod)"></td>
                             </template>
                         </tr>
 

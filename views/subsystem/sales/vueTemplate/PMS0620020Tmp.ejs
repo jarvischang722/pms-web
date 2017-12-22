@@ -122,13 +122,13 @@
                                                     <ul>
                                                         <li>
                                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                    role="button"
+                                                                    role="button" :disabled="BTN_action"
                                                                     @click="appendDtRow"><%= __("SystemCommon")["Add"] %>
                                                             </button>
                                                         </li>
                                                         <li>
                                                             <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                    role="button"
+                                                                    role="button" :disabled="BTN_action"
                                                                     @click="removeDtRow"><%= __("SystemCommon")["Delete"] %>
                                                             </button>
                                                         </li>
