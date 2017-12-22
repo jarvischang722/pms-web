@@ -62,71 +62,11 @@ DTGridClass.prototype.onClickCell = function (index, field) {
 //page.2 單筆跳窗
 var singlePage = Vue.extend({
     template: "#RS0W212010Tmp",
-    data: function () {
-        return {
-            userInfo: {},               //登入的使用者資料
-
-            //系統參數
-            mask_hfd: "",               //前檯金額格式
-            round_hfd: "",              //前檯進位小數位數
-            rent_cal_dat: "",           //滾房租日期
-            required_bride_nam: "",     //新郎、新娘是否為必Key
-            default_use_typ_common: "", //使用類別預設值
-            default_bquet_order_sta: "",//訂席狀態預設值
-            default_meal_typ: "",       //餐別預設值
-            default_expire_dat: "",     //保留期限天數預設值
-            default_adult_qnt: "",      //預定人數預設值
-            default_poadult_qnt: "",    //保證人數預設值
-            default_proc_sta: "",       //預約處理預設值
-
-            tmpCud: {               //新刪修暫存
-                createData: [],
-                updateData: [],
-                deleteData: [],
-                oriData: [],
-                dt_createData: [],
-                dt_updateData: [],
-                dt_deleteData: [],
-                dt_oriData: []
-            },
-
-            oriSingleData: {},
-            singleData: {},
-            singleField: {},
-            singleDataEmpty: {},
-
-            selectOption: {},
-
-            selectPopUpGridData: [],
-            popupFieldName: "",         //哪一個field觸發popup
-
-            createStatus: false,        //新增狀態
-
-            isModificable: true,       //決定是否可以修改資料
-            readonly: false,
-
-
-            cancelEnable: true,
-            reserveEnable: true,
-            waitEnable: true,
-            inquiryEnable: true,
-            modifyEnable: true,
-            saveEnable: true,
-
-            isShowReserve: true,
-
-            dgIns: {},
-            dtFieldData: [],
-            dataGridRows: [],
-            oriDataGridRows: [],
-
-            startTime: "",
-            endTime: ""
-        };
-    },
     created: function () {
         var self = this;
         vmHub.$on("showReserve", function (PostData) {
+            RS00202010VM.isLoading = true;
+
             self.singleData = {};
             self.oriSingleData = {};
             self.dataGridRows = [];
@@ -160,7 +100,6 @@ var singlePage = Vue.extend({
         vmHub.$on('updateBackSelectData', function (chooseData) {
 
             if (self.popupFieldName == "alt_nam") {
-
                 $.post("/reserveBanquet/qry_bqcust_mn", {cust_cod: chooseData["cust_cod"]}, function (result) {
 
                     //帶回前先將舊值清掉
@@ -181,6 +120,10 @@ var singlePage = Vue.extend({
 
                     if (self.singleData.title_nam.toString().trim() == "") {
                         self.singleData.title_nam = self.singleData.alt_nam;
+                    }
+
+                    if (self.singleData.atten_nam.toString().trim() == "") {
+                        self.singleData.atten_nam = self.singleData.alt_nam;
                     }
                 });
             }
@@ -217,11 +160,6 @@ var singlePage = Vue.extend({
                     $('#RS0W212010_dt').datagrid('selectRow', self.dataGridRows.length - 1)
                         .datagrid('beginEdit', self.dataGridRows.length - 1);
                     go_currentIndex = self.dataGridRows.length - 1;
-
-                    // $('#RS0W212010_dt').datagrid('appendRow', chooseData);
-                    // self.dgIns.editIndex = $('#RS0W212010_dt').datagrid('getRows').length - 1;
-                    // $('#RS0W212010_dt').datagrid('selectRow', self.dgIns.editIndex)
-                    //     .datagrid('beginEdit', self.dgIns.editIndex);
                 }
             }
             else {
@@ -275,6 +213,15 @@ var singlePage = Vue.extend({
                 if (!_.isUndefined(this.mask_hfd)) {
                     this.singleData.place_amt = go_formatDisplayClass.amtFormat(tot_amt, this.mask_hfd);
                 }
+
+                try{
+                    this.singleData.desk_qnt = this.dataGridRows[0].desk_qnt;
+                    this.singleData.pmdesk_qnt = this.dataGridRows[0].desk_qnt;
+                }
+                catch (ex){
+
+                }
+
             },
             deep: true
         },
@@ -350,6 +297,66 @@ var singlePage = Vue.extend({
             }
         }
         //endregion
+    },
+    data: function () {
+        return {
+            userInfo: {},               //登入的使用者資料
+
+            //系統參數
+            mask_hfd: "",               //前檯金額格式
+            round_hfd: "",              //前檯進位小數位數
+            rent_cal_dat: "",           //滾房租日期
+            required_bride_nam: "",     //新郎、新娘是否為必Key
+            default_use_typ_common: "", //使用類別預設值
+            default_bquet_order_sta: "",//訂席狀態預設值
+            default_meal_typ: "",       //餐別預設值
+            default_expire_dat: "",     //保留期限天數預設值
+            default_adult_qnt: "",      //預定人數預設值
+            default_proc_sta: "",       //預約處理預設值
+
+            tmpCud: {               //新刪修暫存
+                createData: [],
+                updateData: [],
+                deleteData: [],
+                oriData: [],
+                dt_createData: [],
+                dt_updateData: [],
+                dt_deleteData: [],
+                dt_oriData: []
+            },
+
+            oriSingleData: {},
+            singleData: {},
+            singleField: {},
+            singleDataEmpty: {},
+
+            selectOption: {},
+
+            selectPopUpGridData: [],
+            popupFieldName: "",         //哪一個field觸發popup
+
+            createStatus: false,        //新增狀態
+
+            isModificable: true,       //決定是否可以修改資料
+            readonly: false,
+
+            cancelEnable: true,
+            reserveEnable: true,
+            waitEnable: true,
+            inquiryEnable: true,
+            modifyEnable: true,
+            saveEnable: true,
+
+            isShowReserve: true,
+
+            dgIns: {},
+            dtFieldData: [],
+            dataGridRows: [],
+            oriDataGridRows: [],
+
+            startTime: "",
+            endTime: ""
+        };
     },
     methods: {
 
@@ -522,27 +529,14 @@ var singlePage = Vue.extend({
                 }
             });
 
-            //保證人數
-            lo_params = {
-                paramName: "default_poadult_qnt"
-            };
-            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
-                if (!_.isUndefined(result.data)) {
-                    self.default_poadult_qnt = result.data.default_poadult_qnt;
-                } else {
-                    alert(result.error.errorMsg);
-                }
-            });
-
             //預約處理
-            $.post("/reserveBanquet/def_proc_sta", lo_params, function (result) {
+            $.post("/reserveBanquet/def_proc_sta", {}, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.default_proc_sta = result.data.proc_sta;
                 } else {
                     alert(result.error.errorMsg);
                 }
             });
-
         },
 
         /**
@@ -671,6 +665,23 @@ var singlePage = Vue.extend({
                     });
 
                     self.singleData = result.data;
+
+                    //已付訂金預設值
+                    $.post("/reserveBanquet/def_banlance_amt", {bquet_nos: self.singleData.bquet_nos}, function (result) {
+                        if (!_.isUndefined(result.data)) {
+                            self.singleData.deposit_amt = result.data.banlance_amt || 0;
+
+                            self.singleData.deposit_amt = go_formatDisplayClass.amtFormat(self.singleData.deposit_amt || "0", self.mask_hfd);
+                        } else {
+                            alert(result.error.errorMsg);
+                        }
+                    });
+
+                    //rmk格式轉換
+                    if(!_.isUndefined(self.singleData.bquet_rmk) && self.singleData.bquet_rmk != null && self.singleData.bquet_rmk != ""){
+                        self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/<br>/g, "\n");
+                    }
+
                     self.oriSingleData = _.clone(self.singleData);
                     self.tmpCud.oriData = [self.oriSingleData];
                 }
@@ -713,10 +724,11 @@ var singlePage = Vue.extend({
                 self.dgIns.tmpCUD.oriData = self.oriDataGridRows;
 
                 //新增模式時，如有預設值，直接將預設值帶入明細
-                if(self.createStatus && postData.begin_tim != ""){
+                if (self.createStatus && postData.begin_tim != "") {
                     var defaultData = {};
                     $.post("/reserveBanquet/getPlaceUnitAmt", {place_cod: postData.place_cod}, function (result) {
                         if (!_.isUndefined(result.data)) {
+
                             defaultData["bquet_nos"] = "";
                             defaultData["seq_nos"] = "";
                             defaultData["rspt_cod"] = postData.rspt_cod;
@@ -724,8 +736,8 @@ var singlePage = Vue.extend({
                             defaultData["begin_tim"] = postData.begin_tim;
                             defaultData["end_tim"] = postData.end_tim;
                             defaultData["desk_qnt"] = postData.desk_qnt;
-                            defaultData["is_allplace"] = 'N';
-                            defaultData["inv_qnt"] = "0";
+                            defaultData["is_allplace"] = 'Y';
+                            defaultData["inv_qnt"] = postData.desk_qnt;
                             defaultData["createRow"] = "Y";
                             defaultData["unit_amt"] = result.data.unit_amt;
 
@@ -733,12 +745,12 @@ var singlePage = Vue.extend({
                             defaultData["begin_tim"] = defaultData["begin_tim"].toString().replace(":", "");
                             defaultData["end_tim"] = defaultData["end_tim"].toString().replace(":", "");
 
-                            var begin_hour = Number(defaultData["begin_tim"].toString().substr(0,2));
-                            var begin_min = Number(defaultData["begin_tim"].toString().substr(2,2));
-                            var end_hour = Number(defaultData["end_tim"].toString().substr(0,2));
-                            var end_min = Number(defaultData["end_tim"].toString().substr(2,2));
+                            var begin_hour = Number(defaultData["begin_tim"].toString().substr(0, 2));
+                            var begin_min = Number(defaultData["begin_tim"].toString().substr(2, 2));
+                            var end_hour = Number(defaultData["end_tim"].toString().substr(0, 2));
+                            var end_min = Number(defaultData["end_tim"].toString().substr(2, 2));
 
-                            if(end_hour < begin_hour){
+                            if (end_hour < begin_hour) {
                                 end_hour += 24;
                             }
 
@@ -748,13 +760,12 @@ var singlePage = Vue.extend({
                             var total_min = (div_hour * 60) + div_min;
 
                             defaultData["order_qnt"] = go_MathTool.formatFloat(total_min / 60, 1);
-
                             defaultData["place_amt"] = go_MathTool.formatFloat(defaultData["unit_amt"] * defaultData["order_qnt"], self.round_hfd);
                             defaultData["special_amt"] = defaultData["place_amt"];
 
                             var disc_amt = go_MathTool.formatFloat((defaultData["place_amt"] - defaultData["special_amt"]), self.round_hfd);
 
-                            if(disc_amt < 0){
+                            if (disc_amt < 0) {
                                 disc_amt = 0;
                             }
 
@@ -772,7 +783,7 @@ var singlePage = Vue.extend({
                     self.dgIns.loadDgData(self.dataGridRows);
                     self.dgIns.tmpCUD.oriData = self.oriDataGridRows;
                 }
-
+                RS00202010VM.isLoading = false;
             });
         },
 
@@ -799,13 +810,6 @@ var singlePage = Vue.extend({
             this.singleData.end_tim = "23:59";
             this.singleData.begin_dat = RS00202010VM.searchDate;
 
-            //帶地圖的預設值過來
-            if(postData.begin_tim != null){
-                this.singleData.rspt_cod = postData.rspt_cod;
-                this.singleData.begin_tim = postData.begin_tim;
-                this.singleData.end_tim = postData.end_tim;
-            }
-
             //保留日計算
             this.singleData.expire_dat = (moment(this.rent_cal_dat).add(this.default_expire_dat, 'day')).format("YYYY/MM/DD");
 
@@ -820,7 +824,7 @@ var singlePage = Vue.extend({
             this.singleData.pmdesk_qnt = "0";
 
             this.singleData.adult_qnt = this.default_adult_qnt;
-            this.singleData.poadult_qnt = this.default_poadult_qnt;
+            this.singleData.poadult_qnt = this.default_adult_qnt;
 
             this.singleData.hpdpst_amt = "0";
             this.singleData.deposit_amt = "0";
@@ -831,6 +835,16 @@ var singlePage = Vue.extend({
             this.singleData.proc_sta = this.default_proc_sta;
 
             this.singleData.place_amt = "0";
+
+            //帶地圖的預設值過來
+            if(postData.begin_tim != null){
+                this.singleData.rspt_cod = postData.rspt_cod;
+                this.singleData.begin_tim = postData.begin_tim;
+                this.singleData.end_tim = postData.end_tim;
+                this.singleData.desk_qnt = postData.desk_qnt;
+                this.singleData.pmdesk_qnt = postData.desk_qnt;
+            }
+
         },
 
         /**
@@ -838,6 +852,7 @@ var singlePage = Vue.extend({
          */
         showReserve: function () {
             var self = this;
+            self.isLoading = true;
             var dialog = $("#gs-order-page").removeClass('hide').dialog({
                 modal: true,
                 title: "查詢訂席",
@@ -968,6 +983,11 @@ var singlePage = Vue.extend({
 
             self.singleData.ins_tim = moment(new Date()).format('HH:mm');
             self.singleData.upd_tim = moment(new Date()).format('HH:mm');
+
+            //rmk轉換格式
+            if(!_.isUndefined(self.singleData.bquet_rmk) && self.singleData.bquet_rmk != null && self.singleData.bquet_rmk != ""){
+                self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/\n/g, "<br>");
+            }
 
             var tempSingleData = _.clone(self.singleData);
 
@@ -1538,6 +1558,7 @@ var RS00202010VM = new Vue({
     watch: {
         searchDate: function () {
             this.searchDate = moment(this.searchDate).format("YYYY/MM/DD");
+            this.doSearch();
         }
     },
     mounted: function () {
@@ -1547,7 +1568,8 @@ var RS00202010VM = new Vue({
     },
     updated: function () {
         if (this.isFirst == false && this.isLoading == false) {
-            $("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
+            $("table.treeControl").agikiTreeTable({persist: false, persistStoreName: "files",initialState: "expanded"});
+            $("#gs-fixTable").tableHeadFixer({"left": 1});
             this.isFirst = true;
         }
     },
@@ -1560,7 +1582,6 @@ var RS00202010VM = new Vue({
             self.nowDate = self.searchDate;
             var lo_params = {use_dat: this.searchDate};
             this.isLoading = true;
-            // waitingDialog.show("Loading...");
             $.post("/reserveBanquet/qryPageOneData", lo_params, function (result) {
                 // waitingDialog.hide();
                 if (result.success) {
@@ -1574,7 +1595,7 @@ var RS00202010VM = new Vue({
         },
 
         addReserve: function () {
-
+            let self = this;
             let ln_td;
             let rspt_cod;
             let place_cod;
@@ -1584,14 +1605,14 @@ var RS00202010VM = new Vue({
 
             let ln_desk_qnt;
 
-            if(arguments.length != 0){
+            if (arguments.length != 0) {
                 ln_td = arguments[0];
                 rspt_cod = arguments[1];
                 place_cod = arguments[2];
 
                 let ln_time_hour = 0;
                 let ln_time_min = 0;
-                if(ln_td != 0){
+                if (ln_td != 0) {
                     ln_time_hour = Math.floor(ln_td / 2);
                     ln_time_min = (ln_td % 2) * 30;
                 }
@@ -1603,10 +1624,10 @@ var RS00202010VM = new Vue({
                  */
                 ls_beginTimeByAdd = moment(this.pageOneData.time_range[ln_time_hour], "HH:mm");
 
-                if(ln_time_min == 0){
+                if (ln_time_min == 0) {
                     ls_endTimeByAdd = ls_beginTimeByAdd.clone().add(30, "m").format("HH:mm");
                 }
-                else{
+                else {
                     ls_beginTimeByAdd = ls_beginTimeByAdd.clone().add(30, "m");
                     ls_endTimeByAdd = ls_beginTimeByAdd.clone().add(30, "m").format("HH:mm");
                 }
@@ -1616,32 +1637,89 @@ var RS00202010VM = new Vue({
                  * 取新增餐期
                  * @type {{name: string 餐期名稱, mtime_cod: string 餐期代碼}}
                  */
-                let lo_mtimeByAdd = {
-                    name: "",
-                    mtime_cod: ""
-                };
+                var lo_mtimeData;
+                let lb_isBreak = false;
                 let la_rspt = _.where(this.pageOneData.rowData, {datatype: "RSPT", rspt_cod: rspt_cod});
-                _.each(la_rspt, function(lo_rspt){
-                    _.each(lo_rspt.banquet_dt, function(lo_mtime){
-                        if(lo_mtime.name != ""){
-                            let ls_begin_tim = moment(lo_mtime.beg_tim, "HH:mm");
-                            let ls_end_tim = moment(lo_mtime.end_tim, "HH:mm");
-                            let isBetween = moment(ls_beginTimeByAdd, "HH:mm").isBetween(ls_begin_tim, ls_end_tim, null, '[)');
-                            if(isBetween){
-                                lo_mtimeByAdd = {
-                                    name: lo_mtime.name,
-                                    mtime_cod: lo_mtime.mtime_cod
-                                };
+                _.some(la_rspt, function (lo_rspt) {
+                    _.some(lo_rspt.banquet_dt, function (lo_mtime, index) {
+                        // 餐期
+                        if (lo_mtime.name != "") {
+                            lo_mtimeData = self.chkMtime(lo_mtime, ls_beginTimeByAdd);
+
+                            if (!_.isEmpty(lo_mtimeData)) {
+                                lb_isBreak = true;
+                                return true;
+                            }
+                        }
+                        // 空白餐期
+                        else {
+                            let ls_index = index + 1;
+                            if (ls_index >= lo_rspt.banquet_dt.length) {
+                                ls_index = 0;
+                            }
+                            lo_mtimeData = self.chkMtime(lo_rspt.banquet_dt[ls_index], ls_beginTimeByAdd);
+                            if (!_.isEmpty(lo_mtimeData)) {
+                                lb_isBreak = true;
+                                return true;
                             }
                         }
                     });
+                    if (lb_isBreak) {
+                        return true;
+                    }
                 });
 
                 // 取新增桌數
                 ln_desk_qnt = _.findWhere(this.pageOneData.rowData, {datatype: "PLACE", place_cod: place_cod}).desk_qnt;
 
             }
-            vmHub.$emit("showReserve", {bquet_nos: "", begin_tim: ls_beginTimeByAdd, end_tim: ls_endTimeByAdd, place_cod: place_cod, desk_qnt: ln_desk_qnt, rspt_cod: rspt_cod});
+
+            var beg_tim = "";
+            var end_tim = "";
+            if(!_.isUndefined(lo_mtimeData)){
+                beg_tim = lo_mtimeData.beg_tim;
+                end_tim = lo_mtimeData.end_tim;
+            }
+
+            vmHub.$emit("showReserve", {
+                bquet_nos: "",
+                begin_tim: beg_tim,
+                end_tim: end_tim,
+                place_cod: place_cod,
+                desk_qnt: ln_desk_qnt,
+                rspt_cod: rspt_cod
+            });
+        },
+
+        chkMtime: function (lo_mtime, ls_beginTimeByAdd) {
+            let lo_mtimeByAdd = {};
+            let ln_begin_tim = moment.duration(lo_mtime.beg_tim).asMinutes();
+            let ln_end_tim = moment.duration(lo_mtime.end_tim).asMinutes();
+            let ln_beginTimeByAdd = moment.duration(ls_beginTimeByAdd).asMinutes();
+
+            if(ln_end_tim < ln_begin_tim){
+                ln_end_tim = ln_end_tim + moment.duration(1, "d").asMinutes();
+            }
+
+            let lb_isBetween = false;
+            let lb_isAfter = false;
+            if(ln_beginTimeByAdd >= ln_begin_tim && ln_beginTimeByAdd < ln_end_tim){
+                lb_isBetween = true;
+            }
+
+            if(ln_beginTimeByAdd <= ln_begin_tim){
+                lb_isAfter = true;
+            }
+
+            if (lb_isBetween || lb_isAfter) {
+                lo_mtimeByAdd = {
+                    name: lo_mtime.name,
+                    mtime_cod: lo_mtime.mtime_cod,
+                    beg_tim: lo_mtime.beg_tim,
+                    end_tim: lo_mtime.end_tim
+                };
+            }
+            return lo_mtimeByAdd;
         },
 
         showReserve: function (bquet_nos) {
@@ -1650,6 +1728,7 @@ var RS00202010VM = new Vue({
 
         initToday: function () {
             this.searchDate = new Date();
+            this.doSearch();
         }
     }
 });
@@ -1689,7 +1768,7 @@ function isObjectValueEqual(a, b) {
         // objects are not equivalent
         if (a[propName] !== b[propName]) {
             if (a[propName] == null || a[propName] == "" || a[propName].toString().trim() == "") {
-                if (b[propName] == null || _.isUndefined(b[propName]) || b[propName] == "" || b[propName].toString().trim()) {
+                if (b[propName] == null || _.isUndefined(b[propName]) || b[propName] == "" || b[propName].toString().trim() == "") {
                     continue;
                 }
             }

@@ -10,20 +10,18 @@
                                 v-model="searchDate"
                                 placeholder="選擇日期"
                                 :editable="false"
-                                format="yyyy/MM/dd">
+                                format="yyyy/MM/dd"
+                                >
                         </el-date-picker>
 
                     </div>
                 </div>
                 <div class="col-md-9 col-xs-12 gs-option-btnGroup">
-                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                            role="button" @click="doSearch">查詢
-                    </button>
                     <button class="btn btn-primary btn-white gs-add-order"
                             role="button" @click="addReserve()">新增訂席
                     </button>
                     <button id="today-btn" class="btn btn-primary btn-white today-btn"
-                            role="button" @click="initToday">今日
+                            role="button" @click="initToday">移至今日
                     </button>
                 </div>
             </div>

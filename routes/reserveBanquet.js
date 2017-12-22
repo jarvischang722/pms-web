@@ -22,6 +22,8 @@ module.exports = function(app, passport){
 
     app.post("/reserveBanquet/def_proc_sta", middles, resvbanquetCtrl.def_proc_sta);
 
+    app.post("/reserveBanquet/def_banlance_amt", middles, resvbanquetCtrl.def_banlance_amt);
+
     app.post("/reserveBanquet/qry_bqcust_mn", middles, resvbanquetCtrl.qry_bqcust_mn);
 
     app.post("/reserveBanquet/chgOrderStaAPI", middles, resvbanquetCtrl.chgOrderStaAPI);

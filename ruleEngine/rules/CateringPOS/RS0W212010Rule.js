@@ -39,6 +39,7 @@ module.exports = {
         var ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
         var params = postData.singleRowData.ashow_cod == "" ? userInfo : _.extend(postData.singleRowData, userInfo);
 
+        params.cust_cod = postData.singleRowData.cust_cod;
         var selectDSFunc = [];
         var result = new ReturnClass();
 
@@ -288,7 +289,7 @@ module.exports = {
                 callback(lo_error, lo_result);
             }
         });
-    },
+    }
 
 };
 
