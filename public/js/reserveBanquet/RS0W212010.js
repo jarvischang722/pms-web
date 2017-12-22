@@ -530,14 +530,13 @@ var singlePage = Vue.extend({
             });
 
             //預約處理
-            $.post("/reserveBanquet/def_proc_sta", lo_params, function (result) {
+            $.post("/reserveBanquet/def_proc_sta", {}, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.default_proc_sta = result.data.proc_sta;
                 } else {
                     alert(result.error.errorMsg);
                 }
             });
-
         },
 
         /**
@@ -666,6 +665,23 @@ var singlePage = Vue.extend({
                     });
 
                     self.singleData = result.data;
+
+                    //已付訂金預設值
+                    $.post("/reserveBanquet/def_banlance_amt", {bquet_nos: self.singleData.bquet_nos}, function (result) {
+                        if (!_.isUndefined(result.data)) {
+                            self.singleData.deposit_amt = result.data.banlance_amt || 0;
+
+                            self.singleData.deposit_amt = go_formatDisplayClass.amtFormat(self.singleData.deposit_amt || "0", self.mask_hfd);
+                        } else {
+                            alert(result.error.errorMsg);
+                        }
+                    });
+
+                    //rmk格式轉換
+                    if(!_.isUndefined(self.singleData.bquet_rmk) && self.singleData.bquet_rmk != null && self.singleData.bquet_rmk != ""){
+                        self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/<br>/g, "\n");
+                    }
+
                     self.oriSingleData = _.clone(self.singleData);
                     self.tmpCud.oriData = [self.oriSingleData];
                 }
@@ -836,7 +852,7 @@ var singlePage = Vue.extend({
          */
         showReserve: function () {
             var self = this;
-            self.isLoading
+            self.isLoading = true;
             var dialog = $("#gs-order-page").removeClass('hide').dialog({
                 modal: true,
                 title: "查詢訂席",
@@ -967,6 +983,11 @@ var singlePage = Vue.extend({
 
             self.singleData.ins_tim = moment(new Date()).format('HH:mm');
             self.singleData.upd_tim = moment(new Date()).format('HH:mm');
+
+            //rmk轉換格式
+            if(!_.isUndefined(self.singleData.bquet_rmk) && self.singleData.bquet_rmk != null && self.singleData.bquet_rmk != ""){
+                self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/\n/g, "<br>");
+            }
 
             var tempSingleData = _.clone(self.singleData);
 
@@ -1537,6 +1558,7 @@ var RS00202010VM = new Vue({
     watch: {
         searchDate: function () {
             this.searchDate = moment(this.searchDate).format("YYYY/MM/DD");
+            this.doSearch();
         }
     },
     mounted: function () {
@@ -1652,10 +1674,17 @@ var RS00202010VM = new Vue({
 
             }
 
+            var beg_tim = "";
+            var end_tim = "";
+            if(!_.isUndefined(lo_mtimeData)){
+                beg_tim = lo_mtimeData.beg_tim;
+                end_tim = lo_mtimeData.end_tim;
+            }
+
             vmHub.$emit("showReserve", {
                 bquet_nos: "",
-                begin_tim: lo_mtimeData.beg_tim,
-                end_tim: lo_mtimeData.end_tim,
+                begin_tim: beg_tim,
+                end_tim: end_tim,
                 place_cod: place_cod,
                 desk_qnt: ln_desk_qnt,
                 rspt_cod: rspt_cod
@@ -1699,6 +1728,7 @@ var RS00202010VM = new Vue({
 
         initToday: function () {
             this.searchDate = new Date();
+            this.doSearch();
         }
     }
 });

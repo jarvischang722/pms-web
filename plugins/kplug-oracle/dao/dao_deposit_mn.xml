@@ -11,4 +11,15 @@
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <!-- [RS0W212010] 撈取已付訂金 -->
+    <dao name="QRY_BANLANCE_AMT">
+        <statement><![CDATA[
+			select banlance_amt
+			from deposit_mn d,bquet_mn b
+			where b.deposit_nos=d.deposit_nos and b.bquet_nos= :bquet_nos
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">bquet_nos</parameter>
+    </dao>
 </root>

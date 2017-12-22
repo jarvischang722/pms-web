@@ -485,6 +485,30 @@ exports.def_proc_sta = function (postData, session, callback) {
     });
 };
 
+//[RS0W212010] 取已付訂金預設值
+exports.def_banlance_amt = function (postData, session, callback) {
+    var lo_error = null;
+
+    var lo_params = {
+        bquet_nos: postData.bquet_nos
+    };
+
+    queryAgent.query("QRY_BANLANCE_AMT", lo_params, function (err, Result) {
+        if (!err) {
+            if (Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};
+
 //[RS0W212010] 取客戶資料
 exports.qry_bqcust_mn = function (postData, session, callback) {
     var lo_error = null;

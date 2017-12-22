@@ -8,6 +8,7 @@
             FROM BQPLACE_RF,
             BQPLACEMERGE_RF
             WHERE ( bqplace_rf.place_cod = bqplacemerge_rf.merge_cod (+))
+            ORDER BY bqplace_rf.view_seq
         ]]>
         </statement>
     </dao>
