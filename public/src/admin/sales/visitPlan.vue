@@ -93,14 +93,12 @@
                                         </label>
 
                                         <input type="text" v-model="singleData[field.ui_field_name]"
-                                               v-if="field.visiable == 'Y' &&   (field.ui_type == 'text' || field.ui_type == 'popupgrid')"
-                                               class="numStyle-none"
+                                               v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                                :required="field.requirable == 'Y'" min="0"
                                                :maxlength="field.ui_field_length"
-                                               :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
-                                               @click="chkClickPopUpGrid(field)">
+                                               :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')">
 
                                         <!--number 金額顯示format-->
                                         <input type="text" v-model="singleData[field.ui_field_name]"
@@ -116,7 +114,7 @@
                                                         :disabled="field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
                                                         format="yyyy/MM/dd"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name.validate)">
+                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                         </el-date-picker>
 
                                         <!-- 日期時間選擇器 -->
@@ -144,7 +142,7 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-h" role="menu" aria-labelledby="menu1">
                                                 <li role="presentation" v-for="opt in field.selectData"
-                                                    @click="chkFieldRule(field.ui_field_name,field.rule_func_name.validate)">
+                                                    @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                     <a @click.prevent="singleData[field.ui_field_name] = opt.value">
                                                         {{opt.display}}
                                                     </a>
@@ -160,7 +158,7 @@
                                                   :required="field.requirable == 'Y'"
                                                   :maxlength="field.ui_field_length"
                                                   :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
-                                                  @click="chkFieldRule(field.ui_field_name,field.rule_func_name.validate)">
+                                                  @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                         </textarea>
 
                                     </div>
@@ -270,27 +268,34 @@
                 settingGridFieldsData: [],
                 settingGridRowData: {},
                 dataGridFieldsData: [],
-                rowData: {},                //多筆的每一列資料
-                singleData: {},             //單筆的每一筆資料
-                oriSingleData: {},
+                editRowsChangeNum: 0,              //editRows變化次數
+                rowData: {},                       //多筆的每一列資料
+                singleData: {},                    //單筆的每一筆資料
+                changedSingleData: {},
                 fieldsData: [],
                 oriFieldsData: [],
                 dgVisitPlanIns: {},
-                tmpRowsData: []             //多筆與單筆所對應的資料
+                tmpRowsData: []                    //多筆與單筆所對應的資料
             };
         },
         watch: {
             editRows(val) {
-                if (!_.isEmpty(val)) {
+                this.editRowsChangeNum++;
+                //只有一開始跳出拜訪計畫時才要觸發這些事件(1.刪除editRows減少會造成tmpRowData資料有誤 2.datagrid本身排序事件會造成無限迴圈)
+                if (!_.isEmpty(val) && this.editRowsChangeNum == 1) {
                     this.isLoadingDialog = true;
                     this.initData();
+                    this.setTmpRowData();
                     this.fetchSingleGridFieldData();
                 }
             },
             rowData(val) {
                 if (!_.isEmpty(val)) {
-                    this.setSingleData(val);
-                    this.fetchRowData(val);
+                    this.changedSingleData = JSON.parse(JSON.stringify(this.singleData));
+                    if (!_.isEmpty(this.changedSingleData)) {
+                        this.setEditRowsContent(this.changedSingleData);
+                    }
+                    this.fetchRowDataContent(val);
                 }
             }
         },
@@ -299,11 +304,32 @@
                 this.settingGridFieldsData = [];
                 this.settingGridRowData = {};
                 this.dataGridFieldsData = [];
-                this.rowData = {};                  //多筆資料(一筆)
-                this.singleData = {};               //單筆資料
-                this.oriSingleData = {};
+                this.rowData = {};
+                this.singleData = {};
                 this.fieldsData = [];
                 this.oriFieldsData = [];
+            },
+            setTmpRowData() {
+                var self = this;
+                this.tmpRowsData = [];
+                _.each(this.editRows, function (lo_editRow) {
+                    var lo_editRowContent = {
+                        show_cod: lo_editRow.cust_mn_show_cod,
+                        cust_cod: lo_editRow.cust_mn_cust_cod,
+                        cust_nam: lo_editRow.cust_mn_cust_nam,
+                        status_cod: lo_editRow.cust_mn_status_cod,
+                        status_desc: lo_editRow.contract_status_rf_status_desc,
+                        visit_typ: '1',
+                        visit_sta: 'N',
+                        visit_dat: '',
+                        avisit_dat: '',
+                        traffic_amt: 0,
+                        purport_rmk: '',
+                        remark: null
+                    };
+
+                    self.tmpRowsData.push(lo_editRowContent);
+                });
             },
             fetchSingleGridFieldData() {
                 var self = this;
@@ -346,29 +372,48 @@
 
                 $.post("/api/fetchOnlyDataGridFieldData", lo_params, function (result) {
                     self.dataGridFieldsData = result.dgFieldsData;
-                    self.setSingleData(self.editRows[0]);
+                    self.rowData = self.editRows[0];
                 });
             },
-            setSingleData(editingRow) {
-                this.singleData = {
-                    show_cod: editingRow.cust_mn_show_cod,
-                    cust_cod: editingRow.cust_mn_cust_cod,
-                    cust_nam: editingRow.cust_mn_cust_nam,
-                    status_cod: editingRow.cust_mn_status_cod,
-                    status_desc: editingRow.contract_status_rf_status_desc,
-                    visit_typ: '1',
-                    visit_sta: 'N',
-                    visit_dat: '',
-                    avisit_dat: '',
-                    traffic_amt: 0,
-                    purport_rmk: '',
-                    remark: ''
-                };
-                this.rowData = editingRow;
+            fetchRowDataContent(editingRow) {
+                var existIdx = _.findIndex(this.tmpRowsData, {cust_cod: editingRow.cust_mn_cust_cod});
+                if (existIdx > -1) {
+                    this.singleData = this.tmpRowsData[existIdx];
+                }
+                else {
+                    this.singleData = {
+                        show_cod: editingRow.cust_mn_show_cod,
+                        cust_cod: editingRow.cust_mn_cust_cod,
+                        cust_nam: editingRow.cust_mn_cust_nam,
+                        status_cod: editingRow.cust_mn_status_cod,
+                        status_desc: editingRow.contract_status_rf_status_desc,
+                        visit_typ: '1',
+                        visit_sta: 'N',
+                        visit_dat: '',
+                        avisit_dat: '',
+                        traffic_amt: 0,
+                        purport_rmk: '',
+                        remark: null
+                    };
+                }
 
-                this.showDataGrid();
+                this.showDataGrid(editingRow);
             },
-            showDataGrid() {
+            setEditRowsContent(changedSingleData) {
+                changedSingleData.visit_dat =
+                    changedSingleData.visit_dat == "" || _.isUndefined(changedSingleData.visit_dat) ? "" : moment(new Date(changedSingleData.visit_dat)).format("YYYY/MM/DD");
+                changedSingleData.avisit_dat =
+                    changedSingleData.avisit_dat == "" || _.isUndefined(changedSingleData.avisit_dat) ? "" : moment(new Date(changedSingleData.avisit_dat)).format("YYYY/MM/DD");
+
+                //先將預設在tmpRowsData的先刪除，再改過的資料加回至原本的位置
+                var existIdx = _.findIndex(this.tmpRowsData, {cust_cod: changedSingleData.cust_cod});
+                if (existIdx > -1) {
+                    this.tmpRowsData.splice(existIdx, 1);
+                }
+                this.tmpRowsData.splice(existIdx, 0, changedSingleData);
+
+            },
+            showDataGrid(editingRow) {
                 var colOption = [{field: 'ck', checkbox: true}];
                 colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.dataGridFieldsData, 'visitPlan_dg'));
                 this.dgVisitPlanIns = new DatagridSingleGridClass();
@@ -376,20 +421,8 @@
                     singleSelect: false
                 });
                 this.dgVisitPlanIns.loadDgData(this.editRows);
-                this.setIndexData(this.rowData);
-            },
-            fetchRowData(editingRow){
-                var self = this;
-                _.each(this.singleData, function(val, key){
-                    editingRow[key] = val;
-                });
-                //重複的先刪除再新增
-                var existIdx = _.findIndex(this.tmpRowsData, {cust_cod: this.singleData.cust_cod});
-                if(existIdx > -1){
-                    this.tmpRowsData.splice(existIdx, 1);
-                }
 
-                this.tmpRowsData.push(editingRow);
+                this.setIndexData(editingRow);
             },
             setIndexData(val) {
                 var nowDatagridRowIndex = $("#visitPlan_dg").datagrid('getRowIndex', val);
@@ -503,31 +536,16 @@
             },
             doSetting() {
                 var self = this;
-                var la_editRows = JSON.parse(JSON.stringify($("#visitPlan_dg").datagrid('getSelections'))) ;
-                var lo_editRowSingleData = JSON.parse(JSON.stringify(self.singleData));
-                delete lo_editRowSingleData[""]
+                var la_settingRows = $('#visitPlan_dg').datagrid('getSelections');
+
                 this.settingGridRowData.visit_dat = moment(new Date(this.settingGridRowData.visit_dat)).format("YYYY/MM/DD");
 
-                _.each(this.settingGridRowData, function(val, key){
-                    lo_editRowSingleData[key] = val;
-                })
-
-                _.each(la_editRows, function(lo_editRow, idx){
-                    la_editRows[idx]["cust_nam"] = _.clone(lo_editRow["cust_mn_cust_nam"]);
-                    la_editRows[idx]["show_cod"] = _.clone(lo_editRow["cust_mn_show_cod"]);
-                    la_editRows[idx]["cust_cod"] = _.clone(lo_editRow["cust_mn_cust_cod"]);
-
-                    delete lo_editRow["cust_mn_cust_nam"];
-                    delete lo_editRow["cust_mn_show_cod"];
-                    delete lo_editRow["cust_mn_cust_cod"];
-
-                    la_editRows[idx] = _.extend(lo_editRow, lo_editRowSingleData);
+                _.each(la_settingRows, function (lo_settingRows, idx) {
+                    let existIdx = _.findIndex(self.tmpRowsData, {cust_cod: lo_settingRows.cust_mn_cust_cod});
+                    if (existIdx > -1) {
+                        self.tmpRowsData[idx] = _.extend(self.tmpRowsData[idx], self.settingGridRowData);
+                    }
                 });
-
-                console.log(la_editRows);
-//                _.each(la_editRows, function(lo_editRow, idx){
-//
-//                });
             },
             toFirstData() {
                 this.isFirstData = true;
@@ -548,11 +566,75 @@
                 this.rowData = _.last(this.editRows);
             },
             doRemoveRow() {
-                this.dgVisitPlanIns.removeRow();
+                var delRow = $('#visitPlan_dg').datagrid('getSelected');
+
+                if (!delRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectData);
+                }
+                else {
+                    var existIdx = _.findIndex(this.tmpRowsData, {cust_cod: delRow.cust_mn_cust_cod});
+                    if (existIdx > -1) {
+                        this.tmpRowsData.splice(existIdx, 1);
+                    }
+                    this.dgVisitPlanIns.removeRow();
+                }
+            },
+            dataValidate(saveData) {
+                var self = this;
+                var lo_checkResult;
+
+                for (var i = 0; i < saveData.length; i++) {
+                    var lo_saveData = saveData[i];
+
+                    for (var j = 0; j < this.oriFieldsData.length; j++) {
+                        var lo_field = this.oriFieldsData[j];
+                        //必填
+                        if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
+                            lo_checkResult = go_validateClass.required(lo_saveData[lo_field.ui_field_name], lo_field.ui_display_name);
+                            if (lo_checkResult.success == false) {
+                                break;
+                            }
+                        }
+
+                        //有format
+                        if (lo_field.format_func_name != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name])) {
+                            lo_checkResult = go_validateClass[lo_field.format_func_name](lo_saveData[lo_field.ui_field_name], lo_field.ui_display_name);
+                            if (lo_checkResult.success == false) {
+                                break;
+                            }
+                        }
+
+                    }
+                }
+
+                return lo_checkResult;
+
             },
             doSaveRow() {
-                var lo_editRow = $("#visitPlan_dg").datagrid('getSelected');
-                console.log(this.tmpRowsData);
+                var self = this;
+                this.isLoadingDialog = true;
+                this.loadingText = "Saving...";
+
+                var la_saveData = JSON.parse(JSON.stringify(this.tmpRowsData));
+                _.each(la_saveData, function (lo_saveData, index) {
+                    la_saveData[index].visit_dat =
+                        lo_saveData.visit_dat == "" || _.isUndefined(lo_saveData.visit_dat) ? "" : moment(new Date(lo_saveData.visit_dat)).format("YYYY/MM/DD");
+                    la_saveData[index].avisit_dat =
+                        lo_saveData.avisit_dat == "" || _.isUndefined(lo_saveData.avisit_dat) ? "" : moment(new Date(lo_saveData.avisit_dat)).format("YYYY/MM/DD");
+                    la_saveData[index].traffic_amt = lo_saveData.traffic_amt == 0 ? 0 : Number(go_formatDisplayClass.removeAmtFormat(lo_saveData.traffic_amt));
+                });
+
+                var lo_chkResult = this.dataValidate(la_saveData);
+
+                if (lo_chkResult.success == false) {
+                    alert(lo_chkResult.msg);
+                    this.isLoadingDialog = false;
+                }
+                else {
+                    this.tmpCUD.createData = la_saveData;
+                    console.log(this.tmpCUD.createData);
+                    this.isLoadingDialog = false;
+                }
             },
             doCloseDialog() {
                 this.initData();
