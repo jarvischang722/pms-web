@@ -88,12 +88,12 @@ exports.getSelectOptions = function (req, res) {
         return res.json([]);
     }
     console.log(`關鍵字 :  ${ls_keyword}`);
-    queryAgent.queryList("QRY_HFD_ARRIVE_RF", {athena_id: 1, hotel_cod: "02"}, 0, 10, function (err, data) {
-        data = _.filter(data, function (data) {
-            return  _.values(data).join(" ").indexOf( ls_keyword) > -1;
+    queryAgent.queryList("QRY_ALL_USER_WITH_COMP", {athena_id: 1, cmp_id: "MIRACHU"}, 0, 0, function (err, data) {
+        let filetedData = _.filter(data, function (data) {
+            return  _.values(data).join(" ").indexOf( ls_keyword.trim()) > -1;
         });
-        let select_data = _.map(data, function (item) {
-            return {value: item.arrive_cod, display: item.arrive_spot};
+        let select_data = _.map(filetedData, function (item) {
+            return {value: item.usr_id, display: item.usr_cname};
         });
         res.json(select_data);
     });

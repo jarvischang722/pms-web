@@ -14,6 +14,11 @@ var loginVM = new Vue({
         comp_id: "0",
         currentLocale: gs_locale,
         locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", ""))
+        ,person :{
+            name:'jun',
+            name2:'maggie',
+
+        }
     },
     mounted: function () {
         this.getCompaonyData();

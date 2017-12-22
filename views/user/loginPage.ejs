@@ -35,18 +35,12 @@
                     <span> <%= __("BAC01P0110")["login"] %></span>
                 </div>
                 <div class="main">
+                   {{person.name}} <bac-select :model="person.name" @update:model="val => person.name = val"></bac-select>
+
+                    <bac-select-grid></bac-select-grid>
                     <form>
                         <div class="block input-icon input-icon-right">
-                            <input class="easyui-combobox" style="width:100%;" data-options="
-                    loader: myloader,
-                    mode: 'remote',
-                    valueField: 'id',
-                    textField: 'name',
-                    label: 'State:',
-                    labelPosition: 'top',
-                    valueField: 'value',
-		            textField: 'display'
-                    ">
+
                         </div>
                         <div class="block input-icon input-icon-right">
                             <input class="form-control" v-model="username"
@@ -110,16 +104,9 @@
     </div>
 </div>
 </body>
-
+<script src="/js/vue/VueCommonComp.js"></script>
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
-    var people = [{name:'A' , id:'a'},{name:'B' , id:'b'},{name:'C' , id:'c'},];
-
-    var filteredPeople = _.filter(people, function(person) {
-        console.log(_.values(person));
-        return person.name.indexOf("im") > -1;
-    });
-
 
 
     var gs_locale = '<%= session.locale %>';
@@ -130,7 +117,6 @@
             return false
         }
         console.log(q);
-        $.post();
         $.post('/api/getSelectOptions', {q: q})
             .done(function (items) {
                 console.log(items);
@@ -144,7 +130,9 @@
 
 
     }
+
 </script>
 
 <script src="/js/system/loginPage.js"></script>
+
 </html>
