@@ -242,7 +242,7 @@
 
     export default {
         name: 'visit-plan',
-        props: ["editRows"],
+        props: ["editRows", "editRowsChangeNum"],
         created() {
             var self = this;
             vmHub.$on("selectDataGridRow", function (data) {
@@ -268,7 +268,6 @@
                 settingGridFieldsData: [],
                 settingGridRowData: {},
                 dataGridFieldsData: [],
-                editRowsChangeNum: 0,              //editRows變化次數
                 rowData: {},                       //多筆的每一列資料
                 singleData: {},                    //單筆的每一筆資料
                 changedSingleData: {},
@@ -639,6 +638,7 @@
             doCloseDialog() {
                 this.initData();
                 this.editRows = [];
+                this.editRowsChangeNum = 0;
                 $("#addVisitPlan").dialog('close');
             }
         }

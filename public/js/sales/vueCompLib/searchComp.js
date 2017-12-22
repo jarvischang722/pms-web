@@ -153,22 +153,22 @@ var go_searchComp = Vue.extend({
     methods: {
         doSearch: function () {
             var la_searchFields = JSON.parse(JSON.stringify(this.searchFields));
-            var lo_searchCond =  JSON.parse(JSON.stringify(this.searchCond));
+            var lo_searchCond = JSON.parse(JSON.stringify(this.searchCond));
 
             _.each(la_searchFields, function (lo_searchField) {
-                if(lo_searchField.ui_type == "number"){
-                    if(lo_searchField.format_func_name.rule_val != ""){
+                if (lo_searchField.ui_type == "number") {
+                    if (lo_searchField.format_func_name.rule_val != "") {
                         lo_searchCond[lo_searchField.ui_field_name] =
                             go_formatDisplayClass.removeAmtFormat(lo_searchCond[lo_searchField.ui_field_name]);
                     }
                 }
-                else if(lo_searchField.ui_type == "multitree"){
-                    if(lo_searchCond[lo_searchField.ui_field_name].length != 0){
+                else if (lo_searchField.ui_type == "multitree") {
+                    if (lo_searchCond[lo_searchField.ui_field_name].length != 0) {
                         let la_options = lo_searchField.selectData;
                         let la_fieldMultitreeVal = JSON.parse(JSON.stringify(lo_searchCond[lo_searchField.ui_field_name]));
                         lo_searchCond[lo_searchField.ui_field_name] = [];
 
-                        _.each(la_fieldMultitreeVal, function(ls_value){
+                        _.each(la_fieldMultitreeVal, function (ls_value) {
                             let lo_selectData = _.findWhere(la_options, {id: ls_value});
                             if (_.isUndefined(lo_selectData)) {
                                 searchOptions(la_options, ls_value, lo_searchCond[lo_searchField.ui_field_name]);
@@ -182,18 +182,18 @@ var go_searchComp = Vue.extend({
                         });
                     }
                 }
-                else if(lo_searchField.ui_type == "tree"){
+                else if (lo_searchField.ui_type == "tree") {
                     var ln_dataLen = lo_searchCond[lo_searchField.ui_field_name].length;
                     lo_searchCond[lo_searchField.ui_field_name] = lo_searchCond[lo_searchField.ui_field_name][ln_dataLen] - 1;
                 }
-                else if(lo_searchField.ui_type == "date"){
-                    if(lo_searchCond[lo_searchField.ui_field_name] != ""){
+                else if (lo_searchField.ui_type == "date") {
+                    if (lo_searchCond[lo_searchField.ui_field_name] != "") {
                         lo_searchCond[lo_searchField.ui_field_name] =
                             moment(new Date(lo_searchCond[lo_searchField.ui_field_name])).format("YYYY/MM/DD");
                     }
                 }
-                else if(lo_searchField.ui_type == "datetime"){
-                    if(lo_searchCond[lo_searchField.ui_field_name] != ""){
+                else if (lo_searchField.ui_type == "datetime") {
+                    if (lo_searchCond[lo_searchField.ui_field_name] != "") {
                         lo_searchCond[lo_searchField.ui_field_name] =
                             moment(new Date(lo_searchCond[lo_searchField.ui_field_name])).format("YYYY/MM/DD HH:mm:ss");
                     }
@@ -202,6 +202,19 @@ var go_searchComp = Vue.extend({
 
             this.$parent.searchCond = lo_searchCond;
             this.fetchData();
+        },
+        doClear: function () {
+            var self = this;
+            var lo_searchCond = JSON.parse(JSON.stringify(this.searchCond));
+
+            _.each(lo_searchCond, function (val, key) {
+                if (typeof val === "string") {
+                    self.searchCond[key] = "";
+                }
+                else if (Array.isArray(val)) {
+                    self.searchCond[key] = [];
+                }
+            });
         },
         chkClickPopUpGrid: function (field) {
             var self = this;
@@ -240,14 +253,14 @@ var go_searchComp = Vue.extend({
             dialog.dialog("open");
         },
         //金額顯示format
-        formatAmt: function(val, field){
+        formatAmt: function (val, field) {
             var ls_amtValue = val;
             var ls_ruleVal = field.format_func_name.rule_val;
 
-            if(ls_ruleVal != ""){
+            if (ls_ruleVal != "") {
                 this.searchCond[field.ui_field_name] = go_formatDisplayClass.amtFormat(ls_amtValue, ls_ruleVal);
             }
-            else{
+            else {
                 this.searchCond[field.ui_field_name] = ls_amtValue;
             }
         }
