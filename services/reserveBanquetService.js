@@ -103,8 +103,14 @@ class ResvBanquetData {
         let la_time_range = [];
         let ln_time_range;
 
-        this.ls_beg_hour = moment(this.ls_beg_hour, "HH");
-        this.ls_end_hour = moment(this.ls_end_hour, "HH");
+        this.ls_beg_hour += ":00";
+        this.ls_end_hour += ":00";
+        this.ls_beg_hour = moment.utc(moment.duration(this.ls_beg_hour).asMilliseconds());
+        this.ls_end_hour = moment.utc(moment.duration(this.ls_end_hour).asMilliseconds());
+
+        let a = this.ls_beg_hour.format("HH");
+        let b = this.ls_end_hour.format("HH");
+
         ln_time_range = this.ls_end_hour.diff(this.ls_beg_hour, "hour");
         for (var min = 0; min <= ln_time_range; min++) {
             la_time_range.push(this.ls_beg_hour.clone().add(min, "hour").format("HH:mm"));
@@ -138,7 +144,7 @@ class ResvBanquetData {
             // 地區
             let la_place = _.where(self.la_place, {rspt_cod: lo_rspt.rspt_cod});
             let la_parent = _.where(la_place, {is_child: "N"});
-            _.each(la_parent, function(lo_parent){
+            _.each(la_parent, function (lo_parent) {
                 // 母場地
                 lo_rowData = {
                     tr_class: "",
@@ -155,7 +161,7 @@ class ResvBanquetData {
 
                 // 子場地
                 let la_child = _.where(la_place, {parent_cod: lo_parent.place_cod, is_child: "Y"});
-                _.each(la_child, function(lo_child){
+                _.each(la_child, function (lo_child) {
                     lo_rowData = {
                         tr_class: "",
                         datatype: "PLACE",
@@ -190,8 +196,8 @@ class ResvBanquetData {
         if (datatype == "RSPT") {
             let la_mtim = _.where(this.la_mtim, {rspt_cod: parent_cod});
             _.each(la_mtim, function (lo_mtim, index) {
-                let lo_begin_tim = moment(lo_mtim.begin_tim, "HHmm");
-                let lo_end_tim = moment(lo_mtim.end_tim, "HHmm");
+                let lo_begin_tim = self.getHourAndMin(lo_mtim.begin_tim);
+                let lo_end_tim = self.getHourAndMin(lo_mtim.end_tim);
 
                 if (index == 0) {
                     if (self.ls_beg_hour.format("HH:mm") != lo_begin_tim.format("HH:mm")) {
@@ -213,7 +219,7 @@ class ResvBanquetData {
                     ln_colspan = self.calcColSpan(moment(la_banquet_dt[la_banquet_dt.length - 1].end_tim, "HH:mm"), lo_begin_tim);
                     lo_banquet_dt = {
                         name: "",
-                        beg_tim: moment(la_banquet_dt[la_banquet_dt.length - 1].end_tim, "HH:mm").format("HH:mm"),
+                        beg_tim: la_banquet_dt[la_banquet_dt.length - 1].end_tim,
                         end_tim: lo_begin_tim.format("HH:mm"),
                         colspan: ln_colspan,
                         mtime_cod: lo_mtim.mtime_cod,
@@ -267,8 +273,9 @@ class ResvBanquetData {
         else {
             let la_order = _.where(this.la_order, {place_cod: parent_cod});
             _.each(la_order, function (lo_order, index) {
-                let lo_begin_tim = moment(lo_order.begin_tim, "HHmm");
-                let lo_end_tim = moment(lo_order.end_tim, "HHmm");
+                let lo_begin_tim = self.getHourAndMin(lo_order.begin_tim);
+                let lo_end_tim = self.getHourAndMin(lo_order.end_tim);
+
                 if (index == 0) {
                     if (self.ls_beg_hour.format("HH:mm") != lo_begin_tim.format("HH:mm")) {
                         ln_colspan = self.calcColSpan(self.ls_beg_hour, lo_begin_tim);
@@ -351,11 +358,32 @@ class ResvBanquetData {
      * @param lo_end_tim    {string} 結束時間
      * @returns {number}    合併格數
      */
-    calcColSpan(lo_begin_tim, lo_end_tim) {
-        let ln_diffMin = lo_end_tim.diff(lo_begin_tim, "minutes");
-        let ln_colspan = Math.round(ln_diffMin / 30);
+    calcColSpan(begin_tim, end_tim) {
+        let lo_begin_tim = moment.duration(begin_tim.clone().format("HH:mm")).asMilliseconds();
+        let lo_end_tim = moment.duration(end_tim.clone().format("HH:mm")).asMilliseconds();
+
+        if (lo_end_tim < lo_begin_tim) {
+            lo_end_tim += moment.duration(1, 'days').asMilliseconds();
+        }
+
+        let minute = moment.duration(30, 'm').asMilliseconds();
+        let ln_diffMin = lo_end_tim - lo_begin_tim;
+        let ln_colspan = Math.round(ln_diffMin / minute);
 
         return ln_colspan;
+    }
+
+    getHourAndMin(ls_time) {
+        let hour = parseInt(ls_time.substring(0, 2));
+        let min = parseInt(ls_time.substring(2, 5));
+
+        let lo_unFormat = moment.utc(moment.duration({
+            hours: hour,
+            minutes: min
+        }).asMilliseconds());
+
+        return lo_unFormat;
+
     }
 }
 

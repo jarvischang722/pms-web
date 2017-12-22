@@ -710,7 +710,7 @@ var singlePage = Vue.extend({
                 self.dgIns.tmpCUD.oriData = self.oriDataGridRows;
 
                 //新增模式時，如有預設值，直接將預設值帶入明細
-                if(self.createStatus && postData.begin_tim != ""){
+                if (self.createStatus && postData.begin_tim != "") {
                     var defaultData = {};
                     $.post("/reserveBanquet/getPlaceUnitAmt", {place_cod: postData.place_cod}, function (result) {
                         if (!_.isUndefined(result.data)) {
@@ -731,12 +731,12 @@ var singlePage = Vue.extend({
                             defaultData["begin_tim"] = defaultData["begin_tim"].toString().replace(":", "");
                             defaultData["end_tim"] = defaultData["end_tim"].toString().replace(":", "");
 
-                            var begin_hour = Number(defaultData["begin_tim"].toString().substr(0,2));
-                            var begin_min = Number(defaultData["begin_tim"].toString().substr(2,2));
-                            var end_hour = Number(defaultData["end_tim"].toString().substr(0,2));
-                            var end_min = Number(defaultData["end_tim"].toString().substr(2,2));
+                            var begin_hour = Number(defaultData["begin_tim"].toString().substr(0, 2));
+                            var begin_min = Number(defaultData["begin_tim"].toString().substr(2, 2));
+                            var end_hour = Number(defaultData["end_tim"].toString().substr(0, 2));
+                            var end_min = Number(defaultData["end_tim"].toString().substr(2, 2));
 
-                            if(end_hour < begin_hour){
+                            if (end_hour < begin_hour) {
                                 end_hour += 24;
                             }
 
@@ -751,7 +751,7 @@ var singlePage = Vue.extend({
 
                             var disc_amt = go_MathTool.formatFloat((defaultData["place_amt"] - defaultData["special_amt"]), self.round_hfd);
 
-                            if(disc_amt < 0){
+                            if (disc_amt < 0) {
                                 disc_amt = 0;
                             }
 
