@@ -17,49 +17,49 @@
         data() {
             return {
                 treeIns: null,
-                role_id: "",
                 staffOfRole: [],
                 isLoading: false,
                 ls_permissionModel: ""
             }
         },
-
         computed: {
             permissionModel: {
                 get() {
-                    console.log("staff");
+                    this.treeIns = null;
                     this.ls_permissionModel = this.$store.state.gs_permissionModel;
-                    return this.ls_permissionModel;
+                    this.createStaffTree();
+                    return this.$store.state.gs_permissionModel;
                 }
             }
+            // ga_staffOfRole: {
+            //     get() {
+            //         this.checkedTreeNodeByStaffOfRole(this.$store.state.ga_staffOfRole);
+            //         return this.$store.state.ga_staffOfRole;
+            //     }
+            // }
         },
-        watch: {
-            permissionModel() {
-                console.log("test");
-            }
+        watch:{
+            permissionModel(){}
         },
-
         methods: {
-            // watchStaffOfRole() {
-            //     let self = this;
-            //     this.$store.watch(
-            //         (state) => {
-            //             return state.ga_staffOfRole;
-            //         },
-            //         (newValue, oldValue) => {
-            //             self.staffOfRole = newValue;
-            //             self.permissionModel = this.$store.state.gs_permissionModel;
-            //             self.updateAccountChkedTree();
-            //         }
-            //     )
-            // },
-
-            qryCompGrpList(cb) {
+            //創立一棵Tree
+            createStaffTree() {
                 let self = this;
+                this.isLoading = true;
+                async.waterfall([
+                    self.qryCompGrpList,    //取公司角色資料
+                    self.initTree           //初始化tree
+                ], function (err, result) {
+                    self.isLoading = false;
+                });
+            },
+
+            //取公司角色資料
+            qryCompGrpList(cb) {
+                console.log(this.treeIns);
                 if (this.treeIns == null) {
                     this.$store.dispatch("qryCompGrp").then((la_compGrpList4Tree) => {
-                        self.createAccountTree(la_compGrpList4Tree);
-                        cb(null, "");
+                        cb(null, la_compGrpList4Tree);
                     })
                 }
                 else {
@@ -67,11 +67,16 @@
                 }
             },
 
-            //創立一棵Tree
-            createAccountTree(la_compGrpList4Tree) {
-                let la_plugin = ["search", "state", "types", "wholerow", "checkbox"];
+            //初始化tree
+            initTree(la_compGrpList4Tree, cb) {
+                //
+                let ls_tie_selection = false;
                 if (this.permissionModel == "authByStaff") {
-                    la_plugin.splice(4, 1);
+                    ls_tie_selection = true;
+                }
+
+                if(la_compGrpList4Tree == ""){
+                    return cb(null, "");
                 }
 
                 $('#permissionAccountTree').jstree({
@@ -102,47 +107,43 @@
                         }
                     },
                     "checkbox": {
-                        "keep_selected_style": true,
-                        "whole_node": false,
-                        "tie_selection": false               // 選取時，false只會選到父節點，不會選到子結點
+                        "keep_selected_style": false,
+                        "whole_node": true,
+                        "tie_selection": ls_tie_selection   // 選取時，false只會選到父節點，不會選到子結點
                     },
-                    "plugins": la_plugin
+                    "plugins": ["search", "state", "types", "wholerow", "checkbox"]
                 });
-
-                $("#permissionAccountTree").on("select_node.jstree", function (evt, data) {
-                });
-
-                this.treeIns = $("#permissionAccountTree").jstree(true);
+                // this.treeIns = $("#permissionAccountTree").jstree(true);
+                console.log(this.treeIns);
+                cb(null, "");
             },
 
-            //更新目標角色對應的帳號標示在Tree上
-            updateAccountChkedTree() {
-                let la_staffOfRole = this.staffOfRole;
-                let self = this;
-                let la_allRoles = this.$store.state.ga_allRoles;
-                this.isLoading = true;
-                async.waterfall([
-                    function (cb) {
-                        self.qryCompGrpList(cb);
-                    },
-                    function (data, cb) {
-                        setTimeout(function () {
-                            // self.treeIns.uncheck_all();
-                            if (la_allRoles.length > 0) {
-                                self.role_id = la_allRoles[0].role_id;
-                                _.each(la_staffOfRole, function (account) {
-                                    // self.treeIns.check_node("#" + account.user_id);
-                                });
-                            }
-                            self.isLoading = false;
-                        }, 100);
-                        cb(null, "");
-                    }
-                ], function (err, result) {
-
-                })
-
-
+            //勾選此角色人員權限
+            checkedTreeNodeByStaffOfRole(la_staffOfRole) {
+                console.log(la_staffOfRole);
+                // let self = this;
+                // let la_allRoles = this.$store.state.ga_allRoles;
+                // this.isLoading = true;
+                // async.waterfall([
+                //     function (cb) {
+                //         self.qryCompGrpList(cb);
+                //     },
+                //     function (data, cb) {
+                //         setTimeout(function () {
+                //             // self.treeIns.uncheck_all();
+                //             if (la_allRoles.length > 0) {
+                //                 self.role_id = la_allRoles[0].role_id;
+                //                 _.each(la_staffOfRole, function (account) {
+                //                     // self.treeIns.check_node("#" + account.user_id);
+                //                 });
+                //             }
+                //             self.isLoading = false;
+                //         }, 100);
+                //         cb(null, "");
+                //     }
+                // ], function (err, result) {
+                //
+                // })
             },
 
             selectedNode(e, data) {

@@ -17,29 +17,24 @@
 
     export default {
         name: "auth-role-comp",
-        mounted: function () {
+        created() {
             this.qryAllRoles();
         },
         computed: {
-            allRoles: {
-                get() {
-                    return this.$store.state.ga_allRoles;
-                }
-            },
             selRole: {
                 get() {
                     return this.$store.state.gs_selRole
                 },
                 set(role_id) {
-                    if (this.$store.state.permissionModel == "authByRole") {
-                        this.$store.dispatch("changeRoleEvent", role_id).then(() => {
-                        });
+                    if (this.$store.state.gs_permissionModel == "authByRole") {
+                        this.$store.dispatch("changeRoleEvent", role_id).then(() => {});
                     }
                 }
             },
-            ...mapState([
-                "gs_permissionModel"
-            ])
+            ...mapState({
+                allRoles: "ga_allRoles",
+                gs_permissionModel: "gs_permissionModel"
+            })
         },
         methods: mapActions([
             "qryAllRoles"

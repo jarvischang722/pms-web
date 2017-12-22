@@ -13,7 +13,7 @@
     import async from 'async';
 
     export default {
-        name: "auth-func-comp.vue",
+        name: "auth-func-comp",
         data() {
             return {
                 funcsOfRole: [],
@@ -21,21 +21,16 @@
                 isLoading: false
             }
         },
-        // created() {
-        //     this.watchFuncsOfRole();
-        // },
+        mounted() {
+            this.permissionModel;
+        },
         computed: {
             permissionModel: {
                 get() {
-                    // this.createFuncTree();
-                    console.log("func");
+                    this.treeIns = null;
+                    this.createFuncTree();
                     return this.$store.state.gs_permissionModel;
                 }
-            }
-        },
-        watch: {
-            permissionModel(){
-                console.log("test1");
             }
         },
         methods: {
@@ -45,7 +40,7 @@
                 async.waterfall([
                     self.qryFuncList,
                     self.initTree
-                ], function(err, result){
+                ], function (err, result) {
                     self.isLoading = false;
                 });
             },
@@ -61,7 +56,11 @@
                 }
             },
 
-            initTree(la_funcList4Tree, cb){
+            initTree(la_funcList4Tree, cb) {
+                let ls_tie_selection = false;
+                if (this.permissionModel == "authByFunc") {
+                    ls_tie_selection = true;
+                }
                 $('#permissionFuncTree').jstree({
                     "core": {
                         "animation": 0,
@@ -90,9 +89,9 @@
                         }
                     },
                     "checkbox": {
-                        "keep_selected_style": true,
-                        "whole_node": false,
-                        "tie_selection": false               // 選取時，false只會選到父節點，不會選到子結點
+                        "keep_selected_style": false,
+                        "whole_node": true,
+                        "tie_selection": ls_tie_selection   // 選取時，false只會選到父節點，不會選到子結點
                     },
                     "plugins": ["search", "state", "types", "wholerow", "checkbox"]
                 });
