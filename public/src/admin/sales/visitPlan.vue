@@ -635,6 +635,18 @@
                 }
                 else {
                     this.tmpCUD.createData = la_saveData;
+
+                    var self = this;
+                    var lo_params = {
+                        prg_id: "PMS0620050",
+                        page_id: 2,
+                        tmpCUD: this.tmpCUD
+                    };
+
+                    $.post("/api/doOperationSave", lo_params, function (result) {
+                        self.loadDataGridByPrgID();
+                        callback(result);
+                    });
                     console.log(this.tmpCUD.createData);
                     this.isLoadingDialog = false;
                 }

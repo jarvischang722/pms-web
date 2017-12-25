@@ -54,7 +54,7 @@ var vm = new Vue({
             isCreateStatus: false,
             isEditStatus: false,
             isEditSalesClerk: false,
-            isOnlySingleVisitRecord: false, //拜訪紀錄為新增多筆、單筆
+            isVisitPlan: false, //拜訪紀錄為新增多筆、單筆
             fetchDataParams: {}, //拜訪紀錄所需參數
             openChangeLogDialog: false,
             allChangeLogList: {}
@@ -193,7 +193,7 @@ var vm = new Vue({
             this.isCreateStatus = false;
             this.isEditStatus = true;
             this.isEditSalesClerk = false;
-            this.isOnlySingleVisitRecord = false;
+            this.isVisitPlan = false;
             this.editingRow = {};
             this.initTmpCUD();
 
@@ -231,6 +231,7 @@ var vm = new Vue({
             }
             else {
                 this.isEditSalesClerk = true;
+                this.isVisitPlan = false;
                 this.editRows = this.editRow.length == 0 ? la_editRow : this.editRows;
             }
             this.isLoading = false;
@@ -238,6 +239,8 @@ var vm = new Vue({
         addVisitPlan() {
             var self = this;
             this.isLoading = true;
+            this.isEditSalesClerk = false;
+
             var la_editRow = $('#PMS0610010_dg').datagrid('getSelections');
 
             if (la_editRow.length == 0) {
@@ -245,6 +248,7 @@ var vm = new Vue({
             }
             else {
                 this.editRows = la_editRow;
+                this.isVisitPlan = true;
 
                 var dialog = $("#addVisitPlan").removeClass('hide').dialog({
                     modal: true,
