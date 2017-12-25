@@ -675,12 +675,6 @@ var singlePage = Vue.extend({
                         }
                     });
 
-                    //rmk格式轉換
-                    if(!_.isUndefined(self.singleData.bquet_rmk) && self.singleData.bquet_rmk != null && self.singleData.bquet_rmk != ""){
-                        self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/<br>/g, "\n");
-                        self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/&#09/g, "\t");
-                    }
-
                     self.oriSingleData = _.clone(self.singleData);
                     self.tmpCud.oriData = [self.oriSingleData];
                 }
@@ -983,12 +977,6 @@ var singlePage = Vue.extend({
             self.singleData.ins_tim = moment(new Date()).format('HH:mm');
             self.singleData.upd_tim = moment(new Date()).format('HH:mm');
 
-            //rmk轉換格式
-            if(!_.isUndefined(self.singleData.bquet_rmk) && self.singleData.bquet_rmk != null && self.singleData.bquet_rmk != ""){
-                self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/\n/g, "<br>");
-                self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/\t/g, "&#09");
-            }
-
             var tempSingleData = _.clone(self.singleData);
 
             _.each(Object.keys(tempSingleData), function (objKey) {
@@ -1034,7 +1022,7 @@ var singlePage = Vue.extend({
                 }
             });
 
-             self.tmpCud.dt_updateData = self.dgIns.tmpCUD.updateData;
+             self.tmpCud.dt_updateData = _.clone(self.dgIns.tmpCUD.updateData);
 
              //將update中有delete的清除
              _.each(self.tmpCud.dt_deleteData, function (value) {
