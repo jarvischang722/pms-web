@@ -327,4 +327,4 @@ function removeAmtFormat(val) {
     }
 
     return val;
-};
+}
