@@ -50,7 +50,6 @@ var vm = new Vue({
             isLoading: true,
             editingRow: {},
             editRows: [],
-            editRowsChangeNum: 0,              //editRows變化次數
             isModifiable: true,
             isCreateStatus: false,
             isEditStatus: false,
@@ -258,7 +257,6 @@ var vm = new Vue({
                     resizable: true,
                     onBeforeClose: function () {
                         self.editRows = [];
-                        self.editRowsChangeNum = 0;
                     }
                 });
             }

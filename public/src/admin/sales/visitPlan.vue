@@ -242,7 +242,7 @@
 
     export default {
         name: 'visit-plan',
-        props: ["editRows", "editRowsChangeNum"],
+        props: ["editRows"],
         created() {
             var self = this;
             vmHub.$on("selectDataGridRow", function (data) {
@@ -274,18 +274,22 @@
                 fieldsData: [],
                 oriFieldsData: [],
                 dgVisitPlanIns: {},
-                tmpRowsData: []                    //多筆與單筆所對應的資料
+                tmpRowsData: [],                   //多筆與單筆所對應的資料
+                editRowsChangedNum: 0              //editRows變化次數
             };
         },
         watch: {
             editRows(val) {
-                this.editRowsChangeNum++;
+                this.editRowsChangedNum ++;
                 //只有一開始跳出拜訪計畫時才要觸發這些事件(1.刪除editRows減少會造成tmpRowData資料有誤 2.datagrid本身排序事件會造成無限迴圈)
-                if (!_.isEmpty(val) && this.editRowsChangeNum == 1) {
+                if (val.length > 0 && this.editRowsChangedNum == 1 ) {
                     this.isLoadingDialog = true;
                     this.initData();
                     this.setTmpRowData();
                     this.fetchSingleGridFieldData();
+                }
+                else if(val.length == 0){
+                    this.editRowsChangedNum = 0;
                 }
             },
             rowData(val) {
@@ -639,6 +643,7 @@
                 this.initData();
                 this.editRows = [];
                 this.editRowsChangeNum = 0;
+                this.editRowsChangedNum = 0;
                 $("#addVisitPlan").dialog('close');
             }
         }
