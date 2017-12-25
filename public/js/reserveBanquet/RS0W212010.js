@@ -15,9 +15,6 @@ g_socket.on('checkTableLock', function (result) {
         alert(result.errorMsg);
         vmHub.$emit("setReadonly");
     }
-    else {
-        vmHub.$emit("UnReadonly");
-    }
 });
 
 var go_currentIndex = undefined;
@@ -72,6 +69,7 @@ var singlePage = Vue.extend({
             self.dataGridRows = [];
             self.oriDataGridRows = [];
             self.initTmpCUD();
+            vmHub.$emit("UnReadonly");
 
             self.loadField(function () {
                 if (PostData.bquet_nos != "") {
@@ -677,11 +675,6 @@ var singlePage = Vue.extend({
                         }
                     });
 
-                    //rmk格式轉換
-                    if(!_.isUndefined(self.singleData.bquet_rmk) && self.singleData.bquet_rmk != null && self.singleData.bquet_rmk != ""){
-                        self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/<br>/g, "\n");
-                    }
-
                     self.oriSingleData = _.clone(self.singleData);
                     self.tmpCud.oriData = [self.oriSingleData];
                 }
@@ -984,11 +977,6 @@ var singlePage = Vue.extend({
             self.singleData.ins_tim = moment(new Date()).format('HH:mm');
             self.singleData.upd_tim = moment(new Date()).format('HH:mm');
 
-            //rmk轉換格式
-            if(!_.isUndefined(self.singleData.bquet_rmk) && self.singleData.bquet_rmk != null && self.singleData.bquet_rmk != ""){
-                self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/\n/g, "<br>");
-            }
-
             var tempSingleData = _.clone(self.singleData);
 
             _.each(Object.keys(tempSingleData), function (objKey) {
@@ -1034,7 +1022,23 @@ var singlePage = Vue.extend({
                 }
             });
 
-            self.tmpCud.dt_updateData = self.dgIns.tmpCUD.updateData;
+             self.tmpCud.dt_updateData = _.clone(self.dgIns.tmpCUD.updateData);
+
+             //將update中有delete的清除
+             _.each(self.tmpCud.dt_deleteData, function (value) {
+                 var keyVals = _.pluck(_.where(self.dtFieldData, {keyable: 'Y'}), "ui_field_name");
+                 var condKey = {};
+                 _.each(keyVals, function (field_name) {
+                     condKey[field_name] = value[field_name] || "";
+                 });
+
+                 //判斷資料有無在updateData裡, 如果有先刪掉再新增新的
+                 var existIdx = _.findIndex(self.tmpCud.dt_updateData, condKey);
+
+                 if (existIdx > -1) {
+                     self.tmpCud.dt_updateData.splice(existIdx, 1);
+                 }
+             });
 
             //DT 加入use_dat，API要用
             _.each(self.tmpCud.dt_createData, function (value) {
