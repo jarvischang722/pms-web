@@ -27,7 +27,7 @@
                 },
                 set(role_id) {
                     if (this.$store.state.gs_permissionModel == "authByRole") {
-                        this.$store.dispatch("changeRoleEvent", role_id).then(() => {});
+                        this.$store.dispatch("changeRoleEvent", role_id);
                     }
                 }
             },

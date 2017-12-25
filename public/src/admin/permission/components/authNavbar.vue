@@ -4,13 +4,13 @@
         <div class="float-right author-nav-btn">
 
             <div class="btn-group">
-                <button class="btn btn-primary btn-white btn-sm">
+                <button class="btn btn-primary btn-white btn-sm" @click="authUpdate">
                     <i class="fa fa-pencil"></i> 修改
                 </button>
-                <button class="btn btn-danger btn-sm delete">
+                <button class="btn btn-danger btn-sm delete" @click="authDelete">
                     <i class="fa fa-minus"></i> 刪除
                 </button>
-                <button class="btn btn-success btn-white btn-sm">
+                <button class="btn btn-success btn-white btn-sm" @click="authCreate">
                     <i class="fa fa-plus"></i> 新增
                 </button>
             </div>
@@ -39,13 +39,13 @@
             permissionModel: {
                 get() {
                     let ls_permissionModel = this.$store.state.gs_permissionModel;
-                    if(ls_permissionModel == "authByRole"){
+                    if (ls_permissionModel == "authByRole") {
                         this.navbarName = "新增角色權限";
                     }
-                    else if(ls_permissionModel == "authByStaff"){
+                    else if (ls_permissionModel == "authByStaff") {
                         this.navbarName = "新增人員權限";
                     }
-                    else{
+                    else {
                         this.navbarName = "新增功能權限";
                     }
                     return this.$store.state.gs_permissionModel;
@@ -55,7 +55,24 @@
                 }
             }
         },
-        methods: {}
+        methods: {
+            authUpdate() {
+                this.$store.dispatch("authUpdate").then(
+                    (result) => {
+
+                    },
+                    (err) => {
+
+                    }
+                );
+            },
+            authDelete() {
+
+            },
+            authCreate() {
+
+            }
+        }
     }
 </script>
 

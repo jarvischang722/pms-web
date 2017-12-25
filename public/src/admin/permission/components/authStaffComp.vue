@@ -17,35 +17,37 @@
         data() {
             return {
                 treeIns: null,
-                staffOfRole: [],
-                isLoading: false,
-                ls_permissionModel: ""
+                isLoading: false
             }
+        },
+        created() {
+            this.permissionModel;
         },
         computed: {
             permissionModel: {
                 get() {
                     this.treeIns = null;
-                    this.ls_permissionModel = this.$store.state.gs_permissionModel;
                     this.createStaffTree();
                     return this.$store.state.gs_permissionModel;
                 }
+            },
+            ga_staffOfRole: {
+                get() {
+                    this.checkedTreeNodeByStaffOfRole();
+                    return this.$store.state.ga_staffOfRole;
+                }
             }
-            // ga_staffOfRole: {
-            //     get() {
-            //         this.checkedTreeNodeByStaffOfRole(this.$store.state.ga_staffOfRole);
-            //         return this.$store.state.ga_staffOfRole;
-            //     }
-            // }
         },
-        watch:{
-            permissionModel(){}
+        watch: {
+            ga_staffOfRole() {
+            }
         },
         methods: {
             //創立一棵Tree
             createStaffTree() {
                 let self = this;
                 this.isLoading = true;
+
                 async.waterfall([
                     self.qryCompGrpList,    //取公司角色資料
                     self.initTree           //初始化tree
@@ -56,7 +58,6 @@
 
             //取公司角色資料
             qryCompGrpList(cb) {
-                console.log(this.treeIns);
                 if (this.treeIns == null) {
                     this.$store.dispatch("qryCompGrp").then((la_compGrpList4Tree) => {
                         cb(null, la_compGrpList4Tree);
@@ -69,13 +70,13 @@
 
             //初始化tree
             initTree(la_compGrpList4Tree, cb) {
-                //
-                let ls_tie_selection = false;
-                if (this.permissionModel == "authByStaff") {
-                    ls_tie_selection = true;
+                let self = this;
+                let la_plugins = ["search", "state", "types", "wholerow", "checkbox"];
+                if (this.$store.state.gs_permissionModel == "authByStaff") {
+                    la_plugins.splice(4,1);
                 }
 
-                if(la_compGrpList4Tree == ""){
+                if (la_compGrpList4Tree == "") {
                     return cb(null, "");
                 }
 
@@ -109,41 +110,44 @@
                     "checkbox": {
                         "keep_selected_style": false,
                         "whole_node": true,
-                        "tie_selection": ls_tie_selection   // 選取時，false只會選到父節點，不會選到子結點
+                        "tie_selection": false   // 選取時，false只會選到父節點，不會選到子結點
                     },
-                    "plugins": ["search", "state", "types", "wholerow", "checkbox"]
+                    "plugins": la_plugins
                 });
-                // this.treeIns = $("#permissionAccountTree").jstree(true);
-                console.log(this.treeIns);
+
+                this.treeIns = $("#permissionAccountTree").jstree(true);
+
+                if (this.$store.state.gs_permissionModel != "authByStaff") {
+                    $("#permissionAccountTree").on("check_node.jstree uncheck_node.jstree", function (e, data) {
+                        let la_staffChecked = self.treeIns.get_checked();
+                        self.$store.commit("updStaffChecked", la_staffChecked);
+                        // alert(data.node.id + ' ' + data.node.text + data.node.state.checked +
+                        //     (data.node.state.checked ? ' CHECKED' : ' NOT CHECKED'))
+                    });
+                }
+
+
+
                 cb(null, "");
             },
 
             //勾選此角色人員權限
-            checkedTreeNodeByStaffOfRole(la_staffOfRole) {
-                console.log(la_staffOfRole);
-                // let self = this;
-                // let la_allRoles = this.$store.state.ga_allRoles;
-                // this.isLoading = true;
-                // async.waterfall([
-                //     function (cb) {
-                //         self.qryCompGrpList(cb);
-                //     },
-                //     function (data, cb) {
-                //         setTimeout(function () {
-                //             // self.treeIns.uncheck_all();
-                //             if (la_allRoles.length > 0) {
-                //                 self.role_id = la_allRoles[0].role_id;
-                //                 _.each(la_staffOfRole, function (account) {
-                //                     // self.treeIns.check_node("#" + account.user_id);
-                //                 });
-                //             }
-                //             self.isLoading = false;
-                //         }, 100);
-                //         cb(null, "");
-                //     }
-                // ], function (err, result) {
-                //
-                // })
+            checkedTreeNodeByStaffOfRole() {
+                let self = this;
+                let la_allRoles = this.$store.state.ga_allRoles;
+                let la_staffOfRole = this.$store.state.ga_staffOfRole;
+                if (la_staffOfRole.length == 0 || this.$store.state.gs_permissionModel == "authByStaff" || la_allRoles.length <= 0 || this.treeIns == null) {
+                    return;
+                }
+
+                this.isLoading = true;
+                this.treeIns.uncheck_all();
+                setTimeout(function(){
+                    _.each(la_staffOfRole, function (account) {
+                        self.treeIns.check_node("#" + account.user_id);
+                    });
+                    self.isLoading = false;
+                }, 100);
             },
 
             selectedNode(e, data) {

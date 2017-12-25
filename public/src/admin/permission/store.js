@@ -8,12 +8,16 @@ Vue.use(Vuex);
 // each Vuex instance is just a single state tree.
 const state = {
     gs_permissionModel: "authByRole",
+
     ga_allRoles: [],
     gs_selRole: "",
-    ga_staffOfRole: [],
-    ga_funcsOfRole: [],
+
     ga_compGrpList: [],
     ga_compGrpList4Tree: [],
+    ga_staffOfRole: [],
+    ga_staffChecked: [],
+
+    ga_funcsOfRole: [],
     ga_funcList: [],
     ga_funcList4Tree: []
 }
@@ -42,14 +46,17 @@ const mutations = {
     setStaffOfRole(state, la_staffOfRole) {
         state.ga_staffOfRole = la_staffOfRole;
     },
-    setFuncsOfRole(state, la_funcsOfRole){
+    setFuncsOfRole(state, la_funcsOfRole) {
         state.ga_funcsOfRole = la_funcsOfRole;
     },
     setAllModules(state, la_funcList) {
         state.ga_funcList = la_funcList;
     },
-    setPermissionModel(state, ls_permissionModel){
+    setPermissionModel(state, ls_permissionModel) {
         state.gs_permissionModel = ls_permissionModel;
+    },
+    updStaffChecked(state, la_staffChecked){
+        state.ga_staffChecked = la_staffChecked;
     }
 }
 
@@ -71,11 +78,20 @@ const actions = {
      * @param commit
      */
     async qryFuncList({commit, dispatch, state}) {
-        await $.post("/api/getAllFuncs").then((result) => {
-            commit("setAllModules", result.funcList);
-        });
-        dispatch("combineFuncListTree");
-        return state.ga_funcList4Tree;
+        return await $.post("/api/getAllFuncs").then(
+            (result) => {
+                if (result.success) {
+                    commit("setAllModules", result.funcList);
+                    dispatch("combineFuncListTree");
+                    return {success: true, funcList4Tree: state.ga_funcList4Tree};
+                }
+                else {
+                    return {success: false, errMsg: result.errMsg};
+                }
+            },
+            (err) => {
+                return {success: false, errMsg: err};
+            });
     },
 
     //選擇角色觸發Event
@@ -88,6 +104,7 @@ const actions = {
     //取得角色對應之全部帳號
     async qryRoleOfAccounts({commit}, role_id) {
         await $.post("/api/getRoleOfAccounts", {role_id: role_id}).then((result) => {
+            // console.log(result.accounts);
             commit("setStaffOfRole", result.accounts);
         });
     },
@@ -167,6 +184,11 @@ const actions = {
             })
         });
         commit("setFuncList4Tree", la_funcList4Tree);
+    },
+
+    async authUpdate({commit, state}){
+        let ls_selRole = state.gs_selRole;
+
     }
 }
 
@@ -180,8 +202,7 @@ function treeDataObj(id, parent, text) {
 }
 
 // getters are functions
-const getters = {
-}
+const getters = {}
 
 // A Vuex instance is created by combining the state, mutations, actions,
 // and getters.

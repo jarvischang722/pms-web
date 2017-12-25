@@ -260,7 +260,7 @@ exports.getAllFuncs = function (req, res) {
         getAllSystem,
         getUserSubsysPurviewBySysID
     ], function (err, result) {
-        res.json({success: err == null, funcList: result});
+        res.json({success: err == null, errMsg: err, funcList: result});
     });
 
     function getAllSystem(cb) {

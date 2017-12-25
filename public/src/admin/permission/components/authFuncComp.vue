@@ -16,7 +16,6 @@
         name: "auth-func-comp",
         data() {
             return {
-                funcsOfRole: [],
                 treeIns: null,
                 isLoading: false
             }
@@ -31,6 +30,16 @@
                     this.createFuncTree();
                     return this.$store.state.gs_permissionModel;
                 }
+            },
+            ga_funcsOfRole: {
+                get() {
+                    this.checkedTreeNodeByFuncsOfRole();
+                    return this.$store.state.ga_funcsOfRole;
+                }
+            }
+        },
+        watch: {
+            ga_funcsOfRole() {
             }
         },
         methods: {
@@ -41,25 +50,35 @@
                     self.qryFuncList,
                     self.initTree
                 ], function (err, result) {
+                    if(err){
+                        console.error(err);
+                    }
                     self.isLoading = false;
                 });
             },
 
             qryFuncList(cb) {
                 if (this.treeIns == null) {
-                    this.$store.dispatch("qryFuncList").then((la_funcList4Tree) => {
-                        cb(null, la_funcList4Tree);
+                    this.$store.dispatch("qryFuncList").then((result) => {
+                        if (result.success) {
+                            cb(null, result.funcList4Tree);
+                        }
+                        else {
+                            cb(result.errMsg, null);
+                        }
+                    }, (err) => {
+                        cb(err, null);
                     });
                 }
                 else {
-                    cb(null, "");
+                    cb(null, []);
                 }
             },
 
             initTree(la_funcList4Tree, cb) {
-                let ls_tie_selection = false;
-                if (this.permissionModel == "authByFunc") {
-                    ls_tie_selection = true;
+                let la_plugins = ["search", "state", "types", "wholerow", "checkbox"];
+                if (this.$store.state.gs_permissionModel == "authByFunc") {
+                    la_plugins.splice(4,1);
                 }
                 $('#permissionFuncTree').jstree({
                     "core": {
@@ -91,12 +110,30 @@
                     "checkbox": {
                         "keep_selected_style": false,
                         "whole_node": true,
-                        "tie_selection": ls_tie_selection   // 選取時，false只會選到父節點，不會選到子結點
+                        "tie_selection": false   // 選取時，false只會選到父節點，不會選到子結點
                     },
-                    "plugins": ["search", "state", "types", "wholerow", "checkbox"]
+                    "plugins": la_plugins
                 });
                 this.treeIns = $("#permissionFuncTree").jstree(true);
                 cb(null, "");
+            },
+
+            checkedTreeNodeByFuncsOfRole() {
+                let self = this;
+                let la_allRoles = this.$store.state.ga_allRoles;
+                let la_funcsOfRole = this.$store.state.ga_funcsOfRole;
+                if (la_funcsOfRole.length == 0 || this.$store.state.gs_permissionModel == "authByFunc" || la_allRoles.length <= 0 || this.treeIns == null) {
+                    return;
+                }
+
+                this.isLoading = true;
+                this.treeIns.uncheck_all();
+                setTimeout(function () {
+                    _.each(la_funcsOfRole, function (func) {
+                        self.treeIns.check_node("#" + func.current_id);
+                    });
+                    self.isLoading = false;
+                }, 100);
             }
         }
     }
