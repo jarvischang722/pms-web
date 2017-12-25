@@ -1022,7 +1022,7 @@ var singlePage = Vue.extend({
                 }
             });
 
-             self.tmpCud.dt_updateData = self.dgIns.tmpCUD.updateData;
+             self.tmpCud.dt_updateData = _.clone(self.dgIns.tmpCUD.updateData);
 
              //將update中有delete的清除
              _.each(self.tmpCud.dt_deleteData, function (value) {
