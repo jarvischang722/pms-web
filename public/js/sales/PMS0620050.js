@@ -38,6 +38,7 @@ Vue.component('single-grid-pms0620050-tmp', {
     },
     watch: {
         rowData: function (val) {
+            console.log(val);
             this.initData();
             this.fetchFieldData();
 
@@ -248,10 +249,16 @@ Vue.component('single-grid-pms0620050-tmp', {
 
         },
         toFirstData: function () {
-            this.isFirstData = true;
-            this.isLastData = false;
-            this.isLoadingDialog = true;
-            this.rowData = _.first(vm.pageOneDataGridRows);
+            var self = this;
+            this.doSaveModifyData(function (res) {
+                console.log(res);
+                if(res){
+                    self.isFirstData = true;
+                    self.isLastData = false;
+                    self.isLoadingDialog = true;
+                    self.rowData = _.first(vm.pageOneDataGridRows);
+                }
+            });
         },
         toPreData: function () {
             this.isLoadingDialog = true;
@@ -292,6 +299,76 @@ Vue.component('single-grid-pms0620050-tmp', {
                     }
                 });
             }
+        },
+        doSaveModifyData(callback) {
+            var self = this;
+            var lb_isDataChang = false;
+            _.each(this.singleData, function (val, key) {
+                if (self.oriSingleData[key] != val) {
+                    lb_isDataChang = true;
+                    return;
+                }
+            });
+
+            if (lb_isDataChang) {
+                var q = confirm(go_i18nLang["SystemCommon"].Save_changed_data);
+
+                if (q) {
+                    this.isLoadingDialog = true;
+                    this.loadingText = "Saving...";
+
+                    var lo_chkResult = this.dataValidate();
+
+                    if (lo_chkResult.success == false && vm.tmpCUD.deleteData.length == 0) {
+                        alert(lo_chkResult.msg);
+                        this.isLoadingDialog = false;
+                    }
+                    else {
+                        var postRowData = JSON.parse(JSON.stringify(this.singleData));
+
+                        //將欄位traffic_amt的值從有format轉回原本number
+                        var ls_trafficAmt = "";
+
+                        if (postRowData["traffic_amt"].indexOf(',') > -1) {
+                            var la_splitAmtValue = postRowData["traffic_amt"].split(',');
+                            _.each(la_splitAmtValue, function (ls_splitAmtValue) {
+                                ls_trafficAmt = ls_trafficAmt + ls_splitAmtValue;
+                            });
+                        }
+                        else {
+                            ls_trafficAmt = postRowData["traffic_amt"];
+                        }
+
+                        postRowData["traffic_amt"] = Number(ls_trafficAmt);
+                        postRowData["avisit_dat"] = moment(new Date(postRowData["avisit_dat"])).format("YYYY/MM/DD");
+                        postRowData["visit_dat"] = moment(new Date(postRowData["visit_dat"])).format("YYYY/MM/DD");
+                        postRowData["tab_page_id"] = 1;
+                        postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+
+                        vm.tmpCUD.updateData = [postRowData];
+                        vm.tmpCUD.oriData = [this.oriSingleData];
+
+                        vm.doSaveCUD("PMS0620050", 2, function (result) {
+                            if (result.success) {
+                                alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                            vm.initTmpCUD();
+                            callback(true);
+                        });
+                    }
+                }
+                else {
+                    console.log("don't save this data");
+                    callback(true);
+                }
+            }
+            else {
+                callback(true);
+            }
+
         },
         dataValidate: function () {
             var self = this;
