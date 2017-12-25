@@ -1048,8 +1048,9 @@ var singlePage = Vue.extend({
             _.each(self.tmpCud.dt_updateData, function (value) {
                 console.log(self.singleData.begin_dat);
                 value["use_dat"] = self.singleData.begin_dat;
+                console.log(value["use_dat"]);
             });
-
+console.log(self.tmpCud.dt_updateData);
             _.each(self.tmpCud.dt_deleteData, function (value) {
                 value["use_dat"] = self.singleData.begin_dat;
             });
