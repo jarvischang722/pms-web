@@ -1046,7 +1046,7 @@ var singlePage = Vue.extend({
             });
 
             _.each(self.tmpCud.dt_updateData, function (value) {
-                value.use_dat = self.singleData.begin_dat;
+                value.use_dat = "2017/12/25";
             });
 console.log(self.tmpCud.dt_updateData);
             _.each(self.tmpCud.dt_deleteData, function (value) {
