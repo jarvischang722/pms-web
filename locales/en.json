@@ -214,7 +214,9 @@
     "Desciption_Dt": "Desciption_DT",
     "check_delete": "確定刪除此筆資料(英)",
     "CompanyName": "Athena Information Systems",
-    "Save_changed_data": "資料已修改是否存檔(英)"
+    "Save_changed_data": "資料已修改是否存檔(英)",
+    "saveSuccess": "Save Success",
+    "delSuccess": "Delete Success"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",
