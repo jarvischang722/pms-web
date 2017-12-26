@@ -977,6 +977,11 @@ var singlePage = Vue.extend({
             self.singleData.ins_tim = moment(new Date()).format('HH:mm');
             self.singleData.upd_tim = moment(new Date()).format('HH:mm');
 
+            //rmk格式轉換
+            if(!_.isUndefined(self.singleData.bquet_rmk) && self.singleData.bquet_rmk != null && self.singleData.bquet_rmk != ""){
+                self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/\n/g, "\r\n");
+            }
+
             var tempSingleData = _.clone(self.singleData);
 
             _.each(Object.keys(tempSingleData), function (objKey) {
