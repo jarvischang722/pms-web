@@ -686,7 +686,7 @@ a
     .input-spc-1
       +input-s1
       height: $defHt
-  .tab-block
+  .grid-item
     +bsCompany-content
     .checkbox-width
       width: auto
@@ -963,9 +963,11 @@ ul.newVisitOther-btn
 // reservationRoomType.ejs 訂房卡table資料
 // margin-left: 25px 看html-->min-width
 .resvCard-data
-  margin-left: 25px
+  margin: 5px auto auto 10px
+  .divideLine
+    padding: 2px 5px 0 5px
   span
-    padding-right: 20px
+    padding-right: 5px
 
 // 訂房卡 changeLog
 .resv-changeRecord
@@ -2196,37 +2198,12 @@ td
   th,td
     padding: 3px
 
-.vue-treeselect__menu label
-  text-align: left
-  width: auto
-.vue-treeselect
-  display: inline-block
 
-/***** vue 問題 *****/
-// 異動紀錄 修改距離上層高度
-.openChangeLogDialog
-  .el-dialog
-    top: 3% !important
+/*----  vue 問題 ----*/
+@import editDefault/_editVue
+/*----  /.END vue 問題 ----*/
 
-// todo 問題:多選下拉選完出現選擇項目會跑版 ex.PMS0830090
-.search-content
-  .el-select
-    .el-input__inner
-      height: $defHt !important
-    .el-select__tags
-      height: $defHt !important
-      overflow: hidden
-
-.grid-item
-  .el-date-editor
-    .el-input__inner,.el-input__icon
-      height: $defHt !important
-  .el-cascader
-    .el-input__inner
-      height: $defHt !important
-/***** vue 問題 *****/
-
-
+/*----  欄位屬性設定界面 ----*/
 #prgPropsSetupVM
   .title
     font-size: 1.2em
@@ -2249,6 +2226,7 @@ td
     color: #fff !important
     border: none !important
     box-shadow: none !important
+/*----  欄位屬性設定界面 ----*/
 
 /*---- 達美樂介面 ----*/
-@import partials/_dominosStyle
+@import partials/_dominosStyle.sass

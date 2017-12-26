@@ -28,6 +28,9 @@
 .grid-item label.label-spc-2 {
   width: 70px;
 }
+.grid-item .spanTxt {
+  margin: 3px 0 auto auto;
+}
 .grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option, .grid-item .input-medium, .grid-item input, .grid-item textarea {
   font-size: 13px !important;
 }
@@ -94,9 +97,6 @@
   width: 0;
   min-height: initial;
   cursor: pointer;
-}
-.grid-item .popCheckbox label.checkbox-width {
-  margin-top: 2px;
 }
 
 .grid-item-input {
@@ -198,6 +198,15 @@
   box-sizing: border-box;
   cursor: pointer;
 }
+.css_table .css_td .moreClick.moreHtAuto {
+  height: auto;
+  bottom: 8px;
+  width: auto;
+}
+.css_table .css_td .moreClick.moreAbso-t10 {
+  top: 7px;
+  bottom: auto;
+}
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
@@ -274,6 +283,15 @@
   padding: 4px 5px 0 5px;
   box-sizing: border-box;
   cursor: pointer;
+}
+.horizTable-outer .css_table .css_td .moreClick.moreHtAuto {
+  height: auto;
+  bottom: 8px;
+  width: auto;
+}
+.horizTable-outer .css_table .css_td .moreClick.moreAbso-t10 {
+  top: 7px;
+  bottom: auto;
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
@@ -1425,7 +1443,7 @@ table.treetable span.indenter {
 
 /*-------- login.html -------- */
 .login-bg {
-  background: #DFE0E2 url("images/pattern.jpg") repeat;
+  background: #DFE0E2 url("../css/images/pattern.jpg") repeat;
 }
 
 .loginPage {
@@ -1454,6 +1472,7 @@ table.treetable span.indenter {
   padding-bottom: 4px;
   border-bottom: 1px solid #ccc;
   font-size: 20px;
+  letter-spacing: 1px;
 }
 .loginPage .login-container .main .form-control {
   width: 100%;
@@ -2376,44 +2395,44 @@ a {
   height: 25px;
   height: 25px;
 }
-.businessCompanyData .tab-block label {
+.businessCompanyData .grid-item label {
   width: 90px;
   text-align: right;
 }
-.businessCompanyData .tab-block label.label-spc {
+.businessCompanyData .grid-item label.label-spc {
   width: 82px;
   margin-right: 2px !important;
 }
-.businessCompanyData .tab-block label.label-spc-2 {
+.businessCompanyData .grid-item label.label-spc-2 {
   width: 70px;
 }
-.businessCompanyData .tab-block .mainData-tip {
+.businessCompanyData .grid-item .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
   line-height: 22px;
   color: #777;
 }
-.businessCompanyData .tab-block .checkbox-width {
+.businessCompanyData .grid-item .checkbox-width {
   width: auto;
   padding-left: 10px;
 }
-.businessCompanyData .tab-block.billCheckbox {
+.businessCompanyData .grid-item.billCheckbox {
   height: 25px;
 }
-.businessCompanyData .tab-block.billCheckbox .checkbox {
+.businessCompanyData .grid-item.billCheckbox .checkbox {
   margin: 2px auto 0 auto;
 }
-.businessCompanyData .tab-block.billCheckbox .checkbox label {
+.businessCompanyData .grid-item.billCheckbox .checkbox label {
   min-height: initial;
   cursor: auto;
 }
-.businessCompanyData .tab-block.billCheckbox .checkbox label.ckBox_label {
+.businessCompanyData .grid-item.billCheckbox .checkbox label.ckBox_label {
   width: 90px;
 }
-.businessCompanyData .tab-block.relatedCheck {
+.businessCompanyData .grid-item.relatedCheck {
   margin-left: 75px;
 }
-.businessCompanyData .tab-block.relatedCheck .checkbox label input[type=checkbox].ace + .lbl:before {
+.businessCompanyData .grid-item.relatedCheck .checkbox label input[type=checkbox].ace + .lbl:before {
   margin-right: 3px;
 }
 .businessCompanyData .billInfo .billInfo-head {
@@ -2717,10 +2736,13 @@ ul.newVisitOther-btn {
 }
 
 .resvCard-data {
-  margin-left: 25px;
+  margin: 5px auto auto 10px;
+}
+.resvCard-data .divideLine {
+  padding: 2px 5px 0 5px;
 }
 .resvCard-data span {
-  padding-right: 20px;
+  padding-right: 5px;
 }
 
 .resv-changeRecord {
@@ -4328,6 +4350,7 @@ td div.act-box span.act-text {
   padding: 3px;
 }
 
+/*----  vue 問題 ---- */
 .vue-treeselect__menu label {
   text-align: left;
   width: auto;
@@ -4337,17 +4360,20 @@ td div.act-box span.act-text {
   display: inline-block;
 }
 
-/***** vue 問題 **** */
 .openChangeLogDialog .el-dialog {
   top: 3% !important;
 }
 
-.search-content .el-select .el-input__inner {
+.search-content .el-select .el-input__inner, .editVueTpl .el-select .el-input__inner {
   height: 25px !important;
 }
-.search-content .el-select .el-select__tags {
+.search-content .el-select .el-select__tags, .editVueTpl .el-select .el-select__tags {
   height: 25px !important;
   overflow: hidden;
+  line-height: 25px !important;
+}
+.search-content.width-100 .el-select, .editVueTpl.width-100 .el-select {
+  width: 100% !important;
 }
 
 .grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
@@ -4357,7 +4383,8 @@ td div.act-box span.act-text {
   height: 25px !important;
 }
 
-/***** vue 問題 **** */
+/*----  /.END vue 問題 ---- */
+/*----  欄位屬性設定界面 ---- */
 #prgPropsSetupVM .title {
   font-size: 1.2em;
   color: #555;
@@ -4383,6 +4410,7 @@ td div.act-box span.act-text {
   box-shadow: none !important;
 }
 
+/*----  欄位屬性設定界面 ---- */
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;
@@ -4479,7 +4507,7 @@ td div.act-box span.act-text {
   margin: 0 !important;
 }
 
-.no-margin-top {
+.no-mt {
   margin-top: 0 !important;
 }
 
@@ -4512,7 +4540,7 @@ td div.act-box span.act-text {
 }
 
 .ml-4 {
-  margin-left: 4px;
+  margin-left: 4px !important;
 }
 
 .ml-5 {
@@ -4531,6 +4559,14 @@ td div.act-box span.act-text {
   margin-left: 8px;
 }
 
+.ml-10 {
+  margin-left: 10px;
+}
+
+.ml-77 {
+  margin-left: 77px;
+}
+
 .ml-90 {
   margin-left: 90px;
 }
@@ -4541,6 +4577,14 @@ td div.act-box span.act-text {
 
 .ml-94 {
   margin-left: 94px;
+}
+
+.ml-47 {
+  margin-left: 47px;
+}
+
+.ml-124 {
+  margin-left: 124px;
 }
 
 .mlr-3 {
@@ -4569,6 +4613,21 @@ td div.act-box span.act-text {
 
 .defHt {
   height: 25px;
+}
+
+.selectHt {
+  height: 25px;
+  padding: 0 3px;
+  display: block;
+  width: 100%;
+}
+
+.lineDelTgh {
+  text-decoration: line-through;
+}
+
+.width-3 {
+  width: 3% !important;
 }
 
 .width-5 {
@@ -4771,6 +4830,10 @@ a {
   background: #4ed8aa !important;
 }
 
+.bgLGreen {
+  background: #B0D877 !important;
+}
+
 .light-grey {
   color: #BBB !important;
 }
@@ -4795,6 +4858,11 @@ a {
 .btn-sm-font2 {
   padding: 3px 9px;
   font-size: 12px;
+}
+
+.btn-sd {
+  border: 1px solid #8aafce;
+  padding-left: 3px;
 }
 
 .btn-skin {
@@ -5094,6 +5162,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.rateCode-s1-col3Rm {
+  width: 725px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.rateCode-s1-col3Bring {
   width: 699px;
   max-width: 100%;
@@ -5104,8 +5177,18 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.rateCode-xs {
+  width: 31px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.rateCode-s3 {
   width: 135px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.rateCode-125 {
+  width: 125px;
   max-width: 100%;
   height: 25px;
 }
@@ -5121,6 +5204,11 @@ a {
 }
 .input-medium.consumeCode-g1-s {
   width: 50px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.consumeCode-g1-ss {
+  width: 46px;
   max-width: 100%;
   height: 25px;
 }
@@ -5196,6 +5284,16 @@ a {
 }
 .input-medium.resvCard {
   width: 106px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCardHalf-1 {
+  width: 65px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCardHalf-2 {
+  width: 41px;
   max-width: 100%;
   height: 25px;
 }
@@ -5360,7 +5458,27 @@ a {
   height: 25px;
 }
 .input-medium.postaladdress2 {
-  width: 431px;
+  width: 464px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w142px {
+  width: 142px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w348px {
+  width: 348px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w240px {
+  width: 240px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w96c2 {
+  width: 96.2px;
   max-width: 100%;
   height: 25px;
 }
@@ -5439,7 +5557,7 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   padding-left: 14px;
 }
 .popCheckbox .checkbox {
-  margin: 1px auto 0 auto;
+  margin: 0 auto 0 auto;
 }
 .popCheckbox .checkbox .ace {
   padding-right: 5px;
@@ -5455,6 +5573,9 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
 }
 .popCheckbox.lbl-after .checkbox label {
   padding-left: 10px;
+}
+.popCheckbox.rmAssignCk {
+  margin-left: -7px;
 }
 
 .rzNone {
@@ -5596,6 +5717,42 @@ select {
 input[type=checkbox] {
   width: 15px;
   height: 15px;
+}
+
+.margin-right-10 {
+  margin-right: 10px;
+}
+
+.width-35px {
+  width: 35px !important;
+}
+
+.width-82px {
+  width: 82px !important;
+}
+
+.width-135px {
+  width: 135px !important;
+}
+
+.width-137px {
+  width: 137px !important;
+}
+
+.width-103px {
+  width: 103px !important;
+}
+
+.width-133px {
+  width: 133px !important;
+}
+
+.width-80px {
+  width: 80px !important;
+}
+
+.margin-right-4 {
+  margin-right: 4px !important;
 }
 
 /*-------------- responsive -------------- */

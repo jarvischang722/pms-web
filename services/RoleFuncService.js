@@ -85,7 +85,7 @@ exports.querySubsysQuickMenu = function (params, callback) {
  * @param req
  */
 exports.updateUserPurview = function (req, callback) {
-    SysFuncPurviewSvc.getUserSubsysPurviewBySysID(req, req.session.user.sys_id, function (err, subsysMenu) {
+    SysFuncPurviewSvc.getUserSubsysPurviewBySysID(req, req.session.activeSystem.id, function (err, subsysMenu) {
         req.session.user.subsysMenu = subsysMenu;
         callback(err, subsysMenu);
     });

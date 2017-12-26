@@ -697,7 +697,7 @@ exports.execTransSQL = function (postData, session, callback) {
     let lo_saveProc = new operationSaveProc(postData, session);
     async.waterfall([
         lo_saveProc.doOptSaveAdapter,
-        lo_saveProc.doSaveDataByAPI
+        lo_saveProc.doAPI
     ], function (err, result) {
         callback(err, result);
     });
@@ -711,7 +711,7 @@ exports.execNormalSQL = function (postData, session, callback) {
     async.waterfall([
         lo_saveProc.doRuleProcBeforeSave,
         lo_saveProc.doOptSaveAdapter,
-        lo_saveProc.doSaveDataByAPI
+        lo_saveProc.doAPI
     ], function (err, result) {
         callback(err, result);
     });
@@ -767,38 +767,46 @@ function operationSaveProc(postData, session) {
     };
 
     // 打API
-    this.doSaveDataByAPI = function (optSaveAdapter, callback) {
-        let lo_error = null;
-        let lo_result = new ReturnClass();
+    this.doAPI = function (optSaveAdapter, callback) {
+        var rtnData;
         if (_.isUndefined(optSaveAdapter)) {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = "optAdapter is undefined";
-            lo_result.success = false;
-            return callback(lo_error, lo_result);
+            rtnData = {
+                success: false,
+                msg: "optAdapter is undefined"
+            };
+            return callback(true, rtnData);
         }
+
         // 一定樣經過轉接器才能打API
         let lb_isOptSaveAdpt = (optSaveAdapter.constructor.name == "operationSaveAdapterClass") ? true : false;
         if (lb_isOptSaveAdpt == false) {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = "Data format is not from operationSaveAdapter";
-            lo_result.success = false;
-            console.error(lo_error.errorMsg);
-            return callback(lo_error, lo_result);
+            rtnData = {
+                success: false,
+                msg: "Data format is not from operationSaveAdapter"
+            };
+            console.error(rtnData);
+            return callback(true, rtnData);
         }
 
         //轉換後打API
         optSaveAdapter.exec(function (err, lo_apiParams) {
             tools.requestApi(go_sysConf.api_url, lo_apiParams, function (apiErr, apiRes, data) {
                 var log_id = moment().format("YYYYMMDDHHmmss");
-                var ls_err = null;
+                var ls_msg = null;
                 var lb_success = true;
                 if (apiErr || !data) {
                     lb_success = false;
-                    ls_err = apiErr;
-                } else if (data["RETN-CODE"] != "0000") {
+                    ls_msg = apiErr;
+                }
+                else if (data["RETN-CODE"] != "0000") {   //回傳有誤
                     lb_success = false;
                     console.error(data["RETN-CODE-DESC"]);
-                    ls_err = "save error!";
+                    ls_msg = data["RETN-CODE-DESC"] || "error!!";
+                }
+                else{                                       //成功
+                    lb_success = true;
+                    console.info(data["RETN-CODE-DESC"]);
+                    ls_msg = data["RETN-CODE-DESC"] || "";
                 }
 
                 //寄出exceptionMail
@@ -806,11 +814,8 @@ function operationSaveProc(postData, session) {
                     mailSvc.sendExceptionMail({
                         log_id: log_id,
                         exceptionType: "execSQL",
-                        errorMsg: ls_err
+                        errorMsg: ls_msg
                     });
-                    lo_error = new ErrorClass();
-                    lo_error.errorMsg = ls_err;
-                    lo_result.success = false;
                 }
                 //log 紀錄
                 logSvc.recordLogAPI({
@@ -822,7 +827,12 @@ function operationSaveProc(postData, session) {
                     res_content: data
                 });
 
-                callback(lo_error, lo_result);
+                var rtnData = {
+                    success: lb_success,
+                    msg: ls_msg,
+                    data: data["RETN-DATA"] || {}
+                };
+                callback(null, rtnData);
             });
 
         });

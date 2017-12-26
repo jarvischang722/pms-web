@@ -11,19 +11,19 @@ var BacchusMainVM = new Vue({
         moduleMenu: [],
         quickMenu: [],
         subsysMenu: [],
+        activeSystem: {},
         isOpenModule: "", //打開的模組 ex: PMS0001000
         displayLogoutDialog: false, //決定閒置登出的視窗是否要跳出
         gs_cookieExpires: '', //cookie 剩餘時間
         prgVueIns: {}, //目前作業的 vue 實例
-        leaveAfterExecFuncsNam: [] //頁面前離開後要幫作業觸發的功能
+        leaveAfterExecFuncsNam: [], //頁面前離開後要幫作業觸發的功能
+        sysPrgPath: ''
     },
     mounted: function () {
         //離開時
         window.onbeforeunload = function () {
             BacchusMainVM.doLeavePageBeforePrgFuncs();
         };
-
-
         this.getUserSubsys();
         this.updateCurrentDateTime();
         this.updateExpiresTime();
@@ -53,10 +53,34 @@ var BacchusMainVM = new Vue({
                 this.usingPrgID = this.quickMenu.length > 0 ? this.quickMenu[0].pro_id : "";
             }
             this.loadMainProcess(this.usingPrgID);
-
+            this.updSysPrgPath();
         }
     },
     methods: {
+        updSysPrgPath: function () {
+            let subsysPurview = _.findWhere(this.subsysMenu, {subsys_id: getCookie("usingSubsysID")});
+            if (subsysPurview) {
+
+                let usingSubsysName = subsysPurview ? subsysPurview["subsys_nam_" + gs_locale] : "";
+                let usingPrgName = '';
+                subsysPurview.mdlMenu.every(function (mdl) {
+
+                    if (mdl.group_sta == 'G') {
+                        if (mdl.mdl_id == getCookie("usingPrgID")) {
+                            usingPrgName = mdl["mdl_name_" + gs_locale];
+                        }
+                    } else {
+                        let lo_pro = _.findWhere(mdl.processMenu, {pro_id: getCookie("usingPrgID")});
+                        if (!_.isUndefined(lo_pro)) {
+                            usingPrgName = lo_pro["pro_name_" + gs_locale];
+                        }
+                    }
+                    return _.isEmpty(usingPrgName)
+                })
+                document.title = `${usingPrgName} > ${usingSubsysName} > ${this.activeSystem.abbrName}`;
+                this.sysPrgPath = `${this.activeSystem.abbrName} > ${usingSubsysName} > ${usingPrgName}`
+            }
+        },
         /**
          * 塞入作業Vue實體
          * @param _prgVueIns{Object}  :  vue 實體
@@ -85,6 +109,7 @@ var BacchusMainVM = new Vue({
         getUserSubsys: function () {
             $.post("/api/getUserSubsys").done(function (res) {
                 BacchusMainVM.subsysMenu = res.subsysMenu;
+                BacchusMainVM.activeSystem = res.activeSystem;
                 BacchusMainVM.usingSubsysID = getCookie('usingSubsysID');
             });
         },
@@ -119,6 +144,7 @@ var BacchusMainVM = new Vue({
             this.doTableUnlock();
             setupCookie("usingPrgID", prg_id);
             setupCookie("lockingPrgID", prg_id);
+            BacchusMainVM.updSysPrgPath();
             $("#MainContentDiv").html("");
 
             _.each(this.moduleMenu, function (mdl) {
@@ -180,14 +206,25 @@ var BacchusMainVM = new Vue({
          * 倒數登出時間
          */
         doDownCount: function () {
-            let lastTimes = moment(BacchusMainVM.gs_cookieExpires).diff(moment(), "seconds");
+            let secs = moment(BacchusMainVM.gs_cookieExpires).diff(moment(), "seconds");
             gf_chkSessionInterval = setInterval(function () {
 
-                var mm = String(Math.floor(lastTimes / 60));
-                var ss = lastTimes % 60 >= 10 ? String(lastTimes % 60) : "0" + String(lastTimes % 60);
-                $("#timeLeft").text(mm + ":" + ss);
-                if (lastTimes > 0) {
-                    lastTimes--;
+                let hr = Math.floor(secs / 3600);
+                let min = Math.floor((secs - (hr * 3600)) / 60);
+                let sec = parseInt(secs - (hr * 3600) - (min * 60));
+
+                if (min.length < 2) {
+                    min = '0' + min;
+                }
+                if (sec.length < 2) {
+                    sec = '0' + min;
+                }
+                if (hr) {
+                    hr += ':'
+                }
+                $('#timeLeft').text(`${hr}  ${min} : ${sec}`);
+                if (secs > 0) {
+                    secs--;
                 } else {
                     BacchusMainVM.displayLogoutDialog = true;
                     clearInterval(gf_chkSessionInterval);

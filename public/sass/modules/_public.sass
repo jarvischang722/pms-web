@@ -15,7 +15,7 @@
   padding: 5px
 .no-margin
   margin: 0 !important
-.no-margin-top
+.no-mt
   margin-top: 0 !important
 .mt-91
   margin-top: 87px
@@ -32,7 +32,7 @@
 .ml-3
   margin-left: 3px
 .ml-4
-  margin-left: 4px
+  margin-left: 4px !important
 .ml-5
   margin-left: 5px
 .ml-6
@@ -41,12 +41,21 @@
   margin-left: 7px
 .ml-8
   margin-left: 8px
+.ml-10
+  margin-left: 10px
+.ml-77
+  margin-left: 77px
 .ml-90
   margin-left: 90px
 .ml-93
   margin-left: 93px
 .ml-94
   margin-left: 94px
+
+.ml-47
+  margin-left: 47px // rateCode Monthly
+.ml-124
+  margin-left: 124px // rateCode Monthly
 .mlr-3
   margin: auto 3px
 .mlr-4
@@ -62,8 +71,17 @@
   height: 60px
 .defHt
   height: $defHt
-
+.selectHt
+  height: $defHt
+  padding: 0 3px
+  display: block
+  width: 100%
+  // 刪除線
+.lineDelTgh
+  text-decoration: line-through
 // width
+.width-3
+  width: 3% !important
 .width-5
   width: 5% !important
 .width-8
@@ -170,6 +188,8 @@ a
   background: $light-grey !important
 .bgTGreen
   background: $t-green !important
+.bgLGreen
+  background: $light-green !important
 .light-grey
   color: $light-grey !important
 .orangeBlock1
@@ -189,7 +209,9 @@ a
   font-size: $font-btn
   //margin-top: 1px
 // space height
-
+.btn-sd
+  border: 1px solid #8aafce
+  padding-left: 3px
 //<!--PMS(business) excample:"
 @mixin btn-skin-style
   //padding: 3px 9px
@@ -277,7 +299,6 @@ $rmW: 23px
 $medium-c1: 165px
 $medium-c3-col2: 255px
 $medium-c3-card: 212px
-$resvCard-col2: 316px
 $medium-c1-col2v2: 434px
 $medium-c1-sc2: 299.5px
 $medium-c1-sc2-col2: (($medium-c1-sc2) *2)+$labelw
@@ -286,6 +307,9 @@ $popWindow-s1-col2: 414px
 $rateCode-s1: 180px
 $rateCode-s1-col2: (($rateCode-s1) *2)+$labelw
 $rateCode-s1-col3: (($rateCode-s1) *3)+(($labelw) *2)
+
+$resvCard: 106px
+$resvCard-col2: 316px
 $resvCard-date: 135px
 $resvCard-dateCol2: (($resvCard-date) *2)+$labelw
 $resvCard-dateSpec1: (($resvCard-date) *2)-60
@@ -370,6 +394,7 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(568px)
   &.resvCard-s1Half2
     +input-s1((($rateCode-s1) /2)-1)
+
   &.rateCode-s1
     +input-s1($rateCode-s1)
   &.rateCode-s1Rm
@@ -380,12 +405,18 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1($rateCode-s1-col2 -$rmW)
   &.rateCode-s1-col3
     +input-s1($rateCode-s1-col3)
+  &.rateCode-s1-col3Rm
+    +input-s1($rateCode-s1-col3 -$rmW)
   &.rateCode-s1-col3Bring
     +input-s1(699px)
   &.rateCode-s2
     +input-s1(43px)
+  &.rateCode-xs
+    +input-s1(31px)
   &.rateCode-s3
     +input-s1(135px)
+  &.rateCode-125
+    +input-s1(125px)
   &.rateCode-s4
     +input-s1(695px)
   &.popWindow-s1
@@ -393,6 +424,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     //popWindow-s1拆成兩個
   &.consumeCode-g1-s
     +input-s1(50px)
+  &.consumeCode-g1-ss
+    +input-s1(46px)
   &.consumeCode-g1-m
     +input-s1(102px)
 
@@ -425,7 +458,11 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(535px)
 
   &.resvCard
-    +input-s1(106px)
+    +input-s1($resvCard) //106px
+  &.resvCardHalf-1
+    +input-s1(65px) //65px
+  &.resvCardHalf-2
+    +input-s1(41px) //41px
     //住客帳維護 單筆
   &.resvCardSpec1
     +input-s1(203px)
@@ -492,8 +529,16 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
   &.postaladdress
     +input-s1(349px)
   &.postaladdress2
-    +input-s1(431px)
+    +input-s1(464px)
 
+  &.w142px
+    +input-s1(142px)
+  &.w348px
+    +input-s1(348px)
+  &.w240px
+    +input-s1(240px)
+  &.w96c2
+    +input-s1(96.2px)
 .input-hMedium
   height: $defHt !important
 .input-hCol2
@@ -584,7 +629,7 @@ input.numStyle-none
       label
         padding-left: 14px
   .checkbox
-    margin: 1px auto 0 auto
+    margin: 0 auto 0 auto
     .ace
       padding-right: 5px
     label
@@ -600,7 +645,9 @@ input.numStyle-none
     .checkbox
       label
         padding-left: 10px
-
+  // 指定房組
+  &.rmAssignCk
+    margin-left: -7px
 
 .rzNone
   resize: none
@@ -737,3 +784,21 @@ select
 input[type=checkbox]
   width: 15px
   height: 15px
+.margin-right-10
+  margin-right: 10px
+.width-35px
+  width: 35px !important
+.width-82px
+  width: 82px !important
+.width-135px
+  width: 135px !important
+.width-137px
+  width: 137px !important
+.width-103px
+  width: 103px !important
+.width-133px
+  width: 133px !important
+.width-80px
+  width: 80px !important
+.margin-right-4
+  margin-right: 4px !important

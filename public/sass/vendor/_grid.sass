@@ -26,6 +26,9 @@
       margin-right: 2px !important
     &.label-spc-2
       width: 70px
+  .spanTxt
+    margin: 3px 0 auto auto
+
   span,p,div,select,option,.input-medium,input,textarea
     font-size: $font-default !important
   span.subtxt
@@ -88,9 +91,7 @@
         width: 0
         min-height: initial
         cursor: pointer
-  .popCheckbox // rateCode/add
-    label.checkbox-width
-      margin-top: 2px
+
 
 .grid-item-input
   width: 100px
@@ -175,6 +176,13 @@
       padding: 4px 5px 0 5px
       box-sizing: border-box
       cursor: pointer
+      &.moreHtAuto
+        height: auto
+        bottom: 8px
+        width: auto
+      &.moreAbso-t10 // rateCode table 一欄有兩個
+        top: 7px
+        bottom: auto
   .icon-addDel
     i
       margin-top: 5px

@@ -1,5 +1,4 @@
 <script type="text/x-template" id="singleGridPMS0620020Tmp">
-
     <div id="singleGridPMS0620020" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
@@ -123,13 +122,13 @@
                                                     <ul>
                                                         <li>
                                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                    role="button"
+                                                                    role="button" :disabled="BTN_action"
                                                                     @click="appendDtRow"><%= __("SystemCommon")["Add"] %>
                                                             </button>
                                                         </li>
                                                         <li>
                                                             <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                    role="button"
+                                                                    role="button" :disabled="BTN_action"
                                                                     @click="removeDtRow"><%= __("SystemCommon")["Delete"] %>
                                                             </button>
                                                         </li>
