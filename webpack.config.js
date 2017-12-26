@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = {
-     entry: "./public/src/admin/prgPropsSetup/main",
+     entry: "./public/src/components/common/bacUIComps/main",
     // entry: [
     //     'webpack/hot/dev-server',
     //     path.join(__dirname, 'public', 'src')
@@ -14,8 +14,8 @@ const config = {
     // },
     output: {
         publicPath: '/dist',
-        path: path.join(__dirname, 'public', 'js/system/'),
-        filename: 'PrgPropsSetup.js'
+        path: path.join(__dirname, 'public', 'js/common/'),
+        filename: 'BacUIComps.js'
 
     },
     module: {

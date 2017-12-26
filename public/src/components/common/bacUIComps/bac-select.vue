@@ -6,7 +6,7 @@
     export default {
         name: "bac-select",
         props:['model'],
-        mounted(){
+        mounted:function(){
             var self = this;
             this.name = this.model;
             $(this.$el).combobox({
@@ -43,8 +43,7 @@
             $(this.$el).combobox('destroy');
         },
         watch:{
-            name(newVal){
-                alert(123);
+            name:function(newVal){
                 this.$emit('update:model', newVal);
                 this.model = newVal;
             }
