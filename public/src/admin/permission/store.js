@@ -19,7 +19,8 @@ const state = {
 
     ga_funcsOfRole: [],
     ga_funcList: [],
-    ga_funcList4Tree: []
+    ga_funcList4Tree: [],
+    ga_funcChecked: []
 }
 
 // mutations are operations that actually mutates the state.
@@ -55,8 +56,12 @@ const mutations = {
     setPermissionModel(state, ls_permissionModel) {
         state.gs_permissionModel = ls_permissionModel;
     },
-    updStaffChecked(state, la_staffChecked){
+    updStaffChecked(state, la_staffChecked) {
         state.ga_staffChecked = la_staffChecked;
+    },
+    updFuncChecked(state, la_funcChecked) {
+        console.log(la_funcChecked);
+        state.ga_funcChecked = la_funcChecked;
     }
 }
 
@@ -186,9 +191,21 @@ const actions = {
         commit("setFuncList4Tree", la_funcList4Tree);
     },
 
-    async authUpdate({commit, state}){
-        let ls_selRole = state.gs_selRole;
-
+    doSave({state, commit}) {
+        let lo_params = {
+            staffOfRole: state.ga_staffOfRole,
+            funcsOfRole: state.ga_funcsOfRole,
+            staffChecked: state.ga_staffChecked,
+            funcChecked: state.ga_funcChecked
+        };
+        $.post("/api/saveAuthByRole", lo_params).then(
+            result => {
+                alert("save success");
+            },
+            err => {
+                console.log(err);
+            }
+        );
     }
 }
 

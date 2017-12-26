@@ -57,14 +57,6 @@
         },
         methods: {
             authUpdate() {
-                this.$store.dispatch("authUpdate").then(
-                    (result) => {
-
-                    },
-                    (err) => {
-
-                    }
-                );
             },
             authDelete() {
 

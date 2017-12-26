@@ -76,6 +76,7 @@
             },
 
             initTree(la_funcList4Tree, cb) {
+                let self = this;
                 let la_plugins = ["search", "state", "types", "wholerow", "checkbox"];
                 if (this.$store.state.gs_permissionModel == "authByFunc") {
                     la_plugins.splice(4,1);
@@ -115,6 +116,13 @@
                     "plugins": la_plugins
                 });
                 this.treeIns = $("#permissionFuncTree").jstree(true);
+
+                if (this.$store.state.gs_permissionModel != "authByFunc") {
+                    $("#permissionFuncTree").on("check_node.jstree uncheck_node.jstree", function (e, data) {
+                        let la_funcChecked = self.treeIns.get_checked();
+                        self.$store.commit("updFuncChecked", la_funcChecked);
+                    });
+                }
                 cb(null, "");
             },
 

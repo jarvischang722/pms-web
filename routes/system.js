@@ -2,6 +2,7 @@
  * Created by Jun on 2017/5/7.
  */
 var systCrtl = require("../controllers/systemController");
+const permissionCrtl = require("../controllers/permissionController");
 var authMW = require("../middlewares/authMiddleware");
 var sysMW = require("../middlewares/systemMiddleware");
 var i18nMW = require("../middlewares/i18nMiddleware");
@@ -33,5 +34,7 @@ module.exports = function(app  ) {
 
     //權限設定
     app.get('/sys/permissionSetup', middles, systCrtl.permissionSetup);
+
+    app.post("/api/saveAuthByRole", middles, permissionCrtl.saveAuthByRole);
 
 };

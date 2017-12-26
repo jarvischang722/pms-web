@@ -121,12 +121,8 @@
                     $("#permissionAccountTree").on("check_node.jstree uncheck_node.jstree", function (e, data) {
                         let la_staffChecked = self.treeIns.get_checked();
                         self.$store.commit("updStaffChecked", la_staffChecked);
-                        // alert(data.node.id + ' ' + data.node.text + data.node.state.checked +
-                        //     (data.node.state.checked ? ' CHECKED' : ' NOT CHECKED'))
                     });
                 }
-
-
 
                 cb(null, "");
             },
@@ -148,14 +144,6 @@
                     });
                     self.isLoading = false;
                 }, 100);
-            },
-
-            selectedNode(e, data) {
-                var i, j, r = [];
-                for (i = 0, j = data.selected.length; i < j; i++) {
-                    r.push(data.instance.get_node(data.selected[i]).text);
-                }
-                console.log(r);
             }
         }
     }

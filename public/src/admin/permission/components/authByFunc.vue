@@ -74,6 +74,7 @@
 
 <script>
 
+    import {mapActions} from 'vuex';
     import authNavbar from './authNavbar';
     import authRoleComp from './authRoleComp';
     import authStaffComp from './authStaffComp';
@@ -85,7 +86,10 @@
             authRoleComp,
             authStaffComp,
             authFuncComp
-        }
+        },
+        methods: mapActions([
+            "qryAllRoles"
+        ])
     }
 </script>
 
