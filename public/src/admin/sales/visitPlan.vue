@@ -280,15 +280,15 @@
         },
         watch: {
             editRows(val) {
-                this.editRowsChangedNum ++;
+                this.editRowsChangedNum++;
                 //只有一開始跳出拜訪計畫時才要觸發這些事件(1.刪除editRows減少會造成tmpRowData資料有誤 2.datagrid本身排序事件會造成無限迴圈)
-                if (val.length > 0 && this.editRowsChangedNum == 1 ) {
+                if (val.length > 0 && this.editRowsChangedNum == 1) {
                     this.isLoadingDialog = true;
                     this.initData();
                     this.setTmpRowData();
                     this.fetchSingleGridFieldData();
                 }
-                else if(val.length == 0){
+                else if (val.length == 0) {
                     this.editRowsChangedNum = 0;
                 }
             },
@@ -583,7 +583,6 @@
                 }
             },
             dataValidate(saveData) {
-                var self = this;
                 var lo_checkResult;
 
                 for (var i = 0; i < saveData.length; i++) {
@@ -625,6 +624,7 @@
                     la_saveData[index].avisit_dat =
                         lo_saveData.avisit_dat == "" || _.isUndefined(lo_saveData.avisit_dat) ? "" : moment(new Date(lo_saveData.avisit_dat)).format("YYYY/MM/DD");
                     la_saveData[index].traffic_amt = lo_saveData.traffic_amt == 0 ? 0 : Number(go_formatDisplayClass.removeAmtFormat(lo_saveData.traffic_amt));
+                    la_saveData[index].event_time = moment().format("YYYY/MM/DD HH:mm:ss");
                 });
 
                 var lo_chkResult = this.dataValidate(la_saveData);
@@ -636,7 +636,6 @@
                 else {
                     this.tmpCUD.createData = la_saveData;
 
-                    var self = this;
                     var lo_params = {
                         prg_id: "PMS0620050",
                         page_id: 2,
@@ -644,11 +643,16 @@
                     };
 
                     $.post("/api/doOperationSave", lo_params, function (result) {
-                        self.loadDataGridByPrgID();
-                        callback(result);
+                        if (result.success) {
+                            self.tmpCUD.createData = [];
+                            alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
+                            self.doCloseDialog();
+                        }
+                        else {
+                            alert(result.errorMsg);
+                            self.isLoadingDialog = false;
+                        }
                     });
-                    console.log(this.tmpCUD.createData);
-                    this.isLoadingDialog = false;
                 }
             },
             doCloseDialog() {
