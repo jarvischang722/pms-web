@@ -124,6 +124,8 @@ Vue.component('single-grid-pms0620050-tmp', {
                 if (result.success) {
                     self.singleData = result.rowData;
                     self.oriSingleData = _.clone(result.rowData);
+                    self.singleData["avisit_dat"] = _.isNull(self.singleData["avisit_dat"])? "": moment(new Date(self.singleData["avisit_dat"])).format("YYYY/MM/DD");
+                    self.oriSingleData["avisit_dat"] = _.isNull(self.oriSingleData["avisit_dat"])? "": moment(new Date(self.oriSingleData["avisit_dat"])).format("YYYY/MM/DD");
                 } else {
                     console.error(result.errorMsg);
                 }
@@ -321,7 +323,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                         vm.doSaveCUD("PMS0620050", 1, function (result) {
                             alert(go_i18nLang["SystemCommon"].delSuccess);
                             vm.initTmpCUD();
-                            vm.isDeleteStatus = true;
+                            vm.isOnlyClose = false;
                             self.doCloseDialog();
                         });
 
@@ -352,6 +354,7 @@ Vue.component('single-grid-pms0620050-tmp', {
             lo_checkRowData["traffic_amt"] = Number(ls_trafficAmt);
             lo_checkRowData["avisit_dat"] = moment(new Date(lo_checkRowData["avisit_dat"])).format("YYYY/MM/DD");
             lo_checkRowData["visit_dat"] = moment(new Date(lo_checkRowData["visit_dat"])).format("YYYY/MM/DD");
+            self.oriSingleData["avisit_dat"] = moment(new Date(self.oriSingleData["avisit_dat"])).format("YYYY/MM/DD");
 
             _.each(lo_checkRowData, function (val, key) {
                 if (self.oriSingleData[key] != val) {
@@ -473,6 +476,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                 vm.doSaveCUD("PMS0620050", 2, function (result) {
                     if (result.success) {
                         alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
+                        vm.isOnlyClose = false;
                         self.doCloseDialog();
                     }
                     else {
@@ -486,6 +490,7 @@ Vue.component('single-grid-pms0620050-tmp', {
         doCloseDialog: function () {
             var self = this;
             $("#singleGridPMS0620050").dialog('close');
+            vm.isOnlyClose = true;
         }
     }
 });
@@ -529,7 +534,7 @@ var vm = new Vue({
         editingRow: {},
         isModifiable: true,
         isAction: false,
-        isDeleteStatus: false
+        isOnlyClose: true
     },
     methods: {
         fetchUserInfo: function () {
@@ -627,7 +632,7 @@ var vm = new Vue({
                 maxHeight: 1920,
                 resizable: true,
                 onBeforeClose: function () {
-                    if (!self.isDeleteStatus) {
+                    if (self.isOnlyClose) {
                         vmHub.$emit('doSaveModifyData');
                     }
                     else {
