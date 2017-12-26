@@ -321,6 +321,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                         vm.doSaveCUD("PMS0620050", 1, function (result) {
                             alert(go_i18nLang["SystemCommon"].delSuccess);
                             vm.initTmpCUD();
+                            vm.isDeleteStatus = true;
                             self.doCloseDialog();
                         });
 
@@ -495,8 +496,6 @@ var vm = new Vue({
         this.fetchUserInfo();
         this.initTmpCUD();
         this.loadDataGridByPrgID();
-        this.searchCond['visit_dat'] = moment(new Date()).add(-1, 'days').format("YYYY/MM/DD");
-        this.searchCond['visit_sta'] = ['N', 'Y'];
     },
     data: {
         tmpCUD: {
@@ -529,7 +528,8 @@ var vm = new Vue({
         isLoading: true,
         editingRow: {},
         isModifiable: true,
-        isAction: false
+        isAction: false,
+        isDeleteStatus: false
     },
     methods: {
         fetchUserInfo: function () {
@@ -627,7 +627,13 @@ var vm = new Vue({
                 maxHeight: 1920,
                 resizable: true,
                 onBeforeClose: function () {
-                    vmHub.$emit('doSaveModifyData');
+                    if (!self.isDeleteStatus) {
+                        vmHub.$emit('doSaveModifyData');
+                    }
+                    else {
+                        self.editingRow = {};
+                        self.isDeleteStatus = false;
+                    }
                 }
             }).dialog('open');
         },
