@@ -198,6 +198,15 @@
   box-sizing: border-box;
   cursor: pointer;
 }
+.css_table .css_td .moreClick.moreHtAuto {
+  height: auto;
+  bottom: 8px;
+  width: auto;
+}
+.css_table .css_td .moreClick.moreAbso-t10 {
+  top: 7px;
+  bottom: auto;
+}
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
@@ -274,6 +283,15 @@
   padding: 4px 5px 0 5px;
   box-sizing: border-box;
   cursor: pointer;
+}
+.horizTable-outer .css_table .css_td .moreClick.moreHtAuto {
+  height: auto;
+  bottom: 8px;
+  width: auto;
+}
+.horizTable-outer .css_table .css_td .moreClick.moreAbso-t10 {
+  top: 7px;
+  bottom: auto;
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
@@ -1425,7 +1443,7 @@ table.treetable span.indenter {
 
 /*-------- login.html -------- */
 .login-bg {
-  background: #DFE0E2 url("images/pattern.jpg") repeat;
+  background: #DFE0E2 url("../css/images/pattern.jpg") repeat;
 }
 
 .loginPage {
@@ -2377,44 +2395,44 @@ a {
   height: 25px;
   height: 25px;
 }
-.businessCompanyData .tab-block label {
+.businessCompanyData .grid-item label {
   width: 90px;
   text-align: right;
 }
-.businessCompanyData .tab-block label.label-spc {
+.businessCompanyData .grid-item label.label-spc {
   width: 82px;
   margin-right: 2px !important;
 }
-.businessCompanyData .tab-block label.label-spc-2 {
+.businessCompanyData .grid-item label.label-spc-2 {
   width: 70px;
 }
-.businessCompanyData .tab-block .mainData-tip {
+.businessCompanyData .grid-item .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
   line-height: 22px;
   color: #777;
 }
-.businessCompanyData .tab-block .checkbox-width {
+.businessCompanyData .grid-item .checkbox-width {
   width: auto;
   padding-left: 10px;
 }
-.businessCompanyData .tab-block.billCheckbox {
+.businessCompanyData .grid-item.billCheckbox {
   height: 25px;
 }
-.businessCompanyData .tab-block.billCheckbox .checkbox {
+.businessCompanyData .grid-item.billCheckbox .checkbox {
   margin: 2px auto 0 auto;
 }
-.businessCompanyData .tab-block.billCheckbox .checkbox label {
+.businessCompanyData .grid-item.billCheckbox .checkbox label {
   min-height: initial;
   cursor: auto;
 }
-.businessCompanyData .tab-block.billCheckbox .checkbox label.ckBox_label {
+.businessCompanyData .grid-item.billCheckbox .checkbox label.ckBox_label {
   width: 90px;
 }
-.businessCompanyData .tab-block.relatedCheck {
+.businessCompanyData .grid-item.relatedCheck {
   margin-left: 75px;
 }
-.businessCompanyData .tab-block.relatedCheck .checkbox label input[type=checkbox].ace + .lbl:before {
+.businessCompanyData .grid-item.relatedCheck .checkbox label input[type=checkbox].ace + .lbl:before {
   margin-right: 3px;
 }
 .businessCompanyData .billInfo .billInfo-head {
@@ -2718,10 +2736,13 @@ ul.newVisitOther-btn {
 }
 
 .resvCard-data {
-  margin-left: 25px;
+  margin: 5px auto auto 10px;
+}
+.resvCard-data .divideLine {
+  padding: 2px 5px 0 5px;
 }
 .resvCard-data span {
-  padding-right: 20px;
+  padding-right: 5px;
 }
 
 .resv-changeRecord {
@@ -4594,6 +4615,17 @@ td div.act-box span.act-text {
   height: 25px;
 }
 
+.selectHt {
+  height: 25px;
+  padding: 0 3px;
+  display: block;
+  width: 100%;
+}
+
+.lineDelTgh {
+  text-decoration: line-through;
+}
+
 .width-3 {
   width: 3% !important;
 }
@@ -4796,6 +4828,10 @@ a {
 
 .bgTGreen {
   background: #4ed8aa !important;
+}
+
+.bgLGreen {
+  background: #B0D877 !important;
 }
 
 .light-grey {
@@ -5148,6 +5184,11 @@ a {
 }
 .input-medium.rateCode-s3 {
   width: 135px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.rateCode-125 {
+  width: 125px;
   max-width: 100%;
   height: 25px;
 }

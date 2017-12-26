@@ -8,6 +8,8 @@
             where cust_mn_pers_dt.role_cod = role_rf.role_cod(+)
         ]]>
         </statement>
+        <statement test="_v(param.cust_cod)"><![CDATA[and trim(cust_cod) = trim(:cust_cod)]]></statement>
+        <parameter type="string" kind="3">cust_cod</parameter>
     </dao>
 
     <!-- [RS0W212010] 取連絡人資料 -->

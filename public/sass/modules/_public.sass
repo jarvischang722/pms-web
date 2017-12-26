@@ -71,7 +71,14 @@
   height: 60px
 .defHt
   height: $defHt
-
+.selectHt
+  height: $defHt
+  padding: 0 3px
+  display: block
+  width: 100%
+  // 刪除線
+.lineDelTgh
+  text-decoration: line-through
 // width
 .width-3
   width: 3% !important
@@ -181,6 +188,8 @@ a
   background: $light-grey !important
 .bgTGreen
   background: $t-green !important
+.bgLGreen
+  background: $light-green !important
 .light-grey
   color: $light-grey !important
 .orangeBlock1
@@ -406,6 +415,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(31px)
   &.rateCode-s3
     +input-s1(135px)
+  &.rateCode-125
+    +input-s1(125px)
   &.rateCode-s4
     +input-s1(695px)
   &.popWindow-s1

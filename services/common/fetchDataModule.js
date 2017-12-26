@@ -53,8 +53,8 @@ exports.DataGridProc = function (postData, session) {
      */
     this.fetchDgRowData = function (callback) {
         async.waterfall([
-            qryDgTemplateRf,     //查詢templateRf
-            qryRowData,        //查詢多筆資料
+            qryDgTemplateRf,        //查詢templateRf
+            qryRowData,             //查詢多筆資料
             filterRowData,          //依條件過濾多筆資料
             rowDataMultiLang        //內容多語系
         ], function (err, result) {
@@ -103,7 +103,7 @@ exports.GridSingleProc = function (postData, session) {
         async.waterfall([
             qryUIPageFields,     //取單筆欄位資料
             qrySelectOption,     //查詢selectOption
-            qryFormatRule,        //format_func_name轉換
+            qryFormatRule,       //format_func_name轉換
             qryLangUIFields      //處理欄位多語系
         ], function (err, result) {
             callback(err, result);
@@ -310,7 +310,8 @@ function qryUIDatagridFields(callback) {
             {user_id: ""},
             {user_id: go_session.user.user_id}
         ],
-        prg_id: gs_prg_id
+        prg_id: gs_prg_id,
+        page_id: Number(gn_page_id)
     };
     let la_fieldData = [];
     mongoAgent.UIDatagridField.find(lo_params).sort({col_seq: 1}).select({_id: 0}).exec(function (err, dgFieldData) {
@@ -409,7 +410,7 @@ function qryFormatRule(la_fieldData, callback) {
 function qryLangUIFields(la_dgFieldData, callback) {
     let lo_params = {
         prg_id: gs_prg_id,
-        page_id: gn_page_id
+        page_id: Number(gn_page_id)
     };
     mongoAgent.LangUIField.find(lo_params).exec(function (err, fieldLang) {
         fieldLang = tools.mongoDocToObject(fieldLang);
@@ -445,6 +446,17 @@ function qrySelectOption(la_dgFieldData, callback) {
             }
             genAsyncParaFunc(la_dgFieldData, fIdx);
         }
+        else if (_.isEqual(lo_dgField.ui_type, "tree") || _.isEqual(lo_dgField.ui_type, "multitree")) {
+            la_asyncParaFunc.push(
+                function (cb) {
+                    la_dgFieldData[fIdx].selectData = [];
+                    ruleAgent[lo_dgField.rule_func_name](lo_dgField, go_session.user, function (err, result) {
+                        la_dgFieldData[fIdx].selectData = result.selectOptions;
+                        cb(null, la_dgFieldData[fIdx]);
+                    });
+                }
+            );
+        }
         chkDgFieldIsC(la_dgFieldData, fIdx);
     });
 
@@ -477,7 +489,8 @@ function qrySelectOption(la_dgFieldData, callback) {
                             cb(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
                         });
 
-                    } else {
+                    }
+                    else {
                         cb(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
                     }
                 });

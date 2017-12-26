@@ -236,7 +236,7 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>場地金額</label>
-                                            <input type="text" v-model="singleData.place_amt" class="input-medium addedDate" @keyup="formatAmt('place_amt')" :disabled="readonly"/>
+                                            <input type="text" v-model="singleData.place_amt" class="input-medium addedDate" @keyup="formatAmt('place_amt')" disabled/>
                                         </div>
                                         <div class="grid-item">
                                             <label class="width-103px">應付訂金</label>
@@ -244,7 +244,7 @@
                                         </div>
                                         <div class="grid-item">
                                             <label>已付訂金</label>
-                                            <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date" @keyup="formatAmt('deposit_amt')" :disabled="readonly"/>
+                                            <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date" @keyup="formatAmt('deposit_amt')" disabled/>
                                         </div>
                                     </div>
                                 </div>
@@ -315,7 +315,7 @@
                         <div class="row no-margin-right">
                             <!-------- tabPage -------->
                             <div class="easyui-tabs easyUi-custom1 margin-top20" style="overflow-y: auto; width: 100%;">
-                                <div title="場地(1)" class="padding-tabs">
+                                <div title="場地" class="padding-tabs">
                                     <div class="col-xs-11 col-sm-11">
                                         <div class="row">
                                             <div class="main-content-data gs-order-table-wrap">
