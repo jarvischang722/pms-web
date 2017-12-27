@@ -36,14 +36,24 @@ Vue.component('single-grid-pms0620050-tmp', {
     created: function () {
         var self = this;
         vmHub.$on('doSaveModifyData', function (res) {
-            self.doSaveModifyData(function (result) {
-                if (result) {
-                    vm.isAction = true;
-                    vm.editingRow = {};
-                    vm.initTmpCUD();
-                    vm.loadDataGridByPrgID();
-                }
-            });
+            if (vm.isOnlyClose) {
+                self.doSaveModifyData(function (result) {
+                    if (result) {
+                        vm.isAction = true;
+                        vm.editingRow = {};
+                        vm.isLoading = true;
+                        vm.initTmpCUD();
+                        vm.loadDataGridByPrgID();
+                    }
+                });
+            }
+            else {
+                vm.isAction = true;
+                vm.editingRow = {};
+                vm.isLoading = true;
+                vm.initTmpCUD();
+                vm.loadDataGridByPrgID();
+            }
         });
     },
     mounted: function () {
@@ -123,8 +133,8 @@ Vue.component('single-grid-pms0620050-tmp', {
                 if (result.success) {
                     self.singleData = result.rowData;
                     self.oriSingleData = _.clone(result.rowData);
-                    self.singleData["avisit_dat"] = _.isNull(self.singleData["avisit_dat"])? "": moment(new Date(self.singleData["avisit_dat"])).format("YYYY/MM/DD");
-                    self.oriSingleData["avisit_dat"] = _.isNull(self.oriSingleData["avisit_dat"])? "": moment(new Date(self.oriSingleData["avisit_dat"])).format("YYYY/MM/DD");
+                    self.singleData["avisit_dat"] = _.isNull(self.singleData["avisit_dat"]) ? "" : moment(new Date(self.singleData["avisit_dat"])).format("YYYY/MM/DD");
+                    self.oriSingleData["avisit_dat"] = _.isNull(self.oriSingleData["avisit_dat"]) ? "" : moment(new Date(self.oriSingleData["avisit_dat"])).format("YYYY/MM/DD");
                 } else {
                     console.error(result.errorMsg);
                 }
@@ -496,6 +506,9 @@ Vue.component('single-grid-pms0620050-tmp', {
 
 var vm = new Vue({
     el: "#PMS0620050App",
+    components: {
+        "search-comp": go_searchComp
+    },
     mounted: function () {
         this.fetchUserInfo();
         this.initTmpCUD();
@@ -622,7 +635,6 @@ var vm = new Vue({
         },
         showSingleGridDialog: function () {
             var self = this;
-
             var dialog = $('#singleGridPMS0620050').removeClass('hide').dialog({
                 autoOpen: false,
                 modal: true,
@@ -631,18 +643,12 @@ var vm = new Vue({
                 maxHeight: 1920,
                 resizable: true,
                 onBeforeClose: function () {
-                    if (self.isOnlyClose) {
-                        vmHub.$emit('doSaveModifyData');
-                    }
-                    else {
-                        self.editingRow = {};
-                        self.isDeleteStatus = false;
-                    }
+                    vmHub.$emit('doSaveModifyData');
                 }
             }).dialog('open');
+            this.isLoading = false;
         },
         doSaveCUD: function (prg_id, page_id, callback) {
-            var self = this;
             var lo_params = {
                 prg_id: prg_id,
                 page_id: page_id,
@@ -650,13 +656,9 @@ var vm = new Vue({
             };
 
             $.post("/api/doOperationSave", lo_params, function (result) {
-                self.loadDataGridByPrgID();
                 callback(result);
             });
         }
-    },
-    components: {
-        "search-comp": go_searchComp
     }
 });
 

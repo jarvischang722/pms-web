@@ -2,8 +2,7 @@
 <div id="PMS0620050App">
     <div class="page-header"></div><!-- /.page-header -->
     <!-- 拜訪紀錄(Visit Record) Page-->
-    <div class="pageMain">
-        <!--查詢條件-->
+    <div class="pageMain" v-loading="isLoading" element-loading-text="loading...">
         <!-- 查詢 -->
         <search-comp
                 :search-fields="searchFields"
@@ -36,7 +35,6 @@
             </div>
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
-
     </div>
 
     <single-grid-pms0620050-tmp
@@ -45,18 +43,8 @@
     >
     </single-grid-pms0620050-tmp>
 
-    <!--  業務 彈出視窗內容(jing)-->
-
-    <!--  /.End 業務 彈出視窗內容 -->
 </div><!-- /.page-content -->
 
-<!-- subSystem 共用 js -->
-
-<!--  /.End subSystem 共用 js  -->
-
-<!--  業務 initial js -->
-
-<!--  /.End 業務 initial js  -->
 <%- include ./vueTemplate/searchTmp.ejs %>
 <%- include ./vueTemplate/PMS0620050Tmp.ejs %>
 
