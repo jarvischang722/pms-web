@@ -27,10 +27,8 @@ exports.loginPage = function (req, res) {
     let ls_account = "";
     let clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
-    console.log(clientIP);
     try {
         fs.exists("configs/IPsUsersRef.json", function (isExist) {
-            console.log("isExist: " + isExist);
             if (isExist) {
                 let IPsUsersRef = require("../configs/IPsUsersRef.json");
 
