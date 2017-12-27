@@ -30,28 +30,3 @@ exports.uploadRoomType = function (req, res) {
         res.json({success: success, errorMsg: err});
     });
 };
-
-/**
- * 儲存作業
- */
-exports.doOperationSave = function (req, res) {
-    req.body.page_id = req.body.page_id || 1;
-    doOperationProc(req, res);
-};
-
-function doOperationProc(req, res){
-    req.body.trans_cod = req.body.trans_cod || "BAC03009010000";
-
-    //特殊交易
-    if (req.body.trans_cod != "" && req.body.trans_cod != "BAC03009010000") {
-        dbSVC.execTransSQL(req.body, req.session, function (err, returnData) {
-            res.json(returnData);
-        });
-    }
-    //一般儲存
-    else {
-        dbSVC.execNormalSQL(req.body, req.session, function (err, returnData) {
-            res.json(returnData);
-        });
-    }
-}
