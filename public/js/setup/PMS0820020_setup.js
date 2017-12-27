@@ -1079,14 +1079,14 @@ var PMS0820020VM = new Vue({
                 self.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
 
                 // 算最小寬度 && 最大行數
-                var maxField = _.max(self.pageTwoFieldData, function(lo_pageTwoField){
+                var maxField = _.max(self.pageTwoFieldData, function (lo_pageTwoField) {
                     return lo_pageTwoField.length;
                 });
-                _.each(maxField, function(lo_maxField, index){
+                _.each(maxField, function (lo_maxField, index) {
 
-                    var width = parseInt(lo_maxField.width)|| 35; //90
-                    var label_width = parseInt(lo_maxField.label_width)|| 50; //165
-                    self.maxWidth += (width + label_width +14);
+                    var width = parseInt(lo_maxField.width) || 35; //90
+                    var label_width = parseInt(lo_maxField.label_width) || 50; //165
+                    self.maxWidth += (width + label_width + 14);
                     //todo 此單筆最後一排有超過五個以上的grid-item 會錯誤
                     // if(index >= 2) return true;
                 });
@@ -1152,7 +1152,7 @@ var PMS0820020VM = new Vue({
             this.initDatePicker();
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
             // gridWt = $('.singleGridContent .grid-item label').width() + $('.singleGridContent .grid-item input').width() +14;
-            var dialogWt = this.maxWidth +120;
+            var dialogWt = this.maxWidth + 120;
             var height = 10 * 50; // 預設一個row 高度
             var dialog = $("#sigleGridPMS0820020").dialog({
                 autoOpen: false,

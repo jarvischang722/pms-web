@@ -10,72 +10,73 @@
             <div class="">
                 <div class="col-sm-12 col-xs-12">
                     <div class="row">
-                    <div class="col-sm-11 col-xs-11">
-                    <div class="row no-margin-right">
-                        <!-- Start Content -->
-                        <form id="singleDataForm" method="post">
-                            <div id="singleGridDiv">
-                                <div class="grid" v-for="fields in pageTwoFieldData">
-                                    <div class="grid-item " v-for="field in fields">
-                                        <label :style="{width:field.label_width + 'px'}"
-                                               :title="field.ui_hint"
-                                               v-if="field.visiable == 'Y'">
-                                            <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
-                                            <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
-                                                {{field.ui_display_name}}
-                                            </a>
-                                            <span v-else>{{field.ui_display_name}} </span>
-                                        </label>
-                                        <!--<span v-if="field.visiable == 'Y'"-->
-                                        <!--style="width: 15px; text-align: center;-->
-                                        <!--display: inline-block; min-width: 15px;">:</span>-->
+                        <div class="col-sm-11 col-xs-11">
+                            <div class="row no-margin-right">
+                                <!-- Start Content -->
+                                <form id="singleDataForm" method="post">
+                                    <div id="singleGridDiv">
+                                        <div class="grid" v-for="fields in pageTwoFieldData">
+                                            <div class="grid-item " v-for="field in fields">
+                                                <label :style="{width:field.label_width + 'px'}"
+                                                       :title="field.ui_hint"
+                                                       v-if="field.visiable == 'Y'">
+                                                    <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                    <a @click="editFieldMultiLang(field)"
+                                                       v-if="field.multi_lang_table != ''">
+                                                        {{field.ui_display_name}}
+                                                    </a>
+                                                    <span v-else>{{field.ui_display_name}} </span>
+                                                </label>
+                                                <!--<span v-if="field.visiable == 'Y'"-->
+                                                <!--style="width: 15px; text-align: center;-->
+                                                <!--display: inline-block; min-width: 15px;">:</span>-->
 
-                                        <!--  Text & Number -->
-                                        <!--  number no spinner add class="numStyle-none defHt" -->
-                                        <input v-model="singleData[field.ui_field_name]"
-                                               v-if="field.visiable == 'Y' &&   (field.ui_type == 'text' ||  field.ui_type == 'number')"
-                                               :type="field.ui_type"
-                                               class="numStyle-none"
-                                               :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
-                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                               :required="field.requirable == 'Y'"
-                                               min="0"
-                                               :maxlength="field.ui_field_length"
-                                               :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
-                                               @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                <!--  Text & Number -->
+                                                <!--  number no spinner add class="numStyle-none defHt" -->
+                                                <input v-model="singleData[field.ui_field_name]"
+                                                       v-if="field.visiable == 'Y' &&   (field.ui_type == 'text' ||  field.ui_type == 'number')"
+                                                       :type="field.ui_type"
+                                                       class="numStyle-none"
+                                                       :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                                       :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                       :required="field.requirable == 'Y'"
+                                                       min="0"
+                                                       :maxlength="field.ui_field_length"
+                                                       :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                       @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)">
 
-                                        <!-- 日期選擇器 -->
-                                        <template v-if="field.visiable == 'Y' && field.ui_type == 'date'">
-                                            <el-date-picker v-model="singleData[field.ui_field_name]"
-                                                            type="date"
-                                                            size="small"
-                                                            :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
-                                                            format="yyyy/MM/dd"
-                                                            :style="{width:field.width + 'px' , height:'30px'}"
-                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                <!-- 日期選擇器 -->
+                                                <template v-if="field.visiable == 'Y' && field.ui_type == 'date'">
+                                                    <el-date-picker v-model="singleData[field.ui_field_name]"
+                                                                    type="date"
+                                                                    size="small"
+                                                                    :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                                    format="yyyy/MM/dd"
+                                                                    :style="{width:field.width + 'px' , height:'30px'}"
+                                                                    @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
 
-                                            </el-date-picker>
-                                        </template>
+                                                    </el-date-picker>
+                                                </template>
 
-                                        <!-- 日期時間選擇器 -->
-                                        <template v-if="field.visiable == 'Y' && field.ui_type == 'datetime'">
-                                            <el-date-picker v-model="singleData[field.ui_field_name]"
-                                                            type="datetime"
-                                                            change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                                            :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
-                                                            size="small"
-                                                            format="yyyy/MM/dd HH:mm:ss"
-                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
-                                            </el-date-picker>
-                                        </template>
+                                                <!-- 日期時間選擇器 -->
+                                                <template v-if="field.visiable == 'Y' && field.ui_type == 'datetime'">
+                                                    <el-date-picker v-model="singleData[field.ui_field_name]"
+                                                                    type="datetime"
+                                                                    change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                    :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                                    size="small"
+                                                                    format="yyyy/MM/dd HH:mm:ss"
+                                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                    @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                    </el-date-picker>
+                                                </template>
 
 
-                                        <!-- 下拉選單 -->
-                                        <span class="dropdown dropdownCustom" align="left"
-                                              :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                              :class="{'input_sta_required' : field.requirable == 'Y' }"
-                                              v-if="field.visiable == 'Y' && field.ui_type == 'select'">
+                                                <!-- 下拉選單 -->
+                                                <span class="dropdown dropdownCustom" align="left"
+                                                      :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                      :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                                      v-if="field.visiable == 'Y' && field.ui_type == 'select'">
                                         <button :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                 class="btn btn-default btn-white dropdown-toggle btn-height"
@@ -95,15 +96,15 @@
                                         </ul>
                                     </span>
 
-                                        <input type="hidden"
-                                               v-model="singleData[field.ui_field_name]"
-                                               v-if="field.visiable == 'N'"/>
+                                                <input type="hidden"
+                                                       v-model="singleData[field.ui_field_name]"
+                                                       v-if="field.visiable == 'N'"/>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
-                        </form>
-                    </div>
-                    </div>
+                        </div>
                         <!-- End Content -->
 
                         <!-- Control Panel -->

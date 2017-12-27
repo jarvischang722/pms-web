@@ -799,8 +799,8 @@ var vm = new Vue({
                 var maxField = _.max(vm.pageTwoFieldData, function(lo_pageTwoField){
                     return lo_pageTwoField.length;
                 });
-                _.each(maxField, function(lo_maxField){
-                    self.maxWidth += (lo_maxField.width + lo_maxField.label_width +14);
+                _.each(maxField, function (lo_maxField) {
+                    self.maxWidth += (lo_maxField.width + lo_maxField.label_width + 14);
                 });
             });
         },

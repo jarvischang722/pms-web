@@ -3,13 +3,13 @@
     <div class="col-xs-12" v-if="searchFields.length > 0 ">
         <div class="search-content">
             <div class="">
-            <div class="search-co row">
+                <div class="search-co row">
                     <div class="col-xs-12 search-co-content search-S2">
                         <div class="width-95 searchMain-S2 row" style="padding-top: 10px;">
                             <div class="grid">
                                 <div class="grid-item" v-for="field in searchFieldsByRow[0]">
 
-                                    <label :title="field.ui_hint" >{{field.ui_display_name}}</label>
+                                    <label :title="field.ui_hint">{{field.ui_display_name}}</label>
                                     <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
                                         <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
                                                class="numStyle-none defHt"
@@ -46,7 +46,7 @@
                                     </template>
 
                                     <template v-if="field.ui_type == 'radio'">
-                                        <el-radio class="radio width-auto"
+                                        <el-radio class="radio width-auto mt-3"
                                                   v-model="searchCond[field.ui_field_name]"
                                                   v-for="item in field.selectData" :label="item.value">
                                             {{item.display}}{{item.value}}

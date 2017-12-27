@@ -20,6 +20,7 @@
   margin: 3px 4px auto auto;
   width: 90px;
   font-size: 13px;
+  word-break: break-all;
 }
 .grid-item label.label-spc {
   width: 82px;
@@ -4375,6 +4376,22 @@ td div.act-box span.act-text {
 .search-content.width-100 .el-select, .editVueTpl.width-100 .el-select, .grid-item.width-100 .el-select {
   width: 100% !important;
 }
+.search-content .vue-treeselect__control, .editVueTpl .vue-treeselect__control, .grid-item .vue-treeselect__control {
+  height: 25px !important;
+}
+.search-content .vue-treeselect__control .vue-treeselect__input-wrapper input, .editVueTpl .vue-treeselect__control .vue-treeselect__input-wrapper input, .grid-item .vue-treeselect__control .vue-treeselect__input-wrapper input {
+  border: 0;
+}
+.search-content .vue-treeselect__control .vue-treeselect__placeholder, .editVueTpl .vue-treeselect__control .vue-treeselect__placeholder, .grid-item .vue-treeselect__control .vue-treeselect__placeholder {
+  line-height: 25px !important;
+}
+.search-content .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value, .editVueTpl .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value, .grid-item .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value {
+  height: 25px !important;
+  margin-bottom: 0 !important;
+}
+.search-content .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value .vue-treeselect__multi-value-item-wrapper, .search-content .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value .vue-treeselect__input-wrapper, .editVueTpl .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value .vue-treeselect__multi-value-item-wrapper, .editVueTpl .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value .vue-treeselect__input-wrapper, .grid-item .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value .vue-treeselect__multi-value-item-wrapper, .grid-item .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value .vue-treeselect__input-wrapper {
+  padding-top: 0 !important;
+}
 
 .grid-item .el-date-editor {
   height: 25px !important;
@@ -4512,6 +4529,10 @@ td div.act-box span.act-text {
 
 .no-mt {
   margin-top: 0 !important;
+}
+
+.mt-3 {
+  margin-top: 3px !important;
 }
 
 .mt-91 {
