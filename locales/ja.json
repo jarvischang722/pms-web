@@ -252,7 +252,11 @@
     "Desciption_Dt": "名細描述(日)",
     "check_delete": "確定刪除此筆資料(日)",
     "CompanyName": "德安資訊股份有限公司",
-    "Setting": "設定(日)"
+    "Setting": "設定(日)",
+    "CompanyName": "德安資訊股份有限公司",
+    "Save_changed_data": "資料已修改是否存檔(日)",
+    "saveSuccess": "儲存成功(日)",
+    "delSuccess": "刪除成功(日)"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",
@@ -275,6 +279,7 @@
       "ChkZeroToHundred": "%s 請輸入0~100的數字(日文)",
       "ChkZeroToMaxNum": "%s 請輸入0~99999的數字(日文)",
       "FmtHHMM": "%s 時間格式HH:MM(日文)",
+      "ChkHHMM": "%s 時間格式HHMM or HH:MM(日文)",
       "ChkPointOne": "%s 僅能輸入至小數點1位(日文)",
       "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(日文)"
     }

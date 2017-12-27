@@ -214,9 +214,7 @@
       "delSuccess": "Delete Success"
     },
     "PMS0620050": {
-      "add_visit_mn": "新增拜訪紀錄(英)",
-      "edit_vist_mn": "修改拜訪紀錄(英)",
-      "remove_visit_mn": "刪除拜訪紀錄(英)"
+      "edit_vist_mn": "修改拜訪紀錄(英)"
     }
   },
   "table_in_use": "Table in use (%s)",
@@ -251,7 +249,11 @@
     "Desciption_Dt": "Desciption_DT",
     "check_delete": "確定刪除此筆資料(英)",
     "CompanyName": "Athena Information Systems",
-    "Setting": "Setting"
+    "Setting": "Setting",
+    "CompanyName": "Athena Information Systems",
+    "Save_changed_data": "資料已修改是否存檔(英)",
+    "saveSuccess": "Save Success",
+    "delSuccess": "Delete Success"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",
@@ -274,6 +276,7 @@
       "ChkZeroToHundred": "%s 請輸入0~100的數字(英文)",
       "ChkZeroToMaxNum": "%s 請輸入0~99999的數字(英文)",
       "FmtHHMM": "%s time format is 'HH:MM'",
+      "ChkHHMM": "%s time format is 'HHMM' or 'HH:MM'",
       "ChkPointOne": "%s 僅能輸入至小數點1位(英文)",
       "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)"
     }

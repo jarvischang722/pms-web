@@ -26,8 +26,8 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth "
-                                        role="button" @click="editRow">
-                                    <%= __("program")["PMS0620050"]["edit_vist_mn"]%>
+                                        role="button" @click="editRow" :disabled="isAction">
+                                    <%= __("program")["PMS0620050"]["edit_vist_mn"] %>
                                 </button>
                             </li>
                         </ul>
