@@ -414,7 +414,7 @@ var vm = new Vue({
             var dialog = $('#singleGridPMS0610010').removeClass('hide').dialog({
                 autoOpen: false,
                 modal: true,
-                title: go_i18nLang["program"]["PMS0610010"].compamy_maintain,
+                title: go_i18nLang["program"]["PMS0610010"].company_maintain,
                 width: 1000,
                 maxHeight: 1920,
                 resizable: true

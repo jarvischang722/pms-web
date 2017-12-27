@@ -6,20 +6,40 @@ import pms0610020 from './PMS0610020.vue';
 Vue.prototype.$eventHub = new Vue();
 
 var gs_prgId = "PMS0610010";
+var vmHub = new Vue();
 
 var vm = new Vue({
     el: "#PMS0610010App",
     created() {
         var self = this;
+
+        vmHub.$on("doUnLock", function () {
+            self.doRowUnLock();
+        });
+
+        //change log dialog
         this.$eventHub.$on('getChangeLogData', function (changeLogData) {
             self.openChangeLogDialog = changeLogData.openChangeLogDialog;
             self.allChangeLogList = changeLogData.allChangeLogList;
         });
-
+        //業務員指派dialog
         this.$eventHub.$on('doEditSalesClerk', function (editSalesClerkData) {
             self.isEditSalesClerk = editSalesClerkData.isEditSalesClerk;
             self.editRows = editSalesClerkData.editRows;
             self.doEditSalesClerk();
+        });
+        this.$eventHub.$on('doCloseEditSalesClerk', function (editSalesClerkData) {
+            self.isEditSalesClerk = editSalesClerkData.isEditSalesClerk;
+            self.isLoading = false;
+            self.editRows = [];
+        });
+        //status chg. dialog
+        this.$eventHub.$on('getCompanyStatusData', function (companyStatusData) {
+            self.isOpenCompanyStatus = companyStatusData.openCompanyStatus;
+        });
+        //合約狀態變更 dialog
+        this.$eventHub.$on('getContractStatusData', function (contractStatusData) {
+            self.isOpenContractStatus = contractStatusData.openContractStatus;
         });
     },
     mounted() {
@@ -54,6 +74,8 @@ var vm = new Vue({
             isCreateStatus: false,
             isEditStatus: false,
             isEditSalesClerk: false,
+            isOpenCompanyStatus: false,
+            isOpenContractStatus: false,
             isVisitPlan: false, //拜訪紀錄為新增多筆、單筆
             fetchDataParams: {}, //拜訪紀錄所需參數
             openChangeLogDialog: false,
@@ -216,26 +238,52 @@ var vm = new Vue({
             var dialog = $('#PMS0610020').removeClass('hide').dialog({
                 autoOpen: false,
                 modal: true,
-                title: go_i18nLang["program"]["PMS0610020"].compamy_maintain,
+                title: go_i18nLang["program"]["PMS0610020"].company_maintain,
                 width: 1000,
                 maxHeight: 1920,
                 resizable: true
             }).dialog('open');
         },
+        //ststus chg.(公司狀態)
+        doSaveCompanyStatus(){
+            this.isOpenCompanyStatus = false;
+        },
+        doCloseCompanyStatusDialog(){
+            this.isOpenCompanyStatus = false;
+        },
+        //合約狀態變更
+        doSaveContractStatus(){
+            this.isOpenContractStatus = false;
+        },
+        doCloseContractStatusDialog(){
+            this.isOpenContractStatus = false;
+        },
+        //業務員指派
         doEditSalesClerk() {
-            this.isLoading = true;
+            var self = this;
+
+            var ln_count = 0;
             var la_editRow = $('#PMS0610010_dg').datagrid('getSelections');
 
-            if (la_editRow.length == 0) {
+            if (la_editRow.length == 0 && this.editRows.length == 0) {
                 alert(go_i18nLang["SystemCommon"].SelectData);
             }
             else {
-                this.isEditSalesClerk = true;
-                this.isVisitPlan = false;
-                this.editRows = this.editRow.length == 0 ? la_editRow : this.editRows;
+                this.editRows = this.editRows.length == 0 ? la_editRow : this.editRows;
+                _.each(this.editRows, function(lo_editRow){
+                    self.doRowLock(lo_editRow.cust_mn_cust_cod, function(result){
+                        if(result){
+                            ln_count++;
+                        }
+                    });
+                });
+                if(ln_count == this.editRows.length){
+                    this.isEditSalesClerk = true;
+                    this.isVisitPlan = false;
+                }
             }
-            this.isLoading = false;
         },
+        //新增拜訪計畫
         addVisitPlan() {
             var self = this;
             this.isLoading = true;
@@ -261,10 +309,32 @@ var vm = new Vue({
                     resizable: true,
                     onBeforeClose: function () {
                         self.editRows = [];
+                        self.isVisitPlan = false;
                     }
                 });
             }
             this.isLoading = false;
+        },
+        doRowLock: function (cust_cod, callback) {
+            var lo_param = {
+                prg_id: "PMS0620030",
+                table_name: "cust_mn",
+                lock_type: "R",
+                key_cod: cust_cod.trim()
+            };
+            g_socket.emit('handleTableLock', lo_param);
+            callback(true);
+        },
+        doRowUnLock(){
+            var lo_param = {
+                prg_id: "PMS0620030"
+            };
+            g_socket.emit('handleTableUnlock', lo_param);
         }
     }
+});
+
+//關掉瀏覽器時unlock
+$(window).on('beforeunload', function () {
+    return vmHub.$emit("doUnLock");
 });

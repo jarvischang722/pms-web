@@ -169,7 +169,7 @@
     },
     "PMS0610020": {
       "company_status": "Status chg.(日)",
-      "compamy_maintain": "商務公司維護(日)",
+      "company_maintain": "商務公司維護(日)",
       "company_related_diagram": "公司關聯圖(日)",
       "company_status": "Status chg.(日)",
       "contract_status": "合約狀態變更(日)",
@@ -194,6 +194,9 @@
       "update_remark": "修改備註(日)",
       "remove_remark": "刪除備註(日)",
       "appear_consumption_dt": "顯示消費明細(日)"
+    },
+    "PMS0620030":{
+      "edit_sales_clerk": "修改業務員(日)"
     },
     "PMS0620020": {
       "sales_cod": "業務員代號(日)",

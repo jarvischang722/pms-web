@@ -144,7 +144,7 @@ module.exports = function (io) {
             lock_type: clientData.lock_type || "T",
             key_cod: clientData.key_cod || ""
         };
-        let ln_existSocketIdx = _.findIndex(ga_lockedPrgIDList, {socket_id: socket.client.id});
+        let ln_existSocketIdx = _.findIndex(ga_lockedPrgIDList, {socket_id: socket.client.id, key_cod: clientData.key_cod});
         if (ln_existSocketIdx > -1) {
             ga_lockedPrgIDList[ln_existSocketIdx] = lo_singelSocket;
         } else {

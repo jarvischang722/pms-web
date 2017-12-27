@@ -109,23 +109,6 @@
                     isEditSalesClerk: true,
                     editRows: [self.rowData]
                 });
-
-//                var dialog = $("#salesEditClerk").removeClass('hide').dialog({
-//                    modal: true,
-//                    title: go_i18nLang["program"]["PMS0610010"].edit_sales,
-//                    title_html: true,
-//                    width: 500,
-//                    maxwidth: 1920,
-//                    // autoOpen: true,
-//                    dialogClass: "test",
-//                    resizable: true,
-//                    onBeforeClose: function () {
-//                        self.editRows = [];
-//                        self.isEditSalesClerk = false;
-//                    }
-//                });
-//                $('#salesEditClerk').parents('.panel.window').attr("style","display: block; width: 500px; left: 710px; top: 438px; z-index: 9020 !important;");
-
             }
         }
     }
