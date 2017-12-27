@@ -3784,6 +3784,35 @@ td div.act-box span.act-text {
   box-shadow: 3px 3px 2px #ccc;
   position: relative;
 }
+.custab.custab-gray {
+  box-shadow: none;
+}
+.custab.custab-gray thead tr {
+  background: #eee !important;
+  color: #000;
+  height: 25px;
+}
+.custab.custab-gray thead tr th {
+  border: 1px solid #cccccc !important;
+  font-weight: 400;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.custab.custab-gray tbody tr {
+  height: 25px;
+}
+.custab.custab-gray tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+.custab.custab-gray tbody tr:nth-child(even) {
+  background-color: #fff;
+}
+.custab.custab-gray tbody tr td {
+  border: 1px solid #cccccc !important;
+  color: #555;
+  padding-left: 5px;
+  padding-right: 5px;
+}
 .custab thead tr {
   background: #549bdb !important;
   background-image: none;
