@@ -11,4 +11,58 @@
         <parameter type="string" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">visit_typ</parameter>
     </dao>
+
+    <!--[PMS0620050] 取多筆拜訪紀錄-->
+    <dao name="QRY_PS_VISIT_DT">
+        <statement><![CDATA[
+            SELECT  CUST_MN.SHOW_COD,CUST_MN.CUST_NAM,CUST_MN.STATUS_COD,CONTRACT_STATUS_RF.STATUS_DESC,PS_VISIT_RF.VISIT_NAM,PS_VISIT_DT.VISIT_DAT,
+            PS_VISIT_DT.VISIT_STA,PS_VISIT_DT.PURPORT_RMK,PS_VISIT_DT.REMARK,PS_VISIT_DT.AVISIT_DAT,PS_VISIT_DT.TRAFFIC_AMT, PS_VISIT_DT.VISIT_TYP,PS_VISIT_DT.CUST_COD
+            FROM  PS_VISIT_DT, CUST_MN, PS_VISIT_RF, CONTRACT_STATUS_RF
+            WHERE  CUST_MN.ATHENA_ID = PS_VISIT_DT.ATHENA_ID
+            AND  CUST_MN.CUST_COD = PS_VISIT_DT.CUST_COD
+            AND  CUST_MN.ATHENA_ID = CONTRACT_STATUS_RF.ATHENA_ID(+)
+            AND  CUST_MN.CONTRACT_STA = CONTRACT_STATUS_RF.STATUS_COD(+)
+            AND  PS_VISIT_DT.ATHENA_ID = PS_VISIT_RF.ATHENA_ID
+            AND  PS_VISIT_DT.VISIT_TYP = PS_VISIT_RF.VISIT_TYP
+            AND  PS_VISIT_DT.ATHENA_ID = :athena_id
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="likestring" kind="2" condition="CUST_MN.show_cod like ? ">show_cod</parameter>
+        <parameter type="likestring" kind="2" condition="PS_VISIT_DT.purport_rmk like ? ">purport_rmk</parameter>
+        <parameter type="likestring" kind="2" condition="PS_VISIT_DT.remark like ? ">remark</parameter>
+        <parameter type="string" kind="2" condition="PS_VISIT_DT.visit_dat = to_date(:visit_dat, 'YYYY/MM/DD') ">visit_dat</parameter>
+        <parameter type="string" kind="2" condition="PS_VISIT_DT.avisit_dat = to_date(:avisit_dat, 'YYYY/MM/DD') ">avisit_dat</parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_MN.status_cod) = trim(:status_cod) ">status_cod</parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_MN.cust_nam) = trim(:cust_nam) ">cust_nam</parameter>
+        <parameter type="string" kind="2" condition="trim(PS_VISIT_DT.visit_typ) = trim(:visit_typ) ">visit_typ</parameter>
+        <parameter type="string" kind="2" condition="trim(PS_VISIT_DT.visit_sta) = trim(:visit_sta) ">visit_sta</parameter>
+        <parameter type="instring" kind="3">type_cod</parameter>
+        <statement test="_v(param.type_cod)"><![CDATA[and type_cod in(:type_cod)]]></statement>
+        <parameter type="instring" kind="3">contract_sta</parameter>
+        <statement test="_v(param.contract_sta)"><![CDATA[and contract_sta in(:contract_sta)]]></statement>
+        <parameter type="instring" kind="3">sales_cod</parameter>
+        <statement test="_v(param.sales_cod)"><![CDATA[and sales_cod in(:sales_cod)]]></statement>
+        <parameter type="instring" kind="3">business_cod</parameter>
+        <statement test="_v(param.business_cod)"><![CDATA[and business_cod in(:business_cod)]]></statement>
+        <parameter type="instring" kind="3">area_cod</parameter>
+        <statement test="_v(param.area_cod)"><![CDATA[and area_cod in(:area_cod)]]></statement>
+        <orderby>ORDER  BY  PS_VISIT_DT.VISIT_DAT, CUST_MN.SHOW_COD</orderby>
+    </dao>
+
+    <!--[PMS0620050] 取得單筆拜訪記錄-->
+    <dao name="QRY_PS_VISIT_DT_SINGLE">
+        <statement><![CDATA[
+            select ps.cust_cod, ps.visit_typ, ps.visit_dat, ps.visit_sta, ps.avisit_dat, ps.traffic_amt, ps.purport_rmk,
+            ps.remark, cust.show_cod, cust.cust_nam, cust.status_cod, rf.status_desc, ps.ins_usr, ps.ins_dat, ps.upd_usr, ps.upd_dat
+            from ps_visit_dt ps, cust_mn cust, contract_status_rf rf
+            where ps.athena_id = cust.athena_id and ps.cust_cod = cust.cust_cod
+            and cust.athena_id = rf.athena_id(+)
+            and cust.contract_sta = rf.status_cod(+)
+            and ps.athena_id =:athena_id and trim(ps.cust_cod) =trim(:cust_cod) and ps.visit_typ = :visit_typ and ps.visit_dat = to_date(:visit_dat, 'YYYY/MM/DD')
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+        <parameter type="string" kind="3">visit_typ</parameter>
+        <parameter type="string" kind="3">visit_dat</parameter>
+    </dao>
 </root>

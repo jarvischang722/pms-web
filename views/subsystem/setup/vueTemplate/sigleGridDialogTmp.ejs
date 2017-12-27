@@ -10,10 +10,11 @@
                             <div id="singleGridDiv">
                                 <div v-for="fields in pageTwoFieldData">
                                     <div class=" grid">
-                                        <div class="grid-item " v-for="field in fields">
+                                        <div class="grid-item" v-for="field in fields">
                                             <!--  CheckBox add class="labelCkbox" -->
                                             <label :style="{width:field.label_width + 'px'}"
                                                    v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
+                                                   :title="field.ui_hint"
                                                    class="labelCkbox">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                 <a @click="editFieldMultiLang(field)"
@@ -24,6 +25,7 @@
                                             </label>
 
                                             <label :style="{width:field.label_width + 'px'}"
+                                                   :title="field.ui_hint"
                                                    v-else-if="field.visiable == 'Y'">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                 <a @click="editFieldMultiLang(field)"
@@ -67,8 +69,7 @@
                                                       @click="chkFieldRule(field.ui_field_name,field.rule_func_name)"></textarea>
 
                                             <!--  label -->
-                                            <label
-                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                            <label :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     class="numStyle-none"
                                                     v-if="field.visiable == 'Y' && field.ui_type == 'label'"
                                                     :maxlength="field.ui_field_length"
@@ -95,6 +96,7 @@
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     :class="{'input_sta_required' : field.requirable == 'Y' }"
                                                     v-if="field.visiable == 'Y' && (field.ui_type == 'select' )">
+
                                                 <option v-for="opt in field.selectData" :value="opt.value">
                                                     {{opt.display}}
                                                 </option>
@@ -148,41 +150,43 @@
                 </div>
                 <!-- Control Panel -->
                 <div class="col-sm-1 col-xs-1 singleRelative">
-                    <div class="row" v-if="editStatus">
+                    <div class="row" >
                         <div class="singleEditStatus right-menu-co">
                             <ul>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            :disabled="isFistData  || BTN_action"
-                                            style="" @click="toFirstData"><%= __("SystemCommon").First %>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            :disabled="isFistData  || BTN_action"
-                                            style="" @click="toPreData"><%= __("SystemCommon").Previous %>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            :disabled="isLastData  || BTN_action"
-                                            style="" @click="toNextData"><%= __("SystemCommon").Next %>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            :disabled="isLastData  || BTN_action"
-                                            style="" @click="toLastData"><%= __("SystemCommon").Last %>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth"
-                                            :disabled="BTN_action"
-                                            style=""
-                                            @click="handleDeleteSingleData">
-                                        <%= __("SystemCommon").Delete %>
-                                    </button>
-                                </li>
+                                <template v-if="editStatus">
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isFistData  || BTN_action"
+                                                style="" @click="toFirstData"><%= __("SystemCommon").First %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isFistData  || BTN_action"
+                                                style="" @click="toPreData"><%= __("SystemCommon").Previous %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isLastData  || BTN_action"
+                                                style="" @click="toNextData"><%= __("SystemCommon").Next %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isLastData  || BTN_action"
+                                                style="" @click="toLastData"><%= __("SystemCommon").Last %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                :disabled="BTN_action"
+                                                style=""
+                                                @click="handleDeleteSingleData">
+                                            <%= __("SystemCommon").Delete %>
+                                        </button>
+                                    </li>
+                                </template>
                                 <li v-if="createStatus">
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
                                             @click="doSaveGrid('addOther')" :disabled="BTN_action">

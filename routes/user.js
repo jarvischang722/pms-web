@@ -44,5 +44,9 @@ module.exports = function (app, passport) {
     app.post('/api/getRoleOfAccounts', apiMiddles, userCrtl.getRoleOfAccounts);
     //取得作業每顆按鈕func_id的權限
     app.post('/api/getUserFuncPurviewByProID', apiMiddles, userCrtl.getUserFuncPurviewByProID);
+    //取得某一個系統的所有權限資料
+    app.post('/api/userSubsysPurviewBySysID', apiMiddles, userCrtl.userSubsysPurviewBySysID);
+    //新增 修改密碼(靜態)
+    app.get('/editPassword', userCrtl.getEditPassword);
 };
 

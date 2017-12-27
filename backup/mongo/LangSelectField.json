@@ -209,3 +209,147 @@
     "ui_display_name_en" : "", 
     "hint_en" : ""
 }
+{ 
+    "_id" : ObjectId("5a0a65d9b833d807e881468a"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_cust_mn", 
+    "ui_field_name" : "show_cod", 
+    "ui_display_name_zh_TW" : "公司編號", 
+    "hint_zh_TW" : "公司編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a65d9b833d807e881468b"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_cust_mn", 
+    "ui_field_name" : "cust_nam", 
+    "ui_display_name_zh_TW" : "公司名稱", 
+    "hint_zh_TW" : "公司名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a65d9b833d807e881468c"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_cust_mn", 
+    "ui_field_name" : "uni_cod", 
+    "ui_display_name_zh_TW" : "統一編號", 
+    "hint_zh_TW" : "統一編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a65d9b833d807e881468d"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "sales_cod", 
+    "ui_display_name_zh_TW" : "業務員代號", 
+    "hint_zh_TW" : "業務員代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a65d9b833d807e881468e"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "sales_nam", 
+    "ui_display_name_zh_TW" : "業務員姓名", 
+    "hint_zh_TW" : "業務員姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a65d9b833d807e881468f"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "status_cod", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a65d9b833d807e8814690"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "class_nam", 
+    "ui_display_name_zh_TW" : "組別", 
+    "hint_zh_TW" : "組別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a65d9b833d807e8814691"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "hotel_sales", 
+    "ui_display_name_zh_TW" : "飯店業務", 
+    "hint_zh_TW" : "飯店業務", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a65d9b833d807e8814692"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "bq_sales", 
+    "ui_display_name_zh_TW" : "餐飲業務", 
+    "hint_zh_TW" : "餐飲業務", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a65d9b833d807e8814693"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "member_sales", 
+    "ui_display_name_zh_TW" : "會員業務", 
+    "hint_zh_TW" : "會員業務", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a65d9b833d807e8814694"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_business_rf", 
+    "ui_field_name" : "business_cod", 
+    "ui_display_name_zh_TW" : "行業別代號", 
+    "hint_zh_TW" : "行業別代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a65d9b833d807e8814695"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_business_rf", 
+    "ui_field_name" : "business_rmk", 
+    "ui_display_name_zh_TW" : "行業別名稱", 
+    "hint_zh_TW" : "行業別名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}

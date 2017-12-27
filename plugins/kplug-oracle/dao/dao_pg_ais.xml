@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 
-    <!-- ['PSIW500030'] 單據明細小計小數位數 -->
+    <!-- ['PSIW510030'] 單據明細小計小數位數 -->
     <dao name="QRY_SHIP_DT_ROUND_NOS">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'ship_dt_round_nos') as ship_dt_round_nos from dual
@@ -10,7 +10,7 @@
         <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 單據主檔金額小數位數 -->
+    <!-- ['PSIW510030'] 單據主檔金額小數位數 -->
     <dao name="QRY_SHIP_MN_ROUND_NOS">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'ship_mn_round_nos') as ship_mn_round_nos from dual
@@ -19,7 +19,7 @@
         <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 售單價小數位數 -->
+    <!-- ['PSIW510030'] 售單價小數位數 -->
     <dao name="QRY_SHIP_UNIT_ROUND">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'ship_unit_round') as ship_unit_round from dual
@@ -28,7 +28,7 @@
         <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 送貨連絡電話代號 -->
+    <!-- ['PSIW510030'] 送貨連絡電話代號 -->
     <dao name="QRY_CONTACT_COD">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'contact_cod') as contact_cod from dual
@@ -37,7 +37,7 @@
         <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 貨品預設銷貨倉庫 -->
+    <!-- ['PSIW510030'] 貨品預設銷貨倉庫 -->
     <dao name="QRY_SHIP_WHOUSE_COD">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'ship_whouse_cod') as ship_whouse_cod from dual
@@ -46,7 +46,7 @@
         <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 送貨地址代號 -->
+    <!-- ['PSIW510030'] 送貨地址代號 -->
     <dao name="QRY_SHIP_ADD_COD">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'ship_add_cod') as ship_add_cod from dual
@@ -55,7 +55,7 @@
         <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 訂貨日期切換的時間參數 -->
+    <!-- ['PSIW510030'] 訂貨日期切換的時間參數 -->
     <dao name="QRY_ORDER_DAT_CHANGE_TIME">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'order_dat_change_time') as order_dat_change_time from dual
@@ -64,15 +64,16 @@
         <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
-    <!-- ['RS0W202010'] 前檯金額格式 -->
+    <!-- ['RS0W212010'] 前檯金額格式 -->
     <dao name="QRY_MASK_HFD">
         <statement><![CDATA[
-               select pg_ais.sf_get_comp_sval('NULL', 'CM', 'mask_hfd') as mask_hfd from dual
+               select pg_ais.sf_get_comp_sval(:comp_cod, 'CM', 'mask_hfd') as mask_hfd from dual
         ]]>
         </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
-    <!-- ['RS0W202010'] 前檯進位小數位數 -->
+    <!-- ['RS0W212010'] 前檯進位小數位數 -->
     <dao name="QRY_ROUND_HFD">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval('NULL', 'HFD', 'round_hfd') as round_hfd from dual
@@ -80,15 +81,15 @@
         </statement>
     </dao>
 
-    <!-- ['RS0W202010'] 滾房租日期 -->
-    <dao name="QRY_RENT_CAL_DAT">
+    <!-- ['RS0W212010'] 滾房租日期 -->
+    <dao name="QRY_PG_AIS_RENT_CAL_DAT">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval('NULL', 'HFD', 'rent_cal_dat') as rent_cal_dat from dual
         ]]>
         </statement>
     </dao>
 
-    <!-- ['RS0W202010'] 新郎、新娘是否為必Key -->
+    <!-- ['RS0W212010'] 新郎、新娘是否為必Key -->
     <dao name="QRY_REQUIRED_BRIDE_NAM">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'required_bride_nam') as required_bride_nam from dual
@@ -96,7 +97,7 @@
         </statement>
     </dao>
 
-    <!-- ['RS0W202010'] 使用類別預設值 -->
+    <!-- ['RS0W212010'] 使用類別預設值 -->
     <dao name="QRY_DEFAULT_USE_TYP_COMMON">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_use_typ_common') as default_use_typ_common from dual
@@ -104,7 +105,7 @@
         </statement>
     </dao>
 
-    <!-- ['RS0W202010'] 訂席狀態預設值 -->
+    <!-- ['RS0W212010'] 訂席狀態預設值 -->
     <dao name="QRY_DEFAULT_BQUET_ORDER_STA">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_bquet_order_sta') as default_bquet_order_sta from dual
@@ -112,7 +113,7 @@
         </statement>
     </dao>
 
-    <!-- ['RS0W202010'] 餐別預設值 -->
+    <!-- ['RS0W212010'] 餐別預設值 -->
     <dao name="QRY_DEFAULT_MEAL_TYP">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_meal_typ') as default_meal_typ from dual
@@ -120,7 +121,7 @@
         </statement>
     </dao>
 
-    <!-- ['RS0W202010'] 保留期限天數預設值 -->
+    <!-- ['RS0W212010'] 保留期限天數預設值 -->
     <dao name="QRY_DEFAULT_EXPIRE_DAT">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_expire_dat') as default_expire_dat from dual
@@ -128,18 +129,10 @@
         </statement>
     </dao>
 
-    <!-- ['RS0W202010'] 預定人數預設值 -->
+    <!-- ['RS0W212010'] 預定/保證人數預設值 -->
     <dao name="QRY_DEFAULT_ADULT_QNT">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_adult_qnt') as default_adult_qnt from dual
-        ]]>
-        </statement>
-    </dao>
-
-    <!-- ['RS0W202010'] 保證人數預設值 -->
-    <dao name="QRY_DEFAULT_POADULT_QNT">
-        <statement><![CDATA[
-               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_poadult_qnt') as default_poadult_qnt from dual
         ]]>
         </statement>
     </dao>

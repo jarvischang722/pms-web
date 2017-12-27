@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- [RS0W202010] 取宴席使用類別下拉 -->
+    <!-- [RS0W212010] 取宴席使用類別下拉 -->
     <dao name="SEL_USE_TYP">
         <statement><![CDATA[
             select trim(use_typ) as value, use_nam as display, use_eng from bquse_rf order by use_typ
@@ -8,7 +8,7 @@
         </statement>
     </dao>
 
-    <!-- [RS0W202010] 取宴席使用類別 -->
+    <!-- [RS0W212010] 取宴席使用類別 -->
     <dao name="DEF_INTER_COD">
         <statement><![CDATA[
             Select inter_cod from bquse_rf where trim(use_typ) = trim(:use_typ)
@@ -17,7 +17,7 @@
         <parameter type="string" kind="3">use_typ</parameter>
     </dao>
 
-    <!-- [RS0W202010] 異動宴席使用類別檢查 -->
+    <!-- [RS0W212010] 異動宴席使用類別檢查 -->
     <dao name="CHK_USE_TYP">
         <statement><![CDATA[
             Select inter_cod from bquse_rf where trim(use_typ) = trim(:use_typ)

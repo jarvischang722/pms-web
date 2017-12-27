@@ -23,7 +23,7 @@
                     <% session.user.hotels.forEach(function(hotel){ %>
                     <li>
                         <a href="javascript:void(0);"
-                           onclick="changeHotelCod('<%= hotel.hotel_cod %>');"><%= hotel.hotel_nam %></a>
+                           @click="changeHotelCod('<%= hotel.hotel_cod %>');"><%= hotel.hotel_nam %></a>
                     </li>
                     <% }) %>
                 </ul>
@@ -36,7 +36,7 @@
                         <i class="ace-icon fa fa-home home-icon" style="color: #fff"></i>
                     </a>
                 </li>
-                <li class="123"><%= session.user["sys_name_" + session.locale] %></li>
+                <li class="123">{{sysPrgPath}}</li>
 
             </ul><!-- /.breadcrumb -->
         </div> <!-- /.breadcrumbs -->
@@ -49,7 +49,7 @@
             <li class="info">
                 <span id="datetimeSpan"></span>
                 | <span>  <%= session.user.usr_cname %>  </span>
-                | <%=__("SystemCommon.LogOutTime")%> : <span id="timeLeft">  00 : 00   </span>
+                | <%= __("SystemCommon.LogOutTime") %> : <span id="timeLeft">00:00:00</span>
             </li>
 
             <!-- #section:basics/navbar.user_menu -->
@@ -61,7 +61,7 @@
                 <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                     <li class="divider"></li>
                     <li>
-                        <a href="#" onclick="doLogout()">
+                        <a @click="doLogout">
                             <i class="ace-icon fa fa-power-off"></i>
                             <%= __("BAC01P0120")["logout"] %>
                         </a>
@@ -72,90 +72,3 @@
     </div>
     <div class="clearfix"></div>
 </div>
-
-<!-- 逾時登出Modal -->
-<div class="remodal" data-remodal-id="sessionModal">
-    <h2>
-        <%= __("SystemWarn").Idle_auto_logout %>
-    </h2>
-    <br>
-    <button data-remodal-action="confirm" class="remodal-confirm"><%= __("SystemCommon").OK %></button>
-</div>
-
-<script>
-    var g_socket = io.connect('/system');
-    var gs_cookieExpires = '';
-    var gf_chkSessionInterval;
-
-    $(function () {
-        updateCurrentDateTime();
-        updateExpiresTime();
-        setInterval(updateCurrentDateTime, 1000);
-        setInterval(updateExpiresTime, 10000);
-        $(document).on('closing', '.remodal', function (e) {
-            doLogout();
-        });
-    })
-
-    /**
-     * 更新Session 時間
-     */
-    function updateExpiresTime() {
-        $.post('/api/getSessionExpireTime', function (result) {
-            if (result.session.cookie.expires !== gs_cookieExpires) {
-                gs_cookieExpires = result.session.cookie.expires;
-                clearInterval(gf_chkSessionInterval);
-                doDownCount();
-            }
-        })
-    }
-
-    /**
-     * 更新目前時間
-     */
-    function updateCurrentDateTime() {
-        var datetime = moment(new Date()).format("YYYY/MM/DD A HH:mm:ss");
-        $("#datetimeSpan").html(datetime);
-    }
-
-    /**
-     * 倒數登出時間
-     */
-    function doDownCount() {
-        let lastTimes = moment(gs_cookieExpires).diff(moment(), "seconds");
-        gf_chkSessionInterval = setInterval(function () {
-
-            var mm = String(Math.floor(lastTimes / 60));
-            var ss = lastTimes % 60 >= 10 ? String(lastTimes % 60) : "0" + String(lastTimes % 60);
-            $("#timeLeft").text(mm + ":" + ss);
-            if (lastTimes > 0) {
-                lastTimes--;
-            } else {
-                $('[data-remodal-id=sessionModal]').remodal().open();
-                clearInterval(gf_chkSessionInterval);
-            }
-
-        }, 1000);
-    }
-
-    /**
-     * 登出
-     */
-    function doLogout() {
-        $.post("/cas/logout", function (data) {
-            location.reload();
-        });
-    }
-
-    /**
-     * 換館別
-     */
-    function changeHotelCod(hotel_cod) {
-        $.post("/changeHotelCod", {hotel_cod: hotel_cod}, function (data) {
-            if (data.success) {
-                location.reload();
-            }
-        })
-    }
-
-</script>

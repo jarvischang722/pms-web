@@ -1,0 +1,32 @@
+
+.vue-treeselect__menu label
+  text-align: left
+  width: auto
+.vue-treeselect
+  display: inline-block
+
+
+// 異動紀錄 修改距離上層高度
+.openChangeLogDialog
+  .el-dialog
+    top: 3% !important
+
+// todo 問題:多選下拉選完出現選擇項目會跑版 ex.PMS0830090
+.search-content ,.editVueTpl
+  .el-select
+    .el-input__inner
+      height: $defHt !important
+    .el-select__tags
+      height: $defHt !important
+      overflow: hidden
+      line-height: $defHt !important
+  &.width-100
+    .el-select
+      width: 100% !important
+.grid-item
+  .el-date-editor
+    .el-input__inner,.el-input__icon
+      height: $defHt !important
+  .el-cascader
+    .el-input__inner
+      height: $defHt !important

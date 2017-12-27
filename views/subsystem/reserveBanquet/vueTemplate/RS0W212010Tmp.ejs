@@ -1,0 +1,368 @@
+<!-- 彈出視窗 -->
+<script type="text/x-template" id="RS0W212010Tmp">
+    <div id="gs-order-page" class="hide padding-5" style="top: 50px !important;">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="gs-order-container">
+                                <div class="borderFrame">
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>訂席單號</label>
+                                            <input type="text" v-model="singleData.bquet_nos" class="input-medium w142px" disabled/>
+                                        </div>
+                                        <div class="grid-item-inline no-margin-left">
+                                            <label>館別</label>
+                                            <input type="text" v-model="singleData.hotel_cod" class="input-medium resvCard-m" disabled/>
+                                        </div>
+                                        <div class="grid-item-inline">
+                                            <label>訂席狀態</label>
+                                            <select v-model="singleData.order_sta" class="input-medium resvCard-m" disabled>
+                                                <option v-for="opt in selectOption.order_sta" :value="opt.value">
+                                                    {{opt.display}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="grid-item-inline">
+                                            <label>等待</label>
+                                            <input type="text" v-model="singleData.wait_seq" class="input-medium resvCard-m" :disabled="readonly"/>
+                                        </div>
+                                        <div class="grid-item-inline">
+                                            <label v-show="isShowReserve">預約處理</label>
+                                            <select v-model="singleData.proc_sta" class="input-medium resvCard-date" v-show="isShowReserve" :disabled="readonly">
+                                                <option v-for="opt in selectOption.proc_sta" :value="opt.value">
+                                                    {{opt.display}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="borderFrame">
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>客戶姓名</label>
+                                            <input type="text" @click="chkClickPopUpGrid('alt_nam')" @keyup="chkClickPopUpGrid('alt_nam')" v-model="singleData.alt_nam" class="input-medium rateCode-s1" :disabled="readonly"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <select v-model="singleData.contact1_cod" class="input-medium resvCard-date margin-right-4" :disabled="readonly">
+                                                <option v-for="opt in selectOption.contact1_cod" :value="opt.value">
+                                                    {{opt.display}}
+                                                </option>
+                                            </select>
+                                            <input type="text" v-model="singleData.contact1_rmk" class="input-medium resvCard-date" :disabled="readonly"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>聯絡人</label>
+                                            <input type="text" @click="chkClickPopUpGrid('atten_nam')" @keyup="chkClickPopUpGrid('atten_nam')" v-model="singleData.atten_nam" class="input-medium resvCard-date" :disabled="readonly"/>
+                                        </div>
+                                    </div>
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>客戶編號</label>
+                                            <input type="text" v-model="singleData.show_cod" class="input-medium rateCode-s1" disabled/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <select v-model="singleData.contact2_cod" class="input-medium resvCard-date margin-right-4" :disabled="readonly">
+                                                <option v-for="opt in selectOption.contact2_cod" :value="opt.value">
+                                                    {{opt.display}}
+                                                </option>
+                                            </select>
+                                            <input type="text" v-model="singleData.contact2_rmk" class="input-medium resvCard-date" :disabled="readonly"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="borderFrame">
+                                    <div class="grid">
+                                        <div class="grid-item inline-grid">
+                                            <label>宴會日期</label>
+                                            <div id="gs-feast-date" class="element-date-wrap">
+                                                <template>
+                                                    <div class="block">
+                                                        <el-date-picker type="date"  v-model="singleData.begin_dat" placeholder="選擇日期" :disabled="!isModificable">
+                                                        </el-date-picker>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <div class="grid-item-inline gs-timePicker margin-right-10">
+                                            <div class="inquire-timePicker">
+                                                <template>
+                                                    <el-time-select v-model="singleData.begin_tim" placeholder="開始時間" disabled>
+                                                    </el-time-select>
+                                                    <el-time-select v-model="singleData.end_tim" placeholder="結束時間" disabled>
+                                                    </el-time-select>
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>是否確認</label>
+                                            <span class="checkbox">
+                                            <label class="checkbox-width">
+                                            <input name="confirm" value="Y" v-model="singleData.confirm_sta" type="radio" class="ace" :disabled="readonly">
+                                            <span class="lbl radius-circle">是</span>
+                                            </label>
+                                        </span>
+                                            <span class="checkbox">
+                                            <label class="checkbox-width">
+                                            <input name="confirm" value="N" v-model="singleData.confirm_sta" type="radio" class="ace" :disabled="readonly">
+                                            <span class="lbl radius-circle">否</span>
+                                            </label>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>宴會名稱</label>
+                                            <input type="text" v-model="singleData.title_nam" class="input-medium w348px" :disabled="readonly"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>主要廳別</label>
+                                            <select v-model="singleData.rspt_cod" class="input-medium w240px" :disabled="!isModificable">
+                                                <option v-for="opt in selectOption.rspt_cod" :value="opt.value">
+                                                    {{opt.display}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>使用類別</label>
+                                            <select v-model="singleData.use_typ" class="input-medium w152comma4px" @change="useTypeOnChange" :disabled="readonly">
+                                                <option v-for="opt in selectOption.use_typ" :value="opt.value">
+                                                    {{opt.display}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label class="width-35px">餐別</label>
+                                            <select v-model="singleData.meal_typ" class="input-medium w152comma4px" :disabled="readonly">
+                                                <option v-for="opt in selectOption.meal_typ" :value="opt.value">
+                                                    {{opt.display}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>訂席來源</label>
+                                            <select v-model="singleData.bquet_src" class="input-medium w240px" :disabled="readonly">
+                                                <option v-for="opt in selectOption.bquet_src" :value="opt.value">
+                                                    {{opt.display}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label class="">預/保桌數</label>
+                                            <input type="text" v-model="singleData.desk_qnt" class="input-medium consumeCode-g1-ss text-right" :disabled="readonly">
+                                            <span>／</span>
+                                            <input type="text" v-model="singleData.pmdesk_qnt" class="input-medium consumeCode-g1-ss text-right" :disabled="readonly">
+                                        </div>
+
+                                        <div class="grid-item">
+                                            <label class="width-80px">預/保人數</label>
+                                            <input type="text" v-model="singleData.adult_qnt" class="input-medium consumeCode-g1-ss text-right" :disabled="readonly">
+                                            <span>／</span>
+                                            <input type="text" v-model="singleData.poadult_qnt" class="input-medium consumeCode-g1-ss text-right" :disabled="readonly">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label class="width-135px">業務員</label>
+                                            <select v-model="singleData.sales_cod" class="input-medium w240px" :disabled="readonly">
+                                                <option v-for="opt in selectOption.sales_cod" :value="opt.value" :disabled="readonly">
+                                                    {{opt.display}}
+                                                </option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>主婚人</label>
+                                            <input type="text" v-model="singleData.sponsor_nam" class="input-medium w152comma4px" :disabled="readonly"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label class="width-35px">婚企</label>
+                                            <select v-model="singleData.opsales_cod" class="input-medium w152comma4px" :disabled="readonly">
+                                                <option v-for="opt in selectOption.opsales_cod" :value="opt.value">
+                                                    {{opt.display}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>新郎</label>
+                                            <input type="text" v-model="singleData.bride_nam" class="input-medium w96c2" :disabled="readonly"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label class="width-35px">新娘</label>
+                                            <input type="text" v-model="singleData.groom_nam" class="input-medium w96c2" :disabled="readonly"/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="borderFrame">
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>保留日</label>
+                                            <div id="gs-save-date" class="element-date-wrap">
+                                                <template>
+                                                    <div class="block">
+                                                        <el-date-picker type="date" v-model="singleData.expire_dat" placeholder="選擇日期" :disabled="readonly">
+                                                        </el-date-picker>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>計算服務費</label>
+                                            <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="serviceFee" value="Y" v-model="singleData.cal_serv" type="radio" class="ace" :disabled="!isModificable">
+                                        <span class="lbl radius-circle">是</span>
+                                        </label>
+                                    </span>
+                                            <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="serviceFee" value="N" v-model="singleData.cal_serv" type="radio" class="ace" :disabled="!isModificable">
+                                        <span class="lbl radius-circle">否</span>
+                                        </label>
+                                    </span>
+                                        </div>
+                                    </div>
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>場地金額</label>
+                                            <input type="text" v-model="singleData.place_amt" class="input-medium addedDate" @keyup="formatAmt('place_amt')" disabled/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label class="width-103px">應付訂金</label>
+                                            <input type="text" v-model="singleData.hpdpst_amt" class="input-medium resvCard" @keyup="formatAmt('hpdpst_amt')" :disabled="readonly"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>已付訂金</label>
+                                            <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date" @keyup="formatAmt('deposit_amt')" disabled/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="borderFrame">
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label class="">輸入者/日</label>
+                                            <input type="text" v-model="singleData.ins_usr" class="input-medium resvCard-m margin-right-4" disabled>
+                                            <input type="text" v-model="singleData.ins_dat" class="input-medium margin-right-4" disabled>
+                                            <input type="text" v-model="singleData.ins_tim" class="input-medium resvCard-m margin-right-4" disabled>
+                                        </div>
+
+                                        <div class="grid-item">
+                                            <label class="">最後修改者/日</label>
+                                            <input type="text" v-model="singleData.upd_usr" class="input-medium resvCard-m margin-right-4" disabled>
+                                            <input type="text" v-model="singleData.upd_dat" class="input-medium margin-right-4" disabled>
+                                            <input type="text" v-model="singleData.upd_tim" class="input-medium resvCard-m margin-right-4" disabled>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="space-6"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 place-btbGroup">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="exit">離開</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="save" :disabled="!saveEnable">存檔</button>
+                                    </li>
+
+                                    <div class="btn-group width-100 margin-tb15">
+                                        <div class="btn-groupBorder-box">
+                                            <fieldset>
+                                                <legend class="blue">訂席狀態</legend>
+                                                <div class="grid">
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120101010" role="button" @click="ModifyStatus('X')" :disabled="!cancelEnable">取消</button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120101020" role="button" @click="ModifyStatus('N')" :disabled="!reserveEnable">預約</button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120101030" role="button" @click="ModifyStatus('W')" :disabled="!waitEnable">等待</button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120101040" role="button" @click="ModifyStatus('Q')" :disabled="!inquiryEnable">詢價</button>
+                                                    </li>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="row no-margin-right">
+                            <!-------- tabPage -------->
+                            <div class="easyui-tabs easyUi-custom1 margin-top20" style="overflow-y: auto; width: 100%;">
+                                <div title="場地" class="padding-tabs">
+                                    <div class="col-xs-11 col-sm-11">
+                                        <div class="row">
+                                            <div class="main-content-data gs-order-table-wrap">
+                                                <div class="easyui-panel">
+                                                    <table id="RS0W212010_dt" class="css_table horizTable"></table>
+                                                </div>
+                                            </div><!--main-content-data-->
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 place-left-wrap">
+                                        <div class="row">
+                                            <div class="right-menu-co">
+                                                <ul>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120100400" role="button" @click="chkClickPopUpGrid('place_cod_button')" :disabled="!modifyEnable">選取場地</button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120100400" role="button" @click="delPlace" :disabled="!modifyEnable">刪除場地</button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120100400" role="button" @click="CheckInventory" :disabled="!modifyEnable">庫存檢查</button>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div title="備註" class="padding-tabs">
+                                    <div class="col-xs-12 col-sm-12">
+                                        <div class="row">
+                                            <div class="main-content-data">
+                                                <textarea class="width-100 pull-left" v-model="singleData.bquet_rmk" rows="5" :disabled="readonly"></textarea>
+                                            </div><!--main-content-data-->
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <!-------- /.tabPage -------->
+                            <div class="space-6"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</script>

@@ -35,7 +35,7 @@ module.exports = {
         let la_dtData = _.clone(postData.allRowData);
         let lo_result = new ReturnClass();
         let lo_error = null;
-        let lo_oldValue = (postData.oldValue == "") ? postData.rowData[postData.validateField] : postData.oldValue;
+        let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
         let lb_begin_dat_enable = false;
         let lb_end_dat_enable = false;
         let params = {
@@ -101,7 +101,10 @@ module.exports = {
                 lo_endDat = "";
             }
 
-            // 判斷修改時，小於滾房租日不能修改
+            /**
+             * r_HfduserfBegindatAttr
+             */
+            // 判斷修改時，小於滾房租日不能修改(1.開始日期大於等於滾房租日期可修改、2.結束日期大於等於滾房租日期可修改)
             if (postData.rowData.createRow != "Y" && postData.oldValue == "") {
                 if (lo_endDat != "") {
                     // 2) 判斷結束日與滾房租日，不能修改
@@ -126,14 +129,17 @@ module.exports = {
                 }
             }
 
-            // 2) 判斷結束日與滾房租日
+            /**
+             * chk_hfd_use_dt_begin_end_dat
+             */
+            // 2) 判斷結束日與滾房租日(結束日大於等於滾房租日)
             if (lo_endDat != "") {
                 if (lo_endDat.diff(moment(rent_cal_dat), "days") < 0) {
                     ls_errMsg = commandRules.getMsgByCod("pms82msg18", session.locale);
                     return cb(true, ls_errMsg);
                 }
             }
-            // 3) 判斷開始日與滾房租日
+            // 3) 判斷開始日與滾房租日(開始日大於等於滾房租日)
             if (lo_beginDat != "") {
                 if (lo_beginDat.diff(moment(rent_cal_dat), "days") < 0) {
                     ls_errMsg = commandRules.getMsgByCod("pms82msg17", session.locale);
@@ -142,13 +148,13 @@ module.exports = {
             }
 
             if (lo_beginDat != "" && lo_endDat != "") {
-                // 1) 判斷開始日語結束日
+                // 1) 判斷開始日語結束日(結束日期不可以早於開始日期)
                 if (lo_endDat.diff(lo_beginDat) < 0) {
                     ls_errMsg = commandRules.getMsgByCod("pms81msg2", session.locale);
                     return cb(true, ls_errMsg);
                 }
 
-                // 4) 判斷區間是否重疊
+                // 4) 判斷區間是否重疊(每筆明細日期不能重疊)
                 let lb_chkOverLap;
                 let li_curIdx;
                 if (!_.isUndefined(postData.editRowData.key_nos)) {
@@ -156,14 +162,16 @@ module.exports = {
                 }
                 else {
                     let lo_editRowData = _.clone(postData.editRowData);
-                    _.each(la_dtData, function(lo_dtData, index){
-                        if(_.isEqual(lo_dtData, lo_editRowData)){
-                            li_curIdx = index;
+                    for (var i = 0; i < la_dtData.length; i++) {
+                        var lo_dtData = la_dtData[i];
+                        if (_.isEqual(lo_dtData, lo_editRowData)) {
+                            li_curIdx = i;
+                            break;
                         }
-                        else{
+                        else {
                             li_curIdx = -1;
                         }
-                    });
+                    }
                 }
                 if (!_.isUndefined(postData.allRowData)) {
                     postData.allRowData = _.difference(postData.allRowData, [postData.allRowData[li_curIdx]]);
@@ -174,7 +182,7 @@ module.exports = {
                         if (lb_chkOverLap) {
                             let li_allRowDataIdx = _.findIndex(la_dtData, comparDT);
                             ls_errMsg = commandRules.getMsgByCod("pms82msg19", session.locale);
-                            ls_errMsg = _s.sprintf(ls_errMsg, (li_curIdx + 1), lo_beginDat.format("YYYY/MM/DD"), lo_endDat.format("YYYY/MM/DD"), (li_allRowDataIdx + 1), moment(ls_begin_dat).format("YYYY/MM/DD"), moment(ls_end_dat).format("YYYY/MM/DD"));
+                            ls_errMsg = _s.sprintf(ls_errMsg, li_curIdx + 1, lo_beginDat.format("YYYY/MM/DD"), lo_endDat.format("YYYY/MM/DD"), li_allRowDataIdx + 1, moment(ls_begin_dat).format("YYYY/MM/DD"), moment(ls_end_dat).format("YYYY/MM/DD"));
                             return cb(true, ls_errMsg);
                         }
                     });
@@ -195,18 +203,24 @@ module.exports = {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        async.waterfall([
-            chkSysDefault,
-            chkItemIsUse
-        ], function (err, chkResult) {
-            if (err) {
-                lo_result.success = false;
-                lo_error = new ErrorClass();
-                lo_error.errorMsg = chkResult;
-                lo_error.errorCod = "1111";
-            }
+        //刪除dt資料就不做規則驗證
+        if (postData.isDtData) {
             callback(lo_error, lo_result);
-        });
+        }
+        else {
+            async.waterfall([
+                chkSysDefault,
+                chkItemIsUse
+            ], function (err, chkResult) {
+                if (err) {
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = chkResult;
+                    lo_error.errorCod = "1111";
+                }
+                callback(lo_error, lo_result);
+            });
+        }
 
         function chkSysDefault(cb) {
             if (postData.singleRowData.sys_default == "Y") {
@@ -245,5 +259,21 @@ module.exports = {
             callback(lo_error, lo_result);
         });
 
+    },
+
+    r_pms0820050_dt_add: function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var la_allRows = postData.allRows;
+        var ln_maxSeqNos = 0;
+        _.each(la_allRows, function (lo_rowData) {
+            var ln_keyNos = Number(lo_rowData.key_nos);
+
+            if (ln_keyNos >= ln_maxSeqNos) {
+                ln_maxSeqNos = ln_keyNos + 1;
+            }
+        });
+
+        lo_result.defaultValues = {key_nos: ln_maxSeqNos.toString()};
+        callback(null, lo_result);
     }
 };

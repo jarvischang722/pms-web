@@ -40,10 +40,11 @@ function operationSaveAdapterClass(postData, session) {
     ga_createData = postData.tmpCUD.createData || [];
     ga_updateData = postData.tmpCUD.updateData || [];
     ga_deleteData = postData.tmpCUD.deleteData || [];
+    ga_oriData = postData.tmpCUD.oriData || [];
     ga_dtCreateData = postData.tmpCUD.dt_createData || [];
     ga_dtUpdateData = postData.tmpCUD.dt_updateData || [];
     ga_dtDeleteData = postData.tmpCUD.dt_deleteData || [];
-    ga_dtOriUpdateData = postData.tmpCUD.dt_oriUpdateData || [];
+    ga_dtOriData = postData.tmpCUD.dt_oriData || [];
 
     initData();
 
@@ -335,7 +336,7 @@ function combineMainData(rfData, callback) {
                 return callback(null, '0400');
             }
 
-            _.each(ga_updateData, function (data) {
+            _.each(ga_updateData, function (data, index) {
                 var lo_fieldsData = qryFieldsDataByTabPageID(data);
                 var tmpEdit = {"function": "2", "table_name": gs_mainTableName}; //2  編輯
                 _.each(Object.keys(data), function (objKey) {
@@ -354,15 +355,16 @@ function combineMainData(rfData, callback) {
 
                 data = _.extend(data, commonRule.getEditDefaultDataRule(go_session));
                 tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(go_session));
+                ga_oriData[index] = _.extend(ga_oriData[index], commonRule.getEditDefaultDataRule(go_session));
 
                 tmpEdit.condition = [];
-                //組合where 條件
+                //組合where 條件,判斷是否有舊資料
                 _.each(lo_fieldsData.mainKeyFields, function (keyField) {
-                    if (!_.isUndefined(data[keyField.ui_field_name])) {
+                    if (!_.isUndefined(ga_oriData[index][keyField.ui_field_name]) ) {
                         tmpEdit.condition.push({
                             key: keyField.ui_field_name,
                             operation: "=",
-                            value: data[keyField.ui_field_name]
+                            value: ga_oriData[index][keyField.ui_field_name]
                         });
                         lo_keysData[keyField.ui_field_name] = data[keyField.ui_field_name];
                     }
@@ -582,15 +584,16 @@ function combineDtCreateEditExecData(rfData, callback) {
             }
             data = _.extend(data, lo_default);
             tmpEdit = _.extend(tmpEdit, lo_default);
+            ga_dtOriData[index] = _.extend(ga_dtOriData[index], lo_default);
 
             tmpEdit.condition = [];
             //組合where 條件
             _.each(lo_fieldsData.dgKeyFields, function (keyField) {
-                if (!_.isUndefined(ga_dtOriUpdateData[index][keyField.ui_field_name])) {
+                if (!_.isUndefined(ga_dtOriData[index][keyField.ui_field_name])) {
                     tmpEdit.condition.push({
                         key: keyField.ui_field_name,
                         operation: "=",
-                        value: ga_dtOriUpdateData[index][keyField.ui_field_name]
+                        value: ga_dtOriData[index][keyField.ui_field_name]
                     });
                 }
             });
@@ -732,6 +735,7 @@ function convertToApiFormat(lo_saveExecDatasSorted, callback) {
     var apiParams = {
         "REVE-CODE": go_postData.trans_cod,
         "program_id": go_postData.prg_id,
+        "func_id": go_postData.func_id || "",
         "user": go_session.user.usr_id,
         "table_name": gs_mainTableName,
         "count": Object.keys(lo_saveExecDatasSorted).length,

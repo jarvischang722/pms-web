@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 
-    <!-- ['PSIW500030'] 取得期別 -->
+    <!-- ['PSIW510030'] 取得期別 -->
+    <!--<dao name="QRY_PSI_PERIOD_RF">-->
+        <!--<statement><![CDATA[-->
+            <!--select period_cod from psi_period_rf-->
+            <!--where period_dat = to_date(:order_dat, 'YYYY/MM/DD')-->
+        <!--]]>-->
+        <!--</statement>-->
+        <!--<parameter type="string" kind="3">order_dat</parameter>-->
+    <!--</dao>-->
+
+    <!--佳伶姊改用function取期別，取代上面的SQL-->
+    <!-- ['PSIW510030'] 取得期別 -->
     <dao name="QRY_PSI_PERIOD_RF">
         <statement><![CDATA[
-            select period_cod from psi_period_rf
-            where period_dat = to_date(:order_dat, 'YYYY/MM/DD')
+            select pg_psi_ship_dominos.sf_p_order_tim(to_date(:order_dat,'YYYY/MM/DD')) as period_cod from dual
         ]]>
         </statement>
         <parameter type="string" kind="3">order_dat</parameter>

@@ -2,7 +2,7 @@
     <li class="active nav-height">
         <a href="javascript:void(0)">
             <i class="menu-icon fa fa-tachometer"></i>
-            <span class="menu-text"> <%= session.user["sys_name_" + session.locale] %> </span>
+            <span class="menu-text"> <%= session.activeSystem["name_" + session.locale] %> </span>
         </a>
     </li>
     <li class="nav-height" v-for="mdlItem in moduleMenu"  :class="{open : isOpenModule == mdlItem.mdl_id}" >

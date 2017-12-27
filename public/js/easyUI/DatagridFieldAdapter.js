@@ -20,7 +20,7 @@ var DatagridAdapter = function (vm) {
 };
 
 
-var DatagridFieldAdapter= {
+var DatagridFieldAdapter = {
     //根據欄位屬性組Datagrid屬性資料
     combineFieldOption: function (fieldData, dgName) {
         var columnsData = [];
@@ -71,17 +71,29 @@ var DatagridFieldAdapter= {
         var tmpFieldObj = fieldAttrObj;
 
         tmpFieldObj.field = fieldAttrObj.ui_field_name.toLowerCase();
-        tmpFieldObj.title = fieldAttrObj.ui_display_name;
+        tmpFieldObj.title = '<span title="' + fieldAttrObj.ui_hint + '">' + fieldAttrObj.ui_display_name + '</span>';
         tmpFieldObj.sortable = true;
 
-        tmpFieldObj.editor = {
-            type: dataType,
-            options: {
-                required: fieldAttrObj.requirable == "Y",
-                readonly: fieldAttrObj.modificable == "N",
-                validType: fieldAttrObj.format_func_name != "" ? fieldAttrObj.format_func_name.split(",") : []
-            }
-        };
+        if (typeof fieldAttrObj.format_func_name === "object") {
+            tmpFieldObj.editor = {
+                type: dataType,
+                options: {
+                    required: fieldAttrObj.requirable == "Y",
+                    readonly: fieldAttrObj.modificable == "N",
+                    validType: fieldAttrObj.format_func_name.validate != "" ? fieldAttrObj.format_func_name.validate.split(",") : []
+                }
+            };
+        }
+        else {
+            tmpFieldObj.editor = {
+                type: dataType,
+                options: {
+                    required: fieldAttrObj.requirable == "Y",
+                    readonly: fieldAttrObj.modificable == "N",
+                    validType: fieldAttrObj.format_func_name != "" ? fieldAttrObj.format_func_name.split(",") : []
+                }
+            };
+        }
 
         /** 長度限制  **/
         var mixLength = fieldAttrObj.requirable == "Y" ? '1' : '0';
@@ -268,9 +280,9 @@ var DatagridFieldAdapter= {
                         return val;
                     }
                     return "";
-                } else {
-                    return val;
                 }
+                return val;
+
             }
 
             tmpFieldObj.editor.type = dataType;
@@ -311,6 +323,21 @@ var DatagridFieldAdapter= {
                     return fieldName;
                 };
             }
+
+            var formatFunc = function (val) {
+                if (typeof fieldAttrObj.format_func_name === "object") {
+                    val = go_formatDisplayClass.amtFormat(val || "0", fieldAttrObj.format_func_name.rule_val);
+                }
+                return val;
+            };
+
+            tmpFieldObj.formatter = formatFunc;
+            tmpFieldObj.editor.options.formatter = formatFunc;
+
+            tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+                var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+            };
         }
         else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {
@@ -356,7 +383,6 @@ var DatagridFieldAdapter= {
 var ga_readonlyFields = [];
 
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
-
     if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit) {
         var allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
@@ -376,7 +402,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         };
 
         isUserEdit = false;
-
         $.post('/api/chkFieldRule', postData, function (result) {
             if (result.success) {
                 //是否要show出訊息
@@ -405,7 +430,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
                 var effectValues = result.effectValues;
                 if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
-                    // $('#' + dgName).datagrid('endEdit', indexRow);
+
                     $('#' + dgName).datagrid('updateRow', {
                         index: indexRow,
                         row: effectValues
@@ -418,8 +443,20 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         };
                     }
 
-                    $('#' + dgName).datagrid('beginEdit', indexRow);
+                    //確認現在datagrid的editIndex為何
+                    var lo_nowIndexRow = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
+                    if (lo_nowIndexRow != indexRow) {
+                        $('#' + dgName).datagrid('unselectRow', lo_nowIndexRow);
+                        $('#' + dgName).datagrid('endEdit', lo_nowIndexRow);
+                    }
 
+                    //現在datagrid的editIndex已經不是indexRow，切換editIndex為indexRow
+                    $('#' + dgName).datagrid('beginEdit', indexRow);
+                    $('#' + dgName).datagrid('endEdit', indexRow);
+
+                    //將連動欄位的那列打開編輯
+                    $('#' + dgName).datagrid('beginEdit', indexRow);
+                    $('#' + dgName).datagrid('selectRow', indexRow);
                 }
                 else {
                     _.each(effectValues, function (item, index) {
@@ -458,7 +495,9 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
             isUserEdit = true;
         });
+
     }
+
 }
 
 /** 組件事件綁定 **/
@@ -525,7 +564,7 @@ $.extend($.fn.datagrid.methods, {
         var rowData = $('#' + dgName).datagrid('getSelected');
         var $row = $("table[class='datagrid-btable']").find("tr[datagrid-row-index='" + editingIdx + "']");
         _.each(cols, function (field_name) {
-                var $td = ($row.find("td[field='" + field_name + "']").length == 1) ? $row.find("td[field='" + field_name + "']") : $row.find("td[field='" + field_name + "']")[1];
+                var $td = $row.find("td[field='" + field_name + "']").length == 1 ? $row.find("td[field='" + field_name + "']") : $row.find("td[field='" + field_name + "']")[1];
                 var $textbox = $(".textbox-value", $td);
                 var $checkbox = $(".dg-checkbox-change", $td);
 

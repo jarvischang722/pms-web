@@ -1,39 +1,37 @@
 /**
  * Created by Jun Chang on 2016/12/30.
- * 會員驗證相關作業
+ * 帳號相關作業
  */
-
-var authSvc = require("../services/AuthService");
-var _ = require("underscore");
-var async = require("async");
-var roleFuncSvc = require("../services/RoleFuncService");
-var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var i18n = require('i18n');
-var langSvc = require("../services/LangService");
+const authSvc = require("../services/AuthService");
+const _ = require("underscore");
+const async = require("async");
+const roleFuncSvc = require("../services/RoleFuncService");
+const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const langSvc = require("../services/LangService");
 const fs = require("fs");
-let ip = require("ip");
+const ip = require("ip");
+const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
+
 /**
  * 登入頁面
  */
-exports.loginPage = function (req, res, next) {
+exports.loginPage = function (req, res) {
     if (req.session.user) {
-        if (!_.isUndefined(req.session.user.sys_id)) {
+        if (!_.isUndefined(req.session.activeSystem.id)) {
             res.redirect("/");
             return;
         }
         res.redirect("/systemOption");
         return;
     }
-
-    let ls_account = '';
+    let ls_account = "";
     let clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
-
-
     try {
         fs.exists("configs/IPsUsersRef.json", function (isExist) {
             if (isExist) {
                 let IPsUsersRef = require("../configs/IPsUsersRef.json");
+
                 _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
                     if (ipSubnet.toString().indexOf("/") > -1) {
                         if (ip.cidrSubnet(ipSubnet).contains(clientIP)) {
@@ -53,7 +51,6 @@ exports.loginPage = function (req, res, next) {
         res.render('user/loginPage', {account: ls_account});
     }
 };
-
 
 /**
  * casLogin
@@ -111,30 +108,38 @@ exports.logout = function (req, res) {
  */
 exports.selectSystem = function (req, res) {
     let sys_id = req.body["sys_id"] || "";
-    if (!_.isUndefined(req.session.user.sys_id) && !_.isEqual(sys_id, req.session.user.sys_id)) {
-        delete  req.cookies.usingSubsysID;
-        req.session.user.sys_id = sys_id;
+    if (!_.isUndefined(req.session.activeSystem.id) && !_.isEqual(sys_id, req.session.activeSystem.id)) {
+        delete req.cookies.usingSubsysID;
+        req.session.activeSystem.id = sys_id;
         res.clearCookie("usingSubsysID");
         res.clearCookie("usingPrgID");
     }
     try {
         if (!_.isEmpty(sys_id)) {
-            var params = {
+            let params = {
                 user_comp_cod: req.session.user.cmp_id.trim(),
                 user_id: req.session.user.usr_id,
                 fun_comp_cod: req.session.user.cmp_id.trim(),
                 fun_hotel_cod: req.session.user.fun_hotel_cod
             };
             queryAgent.queryList("QUY_ROLE_USER_USE_SYSTEM", params, 0, 0, function (err, sysRows) {
-                var sysObj = _.findWhere(sysRows, {sys_id: sys_id}) || {};
-                req.session.user.sys_id = sysObj.sys_id;
+                let sysObj = _.findWhere(sysRows, {sys_id: sys_id}) || {};
+                req.session.activeSystem.id = sysObj.sys_id;
                 langSvc.handleMultiLangContentByField("lang_s99_system", 'sys_name', '', function (err, sysLang) {
-                    sysLang = _.where(sysLang, {sys_id: req.session.user.sys_id});
+                    sysLang = _.where(sysLang, {sys_id: req.session.activeSystem.id});
                     _.each(sysLang, function (sys) {
-                        req.session.user["sys_name_" + sys.locale] = sys.words;
+                        let ls_sysAbbrName = ""; //縮寫
+                        req.session.activeSystem["name_" + sys.locale] = sys.words;
+                        if (sys.locale == 'en') {
+                            sys.words.split(" ").forEach(function (s) {
+                                ls_sysAbbrName += s.substring(0, 1);
+                            });
+                            req.session.activeSystem.abbrName = ls_sysAbbrName;
+                        }
                     });
+
                     roleFuncSvc.updateUserPurview(req, function (err) {
-                        var usingSubsysID = req.session.user.subsysMenu.length > 0 ? req.session.user.subsysMenu[0].subsys_id : "";
+                        let usingSubsysID = req.session.user.subsysMenu.length > 0 ? req.session.user.subsysMenu[0].subsys_id : "";
                         if (!_.isUndefined(req.cookies.usingSubsysID)) {
                             usingSubsysID = req.cookies.usingSubsysID;
                         }
@@ -158,8 +163,13 @@ exports.selectSystem = function (req, res) {
  */
 exports.getUserSubsys = function (req, res) {
     if (req.session.user) {
-        res.json({success: true, subsysMenu: req.session.user.subsysMenu || []});
-    } else {
+        res.json({
+            success: true,
+            subsysMenu: req.session.user.subsysMenu || [],
+            activeSystem: req.session.activeSystem
+        });
+    }
+    else {
         res.json({success: true, errorMsg: '未登入', subsysMenu: []});
     }
 };
@@ -168,10 +178,10 @@ exports.getUserSubsys = function (req, res) {
  * 獲取子系統快選單
  */
 exports.getSubsysQuickMenu = function (req, res) {
-    var params = {
+    let params = {
         user_comp_cod: req.session.user.cmp_id.trim(),
         user_id: req.session.user.usr_id,
-        sys_id: req.session.user.sys_id,
+        sys_id: req.session.activeSystem.id,
         fun_hotel_cod: req.session.user.fun_hotel_cod,
         subsys_id: req.body["subsys_id"]
     };
@@ -179,7 +189,6 @@ exports.getSubsysQuickMenu = function (req, res) {
         res.json({success: _.isNull(err), errorMsg: err, quickMenu: quickMenu});
     });
 };
-
 
 /**
  * 取得選擇的公司
@@ -193,7 +202,7 @@ exports.getSelectCompony = function (req, res) {
             res.json({success: true, selectCompany: getData});
         }
     });
-}
+};
 
 /**
  * 取得使用者資料
@@ -201,25 +210,27 @@ exports.getSelectCompony = function (req, res) {
 exports.getUserInfo = function (req, res) {
     res.json({success: !_.isUndefined(req.session.user), errorMsg: 'not login!', userInfo: req.session.user});
 };
+
 /**
  * 新增 角色權限(靜態)
  */
 exports.getAuthorityRole = function (req, res) {
     res.render("user/authorityRole");
 };
+
 /**
  * 新增 人員權限(靜態)
  */
 exports.getAuthorityStaff = function (req, res) {
     res.render("user/authorityStaff");
 };
+
 /**
  * 新增 功能權限(靜態)
  */
 exports.getAuthorityFeature = function (req, res) {
     res.render("user/authorityFeature");
 };
-
 
 /**
  *  經由公司代號 cmp_id 取得部門資訊
@@ -243,7 +254,7 @@ exports.getAllRoles = function (req, res) {
  *抓取單一角色全部對應的帳號
  */
 exports.getRoleOfAccounts = function (req, res) {
-    var params = req.session.user;
+    let params = req.session.user;
     if (req.body.role_id) {
         params["role_id"] = req.body.role_id;
     }
@@ -293,4 +304,23 @@ exports.getUserFuncPurviewByProID = function (req, res) {
         res.json({success: false, errorMsg: err.message, funcPurvs: []});
     }
 
+};
+
+
+/**
+ * 取得某一個系統的所有權限資料
+ */
+exports.userSubsysPurviewBySysID = function (req, res) {
+    let ls_sysID = req.body.sys_id;
+    SysFuncPurviewSvc.getUserSubsysPurviewBySysID(req, ls_sysID, function (err, subsysMenu) {
+        res.json({success: err == null, subsysMenu});
+    });
+};
+
+
+/**
+ * 新增 修改密碼(靜態)
+ */
+exports.getEditPassword = function (req, res) {
+    res.render("user/editPassword");
 };

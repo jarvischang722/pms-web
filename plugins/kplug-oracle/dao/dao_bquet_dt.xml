@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- [RS0W202010] 取單筆MN資料 -->
+    <!-- [RS0W212010] 取單筆MN資料 -->
     <dao name="QRY_BQUET_MN_BQPLACE_DT">
         <statement><![CDATA[
             select bquet_nos,seq_nos,rspt_cod,place_cod,begin_tim,end_tim,desk_qnt,order_qnt,unit_amt,place_amt,special_amt,disc_amt,is_allplace,inv_qnt from bqplace_dt

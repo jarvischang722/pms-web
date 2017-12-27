@@ -668,7 +668,7 @@
     "hint_zh_TW" : "市場類別", 
     "ui_display_name_en" : "Market", 
     "hint_en" : "Market code"
-}
+}ㄙ
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c8f"), 
     "prg_id" : "PMS0810090", 
@@ -947,61 +947,6 @@
 { 
     "_id" : ObjectId("593e37b68315bf47ec910ca8"), 
     "prg_id" : "PMS0810110", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "修改者", 
-    "hint_zh_TW" : "修改者", 
-    "ui_display_name_en" : "Upd By", 
-    "hint_en" : "Upd By"
-}
-{ 
-    "_id" : ObjectId("593e37b68315bf47ec910ca9"), 
-    "prg_id" : "PMS0810120", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "usr_nam", 
-    "ui_display_name_zh_TW" : "姓名", 
-    "hint_zh_TW" : "姓名", 
-    "ui_display_name_en" : "Approved By", 
-    "hint_en" : "Approved By"
-}
-{ 
-    "_id" : ObjectId("593e37b68315bf47ec910caa"), 
-    "prg_id" : "PMS0810120", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "新增日", 
-    "hint_zh_TW" : "新增日", 
-    "ui_display_name_en" : "Add Date", 
-    "hint_en" : "Add Date"
-}
-{ 
-    "_id" : ObjectId("593e37b68315bf47ec910cab"), 
-    "prg_id" : "PMS0810120", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "新增者", 
-    "hint_zh_TW" : "新增者", 
-    "ui_display_name_en" : "Add By", 
-    "hint_en" : "Add By"
-}
-{ 
-    "_id" : ObjectId("593e37b68315bf47ec910cac"), 
-    "prg_id" : "PMS0810120", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "修改日", 
-    "hint_zh_TW" : "修改日", 
-    "ui_display_name_en" : "Upd Date", 
-    "hint_en" : "Upd Date"
-}
-{ 
-    "_id" : ObjectId("593e37b68315bf47ec910cad"), 
-    "prg_id" : "PMS0810120", 
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
@@ -2952,9 +2897,9 @@
     "page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "serv_rat", 
-    "ui_display_name_zh_TW" : "服務費率", 
+    "ui_display_name_zh_TW" : "服務費率(%)", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "SVC Rate", 
+    "ui_display_name_en" : "SVC Rate(%)", 
     "hint_en" : ""
 }
 { 
@@ -7570,4 +7515,1057 @@
     "hint_zh_TW" : "", 
     "ui_display_name_en" : "Message", 
     "hint_en" : "Frequently used message"
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814670"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814671"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814672"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814673"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814674"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814675"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814676"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814677"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814678"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814679"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e881467a"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e881467b"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e881467c"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e881467d"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e881467e"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e881467f"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814680"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814681"), 
+    "prg_id" : "prg_id", 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : "func_id(按鈕編號)", 
+    "ui_display_name_zh_TW" : "ui_display_name_zh_TW", 
+    "hint_zh_TW" : "ui_display_name_en", 
+    "ui_display_name_en" : "hint_zh_TW", 
+    "hint_en" : "hint_en"
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814682"), 
+    "prg_id" : null, 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : null, 
+    "ui_field_name" : null, 
+    "ui_display_name_zh_TW" : null, 
+    "hint_zh_TW" : null, 
+    "ui_display_name_en" : null, 
+    "hint_en" : null
+}
+{ 
+    "_id" : ObjectId("5a0a656cb833d807e8814683"), 
+    "prg_id" : "prg_id\n(作業代號)", 
+    "page_id" : null, 
+    "tab_page_id" : null, 
+    "template_id" : "select(下拉清單)", 
+    "ui_field_name" : "value(值)", 
+    "ui_display_name_zh_TW" : "ui_display_name_zh_TW", 
+    "hint_zh_TW" : "ui_display_name_en", 
+    "ui_display_name_en" : "hint_zh_TW", 
+    "hint_en" : "hint_en"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b369"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "show_cod", 
+    "ui_display_name_zh_TW" : "公司編號", 
+    "hint_zh_TW" : "公司編號", 
+    "ui_display_name_en" : "Co. ID", 
+    "hint_en" : "Co. ID"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b36a"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "cust_nam", 
+    "ui_display_name_zh_TW" : "公司名稱", 
+    "hint_zh_TW" : "公司名稱", 
+    "ui_display_name_en" : "Co. Name", 
+    "hint_en" : "Co. Name"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b36b"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "status_cod", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "Status", 
+    "hint_en" : "Status"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b36c"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "status_desc", 
+    "ui_display_name_zh_TW" : "合約狀態", 
+    "hint_zh_TW" : "合約狀態", 
+    "ui_display_name_en" : "Contract", 
+    "hint_en" : "Contract"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b36d"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "visit_nam", 
+    "ui_display_name_zh_TW" : "拜訪方式", 
+    "hint_zh_TW" : "拜訪方式", 
+    "ui_display_name_en" : "Method", 
+    "hint_en" : "Method"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b36e"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "visit_dat", 
+    "ui_display_name_zh_TW" : "預計拜訪日", 
+    "hint_zh_TW" : "預計拜訪日", 
+    "ui_display_name_en" : "Planned", 
+    "hint_en" : "Planned"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b36f"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "visit_sta", 
+    "ui_display_name_zh_TW" : "拜訪狀態", 
+    "hint_zh_TW" : "拜訪狀態", 
+    "ui_display_name_en" : "Visit Status", 
+    "hint_en" : "Visit Status"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b370"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "purport_rmk", 
+    "ui_display_name_zh_TW" : "主旨", 
+    "hint_zh_TW" : "主旨", 
+    "ui_display_name_en" : "Purpose", 
+    "hint_en" : "Purpose"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b371"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "remark", 
+    "ui_display_name_zh_TW" : "內容", 
+    "hint_zh_TW" : "內容", 
+    "ui_display_name_en" : "Remarks", 
+    "hint_en" : "Remarks"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b372"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "avisit_dat", 
+    "ui_display_name_zh_TW" : "實際拜訪日", 
+    "hint_zh_TW" : "實際拜訪日", 
+    "ui_display_name_en" : "Actual", 
+    "hint_en" : "Actual"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b373"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "traffic_amt", 
+    "ui_display_name_zh_TW" : "交通費", 
+    "hint_zh_TW" : "交通費", 
+    "ui_display_name_en" : "Expense", 
+    "hint_en" : "Expense"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b374"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "show_cod", 
+    "ui_display_name_zh_TW" : "公司編號", 
+    "hint_zh_TW" : "公司編號", 
+    "ui_display_name_en" : "Co. ID", 
+    "hint_en" : "Co. ID"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b375"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_nam", 
+    "ui_display_name_zh_TW" : "公司名稱", 
+    "hint_zh_TW" : "公司名稱", 
+    "ui_display_name_en" : "Co. Name", 
+    "hint_en" : "Co. Name"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b376"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "status_cod", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "Status", 
+    "hint_en" : "Status"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b377"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "status_desc", 
+    "ui_display_name_zh_TW" : "合約狀態", 
+    "hint_zh_TW" : "合約狀態", 
+    "ui_display_name_en" : "Contract", 
+    "hint_en" : "Contract"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b378"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "visit_typ", 
+    "ui_display_name_zh_TW" : "拜訪方式", 
+    "hint_zh_TW" : "拜訪方式", 
+    "ui_display_name_en" : "Method", 
+    "hint_en" : "Method"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b379"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "visit_dat", 
+    "ui_display_name_zh_TW" : "預計拜訪日", 
+    "hint_zh_TW" : "預計拜訪日", 
+    "ui_display_name_en" : "Planned", 
+    "hint_en" : "Planned"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b37a"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "visit_sta", 
+    "ui_display_name_zh_TW" : "拜訪狀態", 
+    "hint_zh_TW" : "拜訪狀態", 
+    "ui_display_name_en" : "Visit Status", 
+    "hint_en" : "Visit Status"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b37b"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "avisit_dat", 
+    "ui_display_name_zh_TW" : "實際拜訪日", 
+    "hint_zh_TW" : "實際拜訪日", 
+    "ui_display_name_en" : "Actual", 
+    "hint_en" : "Actual"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b37c"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "traffic_amt", 
+    "ui_display_name_zh_TW" : "交通費", 
+    "hint_zh_TW" : "交通費", 
+    "ui_display_name_en" : "Expense", 
+    "hint_en" : "Expense"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b37d"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "purport_rmk", 
+    "ui_display_name_zh_TW" : "主旨", 
+    "hint_zh_TW" : "主旨", 
+    "ui_display_name_en" : "Purpose", 
+    "hint_en" : "Purpose"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b37e"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "remark", 
+    "ui_display_name_zh_TW" : "內容", 
+    "hint_zh_TW" : "內容", 
+    "ui_display_name_en" : "Remarks", 
+    "hint_en" : "Remarks"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b37f"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ins_dat", 
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b380"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ins_usr", 
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b381"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "upd_dat", 
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b382"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "upd_usr", 
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b383"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "show_cod", 
+    "ui_display_name_zh_TW" : "公司編號", 
+    "hint_zh_TW" : "公司編號", 
+    "ui_display_name_en" : "Co. ID", 
+    "hint_en" : "Co. ID"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b384"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_nam", 
+    "ui_display_name_zh_TW" : "公司名稱", 
+    "hint_zh_TW" : "公司名稱", 
+    "ui_display_name_en" : "Co. Name", 
+    "hint_en" : "Co. Name"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b385"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "status_cod", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "Status", 
+    "hint_en" : "Status"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b386"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "type_cod", 
+    "ui_display_name_zh_TW" : "公司類別", 
+    "hint_zh_TW" : "公司類別", 
+    "ui_display_name_en" : "Co.Type", 
+    "hint_en" : "Co.Type"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b387"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "contract_sta", 
+    "ui_display_name_zh_TW" : "合約狀態", 
+    "hint_zh_TW" : "合約狀態", 
+    "ui_display_name_en" : "Contract", 
+    "hint_en" : "Contract"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b388"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "sales_cod", 
+    "ui_display_name_zh_TW" : "業務員", 
+    "hint_zh_TW" : "業務員", 
+    "ui_display_name_en" : "Sales Rep", 
+    "hint_en" : "Sales Rep"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b389"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "business_cod", 
+    "ui_display_name_zh_TW" : "行業別", 
+    "hint_zh_TW" : "行業別", 
+    "ui_display_name_en" : "Industry", 
+    "hint_en" : "Industry"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b38a"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "area_cod", 
+    "ui_display_name_zh_TW" : "區域別", 
+    "hint_zh_TW" : "區域別", 
+    "ui_display_name_en" : "Region", 
+    "hint_en" : "Region"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b38b"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "visit_sta", 
+    "ui_display_name_zh_TW" : "拜訪狀態", 
+    "hint_zh_TW" : "拜訪狀態", 
+    "ui_display_name_en" : "Visit Status", 
+    "hint_en" : "Visit Status"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b38c"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "visit_typ", 
+    "ui_display_name_zh_TW" : "拜訪方式", 
+    "hint_zh_TW" : "拜訪方式", 
+    "ui_display_name_en" : "Method", 
+    "hint_en" : "Method"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b38d"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "visit_dat", 
+    "ui_display_name_zh_TW" : "預計拜訪日", 
+    "hint_zh_TW" : "預計拜訪日", 
+    "ui_display_name_en" : "Planned", 
+    "hint_en" : "Planned"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b38e"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "avisit_dat", 
+    "ui_display_name_zh_TW" : "實際拜訪日", 
+    "hint_zh_TW" : "實際拜訪日", 
+    "ui_display_name_en" : "Actual", 
+    "hint_en" : "Actual"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b38f"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "purport_rmk", 
+    "ui_display_name_zh_TW" : "主旨", 
+    "hint_zh_TW" : "主旨", 
+    "ui_display_name_en" : "Purpose", 
+    "hint_en" : "Purpose"
+}
+{ 
+    "_id" : ObjectId("5a1296f2970a86a9ec08b390"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "remark", 
+    "ui_display_name_zh_TW" : "內容", 
+    "hint_zh_TW" : "內容", 
+    "ui_display_name_en" : "Remarks", 
+    "hint_en" : "Remarks"
+}
+{ 
+    "_id" : ObjectId("5a13ec16e1dbe4f7d81d8e7a"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "bquet_nos", 
+    "ui_display_name_zh_TW" : "訂席單號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a13ec2be1dbe4f7d81d8e7b"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "seq_nos", 
+    "ui_display_name_zh_TW" : "序號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a13ec3de1dbe4f7d81d8e7c"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "place_cod", 
+    "ui_display_name_zh_TW" : "場地代號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a13ec4ce1dbe4f7d81d8e7d"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "begin_tim", 
+    "ui_display_name_zh_TW" : "開始時間", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a13ec57e1dbe4f7d81d8e7e"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "end_tim", 
+    "ui_display_name_zh_TW" : "結束時間", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a13ec62e1dbe4f7d81d8e7f"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "desk_qnt", 
+    "ui_display_name_zh_TW" : "桌數", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a13ec6ae1dbe4f7d81d8e80"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_qnt", 
+    "ui_display_name_zh_TW" : "計價數量", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a13ec73e1dbe4f7d81d8e81"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "unit_amt", 
+    "ui_display_name_zh_TW" : "單價", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a13ec7be1dbe4f7d81d8e82"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "place_amt", 
+    "ui_display_name_zh_TW" : "標準金額", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a13ec83e1dbe4f7d81d8e83"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "special_amt", 
+    "ui_display_name_zh_TW" : "場地金額", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a13eccae1dbe4f7d81d8e84"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "disc_amt", 
+    "ui_display_name_zh_TW" : "折扣金額", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a13ecd2e1dbe4f7d81d8e85"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "is_allplace", 
+    "ui_display_name_zh_TW" : "全場", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a13ecdce1dbe4f7d81d8e86"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "inv_qnt", 
+    "ui_display_name_zh_TW" : "扣庫桌", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a1bc889970a869768ab5ac5"), 
+    "prg_id" : "PMS0810120", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "usr_nam", 
+    "ui_display_name_zh_TW" : "姓名", 
+    "hint_zh_TW" : "姓名", 
+    "ui_display_name_en" : "Approved By", 
+    "hint_en" : "Approved By"
+}
+{ 
+    "_id" : ObjectId("5a1bc889970a869768ab5ac6"), 
+    "prg_id" : "PMS0810120", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "usr_id", 
+    "ui_display_name_en" : "使用者代號(英)", 
+    "hint_en" : "使用者代號(英)", 
+    "ui_display_name_zh_TW" : "使用者代號", 
+    "hint_zh_TW" : "使用者代號"
+}
+{ 
+    "_id" : ObjectId("5a1bc889970a869768ab5ac7"), 
+    "prg_id" : "PMS0810120", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "upgrade_flg", 
+    "ui_display_name_en" : "是否可升等(英)", 
+    "hint_en" : "是否可升等(英)", 
+    "ui_display_name_zh_TW" : "是否可升等", 
+    "hint_zh_TW" : "是否可升等"
+}
+{ 
+    "_id" : ObjectId("5a1bc889970a869768ab5ac8"), 
+    "prg_id" : "PMS0810120", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "chgrent_flg", 
+    "ui_display_name_en" : "是否可改房價(英)", 
+    "hint_en" : "是否可改房價(英)", 
+    "ui_display_name_zh_TW" : "是否可改房價", 
+    "hint_zh_TW" : "是否可改房價"
+}
+{ 
+    "_id" : ObjectId("5a1bc889970a869768ab5ac9"), 
+    "prg_id" : "PMS0810120", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ins_dat", 
+    "ui_display_name_en" : "Added Date", 
+    "hint_en" : "Added Date", 
+    "ui_display_name_zh_TW" : "輸入日", 
+    "hint_zh_TW" : "輸入日"
+}
+{ 
+    "_id" : ObjectId("5a1bc889970a869768ab5aca"), 
+    "prg_id" : "PMS0810120", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ins_usr", 
+    "ui_display_name_en" : "Added By", 
+    "hint_en" : "Added By", 
+    "ui_display_name_zh_TW" : "輸入者", 
+    "hint_zh_TW" : "輸入者"
+}
+{ 
+    "_id" : ObjectId("5a1bc889970a869768ab5acb"), 
+    "prg_id" : "PMS0810120", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "upd_dat", 
+    "ui_display_name_en" : "Modified Date", 
+    "hint_en" : "Modified Date", 
+    "ui_display_name_zh_TW" : "最後異動日", 
+    "hint_zh_TW" : "最後異動日"
+}
+{ 
+    "_id" : ObjectId("5a1bc889970a869768ab5acc"), 
+    "prg_id" : "PMS0810120", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "upd_usr", 
+    "ui_display_name_en" : "Modified By", 
+    "hint_en" : "Modified By", 
+    "ui_display_name_zh_TW" : "最後異動者", 
+    "hint_zh_TW" : "最後異動者"
+}
+{ 
+    "_id" : ObjectId("5a1becbd970a869768ab5b4f"), 
+    "prg_id" : "PMS0810150", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "guarentee_typ", 
+    "ui_display_name_zh_TW" : "類別代號", 
+    "hint_zh_TW" : "類別代號", 
+    "ui_display_name_en" : "RV Type", 
+    "hint_en" : "Reservation type"
+}
+{ 
+    "_id" : ObjectId("5a1becd7970a869768ab5b50"), 
+    "prg_id" : "PMS0810150", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "guarentee_nam", 
+    "ui_display_name_zh_TW" : "類別名稱", 
+    "hint_zh_TW" : "類別名稱", 
+    "ui_display_name_en" : "RV Name", 
+    "hint_en" : "Reservation name"
+}
+{ 
+    "_id" : ObjectId("5a1bed18970a869768ab5b58"), 
+    "prg_id" : "PMS0810150", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "guarentee_rmk", 
+    "ui_display_name_zh_TW" : "內容", 
+    "hint_zh_TW" : "內容", 
+    "ui_display_name_en" : "Remark", 
+    "hint_en" : "Reservation remark"
+}
+{ 
+    "_id" : ObjectId("5a1bed58970a869768ab5b63"), 
+    "prg_id" : "PMS0810150", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "dp_req", 
+    "ui_display_name_zh_TW" : "需收訂金", 
+    "hint_zh_TW" : "需收訂金", 
+    "ui_display_name_en" : "Deposit", 
+    "hint_en" : "Check if deposit is required"
+}
+{ 
+    "_id" : ObjectId("5a1bed8a970a869768ab5b6f"), 
+    "prg_id" : "PMS0810150", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "use_sta", 
+    "ui_display_name_zh_TW" : "是否使用", 
+    "hint_zh_TW" : "是否使用", 
+    "ui_display_name_en" : "In Use", 
+    "hint_en" : "Check if this reservation type is in use"
+}
+{ 
+    "_id" : ObjectId("5a1d1559970a869c286d1839"), 
+    "prg_id" : "PMS0810150", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "keep_way", 
+    "ui_display_name_zh_TW" : "起算日", 
+    "hint_zh_TW" : "起算日", 
+    "ui_display_name_en" : "起算日(英)", 
+    "hint_en" : "起算日(英)"
+}
+{ 
+    "_id" : ObjectId("5a1d1668970a869c286d1847"), 
+    "prg_id" : "PMS0810150", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "keep_way", 
+    "ui_display_name_zh_TW" : "起算日", 
+    "hint_zh_TW" : "起算日", 
+    "ui_display_name_en" : "起算日(英)", 
+    "hint_en" : "起算日(英)"
+}
+{ 
+    "_id" : ObjectId("5a1e6cf7fb195f1608bca412"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "rspt_cod", 
+    "ui_display_name_zh_TW" : "廳別", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
 }

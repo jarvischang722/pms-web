@@ -7,20 +7,21 @@ var moment = require("moment");
 var async = require("async");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir+"/ruleEngine/";
-var queryAgent = require(appRootDir+'/plugins/kplug-oracle/QueryAgent');
+var ruleRootPath = appRootDir + "/ruleEngine/";
+var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
 var commandRules = require("./../CommonRule");
-var ReturnClass = require(ruleRootPath+"/returnClass");
+var ReturnClass = require(ruleRootPath + "/returnClass");
 var mongoAgent = require(appRootDir + '/plugins/mongodb');
-var ErrorClass = require(ruleRootPath+"/errorClass");
+var ErrorClass = require(ruleRootPath + "/errorClass");
 var dataRuleSvc = require(appRootDir + '/services/DataRuleService');
 
 module.exports = {
     //依『貨品代號』,設定『是否扣庫存』
-    chkHkproductrfGoodscod: function(postData, session, callback){
+    chkHkproductrfGoodscod: function (postData, session, callback) {
         var userInfo = session.user;
         var prg_id = postData.prg_id;
-        var ui_field_name = _.isUndefined(postData.fields) ? "": postData.fields.ui_field_name;
+        var ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
+        var field = _.isUndefined(postData.fields) ? "": postData.fields;
         var params = {
             athena_id: session.user.athena_id,
             comp_cod: session.user.cmp_id
@@ -33,9 +34,9 @@ module.exports = {
             goods_sna: "goods_sna",
             goods_rmk: "goods_rmk",
             group_nam: "group_nam",
-            inv_sta:"inv_sta"
+            inv_sta: "inv_sta"
 
-    };
+        };
 
         var fieldNameChangeLanguage = {
             goods_cod: "貨品代號",
@@ -53,7 +54,7 @@ module.exports = {
                     }).exec(function (err, selRow) {
                         selRow = selRow.toObject();
 
-                        dataRuleSvc.getSelectOptions(params, selRow, function (selectData) {
+                        dataRuleSvc.getSelectOptions(params, selRow, field, function (selectData) {
                             result.effectValues.showDataGrid = selectData;
                             result.effectValues.updateFieldNameTmp = updateFieldName;
                             result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
@@ -65,39 +66,40 @@ module.exports = {
             async.parallel(selectDSFunc, function (err, result) {
                 callback(err, result);
             });
-        }else {
-            if(postData.singleRowData.goods_cod.trim() != ""){
+        }
+        else {
+            if (postData.singleRowData.goods_cod.trim() != "") {
                 postData.singleRowData.inv_sta = "Y";
-            }else {
+            } else {
                 postData.singleRowData.inv_sta = "N";
             }
             result.effectValues.inv_sta = postData.singleRowData.inv_sta;
             callback(null, result);
         }
     },
+
     //若N:無服務費時, SERV_RAT = 0
-    chkHkproductrfServicesta:function(postData, session, callback){
+    chkHkproductrfServicesta: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        if(postData.singleRowData.service_sta == "false"){
+        if (postData.singleRowData.service_sta == "false") {
             postData.singleRowData.serv_rat = "0";
             lo_result.effectValues.serv_rat = postData.singleRowData.serv_rat;
             callback(lo_error, lo_result);
-        }else {
+        } else {
             callback(lo_error, lo_result);
         }
     },
     //若設要收服務費時，則值要大於0
-    chkHkproductrfServrat:function (postData, session, callback) {
+    chkHkproductrfServrat: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
         var servratValue = postData.singleRowData.serv_rat;
 
-        if(postData.singleRowData.service_sta == "false"){
-            if(postData.singleRowData.serv_rat != 0)
-            {
+        if (postData.singleRowData.service_sta == "false") {
+            if (postData.singleRowData.serv_rat != 0) {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
                 lo_error.errorMsg = commandRules.getMsgByCod("pms84msg4", session.locale);
@@ -105,9 +107,8 @@ module.exports = {
                 lo_result.effectValues.serv_rat = postData.singleRowData.serv_rat;
             }
             callback(lo_error, lo_result);
-        }else {
-            if(isNaN(Number(postData.singleRowData.serv_rat)) || Number(postData.singleRowData.serv_rat) <= 0)
-            {
+        } else {
+            if (isNaN(Number(postData.singleRowData.serv_rat)) || Number(postData.singleRowData.serv_rat) <= 0) {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
                 lo_error.errorMsg = commandRules.getMsgByCod("pms84msg5", session.locale);
@@ -118,7 +119,7 @@ module.exports = {
         }
     },
     //0541若設要收服務費時，則值要大於0
-    r_HkproductrfSaveModify:function (postData, session, callback) {
+    r_HkproductrfSaveModify: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
@@ -134,9 +135,9 @@ module.exports = {
                 lo_result.effectValues.serv_rat = postData.singleRowData.serv_rat;
             }
             callback(lo_error, lo_result);
-        }else {
-            if(isNaN(Number(postData.singleRowData.serv_rat)) || Number(postData.singleRowData.serv_rat) <= 0)
-            {
+        }
+        else {
+            if (isNaN(Number(postData.singleRowData.serv_rat)) || Number(postData.singleRowData.serv_rat) <= 0) {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
                 lo_error.errorMsg = commandRules.getMsgByCod("pms84msg5", session.locale);
@@ -147,7 +148,7 @@ module.exports = {
         }
     },
     //顯示順序,目前已存在的資料的最大值+1
-    rHkproductrfIns:function (postData, session, callback) {
+    rHkproductrfIns: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
@@ -163,7 +164,7 @@ module.exports = {
             callback(lo_error, lo_result);
         });
     },
-    r_HkproductrfSaveDel:function (postData, session, callback) {
+    r_HkproductrfSaveDel: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
@@ -175,7 +176,7 @@ module.exports = {
 
         queryAgent.query("GET_PRODUCT_NOS_COUNT".toUpperCase(), params, function (err, result) {
             if (!err) {
-                if(result.count > 0) {
+                if (result.count > 0) {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
                     lo_error.errorMsg = commandRules.getMsgByCod("pms84msg6", session.locale);
@@ -195,7 +196,7 @@ module.exports = {
             hotel_cod: session.user.fun_hotel_cod,
             small_typ: postData.singleRowData.small_typ
         };
-        if(postData.singleRowData.small_typ == ""){
+        if (postData.singleRowData.small_typ == "") {
             return callback(lo_error, lo_result);
         }
         queryAgent.query("GETHKPRODUCTRFMIDDLETYP".toUpperCase(), params, function (err, result) {

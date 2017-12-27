@@ -24,7 +24,7 @@
         <parameter type="string" kind="1">add_cod</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 取得客戶電話 -->
+    <!-- ['PSIW510030'] 取得客戶電話 -->
     <dao name="QRY_CONTACT_DT_SELECT">
         <statement><![CDATA[
             select contact_rmk as cust_tel from contact_dt

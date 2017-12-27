@@ -15,7 +15,8 @@
                             <div class="row" v-for="fields in pageTwoFieldData">
                                 <div class="grid-item " v-for="field in fields">
                                     <label :style="{width:field.label_width + 'px'}"
-                                           v-if="field.visiable == 'Y'" class="lineHeight14">
+                                           :title="field.ui_hint"
+                                           v-if="field.visiable == 'Y'" class="lineHt14">
                                         <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                         <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
                                             {{field.ui_display_name}}
@@ -102,40 +103,43 @@
 
                     <!-- Control Panel -->
                     <div class="col-sm-1 col-xs-1 singleRelative">
-                        <div class="row" v-if="editStatus">
+                        <div class="row">
                             <div class="singleEditStatus right-menu-co">
                                 <ul>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isFistData || $parent.isLoading"
-                                                style="" @click="toFirstData"><%= __("SystemCommon").First %>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isFistData || $parent.isLoading"
-                                                style="" @click="toPreData"><%= __("SystemCommon").Previous %>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isLastData || $parent.isLoading"
-                                                style="" @click="toNextData"><%= __("SystemCommon").Next %>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isLastData || $parent.isLoading"
-                                                style="" @click="toLastData"><%= __("SystemCommon").Last %>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                :disabled="$parent.isLoading"
-                                                @click="handleDeleteSingleData">
-                                            <%= __("SystemCommon").Delete %>
-                                        </button>
-                                    </li>
+                                    <template v-if="editStatus">
+
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    :disabled="isFistData || $parent.isLoading"
+                                                    style="" @click="toFirstData"><%= __("SystemCommon").First %>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    :disabled="isFistData || $parent.isLoading"
+                                                    style="" @click="toPreData"><%= __("SystemCommon").Previous %>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    :disabled="isLastData || $parent.isLoading"
+                                                    style="" @click="toNextData"><%= __("SystemCommon").Next %>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    :disabled="isLastData || $parent.isLoading"
+                                                    style="" @click="toLastData"><%= __("SystemCommon").Last %>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                    :disabled="$parent.isLoading"
+                                                    @click="handleDeleteSingleData">
+                                                <%= __("SystemCommon").Delete %>
+                                            </button>
+                                        </li>
+
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="!isModifiable || $parent.isLoading"
@@ -157,6 +161,7 @@
                                             <%= __("program")["PMS0810020"].showRoomTypeOrder %>
                                         </button>
                                     </li>
+                                    </template>
                                     <li v-if="createStatus">
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="$parent.isSaving" @click="doSaveGrid('addOther')">
@@ -197,12 +202,12 @@
 
         <!-- buttons -->
         <!--<div class="col-sm-12 col-xs-12 center" id="dialogBtns" style="display: none;">-->
-            <!--<div class="singleRelative">-->
-                <!--<div class="singleBtnBottom">-->
-                    <!---->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="clearfix"></div>-->
+        <!--<div class="singleRelative">-->
+        <!--<div class="singleBtnBottom">-->
+        <!---->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="clearfix"></div>-->
         <!--</div>-->
 
         <!-- 產生庫存dialog -->

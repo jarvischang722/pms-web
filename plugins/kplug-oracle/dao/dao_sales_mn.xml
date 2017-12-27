@@ -50,12 +50,24 @@
         <parameter type="string" kind="3">sales_cod</parameter>
     </dao>
 
-
-    <!--[PMS0620020] 取得業務員sales_mn(user_nos存在)-->
-    <dao name="QRY_SALES_MN_ALL_FIELDS">
+    <dao name="QRY_SALES_MN_ALL_FIELDS_WITH_USER_NOS">
         <statement><![CDATA[
         SELECT trim(a.SALES_COD) as sales_cod, trim(a.SALES_NAM) as sales_nam, a.STATUS_COD, a.CLASS_COD, a.HOTEL_SALES, a.BQ_SALES, a.MEMBER_SALES, a.USER_NOS, b.usr_cname, a.INS_DAT, a.INS_USR, a.UPD_DAT, a.UPD_USR,a.TEL_NOS
         FROM SALES_MN a JOIN s99_user b ON a.user_nos = b.usr_id WHERE  ATHENA_ID = :athena_id AND trim(SALES_COD)= trim(:sales_cod)
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">sales_cod</parameter>
+    </dao>
+
+    <!--[PMS0620020] 取得業務員sales_mn(user_nos存在)-->
+    <dao name="QRY_SALES_MN_ALL_FIELDS">
+        <statement test="_d(param.user_nos != '')"><![CDATA[
+        SELECT trim(a.SALES_COD) as sales_cod, trim(a.SALES_NAM) as sales_nam, a.STATUS_COD, a.CLASS_COD, a.HOTEL_SALES, a.BQ_SALES, a.MEMBER_SALES, a.USER_NOS, b.usr_cname, a.INS_DAT, a.INS_USR, a.UPD_DAT, a.UPD_USR,a.TEL_NOS
+        FROM SALES_MN a JOIN s99_user b ON a.user_nos = b.usr_id WHERE  ATHENA_ID = :athena_id AND trim(SALES_COD)= trim(:sales_cod)
+        ]]></statement>
+        <statement test="_d(param.user_nos == '')"><![CDATA[
+        SELECT trim(SALES_COD) as sales_cod, trim(SALES_NAM) as sales_nam, STATUS_COD, CLASS_COD, HOTEL_SALES, BQ_SALES, MEMBER_SALES, USER_NOS, INS_DAT, INS_USR, UPD_DAT, UPD_USR,TEL_NOS
+        FROM SALES_MN WHERE  ATHENA_ID = :athena_id AND trim(SALES_COD)= trim(:sales_cod)
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">sales_cod</parameter>
@@ -72,5 +84,14 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">sales_cod</parameter>
         <parameter type="string" kind="3">user_nos</parameter>
+    </dao>
+
+
+    <!--[PMS0620050] 業務員拜訪記錄 業務員選單-->
+    <dao name="SEL_SALES_MN">
+        <statement><![CDATA[
+        select sales_cod, sales_nam from sales_mn where athena_id = :athena_id
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 </root>

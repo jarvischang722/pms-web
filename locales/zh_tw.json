@@ -175,7 +175,12 @@
       "selectEmp": "在職",
       "hotel_cod_repeat": "館別代號重複，請刪除",
       "Property": "Property(中)",
-      "group_change_record": "組別異動紀錄"
+      "group_change_record": "組別異動紀錄",
+      "saveSuccess": "儲存成功",
+      "delSuccess": "刪除成功"
+    },
+    "PMS0620050": {
+      "edit_vist_mn": "修改拜訪紀錄"
     }
   },
   "table_in_use": "%s 使用中",
@@ -206,6 +211,7 @@
     "User": "使用者",
     "Action_type": "動作類型",
     "Desciption_Mn": "主檔描述",
+    "Desciption_Dt": "名細描述",
     "check_delete": "確定刪除此筆資料",
     "CompanyName": "德安資訊股份有限公司"
   },
@@ -231,8 +237,9 @@
       "ChkZeroToHundred": "%s 請輸入0~100的數字",
       "ChkZeroToMaxNum": "%s 請輸入0~99999的數字",
       "FmtHHMM": "%s 時間格式HH:MM",
+      "ChkHHMM": "%s 時間格式HHMM or HH:MM",
       "ChkPointOne": "%s 僅能輸入至小數點1位",
-      "FmtYYYYMM": "%s 日期格式YYYY/MM"
+      "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)"
     }
   },
   "ErrorMsg": {

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 
-    <!-- ['PSIW500030'] 取得訂單格式 -->
+    <!-- ['PSIW510030'] 取得訂單格式 -->
     <dao name="QRY_PSI_FORMAT_STA">
         <statement><![CDATA[
             select format_sta ,quote_rmk ,order_time from psi_quote_rf_mn
             where trim(comp_cod) = trim(:comp_cod)
             and (trim(cust_cod) = trim(:cust_cod) or cust_cod is null)
-            and ((order_time = 'PXW1' and substr(:period_cod, 4, 2) = 'W1') or trim(order_time) = :week or order_time is null or (:period_cod = 'P01W1' and order_time = 'P1W1'))
+            and (order_time = :period_cod or trim(order_time) = :week or order_time is null)
         ]]>
         </statement>
         <parameter type="string" kind="3">comp_cod</parameter>
@@ -16,7 +16,7 @@
         <parameter type="string" kind="3">week</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 取得訂單格式(查詢用) -->
+    <!-- ['PSIW510030'] 取得訂單格式(查詢用) -->
     <dao name="QRY_SEARCH_PSI_FORMAT_STA">
         <statement><![CDATA[
             select format_sta as value ,quote_rmk as display from psi_quote_rf_mn
@@ -26,7 +26,7 @@
         <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 取得所有訂單格式(空白表單下載用) -->
+    <!-- ['PSIW510030'] 取得所有訂單格式(空白表單下載用) -->
     <dao name="QRY_ALL_PSI_FORMAT_STA">
         <statement><![CDATA[
             select format_sta, quote_rmk, order_time from psi_quote_rf_mn
@@ -36,10 +36,10 @@
         <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 取得貨品資料(空白表單下載用) -->
+    <!-- ['PSIW510030'] 取得貨品資料(空白表單下載用) -->
     <dao name="QRY_GOODS_DATA">
         <statement><![CDATA[
-            Select  psi_quote_rf_dt.goods_cod, goods_mn.goods_rmk, (rtrim("UNIT_RF"."UNIT_TYP") || ':' || rtrim("UNIT_RF"."UNIT_NAM")) as goods_unit
+            Select  psi_quote_rf_dt.goods_cod, goods_mn.goods_rmk, rtrim("UNIT_RF"."UNIT_NAM") as goods_unit
             From goods_mn,  PSI_QUOTE_RF_DT,  unit_rf
             WHERE ( GOODS_MN.COMP_COD = PSI_QUOTE_RF_DT.COMP_COD ) and
             ( GOODS_MN.COMP_COD = unit_rf.COMP_COD ) and

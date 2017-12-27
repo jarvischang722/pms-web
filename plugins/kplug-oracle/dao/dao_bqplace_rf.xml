@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- [RS0W202010] 選取場地popup下拉-->
+    <!-- [RS0W212010] 選取場地popup下拉-->
     <dao name="SEL_POPUP_PLACE_COD">
         <statement><![CDATA[
             SELECT BQPLACE_RF.PLACE_COD, BQPLACE_RF.PLACE_NAM, BQPLACE_RF.PLACE_ENG, BQPLACE_RF.RSPT_COD, BQPLACE_RF.DESK_QNT, BQPLACE_RF.UNIT_AMT,
@@ -8,11 +8,12 @@
             FROM BQPLACE_RF,
             BQPLACEMERGE_RF
             WHERE ( bqplace_rf.place_cod = bqplacemerge_rf.merge_cod (+))
+            ORDER BY bqplace_rf.view_seq
         ]]>
         </statement>
     </dao>
 
-    <!-- [RS0W202010] 選取場地下拉-->
+    <!-- [RS0W212010] 選取場地下拉-->
     <dao name="SEL_PLACE_COD">
         <statement><![CDATA[
             SELECT BQPLACE_RF.PLACE_COD as value, BQPLACE_RF.PLACE_NAM as display
@@ -23,10 +24,21 @@
         </statement>
     </dao>
 
-    <!-- [RS0W202010] 取得場地-->
+    <!-- [RS0W212010] 取得場地-->
     <dao name="QRY_PLACE_COD">
         <statement><![CDATA[
             select place_cod, place_nam from bqplace_rf where trim(place_cod) = trim(:place_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">place_cod</parameter>
+    </dao>
+
+    <!-- [RS0W212010] 取得場地單價-->
+    <dao name="QRY_PLACE_UNIT_AMT">
+        <statement><![CDATA[
+            select unit_amt
+            from bqplace_rf
+            where trim(place_cod) = trim(:place_cod)
         ]]>
         </statement>
         <parameter type="string" kind="3">place_cod</parameter>
