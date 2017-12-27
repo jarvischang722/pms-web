@@ -1,6 +1,7 @@
 var authMW = require("../middlewares/authMiddleware");
 var userCrtl = require("../controllers/userController");
 var i18nMW = require("../middlewares/i18nMiddleware");
+let permisCrtl = require("../controllers/permissionController");
 
 var middles = [authMW, i18nMW];
 var middles2 = [i18nMW];
@@ -42,7 +43,7 @@ module.exports = function (app, passport) {
     //取得全部角色
     app.post('/api/getAllRoles', apiMiddles, userCrtl.getAllRoles);
     //取得全部功能權限
-    app.post("/api/getAllFuncs", apiMiddles, userCrtl.getAllFuncs);
+    app.post("/api/getAllFuncs", apiMiddles, permisCrtl.qryPermissionFuncTreeData);
 
     //抓取單一角色對應的功能權限
     app.post("/api/getFuncsOfRole", apiMiddles, userCrtl.getFuncsOfRole);

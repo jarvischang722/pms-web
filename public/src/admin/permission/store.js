@@ -17,11 +17,11 @@ const state = {
     ga_staffOfRole: [],
     ga_staffChecked: [],
 
-    ga_funcsOfRole: [],
     ga_funcList: [],
     ga_funcList4Tree: [],
+    ga_funcsOfRole: [],
     ga_funcChecked: []
-}
+};
 
 // mutations are operations that actually mutates the state.
 // each mutation handler gets the entire state tree as the
@@ -60,10 +60,9 @@ const mutations = {
         state.ga_staffChecked = la_staffChecked;
     },
     updFuncChecked(state, la_funcChecked) {
-        console.log(la_funcChecked);
         state.ga_funcChecked = la_funcChecked;
     }
-}
+};
 
 // actions are functions that cause side effects and can involve
 // asynchronous operations.
@@ -109,7 +108,6 @@ const actions = {
     //取得角色對應之全部帳號
     async qryRoleOfAccounts({commit}, role_id) {
         await $.post("/api/getRoleOfAccounts", {role_id: role_id}).then((result) => {
-            // console.log(result.accounts);
             commit("setStaffOfRole", result.accounts);
         });
     },
@@ -169,7 +167,7 @@ const actions = {
 
         //system
         _.each(la_funcList, function (lo_funcList) {
-            la_funcList4Tree.push(treeDataObj(lo_funcList.sys_id, "#", lo_funcList["sys_name_" + gs_locale]));
+            la_funcList4Tree.push(treeDataObj(lo_funcList.current_id, "#", lo_funcList["sys_name_" + gs_locale]));
 
             //subSystem
             _.each(lo_funcList.subSys, function (lo_subSys) {
@@ -193,10 +191,12 @@ const actions = {
 
     doSave({state, commit}) {
         let lo_params = {
+            staffList: state.ga_compGrpList,
             staffOfRole: state.ga_staffOfRole,
             funcsOfRole: state.ga_funcsOfRole,
             staffChecked: state.ga_staffChecked,
-            funcChecked: state.ga_funcChecked
+            funcChecked: state.ga_funcChecked,
+            selRole: state.gs_selRole
         };
         $.post("/api/saveAuthByRole", lo_params).then(
             result => {
@@ -207,7 +207,7 @@ const actions = {
             }
         );
     }
-}
+};
 
 function treeDataObj(id, parent, text) {
     let lo_treeData = {
@@ -219,7 +219,7 @@ function treeDataObj(id, parent, text) {
 }
 
 // getters are functions
-const getters = {}
+const getters = {};
 
 // A Vuex instance is created by combining the state, mutations, actions,
 // and getters.

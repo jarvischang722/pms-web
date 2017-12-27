@@ -16,3 +16,12 @@ exports.saveAuthByRole = function (req, res) {
         res.json({success: err == null, errMsg: err, data: result});
     });
 };
+
+/**
+ * 取功能權限資料
+ */
+exports.qryPermissionFuncTreeData = function (req, res) {
+    permissionSvc.qryPermissionFuncTreeData(req, req.session, function(err, result){
+        res.json({success: err == null, errMsg: err, funcList: result});
+    });
+};
