@@ -630,7 +630,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     });
 
     //dt2 刪除資料
-    _.each(la_dt2DeleteData, function(lo_dt2DeleteData){
+    _.each(la_dt2DeleteData, function (lo_dt2DeleteData) {
         let dt2DelData = {"function": "0", "table_name": "hc_adjfolio_dt2"};
         dt2DelData.condition = _.clone(la_commonCond);
         dt2DelData.condition.push(
@@ -653,7 +653,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
         ln_exec_seq++;
     });
     //dt2 新增資料
-    _.each(la_dt2CreateData, function(lo_dt2CreateData){
+    _.each(la_dt2CreateData, function (lo_dt2CreateData) {
         let dt2CreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
         dt2CreateData = _.extend(dt2CreateData, lo_dt2CreateData);
         dt2CreateData["athena_id"] = session.user.athena_id;
@@ -717,6 +717,19 @@ exports.execNormalSQL = function (postData, session, callback) {
     });
 };
 
+/**
+ * 前端插入資料資料庫api
+ */
+exports.doSQLProcess = function (postData, session, callback) {
+    let lo_saveProc = new operationSaveProc(postData, session);
+    async.waterfall([
+        lo_saveProc.doSQLProcess,
+        lo_saveProc.doAPI
+    ], function(err, result){
+        callback(err, result);
+    });
+};
+
 // 作業儲存流程
 function operationSaveProc(postData, session) {
     let lo_saveExecDatas = {};  //要打API 所有exec data
@@ -763,12 +776,16 @@ function operationSaveProc(postData, session) {
         if (ln_exec_seq != 1) {
             lo_optSaveAdapter.set_saveExecDatas(ln_exec_seq, lo_saveExecDatas);
         }
-        callback(null, lo_optSaveAdapter);
+
+        //轉換格式
+        lo_optSaveAdapter.formating(function (err, lo_apiParams) {
+            callback(null, lo_optSaveAdapter);
+        });
     };
 
     // 打API
     this.doAPI = function (optSaveAdapter, callback) {
-        var rtnData;
+        let rtnData;
         if (_.isUndefined(optSaveAdapter)) {
             rtnData = {
                 success: false,
@@ -788,53 +805,52 @@ function operationSaveProc(postData, session) {
             return callback(true, rtnData);
         }
 
-        //轉換後打API
-        optSaveAdapter.exec(function (err, lo_apiParams) {
-            tools.requestApi(go_sysConf.api_url, lo_apiParams, function (apiErr, apiRes, data) {
-                var log_id = moment().format("YYYYMMDDHHmmss");
-                var ls_msg = null;
-                var lb_success = true;
-                if (apiErr || !data) {
-                    lb_success = false;
-                    ls_msg = apiErr;
-                }
-                else if (data["RETN-CODE"] != "0000") {   //回傳有誤
-                    lb_success = false;
-                    console.error(data["RETN-CODE-DESC"]);
-                    ls_msg = data["RETN-CODE-DESC"] || "error!!";
-                }
-                else{                                       //成功
-                    lb_success = true;
-                    console.info(data["RETN-CODE-DESC"]);
-                    ls_msg = data["RETN-CODE-DESC"] || "";
-                }
+        //取API格式
+        let lo_apiParams = optSaveAdapter.getApiFormat();
+        //打API
+        tools.requestApi(go_sysConf.api_url, lo_apiParams, function (apiErr, apiRes, data) {
+            var log_id = moment().format("YYYYMMDDHHmmss");
+            var ls_msg = null;
+            var lb_success = true;
+            if (apiErr || !data) {
+                lb_success = false;
+                ls_msg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {   //回傳有誤
+                lb_success = false;
+                console.error(data["RETN-CODE-DESC"]);
+                ls_msg = data["RETN-CODE-DESC"] || "error!!";
+            }
+            else {                                       //成功
+                lb_success = true;
+                console.info(data["RETN-CODE-DESC"]);
+                ls_msg = data["RETN-CODE-DESC"] || "";
+            }
 
-                //寄出exceptionMail
-                if (lb_success == false) {
-                    mailSvc.sendExceptionMail({
-                        log_id: log_id,
-                        exceptionType: "execSQL",
-                        errorMsg: ls_msg
-                    });
-                }
-                //log 紀錄
-                logSvc.recordLogAPI({
+            //寄出exceptionMail
+            if (lb_success == false) {
+                mailSvc.sendExceptionMail({
                     log_id: log_id,
-                    success: lb_success,
-                    prg_id: postData.prg_id,
-                    api_prg_code: postData.trans_cod,
-                    req_content: lo_apiParams,
-                    res_content: data
+                    exceptionType: "execSQL",
+                    errorMsg: ls_msg
                 });
-
-                var rtnData = {
-                    success: lb_success,
-                    msg: ls_msg,
-                    data: data["RETN-DATA"] || {}
-                };
-                callback(null, rtnData);
+            }
+            //log 紀錄
+            logSvc.recordLogAPI({
+                log_id: log_id,
+                success: lb_success,
+                prg_id: postData.prg_id,
+                api_prg_code: postData.trans_cod,
+                req_content: lo_apiParams,
+                res_content: data
             });
 
+            var rtnData = {
+                success: lb_success,
+                msg: ls_msg,
+                data: data["RETN-DATA"] || {}
+            };
+            callback(null, rtnData);
         });
     };
 
@@ -852,7 +868,7 @@ function operationSaveProc(postData, session) {
     function qryDataGridFuncRule(ls_page_id, callback) {
         mongoAgent.SetupDatagridFunction.find({
             prg_id: postData.prg_id,
-            page_id: _.isNaN(Number(ls_page_id))? 1 : Number(ls_page_id)
+            page_id: _.isNaN(Number(ls_page_id)) ? 1 : Number(ls_page_id)
         }, function (err, getResult) {
             callback(err, tools.mongoDocToObject(getResult));
         });
