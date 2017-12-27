@@ -8,6 +8,7 @@
                         <div class="width-95 searchMain-S2 row" style="padding-top: 10px;">
                             <div class="grid">
                                 <div class="grid-item" v-for="field in searchFieldsByRow[0]">
+
                                     <label :title="field.ui_hint" >{{field.ui_display_name}}</label>
                                     <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
                                         <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
@@ -19,7 +20,8 @@
 
                                     <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
                                         <el-select v-model="searchCond[field.ui_field_name]"
-                                                   multiple="field.ui_type == 'multiselect'" size="small">
+                                                   multiple="field.ui_type == 'multiselect'" size="small"
+                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}">
                                             <el-option v-for="item in field.selectData" :key="item.value"
                                                        :label="item.display" :value="item.value">
                                             </el-option>
@@ -30,6 +32,7 @@
                                         <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
                                                         :format="field.ui_type == 'date' ? 'yyyy/MM/dd': 'yyyy/MM/dd HH:mm:ss'"
                                                         :type="field.ui_type == 'date' ? 'date': 'datetime'"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         placeholder="">
                                         </el-date-picker>
                                     </template>
@@ -37,6 +40,7 @@
                                     <template v-if="field.ui_type == 'daterange'">
                                         <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
                                                         format="yyyy/MM/dd" type="daterange"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         placeholder="Select date range">
                                         </el-date-picker>
                                     </template>
@@ -95,7 +99,8 @@
 
                                         <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
                                             <el-select v-model="searchCond[field.ui_field_name]"
-                                                       :multiple="field.ui_type == 'multiselect'" size="small">
+                                                       :multiple="field.ui_type == 'multiselect'" size="small"
+                                                       :style="{width:field.width + 'px' , height:field.height + 'px'}">
                                                 <el-option v-for="item in field.selectData" :key="item.value"
                                                            :label="item.display" :value="item.value">
                                                 </el-option>
@@ -107,6 +112,7 @@
                                                             :format="field.ui_type == 'date' ? 'yyyy/MM/dd': 'yyyy/MM/dd HH:mm:ss'"
                                                             :type="field.ui_type == 'date' ? 'date': 'datetime'"
                                                             :editable="false"
+                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                             placeholder="">
                                             </el-date-picker>
                                         </template>
@@ -114,6 +120,7 @@
                                         <template v-if="field.ui_type == 'daterange'">
                                             <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
                                                             format="yyyy/MM/dd" type="daterange" :editable="false"
+                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                             placeholder="Select date range">
                                             </el-date-picker>
                                         </template>

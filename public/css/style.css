@@ -4364,18 +4364,21 @@ td div.act-box span.act-text {
   top: 3% !important;
 }
 
-.search-content .el-select .el-input__inner, .editVueTpl .el-select .el-input__inner {
+.search-content .el-select .el-input__inner, .editVueTpl .el-select .el-input__inner, .grid-item .el-select .el-input__inner {
   height: 25px !important;
 }
-.search-content .el-select .el-select__tags, .editVueTpl .el-select .el-select__tags {
+.search-content .el-select .el-select__tags, .editVueTpl .el-select .el-select__tags, .grid-item .el-select .el-select__tags {
   height: 25px !important;
   overflow: hidden;
   line-height: 25px !important;
 }
-.search-content.width-100 .el-select, .editVueTpl.width-100 .el-select {
+.search-content.width-100 .el-select, .editVueTpl.width-100 .el-select, .grid-item.width-100 .el-select {
   width: 100% !important;
 }
 
+.grid-item .el-date-editor {
+  height: 25px !important;
+}
 .grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
   height: 25px !important;
 }
