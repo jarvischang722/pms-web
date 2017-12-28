@@ -633,7 +633,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                             self.singleData = {};
                             self.emitAppendRow();
                         }
-
                         if (self.deleteStatue) {
                             /**
                              * 刪除成功
