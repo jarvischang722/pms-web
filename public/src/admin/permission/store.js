@@ -63,7 +63,7 @@ const mutations = {
     updFuncChecked(state, la_funcChecked) {
         state.ga_funcChecked = la_funcChecked;
     },
-    checkedRoleList(state, la_checkedRoleList){
+    checkedRoleList(state, la_checkedRoleList) {
         state.ga_checkedRoleList = la_checkedRoleList;
     }
 };
@@ -136,7 +136,7 @@ const actions = {
         $.post("/api/qryRoleByUserID", {user_id: user_id}).then(
             result => {
                 let la_checkedRole = [];
-                _.each(result.roleList, function(lo_roleList){
+                _.each(result.roleList, function (lo_roleList) {
                     la_checkedRole.push(lo_roleList.role_id);
                 });
                 commit("checkedRoleList", la_checkedRole);
@@ -205,10 +205,11 @@ const actions = {
         commit("setFuncList4Tree", la_funcList4Tree);
     },
 
-    doSave({state, commit}) {
+    doSaveByRole({state, commit}) {
         let lo_params = {
             staffList: state.ga_compGrpList,
             staffOfRole: state.ga_staffOfRole,
+            funcList: state.ga_funcList,
             funcsOfRole: state.ga_funcsOfRole,
             staffChecked: state.ga_staffChecked,
             funcChecked: state.ga_funcChecked,
@@ -222,6 +223,14 @@ const actions = {
                 console.log(err);
             }
         );
+    },
+
+    doSaveByStaff({state, commit}) {
+        $.post("/api/doSaveByStaff", {checkedRoleList: state.ga_checkedRoleList}).then(
+            result => {
+                alert("save success");
+            }
+        )
     }
 };
 

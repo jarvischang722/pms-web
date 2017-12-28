@@ -88,7 +88,7 @@
             authFuncComp
         },
         methods:mapActions([
-            "doSave"
+            "doSaveByRole"
         ])
     }
 </script>

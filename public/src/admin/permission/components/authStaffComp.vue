@@ -123,6 +123,7 @@
                         self.$store.commit("updStaffChecked", la_staffChecked);
                     });
                 }
+                // 以人員為主
                 else{
                     $("#permissionAccountTree").on("select_node.jstree", function(e, data){
                         let ls_user_id = data.node.id;
@@ -133,7 +134,7 @@
                 cb(null, "");
             },
 
-            //勾選此角色人員權限
+            //勾選有此角色的人員
             checkedTreeNodeByStaffOfRole() {
                 let self = this;
                 let la_allRoles = this.$store.state.ga_allRoles;
@@ -152,6 +153,7 @@
                 }, 100);
             },
 
+            //勾選有此人員的角色
             checkedRoleByUserID(user_id){
                 this.$store.dispatch("qryRoleByUserID", user_id);
             }

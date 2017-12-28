@@ -36,7 +36,7 @@ exports.saveAuthByRole = function (postData, session, callback) {
 
         let apiParams = {
             "REVE-CODE": "BAC03009010000",
-            "program_id": "permission",
+            "program_id": "SYS0110010",
             "user": session.user.usr_id,
             "count": Object.keys(saveExecData).length,
             "exec_data": saveExecData
@@ -67,7 +67,7 @@ exports.saveAuthByRole = function (postData, session, callback) {
                 logSvc.recordLogAPI({
                     success: success,
                     log_id: log_id,
-                    prg_id: prg_id,
+                    prg_id: "SYS0110010",
                     api_prg_code: '0300901000',
                     req_content: apiParams,
                     res_content: data
@@ -137,9 +137,13 @@ function combinStaffExecData(postData, session, callback) {
             tmpIns["table_name"] = "BAC_ROLE_USER";
 
             let lo_staff = _.findWhere(la_staffList, {usr_id: ls_staffChecked});
-            _.each(Object.keys(lo_staff), function (objKey) {
-                tmpIns[objKey] = lo_staff[objKey];
-            });
+
+            tmpIns.role_athena_id = lo_userInfo.athena_id;
+            tmpIns.role_comp_cod = lo_staff.cmp_id;
+            tmpIns.role_id = ls_selRole;
+            tmpIns.user_athena_id = lo_userInfo.athena_id;
+            tmpIns.user_comp_cod = lo_staff.cmp_id;
+            tmpIns.user_id = lo_staff.usr_id;
 
             tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
             lo_savaExecDatas[ln_exec_seq] = tmpIns;
@@ -153,6 +157,7 @@ function combinFuncExecData(postData, session, callback) {
     let ln_exec_seq = 1;
     let la_funcOfRole = postData.funcsOfRole;
     let la_funcChecked = postData.funcChecked;
+    let la_funcList = postData.funcList;
 
     let ls_selRole = postData.selRole;
     let lo_savaExecDatas = {};
@@ -187,7 +192,7 @@ function combinFuncExecData(postData, session, callback) {
                         {
                             key: "FUNC_COMP_COD",
                             operation: "=",
-                            value: lo_userInfo.user_athena_id
+                            value: lo_userInfo.cmp_id
                         },
                         {
                             key: "FUNC_HOTEL_COD",
@@ -213,10 +218,20 @@ function combinFuncExecData(postData, session, callback) {
 
                     let lo_func = _.findWhere(la_funcList, {current_id: ls_funcChecked});
                     if (!_.isUndefined(lo_func)) {
-                        _.each(Object.keys(lo_func), function (objKey) {
-                            tmpIns[objKey] = lo_func[objKey];
-                        });
+
+                        tmpIns.role_athena_id = lo_userInfo.athena_id;
+                        tmpIns.role_comp_cod = lo_userInfo.cmp_id;
+                        tmpIns.role_id = ls_selRole;
+                        tmpIns.func_athena_id = lo_userInfo.athena_id;
+                        tmpIns.func_comp_cod = lo_userInfo.cmp_id;
+                        tmpIns.func_hotel_cod = lo_userInfo.hotel_cod;
+                        tmpIns.pre_id = lo_func.pre_id;
+                        tmpIns.current_id = lo_func.current_id;
+                        tmpIns.id_typ = lo_func.id_typ;
+                        tmpIns.level_nos = lo_func.level_nos;
+                        tmpIns.sort_cod = 0;
                         tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+
                         lo_savaExecDatas[ln_exec_seq] = tmpIns;
                         ln_exec_seq++;
                     }
@@ -228,6 +243,12 @@ function combinFuncExecData(postData, session, callback) {
         callback(null, lo_savaExecDatas);
     });
 }
+
+exports.saveAuthByStaff = function (postData, session, callback) {
+    let la_checkedRoleList = postData.checkedRoleList;
+
+
+};
 
 exports.qryPermissionFuncTreeData = function (req, session, callback) {
     async.waterfall([
@@ -504,7 +525,7 @@ exports.qryRoleByUserID = function (postData, session, callback) {
         user_id: postData.user_id
     };
 
-    queryAgent.queryList("QRY_ROLE_OF_ACCOUNTS", lo_params, 0, 0, function(err, result){
+    queryAgent.queryList("QRY_ROLE_OF_ACCOUNTS", lo_params, 0, 0, function (err, result) {
         console.log(result);
         callback(err, result);
     });

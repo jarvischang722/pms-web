@@ -17,6 +17,15 @@ exports.saveAuthByRole = function (req, res) {
     });
 };
 
+ /**
+  * 新增人員權限
+  */
+ exports.saveAuthByStaff = function(req, res){
+    permissionSvc.saveAuthByStaff(req.body, req.session, function(err, result){
+        res.json({success: err == null, errMsg: err, data: result});
+    });
+};
+
 /**
  * 取功能權限資料
  */

@@ -60,7 +60,7 @@
                     <div class="space-12"></div>
                     <div class="col-xs-12">
                         <div class="row center">
-                            <button class="btn btn-primary btn-sm">
+                            <button class="btn btn-primary btn-sm" @click="doSaveByStaff">
                                 儲存
                             </button>
                         </div>
@@ -89,7 +89,8 @@
             authFuncComp
         },
         methods: mapActions([
-            "qryAllRoles"
+            "qryAllRoles",
+            "doSaveByStaff"
         ])
     }
 </script>
