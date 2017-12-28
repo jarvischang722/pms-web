@@ -173,7 +173,7 @@ function DatagridBaseClass() {
             var editors = $('#' + self.dgName).datagrid('getEditors', index);
             var lo_editor = _.findWhere(editors, {field: lo_timeField.ui_field_name});
 
-            if(!_.isUndefined(lo_editor)){
+            if (!_.isUndefined(lo_editor)) {
                 $(lo_editor.target).textbox('setValue', ls_field_name);
             }
 
@@ -183,7 +183,11 @@ function DatagridBaseClass() {
     /**
      * 新增一個Row
      */
-    this.appendRow = function () {
+    this.appendRow = function (callback) {
+        if (_.isUndefined(callback)) {
+            callback = function (result) {
+            };
+        }
         if (self.endEditing()) {
             $.post("/api/handleDataGridAddEventRule", {prg_id: self.prg_id}, function (result) {
                 var prgDefaultObj = {createRow: 'Y'};
@@ -194,6 +198,7 @@ function DatagridBaseClass() {
                 self.editIndex = $('#' + self.dgName).datagrid('getRows').length - 1;
                 $('#' + self.dgName).datagrid('selectRow', self.editIndex)
                     .datagrid('beginEdit', self.editIndex);
+                callback(true);
             });
             // $("#gridEdit").val(self.tmpCUD);
         }
@@ -327,14 +332,14 @@ function DatagridBaseClass() {
             }
         }
         // 設定檔
-        else{
+        else {
             self.tmpCUD[dataType].push(lo_chkKeyRowData);
             $("#gridEdit").val(self.tmpCUD);
         }
 
     };
 
-    this.insertKeyRowData = function(lo_chkKeyRowData){
+    this.insertKeyRowData = function (lo_chkKeyRowData) {
         lo_chkKeyRowData["mnRowData"] = this.mnRowData;
         lo_chkKeyRowData["tab_page_id"] = this.fieldsData[0].tab_page_id;
         lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");

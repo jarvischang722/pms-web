@@ -130,6 +130,7 @@ label .lbl.radius-circle:before {
 }
 .gs-order-container .checkbox:nth-child(2) {
   width: 40px;
+  margin-left: 21px;
 }
 
 .gs-order-table-wrap td {
