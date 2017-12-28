@@ -26,12 +26,17 @@ var vm = new Vue({
         this.$eventHub.$on('doEditSalesClerk', function (editSalesClerkData) {
             self.isEditSalesClerk = editSalesClerkData.isEditSalesClerk;
             self.editRows = editSalesClerkData.editRows;
+            self.isEditStatus = editSalesClerkData.isEditStatus;
+            self.isCreateStatus = editSalesClerkData.isCreateStatus;
             self.doEditSalesClerk();
         });
         this.$eventHub.$on('doCloseEditSalesClerk', function (editSalesClerkData) {
             self.isEditSalesClerk = editSalesClerkData.isEditSalesClerk;
+            self.isEditStatus = editSalesClerkData.isEditStatus;
+            self.isCreateStatus = editSalesClerkData.isCreateStatus;
             self.isLoading = false;
             self.editRows = [];
+            console.log(self.isEditStatus, self.isCreateStatus);
         });
         //status chg. dialog
         this.$eventHub.$on('getCompanyStatusData', function (companyStatusData) {
@@ -203,14 +208,16 @@ var vm = new Vue({
             this.isCreateStatus = true;
             this.isEditStatus = false;
             this.isEditSalesClerk = false;
-            this.isOnlySingleVisitRecord = false;
-            this.editingRow = {};
+            this.isVisitPlan = false;
+            this.editingRow = {cust_mn_cust_cod: ""};
             this.initTmpCUD();
 
             this.showSingleGridDialog();
             this.isLoading = false;
         },
         editRow() {
+            var self = this;
+
             this.isLoading = true;
             this.isCreateStatus = false;
             this.isEditStatus = true;
@@ -231,31 +238,42 @@ var vm = new Vue({
             else {
                 this.editingRow = lo_editRow;
                 this.showSingleGridDialog();
+                // this.doRowLock(lo_editRow.cust_mn_cust_cod, function(result){
+                //     self.showSingleGridDialog();
+                // });
             }
             this.isLoading = false;
         },
         showSingleGridDialog() {
+            var self = this;
+
             var dialog = $('#PMS0610020').removeClass('hide').dialog({
                 autoOpen: false,
                 modal: true,
                 title: go_i18nLang["program"]["PMS0610020"].company_maintain,
                 width: 1000,
                 maxHeight: 1920,
-                resizable: true
+                resizable: true,
+                onBeforeClose() {
+                    self.editingRow = {};
+                    self.isEditStatus = false;
+                    self.isCreateStatus = false;
+                    // self.doRowUnLock();
+                }
             }).dialog('open');
         },
         //ststus chg.(公司狀態)
-        doSaveCompanyStatus(){
+        doSaveCompanyStatus() {
             this.isOpenCompanyStatus = false;
         },
-        doCloseCompanyStatusDialog(){
+        doCloseCompanyStatusDialog() {
             this.isOpenCompanyStatus = false;
         },
         //合約狀態變更
-        doSaveContractStatus(){
+        doSaveContractStatus() {
             this.isOpenContractStatus = false;
         },
-        doCloseContractStatusDialog(){
+        doCloseContractStatusDialog() {
             this.isOpenContractStatus = false;
         },
         //業務員指派
@@ -269,15 +287,17 @@ var vm = new Vue({
                 alert(go_i18nLang["SystemCommon"].SelectData);
             }
             else {
+                this.isEditStatus = true;
+                this.isCreateStatus = false;
                 this.editRows = this.editRows.length == 0 ? la_editRow : this.editRows;
-                _.each(this.editRows, function(lo_editRow){
-                    self.doRowLock(lo_editRow.cust_mn_cust_cod, function(result){
-                        if(result){
+                _.each(this.editRows, function (lo_editRow) {
+                    self.doRowLock(lo_editRow.cust_mn_cust_cod, function (result) {
+                        if (result) {
                             ln_count++;
                         }
                     });
                 });
-                if(ln_count == this.editRows.length){
+                if (ln_count == this.editRows.length) {
                     this.isEditSalesClerk = true;
                     this.isVisitPlan = false;
                 }
@@ -325,7 +345,7 @@ var vm = new Vue({
             g_socket.emit('handleTableLock', lo_param);
             callback(true);
         },
-        doRowUnLock(){
+        doRowUnLock() {
             var lo_param = {
                 prg_id: "PMS0620030"
             };

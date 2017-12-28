@@ -15,8 +15,8 @@
                                         <input v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
                                                v-model="singleData[field.ui_field_name]" type="checkbox"
                                                :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
-                                               :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
-                                               @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                               :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                        >
 
                                         <label style="width:auto" class="clerkCheckbox"
                                                v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
@@ -74,9 +74,9 @@
 
     export default {
         name: 'edit-sales-clerk',
-        props: ["editRows", "isEditSalesClerk"],
+        props: ["editRows", "isEditSalesClerk", "isCreateStatus", "isEditStatus"],
         components: {selectGridDialogComp},
-        created(){
+        created() {
             var self = this;
             this.$eventHub.$on('updateBackSelectData', function (chooseData) {
                 self.singleData = _.extend(self.singleData, chooseData);
@@ -94,9 +94,9 @@
                 dialogVisible: false,
                 tmpCUD: {
                     createData: [],
-                    updateData: []
+                    updateData: [],
+                    oriData: []
                 },
-                rowsData: [],
                 singleData: {},
                 oriSingleData: {},
                 fieldsData: [],
@@ -134,73 +134,8 @@
                     sales_cod: "",
                     upd_order_mn: false
                 };
-                this.oriSingleData = _.clone(this.singleData);
+                this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
                 this.isLoadingDialog = false;
-            },
-            chkFieldRule(ui_field_name, rule_func_name) {
-                if (rule_func_name === "") {
-                    return;
-                }
-                var self = this;
-                var la_originData = [this.oriSingleData];
-                var la_singleData = [this.singleData];
-                var la_diff = _.difference(la_originData, la_singleData);
-
-                // 判斷資料是否有異動
-                if (la_diff.length != 0) {
-                    this.isUpdate = true;
-                }
-
-                if (!_.isEmpty(rule_func_name.trim())) {
-                    var postData = {
-                        prg_id: "PMS0620030",
-                        rule_func_name: rule_func_name,
-                        validateField: ui_field_name,
-                        singleRowData: JSON.parse(JSON.stringify(this.singleData)),
-                        oriSingleData: this.oriSingleData
-                    };
-                    $.post('/api/chkFieldRule', postData, function (result) {
-
-                        if (result.success) {
-                            //是否要show出訊息
-                            if (result.showAlert) {
-                                alert(result.alertMsg);
-                            }
-
-                            //是否要show出詢問視窗
-                            if (result.showConfirm) {
-                                if (confirm(result.confirmMsg)) {
-
-                                } else {
-                                    //有沒有要再打一次ajax到後端
-                                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
-
-                                            if (!result.success) {
-                                                alert(result.errorMsg);
-                                            } else {
-
-                                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
-                                                    self.singleData = _.extend(self.singleData, result.effectValues);
-                                                }
-
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-
-                        } else {
-                            alert(result.errorMsg);
-                        }
-
-                        //連動帶回的值
-                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
-                            self.singleData = _.extend(self.singleData, result.effectValues);
-                        }
-
-                    });
-                }
             },
             chkClickPopUpGrid(field) {
                 var self = this;
@@ -212,7 +147,6 @@
                     };
 
                     $.post("/api/popUpGridData", params, function (result) {
-                        console.log(params);
                         if (result != null) {
                             self.selectPopUpGridData = result.showDataGrid;
                             result.fieldData = field;
@@ -238,28 +172,46 @@
                 });
                 dialog.dialog("open");
 
-                $('#dataPopUpGridDialog').parents('.panel.window').attr("style","display: block; width: 1000px; top: 0px; left: 441px; z-index: 9999 !important;");
+                $('#dataPopUpGridDialog').parents('.panel.window').attr("style", "display: block; width: 1000px; top: 0px; left: 441px; z-index: 9999 !important;");
             },
             doEditSales() {
-                var self = this;
-                var lo_params = {
-                    prg_id: "PMS0620030",
-                    trans_cod: "PMS0620030",
-                    tmpCUD: this.tmpCUD
-                };
+                if (this.isCreateStatus) {
+                    console.log(this.editRows);
+                    console.log(this.singleData);
+                }
+                else if (this.isEditStatus) {
+                    this.tmpCUD.oriData = this.editRows;
 
-                $.post("/api/doOperationSave", lo_params, function (result) {
-                    if(result){
-                        this.doRowUnLock();
-                        this.isEditSalesClerk = false;
-                    }
-                });
+                }
+
+//                this.doSaveGrid(function (result) {
+//                    if (result.success) {
+//                        self.doRowUnLock();
+//                        self.isEditSalesClerk = false;
+//                        if (_.isUndefined(this.editRows[0].isSalesClerk)) {
+//                            this.isCreateStatus = false;
+//                            this.isEditStatus = false;
+//                        }
+//                        self.$eventHub.$emit('doCloseEditSalesClerk', {
+//                            isEditSalesClerk: self.isEditSalesClerk,
+//                            isEditStatus: self.isEditStatus,
+//                            isCreateStatus: self.isCreateStatus
+//                        });
+//                    }
+//                });
             },
             doCancelEdit() {
+                var self = this;
                 this.doRowUnLock();
                 this.isEditSalesClerk = false;
+                if (_.isUndefined(this.editRows[0].isSalesClerk)) {
+                    this.isCreateStatus = false;
+                    this.isEditStatus = false;
+                }
                 this.$eventHub.$emit('doCloseEditSalesClerk', {
-                    isEditSalesClerk: false
+                    isEditSalesClerk: self.isEditSalesClerk,
+                    isEditStatus: self.isEditStatus,
+                    isCreateStatus: self.isCreateStatus
                 });
             },
             doRowUnLock() {
@@ -267,6 +219,16 @@
                     prg_id: ""
                 };
                 g_socket.emit('handleTableUnlock', lo_param);
+            },
+            doSaveGrid(callback) {
+                var lo_params = {
+                    prg_id: "PMS0620030",
+                    trans_cod: "PMS0620030",
+                    tmpCUD: this.tmpCUD
+                };
+                $.post("/api/doOperationSave", lo_params, function (result) {
+                    callback(result);
+                });
             }
         }
     }

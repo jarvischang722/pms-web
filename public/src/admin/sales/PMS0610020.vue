@@ -138,6 +138,8 @@
                                     <sales-clerk
                                             :row-data="rowData"
                                             :is-sales-clerk="tabStatus.isSales"
+                                            :is-create-status="isCreateStatus"
+                                            :is-edit-status="isEditStatus"
                                     ></sales-clerk>
                                 </div>
                                 <div id="contractPanel" v-show="tabName=='contract'" class="padding-tabs">

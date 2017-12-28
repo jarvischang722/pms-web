@@ -33,12 +33,7 @@
 
     export default {
         name: 'sales-clerk',
-        props: ["rowData", "isSalesClerk"],
-        components: {editSalesClerk},
-        created() {
-            var self = this;
-
-        },
+        props: ["rowData", "isSalesClerk", "isCreateStatus", "isEditStatus"],
         data() {
             return {
                 i18nLang: go_i18nLang,
@@ -104,10 +99,13 @@
             },
             doEditSalesClerk() {
                 var self = this;
+                this.rowData = _.extend(this.rowData, {isSalesClerk: self.isSalesClerk});
 
                 this.$eventHub.$emit('doEditSalesClerk', {
                     isEditSalesClerk: true,
-                    editRows: [self.rowData]
+                    editRows: [self.rowData],
+                    isEditStatus: self.isEditStatus,
+                    isCreateStatus: self.isCreateStatus
                 });
             }
         }
