@@ -16,7 +16,6 @@ var vm = new Vue({
         vmHub.$on("doUnLock", function () {
             self.doRowUnLock();
         });
-
         //change log dialog
         this.$eventHub.$on('getChangeLogData', function (changeLogData) {
             self.openChangeLogDialog = changeLogData.openChangeLogDialog;
@@ -36,7 +35,6 @@ var vm = new Vue({
             self.isCreateStatus = editSalesClerkData.isCreateStatus;
             self.isLoading = false;
             self.editRows = [];
-            console.log(self.isEditStatus, self.isCreateStatus);
         });
         //status chg. dialog
         this.$eventHub.$on('getCompanyStatusData', function (companyStatusData) {

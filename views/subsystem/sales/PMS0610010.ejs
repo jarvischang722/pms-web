@@ -5,10 +5,10 @@
     }
 </style>
 <div id="PMS0610010App">
-    <div v-loading="isLoading" element-loading-text="Loading...">
+    <div >
         <div class="page-header"></div><!-- /.page-header -->
         <!-- 商務公司(Accounts) Page-->
-        <div class="pageMain">
+        <div class="pageMain" v-loading="isLoading" element-loading-text="Loading...">
             <search-comp
                     :search-fields="searchFields"
                     :search-cond.sync="searchCond"

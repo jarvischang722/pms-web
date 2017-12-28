@@ -282,6 +282,7 @@
             isVisitPlan(val){
                 if(val){
                     this.isLoadingDialog = true;
+                    this.loadingText = "Loading...";
                     this.initData();
                     this.setTmpRowData();
                     this.fetchSingleGridFieldData();

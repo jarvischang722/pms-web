@@ -172,17 +172,32 @@
                 });
                 dialog.dialog("open");
 
-                $('#dataPopUpGridDialog').parents('.panel.window').attr("style", "display: block; width: 1000px; top: 0px; left: 441px; z-index: 9999 !important;");
+                $('#dataPopUpGridDialog').parents('.panel.window').attr("style", "display: block; width: 960px; top: 32px; left: 480px; z-index: 9999 !important;");
             },
             doEditSales() {
+                var self = this;
+
                 if (this.isCreateStatus) {
-                    console.log(this.editRows);
-                    console.log(this.singleData);
                 }
                 else if (this.isEditStatus) {
+                    this.saveData = {
+                        sales_cod: this.singleData.sales,
+                    }
                     this.tmpCUD.oriData = this.editRows;
 
                 }
+
+                self.doRowUnLock();
+                self.isEditSalesClerk = false;
+                if (_.isUndefined(this.editRows[0].isSalesClerk)) {
+                    this.isCreateStatus = false;
+                    this.isEditStatus = false;
+                }
+                self.$eventHub.$emit('doCloseEditSalesClerk', {
+                    isEditSalesClerk: self.isEditSalesClerk,
+                    isEditStatus: self.isEditStatus,
+                    isCreateStatus: self.isCreateStatus
+                });
 
 //                this.doSaveGrid(function (result) {
 //                    if (result.success) {
