@@ -6,12 +6,10 @@ const permissionCrtl = require("../controllers/permissionController");
 var authMW = require("../middlewares/authMiddleware");
 var sysMW = require("../middlewares/systemMiddleware");
 var i18nMW = require("../middlewares/i18nMiddleware");
-var middles = [i18nMW,authMW,sysMW];
+var middles = [i18nMW, authMW, sysMW];
 
 /* GET  page. */
-module.exports = function(app  ) {
-
-
+module.exports = function (app) {
     app.get('/subsystem/reservation', middles, systCrtl.reservation);
     app.get('/subsystem/reception', middles, systCrtl.reception);
     app.get('/subsystem/cashier', middles, systCrtl.cashier);
@@ -30,11 +28,12 @@ module.exports = function(app  ) {
     /** 取得異動紀錄　**/
     app.post("/api/getSetupPrgChangeLog", middles, systCrtl.getSetupPrgChangeLog);
     /** 取得Session 過期時間　**/
-    app.post("/api/getSessionExpireTime",  systCrtl.getSessionExpireTime);
+    app.post("/api/getSessionExpireTime", systCrtl.getSessionExpireTime);
 
     //權限設定
     app.get('/sys/permissionSetup', middles, systCrtl.permissionSetup);
 
     app.post("/api/saveAuthByRole", middles, permissionCrtl.saveAuthByRole);
+    app.post("/api/qryRoleByUserID", middles, permissionCrtl.qryRoleByUserID);
 
 };

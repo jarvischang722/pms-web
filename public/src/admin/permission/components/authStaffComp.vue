@@ -123,6 +123,12 @@
                         self.$store.commit("updStaffChecked", la_staffChecked);
                     });
                 }
+                else{
+                    $("#permissionAccountTree").on("select_node.jstree", function(e, data){
+                        let ls_user_id = data.node.id;
+                        self.checkedRoleByUserID(ls_user_id);
+                    })
+                }
 
                 cb(null, "");
             },
@@ -144,6 +150,10 @@
                     });
                     self.isLoading = false;
                 }, 100);
+            },
+
+            checkedRoleByUserID(user_id){
+                this.$store.dispatch("qryRoleByUserID", user_id);
             }
         }
     }

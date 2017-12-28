@@ -312,7 +312,7 @@ exports.getFuncsOfRole = function (req, res) {
     queryAgent.queryList("QRY_BAC_SYS_MODULE_BY_USER", lo_params, 0, 0, function (err, funcsOfRole) {
         res.json({success: true, funcsOfRole: funcsOfRole});
     });
-}
+};
 
 /**
  * 取得作業每顆按鈕func_id的權限

@@ -11,6 +11,7 @@ const state = {
 
     ga_allRoles: [],
     gs_selRole: "",
+    ga_checkedRoleList: [],
 
     ga_compGrpList: [],
     ga_compGrpList4Tree: [],
@@ -61,6 +62,9 @@ const mutations = {
     },
     updFuncChecked(state, la_funcChecked) {
         state.ga_funcChecked = la_funcChecked;
+    },
+    checkedRoleList(state, la_checkedRoleList){
+        state.ga_checkedRoleList = la_checkedRoleList;
     }
 };
 
@@ -126,6 +130,18 @@ const actions = {
         });
         dispatch("combineCompGrpTree");
         return state.ga_compGrpList4Tree;
+    },
+
+    qryRoleByUserID({commit, state}, user_id) {
+        $.post("/api/qryRoleByUserID", {user_id: user_id}).then(
+            result => {
+                let la_checkedRole = [];
+                _.each(result.roleList, function(lo_roleList){
+                    la_checkedRole.push(lo_roleList.role_id);
+                });
+                commit("checkedRoleList", la_checkedRole);
+            }
+        )
     },
 
     //組合tree的格式給compGrpList4Tree

@@ -1,4 +1,4 @@
-/**
+ /**
  * Created by kaiyue on 2017/12/26.
  */
 
@@ -25,3 +25,9 @@ exports.qryPermissionFuncTreeData = function (req, res) {
         res.json({success: err == null, errMsg: err, funcList: result});
     });
 };
+
+exports.qryRoleByUserID = function(req, res){
+    permissionSvc.qryRoleByUserID(req.body, req.session, function(err, result){
+        res.json({success: err == null, errMsg: err, roleList: result});
+    })
+}

@@ -50,7 +50,7 @@
                     self.qryFuncList,
                     self.initTree
                 ], function (err, result) {
-                    if(err){
+                    if (err) {
                         console.error(err);
                     }
                     self.isLoading = false;
@@ -79,7 +79,7 @@
                 let self = this;
                 let la_plugins = ["search", "state", "types", "wholerow", "checkbox"];
                 if (this.$store.state.gs_permissionModel == "authByFunc") {
-                    la_plugins.splice(4,1);
+                    la_plugins.splice(4, 1);
                 }
                 $('#permissionFuncTree').jstree({
                     "core": {
@@ -118,10 +118,21 @@
                 this.treeIns = $("#permissionFuncTree").jstree(true);
 
                 if (this.$store.state.gs_permissionModel != "authByFunc") {
+
+                    if(this.$store.state.gs_permissionModel != "authByRole"){
+                        $(".jstree-checkbox", $(".authorityTree")).attr("disabled", "disabled");
+                    }
+
                     $("#permissionFuncTree").on("check_node.jstree uncheck_node.jstree", function (e, data) {
                         let la_funcChecked = self.treeIns.get_checked();
                         self.$store.commit("updFuncChecked", la_funcChecked);
                     });
+                }
+                else {
+                    $("#permissionFuncTree").on("select_node.jstree", function (e, data) {
+                        let lo_funcSelected = data.node.id;
+                        console.log(lo_funcSelected);
+                    })
                 }
                 cb(null, "");
             },
@@ -130,6 +141,7 @@
                 let self = this;
                 let la_allRoles = this.$store.state.ga_allRoles;
                 let la_funcsOfRole = this.$store.state.ga_funcsOfRole;
+                console.log(la_funcsOfRole);
                 if (la_funcsOfRole.length == 0 || this.$store.state.gs_permissionModel == "authByFunc" || la_allRoles.length <= 0 || this.treeIns == null) {
                     return;
                 }
