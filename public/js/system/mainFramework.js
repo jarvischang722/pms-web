@@ -1,5 +1,13 @@
 var g_socket = io.connect('/system');
 var gf_chkSessionInterval;
+var vmHub = new Vue();
+
+g_socket.on('checkOnlineUserResult', function (result) {
+    if (!result.success) {
+        alert(result.errorMsg);
+        location.href = '/systemOption';
+    }
+});
 
 var BacchusMainVM = new Vue({
     el: '#BacchusMainApp',
