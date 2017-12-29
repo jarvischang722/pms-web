@@ -55,6 +55,10 @@
                             <div class="width-95">
                                 <div class="grid">
                                     <div class="grid-item">
+                                        <label>房價名稱</label>
+                                        <input type="text" class="input-medium medium-c1"/>
+                                    </div>
+                                    <div class="grid-item">
                                         <label>設定類別</label>
                                         <select class="input-medium medium-c1">
                                             <option value="DR">DR:Daily</option>
@@ -66,22 +70,14 @@
                                         </select>
                                     </div>
                                     <div class="grid-item">
-                                        <label>房價代號</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>房價名稱</label>
+                                        <label>房價分類</label>
                                         <input type="text" class="input-medium medium-c1"/>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>顯示內容</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="disYes">是</option>
-                                            <option value="disNo">否</option>
-                                            <option value="disAll">全部</option>
-                                        </select>
+                                        <label>房價代號</label>
+                                        <input type="text" class="input-medium medium-c1"/>
                                     </div>
                                     <div class="grid-item">
                                         <label>市場類別</label>
@@ -104,12 +100,26 @@
                                         <input type="text" class="input-medium medium-c1"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>房價分類</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <label>預設顯示</label>
+                                        <select class="input-medium medium-c1">
+                                            <option value="disYes">是</option>
+                                            <option value="disNo">否</option>
+                                            <option value="disAll">全部</option>
+                                        </select>
                                     </div>
                                     <div class="grid-item">
                                         <label>可使用日期</label>
                                         <input type="date" class="input-medium medium-c1"/>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>屬性</label>
+                                        <select class="input-medium medium-c1">
+                                            <option value="att1">Base Rate</option>
+                                            <option value="att2">Dependant Rate</option>
+                                            <option value="att3">Independant Rate</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -319,7 +329,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth resv_rateList"
-                                                role="button">房價一覽表
+                                                role="button">期間一覽表
                                         </button>
                                     </li>
                                     <li class="depDateLi">
@@ -327,7 +337,7 @@
                                                 role="button">Dep. Rate
                                         </button>
                                     </li>
-                                    <li class="baseDateLi" style="display: none;">
+                                    <li class="baseDateLi">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate"
                                                 role="button">Base Rate
                                         </button>
@@ -350,115 +360,150 @@
                          style="height: 400px; overflow-y: auto;">
                         <div title="房型" class="padding-tabs">
                             <div class="col-xs-12 col-sm-12">
-                                <div class="row">
-                                    <div class="col-xs-11 col-sm-11">
-                                        <div class="row no-margin-right">
-                                            <!--<div class="content">-->
-                                            <!--<div class="pull-right">-->
-                                            <!--<select class="input-medium medium-c1">-->
-                                            <!--<option>1.欄位:基本售價</option>-->
-                                            <!--<option>2.欄位:服務費</option>-->
-                                            <!--</select>-->
-                                            <!--<input type="text"-->
-                                            <!--class="input-medium medium-c1"-->
-                                            <!--placeholder="2500"/>-->
-                                            <!--<button class="btn btn-sm btn-primary btn-white btn-sm-font">-->
-                                            <!--設定費用-->
-                                            <!--</button>-->
-                                            <!--</div>-->
-                                            <!--<div class="clearfix"></div>-->
-                                            <!--</div>-->
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-1 col-sm-1"></div>
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="space-4"></div>
 
                                 <div class="row">
-                                    <div class="col-xs-11 col-sm-11">
-                                        <div class="row no-margin-right">
-                                            <div class="horizTable-outer">
-                                                <table class="css_table horizTable width-100">
-                                                    <thead class="css_thead">
-                                                        <tr class="css_tr">
-                                                            <th class="css_th width-10">房型代號</th>
-                                                            <th class="css_th width-20">使用期間</th>
-                                                            <th class="css_th width-20">日期規則</th>
-                                                            <th class="css_th width-10">一人房價</th>
-                                                            <th class="css_th width-10">兩人房價</th>
-                                                            <th class="css_th width-10">加大人</th>
-                                                            <th class="css_th width-10">加小孩</th>
-                                                            <th class="css_th width-10">服務費</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="css_tbody">
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">SD</td>
-                                                            <td class="css_td td-disable">
-                                                                2017/01/01~2017/12/31
-                                                            </td>
-                                                            <td class="css_td td-disable">平日</td>
-                                                            <td class="css_td text-right">2,000</td>
-                                                            <td class="css_td text-right">4,000</td>
-                                                            <td class="css_td text-right">*</td>
-                                                            <td class="css_td text-right"></td>
-                                                            <td class="css_td text-right">180</td>
-                                                        </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">DW</td>
-                                                            <td class="css_td td-disable">
-                                                                2017/01/01~2017/12/31
-                                                            </td>
-                                                            <td class="css_td td-disable">旺日</td>
-                                                            <td class="css_td text-right">2,500</td>
-                                                            <td class="css_td text-right">5,000</td>
-                                                            <td class="css_td text-right">1,500</td>
-                                                            <td class="css_td text-right"></td>
-                                                            <td class="css_td text-right">260</td>
-                                                        </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">LD</td>
-                                                            <td class="css_td td-disable">
-                                                                2018/01/01~2017/12/31
-                                                            </td>
-                                                            <td class="css_td td-disable">旺日</td>
-                                                            <td class="css_td text-right">2,040</td>
-                                                            <td class="css_td text-right">4,080</td>
-                                                            <td class="css_td text-right">1,500</td>
-                                                            <td class="css_td text-right"></td>
-                                                            <td class="css_td text-right">260</td>
-                                                        </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">FM</td>
-                                                            <td class="css_td td-disable">
-                                                                2018/01/01~2017/12/31
-                                                            </td>
-                                                            <td class="css_td td-disable">旺日</td>
-                                                            <td class="css_td text-right">1,560</td>
-                                                            <td class="css_td text-right">3,120</td>
-                                                            <td class="css_td text-right">1,500</td>
-                                                            <td class="css_td text-right"></td>
-                                                            <td class="css_td text-right">260</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+
+                                    <div class="fixHeadTable pull-left width-15">
+                                        <div class="tbl-header02">
+                                            <table class="custab custab-gray">
+                                                <thead class="custab-head">
+                                                    <tr>
+                                                        <th class="css_th center width-20">
+                                                            <i class="fa fa-plus green pointer rateCode_csRm"></i>
+                                                        </th>
+                                                        <th class="css_th center width-80">房型代號</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div class="tbl-content02" style="height: 100px;">
+                                            <table class="custab custab-gray">
+                                                <tbody class="custab-body">
+                                                    <tr class="css_tr">
+                                                        <td class="css_td width-30">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">SD</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td width-70">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">DW</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">LD</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">FM</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">FM</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">FM</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">FM</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1">
-                                        <div class="row">
-                                            <div class="right-menu-co">
-                                                <ul>
-                                                    <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">房型
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                    <div class="fixHeadTable pull-left width-85">
+                                        <div class="tbl-header02">
+                                            <table class="custab custab-gray">
+                                                <thead class="custab-head">
+                                                    <tr>
+                                                        <th class="css_th width-20">使用期間</th>
+                                                        <th class="css_th width-20">日期規則</th>
+                                                        <th class="css_th width-15">一人房價</th>
+                                                        <th class="css_th width-15">兩人房價</th>
+                                                        <th class="css_th width-10">加大人</th>
+                                                        <th class="css_th width-10">加小孩</th>
+                                                        <th class="css_th width-10">服務費</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div class="tbl-content02" style="height: 100px;">
+                                            <table class="custab custab-gray">
+                                                <tbody class="custab-body">
+                                                    <tr class="css_tr">
+                                                        <td class="css_td td-disable width-20">
+                                                            2017/01/01~2017/12/31
+                                                        </td>
+                                                        <td class="css_td td-disable width-20">平日</td>
+                                                        <td class="css_td text-right width-15">2,000</td>
+                                                        <td class="css_td text-right width-15">4,000</td>
+                                                        <td class="css_td text-right width-10">*</td>
+                                                        <td class="css_td text-right width-10"></td>
+                                                        <td class="css_td text-right width-10">180</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td td-disable">
+                                                            2017/01/01~2017/12/31
+                                                        </td>
+                                                        <td class="css_td td-disable">旺日</td>
+                                                        <td class="css_td text-right">2,500</td>
+                                                        <td class="css_td text-right">5,000</td>
+                                                        <td class="css_td text-right">1,500</td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right">260</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td td-disable">
+                                                            2018/01/01~2017/12/31
+                                                        </td>
+                                                        <td class="css_td td-disable">旺日</td>
+                                                        <td class="css_td text-right">2,040</td>
+                                                        <td class="css_td text-right">4,080</td>
+                                                        <td class="css_td text-right">1,500</td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right">260</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td td-disable">
+                                                            2018/01/01~2017/12/31
+                                                        </td>
+                                                        <td class="css_td td-disable">旺日</td>
+                                                        <td class="css_td text-right">1,560</td>
+                                                        <td class="css_td text-right">3,120</td>
+                                                        <td class="css_td text-right">1,500</td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right">260</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td td-disable">
+                                                            2018/01/01~2017/12/31
+                                                        </td>
+                                                        <td class="css_td td-disable">旺日</td>
+                                                        <td class="css_td text-right">1,560</td>
+                                                        <td class="css_td text-right">3,120</td>
+                                                        <td class="css_td text-right">1,500</td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right">260</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
+                                    <div class="clearfix"></div>
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="space-12"></div>
@@ -1015,7 +1060,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth resv_rateList"
-                                                role="button">房價一覽表
+                                                role="button">期間一覽表
                                         </button>
                                     </li>
                                     <li class="depDateLi">
@@ -1023,7 +1068,7 @@
                                                 role="button">Dep. Rate
                                         </button>
                                     </li>
-                                    <li class="baseDateLi" style="display: none;">
+                                    <li class="baseDateLi">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate"
                                                 role="button">Base Rate
                                         </button>
@@ -1084,89 +1129,167 @@
                                 <div class="space-4"></div>
 
                                 <div class="row">
-                                    <div class="col-xs-11 col-sm-11">
-                                        <div class="row no-margin-right">
-                                            <div class="horizTable-outer">
-                                                <table class="css_table horizTable width-100">
-                                                    <thead class="css_thead">
-                                                        <tr class="css_tr">
-                                                            <th class="css_th width-10">房型代號</th>
-                                                            <th class="css_th width-20">使用期間</th>
-                                                            <th class="css_th width-20">日期規則</th>
-                                                            <th class="css_th width-10">一人房價</th>
-                                                            <th class="css_th width-10">兩人房價</th>
-                                                            <th class="css_th width-10">加大人</th>
-                                                            <th class="css_th width-10">加小孩</th>
-                                                            <th class="css_th width-10">服務費</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="css_tbody">
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">SD</td>
-                                                            <td class="css_td td-disable">
-                                                                2017/01/01~2017/12/31
-                                                            </td>
-                                                            <td class="css_td td-disable">平日</td>
-                                                            <td class="css_td text-right">2,000</td>
-                                                            <td class="css_td text-right">4,000</td>
-                                                            <td class="css_td text-right">*</td>
-                                                            <td class="css_td text-right"></td>
-                                                            <td class="css_td text-right">180</td>
-                                                        </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">DW</td>
-                                                            <td class="css_td td-disable">
-                                                                2017/01/01~2017/12/31
-                                                            </td>
-                                                            <td class="css_td td-disable">旺日</td>
-                                                            <td class="css_td text-right">2,500</td>
-                                                            <td class="css_td text-right">5,000</td>
-                                                            <td class="css_td text-right">1,500</td>
-                                                            <td class="css_td text-right"></td>
-                                                            <td class="css_td text-right">260</td>
-                                                        </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">LD</td>
-                                                            <td class="css_td td-disable">
-                                                                2018/01/01~2017/12/31
-                                                            </td>
-                                                            <td class="css_td td-disable">旺日</td>
-                                                            <td class="css_td text-right">2,040</td>
-                                                            <td class="css_td text-right">4,080</td>
-                                                            <td class="css_td text-right">1,500</td>
-                                                            <td class="css_td text-right"></td>
-                                                            <td class="css_td text-right">260</td>
-                                                        </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">FM</td>
-                                                            <td class="css_td td-disable">
-                                                                2018/01/01~2017/12/31
-                                                            </td>
-                                                            <td class="css_td td-disable">旺日</td>
-                                                            <td class="css_td text-right">1,560</td>
-                                                            <td class="css_td text-right">3,120</td>
-                                                            <td class="css_td text-right">1,500</td>
-                                                            <td class="css_td text-right"></td>
-                                                            <td class="css_td text-right">260</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                    <!--<div class="col-xs-11 col-sm-11">-->
+                                    <!--<div class="row no-margin-right">-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-xs-1 col-sm-1">-->
+                                    <!--<div class="row">-->
+                                    <!--<div class="right-menu-co">-->
+                                    <!--<ul>-->
+                                    <!--<li>-->
+                                    <!--<button class="btn btn-primary btn-white btn-defaultWidth"-->
+                                    <!--role="button">房型-->
+                                    <!--</button>-->
+                                    <!--</li>-->
+                                    <!--</ul>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+
+                                    <div class="fixHeadTable pull-left width-15">
+                                        <div class="tbl-header02">
+                                            <table class="custab custab-gray">
+                                                <thead class="custab-head">
+                                                    <tr>
+                                                        <th class="css_th center width-30">
+                                                            <i class="fa fa-plus green pointer rateCode_csRm"></i>
+                                                        </th>
+                                                        <th class="css_th center width-70">房型代號</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div class="tbl-content02" style="height: 100px;">
+                                            <table class="custab custab-gray">
+                                                <tbody class="custab-body">
+                                                    <tr class="css_tr">
+                                                        <td class="css_td width-30">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td width-70">SD</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">DW</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">LD</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">FM</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">FM</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">FM</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">
+                                                            <i class="fa fa-minus red pointer"></i>
+                                                        </td>
+                                                        <td class="css_td">FM</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1">
-                                        <div class="row">
-                                            <div class="right-menu-co">
-                                                <ul>
-                                                    <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">房型
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                    <div class="fixHeadTable pull-left width-85">
+                                        <div class="tbl-header02">
+                                            <table class="custab custab-gray">
+                                                <thead class="custab-head">
+                                                    <tr>
+                                                        <th class="css_th width-20">使用期間</th>
+                                                        <th class="css_th width-20">日期規則</th>
+                                                        <th class="css_th width-15">一人房價</th>
+                                                        <th class="css_th width-15">兩人房價</th>
+                                                        <th class="css_th width-10">加大人</th>
+                                                        <th class="css_th width-10">加小孩</th>
+                                                        <th class="css_th width-10">服務費</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div class="tbl-content02" style="height: 100px;">
+                                            <table class="custab custab-gray">
+                                                <tbody class="custab-body">
+                                                    <tr class="css_tr">
+                                                        <td class="css_td td-disable width-20">
+                                                            2017/01/01~2017/12/31
+                                                        </td>
+                                                        <td class="css_td td-disable width-20">平日</td>
+                                                        <td class="css_td text-right width-15">2,000</td>
+                                                        <td class="css_td text-right width-15">4,000</td>
+                                                        <td class="css_td text-right width-10">*</td>
+                                                        <td class="css_td text-right width-10"></td>
+                                                        <td class="css_td text-right width-10">180</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td td-disable">
+                                                            2017/01/01~2017/12/31
+                                                        </td>
+                                                        <td class="css_td td-disable">旺日</td>
+                                                        <td class="css_td text-right">2,500</td>
+                                                        <td class="css_td text-right">5,000</td>
+                                                        <td class="css_td text-right">1,500</td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right">260</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td td-disable">
+                                                            2018/01/01~2017/12/31
+                                                        </td>
+                                                        <td class="css_td td-disable">旺日</td>
+                                                        <td class="css_td text-right">2,040</td>
+                                                        <td class="css_td text-right">4,080</td>
+                                                        <td class="css_td text-right">1,500</td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right">260</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td td-disable">
+                                                            2018/01/01~2017/12/31
+                                                        </td>
+                                                        <td class="css_td td-disable">旺日</td>
+                                                        <td class="css_td text-right">1,560</td>
+                                                        <td class="css_td text-right">3,120</td>
+                                                        <td class="css_td text-right">1,500</td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right">260</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td td-disable">
+                                                            2018/01/01~2017/12/31
+                                                        </td>
+                                                        <td class="css_td td-disable">旺日</td>
+                                                        <td class="css_td text-right">1,560</td>
+                                                        <td class="css_td text-right">3,120</td>
+                                                        <td class="css_td text-right">1,500</td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right">260</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
+                                    <div class="clearfix"></div>
+
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="space-12"></div>
@@ -1669,9 +1792,6 @@
                             <table class="css_table horizTable width-100">
                                 <thead class="css_thead">
                                     <tr class="css_tr">
-                                        <th class="css_th width-3">
-                                            <i class="fa fa-plus green pointer"></i>
-                                        </th>
                                         <th class="css_th width-20">Rate Code</th>
                                         <th class="css_th width-20">金額算式</th>
                                         <th class="css_th width-15">值</th>
@@ -1681,9 +1801,6 @@
                                 </thead>
                                 <tbody class="css_tbody">
                                     <tr class="css_tr">
-                                        <td class="css_td">
-                                            <i class="fa fa-minus red pointer"></i>
-                                        </td>
                                         <td class="css_td">DLS70</td>
                                         <td class="css_td">依比例</td>
                                         <td class="css_td">70%</td>
@@ -1696,20 +1813,17 @@
                                         </td>
                                         <td class="css_td">
                                             <select class="selectHt">
-                                                <option value="dataRules1">至千位(1000.̶0̶0̶)</option>
-                                                <option value="dataRules2">至百位(100.̶0̶0̶)</option>
-                                                <option value="dataRules3">至十位(10.̶0̶0̶)</option>
-                                                <option value="dataRules4">至個位(0.̶0̶0̶)</option>
-                                                <option value="dataRules5">至十分位(0. 1̶0̶0̶)</option>
-                                                <option value="dataRules6">至百分位(0.01̶0̶0̶)</option>
-                                                <option value="dataRules7">至千分位(0.001̶0̶0̶)</option>
+                                                <option value="dataRules1">至千位(1000.00)</option>
+                                                <option value="dataRules2">至百位(100.00)</option>
+                                                <option value="dataRules3">至十位(10.00)</option>
+                                                <option value="dataRules4">至個位(0.00)</option>
+                                                <option value="dataRules5">至十分位(0. 100)</option>
+                                                <option value="dataRules6">至百分位(0.0100)</option>
+                                                <option value="dataRules7">至千分位(0.00100)</option>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr class="css_tr">
-                                        <td class="css_td">
-                                            <i class="fa fa-minus red pointer"></i>
-                                        </td>
                                         <td class="css_td">DLS71</td>
                                         <td class="css_td">依金額</td>
                                         <td class="css_td">-500</td>
@@ -1722,20 +1836,17 @@
                                         </td>
                                         <td class="css_td">
                                             <select class="selectHt">
-                                                <option value="dataRules1">至千位(1000.̶0̶0̶)</option>
-                                                <option value="dataRules2">至百位(100.̶0̶0̶)</option>
-                                                <option value="dataRules3">至十位(10.̶0̶0̶)</option>
-                                                <option value="dataRules4">至個位(0.̶0̶0̶)</option>
-                                                <option value="dataRules5">至十分位(0. 1̶0̶0̶)</option>
-                                                <option value="dataRules6">至百分位(0.01̶0̶0̶)</option>
-                                                <option value="dataRules7">至千分位(0.001̶0̶0̶)</option>
+                                                <option value="dataRules1">至千位(1000.00)</option>
+                                                <option value="dataRules2">至百位(100.00)</option>
+                                                <option value="dataRules3">至十位(10.00)</option>
+                                                <option value="dataRules4">至個位(0.00)</option>
+                                                <option value="dataRules5">至十分位(0. 100)</option>
+                                                <option value="dataRules6">至百分位(0.0100)</option>
+                                                <option value="dataRules7">至千分位(0.00100)</option>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr class="css_tr">
-                                        <td class="css_td">
-                                            <i class="fa fa-minus red pointer"></i>
-                                        </td>
                                         <td class="css_td">DLS72</td>
                                         <td class="css_td">依金額</td>
                                         <td class="css_td">500</td>
@@ -1748,13 +1859,13 @@
                                         </td>
                                         <td class="css_td">
                                             <select class="selectHt">
-                                                <option value="dataRules1">至千位(1000.̶0̶0̶)</option>
-                                                <option value="dataRules2">至百位(100.̶0̶0̶)</option>
-                                                <option value="dataRules3">至十位(10.̶0̶0̶)</option>
-                                                <option value="dataRules4">至個位(0.̶0̶0̶)</option>
-                                                <option value="dataRules5">至十分位(0. 1̶0̶0̶)</option>
-                                                <option value="dataRules6">至百分位(0.01̶0̶0̶)</option>
-                                                <option value="dataRules7">至千分位(0.001̶0̶0̶)</option>
+                                                <option value="dataRules1">至千位(1000.00)</option>
+                                                <option value="dataRules2">至百位(100.00)</option>
+                                                <option value="dataRules3">至十位(10.00)</option>
+                                                <option value="dataRules4">至個位(0.00)</option>
+                                                <option value="dataRules5">至十分位(0. 100)</option>
+                                                <option value="dataRules6">至百分位(0.0100)</option>
+                                                <option value="dataRules7">至千分位(0.00100)</option>
                                             </select>
                                         </td>
                                     </tr>
@@ -1793,7 +1904,7 @@
                                     <div class="grid-item">
                                         <label class="pull-left">金額</label>
                                         <input type="text"
-                                               class="input-medium rateCode-s1 text-right pull-left"
+                                               class="input-medium rateCode-s3 text-right pull-left"
                                                placeholder="70%"/>
                                         <select class="input-medium rateCode-s3 pull-left ml-5">
                                             <option value="1">依比例</option>
@@ -1803,6 +1914,16 @@
                                             <option value="1">四捨五入</option>
                                             <option value="2">無條件進位</option>
                                             <option value="2">無條件捨去</option>
+                                        </select>
+
+                                        <select class="input-medium rateCode-s3 pull-left ml-5">
+                                            <option value="dataRules1">至千位(1000.00)</option>
+                                            <option value="dataRules2">至百位(100.00)</option>
+                                            <option value="dataRules3">至十位(10.00)</option>
+                                            <option value="dataRules4">至個位(0.00)</option>
+                                            <option value="dataRules5">至十分位(0. 100)</option>
+                                            <option value="dataRules6">至百分位(0.0100)</option>
+                                            <option value="dataRules7">至千分位(0.00100)</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1843,43 +1964,40 @@
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
                         <div class="row no-margin-right">
-                            <div class="horizTable-outer">
-                                <table class="css_table horizTable width-100">
-                                    <thead class="css_thead">
-                                        <tr class="css_tr">
-                                            <th class="css_th width-10"></th>
-                                            <th class="css_th width-20">房價代號</th>
-                                            <th class="css_th width-20">複製的房型</th>
-                                            <th class="css_th width-10"></th>
-                                            <th class="css_th width-40">選取貼上的房型</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="css_tbody">
-                                        <tr class="css_tr">
-                                            <td class="css_td">從複製</td>
-                                            <td class="css_td">
-                                                <select class="selectHt">
-                                                    <option value="1">RACK</option>
-                                                    <option value="2">SD</option>
-                                                    <option value="3">LW</option>
-                                                </select>
-                                            </td>
-                                            <td class="css_td">DXK</td>
-                                            <td class="css_td">到</td>
-                                            <td class="css_td editVueTpl width-100" id="choiceRmtype">
-                                                <template>
-                                                    <el-select v-model="value5" multiple placeholder="請選擇">
-                                                        <el-option v-for="item in options" :key="item.value" :label="item.label"
-                                                                   :value="item.value">
-                                                        </el-option>
-                                                    </el-select>
-                                                </template>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <div class="pull-left lineHt24">從&nbsp;房價代號&nbsp;</div>
+                                    <div class="pull-left">
+                                        <select class="selectHt" style="width: 60px;">
+                                            <option value="1">RACK</option>
+                                            <option value="2">SD</option>
+                                            <option value="3">LW</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="pull-left lineHt24">&nbsp;房型&nbsp;</div>
+                                    <div class="pull-left">
+                                        <select class="selectHt" style="width: 60px;">
+                                            <option value="1">DXK</option>
+                                            <option value="2">SD</option>
+                                            <option value="3">LW</option>
+                                        </select>
+                                    </div>
+                                    <div class="pull-left lineHt24">&nbsp;複製到房型&nbsp;</div>
+
+                                    <div class="editVueTpl pull-left" id="choiceRmtype">
+                                        <template>
+                                            <el-select v-model="value5" multiple placeholder="請選擇">
+                                                <el-option v-for="item in options" :key="item.value"
+                                                           :label="item.label"
+                                                           :value="item.value">
+                                                </el-option>
+                                            </el-select>
+                                        </template>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="space-12"></div>
+                            <div class="space-4"></div>
 
                             <div class="horizTable-outer">
                                 <table class="css_table horizTable width-100">
@@ -2091,54 +2209,54 @@
                                     <i class="ace-icon fa fa-search search-icon"></i>
                                     <span>Search</span>
                                 </div>
-                                    <div class="search-co-content col-xs-12 rece-search-detail">
-                                        <div class="row search-footer-btn">
-                                            <div class="footer-btn-menu-co">
-                                                <ul>
-                                                    <li>
-                                                        <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
-                                                            <div class="icon-reStyle icon-co-14"></div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
-                                                            <div class="icon-reStyle icon-co-11"></div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>  <!-- /.footer-btn-menu-co -->
-                                        </div> <!-- /.search-footer-btn -->
+                                <div class="search-co-content col-xs-12 rece-search-detail">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
 
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>日期</label>
-                                                <input type="date" class="input-medium rateCode-s1" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>天數</label>
-                                                <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>房型</label>
-                                                <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
-                                            </div>
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>日期</label>
+                                            <input type="date" class="input-medium rateCode-s1" placeholder=""/>
                                         </div>
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>人數</label>
-                                                <input type="date" class="input-medium rateCode-s1" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>加大人</label>
-                                                <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>加小孩</label>
-                                                <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
-                                            </div>
+                                        <div class="grid-item">
+                                            <label>天數</label>
+                                            <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>房型</label>
+                                            <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
                                         </div>
                                     </div>
-                                    <div class="clearfix"></div>
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>人數</label>
+                                            <input type="date" class="input-medium rateCode-s1" placeholder=""/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>加大人</label>
+                                            <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>加小孩</label>
+                                            <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
 
                             </div> <!-- /.search-co -->
                         </div> <!-- /.row  search-content-->
@@ -2294,6 +2412,41 @@
     </div>
     <!-- /.房價試算 (resv_priceTrial) -->
 
+
+    <!-- 房價試算 (resv_priceTrial) 彈出視窗 -->
+    <div id="resv_priceTrial-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.房價試算 (resv_priceTrial) -->
 
 
     <!-- rateCode_extraAdult 彈出視窗 -->
@@ -2590,6 +2743,85 @@
     <!-- /.rateCode_extraAdult 彈出視窗 -->
 
 
+    <!-- 選擇房型 彈出視窗 -->
+    <div id="rateCode_csRm-page" class="hide padding-5" style="">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="fixHeadTable">
+                        <div class="tbl-header02">
+                            <table class="custab custab-gray">
+                                <thead class="custab-head">
+                                    <tr>
+                                        <th class="center width-10">選擇</th>
+                                        <th class="center width-45">房型代號</th>
+                                        <th class="center width-45">房種名稱</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="tbl-content02">
+                            <table class="custab custab-gray">
+                                <tbody class="custab-body">
+                                    <tr>
+                                        <td class="center width-20">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="width-40">DDT</td>
+                                        <td class="width-40">家庭客房</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="">JPN</td>
+                                        <td class="">和式客房</td>
+                                    </tr>
+                                    <tr class="css_tr">
+                                        <td class="">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="">JWS</td>
+                                        <td class="">和洋房</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="">OSK</td>
+                                        <td class="">大阪套房</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="">RSU</td>
+                                        <td class="">老爺套房</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="">SSG</td>
+                                        <td class="">精緻套房</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="">STW</td>
+                                        <td class="">精緻套房</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.選擇房型 彈出視窗 -->
 </div>
 
 <!-- subSystem 共用 js -->
@@ -2670,7 +2902,7 @@
                 modal: true,
                 title: "Base Rate",
                 title_html: true,
-                width: 700,
+                width: 800,
                 maxwidth: 1920,
 //                autoOpen: true,
                 dialogClass: "test",
@@ -2724,6 +2956,21 @@
                 resizable: true
             });
         });
+        // 選擇房型
+        $(document).on('click', ".rateCode_csRm", function (e) {
+            e.preventDefault();
+            var dialog = $("#rateCode_csRm-page").removeClass('hide').dialog({
+                modal: true,
+                title: "房價試算",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
 
         // rateCode_extraAdult
         $(document).on('click', ".rateCode_extraAdult", function (e) {
@@ -2764,4 +3011,6 @@
             value11: []
         },
     })
+
+
 </script>
