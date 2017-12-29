@@ -1,7 +1,5 @@
 <template>
-    <div>
-         {{name}}
-    </div>
+    <input @keyup="test()">
 </template>
 
 <script>
@@ -12,14 +10,10 @@
             this.name = this.model;
             $(this.$el).combogrid({
                 multiple:true,
-                valueField:'id',
-                textField:'text',
                 panelWidth:450,
                 value:'006',
-
                 idField:'code',
                 textField:'name',
-                url:'datagrid_data.json',
                 columns:[[
                     {field:'code',title:'Code',width:60},
                     {field:'name',title:'Name',width:100},
@@ -42,15 +36,16 @@
                 },{
                     "code":5,
                     "name":"text5"
-                }],
-                onChange:function(newValue,oldValue){
-                    // self.$emit('update:model', newValue);
-
-                }
+                }]
 
             });
 
 
+        },
+        methods:{
+            test(){
+                alert(123);
+            }
         },
         beforeDestroy:function () {
             $(this.$el).combobox('destroy');

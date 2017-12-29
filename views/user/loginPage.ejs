@@ -35,8 +35,13 @@
                     <span> <%= __("BAC01P0110")["login"] %></span>
                 </div>
                 <div class="main">
-                   {{person.name}} <bac-select :model="person.name" @update:model="val => person.name = val"></bac-select>
 
+                    <bac-select v-model="person.name" :data="selectData" is-qry-src-before="Y"
+                                value-field="id" text-field="text"
+                                @update:v-model="val => person.name = val"></bac-select>
+                    {{person.name}}
+                    <br>
+                    <br>
                     <bac-select-grid></bac-select-grid>
                     <form>
                         <div class="block input-icon input-icon-right">

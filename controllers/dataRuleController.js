@@ -83,7 +83,7 @@ exports.revertRoomSna = function (req, res) {
  */
 exports.getSelectOptions = function (req, res) {
     let _ = require("underscore");
-    let ls_keyword = req.body.q || "";
+    let ls_keyword = req.body.keyword || "";
     if (_.isEmpty(ls_keyword)) {
         return res.json([]);
     }
@@ -93,7 +93,7 @@ exports.getSelectOptions = function (req, res) {
             return  _.values(data).join(" ").indexOf( ls_keyword.trim()) > -1;
         });
         let select_data = _.map(filetedData, function (item) {
-            return {value: item.usr_id, display: item.usr_cname};
+            return {id: item.usr_id, text: item.usr_cname};
         });
         res.json(select_data);
     });
