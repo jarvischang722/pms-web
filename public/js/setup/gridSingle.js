@@ -795,14 +795,10 @@ Vue.component('sigle-grid-dialog-tmp', {
             var saveField = [];
             var allField = $('#dt_dg').datagrid("getColumnFields");
 
-            //過濾不用存的欄位
-            allField = _.filter(allField, function (field) {
-                return field != 'langAction';
-            });
-
             _.each(allField, function (field, fIdx) {
                 var currentColumOption = $('#dt_dg').datagrid("getColumnOption", field);
                 currentColumOption.col_seq = fIdx;
+                delete currentColumOption._id; //mongo key值 _id會重複
                 saveField.push(_.extend(currentColumOption));
             });
 
@@ -1294,6 +1290,7 @@ var vm = new Vue({
             _.each(allField, function (field, fIdx) {
                 var currentColumOption = $("#dg").datagrid("getColumnOption", field);
                 currentColumOption.col_seq = fIdx;
+                delete currentColumOption._id; //mongo key值 _id會重複
                 saveField.push(_.extend(currentColumOption));
             });
 
