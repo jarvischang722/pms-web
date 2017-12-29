@@ -6,6 +6,8 @@ let _ = require("underscore");
 let mongoAgent = require("../../mongodb");
 let moment = require("moment");
 let dbSVC = require("../../../services/DbTableService");
+let tools = require("../../../utils/CommonTools");
+let queryAgent = require("../../kplug-oracle/QueryAgent");
 
 module.exports = function (io) {
 
@@ -14,6 +16,7 @@ module.exports = function (io) {
     io.of("/system").on('connection', function (socket) {
 
         let go_session = socket.request.session;
+        let gs_sessionId = socket.request.sessionID;
 
         /**
          * 監聽從前端發動table lock事件
@@ -57,6 +60,13 @@ module.exports = function (io) {
 
             }, 1000);
 
+        });
+
+        /**
+         * 檢查登入者的集團或館別可使用人數
+         */
+        socket.on("checkOnlineUser", function () {
+            doCheckOnlineUser(go_session, gs_sessionId);
         });
 
 
@@ -114,7 +124,7 @@ module.exports = function (io) {
 
             if (clientData && !_.isEmpty(prg_id)) {
                 let lo_singleSocketData = _.findWhere(ga_lockedPrgIDList, {socket_id: socket_id, lockingPrgID: prg_id});
-                if(lo_singleSocketData != null){
+                if (lo_singleSocketData != null) {
                     dbSVC.doTableUnLock(prg_id, lo_singleSocketData.table_name, go_session.user, lo_singleSocketData.lock_type, lo_singleSocketData.key_cod, socket_id, function (errorMsg, success) {
                         deleteLockList(clientData);
                     });
@@ -175,5 +185,35 @@ module.exports = function (io) {
             return !_.isEqual(socket_id, data.socket_id);
         });
 
+    }
+
+    /**
+     * 授權控管 人數(確認館別、集團是否超過人數)
+     * @param socket{object}
+     * @param go_session{object}
+     * @param gs_sessionId{string}
+     */
+    function doCheckOnlineUser(go_session, gs_sessionId) {
+        let lo_params = {
+          athena_id: go_session.user.athena_id,
+          hotel_cod: go_session.user.hotel_cod
+        };
+
+        mongoAgent.OnlineUser.find(lo_params, function(err, getResult){
+            if(err){
+
+            }
+            else if(!getResult){
+
+            }
+            else{
+                let lo_result = tools.mongoDocToObject(getResult);
+            }
+        });
+        //mongo 找此athena_id、hotel_cod、company_cod
+        //有的話找current_user是否有此seesion_id
+        // -> 沒有的話，current_user 增加此session_id
+        //沒有的話，oracle 找此athena_id、hotel_cod可使用的人數
+        // -> mongo 增加此筆資料(athena_id、company_cod、hotel_cod、current_user、availability_num、lastUpdateTime)
     }
 };

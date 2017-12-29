@@ -111,6 +111,7 @@ var BacchusMainVM = new Vue({
                 BacchusMainVM.subsysMenu = res.subsysMenu;
                 BacchusMainVM.activeSystem = res.activeSystem;
                 BacchusMainVM.usingSubsysID = getCookie('usingSubsysID');
+                BacchusMainVM.doCheckOnlineUser();
             });
         },
         /**
@@ -250,6 +251,13 @@ var BacchusMainVM = new Vue({
                     location.reload();
                 }
             });
+        },
+
+        /**
+         * 授權控管 人數(確認館別、集團是否超過人數)
+         */
+        doCheckOnlineUser: function(){
+            g_socket.emit('checkOnlineUser');
         }
 
     }
