@@ -17,6 +17,7 @@ const state = {
     ga_compGrpList4Tree: [],
     ga_staffOfRole: [],
     ga_staffChecked: [],
+    gs_selectedUserId: null,
 
     ga_funcList: [],
     ga_funcList4Tree: [],
@@ -65,6 +66,9 @@ const mutations = {
     },
     checkedRoleList(state, la_checkedRoleList) {
         state.ga_checkedRoleList = la_checkedRoleList;
+    },
+    setSelectedUserID(state, ls_user_id){
+        state.gs_selectedUserId = ls_user_id;
     }
 };
 
@@ -148,6 +152,7 @@ const actions = {
     combineCompGrpTree({commit, state}) {
         let la_compGrpList = state.ga_compGrpList;
         let la_compGrpList4Tree = [];
+        console.log(la_comp)
         let lo_treeData = {
             id: la_compGrpList[0].cmp_id,
             parent: "#",
@@ -160,7 +165,7 @@ const actions = {
                 id: la_accounts[0].grp_id,
                 parent: la_accounts[0].cmp_id,
                 text: la_accounts[0].grp_name
-            }
+            };
             la_compGrpList4Tree.push(lo_treeData);
 
             _.each(la_accounts, function (account) {
@@ -226,7 +231,11 @@ const actions = {
     },
 
     doSaveByStaff({state, commit}) {
-        $.post("/api/doSaveByStaff", {checkedRoleList: state.ga_checkedRoleList}).then(
+        let lo_params = {
+            user_id: state.gs_selectedUserId,
+            checkedRoleList: state.ga_checkedRoleList
+        };
+        $.post("/api/saveAuthByStaff", lo_params).then(
             result => {
                 alert("save success");
             }

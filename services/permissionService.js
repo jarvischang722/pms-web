@@ -246,8 +246,9 @@ function combinFuncExecData(postData, session, callback) {
 
 exports.saveAuthByStaff = function (postData, session, callback) {
     let la_checkedRoleList = postData.checkedRoleList;
+    let ls_user_id = postData.user_id;
 
-
+    console.log(la_checkedRoleList)
 };
 
 exports.qryPermissionFuncTreeData = function (req, session, callback) {

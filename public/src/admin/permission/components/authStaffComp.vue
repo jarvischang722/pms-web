@@ -127,6 +127,7 @@
                 else{
                     $("#permissionAccountTree").on("select_node.jstree", function(e, data){
                         let ls_user_id = data.node.id;
+                        self.$store.commit("setSelectedUserID", ls_user_id);
                         self.checkedRoleByUserID(ls_user_id);
                     })
                 }
