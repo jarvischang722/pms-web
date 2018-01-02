@@ -38,6 +38,7 @@ module.exports = function (io) {
         socket.on('disconnect', function () {
             let lo_socketClientData = _.findWhere(ga_lockedPrgIDList, {socket_id: socket.client.id}) || {};
             doTableUnlock(socket, go_session, lo_socketClientData);
+            doReleaseOnlineUser(go_session, gs_sessionId);
         });
 
         /**
@@ -188,103 +189,33 @@ module.exports = function (io) {
     }
 
     /**
-     * 授權控管 人數(確認館別、集團是否超過人數)
+     * 授權控管 人數(確認館別、公司、集團是否超過人數)
+     * @param socket{object}
      * @param socket{object}
      * @param go_session{object}
      * @param gs_sessionId{string}
      */
     function doCheckOnlineUser(socket, go_session, gs_sessionId) {
-        try{
-            let success = true;
-            let errorMsg;
-            let lo_params = {
-                athena_id: go_session.user.athena_id,
-                company_cod: go_session.user.cmp_id.trim(),
-                hotel_cod: go_session.user.hotel_cod
-            };
-
-            mongoAgent.OnlineUser.findOne(lo_params, function(err, getResult){
-                getResult = tools.mongoDocToObject(getResult);
-                if(err){
-
-                }
-                else if(!getResult){
-                    //取得人數上限
-                    queryAgent.queryList("", {athena_id: go_session.user.athena_id}, 0, 0, function (err, result) {
-                        let ln_availabilityNum = 0;
-                        let lo_saveData;
-                        if(result.length > 1){
-                            let lo_userNumField =  _.findIndex(result, {hotel_cod: go_session.user.hotel_cod});
-                            //以館別為人數上限
-                            if(lo_userNumField> -1){
-                                ln_availabilityNum = lo_userNumField.num;
-                            }
-                            else{
-                                lo_userNumField = _.findIndex(result, {company_cod: go_session.user.cmp_id});
-                                //以公司別為人數上限
-                                if(lo_userNumField> -1){
-                                    ln_availabilityNum = lo_userNumField.num;
-                                }
-                                //以集團別為人數上限
-                                else{
-                                    ln_availabilityNum = result[0].num;
-                                }
-                            }
-                        }
-                        else{
-                            //以集團別為人數上限
-                            // ln_availabilityNum = result[0].num;
-                            ln_availabilityNum = 1;
-                        }
-
-                        lo_saveData = {
-                            athena_id: go_session.user.athena_id,
-                            company_cod: go_session.user.cmp_id,
-                            hotel_cod: go_session.user.hotel_cod,
-                            current_user: [gs_sessionId],
-                            availability_num: ln_availabilityNum,
-                            last_Update_time: new Date()
-                        };
-
-                        mongoAgent.OnlineUser(lo_saveData).save(function(err) {
-                            if(err){
-                                success = false;
-                                errorMsg = err;
-                            }
-                            socket.emit('checkOnlineUserResult', {success: success, errorMsg: errorMsg});
-                        });
-                    });
-                }
-                else{
-                    if(_.indexOf(getResult.current_user, gs_sessionId) == -1){
-                        if(getResult.current_user.length < getResult.availability_num){
-                            let lo_cond = {
-                                "athena_id": go_session.user.athena_id,
-                                "company_cod": go_session.user.cmp_id,
-                                "hotel_cod": go_session.user.hotel_cod
-                            };
-
-                            getResult.current_user.push(gs_sessionId);
-
-                            mongoAgent.OnlineUser.update(lo_cond, {current_user: getResult.current_user}, function(err) {
-                                if(err){
-                                    success = false;
-                                    errorMsg = err;
-                                }
-                                socket.emit('checkOnlineUserResult', {success: success, errorMsg: errorMsg});
-                            });
-                        }
-                        else{
-                            success = false;
-                            errorMsg = "超過人數上限";
-                            socket.emit('checkOnlineUserResult', {success: success, errorMsg: errorMsg});
-                        }
-                    }
-                }
+        try {
+            dbSVC.doCheckOnlineUser(go_session, gs_sessionId, function (err, success) {
+                socket.emit('checkOnlineUserResult', {success: success, errorMsg: err});
             });
         }
-        catch(ex){
+        catch (ex) {
             console.error(ex);
         }
+    }
+
+    /**
+     * 刪除 mongo 裡collection OnlineUser 相對應的 session_id
+     * @param go_session{object}
+     * @param gs_sessionId{string}
+     */
+    function doReleaseOnlineUser(go_session, gs_sessionId) {
+        dbSVC.doReleaseOnlineUser(go_session, gs_sessionId, function (err, success) {
+            if (err) {
+                console.error(err);
+            }
+        });
     }
 };

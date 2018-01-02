@@ -194,6 +194,105 @@ exports.doTableAllUnLock = function (callback) {
 };
 
 /**
+ * 人數控管
+ * @param session{object}
+ * @param session_id{string}
+ */
+exports.doCheckOnlineUser = function (session, session_id, callback) {
+    let success = true;
+    let errorMsg = null;
+    let lo_params = {
+        athena_id: session.user.onlineUserBy.athena_id,
+        comp_cod: session.user.onlineUserBy.comp_cod.trim(),
+        hotel_cod: session.user.onlineUserBy.hotel_cod
+    };
+
+    mongoAgent.OnlineUser.findOne(lo_params, function (err, getResult) {
+        if (err) {
+            success = false;
+            errorMsg = err;
+            callback(errorMsg, success);
+        }
+        else if (!getResult) {
+            success = false;
+            errorMsg = 'OnlineUser is null';
+            callback(errorMsg, success);
+        }
+        else {
+            if (_.indexOf(getResult.onlineUserSession, session_id) == -1) {
+                if (getResult.onlineUserSession.length < getResult.availUserNum) {
+                    getResult.onlineUserSession.push(session_id);
+
+                    mongoAgent.OnlineUser.update(lo_params, {onlineUserSession: getResult.onlineUserSession}, function (err) {
+                        if (err) {
+                            success = false;
+                            errorMsg = err;
+                        }
+                        callback(errorMsg, success);
+                    });
+                }
+                else {
+                    success = false;
+                    errorMsg = "超過人數上限";
+                    callback(errorMsg, success);
+                }
+            }
+            else {
+                callback(errorMsg, success);
+            }
+        }
+    });
+};
+
+/**
+ * 刪除在 mongo 中的seeeion_id
+ * @param go_session
+ * @param gs_sessionId
+ */
+exports.doReleaseOnlineUser = function (session, session_id, callback) {
+    let success = true;
+    let errorMsg = null;
+    let lo_params = {
+        athena_id: session.user.onlineUserBy.athena_id,
+        comp_cod: session.user.onlineUserBy.comp_cod.trim(),
+        hotel_cod: session.user.onlineUserBy.hotel_cod
+    };
+
+    mongoAgent.OnlineUser.findOne(lo_params, function (err, getResult) {
+        if (err) {
+            success = false;
+            errorMsg = err;
+            callback(errorMsg, success);
+        }
+        else if (!getResult) {
+            success = false;
+            errorMsg = 'OnlineUser is null';
+            callback(errorMsg, success);
+        }
+        else {
+            let ln_sessionUserIndex = _.indexOf(getResult.onlineUserSession, session_id);
+            if (ln_sessionUserIndex > -1) {
+                getResult.onlineUserSession.splice(ln_sessionUserIndex, 1);
+                mongoAgent.OnlineUser.update(lo_params, {onlineUserSession: getResult.onlineUserSession}, function (err) {
+                    if (err) {
+                        success = false;
+                        errorMsg = err;
+                    }
+                    callback(errorMsg, success);
+                });
+            }
+            else {
+                success = false;
+                errorMsg = "555";
+                callback(errorMsg, success);
+            }
+        }
+
+    });
+};
+
+
+/**
  *
  * @param callback
  */
@@ -396,7 +495,7 @@ exports.doSavePMS0830080 = function (session, postData, callback) {
         lo_mnData = lo_updateData;
         let tmpUpdData = {"function": "2", "table_name": "route_mn"};
         tmpUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
-        ;
+
         tmpUpdData.condition.push({
             key: "route_cod",
             operation: "=",
@@ -439,7 +538,7 @@ exports.doSavePMS0830080 = function (session, postData, callback) {
     _.each(la_dtUpdateData, function (dtUpdData) {
         let tmpDtUpdData = {"function": "2", "table_name": "route_dt"};
         tmpDtUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
-        ;
+
         tmpDtUpdData.condition.push({
                 key: "route_cod",
                 operation: "=",
@@ -630,7 +729,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     });
 
     //dt2 刪除資料
-    _.each(la_dt2DeleteData, function(lo_dt2DeleteData){
+    _.each(la_dt2DeleteData, function (lo_dt2DeleteData) {
         let dt2DelData = {"function": "0", "table_name": "hc_adjfolio_dt2"};
         dt2DelData.condition = _.clone(la_commonCond);
         dt2DelData.condition.push(
@@ -653,7 +752,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
         ln_exec_seq++;
     });
     //dt2 新增資料
-    _.each(la_dt2CreateData, function(lo_dt2CreateData){
+    _.each(la_dt2CreateData, function (lo_dt2CreateData) {
         let dt2CreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
         dt2CreateData = _.extend(dt2CreateData, lo_dt2CreateData);
         dt2CreateData["athena_id"] = session.user.athena_id;
@@ -778,7 +877,7 @@ function operationSaveProc(postData, session) {
         }
 
         // 一定樣經過轉接器才能打API
-        let lb_isOptSaveAdpt = (optSaveAdapter.constructor.name == "operationSaveAdapterClass") ? true : false;
+        let lb_isOptSaveAdpt = optSaveAdapter.constructor.name == "operationSaveAdapterClass" ? true : false;
         if (lb_isOptSaveAdpt == false) {
             rtnData = {
                 success: false,
@@ -803,7 +902,7 @@ function operationSaveProc(postData, session) {
                     console.error(data["RETN-CODE-DESC"]);
                     ls_msg = data["RETN-CODE-DESC"] || "error!!";
                 }
-                else{                                       //成功
+                else {                                       //成功
                     lb_success = true;
                     console.info(data["RETN-CODE-DESC"]);
                     ls_msg = data["RETN-CODE-DESC"] || "";
@@ -852,7 +951,7 @@ function operationSaveProc(postData, session) {
     function qryDataGridFuncRule(ls_page_id, callback) {
         mongoAgent.SetupDatagridFunction.find({
             prg_id: postData.prg_id,
-            page_id: _.isNaN(Number(ls_page_id))? 1 : Number(ls_page_id)
+            page_id: _.isNaN(Number(ls_page_id)) ? 1 : Number(ls_page_id)
         }, function (err, getResult) {
             callback(err, tools.mongoDocToObject(getResult));
         });
@@ -868,4 +967,3 @@ function operationSaveProc(postData, session) {
         });
     }
 }
-
