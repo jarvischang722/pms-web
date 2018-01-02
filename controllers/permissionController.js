@@ -1,4 +1,4 @@
- /**
+/**
  * Created by kaiyue on 2017/12/26.
  */
 
@@ -17,11 +17,11 @@ exports.saveAuthByRole = function (req, res) {
     });
 };
 
- /**
-  * 新增人員權限
-  */
- exports.saveAuthByStaff = function(req, res){
-    permissionSvc.saveAuthByStaff(req.body, req.session, function(err, result){
+/**
+ * 新增人員權限
+ */
+exports.saveAuthByStaff = function (req, res) {
+    permissionSvc.saveAuthByStaff(req.body, req.session, function (err, result) {
         res.json({success: err == null, errMsg: err, data: result});
     });
 };
@@ -30,13 +30,19 @@ exports.saveAuthByRole = function (req, res) {
  * 取功能權限資料
  */
 exports.qryPermissionFuncTreeData = function (req, res) {
-    permissionSvc.qryPermissionFuncTreeData(req, req.session, function(err, result){
+    permissionSvc.qryPermissionFuncTreeData(req, req.session, function (err, result) {
         res.json({success: err == null, errMsg: err, funcList: result});
     });
 };
 
-exports.qryRoleByUserID = function(req, res){
-    permissionSvc.qryRoleByUserID(req.body, req.session, function(err, result){
+exports.qryRoleByUserID = function (req, res) {
+    permissionSvc.qryRoleByUserID(req.body, req.session, function (err, result) {
         res.json({success: err == null, errMsg: err, roleList: result});
-    })
-}
+    });
+};
+
+exports.qryRoleByCurrentID = function (req, res) {
+    permissionSvc.qryRoleByCurrentID(req.body, req.session, function (err, result) {
+        res.json({success: err == null, errMsg: err, roleList: result});
+    });
+};

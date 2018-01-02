@@ -245,10 +245,118 @@ function combinFuncExecData(postData, session, callback) {
 }
 
 exports.saveAuthByStaff = function (postData, session, callback) {
+    let ln_exec_seq = 1;
     let la_checkedRoleList = postData.checkedRoleList;
+    let la_oriCheckedRoleList = postData.oriCheckedRoleList;
+    let lo_savaExecDatas = {};
+    let lo_userInfo = session.user;
+    let la_staffList = postData.staffList;
     let ls_user_id = postData.user_id;
 
-    console.log(la_checkedRoleList)
+    _.each(la_oriCheckedRoleList, function (lo_oriCheckedRoleList) {
+        let ln_isExist = _.findIndex(la_checkedRoleList, function (lo_checkedRoleList) {
+            return lo_oriCheckedRoleList == lo_checkedRoleList;
+        });
+        // 原始資料在勾選角色裡沒有，代表刪除
+        if (ln_isExist == -1) {
+            let tmpDel = {"function": "0"}; //0 代表刪除
+            tmpDel["table_name"] = "BAC_ROLE_USER";
+            tmpDel.condition = [
+                {
+                    key: "role_id",
+                    operation: "=",
+                    value: lo_oriCheckedRoleList
+                },
+                {
+                    key: "user_athena_id",
+                    operation: "=",
+                    value: lo_userInfo.user_athena_id
+                },
+                {
+                    key: "user_comp_cod",
+                    operation: "=",
+                    value: lo_userInfo.cmp_id
+                },
+                {
+                    key: "user_id",
+                    operation: "=",
+                    value: ls_user_id
+                }
+            ];
+            lo_savaExecDatas[ln_exec_seq] = tmpDel;
+            ln_exec_seq++;
+        }
+    });
+
+    _.each(la_checkedRoleList, function (lo_checkedRoleList) {
+        let ln_isExist = _.findIndex(la_oriCheckedRoleList, function (lo_oriCheckedRoleList) {
+            return lo_oriCheckedRoleList == lo_checkedRoleList;
+        });
+        // 勾選資料在原始資料裡沒有，代表新增
+        if (ln_isExist == -1) {
+            let tmpIns = {"function": "1"}; //1  新增
+            tmpIns["table_name"] = "BAC_ROLE_USER";
+
+            let lo_staff = _.findWhere(la_staffList, {usr_id: ls_user_id});
+
+            tmpIns.role_athena_id = lo_userInfo.athena_id;
+            tmpIns.role_comp_cod = lo_staff.cmp_id;
+            tmpIns.role_id = lo_checkedRoleList;
+            tmpIns.user_athena_id = lo_userInfo.athena_id;
+            tmpIns.user_comp_cod = lo_staff.cmp_id;
+            tmpIns.user_id = lo_staff.usr_id;
+
+            tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+            lo_savaExecDatas[ln_exec_seq] = tmpIns;
+            ln_exec_seq++;
+        }
+    });
+
+    let apiParams = {
+        "REVE-CODE": "BAC03009010000",
+        "program_id": "SYS0110010",
+        "user": session.user.usr_id,
+        "count": Object.keys(lo_savaExecDatas).length,
+        "exec_data": lo_savaExecDatas
+    };
+    if (_.size(lo_savaExecDatas) > 0) {
+        tools.requestApi(sysConfig.api_url, apiParams, function (apiErr, apiRes, data) {
+            var success = true;
+            var errMsg = null;
+            var log_id = moment().format("YYYYMMDDHHmmss");
+            if (apiErr) {
+                success = false;
+                errMsg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {
+                success = false;
+                errMsg = data["RETN-CODE-DESC"];
+            }
+
+            //寄出exceptionMail
+            if (!success) {
+                mailSvc.sendExceptionMail({
+                    log_id: log_id,
+                    exceptionType: "execSQL",
+                    errorMsg: errMsg
+                });
+            }
+
+            logSvc.recordLogAPI({
+                success: success,
+                log_id: log_id,
+                prg_id: "SYS0110010",
+                api_prg_code: '0300901000',
+                req_content: apiParams,
+                res_content: data
+            });
+
+            callback(errMsg, success);
+        });
+    }
+    else {
+        callback(null, true);
+    }
 };
 
 exports.qryPermissionFuncTreeData = function (req, session, callback) {
@@ -528,6 +636,18 @@ exports.qryRoleByUserID = function (postData, session, callback) {
 
     queryAgent.queryList("QRY_ROLE_OF_ACCOUNTS", lo_params, 0, 0, function (err, result) {
         console.log(result);
+        callback(err, result);
+    });
+};
+
+exports.qryRoleByCurrentID = function (postData, session, callback) {
+    let lo_params = {
+        athena_id: session.user.athena_id,
+        hotel_cod: session.user.hotel_cod,
+        current_id: postData.current_id
+    };
+
+    queryAgent.queryList("QRY_ROLE_OF_FUNCTION", lo_params, 0, 0, function(err, result){
         callback(err, result);
     });
 };

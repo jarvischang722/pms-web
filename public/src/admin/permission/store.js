@@ -12,6 +12,7 @@ const state = {
     ga_allRoles: [],
     gs_selRole: "",
     ga_checkedRoleList: [],
+    ga_oriCheckedRoleList: [],
 
     ga_compGrpList: [],
     ga_compGrpList4Tree: [],
@@ -67,7 +68,10 @@ const mutations = {
     checkedRoleList(state, la_checkedRoleList) {
         state.ga_checkedRoleList = la_checkedRoleList;
     },
-    setSelectedUserID(state, ls_user_id){
+    checkedOriRoleList(state, la_checkedRoleList) {
+        state.ga_oriCheckedRoleList = la_checkedRoleList;
+    },
+    setSelectedUserID(state, ls_user_id) {
         state.gs_selectedUserId = ls_user_id;
     }
 };
@@ -144,6 +148,20 @@ const actions = {
                     la_checkedRole.push(lo_roleList.role_id);
                 });
                 commit("checkedRoleList", la_checkedRole);
+                commit("checkedOriRoleList", la_checkedRole);
+            }
+        )
+    },
+
+    qryRoleByCurrentID({commit, state}, current_id) {
+        $.post("/api/qryRoleByCurrentID", {current_id: current_id}).then(
+            result => {
+                let la_checkedRole = [];
+                _.each(result.roleList, function (lo_roleList) {
+                    la_checkedRole.push(lo_roleList.role_id);
+                });
+                commit("checkedRoleList", la_checkedRole);
+                commit("checkedOriRoleList", la_checkedRole);
             }
         )
     },
@@ -152,7 +170,6 @@ const actions = {
     combineCompGrpTree({commit, state}) {
         let la_compGrpList = state.ga_compGrpList;
         let la_compGrpList4Tree = [];
-        console.log(la_comp)
         let lo_treeData = {
             id: la_compGrpList[0].cmp_id,
             parent: "#",
@@ -233,13 +250,19 @@ const actions = {
     doSaveByStaff({state, commit}) {
         let lo_params = {
             user_id: state.gs_selectedUserId,
-            checkedRoleList: state.ga_checkedRoleList
+            checkedRoleList: state.ga_checkedRoleList,
+            oriCheckedRoleList: state.ga_oriCheckedRoleList,
+            staffList: state.ga_compGrpList
         };
         $.post("/api/saveAuthByStaff", lo_params).then(
             result => {
                 alert("save success");
             }
         )
+    },
+
+    doSaveByFunc({state, commit}) {
+        console.log("doSaveByFunc");
     }
 };
 
