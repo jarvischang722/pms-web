@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-sm-11 col-xs-11" v-loading="isLoadingDialog" :element-loading-text="loadingText">
                         <div class="borderFrame main-content-data ">
-                            <div class="row" v-for="fields in fieldData">
+                            <div class="grid" v-for="fields in fieldData">
                                 <div class="grid-item" v-for="field in fields">
                                     <!--  checkbox -->
                                     <input v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
@@ -73,7 +73,7 @@
                                     </template>
 
                                     <!-- 下拉選單 -->
-                                    <span class="dropdown margin-adjust" align="left"
+                                    <span class="dropdown dropdownCustom" align="left"
                                           :class="{'input_sta_required' : field.requirable == 'Y' }"
                                           v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                           :style="{width:field.width + 'px' , height:field.height + 'px'}">

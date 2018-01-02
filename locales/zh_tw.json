@@ -213,7 +213,10 @@
     "Desciption_Mn": "主檔描述",
     "Desciption_Dt": "名細描述",
     "check_delete": "確定刪除此筆資料",
-    "CompanyName": "德安資訊股份有限公司"
+    "CompanyName": "德安資訊股份有限公司",
+    "Save_changed_data": "資料已修改是否存檔",
+    "saveSuccess": "儲存成功",
+    "delSuccess": "刪除成功"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

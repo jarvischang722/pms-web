@@ -256,7 +256,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                 let lo_params = {
                     field: field
 
-                }
+                };
                 selectDSFunc.push(
                     function (callback) {
                         if (field.visiable == "C") {
@@ -515,7 +515,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                 let lo_params = {
                     field: field,
                     dtData: lo_dtData
-                }
+                };
                 selectDSFunc.push(
                     function (callback) {
                         if (field.visiable == "C") {
@@ -1117,6 +1117,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
             });
 
             //dt 編輯
+            let ln_count = 0; //控制callback次數
             _.each(dt_editData, function (data) {
                 var tmpEdit = {"function": "2", "table_name": dtTableName, "kindOfRel": "dt"}; //2  編輯
                 var mnRowData = data["mnRowData"] || {};
@@ -1156,6 +1157,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 exec_seq++;
 
                 /** 處理每一筆多語系 handleSaveMultiLang **/
+                ln_count++;
                 if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
                     var langProcessFunc = [];
                     _.each(data.multiLang, function (lo_lang) {
@@ -1229,16 +1231,20 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
                     });
 
-                    async.parallel(langProcessFunc, function (err, results) {
-                        callback(null, '0400');
-                    });
+                    if (ln_count == dt_editData.length) {
+                        async.parallel(langProcessFunc, function (err, results) {
+                            callback(null, '0400');
+                        });
+                    }
                 }
-                else{
-                    callback(null, savaExecDatas);
+                else {
+                    if (ln_count == dt_editData.length) {
+                        callback(null, savaExecDatas);
+                    }
                 }
             });
 
-            if(_.isUndefined(dt_editData) || dt_editData.length == 0){
+            if (_.isUndefined(dt_editData) || dt_editData.length == 0) {
                 callback(null, savaExecDatas);
             }
         } catch (err) {
