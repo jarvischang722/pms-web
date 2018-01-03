@@ -19,6 +19,7 @@ var loginVM = new Vue({
             name2: 'maggie'
 
         },
+        fieldName: 'name',
         selectData: [{
             "id": 1,
             "text": "text1"

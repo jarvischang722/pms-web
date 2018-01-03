@@ -1,59 +1,103 @@
 <template>
-    <input @keyup="test()">
+    <input />
 </template>
 
 <script>
     export default {
         name: "bac-select-grid",
-        mounted:function(){
-            var self = this;
-            this.name = this.model;
-            $(this.$el).combogrid({
-                multiple:true,
-                panelWidth:450,
-                value:'006',
-                idField:'code',
-                textField:'name',
-                columns:[[
-                    {field:'code',title:'Code',width:60},
-                    {field:'name',title:'Name',width:100},
-                    {field:'addr',title:'Address',width:120},
-                    {field:'col4',title:'Col41',width:100}
-                ]],
-                data:[{
-                    "code":1,
-                    "name":"text1"
-                },{
-                    "code":2,
-                    "name":"text2"
-                },{
-                    "code":3,
-                    "name":"text3",
-                    "selected":true
-                },{
-                    "code":4,
-                    "name":"text4"
-                },{
-                    "code":5,
-                    "name":"text5"
-                }]
-
-            });
-
-
-        },
-        methods:{
-            test(){
-                alert(123);
+        props: {
+            //綁定的model
+            vModel: ['String'],
+            //是否多選
+            multiple: {
+                type: Boolean,
+                default: false
+            },
+            //作為存入資料庫值的欄位
+            idField: {
+                type: String,
+                default: 'value'
+            },
+            //顯示的欄位
+            textField: {
+                type: String,
+                default: 'display'
+            },
+            //是否為KEY 欄位時才去後端撈資料
+            isQrySrcBefore: {
+                type: String,
+                default: function () {
+                    if (!this.isQrySrcBefore) {
+                        this.isQrySrcBefore = "N"
+                    }
+                    return this.isQrySrcBefore == 'N' ? false : true
+                }
+            },
+            //combogrid 資料
+            data: {
+                type: Array,
+                default: []
+            },
+            //預設值
+            defaultVal: ['String', 'Number'],
+            //欄位屬性
+            field: {
+                type: Object,
+                default: {}
+            },
+            //datagrid 欄位
+            columns: {
+                type: Array,
+                default: []
             }
-        },
-        beforeDestroy:function () {
-            $(this.$el).combobox('destroy');
+
         },
         data: function () {
-            return {
-                name:'Jun22222!!'
+            return {}
+        },
+        mounted: function () {
+            this.initComboGrid();
+        },
+        methods: {
+            initComboGrid: function () {
+                let self = this;
+                $(this.$el).combogrid({
+                    multiple: true,
+                    value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
+                    idField: this.idField,
+                    textField: this.textField,
+                    columns: this.columns,
+                    data: this.data
+                });
+
+                //塞入預設值
+                if (this.defaultVal && this.defaultVal != "") {
+                    this.$emit('update:v-model', this.defaultVal);
+                }
+
+                //Remote search
+                $(this.$el).combogrid('textbox').bind('keyup', function (e) {
+                    if (self.isQrySrcBefore) {
+                        self.searchRemoteSrc($(this).val());
+                    }
+                });
+            },
+            searchRemoteSrc: function (keyword) {
+                var ls_keyword = keyword || '';
+                var self = this;
+                if (ls_keyword == "") {
+                    return false;
+                }
+                console.log(ls_keyword);
+                $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
+                    $(self.$el).combogrid("loadData", items);
+                })
+
             }
+        },
+        beforeDestroy: function () {
+            $(this.$el).combogrid('destroy');
+            $(this.$el).combobox('textbox').unbind('keyup')
         }
     }
 </script>

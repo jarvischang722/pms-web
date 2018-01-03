@@ -133,7 +133,7 @@ var go_searchComp = Vue.extend({
     },
     data: function () {
         return {
-            searchFieldsByRow: [],
+     ``
             selectPopUpGridData: []
         };
     },

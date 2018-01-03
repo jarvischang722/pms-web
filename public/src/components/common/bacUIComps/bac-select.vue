@@ -52,13 +52,13 @@
         },
         data: function () {
             return {
-                name: 'mark'
+
+                isLoading: false
             }
         },
         methods: {
             initCombobox: function () {
                 let self = this;
-                console.log(this.multiple);
                 $(this.$el).combobox({
                     multiple: this.multiple,
                     valueField: this.valueField,
@@ -67,6 +67,8 @@
                     data: this.data,
                     onChange: function (newValue, oldValue) {
                         self.$emit('update:v-model', newValue);
+                    },
+                    onLoadSuccess: function () {
                     }
                 });
 
@@ -75,7 +77,7 @@
                     this.$emit('update:v-model', this.defaultVal);
                 }
                 //Remote search
-                $(this.$el).combobox('textbox').bind('keydown', function () {
+                $(this.$el).combobox('textbox').bind('keyup', function (e) {
                     if (self.isQrySrcBefore) {
                         self.searchRemoteSrc($(this).val());
                     }
@@ -87,14 +89,11 @@
                 if (ls_keyword == "") {
                     return false;
                 }
-                $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field})
-                    .done(function (items) {
-                        console.log(items);
-                        $(self.$el).combobox("loadData", items);
-                    })
-                    .error(function () {
-                        console.error('errr@@@');
-                    });
+                console.log(ls_keyword);
+                $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
+                    $(self.$el).combobox("loadData", items);
+                })
+
             }
         },
         beforeDestroy: function () {

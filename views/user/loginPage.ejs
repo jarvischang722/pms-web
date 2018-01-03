@@ -35,14 +35,6 @@
                     <span> <%= __("BAC01P0110")["login"] %></span>
                 </div>
                 <div class="main">
-
-                    <bac-select v-model="person.name" :data="selectData" is-qry-src-before="Y"
-                                value-field="id" text-field="text"
-                                @update:v-model="val => person.name = val"></bac-select>
-                    {{person.name}}
-                    <br>
-                    <br>
-                    <bac-select-grid></bac-select-grid>
                     <form>
                         <div class="block input-icon input-icon-right">
 
@@ -109,31 +101,12 @@
     </div>
 </div>
 </body>
-<script src="/js/common/BacUIComps.js"></script>
+
 
 <script type="text/javascript">
 
     var gs_locale = '<%= session.locale %>';
     var gs_account = '<%= account %>';
-    var myloader = function (param, success, error) {
-        var q = param.q || '';
-        if (q.length <= 2) {
-            return false
-        }
-        console.log(q);
-        $.post('/api/getSelectOptions', {q: q})
-            .done(function (items) {
-                console.log(items);
-                success(items);
-            })
-            .error(function () {
-                console.error('errr@@@');
-                error.apply(this, arguments);
-
-            });
-
-
-    }
 
 </script>
 
