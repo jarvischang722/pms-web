@@ -44,46 +44,46 @@ exports.doAuthAccount = function (authData, callback) {
                     /**
                      * 測試
                      */
-                    user.onlineUserBy = {};
-                    user.onlineUserBy.athena_id = user.athena_id;
-                    user.onlineUserBy.comp_cod = params.cmp_id.trim();
-                    user.onlineUserBy.hotel_cod = user.hotel_cod;
-                    user.onlineUserBy.availUserNum = 2;
-                    mongoAgent.OnlineUser.findOne(user.onlineUserBy, function (err, result) {
-                        if (!result) {
-                            let lo_saveData = {
-                                athena_id: user.onlineUserBy.athena_id,
-                                comp_cod: user.onlineUserBy.comp_cod,
-                                hotel_cod: user.onlineUserBy.hotel_cod,
-                                onlineUserSession: [],
-                                availUserNum: user.onlineUserBy.availUserNum,
-                                lastUpdTime: new Date()
-                            };
-                            mongoAgent.OnlineUser(lo_saveData).save(function (err) {
-                                if (err) {
-                                    callback(err, "1111", null);
-                                }
-                                else {
-                                    callback(null, "", user);
-                                }
-                            });
-                        }
-                        else {
-                            let lo_cond = {
-                                "athena_id": user.onlineUserBy.athena_id,
-                                "comp_cod": user.onlineUserBy.comp_cod,
-                                "hotel_cod": user.onlineUserBy.hotel_cod
-                            };
-                            mongoAgent.OnlineUser.update(lo_cond, {availUserNum: user.onlineUserBy.availUserNum}, function (err) {
-                                if (err) {
-                                    callback(err, "1111", null);
-                                }
-                                else {
-                                    callback(null, "", user);
-                                }
-                            });
-                        }
-                    });
+                    // user.onlineUserBy = {};
+                    // user.onlineUserBy.athena_id = user.athena_id;
+                    // user.onlineUserBy.comp_cod = params.cmp_id.trim();
+                    // user.onlineUserBy.hotel_cod = user.hotel_cod;
+                    // user.onlineUserBy.availUserNum = 2;
+                    // mongoAgent.OnlineUser.findOne(user.onlineUserBy, function (err, result) {
+                    //     if (!result) {
+                    //         let lo_saveData = {
+                    //             athena_id: user.onlineUserBy.athena_id,
+                    //             comp_cod: user.onlineUserBy.comp_cod,
+                    //             hotel_cod: user.onlineUserBy.hotel_cod,
+                    //             onlineUserSession: [],
+                    //             availUserNum: user.onlineUserBy.availUserNum,
+                    //             lastUpdTime: new Date()
+                    //         };
+                    //         mongoAgent.OnlineUser(lo_saveData).save(function (err) {
+                    //             if (err) {
+                    //                 callback(err, "1111", null);
+                    //             }
+                    //             else {
+                    //                 callback(null, "", user);
+                    //             }
+                    //         });
+                    //     }
+                    //     else {
+                    //         let lo_cond = {
+                    //             "athena_id": user.onlineUserBy.athena_id,
+                    //             "comp_cod": user.onlineUserBy.comp_cod,
+                    //             "hotel_cod": user.onlineUserBy.hotel_cod
+                    //         };
+                    //         mongoAgent.OnlineUser.update(lo_cond, {availUserNum: user.onlineUserBy.availUserNum}, function (err) {
+                    //             if (err) {
+                    //                 callback(err, "1111", null);
+                    //             }
+                    //             else {
+                    //                 callback(null, "", user);
+                    //             }
+                    //         });
+                    //     }
+                    // });
 
                     /**
                      * 正式
