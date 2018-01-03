@@ -17,6 +17,7 @@ const commonRule = require("../ruleEngine/rules/CommonRule");
 const langSvc = require("../services/LangService");
 const logSvc = require("../services/LogService");
 const mailSvc = require("../services/MailService");
+const dbSvc = require("../services/DbTableService");
 
 exports.saveAuthByRole = function (postData, session, callback) {
     let ln_exec_seq = 1;
@@ -34,51 +35,52 @@ exports.saveAuthByRole = function (postData, session, callback) {
             ln_exec_seq++;
         });
 
-        let apiParams = {
-            "REVE-CODE": "BAC03009010000",
-            "program_id": "SYS0110010",
-            "user": session.user.usr_id,
-            "count": Object.keys(saveExecData).length,
-            "exec_data": saveExecData
-        };
-        if (_.size(saveExecData) > 0) {
-            tools.requestApi(sysConfig.api_url, apiParams, function (apiErr, apiRes, data) {
-                var success = true;
-                var errMsg = null;
-                var log_id = moment().format("YYYYMMDDHHmmss");
-                if (apiErr) {
-                    success = false;
-                    errMsg = apiErr;
-                }
-                else if (data["RETN-CODE"] != "0000") {
-                    success = false;
-                    errMsg = data["RETN-CODE-DESC"];
-                }
-
-                //寄出exceptionMail
-                if (!success) {
-                    mailSvc.sendExceptionMail({
-                        log_id: log_id,
-                        exceptionType: "execSQL",
-                        errorMsg: errMsg
-                    });
-                }
-
-                logSvc.recordLogAPI({
-                    success: success,
-                    log_id: log_id,
-                    prg_id: "SYS0110010",
-                    api_prg_code: '0300901000',
-                    req_content: apiParams,
-                    res_content: data
-                });
-
-                callback(errMsg, success);
-            });
-        }
-        else {
-            callback(null, true);
-        }
+        dbSvc.execSQL("SYS0110010", saveExecData, session, callback);
+        // let apiParams = {
+        //     "REVE-CODE": "BAC03009010000",
+        //     "program_id": "SYS0110010",
+        //     "user": session.user.usr_id,
+        //     "count": Object.keys(saveExecData).length,
+        //     "exec_data": saveExecData
+        // };
+        // if (_.size(saveExecData) > 0) {
+        //     tools.requestApi(sysConfig.api_url, apiParams, function (apiErr, apiRes, data) {
+        //         var success = true;
+        //         var errMsg = null;
+        //         var log_id = moment().format("YYYYMMDDHHmmss");
+        //         if (apiErr) {
+        //             success = false;
+        //             errMsg = apiErr;
+        //         }
+        //         else if (data["RETN-CODE"] != "0000") {
+        //             success = false;
+        //             errMsg = data["RETN-CODE-DESC"];
+        //         }
+        //
+        //         //寄出exceptionMail
+        //         if (!success) {
+        //             mailSvc.sendExceptionMail({
+        //                 log_id: log_id,
+        //                 exceptionType: "execSQL",
+        //                 errorMsg: errMsg
+        //             });
+        //         }
+        //
+        //         logSvc.recordLogAPI({
+        //             success: success,
+        //             log_id: log_id,
+        //             prg_id: "SYS0110010",
+        //             api_prg_code: '0300901000',
+        //             req_content: apiParams,
+        //             res_content: data
+        //         });
+        //
+        //         callback(errMsg, success);
+        //     });
+        // }
+        // else {
+        //     callback(null, true);
+        // }
     });
 };
 
@@ -312,51 +314,96 @@ exports.saveAuthByStaff = function (postData, session, callback) {
         }
     });
 
-    let apiParams = {
-        "REVE-CODE": "BAC03009010000",
-        "program_id": "SYS0110010",
-        "user": session.user.usr_id,
-        "count": Object.keys(lo_savaExecDatas).length,
-        "exec_data": lo_savaExecDatas
-    };
-    if (_.size(lo_savaExecDatas) > 0) {
-        tools.requestApi(sysConfig.api_url, apiParams, function (apiErr, apiRes, data) {
-            var success = true;
-            var errMsg = null;
-            var log_id = moment().format("YYYYMMDDHHmmss");
-            if (apiErr) {
-                success = false;
-                errMsg = apiErr;
-            }
-            else if (data["RETN-CODE"] != "0000") {
-                success = false;
-                errMsg = data["RETN-CODE-DESC"];
-            }
+    dbSvc.execSQL("SYS0110010", lo_savaExecDatas, session, callback);
+};
 
-            //寄出exceptionMail
-            if (!success) {
-                mailSvc.sendExceptionMail({
-                    log_id: log_id,
-                    exceptionType: "execSQL",
-                    errorMsg: errMsg
+exports.saveAuthByFunc = function (postData, session, callback) {
+    let ln_exec_seq = 1;
+    let la_checkedRoleList = postData.checkedRoleList;
+    let la_oriCheckedRoleList = postData.oriCheckedRoleList;
+    let lo_saveExecDatas = {};
+    let lo_userInfo = session.user;
+    let ls_current_id = postData.current_id;
+
+    async.waterfall([
+        function (cb) {
+            qryFuncList(session.user, function (err, la_funcList) {
+                cb(err, la_funcList);
+            });
+        },
+        function (la_funcList, cb) {
+            _.each(la_oriCheckedRoleList, function (lo_oriCheckedRoleList) {
+                let ln_isExist = _.findIndex(la_checkedRoleList, function (lo_checkedRoleList) {
+                    return lo_oriCheckedRoleList == lo_checkedRoleList;
                 });
-            }
-
-            logSvc.recordLogAPI({
-                success: success,
-                log_id: log_id,
-                prg_id: "SYS0110010",
-                api_prg_code: '0300901000',
-                req_content: apiParams,
-                res_content: data
+                // 原始資料在勾選角色裡沒有，代表刪除
+                if (ln_isExist == -1) {
+                    let tmpDel = {"function": "0"}; //0 代表刪除
+                    tmpDel["table_name"] = "BAC_ROLE_FUNCTION";
+                    tmpDel.condition = [
+                        {
+                            key: "role_id",
+                            operation: "=",
+                            value: lo_oriCheckedRoleList
+                        },
+                        {
+                            key: "func_athena_id",
+                            operation: "=",
+                            value: lo_userInfo.athena_id
+                        },
+                        {
+                            key: "func_comp_cod",
+                            operation: "=",
+                            value: lo_userInfo.cmp_id
+                        },
+                        {
+                            key: "func_hotel_cod",
+                            operation: "=",
+                            value: lo_userInfo.fun_hotel_cod
+                        },
+                        {
+                            key: "current_id",
+                            operation: "=",
+                            value: ls_current_id
+                        }
+                    ];
+                    lo_saveExecDatas[ln_exec_seq] = tmpDel;
+                    ln_exec_seq++;
+                }
             });
 
-            callback(errMsg, success);
-        });
-    }
-    else {
-        callback(null, true);
-    }
+            _.each(la_checkedRoleList, function (lo_checkedRoleList) {
+                let ln_isExist = _.findIndex(la_oriCheckedRoleList, function (lo_oriCheckedRoleList) {
+                    return lo_oriCheckedRoleList == lo_checkedRoleList;
+                });
+                // 勾選資料在原始資料裡沒有，代表新增
+                if (ln_isExist == -1) {
+                    let tmpIns = {"function": "1"}; //1  新增
+                    tmpIns["table_name"] = "BAC_ROLE_FUNCTION";
+
+                    let lo_func = _.findWhere(la_funcList, {current_id: ls_current_id});
+                    tmpIns.role_athena_id = lo_userInfo.athena_id;
+                    tmpIns.role_comp_cod = lo_userInfo.cmp_id;
+                    tmpIns.role_id = lo_checkedRoleList;
+                    tmpIns.func_athena_id = lo_userInfo.athena_id;
+                    tmpIns.func_comp_cod = lo_userInfo.cmp_id;
+                    tmpIns.func_hotel_cod = lo_userInfo.hotel_cod;
+                    tmpIns.pre_id = lo_func.pre_id;
+                    tmpIns.current_id = ls_current_id;
+                    tmpIns.id_typ = lo_func.id_typ;
+                    tmpIns.level_nos = lo_func.level_nos;
+                    tmpIns.sort_cod = 0;
+
+                    tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+                    lo_saveExecDatas[ln_exec_seq] = tmpIns;
+                    ln_exec_seq++;
+                }
+            });
+            cb(null, lo_saveExecDatas);
+        }
+    ], function(err, saveExecDatas){
+        dbSvc.execSQL("SYS0110010", saveExecDatas, session, callback);
+    });
 };
 
 exports.qryPermissionFuncTreeData = function (req, session, callback) {
@@ -646,8 +693,12 @@ exports.qryRoleByCurrentID = function (postData, session, callback) {
         hotel_cod: session.user.hotel_cod,
         current_id: postData.current_id
     };
+    let la_roleList = [];
 
-    queryAgent.queryList("QRY_ROLE_OF_FUNCTION", lo_params, 0, 0, function(err, result){
-        callback(err, result);
+    queryAgent.queryList("QRY_ROLE_OF_FUNCTION", lo_params, 0, 0, function (err, la_roleByFuncList) {
+        _.each(la_roleByFuncList, function (lo_roleByFunctionList) {
+            la_roleList.push(lo_roleByFunctionList.role_id);
+        });
+        callback(err, la_roleList);
     });
 };

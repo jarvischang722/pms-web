@@ -35,6 +35,7 @@ module.exports = function (app) {
 
     app.post("/api/saveAuthByRole", middles, permissionCrtl.saveAuthByRole);
     app.post("/api/saveAuthByStaff", middles, permissionCrtl.saveAuthByStaff);
+    app.post("/api/saveAuthByFunc", middles, permissionCrtl.saveAuthByFunc);
     app.post("/api/qryRoleByUserID", middles, permissionCrtl.qryRoleByUserID);
     app.post("/api/qryRoleByCurrentID", middles, permissionCrtl.qryRoleByCurrentID);
 

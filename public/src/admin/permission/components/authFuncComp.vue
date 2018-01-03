@@ -127,7 +127,7 @@
                 else {
                     $("#permissionFuncTree").on("select_node.jstree", function (e, data) {
                         let lo_funcSelected = data.node.id;
-                        console.log(lo_funcSelected);
+                        self.$store.commit("setSelectedCurrentID", lo_funcSelected);
                         self.checkedRoleByCurrentID(lo_funcSelected);
                     })
                 }

@@ -204,17 +204,22 @@ exports.handleExecSQLProcess = function (formData, session, callback) {
     if (_.isUndefined(session.user) || _.size(session.user) == 0) {
         return callback("Not Login.", false);
     }
-    var savaExecDatas = this.combineExecData(formData.fieldData, formData.tmpCUD, session, formData.mainTableName);
+
     var prg_id = formData.prg_id;
+    var saveExecDatas = this.combineExecData(formData.fieldData, formData.tmpCUD, session, formData.mainTableName);
+    this.execSQL(prg_id, saveExecDatas, session, callback);
+};
+
+exports.execSQL = function (prg_id, saveExecDatas, session, callback) {
     var userInfo = session.user;
     var apiParams = {
         "REVE-CODE": "BAC03009010000",
         "program_id": prg_id,
         "user": userInfo.usr_id,
-        "count": Object.keys(savaExecDatas).length,
-        "exec_data": savaExecDatas
+        "count": Object.keys(saveExecDatas).length,
+        "exec_data": saveExecDatas
     };
-    if (_.size(savaExecDatas) > 0) {
+    if (_.size(saveExecDatas) > 0) {
         tools.requestApi(sysConfig.api_url, apiParams, function (apiErr, apiRes, data) {
             var success = true;
             var errMsg = null;
@@ -248,11 +253,10 @@ exports.handleExecSQLProcess = function (formData, session, callback) {
 
             callback(errMsg, success);
         });
-    } else {
+    }
+    else {
         callback(null, true);
     }
-
-
 };
 
 /**
@@ -725,7 +729,7 @@ exports.doSQLProcess = function (postData, session, callback) {
     async.waterfall([
         lo_saveProc.doSQLProcess,
         lo_saveProc.doAPI
-    ], function(err, result){
+    ], function (err, result) {
         callback(err, result);
     });
 };

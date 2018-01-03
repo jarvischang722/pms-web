@@ -23,7 +23,8 @@ const state = {
     ga_funcList: [],
     ga_funcList4Tree: [],
     ga_funcsOfRole: [],
-    ga_funcChecked: []
+    ga_funcChecked: [],
+    gs_selectedCurrentId: null
 };
 
 // mutations are operations that actually mutates the state.
@@ -73,6 +74,9 @@ const mutations = {
     },
     setSelectedUserID(state, ls_user_id) {
         state.gs_selectedUserId = ls_user_id;
+    },
+    setSelectedCurrentID(state, ls_current_id){
+        state.gs_selectedCurrentId = ls_current_id;
     }
 };
 
@@ -156,12 +160,8 @@ const actions = {
     qryRoleByCurrentID({commit, state}, current_id) {
         $.post("/api/qryRoleByCurrentID", {current_id: current_id}).then(
             result => {
-                let la_checkedRole = [];
-                _.each(result.roleList, function (lo_roleList) {
-                    la_checkedRole.push(lo_roleList.role_id);
-                });
-                commit("checkedRoleList", la_checkedRole);
-                commit("checkedOriRoleList", la_checkedRole);
+                commit("checkedRoleList", result.roleList);
+                commit("checkedOriRoleList", result.roleList);
             }
         )
     },
@@ -262,7 +262,16 @@ const actions = {
     },
 
     doSaveByFunc({state, commit}) {
-        console.log("doSaveByFunc");
+        let lo_params = {
+            current_id: state.gs_selectedCurrentId,
+            checkedRoleList: state.ga_checkedRoleList,
+            oriCheckedRoleList: state.ga_oriCheckedRoleList
+        };
+        $.post("/api/saveAuthByFunc", lo_params).then(
+            result => {
+                alert("save success");
+            }
+        )
     }
 };
 

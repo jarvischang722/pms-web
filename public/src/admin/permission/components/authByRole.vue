@@ -60,7 +60,7 @@
                     <!--<div class="space-12"></div>-->
                     <div class="col-xs-12">
                         <div class="row center">
-                            <button class="btn btn-primary btn-sm" @click="doSave">
+                            <button class="btn btn-primary btn-sm" @click="doSaveByRole">
                                 儲存
                             </button>
                         </div>
