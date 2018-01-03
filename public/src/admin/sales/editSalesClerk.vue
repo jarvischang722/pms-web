@@ -131,8 +131,8 @@
             },
             fetchRowData() {
                 this.singleData = {
-                    sales_cod: "",
-                    upd_order_mn: false
+                    sales_cod: "",//業務員編號
+                    upd_order_mn: false //是否更新未來訂房卡
                 };
                 this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
                 this.isLoadingDialog = false;
@@ -234,16 +234,6 @@
                     prg_id: ""
                 };
                 g_socket.emit('handleTableUnlock', lo_param);
-            },
-            doSaveGrid(callback) {
-                var lo_params = {
-                    prg_id: "PMS0620030",
-                    trans_cod: "PMS0620030",
-                    tmpCUD: this.tmpCUD
-                };
-                $.post("/api/doOperationSave", lo_params, function (result) {
-                    callback(result);
-                });
             }
         }
     }

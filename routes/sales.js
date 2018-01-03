@@ -33,9 +33,12 @@ module.exports = function (app) {
     //[PMS0620020_業務員資料編輯] 取得業務員單筆資料
     app.post("/api/sales/qrySalesMn_PM0620020", apiMiddles, salesCrtl.qrySalesMn_PM0620020);
 
-    //[PMS0620020_業務員] 新增按鈕規則驗證
+    //[PMS0620010_業務員] 新增按鈕規則驗證
     app.post("/api/sales/addFuncRule_PMS0620020", apiMiddles, salesCrtl.addFuncRule_PMS0620020);
 
     app.post("api/sales/qryTreeSelectData", apiMiddles, salesCrtl.qryTreeSelectData);
+
+    //[PMS0620030_業務員指派] 編輯商務公司的業務員
+    app.post("/api/sales/doEditSalesClerk", apiMiddles, salesCrtl.doEditSalesClerk);
 
 };

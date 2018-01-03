@@ -22,7 +22,7 @@ var ruleAgent = require("../ruleEngine/ruleAgent");
 var commonTools = require("../utils/CommonTools");
 
 /**
- * [PMS0620020] 業務員資料編輯 撈取單筆紀錄
+ * [PMS0620020] 業務員資料編輯 撈取單筆資料
  * @param session{Object}: session
  * @param postData{Object} :  參數
  * @param callback {function} (err, rowData)
@@ -54,9 +54,9 @@ exports.handleSinglePageRowData_PM0620020 = function (session, postData, callbac
                 function (pageField, cb) {
                     postData["athena_id"] = userInfo.athena_id;
 
-                    if(postData["user_nos"] == ""){
+                    if (postData["user_nos"] == "") {
                         queryAgent.query("QRY_SALES_MN_ALL_FIELDS_USER_NOS_BLANK", postData, function (errRowData, rowData) {
-                            if (errRowData || !rowData ) {
+                            if (errRowData || !rowData) {
                                 cb(errRowData, null);
                             }
                             else {
@@ -72,9 +72,9 @@ exports.handleSinglePageRowData_PM0620020 = function (session, postData, callbac
                             }
                         });
                     }
-                    else{
+                    else {
                         queryAgent.query("QRY_SALES_MN_ALL_FIELDS_WITH_USER_NOS", postData, function (errRowData, rowData) {
-                            if (errRowData || !rowData ) {
+                            if (errRowData || !rowData) {
                                 cb(errRowData, null);
                             }
                             else {
@@ -113,7 +113,7 @@ exports.handleSinglePageRowData_PM0620020 = function (session, postData, callbac
                     });
                 }
             ], function (errSalesMN, resultSalesMN) {
-                dataValueChange(resultSalesMN["pageField"], resultSalesMN["rowData"])
+                dataValueChange(resultSalesMN["pageField"], resultSalesMN["rowData"]);
                 cbp(errSalesMN, resultSalesMN);
             });
         },
@@ -453,6 +453,12 @@ exports.handleSinglePageRowData_PM0620020 = function (session, postData, callbac
 
 };
 
+/**
+ * [PMS0620020] 業務員資料編輯 撈取單筆欄位資料
+ * @param session{Object}
+ * @param postData{Object}
+ * @param callback{function} (err, rowData)
+ */
 exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callback) {
     var prg_id = postData.prg_id || "";
     var userInfo = session.user;
@@ -489,7 +495,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                             }
 
                             selectDSFunc.push(
-                                function(cbw) {
+                                function (cbw) {
                                     mongoAgent.UITypeSelect.findOne({
                                         prg_id: prg_id,
                                         ui_field_name: field.ui_field_name
@@ -512,11 +518,11 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                 }
                             );
                         }
-                        else if(field.ui_type == "tree"){
+                        else if (field.ui_type == "tree") {
                             selectDSFunc.push(
-                                function(cbw) {
+                                function (cbw) {
                                     la_saleMnfields[fIdx].selectData = [];
-                                    ruleAgent[field.rule_func_name](field, userInfo, function(err, result){
+                                    ruleAgent[field.rule_func_name](field, userInfo, function (err, result) {
                                         la_saleMnfields[fIdx].selectData = result.selectOptions;
                                         cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                     });
@@ -530,7 +536,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                     });
                 },
                 //3) 處理欄位多語系
-                function (fields, cbw){
+                function (fields, cbw) {
                     mongoAgent.LangUIField.find({
                         prg_id: prg_id,
                         page_id: 1
@@ -543,7 +549,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                     : tmpLang["ui_display_name_zh_TW"] + '(' + session.locale + ')';
                             }
 
-                            if(field.ui_type == 'grid'){
+                            if (field.ui_type == 'grid') {
                                 _.each(field.datagridFields, function (field, Idx) {
                                     let tmpLang = _.findWhere(fieldLang, {ui_field_name: field["ui_field_name"].toLowerCase()});
                                     if (tmpLang) {
@@ -579,7 +585,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                     });
                 },
                 //找尋field 屬性資料
-                function(pageInfo, cbw){
+                function (pageInfo, cbw) {
                     mongoAgent.UIDatagridField.find({
                         user_id: userInfo.usr_id,
                         athena_id: userInfo.athena_id,
@@ -605,7 +611,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                     });
                 },
                 //欄位多語系
-                function(fieldData, cbw){
+                function (fieldData, cbw) {
                     mongoAgent.LangUIField.find({
                         prg_id: prg_id,
                         page_id: 1,
@@ -614,20 +620,20 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                         fieldLang = tools.mongoDocToObject(fieldLang);
                         _.each(fieldData, function (field, fIdx) {
                             let tmpLang = _.findWhere(fieldLang, {ui_field_name: field["ui_field_name"].toLowerCase()});
-                            if(tmpLang){
+                            if (tmpLang) {
                                 fieldData[fIdx]["ui_display_name"] = tmpLang && tmpLang["ui_display_name_" + session.locale] != ""
                                     ? tmpLang["ui_display_name_" + session.locale]
-                                    : tmpLang["ui_display_name_zh_TW"] ? tmpLang["ui_display_name_zh_TW"] + '('+session.locale+')' : '';
+                                    : tmpLang["ui_display_name_zh_TW"] ? tmpLang["ui_display_name_zh_TW"] + '(' + session.locale + ')' : '';
                             }
                         });
                         cbw(err, fieldData);
                     });
                 },
                 //尋找ui_type有select的話，取得combobox的資料；看(visiable,modificable,requirable)
-                function(fields, cbw){
+                function (fields, cbw) {
                     var selectDSFunc = [];
-                    _.each(fields, function(field, fIdx){
-                        if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid'){
+                    _.each(fields, function (field, fIdx) {
+                        if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
                             if (field.ui_type == 'selectgrid') {
                                 var func_name = prg_id + '_' + field.ui_field_name;
                                 la_hotelDtFields[fIdx].selectGridOptions = ruleAgent[func_name]();
@@ -664,7 +670,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                         cbw(err, result);
                     });
                 }
-            ], function (errHotelDtField, hotelDtField){
+            ], function (errHotelDtField, hotelDtField) {
                 cb(errHotelDtField, la_hotelDtFields);
             });
         },
@@ -686,7 +692,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                     });
                 },
                 //找尋field 屬性資料
-                function(pageInfo, cbw){
+                function (pageInfo, cbw) {
                     mongoAgent.UIDatagridField.find({
                         user_id: userInfo.usr_id,
                         athena_id: userInfo.athena_id,
@@ -712,7 +718,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                     });
                 },
                 //欄位多語系
-                function(fieldData, cbw){
+                function (fieldData, cbw) {
                     mongoAgent.LangUIField.find({
                         prg_id: prg_id,
                         page_id: 1,
@@ -721,20 +727,20 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                         fieldLang = tools.mongoDocToObject(fieldLang);
                         _.each(fieldData, function (field, fIdx) {
                             let tmpLang = _.findWhere(fieldLang, {ui_field_name: field["ui_field_name"].toLowerCase()});
-                            if(tmpLang){
+                            if (tmpLang) {
                                 fieldData[fIdx]["ui_display_name"] = tmpLang && tmpLang["ui_display_name_" + session.locale] != ""
                                     ? tmpLang["ui_display_name_" + session.locale]
-                                    : tmpLang["ui_display_name_zh_TW"] ? tmpLang["ui_display_name_zh_TW"] + '('+session.locale+')' : '';
+                                    : tmpLang["ui_display_name_zh_TW"] ? tmpLang["ui_display_name_zh_TW"] + '(' + session.locale + ')' : '';
                             }
                         });
                         cbw(err, fieldData);
                     });
                 },
                 //尋找ui_type有select的話，取得combobox的資料；看(visiable,modificable,requirable)
-                function(fields, cbw){
+                function (fields, cbw) {
                     var selectDSFunc = [];
-                    _.each(fields, function(field, fIdx){
-                        if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid'){
+                    _.each(fields, function (field, fIdx) {
+                        if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
                             if (field.ui_type == 'selectgrid') {
                                 var func_name = prg_id + '_' + field.ui_field_name;
                                 la_classHsFields[fIdx].selectGridOptions = ruleAgent[func_name]();
@@ -781,75 +787,93 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
 
 };
 
+/**
+ * [PMS0620020] 業務員資料編輯 新增資料時需要抓取的預設值
+ * @param session{Object}
+ * @param postData{Object}
+ * @param callback{function} (err, rowData)
+ */
 exports.handleAddFuncRule_PMS0620020 = function (session, postData, callback) {
     let prg_id = postData.prg_id;
     let page_id = postData.page_id ? Number(postData.page_id) : 1;
     async.parallel([
-        function (cb) {
-            mongoAgent.UIPageField.find({prg_id: prg_id, page_id: page_id}, function (err, fieldNameList) {
-                cb(err, _.pluck(fieldNameList, "ui_field_name"));
+            function (cb) {
+                mongoAgent.UIPageField.find({prg_id: prg_id, page_id: page_id}, function (err, fieldNameList) {
+                    cb(err, _.pluck(fieldNameList, "ui_field_name"));
+                });
+            },
+            function (cb) {
+                mongoAgent.UITypeSelect.find({prg_id: prg_id}, function (err, selectData) {
+                    cb(err, selectData);
+                });
+            }
+        ],
+        function (err, getResult) {
+            var fieldNameList = getResult[0];
+            var selectData = commonTools.mongoDocToObject(getResult[1]);
+            let lo_initField = {};
+            _.each(fieldNameList, function (name) {
+                if (name == "athena_id") {
+                    lo_initField[name] = session.user.athena_id;
+                }
+                else if (name == "hotel_cod") {
+                    lo_initField[name] = session.user.hotel_cod;
+                }
+                else {
+                    lo_initField[name] = "";
+                }
             });
-        },
-        function(cb){
-            mongoAgent.UITypeSelect.find({prg_id: prg_id}, function (err, selectData) {
-                cb(err, selectData);
-            });
-        }
-    ], function (err, getResult) {
-        var fieldNameList = getResult[0];
-        var selectData = commonTools.mongoDocToObject(getResult[1]);
-        let lo_initField = {};
-        _.each(fieldNameList, function (name) {
-            if (name == "athena_id") {
-                lo_initField[name] = session.user.athena_id;
-            }
-            else if (name == "hotel_cod") {
-                lo_initField[name] = session.user.hotel_cod;
-            }
-            else {
-                lo_initField[name] = "";
-            }
-        });
-        mongoAgent.SetupDatagridFunction.findOne({
-            prg_id: prg_id,
-            func_id: '0200',
-            page_id: page_id
-        }, function (err, func) {
-            if (func) {
-                func = func.toObject();
-            }
-            if (!err && func && !_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
+            mongoAgent.SetupDatagridFunction.findOne({
+                prg_id: prg_id,
+                func_id: '0200',
+                page_id: page_id
+            }, function (err, func) {
+                if (func) {
+                    func = func.toObject();
+                }
+                if (!err && func && !_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
 
-                ruleAgent[func.rule_func_name](postData, session, function (err, result) {
+                    ruleAgent[func.rule_func_name](postData, session, function (err, result) {
+
+                        //取typeSelect的預設值
+                        _.each(selectData, function (value, index) {
+                            if (value.defaultVal != "") {
+                                result.defaultValues[value.ui_field_name] = value.defaultVal;
+                            }
+                        });
+
+                        result.defaultValues = _.extend(lo_initField, result.defaultValues);
+
+                        callback(err, result);
+                    });
+
+                } else {
 
                     //取typeSelect的預設值
+                    var result = {};
                     _.each(selectData, function (value, index) {
-                        if(value.defaultVal != ""){
-                            result.defaultValues[value.ui_field_name] = value.defaultVal;
+                        if (value.defaultVal != "") {
+                            result[value.ui_field_name] = value.defaultVal;
                         }
                     });
 
-                    result.defaultValues = _.extend(lo_initField, result.defaultValues);
+                    result = _.extend(lo_initField, result);
+                    callback(null, {success: true, defaultValues: result});
+                }
 
-                    callback(err, result);
-                });
-
-            } else {
-
-                //取typeSelect的預設值
-                var result = {};
-                _.each(selectData, function (value, index) {
-                    if(value.defaultVal != ""){
-                        result[value.ui_field_name] = value.defaultVal;
-                    }
-                });
-
-                result = _.extend(lo_initField, result);
-                callback(null, {success: true, defaultValues: result});
-            }
-
+            });
         });
-    });
 };
+
+/**
+ * [PMS0620030] 業務員指派 編輯商務公司的業務員(特殊交易)
+ * @param session{Object}
+ * @param postData{Object}
+ * @param callback{function} (err, rowData)
+ */
+exports.handleEditSalesClerk = function (session, postData, callback) {
+    let prg_id = postData.prg_id;
+};
+
 
 
