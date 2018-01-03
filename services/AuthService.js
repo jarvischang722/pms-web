@@ -88,7 +88,7 @@ exports.doAuthAccount = function (authData, callback) {
                     /**
                      * 正式
                      */
-                    // queryAgent.queryList("", {athena_id: user.athena_id}, 0, 0, function(err, result){
+                    // queryAgent.queryList("QRY_AVAIL_USER_NUM", {athena_id: user.athena_id}, 0, 0, function(err, result){
                     //     if(err){
                     //         callback(err, "555", null);
                     //     }
@@ -162,7 +162,6 @@ exports.doAuthAccount = function (authData, callback) {
                     //     }
                     // });
                 });
-
             }
         });
     } catch (err) {

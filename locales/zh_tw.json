@@ -216,7 +216,8 @@
     "CompanyName": "德安資訊股份有限公司",
     "Save_changed_data": "資料已修改是否存檔",
     "saveSuccess": "儲存成功",
-    "delSuccess": "刪除成功"
+    "delSuccess": "刪除成功",
+    "exceedPeopleNum": "超過人數上限"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

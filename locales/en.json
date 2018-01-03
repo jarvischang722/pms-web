@@ -216,7 +216,8 @@
     "CompanyName": "Athena Information Systems",
     "Save_changed_data": "資料已修改是否存檔(英)",
     "saveSuccess": "Save Success",
-    "delSuccess": "Delete Success"
+    "delSuccess": "Delete Success",
+    "exceedPeopleNum": "超過人數上限(英)"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",
