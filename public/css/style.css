@@ -20,6 +20,7 @@
   margin: 3px 4px auto auto;
   width: 90px;
   font-size: 13px;
+  word-break: break-all;
 }
 .grid-item label.label-spc {
   width: 82px;
@@ -3783,6 +3784,35 @@ td div.act-box span.act-text {
   box-shadow: 3px 3px 2px #ccc;
   position: relative;
 }
+.custab.custab-gray {
+  box-shadow: none;
+}
+.custab.custab-gray thead tr {
+  background: #eee !important;
+  color: #000;
+  height: 25px;
+}
+.custab.custab-gray thead tr th {
+  border: 1px solid #cccccc !important;
+  font-weight: 400;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.custab.custab-gray tbody tr {
+  height: 25px;
+}
+.custab.custab-gray tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+.custab.custab-gray tbody tr:nth-child(even) {
+  background-color: #fff;
+}
+.custab.custab-gray tbody tr td {
+  border: 1px solid #cccccc !important;
+  color: #555;
+  padding-left: 5px;
+  padding-right: 5px;
+}
 .custab thead tr {
   background: #549bdb !important;
   background-image: none;
@@ -4364,18 +4394,37 @@ td div.act-box span.act-text {
   top: 3% !important;
 }
 
-.search-content .el-select .el-input__inner, .editVueTpl .el-select .el-input__inner {
+.search-content .el-select .el-input__inner, .editVueTpl .el-select .el-input__inner, .grid-item .el-select .el-input__inner {
   height: 25px !important;
 }
-.search-content .el-select .el-select__tags, .editVueTpl .el-select .el-select__tags {
+.search-content .el-select .el-select__tags, .editVueTpl .el-select .el-select__tags, .grid-item .el-select .el-select__tags {
   height: 25px !important;
   overflow: hidden;
   line-height: 25px !important;
 }
-.search-content.width-100 .el-select, .editVueTpl.width-100 .el-select {
+.search-content.width-100 .el-select, .editVueTpl.width-100 .el-select, .grid-item.width-100 .el-select {
   width: 100% !important;
 }
+.search-content .vue-treeselect__control, .editVueTpl .vue-treeselect__control, .grid-item .vue-treeselect__control {
+  height: 25px !important;
+}
+.search-content .vue-treeselect__control .vue-treeselect__input-wrapper input, .editVueTpl .vue-treeselect__control .vue-treeselect__input-wrapper input, .grid-item .vue-treeselect__control .vue-treeselect__input-wrapper input {
+  border: 0;
+}
+.search-content .vue-treeselect__control .vue-treeselect__placeholder, .editVueTpl .vue-treeselect__control .vue-treeselect__placeholder, .grid-item .vue-treeselect__control .vue-treeselect__placeholder {
+  line-height: 25px !important;
+}
+.search-content .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value, .editVueTpl .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value, .grid-item .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value {
+  height: 25px !important;
+  margin-bottom: 0 !important;
+}
+.search-content .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value .vue-treeselect__multi-value-item-wrapper, .search-content .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value .vue-treeselect__input-wrapper, .editVueTpl .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value .vue-treeselect__multi-value-item-wrapper, .editVueTpl .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value .vue-treeselect__input-wrapper, .grid-item .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value .vue-treeselect__multi-value-item-wrapper, .grid-item .vue-treeselect__control .vue-treeselect__value-wrapper .vue-treeselect__multi-value .vue-treeselect__input-wrapper {
+  padding-top: 0 !important;
+}
 
+.grid-item .el-date-editor {
+  height: 25px !important;
+}
 .grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
   height: 25px !important;
 }
@@ -4509,6 +4558,10 @@ td div.act-box span.act-text {
 
 .no-mt {
   margin-top: 0 !important;
+}
+
+.mt-3 {
+  margin-top: 3px !important;
 }
 
 .mt-91 {

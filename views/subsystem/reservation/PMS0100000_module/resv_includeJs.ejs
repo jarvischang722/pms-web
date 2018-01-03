@@ -1209,6 +1209,23 @@
                 resizable: true
             });
 
+        });
+
+        // 彈出 訂房卡 resv_depositsStep3AEdit(訂金編號編輯)
+        $(document).on('click', ".resv_depositsStep3AEdit", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_depositsStep3AEdit-message").removeClass('hide').dialog({
+                modal: true,
+                title: "訂金帳戶異動",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+
             // 訂房卡 resv_depoisitsStep3A(訂金帳戶資料) dataGrid
             $('#resv_depositsStep3A-table').datagrid({
                 singleSelect: true,
