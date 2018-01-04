@@ -53,9 +53,9 @@ exports.doAuthAccount = function (authData, callback) {
                             if (result.length == 1) {
                                 user.onlineUserBy.athena_id = result[0].athena_id;
                                 user.onlineUserBy.comp_cod = _.isNull(result[0].comp_cod) ?
-                                    "" : result[0].comp_cod;
+                                    "" : result[0].comp_cod.trim();
                                 user.onlineUserBy.hotel_cod = _.isNull(result[0].hotel_cod) ?
-                                    "" : result[0].hotel_cod;
+                                    "" : result[0].hotel_cod.trim();
                                 user.onlineUserBy.availUserNum = Number(result[0].concurrent_user);
                             }
                             else {
