@@ -355,7 +355,7 @@ Vue.component('single-grid-pms0620050-tmp', {
             var ls_trafficAmt = "";
 
             if (lo_checkRowData["traffic_amt"].indexOf(',') > -1) {
-                var la_splitAmtValue = postRowData["traffic_amt"].split(',');
+                var la_splitAmtValue = lo_checkRowData["traffic_amt"].split(',');
                 _.each(la_splitAmtValue, function (ls_splitAmtValue) {
                     ls_trafficAmt = ls_trafficAmt + ls_splitAmtValue;
                 });
