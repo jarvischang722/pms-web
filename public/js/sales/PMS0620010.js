@@ -5,6 +5,7 @@
  */
 var vmHub = new Vue();
 
+var go_funcPurview = (new FuncPurview("PMS0620020")).getFuncPurvs();
 /** DatagridRmSingleGridClass **/
 function DatagridSingleGridClass() {
 }
@@ -21,7 +22,7 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 /*** Class End  ***/
 
 
-Vue.component('single-grid-pms0620020-tmp', {
+var PMS0620020App = Vue.extend({
     template: '#singleGridPMS0620020Tmp',
     props: ["singleData", "isModifiable", "editStatus", "createStatus"],
     data: function () {
@@ -596,6 +597,9 @@ Vue.component('text-select-grid-dialog-tmp', {
 
 var vm = new Vue({
     el: "#PMS0620010App",
+    components:{
+        "single-grid-pms0620020-tmp": PMS0620020App
+    },
     mounted: function () {
         this.initTmpCUD();
         this.fetchUserInfo();

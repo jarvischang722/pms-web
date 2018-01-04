@@ -263,4 +263,8 @@ $(function () {
 
 });
 
+$(document).on('click', '.purview_btn', function(event){
+    console.log($(this));
+    // g_socket.emit("doRecordUserAction", lo_params);
+});
 

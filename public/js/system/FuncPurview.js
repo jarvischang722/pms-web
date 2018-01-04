@@ -24,9 +24,11 @@ function FuncPurview(prg_id) {
             //判斷按鈕是否有權限使用
             $(".purview_btn").each(function () {
                 var purview_func_id = $(this).data("purview_func_id");
+
                 var purIdx = _.findIndex(result.funcPurvs, function (func) {
                     return prg_id + func.func_id == purview_func_id;
                 });
+
                 if (purIdx == -1) {
                     $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", true);
                 }
@@ -37,7 +39,6 @@ function FuncPurview(prg_id) {
         }
 
     });
-
 
 }
 
