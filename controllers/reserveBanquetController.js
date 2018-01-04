@@ -49,6 +49,13 @@ exports.def_proc_sta = function (req, res) {
     });
 };
 
+//[RS0W212010] 取已付訂金預設值
+exports.def_banlance_amt = function (req, res) {
+    resvBanquetSvc.def_banlance_amt(req.body, req.session, function (err, result) {
+        res.json({data: result, error: err});
+    });
+};
+
 //[RS0W212010] 取客戶資料
 exports.qry_bqcust_mn = function (req, res) {
     resvBanquetSvc.qry_bqcust_mn(req.body, req.session, function (err, result) {

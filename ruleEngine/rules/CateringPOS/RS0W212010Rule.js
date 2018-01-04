@@ -289,7 +289,7 @@ module.exports = {
                 callback(lo_error, lo_result);
             }
         });
-    },
+    }
 
 };
 
@@ -327,4 +327,4 @@ function removeAmtFormat(val) {
     }
 
     return val;
-};
+}

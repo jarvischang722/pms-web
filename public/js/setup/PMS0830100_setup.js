@@ -559,7 +559,8 @@ var PMS0830100VM = new Vue({
         dgIns: {},
         labelPosition: 'right',
         searchFields: [], //搜尋的欄位
-        searchCond: {}   //搜尋條件
+        searchCond: {},   //搜尋條件
+        maxWidth: 0
     },
     methods: {
         //Init CUD
@@ -696,6 +697,7 @@ var PMS0830100VM = new Vue({
 
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function () {
+            var self = this;
             $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
                 var fieldData = result.fieldData;
                 PMS0830100VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
@@ -710,6 +712,17 @@ var PMS0830100VM = new Vue({
 
                     vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: PMS0830100VM.dtMultiLangField});
                 }
+
+                // 算最小寬度 && 最大行數
+                var maxField = _.max(PMS0830100VM.pageTwoFieldData, function(lo_pageTwoField){
+                    return lo_pageTwoField.length;
+                });
+                _.each(maxField, function(lo_maxField){
+
+                    var width = parseInt(lo_maxField.width)|| 90;
+                    var label_width = parseInt(lo_maxField.label_width)|| 165;
+                    self.maxWidth += (width + label_width + 14);
+                });
             });
         },
 
@@ -774,12 +787,15 @@ var PMS0830100VM = new Vue({
             this.initDatePicker();
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
             var height = 19 * 50; // 預設一個row 高度
+            var dialogWt = this.maxWidth +120;
             var dialog = $("#singleGridPMS0830100").dialog({
                 autoOpen: false,
                 modal: true,
                 height: _.min([maxHeight, height]),
                 title: prg_id,
-                minWidth: 750,
+                // minWidth: 750,
+                minWidth: _.min([dialogWt, 1000]),
+                width: _.min([dialogWt, 1000]),
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns"

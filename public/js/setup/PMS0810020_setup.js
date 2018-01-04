@@ -732,9 +732,8 @@ var vm = new Vue({
         searchFields: [], //搜尋的欄位
         searchFieldsByRow: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
-        isSaving: false
-
-
+        isSaving: false,
+        maxWidth: 0
     },
     watch: {
         editStatus: function (newVal) {
@@ -790,10 +789,19 @@ var vm = new Vue({
         },
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function () {
+            var self = this;
             $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
                 var fieldData = result.fieldData;
                 vm.pageTwoDataGridFieldData = result.fieldData;
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
+
+                // 算最小寬度 && 最大行數
+                var maxField = _.max(vm.pageTwoFieldData, function(lo_pageTwoField){
+                    return lo_pageTwoField.length;
+                });
+                _.each(maxField, function (lo_maxField) {
+                    self.maxWidth += (lo_maxField.width + lo_maxField.label_width + 14);
+                });
             });
         },
 
@@ -1152,13 +1160,17 @@ var vm = new Vue({
             // this.initDatePicker();
             this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+
+            var dialogWt = this.maxWidth +120;
+            // alert(dialogWt);
             var height = 10 * 50; // 預設一個row 高度
             var dialog = $("#singleGridPMS0810020").dialog({
                 autoOpen: false,
                 modal: true,
                 height: _.min([maxHeight, height]),
                 title: prg_id,
-                minWidth: 1000,
+                minWidth: _.min([dialogWt, 1000]),
+                width: _.min([dialogWt, 1000]),
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns"

@@ -786,13 +786,16 @@ var vm = new Vue({
             var self = this;
             this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+            gridWt = $('.grid-item label').width() + $('.grid-item input').width() +14; // 抓不到width
+            var dialogWt =(gridWt *2) +250;
             var height = 10 * 50; // 預設一個row 高度
             var dialog = $("#singleGridPMS0620020").removeClass('hide').dialog({
                 autoOpen: true,
                 modal: true,
                 height: _.min([maxHeight, height]),
                 title: "PMS0620020",
-                minWidth: 750,
+                minWidth: _.min([dialogWt, 1000]),
+                // width: _.min([dialogWt, 1000]),
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns",

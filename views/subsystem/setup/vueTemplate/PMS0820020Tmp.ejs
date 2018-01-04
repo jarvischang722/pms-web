@@ -168,7 +168,7 @@
                                     </button>
                                 </li>
                                 <li v-if="editStatus">
-                                    <button class="btn btn-primary btn-white" :disabled="(editStatus && !isModifiable) || BTN_action"
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" :disabled="(editStatus && !isModifiable) || BTN_action"
                                             @click="doSaveGrid('')">
                                         <%= __("SystemCommon").Save %>
                                     </button>
