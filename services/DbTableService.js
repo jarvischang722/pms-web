@@ -130,30 +130,6 @@ exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_c
 };
 
 
-exports.doRecordUserAction = function(session, session_id, prg_id, func_id, url, callback){
-    let success = true;
-    let errorMsg = null;
-    let lo_saveData = {
-        session_id: session_id,
-        prg_id: prg_id,
-        func_id: func_id,
-        url: url,
-        event_time: moment(new Date()),
-        athena_id:session.user.athena_id,
-        comp_cod:session.user.cmp_id,
-        hotel_cod: session.user.hotel_cod,
-        usr_id:session.user.usr_id
-    };
-
-    mongoAgent.UserAction(lo_saveData).save(function(err){
-        if (err) {
-            success = false;
-            errorMsg = err;
-        }
-        callback(err, success);
-    });
-};
-
 /**
  * 刪除所有指定SocketID 的Lock
  * @param socket_id {String} : socket_id
