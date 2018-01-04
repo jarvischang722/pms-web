@@ -78,13 +78,13 @@ Vue.component('single-grid-pms0620050-tmp', {
                         this.isLastData = true;
                     }
 
-                }
-                else if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
-                    //已經到最後一筆
-                    this.isFirstData = false;
-                    this.isLastData = true;
-                }
-                else {
+            }
+            else if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+                //已經到最後一筆
+                this.isFirstData = false;
+                this.isLastData = true;
+            }
+            else {
 
                     this.isFirstData = false;
                     this.isLastData = false;
