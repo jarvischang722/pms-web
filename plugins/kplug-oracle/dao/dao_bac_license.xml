@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- 撈取授權人數-->
+    <dao name="QRY_AVAIL_USER_NUM">
+        <statement><![CDATA[
+            select athena_id , comp_cod, hotel_cod, concurrent_user
+            from bac_license
+            where athena_id =:athena_id
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+</root>

@@ -194,6 +194,105 @@ exports.doTableAllUnLock = function (callback) {
 };
 
 /**
+ * 人數控管
+ * @param session{object}
+ * @param session_id{string}
+ */
+exports.doCheckOnlineUser = function (session, session_id, callback) {
+    let success = true;
+    let errorMsg = null;
+    let lo_params = {
+        athena_id: session.user.onlineUserBy.athena_id,
+        comp_cod: session.user.onlineUserBy.comp_cod.trim(),
+        hotel_cod: session.user.onlineUserBy.hotel_cod
+    };
+
+    mongoAgent.OnlineUser.findOne(lo_params, function (err, getResult) {
+        if (err) {
+            success = false;
+            errorMsg = err;
+            callback(errorMsg, success);
+        }
+        else if (!getResult) {
+            success = false;
+            errorMsg = 'OnlineUser is null';
+            callback(errorMsg, success);
+        }
+        else {
+            if (_.indexOf(getResult.onlineUserSession, session_id) == -1) {
+                if (getResult.onlineUserSession.length < getResult.availUserNum) {
+                    getResult.onlineUserSession.push(session_id);
+
+                    mongoAgent.OnlineUser.update(lo_params, {onlineUserSession: getResult.onlineUserSession}, function (err) {
+                        if (err) {
+                            success = false;
+                            errorMsg = err;
+                        }
+                        callback(errorMsg, success);
+                    });
+                }
+                else {
+                    success = false;
+                    errorMsg = "超過人數上限";
+                    callback(errorMsg, success);
+                }
+            }
+            else {
+                callback(errorMsg, success);
+            }
+        }
+    });
+};
+
+/**
+ * 刪除在 mongo 中的seeeion_id
+ * @param go_session
+ * @param gs_sessionId
+ */
+exports.doReleaseOnlineUser = function (session, session_id, callback) {
+    let success = true;
+    let errorMsg = null;
+    let lo_params = {
+        athena_id: session.user.onlineUserBy.athena_id,
+        comp_cod: session.user.onlineUserBy.comp_cod.trim(),
+        hotel_cod: session.user.onlineUserBy.hotel_cod
+    };
+
+    mongoAgent.OnlineUser.findOne(lo_params, function (err, getResult) {
+        if (err) {
+            success = false;
+            errorMsg = err;
+            callback(errorMsg, success);
+        }
+        else if (!getResult) {
+            success = false;
+            errorMsg = 'OnlineUser is null';
+            callback(errorMsg, success);
+        }
+        else {
+            let ln_sessionUserIndex = _.indexOf(getResult.onlineUserSession, session_id);
+            if (ln_sessionUserIndex > -1) {
+                getResult.onlineUserSession.splice(ln_sessionUserIndex, 1);
+                mongoAgent.OnlineUser.update(lo_params, {onlineUserSession: getResult.onlineUserSession}, function (err) {
+                    if (err) {
+                        success = false;
+                        errorMsg = err;
+                    }
+                    callback(errorMsg, success);
+                });
+            }
+            else {
+                success = false;
+                errorMsg = "555";
+                callback(errorMsg, success);
+            }
+        }
+
+    });
+};
+
+
+/**
  *
  * @param callback
  */
@@ -400,7 +499,7 @@ exports.doSavePMS0830080 = function (session, postData, callback) {
         lo_mnData = lo_updateData;
         let tmpUpdData = {"function": "2", "table_name": "route_mn"};
         tmpUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
-        ;
+
         tmpUpdData.condition.push({
             key: "route_cod",
             operation: "=",
@@ -443,7 +542,7 @@ exports.doSavePMS0830080 = function (session, postData, callback) {
     _.each(la_dtUpdateData, function (dtUpdData) {
         let tmpDtUpdData = {"function": "2", "table_name": "route_dt"};
         tmpDtUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
-        ;
+
         tmpDtUpdData.condition.push({
                 key: "route_cod",
                 operation: "=",
@@ -799,7 +898,7 @@ function operationSaveProc(postData, session) {
         }
 
         // 一定樣經過轉接器才能打API
-        let lb_isOptSaveAdpt = (optSaveAdapter.constructor.name == "operationSaveAdapterClass") ? true : false;
+        let lb_isOptSaveAdpt = optSaveAdapter.constructor.name == "operationSaveAdapterClass" ? true : false;
         if (lb_isOptSaveAdpt == false) {
             rtnData = {
                 success: false,
@@ -888,4 +987,3 @@ function operationSaveProc(postData, session) {
         });
     }
 }
-

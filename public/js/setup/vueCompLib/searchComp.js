@@ -6,12 +6,16 @@ var go_searchComp = Vue.extend({
     props: ["searchFields", "searchCond", "fetchData"],
     data: function () {
         return {
-            searchFieldsByRow: []
+            searchFieldsByRow: [],
+            isShowMoreSearchFields: true
         };
     },
     watch: {
         searchFields: function (newFields) {
             this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(newFields, "row_seq"), "row_seq"));
+            if (this.searchFieldsByRow.length == 1) {
+                this.isShowMoreSearchFields = false;
+            }
         }
     },
     methods: {
