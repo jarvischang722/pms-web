@@ -255,10 +255,12 @@
     "check_delete": "確定刪除此筆資料",
     "CompanyName": "德安資訊股份有限公司",
     "Setting": "設定",
-    "CompanyName": "德安資訊股份有限公司",
     "Save_changed_data": "資料已修改是否存檔",
     "saveSuccess": "儲存成功",
-    "delSuccess": "刪除成功"
+    "delSuccess": "刪除成功",
+    "dataGridBeforePageText": "第",
+    "dataGridAfterPageText": "頁,共{pages}頁",
+    "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

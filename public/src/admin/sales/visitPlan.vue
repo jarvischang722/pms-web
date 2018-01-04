@@ -1,8 +1,10 @@
 <template>
     <div class="padding-5">
         <div class="col-sm-12 newVisitRecord-wrap" v-loading="isLoadingDialog" :element-loading-text="loadingText">
+            <!--共同設定-->
             <div class="row">
                 <div class="borderFrame">
+                    <!--欄位-->
                     <div class="col-sm-11 col-xs-11">
                         <div class="row" v-for="fields in settingGridFieldsData">
                             <div class="grid">
@@ -55,12 +57,15 @@
                             </div>
                         </div>
                     </div>
+                    <!--/.欄位-->
+                    <!--按鈕-->
                     <div class="col-sm-1 col-xs-1">
                         <div class="row no-margin-right">
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="doSetting">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
+                                                data-purview_func_id="" @click="doSetting">
                                             {{i18nLang.SystemCommon.Setting}}
                                         </button>
                                     </li>
@@ -68,9 +73,11 @@
                             </div>
                         </div>
                     </div>
+                    <!--/.按鈕-->
                     <div class="clearfix"></div>
                 </div>
             </div>
+            <!--/.共同設定-->
             <div class="space-6"></div>
             <div class="clearfix"></div>
             <div class="row">
@@ -199,12 +206,14 @@
                             </ul>
                             <ul class="newVisitOther-btn">
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button" @click="doRemoveRow">
+                                    <button class="btn btn-danger btn-white btn-defaultWidth purview_btn" role="button"
+                                            data-purview_func_id="PMS06100100300" @click="doRemoveRow">
                                         {{i18nLang.SystemCommon.Delete}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="doSaveRow">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
+                                            data-purview_func_id="PMS06100100200" @click="doSaveRow">
                                         {{i18nLang.SystemCommon.Save}}
                                     </button>
                                 </li>
@@ -226,6 +235,8 @@
 
     var vmHub = new Vue();
 
+    // var go_funcPurview = (new FuncPurview("PMS0620050")).getFuncPurvs();
+
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
@@ -242,7 +253,7 @@
 
     export default {
         name: 'visit-plan',
-        props: ["editRows","isVisitPlan"],
+        props: ["editRows", "isVisitPlan"],
         created() {
             var self = this;
             vmHub.$on("selectDataGridRow", function (data) {
@@ -279,8 +290,8 @@
             };
         },
         watch: {
-            isVisitPlan(val){
-                if(val){
+            isVisitPlan(val) {
+                if (val) {
                     this.isLoadingDialog = true;
                     this.loadingText = "Loading...";
                     this.initData();

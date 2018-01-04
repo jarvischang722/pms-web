@@ -8,6 +8,8 @@ Vue.prototype.$eventHub = new Vue();
 var gs_prgId = "PMS0610010";
 var vmHub = new Vue();
 
+// var go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+
 var vm = new Vue({
     el: "#PMS0610010App",
     created() {
@@ -195,9 +197,9 @@ var vm = new Vue({
                 pageNumber: 1,
                 pageList: [10, 20, 50],
                 showPageList: true,
-                beforePageText: '第',
-                afterPageText: "頁,共{pages}頁",
-                displayMsg: "顯示{from}到{to}筆資料, 共{total}筆資料"
+                beforePageText: go_i18nLang.SystemCommon.dataGridBeforePageText,
+                afterPageText: go_i18nLang.SystemCommon.dataGridAfterPageText,
+                displayMsg: go_i18nLang.SystemCommon.dataGridDisplayMsg
             });
             this.isLoading = false;
         },
@@ -260,14 +262,14 @@ var vm = new Vue({
                 }
             }).dialog('open');
         },
-        //ststus chg.(公司狀態)
+        //單筆 ststus chg.(公司狀態)
         doSaveCompanyStatus() {
             this.isOpenCompanyStatus = false;
         },
         doCloseCompanyStatusDialog() {
             this.isOpenCompanyStatus = false;
         },
-        //合約狀態變更
+        //單筆 合約狀態變更
         doSaveContractStatus() {
             this.isOpenContractStatus = false;
         },
@@ -289,7 +291,7 @@ var vm = new Vue({
                 this.isCreateStatus = false;
                 this.editRows = this.editRows.length == 0 ? la_editRow : this.editRows;
                 _.each(this.editRows, function (lo_editRow) {
-                    self.doRowLock(lo_editRow.cust_mn_cust_cod, function (result) {
+                    self.doRowLock("PMS0620030", lo_editRow.cust_mn_cust_cod, function (result) {
                         if (result) {
                             ln_count++;
                         }
@@ -304,8 +306,10 @@ var vm = new Vue({
         //新增拜訪計畫
         addVisitPlan() {
             var self = this;
+            var ln_count = 0;
             this.isLoading = true;
             this.isEditSalesClerk = false;
+            this.isVisitPlan = false;
 
             var la_editRow = $('#PMS0610010_dg').datagrid('getSelections');
 
@@ -314,28 +318,39 @@ var vm = new Vue({
             }
             else {
                 this.editRows = la_editRow;
-                this.isVisitPlan = true;
 
-                var dialog = $("#addVisitPlan").removeClass('hide').dialog({
-                    modal: true,
-                    title: go_i18nLang["program"]["PMS0610010"].add_visit_plan,
-                    title_html: true,
-                    width: 1000,
-                    maxwidth: 1920,
-                    dialogClass: "test",
-                    zIndex: 9999,
-                    resizable: true,
-                    onBeforeClose: function () {
-                        self.editRows = [];
-                        self.isVisitPlan = false;
-                    }
+                _.each(this.editRows, function (lo_editRow) {
+                    self.doRowLock("PMS0620050", lo_editRow.cust_mn_cust_cod, function (result) {
+                        if (result) {
+                            ln_count++;
+                        }
+                    });
                 });
+                if (ln_count == this.editRows.length) {
+                    this.isVisitPlan = true;
+
+                    var dialog = $("#addVisitPlan").removeClass('hide').dialog({
+                        modal: true,
+                        title: go_i18nLang["program"]["PMS0610010"].add_visit_plan,
+                        title_html: true,
+                        width: 1000,
+                        maxwidth: 1920,
+                        dialogClass: "test",
+                        zIndex: 9999,
+                        resizable: true,
+                        onBeforeClose: function () {
+                            self.editRows = [];
+                            self.isVisitPlan = false;
+                            self.doRowUnLock();
+                        }
+                    });
+                }
             }
             this.isLoading = false;
         },
-        doRowLock: function (cust_cod, callback) {
+        doRowLock: function (prg_id, cust_cod, callback) {
             var lo_param = {
-                prg_id: "PMS0620030",
+                prg_id: prg_id,
                 table_name: "cust_mn",
                 lock_type: "R",
                 key_cod: cust_cod.trim()
@@ -345,7 +360,7 @@ var vm = new Vue({
         },
         doRowUnLock() {
             var lo_param = {
-                prg_id: "PMS0620030"
+                prg_id: ""
             };
             g_socket.emit('handleTableUnlock', lo_param);
         }

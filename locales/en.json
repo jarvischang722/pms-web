@@ -255,10 +255,12 @@
     "check_delete": "確定刪除此筆資料(英)",
     "CompanyName": "Athena Information Systems",
     "Setting": "Setting",
-    "CompanyName": "Athena Information Systems",
     "Save_changed_data": "資料已修改是否存檔(英)",
     "saveSuccess": "Save Success",
-    "delSuccess": "Delete Success"
+    "delSuccess": "Delete Success",
+    "dataGridBeforePageText": "第(英)",
+    "dataGridAfterPageText": "頁,共{pages}頁(英)",
+    "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料(英)"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",

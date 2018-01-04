@@ -46,8 +46,9 @@
                                 <div class="right-menu-co">
                                     <ul>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                    role="button" @click="doEditSales">{{i18nLang.SystemCommon.OK}}
+                                            <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                                    role="button" @click="doEditSales" data-purview_func_id="PMS06200300500">
+                                                {{i18nLang.SystemCommon.OK}}
                                             </button>
                                         </li>
                                         <li>
@@ -71,6 +72,8 @@
 
 <script>
     import selectGridDialogComp from '../../common/selectGridDialogComp.vue';
+
+    //     var go_funcPurview = (new FuncPurview("PMS0620030")).getFuncPurvs();
 
     export default {
         name: 'edit-sales-clerk',
