@@ -171,8 +171,6 @@
       "company_status": "Status chg.(日)",
       "company_maintain": "商務公司維護(日)",
       "company_related_diagram": "公司關聯圖(日)",
-      "company_status": "Status chg.(日)",
-      "contract_status": "合約狀態變更(日)",
       "contract_status": "合約狀態變更(日)",
       "related_set": "相關設定(日)",
       "related_personnel": "相關人員(日)",
@@ -262,6 +260,7 @@
     "dataGridBeforePageText": "第(日)",
     "dataGridAfterPageText": "頁,共{pages}頁(日)",
     "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料(日)"
+    "exceedPeopleNum": "超過人數上限(日)"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

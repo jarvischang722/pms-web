@@ -31,6 +31,7 @@ require("./models/mongoose/LangUIField");
 require("./models/mongoose/SettingHistory");
 require("./models/mongoose/TransactionRf");
 require("./models/mongoose/PrgFunction");
+require("./models/mongoose/OnlineUser");
 
 
 exports.SetupDatagridFunction = mongoose.model("SetupDatagridFunction");
@@ -46,3 +47,4 @@ exports.LangUIField = mongoose.model("LangUIField");
 exports.SettingHistory = mongoose.model("SettingHistory");
 exports.TransactionRf = mongoose.model("TransactionRf");
 exports.PrgFunction = mongoose.model("PrgFunction");
+exports.OnlineUser = mongoose.model("OnlineUser");
