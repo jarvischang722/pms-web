@@ -62,20 +62,21 @@ Vue.component('single-grid-pms0620050-tmp', {
     },
     watch: {
         rowData: function (val) {
-            this.initData();
-            this.fetchFieldData();
+            if (!_.isEmpty(val)) {
+                this.initData();
+                this.fetchFieldData();
 
-            var nowDatagridRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', val);
+                var nowDatagridRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', val);
 
-            $("#PMS0620050_dg").datagrid('selectRow', nowDatagridRowIndex);
+                $("#PMS0620050_dg").datagrid('selectRow', nowDatagridRowIndex);
 
-            if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == 0) {
-                //已經到第一筆
-                this.isFirstData = true;
-                this.isLastData = false;
-                if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
-                    this.isLastData = true;
-                }
+                if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == 0) {
+                    //已經到第一筆
+                    this.isFirstData = true;
+                    this.isLastData = false;
+                    if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+                        this.isLastData = true;
+                    }
 
             }
             else if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
@@ -85,22 +86,24 @@ Vue.component('single-grid-pms0620050-tmp', {
             }
             else {
 
-                this.isFirstData = false;
-                this.isLastData = false;
+                    this.isFirstData = false;
+                    this.isLastData = false;
+                }
             }
-
         },
         singleData: function (val) {
-            var ln_amtValue = _.clone(val['traffic_amt']);
-            var lo_amtField = {};
+            if (!_.isEmpty(val)) {
+                var ln_amtValue = _.clone(val['traffic_amt']);
+                var lo_amtField = {};
 
-            _.each(this.oriFieldsData, function (lo_field) {
-                if (lo_field.ui_field_name == 'traffic_amt') {
-                    lo_amtField = lo_field;
-                }
-            });
+                _.each(this.oriFieldsData, function (lo_field) {
+                    if (lo_field.ui_field_name == 'traffic_amt') {
+                        lo_amtField = lo_field;
+                    }
+                });
 
-            this.formatAmt(ln_amtValue, lo_amtField);
+                this.formatAmt(ln_amtValue, lo_amtField);
+            }
         }
     },
     methods: {
@@ -352,7 +355,7 @@ Vue.component('single-grid-pms0620050-tmp', {
             var ls_trafficAmt = "";
 
             if (lo_checkRowData["traffic_amt"].indexOf(',') > -1) {
-                var la_splitAmtValue = postRowData["traffic_amt"].split(',');
+                var la_splitAmtValue = lo_checkRowData["traffic_amt"].split(',');
                 _.each(la_splitAmtValue, function (ls_splitAmtValue) {
                     ls_trafficAmt = ls_trafficAmt + ls_splitAmtValue;
                 });
@@ -633,6 +636,8 @@ var vm = new Vue({
                 this.editingRow = editRow;
                 this.showSingleGridDialog();
             }
+
+            this.isLoading = false;
         },
         showSingleGridDialog: function () {
             var self = this;
