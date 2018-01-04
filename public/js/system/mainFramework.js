@@ -264,10 +264,11 @@ $(function () {
 });
 
 $(document).on('click', '.purview_btn', function(event){
+    var purview_func_id = $(this).data("purview_func_id").toString();
     var lo_params = {
-        prg_id: $(this).data("purview_func_id").splice("-")[0],
-        func
+        prg_id: purview_func_id.split("-")[0],
+        func_id: purview_func_id.split("-")[1]
     };
-    // g_socket.emit("doRecordUserAction", lo_params);
+    g_socket.emit("recordUserAction", lo_params);
 });
 

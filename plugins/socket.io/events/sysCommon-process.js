@@ -14,7 +14,6 @@ module.exports = function (io) {
     io.of("/system").on('connection', function (socket) {
 
         let go_session = socket.request.session;
-
         /**
          * 監聽從前端發動table lock事件
          */
@@ -35,6 +34,13 @@ module.exports = function (io) {
         socket.on('disconnect', function () {
             let lo_socketClientData = _.findWhere(ga_lockedPrgIDList, {socket_id: socket.client.id}) || {};
             doTableUnlock(socket, go_session, lo_socketClientData);
+        });
+
+        /**
+         * 記錄使用者使用button的狀態(資訊)
+         */
+        socket.on("recordUserAction", function(clientData){
+            doRecordUserAction(socket, clientData, go_session);
         });
 
         /**
@@ -163,6 +169,28 @@ module.exports = function (io) {
                 lockingPrgID: clientData.lockingPrgID || ""
             }) == -1;
         });
+
+    }
+
+    /**
+     * 記錄使用者使用button的資訊
+     * user id、 session id、prg id、func id、url、event time、athena id、hotel id、comp cod、hotel cod
+     * @param socket{object}
+     * @param clientData{object}
+     * @param session{object}
+     * @param session_id{string}
+     */
+    function doRecordUserAction(socket, clientData, session){
+        try{
+            dbSVC.doRecordUserAction(session, socket.client.request.sessionID, clientData.prg_id, clientData.func_id, socket.client.request.headers.referer, function(err, success){
+                if(err){
+                    console.error(err);
+                }
+            });
+        }
+        catch (ex){
+            console.error(ex);
+        }
 
     }
 
