@@ -111,7 +111,7 @@
                     "checkbox": {
                         "three_state": false,
                         "keep_selected_style": false,
-                        "whole_node": true,
+                        "whole_node": false,
                         "tie_selection": false   // 選取時，false只會選到父節點，不會選到子結點
                     },
                     "plugins": la_plugins

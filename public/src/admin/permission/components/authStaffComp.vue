@@ -8,7 +8,7 @@
 </template>
 
 <script>
-    // import {mapState, mapGetters} from 'vuex';
+    import {mapState} from 'vuex';
     import _ from 'underscore';
     import async from 'async';
 
@@ -17,7 +17,8 @@
         data() {
             return {
                 treeIns: null,
-                isLoading: false
+                isLoading: false,
+                selectedNode: null
             }
         },
         created() {
@@ -36,10 +37,26 @@
                     this.checkedTreeNodeByStaffOfRole();
                     return this.$store.state.ga_staffOfRole;
                 }
+            },
+            gb_isAuthUpdate() {
+                this.rename_node(this.$store.state.gb_isAuthUpdate);
+                return this.$store.state.gb_isAuthUpdate;
+            },
+            gb_isAuthCreate() {
+                this.create_node(this.$store.state.gb_isAuthCreate);
+                return this.$store.state.gb_isAuthCreate;
+            },
+            gb_isAuthDelete() {
+                this.delete_node(this.$store.state.gb_isAuthDelete);
+                return this.$store.state.gb_isAuthDelete;
             }
         },
         watch: {
             ga_staffOfRole() {
+            },
+            gb_isAuthUpdate() {
+            },
+            gb_isAuthCreate() {
             }
         },
         methods: {
@@ -73,7 +90,7 @@
                 let self = this;
                 let la_plugins = ["search", "state", "types", "wholerow", "checkbox"];
                 if (this.$store.state.gs_permissionModel == "authByStaff") {
-                    la_plugins.splice(4,1);
+                    la_plugins.splice(4, 1);
                 }
 
                 if (la_compGrpList4Tree == "") {
@@ -108,8 +125,8 @@
                         }
                     },
                     "checkbox": {
-                        "keep_selected_style": false,
-                        "whole_node": true,
+                        "keep_selected_style": true,
+                        "whole_node": false,
                         "tie_selection": false   // 選取時，false只會選到父節點，不會選到子結點
                     },
                     "plugins": la_plugins
@@ -124,11 +141,11 @@
                     });
                 }
                 // 以人員為主
-                else{
-                    $("#permissionAccountTree").on("select_node.jstree", function(e, data){
-                        let ls_user_id = data.node.id;
-                        self.$store.commit("setSelectedUserID", ls_user_id);
-                        self.checkedRoleByUserID(ls_user_id);
+                else {
+                    $("#permissionAccountTree").on("select_node.jstree", function (e, data) {
+                        self.selectedNode = data.node;
+                        self.$store.commit("setSelectedUserID", self.selectedNode.id);
+                        self.checkedRoleByUserID(self.selectedNode.id);
                     })
                 }
 
@@ -146,7 +163,7 @@
 
                 this.isLoading = true;
                 this.treeIns.uncheck_all();
-                setTimeout(function(){
+                setTimeout(function () {
                     _.each(la_staffOfRole, function (account) {
                         self.treeIns.check_node("#" + account.user_id);
                     });
@@ -155,8 +172,32 @@
             },
 
             //勾選有此人員的角色
-            checkedRoleByUserID(user_id){
+            checkedRoleByUserID(user_id) {
                 this.$store.dispatch("qryRoleByUserID", user_id);
+            },
+
+            rename_node(lb_isAuthUpdate) {
+                if (lb_isAuthUpdate) {
+                    $("#permissionAccountTree").jstree("edit", this.selectedNode, null, function(node){
+
+                        // this.$store.commit("setTmpUpd", node.text);
+                        this.$store.commit("setIsAuthUpdate", false);
+                    });
+                }
+            },
+
+            create_node(lb_isAuthCreate) {
+                if (lb_isAuthCreate) {
+                    $("#permissionAccountTree").jstree("create_node", this.selectedNode, null, "last", function (node) {
+                        this.edit(node);
+                    });
+                    this.$store.commit("setIsAuthCreate", false);
+                }
+            },
+
+            delete_node(lb_isAuthDelete) {
+                if (lb_isAuthDelete) {
+                }
             }
         }
     }

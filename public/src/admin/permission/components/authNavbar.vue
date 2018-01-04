@@ -3,7 +3,7 @@
         <p class="topTitle float-left">{{navbarName}}</p>
         <div class="float-right author-nav-btn">
 
-            <div class="btn-group">
+            <div class="btn-group" v-if="permissionModel == 'authByStaff'">
                 <button class="btn btn-primary btn-white btn-sm" @click="authUpdate">
                     <i class="fa fa-pencil"></i> 修改
                 </button>
@@ -57,12 +57,13 @@
         },
         methods: {
             authUpdate() {
+                this.$store.commit("setIsAuthUpdate", true);
             },
             authDelete() {
-
+                this.$store.commit("setIsAuthDelete", true);
             },
             authCreate() {
-
+                this.$store.commit("setIsAuthCreate", true);
             }
         }
     }

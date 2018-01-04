@@ -24,7 +24,17 @@ const state = {
     ga_funcList4Tree: [],
     ga_funcsOfRole: [],
     ga_funcChecked: [],
-    gs_selectedCurrentId: null
+    gs_selectedCurrentId: null,
+
+    gb_isAuthUpdate: false,
+    gb_isAuthCreate: false,
+    gb_isAuthDelete: false,
+
+    tmpCUD: {
+        createData: [],
+        updateData: [],
+        deleteData: []
+    }
 };
 
 // mutations are operations that actually mutates the state.
@@ -75,8 +85,26 @@ const mutations = {
     setSelectedUserID(state, ls_user_id) {
         state.gs_selectedUserId = ls_user_id;
     },
-    setSelectedCurrentID(state, ls_current_id){
+    setSelectedCurrentID(state, ls_current_id) {
         state.gs_selectedCurrentId = ls_current_id;
+    },
+    setIsAuthUpdate(state, lb_isAuthUpdate) {
+        state.gb_isAuthUpdate = lb_isAuthUpdate;
+    },
+    setIsAuthCreate(state, lb_isAuthCreate) {
+        state.gb_isAuthCreate = lb_isAuthCreate;
+    },
+    setIsAuthDelete(state, lb_isAuthDelete) {
+        state.gb_isAuthDelete = lb_isAuthDelete;
+    },
+    setTmpCre(state, lo_createData){
+        state.tmpCUD.createData.push(lo_createData);
+    },
+    setTmpUpd(state, lo_updateData){
+        state.tmpCUD.updateData.push(lo_updateData);
+    },
+    setTmpDel(state, lo_deleteData){
+        state.tmpCUD.deleteData.push(lo_deleteData);
     }
 };
 
