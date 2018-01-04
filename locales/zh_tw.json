@@ -259,7 +259,7 @@
     "delSuccess": "刪除成功",
     "dataGridBeforePageText": "第",
     "dataGridAfterPageText": "頁,共{pages}頁",
-    "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料"
+    "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料",
     "exceedPeopleNum": "超過人數上限"
   },
   "SystemWarn": {
