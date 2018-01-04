@@ -5,7 +5,7 @@
  */
 var vmHub = new Vue();
 
-var go_funcPurview = (new FuncPurview("PMS0620020")).getFuncPurvs();
+// var go_funcPurview = (new FuncPurview("PMS0620020")).getFuncPurvs();
 /** DatagridRmSingleGridClass **/
 function DatagridSingleGridClass() {
 }

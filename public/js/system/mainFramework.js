@@ -264,7 +264,10 @@ $(function () {
 });
 
 $(document).on('click', '.purview_btn', function(event){
-    console.log($(this));
+    var lo_params = {
+        prg_id: $(this).data("purview_func_id").splice("-")[0],
+        func
+    };
     // g_socket.emit("doRecordUserAction", lo_params);
 });
 
