@@ -48,16 +48,11 @@ exports.qryPageOneData = function (postData, session, callback) {
             "user": "cio"
         };
 
-        // fs.readFile("./public/jsonData/reservation/banquetData.json", "utf8", function (err, result) {
-        //     result = JSON.parse(result);
-        //     cb(err, result.tmp_bq3_web_map.data);
-        // });
-
         tools.requestApi(sysConfig.api_url, params, function (err, res, result) {
             let errorMsg = null;
             let data = "";
-            if (err || !result) {
-                errorMsg = err;
+            if (err || result["RETN-CODE"] != "0000") {
+                errorMsg = err || result["RETN-CODE-DESC"];
             }
             else {
                 data = result.tmp_bq3_web_map.data || [];
