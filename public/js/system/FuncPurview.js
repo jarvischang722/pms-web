@@ -18,7 +18,6 @@ function FuncPurview(prg_id) {
         data: {prg_id: prg_id},
         async: false,
         success: function (result) {
-
             _this.setFuncPurvs(result.funcPurvs);
 
             //判斷按鈕是否有權限使用
@@ -26,7 +25,7 @@ function FuncPurview(prg_id) {
                 var purview_func_id = $(this).data("purview_func_id");
 
                 var purIdx = _.findIndex(result.funcPurvs, function (func) {
-                    return prg_id + func.func_id == purview_func_id;
+                    return prg_id + "-" + func.func_id == purview_func_id;
                 });
 
                 if (purIdx == -1) {

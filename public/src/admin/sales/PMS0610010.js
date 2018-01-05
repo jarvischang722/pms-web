@@ -8,8 +8,6 @@ Vue.prototype.$eventHub = new Vue();
 var gs_prgId = "PMS0610010";
 var vmHub = new Vue();
 
-// var go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
-
 var vm = new Vue({
     el: "#PMS0610010App",
     created() {
@@ -52,10 +50,12 @@ var vm = new Vue({
         this.fetchUserInfo();
         this.setSearchCond();
         this.loadDataGridByPrgID();
+        this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
     },
     components: {visitPlan, searchComp, editSalesClerk, pms0610020},
     data() {
         return {
+            go_funcPurview: [],
             userInfo: {},
             tmpCUD: {
                 createData: [],
@@ -75,6 +75,7 @@ var vm = new Vue({
             isLoading: true,
             editingRow: {},
             editRows: [],
+            isAddEnable: false,
             isModifiable: true,
             isCreateStatus: false,
             isEditStatus: false,
@@ -91,6 +92,12 @@ var vm = new Vue({
         openChangeLogDialog(val) {
             if (!val) {
                 this.$eventHub.$emit('getCloseChangeLogData', {isOpenChangeLog: val});
+            }
+        },
+        isEditStatus(val){
+            console.log(val);
+            if(!val){
+                this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
             }
         }
     },
@@ -147,22 +154,6 @@ var vm = new Vue({
                 vm.pageOneDataGridRows = result.dgRowData;
                 vm.showDataGrid();
             });
-        },
-        setVisitRecordParams() {
-            this.fetchDataParams = {
-                settingGrid: {
-                    prg_id: "PMS0610010",
-                    page_id: 1020
-                },
-                dataGrid: {
-                    prg_id: "PMS0610010",
-                    page_id: 1020
-                },
-                singleGrid: {
-                    prg_id: "PMS0620050",
-                    page_id: 2
-                }
-            };
         },
         showDataGrid() {
             var self = this;
@@ -333,7 +324,7 @@ var vm = new Vue({
                         modal: true,
                         title: go_i18nLang["program"]["PMS0610010"].add_visit_plan,
                         title_html: true,
-                        width: 1000,
+                        width: 1015,
                         maxwidth: 1920,
                         dialogClass: "test",
                         zIndex: 9999,

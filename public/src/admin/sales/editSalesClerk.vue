@@ -47,7 +47,8 @@
                                     <ul>
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                                    role="button" @click="doEditSales" data-purview_func_id="PMS0620030-0500">
+                                                    role="button" @click="doEditSales" :disabled="isSaveEnable"
+                                                    data-purview_func_id="PMS0620030-0500">
                                                 {{i18nLang.SystemCommon.OK}}
                                             </button>
                                         </li>
@@ -73,8 +74,6 @@
 <script>
     import selectGridDialogComp from '../../common/selectGridDialogComp.vue';
 
-    //     var go_funcPurview = (new FuncPurview("PMS0620030")).getFuncPurvs();
-
     export default {
         name: 'edit-sales-clerk',
         props: ["editRows", "isEditSalesClerk", "isCreateStatus", "isEditStatus"],
@@ -84,6 +83,7 @@
             this.$eventHub.$on('updateBackSelectData', function (chooseData) {
                 self.singleData = _.extend(self.singleData, chooseData);
             });
+            this.initPurview();
         },
         mounted() {
             this.isLoadingDialog = true;
@@ -95,6 +95,7 @@
                 isLoadingDialog: false,
                 loadingText: "",
                 dialogVisible: false,
+                isSaveEnable: false,
                 tmpCUD: {
                     createData: [],
                     updateData: [],
@@ -104,6 +105,7 @@
                 oriSingleData: {},
                 fieldsData: [],
                 oriFieldsData: [],
+                go_funcPurview: []
             };
         },
         watch: {
@@ -111,10 +113,32 @@
                 if (val) {
                     this.initData();
                     this.fetchSingleGridFieldData();
+                    this.go_funcPurview= (new FuncPurview("PMS0620030")).getFuncPurvs();
+                    this.isSaveEnable = false;
+                }
+                else {
+                    this.go_funcPurview = []
+                    this.isSaveEnable = true;
+                }
+            },
+            isSaveEnable(val) {
+                var purview = _.findIndex(this.go_funcPurview, function (value) {
+                    return value.func_id == "0500";
+                });
+                if (purview == -1) {
+                    this.isSaveEnable = true;
                 }
             }
         },
         methods: {
+            initPurview() {
+                var purview = _.findIndex(this.go_funcPurview, function (value) {
+                    return value.func_id == "0500";
+                });
+                if (purview == -1) {
+                    this.isSaveEnable = true;
+                }
+            },
             initData() {
                 this.singleData = {};
                 this.fieldData = [];

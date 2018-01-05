@@ -32,7 +32,7 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain purview_btn"
-                                            role="button" @click="appendRow" data-purview_func_id="PMS0610010-0200"><%= __("SystemCommon")["Add"] %>
+                                            role="button" @click="appendRow" data-purview_func_id="PMS0610010-0200" :disabled="isAddEnable"><%= __("SystemCommon")["Add"] %>
                                     </button>
                                 </li>
                                 <li>

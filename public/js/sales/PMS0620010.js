@@ -5,7 +5,7 @@
  */
 var vmHub = new Vue();
 
-// var go_funcPurview = (new FuncPurview("PMS0620020")).getFuncPurvs();
+var go_funcPurview = (new FuncPurview("PMS0620010")).getFuncPurvs();
 /** DatagridRmSingleGridClass **/
 function DatagridSingleGridClass() {
 }
@@ -48,7 +48,8 @@ var PMS0620020App = Vue.extend({
             loadingText: "",
             isLoadingDialog: "",
             BTN_action: false,
-            hotelDtRow: 0
+            hotelDtRow: 0,
+            isSaveEnable: false
         };
     },
     created: function () {
@@ -60,6 +61,7 @@ var PMS0620020App = Vue.extend({
 
             self.rowData = _.extend(self.rowData, chooseData);
         });
+        this.initPurview();
     },
     mounted: function () {
         this.gs_active = "hotelDt";
@@ -91,9 +93,26 @@ var PMS0620020App = Vue.extend({
                 this.dgHoatelDt.updateTmpDtOfMnData(val);
             },
             deep: true
+        },
+        isSaveEnable: function(val){
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0500";
+            });
+            if (purview == -1) {
+                this.isSaveEnable = true;
+            }
         }
     },
     methods: {
+        initPurview: function(){
+            var purview;
+            purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0500";
+            });
+            if (purview == -1) {
+                this.isSaveEnable = true;
+            }
+        },
         showDropdownDisplayName: function (val, selectData) {
             if (_.findIndex(selectData, {value: val}) > -1) {
                 return _.findWhere(selectData, {value: val}).display;

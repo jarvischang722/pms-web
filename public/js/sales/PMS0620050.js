@@ -1,6 +1,8 @@
 var vmHub = new Vue();
 var gs_prgId = "PMS0620050";
 
+var go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+
 /** DatagridRmSingleGridClass **/
 function DatagridSingleGridClass() {
 }
@@ -29,6 +31,8 @@ Vue.component('single-grid-pms0620050-tmp', {
             isFirstData: false,
             isLastData: false,
             BTN_action: false,
+            isSaveEnable: false,
+            isDelEnable: false,
             isLoadingDialog: false,
             loadingText: ""
         };
@@ -55,6 +59,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                 vm.loadDataGridByPrgID();
             }
         });
+        this.initPurview();
     },
     mounted: function () {
         this.isLoadingDialog = true;
@@ -78,13 +83,13 @@ Vue.component('single-grid-pms0620050-tmp', {
                         this.isLastData = true;
                     }
 
-            }
-            else if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
-                //已經到最後一筆
-                this.isFirstData = false;
-                this.isLastData = true;
-            }
-            else {
+                }
+                else if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+                    //已經到最後一筆
+                    this.isFirstData = false;
+                    this.isLastData = true;
+                }
+                else {
 
                     this.isFirstData = false;
                     this.isLastData = false;
@@ -104,9 +109,41 @@ Vue.component('single-grid-pms0620050-tmp', {
 
                 this.formatAmt(ln_amtValue, lo_amtField);
             }
+        },
+        isSaveEnable: function (val) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0500";
+            });
+            if (purview == -1) {
+                this.isSaveEnable = true;
+            }
+        },
+        isDelEnable: function (val) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0300";
+            });
+            if (purview == -1) {
+                this.isDelEnable = true;
+            }
         }
     },
     methods: {
+        initPurview: function () {
+            var purview;
+            purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0500";
+            });
+            if (purview == -1) {
+                this.isSaveEnable = true;
+            }
+
+            purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0300";
+            });
+            if (purview == -1) {
+                this.isDelEnable = true;
+            }
+        },
         initData: function () {
             this.isLoadingDialog = true;
             this.singleData = {};
@@ -550,7 +587,18 @@ var vm = new Vue({
         editingRow: {},
         isModifiable: true,
         isAction: false,
+        isEditEnable: false,
         isOnlyClose: true
+    },
+    watch: {
+        isEditEnable(val) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0400";
+            });
+            if (purview == -1) {
+                this.isEditEnable = true;
+            }
+        }
     },
     methods: {
         fetchUserInfo: function () {

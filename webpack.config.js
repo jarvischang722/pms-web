@@ -6,13 +6,13 @@ const config = {
     //     'webpack/hot/dev-server',
     //     path.join(__dirname, 'public', 'src')
     // ],
-    entry: {
-        permissionSetup: ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"],
-        // store: "./public/src/admin/permission/store"
-        // a: "./a",
-        // b: "./b",
-        // c: ["./c", "./d"]
-    },
+    // entry: {
+    //     permissionSetup: ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"],
+    //     // store: "./public/src/admin/permission/store"
+    //     // a: "./a",
+    //     // b: "./b",
+    //     // c: ["./c", "./d"]
+    // },
     output: {
         publicPath: '/dist',
         path: path.join(__dirname, 'public', 'js/sales/'),

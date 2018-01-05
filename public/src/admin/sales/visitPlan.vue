@@ -207,7 +207,7 @@
                             <ul class="newVisitOther-btn">
                                 <li>
                                     <button class="btn btn-danger btn-white btn-defaultWidth " role="button"
-                                             @click="doRemoveRow">
+                                            @click="doRemoveRow">
                                         {{i18nLang.SystemCommon.Delete}}
                                     </button>
                                 </li>
@@ -235,7 +235,7 @@
 
     var vmHub = new Vue();
 
-    // var go_funcPurview = (new FuncPurview("PMS0620050")).getFuncPurvs();
+    var go_funcPurview;
 
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
@@ -260,6 +260,7 @@
                 self.dgVisitPlanIns.onSelect(data.index, data.row);
                 self.rowData = data.row;
             });
+            this.initPurview();
         },
         mounted() {
             this.isLoadingDialog = true;
@@ -272,10 +273,12 @@
                 isLastData: false,
                 BTN_action: false,
                 isLoadingDialog: false,
+                isSaveEnable: false,
                 loadingText: "",
                 tmpCUD: {
                     createData: []
                 },
+                go_funcPurview: [],
                 settingGridFieldsData: [],
                 settingGridRowData: {},
                 dataGridFieldsData: [],
@@ -297,6 +300,15 @@
                     this.initData();
                     this.setTmpRowData();
                     this.fetchSingleGridFieldData();
+//                    this.go_funcPurview= (new FuncPurview("PMS0620050")).getFuncPurvs();
+                }
+            },
+            isSaveEnable(val) {
+                var purview = _.findIndex(this.go_funcPurview, function (value) {
+                    return value.func_id == "0500";
+                });
+                if (purview == -1) {
+                    this.isSaveEnable = true;
                 }
             },
             rowData(val) {
@@ -310,6 +322,14 @@
             }
         },
         methods: {
+            initPurview() {
+                var purview = _.findIndex(this.go_funcPurview, function (value) {
+                    return value.func_id == "0500";
+                });
+                if (purview == -1) {
+                    this.isSaveEnable = true;
+                }
+            },
             initData() {
                 this.settingGridFieldsData = [];
                 this.settingGridRowData = {};
@@ -351,6 +371,7 @@
                 $.post("/api/fetchOnlySinglePageFieldData", lo_params, function (result) {
                     self.oriFieldsData = result.gsFieldsData;
                     self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
+                    console.log(self.fieldsData);
                     self.loadSettingGrid();
                 });
             },
