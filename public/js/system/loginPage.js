@@ -81,8 +81,7 @@ var loginVM = new Vue({
                     location.href = "/systemOption";
                 }
                 else {
-                    alert('Login fail!');
-                    console.error(result.errorMsg);
+                    alert(result.errorMsg);
                 }
             });
 

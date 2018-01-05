@@ -30,7 +30,7 @@ exports.doAuthAccount = function (authData, callback) {
                 params["usr_pwd"] = usr_pwd;
                 queryAgent.query("QRY_BAC_GET_USER_BY_ONE", params, function (err, user) {
                     if (!user) {
-                        err = {message: "密碼錯誤"};
+                        err = {message: "Login fail!"};
                     }
                     cb(err, user);
                 });
@@ -54,7 +54,7 @@ exports.doAuthAccount = function (authData, callback) {
                         cb(err, null);
                     }
                     else if (result.length == 0) {
-                        err = {message: "無此權限"};
+                        err = {message: "No permission\n"};
                         cb(err, null);
                     }
                     else {
@@ -95,7 +95,7 @@ exports.doAuthAccount = function (authData, callback) {
                                     cb(err, user);
                                 }
                                 else {
-                                    err = {message: "無此公司別"};
+                                    err = {message: "No permission\n"};
                                     cb(err, null);
                                 }
                             }
