@@ -6,6 +6,8 @@ let _ = require("underscore");
 let mongoAgent = require("../../mongodb");
 let moment = require("moment");
 let dbSVC = require("../../../services/DbTableService");
+let tools = require("../../../utils/CommonTools");
+let queryAgent = require("../../kplug-oracle/QueryAgent");
 
 module.exports = function (io) {
 
@@ -34,6 +36,7 @@ module.exports = function (io) {
         socket.on('disconnect', function () {
             let lo_socketClientData = _.findWhere(ga_lockedPrgIDList, {socket_id: socket.client.id}) || {};
             doTableUnlock(socket, go_session, lo_socketClientData);
+            doReleaseOnlineUser(go_session, gs_sessionId);
         });
 
         /**
@@ -63,6 +66,13 @@ module.exports = function (io) {
 
             }, 1000);
 
+        });
+
+        /**
+         * 檢查登入者的集團或館別可使用人數
+         */
+        socket.on("checkOnlineUser", function () {
+            doCheckOnlineUser(socket, go_session, gs_sessionId);
         });
 
 
@@ -120,7 +130,7 @@ module.exports = function (io) {
 
             if (clientData && !_.isEmpty(prg_id)) {
                 let lo_singleSocketData = _.findWhere(ga_lockedPrgIDList, {socket_id: socket_id, lockingPrgID: prg_id});
-                if(lo_singleSocketData != null){
+                if (lo_singleSocketData != null) {
                     dbSVC.doTableUnLock(prg_id, lo_singleSocketData.table_name, go_session.user, lo_singleSocketData.lock_type, lo_singleSocketData.key_cod, socket_id, function (errorMsg, success) {
                         deleteLockList(clientData);
                     });
@@ -150,7 +160,7 @@ module.exports = function (io) {
             lock_type: clientData.lock_type || "T",
             key_cod: clientData.key_cod || ""
         };
-        let ln_existSocketIdx = _.findIndex(ga_lockedPrgIDList, {socket_id: socket.client.id});
+        let ln_existSocketIdx = _.findIndex(ga_lockedPrgIDList, {socket_id: socket.client.id, key_cod: clientData.key_cod});
         if (ln_existSocketIdx > -1) {
             ga_lockedPrgIDList[ln_existSocketIdx] = lo_singelSocket;
         } else {
@@ -203,5 +213,36 @@ module.exports = function (io) {
             return !_.isEqual(socket_id, data.socket_id);
         });
 
+    }
+
+    /**
+     * 授權控管 人數(確認館別、公司、集團是否超過人數)
+     * @param socket{object}
+     * @param socket{object}
+     * @param go_session{object}
+     * @param gs_sessionId{string}
+     */
+    function doCheckOnlineUser(socket, go_session, gs_sessionId) {
+        try {
+            dbSVC.doCheckOnlineUser(go_session, gs_sessionId, function (err, success) {
+                socket.emit('checkOnlineUserResult', {success: success, errorMsg: err});
+            });
+        }
+        catch (ex) {
+            console.error(ex);
+        }
+    }
+
+    /**
+     * 刪除 mongo 裡collection OnlineUser 相對應的 session_id
+     * @param go_session{object}
+     * @param gs_sessionId{string}
+     */
+    function doReleaseOnlineUser(go_session, gs_sessionId) {
+        dbSVC.doReleaseOnlineUser(go_session, gs_sessionId, function (err, success) {
+            if (err) {
+                console.error(err);
+            }
+        });
     }
 };

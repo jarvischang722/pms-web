@@ -160,6 +160,42 @@
       "is_master": "丟公帳(日)",
       "to_master": "移至公帳(日)"
     },
+    "PMS0610010": {
+      "save_as": "另存為(日)",
+      "sales_assign": "Sales Assign(日)",
+      "visit_plan": "拜訪計畫(日)",
+      "edit_sales": "修改業務員(日)",
+      "add_visit_plan": "新增拜訪計畫(日)"
+    },
+    "PMS0610020": {
+      "company_status": "Status chg.(日)",
+      "company_maintain": "商務公司維護(日)",
+      "company_related_diagram": "公司關聯圖(日)",
+      "contract_status": "合約狀態變更(日)",
+      "related_set": "相關設定(日)",
+      "related_personnel": "相關人員(日)",
+      "sales": "業務員(日)",
+      "contract_content": "合約內容(日)",
+      "visit_record": "拜訪紀錄(日)",
+      "other_remark": "業務備註(日)",
+      "historical_consumption": "歷史消費(日)",
+      "contribution": "貢獻度(日)",
+      "change_credit_limit": "信用額度變更(日)",
+      "append_contact_person": "新增聯絡人(日)",
+      "remove_contact_person": "刪除聯絡人(日)",
+      "hide_leaving_staff": "離職不顯示(日)",
+      "append_contract": "新增合約(日)",
+      "remove_contract": "刪除合約(日)",
+      "special_contract": "特殊合約(日)",
+      "hide_expired": "過期不顯示(日)",
+      "append_remark": "新增備註(日)",
+      "update_remark": "修改備註(日)",
+      "remove_remark": "刪除備註(日)",
+      "appear_consumption_dt": "顯示消費明細(日)"
+    },
+    "PMS0620030":{
+      "edit_sales_clerk": "修改業務員(日)"
+    },
     "PMS0620020": {
       "sales_cod": "業務員代號(日)",
       "sales_nam": "業務員姓名(日)",
@@ -180,7 +216,9 @@
       "delSuccess": "刪除成功(日)"
     },
     "PMS0620050": {
-      "edit_vist_mn": "修改拜訪紀錄(日)"
+      "add_visit_mn": "新增拜訪紀錄(日)",
+      "edit_vist_mn": "修改拜訪紀錄(日)",
+      "remove_visit_mn": "刪除拜訪紀錄(日)"
     }
   },
   "table_in_use": "%s 使用中",
@@ -207,6 +245,7 @@
     "ChangeLog": "異動紀錄",
     "LogOutTime": "距離登出時間",
     "SelectData": "請選擇資料(日)",
+    "SelectOneData": "請選擇一筆資料(日)",
     "Time": "時間(日)",
     "User": "使用者(日)",
     "Action_type": "動作類型(日)",
@@ -214,9 +253,14 @@
     "Desciption_Dt": "名細描述(日)",
     "check_delete": "確定刪除此筆資料(日)",
     "CompanyName": "德安資訊股份有限公司",
+    "Setting": "設定(日)",
     "Save_changed_data": "資料已修改是否存檔(日)",
     "saveSuccess": "儲存成功(日)",
-    "delSuccess": "刪除成功(日)"
+    "delSuccess": "刪除成功(日)",
+    "dataGridBeforePageText": "第(日)",
+    "dataGridAfterPageText": "頁,共{pages}頁(日)",
+    "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料(日)",
+    "exceedPeopleNum": "超過人數上限(日)"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",
