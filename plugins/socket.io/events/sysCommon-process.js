@@ -36,7 +36,7 @@ module.exports = function (io) {
         socket.on('disconnect', function () {
             let lo_socketClientData = _.findWhere(ga_lockedPrgIDList, {socket_id: socket.client.id}) || {};
             doTableUnlock(socket, go_session, lo_socketClientData);
-            doReleaseOnlineUser(go_session, gs_sessionId);
+            doReleaseOnlineUser(go_session, socket.client.request.sessionID);
         });
 
         /**
@@ -72,7 +72,7 @@ module.exports = function (io) {
          * 檢查登入者的集團或館別可使用人數
          */
         socket.on("checkOnlineUser", function () {
-            doCheckOnlineUser(socket, go_session, gs_sessionId);
+            doCheckOnlineUser(socket, go_session, socket.client.request.sessionID);
         });
 
 
