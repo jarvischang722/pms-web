@@ -48,18 +48,23 @@ exports.qryPageOneData = function (postData, session, callback) {
             "user": "cio"
         };
 
-        tools.requestApi(sysConfig.api_url, params, function (err, res, result) {
-            let errorMsg = null;
-            let data = "";
-            if (err || result["RETN-CODE"] != "0000") {
-                errorMsg = err || result["RETN-CODE-DESC"];
-            }
-            else {
-                data = result.tmp_bq3_web_map.data || [];
-            }
-
-            cb(errorMsg, data);
+        fs.readFile("./public/jsonData/reservation/banquetData.json", "utf8", function (err, data) {
+            data = JSON.parse(data);
+            cb(err, data.tmp_bq3_web_map.data);
         });
+
+        // tools.requestApi(sysConfig.api_url, params, function (err, res, result) {
+        //     let errorMsg = null;
+        //     let data = "";
+        //     if (err || !result) {
+        //         errorMsg = err;
+        //     }
+        //     else {
+        //         data = result.tmp_bq3_web_map.data || [];
+        //     }
+        //
+        //     cb(errorMsg, data);
+        // });
     }
 
     function qryBanquetSta(cb) {
@@ -272,59 +277,73 @@ class ResvBanquetData {
         // 訂席
         else {
             let la_order = _.where(this.la_order, {place_cod: parent_cod});
-            _.each(la_order, function (lo_order, index) {
-                let lo_begin_tim = self.getHourAndMin(lo_order.begin_tim);
-                let lo_end_tim = self.getHourAndMin(lo_order.end_tim);
+            //沒有任何訂位
+            if (la_order.length == 0) {
+                let ln_time_range = this.ls_end_hour.diff(this.ls_beg_hour, "hour") + 1;
+                lo_banquet_dt = {
+                    beg_tim: self.ls_beg_hour.format("HH:mm"),
+                    end_tim: self.ls_end_hour.format("HH:mm"),
+                    datatype: "",
+                    repeat: ln_time_range * 2
+                };
+                la_banquet_dt.push(lo_banquet_dt);
+            }
+            //有訂位
+            else {
+                _.each(la_order, function (lo_order, index) {
+                    let lo_begin_tim = self.getHourAndMin(lo_order.begin_tim);
+                    let lo_end_tim = self.getHourAndMin(lo_order.end_tim);
 
-                if (index == 0) {
-                    if (self.ls_beg_hour.format("HH:mm") != lo_begin_tim.format("HH:mm")) {
-                        ln_colspan = self.calcColSpan(self.ls_beg_hour, lo_begin_tim);
+                    if (index == 0) {
+                        if (self.ls_beg_hour.format("HH:mm") != lo_begin_tim.format("HH:mm")) {
+                            ln_colspan = self.calcColSpan(self.ls_beg_hour, lo_begin_tim);
+                            lo_banquet_dt = {
+                                beg_tim: self.ls_beg_hour.format("HH:mm"),
+                                end_tim: lo_begin_tim.format("HH:mm"),
+                                datatype: "",
+                                repeat: ln_colspan
+                            };
+                            if (ln_colspan != 0) {
+                                la_banquet_dt.push(lo_banquet_dt);
+                            }
+                        }
+                    }
+                    else if (la_banquet_dt[la_banquet_dt.length - 1].end_tim != lo_begin_tim.format("HH:mm")) {
+                        ln_colspan = self.calcColSpan(moment(la_banquet_dt[la_banquet_dt.length - 1].end_tim, "HH:mm"), lo_begin_tim);
                         lo_banquet_dt = {
-                            beg_tim: self.ls_beg_hour.format("HH:mm"),
+                            beg_tim: moment(la_banquet_dt[la_banquet_dt.length - 1].end_tim, "HH:mm").format("HH:mm"),
                             end_tim: lo_begin_tim.format("HH:mm"),
-                            datatype: "",
-                            repeat: ln_colspan
+                            repeat: ln_colspan,
+                            datatype: ""
                         };
                         if (ln_colspan != 0) {
                             la_banquet_dt.push(lo_banquet_dt);
                         }
                     }
-                }
-                else if (la_banquet_dt[la_banquet_dt.length - 1].end_tim != lo_begin_tim.format("HH:mm")) {
-                    ln_colspan = self.calcColSpan(moment(la_banquet_dt[la_banquet_dt.length - 1].end_tim, "HH:mm"), lo_begin_tim);
-                    lo_banquet_dt = {
-                        beg_tim: moment(la_banquet_dt[la_banquet_dt.length - 1].end_tim, "HH:mm").format("HH:mm"),
-                        end_tim: lo_begin_tim.format("HH:mm"),
-                        repeat: ln_colspan,
-                        datatype: ""
-                    };
-                    if (ln_colspan != 0) {
-                        la_banquet_dt.push(lo_banquet_dt);
-                    }
-                }
 
-                let order_nam;
-                ln_colspan = self.calcColSpan(lo_begin_tim, lo_end_tim);
-                if (lo_order.order_sta == "N") {
-                    order_nam = lo_order.title_nam;
-                }
-                else if (lo_order.order_sta == "W") {
-                    order_nam = "(等" + lo_order.wait_seq + ") " + lo_order.title_nam;
-                }
-                else {
-                    order_nam = "(詢) " + lo_order.title_nam;
-                }
-                lo_banquet_dt = {
-                    name: order_nam,
-                    beg_tim: lo_begin_tim.format("HH:mm"),
-                    end_tim: lo_end_tim.format("HH:mm"),
-                    colspan: ln_colspan,
-                    datatype: "Reserve",
-                    order_sta: lo_order.order_sta,
-                    bquet_nos: lo_order.bquet_nos
-                };
-                la_banquet_dt.push(lo_banquet_dt);
-            });
+                    let order_nam;
+                    ln_colspan = self.calcColSpan(lo_begin_tim, lo_end_tim);
+                    if (lo_order.order_sta == "N") {
+                        order_nam = lo_order.title_nam;
+                    }
+                    else if (lo_order.order_sta == "W") {
+                        order_nam = "(等" + lo_order.wait_seq + ") " + lo_order.title_nam;
+                    }
+                    else {
+                        order_nam = "(詢) " + lo_order.title_nam;
+                    }
+                    lo_banquet_dt = {
+                        name: order_nam,
+                        beg_tim: lo_begin_tim.format("HH:mm"),
+                        end_tim: lo_end_tim.format("HH:mm"),
+                        colspan: ln_colspan,
+                        datatype: "Reserve",
+                        order_sta: lo_order.order_sta,
+                        bquet_nos: lo_order.bquet_nos
+                    };
+                    la_banquet_dt.push(lo_banquet_dt);
+                });
+            }
 
             let lo_last = _.last(la_banquet_dt);
             if (!_.isUndefined(lo_last) && lo_last.end_tim != self.ls_end_hour.format("HH:mm")) {
