@@ -206,14 +206,14 @@
                             </ul>
                             <ul class="newVisitOther-btn">
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth purview_btn" role="button"
-                                            data-purview_func_id="PMS06100100300" @click="doRemoveRow">
+                                    <button class="btn btn-danger btn-white btn-defaultWidth " role="button"
+                                             @click="doRemoveRow">
                                         {{i18nLang.SystemCommon.Delete}}
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
-                                            data-purview_func_id="PMS06100100200" @click="doSaveRow">
+                                            data-purview_func_id="PMS0610010-0200" @click="doSaveRow">
                                         {{i18nLang.SystemCommon.Save}}
                                     </button>
                                 </li>

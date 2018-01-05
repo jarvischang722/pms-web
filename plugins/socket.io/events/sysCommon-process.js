@@ -6,6 +6,7 @@ let _ = require("underscore");
 let mongoAgent = require("../../mongodb");
 let moment = require("moment");
 let dbSVC = require("../../../services/DbTableService");
+let usrActSVS = require("../../../services/userActionService");
 let tools = require("../../../utils/CommonTools");
 let queryAgent = require("../../kplug-oracle/QueryAgent");
 
@@ -192,7 +193,7 @@ module.exports = function (io) {
      */
     function doRecordUserAction(socket, clientData, session){
         try{
-            dbSVC.doRecordUserAction(session, socket.client.request.sessionID, clientData.prg_id, clientData.func_id, socket.client.request.headers.referer, function(err, success){
+            usrActSVS.doRecordUserAction(session, socket.client.request.sessionID, clientData.prg_id, clientData.func_id, socket.client.request.headers.referer, function(err, success){
                 if(err){
                     console.error(err);
                 }
