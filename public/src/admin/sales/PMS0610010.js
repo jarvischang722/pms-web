@@ -11,6 +11,7 @@ var vmHub = new Vue();
 var vm = new Vue({
     el: "#PMS0610010App",
     created() {
+        this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
         var self = this;
 
         vmHub.$on("doUnLock", function () {
@@ -35,6 +36,7 @@ var vm = new Vue({
             self.isCreateStatus = editSalesClerkData.isCreateStatus;
             self.isLoading = false;
             self.editRows = [];
+            self.initAllAuthBtn();
         });
         //status chg. dialog
         this.$eventHub.$on('getCompanyStatusData', function (companyStatusData) {
@@ -50,7 +52,6 @@ var vm = new Vue({
         this.fetchUserInfo();
         this.setSearchCond();
         this.loadDataGridByPrgID();
-        this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
     },
     components: {visitPlan, searchComp, editSalesClerk, pms0610020},
     data() {
@@ -94,14 +95,24 @@ var vm = new Vue({
                 this.$eventHub.$emit('getCloseChangeLogData', {isOpenChangeLog: val});
             }
         },
-        isEditStatus(val){
-            console.log(val);
-            if(!val){
+        isEditStatus(val) {
+            if (!val) {
+                this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+            }
+        },
+        isVisitPlan(val) {
+            if (!val) {
                 this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
             }
         }
     },
     methods: {
+        initAllAuthBtn() {
+            $(".purview_btn").each(function () {
+                var purview_func_id = $(this).data("purview_func_id");
+                $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", false);
+            });
+        },
         initTmpCUD() {
             this.tmpCUD = {
                 createData: [],
@@ -333,6 +344,7 @@ var vm = new Vue({
                             self.editRows = [];
                             self.isVisitPlan = false;
                             self.doRowUnLock();
+                            self.initAllAuthBtn();
                         }
                     });
                 }

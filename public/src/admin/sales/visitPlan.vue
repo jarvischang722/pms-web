@@ -64,8 +64,8 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
-                                                data-purview_func_id="" @click="doSetting">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                                @click="doSetting">
                                             {{i18nLang.SystemCommon.Setting}}
                                         </button>
                                     </li>
@@ -213,7 +213,7 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
-                                            data-purview_func_id="PMS0610010-0200" @click="doSaveRow">
+                                            data-purview_func_id="PMS0620050-0500" :disabled="isSaveEnable" @click="doSaveRow">
                                         {{i18nLang.SystemCommon.Save}}
                                     </button>
                                 </li>
@@ -260,7 +260,6 @@
                 self.dgVisitPlanIns.onSelect(data.index, data.row);
                 self.rowData = data.row;
             });
-            this.initPurview();
         },
         mounted() {
             this.isLoadingDialog = true;
@@ -297,18 +296,12 @@
                 if (val) {
                     this.isLoadingDialog = true;
                     this.loadingText = "Loading...";
+                    this.initAllAuthBtn();
                     this.initData();
                     this.setTmpRowData();
                     this.fetchSingleGridFieldData();
-//                    this.go_funcPurview= (new FuncPurview("PMS0620050")).getFuncPurvs();
-                }
-            },
-            isSaveEnable(val) {
-                var purview = _.findIndex(this.go_funcPurview, function (value) {
-                    return value.func_id == "0500";
-                });
-                if (purview == -1) {
-                    this.isSaveEnable = true;
+                    this.go_funcPurview= (new FuncPurview("PMS0620050")).getFuncPurvs();
+                    this.initPurview();
                 }
             },
             rowData(val) {
@@ -322,6 +315,12 @@
             }
         },
         methods: {
+            initAllAuthBtn(){
+                $(".purview_btn").each(function () {
+                    var purview_func_id = $(this).data("purview_func_id");
+                    $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", false);
+                });
+            },
             initPurview() {
                 var purview = _.findIndex(this.go_funcPurview, function (value) {
                     return value.func_id == "0500";
@@ -371,7 +370,6 @@
                 $.post("/api/fetchOnlySinglePageFieldData", lo_params, function (result) {
                     self.oriFieldsData = result.gsFieldsData;
                     self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
-                    console.log(self.fieldsData);
                     self.loadSettingGrid();
                 });
             },

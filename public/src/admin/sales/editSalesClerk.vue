@@ -2,7 +2,7 @@
     <div>
         <el-dialog
                 :close-on-click-modal="true" :show-close="false" :title="i18nLang.program.PMS0620030.edit_sales_clerk"
-                :visible.sync="isEditSalesClerk" style="width: 43%; left: 30%;" :before-close="doCancelEdit">
+                :visible.sync="isEditSalesClerk" style="width: 48%; left: 30%;" :before-close="doCancelEdit">
             <div class="businessCompanyData" v-loading="isLoadingDialog" :element-loading-text="loadingText">
                 <div class="col-sm-12 col-xs-12">
                     <div class="row">
@@ -83,7 +83,6 @@
             this.$eventHub.$on('updateBackSelectData', function (chooseData) {
                 self.singleData = _.extend(self.singleData, chooseData);
             });
-            this.initPurview();
         },
         mounted() {
             this.isLoadingDialog = true;
@@ -111,30 +110,26 @@
         watch: {
             isEditSalesClerk(val) {
                 if (val) {
+                    this.initAllAuthBtn();
                     this.initData();
                     this.fetchSingleGridFieldData();
-                    this.go_funcPurview= (new FuncPurview("PMS0620030")).getFuncPurvs();
-                    this.isSaveEnable = false;
-                }
-                else {
-                    this.go_funcPurview = []
-                    this.isSaveEnable = true;
-                }
-            },
-            isSaveEnable(val) {
-                var purview = _.findIndex(this.go_funcPurview, function (value) {
-                    return value.func_id == "0500";
-                });
-                if (purview == -1) {
-                    this.isSaveEnable = true;
+                    this.go_funcPurview = (new FuncPurview("PMS0620030")).getFuncPurvs();
+                    this.initPurview();
                 }
             }
         },
         methods: {
+            initAllAuthBtn() {
+                $(".purview_btn").each(function () {
+                    var purview_func_id = $(this).data("purview_func_id");
+                    $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", false);
+                });
+            },
             initPurview() {
                 var purview = _.findIndex(this.go_funcPurview, function (value) {
                     return value.func_id == "0500";
                 });
+
                 if (purview == -1) {
                     this.isSaveEnable = true;
                 }
@@ -255,6 +250,7 @@
                     isEditStatus: self.isEditStatus,
                     isCreateStatus: self.isCreateStatus
                 });
+
             },
             doRowUnLock() {
                 var lo_param = {
