@@ -84,13 +84,16 @@ exports.authLogin = function (req, res) {
 
 
     authSvc.doAuthAccount(req.body, function (err, errorCode, userInfo) {
-
         if (!err && userInfo) {
             req.session.user = userInfo;
-
         }
 
-        res.json({success: !_.isNull(userInfo), errorCode: errorCode, errorMsg: "", user: userInfo});
+        res.json({
+            success: !_.isNull(userInfo),
+            errorCode: errorCode,
+            errorMsg: _.isNull(err) || _.isUndefined(err.message) ? "" : err.message,
+            user: userInfo
+        });
     });
 
 };
@@ -286,7 +289,7 @@ exports.getAllFuncs = function (req, res) {
         _.each(sysList, function (lo_sysList) {
             let ls_sysID = lo_sysList.sys_id;
             SysFuncPurviewSvc.getUserSubsysPurviewBySysID(req, ls_sysID, function (err, subsysMenu) {
-                ln_counter++
+                ln_counter++;
                 lo_sysList.subSys = subsysMenu;
                 if (ln_counter == sysList.length) {
                     cb(err, sysList);

@@ -9,7 +9,7 @@ var loginVM = new Vue({
         companyData: [],
         rememberMeCheck: false,
         username: gs_account,
-        passwd:"",
+        passwd: "",
         dbname: "0",
         comp_id: "0",
         currentLocale: gs_locale,
@@ -79,8 +79,9 @@ var loginVM = new Vue({
 
                     alert('Login success!');
                     location.href = "/systemOption";
-                } else {
-                    alert('Login fail!');
+                }
+                else {
+                    alert(result.errorMsg);
                 }
             });
 
