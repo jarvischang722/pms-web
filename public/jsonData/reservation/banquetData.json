@@ -22,7 +22,7 @@
         "order_seq": 2,
         "datatype": "END_HOUR",
         "beg_hour": null,
-        "end_hour": 28,
+        "end_hour": 35,
         "rspt_cod": null,
         "rspt_nam": null,
         "is_child": null,
@@ -389,8 +389,8 @@
         "desk_qnt": null,
         "mtime_cod": "05  ",
         "time_nam": "夜間場佈",
-        "begin_tim": "0000",
-        "end_tim": "0559"
+        "begin_tim": "2400",
+        "end_tim": "2959"
       },
       {
         "order_seq": 24,
@@ -404,7 +404,7 @@
         "place_cod": null,
         "place_nam": null,
         "desk_qnt": null,
-        "mtime_cod": "06  ",
+        "mtime_cod": "00  ",
         "time_nam": "會議",
         "begin_tim": "0800",
         "end_tim": "0959"
