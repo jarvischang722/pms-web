@@ -554,6 +554,7 @@ var vm = new Vue({
         this.fetchUserInfo();
         this.initTmpCUD();
         this.loadDataGridByPrgID();
+        this.fetchSingleWidth();
     },
     data: {
         tmpCUD: {
@@ -588,7 +589,8 @@ var vm = new Vue({
         isModifiable: true,
         isAction: false,
         isEditEnable: false,
-        isOnlyClose: true
+        isOnlyClose: true,
+        maxWidth: 0
     },
     watch: {
         isEditEnable(val) {
@@ -687,20 +689,51 @@ var vm = new Vue({
 
             this.isLoading = false;
         },
-        showSingleGridDialog: function () {
+        fetchSingleWidth: function(){
             var self = this;
+            $.post("/api/singleGridPageFieldQuery", {
+                prg_id: gs_prgId,
+                page_id: 2
+            }, function (result) {
+                if (result.success) {
+
+                    var fieldsData = _.values(_.groupBy(_.sortBy(result.fieldData, "row_seq"), "row_seq"));
+                    // 算最小寬度 && 最大行數
+                    var maxField = fieldsData[0];
+                    console.log(maxField);
+                    console.log(maxField);
+                    _.each(maxField, function (lo_maxField, index) {
+
+                        var width = parseInt(lo_maxField.width) || 35; //90
+                        var label_width = parseInt(lo_maxField.label_width) || 50; //165
+                        self.maxWidth += (width + label_width + 100);
+                        //todo 此單筆最後一排有超過五個以上的grid-item 會錯誤
+                        // if(index >= 2) return true;
+                    });
+                    console.log(self.maxWidth);
+                }
+            });
+
+        },
+        showSingleGridDialog: function () {
+            var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+            // gridWt = $('.singleGridContent .grid-item label').width() + $('.singleGridContent .grid-item input').width() +14;
+            var dialogWt = this.maxWidth + 120;
+            var height = 10 * 50; // 預設一個row 高度
             var dialog = $('#singleGridPMS0620050').removeClass('hide').dialog({
                 autoOpen: false,
                 modal: true,
                 title: go_i18nLang["program"]["PMS0620050"].edit_vist_mn,
-                width: 700,
-                maxHeight: 1920,
+                minWidth: _.min([dialogWt, 1000]),
+                width: _.min([dialogWt, 1000]),
+                maxHeight: maxHeight,
                 resizable: true,
                 onBeforeClose: function () {
                     vmHub.$emit('doSaveModifyData');
                 }
             }).dialog('open');
             this.isLoading = false;
+            $("#singleGridPMS0620050").css("height", _.min([maxHeight, height]) + 20);
         },
         doSaveCUD: function (prg_id, page_id, callback) {
             var lo_params = {
