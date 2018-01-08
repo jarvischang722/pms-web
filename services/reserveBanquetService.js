@@ -79,11 +79,16 @@ function convertDataToDisplay(la_data, la_sta) {
 
 class ResvBanquetData {
     constructor(la_data, la_order) {
-        this.ls_beg_hour = _.findWhere(la_data, {datatype: "BEG_HOUR"}).beg_hour;
-        this.ls_end_hour = _.findWhere(la_data, {datatype: "END_HOUR"}).end_hour;
+        this.day_beg_hour = _.findWhere(la_data, {datatype: "BEG_HOUR"}).beg_hour;
+        this.day_end_hour = _.findWhere(la_data, {datatype: "END_HOUR"}).end_hour;
+        this.day_beg_min = this.convertToMin(this.day_beg_hour);
+        this.day_end_min = this.convertToMin(this.day_end_hour);
+
         this.la_rspt = _.where(la_data, {datatype: "RSPT"});
         this.la_place = _.where(la_data, {datatype: "PLACE"});
         this.la_mtim = _.where(la_data, {datatype: "MTIME"});
+        this.la_mtim = _.sortBy(this.la_mtim, "begin_tim");
+        la_order = _.sortBy(la_order, "begin_tim");
         this.la_order = la_order;
     }
 
@@ -101,16 +106,11 @@ class ResvBanquetData {
      */
     getTimeRange() {
         let la_time_range = [];
-        let ln_time_range;
+        let ls_display_beg_hour = moment.utc(moment.duration(this.day_beg_hour + ":00").asMilliseconds());
 
-        this.ls_beg_hour += ":00";
-        this.ls_end_hour += ":00";
-        this.ls_beg_hour = moment.utc(moment.duration(this.ls_beg_hour).asMilliseconds());
-        this.ls_end_hour = moment.utc(moment.duration(this.ls_end_hour).asMilliseconds());
-
-        ln_time_range = this.ls_end_hour.diff(this.ls_beg_hour, "hour");
-        for (var min = 0; min <= ln_time_range; min++) {
-            la_time_range.push(this.ls_beg_hour.clone().add(min, "hour").format("HH:mm"));
+        let ln_time_range = this.day_end_hour - this.day_beg_hour;
+        for (let min = 0; min <= ln_time_range; min++) {
+            la_time_range.push(ls_display_beg_hour.clone().add(min, "hour").format("HH:mm"));
         }
         return la_time_range;
     }
@@ -193,16 +193,20 @@ class ResvBanquetData {
         if (datatype == "RSPT") {
             let la_mtim = _.where(this.la_mtim, {rspt_cod: parent_cod});
             _.each(la_mtim, function (lo_mtim, index) {
-                let lo_begin_tim = self.getHourAndMin(lo_mtim.begin_tim);
-                let lo_end_tim = self.getHourAndMin(lo_mtim.end_tim);
+                let ln_rspt_beg_min = self.convertToMin(lo_mtim.begin_tim);
+                let ln_rspt_end_min = self.convertToMin(lo_mtim.end_tim);
 
+                /**
+                 * 營業開始時間 != 餐期開始時間 (補空白格子)
+                 */
                 if (index == 0) {
-                    if (self.ls_beg_hour.format("HH:mm") != lo_begin_tim.format("HH:mm")) {
-                        ln_colspan = self.calcColSpan(self.ls_beg_hour, lo_begin_tim);
+                    if (self.day_beg_min != ln_rspt_beg_min) {
+                        //計算格子數： 營業開始時間 - 餐期開始時間
+                        ln_colspan = self.calcColSpan(self.day_beg_min, ln_rspt_beg_min);
                         lo_banquet_dt = {
                             name: "",
-                            beg_tim: self.ls_beg_hour.format("HH:mm"),
-                            end_tim: lo_begin_tim.format("HH:mm"),
+                            beg_tim: self.getTimeFromMins(self.day_beg_min),
+                            end_tim: self.getTimeFromMins(ln_rspt_end_min),
                             colspan: ln_colspan,
                             mtime_cod: lo_mtim.mtime_cod,
                             datatype: lo_mtim.datatype
@@ -212,12 +216,16 @@ class ResvBanquetData {
                         }
                     }
                 }
-                else if (la_banquet_dt[la_banquet_dt.length - 1].end_tim != lo_begin_tim.format("HH:mm")) {
-                    ln_colspan = self.calcColSpan(moment(la_banquet_dt[la_banquet_dt.length - 1].end_tim, "HH:mm"), lo_begin_tim);
+                /**
+                 * 上個餐期結束時間 != 此次餐期開始時間 (補空白格子)
+                 */
+                else if (self.convertToMin(la_banquet_dt[la_banquet_dt.length - 1].end_tim) != ln_rspt_beg_min) {
+                    // 計算格子數： 此次餐期開始時間 - 上個餐期結束時間
+                    ln_colspan = self.calcColSpan(self.convertToMin(la_banquet_dt[la_banquet_dt.length - 1].end_tim), ln_rspt_beg_min);
                     lo_banquet_dt = {
                         name: "",
                         beg_tim: la_banquet_dt[la_banquet_dt.length - 1].end_tim,
-                        end_tim: lo_begin_tim.format("HH:mm"),
+                        end_tim: self.getTimeFromMins(ln_rspt_beg_min),
                         colspan: ln_colspan,
                         mtime_cod: lo_mtim.mtime_cod,
                         datatype: lo_mtim.datatype
@@ -227,11 +235,14 @@ class ResvBanquetData {
                     }
                 }
 
-                ln_colspan = self.calcColSpan(lo_begin_tim, lo_end_tim);
+                /**
+                 * 補完空白格子後，計算餐期格子數： 此餐期結束時間 - 此餐期開始時間
+                 */
+                ln_colspan = self.calcColSpan(ln_rspt_beg_min, ln_rspt_end_min);
                 lo_banquet_dt = {
                     name: lo_mtim.time_nam,
-                    beg_tim: lo_begin_tim.format("HH:mm"),
-                    end_tim: lo_end_tim.format("HH:mm"),
+                    beg_tim: self.getTimeFromMins(ln_rspt_beg_min),
+                    end_tim: self.getTimeFromMins(ln_rspt_end_min),
                     colspan: ln_colspan,
                     mtime_cod: lo_mtim.mtime_cod,
                     datatype: lo_mtim.datatype
@@ -239,13 +250,18 @@ class ResvBanquetData {
                 la_banquet_dt.push(lo_banquet_dt);
             });
 
+            //尋找最後一個餐期
             let lo_last = _.last(la_banquet_dt);
-            if (!_.isUndefined(lo_last) && lo_last.end_tim != self.ls_end_hour.format("HH:mm")) {
-                ln_colspan = self.calcColSpan(moment(lo_last.end_tim, "HH:mm"), self.ls_end_hour.clone().add("1", "hours"));
+            /**
+             * 最後的餐期結束時間 != 營業結束時間 (補空白格子)
+             */
+            if (!_.isUndefined(lo_last) && this.convertToMin(lo_last.end_tim) != self.day_end_min) {
+                //計算格子數 : 營業結束時間 + 1hour - 最後餐期結束時間
+                ln_colspan = self.calcColSpan(this.convertToMin(lo_last.end_tim), self.day_end_min + 60);
                 lo_banquet_dt = {
                     name: "",
-                    beg_tim: moment(lo_last.end_tim, "HH:mm").format("HH:mm"),
-                    end_tim: self.ls_end_hour.format("HH:mm"),
+                    beg_tim: lo_last.end_tim,
+                    end_tim: self.getTimeFromMins(this.day_end_min),
                     colspan: ln_colspan,
                     mtime_cod: "",
                     datatype: "MTIME"
@@ -253,12 +269,16 @@ class ResvBanquetData {
                 la_banquet_dt.push(lo_banquet_dt);
             }
 
+            /**
+             * 無任何餐期資料
+             */
             if (la_banquet_dt.length == 0) {
-                ln_colspan = self.calcColSpan(self.ls_beg_hour, self.ls_end_hour.clone().add("1", "hours"));
+                //補滿空白格子 : 營業結束時間 + 1hour - 營業開始時間
+                ln_colspan = self.calcColSpan(this.day_beg_min, this.day_end_min + 60);
                 lo_banquet_dt = {
                     name: "",
-                    beg_tim: self.ls_beg_hour.format("HH:mm"),
-                    end_tim: self.ls_end_hour.format("HH:mm"),
+                    beg_tim: self.getTimeFromMins(this.day_beg_min),
+                    end_tim: self.getTimeFromMins(this.day_end_min),
                     colspan: ln_colspan,
                     mtime_cod: "",
                     datatype: "MTIME"
@@ -270,15 +290,19 @@ class ResvBanquetData {
         else {
             let la_order = _.where(this.la_order, {place_cod: parent_cod});
             _.each(la_order, function (lo_order, index) {
-                let lo_begin_tim = self.getHourAndMin(lo_order.begin_tim);
-                let lo_end_tim = self.getHourAndMin(lo_order.end_tim);
+                let ln_order_beg_min = self.convertToMin(lo_order.begin_tim);
+                let ln_order_end_min = self.convertToMin(lo_order.end_tim);
 
+                /**
+                 * 營業開始時間 != 訂席開始時間 (補空白格子)
+                 */
                 if (index == 0) {
-                    if (self.ls_beg_hour.format("HH:mm") != lo_begin_tim.format("HH:mm")) {
-                        ln_colspan = self.calcColSpan(self.ls_beg_hour, lo_begin_tim);
+                    if (self.day_beg_min != ln_order_beg_min) {
+                        //計算空白格子數： 訂席開始時間 - 營業開始時間
+                        ln_colspan = self.calcColSpan(self.day_beg_min, ln_order_beg_min);
                         lo_banquet_dt = {
-                            beg_tim: self.ls_beg_hour.format("HH:mm"),
-                            end_tim: lo_begin_tim.format("HH:mm"),
+                            beg_tim: self.getTimeFromMins(self.day_beg_min),
+                            end_tim: self.getTimeFromMins(ln_order_beg_min),
                             datatype: "",
                             repeat: ln_colspan
                         };
@@ -287,11 +311,15 @@ class ResvBanquetData {
                         }
                     }
                 }
-                else if (la_banquet_dt[la_banquet_dt.length - 1].end_tim != lo_begin_tim.format("HH:mm")) {
-                    ln_colspan = self.calcColSpan(moment(la_banquet_dt[la_banquet_dt.length - 1].end_tim, "HH:mm"), lo_begin_tim);
+                /**
+                 * 上個訂席結束時間 != 此次訂席開始時間 (補空白格子)
+                 */
+                else if (self.convertToMin(la_banquet_dt[la_banquet_dt.length - 1].end_tim) != ln_order_beg_min) {
+                    //計算空白格子數： 此次開始訂席 - 上個訂席結束時間
+                    ln_colspan = self.calcColSpan(self.convertToMin(la_banquet_dt[la_banquet_dt.length - 1].end_tim), ln_order_beg_min);
                     lo_banquet_dt = {
-                        beg_tim: moment(la_banquet_dt[la_banquet_dt.length - 1].end_tim, "HH:mm").format("HH:mm"),
-                        end_tim: lo_begin_tim.format("HH:mm"),
+                        beg_tim: la_banquet_dt[la_banquet_dt.length - 1].end_tim,
+                        end_tim: self.getTimeFromMins(ln_order_beg_min),
                         repeat: ln_colspan,
                         datatype: ""
                     };
@@ -301,7 +329,10 @@ class ResvBanquetData {
                 }
 
                 let order_nam;
-                ln_colspan = self.calcColSpan(lo_begin_tim, lo_end_tim);
+                /**
+                 * 補完空白格子後，計算訂席格子數： 訂席結束時間 - 訂席開始時間
+                 */
+                ln_colspan = self.calcColSpan(ln_order_beg_min, ln_order_end_min);
                 if (lo_order.order_sta == "N") {
                     order_nam = lo_order.title_nam;
                 }
@@ -313,8 +344,8 @@ class ResvBanquetData {
                 }
                 lo_banquet_dt = {
                     name: order_nam,
-                    beg_tim: lo_begin_tim.format("HH:mm"),
-                    end_tim: lo_end_tim.format("HH:mm"),
+                    beg_tim: self.getTimeFromMins(ln_order_beg_min),
+                    end_tim: self.getTimeFromMins(ln_order_end_min),
                     colspan: ln_colspan,
                     datatype: "Reserve",
                     order_sta: lo_order.order_sta,
@@ -323,23 +354,32 @@ class ResvBanquetData {
                 la_banquet_dt.push(lo_banquet_dt);
             });
 
+            //尋找最後一個訂席
             let lo_last = _.last(la_banquet_dt);
-            if (!_.isUndefined(lo_last) && lo_last.end_tim != self.ls_end_hour.format("HH:mm")) {
-                ln_colspan = self.calcColSpan(moment(lo_last.end_tim, "HH:mm"), self.ls_end_hour.clone().add("1", "hours"));
+            /**
+             * 最後訂席結束時間 != 營業結束時間 (補空白格子)
+             */
+            if (!_.isUndefined(lo_last) && this.convertToMin(lo_last.end_tim) != this.day_end_min) {
+                //計算空白格子數： 營業結束時間 + 1hour - 最後訂席結束時間
+                ln_colspan = self.calcColSpan(this.convertToMin(lo_last.end_tim), this.day_end_min + 60);
                 lo_banquet_dt = {
-                    beg_tim: moment(lo_last.end_tim, "HH:mm").format("HH:mm"),
-                    end_tim: self.ls_end_hour.format("HH:mm"),
+                    beg_tim: lo_last.end_tim,
+                    end_tim: self.getTimeFromMins(this.day_end_min),
                     repeat: ln_colspan,
                     datatype: ""
                 };
                 la_banquet_dt.push(lo_banquet_dt);
             }
 
+            /**
+             * 無任何訂席資料，補空白格子
+             */
             if (la_banquet_dt.length == 0) {
-                ln_colspan = self.calcColSpan(self.ls_beg_hour, self.ls_end_hour.clone().add("1", "hours"));
+                //計算空白格子數： 營業結束時間 + 1hour - 營業開始時間
+                ln_colspan = self.calcColSpan(this.day_beg_min, this.day_end_min + 60);
                 lo_banquet_dt = {
-                    beg_tim: self.ls_beg_hour.format("HH:mm"),
-                    end_tim: self.ls_end_hour.format("HH:mm"),
+                    beg_tim: self.getTimeFromMins(this.day_beg_min),
+                    end_tim: self.getTimeFromMins(this.day_end_min),
                     repeat: ln_colspan,
                     datatype: ""
                 };
@@ -351,36 +391,45 @@ class ResvBanquetData {
 
     /**
      * 計算地圖欄位合併數
-     * @param lo_begin_tim  {string} 開始時間
-     * @param lo_end_tim    {string} 結束時間
+     * @param ln_begin_tim  {number} 開始時間(min)
+     * @param ln_end_tim    {number} 結束時間(min)
      * @returns {number}    合併格數
      */
-    calcColSpan(begin_tim, end_tim) {
-        let lo_begin_tim = moment.duration(begin_tim.clone().format("HH:mm")).asMilliseconds();
-        let lo_end_tim = moment.duration(end_tim.clone().format("HH:mm")).asMilliseconds();
-
-        if (lo_end_tim <= lo_begin_tim) {
-            lo_end_tim += moment.duration(1, 'days').asMilliseconds();
-        }
-
-        let minute = moment.duration(30, 'm').asMilliseconds();
-        let ln_diffMin = lo_end_tim - lo_begin_tim;
-        let ln_colspan = Math.round(ln_diffMin / minute);
+    calcColSpan(ln_begin_tim, ln_end_tim) {
+        let ln_diffMin = ln_end_tim - ln_begin_tim;
+        let ln_colspan = Math.round(ln_diffMin / 30);
 
         return ln_colspan;
     }
 
-    getHourAndMin(ls_time) {
-        let hour = parseInt(ls_time.substring(0, 2));
-        let min = parseInt(ls_time.substring(2, 5));
+    convertToMin(ls_time) {
+        ls_time = ls_time.toString();
+        let ln_min = 0;
+        if (ls_time.length <= 2) {
+            ln_min = parseInt(ls_time) * 60;
+        }
+        else if (ls_time.indexOf(":") > -1) {
+            let splitTime = ls_time.split(":");
+            ln_min = parseInt(splitTime[0]) * 60 + parseInt(splitTime[1]);
+        }
+        else {
+            let hour = parseInt(ls_time.substring(0, 2));
+            let min = parseInt(ls_time.substring(2, 5));
+            ln_min = hour * 60 + min;
+        }
+        return ln_min;
+    }
 
-        let lo_unFormat = moment.utc(moment.duration({
-            hours: hour,
-            minutes: min
-        }).asMilliseconds());
-
-        return lo_unFormat;
-
+    getTimeFromMins(mins) {
+        // do not include the first validation check if you want, for example,
+        // getTimeFromMins(1530) to equal getTimeFromMins(90) (i.e. mins rollover)
+        if (mins >= 24 * 60) {
+            mins -= 24 * 60;
+            // throw new RangeError("Valid input should be greater than or equal to 0 and less than 1440.");
+        }
+        let h = mins / 60 | 0,
+            m = mins % 60 | 0;
+        return moment.utc().hours(h).minutes(m).format("HH:mm");
     }
 }
 
