@@ -642,7 +642,7 @@
             },
             doSaveRow() {
                 var self = this;
-                this.isLoadingDialog = true;
+                this.isVisitPlanLoading = true;
                 this.loadingText = "Saving...";
 
                 var la_saveData = JSON.parse(JSON.stringify(this.tmpRowsData));
