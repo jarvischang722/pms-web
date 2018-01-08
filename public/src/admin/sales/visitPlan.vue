@@ -1,6 +1,6 @@
 <template>
     <div class="padding-5">
-        <div class="col-sm-12 newVisitRecord-wrap" v-loading="isLoadingDialog" :element-loading-text="loadingText">
+        <div class="col-sm-12 newVisitRecord-wrap" v-loading="isVisitPlanLoading" :element-loading-text="visitPlanLoadingText">
             <!--共同設定-->
             <div class="row">
                 <div class="borderFrame">
@@ -262,8 +262,8 @@
             });
         },
         mounted() {
-            this.isLoadingDialog = true;
-            this.loadingText = "Loading...";
+            this.isVisitPlanLoading = true;
+            this.visitPlanLoadingText = "Loading...";
         },
         data() {
             return {
@@ -271,8 +271,8 @@
                 isFirstData: false,
                 isLastData: false,
                 BTN_action: false,
-                isLoadingDialog: false,
-                loadingText: "",
+                isVisitPlanLoading: false,
+                visitPlanLoadingText: "",
                 tmpCUD: {
                     createData: []
                 },
@@ -291,9 +291,10 @@
         },
         watch: {
             isVisitPlan(val) {
+                console.log(val);
                 if (val) {
-                    this.isLoadingDialog = true;
-                    this.loadingText = "Loading...";
+                    this.isVisitPlanLoading = true;
+                    this.visitPlanLoadingText = "Loading...";
                     this.initData();
                     this.setTmpRowData();
                     this.fetchSingleGridFieldData();
@@ -433,6 +434,7 @@
                 this.dgVisitPlanIns.loadDgData(this.editRows);
 
                 this.setIndexData(editingRow);
+                console.log(this.dataGridFieldsData);
             },
             setIndexData(val) {
                 var nowDatagridRowIndex = $("#visitPlan_dg").datagrid('getRowIndex', val);
@@ -458,7 +460,7 @@
                     this.isLastData = false;
                 }
 
-                this.isLoadingDialog = false;
+                this.isVisitPlanLoading = false;
             },
             chkFieldRule(ui_field_name, rule_func_name) {
                 if (rule_func_name === "") {
@@ -621,8 +623,8 @@
             },
             doSaveRow() {
                 var self = this;
-                this.isLoadingDialog = true;
-                this.loadingText = "Saving...";
+                this.isVisitPlanLoading = true;
+                this.visitPlanLoadingText = "Saving...";
 
                 var la_saveData = JSON.parse(JSON.stringify(this.tmpRowsData));
                 _.each(la_saveData, function (lo_saveData, index) {
@@ -638,7 +640,7 @@
 
                 if (lo_chkResult.success == false) {
                     alert(lo_chkResult.msg);
-                    this.isLoadingDialog = false;
+                    this.isVisitPlanLoading = false;
                 }
                 else {
                     this.tmpCUD.createData = la_saveData;
@@ -657,7 +659,7 @@
                         }
                         else {
                             alert(result.errorMsg);
-                            self.isLoadingDialog = false;
+                            self.isVisitPlanLoading = false;
                         }
                     });
                 }

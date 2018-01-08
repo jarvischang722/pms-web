@@ -333,7 +333,7 @@ var vm = new Vue({
                         modal: true,
                         title: go_i18nLang["program"]["PMS0610010"].add_visit_plan,
                         title_html: true,
-                        width: 1000,
+                        width: 1015,
                         maxwidth: 1920,
                         dialogClass: "test",
                         zIndex: 9999,
