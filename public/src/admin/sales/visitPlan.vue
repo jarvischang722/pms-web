@@ -1,5 +1,5 @@
 <template>
-    <div class="padding-5">
+    <div id="addVisitPlan" class="padding-5 hide">
         <div class="col-sm-12 newVisitRecord-wrap" v-loading="isVisitPlanLoading" :element-loading-text="visitPlanLoadingText">
             <!--共同設定-->
             <div class="row">
@@ -238,16 +238,16 @@
     // var go_funcPurview = (new FuncPurview("PMS0620050")).getFuncPurvs();
 
     /** DatagridRmSingleGridClass **/
-    function DatagridSingleGridClass() {
+    function DataGridSingleGridClass() {
     }
 
-    DatagridSingleGridClass.prototype = new DatagridBaseClass();
-    DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    DataGridSingleGridClass.prototype = new DatagridBaseClass();
+    DataGridSingleGridClass.prototype.onClickRow = function (idx, row) {
         vmHub.$emit("selectDataGridRow", {row: row, index: idx});
     };
-    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    DataGridSingleGridClass.prototype.onClickCell = function (idx, row) {
     };
-    DatagridSingleGridClass.prototype.doSaveColumnFields = function () {
+    DataGridSingleGridClass.prototype.doSaveColumnFields = function () {
     };
     /*** Class End  ***/
 
@@ -291,16 +291,15 @@
         },
         watch: {
             isVisitPlan(val) {
-                console.log(val);
                 if (val) {
                     this.isVisitPlanLoading = true;
                     this.visitPlanLoadingText = "Loading...";
                     this.initData();
                     this.setTmpRowData();
-                    this.fetchSingleGridFieldData();
                 }
             },
             rowData(val) {
+                console.log(val);
                 if (!_.isEmpty(val)) {
                     this.changedSingleData = JSON.parse(JSON.stringify(this.singleData));
                     if (!_.isEmpty(this.changedSingleData)) {
@@ -323,7 +322,9 @@
             setTmpRowData() {
                 var self = this;
                 this.tmpRowsData = [];
+                var ln_count = 0;
                 _.each(this.editRows, function (lo_editRow) {
+                    ln_count++;
                     var lo_editRowContent = {
                         show_cod: lo_editRow.cust_mn_show_cod,
                         cust_cod: lo_editRow.cust_mn_cust_cod,
@@ -341,6 +342,9 @@
 
                     self.tmpRowsData.push(lo_editRowContent);
                 });
+                if (ln_count == this.editRows.length) {
+                    this.fetchSingleGridFieldData();
+                }
             },
             fetchSingleGridFieldData() {
                 var self = this;
@@ -407,7 +411,6 @@
                         remark: null
                     };
                 }
-
                 this.showDataGrid(editingRow);
             },
             setEditRowsContent(changedSingleData) {
@@ -427,30 +430,29 @@
             showDataGrid(editingRow) {
                 var colOption = [{field: 'ck', checkbox: true}];
                 colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.dataGridFieldsData, 'visitPlan_dg'));
-                this.dgVisitPlanIns = new DatagridSingleGridClass();
+                this.dgVisitPlanIns = new DataGridSingleGridClass();
                 this.dgVisitPlanIns.init("PMS0610010", "visitPlan_dg", colOption, this.dataGridFieldsData, {
                     singleSelect: false
                 });
                 this.dgVisitPlanIns.loadDgData(this.editRows);
 
                 this.setIndexData(editingRow);
-                console.log(this.dataGridFieldsData);
             },
-            setIndexData(val) {
-                var nowDatagridRowIndex = $("#visitPlan_dg").datagrid('getRowIndex', val);
+            setIndexData(editingRow) {
+                var nowDatagridRowIndex = $("#visitPlan_dg").datagrid('getRowIndex', editingRow);
 
                 $("#visitPlan_dg").datagrid('selectRow', nowDatagridRowIndex);
 
-                if ($("#visitPlan_dg").datagrid('getRowIndex', val) == 0) {
+                if ($("#visitPlan_dg").datagrid('getRowIndex', editingRow) == 0) {
                     //已經到第一筆
                     this.isFirstData = true;
                     this.isLastData = false;
-                    if ($("#visitPlan_dg").datagrid('getRowIndex', val) == this.editRows.length - 1) {
+                    if ($("#visitPlan_dg").datagrid('getRowIndex', editingRow) == this.editRows.length - 1) {
                         this.isLastData = true;
                     }
 
                 }
-                else if ($("#visitPlan_dg").datagrid('getRowIndex', val) == this.editRows.length - 1) {
+                else if ($("#visitPlan_dg").datagrid('getRowIndex', editingRow) == this.editRows.length - 1) {
                     //已經到最後一筆
                     this.isFirstData = false;
                     this.isLastData = true;
@@ -459,7 +461,6 @@
                     this.isFirstData = false;
                     this.isLastData = false;
                 }
-
                 this.isVisitPlanLoading = false;
             },
             chkFieldRule(ui_field_name, rule_func_name) {
@@ -665,11 +666,6 @@
                 }
             },
             doCloseDialog() {
-                this.initData();
-                this.editRows = [];
-                this.editRowsChangeNum = 0;
-                this.editRowsChangedNum = 0;
-                this.isVisitPlan = false;
                 $("#addVisitPlan").dialog('close');
             }
         }

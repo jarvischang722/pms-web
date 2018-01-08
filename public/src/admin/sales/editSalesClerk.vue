@@ -179,44 +179,31 @@
             },
             doEditSales() {
                 var self = this;
+                var la_custCod = [];
+                _.each(this.editRows, function (lo_editRow) {
+                    la_custCod.push(lo_editRow.cust_mn_cust_cod);
+                });
+                var lo_params = {
+                    prg_id: "PMS0620030",
+                    sales_cod: this.singleData.sales_cod,
+                    upd_order_mn: this.singleData.upd_order_mn ? 'Y' : 'N',
+                    cust_cod: la_custCod
+                };
 
                 if (this.isCreateStatus) {
                 }
                 else if (this.isEditStatus) {
-                    this.saveData = {
-                        sales_cod: this.singleData.sales,
-                    }
-                    this.tmpCUD.oriData = this.editRows;
-
+                    $.post("/api/sales/doEditSalesClerk", lo_params, function (result) {
+                        console.log(result);
+                        if (result.success) {
+                            self.doCancelEdit();
+                            la_custCod = [];
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+                    });
                 }
-
-                self.doRowUnLock();
-                self.isEditSalesClerk = false;
-                if (_.isUndefined(this.editRows[0].isSalesClerk)) {
-                    this.isCreateStatus = false;
-                    this.isEditStatus = false;
-                }
-                self.$eventHub.$emit('doCloseEditSalesClerk', {
-                    isEditSalesClerk: self.isEditSalesClerk,
-                    isEditStatus: self.isEditStatus,
-                    isCreateStatus: self.isCreateStatus
-                });
-
-//                this.doSaveGrid(function (result) {
-//                    if (result.success) {
-//                        self.doRowUnLock();
-//                        self.isEditSalesClerk = false;
-//                        if (_.isUndefined(this.editRows[0].isSalesClerk)) {
-//                            this.isCreateStatus = false;
-//                            this.isEditStatus = false;
-//                        }
-//                        self.$eventHub.$emit('doCloseEditSalesClerk', {
-//                            isEditSalesClerk: self.isEditSalesClerk,
-//                            isEditStatus: self.isEditStatus,
-//                            isCreateStatus: self.isCreateStatus
-//                        });
-//                    }
-//                });
             },
             doCancelEdit() {
                 var self = this;

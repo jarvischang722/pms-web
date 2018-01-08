@@ -23,6 +23,14 @@ var vm = new Vue({
             self.openChangeLogDialog = changeLogData.openChangeLogDialog;
             self.allChangeLogList = changeLogData.allChangeLogList;
         });
+        //status chg. dialog
+        this.$eventHub.$on('getCompanyStatusData', function (companyStatusData) {
+            self.isOpenCompanyStatus = companyStatusData.openCompanyStatus;
+        });
+        //合約狀態變更 dialog
+        this.$eventHub.$on('getContractStatusData', function (contractStatusData) {
+            self.isOpenContractStatus = contractStatusData.openContractStatus;
+        });
         //業務員指派dialog
         this.$eventHub.$on('doEditSalesClerk', function (editSalesClerkData) {
             self.isEditSalesClerk = editSalesClerkData.isEditSalesClerk;
@@ -37,14 +45,6 @@ var vm = new Vue({
             self.isCreateStatus = editSalesClerkData.isCreateStatus;
             self.isLoading = false;
             self.editRows = [];
-        });
-        //status chg. dialog
-        this.$eventHub.$on('getCompanyStatusData', function (companyStatusData) {
-            self.isOpenCompanyStatus = companyStatusData.openCompanyStatus;
-        });
-        //合約狀態變更 dialog
-        this.$eventHub.$on('getContractStatusData', function (contractStatusData) {
-            self.isOpenContractStatus = contractStatusData.openContractStatus;
         });
     },
     mounted() {
