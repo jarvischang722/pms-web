@@ -34,4 +34,8 @@ module.exports = function(app  ) {
     //權限設定
     app.get('/sys/permissionSetup', middles, systCrtl.permissionSetup);
 
+    app.get('/selectGridDemo',function(req,res){
+        res.render("selectGridDemo");
+    })
+
 };
