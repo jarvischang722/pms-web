@@ -8,11 +8,10 @@ Vue.prototype.$eventHub = new Vue();
 var gs_prgId = "PMS0610010";
 var vmHub = new Vue();
 
-// var go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
-
 var vm = new Vue({
     el: "#PMS0610010App",
     created() {
+        this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
         var self = this;
 
         vmHub.$on("doUnLock", function () {
@@ -45,6 +44,7 @@ var vm = new Vue({
             self.isCreateStatus = editSalesClerkData.isCreateStatus;
             self.isLoading = false;
             self.editRows = [];
+            self.initAllAuthBtn();
         });
     },
     mounted() {
@@ -56,6 +56,7 @@ var vm = new Vue({
     components: {visitPlan, searchComp, editSalesClerk, pms0610020},
     data() {
         return {
+            go_funcPurview: [],
             userInfo: {},
             tmpCUD: {
                 createData: [],
@@ -75,6 +76,7 @@ var vm = new Vue({
             isLoading: true,
             editingRow: {},
             editRows: [],
+            isAddEnable: false,
             isModifiable: true,
             isCreateStatus: false,
             isEditStatus: false,
@@ -92,9 +94,25 @@ var vm = new Vue({
             if (!val) {
                 this.$eventHub.$emit('getCloseChangeLogData', {isOpenChangeLog: val});
             }
+        },
+        isEditStatus(val) {
+            if (!val) {
+                this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+            }
+        },
+        isVisitPlan(val) {
+            if (!val) {
+                this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+            }
         }
     },
     methods: {
+        initAllAuthBtn() {
+            $(".purview_btn").each(function () {
+                var purview_func_id = $(this).data("purview_func_id");
+                $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", false);
+            });
+        },
         initTmpCUD() {
             this.tmpCUD = {
                 createData: [],
@@ -147,22 +165,6 @@ var vm = new Vue({
                 vm.pageOneDataGridRows = result.dgRowData;
                 vm.showDataGrid();
             });
-        },
-        setVisitRecordParams() {
-            this.fetchDataParams = {
-                settingGrid: {
-                    prg_id: "PMS0610010",
-                    page_id: 1020
-                },
-                dataGrid: {
-                    prg_id: "PMS0610010",
-                    page_id: 1020
-                },
-                singleGrid: {
-                    prg_id: "PMS0620050",
-                    page_id: 2
-                }
-            };
         },
         showDataGrid() {
             var self = this;
@@ -342,6 +344,7 @@ var vm = new Vue({
                             self.editRows = [];
                             self.isVisitPlan = false;
                             self.doRowUnLock();
+                            self.initAllAuthBtn();
                         }
                     });
                 }

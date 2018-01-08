@@ -2,7 +2,7 @@
     <div>
         <el-dialog
                 :close-on-click-modal="true" :show-close="false" :title="i18nLang.program.PMS0620030.edit_sales_clerk"
-                :visible.sync="isEditSalesClerk" style="width: 43%; left: 30%;" :before-close="doCancelEdit">
+                :visible.sync="isEditSalesClerk" style="width: 48%; left: 30%;" :before-close="doCancelEdit">
             <div class="businessCompanyData" v-loading="isLoadingDialog" :element-loading-text="loadingText">
                 <div class="col-sm-12 col-xs-12">
                     <div class="row">
@@ -47,7 +47,8 @@
                                     <ul>
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                                    role="button" @click="doEditSales" data-purview_func_id="PMS06200300500">
+                                                    role="button" @click="doEditSales" :disabled="isSaveEnable"
+                                                    data-purview_func_id="PMS0620030-0500">
                                                 {{i18nLang.SystemCommon.OK}}
                                             </button>
                                         </li>
@@ -73,8 +74,6 @@
 <script>
     import selectGridDialogComp from '../../common/selectGridDialogComp.vue';
 
-    //     var go_funcPurview = (new FuncPurview("PMS0620030")).getFuncPurvs();
-
     export default {
         name: 'edit-sales-clerk',
         props: ["editRows", "isEditSalesClerk", "isCreateStatus", "isEditStatus"],
@@ -95,6 +94,7 @@
                 isLoadingDialog: false,
                 loadingText: "",
                 dialogVisible: false,
+                isSaveEnable: false,
                 tmpCUD: {
                     createData: [],
                     updateData: [],
@@ -104,17 +104,36 @@
                 oriSingleData: {},
                 fieldsData: [],
                 oriFieldsData: [],
+                go_funcPurview: []
             };
         },
         watch: {
             isEditSalesClerk(val) {
                 if (val) {
+                    this.initAllAuthBtn();
                     this.initData();
                     this.fetchSingleGridFieldData();
+                    this.go_funcPurview = (new FuncPurview("PMS0620030")).getFuncPurvs();
+                    this.initPurview();
                 }
             }
         },
         methods: {
+            initAllAuthBtn() {
+                $(".purview_btn").each(function () {
+                    var purview_func_id = $(this).data("purview_func_id");
+                    $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", false);
+                });
+            },
+            initPurview() {
+                var purview = _.findIndex(this.go_funcPurview, function (value) {
+                    return value.func_id == "0500";
+                });
+
+                if (purview == -1) {
+                    this.isSaveEnable = true;
+                }
+            },
             initData() {
                 this.singleData = {};
                 this.fieldData = [];
@@ -218,6 +237,7 @@
                     isEditStatus: self.isEditStatus,
                     isCreateStatus: self.isCreateStatus
                 });
+
             },
             doRowUnLock() {
                 var lo_param = {

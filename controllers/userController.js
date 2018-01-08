@@ -84,13 +84,16 @@ exports.authLogin = function (req, res) {
 
 
     authSvc.doAuthAccount(req.body, function (err, errorCode, userInfo) {
-
         if (!err && userInfo) {
             req.session.user = userInfo;
-
         }
 
-        res.json({success: !_.isNull(userInfo), errorCode: errorCode, errorMsg: "", user: userInfo});
+        res.json({
+            success: !_.isNull(userInfo),
+            errorCode: errorCode,
+            errorMsg: _.isNull(err) || _.isUndefined(err.message) ? "" : err.message,
+            user: userInfo
+        });
     });
 
 };
@@ -260,6 +263,57 @@ exports.getRoleOfAccounts = function (req, res) {
     }
     queryAgent.queryList("QRY_ROLE_OF_ACCOUNTS", params, 0, 0, function (err, accounts) {
         res.json({success: true, accounts: accounts});
+    });
+};
+
+/**
+ * 抓取全部功能權限
+ */
+exports.getAllFuncs = function (req, res) {
+    async.waterfall([
+        getAllSystem,
+        getUserSubsysPurviewBySysID
+    ], function (err, result) {
+        res.json({success: err == null, errMsg: err, funcList: result});
+    });
+
+    function getAllSystem(cb) {
+        SysFuncPurviewSvc.getAllSystem(req.body, req.session, function (err, sysList) {
+            cb(err, sysList);
+        });
+    }
+
+    function getUserSubsysPurviewBySysID(sysList, cb) {
+        let ln_counter = 0;
+        req.body.remove = true;
+        _.each(sysList, function (lo_sysList) {
+            let ls_sysID = lo_sysList.sys_id;
+            SysFuncPurviewSvc.getUserSubsysPurviewBySysID(req, ls_sysID, function (err, subsysMenu) {
+                ln_counter++;
+                lo_sysList.subSys = subsysMenu;
+                if (ln_counter == sysList.length) {
+                    cb(err, sysList);
+                }
+            });
+        });
+    }
+};
+
+/**
+ * 抓取單一角色對應的功能權限
+ */
+exports.getFuncsOfRole = function (req, res) {
+    let lo_userInfo = req.session.user;
+    let lo_params = {};
+    if (req.body.role_id) {
+        lo_params.user_athena_id = lo_userInfo.athena_id;
+        lo_params.user_comp_cod = lo_userInfo.cmp_id;
+        lo_params.role_id = req.body.role_id;
+        lo_params.athena_id = lo_userInfo.athena_id;
+        lo_params.func_hotel_cod = lo_userInfo.fun_hotel_cod;
+    }
+    queryAgent.queryList("QRY_BAC_SYS_MODULE_BY_USER", lo_params, 0, 0, function (err, funcsOfRole) {
+        res.json({success: true, funcsOfRole: funcsOfRole});
     });
 };
 

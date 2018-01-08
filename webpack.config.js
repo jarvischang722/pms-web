@@ -7,7 +7,8 @@ const config = {
     //     path.join(__dirname, 'public', 'src')
     // ],
     // entry: {
-    //     main: "./public/src/main"
+    //     permissionSetup: ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"],
+    //     // store: "./public/src/admin/permission/store"
     //     // a: "./a",
     //     // b: "./b",
     //     // c: ["./c", "./d"]

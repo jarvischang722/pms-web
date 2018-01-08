@@ -171,7 +171,6 @@
       "company_status": "Status chg.(中)",
       "company_maintain": "商務公司維護",
       "company_related_diagram": "公司關聯圖",
-      "company_status": "Status chg.(中)",
       "contract_status": "合約狀態變更",
       "related_set": "相關設定",
       "related_personnel": "相關人員",
@@ -260,7 +259,8 @@
     "delSuccess": "刪除成功",
     "dataGridBeforePageText": "第",
     "dataGridAfterPageText": "頁,共{pages}頁",
-    "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料"
+    "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料",
+    "exceedPeopleNum": "超過人數上限"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

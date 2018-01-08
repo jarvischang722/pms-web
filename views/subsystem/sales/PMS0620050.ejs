@@ -24,8 +24,9 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth "
-                                        role="button" @click="editRow" :disabled="isAction">
+                                <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                        role="button" @click="editRow" :disabled="isAction || isEditEnable"
+                                        data-purview_func_id="PMS0620050-0400">
                                     <%= __("program")["PMS0620050"]["edit_vist_mn"] %>
                                 </button>
                             </li>

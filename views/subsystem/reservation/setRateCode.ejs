@@ -246,8 +246,8 @@
                                         <label>屬性</label>
                                         <select class="input-medium rateCode-s1">
                                             <option>Base Rate</option>
-                                            <option value="">Depend Rate</option>
-                                            <option>Independ Rate</option>
+                                            <option value="">Dependant Rate</option>
+                                            <option>Independant Rate</option>
                                         </select>
                                     </div>
                                 </div>
@@ -314,7 +314,7 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Save
+                                                role="button">儲存
                                         </button>
                                     </li>
                                     <li>
@@ -344,7 +344,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Quit
+                                                role="button">離開
                                         </button>
                                     </li>
                                 </ul>
@@ -1802,8 +1802,15 @@
                                 <tbody class="css_tbody">
                                     <tr class="css_tr">
                                         <td class="css_td">DLS70</td>
-                                        <td class="css_td">依比例</td>
-                                        <td class="css_td">70%</td>
+                                        <td class="css_td">
+                                            <select class="selectHt">
+                                                <option value="1">依比例</option>
+                                                <option value="2">依金額</option>
+                                            </select>
+                                        </td>
+                                        <td class="css_td">
+                                            <input type="text" class="selectHt" placeholder="70%">
+                                        </td>
                                         <td class="css_td">
                                             <select class="selectHt">
                                                 <option value="carryRules1">四捨五入</option>
@@ -1813,20 +1820,27 @@
                                         </td>
                                         <td class="css_td">
                                             <select class="selectHt">
-                                                <option value="dataRules1">至千位(1000.00)</option>
-                                                <option value="dataRules2">至百位(100.00)</option>
-                                                <option value="dataRules3">至十位(10.00)</option>
-                                                <option value="dataRules4">至個位(0.00)</option>
-                                                <option value="dataRules5">至十分位(0. 100)</option>
-                                                <option value="dataRules6">至百分位(0.0100)</option>
-                                                <option value="dataRules7">至千分位(0.00100)</option>
+                                                <option value="dataRules1">1000</option>
+                                                <option value="dataRules2">100</option>
+                                                <option value="dataRules3">10</option>
+                                                <option value="dataRules4">1</option>
+                                                <option value="dataRules5">0.1</option>
+                                                <option value="dataRules6">0.01</option>
+                                                <option value="dataRules7">0.001</option>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr class="css_tr">
                                         <td class="css_td">DLS71</td>
-                                        <td class="css_td">依金額</td>
-                                        <td class="css_td">-500</td>
+                                        <td class="css_td">
+                                            <select class="selectHt">
+                                                <option value="1">依比例</option>
+                                                <option value="2">依金額</option>
+                                            </select>
+                                        </td>
+                                        <td class="css_td">
+                                            <input type="text" class="selectHt" placeholder="500">
+                                        </td>
                                         <td class="css_td">
                                             <select class="selectHt">
                                                 <option value="carryRules1">四捨五入</option>
@@ -1836,20 +1850,27 @@
                                         </td>
                                         <td class="css_td">
                                             <select class="selectHt">
-                                                <option value="dataRules1">至千位(1000.00)</option>
-                                                <option value="dataRules2">至百位(100.00)</option>
-                                                <option value="dataRules3">至十位(10.00)</option>
-                                                <option value="dataRules4">至個位(0.00)</option>
-                                                <option value="dataRules5">至十分位(0. 100)</option>
-                                                <option value="dataRules6">至百分位(0.0100)</option>
-                                                <option value="dataRules7">至千分位(0.00100)</option>
+                                                <option value="dataRules1">1000</option>
+                                                <option value="dataRules2">100</option>
+                                                <option value="dataRules3">10</option>
+                                                <option value="dataRules4">1</option>
+                                                <option value="dataRules5">0.1</option>
+                                                <option value="dataRules6">0.01</option>
+                                                <option value="dataRules7">0.001</option>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr class="css_tr">
                                         <td class="css_td">DLS72</td>
-                                        <td class="css_td">依金額</td>
-                                        <td class="css_td">500</td>
+                                        <td class="css_td">
+                                            <select class="selectHt">
+                                                <option value="1">依比例</option>
+                                                <option value="2">依金額</option>
+                                            </select>
+                                        </td>
+                                        <td class="css_td">
+                                            <input type="text" class="selectHt" placeholder="500">
+                                        </td>
                                         <td class="css_td">
                                             <select class="selectHt">
                                                 <option value="carryRules1">四捨五入</option>
@@ -1859,13 +1880,13 @@
                                         </td>
                                         <td class="css_td">
                                             <select class="selectHt">
-                                                <option value="dataRules1">至千位(1000.00)</option>
-                                                <option value="dataRules2">至百位(100.00)</option>
-                                                <option value="dataRules3">至十位(10.00)</option>
-                                                <option value="dataRules4">至個位(0.00)</option>
-                                                <option value="dataRules5">至十分位(0. 100)</option>
-                                                <option value="dataRules6">至百分位(0.0100)</option>
-                                                <option value="dataRules7">至千分位(0.00100)</option>
+                                                <option value="dataRules1">1000</option>
+                                                <option value="dataRules2">100</option>
+                                                <option value="dataRules3">10</option>
+                                                <option value="dataRules4">1</option>
+                                                <option value="dataRules5">0.1</option>
+                                                <option value="dataRules6">0.01</option>
+                                                <option value="dataRules7">0.001</option>
                                             </select>
                                         </td>
                                     </tr>
@@ -1917,13 +1938,13 @@
                                         </select>
 
                                         <select class="input-medium rateCode-s3 pull-left ml-5">
-                                            <option value="dataRules1">至千位(1000.00)</option>
-                                            <option value="dataRules2">至百位(100.00)</option>
-                                            <option value="dataRules3">至十位(10.00)</option>
-                                            <option value="dataRules4">至個位(0.00)</option>
-                                            <option value="dataRules5">至十分位(0. 100)</option>
-                                            <option value="dataRules6">至百分位(0.0100)</option>
-                                            <option value="dataRules7">至千分位(0.00100)</option>
+                                            <option value="dataRules1">1000</option>
+                                            <option value="dataRules2">100</option>
+                                            <option value="dataRules3">10</option>
+                                            <option value="dataRules4">1</option>
+                                            <option value="dataRules5">0.1</option>
+                                            <option value="dataRules6">0.01</option>
+                                            <option value="dataRules7">0.001</option>
                                         </select>
                                     </div>
                                 </div>

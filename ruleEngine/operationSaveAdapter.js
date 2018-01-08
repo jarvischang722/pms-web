@@ -45,6 +45,7 @@ function operationSaveAdapterClass(postData, session) {
     ga_dtUpdateData = postData.tmpCUD.dt_updateData || [];
     ga_dtDeleteData = postData.tmpCUD.dt_deleteData || [];
     ga_dtOriData = postData.tmpCUD.dt_oriData || [];
+    let lo_apiFormat = null;
 
     initData();
 
@@ -55,7 +56,7 @@ function operationSaveAdapterClass(postData, session) {
     };
 
     // 執行程序
-    this.exec = function (callback) {
+    this.formating = function (callback) {
         async.waterfall([
             qryTemplateRfData,              //查templateRf資料
             chkTmpType,                     //檢查為多筆、單筆、mn-dt或特殊
@@ -66,8 +67,17 @@ function operationSaveAdapterClass(postData, session) {
             sortByEventTime,                //依事件時間(event_time)調整儲存順序
             convertToApiFormat              //將tmpCUD轉換為打API格式
         ], function (err, data) {
+            lo_apiFormat = data;
             callback(err, data);
         });
+    };
+
+    /**
+     * 取API格式
+     * @returns {Object} API格式
+     */
+    this.getApiFormat = function(){
+        return lo_apiFormat;
     };
 }
 

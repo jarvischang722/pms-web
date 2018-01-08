@@ -260,7 +260,8 @@
     "delSuccess": "Delete Success",
     "dataGridBeforePageText": "第(英)",
     "dataGridAfterPageText": "頁,共{pages}頁(英)",
-    "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料(英)"
+    "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料(英)",
+    "exceedPeopleNum": "超過人數上限(英)"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",
@@ -288,7 +289,6 @@
       "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)"
     }
   },
-  "PMS0830090": "PMS0830090",
   "ErrorMsg": {
     "pms81msg1": "此房型的結束日小於滾房租日，故無法修改(英文)",
     "pms81msg2": "結束日期不可以早於開始日期(英文)",

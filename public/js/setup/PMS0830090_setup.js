@@ -272,6 +272,7 @@ Vue.component('single-grid-pms0830090-tmp', {
         //跳窗選擇多欄位
         chkClickPopUpGrid: function (field) {
             this.changeEditingForFieldRule(field.rule_func_name);
+
             if (field.ui_type == "popupgrid") {
                 var params = {
                     prg_id: prg_id,
@@ -472,8 +473,9 @@ Vue.component('single-grid-pms0830090-tmp', {
                                 return lo_rows.master_nos.trim() == account.trim();
                             });
 
-                            if (existIdx != -1)
-                                {continue;}
+                            if (existIdx != -1) {
+                                continue;
+                            }
 
                             lo_tmpCud.push({
                                 "master_nos": account,
@@ -808,8 +810,9 @@ var PMS0830090VM = new Vue({
         //資料儲存
         doSaveCUD: function (callback) {
 
-            if(_.isUndefined(callback)){
-                callback = function(){};
+            if (_.isUndefined(callback)) {
+                callback = function () {
+                };
             }
 
             if (PMS0830090VM.isbatchAdd) {
@@ -856,11 +859,11 @@ var PMS0830090VM = new Vue({
                 PMS0830090VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
 
                 // 算最小寬度 && 最大行數
-                var maxField = _.max(PMS0830090VM.pageTwoFieldData, function(lo_pageTwoField){
+                var maxField = _.max(PMS0830090VM.pageTwoFieldData, function (lo_pageTwoField) {
                     return lo_pageTwoField.length;
                 });
-                _.each(maxField, function(lo_maxField){
-                    self.maxWidth += (parseInt(lo_maxField.width) + parseInt(lo_maxField.label_width) +14);
+                _.each(maxField, function (lo_maxField) {
+                    self.maxWidth += (parseInt(lo_maxField.width) + parseInt(lo_maxField.label_width) + 14);
                 });
             });
         },
@@ -877,6 +880,7 @@ var PMS0830090VM = new Vue({
                     PMS0830090VM.originData = _.clone(result.rowData);
                     PMS0830090VM.modificableForData = result.isModifiable;
 
+                    PMS0830090VM.pageTwoFieldData[2][0].modificable = (result.rowData.master_typ != "N") ? "N" : "Y";
                     //如果為可修改，不可將狀態改成使用中
                     if (PMS0830090VM.modificableForData) {
                         PMS0830090VM.pageTwoFieldData[0][1].selectData = [
@@ -913,27 +917,31 @@ var PMS0830090VM = new Vue({
         initDatePicker: function () {
             if (!this.isDatepickerInit) {
                 this.isDatepickerInit = true;
-                $('.date_picker').datepicker({
-                    autoclose: true,
-                    format: 'yyyy/mm/dd'
-                }).on("changeDate", function (e) {
-                });
+                try {
+                    $('.date_picker').datepicker({
+                        autoclose: true,
+                        format: 'yyyy/mm/dd'
+                    }).on("changeDate", function (e) {
+                    });
 
-                $('.date_timepicker').datetimepicker({
-                    format: 'YYYY/MM/DD hh:mm:ss ',//use this option to display seconds
-                    icons: {
-                        time: 'fa fa-clock-o',
-                        date: 'fa fa-calendar',
-                        up: 'fa fa-chevron-up',
-                        down: 'fa fa-chevron-down',
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-arrows ',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-times'
-                    }
+                    $('.date_timepicker').datetimepicker({
+                        format: 'YYYY/MM/DD hh:mm:ss ',//use this option to display seconds
+                        icons: {
+                            time: 'fa fa-clock-o',
+                            date: 'fa fa-calendar',
+                            up: 'fa fa-chevron-up',
+                            down: 'fa fa-chevron-down',
+                            previous: 'fa fa-chevron-left',
+                            next: 'fa fa-chevron-right',
+                            today: 'fa fa-arrows ',
+                            clear: 'fa fa-trash',
+                            close: 'fa fa-times'
+                        }
 
-                });
+                    });
+                }
+                catch (ex) {
+                }
             }
         },
 
@@ -941,9 +949,9 @@ var PMS0830090VM = new Vue({
         showSingleGridDialog: function () {
             this.initDatePicker();
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
-            var dialogWt = this.maxWidth +120;
+            var dialogWt = this.maxWidth + 120;
 
-            var height = 10 * 50; // 預設一個row 高度
+            var height = 7 * 50; // 預設一個row 高度
             var dialog = $("#singleGridPMS0830090").dialog({
                 autoOpen: false,
                 modal: true,
@@ -959,6 +967,7 @@ var PMS0830090VM = new Vue({
             dialog.dialog("open");
             // 給 dialog "內容"高 值
             $(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
+            $('#singleGridPMS0830090').css('overflow', 'hidden'); //this line does the actual hiding
         },
 
         //關閉單檔dialog
@@ -1161,9 +1170,9 @@ Vue.filter("showDropdownDisplayName", function (val) {
 var adpterDg = new DatagridAdapter(PMS0830090VM);
 
 
-function padLeft(str,lenght){
-    if(str.length >= lenght)
+function padLeft(str, lenght) {
+    if (str.length >= lenght)
         return str;
     else
-        return padLeft("0" + str,lenght);
+        return padLeft("0" + str, lenght);
 }

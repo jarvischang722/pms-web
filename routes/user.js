@@ -1,6 +1,7 @@
 var authMW = require("../middlewares/authMiddleware");
 var userCrtl = require("../controllers/userController");
 var i18nMW = require("../middlewares/i18nMiddleware");
+let permisCrtl = require("../controllers/permissionController");
 
 var middles = [authMW, i18nMW];
 var middles2 = [i18nMW];
@@ -36,12 +37,19 @@ module.exports = function (app, passport) {
     app.get('/authorityStaff', userCrtl.getAuthorityStaff);
     //新增 功能權限(靜態)
     app.get('/authorityFeature', userCrtl.getAuthorityFeature);
+
     // 經由公司代號 cmp_id 取得部門資訊
     app.post('/api/getCompGrp', apiMiddles, userCrtl.getCompGrp);
     //取得全部角色
     app.post('/api/getAllRoles', apiMiddles, userCrtl.getAllRoles);
-    //取得角色對應全部的帳號
+    //取得全部功能權限
+    app.post("/api/getAllFuncs", apiMiddles, permisCrtl.qryPermissionFuncTreeData);
+
+    //抓取單一角色對應的功能權限
+    app.post("/api/getFuncsOfRole", apiMiddles, userCrtl.getFuncsOfRole);
+    //取得單一角色對應全部的帳號
     app.post('/api/getRoleOfAccounts', apiMiddles, userCrtl.getRoleOfAccounts);
+
     //取得作業每顆按鈕func_id的權限
     app.post('/api/getUserFuncPurviewByProID', apiMiddles, userCrtl.getUserFuncPurviewByProID);
     //取得某一個系統的所有權限資料

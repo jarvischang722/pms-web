@@ -7,7 +7,10 @@
         <sql-source base="true" comment="test" key="test" path="dao_ais_external_dw.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ais_mail_fmt_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_area_cod_kvrf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bac_processmenu.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bac_role.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bac_license.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bac_role_function.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bac_role_user.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_business_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_cashier_rf.xml"/>

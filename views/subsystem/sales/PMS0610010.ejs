@@ -5,10 +5,10 @@
     }
 </style>
 <div id="PMS0610010App">
-    <div >
+    <div v-loading="isLoading" element-loading-text="Loading...">
         <div class="page-header"></div><!-- /.page-header -->
         <!-- 商務公司(Accounts) Page-->
-        <div class="pageMain" v-loading="isLoading" element-loading-text="Loading...">
+        <div class="pageMain">
             <search-comp
                     :search-fields="searchFields"
                     :search-cond.sync="searchCond"
@@ -32,12 +32,14 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain purview_btn"
-                                            role="button" @click="appendRow" data-purview_func_id="PMS06100100200"><%= __("SystemCommon")["Add"] %>
+                                            role="button" @click="appendRow"
+                                            data-purview_func_id="PMS0610010-0200"><%= __("SystemCommon")["Add"] %>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain purview_btn"
-                                            role="button" @click="editRow" data-purview_func_id="PMS06100100400"><%= __("SystemCommon")["Modify"] %>
+                                            role="button" @click="editRow"
+                                            data-purview_func_id="PMS0610010-0400"><%= __("SystemCommon")["Modify"] %>
                                     </button>
                                 </li>
                                 <li>
@@ -47,12 +49,14 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                            role="button" @click="doEditSalesClerk" data-purview_func_id="PMS06100101010"><%= __("program")["PMS0610010"]["sales_assign"] %>
+                                            role="button" @click="doEditSalesClerk"
+                                            data-purview_func_id="PMS0610010-1010"><%= __("program")["PMS0610010"]["sales_assign"] %>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                            role="button" @click="addVisitPlan" data-purview_func_id="PMS06100101020"><%= __("program")["PMS0610010"]["visit_plan"] %>
+                                            role="button" @click="addVisitPlan"
+                                            data-purview_func_id="PMS0610010-1020"><%= __("program")["PMS0610010"]["visit_plan"] %>
                                     </button>
                                 </li>
                             </ul>
@@ -73,7 +77,8 @@
     <!--Status chg-->
     <el-dialog
             :close-on-click-modal="true" :show-close="false" title=" <%= __("program").PMS0610020.company_status %>"
-            :visible.sync="isOpenCompanyStatus" style="width: 43%; left: 30%;" :before-close="doCloseCompanyStatusDialog">
+            :visible.sync="isOpenCompanyStatus" style="width: 43%; left: 30%;"
+            :before-close="doCloseCompanyStatusDialog">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
@@ -123,7 +128,8 @@
     <!--合約狀態變更-->
     <el-dialog
             :close-on-click-modal="true" :show-close="false" title=" <%= __("program").PMS0610020.contract_status %>"
-            :visible.sync="isOpenContractStatus" style="width: 53%; left: 25%;" :before-close="doCloseContractStatusDialog">
+            :visible.sync="isOpenContractStatus" style="width: 53%; left: 25%;"
+            :before-close="doCloseContractStatusDialog">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
