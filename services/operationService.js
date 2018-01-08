@@ -59,7 +59,7 @@ exports.fetchOnlyDgFieldData = function (postData, session, callback) {
         dgFieldsData: lo_dgProc.fetchDgFieldsData
     }, function (err, result) {
         let lo_rtnData = {
-            dgFieldsData: result.dgFieldsData
+            dgFieldsData: result.dgFieldsData.dgFieldsData
         };
         callback(err, lo_rtnData);
     });

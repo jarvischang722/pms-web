@@ -121,14 +121,14 @@
                                                 <div class="right-menu-co">
                                                     <ul>
                                                         <li>
-                                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                    role="button" :disabled="BTN_action"
+                                                            <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                                                    role="button" :disabled="BTN_action" data-purview_func_id="PMS0620020-1010"
                                                                     @click="appendDtRow"><%= __("SystemCommon")["Add"] %>
                                                             </button>
                                                         </li>
                                                         <li>
-                                                            <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                    role="button" :disabled="BTN_action"
+                                                            <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
+                                                                    role="button" :disabled="BTN_action" data-purview_func_id="PMS0620020-1020"
                                                                     @click="removeDtRow"><%= __("SystemCommon")["Delete"] %>
                                                             </button>
                                                         </li>
@@ -168,8 +168,8 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                @click="doSave">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
+                                                @click="doSave" data-purview_func_id="PMS0620020-0500" :disabled="isSaveEnable">
                                             <%= __("SystemCommon")["Save"] %>
                                         </button>
                                     </li>

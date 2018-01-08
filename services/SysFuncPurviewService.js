@@ -31,7 +31,7 @@ exports.getUserAllowSystem = function (req, callback) {
                 let allLangForSys = _.where(sysLang, {sys_id: sys.sys_id});
                 _.each(la_locales, function (locale) {
                     let sys_name = "";
-                    let tmp = _.findWhere(allLangForSys, {locale:locale});
+                    let tmp = _.findWhere(allLangForSys, {locale: locale});
                     if (!_.isUndefined(tmp)) {
                         sys_name = tmp.words;
                     }
@@ -62,6 +62,11 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
         athena_id: userInfo.athena_id,
         func_hotel_cod: userInfo.fun_hotel_cod.trim()
     };
+
+    if (!_.isUndefined(req.body.remove) && req.body.remove) {
+        delete params.user_id;
+    }
+
     let la_allMdlProList = [];  // 全部作業
     let la_allMenuList = []; // 全部Menu
     async.waterfall([
@@ -79,6 +84,9 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                 });
 
                 la_allMenuList = menuList;
+                la_allMenuList = _.uniq(menuList, function(lo_allMenuSubSys){
+                    return lo_allMenuSubSys.current_id;
+                });
 
                 callback(err, menuList);
             });
@@ -89,6 +97,9 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
             let la_allMenuSubSys = _.where(la_allMenuList, {
                 pre_id: ls_sys_id,
                 id_typ: 'SUBSYS'
+            });
+            la_allMenuSubSys = _.uniq(la_allMenuSubSys, function(lo_allMenuSubSys){
+                return lo_allMenuSubSys.current_id;
             });
             queryAgent.queryList("QRY_BAC_SUBSYSTEM_BY_SYS_ID", {sys_id: ls_sys_id}, 0, 0, function (err, subsysList) {
                 subsysList = alasql("select subsys.* " +
@@ -271,5 +282,21 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
         }
     ], function (err, subsysList) {
         callback(err, subsysList);
+    });
+};
+
+exports.getAllSystem = function (postData, session, callback) {
+    let lo_params = {
+        user_comp_cod: session.user.cmp_id.trim(),
+        fun_comp_cod: session.user.cmp_id.trim(),
+        fun_hotel_cod: session.user.fun_hotel_cod
+    };
+    queryAgent.queryList("QUY_ROLE_USER_USE_SYSTEM", lo_params, 0, 0, function (err, sysList) {
+        if (err) {
+            callback(err, sysList);
+        }
+        else {
+            callback(err, sysList);
+        }
     });
 };

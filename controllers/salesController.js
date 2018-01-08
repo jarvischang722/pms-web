@@ -30,17 +30,17 @@ exports.getPMS0620050 = function (req, res) {
     res.render("subsystem/sales/PMS0620050");
 };
 
-exports.qrySalesMn = function(req, res){
-    ruleAgent.qrySalesMn(req.body, req.session, function(err, getResult){
+exports.qrySalesMn = function (req, res) {
+    ruleAgent.qrySalesMn(req.body, req.session, function (err, getResult) {
         res.json({success: _.isNull(err), errorMsg: err, data: getResult.effectValues});
     });
 };
 
-exports.qryTreeSelectData = function(req, res){
-    ruleAgent.qryTreeSelectData(req.body, req.session, function(err, getResult){
+exports.qryTreeSelectData = function (req, res) {
+    ruleAgent.qryTreeSelectData(req.body, req.session, function (err, getResult) {
         res.json(commonTools.mergeRtnErrResultJson(err, getResult));
     });
-}
+};
 
 // 業務員資料編輯(欄位資料)
 exports.qrySingleGridFieldData_PM0620020 = function (req, res) {
@@ -62,21 +62,20 @@ exports.qrySingleGridFieldData_PM0620020 = function (req, res) {
         res.json(returnData);
         return;
     }
-    else {
-        salesSVC.handleSinglePageFieldData_PM0620020(req.session, req.body, function(err, result){
-            if (err) {
-                returnData.success = false;
-                returnData.errorMsg = err;
-                returnData.errorCode = err;
-            }
-            else {
-                returnData.salesMnField = result[0];
-                returnData.hotelDtField = result[1];
-                returnData.classHsField = result[2];
-            }
-            res.json(returnData);
-        });
-    }
+
+    salesSVC.handleSinglePageFieldData_PM0620020(req.session, req.body, function (err, result) {
+        if (err) {
+            returnData.success = false;
+            returnData.errorMsg = err;
+            returnData.errorCode = err;
+        }
+        else {
+            returnData.salesMnField = result[0];
+            returnData.hotelDtField = result[1];
+            returnData.classHsField = result[2];
+        }
+        res.json(returnData);
+    });
 
 
 };
@@ -103,8 +102,16 @@ exports.qrySalesMn_PM0620020 = function (req, res) {
 
 // 業務員新增按鈕需要執行的規則
 exports.addFuncRule_PMS0620020 = function (req, res) {
-    salesSVC.handleAddFuncRule_PMS0620020(req.session, req.body,function (err, result) {
+    salesSVC.handleAddFuncRule_PMS0620020(req.session, req.body, function (err, result) {
         res.json(commonTools.mergeRtnErrResultJson(err, result));
     });
-}
+};
+
+//業務員指派(修改商務公司的業務員)
+exports.doEditSalesClerk = function (req, res) {
+    salesSVC.handleEditSalesClerk(req.session, req.body, function (err, result) {
+        res.json(commonTools.mergeRtnErrResultJson(err, result));
+    });
+};
+
 

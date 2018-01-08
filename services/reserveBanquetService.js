@@ -51,8 +51,8 @@ exports.qryPageOneData = function (postData, session, callback) {
         tools.requestApi(sysConfig.api_url, params, function (err, res, result) {
             let errorMsg = null;
             let data = "";
-            if (err || result["RETN-CODE"] != "0000") {
-                errorMsg = err || result["RETN-CODE-DESC"];
+            if (err || !result) {
+                errorMsg = err;
             }
             else {
                 data = result.tmp_bq3_web_map.data || [];
