@@ -9,22 +9,27 @@ jQuery(function () {
     var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
 
     var menuHt3 = 70;  // 高度 margin或padding 的差距
-    var searchHt = 47; // 一行的height + padding 間距
+
+    // todo 抓不到search 那一行跟上面文字高度
+    var searchGridHt = 30;
+    var searchPaddHt = 17;
+
+    // alert($('.tab-content').find('.searc-S2').height());
+    // alert($('.search-S2').height());
 
     // 前檯 selectgroup
     var selectgroup = $(".select-group").height();
 
-    var dtTableSetupHt = $(".tab-content").height()-100; // tabs裡面的 - 搜尋:52px + 標題: 24px + 原本:25px // bug: 抓不到搜尋&標題高度
-
     function allHt() {
-        gridTableHt     = $(window).height()-menuHeight1-menuHeight2;
-        dtTableSetupHt  = dtTableSetupHt; // 設定檔table 高度
-        frontTableHt    = $(window).height()-menuHeight1-menuHeight2-selectgroup-8;
-        roomAssTableHt  = $(window).height()-menuHeight1-menuHeight2-selectgroup-120; // 上面備註高度
+        gridTableHt         = $(window).height()-menuHeight1-menuHeight2;
+        frontTableHt        = $(window).height()-menuHeight1-menuHeight2-selectgroup-8;
+        roomAssTableHt      = $(window).height()-menuHeight1-menuHeight2-selectgroup-120; // 上面備註高度
 
-        prg_dgHt        = $(window).height() - menuHeight1 - menuHeight2 - menuHt3;
-        prg_dgHt_search = $(window).height() - menuHeight1 - menuHeight2 - menuHt3 - searchHt;  // PMS0810020
-        tabConHt        = $(window).height() - menuHeight1 - menuHeight2;
+        prg_dgHt            = $(window).height() - menuHeight1 - menuHeight2 - menuHt3;
+        prg_dgHt_search     = $(window).height() - menuHeight1 - menuHeight2 - menuHt3 - searchGridHt - searchPaddHt;  // PMS0810020
+        prg_dgHt_searchRow2 = $(window).height() - menuHeight1 - menuHeight2 - menuHt3 - (searchGridHt*2) - searchPaddHt;  // PMS0820020
+        tabConHt            = $(window).height() - menuHeight1 - menuHeight2;
+        dtTableSetupHt      = tabConHt - 70; // 設定檔table 高度 // prg_dgHt 等於
     }
     allHt();
     $(".gridTableHt").css("height", gridTableHt);
@@ -33,8 +38,8 @@ jQuery(function () {
     $(".roomAssTableHt").css("height", roomAssTableHt); //roomAssign
     $(".prg_dgHt").css("height", prg_dgHt);
     $(".prg_dgHt_search").css("height", prg_dgHt_search); // PMS0810020
-    let setTabCon = $("#settingUl").find(".tab-content");
-    setTabCon.css("height", tabConHt);
+    $(".prg_dgHt_searchRow2").css("height", prg_dgHt_searchRow2); // PMS0820020
+    $(".tabConHt").css("height", tabConHt);
 
 
     // 螢幕縮放時重新抓值
@@ -55,16 +60,21 @@ jQuery(function () {
             height:roomAssTableHt
         });
 
-        $(".prg_dgHt").datagrid('resize',{
-            height:prg_dgHt
-        });
+//   todo 與(dataGridTmp.ejs)的resize 衝突，之後換table寫法更改，再將“dtTableSetupHt” 拿掉
+//         $(".prg_dgHt").datagrid('resize',{
+//             height:prg_dgHt
+//         });
 
         // PMS0810020
         $('.prg_dgHt_search').datagrid('resize',{
             height:prg_dgHt_search
         });
+        // PMS0820020
+        $('.prg_dgHt_searchRow2').datagrid('resize',{
+            height:prg_dgHt_searchRow2
+        });
 
-        setTabCon.css("height", tabConHt);
+        $(".tabConHt").css("height", tabConHt);
     });
 
     //.END Resize Table Height // Date:170920
