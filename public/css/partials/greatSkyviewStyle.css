@@ -290,3 +290,51 @@ tr.no-cursor-tr td {
   text-overflow: ellipsis;
   vertical-align: middle;
 }
+
+.input-medium.consumeCode-g1-s, label.consumeCode-g1-s {
+  width: 50px !important;
+}
+.input-medium.consumeCode-g1-ss, label.consumeCode-g1-ss {
+  width: 46px !important;
+}
+.input-medium.w348px, label.w348px {
+  width: 348px !important;
+}
+.input-medium.w240px, label.w240px {
+  width: 240px !important;
+}
+.input-medium.w96c2, label.w96c2 {
+  width: 96.2px !important;
+}
+.input-medium.width-82px, label.width-82px {
+  width: 82px !important;
+}
+.input-medium.width-135px, label.width-135px {
+  width: 135px !important;
+}
+.input-medium.width-137px, label.width-137px {
+  width: 137px !important;
+}
+.input-medium.width-103px, label.width-103px {
+  width: 103px !important;
+}
+.input-medium.width-133px, label.width-133px {
+  width: 133px !important;
+}
+.input-medium.width-80px, label.width-80px {
+  width: 80px !important;
+}
+.input-medium.width-142px, label.width-142px {
+  width: 142px !important;
+}
+.input-medium.width-35px, label.width-35px {
+  width: 35px !important;
+}
+
+.margin-right-10 {
+  margin-right: 10px;
+}
+
+.margin-right-4 {
+  margin-right: 4px !important;
+}
