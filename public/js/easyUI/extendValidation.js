@@ -111,6 +111,15 @@ $.extend($.fn.validatebox.defaults.rules, {
         },
         message: '時間格式HH:MM'
     },
+    //時間格式HHMM
+    ChkHHMM : {
+        validator: function (value) {
+            var lo_checkResult = go_validateClass.ChkHHMM(value);
+            $.fn.validatebox.defaults.rules.ChkHHMM.message = lo_checkResult.msg;
+            return lo_checkResult.success;
+        },
+        message: '時間格式HHMM'
+    },
     //只能0~100
     ChkZeroToHundred : {
         validator: function (value) {
