@@ -6,6 +6,7 @@ let _ = require("underscore");
 let mongoAgent = require("../../mongodb");
 let moment = require("moment");
 let dbSVC = require("../../../services/DbTableService");
+let usrActSVS = require("../../../services/userActionService");
 let tools = require("../../../utils/CommonTools");
 let queryAgent = require("../../kplug-oracle/QueryAgent");
 
@@ -16,7 +17,6 @@ module.exports = function (io) {
     io.of("/system").on('connection', function (socket) {
 
         let go_session = socket.request.session;
-        let gs_sessionId = socket.request.sessionID;
 
         /**
          * 監聽從前端發動table lock事件
@@ -38,7 +38,14 @@ module.exports = function (io) {
         socket.on('disconnect', function () {
             let lo_socketClientData = _.findWhere(ga_lockedPrgIDList, {socket_id: socket.client.id}) || {};
             doTableUnlock(socket, go_session, lo_socketClientData);
-            doReleaseOnlineUser(go_session, gs_sessionId);
+            doReleaseOnlineUser(go_session, socket.client.request.sessionID);
+        });
+
+        /**
+         * 記錄使用者使用button的狀態(資訊)
+         */
+        socket.on("recordUserAction", function(clientData){
+            doRecordUserAction(socket, clientData, go_session);
         });
 
         /**
@@ -67,7 +74,7 @@ module.exports = function (io) {
          * 檢查登入者的集團或館別可使用人數
          */
         socket.on("checkOnlineUser", function () {
-            doCheckOnlineUser(socket, go_session, gs_sessionId);
+            doCheckOnlineUser(socket, go_session, socket.client.request.sessionID);
         });
 
 
@@ -155,7 +162,10 @@ module.exports = function (io) {
             lock_type: clientData.lock_type || "T",
             key_cod: clientData.key_cod || ""
         };
-        let ln_existSocketIdx = _.findIndex(ga_lockedPrgIDList, {socket_id: socket.client.id, key_cod: clientData.key_cod});
+        let ln_existSocketIdx = _.findIndex(ga_lockedPrgIDList, {
+            socket_id: socket.client.id,
+            key_cod: clientData.key_cod
+        });
         if (ln_existSocketIdx > -1) {
             ga_lockedPrgIDList[ln_existSocketIdx] = lo_singelSocket;
         } else {
@@ -178,6 +188,28 @@ module.exports = function (io) {
     }
 
     /**
+     * 記錄使用者使用button的資訊
+     * user id、 session id、prg id、func id、url、event time、athena id、hotel id、comp cod、hotel cod
+     * @param socket{object}
+     * @param clientData{object}
+     * @param session{object}
+     * @param session_id{string}
+     */
+    function doRecordUserAction(socket, clientData, session){
+        try{
+            usrActSVS.doRecordUserAction(session, socket.client.request.sessionID, clientData.prg_id, clientData.func_id, socket.client.request.headers.referer, function(err, success){
+                if(err){
+                    console.error(err);
+                }
+            });
+        }
+        catch (ex){
+            console.error(ex);
+        }
+
+    }
+
+    /**
      * 刪除指定SocketID暫存
      * @param socket_id {String}
      */
@@ -195,9 +227,9 @@ module.exports = function (io) {
      * @param go_session{object}
      * @param gs_sessionId{string}
      */
-    function doCheckOnlineUser(socket, go_session, gs_sessionId) {
+    function doCheckOnlineUser(socket, session, session_id) {
         try {
-            dbSVC.doCheckOnlineUser(go_session, gs_sessionId, function (err, success) {
+            dbSVC.doCheckOnlineUser(session, session_id, function (err, success) {
                 socket.emit('checkOnlineUserResult', {success: success, errorMsg: err});
             });
         }
@@ -211,8 +243,8 @@ module.exports = function (io) {
      * @param go_session{object}
      * @param gs_sessionId{string}
      */
-    function doReleaseOnlineUser(go_session, gs_sessionId) {
-        dbSVC.doReleaseOnlineUser(go_session, gs_sessionId, function (err, success) {
+    function doReleaseOnlineUser(session, session_id) {
+        dbSVC.doReleaseOnlineUser(session, session_id, function (err, success) {
             if (err) {
                 console.error(err);
             }

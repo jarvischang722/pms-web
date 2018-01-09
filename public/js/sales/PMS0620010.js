@@ -5,6 +5,7 @@
  */
 var vmHub = new Vue();
 
+var go_funcPurview = (new FuncPurview("PMS0620010")).getFuncPurvs();
 /** DatagridRmSingleGridClass **/
 function DatagridSingleGridClass() {
 }
@@ -21,7 +22,7 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 /*** Class End  ***/
 
 
-Vue.component('single-grid-pms0620020-tmp', {
+var PMS0620020App = Vue.extend({
     template: '#singleGridPMS0620020Tmp',
     props: ["singleData", "isModifiable", "editStatus", "createStatus"],
     data: function () {
@@ -47,7 +48,8 @@ Vue.component('single-grid-pms0620020-tmp', {
             loadingText: "",
             isLoadingDialog: "",
             BTN_action: false,
-            hotelDtRow: 0
+            hotelDtRow: 0,
+            isSaveEnable: false
         };
     },
     created: function () {
@@ -59,6 +61,7 @@ Vue.component('single-grid-pms0620020-tmp', {
 
             self.rowData = _.extend(self.rowData, chooseData);
         });
+        this.initPurview();
     },
     mounted: function () {
         this.gs_active = "hotelDt";
@@ -90,9 +93,26 @@ Vue.component('single-grid-pms0620020-tmp', {
                 this.dgHoatelDt.updateTmpDtOfMnData(val);
             },
             deep: true
+        },
+        isSaveEnable: function(val){
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0500";
+            });
+            if (purview == -1) {
+                this.isSaveEnable = true;
+            }
         }
     },
     methods: {
+        initPurview: function(){
+            var purview;
+            purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0500";
+            });
+            if (purview == -1) {
+                this.isSaveEnable = true;
+            }
+        },
         showDropdownDisplayName: function (val, selectData) {
             if (_.findIndex(selectData, {value: val}) > -1) {
                 return _.findWhere(selectData, {value: val}).display;
@@ -596,6 +616,9 @@ Vue.component('text-select-grid-dialog-tmp', {
 
 var vm = new Vue({
     el: "#PMS0620010App",
+    components:{
+        "single-grid-pms0620020-tmp": PMS0620020App
+    },
     mounted: function () {
         this.initTmpCUD();
         this.fetchUserInfo();

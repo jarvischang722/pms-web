@@ -64,8 +64,8 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
-                                                data-purview_func_id="" @click="doSetting">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                                @click="doSetting">
                                             {{i18nLang.SystemCommon.Setting}}
                                         </button>
                                     </li>
@@ -206,14 +206,14 @@
                             </ul>
                             <ul class="newVisitOther-btn">
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth purview_btn" role="button"
-                                            data-purview_func_id="PMS06100100300" @click="doRemoveRow">
+                                    <button class="btn btn-danger btn-white btn-defaultWidth " role="button"
+                                            @click="doRemoveRow">
                                         {{i18nLang.SystemCommon.Delete}}
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
-                                            data-purview_func_id="PMS06100100200" @click="doSaveRow">
+                                            data-purview_func_id="PMS0620050-0500" :disabled="isSaveEnable" @click="doSaveRow">
                                         {{i18nLang.SystemCommon.Save}}
                                     </button>
                                 </li>
@@ -235,7 +235,7 @@
 
     var vmHub = new Vue();
 
-    // var go_funcPurview = (new FuncPurview("PMS0620050")).getFuncPurvs();
+    var go_funcPurview;
 
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
@@ -272,10 +272,12 @@
                 isLastData: false,
                 BTN_action: false,
                 isLoadingDialog: false,
+                isSaveEnable: false,
                 loadingText: "",
                 tmpCUD: {
                     createData: []
                 },
+                go_funcPurview: [],
                 settingGridFieldsData: [],
                 settingGridRowData: {},
                 dataGridFieldsData: [],
@@ -294,9 +296,12 @@
                 if (val) {
                     this.isLoadingDialog = true;
                     this.loadingText = "Loading...";
+                    this.initAllAuthBtn();
                     this.initData();
                     this.setTmpRowData();
                     this.fetchSingleGridFieldData();
+                    this.go_funcPurview= (new FuncPurview("PMS0620050")).getFuncPurvs();
+                    this.initPurview();
                 }
             },
             rowData(val) {
@@ -310,6 +315,20 @@
             }
         },
         methods: {
+            initAllAuthBtn(){
+                $(".purview_btn").each(function () {
+                    var purview_func_id = $(this).data("purview_func_id");
+                    $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", false);
+                });
+            },
+            initPurview() {
+                var purview = _.findIndex(this.go_funcPurview, function (value) {
+                    return value.func_id == "0500";
+                });
+                if (purview == -1) {
+                    this.isSaveEnable = true;
+                }
+            },
             initData() {
                 this.settingGridFieldsData = [];
                 this.settingGridRowData = {};

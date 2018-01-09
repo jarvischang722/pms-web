@@ -21,7 +21,7 @@
                 selectedNode: null
             }
         },
-        created() {
+        mounted() {
             this.permissionModel;
         },
         computed: {
@@ -97,59 +97,63 @@
                     return cb(null, "");
                 }
 
-                $('#permissionAccountTree').jstree({
-                    "core": {
-                        "animation": 0,
-                        "themes": {"stripes": true},
-                        "multiple": false,                  //不可多選
-                        "check_callback": true,
-                        "data": la_compGrpList4Tree
-                    },
-                    "types": {
-                        "#": {
-                            "icon": "glyphicon glyphicon-file",
-                            "max_children": 1,
-                            "max_depth": 4,
-                            "valid_children": ["root"]
+                //包setTimeout，為了延遲jstree，以防jstree套件相衝或抓不到套件
+                setTimeout(function () {
+                    $('#permissionAccountTree').jstree({
+                        "core": {
+                            "animation": 0,
+                            "themes": {"stripes": true},
+                            "multiple": false,                  //不可多選
+                            "check_callback": true,
+                            "data": la_compGrpList4Tree
                         },
-                        "root": {
-                            "icon": "glyphicon glyphicon-file",
-                            "valid_children": ["default"]
+                        "types": {
+                            "#": {
+                                "icon": "glyphicon glyphicon-file",
+                                "max_children": 1,
+                                "max_depth": 4,
+                                "valid_children": ["root"]
+                            },
+                            "root": {
+                                "icon": "glyphicon glyphicon-file",
+                                "valid_children": ["default"]
+                            },
+                            "default": {
+                                "valid_children": ["default", "file"]
+                            },
+                            "file": {
+                                "icon": "glyphicon glyphicon-file",
+                                "valid_children": []
+                            }
                         },
-                        "default": {
-                            "valid_children": ["default", "file"]
+                        "checkbox": {
+                            "keep_selected_style": true,
+                            "whole_node": false,
+                            "tie_selection": false   // 選取時，false只會選到父節點，不會選到子結點
                         },
-                        "file": {
-                            "icon": "glyphicon glyphicon-file",
-                            "valid_children": []
-                        }
-                    },
-                    "checkbox": {
-                        "keep_selected_style": true,
-                        "whole_node": false,
-                        "tie_selection": false   // 選取時，false只會選到父節點，不會選到子結點
-                    },
-                    "plugins": la_plugins
-                });
-
-                this.treeIns = $("#permissionAccountTree").jstree(true);
-
-                if (this.$store.state.gs_permissionModel != "authByStaff") {
-                    $("#permissionAccountTree").on("check_node.jstree uncheck_node.jstree", function (e, data) {
-                        let la_staffChecked = self.treeIns.get_checked();
-                        self.$store.commit("updStaffChecked", la_staffChecked);
+                        "plugins": la_plugins
                     });
-                }
-                // 以人員為主
-                else {
-                    $("#permissionAccountTree").on("select_node.jstree", function (e, data) {
-                        self.selectedNode = data.node;
-                        self.$store.commit("setSelectedUserID", self.selectedNode.id);
-                        self.checkedRoleByUserID(self.selectedNode.id);
-                    })
-                }
 
-                cb(null, "");
+                    self.treeIns = $("#permissionAccountTree").jstree(true);
+
+                    if (self.$store.state.gs_permissionModel != "authByStaff") {
+                        $("#permissionAccountTree").on("check_node.jstree uncheck_node.jstree", function (e, data) {
+                            let la_staffChecked = self.treeIns.get_checked();
+                            self.$store.commit("updStaffChecked", la_staffChecked);
+                        });
+                    }
+                    // 以人員為主
+                    else {
+                        $("#permissionAccountTree").on("select_node.jstree", function (e, data) {
+                            self.selectedNode = data.node;
+                            self.$store.commit("setSelectedUserID", self.selectedNode.id);
+                            self.checkedRoleByUserID(self.selectedNode.id);
+                        })
+                    }
+
+                    cb(null, "");
+                }, 200);
+
             },
 
             //勾選有此角色的人員

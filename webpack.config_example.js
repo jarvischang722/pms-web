@@ -1,22 +1,22 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = {
-     entry: "./public/src/admin/sales/PMS0610010",
+     // entry: "./public/src/admin/permission/permissionSetup",
     // entry: [
     //     'webpack/hot/dev-server',
     //     path.join(__dirname, 'public', 'src')
     // ],
-    // entry: {
-    //     permissionSetup: ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"],
-    //     // store: "./public/src/admin/permission/store"
-    //     // a: "./a",
-    //     // b: "./b",
-    //     // c: ["./c", "./d"]
-    // },
+    entry: {
+        permissionSetup: ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"],
+        // store: "./public/src/admin/permission/store"
+        // a: "./a",
+        // b: "./b",
+        // c: ["./c", "./d"]
+    },
     output: {
         publicPath: '/dist',
-        path: path.join(__dirname, 'public', 'js/sales/'),
-        filename: 'PMS0610010.main.js'
+        path: path.join(__dirname, 'public', 'js/system/'),
+        filename: 'permissionSetup.js'
 
     },
     module: {

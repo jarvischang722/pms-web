@@ -1,6 +1,8 @@
 var vmHub = new Vue();
 var gs_prgId = "PMS0620050";
 
+var go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+
 /** DatagridRmSingleGridClass **/
 function DatagridSingleGridClass() {
 }
@@ -29,6 +31,8 @@ Vue.component('single-grid-pms0620050-tmp', {
             isFirstData: false,
             isLastData: false,
             BTN_action: false,
+            isSaveEnable: false,
+            isDelEnable: false,
             isLoadingDialog: false,
             loadingText: ""
         };
@@ -55,6 +59,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                 vm.loadDataGridByPrgID();
             }
         });
+        this.initPurview();
     },
     mounted: function () {
         this.isLoadingDialog = true;
@@ -78,13 +83,13 @@ Vue.component('single-grid-pms0620050-tmp', {
                         this.isLastData = true;
                     }
 
-            }
-            else if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
-                //已經到最後一筆
-                this.isFirstData = false;
-                this.isLastData = true;
-            }
-            else {
+                }
+                else if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+                    //已經到最後一筆
+                    this.isFirstData = false;
+                    this.isLastData = true;
+                }
+                else {
 
                     this.isFirstData = false;
                     this.isLastData = false;
@@ -104,9 +109,41 @@ Vue.component('single-grid-pms0620050-tmp', {
 
                 this.formatAmt(ln_amtValue, lo_amtField);
             }
+        },
+        isSaveEnable: function (val) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0500";
+            });
+            if (purview == -1) {
+                this.isSaveEnable = true;
+            }
+        },
+        isDelEnable: function (val) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0300";
+            });
+            if (purview == -1) {
+                this.isDelEnable = true;
+            }
         }
     },
     methods: {
+        initPurview: function () {
+            var purview;
+            purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0500";
+            });
+            if (purview == -1) {
+                this.isSaveEnable = true;
+            }
+
+            purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0300";
+            });
+            if (purview == -1) {
+                this.isDelEnable = true;
+            }
+        },
         initData: function () {
             this.isLoadingDialog = true;
             this.singleData = {};
@@ -517,6 +554,7 @@ var vm = new Vue({
         this.fetchUserInfo();
         this.initTmpCUD();
         this.loadDataGridByPrgID();
+        this.fetchSingleWidth();
     },
     data: {
         tmpCUD: {
@@ -550,7 +588,19 @@ var vm = new Vue({
         editingRow: {},
         isModifiable: true,
         isAction: false,
-        isOnlyClose: true
+        isEditEnable: false,
+        isOnlyClose: true,
+        maxWidth: 0
+    },
+    watch: {
+        isEditEnable(val) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0400";
+            });
+            if (purview == -1) {
+                this.isEditEnable = true;
+            }
+        }
     },
     methods: {
         fetchUserInfo: function () {
@@ -639,20 +689,51 @@ var vm = new Vue({
 
             this.isLoading = false;
         },
-        showSingleGridDialog: function () {
+        fetchSingleWidth: function(){
             var self = this;
+            $.post("/api/singleGridPageFieldQuery", {
+                prg_id: gs_prgId,
+                page_id: 2
+            }, function (result) {
+                if (result.success) {
+
+                    var fieldsData = _.values(_.groupBy(_.sortBy(result.fieldData, "row_seq"), "row_seq"));
+                    // 算最小寬度 && 最大行數
+                    var maxField = fieldsData[0];
+                    console.log(maxField);
+                    console.log(maxField);
+                    _.each(maxField, function (lo_maxField, index) {
+
+                        var width = parseInt(lo_maxField.width) || 35; //90
+                        var label_width = parseInt(lo_maxField.label_width) || 50; //165
+                        self.maxWidth += (width + label_width + 100);
+                        //todo 此單筆最後一排有超過五個以上的grid-item 會錯誤
+                        // if(index >= 2) return true;
+                    });
+                    console.log(self.maxWidth);
+                }
+            });
+
+        },
+        showSingleGridDialog: function () {
+            var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+            // gridWt = $('.singleGridContent .grid-item label').width() + $('.singleGridContent .grid-item input').width() +14;
+            var dialogWt = this.maxWidth + 120;
+            var height = 10 * 50; // 預設一個row 高度
             var dialog = $('#singleGridPMS0620050').removeClass('hide').dialog({
                 autoOpen: false,
                 modal: true,
                 title: go_i18nLang["program"]["PMS0620050"].edit_vist_mn,
-                width: 700,
-                maxHeight: 1920,
+                minWidth: _.min([dialogWt, 1000]),
+                width: _.min([dialogWt, 1000]),
+                maxHeight: maxHeight,
                 resizable: true,
                 onBeforeClose: function () {
                     vmHub.$emit('doSaveModifyData');
                 }
             }).dialog('open');
             this.isLoading = false;
+            $("#singleGridPMS0620050").css("height", _.min([maxHeight, height]) + 20);
         },
         doSaveCUD: function (prg_id, page_id, callback) {
             var lo_params = {

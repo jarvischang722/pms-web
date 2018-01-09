@@ -745,6 +745,7 @@ function convertToApiFormat(lo_saveExecDatasSorted, callback) {
     var apiParams = {
         "REVE-CODE": go_postData.trans_cod,
         "program_id": go_postData.prg_id,
+        "func_id": go_postData.func_id || "",
         "user": go_session.user.usr_id,
         "table_name": gs_mainTableName,
         "count": Object.keys(lo_saveExecDatasSorted).length,
