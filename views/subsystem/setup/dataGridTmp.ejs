@@ -21,7 +21,6 @@
                         <!--控制table 高度 jing add-->
                         <table id="prg_dg" class="prg_dgHt"></table>
 
-                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
@@ -132,14 +131,14 @@
                         // 異動紀錄 偵測高度(掛外面無法正常運作)
                         var tblContentHt = $(window).height() - 270;
                         $('.tbl-content02').css({'height': tblContentHt});
-                        $(window).on("load resize ", function () {
+                        $(window).resize(function () {
                             var scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
                             $('.tbl-header02').css({'padding-right': '17px'});
                             var fixHeadTableH = $(window).height() - 20;
                             // 異動紀錄 偵測高度
                             var tblContentHt = $(window).height() - 270;
                             $('.tbl-content02').css({'height': tblContentHt});
-                        }).resize();
+                        });
                         //                        }
                         // /.end 判斷如果不是window不執行
 
@@ -160,30 +159,6 @@
 <%- include vueTemplate/multiLangDialogTmp.ejs %>
 <%- include vueTemplate/searchTmp.ejs %>
 
+<script src="/js/initResizeHt.js"></script>
 <script src="/js/setup/vueCompLib/searchComp.js"></script>
 <script src="/js/setup/datagrid.js"></script>
-
-<script>
-    //common JS
-    jQuery(function () {
-        // Resize Table Height // Date:170920
-        //        alert('menuHeight1');
-        var menuHeight1 = $(".navbar-container").height();
-        var menuHeight2 = $(".top-sec-ul").height() + 30 + $(".page-header").height() + $(".search-content").height();//padding-top: 5px
-        //    console.log('menuHeight1',menuHeight1);
-        //    console.log('gridTableHt',menuHeight2);
-        height = $(window).height() - menuHeight1 - menuHeight2 - 10;
-        prg_dgHt = $(window).height() - menuHeight1 - menuHeight2 - 80;
-        $(".tab-content").css("height", height);
-        $(".prg_dgHt").css("height", prg_dgHt);
-        //        console.log('gridTableHt .panel-body',height);
-        $(window).resize(function () {
-            height = $(window).height() - menuHeight1 - menuHeight2 - 10;
-            prg_dgHt = $(window).height() - menuHeight1 - menuHeight2 - 80;
-            $(".tab-content").css("height", height);
-            $(".prg_dgHt").css("height", prg_dgHt);
-        });
-    });
-    //    alert(gridTableHt);
-
-</script>
