@@ -22,6 +22,16 @@
         <parameter type="string" kind="3">class_cod</parameter>
     </dao>
 
+    <!--[PMS0610020] 取得業務員下拉選單-->
+    <dao name="SEL_CUSTMNSALESCOD">
+        <statement><![CDATA[
+        select sales_cod as value, sales_nam as display from sales_mn
+        where athena_id = :athena_id and sales_cod = :sales_cod
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">sales_cod</parameter>
+    </dao>
+
 
     <!--[PMS0620010] 取得業務員多筆-->
     <dao name="QRY_SALES_MN_ORDER_BY_SALE_COD_AND_DECODE_STATUS_COD">

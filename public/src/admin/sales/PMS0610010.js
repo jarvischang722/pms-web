@@ -48,7 +48,6 @@ var vm = new Vue({
         });
     },
     mounted() {
-        this.initTmpCUD();
         this.fetchUserInfo();
         this.setSearchCond();
         this.loadDataGridByPrgID();
@@ -58,16 +57,6 @@ var vm = new Vue({
         return {
             go_funcPurview: [],
             userInfo: {},
-            tmpCUD: {
-                createData: [],
-                updateData: [],
-                deleteData: [],
-                oriData: [],
-                dt_createData: [],
-                dt_updateData: [],
-                dt_deleteData: [],
-                dt_oriData: []
-            },
             pageOneDataGridRows: [],
             pageOneFieldData: [],
             searchFields: [],
@@ -80,11 +69,10 @@ var vm = new Vue({
             isModifiable: true,
             isCreateStatus: false,
             isEditStatus: false,
-            isEditSalesClerk: false,
+            isEditSalesClerk: false,//業務員指派
             isOpenCompanyStatus: false,
             isOpenContractStatus: false,
-            isVisitPlan: false, //拜訪紀錄為新增多筆、單筆
-            fetchDataParams: {}, //拜訪紀錄所需參數
+            isVisitPlan: false, //拜訪計畫
             openChangeLogDialog: false,
             allChangeLogList: {}
         };
@@ -112,18 +100,6 @@ var vm = new Vue({
                 var purview_func_id = $(this).data("purview_func_id");
                 $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", false);
             });
-        },
-        initTmpCUD() {
-            this.tmpCUD = {
-                createData: [],
-                updateData: [],
-                deleteData: [],
-                oriData: [],
-                dt_createData: [],
-                dt_updateData: [],
-                dt_deleteData: [],
-                dt_oriData: []
-            };
         },
         fetchUserInfo() {
             $.post('/api/getUserInfo', function (result) {
@@ -212,7 +188,6 @@ var vm = new Vue({
             this.isEditSalesClerk = false;
             this.isVisitPlan = false;
             this.editingRow = {cust_mn_cust_cod: ""};
-            this.initTmpCUD();
 
             this.showSingleGridDialog();
             this.isLoading = false;
@@ -226,7 +201,6 @@ var vm = new Vue({
             this.isEditSalesClerk = false;
             this.isVisitPlan = false;
             this.editingRow = {};
-            this.initTmpCUD();
 
             var lo_editRow = $('#PMS0610010_dg').datagrid('getSelected');
             var la_editRows = $('#PMS0610010_dg').datagrid('getSelections');

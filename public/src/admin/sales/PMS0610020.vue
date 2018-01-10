@@ -411,6 +411,15 @@
                 // this.showDtDataGrid();
             },
             fetchFieldData(val) {
+                var self = this;
+                $.post("/api/fetchOnlySinglePageFieldData", {
+                    prg_id: "PMS0610020",
+                    page_id: 1,
+                    tab_page_id: 1,
+                    template_id: 'gridsingle'
+                }, function (result) {
+                    console.log(result);
+                });
             },
             fetchRowData() {
             },

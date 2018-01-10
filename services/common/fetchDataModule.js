@@ -21,6 +21,7 @@ let go_searchCond;
 let gs_prg_id;
 let gn_page_id;
 let gn_tab_page_id;
+let gs_template_id;
 
 // 多筆流程
 exports.DataGridProc = function (postData, session) {
@@ -37,11 +38,11 @@ exports.DataGridProc = function (postData, session) {
      */
     this.fetchDgFieldsData = function (callback) {
         async.waterfall([
-            qryUIDatagridFields,     //取多筆欄位資料
-            qryFormatRule,            //format_func_name轉換
-            qryLangUIFields,         //欄位多語系
-            qrySelectOption,         //查詢SelectOption
-            qrySearchFields          //取搜尋欄位
+            qryUIDatagridFields, //取多筆欄位資料
+            qryFormatRule, //format_func_name轉換
+            qryLangUIFields, //欄位多語系
+            qrySelectOption, //查詢SelectOption
+            qrySearchFields //取搜尋欄位
         ], function (err, result) {
             callback(err, result);
         });
@@ -53,10 +54,10 @@ exports.DataGridProc = function (postData, session) {
      */
     this.fetchDgRowData = function (callback) {
         async.waterfall([
-            qryDgTemplateRf,        //查詢templateRf
-            qryRowData,             //查詢多筆資料
-            filterRowData,          //依條件過濾多筆資料
-            rowDataMultiLang        //內容多語系
+            qryDgTemplateRf, //查詢templateRf
+            qryRowData, //查詢多筆資料
+            filterRowData, //依條件過濾多筆資料
+            rowDataMultiLang //內容多語系
         ], function (err, result) {
             callback(err, result);
         });
@@ -68,8 +69,8 @@ exports.DataGridProc = function (postData, session) {
      */
     this.fetchDgData = function (callback) {
         async.parallel({
-            fetchFieldsResult: self.fetchDgFieldsData,   //取多筆欄位資料
-            fetchRowsResult: self.fetchDgRowData         //取多筆資料
+            fetchFieldsResult: self.fetchDgFieldsData, //取多筆欄位資料
+            fetchRowsResult: self.fetchDgRowData //取多筆資料
         }, function (err, result) {
             if (err == "templateRf is null") {
                 err = null;
@@ -92,6 +93,7 @@ exports.GridSingleProc = function (postData, session) {
     go_session = session;
     gs_prg_id = postData.prg_id;
     go_searchCond = postData.searchCond || {}; //搜尋條件
+    gs_template_id = postData.template_id || "";
 
     let self = this;
 
@@ -101,10 +103,10 @@ exports.GridSingleProc = function (postData, session) {
      */
     this.fetchGsMnFieldsData = function (callback) {
         async.waterfall([
-            qryUIPageFields,     //取單筆欄位資料
-            qrySelectOption,     //查詢selectOption
-            qryFormatRule,       //format_func_name轉換
-            qryLangUIFields      //處理欄位多語系
+            qryUIPageFields, //取單筆欄位資料
+            qrySelectOption, //查詢selectOption
+            qryFormatRule, //format_func_name轉換
+            qryLangUIFields //處理欄位多語系
         ], function (err, result) {
             callback(err, result);
         });
@@ -116,10 +118,10 @@ exports.GridSingleProc = function (postData, session) {
      */
     this.fetchGsMnRowData = function (callback) {
         async.waterfall([
-            qryGsTemplateRf,     //查詢templateRf
-            qryRowData,        //查詢多筆資料
-            filterRowData,     //依條件過濾多筆資料
-            rowDataMultiLang   //內容多語系
+            qryGsTemplateRf, //查詢templateRf
+            qryRowData, //查詢多筆資料
+            filterRowData, //依條件過濾多筆資料
+            rowDataMultiLang //內容多語系
         ], function (err, result) {
             callback(err, result);
         });
@@ -338,7 +340,8 @@ function qryUIDatagridFields(callback) {
 function qryUIPageFields(callback) {
     mongoAgent.UIPageField.find({
         prg_id: gs_prg_id,
-        page_id: Number(gn_page_id)
+        page_id: Number(gn_page_id),
+        template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
     }, function (err, result) {
         if (!result) {
             err = "uiPageFields is null";
@@ -448,13 +451,13 @@ function qrySelectOption(la_dgFieldData, callback) {
         }
         else if (_.isEqual(lo_dgField.ui_type, "tree") || _.isEqual(lo_dgField.ui_type, "multitree")) {
             la_asyncParaFunc.push(
-              function (cb) {
-                  la_dgFieldData[fIdx].selectData = [];
-                  ruleAgent[lo_dgField.rule_func_name](lo_dgField, go_session.user, function (err, result) {
-                      la_dgFieldData[fIdx].selectData = result.selectOptions;
-                      cb(null, la_dgFieldData[fIdx]);
-                  });
-              }
+                function (cb) {
+                    la_dgFieldData[fIdx].selectData = [];
+                    ruleAgent[lo_dgField.rule_func_name](lo_dgField, go_session.user, function (err, result) {
+                        la_dgFieldData[fIdx].selectData = result.selectOptions;
+                        cb(null, la_dgFieldData[fIdx]);
+                    });
+                }
             );
         }
         chkDgFieldIsC(la_dgFieldData, fIdx);
@@ -484,11 +487,18 @@ function qrySelectOption(la_dgFieldData, callback) {
                         la_dgFieldData[fIdx].referiable = selRow.referiable || "N";
                         la_dgFieldData[fIdx].defaultVal = selRow.defaultVal || "";
 
-                        dataRuleSvc.getSelectOptions(go_session.user, selRow, la_dgFieldData[fIdx], function (selectData) {
-                            la_dgFieldData[fIdx].selectData = selectData;
-                            cb(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
-                        });
-
+                        if (la_dgFieldData[fIdx].ui_type == "selectgrid") {
+                            dataRuleSvc.getSelectGridOption(go_session, selRow, la_dgFieldData[fIdx], function (err, selectData) {
+                                la_dgFieldData[fIdx].selectData = selectData;
+                                cb(err, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
+                            });
+                        }
+                        else {
+                            dataRuleSvc.getSelectOptions(go_session.user, selRow, la_dgFieldData[fIdx], function (selectData) {
+                                la_dgFieldData[fIdx].selectData = selectData;
+                                cb(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
+                            });
+                        }
                     }
                     else {
                         cb(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});

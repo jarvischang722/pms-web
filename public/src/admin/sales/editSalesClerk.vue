@@ -4,7 +4,7 @@
                 :close-on-click-modal="true" :show-close="false" :title="i18nLang.program.PMS0620030.edit_sales_clerk"
                 :visible.sync="isEditSalesClerk" style="width: 48%; left: 30%;" :before-close="doCancelEdit">
             <div class="businessCompanyData" v-loading="isLoadingDialog" :element-loading-text="loadingText">
-                <div class="col-sm-12 col-xs-12">
+                <div>
                     <div class="row">
                         <!--欄位-->
                         <div class="col-sm-10 col-xs-10">
@@ -65,7 +65,6 @@
                     </div>
                 </div>
             </div>
-            <div class="clearfix"></div>
         </el-dialog>
         <select-grid-dialog-comp></select-grid-dialog-comp>
     </div>
@@ -73,11 +72,15 @@
 
 <script>
     import selectGridDialogComp from '../../common/selectGridDialogComp.vue';
+    import ElDialog from "../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
     export default {
         name: 'edit-sales-clerk',
         props: ["editRows", "isEditSalesClerk", "isCreateStatus", "isEditStatus"],
-        components: {selectGridDialogComp},
+        components: {
+            ElDialog,
+            selectGridDialogComp
+        },
         created() {
             var self = this;
             this.$eventHub.$on('updateBackSelectData', function (chooseData) {
@@ -198,6 +201,8 @@
             },
             doEditSales() {
                 var self = this;
+                this.isLoadingDialog = true;
+                this.loadingText = 'saving...';
                 var la_custCod = [];
                 _.each(this.editRows, function (lo_editRow) {
                     la_custCod.push(lo_editRow.cust_mn_cust_cod);
@@ -213,6 +218,7 @@
                 }
                 else if (this.isEditStatus) {
                     $.post("/api/sales/doEditSalesClerk", lo_params, function (result) {
+                        self.isLoadingDialog = false;
                         console.log(result);
                         if (result.success) {
                             self.doCancelEdit();
@@ -250,6 +256,11 @@
 </script>
 
 <style>
+
+    .el-loading-mask{
+        width: 108%;
+        left: -4%;
+    }
     .grid-item input {
         padding: 0px;
     }
