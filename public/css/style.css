@@ -5143,6 +5143,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.rateCode-xs {
+  width: 31px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.rateCode-s1 {
   width: 180px;
   max-width: 100%;
@@ -5165,6 +5170,11 @@ a {
 }
 .input-medium.rateCode-s1-col3 {
   width: 748px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.rateCode-s1-col3Rm {
+  width: 725px;
   max-width: 100%;
   height: 25px;
 }

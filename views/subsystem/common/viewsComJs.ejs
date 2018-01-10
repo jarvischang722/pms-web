@@ -4,32 +4,30 @@
         // Resize Table Height // Date:170920
 
         // 藍色系統列
-        var menuHeight1 = $(".navbar-container").height();
+        var navHt = $(".navbar-container").height();
 
         // quickMenus + 搜尋欄位
-        var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
+        var menuHt = $(".top-sec-ul").height()+ 30+ $(".page-header").height();//padding-top: 5px
 
         var menuHt3 = 70;  // 高度 margin或padding 的差距
 
-        // todo 抓不到search 那一行跟上面文字高度
+        // 移到gridSingle.js && datagrid.js 裡面
         var searchGridHt = 30;
         var searchPaddHt = 17;
-
-        // alert($('.tab-content').find('.searc-S2').height());
-        // alert($('.search-S2').height());
 
         // 前檯 selectgroup
         var selectgroup = $(".select-group").height();
 
+        // alert($('.tab-content').find('.search-content').height());
         function allHt() {
-            gridTableHt         = $(window).height()-menuHeight1-menuHeight2;
-            frontTableHt        = $(window).height()-menuHeight1-menuHeight2-selectgroup-8;
-            roomAssTableHt      = $(window).height()-menuHeight1-menuHeight2-selectgroup-120; // 上面備註高度
+            gridTableHt         = $(window).height()-navHt-menuHt;
+            frontTableHt        = $(window).height()-navHt-menuHt-selectgroup-8;
+            roomAssTableHt      = $(window).height()-navHt-menuHt-selectgroup-120; // 上面備註高度
 
-            prg_dgHt            = $(window).height() - menuHeight1 - menuHeight2 - menuHt3;
-            prg_dgHt_search     = $(window).height() - menuHeight1 - menuHeight2 - menuHt3 - searchGridHt - searchPaddHt;  // PMS0810020
-            prg_dgHt_searchRow2 = $(window).height() - menuHeight1 - menuHeight2 - menuHt3 - (searchGridHt*2) - searchPaddHt;  // PMS0820020
-            tabConHt            = $(window).height() - menuHeight1 - menuHeight2;
+            prg_dgHt            = $(window).height() - navHt - menuHt - menuHt3;
+            prg_dgHt_search     = $(window).height() - navHt - menuHt - menuHt3 - searchGridHt - searchPaddHt;  // PMS0810020
+            prg_dgHt_searchRow2 = $(window).height() - navHt - menuHt - menuHt3 - (searchGridHt*2) - searchPaddHt;  // PMS0820020
+            tabConHt            = $(window).height() - navHt - menuHt;
             dtTableSetupHt      = tabConHt - 70; // 設定檔table 高度 // prg_dgHt 等於
         }
         allHt();
@@ -70,7 +68,7 @@
             $('.prg_dgHt_search').datagrid('resize',{
                 height:prg_dgHt_search
             });
-            // PMS0820020
+            // // PMS0820020
             $('.prg_dgHt_searchRow2').datagrid('resize',{
                 height:prg_dgHt_searchRow2
             });
