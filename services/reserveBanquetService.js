@@ -396,6 +396,12 @@ class ResvBanquetData {
      * @returns {number}    合併格數
      */
     calcColSpan(ln_begin_tim, ln_end_tim) {
+
+        //結束時間小於等於開始時間 要加1天(分鐘)
+        if (ln_end_tim <= ln_begin_tim) {
+            ln_end_tim += 24 * 60;
+        }
+
         let ln_diffMin = ln_end_tim - ln_begin_tim;
         let ln_colspan = Math.round(ln_diffMin / 30);
 
