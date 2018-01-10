@@ -18,7 +18,6 @@
         <parameter type="string" kind="3">key_cod1</parameter>
 
         <parameter type="likestring" kind="2" condition="order_nos like ?">order_nos</parameter>
-        <parameter type="likestring" kind="2" condition="doc_nos like ?">doc_nos</parameter>
         <parameter type="likestring" kind="2" condition="atten_nam like ?">atten_nam</parameter>
         <parameter type="instring" kind="3">format_sta</parameter>
         <parameter type="instring" kind="3">cust_cod</parameter>

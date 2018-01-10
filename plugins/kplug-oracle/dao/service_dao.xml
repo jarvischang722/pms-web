@@ -12,6 +12,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_bac_license.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bac_role_function.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bac_role_user.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bquet_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_business_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_cashier_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_character_rf.xml"/>
@@ -111,5 +112,17 @@
         <sql-source base="true" comment="test" key="test" path="dao_pers_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rminv_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_unit_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bqother_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bqplace_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bqproc_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bquet_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bquse_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cust_idx.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cust_mn_pers_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_meal_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_role_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rspt_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_saleclass_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bqcust_mn.xml"/>
     </sql-sources>
 </struts-config>
