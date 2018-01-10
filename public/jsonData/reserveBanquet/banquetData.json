@@ -3,7 +3,7 @@
     {
       "order_seq": 1,
       "datatype": "BEG_HOUR",
-      "beg_hour": 5,
+      "beg_hour": 6,
       "end_hour": null,
       "rspt_cod": null,
       "rspt_nam": null,
@@ -21,7 +21,7 @@
       "order_seq": 2,
       "datatype": "END_HOUR",
       "beg_hour": null,
-      "end_hour": 28,
+      "end_hour": 29,
       "rspt_cod": null,
       "rspt_nam": null,
       "is_child": null,

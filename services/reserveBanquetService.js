@@ -41,7 +41,21 @@ exports.qryPageOneData = function (postData, session, callback) {
     });
 
     function qryBanquetData(cb) {
-        var params = {
+        let self = this;
+        // fs.readFile("./public/jsonData/reservation/banquetData.json", "utf8", function (err, result) {
+        //     result = JSON.parse(result);
+        //     let la_map = result.tmp_bq3_web_map.data;
+        //     let la_mtime = _.where(la_map, {datatype: "MTIME"});
+        //     _.each(la_mtime, function (lo_mtime, index) {
+        //         la_mtime[index].begin_tim = addHour(lo_mtime.begin_tim);
+        //         la_mtime[index].end_tim = addHour(lo_mtime.end_tim);
+        //     });
+        //
+        //     cb(err, la_map);
+        // });
+
+
+        let params = {
             "REVE-CODE": "RS0W212010",
             "program_id": "RS0W212010",
             "func_id": "2040",
@@ -64,6 +78,10 @@ exports.qryPageOneData = function (postData, session, callback) {
 
     function qryBanquetSta(cb) {
         queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function (err, result) {
+            _.each(result, function (lo_order, index) {
+                result[index].begin_tim = addHour(lo_order.begin_tim);
+                result[index].end_time = addHour(lo_order.end_tim);
+            });
             cb(null, result);
         });
     }
@@ -77,8 +95,27 @@ function convertDataToDisplay(la_data, la_sta) {
     return lo_converData;
 }
 
+/**
+ * 跨日加24小時
+ * @param lo_time {string}
+ * @returns {string}
+ */
+function addHour(lo_time) {
+    let ln_hour = parseInt(lo_time.substring(0, 2));
+    let ls_min = lo_time.substring(2, 5);
+    if (ln_hour < 6) {
+        ln_hour += 24;
+    }
+    if (ln_hour.toString().length == 1) {
+        ln_hour = "0" + ln_hour;
+    }
+    let ls_time = ln_hour.toString() + ls_min;
+    return ls_time;
+}
+
 class ResvBanquetData {
     constructor(la_data, la_order) {
+        let self = this;
         this.day_beg_hour = _.findWhere(la_data, {datatype: "BEG_HOUR"}).beg_hour;
         this.day_end_hour = _.findWhere(la_data, {datatype: "END_HOUR"}).end_hour;
         this.day_beg_min = this.convertToMin(this.day_beg_hour);
@@ -87,6 +124,11 @@ class ResvBanquetData {
         this.la_rspt = _.where(la_data, {datatype: "RSPT"});
         this.la_place = _.where(la_data, {datatype: "PLACE"});
         this.la_mtim = _.where(la_data, {datatype: "MTIME"});
+        _.each(this.la_mtim, function (lo_mtim, index) {
+            self.la_mtim[index].begin_tim = addHour(lo_mtim.begin_tim);
+            self.la_mtim[index].end_tim = addHour(lo_mtim.end_tim);
+        });
+
         this.la_mtim = _.sortBy(this.la_mtim, "begin_tim");
         la_order = _.sortBy(la_order, "begin_tim");
         this.la_order = la_order;
@@ -397,10 +439,19 @@ class ResvBanquetData {
      */
     calcColSpan(ln_begin_tim, ln_end_tim) {
 
+        let ln_day = 24 * 60;
         //結束時間小於等於開始時間 要加1天(分鐘)
         if (ln_end_tim <= ln_begin_tim) {
-            ln_end_tim += 24 * 60;
+            ln_end_tim += ln_day;
         }
+        //開始時間小於6點
+        // if (ln_begin_tim < 360) {
+        //     ln_begin_tim += ln_day;
+        // }
+        //結束時間小於6點
+        // if (ln_end_tim < 360) {
+        //     ln_end_tim += ln_day;
+        // }
 
         let ln_diffMin = ln_end_tim - ln_begin_tim;
         let ln_colspan = Math.round(ln_diffMin / 30);
