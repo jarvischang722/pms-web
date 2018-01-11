@@ -455,6 +455,28 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
+
+                                                    <script>
+                                                        //console.log(navigator.userAgent);
+                                                        //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
+                                                        //0822 有些mac的scrollBar 會推，有些不會(jun會)
+                                                        //                        if(navigator.userAgent.indexOf("Window") !=-1){
+
+                                                        // 異動紀錄 修改
+                                                        //                                                    var tblContentHt = $(window).height() - 270;
+                                                        //                                                    $('.tbl-content02').css({'height': tblContentHt});
+                                                        $(window).on("load resize ", function () {
+                                                            let scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
+                                                            $('.tbl-header02').css({'padding-right': '17px'});
+                                                            let fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
+                                                            // 異動紀錄 修改
+                                                            let tblContentHt = $(window).height() - 270;
+//                                                            $('.tbl-content02').css({'height': tblContentHt});
+                                                        }).resize();
+                                                        //                        }
+                                                        // /.end 判斷如果不是window不執行
+
+                                                    </script>
                                                 </div>
                                                 <div class="fixHeadTable pull-left width-85">
                                                     <div class="tbl-header02">
@@ -632,30 +654,31 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                </div>
+                                                    <script>
+                                                        //console.log(navigator.userAgent);
+                                                        //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
+                                                        //0822 有些mac的scrollBar 會推，有些不會(jun會)
+                                                        //                        if(navigator.userAgent.indexOf("Window") !=-1){
 
-                                                <script>
-                                                    //console.log(navigator.userAgent);
-                                                    //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
-                                                    //0822 有些mac的scrollBar 會推，有些不會(jun會)
-                                                    //                        if(navigator.userAgent.indexOf("Window") !=-1){
-
-                                                    // 異動紀錄 修改
-                                                    var tblContentHt = $(window).height() - 270;
-                                                    $('.tbl-content02').css({'height': tblContentHt});
-                                                    $(window).on("load resize ", function () {
-                                                        var scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
-                                                        $('.tbl-header02').css({'padding-right': '17px'});
-                                                        var fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
                                                         // 異動紀錄 修改
-                                                        var tblContentHt = $(window).height() - 270;
-                                                        $('.tbl-content02').css({'height': tblContentHt});
-                                                    }).resize();
-                                                    //                        }
-                                                    // /.end 判斷如果不是window不執行
+                                                        //                                                    var tblContentHt = $(window).height() - 270;
+                                                        //                                                    $('.tbl-content02').css({'height': tblContentHt});
+                                                        $(window).on("load resize ", function () {
+                                                            let scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
+                                                            $('.tbl-header02').css({'padding-right': '17px'});
+                                                            let fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
+                                                            // 異動紀錄 修改
+                                                            let tblContentHt = $(window).height() - 270;
+//                                                            $('.tbl-content02').css({'height': tblContentHt});
+                                                        }).resize();
+                                                        //                        }
+                                                        // /.end 判斷如果不是window不執行
 
-                                                </script>
+                                                    </script>
+                                                </div>
                                                 <div class="clearfix"></div>
+
+
                                             </div>
                                             <div class="clearfix"></div>
                                             <div class="space-12"></div>
@@ -1394,6 +1417,27 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
+                                                    <script>
+                                                        //console.log(navigator.userAgent);
+                                                        //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
+                                                        //0822 有些mac的scrollBar 會推，有些不會(jun會)
+                                                        //                        if(navigator.userAgent.indexOf("Window") !=-1){
+
+                                                        // 異動紀錄 修改
+                                                        //                                                    var tblContentHt = $(window).height() - 270;
+                                                        //                                                    $('.tbl-content02').css({'height': tblContentHt});
+                                                        $(window).on("load resize ", function () {
+                                                            let scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
+                                                            $('.tbl-header02').css({'padding-right': '17px'});
+                                                            let fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
+                                                            // 異動紀錄 修改
+                                                            let tblContentHt = $(window).height() - 270;
+//                                                            $('.tbl-content02').css({'height': tblContentHt});
+                                                        }).resize();
+                                                        //                        }
+                                                        // /.end 判斷如果不是window不執行
+
+                                                    </script>
                                                 </div>
                                                 <div class="fixHeadTable pull-left width-85">
                                                     <div class="tbl-header02">
@@ -1571,6 +1615,27 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
+                                                    <script>
+                                                        //console.log(navigator.userAgent);
+                                                        //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
+                                                        //0822 有些mac的scrollBar 會推，有些不會(jun會)
+                                                        //                        if(navigator.userAgent.indexOf("Window") !=-1){
+
+                                                        // 異動紀錄 修改
+                                                        //                                                    var tblContentHt = $(window).height() - 270;
+                                                        //                                                    $('.tbl-content02').css({'height': tblContentHt});
+                                                        $(window).on("load resize ", function () {
+                                                            let scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
+                                                            $('.tbl-header02').css({'padding-right': '17px'});
+                                                            let fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
+                                                            // 異動紀錄 修改
+                                                            let tblContentHt = $(window).height() - 270;
+//                                                            $('.tbl-content02').css({'height': tblContentHt});
+                                                        }).resize();
+                                                        //                        }
+                                                        // /.end 判斷如果不是window不執行
+
+                                                    </script>
                                                 </div>
                                                 <div class="clearfix"></div>
                                             </div>
