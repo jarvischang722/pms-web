@@ -73,8 +73,12 @@
 </script>
 
 <style scoped>
+    ul.authHt {
+        margin-bottom: 0;
+        margin-left: 0;
+    }
+
     .authHt {
-        width: 100%;
-        overflow: scroll;
+        overflow-y: scroll;
     }
 </style>

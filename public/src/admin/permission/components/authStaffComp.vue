@@ -27,12 +27,12 @@
             // 藍色系統列
             let navHt = $(".navbar-container").height();
             // quickMenus + 搜尋欄位
-            let menuHt = $(".top-sec-ul").height()+ 30+ $(".page-header").height();//padding-top: 5px
+            let menuHt = $(".top-sec-ul").height() + 30 + $(".page-header").height();//padding-top: 5px
 
-            let titleSaveHt = 80 *2;
+            let titleSaveHt = 80 * 2;
 
             let authHt = 0;
-            this.authHt.maxHeight = ($(window).height()-navHt- menuHt -titleSaveHt) /2;
+            this.authHt.maxHeight = ($(window).height() - navHt - menuHt - titleSaveHt) / 2;
             this.authHt.maxHeight += "px";
         },
         computed: {
@@ -193,7 +193,7 @@
 
             rename_node(lb_isAuthUpdate) {
                 if (lb_isAuthUpdate) {
-                    $("#permissionAccountTree").jstree("edit", this.selectedNode, null, function(node){
+                    $("#permissionAccountTree").jstree("edit", this.selectedNode, null, function (node) {
 
                         // this.$store.commit("setTmpUpd", node.text);
                         this.$store.commit("setIsAuthUpdate", false);
@@ -221,9 +221,10 @@
 <style scoped>
     ul.authHt {
         margin-bottom: 0;
+        margin-left: 0;
     }
+
     .authHt {
-        width: 100%;
-        overflow: scroll;
+        overflow-y: scroll;
     }
 </style>
