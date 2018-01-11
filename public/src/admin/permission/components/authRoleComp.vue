@@ -1,14 +1,16 @@
 <template>
     <div>
         <p class="topTitle">角色權限</p>
-        <select class="form-control authorSelect" v-model="selRole" v-if="gs_permissionModel=='authByRole'">
-            <option v-for="role in allRoles" :value="role.role_id">{{role.role_id}} : {{role.role_nam}}</option>
-        </select>
+        <div :style="authHt">
+            <select class="form-control authorSelect" v-model="selRole" v-if="gs_permissionModel=='authByRole'">
+                <option v-for="role in allRoles" :value="role.role_id">{{role.role_id}} : {{role.role_nam}}</option>
+            </select>
 
-        <template v-for="role in allRoles" v-else>
-            <input type="checkbox" :id="role.role_id" :value="role.role_id" v-model="checkedRole">
-            <label :for="role.role_id">{{role.role_nam}}</label><br>
-        </template>
+            <template v-for="role in allRoles" v-else>
+                <input type="checkbox" :id="role.role_id" :value="role.role_id" v-model="checkedRole">
+                <label :for="role.role_id">{{role.role_nam}}</label><br>
+            </template>
+        </div>
     </div>
 </template>
 
@@ -17,8 +19,26 @@
 
     export default {
         name: "auth-role-comp",
+        data() {
+            return {
+                authHt: {}
+            }
+        },
         created() {
             this.qryAllRoles();
+        },
+        mounted() {
+            this.permissionModel;
+            // 藍色系統列
+            let navHt = $(".navbar-container").height();
+            // quickMenus + 搜尋欄位
+            let menuHt = $(".top-sec-ul").height() + 30 + $(".page-header").height();//padding-top: 5px
+
+            let titleSaveHt = 80 * 2;
+
+            let authHt = 0;
+            this.authHt.maxHeight = ($(window).height() - navHt - menuHt - titleSaveHt) / 2;
+            this.authHt.maxHeight += "px";
         },
         computed: {
             selRole: {
@@ -52,6 +72,9 @@
     }
 </script>
 
-<!--<style scoped>-->
-
-<!--</style>-->
+<style scoped>
+    .authHt {
+        width: 100%;
+        overflow: scroll;
+    }
+</style>

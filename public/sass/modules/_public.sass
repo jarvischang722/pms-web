@@ -221,6 +221,14 @@ a
   +btn-skin-style
   &.btn.disabled,&.btn[disabled]
     +btn-skin-style
+.btn.btn-white
+  &.btn-skin
+    font-weight: 300
+    text-shadow: none
+    cursor: not-allowed !important
+    +btn-skin-style
+    &.btn.disabled,&.btn[disabled]
+      +btn-skin-style
 
 //<!--PMS(enterprise) excample:"
 //    加：btn-gray disabled" "
@@ -236,6 +244,7 @@ a
       background-color: #ebebeb !important
       border: 1px solid #ebebeb !important
       color: $grayDisable !important
+
 .btn-gray
   font-weight: 300
   text-shadow: none
@@ -243,7 +252,14 @@ a
   +btn-gray-style
   &.btn.disabled,&.btn[disabled]
     +btn-gray-style
-
+.btn.btn-white
+  &.btn-gray
+    font-weight: 300
+    text-shadow: none
+    cursor: not-allowed !important
+    +btn-gray-style
+    &.btn.disabled,&.btn[disabled]
+      +btn-gray-style
 //第二階段btn
 //<!--
 //    加：btn_secStage 第二層加:<span></span>"

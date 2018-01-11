@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = {
-     entry: "./public/src/admin/sales/PMS0610010",
+     entry: "./public/src/admin/permission/permissionSetup.js",
     // entry: [
     //     'webpack/hot/dev-server',
     //     path.join(__dirname, 'public', 'src')
@@ -15,8 +15,8 @@ const config = {
     // },
     output: {
         publicPath: '/dist',
-        path: path.join(__dirname, 'public', 'js/sales/'),
-        filename: 'PMS0610010.main.js'
+        path: path.join(__dirname, 'public', 'js/system/'),
+        filename: 'permissionSetup.js'
 
     },
     module: {

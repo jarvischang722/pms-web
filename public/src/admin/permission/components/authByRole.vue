@@ -12,7 +12,6 @@
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="space-6"></div>
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-xs-6">
