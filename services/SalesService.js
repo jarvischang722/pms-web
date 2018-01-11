@@ -892,7 +892,7 @@ exports.handleEditSalesClerk = function (session, postData, callback) {
         "user": userInfo.usr_id,
         "count": 1,
         "exec_data": [{
-            function: '1',
+            function: '0500',
             sales_cod: sales_cod,
             cust_cod: cust_cod,
             upd_order_mn: upd_order_mn

@@ -377,8 +377,10 @@
                 this.showTabContent(val);
             },
             rowData(val) {
-                this.initData();
-                this.fetchFieldData(val);
+                if (!_.isEmpty(val)) {
+                    this.initData();
+                    this.fetchFieldData(val);
+                }
             }
         },
         methods: {
@@ -418,10 +420,24 @@
                     tab_page_id: 1,
                     template_id: 'gridsingle'
                 }, function (result) {
-                    console.log(result);
+                    self.oriFieldsData = result.gsFieldsData;
+                    self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
+                    self.fetchRowData();
+                    console.log(self.fieldsData);
                 });
             },
             fetchRowData() {
+                var self = this;
+                console.log(this.isCreateStatus);
+                if (this.isCreateStatus) {
+                    $.post("/api/fetchDefaultSingleRowData", {
+                        prg_id: "PMS0610020",
+                        page_id: 1,
+                        tab_page_id: 1
+                    }, function (result) {
+                        console.log(result);
+                    });
+                }
             },
             doSaveGrid() {
             },

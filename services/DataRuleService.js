@@ -140,7 +140,7 @@ exports.getSelectOptions = function (params, selRow, field, callback) {
  * @param field
  * @param callback
  */
-exports.getSelectGridOption = function (params, selRow, field, callback) {
+exports.getSelectGridOption = function (session, selRow, field, callback) {
     //要回傳的資料
     let lo_selectData = {};
 
@@ -155,14 +155,14 @@ exports.getSelectGridOption = function (params, selRow, field, callback) {
         }
         else{
             lo_selectData = result;
-            lo_selectData.isQrySrcBefore = selRow.is_qry_src_before;
+            lo_selectData.isQrySrcBefore = selRow.is_qry_src_before == ""?"Y":selRow.is_qry_src_before;
             callback(err, lo_selectData);
         }
     });
 
     function qrySelectGridColumn(cb) {
         if (!_.isUndefined(ruleAgent[selRow.column_func_name])) {
-            ruleAgent[selRow.column_func_name](params, function (err, data) {
+            ruleAgent[selRow.column_func_name](session, function (err, data) {
                 cb(err, data);
             });
         }
@@ -180,21 +180,11 @@ exports.getSelectGridOption = function (params, selRow, field, callback) {
         else {
             if (selRow.is_qry_src_before != "N") {
                 var sql_tag = selRow.rule_func_name.toUpperCase();
-                queryAgent.queryList(sql_tag, params, 0, 0, function (err, selData) {
+                var lo_params = session.user;
+                queryAgent.queryList(sql_tag, lo_params, 0, 0, function (err, selData) {
                     if (err) {
                         selData = [];
                     }
-
-                    _.each(selData, function (lo_selData, index) {
-                        if (!_.isUndefined(lo_selData.value)) {
-                            if (field.modificable == 'N') {
-                                selData[index].display = lo_selData.display.trim();
-                            } else {
-                                selData[index].display = lo_selData.value.trim() + " : " + lo_selData.display.trim();
-                            }
-                        }
-                    });
-
                     cb(err, {
                         selectData: selData,
                         columns: selectData.columns,

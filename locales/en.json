@@ -192,7 +192,15 @@
       "append_remark": "新增備註(英)",
       "update_remark": "修改備註(英)",
       "remove_remark": "刪除備註(英)",
-      "appear_consumption_dt": "顯示消費明細(英)"
+      "appear_consumption_dt": "顯示消費明細(英)",
+      "show_cod": "公司編號(英)",
+      "cust_nam": "公司名稱(英)",
+      "uni_cod": "統一編號(英)",
+      "uni_title": "發票抬頭(英)",
+      "cust_cod": "公司代號(英)",
+      "sales_cod": "業務員代號(英)",
+      "sales_nam": "業務員姓名(英)",
+      "class_nam": "組別(英)"
     },
     "PMS0620020": {
       "sales_cod": "Sales Id",

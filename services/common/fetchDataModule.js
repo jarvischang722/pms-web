@@ -229,7 +229,9 @@ exports.GridSingleProc = function (postData, session) {
 function qryFieldName(callback) {
     var lo_params = {
         prg_id: gs_prg_id,
-        page_id: Number(gn_page_id)
+        page_id: Number(gn_page_id),
+        tab_page_id: Number(gn_tab_page_id),
+        template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
     };
 
     mongoAgent.UIPageField.find(lo_params, function (err, fieldNameList) {
@@ -243,7 +245,9 @@ function qryFieldName(callback) {
 function qrySelectData(callback) {
     var lo_params = {
         prg_id: gs_prg_id,
-        page_id: Number(gn_page_id)
+        page_id: Number(gn_page_id),
+        tab_page_id: Number(gn_tab_page_id),
+        template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
     };
 
     mongoAgent.UITypeSelect.find(lo_params, function (err, selectData) {
@@ -341,6 +345,7 @@ function qryUIPageFields(callback) {
     mongoAgent.UIPageField.find({
         prg_id: gs_prg_id,
         page_id: Number(gn_page_id),
+        tab_page_id: Number(gn_tab_page_id),
         template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
     }, function (err, result) {
         if (!result) {
@@ -443,10 +448,10 @@ function qrySelectOption(la_dgFieldData, callback) {
         if (lo_dgField.ui_type == 'select' || lo_dgField.ui_type == 'multiselect' || lo_dgField.ui_type == 'checkbox' || lo_dgField.ui_type == 'selectgrid') {
 
             //讀取selectgrid的設定參數
-            if (lo_dgField.ui_type == 'selectgrid') {
-                var func_name = gs_prg_id + '_' + lo_dgField.ui_field_name;
-                la_dgFieldData[fIdx].selectGridOptions = ruleAgent[func_name]();
-            }
+            // if (lo_dgField.ui_type == 'selectgrid') {
+            //     var func_name = gs_prg_id + '_' + lo_dgField.ui_field_name;
+            //     la_dgFieldData[fIdx].selectGridOptions = ruleAgent[func_name]();
+            // }
             genAsyncParaFunc(la_dgFieldData, fIdx);
         }
         else if (_.isEqual(lo_dgField.ui_type, "tree") || _.isEqual(lo_dgField.ui_type, "multitree")) {
