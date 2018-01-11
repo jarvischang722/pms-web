@@ -1071,6 +1071,31 @@ var vm = new Vue({
             this.dgIns.init(prg_id, "dg", colOption, this.pageOneFieldData, {
                 singleSelect: false
             });
+            //** 計算網頁高度 **//
+            // 藍色系統列
+            var navHt = $(".navbar-container").height();
+            // quickMenus + 搜尋欄位
+            var menuHt = $(".top-sec-ul").height()+ 30+ $(".page-header").height();//padding-top: 5px
+            // 高度 margin或padding 的差距
+            var menuHt3 = 70;
+            var searchHt = $('.search-content').height() +5;
+            function allHt() {
+                prg_dgHtSingle = $(window).height() - navHt - menuHt - menuHt3 - searchHt;  // PMS0810020
+            }
+            allHt();
+
+            $('.prg_dgHtSingle').datagrid('resize',{
+                height:prg_dgHtSingle
+            });
+            // $(".prg_dgHt").css("height", prg_dgHt); // PMS0810020
+
+            $(window).resize(function () {
+                allHt();
+                // $('.prg_dgHt').datagrid('resize',{
+                //     height:prg_dgHt
+                // });
+            })
+            //** End.計算網頁高度 **//
             this.dgIns.loadDgData(this.pageOneDataGridRows);
         },
 
