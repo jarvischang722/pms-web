@@ -4,7 +4,7 @@
       {
         "order_seq": 1,
         "datatype": "BEG_HOUR",
-        "beg_hour": 5,
+        "beg_hour": 6,
         "end_hour": null,
         "rspt_cod": null,
         "rspt_nam": null,
@@ -22,7 +22,7 @@
         "order_seq": 2,
         "datatype": "END_HOUR",
         "beg_hour": null,
-        "end_hour": 35,
+        "end_hour": 29,
         "rspt_cod": null,
         "rspt_nam": null,
         "is_child": null,
@@ -389,8 +389,8 @@
         "desk_qnt": null,
         "mtime_cod": "05  ",
         "time_nam": "夜間場佈",
-        "begin_tim": "2400",
-        "end_tim": "2959"
+        "begin_tim": "0000",
+        "end_tim": "0500"
       },
       {
         "order_seq": 24,
@@ -424,7 +424,7 @@
         "mtime_cod": "01  ",
         "time_nam": "上午茶點",
         "begin_tim": "1000",
-        "end_tim": "1030"
+        "end_tim": "1130"
       },
       {
         "order_seq": 26,
