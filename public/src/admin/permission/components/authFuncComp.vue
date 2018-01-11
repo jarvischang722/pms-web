@@ -1,8 +1,8 @@
 <template>
     <div v-loading="isLoading">
         <p class="topTitle">功能權限</p>
-        <div class="easyui-panel tree-body" style="width: 100%;">
-            <ul id="permissionFuncTree" class="easyui-tree"></ul>
+        <div class="easyui-panel tree-body ">
+            <ul id="permissionFuncTree" class="easyui-tree authHt" :style="authHt"></ul>
         </div>
     </div>
 </template>
@@ -17,11 +17,23 @@
         data() {
             return {
                 treeIns: null,
-                isLoading: false
+                isLoading: false,
+                authHt: {}
             }
         },
         mounted() {
             this.permissionModel;
+                    // 藍色系統列
+                    let navHt = $(".navbar-container").height();
+                    // quickMenus + 搜尋欄位
+                    let menuHt = $(".top-sec-ul").height()+ 30+ $(".page-header").height();//padding-top: 5px
+
+                    let titleSaveHt = 80 *2;
+
+                    let authHt = 0;
+
+                    this.authHt.maxHeight = ($(window).height()-navHt- menuHt -titleSaveHt) /2;
+                    this.authHt.maxHeight += "px";
         },
         computed: {
             permissionModel: {
@@ -157,8 +169,17 @@
             }
         }
     }
+
+
+
 </script>
 
 <style scoped>
-
+    ul.authHt {
+        margin-bottom: 0;
+        margin-left: 0;
+    }
+    .authHt {
+        overflow-y: auto;
+    }
 </style>

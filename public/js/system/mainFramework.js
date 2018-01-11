@@ -23,6 +23,7 @@ var BacchusMainVM = new Vue({
         isOpenModule: "", //打開的模組 ex: PMS0001000
         displayLogoutDialog: false, //決定閒置登出的視窗是否要跳出
         gs_cookieExpires: '', //cookie 剩餘時間
+        serverTime: '', //server 時間
         prgVueIns: {}, //目前作業的 vue 實例
         leaveAfterExecFuncsNam: [], //頁面前離開後要幫作業觸發的功能
         sysPrgPath: ''
@@ -195,6 +196,7 @@ var BacchusMainVM = new Vue({
                 $.post('/api/getSessionExpireTime', function (result) {
                     if (result.session.cookie.expires !== BacchusMainVM.gs_cookieExpires) {
                         BacchusMainVM.gs_cookieExpires = result.session.cookie.expires;
+                        BacchusMainVM.serverTime = result.serverTime;
                         clearInterval(gf_chkSessionInterval);
                         BacchusMainVM.doDownCount();
                     }
@@ -214,7 +216,7 @@ var BacchusMainVM = new Vue({
          * 倒數登出時間
          */
         doDownCount: function () {
-            let secs = moment(BacchusMainVM.gs_cookieExpires).diff(moment(), "seconds");
+            let secs = moment(BacchusMainVM.gs_cookieExpires).diff(BacchusMainVM.serverTime, "seconds");
             gf_chkSessionInterval = setInterval(function () {
 
                 let hr = Math.floor(secs / 3600);
@@ -262,7 +264,7 @@ var BacchusMainVM = new Vue({
         /**
          * 授權控管 人數(確認館別、集團是否超過人數)
          */
-        doCheckOnlineUser: function(){
+        doCheckOnlineUser: function () {
             g_socket.emit('checkOnlineUser');
         }
 
@@ -277,7 +279,7 @@ $(function () {
 
 });
 
-$(document).on('click', '.purview_btn', function(event){
+$(document).on('click', '.purview_btn', function (event) {
     var purview_func_id = $(this).data("purview_func_id").toString();
     var lo_params = {
         prg_id: purview_func_id.split("-")[0],

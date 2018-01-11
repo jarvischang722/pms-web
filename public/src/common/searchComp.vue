@@ -80,6 +80,8 @@
                             </div>  <!-- /.footer-btn-menu-co -->
                         </div> <!-- /.search-footer-btn -->
                     </div>
+                    <div class="clearfix"></div>
+
                     <div class="search-co-content col-xs-12 search-S2-con rece-search-detail" style="display: none;">
                         <div class="width-95">
 
