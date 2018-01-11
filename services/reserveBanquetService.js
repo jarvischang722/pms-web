@@ -42,12 +42,6 @@ exports.qryPageOneData = function (postData, session, callback) {
     });
 
     function qryBanquetData(cb) {
-        // fs.readFile("./public/jsonData/reservation/banquetData.json", "utf8", function (err, result) {
-        //     result = JSON.parse(result);
-        //     let la_map = result.tmp_bq3_web_map.data;
-        //     cb(err, la_map);
-        // });
-
         let params = {
             "REVE-CODE": "RS0W212010",
             "program_id": "RS0W212010",
@@ -70,12 +64,6 @@ exports.qryPageOneData = function (postData, session, callback) {
     }
 
     function qryBanquetSta(cb) {
-
-        // fs.readFile("./public/jsonData/reservation/bq_order.json", "utf8", function (err, result) {
-        //     let la_order = JSON.parse(result);
-        //     cb(err, la_order);
-        // });
-
         queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function (err, result) {
             cb(null, result);
         });

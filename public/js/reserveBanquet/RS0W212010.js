@@ -1678,15 +1678,6 @@ var RS00202010VM = new Vue({
                 end_tim = lo_mtimeData.end_tim;
             }
 
-            console.log({
-                bquet_nos: "",
-                begin_tim: beg_tim,
-                end_tim: end_tim,
-                place_cod: place_cod,
-                desk_qnt: ln_desk_qnt,
-                rspt_cod: rspt_cod
-            });
-            return;
             vmHub.$emit("showReserve", {
                 bquet_nos: "",
                 begin_tim: beg_tim,
