@@ -958,7 +958,8 @@ var vm = new Vue({
         openChangeLogDialog: false,
         allChangeLogList: [],
         isSaving: false,
-        isRuleComplete: true
+        isRuleComplete: true,
+        maxWidth: 0
     },
     watch: {
         editStatus: function (newVal) {
@@ -1012,6 +1013,7 @@ var vm = new Vue({
         },
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function (callback) {
+            vm.maxWidth = 0;
             if (_.isUndefined(callback) || _.isNull(callback)) {
                 callback = function () {
                 };
@@ -1024,6 +1026,19 @@ var vm = new Vue({
                 var fieldData = result.fieldData;
                 vm.oriPageTwoFieldData = fieldData;
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
+
+                // 算最小寬度 && 最大行數
+                var maxField = _.max(vm.pageTwoFieldData, function (lo_pageTwoField) {
+                    return lo_pageTwoField.length;
+                });
+
+                _.each(maxField, function (lo_maxField, index) {
+                    var width = parseInt(lo_maxField.width) || 35; //90
+                    var label_width = parseInt(lo_maxField.label_width) || 50; //165
+                    vm.maxWidth += (width + label_width + 14);
+                    //todo 此單筆最後一排有超過五個以上的grid-item 會錯誤
+                    // if(index >= 2) return true;
+                });
 
                 //page2  datagrid 欄位屬性
                 if (_.findIndex(fieldData, {ui_type: 'grid'}) > -1) {
@@ -1056,6 +1071,31 @@ var vm = new Vue({
             this.dgIns.init(prg_id, "dg", colOption, this.pageOneFieldData, {
                 singleSelect: false
             });
+            //** 計算網頁高度 **//
+            // 藍色系統列
+            var navHt = $(".navbar-container").height();
+            // quickMenus + 搜尋欄位
+            var menuHt = $(".top-sec-ul").height()+ 30+ $(".page-header").height();//padding-top: 5px
+            // 高度 margin或padding 的差距
+            var menuHt3 = 70;
+            var searchHt = $('.search-content').height() +5;
+            function allHt() {
+                prg_dgHtSingle = $(window).height() - navHt - menuHt - menuHt3 - searchHt;  // PMS0810020
+            }
+            allHt();
+
+            $('.prg_dgHtSingle').datagrid('resize',{
+                height:prg_dgHtSingle
+            });
+            // $(".prg_dgHt").css("height", prg_dgHt); // PMS0810020
+
+            $(window).resize(function () {
+                allHt();
+                // $('.prg_dgHt').datagrid('resize',{
+                //     height:prg_dgHt
+                // });
+            })
+            //** End.計算網頁高度 **//
             this.dgIns.loadDgData(this.pageOneDataGridRows);
         },
 
@@ -1252,18 +1292,21 @@ var vm = new Vue({
         showSingleGridDialog: function () {
             this.initDatePicker();
             this.dialogVisible = true;
-            var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
-            var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
-            if (this.pageTwoDataGridFieldData.length > 0) {
-                //加上 dt 高度
-                height += this.dtData.length * 35 + 130;
-            }
+            var height = this.pageTwoFieldData.length * 50 + 130; // 預設一個row 高度
+            var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+            var dialogWt = this.maxWidth + 125;
+
+            // if (this.pageTwoDataGridFieldData.length > 0) {
+            //     //加上 dt 高度
+            //     height += this.dtData.length * 35 + 130;
+            // }
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
                 height: _.min([maxHeight, height]),
                 title: prg_id,
-                minWidth: 760,
+                minWidth: _.min([dialogWt, 1000]),
+                width: _.min([dialogWt, 1000]),
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns"

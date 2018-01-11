@@ -70,6 +70,15 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
+    <!--[PMS0610010] 商務公司　欄位credit_amt、ar_amt(依參數「前檯金額格式」顯示)-->
+    <dao name="QRY_AMT_FORMAT">
+        <statement><![CDATA[
+           select pg_ais2.sf_get_comp_sval('NULL', 'CM', 'mask_hfd', :athena_id) as format_val from dual
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
     <!--TODO 資料顯示FORMAT-->
     <!--[PMS0620050] 業務員拜訪紀錄　欄位traffic_amt(依參數「前檯金額格式」顯示)-->
     <dao name="QRY_TRAFFIC_AMT_FORMAT">

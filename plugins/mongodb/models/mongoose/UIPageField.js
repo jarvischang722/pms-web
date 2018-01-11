@@ -19,6 +19,7 @@ let UIPageFieldSchema = new Schema({
     col_seq: Number,   　              //第幾欄，由0開始
     height: Number,   　               //欄位高度px
     width: Number,   　                //欄位寬度px
+    label_width: Number,   　          //標題欄位寬度px
     ui_field_length: Number,   　      //欄位長度
     ui_field_num_point: Number,   　    //欄位小數點長度
     multi_lang_table: String,            //多語TABLE

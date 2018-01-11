@@ -100,7 +100,7 @@
 
                                 <!-- 補空白 -->
                                 <td v-else-if="lo_banquetDt.datatype == ''" v-for="repeat in lo_banquetDt.repeat"
-                                    @click="addReserve(repeat-1, la_rowData.rspt_cod, la_rowData.place_cod)"></td>
+                                    @click="addReserve(lo_banquetDt.beg_tim, repeat-1, la_rowData.rspt_cod, la_rowData.place_cod)"></td>
                             </template>
                         </tr>
 
@@ -116,7 +116,7 @@
     </div>
 </div>
 
-<script src="/js/tableHeadFixer.js"></script>
+<script src="/js/fixTable/tableHeadFixer.js"></script>
 
 <!-- settingSingleDialog-message 彈出視窗 -->
 <%- include ../setup/vueTemplate/chooseDataDialogTmp.ejs %>

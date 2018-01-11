@@ -9,6 +9,8 @@ const dbSvc = require("../services/DbTableService");
 const uploadSvc = require("../services/uploadService");
 const logSvc = require("../services/LogService");
 const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
+const moment = require("moment");
+
 
 /**
  * 首頁
@@ -28,7 +30,7 @@ exports.systemOption = function (req, res) {
         return;
     }
 
-    SysFuncPurviewSvc.getUserAllowSystem(req,function(err,sysList){
+    SysFuncPurviewSvc.getUserAllowSystem(req, function (err, sysList) {
         res.render('system/systemOption', {sysList});
     });
 
@@ -40,8 +42,8 @@ exports.systemOption = function (req, res) {
 exports.userAllowSystem = function (req, res) {
 
 
-    SysFuncPurviewSvc.getUserAllowSystem(req,function(err,sysList){
-        res.json({success:true,sysList});
+    SysFuncPurviewSvc.getUserAllowSystem(req, function (err, sysList) {
+        res.json({success: true, sysList});
     });
 
 };
@@ -171,7 +173,7 @@ exports.getSetupPrgChangeLog = function (req, res) {
  */
 exports.getSessionExpireTime = function (req, res) {
     let lo_session = req.session;
-    res.json({success: true, session: lo_session});
+    res.json({success: true, session: lo_session, serverTime: moment()});
 };
 
 /**

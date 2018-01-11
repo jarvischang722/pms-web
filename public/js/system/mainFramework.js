@@ -1,5 +1,13 @@
 var g_socket = io.connect('/system');
 var gf_chkSessionInterval;
+var vmHub = new Vue();
+
+g_socket.on('checkOnlineUserResult', function (result) {
+    if (!result.success) {
+        alert(result.errorMsg);
+        location.href = '/systemOption';
+    }
+});
 
 var BacchusMainVM = new Vue({
     el: '#BacchusMainApp',
@@ -15,6 +23,7 @@ var BacchusMainVM = new Vue({
         isOpenModule: "", //打開的模組 ex: PMS0001000
         displayLogoutDialog: false, //決定閒置登出的視窗是否要跳出
         gs_cookieExpires: '', //cookie 剩餘時間
+        serverTime: '', //server 時間
         prgVueIns: {}, //目前作業的 vue 實例
         leaveAfterExecFuncsNam: [], //頁面前離開後要幫作業觸發的功能
         sysPrgPath: ''
@@ -111,6 +120,7 @@ var BacchusMainVM = new Vue({
                 BacchusMainVM.subsysMenu = res.subsysMenu;
                 BacchusMainVM.activeSystem = res.activeSystem;
                 BacchusMainVM.usingSubsysID = getCookie('usingSubsysID');
+                BacchusMainVM.doCheckOnlineUser();
             });
         },
         /**
@@ -160,14 +170,12 @@ var BacchusMainVM = new Vue({
                     }
                 }
             });
-            // ls_pro_url = "/PrgPropsSetup";
             if (_.isEmpty(ls_pro_url)) {
                 var tmpQuick = _.findWhere(this.quickMenu, {pro_id: prg_id});
                 if (tmpQuick) {
                     ls_pro_url = tmpQuick.pro_url;
                 }
             }
-            // ls_pro_url = "editPassword"
             if (!_.isEmpty(ls_pro_url)) {
                 $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
             }
@@ -188,6 +196,7 @@ var BacchusMainVM = new Vue({
                 $.post('/api/getSessionExpireTime', function (result) {
                     if (result.session.cookie.expires !== BacchusMainVM.gs_cookieExpires) {
                         BacchusMainVM.gs_cookieExpires = result.session.cookie.expires;
+                        BacchusMainVM.serverTime = result.serverTime;
                         clearInterval(gf_chkSessionInterval);
                         BacchusMainVM.doDownCount();
                     }
@@ -207,7 +216,7 @@ var BacchusMainVM = new Vue({
          * 倒數登出時間
          */
         doDownCount: function () {
-            let secs = moment(BacchusMainVM.gs_cookieExpires).diff(moment(), "seconds");
+            let secs = moment(BacchusMainVM.gs_cookieExpires).diff(BacchusMainVM.serverTime, "seconds");
             gf_chkSessionInterval = setInterval(function () {
 
                 let hr = Math.floor(secs / 3600);
@@ -250,6 +259,13 @@ var BacchusMainVM = new Vue({
                     location.reload();
                 }
             });
+        },
+
+        /**
+         * 授權控管 人數(確認館別、集團是否超過人數)
+         */
+        doCheckOnlineUser: function () {
+            g_socket.emit('checkOnlineUser');
         }
 
     }
@@ -263,4 +279,12 @@ $(function () {
 
 });
 
+$(document).on('click', '.purview_btn', function (event) {
+    var purview_func_id = $(this).data("purview_func_id").toString();
+    var lo_params = {
+        prg_id: purview_func_id.split("-")[0],
+        func_id: purview_func_id.split("-")[1]
+    };
+    g_socket.emit("recordUserAction", lo_params);
+});
 

@@ -29,8 +29,8 @@
 .grid-item label.label-spc-2 {
   width: 70px;
 }
-.grid-item .spanTxt {
-  margin: 3px 0 auto auto;
+.grid-item label.label_w80 {
+  width: 80px;
 }
 .grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option, .grid-item .input-medium, .grid-item input, .grid-item textarea {
   font-size: 13px !important;
@@ -98,6 +98,9 @@
   width: 0;
   min-height: initial;
   cursor: pointer;
+}
+.grid-item .popCheckbox label.checkbox-width {
+  margin-top: 2px;
 }
 
 .grid-item-input {
@@ -1473,7 +1476,6 @@ table.treetable span.indenter {
   padding-bottom: 4px;
   border-bottom: 1px solid #ccc;
   font-size: 20px;
-  letter-spacing: 1px;
 }
 .loginPage .login-container .main .form-control {
   width: 100%;
@@ -2384,6 +2386,9 @@ a {
 .businessCompanyData .main-content-data label.label-spc-2 {
   width: 70px;
 }
+.businessCompanyData .main-content-data label.label_w80 {
+  width: 80px;
+}
 .businessCompanyData .main-content-data .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
@@ -2406,6 +2411,9 @@ a {
 }
 .businessCompanyData .grid-item label.label-spc-2 {
   width: 70px;
+}
+.businessCompanyData .grid-item label.label_w80 {
+  width: 80px;
 }
 .businessCompanyData .grid-item .mainData-tip {
   font-size: 12px;
@@ -2483,6 +2491,9 @@ a {
 }
 .businessCompanyData .bs-changeRecord label.label-spc-2 {
   width: 70px;
+}
+.businessCompanyData .bs-changeRecord label.label_w80 {
+  width: 80px;
 }
 .businessCompanyData .bs-changeRecord .mainData-tip {
   font-size: 12px;
@@ -2703,6 +2714,9 @@ ul.newVisitOther-btn {
 .textFrame label.label-spc-2 {
   width: 70px;
 }
+.textFrame label.label_w80 {
+  width: 80px;
+}
 .textFrame .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
@@ -2762,6 +2776,9 @@ ul.newVisitOther-btn {
 .resv-changeRecord label.label-spc-2 {
   width: 70px;
 }
+.resv-changeRecord label.label_w80 {
+  width: 80px;
+}
 .resv-changeRecord .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
@@ -2802,6 +2819,9 @@ ul.newVisitOther-btn {
 }
 .resv-memo label.label-spc-2 {
   width: 70px;
+}
+.resv-memo label.label_w80 {
+  width: 80px;
 }
 .resv-memo .mainData-tip {
   font-size: 12px;
@@ -4380,7 +4400,16 @@ td div.act-box span.act-text {
   padding: 3px;
 }
 
-/*----  vue 問題 ---- */
+.vue-treeselect__menu label {
+  text-align: left;
+  width: auto;
+}
+
+.vue-treeselect {
+  display: inline-block;
+}
+
+/***** vue 問題 **** */
 .vue-treeselect__menu label {
   text-align: left;
   width: auto;
@@ -4432,8 +4461,16 @@ td div.act-box span.act-text {
   height: 25px !important;
 }
 
-/*----  /.END vue 問題 ---- */
-/*----  欄位屬性設定界面 ---- */
+.el-tabs--card .el-tabs__header {
+  margin-bottom: 0;
+}
+.el-tabs--card .el-tabs__header .el-tabs__nav .el-tabs__item {
+  padding: 0 6px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 13px;
+}
+
 #prgPropsSetupVM .title {
   font-size: 1.2em;
   color: #555;
@@ -4459,7 +4496,6 @@ td div.act-box span.act-text {
   box-shadow: none !important;
 }
 
-/*----  欄位屬性設定界面 ---- */
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;
@@ -4532,6 +4568,10 @@ td div.act-box span.act-text {
   float: right;
 }
 
+.text-left {
+  text-align: left !important;
+}
+
 .no-padding {
   padding: 0;
 }
@@ -4556,7 +4596,7 @@ td div.act-box span.act-text {
   margin: 0 !important;
 }
 
-.no-mt {
+.no-margin-top {
   margin-top: 0 !important;
 }
 
@@ -4593,7 +4633,7 @@ td div.act-box span.act-text {
 }
 
 .ml-4 {
-  margin-left: 4px !important;
+  margin-left: 4px;
 }
 
 .ml-5 {
@@ -4612,14 +4652,6 @@ td div.act-box span.act-text {
   margin-left: 8px;
 }
 
-.ml-10 {
-  margin-left: 10px;
-}
-
-.ml-77 {
-  margin-left: 77px;
-}
-
 .ml-90 {
   margin-left: 90px;
 }
@@ -4630,14 +4662,6 @@ td div.act-box span.act-text {
 
 .ml-94 {
   margin-left: 94px;
-}
-
-.ml-47 {
-  margin-left: 47px;
-}
-
-.ml-124 {
-  margin-left: 124px;
 }
 
 .mlr-3 {
@@ -4677,10 +4701,6 @@ td div.act-box span.act-text {
 
 .lineDelTgh {
   text-decoration: line-through;
-}
-
-.width-3 {
-  width: 3% !important;
 }
 
 .width-5 {
@@ -4913,11 +4933,6 @@ a {
   font-size: 12px;
 }
 
-.btn-sd {
-  border: 1px solid #8aafce;
-  padding-left: 3px;
-}
-
 .btn-skin {
   font-weight: 300;
   text-shadow: none;
@@ -4942,6 +4957,30 @@ a {
   color: #a2a2a2 !important;
 }
 
+.btn.btn-white.btn-skin {
+  font-weight: 300;
+  text-shadow: none;
+  cursor: not-allowed !important;
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+.btn.btn-white.btn-skin.btn:hover, .btn.btn-white.btn-skin.btn:active, .btn.btn-white.btn-skin.btn:focus, .btn.btn-white.btn-skin.btn:visited {
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+.btn.btn-white.btn-skin.btn.disabled, .btn.btn-white.btn-skin.btn[disabled] {
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+.btn.btn-white.btn-skin.btn.disabled.btn:hover, .btn.btn-white.btn-skin.btn.disabled.btn:active, .btn.btn-white.btn-skin.btn.disabled.btn:focus, .btn.btn-white.btn-skin.btn.disabled.btn:visited, .btn.btn-white.btn-skin.btn[disabled].btn:hover, .btn.btn-white.btn-skin.btn[disabled].btn:active, .btn.btn-white.btn-skin.btn[disabled].btn:focus, .btn.btn-white.btn-skin.btn[disabled].btn:visited {
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+
 .btn-gray {
   font-weight: 300;
   text-shadow: none;
@@ -4961,6 +5000,30 @@ a {
   color: #a2a2a2 !important;
 }
 .btn-gray.btn.disabled.btn:hover, .btn-gray.btn.disabled.btn:active, .btn-gray.btn.disabled.btn:focus, .btn-gray.btn.disabled.btn:visited, .btn-gray.btn[disabled].btn:hover, .btn-gray.btn[disabled].btn:active, .btn-gray.btn[disabled].btn:focus, .btn-gray.btn[disabled].btn:visited {
+  background-color: #ebebeb !important;
+  border: 1px solid #ebebeb !important;
+  color: #a2a2a2 !important;
+}
+
+.btn.btn-white.btn-gray {
+  font-weight: 300;
+  text-shadow: none;
+  cursor: not-allowed !important;
+  background-color: #ebebeb !important;
+  border: 1px solid #ebebeb !important;
+  color: #a2a2a2 !important;
+}
+.btn.btn-white.btn-gray.btn:hover, .btn.btn-white.btn-gray.btn:active, .btn.btn-white.btn-gray.btn:focus, .btn.btn-white.btn-gray.btn:visited {
+  background-color: #ebebeb !important;
+  border: 1px solid #ebebeb !important;
+  color: #a2a2a2 !important;
+}
+.btn.btn-white.btn-gray.btn.disabled, .btn.btn-white.btn-gray.btn[disabled] {
+  background-color: #ebebeb !important;
+  border: 1px solid #ebebeb !important;
+  color: #a2a2a2 !important;
+}
+.btn.btn-white.btn-gray.btn.disabled.btn:hover, .btn.btn-white.btn-gray.btn.disabled.btn:active, .btn.btn-white.btn-gray.btn.disabled.btn:focus, .btn.btn-white.btn-gray.btn.disabled.btn:visited, .btn.btn-white.btn-gray.btn[disabled].btn:hover, .btn.btn-white.btn-gray.btn[disabled].btn:active, .btn.btn-white.btn-gray.btn[disabled].btn:focus, .btn.btn-white.btn-gray.btn[disabled].btn:visited {
   background-color: #ebebeb !important;
   border: 1px solid #ebebeb !important;
   color: #a2a2a2 !important;
@@ -5190,6 +5253,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.rateCode-xs {
+  width: 31px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.rateCode-s1 {
   width: 180px;
   max-width: 100%;
@@ -5230,11 +5298,6 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.rateCode-xs {
-  width: 31px;
-  max-width: 100%;
-  height: 25px;
-}
 .input-medium.rateCode-s3 {
   width: 135px;
   max-width: 100%;
@@ -5257,11 +5320,6 @@ a {
 }
 .input-medium.consumeCode-g1-s {
   width: 50px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.consumeCode-g1-ss {
-  width: 46px;
   max-width: 100%;
   height: 25px;
 }
@@ -5340,13 +5398,8 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCardHalf-1 {
-  width: 65px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.resvCardHalf-2 {
-  width: 41px;
+.input-medium.resvCardHalf {
+  width: 53px;
   max-width: 100%;
   height: 25px;
 }
@@ -5515,26 +5568,6 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.w142px {
-  width: 142px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w348px {
-  width: 348px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w240px {
-  width: 240px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w96c2 {
-  width: 96.2px;
-  max-width: 100%;
-  height: 25px;
-}
 
 .input-hMedium {
   height: 25px !important;
@@ -5610,7 +5643,7 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   padding-left: 14px;
 }
 .popCheckbox .checkbox {
-  margin: 0 auto 0 auto;
+  margin: 1px auto 0 auto;
 }
 .popCheckbox .checkbox .ace {
   padding-right: 5px;
@@ -5626,9 +5659,6 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
 }
 .popCheckbox.lbl-after .checkbox label {
   padding-left: 10px;
-}
-.popCheckbox.rmAssignCk {
-  margin-left: -7px;
 }
 
 .rzNone {
@@ -5770,42 +5800,6 @@ select {
 input[type=checkbox] {
   width: 15px;
   height: 15px;
-}
-
-.margin-right-10 {
-  margin-right: 10px;
-}
-
-.width-35px {
-  width: 35px !important;
-}
-
-.width-82px {
-  width: 82px !important;
-}
-
-.width-135px {
-  width: 135px !important;
-}
-
-.width-137px {
-  width: 137px !important;
-}
-
-.width-103px {
-  width: 103px !important;
-}
-
-.width-133px {
-  width: 133px !important;
-}
-
-.width-80px {
-  width: 80px !important;
-}
-
-.margin-right-4 {
-  margin-right: 4px !important;
 }
 
 /*-------------- responsive -------------- */
