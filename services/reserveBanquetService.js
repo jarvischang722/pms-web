@@ -18,6 +18,7 @@ let tools = require("../utils/CommonTools");
 exports.qryPageOneData = function (postData, session, callback) {
     let lo_error = null;
     let lo_result = new ReturnClass();
+
     let lo_params = {
         use_dat: moment(postData.use_dat).format("YYYY/MM/DD")
     };
@@ -33,27 +34,19 @@ exports.qryPageOneData = function (postData, session, callback) {
         else {
             let la_banquetData = result[0];
             let la_banquetSta = result[1];
-            let lo_banquetData = convertDataToDisplay(la_banquetData, la_banquetSta);
-            lo_result.defaultValues = lo_banquetData;
+            let lo_resvBanquetData = new ResvBanquetData(la_banquetData, la_banquetSta);
+            lo_result.defaultValues = lo_resvBanquetData.convertExec();
         }
 
         callback(lo_error, lo_result);
     });
 
     function qryBanquetData(cb) {
-        let self = this;
         // fs.readFile("./public/jsonData/reservation/banquetData.json", "utf8", function (err, result) {
         //     result = JSON.parse(result);
         //     let la_map = result.tmp_bq3_web_map.data;
-        //     let la_mtime = _.where(la_map, {datatype: "MTIME"});
-        //     _.each(la_mtime, function (lo_mtime, index) {
-        //         la_mtime[index].begin_tim = addHour(lo_mtime.begin_tim);
-        //         la_mtime[index].end_tim = addHour(lo_mtime.end_tim);
-        //     });
-        //
         //     cb(err, la_map);
         // });
-
 
         let params = {
             "REVE-CODE": "RS0W212010",
@@ -77,41 +70,17 @@ exports.qryPageOneData = function (postData, session, callback) {
     }
 
     function qryBanquetSta(cb) {
+
+        // fs.readFile("./public/jsonData/reservation/bq_order.json", "utf8", function (err, result) {
+        //     let la_order = JSON.parse(result);
+        //     cb(err, la_order);
+        // });
+
         queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function (err, result) {
-            _.each(result, function (lo_order, index) {
-                result[index].begin_tim = addHour(lo_order.begin_tim);
-                result[index].end_time = addHour(lo_order.end_tim);
-            });
             cb(null, result);
         });
     }
-
 };
-
-//[RS0W212010] 將資料轉換為顯示用格式
-function convertDataToDisplay(la_data, la_sta) {
-    let lo_resvBanquetData = new ResvBanquetData(la_data, la_sta);
-    let lo_converData = lo_resvBanquetData.convertExec();
-    return lo_converData;
-}
-
-/**
- * 跨日加24小時
- * @param lo_time {string}
- * @returns {string}
- */
-function addHour(lo_time) {
-    let ln_hour = parseInt(lo_time.substring(0, 2));
-    let ls_min = lo_time.substring(2, 5);
-    if (ln_hour < 6) {
-        ln_hour += 24;
-    }
-    if (ln_hour.toString().length == 1) {
-        ln_hour = "0" + ln_hour;
-    }
-    let ls_time = ln_hour.toString() + ls_min;
-    return ls_time;
-}
 
 class ResvBanquetData {
     constructor(la_data, la_order) {
@@ -125,11 +94,16 @@ class ResvBanquetData {
         this.la_place = _.where(la_data, {datatype: "PLACE"});
         this.la_mtim = _.where(la_data, {datatype: "MTIME"});
         _.each(this.la_mtim, function (lo_mtim, index) {
-            self.la_mtim[index].begin_tim = addHour(lo_mtim.begin_tim);
-            self.la_mtim[index].end_tim = addHour(lo_mtim.end_tim);
+            self.la_mtim[index].begin_tim = self.chkTimeAdd24Min(lo_mtim.begin_tim);
+            self.la_mtim[index].end_tim = self.chkTimeAdd24Min(lo_mtim.end_tim);
         });
-
+        //餐期排序
         this.la_mtim = _.sortBy(this.la_mtim, "begin_tim");
+        _.each(la_order, function(lo_order, index){
+            la_order[index].begin_tim = self.chkTimeAdd24Min(lo_order.begin_tim);
+            la_order[index].end_tim = self.chkTimeAdd24Min(lo_order.end_tim);
+        });
+        //訂席單排序
         la_order = _.sortBy(la_order, "begin_tim");
         this.la_order = la_order;
     }
@@ -297,7 +271,7 @@ class ResvBanquetData {
             /**
              * 最後的餐期結束時間 != 營業結束時間 (補空白格子)
              */
-            if (!_.isUndefined(lo_last) && this.convertToMin(lo_last.end_tim) != self.day_end_min) {
+            if (!_.isUndefined(lo_last) && this.convertToMin(lo_last.end_tim) != self.day_end_min + 60) {
                 //計算格子數 : 營業結束時間 + 1hour - 最後餐期結束時間
                 ln_colspan = self.calcColSpan(this.convertToMin(lo_last.end_tim), self.day_end_min + 60);
                 lo_banquet_dt = {
@@ -401,7 +375,7 @@ class ResvBanquetData {
             /**
              * 最後訂席結束時間 != 營業結束時間 (補空白格子)
              */
-            if (!_.isUndefined(lo_last) && this.convertToMin(lo_last.end_tim) != this.day_end_min) {
+            if (!_.isUndefined(lo_last) && this.convertToMin(lo_last.end_tim) != (this.day_end_min + 60)) {
                 //計算空白格子數： 營業結束時間 + 1hour - 最後訂席結束時間
                 ln_colspan = self.calcColSpan(this.convertToMin(lo_last.end_tim), this.day_end_min + 60);
                 lo_banquet_dt = {
@@ -438,27 +412,17 @@ class ResvBanquetData {
      * @returns {number}    合併格數
      */
     calcColSpan(ln_begin_tim, ln_end_tim) {
-
-        let ln_day = 24 * 60;
-        //結束時間小於等於開始時間 要加1天(分鐘)
-        if (ln_end_tim <= ln_begin_tim) {
-            ln_end_tim += ln_day;
-        }
-        //開始時間小於6點
-        // if (ln_begin_tim < 360) {
-        //     ln_begin_tim += ln_day;
-        // }
-        //結束時間小於6點
-        // if (ln_end_tim < 360) {
-        //     ln_end_tim += ln_day;
-        // }
-
         let ln_diffMin = ln_end_tim - ln_begin_tim;
         let ln_colspan = Math.round(ln_diffMin / 30);
 
         return ln_colspan;
     }
 
+    /**
+     * 轉換成分鐘數
+     * @param ls_time
+     * @returns {number}
+     */
     convertToMin(ls_time) {
         ls_time = ls_time.toString();
         let ln_min = 0;
@@ -475,6 +439,24 @@ class ResvBanquetData {
             ln_min = hour * 60 + min;
         }
         return ln_min;
+    }
+
+    /**
+     * 小於營業開時時間 + 1天
+     * @param lo_time {string}
+     * @returns {string}
+     */
+    chkTimeAdd24Min(lo_time) {
+        let ln_hour = parseInt(lo_time.substring(0, 2)) || 0;
+        let ls_min = lo_time.substring(2, 5);
+        if (ln_hour < parseInt(this.day_beg_hour)) {
+            ln_hour += 24;
+        }
+        if (ln_hour.toString().length <= 1) {
+            ln_hour = ln_hour.toString().length == 1 ? "0" + ln_hour : "00";
+        }
+        let ls_time = ln_hour.toString() + ls_min;
+        return ls_time;
     }
 
     getTimeFromMins(mins) {

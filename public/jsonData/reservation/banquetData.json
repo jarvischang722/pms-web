@@ -390,7 +390,7 @@
         "mtime_cod": "05  ",
         "time_nam": "夜間場佈",
         "begin_tim": "0000",
-        "end_tim": "0559"
+        "end_tim": "0500"
       },
       {
         "order_seq": 24,
@@ -424,7 +424,7 @@
         "mtime_cod": "01  ",
         "time_nam": "上午茶點",
         "begin_tim": "1000",
-        "end_tim": "1030"
+        "end_tim": "1130"
       },
       {
         "order_seq": 26,
