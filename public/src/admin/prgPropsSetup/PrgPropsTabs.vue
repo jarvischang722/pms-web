@@ -81,7 +81,6 @@
                 try {
                     let lo_prgProps = await this.fetchProgramProsByPrgID();
                     this.columns = this.convertToColumns(lo_prgProps.collSchema);
-                    console.log(lo_prgProps.collSchema)
                     this.propsData = lo_prgProps.propsData;
                     this.collIndex = lo_prgProps.collIndexs;
                 } catch (err) {
