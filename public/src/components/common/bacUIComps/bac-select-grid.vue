@@ -1,5 +1,5 @@
 <template>
-    <input />
+    <input/>
 </template>
 
 <script>
@@ -7,7 +7,9 @@
         name: "bac-select-grid",
         props: {
             //綁定的model
-            vModel: ['String'],
+            vModel: {
+                type: String
+            },
             //是否多選
             multiple: {
                 type: Boolean,
@@ -26,29 +28,30 @@
             //是否為KEY 欄位時才去後端撈資料
             isQrySrcBefore: {
                 type: String,
-                default: function () {
-                    if (!this.isQrySrcBefore) {
-                        this.isQrySrcBefore = "N"
-                    }
-                    return this.isQrySrcBefore == 'N' ? false : true
-                }
+                default: 'N'
             },
             //combogrid 資料
             data: {
                 type: Array,
-                default: []
+                default: function () {
+                    return [];
+                }
             },
             //預設值
             defaultVal: ['String', 'Number'],
             //欄位屬性
             field: {
                 type: Object,
-                default: {}
+                default: function () {
+                    return {};
+                }
             },
             //datagrid 欄位
             columns: {
                 type: Array,
-                default: []
+                default:function () {
+                    return [];
+                }
             }
 
         },

@@ -7,7 +7,9 @@
         name: "bac-select",
         props: {
             //綁定的model
-            vModel: ['String'],
+            vModel: {
+                type: String
+            },
             //是否多選
             multiple: {
                 type: Boolean,
@@ -26,12 +28,7 @@
             //是否為KEY 欄位時才去後端撈資料
             isQrySrcBefore: {
                 type: String,
-                default: function () {
-                    if (!this.isQrySrcBefore) {
-                        this.isQrySrcBefore = "N"
-                    }
-                    return this.isQrySrcBefore == 'N' ? false : true
-                }
+                default: 'N'
             },
             //下拉選擇
             data: {
@@ -43,7 +40,9 @@
             //欄位屬性
             field: {
                 type: Object,
-                default: {}
+                default: function(){
+                    return {};
+                }
             }
 
         },
@@ -52,7 +51,6 @@
         },
         data: function () {
             return {
-
                 isLoading: false
             }
         },

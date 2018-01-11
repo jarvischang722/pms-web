@@ -31,8 +31,10 @@ dist:   /path/to/bacchus4web/public/js/common/BacUIComps.js
 #### Usage: 
 
 ```
-<bac-select v-model="person[fieldName]" :data="selectData" is-qry-src-before="Y"
-         value-field="id" text-field="text" @update:v-model="val => person[fieldName] = val"></bac-select>
+<bac-select v-model="person[fieldName]" :data="selectData"  
+is-qry-src-before="Y" value-field="id" text-field="text" 
+@update:v-model="val => person[fieldName] = val">
+</bac-select>
 ```
 
 ### 2. bac-select-grid   (下拉Datagrid 選單)
