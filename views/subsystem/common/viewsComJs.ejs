@@ -10,28 +10,34 @@
         // quickMenus + 搜尋欄位
         var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
 
+        var searchHt = 47; // 一行的height + padding 間距
+        var menuHt3 = 70;  // 高度 margin或padding 的差距
+
         // 前檯 selectgroup
         var selectgroup = $(".select-group").height();
 
         var dtTableSetupHt = $(".tab-content").height()-100; // tabs裡面的 - 搜尋:52px + 標題: 24px + 原本:25px // bug: 抓不到搜尋&標題高度
 
-        gridTableHt = $(window).height()-menuHeight1-menuHeight2-25;
-        dtTableSetupHt = dtTableSetupHt; // 設定檔table 高度
-        frontTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-8;
-        roomAssTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-120; // 上面備註高度
-
-        // $(".gridTableHt .panel-body").css("height", height);
+        function allHt() {
+            gridTableHt     = $(window).height()-menuHeight1-menuHeight2;
+            dtTableSetupHt  = dtTableSetupHt; // 設定檔table 高度
+            frontTableHt    = $(window).height()-menuHeight1-menuHeight2-selectgroup-8;
+            roomAssTableHt  = $(window).height()-menuHeight1-menuHeight2-selectgroup-120; // 上面備註高度
+            prg_dgHt_search = $(window).height() - menuHeight1 - menuHeight2 - menuHt3 - searchHt;  // PMS0810020
+            tabConHt        = $(window).height() - menuHeight1 - menuHeight2;
+        }
+        allHt();
         $(".gridTableHt").css("height", gridTableHt);
         $(".dtTableSetupHt").css("height", dtTableSetupHt);
         $(".frontTableHt").css("height", frontTableHt);
         $(".roomAssTableHt").css("height", roomAssTableHt); //roomAssign
+        $(".prg_dgHt_search").css("height", prg_dgHt_search); // PMS0810020
+        let setTabCon = $("#settingUl").find(".tab-content");
+        setTabCon.css("height", tabConHt);
 
         // 螢幕縮放時重新抓值
         $(window).resize(function() {
-            gridTableHt = $(window).height()-menuHeight1-menuHeight2-25;
-            dtTableSetupHt = $(".tab-content").height()-100; // 設定檔table 高度
-            frontTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-8;
-            roomAssTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-120; // 上面備註高度
+            allHt();
 
             $('.gridTableHt').datagrid('resize',{
                 height:gridTableHt
@@ -46,6 +52,12 @@
             $('.roomAssTableHt').datagrid('resize',{
                 height:roomAssTableHt
             });
+            // PMS0810020
+            $('.prg_dgHt_search').datagrid('resize',{
+                height:prg_dgHt_search
+            });
+
+            setTabCon.css("height", tabConHt);
         });
 
         //.END Resize Table Height // Date:170920
