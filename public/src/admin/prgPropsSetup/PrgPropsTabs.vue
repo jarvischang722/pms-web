@@ -2,8 +2,8 @@
     <el-collapse-transition>
         <div v-show="activePrg != ''">
             <el-tabs v-model="activeCollName" type="card" @tab-click="handleClick">
-                <el-tab-pane label="單筆" name="UIDatagridField"></el-tab-pane>
-                <el-tab-pane label="多筆" name="UIPageField"></el-tab-pane>
+                <el-tab-pane label="單筆欄位" name="UIPageField"></el-tab-pane>
+                <el-tab-pane label="多筆欄位" name="UIDatagridField"></el-tab-pane>
                 <el-tab-pane label="欄位語系" name="LangUIField"></el-tab-pane>
             </el-tabs>
             <div class="col-xs-12 col-sm-12">
@@ -12,6 +12,8 @@
                         <div class="row no-margin-right">
                             <v-table is-horizontal-resize=""
                                      column-width-drag
+                                     multiple-sort
+                                     sort-always
                                      style="width:100%"
                                      :columns="columns"
                                      :table-data="propsData"
@@ -19,7 +21,7 @@
                                      row-click-color="#edf7ff"
                                      :cell-edit-done="editFieldDone"
                                      error-content="無資料"
-                                     :height="auto"
+                                     height="300"
                                      :column-cell-class-name="columnCellClass">
                             </v-table>
                         </div>
@@ -56,7 +58,7 @@
         props: ["activePrg"],
         data() {
             return {
-                activeCollName: 'UIDatagridField',
+                activeCollName: 'UIPageField',
                 collIndex: [],
                 propsData: [],
                 columns: [],
@@ -79,6 +81,7 @@
                 try {
                     let lo_prgProps = await this.fetchProgramProsByPrgID();
                     this.columns = this.convertToColumns(lo_prgProps.collSchema);
+                    console.log(lo_prgProps.collSchema)
                     this.propsData = lo_prgProps.propsData;
                     this.collIndex = lo_prgProps.collIndexs;
                 } catch (err) {
@@ -101,18 +104,20 @@
              */
             convertToColumns(columns) {
                 let _columns = [];
+                let self = this;
                 columns.forEach(function (field) {
                     let ln_width = field.type == 'Number' ? 50 : 100;
                     let lo_column = {
+                        overflowTitle: 'hellop',
                         field: field.name,
-                        title: field.name,
+                        title: self.convertFieldDisplayNam(field.name),
                         width: ln_width,
                         titleAlign: 'center',
                         columnAlign: 'center',
                         isEdit: true,
                         isResize: true,
                         type: field.type,
-                        titleCellClassName:'title-cellBg'
+                        titleCellClassName: 'title-cellBg'
                     };
 
 
@@ -122,16 +127,122 @@
 
                 });
                 if (this.activeCollName == 'UIDatagridField' || this.activeCollName == 'UIPageField') {
-                    _columns = this.handleFrozenFieldColumns(_columns,'ui_field_name');
-                } else if(this.activeCollName == 'LangUIField') {
-                    _columns = this.handleFrozenFieldColumns(_columns,'ui_field_name');
+                    _columns = this.handleFrozenFieldColumns(_columns, 'ui_field_name');
+                } else if (this.activeCollName == 'LangUIField') {
+                    _columns = this.handleFrozenFieldColumns(_columns, 'ui_field_name');
                 }
                 return _columns;
+            },
+            convertFieldDisplayNam(field_name) {
+                let lo_fieldRf = {
+                    prg_id: {
+                        display: "程式編號",
+                        hint: "prg_id"
+                    },
+                    page_id: {
+                        display: "Page ID",
+                        hint: "page_id"
+                    },
+                    tab_page_id: {
+                        display: "Tab Page ID",
+                        hint: "tab_page_id"
+                    },
+                    template_id: {
+                        display: "版型代碼",
+                        hint: "template_id"
+                    },
+                    user_athena_id: {
+                        display: "Athena ID",
+                        hint: "athena_id"
+                    },
+                    athena_id: {
+                        display: "Athena ID",
+                        hint: "athena_id"
+                    },
+                    user_id: {
+                        display: "使用者",
+                        hint: "user_id"
+                    },
+                    ui_field_name: {
+                        display: "欄位名",
+                        hint: "ui_field_name"
+                    },
+                    ui_type: {
+                        display: "欄位型別",
+                        hint: "ui_type"
+                    },
+                    row_seq: {
+                        display: "列順序",
+                        hint: "row_seq"
+                    },
+                    col_seq: {
+                        display: "欄位順序",
+                        hint: "col_seq"
+                    },
+                    height: {
+                        display: "欄位高度",
+                        hint: "height"
+                    },
+                    width: {
+                        display: "欄位寬度",
+                        hint: "width"
+                    },
+                    label_width: {
+                        display: "標題欄位寬度",
+                        hint: "label_width"
+                    },
+                    ui_field_length: {
+                        display: "欄位長度",
+                        hint: "ui_field_length"
+                    },
+                    ui_field_num_point: {
+                        display: "欄位小數點長度",
+                        hint: "ui_field_num_point"
+                    },
+                    multi_lang_table: {
+                        display: "多語Table",
+                        hint: "multi_lang_table"
+                    },
+                    format_func_name: {
+                        display: "欄位格式規則名",
+                        hint: "format_func_name"
+                    },
+                    rule_func_name: {
+                        display: "規則名稱",
+                        hint: "format_func_name"
+                    },
+                    visiable: {
+                        display: "是否顯示",
+                        hint: "visiable"
+                    },
+                    modificable: {
+                        display: "是否可修改",
+                        hint: "modificable"
+                    },
+                    requirable: {
+                        display: "必填",
+                        hint: "requirable"
+                    },
+                    keyable: {
+                        display: "是否為pk",
+                        hint: "keyable"
+                    },
+                    grid_field_name: {
+                        display: "grid_field_name",
+                        hint: "grid_field_name"
+                    },
+                    attr_func_name: {
+                        display: "欄位屬性規則名",
+                        hint: "attr_func_name"
+                    }
+                };
+
+                return lo_fieldRf[field_name] ? lo_fieldRf[field_name].display : field_name;
             },
             /**
              * 要凍結的欄位
              */
-            handleFrozenFieldColumns(_columns , frozenField) {
+            handleFrozenFieldColumns(_columns, frozenField) {
                 let idx = _.findIndex(_columns, {field: frozenField});
                 _columns[idx].isFrozen = true;
                 _columns[idx].formatter = function formatter(rowData, rowIndex, pagingIndex, field) {
