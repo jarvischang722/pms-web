@@ -7,9 +7,10 @@
                         <div class="row no-margin-right">
                             <!-------- 單筆 -------->
                             <div class="main-content-data borderFrame">
-                                <div class="row" v-for="fields in fieldsData">
+                                <div v-for="fields in fieldsData">
                                     <div class="grid">
                                         <div class="grid-item" v-for="field in fields">
+                                            <label>{{singleData[field.ui_field_name]}}</label>
                                             <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                 <span>{{ field.ui_display_name }}</span>
@@ -20,6 +21,7 @@
                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                    :required="field.requirable == 'Y'" min="0"
                                                    :maxlength="field.ui_field_length"
+                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                    :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isCreateStatus) || (field.modificable == 'E' && isEditStatus)">
 
@@ -27,109 +29,26 @@
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         v-model="singleData[field.ui_field_name]" :data="field.selectData"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
-                                                        @update:v-model="val => singleData[field.ui_field_name] = val">
+                                                        @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                        :default-val="test"
+                                                        :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
 
                                             <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                             :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                              v-model="singleData[field.ui_field_name]"
                                                              :columns="field.selectData.columns"
                                                              :data="field.selectData.selectData"
                                                              :is-qry-src-before="field.selectData.isQrySrcBefore"
                                                              :id-field="field.selectData.value" :text-field="field.selectData.display"
-                                                             @update:v-model="val => singleData[field.ui_field_name] = val">
+                                                             @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                             :default-val="singleData[field.ui_field_name]"
+                                                             :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select-grid>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>公司編號</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="23598233"/>
-                                    </div>
-
-                                    <div class="grid-item">
-                                        <label>合約狀態</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="已簽約" disabled/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>狀態</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="正常" disabled/>
-                                    </div>
-                                </div>
-                                <!--<div class="space-custom-5"></div>-->
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>負責人</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="黃先生"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>公司名稱</label>
-                                        <input type="text" class="input-medium medium-c1-col2v2"
-                                               placeholder="德安資訊國際股份有限公司台北分公司"/>
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>統一編號</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="2358233"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>發票抬頭</label>
-                                        <input type="text" class="input-medium medium-c1-col2v2"
-                                               placeholder="德安資訊國際股份有限公司台北分公司"/>
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>業務員</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="陳瑞克" disabled/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>總公司</label>
-                                        <input type="text" class="input-medium medium-c1-col2v2"
-                                               placeholder="23598231 德安資訊國際股份有限公司"/>
-                                        <!--<span class="mainData-tip">(顯示公司編號:公司名稱)</span>-->
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>公司電話</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="02-21766066"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>分帳規則</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">01:團體</option>
-                                            <option value="2">02:個人</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>等級</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>傳真電話</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="02-25170886"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>地址</label>
-                                        <input type="text" class="input-medium postalCode"
-                                               placeholder="10411"/>
-                                        <input type="text" class="input-medium postaladdress ml-2"
-                                               placeholder="台北市松江路309號8樓"/>
-                                        <i class="moreClick fa fa-ellipsis-h sales_addressMore btn-skin"></i>
                                     </div>
                                 </div>
                             </div><!--main-content-data-->
@@ -380,6 +299,7 @@
         },
         data() {
             return {
+                test: '',
                 i18nLang: go_i18nLang,
                 BTN_action: false,
                 isLoadingDialog: false,
@@ -471,6 +391,8 @@
                         tab_page_id: 1
                     }, function (result) {
                         self.singleData = result.gsDefaultData;
+                        self.singleData.cust_mn_contract_sta = self.singleData.cust_mn_contract_sta.trim();
+                        self.test = 'S';
                         self.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
                         console.log(result);
                     });
@@ -488,6 +410,7 @@
                 }
             },
             doSaveGrid() {
+                console.log(this.singleData);
             },
             doCloseDialog() {
                 this.initData();

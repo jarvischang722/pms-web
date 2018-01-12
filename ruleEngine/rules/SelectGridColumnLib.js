@@ -40,9 +40,15 @@ exports.sel_custMnCustColumn = function (session, callback) {
                         title: localContent.program.PMS0610020.cust_cod,
                         width: 0,
                         hidden: true
+                    },
+                    {
+                        field: "cust_dispalay",
+                        title: localContent.program.PMS0610020.cust_cod,
+                        width: 0,
+                        hidden: true
                     }
                 ],
-                display: "cust_nam",
+                display: "cust_display",
                 value: "cust_cod"
             };
             callback(null, lo_result);
@@ -72,9 +78,15 @@ exports.sel_salesMnHotelStatusNColumn = function(session, callback){
                         field: "class_nam",
                         title: localContent.program.PMS0610020.class_nam,
                         width: 100
+                    },
+                    {
+                        field: "sales_display",
+                        title: localContent.program.PMS0610020.class_nam,
+                        width: 100,
+                        hidden: true
                     }
                 ],
-                display: "sales_nam",
+                display: "sales_display",
                 value: "sales_cod"
             };
             callback(null, lo_result);

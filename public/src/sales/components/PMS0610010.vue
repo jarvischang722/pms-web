@@ -359,7 +359,8 @@
                 isOpenContractStatus: false,
                 isVisitPlan: false, //拜訪計畫
                 openChangeLogDialog: false,
-                allChangeLogList: {}
+                allChangeLogList: {},
+                test: 'N'
             };
         },
         watch: {

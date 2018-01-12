@@ -85,7 +85,7 @@ module.exports = {
                     //     }
                     //     cb(lo_error, lo_result);
                     // });
-                    ls_custMnCustCod = "HFD000000000000102  ";
+                    ls_custMnCustCod = "CS 000000000004802  ";
                     ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
                     ls_custMnPcustCod = ls_custMnCustCod;
                     cb(lo_error, lo_result);
@@ -93,6 +93,7 @@ module.exports = {
             }
         ], function (err, result) {
             lo_result.defaultValues = {
+                cust_mn_contract_sta: ls_custMncontractSta,
                 cust_mn_cust_cod: ls_custMnCustCod,
                 cust_mn_show_cod: ls_custMnShowCod,
                 cust_mn_pcust_cod: ls_custMnPcustCod
