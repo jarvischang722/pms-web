@@ -7,6 +7,25 @@
                         <div class="row no-margin-right">
                             <!-------- 單筆 -------->
                             <div class="main-content-data borderFrame">
+                                <div class="row" v-for="fields in fieldsData">
+                                    <div class="grid">
+                                        <div class="grid-item" v-for="field in fields">
+                                            <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
+                                                <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                <span>{{ field.ui_display_name }}</span>
+                                            </label>
+
+                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                                   v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
+                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                   :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                                   :required="field.requirable == 'Y'" min="0"
+                                                   :maxlength="field.ui_field_length"
+                                                   :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')">
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>公司編號</label>
