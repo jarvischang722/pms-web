@@ -70,7 +70,10 @@
                     idField: this.idField,
                     textField: this.textField,
                     columns: [this.columns],
-                    data: this.data
+                    data: this.data,
+                    onChange: function (newValue, oldValue) {
+                        self.$emit('update:v-model', newValue);
+                    }
                 });
 
                 //塞入預設值
