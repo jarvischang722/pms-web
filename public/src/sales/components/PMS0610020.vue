@@ -298,7 +298,6 @@
         },
         data() {
             return {
-                test: '',
                 i18nLang: go_i18nLang,
                 BTN_action: false,
                 isLoadingDialog: false,
@@ -382,7 +381,6 @@
             },
             fetchRowData() {
                 var self = this;
-                console.log(this.isEditStatus);
                 if (this.isCreateStatus) {
                     $.post("/api/fetchDefaultSingleRowData", {
                         prg_id: "PMS0610020",
@@ -390,8 +388,6 @@
                         tab_page_id: 1
                     }, function (result) {
                         self.singleData = result.gsDefaultData;
-                        self.singleData.cust_mn_contract_sta = self.singleData.cust_mn_contract_sta.trim();
-                        self.test = 'S';
                         self.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
                         console.log(result);
                     });
@@ -404,6 +400,8 @@
                         template_id: "gridsingle",
                         searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
                     }, function (result) {
+                        self.singleData = result.gsMnData.rowData[0];
+                        self.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         console.log(result);
                     });
                 }
