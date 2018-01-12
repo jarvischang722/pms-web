@@ -1,22 +1,21 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = {
-     entry: "./public/src/admin/permission/permissionSetup.js",
+     entry: "./public/src/components/common/bacUIComps/main",
     // entry: [
     //     'webpack/hot/dev-server',
     //     path.join(__dirname, 'public', 'src')
     // ],
     // entry: {
-    //     permissionSetup: ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"],
-    //     // store: "./public/src/admin/permission/store"
+    //     main: "./public/src/main"
     //     // a: "./a",
     //     // b: "./b",
     //     // c: ["./c", "./d"]
     // },
     output: {
         publicPath: '/dist',
-        path: path.join(__dirname, 'public', 'js/system/'),
-        filename: 'permissionSetup.js'
+        path: path.join(__dirname, 'public', 'js/common/'),
+        filename: 'BacUIComps.js'
 
     },
     module: {
