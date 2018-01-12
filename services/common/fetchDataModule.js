@@ -5,6 +5,7 @@
 const path = require('path');
 const moment = require("moment");
 const _ = require("underscore");
+const _s = require("underscore.string");
 const async = require("async");
 
 const ruleAgent = require("../../ruleEngine/ruleAgent");
@@ -141,10 +142,10 @@ exports.GridSingleProc = function (postData, session) {
             var lo_initField = {};
 
             _.each(la_fieldNameList, function (ls_fieldName) {
-                if (ls_fieldName == "athena_id") {
+                if (_s.include(ls_fieldName, "athena_id")) {
                     lo_initField[ls_fieldName] = session.user.athena_id;
                 }
-                else if (ls_fieldName == "hotel_cod") {
+                else if (_s.include(ls_fieldName, "hotel_cod")) {
                     lo_initField[ls_fieldName] = session.user.hotel_cod;
                 }
                 else {
@@ -282,7 +283,7 @@ function qryGsTemplateRf(callback) {
         prg_id: gs_prg_id,
         page_id: Number(gn_page_id),
         tab_page_id: Number(gn_tab_page_id),
-        template_id: 'gridsingle'
+        template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
     };
 
     mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {

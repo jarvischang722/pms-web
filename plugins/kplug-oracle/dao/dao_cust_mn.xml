@@ -180,6 +180,30 @@
         <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 
+    <!--[PMS0610020] 商舞公司資料編輯 取單筆資料-->
+    <dao name="QRY_CUST_MN_GS">
+        <statement><![CDATA[
+            select cust_mn.athena_id as cust_mn_athena_id,cust_mn.cust_cod as cust_mn_cust_cod,cust_mn.show_cod as cust_mn_show_cod,
+            cust_mn.cust_nam as cust_mn_cust_nam,cust_mn.status_cod as cust_mn_status_cod,cust_mn.contract_sta as cust_mn_contract_sta,
+            cust_mn.owner_nam as cust_mn_owner_nam,cust_mn.atten_cod as cust_mn_atten_cod,cust_mn.sales_cod as cust_mn_sales_cod,
+            cust_mn.pcust_cod as cust_mn_pcust_cod,cust_mn.route_cod as cust_mn_route_cod,cust_mn.rank_nos as cust_mn_rank_nos,
+            cust_idx.cust_sta as cust_idx_cust_sta,cust_idx.alt_nam as cust_idx_alt_nam,cust_idx.uni_cod as cust_idx_uni_cod,
+            cust_idx.uni_title as cust_idx_uni_title,cust_idx.from_table as cust_idx_from_table,cust_idx.cust_typ as cust_idx_cust_typ,
+            cust_idx.office_tel as cust_idx_office_tel,cust_idx.fax_nos as cust_idx_fax_nos,cust_idx.mobile_nos as cust_idx_mobile_nos,
+            cust_idx.home_tel as cust_idx_home_tel,cust_idx.zip_cod as cust_idx_zip_cod,cust_idx.add_rmk as cust_idx_add_rmk,
+            cust_idx.e_mail as cust_idx_e_mail,cust_idx.birth_dat as cust_idx_birth_dat,cust_idx.sex_typ as cust_idx_sex_typ
+            from cust_mn, cust_idx
+            where cust_mn.athena_id = cust_idx.athena_id
+            and cust_mn.cust_cod = cust_idx.cust_cod
+            and cust_idx.from_table = 'CUST_MN'
+            and cust_mn.athena_id = :athena_id
+            and cust_mn.cust_cod = :cust_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
+
     <!--[PMS0610020] 總公司下拉選單-->
     <dao name="SEL_CUSTMNPCUSTCOD">
         <statement><![CDATA[

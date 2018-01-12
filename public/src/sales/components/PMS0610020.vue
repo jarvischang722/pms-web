@@ -428,13 +428,26 @@
             },
             fetchRowData() {
                 var self = this;
-                console.log(this.isCreateStatus);
+                console.log(this.isEditStatus);
                 if (this.isCreateStatus) {
                     $.post("/api/fetchDefaultSingleRowData", {
                         prg_id: "PMS0610020",
                         page_id: 1,
                         tab_page_id: 1
                     }, function (result) {
+                        self.singleData = result.gsDefaultData;
+                        self.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
+                        console.log(result);
+                    });
+                }
+                else if (this.isEditStatus) {
+                    $.post("/api/fetchSinglePageFieldData", {
+                        prg_id: "PMS0610020",
+                        page_id: 1,
+                        tab_page_id: 1,
+                        template_id: "gridsingle",
+                        searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
+                    }, function(result){
                         console.log(result);
                     });
                 }
