@@ -17,28 +17,29 @@ exports.sel_custMnCustColumn = function (session, callback) {
                 columns: [
                     {
                         field: "show_cod",
-                        text: localContent.program.PMS0610020.show_cod,
+                        title: localContent.program.PMS0610020.show_cod,
                         width: 100
                     },
                     {
                         field: "cust_nam",
-                        text: localContent.program.PMS0610020.cust_nam,
+                        title: localContent.program.PMS0610020.cust_nam,
                         width: 100
                     },
                     {
                         field: "uni_cod",
-                        text: localContent.program.PMS0610020.uni_cod,
+                        title: localContent.program.PMS0610020.uni_cod,
                         width: 100
                     },
                     {
                         field: "uni_title",
-                        text: localContent.program.PMS0610020.uni_title,
+                        title: localContent.program.PMS0610020.uni_title,
                         width: 100
                     },
                     {
                         field: "cust_cod",
-                        text: localContent.program.PMS0610020.cust_cod,
-                        width: 0
+                        title: localContent.program.PMS0610020.cust_cod,
+                        width: 0,
+                        hidden: true
                     }
                 ],
                 display: "cust_nam",
@@ -59,17 +60,17 @@ exports.sel_salesMnHotelStatusNColumn = function(session, callback){
                 columns: [
                     {
                         field: "sales_cod",
-                        text: localContent.program.PMS0610020.sales_cod,
+                        title: localContent.program.PMS0610020.sales_cod,
                         width: 100
                     },
                     {
                         field: "sales_nam",
-                        text: localContent.program.PMS0610020.sales_nam,
+                        title: localContent.program.PMS0610020.sales_nam,
                         width: 100
                     },
                     {
                         field: "class_nam",
-                        text: localContent.program.PMS0610020.class_nam,
+                        title: localContent.program.PMS0610020.class_nam,
                         width: 100
                     }
                 ],

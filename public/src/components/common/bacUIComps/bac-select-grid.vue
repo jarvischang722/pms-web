@@ -65,11 +65,11 @@
             initComboGrid: function () {
                 let self = this;
                 $(this.$el).combogrid({
-                    multiple: true,
+                    multiple: this.multiple,
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
                     idField: this.idField,
                     textField: this.textField,
-                    columns: this.columns,
+                    columns: [this.columns],
                     data: this.data
                 });
 

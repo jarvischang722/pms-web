@@ -51,7 +51,7 @@ is-qry-src-before="Y" value-field="id" text-field="text"
 | field             | Object  | {}      | Y     | 欄位屬性                                     |
 | default-val       | String  | Number  | Array | 預設值                                      |
 | data              | Array   | []      | N     | 下拉選單資料                                   |
-| columns           | Array   | []      | N     | 下拉Datagrid 欄位屬性 [{**field**, **text**, **width**},...,{}] |
+| columns           | Array   | []      | N     | 下拉Datagrid 欄位屬性 [{**field**, **title**, **width**},...,{}] |
 
 
 

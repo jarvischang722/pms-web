@@ -18,10 +18,26 @@
                                             <input type="text" v-model="singleData[field.ui_field_name]"
                                                    v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                   :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                                    :required="field.requirable == 'Y'" min="0"
                                                    :maxlength="field.ui_field_length"
-                                                   :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')">
+                                                   :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isCreateStatus) || (field.modificable == 'E' && isEditStatus)">
+
+                                            <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                        v-model="singleData[field.ui_field_name]" :data="field.selectData"
+                                                        is-qry-src-before="Y" value-field="value" text-field="display"
+                                                        @update:v-model="val => singleData[field.ui_field_name] = val">
+                                            </bac-select>
+
+                                            <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                             v-model="singleData[field.ui_field_name]"
+                                                             :columns="field.selectData.columns"
+                                                             :data="field.selectData.selectData"
+                                                             :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                             :id-field="field.selectData.value" :text-field="field.selectData.display"
+                                                             @update:v-model="val => singleData[field.ui_field_name] = val">
+                                            </bac-select-grid>
                                         </div>
                                     </div>
                                 </div>
@@ -466,7 +482,7 @@
                         tab_page_id: 1,
                         template_id: "gridsingle",
                         searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
-                    }, function(result){
+                    }, function (result) {
                         console.log(result);
                     });
                 }
