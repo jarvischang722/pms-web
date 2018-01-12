@@ -3,18 +3,18 @@
     "bquet_nos": "180000202  ",
     "order_sta": "N",
     "wait_seq": 0,
-    "title_nam": "德安資訊股份有限公司",
-    "place_cod": "BQ403 ",
-    "begin_tim": "1130",
-    "end_tim": "1259"
+    "title_nam": "1",
+    "place_cod": "BQ01  ",
+    "begin_tim": "1000",
+    "end_tim": "1159"
   },
   {
     "bquet_nos": "180000202  ",
     "order_sta": "N",
     "wait_seq": 0,
-    "title_nam": "德安資訊股份有限公司",
-    "place_cod": "BQ11  ",
-    "begin_tim": "1000",
-    "end_tim": "1159"
+    "title_nam": "2",
+    "place_cod": "BQ01  ",
+    "begin_tim": "1145",
+    "end_tim": "1259"
   }
 ]

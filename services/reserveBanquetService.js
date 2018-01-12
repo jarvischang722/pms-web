@@ -42,31 +42,43 @@ exports.qryPageOneData = function (postData, session, callback) {
     });
 
     function qryBanquetData(cb) {
-        let params = {
-            "REVE-CODE": "RS0W212010",
-            "program_id": "RS0W212010",
-            "func_id": "2040",
-            "user": "cio"
-        };
-
-        tools.requestApi(sysConfig.api_url, params, function (err, res, result) {
-            let errorMsg = null;
-            let data = "";
-            if (err || !result) {
-                errorMsg = err;
-            }
-            else {
-                data = result.tmp_bq3_web_map.data || [];
-            }
-
-            cb(errorMsg, data);
+        fs.readFile("./public/jsonData/reservation/banquetData.json", "utf8", function (err, result) {
+            result = JSON.parse(result);
+            let la_map = result.tmp_bq3_web_map.data;
+            cb(err, la_map);
         });
+
+        // let params = {
+        //     "REVE-CODE": "RS0W212010",
+        //     "program_id": "RS0W212010",
+        //     "func_id": "2040",
+        //     "user": "cio"
+        // };
+        //
+        // tools.requestApi(sysConfig.api_url, params, function (err, res, result) {
+        //     let errorMsg = null;
+        //     let data = "";
+        //     if (err || !result) {
+        //         errorMsg = err;
+        //     }
+        //     else {
+        //         data = result.tmp_bq3_web_map.data || [];
+        //     }
+        //
+        //     cb(errorMsg, data);
+        // });
     }
 
     function qryBanquetSta(cb) {
-        queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function (err, result) {
-            cb(null, result);
+
+        fs.readFile("./public/jsonData/reservation/bq_order.json", "utf8", function (err, result) {
+            let la_order = JSON.parse(result);
+            cb(err, la_order);
         });
+
+        // queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function (err, result) {
+        //     cb(null, result);
+        // });
     }
 };
 
@@ -87,13 +99,14 @@ class ResvBanquetData {
         });
         //餐期排序
         this.la_mtim = _.sortBy(this.la_mtim, "begin_tim");
-        _.each(la_order, function(lo_order, index){
+        _.each(la_order, function (lo_order, index) {
             la_order[index].begin_tim = self.chkTimeAdd24Min(lo_order.begin_tim);
             la_order[index].end_tim = self.chkTimeAdd24Min(lo_order.end_tim);
         });
         //訂席單排序
-        la_order = _.sortBy(la_order, "begin_tim");
-        this.la_order = la_order;
+        // la_order = _.sortBy(la_order, "begin_tim");
+        this.lo_order = this.chkOrderOverLap(la_order);
+
     }
 
     convertExec() {
@@ -128,7 +141,7 @@ class ResvBanquetData {
         let la_rowData = [];
         let lo_rowData = {};
 
-        // 餐廳
+        // 餐廳(RSPT)
         _.each(this.la_rspt, function (lo_rspt) {
             lo_rowData = {
                 tr_class: "no-cursor-tr h23-tr",
@@ -142,10 +155,11 @@ class ResvBanquetData {
             };
             la_rowData.push(lo_rowData);
 
-            // 地區
+            // 地區(PLACE)
             let la_place = _.where(self.la_place, {rspt_cod: lo_rspt.rspt_cod});
             let la_parent = _.where(la_place, {is_child: "N"});
             _.each(la_parent, function (lo_parent) {
+
                 // 母場地
                 lo_rowData = {
                     tr_class: "",
@@ -179,6 +193,38 @@ class ResvBanquetData {
             });
         });
         return la_rowData;
+    }
+
+    chkOrderOverLap(la_order) {
+        let la_orderGroup = _.groupBy(la_order, "place_cod");
+        let lo_newOrderData = {};
+
+        _.each(this.la_place, function (lo_place) {
+            let la_orderData = [];
+            let la_order = _.sortBy(la_orderGroup[lo_place.place_cod], "begin_tim");
+
+            _.each(la_order, function (lo_order, index) {
+                if (index == 0) {
+                    lo_order.rowId = 1;
+                    la_orderData.push(lo_order);
+                }
+                else {
+                    _.every(la_orderData, function (lo_orderData) {
+                        //重疊
+                        if (lo_order.begin_tim < lo_orderData.end_tim && lo_order.end_tim > lo_orderData.begin_tim) {
+                            lo_order.rowId = lo_orderData.rowId++;
+                        }
+                        else {
+                            lo_order.rowId = lo_orderData.rowId;
+                            return false;   //break
+                        }
+                    });
+                    la_orderData.push(lo_order);
+                }
+            });
+            lo_newOrderData[lo_place.place_cod] = la_orderData;
+        });
+        return lo_newOrderData;
     }
 
     /**
@@ -292,7 +338,8 @@ class ResvBanquetData {
         }
         // 訂席
         else {
-            let la_order = _.where(this.la_order, {place_cod: parent_cod});
+            let la_order = this.lo_order[parent_cod];
+            // let la_order = _.where(this.lo_order, {place_cod: parent_cod});
             _.each(la_order, function (lo_order, index) {
                 let ln_order_beg_min = self.convertToMin(lo_order.begin_tim);
                 let ln_order_end_min = self.convertToMin(lo_order.end_tim);
