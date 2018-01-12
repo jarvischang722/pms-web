@@ -10,7 +10,6 @@
                                 <div v-for="fields in fieldsData">
                                     <div class="grid">
                                         <div class="grid-item" v-for="field in fields">
-                                            <label>{{singleData[field.ui_field_name]}}</label>
                                             <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                 <span>{{ field.ui_display_name }}</span>
