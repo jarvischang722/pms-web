@@ -5,7 +5,7 @@
   "scripts": {
     "node_dev": "nodemon app.js",
     "dev": "webpack -p --progress --watch",
-    "build": "webpack -p --progress --watch"
+    "build": "webpack -p --progress"
   },
   "dependencies": {
     "@riophae/vue-treeselect": "0.0.6",
