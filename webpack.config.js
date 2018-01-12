@@ -6,7 +6,7 @@ const config = {
     //     'webpack/hot/dev-server',
     //     path.join(__dirname, 'public', 'src')
     // ],
-    // entry: {
+    // entry: {hidden
     //     main: "./public/src/main"
     //     // a: "./a",
     //     // b: "./b",
