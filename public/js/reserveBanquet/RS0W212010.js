@@ -1562,7 +1562,7 @@ var RS00202010VM = new Vue({
         //鎖單筆DT用(RowLock)
         readonly: false,
         isLoading: false,
-        isFirst: false
+        isFirst: true
     },
     watch: {
         searchDate: function () {
@@ -1576,14 +1576,14 @@ var RS00202010VM = new Vue({
         this.qryPageOneData();
     },
     updated: function () {
-        if (this.isFirst == false && this.isLoading == false) {
+        if (this.isFirst == true && this.isLoading == false) {
             $("table.treeControl").agikiTreeTable({
                 persist: false,
                 persistStoreName: "files",
                 initialState: "expanded"
             });
             $("#gs-fixTable").tableHeadFixer({"left": 1});
-            this.isFirst = true;
+            this.isFirst = false;
         }
     },
     methods: {
@@ -1596,26 +1596,26 @@ var RS00202010VM = new Vue({
             var lo_params = {use_dat: this.searchDate};
             this.isLoading = true;
             $.post("/reserveBanquet/qryPageOneData", lo_params, function (result) {
-                // waitingDialog.hide();
+                self.isLoading = false;
                 if (result.success) {
                     self.pageOneData = result.pageOneData;
                 }
                 else {
                     alert(result.errorMsg);
                 }
-                self.isLoading = false;
+
             });
         },
 
         addReserve: function () {
-            let self = this;
-            let ln_td;
-            let rspt_cod;
-            let place_cod;
+            var self = this;
+            var ln_td;
+            var rspt_cod;
+            var place_cod;
 
-            let ls_beginTimeByAdd;
+            var ls_beginTimeByAdd;
 
-            let ln_desk_qnt;
+            var ln_desk_qnt;
             var lo_mtimeData;
 
             if (arguments.length != 0) {
@@ -1623,7 +1623,6 @@ var RS00202010VM = new Vue({
                 ln_td = arguments[1];
                 rspt_cod = arguments[2];
                 place_cod = arguments[3];
-                console.log(place_cod);
 
                 /**
                  * 取新增時間點
@@ -1637,32 +1636,30 @@ var RS00202010VM = new Vue({
                  * 取新增餐期
                  * @type {{name: string 餐期名稱, mtime_cod: string 餐期代碼}}
                  */
-                let lo_rspt = _.findWhere(this.pageOneData.rowData, {datatype: "RSPT", rspt_cod: rspt_cod});
+                var lo_rspt = _.findWhere(this.pageOneData.rowData, {datatype: "RSPT", rspt_cod: rspt_cod});
                 _.some(lo_rspt.banquet_dt, function (lo_mtime, index) {
                     // 餐期
                     if (lo_mtime.name != "") {
                         lo_mtimeData = self.chkMtime(lo_mtime, ls_beginTimeByAdd);
 
                         if (!_.isEmpty(lo_mtimeData)) {
-                            // lb_isBreak = true;
                             return true;
                         }
                     }
                     // 空白餐期
                     else {
-                        let ls_index = index + 1;
+                        var ls_index = index + 1;
                         if (ls_index >= lo_rspt.banquet_dt.length) {
                             ls_index = 0;
                         }
                         lo_mtimeData = self.chkMtime(lo_rspt.banquet_dt[ls_index], ls_beginTimeByAdd);
                         if (!_.isEmpty(lo_mtimeData)) {
-                            // lb_isBreak = true;
                             return true;
                         }
                     }
                 });
                 if (_.isEmpty(lo_mtimeData)) {
-                    let la_mtime = _.filter(lo_rspt.banquet_dt, function (lo_dt) {
+                    var la_mtime = _.filter(lo_rspt.banquet_dt, function (lo_dt) {
                         return lo_dt.name.trim() != "";
                     });
                     lo_mtimeData = la_mtime[0];
@@ -1690,18 +1687,18 @@ var RS00202010VM = new Vue({
         },
 
         chkMtime: function (lo_mtime, ls_beginTimeByAdd) {
-            let lo_mtimeByAdd = {};
-            let la_mtime_beg_ary = lo_mtime.beg_tim.split(":");
-            let la_mtime_end_ary = lo_mtime.end_tim.split(":");
-            let la_beginTimeByAdd_ary = ls_beginTimeByAdd.split(":");
+            var lo_mtimeByAdd = {};
+            var la_mtime_beg_ary = lo_mtime.beg_tim.split(":");
+            var la_mtime_end_ary = lo_mtime.end_tim.split(":");
+            var la_beginTimeByAdd_ary = ls_beginTimeByAdd.split(":");
 
             //轉換為分鐘數，且小於開始營業時間 + 1天
-            let ln_mtime_beg_min = this.chkTimeAdd24Min(parseInt(la_mtime_beg_ary[0]) * 60 + parseInt(la_mtime_beg_ary[1]));
-            let ln_mtime_end_min = this.chkTimeAdd24Min(parseInt(la_mtime_end_ary[0]) * 60 + parseInt(la_mtime_end_ary[1]));
-            let ln_beginTimeByAdd_min = this.chkTimeAdd24Min(parseInt(la_beginTimeByAdd_ary[0]) * 60 + parseInt(la_beginTimeByAdd_ary[1]));
+            var ln_mtime_beg_min = this.chkTimeAdd24Min(parseInt(la_mtime_beg_ary[0]) * 60 + parseInt(la_mtime_beg_ary[1]));
+            var ln_mtime_end_min = this.chkTimeAdd24Min(parseInt(la_mtime_end_ary[0]) * 60 + parseInt(la_mtime_end_ary[1]));
+            var ln_beginTimeByAdd_min = this.chkTimeAdd24Min(parseInt(la_beginTimeByAdd_ary[0]) * 60 + parseInt(la_beginTimeByAdd_ary[1]));
 
-            let lb_isBetween = false;
-            let lb_isAfter = false;
+            var lb_isBetween = false;
+            var lb_isAfter = false;
             //點在餐期區間內
             if (ln_beginTimeByAdd_min >= ln_mtime_beg_min && ln_beginTimeByAdd_min < ln_mtime_end_min) {
                 lb_isBetween = true;
@@ -1724,9 +1721,9 @@ var RS00202010VM = new Vue({
         },
 
         chkTimeAdd24Min(ln_tim) {
-            let la_day_beg_tim = this.pageOneData.time_range[0].split(":");
-            let ln_day_beg_tim_min = parseInt(la_day_beg_tim[0]) * 60 + parseInt(la_day_beg_tim[1]);
-            let ln_day_min = 24 * 60;
+            var la_day_beg_tim = this.pageOneData.time_range[0].split(":");
+            var ln_day_beg_tim_min = parseInt(la_day_beg_tim[0]) * 60 + parseInt(la_day_beg_tim[1]);
+            var ln_day_min = 24 * 60;
             if (ln_tim < ln_day_beg_tim_min) {
                 ln_tim += ln_day_min;
             }
