@@ -1623,6 +1623,7 @@ var RS00202010VM = new Vue({
                 ln_td = arguments[1];
                 rspt_cod = arguments[2];
                 place_cod = arguments[3];
+                console.log(place_cod);
 
                 /**
                  * 取新增時間點
