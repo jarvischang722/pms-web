@@ -66,7 +66,6 @@
     "vue": "^2.5.13",
     "vue-easytable": "^1.6.3",
     "vue-hot-reload-api": "^2.2.4",
-    "vue-template-compiler": "^2.5.9",
     "vuex": "^3.0.1",
     "xmldom": "^0.1.27",
     "xpath": "0.0.23"

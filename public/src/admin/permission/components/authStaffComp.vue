@@ -1,8 +1,8 @@
 <template>
     <div v-loading="isLoading">
         <p class="topTitle">人員權限</p>
-        <div class="easyui-panel tree-body" style="width: 100%;">
-            <ul id="permissionAccountTree" class="easyui-tree"></ul>
+        <div class="easyui-panel tree-body ">
+            <ul id="permissionAccountTree" class="easyui-tree  authHt" :style="authHt"></ul>
         </div>
     </div>
 </template>
@@ -18,11 +18,22 @@
             return {
                 treeIns: null,
                 isLoading: false,
-                selectedNode: null
+                selectedNode: null,
+                authHt: {}
             }
         },
         mounted() {
             this.permissionModel;
+            // 藍色系統列
+            let navHt = $(".navbar-container").height();
+            // quickMenus + 搜尋欄位
+            let menuHt = $(".top-sec-ul").height() + 30 + $(".page-header").height();//padding-top: 5px
+
+            let titleSaveHt = 80 * 2;
+
+            let authHt = 0;
+            this.authHt.maxHeight = ($(window).height() - navHt - menuHt - titleSaveHt) / 2;
+            this.authHt.maxHeight += "px";
         },
         computed: {
             permissionModel: {
@@ -182,7 +193,7 @@
 
             rename_node(lb_isAuthUpdate) {
                 if (lb_isAuthUpdate) {
-                    $("#permissionAccountTree").jstree("edit", this.selectedNode, null, function(node){
+                    $("#permissionAccountTree").jstree("edit", this.selectedNode, null, function (node) {
 
                         // this.$store.commit("setTmpUpd", node.text);
                         this.$store.commit("setIsAuthUpdate", false);
@@ -208,5 +219,12 @@
 </script>
 
 <style scoped>
+    ul.authHt {
+        margin-bottom: 0;
+        margin-left: 0;
+    }
 
+    .authHt {
+        overflow-y: auto;
+    }
 </style>
