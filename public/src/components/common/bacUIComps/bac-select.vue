@@ -54,6 +54,13 @@
                 isLoading: false
             }
         },
+        watch: {
+            //塞入預設值
+            defaultVal: function(){
+                this.$emit('update:v-model', this.defaultVal);
+                $(this.$el).combobox('setValue', val);
+            }
+        },
         methods: {
             initCombobox: function () {
                 let self = this;

@@ -61,6 +61,13 @@
         mounted: function () {
             this.initComboGrid();
         },
+        watch: {
+            //塞入預設值
+            defaultVal: function(val){
+                this.$emit('update:v-model', this.defaultVal);
+                $(this.$el).combogrid('setValue', val);
+            }
+        },
         methods: {
             initComboGrid: function () {
                 let self = this;
