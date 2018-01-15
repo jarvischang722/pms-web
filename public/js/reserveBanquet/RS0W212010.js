@@ -801,7 +801,7 @@ var singlePage = Vue.extend({
             this.singleData.wait_seq = "0";
             this.singleData.begin_tim = "00:00";
             this.singleData.end_tim = "23:59";
-            this.singleData.begin_dat = RS00202010VM.searchDate;
+            this.singleData.begin_dat = moment(RS00202010VM.searchDate).format("YYYY/MM/DD");
 
             //保留日計算
             this.singleData.expire_dat = (moment(this.rent_cal_dat).add(this.default_expire_dat, 'day')).format("YYYY/MM/DD");
@@ -859,6 +859,7 @@ var singlePage = Vue.extend({
                     if (!self.createStatus) {
                         self.doRowUnLock();
                     }
+                    location.reload();
                 }
             });
         },
@@ -977,6 +978,7 @@ var singlePage = Vue.extend({
             self.singleData.ins_tim = moment(new Date()).format('HH:mm');
             self.singleData.upd_tim = moment(new Date()).format('HH:mm');
 
+
             //rmk格式轉換
             if (!_.isUndefined(self.singleData.bquet_rmk) && self.singleData.bquet_rmk != null && self.singleData.bquet_rmk != "") {
                 self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/\n/g, "\r\n");
@@ -1044,6 +1046,7 @@ var singlePage = Vue.extend({
                     self.tmpCud.dt_updateData.splice(existIdx, 1);
                 }
             });
+
 
             //DT 加入use_dat，API要用
             _.each(self.tmpCud.dt_createData, function (value) {
@@ -1208,7 +1211,6 @@ var singlePage = Vue.extend({
          */
         exit: function () {
             $("#gs-order-page").dialog('close');
-            location.reload();
         },
 
         /**
