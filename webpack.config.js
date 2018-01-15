@@ -11,7 +11,7 @@ const config = {
         // permissionSetup: ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"],
         // store: "./public/src/admin/permission/store"
         'PMS0610010.main': "./public/src/sales/PMS0610010.js",
-        'BacUIComps': "./public/src/components/common/bacUIComps/main",
+        'BacUIComps': "./public/src/components/common/bacUIComps/main"
         // c: ["./c", "./d"]
     },
     output: {

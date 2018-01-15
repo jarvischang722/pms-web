@@ -29,7 +29,7 @@
                                                         v-model="singleData[field.ui_field_name]" :data="field.selectData"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                        :default-val="test"
+                                                        :default-val="singleData[field.ui_field_name]"
                                                         :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
