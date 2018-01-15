@@ -43,66 +43,115 @@
                     </thead>
 
                     <tbody>
-                        <tr :class="la_rowData.tr_class"
-                            v-for="la_rowData in pageOneData.rowData"
-                            :data-tt-id="la_rowData.place_cod"
-                            :data-tt-parent-id="la_rowData.parent_cod">
-                            <!-- 餐廳 -->
-                            <td class="middle td-first lightGrayTag" v-if="la_rowData.datatype == 'RSPT'">
-                                {{la_rowData.name}}
-                            </td>
-
-                            <!-- 地區 rowspan -->
-                            <td class="no-cursor middle td-first lightPurpleTag" :rowspan="la_rowData.rowspan"
-                                v-else-if="la_rowData.rowspan > 0">
-                                {{la_rowData.name}}({{la_rowData.desk_qnt}})
-                            </td>
-
-                            <!-- 地區 -->
-                            <td class="no-cursor middle td-first lightPurpleTag" v-else>
-                                {{la_rowData.name}}({{la_rowData.desk_qnt}})
-                            </td>
-
-                            <template v-for="lo_banquetDt in la_rowData.banquet_dt">
-                                <!-- 餐期 -->
-                                <td class="darkGrayTag" :colspan="lo_banquetDt.colspan"
-                                    v-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'MTIME'">
-                                    {{lo_banquetDt.name}}
+                        <template v-for="la_rowData in pageOneData.rowData">
+                            <tr :class="la_rowData.tr_class" v-if="la_rowData.rowspan != -1 || la_rowData.isChild == 'Y'"
+                                :data-tt-id="la_rowData.place_cod"
+                                :data-tt-parent-id="la_rowData.parent_cod">
+                                <!-- 餐廳 -->
+                                <td class="middle td-first lightGrayTag" v-if="la_rowData.datatype == 'RSPT'">
+                                    {{la_rowData.name}}
                                 </td>
 
-                                <!-- 空白餐期 -->
-                                <td class="lightGrayTag" :colspan="lo_banquetDt.colspan"
-                                    v-else-if="lo_banquetDt.name == '' && lo_banquetDt.datatype == 'MTIME'"></td>
-
-                                <!-- 訂席: 預約(N) -->
-                                <td class="lightYellowTag padding-tb-5 text-center gs-have-order"
-                                    :colspan="lo_banquetDt.colspan"
-                                    v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'N'"
-                                    @click="showReserve(lo_banquetDt.bquet_nos)">
-                                    {{lo_banquetDt.name}}
+                                <!-- 地區 rowspan -->
+                                <td class="no-cursor middle td-first lightPurpleTag" :rowspan="la_rowData.rowspan"
+                                    v-else-if="la_rowData.rowspan != -1">
+                                    {{la_rowData.name}}({{la_rowData.desk_qnt}})
                                 </td>
 
-                                <!-- 訂席: 等待(W)-->
-                                <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order"
-                                    :colspan="lo_banquetDt.colspan"
-                                    v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'W'"
-                                    @click="showReserve(lo_banquetDt.bquet_nos)">
-                                    {{lo_banquetDt.name}}
+                                <template v-for="lo_banquetDt in la_rowData.banquet_dt">
+                                    <!-- 餐期 -->
+                                    <td class="darkGrayTag" :colspan="lo_banquetDt.colspan"
+                                        v-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'MTIME'">
+                                        {{lo_banquetDt.name}}
+                                    </td>
+
+                                    <!-- 空白餐期 -->
+                                    <td class="lightGrayTag" :colspan="lo_banquetDt.colspan"
+                                        v-else-if="lo_banquetDt.name == '' && lo_banquetDt.datatype == 'MTIME'"></td>
+
+                                    <!-- 訂席: 預約(N) -->
+                                    <td class="lightYellowTag padding-tb-5 text-center gs-have-order"
+                                        :colspan="lo_banquetDt.colspan"
+                                        v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'N'"
+                                        @click="showReserve(lo_banquetDt.bquet_nos)">
+                                        {{lo_banquetDt.name}}
+                                    </td>
+
+                                    <!-- 訂席: 等待(W)-->
+                                    <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order"
+                                        :colspan="lo_banquetDt.colspan"
+                                        v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'W'"
+                                        @click="showReserve(lo_banquetDt.bquet_nos)">
+                                        {{lo_banquetDt.name}}
+                                    </td>
+
+                                    <!-- 訂席: 詢問(Q)-->
+                                    <td class="brighterPurpleTag padding-tb-5 text-center gs-have-order"
+                                        :colspan="lo_banquetDt.colspan"
+                                        v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'Q'"
+                                        @click="showReserve(lo_banquetDt.bquet_nos)">
+                                        {{lo_banquetDt.name}}
+                                    </td>
+
+                                    <!-- 補空白 -->
+                                    <td v-else-if="lo_banquetDt.datatype == ''" v-for="repeat in lo_banquetDt.repeat"
+                                        @click="addReserve(lo_banquetDt.beg_tim, repeat-1, la_rowData.rspt_cod, la_rowData.place_cod)"></td>
+                                </template>
+                            </tr>
+                            <tr :class="la_rowData.tr_class" v-else>
+                                <!-- 餐廳 -->
+                                <td class="middle td-first lightGrayTag" v-if="la_rowData.datatype == 'RSPT'">
+                                    {{la_rowData.name}}
                                 </td>
 
-                                <!-- 訂席: 詢問(Q)-->
-                                <td class="brighterPurpleTag padding-tb-5 text-center gs-have-order"
-                                    :colspan="lo_banquetDt.colspan"
-                                    v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'Q'"
-                                    @click="showReserve(lo_banquetDt.bquet_nos)">
-                                    {{lo_banquetDt.name}}
+                                <!-- 地區 rowspan -->
+                                <td class="no-cursor middle td-first lightPurpleTag" :rowspan="la_rowData.rowspan"
+                                    v-else-if="la_rowData.rowspan != -1">
+                                    {{la_rowData.name}}({{la_rowData.desk_qnt}})
                                 </td>
 
-                                <!-- 補空白 -->
-                                <td v-else-if="lo_banquetDt.datatype == ''" v-for="repeat in lo_banquetDt.repeat"
-                                    @click="addReserve(lo_banquetDt.beg_tim, repeat-1, la_rowData.rspt_cod, la_rowData.place_cod)"></td>
-                            </template>
-                        </tr>
+                                <template v-for="lo_banquetDt in la_rowData.banquet_dt">
+                                    <!-- 餐期 -->
+                                    <td class="darkGrayTag" :colspan="lo_banquetDt.colspan"
+                                        v-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'MTIME'">
+                                        {{lo_banquetDt.name}}
+                                    </td>
+
+                                    <!-- 空白餐期 -->
+                                    <td class="lightGrayTag" :colspan="lo_banquetDt.colspan"
+                                        v-else-if="lo_banquetDt.name == '' && lo_banquetDt.datatype == 'MTIME'"></td>
+
+                                    <!-- 訂席: 預約(N) -->
+                                    <td class="lightYellowTag padding-tb-5 text-center gs-have-order"
+                                        :colspan="lo_banquetDt.colspan"
+                                        v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'N'"
+                                        @click="showReserve(lo_banquetDt.bquet_nos)">
+                                        {{lo_banquetDt.name}}
+                                    </td>
+
+                                    <!-- 訂席: 等待(W)-->
+                                    <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order"
+                                        :colspan="lo_banquetDt.colspan"
+                                        v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'W'"
+                                        @click="showReserve(lo_banquetDt.bquet_nos)">
+                                        {{lo_banquetDt.name}}
+                                    </td>
+
+                                    <!-- 訂席: 詢問(Q)-->
+                                    <td class="brighterPurpleTag padding-tb-5 text-center gs-have-order"
+                                        :colspan="lo_banquetDt.colspan"
+                                        v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'Q'"
+                                        @click="showReserve(lo_banquetDt.bquet_nos)">
+                                        {{lo_banquetDt.name}}
+                                    </td>
+
+                                    <!-- 補空白 -->
+                                    <td v-else-if="lo_banquetDt.datatype == ''" v-for="repeat in lo_banquetDt.repeat"
+                                        @click="addReserve(lo_banquetDt.beg_tim, repeat-1, la_rowData.rspt_cod, la_rowData.place_cod)"></td>
+                                </template>
+                            </tr>
+                        </template>
+
 
                     </tbody>
                 </table>
