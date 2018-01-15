@@ -1575,6 +1575,8 @@ var RS00202010VM = new Vue({
         }
     },
     mounted: function () {
+        window.onbeforeunload = function () {
+        };
         var ls_searchDate = getCookie("searchDate");
         if (ls_searchDate == null) {
             ls_searchDate = moment().format("YYYY/MM/DD");
