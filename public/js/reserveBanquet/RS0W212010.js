@@ -1208,6 +1208,7 @@ var singlePage = Vue.extend({
          */
         exit: function () {
             $("#gs-order-page").dialog('close');
+            location.reload();
         },
 
         /**
