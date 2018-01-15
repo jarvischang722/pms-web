@@ -1208,6 +1208,7 @@ var singlePage = Vue.extend({
          */
         exit: function () {
             $("#gs-order-page").dialog('close');
+            location.reload();
         },
 
         /**
@@ -1566,13 +1567,23 @@ var RS00202010VM = new Vue({
     },
     watch: {
         searchDate: function () {
-            this.searchDate = moment(this.searchDate).format("YYYY/MM/DD");
-            this.doSearch();
+            if(this.searchDate != getCookie("searchDate")){
+                setupCookie("searchDate", this.searchDate, "/", 2592000000);
+                location.reload();
+            }
+
         }
     },
     mounted: function () {
-        //啟用fixTable
-        $("#gs-fixTable").tableHeadFixer({"left": 1});
+        window.onbeforeunload = function () {
+        };
+        var ls_searchDate = getCookie("searchDate");
+        if (ls_searchDate == null) {
+            ls_searchDate = moment().format("YYYY/MM/DD");
+            setupCookie("searchDate", ls_searchDate, "/", 2592000000);
+        }
+        this.nowDate = moment(ls_searchDate).format("YYYY/MM/DD");
+        this.searchDate = ls_searchDate;
         this.qryPageOneData();
     },
     updated: function () {
@@ -1587,12 +1598,8 @@ var RS00202010VM = new Vue({
         }
     },
     methods: {
-        doSearch: function () {
-            this.qryPageOneData();
-        },
         qryPageOneData: function () {
             var self = this;
-            self.nowDate = self.searchDate;
             var lo_params = {use_dat: this.searchDate};
             this.isLoading = true;
             $.post("/reserveBanquet/qryPageOneData", lo_params, function (result) {
@@ -1603,7 +1610,6 @@ var RS00202010VM = new Vue({
                 else {
                     alert(result.errorMsg);
                 }
-
             });
         },
 
@@ -1735,8 +1741,8 @@ var RS00202010VM = new Vue({
         },
 
         initToday: function () {
-            this.searchDate = new Date();
-            this.doSearch();
+            this.searchDate = moment().format("YYYY/MM/DD");
+            this.qryPageOneData();
         }
     }
 });
