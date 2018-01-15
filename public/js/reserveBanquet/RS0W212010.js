@@ -1570,7 +1570,7 @@ var RS00202010VM = new Vue({
     watch: {
         searchDate: function () {
             if(this.searchDate != getCookie("searchDate")){
-                setupCookie("searchDate", this.searchDate, "/", 2592000000);
+                setupCookie("searchDate", this.searchDate, "/", 3600000);   //預設一小時
                 location.reload();
             }
 
@@ -1582,7 +1582,7 @@ var RS00202010VM = new Vue({
         var ls_searchDate = getCookie("searchDate");
         if (ls_searchDate == null) {
             ls_searchDate = moment().format("YYYY/MM/DD");
-            setupCookie("searchDate", ls_searchDate, "/", 2592000000);
+            setupCookie("searchDate", ls_searchDate, "/", 3600000);     //預設一小時
         }
         this.nowDate = moment(ls_searchDate).format("YYYY/MM/DD");
         this.searchDate = ls_searchDate;
