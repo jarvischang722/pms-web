@@ -76,23 +76,29 @@
         <!--Status chg-->
         <el-dialog
                 :close-on-click-modal="true" :show-close="false" :title=" i18nLang.program.PMS0610020.company_status "
-                :visible.sync="isOpenCompanyStatus" style="width: 43%; left: 30%;"
+                :visible.sync="isOpenCompSta" style="width: 43%; left: 30%;"
                 :before-close="doCloseCompanyStatusDialog">
             <div class="businessCompanyData">
                 <div class="col-sm-12 col-xs-12">
                     <div class="row">
                         <div class="col-sm-10 col-xs-10">
-                            <div class="row billInfo no-margin-right">
+                            <div class="row billInfo no-margin-right" v-for="fields in compStaFieldData">
                                 <div class="content">
                                     <div class="space-6"></div>
-                                    <div class="grid-item">
-                                        <label>Status</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">Delete</option>
-                                            <option value="2">Normal</option>
-                                            <option value="3">Black</option>
-                                            <option value="4">Potential</option>
-                                        </select>
+                                    <div class="grid-item" v-for="field in fields">
+                                        <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
+                                            <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                            <span>{{ field.ui_display_name }}</span>
+                                        </label>
+                                        <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                    v-model="compStaSingleData[field.ui_field_name]" :data="field.selectData"
+                                                    is-qry-src-before="Y" value-field="value" text-field="display"
+                                                    @update:v-model="val => compStaSingleData[field.ui_field_name] = val"
+                                                    :default-val="field.defaultVal"
+                                                    :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                        </bac-select>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -104,13 +110,13 @@
                                     <ul>
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                    role="button" @click="doSaveCompanyStatus">
+                                                    role="button" @click="doSaveCompSta">
                                                 {{i18nLang.SystemCommon.Save}}
                                             </button>
                                         </li>
                                         <li>
                                             <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                    role="button" @click="doCloseCompanyStatusDialog">
+                                                    role="button" @click="doCloseCompStaDialog">
                                                 {{i18nLang.SystemCommon.Leave}}
                                             </button>
                                         </li>
@@ -135,50 +141,46 @@
                         <div class="col-sm-10 col-xs-10">
                             <div class="row billInfo no-margin-right">
                                 <div class="grid-item">
-                                    <label>狀態</label>
-                                    <select class="input-medium medium-c1">
-                                        <option value="-1">代碼-狀態說明</option>
-                                        <option value="1">01-確認中</option>
-                                        <option value="2">02-已下單</option>
-                                        <option value="3">03-待簽回</option>
-                                        <option value="4">04-已收訂金</option>
-                                        <option value="5">05-取消</option>
-                                    </select>
+                                    <label v-if="contractStaMnFieldData.visiable == 'Y' && contractStaMnFieldData.ui_type != 'checkbox'">
+                                        <span v-if=" contractStaMnFieldData.requirable == 'Y' " style="color: red;">*</span>
+                                        <span>{{ contractStaMnFieldData.ui_display_name }}</span>
+                                    </label>
+                                    <bac-select :style="{width:contractStaMnFieldData.width + 'px' , height:contractStaMnFieldData.height + 'px'}"
+                                                v-model="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
+                                                :data="contractStaMnFieldData.selectData"
+                                                is-qry-src-before="Y" value-field="value" text-field="display"
+                                                @update:v-model="val => contractStaMnSingleData[contractStaMnFieldData.ui_field_name] = val"
+                                                :default-val="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
+                                                :disabled="contractStaMnFieldData.modificable == 'N'|| (contractStaMnFieldData.modificable == 'I' && isEditStatus) || (contractStaMnFieldData.modificable == 'E' && isCreateStatus)">
+                                    </bac-select>
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="space-6"></div>
                                 <div class="main-content-data borderFrame">
-                                    <div class="horizTable-outer">
-                                        <table class="css_table horizTable">
-                                            <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
-                                            <thead class="css_thead">
-                                            <tr class="css_tr">
-                                                <th class="css_th" style="min-width:100px;">狀態</th>
-                                                <th class="css_th" style="min-width:150px;">異動時間</th>
-                                                <th class="css_th" style="min-width:115px;">異動者</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody class="css_tbody">
-                                            <tr class="css_tr">
-                                                <td class="css_td">待簽回</td>
-                                                <td class="css_td">2017/11/15 13:42:14</td>
-                                                <td class="css_td">cio</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">確認中</td>
-                                                <td class="css_td">2017/11/15 13:42:14</td>
-                                                <td class="css_td">cio</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">已簽約</td>
-                                                <td class="css_td">2017/11/15 13:42:14</td>
-                                                <td class="css_td">cio</td>
-                                            </tr>
-                                            </tbody>
-                                            </tbody>
-                                        </table>
+                                    <div class="fixHeadTable">
+                                        <div class="tbl-header02">
+                                            <table class=" custab">
+                                                <thead class="custab-head">
+                                                <tr>
+                                                    <th class="width-15 text-center" v-for="field in contractStaDtFieldData">
+                                                        {{field.ui_display_name}}
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div class="tbl-content02" style="height: 300px;">
+                                            <table class="custab">
+                                                <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
+                                                <tr v-for="contractData in contractStaDtRowsData">
+                                                    <td class="width-15">{{contractData.STATUS_DESC}}</td>
+                                                    <td class="width-15">{{contractData.INS_DAT}}</td>
+                                                    <td class="width-15">{{contractData.INS_USR}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -285,6 +287,7 @@
     import searchComp from '../../common/searchComp.vue';
     import editSalesClerk from './editSalesClerk.vue';
     import pms0610020 from './PMS0610020.vue';
+    import async from 'async';
 
     Vue.prototype.$eventHub = new Vue();
 
@@ -308,11 +311,14 @@
             });
             //status chg. dialog
             this.$eventHub.$on('getCompanyStatusData', function (companyStatusData) {
-                self.isOpenCompanyStatus = companyStatusData.openCompanyStatus;
+                self.isOpenCompSta = companyStatusData.openCompanyStatus;
             });
             //合約狀態變更 dialog
             this.$eventHub.$on('getContractStatusData', function (contractStatusData) {
                 self.isOpenContractStatus = contractStatusData.openContractStatus;
+                self.contractStaMnSingleData = contractStatusData.singleData;
+                self.contractStaMnFieldData = contractStatusData.fieldData;
+                console.log(contractStatusData.singleData);
             });
             //業務員指派dialog
             this.$eventHub.$on('doEditSalesClerk', function (editSalesClerkData) {
@@ -355,12 +361,18 @@
                 isCreateStatus: false,
                 isEditStatus: false,
                 isEditSalesClerk: false,//業務員指派
-                isOpenCompanyStatus: false,
+                isOpenCompSta: false,
                 isOpenContractStatus: false,
                 isVisitPlan: false, //拜訪計畫
                 openChangeLogDialog: false,
                 allChangeLogList: {},
-                test: 'N'
+                compStaSingleData: {},
+                compStaFieldData: [],
+                dgContractStaIns: {},
+                contractStaMnSingleData: {},
+                contractStaMnFieldData: [],
+                contractStaDtRowsData: [],
+                contractStaDtFieldData: []
             };
         },
         watch: {
@@ -377,6 +389,33 @@
             isVisitPlan(val) {
                 if (!val) {
                     this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+                }
+            },
+            isOpenCompSta(val) {
+                if (val) {
+                    $.post("/api/fetchOnlySinglePageFieldData", {
+                        prg_id: "PMS0610020",
+                        page_id: 2,
+                        tab_page_id: 1010,
+                        template_id: "gridsingle"
+                    }, (result) => {
+                        if (result) {
+                            this.compStaFieldData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
+                        }
+                    });
+                }
+            },
+            isOpenContractStatus(val) {
+                if (val) {
+                    $.post("/api/fetchDataGridFieldData", {
+                        prg_id: "PMS0610020",
+                        page_id: 2,
+                        tab_page_id: 1020,
+                        searchCond: {cust_cod: this.contractStaMnSingleData.cust_mn_cust_cod}
+                    }).then(result => {
+                        this.contractStaDtFieldData = result.dgFieldsData;
+                        this.contractStaDtRowsData = result.dgRowData;
+                    });
                 }
             }
         },
@@ -527,14 +566,18 @@
                 }).dialog('open');
             },
             //單筆 ststus chg.(公司狀態)
-            doSaveCompanyStatus() {
-                this.isOpenCompanyStatus = false;
+            doSaveCompSta() {
+                console.log(this.compStaSingleData);
+                this.isOpenCompSta = false;
             },
-            doCloseCompanyStatusDialog() {
-                this.isOpenCompanyStatus = false;
+            doCloseCompStaDialog() {
+                this.compStaSingleData = {};
+                this.compStaFieldData = [];
+                this.isOpenCompSta = false;
             },
             //單筆 合約狀態變更
             doSaveContractStatus() {
+                console.log(this.contractStaMnSingleData);
                 this.isOpenContractStatus = false;
             },
             doCloseContractStatusDialog() {

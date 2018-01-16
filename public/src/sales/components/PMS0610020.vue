@@ -343,6 +343,13 @@
                 this.oriSingleData = {};
                 this.fieldsData = [];
                 this.oriFieldsData = [];
+                this.setStatus();
+            },
+            setStatus() {
+                this.$store.dispatch("setStatus", {
+                    gb_isCreateStatus: this.isCreateStatus,
+                    gb_isEditStatus: this.isEditStatus
+                });
             },
             setTabStatus(tabName) {
                 var self = this;
@@ -427,7 +434,9 @@
                 var self = this;
                 this.isOpenContractStatus = true;
                 this.$eventHub.$emit('getContractStatusData', {
-                    openContractStatus: self.isOpenContractStatus
+                    openContractStatus: self.isOpenContractStatus,
+                    singleData: JSON.parse(JSON.stringify(self.singleData)),
+                    fieldData:self.oriFieldsData[_.findIndex(self.oriFieldsData, {ui_field_name: "cust_mn_contract_sta"})]
                 });
             },
             //異動紀錄(change log)

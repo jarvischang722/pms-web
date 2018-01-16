@@ -318,7 +318,8 @@ function qryUIDatagridFields(callback) {
             {user_id: go_session.user.user_id}
         ],
         prg_id: gs_prg_id,
-        page_id: Number(gn_page_id)
+        page_id: Number(gn_page_id),
+        tab_page_id: Number(gn_tab_page_id)
     };
     let la_fieldData = [];
     mongoAgent.UIDatagridField.find(lo_params).sort({col_seq: 1}).select({_id: 0}).exec(function (err, dgFieldData) {
@@ -365,7 +366,9 @@ function qryUIPageFields(callback) {
  */
 function qryFormatRule(la_fieldData, callback) {
     let ln_counter = 0;
-
+    if(la_fieldData.length == 0){
+        callback(null, la_fieldData);
+    }
     _.each(la_fieldData, function (lo_fieldData) {
         var lo_format = {
             rule_name: "",
