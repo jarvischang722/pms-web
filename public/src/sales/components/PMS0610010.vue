@@ -561,6 +561,9 @@
                         self.editingRow = {};
                         self.isEditStatus = false;
                         self.isCreateStatus = false;
+                        self.$eventHub.$emit('setTabName', {
+                            tabName: ""
+                        });
                         // self.doRowUnLock();
                     }
                 }).dialog('open');

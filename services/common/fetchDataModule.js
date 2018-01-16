@@ -157,7 +157,8 @@ exports.GridSingleProc = function (postData, session) {
                 prg_id: gs_prg_id,
                 func_id: '0200',
                 page_id: gn_page_id,
-                tab_page_id: gn_tab_page_id
+                tab_page_id: gn_tab_page_id,
+                template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
             }, function (err, func) {
                 if (func) {
                     func = func.toObject();

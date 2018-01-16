@@ -1,6 +1,6 @@
 <template>
     <div id="PMS0610020" class="hide padding-5" style="top: 0 !important; z-index: 1">
-        <div class="businessCompanyData">
+        <div class="businessCompanyData" v-loading="isLoadingDialog" :element-loading-text="loadingText">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
@@ -22,7 +22,7 @@
                                                    :maxlength="field.ui_field_length"
                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                    :disabled="field.modificable == 'N'||
-                                                   (field.modificable == 'I' && isCreateStatus) || (field.modificable == 'E' && isEditStatus)">
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
                                             <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
@@ -286,6 +286,9 @@
         },
         created() {
             var self = this;
+            this.$eventHub.$on('setTabName', function (tabNameData) {
+                self.tabName = tabNameData.tabName;
+            });
             this.$eventHub.$on('getCloseChangeLogData', function (closeChangeLogData) {
                 self.isOpenChangeLog = closeChangeLogData.isOpenChangeLog;
             });
@@ -327,7 +330,6 @@
         watch: {
             tabName(val) {
                 this.setTabStatus(val);
-                this.showTabContent(val);
             },
             rowData(val) {
                 if (!_.isEmpty(val)) {
@@ -343,12 +345,17 @@
                 this.oriSingleData = {};
                 this.fieldsData = [];
                 this.oriFieldsData = [];
-                this.setStatus();
+                this.setGlobalStatus();
             },
-            setStatus() {
+            setGlobalStatus() {
                 this.$store.dispatch("setStatus", {
                     gb_isCreateStatus: this.isCreateStatus,
                     gb_isEditStatus: this.isEditStatus
+                });
+            },
+            setGlobalCustCod(){
+                this.$store.dispatch("setCustCod", {
+                    gs_custCod: this.singleData.cust_mn_cust_cod
                 });
             },
             setTabStatus(tabName) {
@@ -360,6 +367,8 @@
 
                 var ls_tabNae = _s.capitalize(tabName);
                 this.tabStatus["is" + ls_tabNae] = true;
+
+                this.showTabContent(tabName);
             },
             showTabContent(tabName) {
                 var la_panelName = this.panelName;
@@ -369,10 +378,9 @@
                 });
 
                 $("#" + ls_showPanelName).show();
-
-                // this.showDtDataGrid();
             },
             fetchFieldData(val) {
+                this.isLoadingDialog = true;
                 var self = this;
                 $.post("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0610020",
@@ -383,7 +391,6 @@
                     self.oriFieldsData = result.gsFieldsData;
                     self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
                     self.fetchRowData();
-                    console.log(self.fieldsData);
                 });
             },
             fetchRowData() {
@@ -393,10 +400,11 @@
                         prg_id: "PMS0610020",
                         page_id: 1,
                         tab_page_id: 1
-                    }, function (result) {
-                        self.singleData = result.gsDefaultData;
-                        self.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
-                        console.log(result);
+                    }).then(result => {
+                        this.singleData = result.gsDefaultData;
+                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
+                        this.isLoadingDialog = false;
+                        this.setGlobalCustCod();
                     });
                 }
                 else if (this.isEditStatus) {
@@ -406,10 +414,11 @@
                         tab_page_id: 1,
                         template_id: "gridsingle",
                         searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
-                    }, function (result) {
-                        self.singleData = result.gsMnData.rowData[0];
-                        self.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        console.log(result);
+                    }).then(result => {
+                        this.singleData = result.gsMnData.rowData[0];
+                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        this.isLoadingDialog = false;
+                        this.setGlobalCustCod();
                     });
                 }
             },

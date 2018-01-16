@@ -7,6 +7,9 @@ Vue.use(Vuex);
 const state = {
     gb_isCreateStatus: false,
     gb_isEditStatus: false,
+
+    gs_custCod: "",
+
     tmpCUD: {
         createData: [],
         updateData: [],
@@ -18,17 +21,27 @@ const state = {
 };
 
 const mutations = {
-    //設定狀態
+    //設定狀態(新增或編輯)
     setStatus(state, payload){
         state.gb_isCreateStatus = payload.gb_isCreateStatus;
         state.gb_isEditStatus = payload.gb_isEditStatus;
+    },
+
+    //設定公司編號
+    setCustCod(state, ls_custCod){
+        state.gs_custCod = ls_custCod;
     }
 };
 
 const actions = {
-    //設定狀態
+    //設定狀態(新增或編輯)
     setStatus({commit}, payload){
         commit("setStatus", payload);
+    },
+
+    //設定公司編號
+    setCustCod({commit}, ls_custCod){
+        commit("setCustCod", ls_custCod);
     }
 };
 

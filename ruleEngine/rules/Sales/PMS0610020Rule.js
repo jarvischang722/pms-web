@@ -15,7 +15,7 @@ var tools = require(appRootDir + "/utils/CommonTools");
 
 module.exports = {
     /**
-     * PMS0610020 商務公司資料編輯 各欄位預設值
+     * PMS0610020 商務公司資料編輯 單筆主檔各欄位預設值
      * @param postData
      * @param session
      * @param callback
