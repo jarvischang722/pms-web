@@ -26,7 +26,8 @@ var BacchusMainVM = new Vue({
         serverTime: '', //server 時間
         prgVueIns: {}, //目前作業的 vue 實例
         leaveAfterExecFuncsNam: [], //頁面前離開後要幫作業觸發的功能
-        sysPrgPath: ''
+        sysPrgPath: '',
+        openEditPasswordDialog: false
     },
     mounted: function () {
         //離開時
@@ -176,6 +177,7 @@ var BacchusMainVM = new Vue({
                     ls_pro_url = tmpQuick.pro_url;
                 }
             }
+            // ls_pro_url = "/editPassword";
             if (!_.isEmpty(ls_pro_url)) {
                 $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
             }
@@ -250,6 +252,39 @@ var BacchusMainVM = new Vue({
                 location.reload();
             });
         },
+
+        /**
+         * 修改密碼
+         */
+        doEditPassword: function(){
+            this.openEditPasswordDialog = true;
+        },
+
+        //確定修改密碼
+        confirmEditPassword: function(){
+            var lo_params = {
+                oriPassword: this.oriPassword,
+                newPassword: this.newPassword,
+                confirmPassword: this.confirmPassword
+            };
+            $.post("/api/doEditPassword", lo_params, function(result){
+                if(result.success){
+
+                }
+                else{
+                    alert(result.errorMsg);
+                }
+            });
+        },
+
+        /**
+         * 取消修改密碼
+         */
+        doCancelEditPassword: function(){
+            this.openEditPasswordDialog = false;
+            console.log("cancel");
+        },
+
         /**
          * 換館別
          */

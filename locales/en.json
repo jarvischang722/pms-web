@@ -27,7 +27,8 @@
     "settings": "Settings",
     "staff_area": "Staff Area",
     "oc_shift": "Open/Close Shift",
-    "logout": "Logout"
+    "logout": "Logout",
+    "editPwd": "Edit Password"
   },
   "BAC01P0130": {
     "news": "News",

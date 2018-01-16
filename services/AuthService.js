@@ -191,3 +191,64 @@ exports.getUserHotels = function (user, callback) {
         callback(err, hotels);
     });
 };
+
+/**
+ * 修改密碼
+ * @param authData{Object}
+ * @param callback{Function}
+ */
+exports.doEditPassword = function (postData, callback) {
+    var self = this;
+    var lo_params = {
+        oriPassword: postData.body.oriPassword,
+        newPassword: postData.body.newPassword,
+        confirmPassword: postData.body.confirmPassword
+    };
+    async.waterfall([
+        //將舊密碼加密
+        function (callback) {
+            queryAgent.query("QRY_TRAN_S99_USER_PWD", {
+                cmp_id: postData.session.user.comp_id || "",
+                user_id: postData.session.user.usr_id || "",
+                usr_pwd: postData.body.oriPassword || ""
+            }, function (err, data) {
+                cb(err, data.usr_pwd);
+            });
+        },
+        //確認舊密碼是否正確
+        function (pwd, callback) {
+            queryAgent.query("QRY_BAC_GET_USER_BY_ONE", {
+                cmp_id: postData.session.user.comp_id || "",
+                user_id: postData.session.user.usr_id || "",
+                usr_pwd: pwd || ""
+            }, function (err, user) {
+                if (!user) {
+                    err = {message: "password error!"};
+                }
+                cb(err, user);
+            });
+        },
+        //確認密碼與新密碼是否相同
+        function (userData, callback) {
+            let err = null;
+            if(postData.body.newPassword != postData.body.confirmPassword){
+                err = {
+                    message: 'new password and confirm password are different!'
+                };
+            }
+            callback(err, postData.body.newPassword);
+        },
+        //將新密碼加密
+        function (newPwd, callback) {
+            queryAgent.query("QRY_TRAN_S99_USER_PWD", {
+                cmp_id: postData.session.user.comp_id || "",
+                user_id: postData.session.user.usr_id || "",
+                usr_pwd: postData.body.newPassword || ""
+            }, function (err, data) {
+                callback(err, data.usr_pwd);
+            });
+        }
+    ], function (err, result) {
+        //打api儲存新密碼
+    });
+};

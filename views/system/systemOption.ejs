@@ -82,6 +82,12 @@
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li class="divider"></li>
                         <li>
+                            <a @click="doEditPassword">
+                                <i class="ace-icon fa fa-power-off"></i>
+                                <%= __("BAC01P0120")["editPwd"] %>
+                            </a>
+                        </li>
+                        <li>
                             <a @click="doLogout">
                                 <i class="ace-icon fa fa-power-off"></i>
                                 <%= __("BAC01P0120")["logout"] %>
@@ -159,6 +165,72 @@
         </div>
     </div><!-- /.main-content -->
 
+    <!--修改密碼-->
+    <div>
+        <el-dialog
+                :close-on-click-modal="true" style="width:50%; left:25%; right: 25%;"
+                :visible.sync="openEditPasswordDialog" :before-close="doCancelEditPassword">
+            <div class="loginPage">
+                <div class="space-6"></div>
+                <div class="login-container" style="background: #fff; border: 0px solid #fff;">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="row">
+                            <div class="title">
+                                <!--icon-->
+                                <i class="ace-icon fa fa-key red"></i>
+                                <span> EDIT PASSWORD</span>
+                            </div>
+                            <div class="main">
+                                <h2>
+                                    <i class="ace-icon fa fa-user"></i>
+                                    m15009</h2>
+                                <div>
+                                    <div class="">Please verify your identity first.</div>
+
+                                    <div class="block input-icon input-icon-right">
+                                        <input type="password" class="form-control" placeholder="Original Password" v-model="oriPassword"/>
+                                        <i class="ace-icon fa fa-lock"></i>
+                                    </div>
+
+                                    <div class="">Enter new password.</div>
+
+                                    <div class="block input-icon input-icon-right">
+                                        <input type="password" class="form-control" placeholder="New Password" v-model="newPassword"/>
+                                        <i class="ace-icon fa fa-lock"></i>
+                                    </div>
+
+                                    <div class="">Check new password.</div>
+
+                                    <div class="block input-icon input-icon-right">
+                                        <input type="password" class="form-control" placeholder="New Password" v-model="confirmPassword"/>
+                                        <i class="ace-icon fa fa-lock"></i>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+
+                                    <div class="mainCheck">
+                                        <!--<label class="inline">-->
+                                        <!--<a href="#" data-target="#forgot-box" class="forgot-password-link">-->
+                                        <!--<i class="ace-icon fa fa-arrow-left"></i>-->
+                                        <!--Forget Password？-->
+                                        <!--</a>-->
+                                        <!--</label>-->
+
+                                        <button type="button" id="login_btn" class="width-35 pull-right btn btn-sm btn-primary"
+                                                @click="confirmEditPassword">
+                                            <span class="bigger-110"> Continue</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </el-dialog>
+    </div>
+
     <%- include ../common/footer.ejs %>
 
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
@@ -172,6 +244,12 @@
 <script>
     new Vue({
         el: '#sysoption-app',
+        data: {
+            openEditPasswordDialog: false,
+            oriPassword: "",
+            newPassword: "",
+            confirmPassword: ""
+        },
         methods: {
             //選擇系統
             selectSys: function (sys_id) {
@@ -189,6 +267,39 @@
                     location.reload();
                 });
             },
+
+            /**
+             * 修改密碼
+             */
+            doEditPassword: function(){
+                this.openEditPasswordDialog = true;
+            },
+
+            //確定修改密碼
+            confirmEditPassword: function(){
+                var lo_params = {
+                    oriPassword: this.oriPassword,
+                    newPassword: this.newPassword,
+                    confirmPassword: this.confirmPassword
+                };
+                $.post("/api/doEditPassword", lo_params, function(result){
+                    if(result.success){
+
+                    }
+                    else{
+                        alert(result.errorMsg);
+                    }
+                });
+            },
+
+            /**
+             * 取消修改密碼
+             */
+            doCancelEditPassword: function(){
+                this.openEditPasswordDialog = false;
+                console.log("cancel");
+            },
+
         }
     })
 </script>

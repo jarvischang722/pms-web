@@ -27,7 +27,8 @@
     "settings": "設定",
     "staff_area": "員工專區",
     "oc_shift": "開關班",
-    "logout": "登出"
+    "logout": "登出",
+    "editPwd": "修改密碼"
   },
   "BAC01P0130": {
     "news": "最新消息",
