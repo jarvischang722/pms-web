@@ -212,7 +212,7 @@ exports.doEditPassword = function (postData, callback) {
                 queryAgent.query("QRY_TRAN_S99_USER_PWD", {
                     cmp_id: postData.session.user.cmp_id || "",
                     user_id: postData.session.user.usr_id || "",
-                    usr_pwd: lo_params.oriPassword || ""
+                    usr_pwd: JSON.parse(JSON.stringify(lo_params.oriPassword)) || ""
                 }, function (err, data) {
                     cb(err, data.usr_pwd);
                 });
@@ -289,12 +289,12 @@ exports.doEditPassword = function (postData, callback) {
                     if (apiErr || !data) {
                         success = false;
                         err = {};
-                        err.errorMsg = apiErr;
+                        err.message = apiErr;
                     } else if (data["RETN-CODE"] != "0000") {
                         success = false;
                         err = {};
                         console.error(data["RETN-CODE-DESC"]);
-                        err.errorMsg = "save error!";
+                        err.message = "save error!";
                     }
                     cb(err, success);
                 });

@@ -374,8 +374,8 @@ exports.userSubsysPurviewBySysID = function (req, res) {
 /**
  * 修改密碼
  */
-exports.doEditPassword = function(req, res){
-    authSvc.doEditPassword(req, function (err, errorCode, userInfo) {
+exports.doEditPassword = function (req, res) {
+    authSvc.doEditPassword(req, function (err, errorCode) {
         res.json({
             success: _.isNull(err),
             errorCode: errorCode,

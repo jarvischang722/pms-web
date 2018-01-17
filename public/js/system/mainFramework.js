@@ -28,6 +28,7 @@ var BacchusMainVM = new Vue({
         leaveAfterExecFuncsNam: [], //頁面前離開後要幫作業觸發的功能
         sysPrgPath: '',
         //修改密碼
+        isLoading: false,
         openEditPasswordDialog: false,
         pwdData: {
             oriPassword: "",
@@ -288,6 +289,7 @@ var BacchusMainVM = new Vue({
 
         //確定修改密碼
         confirmEditPassword: function () {
+            this.isLoading = true;
             var self = this;
             var lo_chkResult = this.dataValidate();
 
@@ -306,6 +308,7 @@ var BacchusMainVM = new Vue({
                     _.each(self.pwdData, function (val, key) {
                         self.pwdData[key] = "";
                     });
+                    self.isLoading = false;
                 });
             }
         },
