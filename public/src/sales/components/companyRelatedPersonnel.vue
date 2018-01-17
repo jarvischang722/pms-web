@@ -81,57 +81,37 @@
                 this.oriFieldsData = [];
                 this.dgIns = {};
             },
-            fetchFieldData(rowData) {
+            fetchFieldData() {
+                this.isLoading = true;
                 $.post("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 2,
-                    searchCond: {cust_cod: rowData.cust_mn_cust_mn}
+                    searchCond: {cust_cod: this.$store.state.gs_custCod}
                 }).then(result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
                     this.dataGridRowsData = result.dgRowData;
+                    console.log(this.fieldsData);
                     console.log(this.dataGridRowsData);
                     this.showDataGrid();
                 });
             },
             showDataGrid() {
-//                this.dgIns = new DatagridBaseClass();
-//                this.dgIns.init("PMS0610020", "relatedPerson_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
-//                this.dgIns.loadDgData(this.dataGridRowsData);
-//                this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
+                this.dgIns = new DatagridBaseClass();
+                this.dgIns.init("PMS0610020", "relatedPerson_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
+                this.dgIns.loadDgData(this.dataGridRowsData);
+                this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
+                this.isLoading = false;
 
-                $('#relatedPerson_dg').datagrid({
-                    singleSelect: true,
-                    collapsible: true,
-                    url: '/jsonData/sales/bsCompany_relatedMan.json',
-                    method: 'get',
-                    columns: [[
-                        {field: 'mainContact', title: '主要聯絡人', width: 100},
-                        {field: 'name', title: '姓名', width: 80},
-                        {field: 'department', title: '部門', width: 80},
-                        {field: 'jobTitle', title: '職稱', width: 80},
-                        {field: 'status', title: '狀態', width: 80},
-                        {field: 'telphone', title: '行動電話', width: 80},
-                        {field: 'companyPhone', title: '公司電話', width: 80},
-                        {field: 'homePhone', title: '住家電話', width: 80},
-                        {field: 'fax', title: '傳真電話', width: 80},
-                        {field: 'email', title: '電子郵件', width: 80},
-                        {field: 'remark', title: '備註', width: 80},
-                        {field: 'endDate', title: '離職日', width: 80},
-                        {field: 'sex', title: '性別', width: 80},
-                        {field: 'birth', title: '生日', width: 80},
-                        {field: 'pointNum', title: '<span class="grayDisable">秘書積點會員編號</span>', width: 120}
-                    ]]
-                });
             },
             appendRow() {
-//                var self = this;
-//                this.BTN_action = true;
-//                this.dgIns.appendRow(function (result) {
-//                   if(result){
-//                       self.BTN_action = false;
-//                   }
-//                });
+                var self = this;
+                this.BTN_action = true;
+                this.dgIns.appendRow(function (result) {
+                   if(result){
+                       self.BTN_action = false;
+                   }
+                });
             },
             removeRow() {
                 var lo_delRow = $('#relatedPerson_dg').datagrid("getSelected");
@@ -141,14 +121,17 @@
                 }
                 else {
                     console.log("delete this row");
-//                    this.dgIns.removeRow();
+                    this.dgIns.removeRow();
                 }
             },
             doHideLeavingStaff() {
-                var lb_isHide = this.isHideLeavingStaff;
+                var lb_isHide = !this.isHideLeavingStaff;
                 if (lb_isHide) {
-                    console.log("hidding thie leaving staff");
+                    console.log(this.dataGridRowsData);
+                    var la_sortDataGridRowsData = [];
+
                 }
+                console.log(lb_isHide);
             }
         }
     }
