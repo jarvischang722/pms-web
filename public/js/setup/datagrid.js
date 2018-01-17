@@ -1,7 +1,7 @@
 /**
  * Created by Jun on 2017/2/23.
  */
-var prg_id = $("#prg_Id").text();
+var prg_id = $("#prg_Id").data("prg_id");
 var vmHub = new Vue;
 var gb_isUserEdit4ClickCell = true;
 var gb_isUserEdit4EndEdit = true;
