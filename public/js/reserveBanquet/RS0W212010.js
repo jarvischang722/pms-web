@@ -1807,5 +1807,5 @@ function padLeft(str, lenght) {
 $('.easyUi-custom1').tabs({});
 
 $(window).on('beforeunload', function () {
-    return vmHub.$emit("doUnLock");
+    vmHub.$emit("doUnLock");
 });
