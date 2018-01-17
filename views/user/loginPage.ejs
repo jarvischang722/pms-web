@@ -10,7 +10,7 @@
     <meta http-equiv="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 </head>
 
 <%- include ../common/cssFile/importFiles_CssBase %>
@@ -92,7 +92,7 @@
     <!--</div>-->
     <!-- 語言 -->
     <div class="navbar-fixed-top align-right lang">
-        語言 :{{currentLocale}} <select id="localeSelect" class="localeSelect" @change="changeLang()" v-model="currentLocale">
+        <select id="localeSelect" class="localeSelect" @change="changeLang()" v-model="currentLocale">
             <option v-for="locale in locales" :value="locale.lang">{{locale.name}}</option>
         </select>
     </div>
