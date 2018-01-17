@@ -262,7 +262,13 @@
     "dataGridBeforePageText": "第(英)",
     "dataGridAfterPageText": "頁,共{pages}頁(英)",
     "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料(英)",
-    "exceedPeopleNum": "超過人數上限(英)"
+    "exceedPeopleNum": "超過人數上限(英)",
+    "editPwd": "EDIT PASSWORD",
+    "verifyIdentify": "Please verify your identity first.",
+    "oriPwd": "Original Password",
+    "enterNewPwd": "Enter new password.",
+    "checkNewPwd": "Check new password.",
+    "newPwd": "New Password"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",

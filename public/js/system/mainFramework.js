@@ -27,7 +27,18 @@ var BacchusMainVM = new Vue({
         prgVueIns: {}, //目前作業的 vue 實例
         leaveAfterExecFuncsNam: [], //頁面前離開後要幫作業觸發的功能
         sysPrgPath: '',
-        openEditPasswordDialog: false
+        //修改密碼
+        openEditPasswordDialog: false,
+        pwdData: {
+            oriPassword: "",
+            newPassword: "",
+            confirmPassword: ""
+        },
+        fieldData: [
+            {ui_field_name: "oriPassword", ui_display_name: "Original Password"},
+            {ui_field_name: "newPassword", ui_display_name: "New Password"},
+            {ui_field_name: "confirmPassword", ui_display_name: "Check new password"}
+        ]
     },
     mounted: function () {
         //離開時
@@ -85,10 +96,10 @@ var BacchusMainVM = new Vue({
                             usingPrgName = lo_pro["pro_name_" + gs_locale];
                         }
                     }
-                    return _.isEmpty(usingPrgName)
-                })
+                    return _.isEmpty(usingPrgName);
+                });
                 document.title = `${usingPrgName} > ${usingSubsysName} > ${this.activeSystem.abbrName}`;
-                this.sysPrgPath = `${this.activeSystem.abbrName} > ${usingSubsysName} > ${usingPrgName}`
+                this.sysPrgPath = `${this.activeSystem.abbrName} > ${usingSubsysName} > ${usingPrgName}`;
             }
         },
         /**
@@ -222,8 +233,8 @@ var BacchusMainVM = new Vue({
             gf_chkSessionInterval = setInterval(function () {
 
                 let hr = Math.floor(secs / 3600);
-                let min = Math.floor((secs - (hr * 3600)) / 60);
-                let sec = parseInt(secs - (hr * 3600) - (min * 60));
+                let min = Math.floor((secs - hr * 3600) / 60);
+                let sec = parseInt(secs - hr * 3600 - min * 60);
 
                 if (min.length < 2) {
                     min = '0' + min;
@@ -232,7 +243,7 @@ var BacchusMainVM = new Vue({
                     sec = '0' + min;
                 }
                 if (hr) {
-                    hr += ':'
+                    hr += ':';
                 }
                 $('#timeLeft').text(`${hr}  ${min} : ${sec}`);
                 if (secs > 0) {
@@ -256,33 +267,58 @@ var BacchusMainVM = new Vue({
         /**
          * 修改密碼
          */
-        doEditPassword: function(){
+        doEditPassword: function () {
             this.openEditPasswordDialog = true;
         },
 
-        //確定修改密碼
-        confirmEditPassword: function(){
-            var lo_params = {
-                oriPassword: this.oriPassword,
-                newPassword: this.newPassword,
-                confirmPassword: this.confirmPassword
-            };
-            $.post("/api/doEditPassword", lo_params, function(result){
-                if(result.success){
+        //確認是否空白
+        dataValidate: function () {
+            var lo_checkResult;
 
+            for (let i = 0; i < this.fieldData.length; i++) {
+                var lo_field = this.fieldData[i];
+                lo_checkResult = go_validateClass.required(this.pwdData[lo_field.ui_field_name], lo_field.ui_display_name);
+                if (lo_checkResult.success == false) {
+                    break;
                 }
-                else{
-                    alert(result.errorMsg);
-                }
-            });
+            }
+
+            return lo_checkResult;
+        },
+
+        //確定修改密碼
+        confirmEditPassword: function () {
+            var self = this;
+            var lo_chkResult = this.dataValidate();
+
+            if (lo_chkResult.success == false) {
+                alert(lo_chkResult.msg);
+            }
+            else {
+                $.post("/api/doEditPassword", this.pwdData, function (result) {
+                    if (result.success) {
+                        alert('Edit success!');
+                        self.openEditPasswordDialog = false;
+                    }
+                    else {
+                        alert(result.errorMsg);
+                    }
+                    _.each(self.pwdData, function (val, key) {
+                        self.pwdData[key] = "";
+                    });
+                });
+            }
         },
 
         /**
          * 取消修改密碼
          */
-        doCancelEditPassword: function(){
+        doCancelEditPassword: function () {
+            var self = this;
             this.openEditPasswordDialog = false;
-            console.log("cancel");
+            _.each(this.pwdData, function (val, key) {
+                self.pwdData[key] = "";
+            });
         },
 
         /**

@@ -261,7 +261,13 @@
     "dataGridBeforePageText": "第",
     "dataGridAfterPageText": "頁,共{pages}頁",
     "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料",
-    "exceedPeopleNum": "超過人數上限"
+    "exceedPeopleNum": "超過人數上限",
+    "editPwd": "修改密碼",
+    "verifyIdentify": "請先確認身分",
+    "oriPwd": "舊密碼",
+    "enterNewPwd": "請輸入新密碼",
+    "checkNewPwd": "請再輸入新密碼",
+    "newPwd": "新密碼"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",
