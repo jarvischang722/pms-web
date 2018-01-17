@@ -96,46 +96,59 @@
                                     <div class="col-sm-12 col-xs-12">
                                         <div class="row">
                                             <div class="col-sm-10 col-xs-10">
-                                                <div class="row billInfo main-content-data">
+                                                <div class="row billInfo main-content-data" v-for="fields in pageTwoFieldsData">
                                                     <div class="grid">
-                                                        <div class="tab-block grid-item billCheckbox">
-                                                    <span class="checkbox">
-                                                        <label class="ckBox_label">可簽帳</label>
-                                                        <label class="checkbox-width width-auto">
-                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                            <span class="lbl"></span>
-                                                        </label>
-                                                    </span>
-                                                            <!--<input name="form-field-checkbox" type="checkbox" class="ace">-->
-                                                            <!--<input type="checkbox" disabled="disabled"/>-->
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid">
-                                                        <div class="grid-item">
-                                                            <label>簽帳公司</label>
-                                                            <select class="input-medium bill-input-s2">
-                                                                <option value="1">23598231-德安資訊國際股份公司</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid">
-                                                        <div class="grid-item">
-                                                            <label>信用額度</label>
-                                                            <input type="number" class="input-medium bill-input-s2 input_sta_required text-right"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid">
-                                                        <div class="grid-item">
-                                                            <label>目前簽帳金額</label>
-                                                            <input type="number" class="input-medium bill-input-s2 text-right" disabled="disabled"
-                                                                   placeholder="0"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid">
-                                                        <div class="grid-item">
-                                                            <label>信用額度餘額</label>
-                                                            <input type="number" class="input-medium bill-input-s2 text-right" disabled="disabled"
-                                                                   placeholder="123"/>
+                                                        <div class="grid-item" v-for="field in fields">
+                                                            <!--checkbox-->
+                                                            <div v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'" style="margin-left: 87px;">
+                                                                <input style="margin-top: 5px;"
+                                                                       v-model="rowData[field.ui_field_name]" type="checkbox"
+                                                                       :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
+                                                                       :disabled="field.modificable == 'N'||(field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus) "
+                                                                       @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                                <label style="width:auto" v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
+                                                                    <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                                    <span>{{ field.ui_display_name }}</span>
+                                                                </label>
+                                                            </div>
+
+                                                            <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
+                                                                   :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
+                                                                <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                                <span>{{ field.ui_display_name }}</span>
+                                                            </label>
+
+                                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                                                   v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
+                                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                   :required="field.requirable == 'Y'" min="0"
+                                                                   :maxlength="field.ui_field_length"
+                                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                   :disabled="field.modificable == 'N'||
+                                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+
+                                                            <!--number 金額顯示format-->
+                                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                                                   v-if="field.visiable == 'Y' && field.ui_type == 'number'"
+                                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                   :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                                                   :disabled="field.modificable == 'N'||
+                                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                                   @keyup="formatAmt(singleData[field.ui_field_name], field)">
+
+                                                            <!--<bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"-->
+                                                                             <!--:style="{width:field.width + 'px' , height:field.height + 'px'}"-->
+                                                                             <!--:class="{'input_sta_required' : field.requirable == 'Y'}"-->
+                                                                             <!--v-model="singleData[field.ui_field_name]"-->
+                                                                             <!--:columns="field.selectData.columns"-->
+                                                                             <!--:data="field.selectData.selectData"-->
+                                                                             <!--:is-qry-src-before="field.selectData.isQrySrcBefore"-->
+                                                                             <!--:id-field="field.selectData.value" :text-field="field.selectData.display"-->
+                                                                             <!--@update:v-model="val => singleData[field.ui_field_name] = val"-->
+                                                                             <!--:default-val="singleData[field.ui_field_name]"-->
+                                                                             <!--:disabled="field.modificable == 'N'||-->
+                                                                             <!--(field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">-->
+                                                            <!--</bac-select-grid>-->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -349,9 +362,10 @@
                     page_id: 2,
                     tab_page_id: 1030
                 }).then(result => {
-                        this.oriPageTwoFieldsData = result.gsFieldsData;
-                        this.pageTwoFieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
-                    });
+                    this.oriPageTwoFieldsData = result.gsFieldsData;
+                    this.pageTwoFieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
+                    console.log(this.pageTwoFieldsData);
+                });
 
                 var dialog = $("#changeCreditLimit").removeClass('hide').dialog({
                     modal: true,

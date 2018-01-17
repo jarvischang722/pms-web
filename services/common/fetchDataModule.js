@@ -488,6 +488,7 @@ function qrySelectOption(la_dgFieldData, callback) {
             function (cb) {
                 mongoAgent.UITypeSelect.findOne({
                     prg_id: gs_prg_id,
+                    page_id: Number(gn_page_id),
                     ui_field_name: lo_dgField.ui_field_name
                 }).exec(function (err, selRow) {
                     la_dgFieldData[fIdx].selectData = [];
