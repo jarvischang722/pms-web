@@ -28,26 +28,74 @@ exports.loginPage = function (req, res) {
     let clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
     try {
-        fs.exists("configs/IPsUsersRef.json", function (isExist) {
-            if (isExist) {
-                let IPsUsersRef = require("../configs/IPsUsersRef.json");
-
-                _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
-                    if (ipSubnet.toString().indexOf("/") > -1) {
-                        if (ip.cidrSubnet(ipSubnet).contains(clientIP)) {
-                            ls_account = user.toString();
-                        }
-                    } else {
-                        if (_.isEqual(ipSubnet, clientIP)) {
-                            ls_account = user.toString();
-                        }
+        async.waterfall([
+            function (callback) {
+                if (_.isUndefined(req.params.athena_id)) {
+                    if (!_.isUndefined(req.session.athena_id) && !_.isUndefined(req.session.comp_cod)) {
+                        return res.redirect(`/${req.session.athena_id}/${req.session.comp_cod}/login`);
+                    } else if (!_.isUndefined(req.session.athena_id) && _.isUndefined(req.session.comp_cod)) {
+                        return res.redirect(`/${req.session.athena_id}/login`);
                     }
+                    queryAgent.query("QRY_SELECT_COMPANY", {}, function (err, company) {
+                        if (err) {
+                            return callback(err, 'done');
+                        } else {
+                            if (company) {
+                                return res.redirect(`/${company.athena_id}/${company.cmp_id.trim()}/login`);
+                            }
+                        }
+                        callback(null, 'done');
+                    });
+                } else {
+                    req.session.athena_id = req.params.athena_id;
+                    req.session.comp_cod = req.params.comp_cod || "";
+                    callback(null, 'done');
+                }
+            },
+            //公司館別可用語系判斷
+            function (data, callback) {
+                //TODO 判別每間公司館別可以用的語系，
+                let options = {
+                    maxAge: 1000 * 60 * 60 // would expire after 15 minutes
+                    //httpOnly: true, // The cookie only accessible by the web server
+                    //signed: true // Indicates if the cookie should be signed
+                };
+                let localeInfo = [
+                    {lang: 'en', sort: 1, name: 'English'},
+                    {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')},
+                    {lang: 'ja', sort: 3, name: encodeURIComponent('日本語')}
+                ];
+                res.cookie('sys_locales', localeInfo, options);
+                callback(null, 'done');
+            },
+            //判斷IP網段是否有對應的username
+            function (data, callback) {
+                fs.exists("configs/IPsUsersRef.json", function (isExist) {
+                    if (isExist) {
+                        let IPsUsersRef = require("../configs/IPsUsersRef.json");
+
+                        _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
+                            if (ipSubnet.toString().indexOf("/") > -1) {
+                                if (ip.cidrSubnet(ipSubnet).contains(clientIP)) {
+                                    ls_account = user.toString();
+                                }
+                            } else {
+                                if (_.isEqual(ipSubnet, clientIP)) {
+                                    ls_account = user.toString();
+                                }
+                            }
+                        });
+                    }
+                    callback(null, 'done');
                 });
             }
+        ], function (err) {
             res.render('user/loginPage', {account: ls_account});
         });
+
     }
     catch (ex) {
+        console.error(ex);
         res.render('user/loginPage', {account: ls_account});
     }
 };
@@ -82,10 +130,11 @@ exports.casLogin = function (req, res, next) {
  */
 exports.authLogin = function (req, res) {
 
-
     authSvc.doAuthAccount(req.body, function (err, errorCode, userInfo) {
         if (!err && userInfo) {
             req.session.user = userInfo;
+            req.session.athena_id = userInfo.athena_id;
+            req.session.comp_cod = userInfo.cmp_id.trim();
         }
 
         res.json({
@@ -197,7 +246,10 @@ exports.getSubsysQuickMenu = function (req, res) {
  * 取得選擇的公司
  */
 exports.getSelectCompony = function (req, res) {
-    queryAgent.queryList("QRY_SELECT_COMPANY", {}, 0, 0, function (err, getData) {
+    queryAgent.queryList("QRY_SELECT_COMPANY", {
+        athena_id: req.session.athena_id,
+        comp_cod: req.session.comp_cod
+    }, 0, 0, function (err, getData) {
         if (err) {
             res.json({success: false, errorMsg: err});
         }

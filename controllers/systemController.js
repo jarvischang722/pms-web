@@ -26,7 +26,7 @@ exports.index = function (req, res) {
 exports.systemOption = function (req, res) {
 
     if (_.isUndefined(req.session.user) || _.isNull(req.session.user)) {
-        res.redirect("/login");
+        res.redirect(`/${req.session.athena_id}/${req.session.comp_cod}/login`);
         return;
     }
 

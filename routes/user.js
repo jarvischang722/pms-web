@@ -11,6 +11,8 @@ module.exports = function (app, passport) {
 
     //登入頁面
     app.get('/login', middles2, userCrtl.loginPage);
+    app.get('/:athena_id/login', middles2, userCrtl.loginPage);
+    app.get('/:athena_id/:comp_cod/login', middles2, userCrtl.loginPage);
 
     app.get('/casLogin', userCrtl.casLogin);
 

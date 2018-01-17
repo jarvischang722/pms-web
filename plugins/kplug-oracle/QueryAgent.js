@@ -22,6 +22,7 @@ exports.queryData = queryData;
 function queryData(agent, mode, cb, ddObj, param, start, size) {
 	DB.queryDao(ddObj, param, function (err, sql, con) {
 		if (err) {
+			console.error(err);
 			if (mode == 1) {
 				cb(err, [], agent);
 			} else {
@@ -32,11 +33,17 @@ function queryData(agent, mode, cb, ddObj, param, start, size) {
 		if (agent == null) {
 			DB.getConnection(ddObj.id, function (err, connection) {
 				DB.doQuery(connection, sql, con, mode, start, size, function (err, result) {
+					if(err){
+                        console.error(err);
+					}
 					cb(err, result, agent);
 				});
 			});
 		} else {
 			DB.doQuery(agent.connection, sql, con, mode, start, size, function (err, result) {
+                if(err){
+                    console.error(err);
+                }
 				cb(err, result, agent);
 			});
 		}
