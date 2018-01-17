@@ -8,36 +8,45 @@
 <%- include ./common/jsFile/importFiles_JsBase %>
 <body class="no-skin">
 
-<div id="BacchusMainApp" class="main-container ace-save-state" style="margin-top: 35px;">
+    <div id="BacchusMainApp" class="main-container ace-save-state" style="margin-top: 35px;">
 
-    <%- include ./common/navbar.ejs %>
+        <%- include ./common/navbar.ejs %>
 
-    <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-        <%- include ./common/moduleMenu.ejs %>
-    </div>
-    <div class="main-content">
-        <div class="main-content-inner">
-            <%- include ./common/subsysMenu.ejs %>
-            <div id="MainContentDiv" class="page-content">
-                <!-- 主內容 -->
-                <div style=" margin: 0 auto; display: block; " align="center">
-                    <img src="/images/initialPageImg.jpg" style="margin-top:-200px;opacity: 0.4" width="900"/>
+        <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
+            <%- include ./common/moduleMenu.ejs %>
+        </div>
+        <div class="main-content">
+            <div class="main-content-inner">
+                <%- include ./common/subsysMenu.ejs %>
+                <div id="MainContentDiv" class="page-content">
+                    <!-- 主內容 -->
+                    <div style=" margin: 0 auto; display: block; " align="center">
+                        <img src="/images/initialPageImg.jpg" style="margin-top:-200px;opacity: 0.4" width="900"/>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <%- include ./common/footer %>
-    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-    </a>
-    <!-- 閒置太久強制登出提醒Dialog -->
-    <el-dialog title="Warn" :visible.sync="displayLogoutDialog" width="50%" :before-close="doLogout">
-        <span> <%= __("SystemWarn").Idle_auto_logout %></span>
-        <span slot="footer" class="dialog-footer">
+        <%- include ./common/footer %>
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+        </a>
+        <!-- 閒置太久強制登出提醒Dialog -->
+        <el-dialog title="Warn" :visible.sync="displayLogoutDialog" width="50%" :before-close="doLogout">
+            <span> <%= __("SystemWarn").Idle_auto_logout %></span>
+            <span slot="footer" class="dialog-footer">
              <el-button type="primary" @click="doLogout"><%= __("SystemCommon").OK %></el-button>
         </span>
-    </el-dialog>
-</div>
+        </el-dialog>
+
+        <!--修改密碼-->
+        <div>
+            <el-dialog
+                    :close-on-click-modal="true" style="width:50%; left:25%; right: 25%;"
+                    :visible.sync="openEditPasswordDialog" :before-close="doCancelEditPassword">
+                <%- include ./user/editPassword.ejs %>
+            </el-dialog>
+        </div>
+    </div>
 
 
 </body>

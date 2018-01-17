@@ -1,0 +1,21 @@
+<%
+var allMdls = _.values(_.values(_.pluck(session.user.subsysMenu, 'mdlMenu')));
+var prgInfo = {};
+var processes = [];
+_.each(allMdls, function (d) {
+    processes.push(_.pluck(processes, "processMenu"));
+})
+
+_.each(allMdls, function (mdl) {
+    _.each(mdl.map(a => a.processMenu), function (pros) {
+        if (_.findIndex(pros, {pro_id: prg_id}) > -1) {
+            prgInfo = _.findWhere(pros, {pro_id: prg_id});
+        }
+    })
+});
+%>
+
+<label id="prg_Id" class="prg_idLbH3" data-prg_id="<%= prg_id %>">
+    <%= prgInfo["pro_name_" + session.locale] + "(" + prg_id + ")" %>
+</label>
+

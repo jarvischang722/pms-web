@@ -117,6 +117,7 @@ require("./plugins/socket.io/socketEvent")(io);
 app.use(function (req, res, next) {
     res.locals.session = req.session;
     res.locals.locale = req.session.locale;
+    res.locals._ = require("underscore");
     next();
 });
 
@@ -156,10 +157,10 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
-tableUnlockforAllPrg();
 
 server.listen(port, function () {
     // debug('Listening on ' + app.get('port'));
+    tableUnlockforAllPrg();
     console.log('Express server listening on port ' + app.get('port'));
 });
 
