@@ -340,7 +340,6 @@
         },
         methods: {
             initData() {
-                this.tabName = "set";
                 this.singleData = {};
                 this.oriSingleData = {};
                 this.fieldsData = [];
@@ -354,9 +353,7 @@
                 });
             },
             setGlobalCustCod(){
-                this.$store.dispatch("setCustCod", {
-                    gs_custCod: this.singleData.cust_mn_cust_cod
-                });
+                this.$store.dispatch("setCustCod", this.singleData.cust_mn_cust_cod);
             },
             setTabStatus(tabName) {
                 var self = this;
@@ -405,6 +402,7 @@
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
                         this.isLoadingDialog = false;
                         this.setGlobalCustCod();
+                        this.tabName = "set";
                     });
                 }
                 else if (this.isEditStatus) {
@@ -419,6 +417,7 @@
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.isLoadingDialog = false;
                         this.setGlobalCustCod();
+                        this.tabName = "set";
                     });
                 }
             },

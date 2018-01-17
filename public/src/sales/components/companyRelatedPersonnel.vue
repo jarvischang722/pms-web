@@ -1,5 +1,5 @@
 <template>
-    <div class="col-xs-12 col-sm-12">
+    <div class="col-xs-12 col-sm-12" v-loading="isLoading" element-loading-text="Loading...">
         <div class="row">
             <!--多筆 相關人員資料 dataGrid-->
             <div class="col-xs-11 col-sm-11">
@@ -55,6 +55,7 @@
         data() {
             return {
                 i18nLang: go_i18nLang,
+                isLoading: false,
                 BTN_action: false,
                 isHideLeavingStaff: false,
                 dataGridRowsData: [],
@@ -81,14 +82,17 @@
                 this.dgIns = {};
             },
             fetchFieldData(rowData) {
-                var self = this;
-
-                self.fetchRowData(rowData);
-            },
-            fetchRowData(rowData) {
-                var self = this;
-
-                this.showDataGrid();
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0610020",
+                    tab_page_id: 2,
+                    searchCond: {cust_cod: rowData.cust_mn_cust_mn}
+                }).then(result => {
+                    this.searchFields = result.searchFields;
+                    this.fieldsData = result.dgFieldsData;
+                    this.dataGridRowsData = result.dgRowData;
+                    console.log(this.dataGridRowsData);
+                    this.showDataGrid();
+                });
             },
             showDataGrid() {
 //                this.dgIns = new DatagridBaseClass();

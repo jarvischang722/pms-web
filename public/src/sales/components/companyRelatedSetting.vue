@@ -245,16 +245,14 @@
                 }, function (result) {
                     self.oriFieldsData = result.gsFieldsData;
                     self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
-                    console.log(self.fieldsData);
                     self.fetchRowData();
                 });
             },
             fetchRowData() {
                 var self = this;
-
                 if (this.isCreateStatus) {
                     this.singleData = {
-                        hoffice_cod: this.$store.state.gs_custCod,
+                        hoffice_cod: self.$store.state.gs_custCod,
                         dm_flag: 'Y',
                         cust_idx_ar_amt: 0,
                         business_cod: '01  ',
@@ -364,7 +362,6 @@
                 }).then(result => {
                     this.oriPageTwoFieldsData = result.gsFieldsData;
                     this.pageTwoFieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
-                    console.log(this.pageTwoFieldsData);
                 });
 
                 var dialog = $("#changeCreditLimit").removeClass('hide').dialog({
