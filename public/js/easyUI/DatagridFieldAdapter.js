@@ -315,8 +315,8 @@ var DatagridFieldAdapter = {
 
         }
         else if (dataType == "numberbox") {
-            tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
 
+            tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
             if (fieldAttrObj.ui_type == "percent") {
                 tmpFieldObj.formatter = function (val, row, index) {
                     var fieldName = parseFloat(val) * 100 + "%";
@@ -324,20 +324,32 @@ var DatagridFieldAdapter = {
                 };
             }
 
-            var formatFunc = function (val) {
+            tmpFieldObj.formatter = function (val) {
+                if(_.isNull(val)){
+                    return val;
+                }
+                val = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+                if (typeof fieldAttrObj.format_func_name === "object") {
+                    val = go_formatDisplayClass.amtFormat(val || "0", fieldAttrObj.format_func_name.rule_val);
+                }
+                return val;
+            };
+            tmpFieldObj.editor.options.formatter = function (val) {
+                if(_.isNull(val)){
+                    return val;
+                }
+                val = val.toString().replace(/,/g, "");
                 if (typeof fieldAttrObj.format_func_name === "object") {
                     val = go_formatDisplayClass.amtFormat(val || "0", fieldAttrObj.format_func_name.rule_val);
                 }
                 return val;
             };
 
-            tmpFieldObj.formatter = formatFunc;
-            tmpFieldObj.editor.options.formatter = formatFunc;
-
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                 var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                 onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
             };
+
         }
         else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {
