@@ -189,6 +189,7 @@
         el: '#sysoption-app',
         data: {
             //修改密碼
+            isLoading: false,
             openEditPasswordDialog: false,
             pwdData: {
                 oriPassword: "",
@@ -243,6 +244,7 @@
 
             //確定修改密碼
             confirmEditPassword: function () {
+                this.isLoading = true;
                 var self = this;
                 var lo_chkResult = this.dataValidate();
 
@@ -261,6 +263,7 @@
                         _.each(self.pwdData, function (val, key) {
                             self.pwdData[key] = "";
                         });
+                        self.isLoading = false;
                     });
                 }
             },
