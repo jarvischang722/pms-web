@@ -279,6 +279,7 @@ exports.doEditPassword = function (postData, callback) {
                 let apiParams = {
                     "REVE-CODE": "BAC02009010000",
                     "program_id": "BAC02009010000",
+                    "user": postData.session.user.usr_id,
                     "count": 1,
                     "exec_data": lo_savaExecDatas
                 };
