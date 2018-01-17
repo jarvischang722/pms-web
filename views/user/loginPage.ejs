@@ -92,7 +92,7 @@
     <!--</div>-->
     <!-- 語言 -->
     <div class="navbar-fixed-top align-right lang">
-        <select id="localeSelect" class="localeSelect" @change="changeLang()" v-model="currentLocale">
+        語言 :{{currentLocale}} <select id="localeSelect" class="localeSelect" @change="changeLang()" v-model="currentLocale">
             <option v-for="locale in locales" :value="locale.lang">{{locale.name}}</option>
         </select>
     </div>
@@ -101,7 +101,6 @@
 
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
-    var gs_locale = '<%= session.locale %>';
     var gs_account = '<%= account %>';
 </script>
 

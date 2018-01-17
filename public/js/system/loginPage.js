@@ -40,6 +40,7 @@ var loginVM = new Vue({
             $.post("/api/getSelectCompany", function (result) {
                 if (result.success) {
                     loginVM.companyData = result.selectCompany;
+                    loginVM.comp_id = result.selectCompany.length > 0 ? result.selectCompany[0].cmp_id.trim() : "";
                 }
             });
         },
