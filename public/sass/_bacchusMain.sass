@@ -1400,12 +1400,22 @@ ul.newVisitOther-btn
 .roomPlan-btn
   margin-top: 42px
 .empty-color
-  background: #e3efdb !important
+  background: #fff !important
 .room-color
   background: #ffe5d5 !important
 .name-color
-  background: #e3efdb !important
+  background: #fff !important
   text-align: center
+
+.status_v
+  background: $status_v
+.status_o
+  background: $status_o
+.status_s
+  background: $status_s
+.status_a
+  background: $status_a
+
 .datecolor
   background: #DAEAFC !important
 //.roomPlanTable
@@ -1549,6 +1559,30 @@ span.roomNum-text
 //  -webkit-clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
 //  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
 
+@mixin triangle_before($triangle_bg: #f8cbac , $triangle_txt: #555)
+  &:before,&:after
+    content: ""
+    border-style: solid
+    border-width: 0
+    height: 19px
+    position: absolute
+    width: 0
+    border-color: transparent $triangle_bg
+  &:before
+    left: -10px
+    border-width: 9px 10px 9px 0px
+  &:after
+    right: -10px
+    border-width: 9px 0 9px 10px
+  span
+    &.triangle-text
+      width: 100%
+      display: inline-block
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+      color: $triangle_txt
+
 //ho-表格td長六角形
 td
   div
@@ -1559,28 +1593,22 @@ td
       margin: 0px auto
       color: #000
       position: relative
-      background-color: #f8cbac !important
-      &:before,&:after
-        content: ""
-        border-style: solid
-        border-width: 0
-        height: 19px
-        position: absolute
-        width: 0
-        border-color: transparent #f8cbac
-      &:before
-        left: -10px
-        border-width: 9px 10px 9px 0px
-      &:after
-        right: -10px
-        border-width: 9px 0 9px 10px
-      span
-        &.triangle-text
-          width: 100%
-          display: inline-block
-          overflow: hidden
-          white-space: nowrap
-          text-overflow: ellipsis
+      background-color: #f8cbac
+      +triangle_before
+
+      &.status_v
+        background: $status_v
+        +triangle_before($status_v,#fff)
+      &.status_o
+        background: $status_o
+        +triangle_before($status_o,#fff)
+      &.status_s
+        background: $status_s
+        +triangle_before($status_s,#fff)
+      &.status_a
+        background: $status_a
+        +triangle_before($status_a,#fff)
+
     // todo 多行不會隱藏
     &.act-box
       margin: 0px auto

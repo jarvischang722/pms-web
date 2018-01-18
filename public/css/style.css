@@ -3399,7 +3399,7 @@ ul.newVisitOther-btn {
 }
 
 .empty-color {
-  background: #e3efdb !important;
+  background: #fff !important;
 }
 
 .room-color {
@@ -3407,8 +3407,24 @@ ul.newVisitOther-btn {
 }
 
 .name-color {
-  background: #e3efdb !important;
+  background: #fff !important;
   text-align: center;
+}
+
+.status_v {
+  background: #8AC926;
+}
+
+.status_o {
+  background: #FF595E;
+}
+
+.status_s {
+  background: #FFCA3A;
+}
+
+.status_a {
+  background: #1982C4;
 }
 
 .datecolor {
@@ -3600,7 +3616,7 @@ td div.triangle-box {
   margin: 0px auto;
   color: #000;
   position: relative;
-  background-color: #f8cbac !important;
+  background-color: #f8cbac;
 }
 td div.triangle-box:before, td div.triangle-box:after {
   content: "";
@@ -3625,6 +3641,119 @@ td div.triangle-box span.triangle-text {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  color: #555;
+}
+td div.triangle-box.status_v {
+  background: #8AC926;
+}
+td div.triangle-box.status_v:before, td div.triangle-box.status_v:after {
+  content: "";
+  border-style: solid;
+  border-width: 0;
+  height: 19px;
+  position: absolute;
+  width: 0;
+  border-color: transparent #8AC926;
+}
+td div.triangle-box.status_v:before {
+  left: -10px;
+  border-width: 9px 10px 9px 0px;
+}
+td div.triangle-box.status_v:after {
+  right: -10px;
+  border-width: 9px 0 9px 10px;
+}
+td div.triangle-box.status_v span.triangle-text {
+  width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #fff;
+}
+td div.triangle-box.status_o {
+  background: #FF595E;
+}
+td div.triangle-box.status_o:before, td div.triangle-box.status_o:after {
+  content: "";
+  border-style: solid;
+  border-width: 0;
+  height: 19px;
+  position: absolute;
+  width: 0;
+  border-color: transparent #FF595E;
+}
+td div.triangle-box.status_o:before {
+  left: -10px;
+  border-width: 9px 10px 9px 0px;
+}
+td div.triangle-box.status_o:after {
+  right: -10px;
+  border-width: 9px 0 9px 10px;
+}
+td div.triangle-box.status_o span.triangle-text {
+  width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #fff;
+}
+td div.triangle-box.status_s {
+  background: #FFCA3A;
+}
+td div.triangle-box.status_s:before, td div.triangle-box.status_s:after {
+  content: "";
+  border-style: solid;
+  border-width: 0;
+  height: 19px;
+  position: absolute;
+  width: 0;
+  border-color: transparent #FFCA3A;
+}
+td div.triangle-box.status_s:before {
+  left: -10px;
+  border-width: 9px 10px 9px 0px;
+}
+td div.triangle-box.status_s:after {
+  right: -10px;
+  border-width: 9px 0 9px 10px;
+}
+td div.triangle-box.status_s span.triangle-text {
+  width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #fff;
+}
+td div.triangle-box.status_a {
+  background: #1982C4;
+}
+td div.triangle-box.status_a:before, td div.triangle-box.status_a:after {
+  content: "";
+  border-style: solid;
+  border-width: 0;
+  height: 19px;
+  position: absolute;
+  width: 0;
+  border-color: transparent #1982C4;
+}
+td div.triangle-box.status_a:before {
+  left: -10px;
+  border-width: 9px 10px 9px 0px;
+}
+td div.triangle-box.status_a:after {
+  right: -10px;
+  border-width: 9px 0 9px 10px;
+}
+td div.triangle-box.status_a span.triangle-text {
+  width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #fff;
 }
 td div.act-box {
   margin: 0px auto;
