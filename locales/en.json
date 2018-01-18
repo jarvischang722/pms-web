@@ -200,7 +200,8 @@
       "cust_cod": "公司代號(英)",
       "sales_cod": "業務員代號(英)",
       "sales_nam": "業務員姓名(英)",
-      "class_nam": "組別(英)"
+      "class_nam": "組別(英)",
+      "rate": "房價代號或名稱(英)"
     },
     "PMS0620020": {
       "sales_cod": "Sales Id",

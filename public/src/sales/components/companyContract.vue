@@ -5,20 +5,14 @@
                 <div class="row no-margin-right">
                     <div class="dealContent-select">
                         <div class="float-left">
-                            <select class="input-medium">
-                                <option value="-1">房價代號</option>
-                                <option value="1">101</option>
-                                <option value="2">102</option>
-                                <option value="3">103</option>
-                                <option value="4">104</option>
-                                <option value="5">105</option>
-                            </select>
+                            <input type="text" v-model="searchCondOfRate" :placeholder="i18nLang.program.PMS0610020.rate"
+                                   @blur="doChangeRowData">
                         </div>
                         <div class="float-left">
                             <span class="checkbox">
                               <label class="checkbox-width">
                                   <input name="form-field-checkbox" type="checkbox"
-                                         class="ace" v-model="isHideExpire" @click="doHideExpire">
+                                         class="ace" v-model="isHideExpire" @keyup="doHideExpire">
                                   <span class="lbl"><span
                                           class="txt">{{i18nLang.program.PMS0610020.hide_expired}}</span></span>
                               </label>
@@ -83,7 +77,8 @@
                 fieldsData: [],
                 oriFieldsData: [],
                 dgIns: {},
-                rentDatHq: ""       //訂房中心滾房租日
+                rentDatHq: "",       //訂房中心滾房租日
+                searchCondOfRate: ""
             };
         },
         watch: {
@@ -122,12 +117,13 @@
                 }).then(result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
-                    this.dataGridRowsData = _.filter(result.dgRowData, lo_dgRowData => {
-                        return moment(new Date(lo_dgRowData.end_dat)).diff(moment(this.rentDatHq), "days") >= 0
+                    this.dataGridRowsData = result.dgRowData;
+                    this.dataGridRowsDataOfExpire = _.filter(JSON.parse(JSON.stringify(result.dgRowData)), lo_dgRowData => {
+                        return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                     });
                     this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                     console.log(this.oriDataGridRowsData);
-                    this.showDataGrid(this.dataGridRowsData);
+                    this.showDataGrid(this.dataGridRowsDataOfExpire);
                 });
             },
             showDataGrid(dataGridRowsData) {
@@ -136,6 +132,18 @@
                 this.dgIns.loadDgData(dataGridRowsData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
                 this.isLoading = false;
+            },
+            doChangeRowData() {
+
+                if (this.isHideExpire) {
+                    this.dataGridRowsDataOfRateCode =
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsData])
+                }
+                else {
+                    this.dataGridRowsDataOfRateCode =
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsDataOfExpire])
+                }
+                this.showDataGrid(this.dataGridRowsDataOfRateCode);
             },
             appendRow() {
                 var self = this;
@@ -158,12 +166,11 @@
                 }
             },
             doHideExpire() {
-                var lb_isHide = this.isHideExpire;
-                if (lb_isHide) {
-                    this.showDataGrid(this.oriDataGridRowsData);
-                }
-                else{
+                if (this.isHideExpire) {
                     this.showDataGrid(this.dataGridRowsData);
+                }
+                else {
+                    this.showDataGrid(this.dataGridRowsDataOfExpire);
                 }
             }
         }
