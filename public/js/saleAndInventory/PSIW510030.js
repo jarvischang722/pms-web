@@ -570,7 +570,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 20,
                     ui_field_num_point: 0,
                     col_seq: 0,
-                    width: 100,
+                    width: 80,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -592,7 +592,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 20,
                     ui_field_num_point: 0,
                     col_seq: 2,
-                    width: 100,
+                    width: 80,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -614,7 +614,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 1,
                     ui_field_num_point: 0,
                     col_seq : 4,
-                    width : 100,
+                    width : 50,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -636,7 +636,7 @@ var PSIW510030 = new Vue({
                     ui_field_length : 4,
                     ui_field_num_point : 0,
                     col_seq : 5,
-                    width : 100,
+                    width : 80,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -658,7 +658,7 @@ var PSIW510030 = new Vue({
                     ui_field_length : 20,
                     ui_field_num_point : 0,
                     col_seq : 6,
-                    width : 100,
+                    width : 80,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -724,7 +724,7 @@ var PSIW510030 = new Vue({
                     ui_field_length : 20,
                     ui_field_num_point : 0,
                     col_seq : 8,
-                    width : 100,
+                    width : 80,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -746,7 +746,7 @@ var PSIW510030 = new Vue({
                     ui_field_length : 10,
                     ui_field_num_point : 0,
                     col_seq : 9,
-                    width : 100,
+                    width : 80,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -790,7 +790,7 @@ var PSIW510030 = new Vue({
                     ui_field_length : 10,
                     ui_field_num_point : 0,
                     col_seq : 11,
-                    width : 100,
+                    width : 80,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -822,7 +822,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 5,
                     ui_field_num_point: 0,
                     col_seq: 0,
-                    width: 80,
+                    width: 35,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -833,7 +833,8 @@ var PSIW510030 = new Vue({
                     user_athena_id: "",
                     multi_lang_table: "",
                     page_id: 1,
-                    ui_display_name: "序號"
+                    ui_display_name: "序號",
+                    align: "center"
                 },
                 {
                     athena_id: "",
@@ -844,7 +845,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 15,
                     ui_field_num_point: 0,
                     col_seq: 1,
-                    width: 100,
+                    width: 70,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -855,7 +856,8 @@ var PSIW510030 = new Vue({
                     user_athena_id: "",
                     multi_lang_table: "",
                     page_id: 1,
-                    ui_display_name: "貨號"
+                    ui_display_name: "貨號",
+                    align: "center"
                 },
                 {
                     athena_id: "",
@@ -866,7 +868,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 100,
                     ui_field_num_point: 0,
                     col_seq: 2,
-                    width: 300,
+                    width: 200,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -888,7 +890,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 15,
                     ui_field_num_point: 2,
                     col_seq: 4,
-                    width: 100,
+                    width: 50,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -911,7 +913,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 15,
                     ui_field_num_point: 2,
                     col_seq: 4,
-                    width: 100,
+                    width: 60,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -934,7 +936,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 10,
                     ui_field_num_point: 0,
                     col_seq: 4,
-                    width: 100,
+                    width: 65,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -946,7 +948,8 @@ var PSIW510030 = new Vue({
                     multi_lang_table: "",
                     page_id: 1,
                     ui_display_name: "庫存單位",
-                    selectData: this.unitSelectData
+                    selectData: this.unitSelectData,
+                    align: "center"
                 },
                 {
                     athena_id: "",
@@ -957,7 +960,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 15,
                     ui_field_num_point: 2,
                     col_seq: 5,
-                    width: 100,
+                    width: 75,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -980,7 +983,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 15,
                     ui_field_num_point: 2,
                     col_seq: 6,
-                    width: 100,
+                    width: 50,
                     visiable: "Y",
                     modificable: "Y",
                     requirable: "Y",
@@ -1003,7 +1006,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 10,
                     ui_field_num_point: 0,
                     col_seq: 3,
-                    width: 80,
+                    width: 65,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -1015,7 +1018,8 @@ var PSIW510030 = new Vue({
                     multi_lang_table: "",
                     page_id: 1,
                     ui_display_name: "訂購單位",
-                    selectData: this.unitSelectData
+                    selectData: this.unitSelectData,
+                    align: "center"
                 },
                 {
                     athena_id: "",
@@ -1026,7 +1030,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 10,
                     ui_field_num_point: 0,
                     col_seq: 4,
-                    width: 100,
+                    width: 80,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -1037,7 +1041,8 @@ var PSIW510030 = new Vue({
                     user_athena_id: "",
                     multi_lang_table: "",
                     page_id: 1,
-                    ui_display_name: "預計到貨日"
+                    ui_display_name: "預計到貨日",
+                    align: "center"
                 },
                 {
                     athena_id: "",
@@ -1059,7 +1064,8 @@ var PSIW510030 = new Vue({
                     user_athena_id: "",
                     multi_lang_table: "",
                     page_id: 1,
-                    ui_display_name: "預計下次到貨日"
+                    ui_display_name: "預計下次到貨日",
+                    align: "center"
                 },
                 {
                     athena_id: "",
@@ -1070,7 +1076,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 10,
                     ui_field_num_point: 0,
                     col_seq: 4,
-                    width: 100,
+                    width: 60,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -1093,7 +1099,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 100,
                     ui_field_num_point: 0,
                     col_seq: 7,
-                    width: 300,
+                    width: 200,
                     visiable: "Y",
                     modificable: "Y",
                     requirable: "N",
@@ -1238,7 +1244,7 @@ var PSIW510030 = new Vue({
          * 新增資料預設值
          */
         defaultValue: function() {
-            
+
             //region //塞預設值
 
             //初始化主檔MN
@@ -1835,7 +1841,7 @@ var PSIW510030 = new Vue({
         /**
          * 空白訂單下拉 Event
          */
-        orderSelectOnChange(){
+        orderSelectOnChange: function(){
 
             var self = this;
 
@@ -1860,27 +1866,6 @@ var PSIW510030 = new Vue({
                     alert(result.error.errorMsg);
                 }
             });
-        },
-
-        /**
-         * download Event
-         */
-        download: function() {
-            var self = this;
-
-            $("#order_tag").show();
-
-            html2canvas($('#order_tag'), {
-                onrendered: function(canvas) {
-                    var imgData = canvas.toDataURL('image/png');
-                    var doc = new jsPDF();
-                    doc.addImage(imgData, 'PNG', 10, 10);
-                    doc.save('空白訂貨表單-'+ self.select_quote_rmk +'.pdf');
-                }
-            });
-
-            $("#order_tag").hide();
-
         },
 
         /**
@@ -2026,10 +2011,31 @@ var PSIW510030 = new Vue({
 BacchusMainVM.setPrgVueIns(PSIW510030);
 BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop"]);
 
+var go_isExit = true;
+
 $(window).on('beforeunload', function () {
-    //關閉時要登出，清除session
-    $.post("/cas/logout", function (data) {});
-    return PSIW510030.doRowUnLock();
+    if(go_isExit){
+        //關閉時要登出，清除session
+        $.post("/cas/logout", function (data) {});
+    }
+
+    PSIW510030.doRowUnLock();
+});
+
+//使用一個flag判斷是否是離開網頁，才登出。
+$(function(){
+    $('#breadcrumbs').click(function(){
+        go_isExit = false;
+    });
+
+    $(document).on('click','#subsysUl li',function(){
+        go_isExit = false;
+    });
+
+    $(document).on('click','#quickMenuUl li',function(){
+        go_isExit = false;
+    });
+
 });
 
 var adpterDg = new DatagridAdapter(PSIW510030);
