@@ -108,7 +108,11 @@ exports.doAuthAccount = function (authData, callback) {
             },
             //insert 到mongo
             function (user, cb) {
-                mongoAgent.OnlineUser.findOne(user.onlineUserBy, function (err, result) {
+                mongoAgent.OnlineUser.findOne({
+                    athena_id: user.onlineUserBy.athena_id,
+                    comp_cod: user.onlineUserBy.comp_cod,
+                    hotel_cod: user.onlineUserBy.hotel_cod
+                }, function (err, result) {
                     if (err) {
                         err.message = "mongo 's err";
                         cb(err, user);
@@ -132,9 +136,9 @@ exports.doAuthAccount = function (authData, callback) {
                     }
                     //mongo有這筆資料則更新availUserNum
                     else {
-                        var lo_lastUpdTime = moment(new Date(moment(new Date(result.lastUpdTime)).toString()));
-                        var ls_today = moment(new Date());
-                        var ln_duration = moment.duration(lo_lastUpdTime.diff(ls_today));
+                        var lo_lastUpdTime = moment(new Date(result.lastUpdTime));
+                        var lo_today = moment(new Date());
+                        var ln_duration = Number(moment.duration(lo_lastUpdTime.diff(lo_today)).asDays());
 
                         let lo_cond = {
                             "athena_id": user.onlineUserBy.athena_id,
@@ -142,7 +146,7 @@ exports.doAuthAccount = function (authData, callback) {
                             "hotel_cod": user.onlineUserBy.hotel_cod
                         };
                         //lastUpdTime 超過今天一天就更新mongo中的availUserNum、lastUpdTime
-                        if (Math.abs(Number(ln_duration.asDays())) > 1) {
+                        if (Math.abs(ln_duration) > 1) {
                             mongoAgent.OnlineUser.update(lo_cond, {
                                 availUserNum: user.onlineUserBy.availUserNum,
                                 lastUpdTime: moment(new Date())

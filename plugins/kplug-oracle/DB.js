@@ -153,7 +153,9 @@ DB.prototype.execute = function (sql, param, cb) {
 };
 
 DB.prototype.loadDao = function (dao) {
-    console.log("Exec Dao name : " + dao.dao);
+    if(dao && dao.dao){
+        console.log("Exec Dao name : " + dao.dao);
+    }
     if (_.isUndefined(dao.xml) == true && daoPool[dao.dao] != null) {
         return daoPool[dao.dao];
     }
