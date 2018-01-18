@@ -1,0 +1,74 @@
+[
+  {
+    "bquet_nos": "180000202  ",
+    "order_sta": "N",
+    "wait_seq": 0,
+    "title_nam": "1",
+    "place_cod": "BQ01  ",
+    "begin_tim": "1000",
+    "end_tim": "1159"
+  },
+  {
+    "bquet_nos": "180000202  ",
+    "order_sta": "N",
+    "wait_seq": 0,
+    "title_nam": "2",
+    "place_cod": "BQ01  ",
+    "begin_tim": "1130",
+    "end_tim": "1259"
+  },
+  {
+    "bquet_nos": "180000202  ",
+    "order_sta": "N",
+    "wait_seq": 0,
+    "title_nam": "3",
+    "place_cod": "BQ01  ",
+    "begin_tim": "1400",
+    "end_tim": "1600"
+  },
+  {
+    "bquet_nos": "180000202  ",
+    "order_sta": "N",
+    "wait_seq": 0,
+    "title_nam": "4",
+    "place_cod": "BQ01  ",
+    "begin_tim": "1230",
+    "end_tim": "1600"
+  },
+  {
+    "bquet_nos": "180000202  ",
+    "order_sta": "Q",
+    "wait_seq": 0,
+    "title_nam": "5",
+    "place_cod": "BQ01  ",
+    "begin_tim": "1630",
+    "end_tim": "1800"
+  },
+  {
+    "bquet_nos": "180000202  ",
+    "order_sta": "W",
+    "wait_seq": 0,
+    "title_nam": "6",
+    "place_cod": "BQ01  ",
+    "begin_tim": "1030",
+    "end_tim": "1300"
+  },
+  {
+    "bquet_nos": "180000202  ",
+    "order_sta": "W",
+    "wait_seq": 0,
+    "title_nam": "6",
+    "place_cod": "BQ01  ",
+    "begin_tim": "0800",
+    "end_tim": "1000"
+  },
+  {
+    "bquet_nos": "180000202  ",
+    "order_sta": "W",
+    "wait_seq": 0,
+    "title_nam": "6",
+    "place_cod": "BQ01  ",
+    "begin_tim": "0830",
+    "end_tim": "1100"
+  }
+]

@@ -61,6 +61,12 @@
                 <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                     <li class="divider"></li>
                     <li>
+                        <a @click="doEditPassword">
+                            <i class="ace-icon fa fa-power-off"></i>
+                            <%= __("BAC01P0120")["editPwd"] %>
+                        </a>
+                    </li>
+                    <li>
                         <a @click="doLogout">
                             <i class="ace-icon fa fa-power-off"></i>
                             <%= __("BAC01P0120")["logout"] %>
@@ -70,5 +76,6 @@
             </li>
         </ul>
     </div>
+
     <div class="clearfix"></div>
 </div>

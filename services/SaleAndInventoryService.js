@@ -19,7 +19,7 @@ let langSvc = require("./LangService");
 let fieldAttrSvc = require("./FieldsAttrService");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir+"/ruleEngine/";
+var ruleRootPath = appRootDir + "/ruleEngine/";
 
 var ErrorClass = require(ruleRootPath + "/errorClass");
 
@@ -420,7 +420,7 @@ exports.getAllFormatSta = function (params ,session, callback) {
 };
 
 /**
- * 取得所有訂單格式(空白表單下載用)
+ * 取得訂單資料(空白表單下載用)
  * @param params
  * @param session
  * @param callback

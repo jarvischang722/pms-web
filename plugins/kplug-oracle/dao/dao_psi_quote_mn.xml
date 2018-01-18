@@ -13,6 +13,7 @@
         </statement>
         <statement test="_v(param.format_sta)"><![CDATA[and format_sta in(:format_sta)]]></statement>
         <statement test="_v(param.cust_cod)"><![CDATA[and cust.cust_cod in(:cust_cod)]]></statement>
+        <statement test="_v(param.order_sta)"><![CDATA[and order_sta in(:order_sta)]]></statement>
 
         <parameter type="string" kind="3">comp_cod</parameter>
         <parameter type="string" kind="3">key_cod1</parameter>
@@ -21,6 +22,7 @@
         <parameter type="likestring" kind="2" condition="atten_nam like ?">atten_nam</parameter>
         <parameter type="instring" kind="3">format_sta</parameter>
         <parameter type="instring" kind="3">cust_cod</parameter>
+        <parameter type="instring" kind="3">order_sta</parameter>
         <orderby>order by mn.order_nos</orderby>
     </dao>
 

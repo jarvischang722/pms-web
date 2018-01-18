@@ -7,6 +7,8 @@ var mongoAgent = require("../plugins/mongodb");
 var async = require("async");
 var _ = require('underscore');
 var moment = require('moment');
+var go_sysConf = require("../configs/systemConfig");
+var tools = require('../utils/CommonTools');
 /**
  * 驗證登入
  */
@@ -195,3 +197,117 @@ exports.getUserHotels = function (user, callback) {
         callback(err, hotels);
     });
 };
+
+/**
+ * 修改密碼
+ * @param authData{Object}
+ * @param callback{Function}
+ */
+exports.doEditPassword = function (postData, callback) {
+    var self = this;
+    var lo_params = {
+        oriPassword: postData.body.oriPassword,
+        newPassword: postData.body.newPassword,
+        confirmPassword: postData.body.confirmPassword
+    };
+    async.waterfall([
+            //將舊密碼加密
+            function (cb) {
+                queryAgent.query("QRY_TRAN_S99_USER_PWD", {
+                    cmp_id: postData.session.user.cmp_id || "",
+                    user_id: postData.session.user.usr_id || "",
+                    usr_pwd: JSON.parse(JSON.stringify(lo_params.oriPassword)) || ""
+                }, function (err, data) {
+                    cb(err, data.usr_pwd);
+                });
+            },
+            //確認舊密碼是否正確
+            function (pwd, cb) {
+                lo_params.oriPassword = pwd;
+                queryAgent.query("QRY_BAC_GET_USER_BY_ONE", {
+                    cmp_id: postData.session.user.cmp_id.trim() || "",
+                    user_id: postData.session.user.usr_id || "",
+                    usr_pwd: lo_params.oriPassword || ""
+                }, function (err, user) {
+                    if (!user) {
+                        err = {message: "password error!"};
+                    }
+                    cb(err, user);
+                });
+            },
+            //確認密碼與新密碼是否相同
+            function (userData, cb) {
+                let err = null;
+                if (postData.body.newPassword != postData.body.confirmPassword) {
+                    err = {
+                        message: 'new password and confirm password are different!'
+                    };
+                }
+                cb(err, postData.body.newPassword);
+            },
+            //將新密碼加密
+            function (newPwd, cb) {
+                queryAgent.query("QRY_TRAN_S99_USER_PWD", {
+                    cmp_id: postData.session.user.cmp_id || "",
+                    user_id: postData.session.user.usr_id || "",
+                    usr_pwd: postData.body.newPassword || ""
+                }, function (err, data) {
+                    cb(err, data.usr_pwd);
+                });
+            },
+            //儲存新密碼
+            function (newPwd, cb) {
+                let lo_savaExecDatas = {
+                    1: {
+                        function: 2,
+                        table_name: 's99_user',
+                        condition: [
+                            {
+                                key: 'cmp_id',
+                                operation: "=",
+                                value: postData.session.user.cmp_id.trim()
+                            }, {
+                                key: 'usr_id',
+                                operation: "=",
+                                value: postData.session.user.usr_id
+                            }, {
+                                key: 'user_athena_id',
+                                operation: "=",
+                                value: postData.session.user.athena_id
+                            }
+                        ],
+                        usr_pwd: newPwd
+                    }
+                };
+
+                let apiParams = {
+                    "REVE-CODE": "BAC02009010000",
+                    "program_id": "BAC02009010000",
+                    "user": postData.session.user.usr_id,
+                    "count": 1,
+                    "exec_data": lo_savaExecDatas
+                };
+
+                tools.requestApi(go_sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+                    var err = null;
+                    var success = true;
+                    if (apiErr || !data) {
+                        success = false;
+                        err = {};
+                        err.message = apiErr;
+                    } else if (data["RETN-CODE"] != "0000") {
+                        success = false;
+                        err = {};
+                        console.error(data["RETN-CODE-DESC"]);
+                        err.message = "save error!";
+                    }
+                    cb(err, success);
+                });
+            }
+        ], function (err, result) {
+            callback(err, result);
+        }
+    )
+    ;
+}
+;
