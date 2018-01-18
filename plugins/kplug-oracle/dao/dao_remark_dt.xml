@@ -10,4 +10,19 @@
         <parameter type="string" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">remark_typ</parameter>
     </dao>
+
+    <!--[PMS0610020 商務公司資料編輯] 業務備註 多筆資料-->
+    <dao name="QRY_REMARK_DT">
+        <statement><![CDATA[
+            SELECT  remark_dt.athena_id, remark_dt.cust_cod,REMARK_TYP_RF.TYPE_NAM, REMARK_DT.REMARK, REMARK_TYP_RF.remark_TYP
+            FROM  REMARK_DT
+            join REMARK_TYP_RF on REMARK_DT.ATHENA_ID = REMARK_TYP_RF.ATHENA_ID AND  REMARK_DT.REMARK_TYP = REMARK_TYP_RF.REMARK_TYP
+            WHERE  REMARK_DT.ATHENA_ID = :athena_id
+            AND  REMARK_DT.CUST_COD = :cust_cod
+            ORDER  BY  REMARK_DT.REMARK_TYP
+        ]]>
+        </statement>
+        <parameter type="number" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">cust_cod</parameter>
+    </dao>
 </root>

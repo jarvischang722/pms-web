@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-loading="isLoading" element-loading-text="Loading...">
         <div class="col-xs-12 col-sm-12">
             <div class="row">
                 <!--多筆 其他備註 dataGrid-->
@@ -49,45 +49,53 @@
                                         <div class="bs-otherRemark-content borderFrame">
                                             <div class="billInfo grid">
                                                 <div class="content">
-                                                    <div class="grid">
-                                                        <div class="grid-item">
-                                                            <label>備註類別</label>
-                                                            <input type="text" class="input-medium medium-c1" placeholder="客房備註"/>
+                                                    <div class="row" v-for="fields in gridSingleFieldsData">
+                                                        <div class="'grid">
+                                                            <div class="grid-item" v-for="field in fields">
+                                                                <label>{{ field.ui_display_name }}</label>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="grid">
-                                                        <div class="grid-item">
-                                                            <label>備註內容</label>
-                                                            <!--<input type="text" class="input-medium medium-c1" />-->
-                                                            <textarea class="input-medium medium-c1-colv2 height-auto rzNone"
-                                                                      style="width: 434px; max-width: 100%;" rows="4"
-                                                                      placeholder="黃董事長住宿一定要高樓層並要有兩顆硬枕頭，夫人不要女用浴袍要換成男用"></textarea>
-                                                        </div>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                    <div class="space-6"></div>
-                                                    <div class="grid">
-                                                        <div class="grid-item">
-                                                            <label>新增日</label>
-                                                            <input type="text" class="input-medium medium-c1"
-                                                                   placeholder="2000/01/01 12:30:00" disabled="disabled"/>
-                                                        </div>
-                                                        <div class="grid-item">
-                                                            <label>新增者</label>
-                                                            <input type="text" class="input-medium medium-c1" placeholder="cio"
-                                                                   disabled="disabled"/>
-                                                        </div>
-                                                        <div class="grid-item">
-                                                            <label>最後異動日</label>
-                                                            <input type="text" class="input-medium medium-c1"
-                                                                   placeholder="2000/01/01 12:30:00" disabled="disabled"/>
-                                                        </div>
-                                                        <div class="grid-item">
-                                                            <label>最後異動者</label>
-                                                            <input type="text" class="input-medium medium-c1" placeholder="cio"
-                                                                   disabled="disabled"/>
-                                                        </div>
-                                                    </div>
+
+                                                    <!--<div class="grid">-->
+                                                        <!--<div class="grid-item">-->
+                                                            <!--<label>備註類別</label>-->
+                                                            <!--<input type="text" class="input-medium medium-c1" placeholder="客房備註"/>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="grid">-->
+                                                        <!--<div class="grid-item">-->
+                                                            <!--<label>備註內容</label>-->
+                                                            <!--&lt;!&ndash;<input type="text" class="input-medium medium-c1" />&ndash;&gt;-->
+                                                            <!--<textarea class="input-medium medium-c1-colv2 height-auto rzNone"-->
+                                                                      <!--style="width: 434px; max-width: 100%;" rows="4"-->
+                                                                      <!--placeholder="黃董事長住宿一定要高樓層並要有兩顆硬枕頭，夫人不要女用浴袍要換成男用"></textarea>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="clearfix"></div>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="space-6"></div>-->
+                                                    <!--<div class="grid">-->
+                                                        <!--<div class="grid-item">-->
+                                                            <!--<label>新增日</label>-->
+                                                            <!--<input type="text" class="input-medium medium-c1"-->
+                                                                   <!--placeholder="2000/01/01 12:30:00" disabled="disabled"/>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="grid-item">-->
+                                                            <!--<label>新增者</label>-->
+                                                            <!--<input type="text" class="input-medium medium-c1" placeholder="cio"-->
+                                                                   <!--disabled="disabled"/>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="grid-item">-->
+                                                            <!--<label>最後異動日</label>-->
+                                                            <!--<input type="text" class="input-medium medium-c1"-->
+                                                                   <!--placeholder="2000/01/01 12:30:00" disabled="disabled"/>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="grid-item">-->
+                                                            <!--<label>最後異動者</label>-->
+                                                            <!--<input type="text" class="input-medium medium-c1" placeholder="cio"-->
+                                                                   <!--disabled="disabled"/>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -173,6 +181,7 @@
         data() {
             return {
                 i18nLang: go_i18nLang,
+                isLoading: false,
                 BTN_action: false,
                 isCreateStatus: false,
                 isEditStatus: false,
@@ -201,7 +210,7 @@
             isOtherRemark(val) {
                 if (val) {
                     this.initDataGridData();
-                    this.fetchDataGridFieldData(this.rowData);
+                    this.fetchDataGridFieldData();
                 }
             },
             editingRow(val) {
@@ -209,7 +218,7 @@
                     var self = this;
 
                     this.initGridSingleData();
-                    this.fetchGridSingleFieldData(val);
+                    self.fetchGridSingleRowData(val);
 
                     var nowDatagridRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', val);
 
@@ -259,41 +268,41 @@
                 this.gridSingleFieldsData = [];
                 this.oriGridSingleFieldsData = [];
             },
-            fetchDataGridFieldData(rowData) {
-                var self = this;
-
-                self.fetchDataGridRowData(rowData);
+            fetchDataGridFieldData() {
+                this.isLoading = true;
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0610020",
+                    tab_page_id: 6,
+                    searchCond: {cust_cod: this.$store.state.gs_custCod}
+                }).then(result => {
+                    this.searchFields = result.searchFields;
+                    this.dataGridFieldsData = result.dgFieldsData;
+                    this.dataGridRowsData = result.dgRowData;
+                    this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                    this.showDataGrid();
+                    this.fetchGridSingleFieldData();
+                });
             },
-            fetchGridSingleFieldData(editingRowOfRemark) {
-                var self = this;
-
-                self.fetchGridSingleRowData(editingRowOfRemark);
-            },
-            fetchDataGridRowData(rowData) {
-                var self = this;
-
-                this.showDataGrid();
+            fetchGridSingleFieldData() {
+                $.post("/api/fetchOnlySinglePageFieldData", {
+                    prg_id: "PMS0610020",
+                    page_id: 2,
+                    tab_page_id: 1120
+                }).then(result => {
+                    this.oriGridSingleFieldsData = result.gsFieldsData;
+                    this.gridSingleFieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
+                    console.log(this.gridSingleFieldsData);
+                });
             },
             fetchGridSingleRowData(editingRowOfRemark) {
                 var self = this;
             },
             showDataGrid() {
-//                this.dgIns = new DatagridSingleGridClass();
-//                this.dgIns.init("PMS0610020", "otherRemark_dg", DatagridFieldAdapter.combineFieldOption(this.dataGridFieldsData, 'otherRemark_dg'), this.dataGridFieldsData);
-//                this.dgIns.loadDgData(this.dataGridRowsData);
-//                this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
-
-                $('#otherRemark_dg').datagrid({
-                    singleSelect: true,
-                    collapsible: true,
-                    // 從json 撈
-                    url: '/jsonData/sales/bsCompany_otherRemarks.json',
-                    method: 'get',
-                    columns: [[
-                        {field: 'category', title: '備註類別', width: 80},
-                        {field: 'content', title: '備註內容', width: 500}
-                    ]]
-                });
+                this.dgIns = new DatagridSingleGridClass();
+                this.dgIns.init("PMS0610020", "otherRemark_dg", DatagridFieldAdapter.combineFieldOption(this.dataGridFieldsData, 'otherRemark_dg'), this.dataGridFieldsData);
+                this.dgIns.loadDgData(this.dataGridRowsData);
+                this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
+                this.isLoading = false;
             },
             appendRow() {
 //                this.BTN_action = true;
