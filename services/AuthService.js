@@ -267,9 +267,9 @@ exports.doEditPassword = function (postData, callback) {
                                 operation: "=",
                                 value: postData.session.user.usr_id
                             }, {
-                                key: 'usr_pwd',
+                                key: 'user_athena_id',
                                 operation: "=",
-                                value: lo_params.oriPassword
+                                value: postData.session.user.athena_id
                             }
                         ],
                         usr_pwd: newPwd
