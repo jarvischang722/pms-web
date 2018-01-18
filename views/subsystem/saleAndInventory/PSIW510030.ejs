@@ -229,7 +229,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-2">
-                                <button role="button" class="btn btn-primary btn-white btn-defaultWidth" @click="download()">下載</button>
+                                <a class="btn btn-primary btn-white btn-defaultWidth" onclick="this.href='data:text/html;charset=UTF-8,' + encodeURIComponent($('#order_tag').html())" href="#" download= "空白訂貨表單">下載</a>
                             </div>
                             <div class="clearfix"></div>
                             <div class="space-6"></div>
@@ -249,8 +249,7 @@
 
                 <span style="font-size: 16px; margin: auto 30px 10px 20px;"><span style="font-weight: bold;">訂單格式：</span>{{select_format_sta}}</span>
                 <span style="font-size: 16px; margin: auto 30px 10px auto;"><span style="font-weight: bold;">格式說明：</span>{{select_quote_rmk}}</span>
-                <span style="font-size: 16px; margin: auto 30px 10px auto;"><span style="font-weight: bold;">訂單時間：</span>{{select_order_time}}</span>
-
+                <span style="font-size: 16px; margin: auto 30px 10px 10px;"><span style="font-weight: bold;">訂單時間：</span>{{select_order_time}}</span>
                 <table border="1">
                     <tr style="font-size:20px;">
                         <td style="width: 120px; text-align: center;">貨品代號</td>
@@ -353,7 +352,4 @@
     <%- include ../setup/vueTemplate/searchTmp.ejs %>
 
     <script src="/js/setup/vueCompLib/searchComp.js"></script>
-    <script src="/js/tools/jspdf.min.js"></script>
-    <script src="/js/tools/jspdf.plugin.autotable.js"></script>
-    <script src="/js/tools/html2canvas.min.js"></script>
     <script src="/js/saleAndInventory/PSIW510030.js"></script>

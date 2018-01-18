@@ -56,5 +56,8 @@ module.exports = function (app, passport) {
     app.post('/api/getUserFuncPurviewByProID', apiMiddles, userCrtl.getUserFuncPurviewByProID);
     //取得某一個系統的所有權限資料
     app.post('/api/userSubsysPurviewBySysID', apiMiddles, userCrtl.userSubsysPurviewBySysID);
+
+    //修改密碼
+    app.post('/api/doEditPassword', apiMiddles, userCrtl.doEditPassword)
 };
 

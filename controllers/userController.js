@@ -422,3 +422,16 @@ exports.userSubsysPurviewBySysID = function (req, res) {
         res.json({success: err == null, subsysMenu});
     });
 };
+
+/**
+ * 修改密碼
+ */
+exports.doEditPassword = function (req, res) {
+    authSvc.doEditPassword(req, function (err, errorCode) {
+        res.json({
+            success: _.isNull(err),
+            errorCode: errorCode,
+            errorMsg: _.isNull(err) || _.isUndefined(err.message) ? "" : err.message
+        });
+    });
+};
