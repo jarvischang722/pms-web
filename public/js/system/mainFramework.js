@@ -269,6 +269,7 @@ var BacchusMainVM = new Vue({
          * 修改密碼
          */
         doEditPassword: function () {
+            $('#editPasswordDialog').removeClass('hide');
             this.openEditPasswordDialog = true;
         },
 
