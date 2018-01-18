@@ -59,6 +59,7 @@
                 BTN_action: false,
                 isHideLeavingStaff: false,
                 dataGridRowsData: [],
+                dataGridRowsDataOfStaff: [],
                 oriDataGridRowsData: [],
                 fieldsData: [],
                 oriFieldsData: [],
@@ -91,15 +92,15 @@
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
                     this.dataGridRowsData = result.dgRowData;
-                    console.log(this.fieldsData);
-                    console.log(this.dataGridRowsData);
-                    this.showDataGrid();
+                    this.dataGridRowsDataOfStaff = _.filter(result.dgRowData, lo_dgRowData => {return lo_dgRowData.job_sta !='N'});
+                    this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                    this.showDataGrid(this.dataGridRowsData);
                 });
             },
-            showDataGrid() {
+            showDataGrid(dataGridRowsData) {
                 this.dgIns = new DatagridBaseClass();
                 this.dgIns.init("PMS0610020", "relatedPerson_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
-                this.dgIns.loadDgData(this.dataGridRowsData);
+                this.dgIns.loadDgData(dataGridRowsData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
                 this.isLoading = false;
 
@@ -108,9 +109,9 @@
                 var self = this;
                 this.BTN_action = true;
                 this.dgIns.appendRow(function (result) {
-                   if(result){
-                       self.BTN_action = false;
-                   }
+                    if (result) {
+                        self.BTN_action = false;
+                    }
                 });
             },
             removeRow() {
@@ -127,11 +128,11 @@
             doHideLeavingStaff() {
                 var lb_isHide = !this.isHideLeavingStaff;
                 if (lb_isHide) {
-                    console.log(this.dataGridRowsData);
-                    var la_sortDataGridRowsData = [];
-
+                    this.showDataGrid(this.dataGridRowsDataOfStaff);
                 }
-                console.log(lb_isHide);
+                else{
+                    this.showDataGrid(this.dataGridRowsData);
+                }
             }
         }
     }
