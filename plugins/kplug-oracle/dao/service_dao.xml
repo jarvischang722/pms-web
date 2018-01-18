@@ -22,6 +22,8 @@
         <sql-source base="true" comment="test" key="test" path="dao_contact_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_contract_status_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_cust_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cust_mn_contract_sta_log.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cust_mn_sales_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_cust_type_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_dept_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_deposit_mn.xml"/>

@@ -192,7 +192,16 @@
       "append_remark": "新增備註(日)",
       "update_remark": "修改備註(日)",
       "remove_remark": "刪除備註(日)",
-      "appear_consumption_dt": "顯示消費明細(日)"
+      "appear_consumption_dt": "顯示消費明細(日)",
+      "show_cod": "公司編號(日)",
+      "cust_nam": "公司名稱(日)",
+      "uni_cod": "統一編號(日)",
+      "uni_title": "發票抬頭(日)",
+      "cust_cod": "公司代號(日)",
+      "sales_cod": "業務員代號(日)",
+      "sales_nam": "業務員姓名(日)",
+      "class_nam": "組別(日)",
+      "rate": "房價代號或名稱(日)"
     },
     "PMS0620030":{
       "edit_sales_clerk": "修改業務員(日)"

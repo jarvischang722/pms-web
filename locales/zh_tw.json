@@ -192,7 +192,16 @@
       "append_remark": "新增備註",
       "update_remark": "修改備註",
       "remove_remark": "刪除備註",
-      "appear_consumption_dt": "顯示消費明細"
+      "appear_consumption_dt": "顯示消費明細",
+      "show_cod": "公司編號",
+      "cust_nam": "公司名稱",
+      "uni_cod": "統一編號",
+      "uni_title": "發票抬頭",
+      "cust_cod": "公司代號",
+      "sales_cod": "業務員代號",
+      "sales_nam": "業務員姓名",
+      "class_nam": "組別",
+      "rate": "房價代號或名稱"
     },
     "PMS0620020": {
       "sales_cod": "業務員代號",

@@ -124,7 +124,7 @@ exports.fetchDefaultGsRowData = function (req, res) {
         let lo_rtnData = {
             success: _.isNull(err),
             errorMsg: err,
-            gsDefaultData: result.gsDefaultData
+            gsDefaultData: result.gsDefaultData.defaultValues
         };
         res.json(lo_rtnData);
     });

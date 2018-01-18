@@ -441,6 +441,42 @@ exports.getUpdateOrderMn = function () {
 };
 
 /**
+ * [PMS0610020_商務公司資料編輯] 是否可簽帳
+ */
+exports.getCustMnCreditSta = function(){
+    var lo_optionList = [
+        {
+            on: 'Y',
+            off: 'N'
+        }, {
+            Y: '是',
+            N: '否'
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ * [PMS0610020_商務公司資料編輯] 取得公司類別下拉資料
+ */
+//TODO 公司關係別要再去問洪興大哥下拉內容為何
+exports.getCustMnRelatCod = function(){
+    var relatCodList = [
+        {
+            display: '是',
+            value: 'Y'
+        },
+        {
+            display: '否',
+            value: 'N'
+        }
+    ];
+
+    return relatCodList;
+};
+
+
+/**
  * [PMS0620020_業務員資料編輯] 是否飯店、餐飲、會員業務
  */
 exports.getSalesChkeckedList = function () {
@@ -1085,6 +1121,21 @@ exports.lang_CustidxCreditsta = function (params, callback) {
 exports.lang_UpdateOrderMn = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getUpdateOrderMn();
+    callback(null, lo_result);
+};
+
+/**
+ * 商務公司資料編輯(PMS0610020) 取得公司類別下拉資料
+ */
+exports.lang_CustMnRelatCod = function(parans, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustMnRelatCod();
+    callback(null, lo_result);
+};
+
+exports.lang_CustMnCreditSta = function(parans, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustMnCreditSta();
     callback(null, lo_result);
 };
 

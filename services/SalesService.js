@@ -872,7 +872,50 @@ exports.handleAddFuncRule_PMS0620020 = function (session, postData, callback) {
  * @param callback{function} (err, rowData)
  */
 exports.handleEditSalesClerk = function (session, postData, callback) {
-    let prg_id = postData.prg_id;
+    if(_.isUndefined(postData.prg_id)){
+        return callback("Missing Program ID.", false);
+    }
+    if (_.isUndefined(session.user) || _.size(session.user) == 0) {
+        return callback("Not Login.", false);
+    }
+    let prg_id = postData.prg_id || "";
+    let sales_cod = postData.sales_cod || "";
+    let upd_order_mn = postData.upd_order_mn || "N";
+    let cust_cod = postData.cust_cod || [];
+    let userInfo = session.user;
+
+    let apiParams = {
+        "REVE-CODE": "PMS0620030",
+        "athena_id": userInfo.athena_id,
+        "hotel_cod": userInfo.hotel_cod,
+        "program_id": prg_id,
+        "user": userInfo.usr_id,
+        "count": 1,
+        "exec_data": [{
+            function: '0500',
+            sales_cod: sales_cod,
+            cust_cod: cust_cod,
+            upd_order_mn: upd_order_mn
+        }]
+    };
+
+    tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+        var err = null;
+        var success = true;
+        if (apiErr || !data) {
+            success = false;
+            err = {};
+            err.errorMsg = apiErr;
+        }
+        else if (data["RETN-CODE"] != "0000") {
+            success = false;
+            err = {};
+            console.error(data["RETN-CODE-DESC"]);
+            err.errorMsg = "save error!";
+        }
+        callback(err, success);
+    });
+
 };
 
 

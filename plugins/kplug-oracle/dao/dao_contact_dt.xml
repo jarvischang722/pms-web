@@ -35,4 +35,22 @@
         <parameter type="string" kind="3">cust_cod</parameter>
         <parameter type="string" kind="3">contact_cod</parameter>
     </dao>
+
+    <!--[PMS0610020] 商務公司資料編輯 取頁籤合約 多筆資料-->
+    <dao name="QRY_CONTRACT_DT">
+        <statement><![CDATA[
+            SELECT a.CONTRACT_COD, a.BEGIN_DAT, a.END_DAT, a.HOTEL_COD, a.RATE_COD, b.ratecod_nam,
+            a.RSDISC_COD, a.REMARK1, a.REMARK2, a.INS_DAT, a.INS_USR, a.UPD_DAT, a.UPD_USR
+            FROM  CONTRACT_DT a
+            left join ratecod_mn b on a.athena_id = b.athena_id and a.rate_cod = b.rate_cod and a.hotel_cod = b.hotel_cod
+            WHERE  a.ATHENA_ID = :athena_id
+            AND a.CUST_COD = :cust_cod
+            and trim(b.hotel_cod)= trim(:hotel_cod)
+            order by a.begin_dat
+        ]]>
+        </statement>
+        <parameter type="number" kind="1">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>

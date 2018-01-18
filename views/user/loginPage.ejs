@@ -17,7 +17,7 @@
 <%- include ../common/jsFile/importFiles_JsBase %>
 
 
-<body class="login-bg" id="app">
+<body>
 
 <div class="loginPage" id="loginAPP">
     <div class="logoCompany">
@@ -36,6 +36,9 @@
                 </div>
                 <div class="main">
                     <form>
+                        <div class="block input-icon input-icon-right">
+
+                        </div>
                         <div class="block input-icon input-icon-right">
                             <input class="form-control" v-model="username"
                                    placeholder="<%= __("BAC01P0110")["user"] %>"/>
@@ -99,10 +102,11 @@
 </div>
 </body>
 
-<!-- inline scripts related to this page -->
+
 <script type="text/javascript">
     var gs_account = '<%= account %>';
 </script>
 
 <script src="/js/system/loginPage.js"></script>
+
 </html>
