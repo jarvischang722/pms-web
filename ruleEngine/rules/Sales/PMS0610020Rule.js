@@ -85,7 +85,7 @@ module.exports = {
                     //     }
                     //     cb(lo_error, lo_result);
                     // });
-                    ls_custMnCustCod = "CS 000000000004802  ";
+                    ls_custMnCustCod = "CS 000000000036302  ";
                     ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
                     ls_custMnPcustCod = ls_custMnCustCod;
                     cb(lo_error, lo_result);
@@ -98,6 +98,37 @@ module.exports = {
                 cust_mn_show_cod: ls_custMnShowCod,
                 cust_mn_pcust_cod: ls_custMnPcustCod
             };
+            callback(lo_error, lo_result);
+        });
+    },
+
+    /**
+     * PMS0610020 商務公司資料編輯 頁籤合約 預設值
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    defaultCustMnContract: function (postData, session, callback) {
+        let lo_result = new ReturnClass;
+        let lo_error = null;
+
+        let ls_rentDathq;
+
+        //取得訂房中心滾房租日
+        queryAgent.query("QRY_RENT_DAT_HQ", {athena_id: session.user.athena_id, hotel_cod: session.user.hotel_cod}, function (err, data) {
+            if (err) {
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = err;
+                lo_result.success = false;
+            }
+            else {
+                ls_rentDathq = data.rent_dat_hq;
+            }
+
+            lo_result.defaultValues = {
+                rent_dat_hq: ls_rentDathq
+            };
+
             callback(lo_error, lo_result);
         });
     }

@@ -1,5 +1,5 @@
 <template>
-    <div class="col-xs-12 col-sm-12">
+    <div class="col-xs-12 col-sm-12" v-loading="isLoading" element-loading-text="Loading...">
         <div class="row">
             <div class="col-xs-11 col-sm-11">
                 <div class="row no-margin-right">
@@ -64,30 +64,48 @@
 </template>
 
 <script>
+    import moment from 'moment';
+    import alasql from 'alasql';
+
     export default {
         name: 'contract-content',
         props: ["rowData", "isContractContent"],
-        data(){
-            return{
+        data() {
+            return {
                 i18nLang: go_i18nLang,
+                isLoading: false,
                 BTN_action: false,
-                isHideExpire: false,
+                isHideExpire: true,
                 dataGridRowsData: [],
+                dataGridRowsDataOfExpire: [],
+                dataGridRowsDataOfRateCode: [],
                 oriDataGridRowsData: [],
                 fieldsData: [],
                 oriFieldsData: [],
-                dgIns: {}
+                dgIns: {},
+                rentDatHq: ""       //訂房中心滾房租日
             };
         },
         watch: {
-            isContractContent(val){
-                if(val){
+            isContractContent(val) {
+                if (val) {
                     this.initData();
-                    this.fetchFieldData(this.rowData);
+                    this.fetchDefaultData();
                 }
             }
         },
         methods: {
+            fetchDefaultData() {
+                $.post("/api/fetchDefaultSingleRowData", {
+                    prg_id: "PMS0610020",
+                    page_id: 1,
+                    tab_page_id: 4,
+                    template_id: "datagrid"
+                }).then(result => {
+                    this.rentDatHq = result.gsDefaultData.rent_dat_hq.toString();
+                    this.fetchFieldData();
+                });
+            },
             initData() {
                 this.dataGridRowsData = [];
                 this.oriDataGridRowsData = [];
@@ -95,52 +113,38 @@
                 this.oriFieldsData = [];
                 this.dgIns = {};
             },
-            fetchFieldData(rowData) {
-                var self = this;
-
-                self.fetchRowData(rowData);
-            },
-            fetchRowData(rowData) {
-                var self = this;
-
-                this.showDataGrid();
-            },
-            showDataGrid() {
-//                this.dgIns = new DatagridBaseClass();
-//                this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
-//                this.dgIns.loadDgData(this.dataGridRowsData);
-
-                $('#contractContent_dg').datagrid({
-                    singleSelect:true,
-                    collapsible:true,
-                    // 從json 撈
-                    url:'/jsonData/sales/bsCompany_dealContent.json',
-                    method:'get',
-                    columns:[[
-                        {field:'dealNum',title:'合約編號',width:100},
-                        {field:'dealStartDate',title:'合約起始日',width:100},
-                        {field:'dealEndDate',title:'合約終止日',width:100},
-                        {field:'dealCompany',title:'館別',width:100},
-                        {field:'referPriceCode',title:'參考房價代號',width:100},
-                        {field:'housePriceName',title:'房價名稱',width:100},
-                        {field:'referDiscount',title:'參考餐廳折扣',width:100},
-                        {field:'remarks1',title:'備註1',width:100},
-                        {field:'remarks2',title:'備註2',width:100},
-                        {field:'addNewDate',title:'新增日',width:100},
-                        {field:'addNewParson',title:'新增者',width:100},
-                        {field:'lastChangeDate',title:'最後異動日',width:100},
-                        {field:'lastChangePerson',title:'最後異動者',width:100}
-                    ]]
+            fetchFieldData() {
+                this.isLoading = true;
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0610020",
+                    tab_page_id: 4,
+                    searchCond: {cust_cod: this.$store.state.gs_custCod}
+                }).then(result => {
+                    this.searchFields = result.searchFields;
+                    this.fieldsData = result.dgFieldsData;
+                    this.dataGridRowsData = _.filter(result.dgRowData, lo_dgRowData => {
+                        return moment(new Date(lo_dgRowData.end_dat)).diff(moment(this.rentDatHq), "days") >= 0
+                    });
+                    this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                    console.log(this.oriDataGridRowsData);
+                    this.showDataGrid(this.dataGridRowsData);
                 });
             },
+            showDataGrid(dataGridRowsData) {
+                this.dgIns = new DatagridBaseClass();
+                this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
+                this.dgIns.loadDgData(dataGridRowsData);
+                this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
+                this.isLoading = false;
+            },
             appendRow() {
-//                var self = this;
-//                this.BTN_action = true;
-//                this.dgIns.appendRow(function (result) {
-//                   if(result){
-//                       self.BTN_action = false;
-//                   }
-//                });
+                var self = this;
+                this.BTN_action = true;
+                this.dgIns.appendRow(function (result) {
+                    if (result) {
+                        self.BTN_action = false;
+                    }
+                });
             },
             removeRow() {
                 var lo_delRow = $('#contractContent_dg').datagrid("getSelected");
@@ -150,13 +154,16 @@
                 }
                 else {
                     console.log("delete this row");
-//                    this.dgIns.removeRow();
+                    this.dgIns.removeRow();
                 }
             },
             doHideExpire() {
                 var lb_isHide = this.isHideExpire;
                 if (lb_isHide) {
-                    console.log("hidding the expired");
+                    this.showDataGrid(this.oriDataGridRowsData);
+                }
+                else{
+                    this.showDataGrid(this.dataGridRowsData);
                 }
             }
         }

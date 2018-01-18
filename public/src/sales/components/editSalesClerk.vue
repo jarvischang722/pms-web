@@ -29,12 +29,25 @@
                                             <span>{{ field.ui_display_name }}</span>
                                         </label>
 
-                                        <input v-if="field.ui_type == 'text' || field.ui_type == 'popupgrid' || field.ui_type == 'multipopupgrid' "
+                                        <input v-if="field.ui_type == 'text'"
                                                type="text"
                                                v-model="singleData[field.ui_field_name]"
                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                               :required="field.requirable == 'Y'"
-                                               @click="chkClickPopUpGrid(field)"/>
+                                               :required="field.requirable == 'Y'"/>
+
+                                        <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                         :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                         v-model="singleData[field.ui_field_name]"
+                                                         :columns="field.selectData.columns"
+                                                         :data="field.selectData.selectData"
+                                                         :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                         :id-field="field.selectData.value" :text-field="field.selectData.display"
+                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                         :default-val="singleData[field.ui_field_name]"
+                                                         :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                        </bac-select-grid>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +79,6 @@
                 </div>
             </div>
         </el-dialog>
-        <select-grid-dialog-comp></select-grid-dialog-comp>
     </div>
 </template>
 
@@ -78,8 +90,7 @@
         name: 'edit-sales-clerk',
         props: ["editRows", "isEditSalesClerk", "isCreateStatus", "isEditStatus"],
         components: {
-            ElDialog,
-            selectGridDialogComp
+            ElDialog
         },
         created() {
             var self = this;
@@ -161,43 +172,6 @@
                 };
                 this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
                 this.isLoadingDialog = false;
-            },
-            chkClickPopUpGrid(field) {
-                var self = this;
-                this.titleName = field.prg_id;
-                if (field.ui_type == "popupgrid" || field.ui_type == "multipopupgrid") {
-                    var params = {
-                        prg_id: field.prg_id,
-                        fields: field
-                    };
-
-                    $.post("/api/popUpGridData", params, function (result) {
-                        if (result != null) {
-                            self.selectPopUpGridData = result.showDataGrid;
-                            result.fieldData = field;
-                            self.$eventHub.$emit('showPopUpDataGrid', result);
-                            self.showPopUpGridDialog();
-                        }
-                    });
-                }
-            },
-            showPopUpGridDialog() {
-                var self = this;
-                this.dialogVisible = true;
-                var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
-                var width = document.documentElement.clientWidth / 2;    //browser 寬度 - 200功能列
-
-                var dialog = $("#dataPopUpGridDialog").dialog({
-                    autoOpen: false,
-                    modal: true,
-                    height: height,
-                    width: width,
-                    title: self.titleName,
-                    resizable: true
-                });
-                dialog.dialog("open");
-
-                $('#dataPopUpGridDialog').parents('.panel.window').attr("style", "display: block; width: 960px; top: 32px; left: 480px; z-index: 9999 !important;");
             },
             doEditSales() {
                 var self = this;

@@ -70,13 +70,14 @@
             isRelatedPersonnel(val) {
                 if (val) {
                     this.initData();
-                    this.fetchFieldData(this.rowData);
+                    this.fetchFieldData();
                 }
             }
         },
         methods: {
             initData() {
                 this.dataGridRowsData = [];
+                this.dataGridRowsDataOfStaff = [];
                 this.oriDataGridRowsData = [];
                 this.fieldsData = [];
                 this.oriFieldsData = [];

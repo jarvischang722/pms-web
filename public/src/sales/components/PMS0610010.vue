@@ -680,6 +680,6 @@
 
     //關掉瀏覽器時unlock
     $(window).on('beforeunload', function () {
-        return vmHub.$emit("doUnLock");
+        vmHub.$emit("doUnLock");
     });
 </script>

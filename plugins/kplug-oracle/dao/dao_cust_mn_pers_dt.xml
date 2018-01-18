@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+    <!--[PMS0610020 商務公司資料編輯] 相關人員 取多筆資料-->
     <dao name="QRY_CUST_MN_PERS_DT">
         <statement><![CDATA[
 			select  'n' primary_pers,         cust_idx.alt_nam,         cust_mn_pers_dt.dept_nam,         cust_mn_pers_dt.role_cod,
