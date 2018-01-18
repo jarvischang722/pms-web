@@ -7,7 +7,7 @@ var mongoAgent = require("../plugins/mongodb");
 var async = require("async");
 var _ = require('underscore');
 var moment = require('moment');
-var go_sysConf = require("../configs/SystemConfig");
+var go_sysConf = require("../configs/systemConfig");
 var tools = require('../utils/CommonTools');
 /**
  * 驗證登入
