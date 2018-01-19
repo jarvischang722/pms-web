@@ -110,7 +110,20 @@ exports.addFuncRule_PMS0620020 = function (req, res) {
 //業務員指派(修改商務公司的業務員)
 exports.doEditSalesClerk = function (req, res) {
     salesSVC.handleEditSalesClerk(req.session, req.body, function (err, result) {
-        res.json(commonTools.mergeRtnErrResultJson(err, result));
+        var returnData = {
+            success: true,
+            errorMsg: "",
+            errorCode: ""
+        };
+        if (err) {
+            returnData.success = false;
+            returnData.errorMsg = err.errorMsg;
+            returnData.errorCode = err;
+        }
+        else {
+            returnData.rtnObject = result;
+        }
+        res.json(returnData);
     });
 };
 

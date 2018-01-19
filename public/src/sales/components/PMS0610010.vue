@@ -96,8 +96,7 @@
                                                     is-qry-src-before="Y" value-field="value" text-field="display"
                                                     @update:v-model="val => compStaSingleData[field.ui_field_name] = val"
                                                     :default-val="field.defaultVal"
-                                                    :disabled="field.modificable == 'N'||
-                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                    :disabled="field.modificable == 'N'">
                                         </bac-select>
                                     </div>
                                     <div class="clearfix"></div>
@@ -335,6 +334,7 @@
                 self.isLoading = false;
                 self.editRows = [];
                 self.initAllAuthBtn();
+                self.loadDataGridByPrgID();
             });
         },
         mounted() {

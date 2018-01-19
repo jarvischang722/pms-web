@@ -52,49 +52,92 @@
                                                     <div class="row" v-for="fields in gridSingleFieldsData">
                                                         <div class="'grid">
                                                             <div class="grid-item" v-for="field in fields">
-                                                                <label>{{ field.ui_display_name }}</label>
+                                                                <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
+                                                                    <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                                    <span>{{ field.ui_display_name }}</span>
+                                                                </label>
+
+                                                                <input type="text" v-model="singleData[field.ui_field_name]"
+                                                                       v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
+                                                                       :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                       :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                                                       :required="field.requirable == 'Y'" min="0"
+                                                                       :maxlength="field.ui_field_length"
+                                                                       :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+
+                                                                <!--  textarea -->
+                                                                <textarea v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
+                                                                          v-model="singleData[field.ui_field_name]"
+                                                                          class="numStyle-none" rows="4"
+                                                                          :style="{width:field.width + 'px'}" style="resize: none;"
+                                                                          :required="field.requirable == 'Y'"
+                                                                          :maxlength="field.ui_field_length"
+                                                                          :disabled="field.modificable == 'N'||
+                                                                          (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                        </textarea>
+
+                                                                <!--select-->
+                                                                <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                            v-model="singleData[field.ui_field_name]" :data="field.selectData"
+                                                                            is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                            @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                            :default-val="singleData[field.ui_field_name]"
+                                                                            :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                </bac-select>
+
+                                                                <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
+                                                                                v-model="singleData[field.ui_field_name]" type="datetime"
+                                                                                change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                                :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
+                                                                                size="small" format="yyyy/MM/dd HH:mm:ss"
+                                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                                @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                                </el-date-picker>
+
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <!--<div class="grid">-->
-                                                        <!--<div class="grid-item">-->
-                                                            <!--<label>備註類別</label>-->
-                                                            <!--<input type="text" class="input-medium medium-c1" placeholder="客房備註"/>-->
-                                                        <!--</div>-->
+                                                    <!--<div class="grid-item">-->
+                                                    <!--<label>備註類別</label>-->
+                                                    <!--<input type="text" class="input-medium medium-c1" placeholder="客房備註"/>-->
+                                                    <!--</div>-->
                                                     <!--</div>-->
                                                     <!--<div class="grid">-->
-                                                        <!--<div class="grid-item">-->
-                                                            <!--<label>備註內容</label>-->
-                                                            <!--&lt;!&ndash;<input type="text" class="input-medium medium-c1" />&ndash;&gt;-->
-                                                            <!--<textarea class="input-medium medium-c1-colv2 height-auto rzNone"-->
-                                                                      <!--style="width: 434px; max-width: 100%;" rows="4"-->
-                                                                      <!--placeholder="黃董事長住宿一定要高樓層並要有兩顆硬枕頭，夫人不要女用浴袍要換成男用"></textarea>-->
-                                                        <!--</div>-->
-                                                        <!--<div class="clearfix"></div>-->
+                                                    <!--<div class="grid-item">-->
+                                                    <!--<label>備註內容</label>-->
+                                                    <!--&lt;!&ndash;<input type="text" class="input-medium medium-c1" />&ndash;&gt;-->
+                                                    <!--<textarea class="input-medium medium-c1-colv2 height-auto rzNone"-->
+                                                    <!--style="width: 434px; max-width: 100%;" rows="4"-->
+                                                    <!--placeholder="黃董事長住宿一定要高樓層並要有兩顆硬枕頭，夫人不要女用浴袍要換成男用"></textarea>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="clearfix"></div>-->
                                                     <!--</div>-->
                                                     <!--<div class="space-6"></div>-->
                                                     <!--<div class="grid">-->
-                                                        <!--<div class="grid-item">-->
-                                                            <!--<label>新增日</label>-->
-                                                            <!--<input type="text" class="input-medium medium-c1"-->
-                                                                   <!--placeholder="2000/01/01 12:30:00" disabled="disabled"/>-->
-                                                        <!--</div>-->
-                                                        <!--<div class="grid-item">-->
-                                                            <!--<label>新增者</label>-->
-                                                            <!--<input type="text" class="input-medium medium-c1" placeholder="cio"-->
-                                                                   <!--disabled="disabled"/>-->
-                                                        <!--</div>-->
-                                                        <!--<div class="grid-item">-->
-                                                            <!--<label>最後異動日</label>-->
-                                                            <!--<input type="text" class="input-medium medium-c1"-->
-                                                                   <!--placeholder="2000/01/01 12:30:00" disabled="disabled"/>-->
-                                                        <!--</div>-->
-                                                        <!--<div class="grid-item">-->
-                                                            <!--<label>最後異動者</label>-->
-                                                            <!--<input type="text" class="input-medium medium-c1" placeholder="cio"-->
-                                                                   <!--disabled="disabled"/>-->
-                                                        <!--</div>-->
+                                                    <!--<div class="grid-item">-->
+                                                    <!--<label>新增日</label>-->
+                                                    <!--<input type="text" class="input-medium medium-c1"-->
+                                                    <!--placeholder="2000/01/01 12:30:00" disabled="disabled"/>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="grid-item">-->
+                                                    <!--<label>新增者</label>-->
+                                                    <!--<input type="text" class="input-medium medium-c1" placeholder="cio"-->
+                                                    <!--disabled="disabled"/>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="grid-item">-->
+                                                    <!--<label>最後異動日</label>-->
+                                                    <!--<input type="text" class="input-medium medium-c1"-->
+                                                    <!--placeholder="2000/01/01 12:30:00" disabled="disabled"/>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="grid-item">-->
+                                                    <!--<label>最後異動者</label>-->
+                                                    <!--<input type="text" class="input-medium medium-c1" placeholder="cio"-->
+                                                    <!--disabled="disabled"/>-->
+                                                    <!--</div>-->
                                                     <!--</div>-->
                                                 </div>
                                             </div>
@@ -360,6 +403,71 @@
                 });
             },
             //單筆 業務備註 事件
+            chkFieldRule(ui_field_name, rule_func_name) {
+                if (rule_func_name === "") {
+                    return;
+                }
+                var self = this;
+                var la_originData = [this.oriSingleData];
+                var la_singleData = [this.singleData];
+                var la_diff = _.difference(la_originData, la_singleData);
+
+                // 判斷資料是否有異動
+                if (la_diff.length != 0) {
+                    this.isUpdate = true;
+                }
+
+                if (!_.isEmpty(rule_func_name.trim())) {
+                    var postData = {
+                        prg_id: "PMS0620050",
+                        rule_func_name: rule_func_name,
+                        validateField: ui_field_name,
+                        singleRowData: JSON.parse(JSON.stringify(this.singleData)),
+                        oriSingleData: this.oriSingleData
+                    };
+                    $.post('/api/chkFieldRule', postData, function (result) {
+
+                        if (result.success) {
+                            //是否要show出訊息
+                            if (result.showAlert) {
+                                alert(result.alertMsg);
+                            }
+
+                            //是否要show出詢問視窗
+                            if (result.showConfirm) {
+                                if (confirm(result.confirmMsg)) {
+
+                                } else {
+                                    //有沒有要再打一次ajax到後端
+                                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
+                                        $.post(result.ajaxURL, postData, function (result) {
+
+                                            if (!result.success) {
+                                                alert(result.errorMsg);
+                                            } else {
+
+                                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                    self.singleData = _.extend(self.singleData, result.effectValues);
+                                                }
+
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+
+                        } else {
+                            alert(result.errorMsg);
+                        }
+
+                        //連動帶回的值
+                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                            self.singleData = _.extend(self.singleData, result.effectValues);
+                        }
+
+                    });
+                }
+            },
             toFirstData() {
                 this.isFirstData = true;
                 this.isLastData = false;
