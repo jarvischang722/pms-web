@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0610020 商務公司資料編輯] 取歷史消費多筆 -->
+    <dao name="QRY_CUST_IDX_TR">
+        <statement><![CDATA[
+            SELECT  cust_idx_tr.athena_id,cust_idx_tr.cust_cod,CUST_IDX_TR.TRANS_DAT, CUST_IDX_TR.SER_NOS,
+            NVL( HOTEL_RF.HOTEL_NAM, CUST_IDX_TR.LOCATION_COD ) HOTEL_NAM,
+            NVL( RSPT_RF.RSPT_NAM, CUST_IDX_TR.RSPT_COD ) RSPT_NAM,
+            CUST_IDX_TR.TRANS_AMT, CUST_IDX_TR.PAYOUT_AMT, CUST_IDX_TR.TRANS_RMK,
+            CUST_IDX_TR.TIPS_AMT, CUST_IDX_TR.UNI_COD, CUST_IDX_TR.GUI_NOS
+            FROM  CUST_IDX_TR
+            left join  RSPT_RF on CUST_IDX_TR.ATHENA_ID = RSPT_RF.ATHENA_ID
+            AND  CUST_IDX_TR.RSPT_COD = RSPT_RF.RSPT_COD
+            join HOTEL_RF on CUST_IDX_TR.ATHENA_ID = HOTEL_RF.ATHENA_ID
+            AND CUST_IDX_TR.LOCATION_COD = HOTEL_RF.HOTEL_COD
+            WHERE CUST_IDX_TR.ATHENA_ID = :athena_id
+            AND CUST_IDX_TR.CUST_COD = :cust_cod
+            ORDER BY CUST_IDX_TR.TRANS_DAT, CUST_IDX_TR.SER_NOS
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
+
+</root>

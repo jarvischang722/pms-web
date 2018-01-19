@@ -261,7 +261,8 @@
                     var self = this;
 
                     this.initGridSingleData();
-                    self.fetchGridSingleRowData(val);
+
+                    this.fetchGridSingleFieldData(val);
 
                     var nowDatagridRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', val);
 
@@ -323,22 +324,7 @@
                     this.dataGridRowsData = result.dgRowData;
                     this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                     this.showDataGrid();
-                    this.fetchGridSingleFieldData();
                 });
-            },
-            fetchGridSingleFieldData() {
-                $.post("/api/fetchOnlySinglePageFieldData", {
-                    prg_id: "PMS0610020",
-                    page_id: 2,
-                    tab_page_id: 1120
-                }).then(result => {
-                    this.oriGridSingleFieldsData = result.gsFieldsData;
-                    this.gridSingleFieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
-                    console.log(this.gridSingleFieldsData);
-                });
-            },
-            fetchGridSingleRowData(editingRowOfRemark) {
-                var self = this;
             },
             showDataGrid() {
                 this.dgIns = new DatagridSingleGridClass();
@@ -347,11 +333,27 @@
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
                 this.isLoading = false;
             },
+            fetchGridSingleFieldData(val) {
+                $.post("/api/fetchOnlySinglePageFieldData", {
+                    prg_id: "PMS0610020",
+                    page_id: 2,
+                    tab_page_id: 1120
+                }).then(result => {
+                    this.oriGridSingleFieldsData = result.gsFieldsData;
+                    this.gridSingleFieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
+                    this.fetchGridSingleRowData(val);
+                });
+            },
+            fetchGridSingleRowData(editingRowOfRemark) {
+                this.singleData = editingRowOfRemark;
+                this.oriSingleData = JSON.parse(JSON.stringify(editingRowOfRemark));
+
+            },
             appendRow() {
-//                this.BTN_action = true;
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
-                this.editingRow = {};
+                this.editingRow = {remark_typ: '01'};
+
                 this.initTmpCUD();
                 this.showSingleGridDialog();
             },
@@ -359,15 +361,17 @@
                 this.isCreateStatus = false;
                 this.isEditStatus = true;
                 this.editingRow = {};
+
                 this.initTmpCUD();
 
                 var lo_editRow = $('#otherRemark_dg').datagrid('getSelected');
+                var ln_editIndex = $('#otherRemark_dg').datagrid('getRowIndex', lo_editRow);
 
                 if (!lo_editRow) {
                     alert(go_i18nLang["SystemCommon"].SelectData);
                 }
                 else {
-                    this.editingRow = lo_editRow;
+                    this.editingRow = this.dataGridRowsData[ln_editIndex];
                     this.showSingleGridDialog();
                 }
             },
@@ -379,7 +383,7 @@
                 }
                 else {
                     console.log("delete this row");
-//                    this.dgIns.removeRow();
+                    this.dgIns.removeRow();
                 }
             },
             showSingleGridDialog() {
