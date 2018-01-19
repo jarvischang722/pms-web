@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-loading="isLoading" element-loading-text="Loading...">
         <div class="col-xs-12 col-sm-12">
             <div class="row">
                 <!-- 多筆 拜訪紀錄 dataGrid -->
@@ -76,6 +76,7 @@
         data() {
             return {
                 i18nLang: go_i18nLang,
+                isLoading: false,
                 BTN_action: false,
                 isCreateStatus: false,
                 isEditStatus: false,
@@ -98,7 +99,7 @@
             isVisitRecord(val) {
                 if (val) {
                     this.initData();
-                    this.fetchFieldData(this.rowData);
+                    this.fetchFieldData();
                 }
             }
         },
@@ -112,6 +113,8 @@
                 }
             },
             initData() {
+                this.isCreateStatus = this.$store.state.gb_isCreateStatus;
+                this.isEditStatus = this.$store.state.gb_isEditStatus;
                 this.dataGridRowsData = [];
                 this.oriDataGridRowsData = [];
                 this.fieldsData = [];
@@ -119,47 +122,25 @@
                 this.dgIns = {};
                 this.editingRow = {};
             },
-            fetchFieldData(rowData) {
-                var self = this;
-
-                self.fetchRowData(rowData);
-            },
-            fetchRowData(rowData) {
-                var self = this;
-
-                this.showDataGrid();
-            },
-            showDataGrid() {
-//                this.dgIns = new DatagridSingleGridClass();
-//                this.dgIns.init("PMS0610020", "companyVisitRecord_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'companyVisitRecord_dg'), this.fieldsData);
-//                this.dgIns.loadDgData(this.dataGridRowsData);
-
-                $('#companyVisitRecord_dg').datagrid({
-                    singleSelect: true,
-                    collapsible: true,
-                    // 從json 撈
-                    url: '/jsonData/sales/bsCompany_visitRecord.json',
-                    method: 'get',
-                    columns: [[
-                        {field: 'visitWay', title: '拜訪方式', width: 70},
-                        {field: 'visitDate', title: '預定拜訪日', width: 100},
-                        {field: 'visitStatus', title: '拜訪狀態', width: 70},
-                        {field: 'subject', title: '主旨', width: 100},
-                        {field: 'contentSum', title: '內容(摘要)', width: 170},
-                        {field: 'realVisitDate', title: '實際拜訪日', width: 100},
-                        {field: 'traffic', title: '交通費', width: 70, align: 'right'}
-                    ]]
+            fetchFieldData() {
+                this.isLoading = true;
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0610020",
+                    tab_page_id: 5,
+                    searchCond: {cust_cod: this.$store.state.gs_custCod}
+                }).then(result => {
+                    this.searchFields = result.searchFields;
+                    this.fieldsData = result.dgFieldsData;
+                    this.dataGridRowsData = result.dgRowData;
+                    this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                    this.showDataGrid();
                 });
             },
-            setParamsData() {
-                var self = this;
-
-                this.paramsData = {
-                    dgId: "companyVisitRecord_dg",
-                    pageOneDataGridRows: self.dataGridRowsData,
-                    gridSinglePrgId: "PMS0610020",
-                    gridSinglePageId: 3
-                };
+            showDataGrid() {
+                this.isLoading = false;
+                this.dgIns = new DatagridSingleGridClass();
+                this.dgIns.init("PMS0610020", "companyVisitRecord_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'companyVisitRecord_dg'), this.fieldsData);
+                this.dgIns.loadDgData(this.dataGridRowsData);
             },
             appendRow() {
 //                this.BTN_action = true;
@@ -176,7 +157,6 @@
             },
             editRow() {
                 this.initTmpCUD();
-                this.setParamsData();
 //                this.BTN_action = true;
                 this.isCreateStatus = false;
                 this.isEditStatus = true;

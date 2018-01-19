@@ -12,6 +12,24 @@
         <parameter type="string" kind="1">visit_typ</parameter>
     </dao>
 
+    <!--[PMS0610020 商公司資料編輯] 取拜訪記錄多筆資料-->
+    <dao name="QRY_PS_VISIT_DT_FOR_CUST">
+        <statement><![CDATA[
+            SELECT ps_visit_dt.athena_id,ps_visit_dt.cust_cod,PS_VISIT_RF.VISIT_NAM, PS_VISIT_DT.VISIT_DAT,
+            PS_VISIT_DT.VISIT_STA, PS_VISIT_DT.PURPORT_RMK, PS_VISIT_DT.REMARK,
+            PS_VISIT_DT.AVISIT_DAT, PS_VISIT_DT.TRAFFIC_AMT
+            FROM PS_VISIT_DT
+            join PS_VISIT_RF on PS_VISIT_DT.ATHENA_ID = PS_VISIT_RF.ATHENA_ID
+            AND PS_VISIT_DT.VISIT_TYP = PS_VISIT_RF.VISIT_TYP
+            WHERE PS_VISIT_DT.ATHENA_ID = :athena_id
+            AND PS_VISIT_DT.CUST_COD = :cust_cod
+            ORDER BY PS_VISIT_DT.VISIT_DAT
+        ]]>
+        </statement>
+        <parameter type="number" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">cust_cod</parameter>
+    </dao>
+
     <!--[PMS0620050] 取多筆拜訪紀錄-->
     <dao name="QRY_PS_VISIT_DT">
         <statement><![CDATA[
