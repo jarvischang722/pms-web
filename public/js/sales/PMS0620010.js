@@ -6,6 +6,7 @@
 var vmHub = new Vue();
 
 var go_funcPurview = (new FuncPurview("PMS0620010")).getFuncPurvs();
+
 /** DatagridRmSingleGridClass **/
 function DatagridSingleGridClass() {
 }
@@ -94,7 +95,7 @@ var PMS0620020App = Vue.extend({
             },
             deep: true
         },
-        isSaveEnable: function(val){
+        isSaveEnable: function (val) {
             var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "0500";
             });
@@ -104,7 +105,7 @@ var PMS0620020App = Vue.extend({
         }
     },
     methods: {
-        initPurview: function(){
+        initPurview: function () {
             var purview;
             purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "0500";
@@ -343,6 +344,7 @@ var PMS0620020App = Vue.extend({
             this.gs_active = tab.name;
         },
         loadChangeLog: function () {
+            $('#salesChangelogDialog').removeClass('hide');
             $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0620020"}, function (result) {
                 if (result.success) {
                     vm.openChangeLogDialog = true;
@@ -562,7 +564,7 @@ Vue.component('text-select-grid-dialog-tmp', {
 
             self.gridData = textDataGridArray;
             var height = document.documentElement.clientHeight - 160;
-            var width = document.documentElement.clientWidth / 2 - 25;    //browser 寬度 - 200功能列
+            var width = document.documentElement.clientWidth / 2 - 25; //browser 寬度 - 200功能列
             $('#chooseGrid').datagrid({
                 columns: [columnsData],
                 singleSelect: true,
@@ -591,7 +593,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                 });
             } else {
                 _.each(chooseData, function (chooseValue, chooseField) {
-                    chooseData[chooseField] = "";  //SAM20170930
+                    chooseData[chooseField] = ""; //SAM20170930
                 });
             }
 
@@ -617,7 +619,7 @@ Vue.component('text-select-grid-dialog-tmp', {
 
 var vm = new Vue({
     el: "#PMS0620010App",
-    components:{
+    components: {
         "single-grid-pms0620020-tmp": PMS0620020App
     },
     mounted: function () {
@@ -639,14 +641,14 @@ var vm = new Vue({
         },
         pageOneDataGridRows: [],
         pageOneFieldData: [],
-        pageOneSingleGridFieldData: [],     // PMS0620020 業務員(單筆)欄位
-        pageOneSingleGridRowData: {},       // PMS0620020 業務員(單筆)資料
+        pageOneSingleGridFieldData: [], // PMS0620020 業務員(單筆)欄位
+        pageOneSingleGridRowData: {}, // PMS0620020 業務員(單筆)資料
         oriSingleData: [],
         oriSingleGridFieldData: [],
-        hotelDTDataGridRows: [],            // PMS0620020 Property(多筆)欄位
-        hotelDTFieldData: [],               // PMS0620020 Property(多筆)資料
-        classHSDataGridRows: [],            // PMS0620020 組別異動紀錄(多筆)欄位
-        classHSFieldData: [],               // PMS0620020 組別異動紀錄(多筆)資料
+        hotelDTDataGridRows: [], // PMS0620020 Property(多筆)欄位
+        hotelDTFieldData: [], // PMS0620020 Property(多筆)資料
+        classHSDataGridRows: [], // PMS0620020 組別異動紀錄(多筆)欄位
+        classHSFieldData: [], // PMS0620020 組別異動紀錄(多筆)資料
         searchFields: [],
         searchCond: {
             sales_cod: "",
@@ -660,11 +662,11 @@ var vm = new Vue({
         dialogVisible: false,
         dgIns: {},
         editingRow: {},
-        isCreateStatus: false,    //新增狀態
-        isEditStatus: false,      //編輯狀態
-        isDeleteStatus: false,    //刪除狀態
+        isCreateStatus: false, //新增狀態
+        isEditStatus: false, //編輯狀態
+        isDeleteStatus: false, //刪除狀態
         isLoading: true,
-        isModifiable: true,       //決定是否可以修改
+        isModifiable: true, //決定是否可以修改
         openChangeLogDialog: false,
         allChangeLogList: [],
         BTN_action: false
@@ -811,8 +813,8 @@ var vm = new Vue({
             var self = this;
             this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
-            gridWt = $('.grid-item label').width() + $('.grid-item input').width() +14; // 抓不到width
-            var dialogWt =(gridWt *2) +250;
+            gridWt = $('.grid-item label').width() + $('.grid-item input').width() + 14; // 抓不到width
+            var dialogWt = gridWt * 2 + 250;
             var height = 10 * 50; // 預設一個row 高度
             var dialog = $("#singleGridPMS0620020").removeClass('hide').dialog({
                 autoOpen: true,
@@ -835,7 +837,7 @@ var vm = new Vue({
         showPopUpGridDialog: function () {
             this.dialogVisible = true;
             var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
-            var width = document.documentElement.clientWidth / 2;    //browser 寬度 - 200功能列
+            var width = document.documentElement.clientWidth / 2; //browser 寬度 - 200功能列
 
             var dialog = $("#dataPopUpGridDialog").dialog({
                 autoOpen: false,

@@ -12,7 +12,7 @@ module.exports = function (app, passport) {
     //主頁面
     app.get('/bacchus4web/:subsys_id', middles, sysCrtl.index);
     //系統別選擇
-    app.get('/systemOption', sysCrtl.systemOption);
+    app.get('/systemOption', middles, sysCrtl.systemOption);
     //撈取user可選的系統別
     app.post('/api/userAllowSystem', sysCrtl.userAllowSystem);
     //館別切換
