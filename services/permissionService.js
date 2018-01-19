@@ -139,17 +139,19 @@ function combinStaffExecData(postData, session, callback) {
             tmpIns["table_name"] = "BAC_ROLE_USER";
 
             let lo_staff = _.findWhere(la_staffList, {usr_id: ls_staffChecked});
+            if (!_.isUndefined(lo_staff)) {
+                tmpIns.role_athena_id = lo_userInfo.athena_id;
+                tmpIns.role_comp_cod = lo_staff.cmp_id;
+                tmpIns.role_id = ls_selRole;
+                tmpIns.user_athena_id = lo_userInfo.athena_id;
+                tmpIns.user_comp_cod = lo_staff.cmp_id;
+                tmpIns.user_id = lo_staff.usr_id;
 
-            tmpIns.role_athena_id = lo_userInfo.athena_id;
-            tmpIns.role_comp_cod = lo_staff.cmp_id;
-            tmpIns.role_id = ls_selRole;
-            tmpIns.user_athena_id = lo_userInfo.athena_id;
-            tmpIns.user_comp_cod = lo_staff.cmp_id;
-            tmpIns.user_id = lo_staff.usr_id;
+                tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+                lo_savaExecDatas[ln_exec_seq] = tmpIns;
+                ln_exec_seq++;
+            }
 
-            tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
-            lo_savaExecDatas[ln_exec_seq] = tmpIns;
-            ln_exec_seq++;
         }
     });
     callback(null, lo_savaExecDatas);
@@ -300,17 +302,19 @@ exports.saveAuthByStaff = function (postData, session, callback) {
             tmpIns["table_name"] = "BAC_ROLE_USER";
 
             let lo_staff = _.findWhere(la_staffList, {usr_id: ls_user_id});
+            if(!_.isUndefined(lo_staff)){
+                tmpIns.role_athena_id = lo_userInfo.athena_id;
+                tmpIns.role_comp_cod = lo_staff.cmp_id;
+                tmpIns.role_id = lo_checkedRoleList;
+                tmpIns.user_athena_id = lo_userInfo.athena_id;
+                tmpIns.user_comp_cod = lo_staff.cmp_id;
+                tmpIns.user_id = lo_staff.usr_id;
 
-            tmpIns.role_athena_id = lo_userInfo.athena_id;
-            tmpIns.role_comp_cod = lo_staff.cmp_id;
-            tmpIns.role_id = lo_checkedRoleList;
-            tmpIns.user_athena_id = lo_userInfo.athena_id;
-            tmpIns.user_comp_cod = lo_staff.cmp_id;
-            tmpIns.user_id = lo_staff.usr_id;
+                tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+                lo_savaExecDatas[ln_exec_seq] = tmpIns;
+                ln_exec_seq++;
+            }
 
-            tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
-            lo_savaExecDatas[ln_exec_seq] = tmpIns;
-            ln_exec_seq++;
         }
     });
 
@@ -382,26 +386,28 @@ exports.saveAuthByFunc = function (postData, session, callback) {
                     tmpIns["table_name"] = "BAC_ROLE_FUNCTION";
 
                     let lo_func = _.findWhere(la_funcList, {current_id: ls_current_id});
-                    tmpIns.role_athena_id = lo_userInfo.athena_id;
-                    tmpIns.role_comp_cod = lo_userInfo.cmp_id;
-                    tmpIns.role_id = lo_checkedRoleList;
-                    tmpIns.func_athena_id = lo_userInfo.athena_id;
-                    tmpIns.func_comp_cod = lo_userInfo.cmp_id;
-                    tmpIns.func_hotel_cod = lo_userInfo.hotel_cod;
-                    tmpIns.pre_id = lo_func.pre_id;
-                    tmpIns.current_id = ls_current_id;
-                    tmpIns.id_typ = lo_func.id_typ;
-                    tmpIns.level_nos = lo_func.level_nos;
-                    tmpIns.sort_cod = 0;
+                    if(!_.isUndefined(lo_func)){
+                        tmpIns.role_athena_id = lo_userInfo.athena_id;
+                        tmpIns.role_comp_cod = lo_userInfo.cmp_id;
+                        tmpIns.role_id = lo_checkedRoleList;
+                        tmpIns.func_athena_id = lo_userInfo.athena_id;
+                        tmpIns.func_comp_cod = lo_userInfo.cmp_id;
+                        tmpIns.func_hotel_cod = lo_userInfo.hotel_cod;
+                        tmpIns.pre_id = lo_func.pre_id;
+                        tmpIns.current_id = ls_current_id;
+                        tmpIns.id_typ = lo_func.id_typ;
+                        tmpIns.level_nos = lo_func.level_nos;
+                        tmpIns.sort_cod = 0;
 
-                    tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
-                    lo_saveExecDatas[ln_exec_seq] = tmpIns;
-                    ln_exec_seq++;
+                        tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+                        lo_saveExecDatas[ln_exec_seq] = tmpIns;
+                        ln_exec_seq++;
+                    }
                 }
             });
             cb(null, lo_saveExecDatas);
         }
-    ], function(err, saveExecDatas){
+    ], function (err, saveExecDatas) {
         dbSvc.execSQL("SYS0110010", saveExecDatas, session, callback);
     });
 };
