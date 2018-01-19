@@ -79,6 +79,7 @@ exports.qrySelectOptionsFromSQL = function (userInfo, sql_tag, callback) {
  * 取得Select options值
  * @param params
  * @param selRow
+ * @param field
  * @param callback
  * @constructor
  */
@@ -98,10 +99,10 @@ exports.getSelectOptions = function (params, selRow, field, callback) {
 
             _.each(selData, function (lo_selData, index) {
                 if (!_.isUndefined(lo_selData.value)) {
-                    if(field.modificable == 'N'){
+                    if (field.modificable == 'N') {
                         selData[index].display = lo_selData.display.trim();
                     }
-                    else{
+                    else {
                         selData[index].display = lo_selData.value.trim() + " : " + lo_selData.display.trim();
                     }
                 }
@@ -132,6 +133,77 @@ exports.getSelectOptions = function (params, selRow, field, callback) {
     }
 };
 
+/**
+ * 取得SelectGrid options值
+ * @param params
+ * @param selRow
+ * @param field
+ * @param callback
+ */
+exports.getSelectGridOption = function (session, selRow, field, callback) {
+    //要回傳的資料
+    let lo_selectData = {};
+
+    async.waterfall([
+        //取得欄位、display、value資料
+        qrySelectGridColumn,
+        //取得下拉資料
+        qrySelectGridData
+    ], function (err, result) {
+        if(err){
+            callback(err, null);
+        }
+        else{
+            lo_selectData = result;
+            lo_selectData.isQrySrcBefore = selRow.is_qry_src_before == ""?"Y":selRow.is_qry_src_before;
+            callback(err, lo_selectData);
+        }
+    });
+
+    function qrySelectGridColumn(cb) {
+        if (!_.isUndefined(ruleAgent[selRow.column_func_name])) {
+            ruleAgent[selRow.column_func_name](session, function (err, data) {
+                cb(err, data);
+            });
+        }
+        else {
+            let err = "column_func_name is undefined"
+            cb(err, null);
+        }
+    }
+
+    function qrySelectGridData(selectData, cb) {
+        if (_.isEmpty(selectData)) {
+            let err = "select's attribute is null"
+            cb(err, null);
+        }
+        else {
+            if (selRow.is_qry_src_before != "N") {
+                var sql_tag = selRow.rule_func_name.toUpperCase();
+                var lo_params = session.user;
+                queryAgent.queryList(sql_tag, lo_params, 0, 0, function (err, selData) {
+                    if (err) {
+                        selData = [];
+                    }
+                    cb(err, {
+                        selectData: selData,
+                        columns: selectData.columns,
+                        display: selectData.display,
+                        value: selectData.value
+                    });
+                });
+            }
+            else {
+                cb(null, {
+                    selectData: [],
+                    columns: selectData.columns,
+                    display: selectData.display,
+                    value: selectData.value
+                });
+            }
+        }
+    }
+};
 
 /**
  * 使用者離開欄位時檢查

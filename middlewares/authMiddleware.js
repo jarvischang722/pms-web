@@ -17,7 +17,12 @@ module.exports = function (req, res, next) {
     req.session._touchSession = new Date();
     req.session.touch();
     if (_.isUndefined(req.session.user) || _.isNull(req.session.user)) {
-        res.redirect("/login");
+        if (req.session.athena_id && req.session.comp_cod) {
+            res.redirect(`/${req.session.athena_id}/${req.session.comp_cod}/login`);
+        } else {
+            res.redirect(`/login`);
+        }
+
     } else if (!_.isUndefined(req.session.user) && _.isUndefined(req.session.activeSystem.id)) {
         res.redirect("/systemOption");
     } else {

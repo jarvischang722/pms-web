@@ -14,6 +14,30 @@ var loginVM = new Vue({
         comp_id: "0",
         currentLocale: gs_locale,
         locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", ""))
+        ,person: {
+            name: 'jun',
+            name2: 'maggie'
+
+        },
+        fieldName: 'name',
+        selectData: [{
+            "id": 1,
+            "text": "text1"
+        }, {
+            "id": 2,
+            "text": "text2"
+        }, {
+            "id": 3,
+            "text": "text3",
+            "selected": false
+        }, {
+            "id": 4,
+            "text": "text4"
+        }, {
+            "id": 5,
+            "text": "text5"
+        }]
+
     },
     mounted: function () {
         this.getCompaonyData();
@@ -40,6 +64,7 @@ var loginVM = new Vue({
             $.post("/api/getSelectCompany", function (result) {
                 if (result.success) {
                     loginVM.companyData = result.selectCompany;
+                    loginVM.comp_id = result.selectCompany.length > 0 ? result.selectCompany[0].cmp_id.trim() : "";
                 }
             });
         },

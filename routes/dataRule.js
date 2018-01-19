@@ -29,5 +29,7 @@ module.exports = function (app) {
     app.post('/api/revertRoomNam', apiMiddles, ruleCrtl.revertRoomNam);
 
     app.post('/api/revertRoomSna', apiMiddles, ruleCrtl.revertRoomSna);
+
+    app.all("/api/getSelectOptions",  ruleCrtl.getSelectOptions);
 };
 

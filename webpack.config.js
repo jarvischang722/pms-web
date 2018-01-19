@@ -1,22 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = {
-     entry: "./public/src/admin/permission/permissionSetup.js",
-    // entry: [
-    //     'webpack/hot/dev-server',
-    //     path.join(__dirname, 'public', 'src')
-    // ],
-    // entry: {
-    //     permissionSetup: ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"],
-    //     // store: "./public/src/admin/permission/store"
-    //     // a: "./a",
-    //     // b: "./b",
-    //     // c: ["./c", "./d"]
-    // },
+    // entry: "./public/src/sales/PMS0610010.js",
+    // // entry: "./public/src/admin/permission/permissionSetup.js",
+    // // entry: [
+    // //     'webpack/hot/dev-server',
+    // //     path.join(__dirname, 'public', 'src')
+    // // ],
+    entry: {
+        // permissionSetup: ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"],
+        // store: "./public/src/admin/permission/store"
+        'PMS0610010.main': "./public/src/sales/PMS0610010.js"
+        // 'BacUIComps': "./public/src/components/common/bacUIComps/main"
+        // c: ["./c", "./d"]
+    },
     output: {
         publicPath: '/dist',
-        path: path.join(__dirname, 'public', 'js/system/'),
-        filename: 'permissionSetup.js'
+        // path: path.join(__dirname, 'public', 'js/systemsystem/'),
+        path: path.join(__dirname, 'public', 'js/sales/'),
+        // filename: 'permissionSetup.js'
+        filename: '[name].js'
 
     },
     module: {

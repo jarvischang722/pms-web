@@ -1,5 +1,5 @@
 <template>
-    <div class="col-xs-12 col-sm-12">
+    <div class="col-xs-12 col-sm-12" v-loading="isLoading" element-loading-text="Loading...">
         <div class="row">
             <!--多筆 業務員 dataGrid-->
             <div class="col-xs-11 col-sm-11">
@@ -31,12 +31,24 @@
 <script>
     import editSalesClerk from './editSalesClerk.vue';
 
+    /** DatagridRmSingleGridClass **/
+    function DataGridSingleGridClass() {
+    }
+
+    DataGridSingleGridClass.prototype = new DatagridBaseClass();
+    DataGridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    };
+    DataGridSingleGridClass.prototype.doSaveColumnFields = function () {
+    };
+    /*** Class End  ***/
+
     export default {
         name: 'sales-clerk',
         props: ["rowData", "isSalesClerk", "isCreateStatus", "isEditStatus"],
         data() {
             return {
                 i18nLang: go_i18nLang,
+                isLoading: false,
                 BTN_action: false,
                 isEditSalesClerk: false,
                 dataGridRowsData: [],
@@ -66,36 +78,25 @@
             },
             fetchFieldData(rowData) {
                 var self = this;
-
-                self.fetchRowData(rowData);
-            },
-            fetchRowData(rowData) {
-                var self = this;
-
-                self.showDataGrid();
+                this.isLoading = true;
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0610020",
+                    tab_page_id: 3,
+                    searchCond: {cust_cod: this.$store.state.gs_custCod}
+                }).then(result => {
+                    this.searchFields = result.searchFields;
+                    this.fieldsData = result.dgFieldsData;
+                    this.dataGridRowsData = result.dgRowData;
+                    this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                    this.showDataGrid();
+                });
             },
             showDataGrid() {
-//                this.dgIns = new DatagridBaseClass();
-//                this.dgIns.init("PMS0610020", "salesClerk_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
-//                this.dgIns.loadDgData(this.dataGridRowsData);
-//                this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
-
-                $('#salesClerk_dg').datagrid({
-                    singleSelect: true,
-                    collapsible: true,
-                    // 從json 撈
-                    url: '/jsonData/sales/bsCompany_clerk.json',
-                    method: 'get',
-                    columns: [[
-                        {field: 'clerk', title: '業務員', width: 100},
-                        {field: 'startDate', title: '開始日期', width: 100},
-                        {field: 'endDate', title: '結束日期', width: 100},
-                        {field: 'inputDate', title: '輸入日', width: 200},
-                        {field: 'inputPerson', title: '輸入者', width: 100},
-                        {field: 'lastEditDate', title: '最後異動日', width: 200},
-                        {field: 'lastEditMan', title: '最後異動者', width: 100}
-                    ]]
-                });
+                this.dgIns = new DataGridSingleGridClass();
+                this.dgIns.init("PMS0610020", "salesClerk_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
+                this.dgIns.loadDgData(this.dataGridRowsData);
+                this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
+                this.isLoading = false;
             },
             doEditSalesClerk() {
                 var self = this;

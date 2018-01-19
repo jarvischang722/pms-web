@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+    <!-- 抓取公司別 -->
     <dao name="QRY_SELECT_COMPANY">
         <statement><![CDATA[
-            select  cmp_id, cmp_name
+            select  cmp_id, cmp_name, athena_id
             from s99_company
+            where athena_id = :athena_id
+
         ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="comp_cod" kind="3">comp_cod</parameter>
+        <statement test="_v(param.comp_cod)"><![CDATA[and trim(cmp_id) = trim(:comp_cod)]]></statement>
+        <orderby>
+            order by cmp_name
+        </orderby>
     </dao>
 </root>

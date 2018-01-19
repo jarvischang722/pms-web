@@ -1,100 +1,53 @@
 <template>
     <div id="PMS0610020" class="hide padding-5" style="top: 0 !important; z-index: 1">
-        <div class="businessCompanyData">
+        <div class="businessCompanyData" v-loading="isLoadingDialog" :element-loading-text="loadingText">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
                         <div class="row no-margin-right">
                             <!-------- 單筆 -------->
                             <div class="main-content-data borderFrame">
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>公司編號</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="23598233"/>
-                                    </div>
+                                <div v-for="fields in fieldsData">
+                                    <div class="grid">
+                                        <div class="grid-item" v-for="field in fields">
+                                            <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
+                                                <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                <span>{{ field.ui_display_name }}</span>
+                                            </label>
 
-                                    <div class="grid-item">
-                                        <label>合約狀態</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="已簽約" disabled/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>狀態</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="正常" disabled/>
-                                    </div>
-                                </div>
-                                <!--<div class="space-custom-5"></div>-->
+                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                                   v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
+                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                   :required="field.requirable == 'Y'" min="0"
+                                                   :maxlength="field.ui_field_length"
+                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                   :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>負責人</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="黃先生"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>公司名稱</label>
-                                        <input type="text" class="input-medium medium-c1-col2v2"
-                                               placeholder="德安資訊國際股份有限公司台北分公司"/>
-                                    </div>
-                                </div>
+                                            <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                        v-model="singleData[field.ui_field_name]" :data="field.selectData"
+                                                        is-qry-src-before="Y" value-field="value" text-field="display"
+                                                        @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                        :default-val="singleData[field.ui_field_name]"
+                                                        :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                            </bac-select>
 
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>統一編號</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="2358233"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>發票抬頭</label>
-                                        <input type="text" class="input-medium medium-c1-col2v2"
-                                               placeholder="德安資訊國際股份有限公司台北分公司"/>
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>業務員</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="陳瑞克" disabled/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>總公司</label>
-                                        <input type="text" class="input-medium medium-c1-col2v2"
-                                               placeholder="23598231 德安資訊國際股份有限公司"/>
-                                        <!--<span class="mainData-tip">(顯示公司編號:公司名稱)</span>-->
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>公司電話</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="02-21766066"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>分帳規則</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">01:團體</option>
-                                            <option value="2">02:個人</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>等級</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>傳真電話</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="02-25170886"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>地址</label>
-                                        <input type="text" class="input-medium postalCode"
-                                               placeholder="10411"/>
-                                        <input type="text" class="input-medium postaladdress ml-2"
-                                               placeholder="台北市松江路309號8樓"/>
-                                        <i class="moreClick fa fa-ellipsis-h sales_addressMore btn-skin"></i>
+                                            <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                             :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                             v-model="singleData[field.ui_field_name]"
+                                                             :columns="field.selectData.columns"
+                                                             :data="field.selectData.selectData"
+                                                             :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                             :id-field="field.selectData.value" :text-field="field.selectData.display"
+                                                             @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                             :default-val="singleData[field.ui_field_name]"
+                                                             :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                            </bac-select-grid>
+                                        </div>
                                     </div>
                                 </div>
                             </div><!--main-content-data-->
@@ -333,6 +286,9 @@
         },
         created() {
             var self = this;
+            this.$eventHub.$on('setTabName', function (tabNameData) {
+                self.tabName = tabNameData.tabName;
+            });
             this.$eventHub.$on('getCloseChangeLogData', function (closeChangeLogData) {
                 self.isOpenChangeLog = closeChangeLogData.isOpenChangeLog;
             });
@@ -374,20 +330,30 @@
         watch: {
             tabName(val) {
                 this.setTabStatus(val);
-                this.showTabContent(val);
             },
             rowData(val) {
-                this.initData();
-                this.fetchFieldData(val);
+                if (!_.isEmpty(val)) {
+                    this.initData();
+                    this.fetchFieldData(val);
+                }
             }
         },
         methods: {
             initData() {
-                this.tabName = "set";
                 this.singleData = {};
                 this.oriSingleData = {};
                 this.fieldsData = [];
                 this.oriFieldsData = [];
+                this.setGlobalStatus();
+            },
+            setGlobalStatus() {
+                this.$store.dispatch("setStatus", {
+                    gb_isCreateStatus: this.isCreateStatus,
+                    gb_isEditStatus: this.isEditStatus
+                });
+            },
+            setGlobalCustCod(){
+                this.$store.dispatch("setCustCod", this.singleData.cust_mn_cust_cod);
             },
             setTabStatus(tabName) {
                 var self = this;
@@ -398,6 +364,8 @@
 
                 var ls_tabNae = _s.capitalize(tabName);
                 this.tabStatus["is" + ls_tabNae] = true;
+
+                this.showTabContent(tabName);
             },
             showTabContent(tabName) {
                 var la_panelName = this.panelName;
@@ -407,14 +375,54 @@
                 });
 
                 $("#" + ls_showPanelName).show();
-
-                // this.showDtDataGrid();
             },
             fetchFieldData(val) {
+                this.isLoadingDialog = true;
+                var self = this;
+                $.post("/api/fetchOnlySinglePageFieldData", {
+                    prg_id: "PMS0610020",
+                    page_id: 1,
+                    tab_page_id: 1,
+                    template_id: 'gridsingle'
+                }, function (result) {
+                    self.oriFieldsData = result.gsFieldsData;
+                    self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
+                    self.fetchRowData();
+                });
             },
             fetchRowData() {
+                var self = this;
+                if (this.isCreateStatus) {
+                    $.post("/api/fetchDefaultSingleRowData", {
+                        prg_id: "PMS0610020",
+                        page_id: 1,
+                        tab_page_id: 1
+                    }).then(result => {
+                        this.singleData = result.gsDefaultData;
+                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
+                        this.isLoadingDialog = false;
+                        this.setGlobalCustCod();
+                        this.tabName = "set";
+                    });
+                }
+                else if (this.isEditStatus) {
+                    $.post("/api/fetchSinglePageFieldData", {
+                        prg_id: "PMS0610020",
+                        page_id: 1,
+                        tab_page_id: 1,
+                        template_id: "gridsingle",
+                        searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
+                    }).then(result => {
+                        this.singleData = result.gsMnData.rowData[0];
+                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        this.isLoadingDialog = false;
+                        this.setGlobalCustCod();
+                        this.tabName = "set";
+                    });
+                }
             },
             doSaveGrid() {
+                console.log(this.singleData);
             },
             doCloseDialog() {
                 this.initData();
@@ -434,7 +442,9 @@
                 var self = this;
                 this.isOpenContractStatus = true;
                 this.$eventHub.$emit('getContractStatusData', {
-                    openContractStatus: self.isOpenContractStatus
+                    openContractStatus: self.isOpenContractStatus,
+                    singleData: JSON.parse(JSON.stringify(self.singleData)),
+                    fieldData:self.oriFieldsData[_.findIndex(self.oriFieldsData, {ui_field_name: "cust_mn_contract_sta"})]
                 });
             },
             //異動紀錄(change log)

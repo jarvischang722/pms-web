@@ -63,7 +63,7 @@ app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || port);
 
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, 'public/images/icon', 'athena.ico')));
+app.use(favicon(path.join(__dirname, 'public/images/icon', 'athena_lg.ico')));
 
 //以下app.use使用中介軟體完成http功能
 //app.use(logger('dev'));
@@ -118,22 +118,6 @@ app.use(function (req, res, next) {
     res.locals.session = req.session;
     res.locals.locale = req.session.locale;
     res.locals._ = require("underscore");
-    next();
-});
-
-//設定系統提供語系
-app.use(function (req, res, next) {
-    let options = {
-        maxAge: 1000 * 60 * 15 // would expire after 15 minutes
-        //httpOnly: true, // The cookie only accessible by the web server
-        //signed: true // Indicates if the cookie should be signed
-    };
-    let localeInfo = [
-        {lang: 'en', sort: 1, name: 'English'},
-        {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')},
-        {lang: 'ja', sort: 3, name: encodeURIComponent('日本語')}
-    ];
-    res.cookie('sys_locales', localeInfo, options);
     next();
 });
 

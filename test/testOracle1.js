@@ -28,7 +28,7 @@ var params = {
 test1();
 
 function test1(params) {
-    queryAgent.query("QRY_ROOM_RF", params, function (err, data) {
+    queryAgent.query("SEL_CUSTMNPCUSTCOD", {athena_id: 1}, function (err, data) {
         console.error(err);
         console.log(data);
     });

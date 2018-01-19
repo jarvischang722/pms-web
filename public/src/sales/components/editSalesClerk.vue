@@ -4,7 +4,7 @@
                 :close-on-click-modal="true" :show-close="false" :title="i18nLang.program.PMS0620030.edit_sales_clerk"
                 :visible.sync="isEditSalesClerk" style="width: 48%; left: 30%;" :before-close="doCancelEdit">
             <div class="businessCompanyData" v-loading="isLoadingDialog" :element-loading-text="loadingText">
-                <div class="col-sm-12 col-xs-12">
+                <div>
                     <div class="row">
                         <!--欄位-->
                         <div class="col-sm-10 col-xs-10">
@@ -29,12 +29,25 @@
                                             <span>{{ field.ui_display_name }}</span>
                                         </label>
 
-                                        <input v-if="field.ui_type == 'text' || field.ui_type == 'popupgrid' || field.ui_type == 'multipopupgrid' "
+                                        <input v-if="field.ui_type == 'text'"
                                                type="text"
                                                v-model="singleData[field.ui_field_name]"
                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                               :required="field.requirable == 'Y'"
-                                               @click="chkClickPopUpGrid(field)"/>
+                                               :required="field.requirable == 'Y'"/>
+
+                                        <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                         :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                         v-model="singleData[field.ui_field_name]"
+                                                         :columns="field.selectData.columns"
+                                                         :data="field.selectData.selectData"
+                                                         :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                         :id-field="field.selectData.value" :text-field="field.selectData.display"
+                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                         :default-val="singleData[field.ui_field_name]"
+                                                         :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                        </bac-select-grid>
                                     </div>
                                 </div>
                             </div>
@@ -65,19 +78,20 @@
                     </div>
                 </div>
             </div>
-            <div class="clearfix"></div>
         </el-dialog>
-        <select-grid-dialog-comp></select-grid-dialog-comp>
     </div>
 </template>
 
 <script>
     import selectGridDialogComp from '../../common/selectGridDialogComp.vue';
+    import ElDialog from "../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
     export default {
         name: 'edit-sales-clerk',
         props: ["editRows", "isEditSalesClerk", "isCreateStatus", "isEditStatus"],
-        components: {selectGridDialogComp},
+        components: {
+            ElDialog
+        },
         created() {
             var self = this;
             this.$eventHub.$on('updateBackSelectData', function (chooseData) {
@@ -159,83 +173,36 @@
                 this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
                 this.isLoadingDialog = false;
             },
-            chkClickPopUpGrid(field) {
-                var self = this;
-                this.titleName = field.prg_id;
-                if (field.ui_type == "popupgrid" || field.ui_type == "multipopupgrid") {
-                    var params = {
-                        prg_id: field.prg_id,
-                        fields: field
-                    };
-
-                    $.post("/api/popUpGridData", params, function (result) {
-                        if (result != null) {
-                            self.selectPopUpGridData = result.showDataGrid;
-                            result.fieldData = field;
-                            self.$eventHub.$emit('showPopUpDataGrid', result);
-                            self.showPopUpGridDialog();
-                        }
-                    });
-                }
-            },
-            showPopUpGridDialog() {
-                var self = this;
-                this.dialogVisible = true;
-                var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
-                var width = document.documentElement.clientWidth / 2;    //browser 寬度 - 200功能列
-
-                var dialog = $("#dataPopUpGridDialog").dialog({
-                    autoOpen: false,
-                    modal: true,
-                    height: height,
-                    width: width,
-                    title: self.titleName,
-                    resizable: true
-                });
-                dialog.dialog("open");
-
-                $('#dataPopUpGridDialog').parents('.panel.window').attr("style", "display: block; width: 960px; top: 32px; left: 480px; z-index: 9999 !important;");
-            },
             doEditSales() {
                 var self = this;
+                this.isLoadingDialog = true;
+                this.loadingText = 'saving...';
+                var la_custCod = [];
+                _.each(this.editRows, function (lo_editRow) {
+                    la_custCod.push(lo_editRow.cust_mn_cust_cod);
+                });
+                var lo_params = {
+                    prg_id: "PMS0620030",
+                    sales_cod: this.singleData.sales_cod,
+                    upd_order_mn: this.singleData.upd_order_mn ? 'Y' : 'N',
+                    cust_cod: la_custCod
+                };
 
                 if (this.isCreateStatus) {
                 }
                 else if (this.isEditStatus) {
-                    this.saveData = {
-                        sales_cod: this.singleData.sales,
-                    }
-                    this.tmpCUD.oriData = this.editRows;
-
+                    $.post("/api/sales/doEditSalesClerk", lo_params, function (result) {
+                        self.isLoadingDialog = false;
+                        console.log(result);
+                        if (result.success) {
+                            self.doCancelEdit();
+                            la_custCod = [];
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+                    });
                 }
-
-                self.doRowUnLock();
-                self.isEditSalesClerk = false;
-                if (_.isUndefined(this.editRows[0].isSalesClerk)) {
-                    this.isCreateStatus = false;
-                    this.isEditStatus = false;
-                }
-                self.$eventHub.$emit('doCloseEditSalesClerk', {
-                    isEditSalesClerk: self.isEditSalesClerk,
-                    isEditStatus: self.isEditStatus,
-                    isCreateStatus: self.isCreateStatus
-                });
-
-//                this.doSaveGrid(function (result) {
-//                    if (result.success) {
-//                        self.doRowUnLock();
-//                        self.isEditSalesClerk = false;
-//                        if (_.isUndefined(this.editRows[0].isSalesClerk)) {
-//                            this.isCreateStatus = false;
-//                            this.isEditStatus = false;
-//                        }
-//                        self.$eventHub.$emit('doCloseEditSalesClerk', {
-//                            isEditSalesClerk: self.isEditSalesClerk,
-//                            isEditStatus: self.isEditStatus,
-//                            isCreateStatus: self.isCreateStatus
-//                        });
-//                    }
-//                });
             },
             doCancelEdit() {
                 var self = this;
@@ -263,6 +230,11 @@
 </script>
 
 <style>
+
+    .el-loading-mask{
+        width: 108%;
+        left: -4%;
+    }
     .grid-item input {
         padding: 0px;
     }
