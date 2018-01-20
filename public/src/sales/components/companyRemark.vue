@@ -1,6 +1,6 @@
 <template>
-    <div v-loading="isLoading" element-loading-text="Loading...">
-        <div class="col-xs-12 col-sm-12">
+    <div >
+        <div class="col-xs-12 col-sm-12" v-loading="isLoading" element-loading-text="Loading...">
             <div class="row">
                 <!--多筆 其他備註 dataGrid-->
                 <div class="col-xs-11 col-sm-11">
@@ -41,7 +41,7 @@
                 <!-- 單筆其他備註 gridSingle 彈出視窗 -->
                 <div id="singleGridOtherRemark" class="hide padding-5">
                     <div class="businessCompanyData">
-                        <div class="col-sm-12 col-xs-12">
+                        <div class="col-sm-12 col-xs-12" v-loading="isLoadingDialog" element-loading-text="Loading...">
                             <div class="row">
                                 <!--單筆欄位-->
                                 <div class="col-sm-11 col-xs-11">
@@ -225,6 +225,7 @@
             return {
                 i18nLang: go_i18nLang,
                 isLoading: false,
+                isLoadingDialog: false,
                 BTN_action: false,
                 isCreateStatus: false,
                 isEditStatus: false,
@@ -347,6 +348,7 @@
             fetchGridSingleRowData(editingRowOfRemark) {
                 this.singleData = editingRowOfRemark;
                 this.oriSingleData = JSON.parse(JSON.stringify(editingRowOfRemark));
+                this.isLoadingDialog = false;
 
             },
             appendRow() {
@@ -389,6 +391,7 @@
             showSingleGridDialog() {
                 var self = this;
                 this.BTN_action = false;
+                this.isLoadingDialog = true;
 
                 var dialog = $("#singleGridOtherRemark").removeClass('hide').dialog({
                     modal: true,

@@ -41,7 +41,8 @@
                 <!--單筆 拜訪紀錄-->
                 <visit-record
                         :row-data="editingRow"
-                        :params-data="paramsData"
+                        :page-one-data-grid-rows="dataGridRowsData"
+                        :is-single-visit-record="isSingleVisitRecord"
                         :is-create-status="isCreateStatus"
                         :is-edit-status="isEditStatus"
                 ></visit-record>
@@ -80,6 +81,7 @@
                 BTN_action: false,
                 isCreateStatus: false,
                 isEditStatus: false,
+                isSingleVisitRecord: false,
                 tmpCUD: {
                     createData: [],
                     updateData: [],
@@ -91,8 +93,7 @@
                 fieldsData: [],
                 oriFieldsData: [],
                 dgIns: {},
-                editingRow: {},
-                paramsData: {}
+                editingRow: {}
             };
         },
         watch: {
@@ -134,6 +135,7 @@
                     this.dataGridRowsData = result.dgRowData;
                     this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                     this.showDataGrid();
+                    console.log(this.dataGridRowsData)
                 });
             },
             showDataGrid() {
@@ -145,12 +147,13 @@
             appendRow() {
 //                this.BTN_action = true;
                 this.initTmpCUD();
-                this.setParamsData();
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
                 this.editingRow = {
                     avisit_dat: "",
-                    cust_cod: ""
+                    cust_cod: "",
+                    visit_typ: '1',
+                    visit_sta: 'N'
                 };
 
                 this.showSingleGridDialog();
@@ -185,6 +188,7 @@
             showSingleGridDialog() {
                 var self = this;
                 this.BTN_action = false;
+                this.isSingleVisitRecord = true;
 
                 var dialog = $("#visitRecord").removeClass('hide').dialog({
                     modal: true,
@@ -193,11 +197,10 @@
                     width: 800,
                     maxwidth: 1920,
                     dialogClass: "test",
-                    zIndex: 9999,
                     resizable: true,
                     onBeforeClose: function () {
-                        self.editRows = [];
-                        self.fetchDataParams = {};
+                        self.editingRow = {};
+                        self.isSingleVisitRecord = false;
                     }
                 });
             }

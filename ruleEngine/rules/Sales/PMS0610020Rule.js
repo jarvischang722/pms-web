@@ -85,7 +85,7 @@ module.exports = {
                     //     }
                     //     cb(lo_error, lo_result);
                     // });
-                    ls_custMnCustCod = "CS 000000000004802  ";
+                    ls_custMnCustCod = "CS 000000000004602  ";
                     ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
                     ls_custMnPcustCod = ls_custMnCustCod;
                     cb(lo_error, lo_result);

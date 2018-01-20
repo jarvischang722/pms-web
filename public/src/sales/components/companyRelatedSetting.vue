@@ -344,7 +344,7 @@
             formatAmt(val, field) {
                 var ls_amtValue = val;
                 var ls_ruleVal = field.format_func_name.rule_val;
-                ls_ruleVal = "###,###,##0";
+                // ls_ruleVal = "###,###,##0";
 
                 if (ls_ruleVal != "") {
                     this.singleData[field.ui_field_name] = go_formatDisplayClass.amtFormat(ls_amtValue, ls_ruleVal);
