@@ -49,10 +49,10 @@ exports.doCheckOnlineUser = function (session, session_id, callback) {
             mongoAgent.Sessions.find({}, function (err, getResult) {
                 let la_nowSessionId = getResult;
                 let la_deleteSessionId = [];
-                _.each(la_nowSessionId, function (lo_nowSessionId) {
-                    let ln_noneExistIdx = _.findIndex(la_sessionId, {session_id: lo_nowSessionId._id})
-                    if ( ln_noneExistIdx <= -1) {
-                        la_deleteSessionId.push(lo_nowSessionId._id);
+                _.each(la_sessionId, function (lo_sessionId) {
+                    let ln_noneExistIdx = _.findIndex(la_nowSessionId, {_id: lo_sessionId.session_id});
+                    if (ln_noneExistIdx <= -1) {
+                        la_deleteSessionId.push(lo_sessionId);
                     }
                 });
                 cb(err, la_deleteSessionId);
@@ -61,15 +61,15 @@ exports.doCheckOnlineUser = function (session, session_id, callback) {
         //刪掉不在線上的session
         function (la_deleteSessionId, cb) {
             let la_nowSession = [];
-            _.each(la_onlineUserSession, function(lo_onlineUserSession){
-               _.each(la_deleteSessionId, function(ls_sessionId){
-                   if(lo_onlineUserSession.session_id != ls_sessionId){
-                       la_nowSession.push(lo_onlineUserSession);
-                   }
-               });
+            _.each(la_onlineUserSession, function (lo_onlineUserSession) {
+                _.each(la_deleteSessionId, function (ls_sessionId) {
+                    if (lo_onlineUserSession.session_id != ls_sessionId) {
+                        la_nowSession.push(lo_onlineUserSession);
+                    }
+                });
             });
             mongoAgent.OnlineUser.update(lo_params, {onlineUserSession: la_nowSession}, function (err) {
-                if(err){
+                if (err) {
                     success = false;
                     errorMsg = err.message;
                 }
