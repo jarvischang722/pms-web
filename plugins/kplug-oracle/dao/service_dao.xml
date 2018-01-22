@@ -76,11 +76,13 @@
         <sql-source base="true" comment="test" key="test" path="dao_psi_quote_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_psi_quote_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_psi_quote_rf_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ratecod_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_typ_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_room_cod_order.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_room_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_room_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rsdisc_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rvcancel_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rvdiscpers_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rvrmcod_rf.xml"/>

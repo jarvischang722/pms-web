@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0610020 商務公司資料編輯] 合約內容 參考餐廳折扣下拉資料  -->
+    <dao name="QRY_CONTRACT_DT_RSDISC_COD">
+        <statement><![CDATA[
+            SELECT  DISC_COD as value, DISC_NAM as display
+            FROM  RSDISC_MN
+            WHERE  ATHENA_ID = :athena_id
+            AND  trim(HOTEL_COD) = trim(:hotel_cod)
+            ORDER  BY  DISC_COD
+
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+</root>

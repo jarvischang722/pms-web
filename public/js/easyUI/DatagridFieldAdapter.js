@@ -216,6 +216,7 @@ var DatagridFieldAdapter = {
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+                    console.log(isUserEdit);
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                     if (isUserEdit) {
                         oldValue = oldValue || undefined;

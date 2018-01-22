@@ -85,7 +85,7 @@ module.exports = {
                     //     }
                     //     cb(lo_error, lo_result);
                     // });
-                    ls_custMnCustCod = "CS 000000000036302  ";
+                    ls_custMnCustCod = "CS 000000000151202  ";
                     ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
                     ls_custMnPcustCod = ls_custMnCustCod;
                     cb(lo_error, lo_result);
@@ -115,7 +115,10 @@ module.exports = {
         let ls_rentDathq;
 
         //取得訂房中心滾房租日
-        queryAgent.query("QRY_RENT_DAT_HQ", {athena_id: session.user.athena_id, hotel_cod: session.user.hotel_cod}, function (err, data) {
+        queryAgent.query("QRY_RENT_DAT_HQ", {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        }, function (err, data) {
             if (err) {
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = err;
@@ -131,5 +134,146 @@ module.exports = {
 
             callback(lo_error, lo_result);
         });
+    },
+
+    /**
+     * PMS0610020 商務公司資料編輯 頁籤合約 開始日期
+     * 1.合約期間檢查:
+     * 如果『合約起始日』、『合約終止日』、『參考房價代號』3欄位都有值,如果sql檢查=0,訊息『相同館別及房價代號之合約期間不可重覆』,起始日回復到舊值
+     * 2.輸入合約起始日小於參數『訂房中心滾房租日』時，顯示提示訊息「合約起始日在今天之前」,但可以繼續輸入
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    r_ContractdtBegindat: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let ls_beginDat = postData.rowData.begin_dat;
+        let ls_endDat = postData.rowData.end_dat;
+        let ls_rateCod = postData.rowData.rate_cod;
+        let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
+        let lo_param = {
+            athena_id: session.user.athena_id,
+            hotel_cod: postData.rowData.hotel_cod
+        };
+
+        async.waterfall([
+            examineContract,
+            compareDat
+        ], function (err, result) {
+            callback(err, result);
+        });
+
+        function examineContract(cb) {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "") {
+                lo_param.end_dat = moment(new Date(ls_endDat)).format("YYYY/MM/DD");
+                lo_param.begin_dat = moment(new Date(ls_beginDat)).format("YYYY/MM/DD");
+                lo_param.rate_cod = ls_rateCod
+                queryAgent.queryList("QRY_CONTRACT_EXIST", lo_param, 0, 0, function (err, getResult) {
+                    if (err) {
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = "sql err";
+                        cb(lo_error, lo_result);
+                    }
+                    else if (getResult > 0) {
+                        lo_result.success = false;
+                        lo_result.effectValues = {begin_dat: lo_oldValue};
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg1", session.locale);
+                        cb(lo_error, lo_result);
+                    }
+                    else {
+                        cb(lo_error, ls_beginDat);
+                    }
+                });
+            }
+        }
+
+        function compareDat(begin_dat, cb) {
+            queryAgent.query("QRY_RENT_DAT_HQ", lo_param, function (err, getResult) {
+                if (err) {
+                    lo_result.success = false;
+                    lo_error = ErrorClass();
+                    lo_error.errorMsg = err;
+                    cb(lo_error, lo_result);
+                }
+                else {
+                    if (moment(new Date(begin_dat)).diff(moment(new Date(getResult.rent_dat_hq)), "days") < 0) {
+                        lo_result.alertMsg = commandRules.getMsgByCod("pms62msg2", session.locale);
+                        cb(lo_error, lo_result);
+                    }
+                    else {
+                        cb(lo_error, lo_result);
+                    }
+                }
+            });
+        }
+    },
+
+    /**
+     * PMS0610020 商務公司資料編輯 頁籤合約 開始日期
+     * 1.合約期間檢查:
+     * 如果『合約起始日』、『合約終止日』、『參考房價代號』3欄位都有值,如果sql檢查=0,訊息『相同館別及房價代號之合約期間不可重覆』,起始日回復到舊值
+     * 2.輸入合約起始日小於參數『訂房中心滾房租日』時，顯示提示訊息「合約起始日在今天之前」,但可以繼續輸入
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    r_ContractdtEnddat: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let ls_beginDat = postData.rowData.begin_dat;
+        let ls_endDat = postData.rowData.end_dat;
+        let ls_rateCod = postData.rowData.rate_cod;
+        let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
+        let lo_param = {
+            athena_id: session.user.athena_id,
+            hotel_cod: postData.rowData.hotel_cod
+        };
+
+        if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "") {
+            lo_param.end_dat = moment(new Date(ls_endDat)).format("YYYY/MM/DD");
+            lo_param.begin_dat = moment(new Date(ls_beginDat)).format("YYYY/MM/DD");
+            lo_param.rate_cod = ls_rateCod
+            queryAgent.queryList("QRY_CONTRACT_EXIST", lo_param, 0, 0, function (err, getResult) {
+                if (err) {
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = "555";
+                    cb(lo_error, lo_result);
+                }
+                else if (getResult > 0) {
+                    lo_result.success = false;
+                    lo_result.effectValues = {begin_dat: lo_oldValue};
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms62msg1", session.locale);
+                    callback(lo_error, lo_result);
+                }
+                else {
+                    callback(lo_error, lo_result);
+                }
+            });
+        }
+    },
+
+
+    /**
+     * PMS0610020 商務公司資料編輯 頁籤合約 參考房價代號下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    r_ContractdtRatecod: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let ls_beginDat = postData.rowData.begin_dat;
+        let ls
+
+        callback(lo_error, lo_result);
     }
-};
+}
+;

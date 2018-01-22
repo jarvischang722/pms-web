@@ -122,7 +122,6 @@
                         return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                     });
                     this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
-                    console.log(this.oriDataGridRowsData);
                     this.showDataGrid(this.dataGridRowsDataOfExpire);
                 });
             },

@@ -11,7 +11,6 @@ function formatDisplayClass() {
      * @returns {string}
      */
     this.amtFormat = function (val, rule_val) {
-        console.log(val);
         var ls_amtValue = _.clone(val).toString();
         var ls_oriAmtValue = '';
 

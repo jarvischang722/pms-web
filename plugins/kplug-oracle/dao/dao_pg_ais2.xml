@@ -60,7 +60,7 @@
     </dao>
 
 
-    <!--[PMS0620020] 參數: 取訂房中心滾租日-->
+    <!--參數: 取訂房中心滾租日-->
     <dao name="QRY_RENT_DAT_HQ">
         <statement><![CDATA[
                select sf_hfd_get_rent_dat_hq( :athena_id, :hotel_cod ) as rent_dat_hq from dual
