@@ -95,7 +95,7 @@ function DatagridBaseClass() {
                     ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
                 }
 
-                this.editIndex = index;
+                self.editIndex = index;
             } else {
                 setTimeout(function () {
                     $('#' + self.dgName).datagrid('selectRow', self.editIndex);

@@ -29,12 +29,6 @@
                                             <span>{{ field.ui_display_name }}</span>
                                         </label>
 
-                                        <input v-if="field.ui_type == 'text'"
-                                               type="text"
-                                               v-model="singleData[field.ui_field_name]"
-                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                               :required="field.requirable == 'Y'"/>
-
                                         <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
                                                          :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                          :class="{'input_sta_required' : field.requirable == 'Y'}"
@@ -162,6 +156,7 @@
                 $.post("/api/fetchOnlySinglePageFieldData", lo_params, function (result) {
                     self.oriFieldsData = result.gsFieldsData;
                     self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
+                    console.log(result.gsFieldsData);
                     self.fetchRowData();
                 });
             },

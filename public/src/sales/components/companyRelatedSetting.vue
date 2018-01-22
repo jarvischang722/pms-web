@@ -64,8 +64,7 @@
                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                            :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                            :disabled="field.modificable == 'N'||
-                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                           @keyup="formatAmt(singleData[field.ui_field_name], field)">
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
                                     <!-- 日期時間選擇器 -->
                                     <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
@@ -134,7 +133,7 @@
                                                                    :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                                                    :disabled="field.modificable == 'N'||
                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                                   @keyup="formatAmt(singleData[field.ui_field_name], field)">
+                                                                   @keyup="computeAmt(singleData[field.ui_field_name], field)">
 
                                                             <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
                                                                              :style="{width:field.width + 'px' , height:field.height + 'px'}"
@@ -341,17 +340,16 @@
                     });
                 }
             },
-            formatAmt(val, field) {
-                var ls_amtValue = val;
+            computeAmt(val, field) {
                 var ls_ruleVal = field.format_func_name.rule_val;
-                // ls_ruleVal = "###,###,##0";
 
-                if (ls_ruleVal != "") {
-                    this.singleData[field.ui_field_name] = go_formatDisplayClass.amtFormat(ls_amtValue, ls_ruleVal);
-                }
-                else {
-                    this.singleData[field.ui_field_name] = ls_amtValue;
-                }
+                var ln_creditAmt = this.singleData['cust_idx_credit_amt'].toString();
+                var ln_arAmt = this.singleData['cust_idx_ar_amt'].toString();
+                var ln_balance =
+                    Number(go_formatDisplayClass.removeAmtFormat(ln_creditAmt)) - Number(go_formatDisplayClass.removeAmtFormat(ln_arAmt));
+
+                this.singleData[field.ui_field_name] = go_formatDisplayClass.amtFormat(ln_creditAmt, ls_ruleVal);
+                this.singleData['balance'] = go_formatDisplayClass.amtFormat(ln_balance, ls_ruleVal);
             },
             //信用額度變更
             async doChangeCreditLimit() {

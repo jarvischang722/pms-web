@@ -100,10 +100,10 @@ exports.getSelectOptions = function (params, selRow, field, callback) {
             _.each(selData, function (lo_selData, index) {
                 if (!_.isUndefined(lo_selData.value)) {
                     if (field.modificable == 'N') {
-                        selData[index].display = lo_selData.display.trim();
+                        selData[index].display = lo_selData.display;
                     }
                     else {
-                        selData[index].display = lo_selData.value.trim() + " : " + lo_selData.display.trim();
+                        selData[index].display = lo_selData.value + " : " + lo_selData.display;
                     }
                 }
             });

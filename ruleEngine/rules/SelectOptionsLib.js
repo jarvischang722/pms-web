@@ -463,6 +463,24 @@ exports.getCustMnCreditSta = function(){
 exports.getCustMnRelatCod = function(){
     var relatCodList = [
         {
+            display: '關係',
+            value: '1'
+        },
+        {
+            display: '非關係',
+            value: '2'
+        }
+    ];
+
+    return relatCodList;
+};
+
+/**
+ * [PMS0610020_商務公司資料編輯] 取得欄位收取DM閜拉資料
+ */
+exports.getCustMnCreditStaDmFlag = function(){
+    var relatCodList = [
+        {
             display: '是',
             value: 'Y'
         },
@@ -473,6 +491,42 @@ exports.getCustMnRelatCod = function(){
     ];
 
     return relatCodList;
+};
+
+/**
+ * [PMS0610020_商務公司資料編輯] 相關人員 欄位狀態下拉資料
+ */
+exports.getCustmnPersdtJobSta = function(){
+    var jobStaList = [
+        {
+            display: '在職',
+            value: 'N'
+        },
+        {
+            display: '離職',
+            value: 'Q'
+        }
+    ];
+
+    return jobStaList;
+};
+
+/**
+ * [PMS0610020_商務公司資料編輯] 相關人員 欄位性別下拉資料
+ */
+exports.getCustIdxSexTyp = function(){
+    var sexList = [
+        {
+            display: '男',
+            value: 'M'
+        },
+        {
+            display: '女',
+            value: 'F'
+        }
+    ];
+
+    return sexList;
 };
 
 
@@ -1138,6 +1192,34 @@ exports.lang_CustMnCreditSta = function(parans, callback) {
     lo_result.selectOptions = optionsLib.getCustMnCreditSta();
     callback(null, lo_result);
 };
+
+/**
+ * 商務公司資料編輯(PMS0610020) 取得欄位收取DM閜拉資料
+ */
+exports.lang_CustMnDmFlag = function (parans, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustMnCreditStaDmFlag();
+    callback(null, lo_result);
+};
+
+/**
+ * 商務公司資料編輯(PMS0610020) 相關人員 欄位狀態下拉資料
+ */
+exports.lang_CustmnPersdtJobSta = function (parans, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustmnPersdtJobSta();
+    callback(null, lo_result);
+};
+
+/**
+ * 商務公司資料編輯(PMS0610020) 相關人員 欄位性別下拉資料
+ */
+exports.lang_CustIdxSexTyp = function (parans, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustIdxSexTyp();
+    callback(null, lo_result);
+};
+
 
 /**
  *

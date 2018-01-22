@@ -135,15 +135,15 @@ var DatagridFieldAdapter = {
         /** Formatter 顯示  **/
         if (dataType == "datebox") {
             var dateFunc = function (date) {
-                if (date != "" && !_.isUndefined(date)) {
+                if (date != "" && !_.isUndefined(date) && !_.isNull(date)) {
                     return moment(date).format("YYYY/MM/DD");
                 }
 
-                return new moment().format("YYYY/MM/DD");
+                return moment().format("YYYY/MM/DD");
             };
 
             var dateParserFunc = function (date) {
-                if (date != "" && !_.isUndefined(date)) {
+                if (date != "" && !_.isUndefined(date) && !_.isNull(date)) {
                     return new Date(Date.parse(date));
                 }
                 return new Date();
