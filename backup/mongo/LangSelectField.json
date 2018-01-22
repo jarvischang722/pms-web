@@ -353,3 +353,447 @@
     "ui_display_name_en" : "", 
     "hint_en" : ""
 }
+{ 
+    "_id" : ObjectId("5a2a206a670e467c346f825d"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_cust_mn", 
+    "ui_field_name" : "show_cod", 
+    "ui_display_name_zh_TW" : "公司編號", 
+    "hint_zh_TW" : "公司編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a2a206a670e467c346f825e"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_cust_mn", 
+    "ui_field_name" : "cust_nam", 
+    "ui_display_name_zh_TW" : "公司名稱", 
+    "hint_zh_TW" : "公司名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a2a206a670e467c346f825f"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_cust_mn", 
+    "ui_field_name" : "uni_cod", 
+    "ui_display_name_zh_TW" : "統一編號", 
+    "hint_zh_TW" : "統一編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a2a206a670e467c346f8260"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "sales_cod", 
+    "ui_display_name_zh_TW" : "業務員代號", 
+    "hint_zh_TW" : "業務員代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a2a206a670e467c346f8261"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "sales_nam", 
+    "ui_display_name_zh_TW" : "業務員姓名", 
+    "hint_zh_TW" : "業務員姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a2a206a670e467c346f8262"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "status_cod", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a2a206a670e467c346f8263"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "class_nam", 
+    "ui_display_name_zh_TW" : "組別", 
+    "hint_zh_TW" : "組別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a2a206a670e467c346f8264"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "hotel_sales", 
+    "ui_display_name_zh_TW" : "飯店業務", 
+    "hint_zh_TW" : "飯店業務", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a2a206a670e467c346f8265"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "bq_sales", 
+    "ui_display_name_zh_TW" : "餐飲業務", 
+    "hint_zh_TW" : "餐飲業務", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a2a206a670e467c346f8266"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn", 
+    "ui_field_name" : "member_sales", 
+    "ui_display_name_zh_TW" : "會員業務", 
+    "hint_zh_TW" : "會員業務", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a2a206a670e467c346f8267"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_business_rf", 
+    "ui_field_name" : "business_cod", 
+    "ui_display_name_zh_TW" : "行業別代號", 
+    "hint_zh_TW" : "行業別代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a2a206a670e467c346f8268"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_business_rf", 
+    "ui_field_name" : "business_rmk", 
+    "ui_display_name_zh_TW" : "行業別名稱", 
+    "hint_zh_TW" : "行業別名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a3721f01801a92bb0c8e04d"), 
+    "prg_id" : "PMS0620030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn_hotel_status_n", 
+    "ui_field_name" : "sales_cod", 
+    "ui_display_name_zh_TW" : "業務員代號", 
+    "hint_zh_TW" : "業務員代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a3721f01801a92bb0c8e04e"), 
+    "prg_id" : "PMS0620030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn_hotel_status_n", 
+    "ui_field_name" : "sales_nam", 
+    "ui_display_name_zh_TW" : "業務員姓名", 
+    "hint_zh_TW" : "業務員姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a3721f01801a92bb0c8e04f"), 
+    "prg_id" : "PMS0620030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_sales_mn_hotel_status_n", 
+    "ui_field_name" : "class_nam", 
+    "ui_display_name_zh_TW" : "組別", 
+    "hint_zh_TW" : "組別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497d5"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_CustidxZipcod", 
+    "ui_field_name" : "zip_cod", 
+    "ui_display_name_zh_TW" : "郵遞區號", 
+    "hint_zh_TW" : "郵遞區號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497d6"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_CustidxZipcod", 
+    "ui_field_name" : "zip_rmk", 
+    "ui_display_name_zh_TW" : "地址", 
+    "hint_zh_TW" : "地址", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497d7"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sales_mn_hotel_status_n", 
+    "ui_field_name" : "sales_mn.sales_cod", 
+    "ui_display_name_zh_TW" : "業務員代號", 
+    "hint_zh_TW" : "業務員代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497d8"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sales_mn_hotel_status_n", 
+    "ui_field_name" : "sales_mn.sales_nam", 
+    "ui_display_name_zh_TW" : "業務員姓名", 
+    "hint_zh_TW" : "業務員姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497d9"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sales_mn_hotel_status_n", 
+    "ui_field_name" : "sales_class_kvrf.class_nam", 
+    "ui_display_name_zh_TW" : "組別：依業務員組別設定顯示組別名稱", 
+    "hint_zh_TW" : "組別：依業務員組別設定顯示組別名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497da"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_CustMnPcustCod", 
+    "ui_field_name" : "cust_mn.show_cod", 
+    "ui_display_name_zh_TW" : "公司編號", 
+    "hint_zh_TW" : "公司編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497db"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_CustMnPcustCod", 
+    "ui_field_name" : "cust_mn.cust_nam", 
+    "ui_display_name_zh_TW" : "公司名稱", 
+    "hint_zh_TW" : "公司名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497dc"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_CustMnPcustCod", 
+    "ui_field_name" : "cust_idx.uni_cod", 
+    "ui_display_name_zh_TW" : "統一編號", 
+    "hint_zh_TW" : "統一編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497dd"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_CustMnRouteCod", 
+    "ui_field_name" : "route_cod", 
+    "ui_display_name_zh_TW" : "規則代號", 
+    "hint_zh_TW" : "規則代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497de"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_CustMnRouteCod", 
+    "ui_field_name" : "route_nam", 
+    "ui_display_name_zh_TW" : "規則名稱", 
+    "hint_zh_TW" : "規則名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497df"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_CustMnHofficeCod", 
+    "ui_field_name" : "CUST_MN.SHOW_COD", 
+    "ui_display_name_zh_TW" : "公司編號", 
+    "hint_zh_TW" : "公司編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497e0"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_CustMnHofficeCod", 
+    "ui_field_name" : "CUST_MN.CUST_NAM", 
+    "ui_display_name_zh_TW" : "公司名稱", 
+    "hint_zh_TW" : "公司名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497e1"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "sel_CustMnHofficeCod", 
+    "ui_field_name" : "CUST_IDX.UNI_COD", 
+    "ui_display_name_zh_TW" : "統一編號", 
+    "hint_zh_TW" : "統一編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497e2"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "select_id" : "sel_cust_idx_cust_mn_pers_dt", 
+    "ui_field_name" : "alt_nam", 
+    "ui_display_name_zh_TW" : "姓名", 
+    "hint_zh_TW" : "姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497e3"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "select_id" : "sel_cust_idx_cust_mn_pers_dt", 
+    "ui_field_name" : "mobile_nos", 
+    "ui_display_name_zh_TW" : "行動電話", 
+    "hint_zh_TW" : "行動電話", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497e4"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "select_id" : "sel_cust_idx_cust_mn_pers_dt", 
+    "ui_field_name" : "office_tel", 
+    "ui_display_name_zh_TW" : "公司電話", 
+    "hint_zh_TW" : "公司電話", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497e5"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "select_id" : "sel_cust_idx_cust_mn_pers_dt", 
+    "ui_field_name" : "home_tel", 
+    "ui_display_name_zh_TW" : "住家電話", 
+    "hint_zh_TW" : "住家電話", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497e6"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "select_id" : "sel_cust_idx_cust_mn_pers_dt", 
+    "ui_field_name" : "fax_nos", 
+    "ui_display_name_zh_TW" : "傳真電話", 
+    "hint_zh_TW" : "傳真電話", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497e7"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "select_id" : "sel_cust_idx_cust_mn_pers_dt", 
+    "ui_field_name" : "e_mail", 
+    "ui_display_name_zh_TW" : "電子郵件", 
+    "hint_zh_TW" : "電子郵件", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497e8"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "select_id" : "sel_cust_idx_cust_mn_pers_dt", 
+    "ui_field_name" : "birth_dat", 
+    "ui_display_name_zh_TW" : "生日", 
+    "hint_zh_TW" : "生日", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497e9"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "select_id" : "sel_CustmnPersdtRolecod", 
+    "ui_field_name" : "role_cod", 
+    "ui_display_name_zh_TW" : "職稱代號", 
+    "hint_zh_TW" : "職稱代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a544fefc9e9af29f40497ea"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "select_id" : "sel_CustmnPersdtRolecod", 
+    "ui_field_name" : "role_rmk", 
+    "ui_display_name_zh_TW" : "職稱說明", 
+    "hint_zh_TW" : "職稱說明", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
