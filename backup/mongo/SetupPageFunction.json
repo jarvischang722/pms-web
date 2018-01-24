@@ -271,3 +271,25 @@
     "func_id" : "0521", 
     "rule_func_name" : "r_HkproductrfSaveModify"
 }
+{ 
+    "_id" : ObjectId("5a420bbc55fef745006c1c27"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0521", 
+    "rule_func_name" : "r_SalesVisitPlanAddSave", 
+    "link_prg_id" : "", 
+    "template_id" : "gridSingle"
+}
+{ 
+    "_id" : ObjectId("5a46101ab71514545c0e8fe3"), 
+    "athena_id" : NumberInt(1), 
+    "company_cod" : "MIRACHU", 
+    "hotel_cod" : "02", 
+    "availability_num" : NumberInt(2), 
+    "last_Update_time" : ISODate("2017-12-29T09:51:22.210+0000"), 
+    "current_user" : [
+        "vJNC4QK8MdSVb75SbzcGRvKQ0YLwHI43"
+    ], 
+    "__v" : NumberInt(0)
+}
