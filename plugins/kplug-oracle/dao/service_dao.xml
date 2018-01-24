@@ -129,5 +129,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_rspt_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_saleclass_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bqcust_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_zipcod_rf.xml"/>
     </sql-sources>
 </struts-config>

@@ -79,6 +79,25 @@
         <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 
+    <!--參數: 一般散客代號-->
+    <dao name="QRY_FIT_COD">
+        <statement><![CDATA[
+           select pg_ais2.sf_get_comp_sval('NULL', 'HFD', 'fit_cod', :athena_id) as fit_cod from dual
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+    <!--參數: 官網訂房公司代號-->
+    <dao name="QRY_OFFICIAL_WEB_CUST_COD">
+        <statement><![CDATA[
+           select pg_ais2.sf_get_comp_sval('NULL', 'WRS', 'cust_cod', :athena_id) as cust_cod from dual
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+
     <!--TODO 資料顯示FORMAT-->
     <!--[PMS0620050] 業務員拜訪紀錄　欄位traffic_amt(依參數「前檯金額格式」顯示)-->
     <dao name="QRY_TRAFFIC_AMT_FORMAT">

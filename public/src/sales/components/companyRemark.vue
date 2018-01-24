@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div>
         <div class="col-xs-12 col-sm-12" v-loading="isLoading" element-loading-text="Loading...">
             <div class="row">
                 <!--多筆 其他備註 dataGrid-->
@@ -72,9 +72,8 @@
                                                                           :style="{width:field.width + 'px'}" style="resize: none;"
                                                                           :required="field.requirable == 'Y'"
                                                                           :maxlength="field.ui_field_length"
-                                                                          :disabled="field.modificable == 'N'||
-                                                                          (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                        </textarea>
+                                                                          :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                </textarea>
 
                                                                 <!--select-->
                                                                 <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
@@ -83,8 +82,7 @@
                                                                             is-qry-src-before="Y" value-field="value" text-field="display"
                                                                             @update:v-model="val => singleData[field.ui_field_name] = val"
                                                                             :default-val="singleData[field.ui_field_name]"
-                                                                            :disabled="field.modificable == 'N'||
-                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                            :disabled="field.modificable == 'N'||(field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 </bac-select>
 
                                                                 <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
@@ -99,46 +97,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                    <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                    <!--<label>備註類別</label>-->
-                                                    <!--<input type="text" class="input-medium medium-c1" placeholder="客房備註"/>-->
-                                                    <!--</div>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                    <!--<label>備註內容</label>-->
-                                                    <!--&lt;!&ndash;<input type="text" class="input-medium medium-c1" />&ndash;&gt;-->
-                                                    <!--<textarea class="input-medium medium-c1-colv2 height-auto rzNone"-->
-                                                    <!--style="width: 434px; max-width: 100%;" rows="4"-->
-                                                    <!--placeholder="黃董事長住宿一定要高樓層並要有兩顆硬枕頭，夫人不要女用浴袍要換成男用"></textarea>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="clearfix"></div>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="space-6"></div>-->
-                                                    <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                    <!--<label>新增日</label>-->
-                                                    <!--<input type="text" class="input-medium medium-c1"-->
-                                                    <!--placeholder="2000/01/01 12:30:00" disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                    <!--<label>新增者</label>-->
-                                                    <!--<input type="text" class="input-medium medium-c1" placeholder="cio"-->
-                                                    <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                    <!--<label>最後異動日</label>-->
-                                                    <!--<input type="text" class="input-medium medium-c1"-->
-                                                    <!--placeholder="2000/01/01 12:30:00" disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                    <!--<label>最後異動者</label>-->
-                                                    <!--<input type="text" class="input-medium medium-c1" placeholder="cio"-->
-                                                    <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--</div>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -172,12 +130,6 @@
                                                     <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
                                                             v-if="isEditStatus" :disabled="BTN_action || isLastData" @click="toLastData">
                                                         {{i18nLang.SystemCommon.Last}}
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                            role="button" @click="doDelGrid">
-                                                        {{i18nLang.SystemCommon.Delete}}
                                                     </button>
                                                 </li>
                                                 <li>
@@ -373,7 +325,7 @@
                     alert(go_i18nLang["SystemCommon"].SelectData);
                 }
                 else {
-                    this.editingRow = this.dataGridRowsData[ln_editIndex];
+                    this.editingRow = _.extend(this.dataGridRowsData[ln_editIndex],{index: ln_editIndex});
                     this.showSingleGridDialog();
                 }
             },
@@ -402,6 +354,7 @@
                     dialogClass: "test",
                     resizable: true,
                     onBeforeClose: function () {
+                        self.setNewDataGridRowsData();//更新dataGridRowsData
                         self.isCreateStatus = false;
                         self.isEditStatus = false;
                         self.editingRow = {};
@@ -493,16 +446,43 @@
                 this.isLastData = true;
                 this.editingRow = _.last(this.dataGridRowsData);
             },
-            doDelGrid() {
+            dataValidate(){
                 var self = this;
-                var q = confirm(go_i18nLang["SystemCommon"].check_delete);
-                if (q) {
-                    //刪除前檢查
+                var lo_checkResult;
+
+                for (var i = 0; i < this.oriGridSingleFieldsData.length; i++) {
+                    var lo_field = this.oriGridSingleFieldsData[i];
+                    //必填
+                    if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
+                        lo_checkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        if (lo_checkResult.success == false) {
+                            break;
+                        }
+                    }
+
                 }
+
+                return lo_checkResult;
             },
             doLeaveGrid() {
-                var self = this;
                 $("#singleGridOtherRemark").dialog('close');
+            },
+            setNewDataGridRowsData(){
+                var lo_chkResult = this.dataValidate();
+
+                if (lo_chkResult.success == false) {
+                    alert(lo_chkResult.msg);
+                }
+                else{
+                    var ln_editIdx = _.isUndefined(this.singleData.index)? -1: this.singleData.index;
+                    if(ln_editIdx > -1){
+                        this.dataGridRowsData[ln_editIdx] = this.singleData;
+                    }
+                    else{
+                        this.dataGridRowsData.push(this.singleData);
+                    }
+                    this.showDataGrid();
+                }
             }
         }
     }

@@ -11,4 +11,23 @@
         <parameter type="int" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">guest_typ</parameter>
     </dao>
+
+    <!--[PMS0610020 商務公司資料編輯] 合約內容
+        合約指定的房價代號未有相關訂房卡指定則可刪除合約-->
+    <dao name="CHK_RATE_COD_IS_EXIST_IN_GUEST_MN">
+        <statement><![CDATA[
+            SELECT  COUNT(*) as order_rate_Count
+            FROM  GUEST_MN
+            WHERE  ATHENA_ID = :athena_id
+            AND  ACUST_COD = :cust_cod
+            AND  trim(HOTEL_COD) = trim(:hotel_cod)
+            AND  trim(RATE_COD) = trim(:rate_cod)
+            AND  ROWNUM <= 1
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+    </dao>
 </root>

@@ -86,6 +86,7 @@ function DatagridBaseClass() {
      * @param field
      */
     this.onClickCell = function (index, field) {
+
         if (self.editIndex != index) {
             if (self.endEditing()) {
                 $('#' + self.dgName).datagrid('selectRow', index)
@@ -245,15 +246,26 @@ function DatagridBaseClass() {
 
         $("#gridEdit").val(self.tmpCUD);
 
-        $.post("/api/handleDataGridDeleteEventRule", {
-            prg_id: self.prg_id,
-            deleteData: self.tmpCUD.deleteData
-        }, function (result) {
+        var lo_param = {};
+        if(this.dtOriRowData.length != 0){
+            lo_param = {
+                prg_id: self.prg_id,
+                tab_page_id: self.fieldsData[0].tab_page_id,
+                deleteData: self.tmpCUD.deleteData
+            };
+        }
+        else{
+            lo_param = {
+                prg_id: self.prg_id,
+                deleteData: self.tmpCUD.deleteData
+            };
+        }
+        $.post("/api/handleDataGridDeleteEventRule", lo_param, function (result) {
             if (result.success) {
                 $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
             } else {
                 self.tmpCUD.deleteData = _.without(self.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
-                vueMain.endEditing();
+                self.endEditing();
                 alert(result.errorMsg);
             }
 

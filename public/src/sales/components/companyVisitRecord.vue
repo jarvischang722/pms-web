@@ -74,6 +74,13 @@
         name: 'company-visit-record',
         props: ["rowData", "isVisitRecord"],
         components: {visitRecord},
+        created(){
+            var self = this;
+            this.$eventHub.$on("getVisitRecordSingleData",function(visitRecordSingleData){
+                self.visitRecordSingleFieldsData = visitRecordSingleData.fieldsData;
+                self.visitRecordSingleData = visitRecordSingleData.singleData;
+            });
+        },
         data() {
             return {
                 i18nLang: go_i18nLang,
@@ -93,7 +100,9 @@
                 fieldsData: [],
                 oriFieldsData: [],
                 dgIns: {},
-                editingRow: {}
+                editingRow: {},
+                visitRecordSingleFieldsData: [],
+                visitRecordSingleData: {}
             };
         },
         watch: {
@@ -135,7 +144,6 @@
                     this.dataGridRowsData = result.dgRowData;
                     this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                     this.showDataGrid();
-                    console.log(this.dataGridRowsData)
                 });
             },
             showDataGrid() {
@@ -145,7 +153,6 @@
                 this.dgIns.loadDgData(this.dataGridRowsData);
             },
             appendRow() {
-//                this.BTN_action = true;
                 this.initTmpCUD();
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
@@ -160,17 +167,17 @@
             },
             editRow() {
                 this.initTmpCUD();
-//                this.BTN_action = true;
                 this.isCreateStatus = false;
                 this.isEditStatus = true;
 
                 var lo_editRow = $('#companyVisitRecord_dg').datagrid('getSelected');
+                var ln_editIndex = $('#companyVisitRecord_dg').datagrid('getRowIndex', lo_editRow);
 
                 if (!lo_editRow) {
                     alert(go_i18nLang["SystemCommon"].SelectData);
                 }
                 else {
-                    this.editingRow = lo_editRow;
+                    this.editingRow = _.extend(lo_editRow,{index: ln_editIndex});
                     this.showSingleGridDialog();
                 }
             },
@@ -182,7 +189,7 @@
                 }
                 else {
                     console.log("delete this row");
-//                    this.dgIns.removeRow();
+                    this.dgIns.removeRow();
                 }
             },
             showSingleGridDialog() {
@@ -199,10 +206,45 @@
                     dialogClass: "test",
                     resizable: true,
                     onBeforeClose: function () {
+                        self.setNewDataGridRowsData();
                         self.editingRow = {};
                         self.isSingleVisitRecord = false;
                     }
                 });
+            },
+            dataValidate(){
+                var self = this;
+                var lo_checkResult;
+
+                for (var i = 0; i < this.visitRecordSingleFieldsData.length; i++) {
+                    var lo_field = this.visitRecordSingleFieldsData[i];
+                    //必填
+                    if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
+                        lo_checkResult = go_validateClass.required(self.visitRecordSingleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        if (lo_checkResult.success == false) {
+                            break;
+                        }
+                    }
+
+                }
+
+                return lo_checkResult
+            },
+            setNewDataGridRowsData(){
+                var lo_chkResult = this.dataValidate();
+                if (lo_chkResult.success == false) {
+                    alert(lo_chkResult.msg);
+                }
+                else{
+                    var ln_editIdx = _.isUndefined(this.visitRecordSingleData.index)? -1:this.visitRecordSingleData.index;
+                    if(ln_editIdx > -1){
+                        this.dataGridRowsData[ln_editIdx] = this.visitRecordSingleData;
+                    }
+                    else{
+                        this.dataGridRowsData.push(this.visitRecordSingleData);
+                    }
+                    this.showDataGrid();
+                }
             }
         }
     }

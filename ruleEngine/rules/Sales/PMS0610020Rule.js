@@ -85,7 +85,7 @@ module.exports = {
                     //     }
                     //     cb(lo_error, lo_result);
                     // });
-                    ls_custMnCustCod = "CS 000000000151202  ";
+                    ls_custMnCustCod = "CS 000000000001702  ";
                     ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
                     ls_custMnPcustCod = ls_custMnCustCod;
                     cb(lo_error, lo_result);
@@ -137,10 +137,11 @@ module.exports = {
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 頁籤合約 開始日期
+     * PMS0610020 商務公司資料編輯 合約內容 開始日期
      * 1.合約期間檢查:
      * 如果『合約起始日』、『合約終止日』、『參考房價代號』3欄位都有值,如果sql檢查=0,訊息『相同館別及房價代號之合約期間不可重覆』,起始日回復到舊值
      * 2.輸入合約起始日小於參數『訂房中心滾房租日』時，顯示提示訊息「合約起始日在今天之前」,但可以繼續輸入
+     * 3.合約內容 參考房價代號下拉資料
      * @param postData
      * @param session
      * @param callback
@@ -150,8 +151,9 @@ module.exports = {
         let lo_error = null;
 
         let ls_beginDat = postData.rowData.begin_dat;
-        let ls_endDat = postData.rowData.end_dat;
-        let ls_rateCod = postData.rowData.rate_cod;
+        let ls_endDat = postData.rowData.end_dat || "";
+        let ls_rateCod = postData.rowData.rate_cod || "";
+        let ls_hotelCod = postData.rowData.hotel_cod || "";
         let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
         let lo_param = {
             athena_id: session.user.athena_id,
@@ -160,7 +162,8 @@ module.exports = {
 
         async.waterfall([
             examineContract,
-            compareDat
+            compareDat,
+            setRateCodSelectData
         ], function (err, result) {
             callback(err, result);
         });
@@ -169,8 +172,8 @@ module.exports = {
             if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "") {
                 lo_param.end_dat = moment(new Date(ls_endDat)).format("YYYY/MM/DD");
                 lo_param.begin_dat = moment(new Date(ls_beginDat)).format("YYYY/MM/DD");
-                lo_param.rate_cod = ls_rateCod
-                queryAgent.queryList("QRY_CONTRACT_EXIST", lo_param, 0, 0, function (err, getResult) {
+                lo_param.rate_cod = ls_rateCod;
+                queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
@@ -181,13 +184,16 @@ module.exports = {
                         lo_result.success = false;
                         lo_result.effectValues = {begin_dat: lo_oldValue};
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg1", session.locale);
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
                         cb(lo_error, lo_result);
                     }
                     else {
                         cb(lo_error, ls_beginDat);
                     }
                 });
+            }
+            else {
+                cb(lo_error, lo_result);
             }
         }
 
@@ -201,7 +207,7 @@ module.exports = {
                 }
                 else {
                     if (moment(new Date(begin_dat)).diff(moment(new Date(getResult.rent_dat_hq)), "days") < 0) {
-                        lo_result.alertMsg = commandRules.getMsgByCod("pms62msg2", session.locale);
+                        lo_result.alertMsg = commandRules.getMsgByCod("pms61msg2", session.locale);
                         cb(lo_error, lo_result);
                     }
                     else {
@@ -210,13 +216,34 @@ module.exports = {
                 }
             });
         }
+
+        function setRateCodSelectData(result, cb) {
+            if (ls_rateCod != "" && ls_endDat != "" && ls_rateCod != "") {
+                queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
+                    if (err) {
+                        lo_result.success = false;
+                        lo_error = ErrorClass();
+                        lo_error.errorMsg = err;
+                        cb(lo_error, lo_result);
+                    }
+                    else {
+                        lo_result.selectOptions = getResult;
+                        lo_result.selectField = ["rate_cod"];
+                        cb(lo_error, lo_result);
+                    }
+                });
+            }
+            else {
+                cb(lo_error, lo_result);
+            }
+        }
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 頁籤合約 開始日期
+     * PMS0610020 商務公司資料編輯 合約內容 開始日期
      * 1.合約期間檢查:
      * 如果『合約起始日』、『合約終止日』、『參考房價代號』3欄位都有值,如果sql檢查=0,訊息『相同館別及房價代號之合約期間不可重覆』,起始日回復到舊值
-     * 2.輸入合約起始日小於參數『訂房中心滾房租日』時，顯示提示訊息「合約起始日在今天之前」,但可以繼續輸入
+     * 2.合約內容 參考房價代號下拉資料
      * @param postData
      * @param session
      * @param callback
@@ -226,54 +253,323 @@ module.exports = {
         let lo_error = null;
 
         let ls_beginDat = postData.rowData.begin_dat;
-        let ls_endDat = postData.rowData.end_dat;
-        let ls_rateCod = postData.rowData.rate_cod;
+        let ls_endDat = postData.rowData.end_dat || "";
+        let ls_rateCod = postData.rowData.rate_cod || "";
+        let ls_hotelCod = postData.rowData.hotel_cod || "";
         let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
         let lo_param = {
             athena_id: session.user.athena_id,
             hotel_cod: postData.rowData.hotel_cod
         };
 
-        if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "") {
-            lo_param.end_dat = moment(new Date(ls_endDat)).format("YYYY/MM/DD");
-            lo_param.begin_dat = moment(new Date(ls_beginDat)).format("YYYY/MM/DD");
-            lo_param.rate_cod = ls_rateCod
-            queryAgent.queryList("QRY_CONTRACT_EXIST", lo_param, 0, 0, function (err, getResult) {
-                if (err) {
+        async.waterfall([
+            examineContract,
+            setRateCodSelectData
+        ], function (err, result) {
+            callback(err, result);
+        });
+
+        function examineContract(cb) {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "") {
+                lo_param.end_dat = moment(new Date(ls_endDat)).format("YYYY/MM/DD");
+                lo_param.begin_dat = moment(new Date(ls_beginDat)).format("YYYY/MM/DD");
+                lo_param.rate_cod = ls_rateCod;
+                queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
+                    if (err) {
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = "sql err";
+                        cb(lo_error, lo_result);
+                    }
+                    else if (getResult > 0) {
+                        lo_result.success = false;
+                        lo_result.effectValues = {begin_dat: lo_oldValue};
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
+                        cb(lo_error, lo_result);
+                    }
+                    else {
+                        cb(lo_error, ls_beginDat);
+                    }
+                });
+            }
+            else{
+                cb(lo_error, lo_result);
+            }
+        }
+
+        function setRateCodSelectData(result, cb) {
+            if (ls_rateCod != "" && ls_endDat != "" && ls_rateCod != "") {
+                queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
+                    if (err) {
+                        lo_result.success = false;
+                        lo_error = ErrorClass();
+                        lo_error.errorMsg = err;
+                        cb(lo_error, lo_result);
+                    }
+                    else {
+                        lo_result.selectOptions = getResult;
+                        lo_result.selectField = ["rate_cod"];
+                        cb(lo_error, lo_result);
+                    }
+                });
+            }
+            else{
+                cb(lo_error, lo_result);
+            }
+        }
+    },
+
+    /**
+     * PMS0610020 商務公司資料編輯 合約內容 館別
+     * 1.合約內容 參考房價代號下拉資料
+     * 2.合約內容 餐廳折扣下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    r_ContractHotelCod: function(postData, session, callback){
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let ls_beginDat = postData.rowData.begin_dat;
+        let ls_endDat = postData.rowData.end_dat || "";
+        let ls_rateCod = postData.rowData.rate_cod || "";
+        let ls_hotelCod = postData.rowData.hotel_cod || "";
+        let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
+        let lo_param = {
+            athena_id: session.user.athena_id,
+            hotel_cod: ls_hotelCod,
+            end_dat: ls_endDat,
+            begin_dat: ls_beginDat
+        };
+
+        async.waterfall([
+            setRateCodSelectData,
+            setRsdiscCodSelectData
+        ], function(err, result){
+            callback(err, result);
+        });
+
+        function setRateCodSelectData(cb){
+            if (ls_hotelCod != "" && ls_endDat != "" && ls_beginDat != "") {
+                queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
+                    if (err) {
+                        lo_result.success = false;
+                        lo_error = ErrorClass();
+                        lo_error.errorMsg = err;
+                        cb(lo_error, lo_result);
+                    }
+                    else {
+                        lo_result.multiSelectOptions.rate_cod = getResult;
+                        lo_result.selectField.push("rate_cod");
+                        cb(lo_error, lo_result);
+                    }
+                });
+            }
+            else{
+                cb(lo_error, lo_result);
+            }
+        }
+
+        function setRsdiscCodSelectData(result, cb){
+            queryAgent.queryList("QRY_CONTRACT_DT_RSDISC_COD", lo_param, 0, 0, function(err, getResult){
+                if(err){
                     lo_result.success = false;
-                    lo_error = new ErrorClass();
-                    lo_error.errorMsg = "555";
+                    lo_error = ErrorClass();
+                    lo_error.errorMsg = err;
                     cb(lo_error, lo_result);
                 }
-                else if (getResult > 0) {
-                    lo_result.success = false;
-                    lo_result.effectValues = {begin_dat: lo_oldValue};
-                    lo_error = new ErrorClass();
-                    lo_error.errorMsg = commandRules.getMsgByCod("pms62msg1", session.locale);
-                    callback(lo_error, lo_result);
-                }
-                else {
-                    callback(lo_error, lo_result);
+                else{
+                    lo_result.multiSelectOptions.rsdisc_cod = getResult;
+                    lo_result.selectField.push("rsdisc_cod");
+                    cb(lo_error, lo_result);
                 }
             });
         }
     },
 
-
     /**
-     * PMS0610020 商務公司資料編輯 頁籤合約 參考房價代號下拉資料
+     * PMS0610020 商務公司資料編輯 合約內容 參考房價代號
+     * 房價代號帶回房價名稱
      * @param postData
      * @param session
      * @param callback
      */
-    r_ContractdtRatecod: function (postData, session, callback) {
+    r_ContractdtRatecod: function(postData, session, callback){
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        let ls_beginDat = postData.rowData.begin_dat;
-        let ls
+        let ls_rateCod = postData.rowData.rate_cod;
+        let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
 
+        queryAgent.query("QRY_RATE_NAM", {rate_cod: ls_rateCod}, function(err, getResult){
+            if(err){
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = "sql err";
+                callback(lo_error, lo_result);
+            }
+            else{
+                lo_result.effectValues = {ratecod_nam: getResult.ratecod_nam};
+                callback(lo_error, lo_result);
+            }
+        });
+
+
+    },
+
+    /**
+     * PMS0610020 商務公司資料編輯 相關人員刪除前檢查
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    deleteRelatedPerson: function(postData, session, callback){
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        lo_result.success = false;
+        lo_error = new ErrorClass();
+        lo_error.errorMsg = "test";
         callback(lo_error, lo_result);
+    },
+
+    /**
+     * PMS0610020 商務公司資料編輯 合約內容刪除前檢查
+     * 1.檢查訂房卡資料
+     * 2.檢查住客資料
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    deleteContractContent: function(postData, session, callback){
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let lo_param = {
+            athena_id: session.user.athena_id,
+            cust_cod: postData.singleRowData.cust_mn_cust_cod,
+            hotel_cod: postData.deleteData[0].hotel_cod,
+            rate_cod: postData.deleteData[0].rate_cod
+        };
+
+        async.waterfall([
+            qryOrderMn,//檢查訂房卡資料，房價代號使否已被使用
+            qryGuestMn//檢查住客資料，房價代號使否已被使用
+        ], function(err, result){
+            callback(err, result);
+        });
+
+        function qryOrderMn(cb){
+            queryAgent.query("CHK_RATE_COD_IS_EXIST_IN_ORDER_MN", lo_param, function(err, getResult){
+                if(err){
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = "sql err";
+                    cb(lo_error, lo_result);
+                }
+                else{
+                    if(getResult.order_rate_Count > 0){
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg3", session.locale);;
+                        cb(lo_error, lo_result);
+                    }
+                    else{
+                        cb(lo_error, lo_result);
+                    }
+                }
+            });
+        }
+
+        function qryGuestMn(result, cb){
+            queryAgent.query("CHK_RATE_COD_IS_EXIST_IN_GUEST_MN", lo_param, function(err, getResult){
+                if(err){
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = "sql err";
+                    cb(lo_error, lo_result);
+                }
+                else{
+                    if(getResult.order_rate_Count > 0){
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg4", session.locale);;
+                        cb(lo_error, lo_result);
+                    }
+                    else{
+                        cb(lo_error, lo_result);
+                    }
+                }
+            });
+        }
+    },
+
+    /**
+     * PMS0610020 商務公司資料編輯 公司狀態是否可以為刪除
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    r_1010_CustmnStatuscod: function(postData, session, callback){
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        if(postData.singleRowData.cust_mn_status_cod == 'D'){
+            async.waterfall([
+                qryFitCod,
+                qryOfficialCustCod
+            ],function(err, result){
+                callback(lo_error, lo_result);
+            });
+        }
+
+
+        function qryFitCod(cb){
+            queryAgent.query("QRY_FIT_COD", {athena_id: session.user.athena_id}, function(err, getResult){
+                if(err){
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = "sql err";
+                    cb(lo_error, lo_result);
+                }
+                else{
+                    if(getResult.fit_cod == postData.singleRowData.cust_cod){
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg5", session.locale);;
+                        cb(lo_error, lo_result);
+                    }
+                    else{
+                        cb(lo_error, lo_result);
+                    }
+                }
+            });
+        }
+
+        function qryOfficialCustCod(result, cb){
+            queryAgent.query("QRY_OFFICIAL_WEB_CUST_COD", {athena_id: session.user.athena_id}, function(err, getResult){
+                if(err){
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = "sql err";
+                    cb(lo_error, lo_result);
+                }
+                else{
+                    if(getResult.cust_cod == postData.singleRowData.cust_cod){
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg6", session.locale);;
+                        cb(lo_error, lo_result);
+                    }
+                    else{
+                        cb(lo_error, lo_result);
+                    }
+                }
+            });
+        }
+
     }
 }
 ;

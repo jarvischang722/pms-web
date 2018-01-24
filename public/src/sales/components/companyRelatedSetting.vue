@@ -10,7 +10,7 @@
                                     <!--checkbox-->
                                     <div v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'" style="margin-left: 87px;">
                                         <input style="margin-top: 5px;"
-                                               v-model="rowData[field.ui_field_name]" type="checkbox"
+                                               v-model="singleData[field.ui_field_name]" type="checkbox"
                                                :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
                                                :disabled="field.modificable == 'N'||
                                                 (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus) "
@@ -101,10 +101,10 @@
                                                             <!--checkbox-->
                                                             <div v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'" style="margin-left: 87px;">
                                                                 <input style="margin-top: 5px;"
-                                                                       v-model="rowData[field.ui_field_name]" type="checkbox"
+                                                                       v-model="singleData[field.ui_field_name]" type="checkbox"
                                                                        :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
                                                                        :disabled="field.modificable == 'N'||(field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus) "
-                                                                       @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                                       @change="chkDmFlag">
                                                                 <label style="width:auto" v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
                                                                     <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                                     <span>{{ field.ui_display_name }}</span>
@@ -222,6 +222,16 @@
                     this.initData();
                     this.fetchFieldData();
                 }
+            },
+            singleData: {
+                handler: function (val, oldVal) {
+                    var self = this;
+                    this.$eventHub.$emit('getRelatedSettingData', {
+                        relatedSettingSingleData: val,
+                        relatedSettingOriSingleData: self.oriSingleData
+                    });
+                },
+                deep: true
             }
         },
         methods: {
@@ -261,6 +271,7 @@
                     this.isLoading = false;
                 }
                 else if (this.isEditStatus) {
+                    var self = this;
                     $.post("/api/fetchSinglePageFieldData", {
                         prg_id: "PMS0610020",
                         page_id: 1,
@@ -340,15 +351,30 @@
                     });
                 }
             },
+            //可簽帳時，目前簽帳金額可改變
+            chkDmFlag(item) {
+                if(item.target.checked){
+                    this.pageTwoFieldsData[3][0].modificable = 'Y';
+                }
+                else{
+                    this.pageTwoFieldsData[3][0].modificable = 'N';
+                }
+            },
             computeAmt(val, field) {
                 var ls_ruleVal = field.format_func_name.rule_val;
 
-                var ln_creditAmt = this.singleData['cust_idx_credit_amt'].toString();
-                var ln_arAmt = this.singleData['cust_idx_ar_amt'].toString();
+                var ln_creditAmt = _.isUndefined(this.singleData['cust_idx_credit_amt']) ?
+                        "":this.singleData['cust_idx_credit_amt'];
+                var ln_arAmt = _.isUndefined(this.singleData['cust_idx_ar_amt']) ?
+                    "": this.singleData['cust_idx_ar_amt'];
+                ln_creditAmt = ln_creditAmt.toString();
+                ln_arAmt = ln_arAmt.toString();
+
                 var ln_balance =
                     Number(go_formatDisplayClass.removeAmtFormat(ln_creditAmt)) - Number(go_formatDisplayClass.removeAmtFormat(ln_arAmt));
 
-                this.singleData[field.ui_field_name] = go_formatDisplayClass.amtFormat(ln_creditAmt, ls_ruleVal);
+                this.singleData["cust_idx_credit_amt"] = go_formatDisplayClass.amtFormat(ln_creditAmt, ls_ruleVal);
+                this.singleData["cust_idx_ar_amt"] = go_formatDisplayClass.amtFormat(ln_arAmt, ls_ruleVal);
                 this.singleData['balance'] = go_formatDisplayClass.amtFormat(ln_balance, ls_ruleVal);
             },
             //信用額度變更

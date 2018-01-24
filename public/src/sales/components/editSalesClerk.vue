@@ -188,8 +188,12 @@
                 else if (this.isEditStatus) {
                     $.post("/api/sales/doEditSalesClerk", lo_params, function (result) {
                         self.isLoadingDialog = false;
-                        console.log(result);
                         if (result.success) {
+                            if (!_.isUndefined(self.editRows[0].isSalesClerk)) {
+                                self.$eventHub.$emit('doEditSalesClerk', {
+                                    success: true
+                                });
+                            }
                             self.doCancelEdit();
                             la_custCod = [];
                         }

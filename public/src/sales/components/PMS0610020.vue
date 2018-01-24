@@ -10,7 +10,8 @@
                                 <div v-for="fields in fieldsData">
                                     <div class="grid">
                                         <div class="grid-item" v-for="field in fields">
-                                            <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
+                                            <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
+                                                   :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                 <span>{{ field.ui_display_name }}</span>
                                             </label>
@@ -23,7 +24,7 @@
                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                    :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-
+                                            
                                             <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         v-model="singleData[field.ui_field_name]" :data="field.selectData"
@@ -292,6 +293,16 @@
             this.$eventHub.$on('getCloseChangeLogData', function (closeChangeLogData) {
                 self.isOpenChangeLog = closeChangeLogData.isOpenChangeLog;
             });
+            //取得相關設定資料
+            this.$eventHub.$on('getRelatedSettingData', function (relatedSettingData) {
+                self.relatedSettingSingleData = relatedSettingData.relatedSettingSingleData;
+                self.relatedSettingOriSingleData = relatedSettingData.relatedSettingOriSingleData;
+            });
+            this.$eventHub.$on('doEditSalesClerk', function (result) {
+                if(result.success){
+                    self.fetchFieldData();
+                }
+            });
         },
         mounted() {
             this.panelName = ["setPanel", "personnelPanel", "salesPanel", "contractPanel",
@@ -310,6 +321,8 @@
                 isOpenContractStatus: false,
                 singleData: {},
                 oriSingleData: {},
+                relatedSettingSingleData: {},
+                relatedSettingOriSingleData: {},
                 fieldsData: [],
                 oriFieldsData: [],
                 tabPageId: 1,
@@ -334,8 +347,24 @@
             rowData(val) {
                 if (!_.isEmpty(val)) {
                     this.initData();
-                    this.fetchFieldData(val);
+                    this.fetchFieldData();
                 }
+            },
+            singleData: {
+                handler: function (val) {
+                    this.$store.dispatch("setMnSingleData", {
+                        go_mnSingleData: val,
+                        go_mnOriSingleData: this.oriSingleData
+                    });
+                    var lo_singleData = JSON.parse(JSON.stringify(val));
+                    //自動將郵遞區號對應之地址資料帶至地址欄位
+                    if(lo_singleData.cust_idx_zip_cod != "" && lo_singleData.cust_idx_add_rmk ==""){
+                        var ln_zipCodIdx = _.findIndex(this.oriFieldsData, {ui_field_name: 'cust_idx_zip_cod'})
+                        var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
+                        this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
+                    }
+                },
+                deep: true
             }
         },
         methods: {
@@ -376,7 +405,7 @@
 
                 $("#" + ls_showPanelName).show();
             },
-            fetchFieldData(val) {
+            fetchFieldData() {
                 this.isLoadingDialog = true;
                 var self = this;
                 $.post("/api/fetchOnlySinglePageFieldData", {
@@ -432,20 +461,52 @@
             //ststus chg.(公司狀態)
             doSetCompanyStatus() {
                 var self = this;
-                this.isOpenCompanyStatus = true;
-                this.$eventHub.$emit('getCompanyStatusData', {
-                    openCompanyStatus: self.isOpenCompanyStatus
-                });
+                if(this.isEditStatus){
+                    if(_.isMatch(this.relatedSettingSingleData, this.relatedSettingOriSingleData)
+                        && _.isMatch(this.singleData, this.oriSingleData)){
+                        this.isOpenCompanyStatus = true;
+                        this.$eventHub.$emit('getCompanyStatusData', {
+                            openCompanyStatus: self.isOpenCompanyStatus
+                        });
+                    }
+                    else{
+                        alert("請先儲存主檔及相關設定檔");
+                    }
+                }
+                else if(this.isCreateStatus){
+                    this.isOpenCompanyStatus = true;
+                    this.$eventHub.$emit('getCompanyStatusData', {
+                        openCompanyStatus: self.isOpenCompanyStatus
+                    });
+                }
             },
             //合約狀態變更
             doSetContractStatus() {
                 var self = this;
-                this.isOpenContractStatus = true;
-                this.$eventHub.$emit('getContractStatusData', {
-                    openContractStatus: self.isOpenContractStatus,
-                    singleData: JSON.parse(JSON.stringify(self.singleData)),
-                    fieldData:self.oriFieldsData[_.findIndex(self.oriFieldsData, {ui_field_name: "cust_mn_contract_sta"})]
-                });
+                var self = this;
+                if(this.isEditStatus){
+                    if(_.isMatch(this.relatedSettingSingleData, this.relatedSettingOriSingleData)
+                        && _.isMatch(this.singleData, this.oriSingleData)){
+                        this.isOpenContractStatus = true;
+                        this.$eventHub.$emit('getContractStatusData', {
+                            openContractStatus: self.isOpenContractStatus,
+                            singleData: JSON.parse(JSON.stringify(self.singleData)),
+                            fieldData:self.oriFieldsData[_.findIndex(self.oriFieldsData, {ui_field_name: "cust_mn_contract_sta"})]
+                        });
+                    }
+                    else{
+                        alert("請先儲存主檔及相關設定檔");
+                    }
+                }
+                else if(this.isCreateStatus){
+                    this.isOpenContractStatus = true;
+                    this.$eventHub.$emit('getContractStatusData', {
+                        openContractStatus: self.isOpenContractStatus,
+                        singleData: JSON.parse(JSON.stringify(self.singleData)),
+                        fieldData:self.oriFieldsData[_.findIndex(self.oriFieldsData, {ui_field_name: "cust_mn_contract_sta"})]
+                    });
+                }
+
             },
             //異動紀錄(change log)
             loadChangeLog() {

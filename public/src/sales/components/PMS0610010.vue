@@ -317,7 +317,6 @@
                 self.isOpenContractStatus = contractStatusData.openContractStatus;
                 self.contractStaMnSingleData = contractStatusData.singleData;
                 self.contractStaMnFieldData = contractStatusData.fieldData;
-                console.log(contractStatusData.singleData);
             });
             //業務員指派dialog
             this.$eventHub.$on('doEditSalesClerk', function (editSalesClerkData) {
@@ -570,7 +569,60 @@
             },
             //單筆 ststus chg.(公司狀態)
             doSaveCompSta() {
+                var rule_func_name = this.compStaFieldData[0][0].rule_func_name
                 console.log(this.compStaSingleData);
+                this.compStaSingleData = _.extend(this.compStaSingleData, {cust_cod: this.$store.state.gs_custCod});
+
+                if (!_.isEmpty(rule_func_name.trim())) {
+                    var postData = {
+                        prg_id: "PMS0610020",
+                        rule_func_name: rule_func_name,
+                        validateField: this.compStaFieldData[0][0].ui_field_name,
+                        singleRowData: JSON.parse(JSON.stringify(this.compStaSingleData)),
+                        oriSingleData: JSON.parse(JSON.stringify(this.compStaSingleData))
+                    };
+                    $.post('/api/chkFieldRule', postData, function (result) {
+
+                        if (result.success) {
+                            //是否要show出訊息
+                            if (result.showAlert) {
+                                alert(result.alertMsg);
+                            }
+
+                            //是否要show出詢問視窗
+                            if (result.showConfirm) {
+                                if (confirm(result.confirmMsg)) {
+
+                                } else {
+                                    //有沒有要再打一次ajax到後端
+                                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
+                                        $.post(result.ajaxURL, postData, function (result) {
+
+                                            if (!result.success) {
+                                                alert(result.errorMsg);
+                                            } else {
+
+                                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                    self.singleData = _.extend(self.singleData, result.effectValues);
+                                                }
+
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+
+                        } else {
+                            alert(result.errorMsg);
+                        }
+
+                        //連動帶回的值
+                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                            self.singleData = _.extend(self.singleData, result.effectValues);
+                        }
+
+                    });
+                }
                 this.isOpenCompSta = false;
             },
             doCloseCompStaDialog() {

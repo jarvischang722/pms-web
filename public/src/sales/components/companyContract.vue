@@ -127,10 +127,13 @@
             },
             showDataGrid(dataGridRowsData) {
                 this.dgIns = new DatagridBaseClass();
-                this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
+                this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'contractContent_dg'), this.fieldsData);
                 this.dgIns.loadDgData(dataGridRowsData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
+                this.dgIns.updateMnRowData(this.$store.state.go_mnSingleData);
+
                 this.isLoading = false;
+
             },
             doChangeRowData() {
 
@@ -165,6 +168,8 @@
                 }
             },
             doHideExpire() {
+                $('#language').combobox('reload', this.fieldsData[8].selectData);
+
                 if (this.isHideExpire) {
                     this.showDataGrid(this.dataGridRowsData);
                 }
@@ -174,4 +179,5 @@
             }
         }
     }
+
 </script>

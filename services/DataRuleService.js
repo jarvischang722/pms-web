@@ -590,15 +590,29 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
 exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     let prg_id = postData["prg_id"];
     let page_id = postData.page_id || 1;
+    let tab_page_id = postData.tab_page_id || 1;
     let deleteData = postData["deleteData"] || [];
     let delChkFuncs = [];
+    let lo_mongoCollection = prg_id.substring(0, 5) == "PMS08"?"SetupDatagridFunction" : "PrgFunction";//設定的collection 為SetupDatagridFunction、作業為PrgFunction
+    let lo_params = {};//mongo 搜尋條件
 
-    mongoAgent.SetupDatagridFunction.findOne({
-        prg_id: prg_id,
-        page_id: Number(page_id),
-        func_id: '0300'
-    }, function (err, deleteRule) {
+    if(lo_mongoCollection == "SetupDatagridFunction"){
+        lo_params = {
+            prg_id: prg_id,
+            page_id: Number(page_id),
+            func_id: '0300'
+        };
+    }
+    else{
+        lo_params = {
+            prg_id: prg_id,
+            page_id: Number(page_id),
+            tab_page_id: Number(tab_page_id),
+            func_id: '0300'
+        };
+    }
 
+    mongoAgent[lo_mongoCollection].findOne(lo_params, function (err, deleteRule) {
         var beforeDeleteFuncRule = !err && deleteRule ? deleteRule.toObject().rule_func_name : "";
         if (!_.isEmpty(beforeDeleteFuncRule) && !_.isUndefined(ruleAgent[beforeDeleteFuncRule])) {
             _.each(deleteData, function (d_data) {

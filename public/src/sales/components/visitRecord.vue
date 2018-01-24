@@ -1,6 +1,6 @@
 <template>
     <div id="visitRecord" class="hide padding-5">
-        <div class="businessCompanyData" >
+        <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12" v-loading="isLoadingDialog" :element-loading-text="loadingText">
                 <div class="row">
                     <!--單筆 拜訪紀錄-->
@@ -113,12 +113,6 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-danger btn-white btn-defaultWidth" role="button"
-                                                @click="doRemoveRow">
-                                            {{i18nLang.SystemCommon.Delete}}
-                                        </button>
-                                    </li>
-                                    <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
                                                 @click="doCloseDialog">
                                             {{i18nLang.SystemCommon.Leave}}
@@ -169,6 +163,12 @@
                 if (val) {
                     this.initData();
                     this.fetchFieldData();
+                }
+            },
+            rowData(val) {
+                if (!_.isEmpty(val)) {
+                    this.initData();
+                    this.fetchFieldData();
 
                     var nowDatagridRowIndex = $("#companyVisitRecord_dg").datagrid('getRowIndex', val);
 
@@ -193,6 +193,16 @@
                         this.isLastData = false;
                     }
                 }
+            },
+            singleData: {
+                handler: function (val) {
+                    var self = this;
+                    this.$eventHub.$emit("getVisitRecordSingleData", {
+                        singleData: val,
+                        fieldsData: self.oriFieldsData
+                    });
+                },
+                deep: true
             }
         },
         methods: {
@@ -320,13 +330,6 @@
                 this.isFirstData = false;
                 this.isLastData = true;
                 this.rowData = _.last(this.pageOneDataGridRows);
-            },
-            doRemoveRow() {
-                var self = this;
-                var q = confirm(go_i18nLang["SystemCommon"].check_delete);
-                if (q) {
-
-                }
             },
             doCloseDialog() {
                 this.initData();
