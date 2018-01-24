@@ -160,7 +160,8 @@ function combinStaffExecData(postData, session, callback) {
 function combinFuncExecData(postData, session, callback) {
     let ln_exec_seq = 1;
     let la_funcOfRole = postData.funcsOfRole;
-    let la_funcChecked = postData.funcChecked;
+    let la_funcChecked = postData.funcChecked || [];
+    let la_funcUnChecked = postData.funcUnChecked || [];
     let la_funcList = postData.funcList;
 
     let ls_selRole = postData.selRole;
@@ -174,73 +175,143 @@ function combinFuncExecData(postData, session, callback) {
             });
         },
         function (la_funcList, cb) {
-            //原始資料在勾選功能資料裡沒有，代表刪除
-            _.each(la_funcOfRole, function (lo_funcOfRole) {
-                let ln_isExist = _.findIndex(la_funcChecked, function (lo_funcChecked) {
-                    return lo_funcChecked == lo_funcOfRole.current_id;
+            _.each(la_funcUnChecked, function(lo_funcUnChecked){
+                let tmpDel = {"function": "0"}; //0 代表刪除
+                tmpDel["table_name"] = "BAC_ROLE_FUNCTION";
+                let ls_func_id = lo_funcUnChecked.id.indexOf("_") != -1 ? lo_funcUnChecked.id.split("_")[1] : lo_funcUnChecked.id;
+                tmpDel.condition = [
+                    {
+                        key: "ROLE_COMP_COD",
+                        operation: "=",
+                        value: lo_userInfo.cmp_id
+                    },
+                    {
+                        key: "ROLE_ID",
+                        operation: "=",
+                        value: ls_selRole
+                    },
+                    {
+                        key: "FUNC_COMP_COD",
+                        operation: "=",
+                        value: lo_userInfo.cmp_id
+                    },
+                    {
+                        key: "FUNC_HOTEL_COD",
+                        operation: "=",
+                        value: lo_userInfo.fun_hotel_cod
+                    },
+                    {
+                        key: "PRE_ID",
+                        operation: "=",
+                        value: lo_funcUnChecked.parent
+                    },
+                    {
+                        key: "CURRENT_ID",
+                        operation: "=",
+                        value: ls_func_id
+                    }
+                ];
+                lo_savaExecDatas[ln_exec_seq] = tmpDel;
+                ln_exec_seq++;
+            });
+
+            _.each(la_funcChecked, function(lo_funcChecked){
+                let tmpIns = {"function": "1"}; //1  新增
+                tmpIns["table_name"] = "BAC_ROLE_FUNCTION";
+                let ls_func_id = lo_funcChecked.id.indexOf("_") != -1 ? lo_funcChecked.id.split("_")[1] : lo_funcChecked.id;
+                let lo_func = _.findWhere(la_funcList, {
+                    current_id: ls_func_id,
+                    pre_id: lo_funcChecked.parent
                 });
-                if (ln_isExist == -1) {
-                    let tmpDel = {"function": "0"}; //0 代表刪除
-                    tmpDel["table_name"] = "BAC_ROLE_FUNCTION";
-                    tmpDel.condition = [
-                        {
-                            key: "ROLE_COMP_COD",
-                            operation: "=",
-                            value: lo_userInfo.cmp_id
-                        },
-                        {
-                            key: "ROLE_ID",
-                            operation: "=",
-                            value: ls_selRole
-                        },
-                        {
-                            key: "FUNC_COMP_COD",
-                            operation: "=",
-                            value: lo_userInfo.cmp_id
-                        },
-                        {
-                            key: "FUNC_HOTEL_COD",
-                            operation: "=",
-                            value: lo_userInfo.fun_hotel_cod
-                        },
-                        {
-                            key: "CURRENT_ID",
-                            operation: "=",
-                            value: lo_funcOfRole.current_id
-                        }
-                    ];
-                    lo_savaExecDatas[ln_exec_seq] = tmpDel;
+                if (!_.isUndefined(lo_func)) {
+                    tmpIns.role_athena_id = lo_userInfo.athena_id;
+                    tmpIns.role_comp_cod = lo_userInfo.cmp_id;
+                    tmpIns.role_id = ls_selRole;
+                    tmpIns.func_athena_id = lo_userInfo.athena_id;
+                    tmpIns.func_comp_cod = lo_userInfo.cmp_id;
+                    tmpIns.func_hotel_cod = lo_userInfo.hotel_cod;
+                    tmpIns.pre_id = lo_func.pre_id;
+                    tmpIns.current_id = lo_func.current_id;
+                    tmpIns.id_typ = lo_func.id_typ;
+                    tmpIns.level_nos = lo_func.level_nos;
+                    tmpIns.sort_cod = 0;
+                    tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+
+                    lo_savaExecDatas[ln_exec_seq] = tmpIns;
                     ln_exec_seq++;
                 }
             });
 
+            //原始資料在勾選功能資料裡沒有，代表刪除
+            // _.each(la_funcOfRole, function (lo_funcOfRole) {
+            //     let ln_isExist = _.findIndex(la_funcChecked, function (lo_funcChecked) {
+            //         return lo_funcChecked.id == lo_funcOfRole.current_id && lo_funcChecked.parent == lo_funcOfRole.pre_id;
+            //     });
+            //     if (ln_isExist == -1) {
+            //         let tmpDel = {"function": "0"}; //0 代表刪除
+            //         tmpDel["table_name"] = "BAC_ROLE_FUNCTION";
+            //         tmpDel.condition = [
+            //             {
+            //                 key: "ROLE_COMP_COD",
+            //                 operation: "=",
+            //                 value: lo_userInfo.cmp_id
+            //             },
+            //             {
+            //                 key: "ROLE_ID",
+            //                 operation: "=",
+            //                 value: ls_selRole
+            //             },
+            //             {
+            //                 key: "FUNC_COMP_COD",
+            //                 operation: "=",
+            //                 value: lo_userInfo.cmp_id
+            //             },
+            //             {
+            //                 key: "FUNC_HOTEL_COD",
+            //                 operation: "=",
+            //                 value: lo_userInfo.fun_hotel_cod
+            //             },
+            //             {
+            //                 key: "CURRENT_ID",
+            //                 operation: "=",
+            //                 value: lo_funcOfRole.current_id
+            //             }
+            //         ];
+            //         lo_savaExecDatas[ln_exec_seq] = tmpDel;
+            //         ln_exec_seq++;
+            //     }
+            // });
+
             //勾選功能資料在原始資料裡沒有，代表新增
-            _.each(la_funcChecked, function (ls_funcChecked) {
-                if (_.findIndex(la_funcOfRole, {current_id: ls_funcChecked}) == -1) {
-                    let tmpIns = {"function": "1"}; //1  新增
-                    tmpIns["table_name"] = "BAC_ROLE_FUNCTION";
-
-                    let lo_func = _.findWhere(la_funcList, {current_id: ls_funcChecked});
-                    if (!_.isUndefined(lo_func)) {
-
-                        tmpIns.role_athena_id = lo_userInfo.athena_id;
-                        tmpIns.role_comp_cod = lo_userInfo.cmp_id;
-                        tmpIns.role_id = ls_selRole;
-                        tmpIns.func_athena_id = lo_userInfo.athena_id;
-                        tmpIns.func_comp_cod = lo_userInfo.cmp_id;
-                        tmpIns.func_hotel_cod = lo_userInfo.hotel_cod;
-                        tmpIns.pre_id = lo_func.pre_id;
-                        tmpIns.current_id = lo_func.current_id;
-                        tmpIns.id_typ = lo_func.id_typ;
-                        tmpIns.level_nos = lo_func.level_nos;
-                        tmpIns.sort_cod = 0;
-                        tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
-
-                        lo_savaExecDatas[ln_exec_seq] = tmpIns;
-                        ln_exec_seq++;
-                    }
-                }
-            });
+            // _.each(la_funcChecked, function (lo_funcChecked) {
+            //     if (_.findIndex(la_funcOfRole, {current_id: lo_funcChecked.id, pre_id: lo_funcChecked.parent}) == -1) {
+            //         let tmpIns = {"function": "1"}; //1  新增
+            //         tmpIns["table_name"] = "BAC_ROLE_FUNCTION";
+            //
+            //         let lo_func = _.findWhere(la_funcList, {
+            //             current_id: lo_funcChecked.id,
+            //             pre_id: lo_funcChecked.parent
+            //         });
+            //         if (!_.isUndefined(lo_func)) {
+            //
+            //             tmpIns.role_athena_id = lo_userInfo.athena_id;
+            //             tmpIns.role_comp_cod = lo_userInfo.cmp_id;
+            //             tmpIns.role_id = ls_selRole;
+            //             tmpIns.func_athena_id = lo_userInfo.athena_id;
+            //             tmpIns.func_comp_cod = lo_userInfo.cmp_id;
+            //             tmpIns.func_hotel_cod = lo_userInfo.hotel_cod;
+            //             tmpIns.pre_id = lo_func.pre_id;
+            //             tmpIns.current_id = lo_func.current_id;
+            //             tmpIns.id_typ = lo_func.id_typ;
+            //             tmpIns.level_nos = lo_func.level_nos;
+            //             tmpIns.sort_cod = 0;
+            //             tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+            //
+            //             lo_savaExecDatas[ln_exec_seq] = tmpIns;
+            //             ln_exec_seq++;
+            //         }
+            //     }
+            // });
             cb(null, "");
         }
     ], function (err, result) {
@@ -302,7 +373,7 @@ exports.saveAuthByStaff = function (postData, session, callback) {
             tmpIns["table_name"] = "BAC_ROLE_USER";
 
             let lo_staff = _.findWhere(la_staffList, {usr_id: ls_user_id});
-            if(!_.isUndefined(lo_staff)){
+            if (!_.isUndefined(lo_staff)) {
                 tmpIns.role_athena_id = lo_userInfo.athena_id;
                 tmpIns.role_comp_cod = lo_staff.cmp_id;
                 tmpIns.role_id = lo_checkedRoleList;
@@ -386,7 +457,7 @@ exports.saveAuthByFunc = function (postData, session, callback) {
                     tmpIns["table_name"] = "BAC_ROLE_FUNCTION";
 
                     let lo_func = _.findWhere(la_funcList, {current_id: ls_current_id});
-                    if(!_.isUndefined(lo_func)){
+                    if (!_.isUndefined(lo_func)) {
                         tmpIns.role_athena_id = lo_userInfo.athena_id;
                         tmpIns.role_comp_cod = lo_userInfo.cmp_id;
                         tmpIns.role_id = lo_checkedRoleList;
@@ -530,14 +601,19 @@ function getChildNodeBySysId(req, funcList, sysID, callback) {
                     langSvc.handleMultiLangContentByField("lang_s99_model", "mdl_name", "", function (err, mdlLangList) {
                         callback(err, mdlLangList);
                     });
+                },
+                funcLangList: function (callback) {
+                    langSvc.handleMultiLangContentByField("lang_bac_process_func_rf", "func_nam", "", function (err, funcLangList) {
+                        callback(err, funcLangList);
+                    });
                 }
             }, function (err, results) {
-                cb(err, subsysList, results.mdlLangList, results.proLangList);
+                cb(err, subsysList, results.mdlLangList, results.proLangList, results.funcLangList);
             });
 
         },
         //找出系統模組
-        function (subsysList, mdlLangList, proLangList, cb) {
+        function (subsysList, mdlLangList, proLangList, funcLangList, cb) {
 
             queryAgent.queryList("QRY_S99_PROCESS_BY_SYS_MODULE", {sys_id: ls_sys_id}, 0, 0, function (err, mdlProList) {
                 let mdlList = [];
@@ -547,10 +623,22 @@ function getChildNodeBySysId(req, funcList, sysID, callback) {
                     let lo_mdlInfo = mdlMenu[mdl_id][0];
                     let lo_mdl = {};
                     _.each(processMenu, function (pro, pIdx) {
+                        let la_func = _.where(la_allMenuList, {pre_id: pro.pro_id, id_typ: "FUNCTION"});
                         _.each(la_locales, function (locale) {
                             let lo_proLang = _.findWhere(proLangList, {pro_id: pro.pro_id, locale: locale.lang});
                             processMenu[pIdx]["pro_name_" + locale.lang] = lo_proLang ? lo_proLang.words : pro.pro_name;
+
+                            _.each(la_func, function (lo_func, funcIdx) {
+                                let lo_funcLang = _.findWhere(funcLangList, {
+                                    pro_id: pro.pro_id,
+                                    func_id: lo_func.current_id,
+                                    locale: locale.lang
+                                });
+                                la_func[funcIdx]["func_name_" + locale.lang] = lo_funcLang ? lo_funcLang.words : lo_func.current_id;
+                            });
                         });
+
+                        processMenu[pIdx].functionList = la_func;
                     });
 
                     _.each(la_locales, function (locale) {

@@ -18,22 +18,23 @@
             return {
                 treeIns: null,
                 isLoading: false,
-                authHt: {}
+                authHt: {},
+                isInitChecked: true
             }
         },
         mounted() {
             this.permissionModel;
-                    // 藍色系統列
-                    let navHt = $(".navbar-container").height();
-                    // quickMenus + 搜尋欄位
-                    let menuHt = $(".top-sec-ul").height()+ 30+ $(".page-header").height();//padding-top: 5px
+            // 藍色系統列
+            let navHt = $(".navbar-container").height();
+            // quickMenus + 搜尋欄位
+            let menuHt = $(".top-sec-ul").height() + 30 + $(".page-header").height();//padding-top: 5px
 
-                    let titleSaveHt = 80 *2;
+            let titleSaveHt = 80 * 2;
 
-                    let authHt = 0;
+            let authHt = 0;
 
-                    this.authHt.maxHeight = ($(window).height()-navHt- menuHt -titleSaveHt) /2;
-                    this.authHt.maxHeight += "px";
+            this.authHt.maxHeight = ($(window).height() - navHt - menuHt - titleSaveHt) / 2;
+            this.authHt.maxHeight += "px";
         },
         computed: {
             permissionModel: {
@@ -131,9 +132,31 @@
                 this.treeIns = $("#permissionFuncTree").jstree(true);
 
                 if (this.$store.state.gs_permissionModel != "authByFunc") {
-                    $("#permissionFuncTree").on("check_node.jstree uncheck_node.jstree", function (e, data) {
-                        let la_funcChecked = self.treeIns.get_checked();
-                        self.$store.commit("updFuncChecked", la_funcChecked);
+                    let la_funcChecked = [];
+                    let la_funcUnChecked = [];
+                    $("#permissionFuncTree").on("check_node.jstree", function (e, data) {
+                        if (self.isInitChecked == false) {
+
+                            let ln_isUnCheckedExist = _.findIndex(la_funcUnChecked, function (lo_funcUnChecked) {
+                                return lo_funcUnChecked.parent == data.node.parent && lo_funcUnChecked.id == data.node.id;
+                            });
+                            if (ln_isUnCheckedExist != -1) {
+                                la_funcUnChecked = _.without(la_funcUnChecked, data.node);
+                            }
+                            la_funcChecked.push(data.node);
+                            self.$store.commit("updFuncChecked", la_funcChecked);
+                        }
+                    }).on("uncheck_node.jstree", function (e, data) {
+                        if (self.isInitChecked == false) {
+                            let ln_isCheckedExist = _.findIndex(la_funcChecked, function (lo_funcChecked) {
+                                return lo_funcChecked.parent == data.node.parent && lo_funcChecked.id == data.node.id;
+                            });
+                            if (ln_isCheckedExist != -1) {
+                                la_funcChecked = _.without(la_funcChecked, data.node);
+                            }
+                            la_funcUnChecked.push(data.node);
+                            self.$store.commit("updFuncUnChecked", la_funcUnChecked);
+                        }
                     });
                 }
                 else {
@@ -158,18 +181,23 @@
                 this.treeIns.uncheck_all();
                 setTimeout(function () {
                     _.each(la_funcsOfRole, function (func) {
-                        self.treeIns.check_node("#" + func.current_id);
+                        if (func.current_id.length <= 4) {
+                            self.treeIns.check_node("#" + func.pre_id + "_" + func.current_id);
+                        }
+                        else {
+                            self.treeIns.check_node("#" + func.current_id);
+                        }
                     });
+                    self.isInitChecked = false;
                     self.isLoading = false;
                 }, 100);
             },
 
-            checkedRoleByCurrentID(current_id){
+            checkedRoleByCurrentID(current_id) {
                 this.$store.dispatch("qryRoleByCurrentID", current_id);
             }
         }
     }
-
 
 
 </script>
@@ -179,6 +207,7 @@
         margin-bottom: 0;
         margin-left: 0;
     }
+
     .authHt {
         overflow-y: auto;
     }

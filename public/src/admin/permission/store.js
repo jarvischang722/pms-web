@@ -24,11 +24,13 @@ const state = {
     ga_funcList4Tree: [],
     ga_funcsOfRole: [],
     ga_funcChecked: [],
+    ga_funcUnChecked: [],
     gs_selectedCurrentId: null,
 
     gb_isAuthUpdate: false,
     gb_isAuthCreate: false,
     gb_isAuthDelete: false,
+    gb_isLoading: false,
 
     tmpCUD: {
         createData: [],
@@ -76,6 +78,9 @@ const mutations = {
     updFuncChecked(state, la_funcChecked) {
         state.ga_funcChecked = la_funcChecked;
     },
+    updFuncUnChecked(state, la_funcUnChecked) {
+        state.ga_funcUnChecked = la_funcUnChecked;
+    },
     checkedRoleList(state, la_checkedRoleList) {
         state.ga_checkedRoleList = la_checkedRoleList;
     },
@@ -97,14 +102,17 @@ const mutations = {
     setIsAuthDelete(state, lb_isAuthDelete) {
         state.gb_isAuthDelete = lb_isAuthDelete;
     },
-    setTmpCre(state, lo_createData){
+    setTmpCre(state, lo_createData) {
         state.tmpCUD.createData.push(lo_createData);
     },
-    setTmpUpd(state, lo_updateData){
+    setTmpUpd(state, lo_updateData) {
         state.tmpCUD.updateData.push(lo_updateData);
     },
-    setTmpDel(state, lo_deleteData){
+    setTmpDel(state, lo_deleteData) {
         state.tmpCUD.deleteData.push(lo_deleteData);
+    },
+    setIsLoading(state, lb_isLoading) {
+        state.gb_isLoading = lb_isLoading;
     }
 };
 
@@ -246,7 +254,12 @@ const actions = {
 
                     //process
                     _.each(lo_mdlMenu.processMenu, function (lo_processMenu) {
-                        la_funcList4Tree.push(treeDataObj(lo_processMenu.pro_id, lo_processMenu.mdl_id, lo_processMenu["pro_name_" + gs_locale]));
+                        la_funcList4Tree.push(treeDataObj(lo_processMenu.pro_id, lo_processMenu.mdl_id, lo_processMenu.pro_id + lo_processMenu["pro_name_" + gs_locale]));
+                        //function
+                        _.each(lo_processMenu.functionList, function (lo_functionList) {
+                            let ls_id = lo_functionList.pre_id + "_" + lo_functionList.current_id;
+                            la_funcList4Tree.push(treeDataObj(ls_id, lo_functionList.pre_id, lo_functionList["func_name_" + gs_locale]));
+                        })
                     })
 
                 })
@@ -263,13 +276,23 @@ const actions = {
             funcsOfRole: state.ga_funcsOfRole,
             staffChecked: state.ga_staffChecked,
             funcChecked: state.ga_funcChecked,
+            funcUnChecked: state.ga_funcUnChecked,
             selRole: state.gs_selRole
         };
+
+        commit("setIsLoading", true);
         $.post("/api/saveAuthByRole", lo_params).then(
             result => {
-                alert("save success");
+                commit("setIsLoading", false);
+                if(result.success){
+                    alert("save success");
+                }
+                else{
+                    alert(result.errMsg);
+                }
             },
             err => {
+                commit("setIsLoading", false);
                 console.log(err);
             }
         );
