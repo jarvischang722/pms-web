@@ -1,5 +1,5 @@
 <template>
-    <div class="authorityTree">
+    <div class="authorityTree" v-isLoading="gb_isLoading">
         <div class="page-header">
         </div><!-- /.page-header -->
         <div class="row">
@@ -86,6 +86,11 @@
             authRoleComp,
             authStaffComp,
             authFuncComp
+        },
+        computed: {
+            gb_isLoading() {
+                return this.$store.state.gb_isLoading;
+            }
         },
         methods: mapActions([
             "qryAllRoles",

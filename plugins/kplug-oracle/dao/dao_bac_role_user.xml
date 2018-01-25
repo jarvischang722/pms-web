@@ -86,8 +86,6 @@
             and trim(b.user_comp_cod) = trim(:user_comp_cod)
             and trim(a.func_athena_id) = trim(:athena_id)
             and trim(a.func_hotel_cod) = trim(:func_hotel_cod)
-            and id_typ <> 'FUNCTION'
-
         ]]>
         </statement>
         <parameter type="string" kind="3">user_athena_id</parameter>
