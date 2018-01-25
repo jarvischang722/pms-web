@@ -4,34 +4,25 @@
     <div class="pageMain">
         <div class="col-xs-12">
             <div class="search-content">
-                <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
                 <div class="search-co">
-                    <div class="search-co-h">
-                        <i class="ace-icon fa fa-search search-icon"></i>
-                        <span>Search</span>
-                        <div class="row search-right-btn">
-                            <div class="right-btn-menu-co">
-                                <ul>
-                                    <li>
-                                        <i class="fa fa-chevron-down show-search-detail"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row">
-                        <div class="search-co-content col-xs-12">
-                            <div class="col-sm-4">
-
+                        <div class="col-xs-12 search-co-content search-S2">
+                            <div class="width-95 searchMain-S2">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>房型</label>
+                                        <input type="text" class="input-medium medium-c1"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>房號</label>
+                                        <input type="text" class="input-medium medium-c1"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>房型類別</label>
+                                        <input type="text" class="input-medium medium-c1"/>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-sm-4">
-
-                            </div>
-                            <div class="col-sm-4">
-
-                            </div>
-                        </div>
-                        <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
                             <div class="row search-footer-btn">
                                 <div class="footer-btn-menu-co">
                                     <ul>
@@ -47,32 +38,50 @@
                                                 <div class="icon-reStyle icon-co-11"></div>
                                             </div>
                                         </li>
+
+                                        <li>
+                                            <div class="icon-moreSearch show-search-detail">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </div>  <!-- /.footer-btn-menu-co -->
                             </div> <!-- /.search-footer-btn -->
+                        </div>
+
+                        <div class="search-co-content col-xs-12 search-S2-con rece-search-detail"
+                             style="display: none;">
                             <div class="width-95">
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>Room Type</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <label>棟別</label>
+                                        <select class="input-medium medium-c1">
+                                            <option value="A">A棟</option>
+                                            <option value="B">B棟</option>
+                                            <option value="C">C棟</option>
+                                        </select>
                                     </div>
                                     <div class="grid-item">
-                                        <label>Room No.</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <label>樓層</label>
+                                        <select class="input-medium medium-c1">
+                                            <option value="1F">1F</option>
+                                            <option value="2F">2F</option>
+                                            <option value="3F">3F</option>
+                                        </select>
                                     </div>
                                     <div class="grid-item">
-                                        <label>Room Group</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <label>房間特色</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="">
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-                        </div> <!-- row-->
-                    </div> <!-- /.search-co -->
-                </div>
+                        </div>
+                    </div> <!-- row-->
+
+                </div> <!-- /.search-co -->
             </div> <!-- /.row  search-content-->
             <div class="clearfix"></div>
-
         </div> <!-- /.col-sm-12 -->
         <div class="col-xs-12">
             <div class="col-sm-11 col-xs-11">
@@ -80,7 +89,7 @@
                     <div class="plan-btn-group">
                         <ul>
                             <li>
-                                <span class="status_v btn-inlineWidth white" role="button">V</span>
+                                <span class="status_a btn-inlineWidth white" role="button">A</span>
                             </li>
                             <li>
                                 <span class="status_o btn-inlineWidth white" role="button">O</span>
@@ -89,17 +98,13 @@
                                 <span class="status_s btn-inlineWidth white" role="button">S</span>
                             </li>
                             <li>
-                                <span class="status_a btn-inlineWidth white" role="button">000</span>
+                                <span class="status_ooo btn-inlineWidth white" role="button">ooo</span>
                             </li>
-                            <!--<li>-->
-                            <!--<span class="status_a btn-inlineWidth" role="button">Assign</span>-->
-                            <!--</li>-->
                         </ul>
                     </div>
                     <!--  依房型訂房 -->
                     <%- include PMS0100000_module/resvRoomPlanTable_1 %>
                     <!--  /.End 依房型訂房 -->
-
                 </div>
             </div>
             <div class="col-xs-1 col-sm-1">
