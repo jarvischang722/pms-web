@@ -1257,7 +1257,7 @@ var singlePage = Vue.extend({
                     bquet_nos: self.singleData.bquet_nos,
                     old_sta: self.singleData.order_sta,
                     new_sta: newStatus,
-                    upd_usr: this.userInfo.usr_id
+                    upd_usr: self.userInfo.usr_id
                 };
 
                 $.post("/reserveBanquet/chgOrderStaAPI", lo_params, function (result) {
