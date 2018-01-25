@@ -112,18 +112,34 @@ var BacchusMainVM = new Vue({
         },
         /**
          * 塞入作業離開頁面後要執行的functions
-         * @param _funcsNam{Array[String]} : 功能名稱清單
+         * @param _funcsNam {Array[String]} : 功能名稱清單
+         * * function 規則:
+         * function (callback){
+         *      ........
+         *      .....
+         *      ..
+         *    callback(err,'done');
+         * }
          */
         setLeaveAfterExecFuncsNam: function (_funcsNam) {
             this.leaveAfterExecFuncsNam = _funcsNam;
         },
         /**
          * 執行作業離開前需要做的事
+         * function 規則:
+         * function (callback){
+         *      ........
+         *      .....
+         *      ..
+         *    callback(err,'done');
+         * }
          */
         doLeavePageBeforePrgFuncs: function () {
+            var laf_funcs = [];
             _.each(this.leaveAfterExecFuncsNam, function (funcNam) {
-                BacchusMainVM.prgVueIns[funcNam]();
+                laf_funcs.push(BacchusMainVM.prgVueIns[funcNam]());
             });
+            async.series(laf_funcs);
         },
         /**
          * 取得此子系統的權限
@@ -260,11 +276,16 @@ var BacchusMainVM = new Vue({
          * 登出
          */
         doLogout: function () {
-            $.post("/cas/logout", function (data) {
+            this.handleLogout(function () {
                 location.reload();
             });
         },
+        handleLogout: function (callback) {
+            $.post("/cas/logout", function (data) {
+                callback();
 
+            });
+        },
         /**
          * 修改密碼
          */
