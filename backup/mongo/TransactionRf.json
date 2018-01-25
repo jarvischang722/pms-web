@@ -47,3 +47,12 @@
     "func_id" : "2030", 
     "trans_code" : "RS0W2020102030"
 }
+{ 
+    "_id" : ObjectId("5a3721821801a92bb0c8e035"), 
+    "prg_id" : "PMS0620030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "0400", 
+    "trans_code\n(呼叫API)" : "PMS0620030"
+}
