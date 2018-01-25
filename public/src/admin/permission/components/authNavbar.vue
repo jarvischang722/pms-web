@@ -1,6 +1,5 @@
 <template>
     <div class="author-navbar">
-        <p class="topTitle float-left">{{navbarName}}</p>
         <div class="float-right author-nav-btn">
 
             <div class="btn-group" v-if="permissionModel == 'authByStaff'">
@@ -30,24 +29,9 @@
 
     export default {
         name: "auth-navbar",
-        data() {
-            return {
-                navbarName: ""
-            }
-        },
         computed: {
             permissionModel: {
                 get() {
-                    let ls_permissionModel = this.$store.state.gs_permissionModel;
-                    if (ls_permissionModel == "authByRole") {
-                        this.navbarName = "新增角色權限";
-                    }
-                    else if (ls_permissionModel == "authByStaff") {
-                        this.navbarName = "新增人員權限";
-                    }
-                    else {
-                        this.navbarName = "新增功能權限";
-                    }
                     return this.$store.state.gs_permissionModel;
                 },
                 set(newValue) {
@@ -63,6 +47,7 @@
                 this.$store.commit("setIsAuthDelete", true);
             },
             authCreate() {
+                this.$store.commit("setIsDialogShow", true);
                 this.$store.commit("setIsAuthCreate", true);
             }
         }
