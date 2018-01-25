@@ -42,8 +42,6 @@ exports.qryPageOneData = function (postData, session, callback) {
     });
 
     function qryBanquetData(cb) {
-        // fs.readFil／
-
         let params = {
             "REVE-CODE": "RS0W212010",
             "program_id": "RS0W212010",
@@ -65,15 +63,17 @@ exports.qryPageOneData = function (postData, session, callback) {
         });
     }
 
+    /**
+     * N預約，W等待，Q詢價
+     * @param cb {array} 定位資訊
+     */
     function qryBanquetSta(cb) {
-
-        // fs.readFile("./public/jsonData/reservation/bq_order.json", "utf8", function (err, result) {
-        //     let la_order = JSON.parse(result);
-        //     cb(err, la_order);
-        // });
-
-        queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function (err, result) {
-            cb(null, result);
+        queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function (err, la_order) {
+            let la_reserv = _.where(la_order, {order_sta: "N"});
+            let la_wait = _.where(la_order, {order_sta: "W"});
+            let la_quest = _.where(la_order, {order_sta: "Q"});
+            let la_orderData = la_reserv.concat(la_quest, la_wait);
+            cb(null, la_orderData);
         });
     }
 };
@@ -100,7 +100,6 @@ class ResvBanquetData {
             la_order[index].end_tim = self.chkTimeAdd24Min(lo_order.end_tim);
         });
         //訂席單排序
-        // la_order = _.sortBy(la_order, "begin_tim");
         this.lo_order = this.chkOrderOverLap(la_order);
 
     }
@@ -247,7 +246,7 @@ class ResvBanquetData {
 
         _.each(this.la_place, function (lo_place) {
             let la_newOrderData = [];
-            let la_order = _.sortBy(la_orderGroup[lo_place.place_cod], "begin_tim");
+            let la_order = _.sortBy(la_orderGroup[lo_place.place_cod], "wait_seq");
 
             _.each(la_order, function (lo_order, index) {
                 lo_order.rowId = 1;
