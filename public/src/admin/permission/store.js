@@ -262,7 +262,7 @@ const actions = {
 
                     //process
                     _.each(lo_mdlMenu.processMenu, function (lo_processMenu) {
-                        la_funcList4Tree.push(treeDataObj(lo_processMenu.pro_id, lo_processMenu.mdl_id, lo_processMenu.pro_id + lo_processMenu["pro_name_" + gs_locale]));
+                        la_funcList4Tree.push(treeDataObj(lo_processMenu.pro_id, lo_processMenu.mdl_id, lo_processMenu["pro_name_" + gs_locale]));
                         //function
                         _.each(lo_processMenu.functionList, function (lo_functionList) {
                             let ls_id = lo_functionList.pre_id + "_" + lo_functionList.current_id;
