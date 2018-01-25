@@ -1737,7 +1737,7 @@ var PSIW510030 = new Vue({
         /**
          * 放棄修改
          */
-        ModifyDrop: function () {
+        ModifyDrop: function (callback) {
             //無order_nos就跳出
             if(_.isUndefined(this.singleData.order_nos)){
                 return;
@@ -1766,6 +1766,7 @@ var PSIW510030 = new Vue({
                 self.editStatus = false;
 
                 self.doRowUnLock();
+                callback(null, 'done');
             });
         },
 
@@ -2005,14 +2006,17 @@ var PSIW510030 = new Vue({
             });
         },
 
-        doLogout: function () {
+        doLogout: function (callback) {
             if(go_isExit && go_isFirst){
+                PSIW510030.doRowUnLock();
                 //關閉時要登出，清除session
-                BacchusMainVM.doLogout();
+                BacchusMainVM.handleLogout(function () {
+                    callback(null, 'done');
+                });
+
                 go_isFirst = false;
             }
 
-            PSIW510030.doRowUnLock();
         }
     }
 
