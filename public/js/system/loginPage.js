@@ -63,6 +63,7 @@ var loginVM = new Vue({
     methods: {
         getDefaultAccount: function () {
             getUserIP(function(ip){
+                console.log(ip);
                 $.post("/api/getDefaultAccount", {clientIP: ip}, function (result) {
                     loginVM.username = result.account;
                 });
