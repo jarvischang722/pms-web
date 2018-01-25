@@ -1039,46 +1039,68 @@ exports.handleContractState = function (session, postData, callback) {
     let lo_result = new ReturnClass();
     let lo_error = null;
 
-    let lo_savaExecDatas = {
-        1: {
-            function: '2',
-            table_name: 'cust_mn',
-            condition: [{
-                key: 'athena_id',
-                operation: "=",
-                value: session.user.athena_id
-            }, {
-                key: 'cust_cod',
-                operation: "=",
-                value: postData.singleRowData.cust_cod
-            }],
-            cust_sta: postData.singleRowData.cust_mn_contract_sta
-        }
-    };
-    let apiParams = {
-        "REVE-CODE": "BAC03009010000",
-        "program_id": postData.prg_id,
-        "func_id": "",
-        "user": session.user.usr_id,
-        "table_name": "cust_idx",
-        "count": 1,
-        "exec_data": lo_savaExecDatas
-    };
+    async.waterfall([
+        qryMaxContractLogSeqNos,
+        saveContractStaData
+    ], function(err, result){});
 
-    tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
-        if (apiErr || !data) {
-            lo_result.success = false;
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = apiErr;
-        }
-        else if (data["RETN-CODE"] != "0000") {
-            lo_result.success = false;
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = "save error!";
-            console.error(data["RETN-CODE-DESC"]);
-        }
-        callback(lo_error, lo_result);
-    });
+
+    function qryMaxContractLogSeqNos(cb){
+        queryAgent.query("",{athena_id: session.user.athena_id, cust_cod:postData.singleRowData.cust_mn_cust_cod }, function(err, getResult){
+            if(err){
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = "sql err";
+                cb(lo_error, lo_result);
+            }
+            else {
+
+            }
+        });
+    }
+
+    function saveContractStaData(data, cb){
+        let lo_savaExecDatas = {
+            1: {
+                function: '2',
+                table_name: 'cust_mn',
+                condition: [{
+                    key: 'athena_id',
+                    operation: "=",
+                    value: session.user.athena_id
+                }, {
+                    key: 'cust_cod',
+                    operation: "=",
+                    value: postData.singleRowData.cust_mn_cust_cod
+                }],
+                cust_sta: postData.singleRowData.cust_mn_contract_sta
+            }
+        };
+        let apiParams = {
+            "REVE-CODE": "BAC03009010000",
+            "program_id": postData.prg_id,
+            "func_id": "",
+            "user": session.user.usr_id,
+            "table_name": "cust_idx",
+            "count": 1,
+            "exec_data": lo_savaExecDatas
+        };
+
+        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+            if (apiErr || !data) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = "save error!";
+                console.error(data["RETN-CODE-DESC"]);
+            }
+            callback(lo_error, lo_result);
+        });
+    }
 };
 
 

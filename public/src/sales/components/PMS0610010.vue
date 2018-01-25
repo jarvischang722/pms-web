@@ -645,10 +645,11 @@
                 this.$eventHub.$emit("contractStateData", {
                     singleData: self.contractStaMnSingleData
                 });
+                console.log(this.contractStaMnFieldData);
                 var postData = {
                     prg_id: "PMS0610020",
-                    validateField: this.contractStaFieldData[0][0].ui_field_name,
-                    singleRowData: JSON.parse(JSON.stringify(this.compStaSingleData)),
+                    validateField: this.contractStaMnFieldData.ui_field_name,
+                    singleRowData: JSON.parse(JSON.stringify(this.contractStaMnSingleData)),
                     oriSingleData: this.$store.state.go_mnSingleData.cust_mn_contract_sta
                 };
                 console.log(postData);
