@@ -939,7 +939,7 @@ exports.handleCompState = function (session, postData, callback) {
 
     let lo_result = new ReturnClass();
     let lo_error = null;
-    let lb_isFirst = postData.isFirst =='true'?true:false;
+    let lb_isFirst = postData.isFirst == 'true' ? true : false;
     if (lb_isFirst) {
         //新狀態=舊狀態，則不異動資料
         if (postData.oriSingleData == postData.singleRowData.cust_mn_status_cod) {
@@ -976,6 +976,7 @@ exports.handleCompState = function (session, postData, callback) {
     else {
         saveCustIdx();
     }
+
     //更新客戶索引檔狀態
     function saveCustIdx() {
 
@@ -1042,24 +1043,34 @@ exports.handleContractState = function (session, postData, callback) {
     async.waterfall([
         qryMaxContractLogSeqNos,
         saveContractStaData
-    ], function(err, result){});
+    ], function (err, result) {
+    });
 
 
-    function qryMaxContractLogSeqNos(cb){
-        queryAgent.query("",{athena_id: session.user.athena_id, cust_cod:postData.singleRowData.cust_mn_cust_cod }, function(err, getResult){
-            if(err){
+    function qryMaxContractLogSeqNos(cb) {
+        queryAgent.query("QRY_MAX_CONTRACT_LOG_SEQ_NOS", {
+            athena_id: session.user.athena_id,
+            cust_cod: postData.singleRowData.cust_mn_cust_cod
+        }, function (err, getResult) {
+            if (err) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = "sql err";
                 cb(lo_error, lo_result);
             }
             else {
-
+                if(getResult.max_seq_nos == null){
+                    cb(null, 1);
+                }
+                else{
+                    var ln_seqNos = Number(getResult.max_seq_nos) + 1;
+                    cb(null, ln_seqNos);
+                }
             }
         });
     }
 
-    function saveContractStaData(data, cb){
+    function saveContractStaData(max_seq_nos, cb) {
         let lo_savaExecDatas = {
             1: {
                 function: '2',
@@ -1074,6 +1085,17 @@ exports.handleContractState = function (session, postData, callback) {
                     value: postData.singleRowData.cust_mn_cust_cod
                 }],
                 cust_sta: postData.singleRowData.cust_mn_contract_sta
+            },
+            2: {
+                function: '1',
+                table_name: 'cust_mn_contract_sta_log ',
+                athena_id: session.user.athena_id,
+                cust_cod: postData.singleRowData.cust_mn_cust_cod,
+                seq_nos: max_seq_nos,
+                status_cod: postData.singleRowData.cust_mn_contract_sta,
+                status_desc:  postData.singleRowData.status_desc,
+                ins_usr: session.user.usr_id,
+                ins_dat: moment().format("YYYY/MM/DD")
             }
         };
         let apiParams = {

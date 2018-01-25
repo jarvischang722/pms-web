@@ -645,15 +645,26 @@
                 this.$eventHub.$emit("contractStateData", {
                     singleData: self.contractStaMnSingleData
                 });
-                console.log(this.contractStaMnFieldData);
+                var statusDescIdx = _.findIndex(this.contractStaMnFieldData.selectData,{value: this.contractStaMnSingleData.cust_mn_contract_sta});
+                var ls_statusDesc = this.contractStaMnFieldData.selectData[statusDescIdx].display.split(":")[1].trim();
+                this.contractStaMnSingleData = _.extend(this.contractStaMnSingleData, {status_desc: ls_statusDesc});
                 var postData = {
                     prg_id: "PMS0610020",
                     validateField: this.contractStaMnFieldData.ui_field_name,
                     singleRowData: JSON.parse(JSON.stringify(this.contractStaMnSingleData)),
                     oriSingleData: this.$store.state.go_mnSingleData.cust_mn_contract_sta
                 };
-                console.log(postData);
-                this.isOpenContractStatus = false;
+
+                $.post('/api/sales/doContractState', postData, function(result){
+                    if(result.success){
+                        self.isOpenContractStatus = false;
+                    }
+                    else{
+                        self.isOpenContractStatus = true;
+                        alert(result.errorMsg);
+                    }
+                });
+
             },
             doCloseContractStatusDialog() {
                 this.isOpenContractStatus = false;
