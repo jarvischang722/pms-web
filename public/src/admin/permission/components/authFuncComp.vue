@@ -161,7 +161,7 @@
                 }
                 else {
                     $("#permissionFuncTree").on("select_node.jstree", function (e, data) {
-                        let lo_funcSelected = data.node.id;
+                        let lo_funcSelected = data.node;
                         self.$store.commit("setSelectedCurrentID", lo_funcSelected);
                         self.checkedRoleByCurrentID(lo_funcSelected);
                     })
@@ -193,8 +193,8 @@
                 }, 100);
             },
 
-            checkedRoleByCurrentID(current_id) {
-                this.$store.dispatch("qryRoleByCurrentID", current_id);
+            checkedRoleByCurrentID(lo_selectedNode) {
+                this.$store.dispatch("qryRoleByCurrentID", lo_selectedNode);
             }
         }
     }

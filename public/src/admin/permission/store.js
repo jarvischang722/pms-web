@@ -31,6 +31,7 @@ const state = {
     gb_isAuthCreate: false,
     gb_isAuthDelete: false,
     gb_isLoading: false,
+    gb_isDialogShow: false,
 
     tmpCUD: {
         createData: [],
@@ -71,6 +72,9 @@ const mutations = {
     },
     setPermissionModel(state, ls_permissionModel) {
         state.gs_permissionModel = ls_permissionModel;
+    },
+    setIsDialogShow(state, lb_isDialogShow){
+        state.gb_isDialogShow = lb_isDialogShow;
     },
     updStaffChecked(state, la_staffChecked) {
         state.ga_staffChecked = la_staffChecked;
@@ -193,11 +197,15 @@ const actions = {
         )
     },
 
-    qryRoleByCurrentID({commit, state}, current_id) {
-        $.post("/api/qryRoleByCurrentID", {current_id: current_id}).then(
+    qryRoleByCurrentID({commit}, lo_selectedNode) {
+        $.post("/api/qryRoleByCurrentID", {current_id: lo_selectedNode.id, pre_id: lo_selectedNode.parent}).then(
             result => {
                 commit("checkedRoleList", result.roleList);
                 commit("checkedOriRoleList", result.roleList);
+            },
+            err => {
+                alert(err);
+                console.log(err);
             }
         )
     },
@@ -284,10 +292,10 @@ const actions = {
         $.post("/api/saveAuthByRole", lo_params).then(
             result => {
                 commit("setIsLoading", false);
-                if(result.success){
+                if (result.success) {
                     alert("save success");
                 }
-                else{
+                else {
                     alert(result.errMsg);
                 }
             },
@@ -313,11 +321,14 @@ const actions = {
     },
 
     doSaveByFunc({state, commit}) {
+        let ls_id = state.gs_selectedCurrentId.id.indexOf("_") != -1 ? state.gs_selectedCurrentId.id.split("_")[1] : state.gs_selectedCurrentId.id;
         let lo_params = {
-            current_id: state.gs_selectedCurrentId,
+            pre_id: state.gs_selectedCurrentId.parent,
+            current_id: ls_id,
             checkedRoleList: state.ga_checkedRoleList,
             oriCheckedRoleList: state.ga_oriCheckedRoleList
         };
+
         $.post("/api/saveAuthByFunc", lo_params).then(
             result => {
                 alert("save success");

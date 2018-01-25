@@ -69,6 +69,23 @@
                 </div> <!-- authorityTree -->
             </div>
         </div>
+
+        <template>
+            <el-dialog title="新增角色" :visible.sync="gb_isDialogShow" size="tiny">
+                <div>
+                    <label for="role_id">角色代碼</label>
+                    <input type="text" id="role_id" style="width:80%">
+                    <div class="space-6"></div>
+                    <label for="role_nam">角色名稱</label>
+                    <input type="text" id="role_nam" style="width:80%">
+                </div>
+                <div class="space-4"></div>
+                <div slot="footer" class="dialog-footer" style="text-align: center;">
+                    <el-button @click="closeDialog">取 消</el-button>
+                    <el-button type="primary">确 定</el-button>
+                </div>
+            </el-dialog>
+        </template>
     </div><!-- /.roomNumPlanPage -->
 </template>
 
@@ -81,6 +98,12 @@
 
     export default {
         name: "auth-by-role",
+        data() {
+            return{
+                isRoleDialogShow: false,
+                isRole: false
+            }
+        },
         components: {
             authNavbar,
             authRoleComp,
@@ -90,11 +113,20 @@
         computed: {
             gb_isLoading() {
                 return this.$store.state.gb_isLoading;
+            },
+            gb_isDialogShow() {
+
+                return this.$store.state.gb_isDialogShow;
             }
         },
-        methods: mapActions([
-            "doSaveByRole"
-        ])
+        methods: {
+            closeDialog() {
+                this.$store.commit("setIsDialogShow", false);
+            },
+            ...mapActions([
+                "doSaveByRole"
+            ])
+        }
     }
 </script>
 

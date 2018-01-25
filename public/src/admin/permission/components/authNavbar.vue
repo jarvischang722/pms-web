@@ -47,6 +47,7 @@
                 this.$store.commit("setIsAuthDelete", true);
             },
             authCreate() {
+                this.$store.commit("setIsDialogShow", true);
                 this.$store.commit("setIsAuthCreate", true);
             }
         }

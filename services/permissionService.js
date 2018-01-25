@@ -399,6 +399,7 @@ exports.saveAuthByFunc = function (postData, session, callback) {
     let lo_saveExecDatas = {};
     let lo_userInfo = session.user;
     let ls_current_id = postData.current_id;
+    let ls_pre_id = postData.pre_id;
 
     async.waterfall([
         function (cb) {
@@ -440,6 +441,11 @@ exports.saveAuthByFunc = function (postData, session, callback) {
                             key: "current_id",
                             operation: "=",
                             value: ls_current_id
+                        },
+                        {
+                            key: "pre_id",
+                            operation: "=",
+                            value: ls_pre_id
                         }
                     ];
                     lo_saveExecDatas[ln_exec_seq] = tmpDel;
@@ -456,7 +462,7 @@ exports.saveAuthByFunc = function (postData, session, callback) {
                     let tmpIns = {"function": "1"}; //1  新增
                     tmpIns["table_name"] = "BAC_ROLE_FUNCTION";
 
-                    let lo_func = _.findWhere(la_funcList, {current_id: ls_current_id});
+                    let lo_func = _.findWhere(la_funcList, {current_id: ls_current_id, pre_id: ls_pre_id});
                     if (!_.isUndefined(lo_func)) {
                         tmpIns.role_athena_id = lo_userInfo.athena_id;
                         tmpIns.role_comp_cod = lo_userInfo.cmp_id;
@@ -776,16 +782,17 @@ exports.qryRoleByUserID = function (postData, session, callback) {
     };
 
     queryAgent.queryList("QRY_ROLE_OF_ACCOUNTS", lo_params, 0, 0, function (err, result) {
-        console.log(result);
         callback(err, result);
     });
 };
 
 exports.qryRoleByCurrentID = function (postData, session, callback) {
+    let ls_id = postData.current_id.indexOf("_") != -1 ? postData.current_id.split("_")[1] : postData.current_id;
     let lo_params = {
         athena_id: session.user.athena_id,
         hotel_cod: session.user.hotel_cod,
-        current_id: postData.current_id
+        current_id: ls_id,
+        pre_id: postData.pre_id
     };
     let la_roleList = [];
 
@@ -793,6 +800,7 @@ exports.qryRoleByCurrentID = function (postData, session, callback) {
         _.each(la_roleByFuncList, function (lo_roleByFunctionList) {
             la_roleList.push(lo_roleByFunctionList.role_id);
         });
+        la_roleList = _.uniq(la_roleList);
         callback(err, la_roleList);
     });
 };
