@@ -1737,7 +1737,7 @@ var PSIW510030 = new Vue({
         /**
          * 放棄修改
          */
-        ModifyDrop: function (callback) {
+        ModifyDrop: function () {
             //無order_nos就跳出
             if(_.isUndefined(this.singleData.order_nos)){
                 return;
@@ -1766,7 +1766,6 @@ var PSIW510030 = new Vue({
                 self.editStatus = false;
 
                 self.doRowUnLock();
-                callback(null, 'done');
             });
         },
 
@@ -2004,32 +2003,18 @@ var PSIW510030 = new Vue({
                     return _.isEqual(self.singleData.order_nos, order_nos.newVal);
                 });
             });
-        },
-
-        doLogout: function (callback) {
-            if(go_isExit && go_isFirst){
-                PSIW510030.doRowUnLock();
-                //關閉時要登出，清除session
-                BacchusMainVM.handleLogout(function () {
-                    callback(null, 'done');
-                });
-
-                go_isFirst = false;
-            }
-
         }
     }
 
 });
 
 BacchusMainVM.setPrgVueIns(PSIW510030);
-BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop", "doLogout"]);
+BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop"]);
 
 var go_isExit = true;
-var go_isFirst = true;
 
 $(window).on('beforeunload', function () {
-
+    PSIW510030.doRowUnLock();
 });
 
 //使用一個flag判斷是否是離開網頁，才登出。
