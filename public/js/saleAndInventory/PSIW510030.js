@@ -2003,23 +2003,29 @@ var PSIW510030 = new Vue({
                     return _.isEqual(self.singleData.order_nos, order_nos.newVal);
                 });
             });
+        },
+
+        doLogout: function () {
+            if(go_isExit && go_isFirst){
+                //關閉時要登出，清除session
+                BacchusMainVM.doLogout();
+                go_isFirst = false;
+            }
+
+            PSIW510030.doRowUnLock();
         }
     }
 
 });
 
 BacchusMainVM.setPrgVueIns(PSIW510030);
-BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop"]);
+BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop", "doLogout"]);
 
 var go_isExit = true;
+var go_isFirst = true;
 
 $(window).on('beforeunload', function () {
-    if(go_isExit){
-        //關閉時要登出，清除session
-        $.post("/cas/logout", function (data) {});
-    }
 
-    PSIW510030.doRowUnLock();
 });
 
 //使用一個flag判斷是否是離開網頁，才登出。
