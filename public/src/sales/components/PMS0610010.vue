@@ -569,61 +569,70 @@
             },
             //單筆 ststus chg.(公司狀態)
             doSaveCompSta() {
-                var rule_func_name = this.compStaFieldData[0][0].rule_func_name
-                console.log(this.compStaSingleData);
+                var self = this;
+                var rule_func_name = this.compStaFieldData[0][0].rule_func_name;
                 this.compStaSingleData = _.extend(this.compStaSingleData, {cust_cod: this.$store.state.gs_custCod});
+                var postData = {
+                    prg_id: "PMS0610020",
+                    rule_func_name: rule_func_name,
+                    validateField: this.compStaFieldData[0][0].ui_field_name,
+                    singleRowData: JSON.parse(JSON.stringify(this.compStaSingleData)),
+                    oriSingleData: this.$store.state.go_mnSingleData.cust_mn_status_cod,
+                    isFirst: true
+                };
 
-                if (!_.isEmpty(rule_func_name.trim())) {
-                    var postData = {
-                        prg_id: "PMS0610020",
-                        rule_func_name: rule_func_name,
-                        validateField: this.compStaFieldData[0][0].ui_field_name,
-                        singleRowData: JSON.parse(JSON.stringify(this.compStaSingleData)),
-                        oriSingleData: JSON.parse(JSON.stringify(this.compStaSingleData))
-                    };
-                    $.post('/api/chkFieldRule', postData, function (result) {
-
-                        if (result.success) {
-                            //是否要show出訊息
-                            if (result.showAlert) {
-                                alert(result.alertMsg);
-                            }
-
-                            //是否要show出詢問視窗
-                            if (result.showConfirm) {
-                                if (confirm(result.confirmMsg)) {
-
-                                } else {
-                                    //有沒有要再打一次ajax到後端
-                                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
-
-                                            if (!result.success) {
-                                                alert(result.errorMsg);
-                                            } else {
-
-                                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
-                                                    self.singleData = _.extend(self.singleData, result.effectValues);
-                                                }
-
-                                            }
+                this.chkCompStat(function(result){
+                    if(result){
+                        $.post('/api/sales/doCompState', postData, function(res){
+                            if(res.success){
+                                if(res.showConfirm){
+                                    if(confirm(res.confirmMsg)){
+                                        postData.isFirst = false;
+                                        $.post(res.ajaxURL, postData, function (res2) {
+                                            self.isOpenCompSta = false;
                                         });
                                     }
                                 }
+                                else{
+                                    self.isOpenCompSta = false;
+                                }
                             }
+                            else{
+                                self.isOpenCompSta = true;
+                                alert(res.errorMsg);
+                            }
+                        })
+                    }
+                });
+            },
+            chkCompStat(callback){
+                var self = this;
+                var rule_func_name = this.compStaFieldData[0][0].rule_func_name;
+                this.compStaSingleData = _.extend(this.compStaSingleData, {cust_cod: this.$store.state.gs_custCod});
+                if (!_.isEmpty(rule_func_name.trim())) {
+                    var postData = {
+                        prg_id: "PMS0610020",
+                        validateField: this.compStaFieldData[0][0].ui_field_name,
+                        singleRowData: JSON.parse(JSON.stringify(this.compStaSingleData)),
+                        oriSingleData: this.$store.state.go_mnSingleData.cust_mn_status_cod
+                    };
+
+                    $.post('/api/chkFieldRule', postData, function (result) {
+                        if (result.success) {
+                            //傳公司狀態回商務公司資料編輯
+                            self.$eventHub.$emit("compStateData", {
+                                singleData: self.compStaSingleData
+                            });
+                            callback(true);
 
                         } else {
+                            self.isOpenCompSta = true;
                             alert(result.errorMsg);
+                            callback(false)
                         }
-
-                        //連動帶回的值
-                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
-                            self.singleData = _.extend(self.singleData, result.effectValues);
-                        }
-
                     });
                 }
-                this.isOpenCompSta = false;
+
             },
             doCloseCompStaDialog() {
                 this.compStaSingleData = {};
@@ -632,7 +641,17 @@
             },
             //單筆 合約狀態變更
             doSaveContractStatus() {
-                console.log(this.contractStaMnSingleData);
+                var self = this;
+                this.$eventHub.$emit("contractStateData", {
+                    singleData: self.contractStaMnSingleData
+                });
+                var postData = {
+                    prg_id: "PMS0610020",
+                    validateField: this.contractStaFieldData[0][0].ui_field_name,
+                    singleRowData: JSON.parse(JSON.stringify(this.compStaSingleData)),
+                    oriSingleData: this.$store.state.go_mnSingleData.cust_mn_contract_sta
+                };
+                console.log(postData);
                 this.isOpenContractStatus = false;
             },
             doCloseContractStatusDialog() {

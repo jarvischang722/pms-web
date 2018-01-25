@@ -182,15 +182,7 @@
                 }
             },
             removeRow() {
-                var lo_delRow = $('#companyVisitRecord_dg').datagrid("getSelected");
-
-                if (!lo_delRow) {
-                    alert(go_i18nLang["SystemCommon"].SelectOneData);
-                }
-                else {
-                    console.log("delete this row");
-                    this.dgIns.removeRow();
-                }
+                this.dgIns.removeRow();
             },
             showSingleGridDialog() {
                 var self = this;

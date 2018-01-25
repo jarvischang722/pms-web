@@ -85,7 +85,7 @@ module.exports = {
                     //     }
                     //     cb(lo_error, lo_result);
                     // });
-                    ls_custMnCustCod = "CS 000000000001702  ";
+                    ls_custMnCustCod = "CS 000000000019602  ";
                     ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
                     ls_custMnPcustCod = ls_custMnCustCod;
                     cb(lo_error, lo_result);
@@ -420,7 +420,32 @@ module.exports = {
     },
 
     /**
+     * PMS0610020 商務公司資料編輯 相關人員 切換主要聯絡人
+     * 1.主要聯絡人僅可指定予一筆相關人員資料，於勾選欄位時自動切換
+     * 2.主要聯絡人非必要勾選，可無指定主要聯絡人
+     * 3.主要聯絡人的seq_nos要入到主檔cust_mn.atten_cod
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    r_primary_pers: function(postData, session, callback){
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        if(postData.newValue == 'Y'){
+            _.each(postData.allRowData, function(lo_rowData, idx){
+                postData.allRowData[idx].primary_pers = "N";
+            });
+            postData.allRowData[postData.rowIndex].primary_pers = postData.newValue;
+            lo_result.effectValues = postData.allRowData;
+        }
+
+        callback(lo_error, lo_result);
+    },
+
+    /**
      * PMS0610020 商務公司資料編輯 相關人員刪除前檢查
+     * 主要聯絡人打勾，則不允許刪除 訊息「此筆資料設為主要聯絡人，不可刪除」
      * @param postData
      * @param session
      * @param callback
@@ -429,9 +454,12 @@ module.exports = {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        lo_result.success = false;
-        lo_error = new ErrorClass();
-        lo_error.errorMsg = "test";
+        if(postData.singleRowData.primary_pers == 'Y'){
+            lo_result.success = false;
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = commandRules.getMsgByCod("pms62msg7", session.locale);
+        }
+
         callback(lo_error, lo_result);
     },
 
@@ -473,7 +501,7 @@ module.exports = {
                     if(getResult.order_rate_Count > 0){
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg3", session.locale);;
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg3", session.locale);
                         cb(lo_error, lo_result);
                     }
                     else{
@@ -524,7 +552,10 @@ module.exports = {
                 callback(lo_error, lo_result);
             });
         }
+        else{
 
+            callback(lo_error, lo_result);
+        }
 
         function qryFitCod(cb){
             queryAgent.query("QRY_FIT_COD", {athena_id: session.user.athena_id}, function(err, getResult){
@@ -571,5 +602,4 @@ module.exports = {
         }
 
     }
-}
-;
+};

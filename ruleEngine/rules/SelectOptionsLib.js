@@ -867,6 +867,23 @@ exports.getSalesStatus = function () {
 };
 
 /**
+ * PMS0610020 商務公司資料編輯 相關人員 主要聯絡人是否打勾
+ * @returns {array}
+ */
+exports.getCustMnPersPrmaryPers = function () {
+    var la_optionList = [
+        {
+            on: 'Y',
+            off: 'N'
+        }, {
+            Y: '<input type="checkbox" checked>',
+            N: '<input type="checkbox" >'
+        }
+    ];
+    return la_optionList;
+};
+
+/**
  * PMS0620020 業務員資料編輯
  * 館別 欄位 status下拉資料
  * @returns {[null,null]}
@@ -1217,6 +1234,15 @@ exports.lang_CustmnPersdtJobSta = function (parans, callback) {
 exports.lang_CustIdxSexTyp = function (parans, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustIdxSexTyp();
+    callback(null, lo_result);
+};
+
+/**
+ * 商務公司資料編輯(PMS0610020) 相關人員 是否為主要聯絡人
+ */
+exports.qry_CustMnPerPrmaryPers = function (parans, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustMnPersPrmaryPers();
     callback(null, lo_result);
 };
 

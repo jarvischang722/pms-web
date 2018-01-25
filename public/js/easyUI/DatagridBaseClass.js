@@ -199,7 +199,22 @@ function DatagridBaseClass() {
             };
         }
         if (self.endEditing()) {
-            $.post("/api/handleDataGridAddEventRule", {prg_id: self.prg_id}, function (result) {
+            //設定搜尋條件
+            var lo_param = {};
+            if(this.dtOriRowData.length != 0){
+                lo_param = {
+                    prg_id: self.prg_id,
+                    page_id: self.fieldsData[0].page_id,
+                    tab_page_id: self.fieldsData[0].tab_page_id
+                };
+            }
+            else{
+                lo_param = {
+                    prg_id: self.prg_id
+                };
+            }
+
+            $.post("/api/handleDataGridAddEventRule", lo_param, function (result) {
                 var prgDefaultObj = {createRow: 'Y'};
                 if (result.success) {
                     prgDefaultObj = result.prgDefaultObj;

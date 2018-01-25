@@ -473,13 +473,13 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                 }
                 else {
                     _.each(effectValues, function (item, index) {
-
+                       console.log(item);
                         var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
                         $('#' + dgName).datagrid('updateRow', {
                             index: indexRow,
                             row: item
                         });
-                        adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
+                        // adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
                     });
 
                 }

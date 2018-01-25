@@ -127,4 +127,30 @@ exports.doEditSalesClerk = function (req, res) {
     });
 };
 
+//商務公司資料編輯(修改公司狀態)
+exports.doCompState = function(req, res){
+    salesSVC.handleCompState(req.session, req.body, function (err, result) {
+        res.json(commonTools.mergeRtnErrResultJson(err, result));
+    });
+};
+
+//商務公司資料編輯(修改合約狀態)
+exports.doContractState = function(req, res){
+    salesSVC.handleContractState(req.session, req.body, function (err, result) {
+        var returnData = {
+            success: true,
+            errorMsg: "",
+            errorCode: ""
+        };
+        if (err) {
+            returnData.success = false;
+            returnData.errorMsg = err.errorMsg;
+            returnData.errorCode = err;
+        }
+        else {
+            returnData.rtnObject = result;
+        }
+        res.json(returnData);
+    });
+};
 

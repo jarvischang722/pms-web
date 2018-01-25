@@ -20,6 +20,11 @@ var langSvc = require("./LangService");
 let fieldAttrSvc = require("./FieldsAttrService");
 var ruleAgent = require("../ruleEngine/ruleAgent");
 var commonTools = require("../utils/CommonTools");
+var path = require('path');
+var appRootDir = path.dirname(require.main.filename);
+var ruleRootPath = appRootDir + "/ruleEngine/";
+var ReturnClass = require(ruleRootPath + "/returnClass");
+var ErrorClass = require(ruleRootPath + "/errorClass");
 
 /**
  * [PMS0620020] 業務員資料編輯 撈取單筆資料
@@ -872,7 +877,7 @@ exports.handleAddFuncRule_PMS0620020 = function (session, postData, callback) {
  * @param callback{function} (err, rowData)
  */
 exports.handleEditSalesClerk = function (session, postData, callback) {
-    if(_.isUndefined(postData.prg_id)){
+    if (_.isUndefined(postData.prg_id)) {
         return callback("Missing Program ID.", false);
     }
     if (_.isUndefined(session.user) || _.size(session.user) == 0) {
@@ -916,6 +921,164 @@ exports.handleEditSalesClerk = function (session, postData, callback) {
         callback(err, success);
     });
 
+};
+
+/**
+ * [PMS0610020] 商務公司資料編輯 儲存公司狀態
+ * @param session{Object}
+ * @param postData{Object}
+ * @param callback{function} (err, rowData)
+ */
+exports.handleCompState = function (session, postData, callback) {
+    if (_.isUndefined(postData.prg_id)) {
+        return callback("Missing Program ID.", false);
+    }
+    if (_.isUndefined(session.user) || _.size(session.user) == 0) {
+        return callback("Not Login.", false);
+    }
+
+    let lo_result = new ReturnClass();
+    let lo_error = null;
+    let lb_isFirst = postData.isFirst =='true'?true:false;
+    if (lb_isFirst) {
+        //新狀態=舊狀態，則不異動資料
+        if (postData.oriSingleData == postData.singleRowData.cust_mn_status_cod) {
+            callback(lo_error, lo_result);
+        }
+        else {
+            //檢查是否為其他商務公司資料指定為總公司或簽帳公司，若是則顯示提示訊息予使用者確認是否變更，若確認變更則執行處理
+            if (postData.singleRowData.cust_mn_status_cod == 'D') {
+                queryAgent.query("CHK_CUST_MN_IS_OTHER_HOFFICE_OR_PCUST", {
+                    athena_id: session.user.athena_id,
+                    cust_cod: postData.singleRowData.cust_cod
+                }, function (err, getResult) {
+                    if (err) {
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = "sql err";
+                        callback(lo_error, lo_result);
+                    }
+                    else if (getResult.cust_cod_count > 0) {
+                        lo_result.showConfirm = true;
+                        lo_result.confirmMsg = "此筆資料為他筆商務公司指定為總公司或簽帳公司，是否確定修改為刪除狀態？";
+                        lo_result.ajaxURL = "/api/sales/doCompState";
+                        callback(lo_error, lo_result);
+                    }
+                });
+            }
+            //更新客戶索引檔狀態
+            else {
+                saveCustIdx();
+            }
+        }
+    }
+    //第二次打回來，更新客戶索引檔狀態
+    else {
+        saveCustIdx();
+    }
+    //更新客戶索引檔狀態
+    function saveCustIdx() {
+
+        let lo_savaExecDatas = {
+            1: {
+                function: '2',
+                table_name: 'cust_idx',
+                condition: [{
+                    key: 'athena_id',
+                    operation: "=",
+                    value: session.user.athena_id
+                }, {
+                    key: 'cust_cod',
+                    operation: "=",
+                    value: postData.singleRowData.cust_cod
+                }],
+                cust_sta: postData.singleRowData.cust_mn_status_cod
+            }
+        };
+        let apiParams = {
+            "REVE-CODE": "BAC03009010000",
+            "program_id": postData.prg_id,
+            "func_id": "",
+            "user": session.user.usr_id,
+            "table_name": "cust_idx",
+            "count": 1,
+            "exec_data": lo_savaExecDatas
+        };
+
+        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+            if (apiErr || !data) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = "save error!";
+                console.error(data["RETN-CODE-DESC"]);
+            }
+            callback(lo_error, lo_result);
+        });
+    }
+};
+
+/**
+ * [PMS0610020] 商務公司資料編輯 儲存合約狀態
+ * @param session{Object}
+ * @param postData{Object}
+ * @param callback{function} (err, rowData)
+ */
+exports.handleContractState = function (session, postData, callback) {
+    if (_.isUndefined(postData.prg_id)) {
+        return callback("Missing Program ID.", false);
+    }
+    if (_.isUndefined(session.user) || _.size(session.user) == 0) {
+        return callback("Not Login.", false);
+    }
+
+    let lo_result = new ReturnClass();
+    let lo_error = null;
+
+    let lo_savaExecDatas = {
+        1: {
+            function: '2',
+            table_name: 'cust_mn',
+            condition: [{
+                key: 'athena_id',
+                operation: "=",
+                value: session.user.athena_id
+            }, {
+                key: 'cust_cod',
+                operation: "=",
+                value: postData.singleRowData.cust_cod
+            }],
+            cust_sta: postData.singleRowData.cust_mn_contract_sta
+        }
+    };
+    let apiParams = {
+        "REVE-CODE": "BAC03009010000",
+        "program_id": postData.prg_id,
+        "func_id": "",
+        "user": session.user.usr_id,
+        "table_name": "cust_idx",
+        "count": 1,
+        "exec_data": lo_savaExecDatas
+    };
+
+    tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+        if (apiErr || !data) {
+            lo_result.success = false;
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = apiErr;
+        }
+        else if (data["RETN-CODE"] != "0000") {
+            lo_result.success = false;
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = "save error!";
+            console.error(data["RETN-CODE-DESC"]);
+        }
+        callback(lo_error, lo_result);
+    });
 };
 
 

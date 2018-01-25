@@ -298,11 +298,21 @@
                 self.relatedSettingSingleData = relatedSettingData.relatedSettingSingleData;
                 self.relatedSettingOriSingleData = relatedSettingData.relatedSettingOriSingleData;
             });
+            //業務員指派
             this.$eventHub.$on('doEditSalesClerk', function (result) {
                 if(result.success){
                     self.fetchFieldData();
                 }
             });
+            //取得商務公司狀態資料
+            this.$eventHub.$on('compStateData', function(compStateData){
+                self.singleData = _.extend(self.singleData, compStateData.singleData);
+            });
+            //取得合約狀態資料
+            this.$eventHub.$on('contractStateData', function(contractStateData){
+                self.singleData = _.extend(self.singleData, contractStateData.singleData);
+            });
+
         },
         mounted() {
             this.panelName = ["setPanel", "personnelPanel", "salesPanel", "contractPanel",
@@ -352,19 +362,20 @@
             },
             singleData: {
                 handler: function (val) {
+                    //將主檔資料放至Vuex
                     this.$store.dispatch("setMnSingleData", {
                         go_mnSingleData: val,
                         go_mnOriSingleData: this.oriSingleData
                     });
-                    var lo_singleData = JSON.parse(JSON.stringify(val));
                     //自動將郵遞區號對應之地址資料帶至地址欄位
+                    var lo_singleData = JSON.parse(JSON.stringify(val));
                     if(lo_singleData.cust_idx_zip_cod != "" && lo_singleData.cust_idx_add_rmk ==""){
                         var ln_zipCodIdx = _.findIndex(this.oriFieldsData, {ui_field_name: 'cust_idx_zip_cod'})
                         var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
                         this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
                     }
                 },
-                deep: true
+               deep: true
             }
         },
         methods: {
