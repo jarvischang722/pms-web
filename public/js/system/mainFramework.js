@@ -46,6 +46,7 @@ var BacchusMainVM = new Vue({
         window.onbeforeunload = function () {
             BacchusMainVM.doLeavePageBeforePrgFuncs();
         };
+        this.doCheckOnlineUser();
         this.getUserSubsys();
         this.updateCurrentDateTime();
         this.updateExpiresTime();
@@ -132,7 +133,6 @@ var BacchusMainVM = new Vue({
                 BacchusMainVM.subsysMenu = res.subsysMenu;
                 BacchusMainVM.activeSystem = res.activeSystem;
                 BacchusMainVM.usingSubsysID = getCookie('usingSubsysID');
-                BacchusMainVM.doCheckOnlineUser();
             });
         },
         /**
