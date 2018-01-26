@@ -158,7 +158,6 @@ var DatagridFieldAdapter = {
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
-                    console.log(isUserEdit);
                     if (isUserEdit) {
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
@@ -473,13 +472,12 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                 }
                 else {
                     _.each(effectValues, function (item, index) {
-                       console.log(item);
                         var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
                         $('#' + dgName).datagrid('updateRow', {
                             index: indexRow,
                             row: item
                         });
-                        // adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
+                        adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
                     });
 
                 }

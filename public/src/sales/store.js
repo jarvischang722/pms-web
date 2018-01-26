@@ -70,7 +70,7 @@ const mutations = {
     //設定業務備註資料
     setRemarkDataGridRowsData(state, payload) {
         state.go_allData.ga_remarkDataGridRowsData = payload.ga_remarkDataGridRowsData;
-        state.go_allOriData.ga_remarkDataGridRowsData = payload.go_remarkOriDataGridRowsData;
+        state.go_allOriData.ga_remarkDataGridRowsData = payload.ga_remarkOriDataGridRowsData;
     },
     //設定拜訪紀錄資料
     setVrDataGridRowsData(state, payload) {
@@ -116,12 +116,55 @@ const actions = {
     qryAllDataIsChange({commit, dispatch, state}){
         var lb_isDataChanged = false;
         _.each(state.go_allData, function(val, key){
-            if(!_.isMatch(val, state.go_allOriData[key])){
-                lb_isDataChanged = true;
-                return;
+            if(_.isArray(val)){
+                if(val.length != state.go_allOriData[key].length){
+                    lb_isDataChanged = true;
+                    return;
+                }
+                else{
+                    _.each(val, function(lo_val, idx){
+                        if(!_.isMatch(lo_val, state.go_allOriData[key][idx])){
+                            lb_isDataChanged = true;
+                            return;
+                        }
+                    });
+                }
+            }
+            else{
+                if(!_.isMatch(val, state.go_allOriData[key])){
+                    lb_isDataChanged = true;
+                    return;
+                }
             }
         });
-        return lb_isDataChanged;
+        return {success: true, isChange: lb_isDataChanged};
+    },
+    //清空所有資料
+    setAllDataClear({commit, dispatch, state}){
+        dispatch("setMnSingleData",{
+            go_mnSingleData: {},
+            go_mnOriSingleData: {}
+        });
+        dispatch("setRsSingleData",{
+            go_rsSingleData: {},
+            go_rsOriSingleData: {}
+        });
+        dispatch("setRpDataGridRowsData",{
+            ga_rpDataGridRowsData: [],
+            ga_rpOriDataGridRowsData: []
+        });
+        dispatch("setCcDataGridRowsData",{
+            ga_ccDataGridRowsData: [],
+            go_ccOriDataGridRowsData: []
+        });
+        dispatch("setRemarkDataGridRowsData",{
+            ga_remarkDataGridRowsData: [],
+            ga_remarkOriDataGridRowsData: []
+        });
+        dispatch("setVrDataGridRowsData",{
+            ga_vrDataGridRowsData: [],
+            ga_vrOriDataGridRowsData:[]
+        });
     }
 };
 

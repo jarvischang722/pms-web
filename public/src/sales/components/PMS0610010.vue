@@ -563,6 +563,7 @@
                         self.$eventHub.$emit('setTabName', {
                             tabName: ""
                         });
+                        self.$store.dispatch("setAllDataClear");
                         // self.doRowUnLock();
                     }
                 }).dialog('open');
@@ -577,7 +578,7 @@
                     rule_func_name: rule_func_name,
                     validateField: this.compStaFieldData[0][0].ui_field_name,
                     singleRowData: JSON.parse(JSON.stringify(this.compStaSingleData)),
-                    oriSingleData: this.$store.state.go_mnSingleData.cust_mn_status_cod,
+                    oriSingleData: this.$store.state.go_allData.go_mnSingleData.cust_mn_status_cod,
                     isFirst: true
                 };
 
@@ -614,7 +615,7 @@
                         prg_id: "PMS0610020",
                         validateField: this.compStaFieldData[0][0].ui_field_name,
                         singleRowData: JSON.parse(JSON.stringify(this.compStaSingleData)),
-                        oriSingleData: this.$store.state.go_mnSingleData.cust_mn_status_cod
+                        oriSingleData: this.$store.state.go_allData.go_mnSingleData.cust_mn_status_cod
                     };
 
                     $.post('/api/chkFieldRule', postData, function (result) {
@@ -652,7 +653,7 @@
                     prg_id: "PMS0610020",
                     validateField: this.contractStaMnFieldData.ui_field_name,
                     singleRowData: JSON.parse(JSON.stringify(this.contractStaMnSingleData)),
-                    oriSingleData: this.$store.state.go_mnSingleData.cust_mn_contract_sta
+                    oriSingleData: this.$store.state.go_allData.go_mnSingleData.cust_mn_contract_sta
                 };
 
                 $.post('/api/sales/doContractState', postData, function(result){

@@ -475,16 +475,19 @@
             doSetCompanyStatus() {
                 var self = this;
                 if (this.isEditStatus) {
-                    if (_.isMatch(this.relatedSettingSingleData, this.relatedSettingOriSingleData)
-                        && _.isMatch(this.singleData, this.oriSingleData)) {
-                        this.isOpenCompanyStatus = true;
-                        this.$eventHub.$emit('getCompanyStatusData', {
-                            openCompanyStatus: self.isOpenCompanyStatus
-                        });
-                    }
-                    else {
-                        alert("請先儲存主檔及相關設定檔");
-                    }
+                    this.$store.dispatch("qryAllDataIsChange").then(result =>{
+                        if(result.success){
+                            if(!result.isChange){
+                                this.isOpenCompanyStatus = true;
+                                this.$eventHub.$emit('getCompanyStatusData', {
+                                    openCompanyStatus: self.isOpenCompanyStatus
+                                });
+                            }
+                            else {
+                                alert("請先儲存主檔及相關設定檔");
+                            }
+                        }
+                    });
                 }
             },
             //合約狀態變更
@@ -494,20 +497,20 @@
                 la_contractStaFieldData.modificable = 'Y';
                 if (this.isEditStatus) {
                     this.$store.dispatch("qryAllDataIsChange").then(result =>{
-                        console.log(result);
+                        if(result.success){
+                            if(!result.isChange){
+                                this.isOpenContractStatus = true;
+                                this.$eventHub.$emit('getContractStatusData', {
+                                    openContractStatus: self.isOpenContractStatus,
+                                    singleData: JSON.parse(JSON.stringify(self.singleData)),
+                                    fieldData: la_contractStaFieldData
+                                });
+                            }
+                            else {
+                                alert("請先儲存主檔及相關設定檔");
+                            }
+                        }
                     });
-                    if (_.isMatch(this.relatedSettingSingleData, this.relatedSettingOriSingleData)
-                        && _.isMatch(this.singleData, this.oriSingleData)) {
-                        this.isOpenContractStatus = true;
-                        this.$eventHub.$emit('getContractStatusData', {
-                            openContractStatus: self.isOpenContractStatus,
-                            singleData: JSON.parse(JSON.stringify(self.singleData)),
-                            fieldData: la_contractStaFieldData
-                        });
-                    }
-                    else {
-                        alert("請先儲存主檔及相關設定檔");
-                    }
                 }
             },
             //異動紀錄(change log)

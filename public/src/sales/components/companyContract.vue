@@ -97,6 +97,24 @@
                     });
                 },
                 deep: true
+            },
+            dataGridRowsDataOfExpire: {
+                handler(val){
+                    this.$store.dispatch("setCcDataGridRowsData", {
+                        ga_ccDataGridRowsData: val,
+                        go_ccOriDataGridRowsData: this.oriDataGridRowsData
+                    });
+                },
+                deep: true
+            },
+            dataGridRowsDataOfRateCode: {
+                handler(val){
+                    this.$store.dispatch("setCcDataGridRowsData", {
+                        ga_ccDataGridRowsData: val,
+                        go_ccOriDataGridRowsData: this.oriDataGridRowsData
+                    });
+                },
+                deep: true
             }
         },
         methods: {
@@ -140,7 +158,7 @@
                 this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'contractContent_dg'), this.fieldsData);
                 this.dgIns.loadDgData(dataGridRowsData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
-                this.dgIns.updateMnRowData(this.$store.state.go_mnSingleData);
+                this.dgIns.updateMnRowData(this.$store.state.go_allData.go_mnSingleData);
 
                 this.isLoading = false;
 

@@ -107,8 +107,8 @@
             },
             doEditSalesClerk() {
                 var self = this;
-                var lo_singleData = this.$store.state.go_mnSingleData;
-                var lo_oriSingleData = this.$store.state.go_mnOriSingleData;
+                var lo_singleData = this.$store.state.go_allData.go_mnSingleData;
+                var lo_oriSingleData = this.$store.state.go_allOriData.go_mnSingleData;
                 var lb_isEditStatus = this.$store.state.gb_isEditStatus;
                 this.rowData = _.extend(this.rowData, {isSalesClerk: self.isSalesClerk});
 
