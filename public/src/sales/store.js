@@ -10,18 +10,22 @@ const state = {
 
     gs_custCod: "",
 
-    go_mnSingleData: {},
-    go_mnOriSingleData: {},
-    go_rsSingleData: {},
-    go_rsOriSingleData: {},
-    ga_rpDataGridRowsData: [],
-    go_rpOriDataGridRowsData: [],
-    ga_ccDataGridRowsData: [],
-    ga_ccOriDataGridRowsData: [],
-    ga_remarkDataGridRowsData: [],
-    ga_remarkOriDataGridRowsData: [],
-    ga_vrDataGridRowsData: [],
-    ga_vrOriDataGridRowsData: [],
+    go_allData: {
+        go_mnSingleData: {},
+        go_rsSingleData: {},
+        ga_rpDataGridRowsData: [],
+        ga_ccDataGridRowsData: [],
+        ga_remarkDataGridRowsData: [],
+        ga_vrDataGridRowsData: []
+    },
+    go_allOriData: {
+        go_mnSingleData: {},
+        go_rsSingleData: {},
+        ga_rpDataGridRowsData: [],
+        ga_ccDataGridRowsData: [],
+        ga_remarkDataGridRowsData: [],
+        ga_vrDataGridRowsData: []
+    },
 
     tmpCUD: {
         createData: [],
@@ -45,33 +49,33 @@ const mutations = {
     },
     //設定主檔資料
     setMnSingleData(state, payload) {
-        state.go_mnSingleData = payload.go_mnSingleData;
-        state.go_mnOriSingleData = payload.go_mnOriSingleData;
+        state.go_allData.go_mnSingleData = payload.go_mnSingleData;
+        state.go_allOriData.go_mnSingleData = payload.go_mnOriSingleData;
     },
     //設定相關設定資料
     setRsSingleData(state, payload) {
-        state.go_rsSingleData = payload.go_rsSingleData;
-        state.go_rsOriSingleData = payload.go_rsOriSingleData;
+        state.go_allData.go_rsSingleData = payload.go_rsSingleData;
+        state.go_allOriData.go_rsSingleData = payload.go_rsOriSingleData;
     },
     //設定相關人員資料
     setRpDataGridRowsData(state, payload) {
-        state.ga_rpDataGridRowsData = payload.ga_rpDataGridRowsData;
-        state.ga_rpOriDataGridRowsData = payload.ga_rpOriDataGridRowsData;
+        state.go_allData.ga_rpDataGridRowsData = payload.ga_rpDataGridRowsData;
+        state.go_allOriData.ga_rpDataGridRowsData = payload.ga_rpOriDataGridRowsData;
     },
     //設定合約內容資料
     setCcDataGridRowsData(state, payload) {
-        state.ga_ccDataGridRowsData = payload.ga_ccDataGridRowsData;
-        state.go_ccOriDataGridRowsData = payload.go_ccOriDataGridRowsData;
+        state.go_allData.ga_ccDataGridRowsData = payload.ga_ccDataGridRowsData;
+        state.go_allOriData.ga_ccDataGridRowsData = payload.go_ccOriDataGridRowsData;
     },
     //設定業務備註資料
     setRemarkDataGridRowsData(state, payload) {
-        state.ga_remarkDataGridRowsData = payload.ga_remarkDataGridRowsData;
-        state.go_remarkOriDataGridRowsData = payload.go_remarkOriDataGridRowsData;
+        state.go_allData.ga_remarkDataGridRowsData = payload.ga_remarkDataGridRowsData;
+        state.go_allOriData.ga_remarkDataGridRowsData = payload.go_remarkOriDataGridRowsData;
     },
     //設定拜訪紀錄資料
     setVrDataGridRowsData(state, payload) {
-        state.ga_vrDataGridRowsData = payload.ga_vrDataGridRowsData;
-        state.ga_vrOriDataGridRowsData = payload.ga_vrOriDataGridRowsData;
+        state.go_allData.ga_vrDataGridRowsData = payload.ga_vrDataGridRowsData;
+        state.go_allOriData.ga_vrDataGridRowsData = payload.ga_vrOriDataGridRowsData;
     }
 };
 
@@ -108,9 +112,16 @@ const actions = {
     setVrDataGridRowsData({commit}, payload) {
         commit("setVrDataGridRowsData", payload);
     },
-    //取得所有資料
-    qryAllData({commit, dispatch, state}){
-        return {success: true, funcList4Tree: state.go_mnSingleData};
+    //取得所有資料是否有改變
+    qryAllDataIsChange({commit, dispatch, state}){
+        var lb_isDataChanged = false;
+        _.each(state.go_allData, function(val, key){
+            if(!_.isMatch(val, state.go_allOriData[key])){
+                lb_isDataChanged = true;
+                return;
+            }
+        });
+        return lb_isDataChanged;
     }
 };
 
