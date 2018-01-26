@@ -601,5 +601,15 @@ module.exports = {
             });
         }
 
+    },
+
+    /**
+     * 主檔檢查
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    r_0500: function(postData, session, callback){
+
     }
 };

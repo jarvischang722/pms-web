@@ -10,21 +10,23 @@ const state = {
 
     gs_custCod: "",
 
+    //所有資料
     go_allData: {
-        go_mnSingleData: {},
-        go_rsSingleData: {},
-        ga_rpDataGridRowsData: [],
-        ga_ccDataGridRowsData: [],
-        ga_remarkDataGridRowsData: [],
-        ga_vrDataGridRowsData: []
+        go_mnSingleData: {},//主檔資料
+        go_rsSingleData: {},//相關設定資料
+        ga_rpDataGridRowsData: [],//相關人員資料
+        ga_ccDataGridRowsData: [],//合約內容資料
+        ga_remarkDataGridRowsData: [],//業務備註資料
+        ga_vrDataGridRowsData: []//拜訪紀錄資料
     },
+    //所有原始資料
     go_allOriData: {
-        go_mnSingleData: {},
-        go_rsSingleData: {},
-        ga_rpDataGridRowsData: [],
-        ga_ccDataGridRowsData: [],
-        ga_remarkDataGridRowsData: [],
-        ga_vrDataGridRowsData: []
+        go_mnSingleData: {},//主檔資料
+        go_rsSingleData: {},//相關設定資料
+        ga_rpDataGridRowsData: [],//相關人員資料
+        ga_ccDataGridRowsData: [],//合約內容資料
+        ga_remarkDataGridRowsData: [],//業務備註資料
+        ga_vrDataGridRowsData: []//拜訪紀錄資料
     },
 
     tmpCUD: {
@@ -113,7 +115,7 @@ const actions = {
         commit("setVrDataGridRowsData", payload);
     },
     //取得所有資料是否有改變
-    qryAllDataIsChange({commit, dispatch, state}){
+    qryAllDataIsChange({state}){
         var lb_isDataChanged = false;
         _.each(state.go_allData, function(val, key){
             if(_.isArray(val)){
@@ -140,7 +142,7 @@ const actions = {
         return {success: true, isChange: lb_isDataChanged};
     },
     //清空所有資料
-    setAllDataClear({commit, dispatch, state}){
+    setAllDataClear({dispatch}){
         dispatch("setMnSingleData",{
             go_mnSingleData: {},
             go_mnOriSingleData: {}
@@ -165,6 +167,19 @@ const actions = {
             ga_vrDataGridRowsData: [],
             ga_vrOriDataGridRowsData:[]
         });
+    },
+    //儲存所有資料
+    doSaveAllData({commit, dispatch, state}){
+        var err = null;
+        if(state.gb_isCreateStatus){
+
+            console.log(state.go_allData.go_mnSingleData);
+        }
+        else if(state.gb_isCreateStatus){
+
+        }
+
+        return({success: true, errorMsg:err});
     }
 };
 

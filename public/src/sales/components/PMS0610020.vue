@@ -464,7 +464,18 @@
                 }
             },
             doSaveGrid() {
-                console.log(this.singleData);
+                this.isLoadingDialog = true;
+                this.loadingText = "saving";
+                this.$store.dispatch("doSaveAllData").then(result=>{
+                    if(result.success){
+                        alert("save success");
+                        this.doCloseDialog();
+                    }
+                    else{
+                        alert(result.errorMsg);
+                    }
+                    this.isLoadingDialog = false;
+                })
             },
             doCloseDialog() {
                 this.initData();
@@ -484,7 +495,7 @@
                                 });
                             }
                             else {
-                                alert("請先儲存主檔及相關設定檔");
+                                alert("請先儲存主檔資料及相關資料");
                             }
                         }
                     });
@@ -507,7 +518,7 @@
                                 });
                             }
                             else {
-                                alert("請先儲存主檔及相關設定檔");
+                                alert("請先儲存主檔資料及相關資料");
                             }
                         }
                     });
