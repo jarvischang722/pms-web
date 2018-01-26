@@ -7,10 +7,15 @@ let mongoAgent = require("../../mongodb");
 let moment = require("moment");
 let dbSVC = require("../../../services/DbTableService");
 let usrActSVS = require("../../../services/userActionService");
+let onUsrSVC = require("../../../services/onlineUserService");
 let tools = require("../../../utils/CommonTools");
 let queryAgent = require("../../kplug-oracle/QueryAgent");
 
 module.exports = function (io) {
+    //TODO 1.setInterval()
+    //TODO 2.new Array{Object}
+    //TODO 3.handshake  socket_id &session into Array
+    //TODO 4.When leave change object status to be true
 
     let ga_lockedPrgIDList = []; //紀錄目前有被lock table的object
 
@@ -229,7 +234,7 @@ module.exports = function (io) {
      */
     function doCheckOnlineUser(socket, session, session_id) {
         try {
-            dbSVC.doCheckOnlineUser(session, session_id, function (err, success) {
+            onUsrSVC.doCheckOnlineUser(session, session_id, function (err, success) {
                 socket.emit('checkOnlineUserResult', {success: success, errorMsg: err});
             });
         }
@@ -244,7 +249,7 @@ module.exports = function (io) {
      * @param gs_sessionId{string}
      */
     function doReleaseOnlineUser(session, session_id) {
-        dbSVC.doReleaseOnlineUser(session, session_id, function (err, success) {
+        onUsrSVC.doReleaseOnlineUser(session, session_id, function (err, success) {
             if (err) {
                 console.error(err);
             }

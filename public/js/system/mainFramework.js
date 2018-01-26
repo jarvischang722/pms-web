@@ -112,7 +112,6 @@ var BacchusMainVM = new Vue({
         },
         /**
          * 塞入作業離開頁面後要執行的functions
-         * @param _funcsNam{Array[String]} : 功能名稱清單
          */
         setLeaveAfterExecFuncsNam: function (_funcsNam) {
             this.leaveAfterExecFuncsNam = _funcsNam;
@@ -260,15 +259,20 @@ var BacchusMainVM = new Vue({
          * 登出
          */
         doLogout: function () {
-            $.post("/cas/logout", function (data) {
+            this.handleLogout(function () {
                 location.reload();
             });
         },
-
+        handleLogout: function (callback) {
+            $.post("/cas/logout", function (data) {
+                callback();
+            });
+        },
         /**
          * 修改密碼
          */
         doEditPassword: function () {
+            $('#editPasswordDialog').removeClass('hide');
             this.openEditPasswordDialog = true;
         },
 

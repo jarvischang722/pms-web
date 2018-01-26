@@ -2014,11 +2014,6 @@ BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop"]);
 var go_isExit = true;
 
 $(window).on('beforeunload', function () {
-    if(go_isExit){
-        //關閉時要登出，清除session
-        $.post("/cas/logout", function (data) {});
-    }
-
     PSIW510030.doRowUnLock();
 });
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- 撈取權限功能按鈕多語系-->
+    <dao name= "QRY_LANG_BAC_PROCESS_FUNC_RF">
+        <statement><![CDATA[
+            select * from lang_bac_process_func_rf
+        ]]></statement>
+    </dao>
+
+</root>

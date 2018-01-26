@@ -8,7 +8,7 @@ var loginVM = new Vue({
         ],
         companyData: [],
         rememberMeCheck: false,
-        username: gs_account,
+        username: "",
         passwd: "",
         dbname: "0",
         comp_id: "0",
@@ -40,6 +40,7 @@ var loginVM = new Vue({
 
     },
     mounted: function () {
+        this.getDefaultAccount();
         this.getCompaonyData();
         setTimeout(function () {
             loginVM.showUserCookie();
@@ -60,6 +61,14 @@ var loginVM = new Vue({
         });
     },
     methods: {
+        getDefaultAccount: function () {
+            getUserIP(function(ip){
+                console.log(ip);
+                $.post("/api/getDefaultAccount", {clientIP: ip}, function (result) {
+                    loginVM.username = result.account;
+                });
+            });
+        },
         getCompaonyData: function () {
             $.post("/api/getSelectCompany", function (result) {
                 if (result.success) {
@@ -118,3 +127,44 @@ var loginVM = new Vue({
     }
 });
 
+/**
+ * 取Client IP
+ * @param onNewIP callback function
+ */
+function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
+    //compatibility for firefox and chrome
+    var myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+    var pc = new myPeerConnection({
+            iceServers: []
+        }),
+        noop = function() {},
+        localIPs = {},
+        ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g,
+        key;
+
+    function iterateIP(ip) {
+        if (!localIPs[ip]) onNewIP(ip);
+        localIPs[ip] = true;
+    }
+
+    //create a bogus data channel
+    pc.createDataChannel("");
+
+    // create offer and set local description
+    pc.createOffer().then(function(sdp) {
+        sdp.sdp.split('\n').forEach(function(line) {
+            if (line.indexOf('candidate') < 0) return;
+            line.match(ipRegex).forEach(iterateIP);
+        });
+
+        pc.setLocalDescription(sdp, noop, noop);
+    }).catch(function(reason) {
+        // An error occurred, so handle the failure to connect
+    });
+
+    //listen for candidate events
+    pc.onicecandidate = function(ice) {
+        if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
+        ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
+    };
+}

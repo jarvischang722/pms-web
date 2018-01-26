@@ -58,6 +58,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_holiday_kind_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_holiday_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hotel_sval_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_lang_bac_process_func_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hotel_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_lang_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_msggtrmk_rf.xml"/>

@@ -5,11 +5,12 @@
         <statement><![CDATA[
             select * from bac_role_function
             where func_athena_id = :athena_id and trim(func_hotel_cod) = trim(:hotel_cod)
-            and trim(current_id) = trim(:current_id)
+            and trim(current_id) = trim(:current_id) and trim(pre_id) = trim(:pre_id)
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">current_id</parameter>
+        <parameter type="string" kind="3">pre_id</parameter>
     </dao>
 
 </root>

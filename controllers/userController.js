@@ -24,9 +24,7 @@ exports.loginPage = function (req, res) {
         res.redirect("/systemOption");
         return;
     }
-    let ls_account = "";
-    let clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
+
     try {
         async.waterfall([
             function (callback) {
@@ -67,39 +65,42 @@ exports.loginPage = function (req, res) {
                 ];
                 res.cookie('sys_locales', localeInfo, options);
                 callback(null, 'done');
-            },
-            //判斷IP網段是否有對應的username
-            function (data, callback) {
-                fs.exists("configs/IPsUsersRef.json", function (isExist) {
-                    if (isExist) {
-                        let IPsUsersRef = require("../configs/IPsUsersRef.json");
-
-                        _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
-                            if (ipSubnet.toString().indexOf("/") > -1) {
-                                if (ip.cidrSubnet(ipSubnet).contains(clientIP)) {
-                                    ls_account = user.toString();
-                                }
-                            } else {
-                                if (_.isEqual(ipSubnet, clientIP)) {
-                                    ls_account = user.toString();
-                                }
-                            }
-                        });
-                    }
-                    callback(null, 'done');
-                });
             }
         ], function (err) {
-            res.render('user/loginPage', {account: ls_account});
+            res.render('user/loginPage');
         });
 
     }
     catch (ex) {
         console.error(ex);
-        res.render('user/loginPage', {account: ls_account});
+        res.render('user/loginPage');
     }
 };
 
+
+exports.getDefaultAccount = function (req, res) {
+    var ls_clientIP = req.body.clientIP;
+    var ls_account = "";
+    fs.exists("configs/IPsUsersRef.json", function (isExist) {
+        if (isExist) {
+            let IPsUsersRef = require("../configs/IPsUsersRef.json");
+
+            _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
+                if (ipSubnet.toString().indexOf("/") > -1) {
+                    if (ip.cidrSubnet(ipSubnet).contains(ls_clientIP)) {
+                        ls_account = user.toString();
+                    }
+                } else {
+                    if (_.isEqual(ipSubnet, ls_clientIP)) {
+                        ls_account = user.toString();
+                    }
+                }
+            });
+        }
+        res.json({account: ls_account});
+    });
+
+};
 /**
  * casLogin
  */
@@ -364,7 +365,9 @@ exports.getFuncsOfRole = function (req, res) {
         lo_params.athena_id = lo_userInfo.athena_id;
         lo_params.func_hotel_cod = lo_userInfo.fun_hotel_cod;
     }
+
     queryAgent.queryList("QRY_BAC_SYS_MODULE_BY_USER", lo_params, 0, 0, function (err, funcsOfRole) {
+        // let la_function = _.where(funcsOfRole, {id_typ: "FUNCTION"});
         res.json({success: true, funcsOfRole: funcsOfRole});
     });
 };
