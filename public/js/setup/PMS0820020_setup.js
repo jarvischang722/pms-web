@@ -214,7 +214,8 @@ Vue.component('single-grid-pms0820020-tmp', {
             BTN_action: false,
             isRuleComplete: true,
             isVerified: true,
-            timer: null
+            timer: null,
+            ln_editingIndex: -1
         };
     },
     created: function () {
@@ -250,38 +251,90 @@ Vue.component('single-grid-pms0820020-tmp', {
     methods: {
         //到第一筆
         toFirstData: function () {
-            this.isFistData = true;
-            this.isLastData = false;
-            this.editingRow = _.first(this.pageOneDataGridRows);
-            this.emitFetchSingleData();
+            var self = this;
+            this.doSaveModifyData(function (result) {
+                if (result) {
+                    self.isFistData = true;
+                    self.isLastData = false;
+                    self.editingRow = _.first(self.pageOneDataGridRows);
+                    self.emitFetchSingleData();
+                }
+            });
         },
 
         //上一筆
         toPreData: function () {
-            var nowRowIndex = $("#PMS0820020_dg").datagrid('getRowIndex', this.editingRow);
-            this.editingRow = this.pageOneDataGridRows[nowRowIndex - 1];
-            this.emitFetchSingleData();
+            var self = this;
+            this.doSaveModifyData(function (result) {
+                if (result) {
+                    var nowRowIndex = $("#PMS0820020_dg").datagrid('getRowIndex', self.editingRow);
+                    self.editingRow = self.pageOneDataGridRows[nowRowIndex - 1];
+                    self.emitFetchSingleData();
+                }
+            });
         },
 
         //下一筆
         toNextData: function () {
-            var nowRowIndex = $("#PMS0820020_dg").datagrid('getRowIndex', this.editingRow);
-            this.editingRow = this.pageOneDataGridRows[nowRowIndex + 1];
-            this.emitFetchSingleData();
-
+            var self = this;
+            this.doSaveModifyData(function (result) {
+                if (result) {
+                    self.ln_editingIndex = self.ln_editingIndex == -1 ? PMS0820020VM.editingIndex + 1 : self.ln_editingIndex + 1;
+                    self.editingRow = self.pageOneDataGridRows[self.ln_editingIndex];
+                    self.emitFetchSingleData();
+                }
+            });
         },
 
         //最後一筆
         toLastData: function () {
-            this.isFistData = false;
-            this.isLastData = true;
-            this.editingRow = _.last(this.pageOneDataGridRows);
-            this.emitFetchSingleData();
+            var self = this;
+            this.doSaveModifyData(function (result) {
+                if (result) {
+                    self.isFistData = false;
+                    self.isLastData = true;
+                    self.editingRow = _.last(self.pageOneDataGridRows);
+                    self.emitFetchSingleData();
+                }
+            });
         },
+
+        doSaveModifyData(callback) {
+            var self = this;
+            var lb_isDataChang = false;
+
+            for (var propertyName in PMS0820020VM.singleData) {
+                if (PMS0820020VM.singleData[propertyName] != PMS0820020VM.originData[propertyName]) {
+                    console.log(PMS0820020VM.singleData[propertyName], PMS0820020VM.originData[propertyName]);
+                    lb_isDataChang = true;
+                    break;
+                }
+            }
+
+            if (lb_isDataChang) {
+                var q = confirm(go_i18nLang["SystemCommon"].Save_changed_data);
+
+                if (q) {
+                    this.doSaveGrid("checkEditSave", function (result) {
+                        if (result) {
+                            PMS0820020VM.originData = _.clone(PMS0820020VM.singleData);
+                        }
+                        callback(result);
+                    });
+                }
+                else {
+                    callback(true);
+                }
+            }
+            else {
+                callback(true);
+            }
+        },
+
         //刪除單筆EVENT
         handleDeleteSingleData: function () {
             var self = this;
-            var q = confirm("Are you sure delete those data?");
+            var q = confirm(go_i18nLang.SystemCommon.check_delete);
             if (q) {
                 //刪除前檢查
                 $.post("/api/deleteFuncRule", {
@@ -307,8 +360,14 @@ Vue.component('single-grid-pms0820020-tmp', {
 
         //關閉
         emitCloseGridDialog: function () {
-            this.dtEditIndex = undefined;
-            this.$emit('close-single-grid-dialog');
+            var self = this;
+            this.doSaveModifyData(function (result) {
+                if (result) {
+                    self.dtEditIndex = undefined;
+                    self.ln_editingIndex = -1;
+                    self.$emit('close-single-grid-dialog');
+                }
+            });
         },
 
         //抓取單筆資料
@@ -330,7 +389,11 @@ Vue.component('single-grid-pms0820020-tmp', {
         },
 
         //儲存新增或修改資料
-        doSaveGrid: function (saveAfterAction) {
+        doSaveGrid: function (saveAfterAction, callback) {
+            if (_.isUndefined(callback)) {
+                callback = function () {
+                };
+            }
             var self = this;
             if (this.isRuleComplete == false) {
                 if (this.timer == null) {
@@ -400,7 +463,8 @@ Vue.component('single-grid-pms0820020-tmp', {
                 else {
                     this.tmpCud.createData = [this.singleData];
                 }
-            } else if (this.editStatus) {
+            }
+            else if (this.editStatus) {
                 this.tmpCud.editData = [this.singleData];
             }
 
@@ -442,7 +506,10 @@ Vue.component('single-grid-pms0820020-tmp', {
 
                     }
 
-
+                    callback(true);
+                }
+                else {
+                    callback(false);
                 }
             });
         },
@@ -588,6 +655,7 @@ var PMS0820020VM = new Vue({
         oriPageTwoFieldData: [],        //page_id 2 原始欄位資料
         pageTwoDataGridFieldData: [],   //page_id 2 datagird欄位
         editingRow: {},                 //編輯中的資料
+        editingIndex: 0,
         userInfo: {},                   //登入的使用者資料
         tmpCud: {                       //新刪修暫存
             createData: [],
@@ -973,10 +1041,10 @@ var PMS0820020VM = new Vue({
             PMS0820020VM.tmpCud.deleteData = [];
             var checkRows = $('#PMS0820020_dg').datagrid('getChecked');
             if (checkRows == 0) {
-                alert('Check at least one item');
+                alert(go_i18nLang.SystemCommon.SelectOneData);
                 return;
             }
-            var q = confirm("Are you sure delete those data?");
+            var q = confirm(go_i18nLang.SystemCommon.check_delete);
             if (q) {
                 //刪除前檢查
 
@@ -1100,6 +1168,7 @@ var PMS0820020VM = new Vue({
             PMS0820020VM.deleteStatus = false;
             PMS0820020VM.editStatus = true;
             PMS0820020VM.editingRow = editingRow;
+            PMS0820020VM.editingIndex = $("#PMS0820020_dg").datagrid('getRowIndex', editingRow);
             editingRow["prg_id"] = prg_id;
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 if (result.success) {
@@ -1121,29 +1190,33 @@ var PMS0820020VM = new Vue({
 
         //init datepicker
         initDatePicker: function () {
-            if (!this.isDatepickerInit) {
-                this.isDatepickerInit = true;
-                $('.date_picker').datepicker({
-                    autoclose: true,
-                    format: 'yyyy/mm/dd'
-                }).on("changeDate", function (e) {
-                });
+            try {
+                if (!this.isDatepickerInit) {
+                    this.isDatepickerInit = true;
+                    $('.date_picker').datepicker({
+                        autoclose: true,
+                        format: 'yyyy/mm/dd'
+                    }).on("changeDate", function (e) {
+                    });
 
-                $('.date_timepicker').datetimepicker({
-                    format: 'YYYY/MM/DD hh:mm:ss ',//use this option to display seconds
-                    icons: {
-                        time: 'fa fa-clock-o',
-                        date: 'fa fa-calendar',
-                        up: 'fa fa-chevron-up',
-                        down: 'fa fa-chevron-down',
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-arrows ',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-times'
-                    }
+                    $('.date_timepicker').datetimepicker({
+                        format: 'YYYY/MM/DD hh:mm:ss ',//use this option to display seconds
+                        icons: {
+                            time: 'fa fa-clock-o',
+                            date: 'fa fa-calendar',
+                            up: 'fa fa-chevron-up',
+                            down: 'fa fa-chevron-down',
+                            previous: 'fa fa-chevron-left',
+                            next: 'fa fa-chevron-right',
+                            today: 'fa fa-arrows ',
+                            clear: 'fa fa-trash',
+                            close: 'fa fa-times'
+                        }
 
-                });
+                    });
+                }
+            }
+            catch (ex) {
             }
         },
 
