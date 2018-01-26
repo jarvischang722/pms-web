@@ -40,40 +40,53 @@ exports.doCheckOnlineUser = function (session, session_id, callback) {
         //取得onlineUserSession中所有session id
         function (cb) {
             mongoAgent.OnlineUser.findOne(lo_params, function (err, getResult) {
-                la_onlineUserSession = getResult.onlineUserSession;
-                cb(err, getResult.onlineUserSession);
+                if (err) {
+                    success = false;
+                    cb(err, success);
+                }
+                else if (!getResult) {
+                    success = false;
+                    errorMsg = 'OnlineUser is null';
+                    cb(errorMsg, success);
+                }
+                else{
+                    la_onlineUserSession = getResult.onlineUserSession;
+                    cb(null, getResult.onlineUserSession);
+                }
             });
         },
         //取得線上的onlineUserSession
         function (la_sessionId, cb) {
             mongoAgent.Sessions.find({}, function (err, getResult) {
-                let la_nowSessionId = getResult;
-                let la_deleteSessionId = [];
-                _.each(la_sessionId, function (lo_sessionId) {
-                    let ln_noneExistIdx = _.findIndex(la_nowSessionId, {_id: lo_sessionId.session_id});
-                    if (ln_noneExistIdx <= -1) {
-                        la_deleteSessionId.push(lo_sessionId);
-                    }
-                });
-                cb(err, la_deleteSessionId);
+                if (err) {
+                    success = false;
+                    cb(err, success);
+                }
+                else if (!getResult) {
+                    success = false;
+                    errorMsg = 'OnlineUser is null';
+                    cb(errorMsg, success);
+                }
+                else{
+                    let la_nowSessionId = getResult;
+                    let la_existSessionId = [];
+                    _.each(la_sessionId, function (lo_sessionId) {
+                        let ln_noneExistIdx = _.findIndex(la_nowSessionId, {_id: lo_sessionId.session_id});
+                        if (ln_noneExistIdx > -1) {
+                            la_existSessionId.push(lo_sessionId);
+                        }
+                    });
+                    cb(null, la_existSessionId);
+                }
             });
         },
         //刪掉不在線上的session
-        function (la_deleteSessionId, cb) {
-            let la_nowSession = [];
-            _.each(la_onlineUserSession, function (lo_onlineUserSession) {
-                _.each(la_deleteSessionId, function (ls_sessionId) {
-                    if (lo_onlineUserSession.session_id != ls_sessionId) {
-                        la_nowSession.push(lo_onlineUserSession);
-                    }
-                });
-            });
-            mongoAgent.OnlineUser.update(lo_params, {onlineUserSession: la_nowSession}, function (err) {
+        function (la_existSessionId, cb) {
+            mongoAgent.OnlineUser.update(lo_params, {onlineUserSession: la_existSessionId}, function (err) {
                 if (err) {
                     success = false;
-                    errorMsg = err.message;
                 }
-                cb(errorMsg, success);
+                cb(err, success);
             });
         },
         //更新在線人數
@@ -149,7 +162,7 @@ exports.doReleaseOnlineUser = function (session, session_id, callback) {
             callback(errorMsg, success);
         }
         else {
-            let ln_sessionUserIndex = _.indexOf(getResult.onlineUserSession, session_id);
+            let ln_sessionUserIndex = _.findIndex(getResult.onlineUserSession, {session_id: session_id});
             if (ln_sessionUserIndex > -1) {
                 getResult.onlineUserSession.splice(ln_sessionUserIndex, 1);
                 mongoAgent.OnlineUser.update(lo_params, {onlineUserSession: getResult.onlineUserSession}, function (err) {
