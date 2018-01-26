@@ -230,6 +230,11 @@
                         relatedSettingSingleData: val,
                         relatedSettingOriSingleData: self.oriSingleData
                     });
+                    //將主檔資料放至Vuex
+                    this.$store.dispatch("setRelatedSettingData", {
+                        go_relatedSettingSingleData: val,
+                        go_relatedSettingOriSingleData: this.oriSingleData
+                    });
                 },
                 deep: true
             }

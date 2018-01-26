@@ -24,7 +24,7 @@
                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                    :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                            
+
                                             <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         v-model="singleData[field.ui_field_name]" :data="field.selectData"
@@ -234,13 +234,13 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales_statusChg"
-                                                role="button" @click="doSetCompanyStatus">
+                                                role="button" :disabled="isCreateStatus" @click="doSetCompanyStatus">
                                             {{i18nLang.program.PMS0610020.company_status}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales_stateChange"
-                                                role="button" @click="doSetContractStatus">
+                                                role="button" :disabled="isCreateStatus" @click="doSetContractStatus">
                                             {{i18nLang.program.PMS0610020.contract_status}}
                                         </button>
                                     </li>
@@ -300,16 +300,16 @@
             });
             //業務員指派
             this.$eventHub.$on('doEditSalesClerk', function (result) {
-                if(result.success){
+                if (result.success) {
                     self.fetchFieldData();
                 }
             });
             //取得商務公司狀態資料
-            this.$eventHub.$on('compStateData', function(compStateData){
+            this.$eventHub.$on('compStateData', function (compStateData) {
                 self.singleData = _.extend(self.singleData, compStateData.singleData);
             });
             //取得合約狀態資料
-            this.$eventHub.$on('contractStateData', function(contractStateData){
+            this.$eventHub.$on('contractStateData', function (contractStateData) {
                 self.singleData = _.extend(self.singleData, contractStateData.singleData);
             });
 
@@ -369,13 +369,13 @@
                     });
                     //自動將郵遞區號對應之地址資料帶至地址欄位
                     var lo_singleData = JSON.parse(JSON.stringify(val));
-                    if(lo_singleData.cust_idx_zip_cod != "" && lo_singleData.cust_idx_add_rmk ==""){
+                    if (lo_singleData.cust_idx_zip_cod != "" && (lo_singleData.cust_idx_add_rmk == "" || _.isNull(lo_singleData.cust_idx_add_rmk) ) ){
                         var ln_zipCodIdx = _.findIndex(this.oriFieldsData, {ui_field_name: 'cust_idx_zip_cod'})
                         var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
                         this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
                     }
                 },
-               deep: true
+                deep: true
             }
         },
         methods: {
@@ -392,7 +392,7 @@
                     gb_isEditStatus: this.isEditStatus
                 });
             },
-            setGlobalCustCod(){
+            setGlobalCustCod() {
                 this.$store.dispatch("setCustCod", this.singleData.cust_mn_cust_cod);
             },
             setTabStatus(tabName) {
@@ -472,52 +472,38 @@
             //ststus chg.(公司狀態)
             doSetCompanyStatus() {
                 var self = this;
-                if(this.isEditStatus){
-                    if(_.isMatch(this.relatedSettingSingleData, this.relatedSettingOriSingleData)
-                        && _.isMatch(this.singleData, this.oriSingleData)){
+                if (this.isEditStatus) {
+                    if (_.isMatch(this.relatedSettingSingleData, this.relatedSettingOriSingleData)
+                        && _.isMatch(this.singleData, this.oriSingleData)) {
                         this.isOpenCompanyStatus = true;
                         this.$eventHub.$emit('getCompanyStatusData', {
                             openCompanyStatus: self.isOpenCompanyStatus
                         });
                     }
-                    else{
+                    else {
                         alert("請先儲存主檔及相關設定檔");
                     }
-                }
-                else if(this.isCreateStatus){
-                    this.isOpenCompanyStatus = true;
-                    this.$eventHub.$emit('getCompanyStatusData', {
-                        openCompanyStatus: self.isOpenCompanyStatus
-                    });
                 }
             },
             //合約狀態變更
             doSetContractStatus() {
                 var self = this;
-                var self = this;
-                if(this.isEditStatus){
-                    if(_.isMatch(this.relatedSettingSingleData, this.relatedSettingOriSingleData)
-                        && _.isMatch(this.singleData, this.oriSingleData)){
+                var la_contractStaFieldData = JSON.parse(JSON.stringify(_.findWhere(self.oriFieldsData, {ui_field_name: "cust_mn_contract_sta"})));
+                la_contractStaFieldData.modificable = 'Y'
+                if (this.isEditStatus) {
+                    if (_.isMatch(this.relatedSettingSingleData, this.relatedSettingOriSingleData)
+                        && _.isMatch(this.singleData, this.oriSingleData)) {
                         this.isOpenContractStatus = true;
                         this.$eventHub.$emit('getContractStatusData', {
                             openContractStatus: self.isOpenContractStatus,
                             singleData: JSON.parse(JSON.stringify(self.singleData)),
-                            fieldData:self.oriFieldsData[_.findIndex(self.oriFieldsData, {ui_field_name: "cust_mn_contract_sta"})]
+                            fieldData: la_contractStaFieldData
                         });
                     }
-                    else{
+                    else {
                         alert("請先儲存主檔及相關設定檔");
                     }
                 }
-                else if(this.isCreateStatus){
-                    this.isOpenContractStatus = true;
-                    this.$eventHub.$emit('getContractStatusData', {
-                        openContractStatus: self.isOpenContractStatus,
-                        singleData: JSON.parse(JSON.stringify(self.singleData)),
-                        fieldData:self.oriFieldsData[_.findIndex(self.oriFieldsData, {ui_field_name: "cust_mn_contract_sta"})]
-                    });
-                }
-
             },
             //異動紀錄(change log)
             loadChangeLog() {

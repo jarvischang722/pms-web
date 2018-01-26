@@ -28,17 +28,21 @@ const mutations = {
         state.gb_isCreateStatus = payload.gb_isCreateStatus;
         state.gb_isEditStatus = payload.gb_isEditStatus;
     },
-
     //設定公司編號
     setCustCod(state, ls_custCod){
         state.gs_custCod = ls_custCod;
     },
-
     //設定主檔資料
     setMnSingleData(state, payload){
         state.go_mnSingleData = payload.go_mnSingleData;
         state.go_mnOriSingleData = payload.go_mnOriSingleData;
+    },
+    //設定主檔資料
+    setRelatedSettingSingleData(state, payload){
+        state.go_mnSingleData = payload.go_mnSingleData;
+        state.go_mnOriSingleData = payload.go_mnOriSingleData;
     }
+
 };
 
 const actions = {
