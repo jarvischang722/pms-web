@@ -325,7 +325,7 @@ var DatagridFieldAdapter = {
             }
 
             tmpFieldObj.formatter = function (val) {
-                if(_.isNull(val)){
+                if(_.isNull(val) || _.isUndefined(val)){
                     return val;
                 }
                 val = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
@@ -335,7 +335,7 @@ var DatagridFieldAdapter = {
                 return val;
             };
             tmpFieldObj.editor.options.formatter = function (val) {
-                if(_.isNull(val)){
+                if(_.isNull(val) || _.isUndefined(val)){
                     return val;
                 }
                 val = val.toString().replace(/,/g, "");
