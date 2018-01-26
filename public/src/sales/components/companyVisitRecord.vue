@@ -111,6 +111,16 @@
                     this.initData();
                     this.fetchFieldData();
                 }
+            },
+            dataGridRowsData: {
+                handler: function (val) {
+                    //將業務備註資料放至Vuex
+                    this.$store.dispatch("setVrDataGridRowsData", {
+                        ga_vrDataGridRowsData: val,
+                        ga_vrOriDataGridRowsData: this.oriDataGridRowsData
+                    });
+                },
+                deep: true
             }
         },
         methods: {

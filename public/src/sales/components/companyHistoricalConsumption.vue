@@ -29,6 +29,19 @@
 </template>
 
 <script>
+    /** DatagridRmSingleGridClass **/
+    function DatagridSingleGridClass() {
+    }
+
+    DatagridSingleGridClass.prototype = new DatagridBaseClass();
+    DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    };
+    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    };
+    DatagridSingleGridClass.prototype.doSaveColumnFields = function () {
+    };
+    /*** Class End  ***/
+
     export default {
         name: 'historical-consumption',
         props: ["rowData", "isHistoricalConsumption"],
@@ -73,7 +86,7 @@
                 });
             },
             showDataGrid() {
-                this.dgIns = new DatagridBaseClass();
+                this.dgIns = new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "historicalConsumption_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'historicalConsumption_dg'), this.fieldsData);
                 this.dgIns.loadDgData(this.dataGridRowsData);
                 this.isLoading = false;

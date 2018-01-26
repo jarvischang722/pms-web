@@ -369,6 +369,8 @@
                     });
                     //自動將郵遞區號對應之地址資料帶至地址欄位
                     var lo_singleData = JSON.parse(JSON.stringify(val));
+                    lo_singleData.cust_idx_zip_cod =
+                        _.isUndefined(lo_singleData.cust_idx_zip_cod) || _.isNull(lo_singleData.cust_idx_zip_cod)? "" : lo_singleData.cust_idx_zip_cod;
                     if (lo_singleData.cust_idx_zip_cod != "" && (lo_singleData.cust_idx_add_rmk == "" || _.isNull(lo_singleData.cust_idx_add_rmk) ) ){
                         var ln_zipCodIdx = _.findIndex(this.oriFieldsData, {ui_field_name: 'cust_idx_zip_cod'})
                         var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
@@ -489,8 +491,11 @@
             doSetContractStatus() {
                 var self = this;
                 var la_contractStaFieldData = JSON.parse(JSON.stringify(_.findWhere(self.oriFieldsData, {ui_field_name: "cust_mn_contract_sta"})));
-                la_contractStaFieldData.modificable = 'Y'
+                la_contractStaFieldData.modificable = 'Y';
                 if (this.isEditStatus) {
+                    this.$store.dispatch("qryAllDataIsChange").then(result =>{
+                        console.log(result);
+                    });
                     if (_.isMatch(this.relatedSettingSingleData, this.relatedSettingOriSingleData)
                         && _.isMatch(this.singleData, this.oriSingleData)) {
                         this.isOpenContractStatus = true;

@@ -87,6 +87,16 @@
                     this.initData();
                     this.fetchDefaultData();
                 }
+            },
+            dataGridRowsData: {
+                handler(val){
+                    //將合約內容資料放至Vuex
+                    this.$store.dispatch("setCcDataGridRowsData", {
+                        ga_ccDataGridRowsData: val,
+                        go_ccOriDataGridRowsData: this.oriDataGridRowsData
+                    });
+                },
+                deep: true
             }
         },
         methods: {
@@ -168,8 +178,6 @@
                 }
             },
             doHideExpire() {
-                $('#language').combobox('reload', this.fieldsData[8].selectData);
-
                 if (this.isHideExpire) {
                     this.showDataGrid(this.dataGridRowsData);
                 }

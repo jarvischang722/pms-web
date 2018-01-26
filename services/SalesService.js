@@ -896,8 +896,8 @@ exports.handleEditSalesClerk = function (session, postData, callback) {
         "program_id": prg_id,
         "user": userInfo.usr_id,
         "count": 1,
+        "function_id": '0500',
         "exec_data": [{
-            function: '0500',
             sales_cod: sales_cod,
             cust_cod: cust_cod,
             upd_order_mn: upd_order_mn

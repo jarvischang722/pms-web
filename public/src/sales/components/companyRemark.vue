@@ -241,6 +241,20 @@
                         this.isLastData = false;
                     }
                 }
+            },
+            dataGridRowsData: {
+                handler: function (val) {
+                    //將業務備註資料放至Vuex
+                    this.$store.dispatch("setRemarkDataGridRowsData", {
+                        ga_remarkDataGridRowsData: val,
+                        ga_remarkOriDataGridRowsData: this.oriDataGridRowsData
+                    });
+                    //更新dataGridRowsDataOfStaff
+                    this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify(val)), lo_dgRowData => {
+                        return lo_dgRowData.job_sta != 'Q'
+                    });
+                },
+                deep: true
             }
         },
         methods: {

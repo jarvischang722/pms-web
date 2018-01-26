@@ -77,9 +77,15 @@
             },
             dataGridRowsData: {
                 handler: function (val) {
-
+                    //將相關人員資料放至Vuex
+                    this.$store.dispatch("setRpDataGridRowsData", {
+                        ga_rpDataGridRowsData: val,
+                        go_rpOriDataGridRowsData: this.oriDataGridRowsData
+                    });
                     //更新dataGridRowsDataOfStaff
-                    this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify(val)), lo_dgRowData => {return lo_dgRowData.job_sta !='Q'});
+                    this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify(val)), lo_dgRowData => {
+                        return lo_dgRowData.job_sta != 'Q'
+                    });
                 },
                 deep: true
             }
@@ -103,13 +109,15 @@
                     //取得主要聯絡人資料
                     var lo_mnSingleData = this.$store.state.go_mnSingleData;
                     var ln_primaryIndex = _.findIndex(result.dgRowData, {seq_nos: lo_mnSingleData.cust_mn_atten_cod});
-                    if(ln_primaryIndex > -1){
+                    if (ln_primaryIndex > -1) {
                         result.dgRowData[ln_primaryIndex].primary_pers = 'Y';
                     }
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
                     this.dataGridRowsData = result.dgRowData;
-                    this.dataGridRowsDataOfStaff = _.filter(result.dgRowData, lo_dgRowData => {return lo_dgRowData.job_sta !='Q'});
+                    this.dataGridRowsDataOfStaff = _.filter(result.dgRowData, lo_dgRowData => {
+                        return lo_dgRowData.job_sta != 'Q'
+                    });
                     this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                     this.showDataGrid(this.dataGridRowsData);
                 });
@@ -147,7 +155,7 @@
                 if (lb_isHide) {
                     this.showDataGrid(this.dataGridRowsDataOfStaff);
                 }
-                else{
+                else {
                     this.showDataGrid(this.dataGridRowsData);
                 }
             }
