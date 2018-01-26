@@ -11,17 +11,16 @@ let tools = require("../../../utils/CommonTools");
 let queryAgent = require("../../kplug-oracle/QueryAgent");
 
 module.exports = function (io) {
-    //TODO 1.setInterval()
-    //TODO 2.new Array{Object}
-    //TODO 3.handshake  socket_id &session into Array
-    //TODO 4.When leave change object status to be true
 
+    let ga_sessionStaList = []; //紀錄session的清單
     let ga_lockedPrgIDList = []; //紀錄目前有被lock table的object
+    setInterval(checkSessionList, 5000);
 
     io.of("/system").on('connection', function (socket) {
 
         let go_session = socket.request.session;
 
+        ga_sessionStaList.push({session_id: go_session.id, socket_id: socket.client.id, disconnect: false, time: null});
         /**
          * 監聽從前端發動table lock事件
          */
@@ -43,6 +42,11 @@ module.exports = function (io) {
             let lo_socketClientData = _.findWhere(ga_lockedPrgIDList, {socket_id: socket.client.id}) || {};
             doTableUnlock(socket, go_session, lo_socketClientData);
             doReleaseOnlineUser(go_session, socket.client.request.sessionID);
+
+            //斷線後更改session清單裡的狀態
+            let index = _.findIndex(ga_sessionStaList, {session_id: go_session.id ,socket_id: socket.client.id});
+            ga_sessionStaList[index].disconnect = true;
+            ga_sessionStaList[index].time = moment().format("YYYY/MM/DD HH:mm:ss");
         });
 
         /**
@@ -81,8 +85,39 @@ module.exports = function (io) {
             doCheckOnlineUser(socket, go_session, socket.client.request.sessionID);
         });
 
-
     });
+
+    function checkSessionList() {
+
+        while (true) {
+
+            //判斷Array中有無已離線的紀錄
+            let li_index = _.findIndex(ga_sessionStaList, {disconnect: true});
+
+            if(li_index === -1) break;
+
+            var ld_time_diff = (new Date(moment().format("YYYY/MM/DD HH:mm:ss")) - new Date(ga_sessionStaList[li_index].time)) / 1000;
+
+            //離開頁面5秒內判定是重新整理
+            if(ld_time_diff < 5) break;
+
+            //找出Array中是否有相同的Session
+            let li_count = 0;
+            _.each(ga_sessionStaList, function (session) {
+                if(session.session_id === ga_sessionStaList[li_index].session_id){
+                    li_count += 1;
+                }
+            });
+
+            //如果只有一個，就刪真的Session
+            if(li_count === 1){
+                mongoAgent.Sessions.remove({_id: ga_sessionStaList[li_index].session_id}, function (err, reslut) {});
+            }
+
+            //清除Array中的紀錄
+            ga_sessionStaList.splice(li_index, 1);
+        }
+    }
 
     /**
      * Table lock
