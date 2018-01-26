@@ -1044,6 +1044,7 @@ exports.handleContractState = function (session, postData, callback) {
         qryMaxContractLogSeqNos,
         saveContractStaData
     ], function (err, result) {
+        callback(err, result);
     });
 
 
@@ -1084,11 +1085,11 @@ exports.handleContractState = function (session, postData, callback) {
                     operation: "=",
                     value: postData.singleRowData.cust_mn_cust_cod
                 }],
-                cust_sta: postData.singleRowData.cust_mn_contract_sta
+                contract_sta : postData.singleRowData.cust_mn_contract_sta
             },
             2: {
                 function: '1',
-                table_name: 'cust_mn_contract_sta_log ',
+                table_name: 'cust_mn_contract_sta_log',
                 athena_id: session.user.athena_id,
                 cust_cod: postData.singleRowData.cust_mn_cust_cod,
                 seq_nos: max_seq_nos,
@@ -1120,7 +1121,7 @@ exports.handleContractState = function (session, postData, callback) {
                 lo_error.errorMsg = "save error!";
                 console.error(data["RETN-CODE-DESC"]);
             }
-            callback(lo_error, lo_result);
+            cb(lo_error, lo_result);
         });
     }
 };
