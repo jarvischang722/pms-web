@@ -1104,7 +1104,7 @@ exports.handleContractState = function (session, postData, callback) {
             "func_id": "",
             "user": session.user.usr_id,
             "table_name": "cust_idx",
-            "count": 1,
+            "count": 2,
             "exec_data": lo_savaExecDatas
         };
 
