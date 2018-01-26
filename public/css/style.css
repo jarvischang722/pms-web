@@ -3411,7 +3411,7 @@ ul.newVisitOther-btn {
   text-align: center;
 }
 
-.status_v {
+.status_a {
   background: #8AC926;
 }
 
@@ -3423,7 +3423,7 @@ ul.newVisitOther-btn {
   background: #FFCA3A;
 }
 
-.status_a {
+.status_ooo {
   background: #1982C4;
 }
 
@@ -3643,10 +3643,10 @@ td div.triangle-box span.triangle-text {
   text-overflow: ellipsis;
   color: #555;
 }
-td div.triangle-box.status_v {
+td div.triangle-box.status_a {
   background: #8AC926;
 }
-td div.triangle-box.status_v:before, td div.triangle-box.status_v:after {
+td div.triangle-box.status_a:before, td div.triangle-box.status_a:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3655,15 +3655,15 @@ td div.triangle-box.status_v:before, td div.triangle-box.status_v:after {
   width: 0;
   border-color: transparent #8AC926;
 }
-td div.triangle-box.status_v:before {
+td div.triangle-box.status_a:before {
   left: -10px;
   border-width: 9px 10px 9px 0px;
 }
-td div.triangle-box.status_v:after {
+td div.triangle-box.status_a:after {
   right: -10px;
   border-width: 9px 0 9px 10px;
 }
-td div.triangle-box.status_v span.triangle-text {
+td div.triangle-box.status_a span.triangle-text {
   width: 100%;
   display: inline-block;
   overflow: hidden;
@@ -3727,10 +3727,10 @@ td div.triangle-box.status_s span.triangle-text {
   text-overflow: ellipsis;
   color: #fff;
 }
-td div.triangle-box.status_a {
+td div.triangle-box.status_ooo {
   background: #1982C4;
 }
-td div.triangle-box.status_a:before, td div.triangle-box.status_a:after {
+td div.triangle-box.status_ooo:before, td div.triangle-box.status_ooo:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3739,15 +3739,15 @@ td div.triangle-box.status_a:before, td div.triangle-box.status_a:after {
   width: 0;
   border-color: transparent #1982C4;
 }
-td div.triangle-box.status_a:before {
+td div.triangle-box.status_ooo:before {
   left: -10px;
   border-width: 9px 10px 9px 0px;
 }
-td div.triangle-box.status_a:after {
+td div.triangle-box.status_ooo:after {
   right: -10px;
   border-width: 9px 0 9px 10px;
 }
-td div.triangle-box.status_a span.triangle-text {
+td div.triangle-box.status_ooo span.triangle-text {
   width: 100%;
   display: inline-block;
   overflow: hidden;

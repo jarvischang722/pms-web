@@ -39,7 +39,7 @@
         </el-dialog>
 
         <!--修改密碼-->
-        <div>
+        <div id="editPasswordDialog" class="hide">
             <el-dialog
                     :close-on-click-modal="true" style="width:50%; left:25%; right: 25%;"
                     :visible.sync="openEditPasswordDialog" :before-close="doCancelEditPassword">
