@@ -124,31 +124,31 @@
                                 <template v-if="editStatus">
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isFistData  || BTN_action"
+                                                :disabled="isFistData  || isAction"
                                                 style="" @click="toFirstData"><%= __("SystemCommon").First %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isFistData  || BTN_action"
+                                                :disabled="isFistData  || isAction"
                                                 style="" @click="toPreData"><%= __("SystemCommon").Previous %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isLastData  || BTN_action"
+                                                :disabled="isLastData  || isAction"
                                                 style="" @click="toNextData"><%= __("SystemCommon").Next %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isLastData  || BTN_action"
+                                                :disabled="isLastData  || isAction"
                                                 style="" @click="toLastData"><%= __("SystemCommon").Last %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                :disabled="BTN_action"
+                                                :disabled="isAction"
                                                 style=""
                                                 @click="handleDeleteSingleData">
                                             <%= __("SystemCommon").Delete %>
@@ -157,31 +157,31 @@
                                 </template>
                                 <li v-if="createStatus">
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            @click="doSaveGrid('addOther')" :disabled="BTN_action">
+                                            @click="doSaveGrid('addOther')" :disabled="isAction">
                                         <%= __("SystemCommon").Add_after_save %>
                                     </button>
                                 </li>
                                 <li v-if="createStatus ||  editStatus">
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            :disabled="(editStatus && !isModifiable) || BTN_action" @click="doSaveGrid('closeDialog')">
+                                            :disabled="(editStatus && !isModifiable) || isAction" @click="doSaveGrid('closeDialog')">
                                         <%= __("SystemCommon").Leave_after_save %>
                                     </button>
                                 </li>
                                 <li v-if="editStatus">
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" :disabled="(editStatus && !isModifiable) || BTN_action"
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" :disabled="(editStatus && !isModifiable) || isAction"
                                             @click="doSaveGrid('')">
                                         <%= __("SystemCommon").Save %>
                                     </button>
                                 </li>
                                 <li v-if="roomListDialogVisiable">
                                     <button class="btn btn-primary btn-white btn-defaultWidth" @click="closeRmListDialog"
-                                            :disabled="BTN_action">
+                                            :disabled="isAction">
                                         <%= __("SystemCommon").Leave %>
                                     </button>
                                 </li>
                                 <li v-else>
                                     <button class="btn btn-primary btn-white btn-defaultWidth" @click="emitCloseGridDialog"
-                                            :disabled="BTN_action">
+                                            :disabled="isAction">
                                         <%= __("SystemCommon").Leave %>
                                     </button>
                                 </li>

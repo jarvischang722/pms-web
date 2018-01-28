@@ -211,7 +211,7 @@ Vue.component('single-grid-pms0820020-tmp', {
             isFistData: false,
             isLastData: false,
             dtDataGridIsCreate: false,
-            BTN_action: false,
+            isAction: false,
             isRuleComplete: true,
             isVerified: true,
             timer: null,
@@ -267,10 +267,12 @@ Vue.component('single-grid-pms0820020-tmp', {
             var self = this;
             this.doSaveModifyData(function (result) {
                 if (result) {
-                    var nowRowIndex = $("#PMS0820020_dg").datagrid('getRowIndex', self.editingRow);
-                    self.editingRow = self.pageOneDataGridRows[nowRowIndex - 1];
-                    self.emitFetchSingleData();
+                    self.ln_editingIndex = self.ln_editingIndex == -1 ? PMS0820020VM.editingIndex - 1 : self.ln_editingIndex - 1;
+                    self.editingRow = $("#PMS0820020_dg").datagrid('getRows')[self.ln_editingIndex];
+                    // var nowRowIndex = $("#PMS0820020_dg").datagrid('getRowIndex', self.editingRow);
+                    // self.editingRow = self.pageOneDataGridRows[nowRowIndex - 1];
                 }
+                self.emitFetchSingleData();
             });
         },
 
@@ -280,9 +282,9 @@ Vue.component('single-grid-pms0820020-tmp', {
             this.doSaveModifyData(function (result) {
                 if (result) {
                     self.ln_editingIndex = self.ln_editingIndex == -1 ? PMS0820020VM.editingIndex + 1 : self.ln_editingIndex + 1;
-                    self.editingRow = self.pageOneDataGridRows[self.ln_editingIndex];
-                    self.emitFetchSingleData();
+                    self.editingRow = $("#PMS0820020_dg").datagrid('getRows')[self.ln_editingIndex];
                 }
+                self.emitFetchSingleData();
             });
         },
 
@@ -304,8 +306,8 @@ Vue.component('single-grid-pms0820020-tmp', {
             var lb_isDataChang = false;
 
             for (var propertyName in PMS0820020VM.singleData) {
+
                 if (PMS0820020VM.singleData[propertyName] != PMS0820020VM.originData[propertyName]) {
-                    console.log(PMS0820020VM.singleData[propertyName], PMS0820020VM.originData[propertyName]);
                     lb_isDataChang = true;
                     break;
                 }
@@ -315,7 +317,9 @@ Vue.component('single-grid-pms0820020-tmp', {
                 var q = confirm(go_i18nLang["SystemCommon"].Save_changed_data);
 
                 if (q) {
+                    PMS0820020VM.isSaving = true;
                     this.doSaveGrid("checkEditSave", function (result) {
+                        PMS0820020VM.isSaving = false;
                         if (result) {
                             PMS0820020VM.originData = _.clone(PMS0820020VM.singleData);
                         }
@@ -373,7 +377,12 @@ Vue.component('single-grid-pms0820020-tmp', {
         //抓取單筆資料
         emitFetchSingleData: function () {
             var params = this.editingRow;
+            var self = this;
+            this.isAction = true;
+            PMS0820020VM.isSaving = true;
             this.$emit('fetch-single-data', params, function (success) {
+                self.isAction = false;
+                PMS0820020VM.isSaving = false;
             });
         },
 
@@ -469,8 +478,10 @@ Vue.component('single-grid-pms0820020-tmp', {
             }
 
             //先驗證有無欄位沒驗證過的
+            PMS0820020VM.isSaving = true;
             this.$emit('do-save-cud', function (success) {
                 self.isRuleComplete = true;
+                PMS0820020VM.isSaving = false;
                 if (success) {
                     //儲存後離開
                     if (saveAfterAction == "closeDialog") {
@@ -636,7 +647,6 @@ var PMS0820020VM = new Vue({
         this.loadDataGridByPrgID(function (success) {
         });
         this.loadSingleGridPageField();
-        this.$on("batchAppendRow", this.batchappendRow());
     },
     components: {
         "search-comp": go_searchComp,
