@@ -1569,11 +1569,16 @@ var RS00202010VM = new Vue({
     },
     watch: {
         searchDate: function () {
-            if(this.searchDate != getCookie("searchDate")){
+            let ls_searchDate = getCookie("searchDate");
+            if (_.isUndefined(ls_searchDate) || _.isNull(ls_searchDate) || ls_searchDate == "") {
+                this.searchDate = moment(new Date()).format("YYYY/MM/DD");
                 setupCookie("searchDate", this.searchDate, "/", 3600000);   //預設一小時
                 location.reload();
             }
-
+            if (this.searchDate != ls_searchDate) {
+                setupCookie("searchDate", this.searchDate, "/", 3600000);   //預設一小時
+                location.reload();
+            }
         }
     },
     mounted: function () {
