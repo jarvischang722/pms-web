@@ -18,8 +18,6 @@ module.exports = function (app, passport) {
 
     /** API  **/
     //驗證是否登入成功
-    app.post('/api/getDefaultAccount', userCrtl.getDefaultAccount);
-    //驗證是否登入成功
     app.post('/api/authLogin', userCrtl.authLogin);
     //取得使用者資料
     app.post('/api/getUserInfo', apiMiddles, userCrtl.getUserInfo);
