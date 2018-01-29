@@ -167,7 +167,6 @@
             },
             rowData(val) {
                 if (!_.isEmpty(val)) {
-                    this.initData();
                     this.fetchFieldData();
 
                     var nowDatagridRowIndex = $("#companyVisitRecord_dg").datagrid('getRowIndex', val);

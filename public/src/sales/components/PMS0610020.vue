@@ -469,7 +469,8 @@
                 this.$store.dispatch("doSaveAllData").then(result=>{
                     if(result.success){
                         alert("save success");
-                        this.doCloseDialog();
+                        $("#PMS0610020").dialog('close');
+                        // this.doCloseDialog();
                     }
                     else{
                         alert(result.errorMsg);

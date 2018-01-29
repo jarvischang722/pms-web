@@ -225,16 +225,18 @@
             },
             singleData: {
                 handler: function (val, oldVal) {
-                    var self = this;
-                    this.$eventHub.$emit('getRelatedSettingData', {
-                        relatedSettingSingleData: val,
-                        relatedSettingOriSingleData: self.oriSingleData
-                    });
-                    //將相關設定資料放至Vuex
-                    this.$store.dispatch("setRsSingleData", {
-                        go_rsSingleData: val,
-                        go_rsOriSingleData: this.oriSingleData
-                    });
+                    if(! _.isEmpty(val)){
+                        var self = this;
+                        this.$eventHub.$emit('getRelatedSettingData', {
+                            relatedSettingSingleData: val,
+                            relatedSettingOriSingleData: self.oriSingleData
+                        });
+                        //將相關設定資料放至Vuex
+                        this.$store.dispatch("setRsSingleData", {
+                            go_rsSingleData: val,
+                            go_rsOriSingleData: this.oriSingleData
+                        });
+                    }
                 },
                 deep: true
             }
@@ -264,31 +266,40 @@
             },
             fetchRowData() {
                 var self = this;
-                if (this.isCreateStatus) {
-                    this.singleData = {
-                        hoffice_cod: self.$store.state.gs_custCod,
-                        dm_flag: 'Y',
-                        cust_idx_ar_amt: 0,
-                        business_cod: '01  ',
-                        type_cod: '01  '
-                    };
-                    this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
+                if(_.isEmpty(this.$store.state.go_allData.go_rsSingleData)){
+                    console.log("this store .go_allData.go_rsSingleData is empty");
+                    if (this.isCreateStatus) {
+                        this.singleData = {
+                            hoffice_cod: self.$store.state.gs_custCod,
+                            dm_flag: 'Y',
+                            cust_idx_ar_amt: 0,
+                            business_cod: '01  ',
+                            type_cod: '01  '
+                        };
+                        this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
+                        this.isLoading = false;
+                    }
+                    else if (this.isEditStatus) {
+                        var self = this;
+                        $.post("/api/fetchSinglePageFieldData", {
+                            prg_id: "PMS0610020",
+                            page_id: 1,
+                            tab_page_id: 1,
+                            template_id: "gridsingledt",
+                            searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
+                        }).then(result => {
+                            this.singleData = result.gsMnData.rowData[0];
+                            this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                            this.isLoading = false;
+                        });
+                    }
+                }
+                else{
+                    this.singleData = this.$store.state.go_allData.go_rsSingleData;
+                    this.oriSingleData = this.$store.state.go_allOriData.go_rsSingleData;
                     this.isLoading = false;
                 }
-                else if (this.isEditStatus) {
-                    var self = this;
-                    $.post("/api/fetchSinglePageFieldData", {
-                        prg_id: "PMS0610020",
-                        page_id: 1,
-                        tab_page_id: 1,
-                        template_id: "gridsingledt",
-                        searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
-                    }).then(result => {
-                        this.singleData = result.gsMnData.rowData[0];
-                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.isLoading = false;
-                    });
-                }
+
 
             },
             chkFieldRule(ui_field_name, rule_func_name) {

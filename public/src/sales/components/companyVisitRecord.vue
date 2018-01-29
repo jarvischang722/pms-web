@@ -117,7 +117,8 @@
                     //將業務備註資料放至Vuex
                     this.$store.dispatch("setVrDataGridRowsData", {
                         ga_vrDataGridRowsData: val,
-                        ga_vrOriDataGridRowsData: this.oriDataGridRowsData
+                        ga_vrOriDataGridRowsData: this.oriDataGridRowsData,
+                        go_vrTmpCUD: this.tmpCUD
                     });
                 },
                 deep: true
@@ -163,22 +164,22 @@
                 this.dgIns.loadDgData(this.dataGridRowsData);
             },
             appendRow() {
-                this.initTmpCUD();
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
                 this.editingRow = {
                     avisit_dat: "",
                     cust_cod: "",
                     visit_typ: '1',
-                    visit_sta: 'N'
+                    visit_sta: 'N',
+                    createIndex: this.tmpCUD.createData.length
                 };
 
                 this.showSingleGridDialog();
             },
             editRow() {
-                this.initTmpCUD();
                 this.isCreateStatus = false;
                 this.isEditStatus = true;
+                this.editingRow = {};
 
                 var lo_editRow = $('#companyVisitRecord_dg').datagrid('getSelected');
                 var ln_editIndex = $('#companyVisitRecord_dg').datagrid('getRowIndex', lo_editRow);
@@ -192,7 +193,27 @@
                 }
             },
             removeRow() {
-                this.dgIns.removeRow();
+                var lo_delRow = $('#companyVisitRecord_dg').datagrid("getSelected");
+
+                var lo_delRow = $('#companyVisitRecord_dg').datagrid('getSelected');
+                var ln_delIndex = $('#companyVisitRecord_dg').datagrid('getRowIndex', lo_delRow);
+
+                if (!lo_delRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectOneData);
+                }
+                else {
+                    //刪除新增的資料
+                    if(!_.isUndefined(this.dataGridRowsData[ln_delIndex].createIndex)){
+                        var createIdx = this.dataGridRowsData[ln_delIndex].createIndex;
+                        console.log(createIdx);
+                        this.tmpCUD.createData.splice(createIdx, 1)
+                    }
+                    else{
+                        this.tmpCUD.oriData.push(this.dataGridRowsData[ln_delIndex])
+                        this.tmpCUD.deleteData.push(this.dataGridRowsData[ln_delIndex]);
+                    }
+                    this.dgIns.removeRow();
+                }
             },
             showSingleGridDialog() {
                 var self = this;
@@ -240,9 +261,19 @@
                 else{
                     var ln_editIdx = _.isUndefined(this.visitRecordSingleData.index)? -1:this.visitRecordSingleData.index;
                     if(ln_editIdx > -1){
+                        if(!_.isUndefined(this.visitRecordSingleData.createIndex)){
+                            var createIndex = this.visitRecordSingleData.createIndex;
+                            this.tmpCUD.createData[createIndex] = this.visitRecordSingleData;
+                        }
+                        else{
+                            this.tmpCUD.updateData.push(this.visitRecordSingleData);
+                            this.tmpCUD.oriData.push(this.visitRecordSingleData);
+                        }
+
                         this.dataGridRowsData[ln_editIdx] = this.visitRecordSingleData;
                     }
                     else{
+                        this.tmpCUD.createData.push(this.visitRecordSingleData);
                         this.dataGridRowsData.push(this.visitRecordSingleData);
                     }
                     this.showDataGrid();

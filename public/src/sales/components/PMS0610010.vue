@@ -548,6 +548,7 @@
             },
             showSingleGridDialog() {
                 var self = this;
+                this.$store.dispatch("setAllDataClear");
 
                 var dialog = $('#PMS0610020').removeClass('hide').dialog({
                     autoOpen: false,
@@ -563,7 +564,6 @@
                         self.$eventHub.$emit('setTabName', {
                             tabName: ""
                         });
-                        self.$store.dispatch("setAllDataClear");
                         // self.doRowUnLock();
                     }
                 }).dialog('open');

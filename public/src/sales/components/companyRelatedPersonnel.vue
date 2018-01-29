@@ -80,7 +80,8 @@
                     //將相關人員資料放至Vuex
                     this.$store.dispatch("setRpDataGridRowsData", {
                         ga_rpDataGridRowsData: val,
-                        ga_rpOriDataGridRowsData: this.oriDataGridRowsData
+                        ga_rpOriDataGridRowsData: this.oriDataGridRowsData,
+                        go_rpTmpCUD: this.dgIns.tmpCUD
                     });
                     //更新dataGridRowsDataOfStaff
                     this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify(val)), lo_dgRowData => {

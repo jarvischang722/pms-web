@@ -29,14 +29,10 @@ const state = {
         ga_vrDataGridRowsData: []//拜訪紀錄資料
     },
 
-    tmpCUD: {
-        createData: [],
-        updateData: [],
-        deleteData: [],
-        dt_createData: [],
-        dt_updateData: [],
-        dt_deleteData: []
-    }
+    go_rpTmpCUD: {},
+    go_ccTmpCUD: {},
+    go_remarkTmpCUD: {},
+    go_vrTmpCUD: {}
 };
 
 const mutations = {
@@ -63,21 +59,25 @@ const mutations = {
     setRpDataGridRowsData(state, payload) {
         state.go_allData.ga_rpDataGridRowsData = payload.ga_rpDataGridRowsData;
         state.go_allOriData.ga_rpDataGridRowsData = payload.ga_rpOriDataGridRowsData;
+        state.go_rpTmpCUD = payload.go_rpTmpCUD;
     },
     //設定合約內容資料
     setCcDataGridRowsData(state, payload) {
         state.go_allData.ga_ccDataGridRowsData = payload.ga_ccDataGridRowsData;
         state.go_allOriData.ga_ccDataGridRowsData = payload.go_ccOriDataGridRowsData;
+        state.go_ccTmpCUD = payload.go_ccTmpCUD;
     },
     //設定業務備註資料
     setRemarkDataGridRowsData(state, payload) {
         state.go_allData.ga_remarkDataGridRowsData = payload.ga_remarkDataGridRowsData;
         state.go_allOriData.ga_remarkDataGridRowsData = payload.ga_remarkOriDataGridRowsData;
+        state.go_remarkTmpCUD = payload.go_remarkTmpCUD;
     },
     //設定拜訪紀錄資料
     setVrDataGridRowsData(state, payload) {
         state.go_allData.ga_vrDataGridRowsData = payload.ga_vrDataGridRowsData;
         state.go_allOriData.ga_vrDataGridRowsData = payload.ga_vrOriDataGridRowsData;
+        state.go_vrTmpCUD = payload.go_vrTmpCUD;
     }
 };
 
@@ -115,25 +115,25 @@ const actions = {
         commit("setVrDataGridRowsData", payload);
     },
     //取得所有資料是否有改變
-    qryAllDataIsChange({state}){
+    qryAllDataIsChange({state}) {
         var lb_isDataChanged = false;
-        _.each(state.go_allData, function(val, key){
-            if(_.isArray(val)){
-                if(val.length != state.go_allOriData[key].length){
+        _.each(state.go_allData, function (val, key) {
+            if (_.isArray(val)) {
+                if (val.length != state.go_allOriData[key].length) {
                     lb_isDataChanged = true;
                     return;
                 }
-                else{
-                    _.each(val, function(lo_val, idx){
-                        if(!_.isMatch(lo_val, state.go_allOriData[key][idx])){
+                else {
+                    _.each(val, function (lo_val, idx) {
+                        if (!_.isMatch(lo_val, state.go_allOriData[key][idx])) {
                             lb_isDataChanged = true;
                             return;
                         }
                     });
                 }
             }
-            else{
-                if(!_.isMatch(val, state.go_allOriData[key])){
+            else {
+                if (!_.isMatch(val, state.go_allOriData[key])) {
                     lb_isDataChanged = true;
                     return;
                 }
@@ -142,44 +142,66 @@ const actions = {
         return {success: true, isChange: lb_isDataChanged};
     },
     //清空所有資料
-    setAllDataClear({dispatch}){
-        dispatch("setMnSingleData",{
+    setAllDataClear({dispatch}) {
+        dispatch("setMnSingleData", {
             go_mnSingleData: {},
             go_mnOriSingleData: {}
         });
-        dispatch("setRsSingleData",{
+        dispatch("setRsSingleData", {
             go_rsSingleData: {},
             go_rsOriSingleData: {}
         });
-        dispatch("setRpDataGridRowsData",{
+        dispatch("setRpDataGridRowsData", {
             ga_rpDataGridRowsData: [],
-            ga_rpOriDataGridRowsData: []
+            ga_rpOriDataGridRowsData: [],
+            go_rpTmpCUD: {}
         });
-        dispatch("setCcDataGridRowsData",{
+        dispatch("setCcDataGridRowsData", {
             ga_ccDataGridRowsData: [],
-            go_ccOriDataGridRowsData: []
+            go_ccOriDataGridRowsData: [],
+            go_ccTmpCUD: {}
         });
-        dispatch("setRemarkDataGridRowsData",{
+        dispatch("setRemarkDataGridRowsData", {
             ga_remarkDataGridRowsData: [],
-            ga_remarkOriDataGridRowsData: []
+            ga_remarkOriDataGridRowsData: [],
+            go_remarkTmpCUD: {}
         });
-        dispatch("setVrDataGridRowsData",{
+        dispatch("setVrDataGridRowsData", {
             ga_vrDataGridRowsData: [],
-            ga_vrOriDataGridRowsData:[]
+            ga_vrOriDataGridRowsData: [],
+            go_vrTmpCUD: {}
         });
     },
     //儲存所有資料
-    doSaveAllData({commit, dispatch, state}){
+    doSaveAllData({commit, dispatch, state}) {
         var err = null;
-        if(state.gb_isCreateStatus){
+        var lo_saveData = {};
+        console.log(state.go_allData);
 
-            console.log(state.go_allData.go_mnSingleData);
-        }
-        else if(state.gb_isCreateStatus){
+        // if (state.gb_isCreateStatus) {
+        //     lo_saveData = state.go_allData;
+        // }
+        // else if (state.gb_isCreateStatus) {
+        //     console.log(state.go_allData.go_mnSingleData);
+        //     lo_saveData = {
+        //         mnData: state.go_allData.go_mnSingleData,
+        //         mnOriData: state.go_allOriData.go_mnSingleData,
+        //         rsData: state.go_allData.go_rsSingleData,
+        //         rsOriData: state.go_allOriData.go_rsSingleData,
+        //         rpData: state.go_rpTmpCUD,
+        //         ccData: state.go_ccTmpCUD,
+        //         vrData: state.go_vrTmpCUD,
+        //         remarkData: state.go_vrTmpCUD
+        //     };
+        // }
+        // console.log(lo_saveData);
 
-        }
+        // $.post('/api/sales/saveCompData', lo_saveData).then(result => {
+        //
+        // });
 
-        return({success: true, errorMsg:err});
+
+        return ({success: true, errorMsg: err});
     }
 };
 
