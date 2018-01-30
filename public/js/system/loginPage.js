@@ -8,7 +8,7 @@ var loginVM = new Vue({
         ],
         companyData: [],
         rememberMeCheck: false,
-        username: gs_account,
+        username: "",
         passwd: "",
         dbname: "0",
         comp_id: "0",
@@ -40,6 +40,7 @@ var loginVM = new Vue({
 
     },
     mounted: function () {
+        this.getDefaultAccount();
         this.getCompaonyData();
         setTimeout(function () {
             loginVM.showUserCookie();
@@ -60,6 +61,15 @@ var loginVM = new Vue({
         });
     },
     methods: {
+        getDefaultAccount: function () {
+            var self = this;
+            $.get("http://192.168.2.6/bacchus/Api/GatewaySvc/?getip=''", function (ip) {
+                console.log(ip);
+                $.post("/api/getDefaultAccount", {ip: ip}, function (result) {
+                    self.username = result.account;
+                });
+            });
+        },
         getCompaonyData: function () {
             $.post("/api/getSelectCompany", function (result) {
                 if (result.success) {
