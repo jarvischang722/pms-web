@@ -2,7 +2,7 @@
     <div class="author-navbar">
         <div class="float-right author-nav-btn">
 
-            <div class="btn-group" v-if="permissionModel == 'authByStaff'">
+            <div class="btn-group" v-if="permissionModel == 'authByStaff' || permissionModel == 'authByRole'">
                 <button class="btn btn-primary btn-white btn-sm" @click="authUpdate">
                     <i class="fa fa-pencil"></i> 修改
                 </button>
