@@ -411,7 +411,7 @@
                 });
             },
             setGlobalCustCod() {
-                this.$store.dispatch("setCustCod", this.singleData.cust_mn_cust_cod);
+                this.$store.dispatch("setCustCod", this.singleData.cust_cod);
             },
             setTabStatus(tabName) {
                 var self = this;

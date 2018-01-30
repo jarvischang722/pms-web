@@ -293,7 +293,7 @@ module.exports = {
                     }
                 });
             }
-            else{
+            else {
                 cb(lo_error, lo_result);
             }
         }
@@ -314,7 +314,7 @@ module.exports = {
                     }
                 });
             }
-            else{
+            else {
                 cb(lo_error, lo_result);
             }
         }
@@ -328,7 +328,7 @@ module.exports = {
      * @param session
      * @param callback
      */
-    r_ContractHotelCod: function(postData, session, callback){
+    r_ContractHotelCod: function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
@@ -347,11 +347,11 @@ module.exports = {
         async.waterfall([
             setRateCodSelectData,
             setRsdiscCodSelectData
-        ], function(err, result){
+        ], function (err, result) {
             callback(err, result);
         });
 
-        function setRateCodSelectData(cb){
+        function setRateCodSelectData(cb) {
             if (ls_hotelCod != "" && ls_endDat != "" && ls_beginDat != "") {
                 queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
@@ -367,20 +367,20 @@ module.exports = {
                     }
                 });
             }
-            else{
+            else {
                 cb(lo_error, lo_result);
             }
         }
 
-        function setRsdiscCodSelectData(result, cb){
-            queryAgent.queryList("QRY_CONTRACT_DT_RSDISC_COD", lo_param, 0, 0, function(err, getResult){
-                if(err){
+        function setRsdiscCodSelectData(result, cb) {
+            queryAgent.queryList("QRY_CONTRACT_DT_RSDISC_COD", lo_param, 0, 0, function (err, getResult) {
+                if (err) {
                     lo_result.success = false;
                     lo_error = ErrorClass();
                     lo_error.errorMsg = err;
                     cb(lo_error, lo_result);
                 }
-                else{
+                else {
                     lo_result.multiSelectOptions.rsdisc_cod = getResult;
                     lo_result.selectField.push("rsdisc_cod");
                     cb(lo_error, lo_result);
@@ -396,21 +396,21 @@ module.exports = {
      * @param session
      * @param callback
      */
-    r_ContractdtRatecod: function(postData, session, callback){
+    r_ContractdtRatecod: function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
         let ls_rateCod = postData.rowData.rate_cod;
         let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
 
-        queryAgent.query("QRY_RATE_NAM", {rate_cod: ls_rateCod}, function(err, getResult){
-            if(err){
+        queryAgent.query("QRY_RATE_NAM", {rate_cod: ls_rateCod}, function (err, getResult) {
+            if (err) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = "sql err";
                 callback(lo_error, lo_result);
             }
-            else{
+            else {
                 lo_result.effectValues = {ratecod_nam: getResult.ratecod_nam};
                 callback(lo_error, lo_result);
             }
@@ -428,12 +428,12 @@ module.exports = {
      * @param session
      * @param callback
      */
-    r_primary_pers: function(postData, session, callback){
+    r_primary_pers: function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        if(postData.newValue == 'Y'){
-            _.each(postData.allRowData, function(lo_rowData, idx){
+        if (postData.newValue == 'Y') {
+            _.each(postData.allRowData, function (lo_rowData, idx) {
                 postData.allRowData[idx].primary_pers = "N";
             });
             postData.allRowData[postData.rowIndex].primary_pers = postData.newValue;
@@ -450,14 +450,14 @@ module.exports = {
      * @param session
      * @param callback
      */
-    deleteRelatedPerson: function(postData, session, callback){
+    deleteRelatedPerson: function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        if(postData.singleRowData.primary_pers == 'Y'){
+        if (postData.singleRowData.primary_pers == 'Y') {
             lo_result.success = false;
             lo_error = new ErrorClass();
-            lo_error.errorMsg = commandRules.getMsgByCod("pms62msg7", session.locale);
+            lo_error.errorMsg = commandRules.getMsgByCod("pms61msg7", session.locale);
         }
 
         callback(lo_error, lo_result);
@@ -471,7 +471,7 @@ module.exports = {
      * @param session
      * @param callback
      */
-    deleteContractContent: function(postData, session, callback){
+    deleteContractContent: function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
@@ -485,48 +485,49 @@ module.exports = {
         async.waterfall([
             qryOrderMn,//檢查訂房卡資料，房價代號使否已被使用
             qryGuestMn//檢查住客資料，房價代號使否已被使用
-        ], function(err, result){
+        ], function (err, result) {
             callback(err, result);
         });
 
-        function qryOrderMn(cb){
-            queryAgent.query("CHK_RATE_COD_IS_EXIST_IN_ORDER_MN", lo_param, function(err, getResult){
-                if(err){
+        function qryOrderMn(cb) {
+            queryAgent.query("CHK_RATE_COD_IS_EXIST_IN_ORDER_MN", lo_param, function (err, getResult) {
+                if (err) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
                     lo_error.errorMsg = "sql err";
                     cb(lo_error, lo_result);
                 }
-                else{
-                    if(getResult.order_rate_Count > 0){
+                else {
+                    if (getResult.order_rate_Count > 0) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
                         lo_error.errorMsg = commandRules.getMsgByCod("pms61msg3", session.locale);
                         cb(lo_error, lo_result);
                     }
-                    else{
+                    else {
                         cb(lo_error, lo_result);
                     }
                 }
             });
         }
 
-        function qryGuestMn(result, cb){
-            queryAgent.query("CHK_RATE_COD_IS_EXIST_IN_GUEST_MN", lo_param, function(err, getResult){
-                if(err){
+        function qryGuestMn(result, cb) {
+            queryAgent.query("CHK_RATE_COD_IS_EXIST_IN_GUEST_MN", lo_param, function (err, getResult) {
+                if (err) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
                     lo_error.errorMsg = "sql err";
                     cb(lo_error, lo_result);
                 }
-                else{
-                    if(getResult.order_rate_Count > 0){
+                else {
+                    if (getResult.order_rate_Count > 0) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg4", session.locale);;
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg4", session.locale);
+                        ;
                         cb(lo_error, lo_result);
                     }
-                    else{
+                    else {
                         cb(lo_error, lo_result);
                     }
                 }
@@ -540,61 +541,63 @@ module.exports = {
      * @param session
      * @param callback
      */
-    r_1010_CustmnStatuscod: function(postData, session, callback){
+    r_1010_CustmnStatuscod: function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        if(postData.singleRowData.cust_mn_status_cod == 'D'){
+        if (postData.singleRowData.cust_mn_status_cod == 'D') {
             async.waterfall([
                 qryFitCod,
                 qryOfficialCustCod
-            ],function(err, result){
+            ], function (err, result) {
                 callback(lo_error, lo_result);
             });
         }
-        else{
+        else {
 
             callback(lo_error, lo_result);
         }
 
-        function qryFitCod(cb){
-            queryAgent.query("QRY_FIT_COD", {athena_id: session.user.athena_id}, function(err, getResult){
-                if(err){
+        function qryFitCod(cb) {
+            queryAgent.query("QRY_FIT_COD", {athena_id: session.user.athena_id}, function (err, getResult) {
+                if (err) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
                     lo_error.errorMsg = "sql err";
                     cb(lo_error, lo_result);
                 }
-                else{
-                    if(getResult.fit_cod == postData.singleRowData.cust_cod){
+                else {
+                    if (getResult.fit_cod == postData.singleRowData.cust_cod) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg5", session.locale);;
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg5", session.locale);
+                        ;
                         cb(lo_error, lo_result);
                     }
-                    else{
+                    else {
                         cb(lo_error, lo_result);
                     }
                 }
             });
         }
 
-        function qryOfficialCustCod(result, cb){
-            queryAgent.query("QRY_OFFICIAL_WEB_CUST_COD", {athena_id: session.user.athena_id}, function(err, getResult){
-                if(err){
+        function qryOfficialCustCod(result, cb) {
+            queryAgent.query("QRY_OFFICIAL_WEB_CUST_COD", {athena_id: session.user.athena_id}, function (err, getResult) {
+                if (err) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
                     lo_error.errorMsg = "sql err";
                     cb(lo_error, lo_result);
                 }
-                else{
-                    if(getResult.cust_cod == postData.singleRowData.cust_cod){
+                else {
+                    if (getResult.cust_cod == postData.singleRowData.cust_cod) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg6", session.locale);;
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg6", session.locale);
+
                         cb(lo_error, lo_result);
                     }
-                    else{
+                    else {
                         cb(lo_error, lo_result);
                     }
                 }
@@ -604,12 +607,273 @@ module.exports = {
     },
 
     /**
-     * 主檔檢查
+     * 存檔(新增)
+     * 1.公司編號不可重複
+     * 2.公司編號不可與財務應收客戶重複
+     * 3.檢查相同館別及房價代號之合約期間不可重覆
+     * 4.新增cust_idx
      * @param postData
      * @param session
      * @param callback
      */
-    r_0500: function(postData, session, callback){
+    r_compMnAdd: function (postData, session, callback) {
+        let userInfo = session.user;
+        let lo_mnSaveData = postData["tmpCUD"]["createData"][0] || {};
+        let la_dtCreateData = postData["tmpCUD"]["dt_createData"] || [];
 
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        async.waterfall([
+            qryCustMn,
+            qryFuncustMn,
+            qryContract,
+            addCustIdx
+        ], function (err, result) {
+            callback(err, result);
+        });
+
+        function qryCustMn(cb) {
+            queryAgent.query("CHK_CUST_MN", {
+                athena_id: userInfo.athena_id,
+                show_cod: lo_mnSaveData.show_cod,
+                cust_cod: lo_mnSaveData.cust_cod
+            }, function(err, getResult){
+               if(err){
+                   lo_result.success = false;
+                   lo_error = new ErrorClass();
+                   lo_error.errorMsg = "sql err";
+                   cb(lo_error, lo_result);
+               }
+               else{
+                   if (getResult.cust_mn_count > 0) {
+                       lo_result.success = false;
+                       lo_error = new ErrorClass();
+                       lo_error.errorMsg = commandRules.getMsgByCod("pms61msg8", session.locale);
+                       cb(lo_error, lo_result);
+                   }
+                   else {
+                       cb(lo_error, lo_result);
+                   }
+               }
+            });
+        }
+
+        function qryFuncustMn(data, cb) {
+        }
+
+        function qryContract(data, cb) {
+        }
+
+        function addCustIdx(data, cb) {
+        }
+
+        //cust_mn資料 儲存cust_idx
+        lo_result.extendExecDataArrSet.push({
+            function: '1',
+            table_name: 'cust_idx',
+            athena_id: userInfo.athena_id,
+            cust_cod: lo_mnSaveData.cust_cod,
+            show_cod: lo_mnSaveData.show_cod,
+            cust_sta: lo_mnSaveData.status_cod,
+            alt_nam: lo_mnSaveData.cust_idx_alt_nam,
+            uni_cod: lo_mnSaveData.cust_idx_uni_cod,
+            uni_title: lo_mnSaveData.cust_idx_uni_titile,
+            from_table: 'CUST_MN',
+            cust_typ: 'N',
+            office_tel: lo_mnSaveData.cust_idx_office_tel,
+            fax_nos: lo_mnSaveData.cust_idx_fax_nos,
+            zip_cod: lo_mnSaveData.cust_idx_zip_cod,
+            add_rmk: lo_mnSaveData.cust_idx_add_rmk,
+            credit_sta: lo_mnSaveData.cust_idx_credit_sta,
+            credit_amt: lo_mnSaveData.cust_idx_credit_amt,
+            ar_amt: lo_mnSaveData.cust_idx_ar_amt,
+            event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+            kindOfRel: 'dt'
+        });
+
+        //cust_mn_pers_dt 資料 儲存cust_idx
+        // _.each(la_dtCreateData, function (lo_dtCreateData, idx) {
+        //     if (Number(lo_dtUpdateData.tab_page_id) == 2) {
+        //         lo_result.extendExecDataArrSet.push({
+        //             function: '2',
+        //             table_name: 'cust_idx',
+        //             condition: [
+        //                 {
+        //                     key: 'athena_id',
+        //                     operation: "=",
+        //                     value: userInfo.athena_id
+        //                 },
+        //                 {
+        //                     key: 'cust_cod',
+        //                     operation: "=",
+        //                     value: lo_mnOriData.cust_cod
+        //                 },
+        //                 {
+        //                     key: 'show_cod',
+        //                     operation: "=",
+        //                     value: lo_mnOriData.show_cod
+        //                 }
+        //             ],
+        //             athena_id: userInfo.athena_id,
+        //             cust_cod: lo_mnSaveData.cust_cod,
+        //             alt_nam: lo_dtUpdateData.alt_nam,
+        //             from_table: 'CUST_MN_PERS_DT',
+        //             cust_typ: 'H',
+        //             office_tel: lo_dtUpdateData.office_tel,
+        //             fax_nos: lo_dtUpdateData.fax_nos,
+        //             mobile_nos: lo_dtUpdateData.mobile_nos,
+        //             home_tel: lo_dtUpdateData.home_tel,
+        //             e_mail: lo_dtUpdateData.e_mail,
+        //             birth_dat: lo_dtUpdateData.birth_dat,
+        //             sex_typ: lo_dtUpdateData.sex_typ
+        //         });
+        //     }
+        // });
+
+        callback(lo_error, lo_result);
+
+    },
+
+    /**
+     * 存檔(編輯)
+     * 1.公司編號不可重複
+     * 2.公司編號不可與財務應收客戶重複
+     * 3.檢查相同館別及房價代號之合約期間不可重覆
+     * 4.修改cust_idx
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    r_compMnUpdate: function (postData, session, callback) {
+        let userInfo = session.user;
+        let lo_mnSaveData = postData["tmpCUD"]["updateData"][0] || {};
+        let lo_mnOriData = postData["tmpCUD"]["oriData"][0] || {};
+        let la_dtCreateData = postData["tmpCUD"]["dt_createData"] || [];
+        let la_dtUpdateData = postData["tmpCUD"]["dt_updateData"] || [];
+        let la_dtDeleteData = postData["tmpCUD"]["dt_deleteData"] || [];
+
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        //cust_mn資料 儲存cust_idx
+        lo_result.extendExecDataArrSet.push({
+            function: '2',
+            table_name: 'cust_idx',
+            condition: [
+                {
+                    key: 'athena_id',
+                    operation: "=",
+                    value: userInfo.athena_id
+                },
+                {
+                    key: 'cust_cod',
+                    operation: "=",
+                    value: lo_mnOriData.cust_cod
+                },
+                {
+                    key: 'show_cod',
+                    operation: "=",
+                    value: lo_mnOriData.show_cod
+                }
+            ],
+            athena_id: userInfo.athena_id,
+            cust_cod: lo_mnSaveData.cust_cod,
+            show_cod: lo_mnSaveData.show_cod,
+            alt_nam: lo_mnSaveData.cust_idx_alt_nam,
+            uni_cod: lo_mnSaveData.cust_idx_uni_cod,
+            uni_title: lo_mnSaveData.cust_idx_uni_titile,
+            from_table: 'CUST_MN',
+            cust_typ: 'N',
+            office_tel: lo_mnSaveData.cust_idx_office_tel,
+            fax_nos: lo_mnSaveData.cust_idx_fax_nos,
+            zip_cod: lo_mnSaveData.cust_idx_zip_cod,
+            add_rmk: lo_mnSaveData.cust_idx_add_rmk,
+            credit_sta: lo_mnSaveData.cust_idx_credit_sta,
+            credit_amt: lo_mnSaveData.cust_idx_credit_amt,
+            ar_amt: lo_mnSaveData.cust_idx_ar_amt,
+            upd_dat: moment().format("YYYY/MM/DD"),
+            upd_usr: userInfo.usr_id,
+            event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+            kindOfRel: 'dt'
+        });
+
+        // //cust_mn_pers_dt 資料 儲存cust_idx
+        // _.each(la_dtCreateData, function(lo_dtCreateData){
+        //     if (Number(lo_dtCreateData.tab_page_id) == 2) {
+        //         lo_result.extendExecDataArrSet.push({
+        //             function: '2',
+        //             table_name: 'cust_idx',
+        //             condition: [
+        //                 {
+        //                     key: 'athena_id',
+        //                     operation: "=",
+        //                     value: userInfo.athena_id
+        //                 },
+        //                 {
+        //                     key: 'cust_cod',
+        //                     operation: "=",
+        //                     value: lo_mnOriData.cust_cod
+        //                 },
+        //                 {
+        //                     key: 'show_cod',
+        //                     operation: "=",
+        //                     value: lo_mnOriData.show_cod
+        //                 }
+        //             ],
+        //             athena_id: userInfo.athena_id,
+        //             cust_cod: lo_mnSaveData.cust_cod,
+        //             alt_nam: lo_dtUpdateData.alt_nam,
+        //             from_table: 'CUST_MN_PERS_DT',
+        //             cust_typ: 'H',
+        //             office_tel: lo_dtUpdateData.office_tel,
+        //             fax_nos: lo_dtUpdateData.fax_nos,
+        //             mobile_nos: lo_dtUpdateData.mobile_nos,
+        //             home_tel: lo_dtUpdateData.home_tel,
+        //             e_mail: lo_dtUpdateData.e_mail,
+        //             birth_dat: lo_dtUpdateData.birth_dat,
+        //             sex_typ: lo_dtUpdateData.sex_typ
+        //         });
+        //     }
+        // });
+        // _.each(la_dtUpdateData, function (lo_dtUpdateData) {
+        //     if (Number(lo_dtUpdateData.tab_page_id) == 2) {
+        //         lo_result.extendExecDataArrSet.push({
+        //             function: '2',
+        //             table_name: 'cust_idx',
+        //             condition: [
+        //                 {
+        //                     key: 'athena_id',
+        //                     operation: "=",
+        //                     value: userInfo.athena_id
+        //                 },
+        //                 {
+        //                     key: 'cust_cod',
+        //                     operation: "=",
+        //                     value: lo_mnOriData.cust_cod
+        //                 },
+        //                 {
+        //                     key: 'show_cod',
+        //                     operation: "=",
+        //                     value: lo_mnOriData.show_cod
+        //                 }
+        //             ],
+        //             athena_id: userInfo.athena_id,
+        //             cust_cod: lo_mnSaveData.cust_cod,
+        //             alt_nam: lo_dtUpdateData.alt_nam,
+        //             from_table: 'CUST_MN_PERS_DT',
+        //             cust_typ: 'H',
+        //             office_tel: lo_dtUpdateData.office_tel,
+        //             fax_nos: lo_dtUpdateData.fax_nos,
+        //             mobile_nos: lo_dtUpdateData.mobile_nos,
+        //             home_tel: lo_dtUpdateData.home_tel,
+        //             e_mail: lo_dtUpdateData.e_mail,
+        //             birth_dat: lo_dtUpdateData.birth_dat,
+        //             sex_typ: lo_dtUpdateData.sex_typ
+        //         });
+        //     }
+        // });
+
+        callback(lo_error, lo_result);
     }
 };

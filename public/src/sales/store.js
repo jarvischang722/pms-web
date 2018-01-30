@@ -188,8 +188,7 @@ const actions = {
 
         if (state.gb_isCreateStatus) {
             lo_tmpCUD.createData = [
-                state.go_allData.go_mnSingleData,
-                state.go_allData.go_rsSingleData
+                _.extend(state.go_allData.go_mnSingleData, state.go_allData.go_rsSingleData)
             ];
             _.each(state.go_rpTmpCUD.createData, function (lo_createData) {
                 lo_tmpCUD.dt_createData.push(lo_createData);
@@ -206,12 +205,10 @@ const actions = {
         }
         else if (state.gb_isEditStatus) {
             lo_tmpCUD.updateData = [
-                state.go_allData.go_mnSingleData,
-                state.go_allData.go_rsSingleData
+                _.extend(state.go_allData.go_mnSingleData, state.go_allData.go_rsSingleData)
             ];
             lo_tmpCUD.oriData = [
-                state.go_allOriData.go_mnSingleData,
-                state.go_allOriData.go_rsSingleData
+                _.extend(state.go_allOriData.go_mnSingleData, state.go_allData.go_rsSingleData)
             ];
 
             _.each(state.go_rpTmpCUD.createData, function (lo_createData) {
@@ -271,8 +268,11 @@ const actions = {
         $.post('/api/doOperationSave', {
             prg_id: 'PMS0610020',
             page_id: 1,
+            func_id: lo_tmpCUD.createData.length > 0 ? "0200" : "0400",
+            trans_cod: 'PMS0610020',
             tmpCUD: lo_tmpCUD
         }).then(result => {
+            console.log(result);
             return (result);
         });
     }

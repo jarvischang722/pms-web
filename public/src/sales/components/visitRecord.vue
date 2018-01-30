@@ -195,11 +195,14 @@
             },
             singleData: {
                 handler: function (val) {
-                    var self = this;
-                    this.$eventHub.$emit("getVisitRecordSingleData", {
-                        singleData: val,
-                        fieldsData: self.oriFieldsData
-                    });
+                    if(!_.isEmpty(val)){
+                        var self = this;
+                        this.$eventHub.$emit("getVisitRecordSingleData", {
+                            singleData: val,
+                            oriSingleData: self.oriSingleData,
+                            fieldsData: self.oriFieldsData
+                        });
+                    }
                 },
                 deep: true
             }
@@ -233,6 +236,7 @@
             },
             fetchRowData() {
                 this.singleData = JSON.parse(JSON.stringify(this.rowData)) ;
+                this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
                 this.isLoadingDialog = false;
             },
             chkFieldRule(ui_field_name, rule_func_name) {

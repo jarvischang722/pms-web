@@ -350,10 +350,8 @@
                 }
             },
             removeRow() {
-                var lo_delRow = $('#otherRemark_dg').datagrid("getSelected");
-
                 var lo_delRow = $('#otherRemark_dg').datagrid('getSelected');
-                var ln_delIndex = $('#otherRemark_dg').datagrid('getRowIndex', lo_edlo_delRowitRow);
+                var ln_delIndex = $('#otherRemark_dg').datagrid('getRowIndex', lo_delRow);
 
                 if (!lo_delRow) {
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
@@ -506,7 +504,8 @@
                 else{
                     this.singleData = _.extend(this.singleData, {
                         tab_page_id: 6,
-                        event_time: moment().format("YYYY/MM/DD HH:mm:ss")
+                        event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+                        cust_cod: this.$store.state.gs_custCod
                     });
                     var ln_editIdx = _.isUndefined(this.singleData.index)? -1: this.singleData.index;
                     if(ln_editIdx > -1){

@@ -94,6 +94,25 @@
             dataGridRowsData: {
                 handler(val){
                     if(!_.isEmpty(val)){
+                        var self = this;
+                        //將cust_cod放置tmpCUD中
+                        _.each(this.dgIns.tmpCUD.createData, function(lo_createData, idx){
+                            self.dgIns.tmpCUD.createData[idx] =
+                                _.extend(self.dgIns.tmpCUD.createData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.updateData, function(lo_updateData, idx){
+                            self.dgIns.tmpCUD.updateData[idx] =
+                                _.extend(self.dgIns.tmpCUD.updateData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.deleteData, function(lo_deleteData, idx){
+                            self.dgIns.tmpCUD.deleteData[idx] =
+                                _.extend(self.dgIns.tmpCUD.deleteData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.oriData, function(lo_oriData, idx){
+                            self.dgIns.tmpCUD.oriData[idx] =
+                                _.extend(self.dgIns.tmpCUD.oriData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+
                         //將合約內容資料放至Vuex
                         this.$store.dispatch("setCcDataGridRowsData", {
                             ga_ccDataGridRowsData: val,
@@ -107,6 +126,25 @@
             dataGridRowsDataOfExpire: {
                 handler(val){
                     if(!_.isEmpty(val)){
+                        var self = this;
+                        //將cust_cod放置tmpCUD中
+                        _.each(this.dgIns.tmpCUD.createData, function(lo_createData, idx){
+                            self.dgIns.tmpCUD.createData[idx] =
+                                _.extend(self.dgIns.tmpCUD.createData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.updateData, function(lo_updateData, idx){
+                            self.dgIns.tmpCUD.updateData[idx] =
+                                _.extend(self.dgIns.tmpCUD.updateData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.deleteData, function(lo_deleteData, idx){
+                            self.dgIns.tmpCUD.deleteData[idx] =
+                                _.extend(self.dgIns.tmpCUD.deleteData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.oriData, function(lo_oriData, idx){
+                            self.dgIns.tmpCUD.oriData[idx] =
+                                _.extend(self.dgIns.tmpCUD.oriData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+
                         //將合約內容資料放至Vuex
                         this.$store.dispatch("setCcDataGridRowsData", {
                             ga_ccDataGridRowsData: val,
@@ -120,6 +158,25 @@
             dataGridRowsDataOfRateCode: {
                 handler(val){
                     if(!_.isEmpty(val)){
+                        var self = this;
+                        //將cust_cod放置tmpCUD中
+                        _.each(this.dgIns.tmpCUD.createData, function(lo_createData, idx){
+                            self.dgIns.tmpCUD.createData[idx] =
+                                _.extend(self.dgIns.tmpCUD.createData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.updateData, function(lo_updateData, idx){
+                            self.dgIns.tmpCUD.updateData[idx] =
+                                _.extend(self.dgIns.tmpCUD.updateData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.deleteData, function(lo_deleteData, idx){
+                            self.dgIns.tmpCUD.deleteData[idx] =
+                                _.extend(self.dgIns.tmpCUD.deleteData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.oriData, function(lo_oriData, idx){
+                            self.dgIns.tmpCUD.oriData[idx] =
+                                _.extend(self.dgIns.tmpCUD.oriData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+
                         //將合約內容資料放至Vuex
                         this.$store.dispatch("setCcDataGridRowsData", {
                             ga_ccDataGridRowsData: val,
@@ -148,7 +205,6 @@
                 this.oriDataGridRowsData = [];
                 this.fieldsData = [];
                 this.oriFieldsData = [];
-//                this.dgIns = {};
             },
             fetchFieldData() {
                 this.isLoading = true;

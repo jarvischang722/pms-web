@@ -304,6 +304,7 @@ function DatagridBaseClass() {
 
         _.each(allField, function (field, fIdx) {
             var currentColumOption = $('#' + self.dgName).datagrid("getColumnOption", field);
+
             currentColumOption.col_seq = fIdx;
             delete currentColumOption._id;
             saveField.push(_.extend(currentColumOption));

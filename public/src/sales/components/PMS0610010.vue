@@ -337,6 +337,7 @@
             });
         },
         mounted() {
+            this.isLoading = true;
             this.fetchUserInfo();
             this.setSearchCond();
             this.loadDataGridByPrgID();
@@ -352,7 +353,7 @@
                 searchFields: [],
                 searchCond: {},
                 dgIns: {},
-                isLoading: true,
+                isLoading: false,
                 editingRow: {},
                 editRows: [],
                 isAddEnable: false,

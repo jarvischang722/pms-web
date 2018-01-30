@@ -9,7 +9,8 @@
             cust_idx.sex_typ, cust_idx.birth_dat, cust_mn_pers_dt.seq_nos
             from  cust_mn_pers_dt
             left join cust_idx on cust_mn_pers_dt.athena_id = cust_idx.athena_id
-            where cust_mn_pers_dt.per_cust_cod = cust_idx.cust_cod and cust_idx.from_table = 'CUST_MN_PERS_DT'
+            where cust_mn_pers_dt.per_cust_cod = cust_idx.cust_cod
+            and  cust_idx.from_table = 'CUST_MN_PERS_DT'
             and  cust_mn_pers_dt.athena_id = :athena_id
             and  cust_mn_pers_dt.cust_cod = :cust_cod
         ]]>

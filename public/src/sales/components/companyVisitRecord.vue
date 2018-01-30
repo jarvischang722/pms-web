@@ -79,6 +79,7 @@
             this.$eventHub.$on("getVisitRecordSingleData", function (visitRecordSingleData) {
                 self.visitRecordSingleFieldsData = visitRecordSingleData.fieldsData;
                 self.visitRecordSingleData = visitRecordSingleData.singleData;
+                self.visitRecordOriSingleData = visitRecordSingleData.oriSingleData;
             });
         },
         data() {
@@ -102,7 +103,8 @@
                 dgIns: {},
                 editingRow: {},
                 visitRecordSingleFieldsData: [],
-                visitRecordSingleData: {}
+                visitRecordSingleData: {},
+                visitRecordOriSingleData: {}
             };
         },
         watch: {
@@ -270,8 +272,21 @@
                 else {
                     this.visitRecordSingleData = _.extend(this.visitRecordSingleData, {
                         tab_page_id: 5,
-                        event_time: moment().format("YYYY/MM/DD HH:mm:ss")
+                        event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+                        cust_cod: this.$store.state.gs_custCod
                     });
+                    //轉換資料時間格式
+                    this.visitRecordSingleData["visit_dat"] =
+                        _.isNull(this.visitRecordSingleData["visit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["visit_dat"])).format("YYYY/MM/DD");
+                    this.visitRecordSingleData["avisit_dat"] =
+                        _.isNull(this.visitRecordSingleData["avisit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
+                    //轉換原始資料時間格式
+                    this.visitRecordOriSingleData["visit_dat"] =
+                        _.isNull(this.visitRecordOriSingleData["visit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["visit_dat"])).format("YYYY/MM/DD");
+                    this.visitRecordOriSingleData["avisit_dat"] =
+                        _.isNull(this.visitRecordOriSingleData["avisit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
+
+
                     var ln_editIdx = _.isUndefined(this.visitRecordSingleData.index) ? -1 : this.visitRecordSingleData.index;
                     if (ln_editIdx > -1) {
                         if (!_.isUndefined(this.visitRecordSingleData.createIndex)) {
@@ -280,7 +295,7 @@
                         }
                         else {
                             this.tmpCUD.updateData.push(this.visitRecordSingleData);
-                            this.tmpCUD.oriData.push(this.visitRecordSingleData);
+                            this.tmpCUD.oriData.push(this.visitRecordOriSingleData);
                         }
 
                         this.dataGridRowsData[ln_editIdx] = this.visitRecordSingleData;
