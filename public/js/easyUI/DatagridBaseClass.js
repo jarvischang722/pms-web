@@ -277,9 +277,16 @@ function DatagridBaseClass() {
 
         _.each(allField, function (field, fIdx) {
             var currentColumOption = $('#' + self.dgName).datagrid("getColumnOption", field);
-            currentColumOption.col_seq = fIdx;
-            delete currentColumOption._id;
-            saveField.push(_.extend(currentColumOption));
+            var lo_currentColumOption = JSON.parse(JSON.stringify(currentColumOption));
+            lo_currentColumOption.col_seq = fIdx;
+            delete lo_currentColumOption._id;
+
+            //因前檯小數關係，format_func_name可能是object，存進mongo前的前置處理
+            if (typeof lo_currentColumOption.format_func_name === "object") {
+                lo_currentColumOption.format_func_name = lo_currentColumOption.format_func_name.rule_name;
+            }
+
+            saveField.push(_.extend(lo_currentColumOption));
         });
 
         $.post("/api/saveFieldOptionByUser", {
