@@ -266,8 +266,8 @@
             },
             fetchRowData() {
                 var self = this;
+                //第一次載入相關設定
                 if(_.isEmpty(this.$store.state.go_allData.go_rsSingleData)){
-                    console.log("this store .go_allData.go_rsSingleData is empty");
                     if (this.isCreateStatus) {
                         this.singleData = {
                             hoffice_cod: self.$store.state.gs_custCod,

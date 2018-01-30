@@ -93,10 +93,10 @@ module.exports = {
             }
         ], function (err, result) {
             lo_result.defaultValues = {
-                cust_mn_contract_sta: ls_custMncontractSta,
-                cust_mn_cust_cod: ls_custMnCustCod,
-                cust_mn_show_cod: ls_custMnShowCod,
-                cust_mn_pcust_cod: ls_custMnPcustCod
+                contract_sta: ls_custMncontractSta,
+                cust_cod: ls_custMnCustCod,
+                show_cod: ls_custMnShowCod,
+                pcust_cod: ls_custMnPcustCod
             };
             callback(lo_error, lo_result);
         });

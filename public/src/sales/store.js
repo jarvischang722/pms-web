@@ -175,33 +175,106 @@ const actions = {
     //儲存所有資料
     doSaveAllData({commit, dispatch, state}) {
         var err = null;
-        var lo_saveData = {};
-        console.log(state.go_allData);
+        var lo_tmpCUD = {
+            createData: [],
+            updateData: [],
+            deleteData: [],
+            oriData: [],
+            dt_createData: [],
+            dt_updateData: [],
+            dt_deleteData: [],
+            dt_oriData: []
+        };
 
-        // if (state.gb_isCreateStatus) {
-        //     lo_saveData = state.go_allData;
-        // }
-        // else if (state.gb_isCreateStatus) {
-        //     console.log(state.go_allData.go_mnSingleData);
-        //     lo_saveData = {
-        //         mnData: state.go_allData.go_mnSingleData,
-        //         mnOriData: state.go_allOriData.go_mnSingleData,
-        //         rsData: state.go_allData.go_rsSingleData,
-        //         rsOriData: state.go_allOriData.go_rsSingleData,
-        //         rpData: state.go_rpTmpCUD,
-        //         ccData: state.go_ccTmpCUD,
-        //         vrData: state.go_vrTmpCUD,
-        //         remarkData: state.go_vrTmpCUD
-        //     };
-        // }
-        // console.log(lo_saveData);
+        if (state.gb_isCreateStatus) {
+            lo_tmpCUD.createData = [
+                state.go_allData.go_mnSingleData,
+                state.go_allData.go_rsSingleData
+            ];
+            _.each(state.go_rpTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
+            _.each(state.go_ccTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
+            _.each(state.go_vrTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
+            _.each(state.go_remarkTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
+        }
+        else if (state.gb_isEditStatus) {
+            lo_tmpCUD.updateData = [
+                state.go_allData.go_mnSingleData,
+                state.go_allData.go_rsSingleData
+            ];
+            lo_tmpCUD.oriData = [
+                state.go_allOriData.go_mnSingleData,
+                state.go_allOriData.go_rsSingleData
+            ];
 
-        // $.post('/api/sales/saveCompData', lo_saveData).then(result => {
-        //
-        // });
+            _.each(state.go_rpTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
+            _.each(state.go_ccTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
+            _.each(state.go_vrTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
+            _.each(state.go_remarkTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
 
+            _.each(state.go_rpTmpCUD.updateData, function (lo_updateData) {
+                lo_tmpCUD.dt_updateData.push(lo_updateData);
+            });
+            _.each(state.go_ccTmpCUD.updateData, function (lo_updateData) {
+                lo_tmpCUD.dt_updateData.push(lo_updateData);
+            });
+            _.each(state.go_vrTmpCUD.updateData, function (lo_updateData) {
+                lo_tmpCUD.dt_updateData.push(lo_updateData);
+            });
+            _.each(state.go_remarkTmpCUD.updateData, function (lo_updateData) {
+                lo_tmpCUD.dt_updateData.push(lo_updateData);
+            });
 
-        return ({success: true, errorMsg: err});
+            _.each(state.go_rpTmpCUD.deleteData, function (lo_deleteData) {
+                lo_tmpCUD.dt_deleteData.push(lo_deleteData);
+            });
+            _.each(state.go_ccTmpCUD.deleteData, function (lo_deleteData) {
+                lo_tmpCUD.dt_deleteData.push(lo_deleteData);
+            });
+            _.each(state.go_vrTmpCUD.deleteData, function (lo_deleteData) {
+                lo_tmpCUD.dt_deleteData.push(lo_deleteData);
+            });
+            _.each(state.go_remarkTmpCUD.deleteData, function (lo_deleteData) {
+                lo_tmpCUD.dt_deleteData.push(lo_deleteData);
+            });
+
+            _.each(state.go_rpTmpCUD.oriData, function (lo_oriData) {
+                lo_tmpCUD.dt_oriData.push(lo_oriData);
+            });
+            _.each(state.go_ccTmpCUD.oriData, function (lo_oriData) {
+                lo_tmpCUD.dt_oriData.push(lo_oriData);
+            });
+            _.each(state.go_vrTmpCUD.oriData, function (lo_oriData) {
+                lo_tmpCUD.dt_oriData.push(lo_oriData);
+            });
+            _.each(state.go_remarkTmpCUD.oriData, function (lo_oriData) {
+                lo_tmpCUD.dt_oriData.push(lo_oriData);
+            });
+        }
+
+        console.log(lo_tmpCUD);
+        $.post('/api/doOperationSave', {
+            prg_id: 'PMS0610020',
+            page_id: 1,
+            tmpCUD: lo_tmpCUD
+        }).then(result => {
+            return (result);
+        });
     }
 };
 

@@ -540,9 +540,6 @@
                 else {
                     this.editingRow = lo_editRow;
                     this.showSingleGridDialog();
-                    // this.doRowLock(lo_editRow.cust_mn_cust_cod, function(result){
-                    //     self.showSingleGridDialog();
-                    // });
                 }
                 this.isLoading = false;
             },

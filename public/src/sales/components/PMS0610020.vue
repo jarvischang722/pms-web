@@ -362,19 +362,35 @@
             },
             singleData: {
                 handler: function (val) {
-                    //將主檔資料放至Vuex
-                    this.$store.dispatch("setMnSingleData", {
-                        go_mnSingleData: val,
-                        go_mnOriSingleData: this.oriSingleData
-                    });
-                    //自動將郵遞區號對應之地址資料帶至地址欄位
-                    var lo_singleData = JSON.parse(JSON.stringify(val));
-                    lo_singleData.cust_idx_zip_cod =
-                        _.isUndefined(lo_singleData.cust_idx_zip_cod) || _.isNull(lo_singleData.cust_idx_zip_cod)? "" : lo_singleData.cust_idx_zip_cod;
-                    if (lo_singleData.cust_idx_zip_cod != "" && (lo_singleData.cust_idx_add_rmk == "" || _.isNull(lo_singleData.cust_idx_add_rmk) ) ){
-                        var ln_zipCodIdx = _.findIndex(this.oriFieldsData, {ui_field_name: 'cust_idx_zip_cod'})
-                        var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
-                        this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
+                    if(!_.isEmpty(val)){
+
+                        var lo_singleData = JSON.parse(JSON.stringify(val));
+                        var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
+
+                        //將sales_cod從xxx:xxx改為xxx
+                        lo_singleData.sales_cod = val.sales_cod.split(":")[0];
+                        lo_oriSingleData.sales_cod = this.oriSingleData.sales_cod.split(":")[0];
+
+                        //取得合約狀態說明
+                        var lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'})
+                        var lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: lo_oriSingleData.contract_sta});
+                        var ls_contractStaDesc = lo_contractSta.display.split(":")[1];
+                        lo_singleData = _.extend(lo_singleData, {status_desc: ls_contractStaDesc});
+
+                        //自動將郵遞區號對應之地址資料帶至地址欄位
+                        lo_singleData.cust_idx_zip_cod =
+                            _.isUndefined(lo_singleData.cust_idx_zip_cod) || _.isNull(lo_singleData.cust_idx_zip_cod) ? "" : lo_singleData.cust_idx_zip_cod;
+                        if (lo_singleData.cust_idx_zip_cod != "" && (lo_singleData.cust_idx_add_rmk == "" || _.isNull(lo_singleData.cust_idx_add_rmk) )) {
+                            var ln_zipCodIdx = _.findIndex(this.oriFieldsData, {ui_field_name: 'cust_idx_zip_cod'})
+                            var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
+                            this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
+                        }
+
+                        //將主檔資料放至Vuex
+                        this.$store.dispatch("setMnSingleData", {
+                            go_mnSingleData: lo_singleData,
+                            go_mnOriSingleData: lo_oriSingleData
+                        });
                     }
                 },
                 deep: true
@@ -466,16 +482,16 @@
             doSaveGrid() {
                 this.isLoadingDialog = true;
                 this.loadingText = "saving";
-                this.$store.dispatch("doSaveAllData").then(result=>{
-                    if(result.success){
-                        alert("save success");
-                        $("#PMS0610020").dialog('close');
-                        // this.doCloseDialog();
-                    }
-                    else{
-                        alert(result.errorMsg);
-                    }
-                    this.isLoadingDialog = false;
+                this.$store.dispatch("doSaveAllData").then(result => {
+                    console.log(result)
+//                    if(result.success){
+//                        alert("save success");
+//                        $("#PMS0610020").dialog('close');
+//                    }
+//                    else{
+//                        alert(result.errorMsg);
+//                    }
+//                    this.isLoadingDialog = false;
                 })
             },
             doCloseDialog() {
@@ -487,9 +503,9 @@
             doSetCompanyStatus() {
                 var self = this;
                 if (this.isEditStatus) {
-                    this.$store.dispatch("qryAllDataIsChange").then(result =>{
-                        if(result.success){
-                            if(!result.isChange){
+                    this.$store.dispatch("qryAllDataIsChange").then(result => {
+                        if (result.success) {
+                            if (!result.isChange) {
                                 this.isOpenCompanyStatus = true;
                                 this.$eventHub.$emit('getCompanyStatusData', {
                                     openCompanyStatus: self.isOpenCompanyStatus
@@ -508,9 +524,9 @@
                 var la_contractStaFieldData = JSON.parse(JSON.stringify(_.findWhere(self.oriFieldsData, {ui_field_name: "cust_mn_contract_sta"})));
                 la_contractStaFieldData.modificable = 'Y';
                 if (this.isEditStatus) {
-                    this.$store.dispatch("qryAllDataIsChange").then(result =>{
-                        if(result.success){
-                            if(!result.isChange){
+                    this.$store.dispatch("qryAllDataIsChange").then(result => {
+                        if (result.success) {
+                            if (!result.isChange) {
                                 this.isOpenContractStatus = true;
                                 this.$eventHub.$emit('getContractStatusData', {
                                     openContractStatus: self.isOpenContractStatus,

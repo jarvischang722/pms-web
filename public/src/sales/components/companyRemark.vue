@@ -205,8 +205,11 @@
         watch: {
             isOtherRemark(val) {
                 if (val) {
-                    this.initDataGridData();
-                    this.initTmpCUD();
+                    //第一次載入業務備註
+                    if(_.isEmpty(this.$store.state.go_allData.ga_remarkDataGridRowsData)){
+                        this.initDataGridData();
+                        this.initTmpCUD();
+                    }
                     this.fetchDataGridFieldData();
                 }
             },
@@ -243,17 +246,14 @@
             },
             dataGridRowsData: {
                 handler: function (val) {
-                    //將業務備註資料放至Vuex
-                    this.$store.dispatch("setRemarkDataGridRowsData", {
-                        ga_remarkDataGridRowsData: val,
-                        ga_remarkOriDataGridRowsData: this.oriDataGridRowsData,
-                        go_remarkTmpCUD: this.tmpCUD
-                    });
-                    //更新dataGridRowsDataOfStaff
-                    this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify(val)), lo_dgRowData => {
-                        return lo_dgRowData.job_sta != 'Q'
-                    });
-
+                    if(!_.isEmpty(val)){
+                        //將業務備註資料放至Vuex
+                        this.$store.dispatch("setRemarkDataGridRowsData", {
+                            ga_remarkDataGridRowsData: val,
+                            ga_remarkOriDataGridRowsData: this.oriDataGridRowsData,
+                            go_remarkTmpCUD: this.tmpCUD
+                        });
+                    }
                 },
                 deep: true
             }
@@ -289,8 +289,16 @@
                 }).then(result => {
                     this.searchFields = result.searchFields;
                     this.dataGridFieldsData = result.dgFieldsData;
-                    this.dataGridRowsData = result.dgRowData;
-                    this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+
+                    if(_.isEmpty(this.$store.state.go_allData.ga_remarkDataGridRowsData)){
+                        this.dataGridRowsData = result.dgRowData;
+                        this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                    }
+                    else{
+                        this.dataGridRowsData = this.$store.state.go_allData.ga_remarkDataGridRowsData;
+                        this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_remarkDataGridRowsData;
+                    }
+
                     this.showDataGrid();
                 });
             },
@@ -496,6 +504,10 @@
                     alert(lo_chkResult.msg);
                 }
                 else{
+                    this.singleData = _.extend(this.singleData, {
+                        tab_page_id: 6,
+                        event_time: moment().format("YYYY/MM/DD HH:mm:ss")
+                    });
                     var ln_editIdx = _.isUndefined(this.singleData.index)? -1: this.singleData.index;
                     if(ln_editIdx > -1){
                         if(!_.isUndefined(this.singleData.createIndex)){

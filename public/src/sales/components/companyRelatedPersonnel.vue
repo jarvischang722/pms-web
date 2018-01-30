@@ -71,22 +71,27 @@
         watch: {
             isRelatedPersonnel(val) {
                 if (val) {
-                    this.initData();
+                    //第一次載入相關人員
+                    if(_.isEmpty(this.$store.state.go_allData.ga_rpDataGridRowsData)){
+                        this.initData();
+                    }
                     this.fetchFieldData();
                 }
             },
             dataGridRowsData: {
                 handler: function (val) {
-                    //將相關人員資料放至Vuex
-                    this.$store.dispatch("setRpDataGridRowsData", {
-                        ga_rpDataGridRowsData: val,
-                        ga_rpOriDataGridRowsData: this.oriDataGridRowsData,
-                        go_rpTmpCUD: this.dgIns.tmpCUD
-                    });
-                    //更新dataGridRowsDataOfStaff
-                    this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify(val)), lo_dgRowData => {
-                        return lo_dgRowData.job_sta != 'Q'
-                    });
+                    if(!_.isEmpty(val)){
+                        //將相關人員資料放至Vuex
+                        this.$store.dispatch("setRpDataGridRowsData", {
+                            ga_rpDataGridRowsData: val,
+                            ga_rpOriDataGridRowsData: this.oriDataGridRowsData,
+                            go_rpTmpCUD: this.dgIns.tmpCUD
+                        });
+                        //更新dataGridRowsDataOfStaff
+                        this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify(val)), lo_dgRowData => {
+                            return lo_dgRowData.job_sta != 'Q'
+                        });
+                    }
                 },
                 deep: true
             }
@@ -115,12 +120,24 @@
                     }
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
-                    this.dataGridRowsData = result.dgRowData;
-                    this.dataGridRowsDataOfStaff = _.filter(result.dgRowData, lo_dgRowData => {
-                        return lo_dgRowData.job_sta != 'Q'
-                    });
-                    this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
-                    this.showDataGrid(this.dataGridRowsData);
+                    //第一次載入此頁面
+                    if(_.isEmpty(this.$store.state.go_allData.ga_rpDataGridRowsData)){
+                        this.dataGridRowsData = result.dgRowData;
+                        this.dataGridRowsDataOfStaff = _.filter(result.dgRowData, lo_dgRowData => {
+                            return lo_dgRowData.job_sta != 'Q'
+                        });
+                        this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        this.showDataGrid(this.dataGridRowsData);
+                    }
+                    else{
+                        this.dataGridRowsData = this.$store.state.go_allData.ga_rpDataGridRowsData;
+                        this.dataGridRowsDataOfStaff = _.filter( this.$store.state.go_allData.ga_rpDataGridRowsData, lo_dgRowData => {
+                            return lo_dgRowData.job_sta != 'Q'
+                        });
+                        this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_rpDataGridRowsData;
+                        this.dgIns.loadDgData(this.dataGridRowsData);
+                        this.isLoading = false;
+                    }
                 });
             },
             showDataGrid(dataGridRowsData) {
@@ -129,7 +146,6 @@
                 this.dgIns.loadDgData(dataGridRowsData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
                 this.isLoading = false;
-
             },
             appendRow() {
                 var self = this;

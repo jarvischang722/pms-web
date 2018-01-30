@@ -346,6 +346,7 @@ function combineMainData(rfData, callback) {
                 return callback(null, '0400');
             }
 
+            let ln_count = 0;//計算資料處理次數
             _.each(ga_updateData, function (data, index) {
                 var lo_fieldsData = qryFieldsDataByTabPageID(data);
                 var tmpEdit = {"function": "2", "table_name": gs_mainTableName}; //2  編輯
@@ -381,6 +382,7 @@ function combineMainData(rfData, callback) {
 
                 });
 
+                ln_count++;
                 /** 處理每一筆多語系 handleSaveMultiLang **/
                 if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
                     var langProcessFunc = [];
@@ -465,7 +467,10 @@ function combineMainData(rfData, callback) {
                 else {
                     go_saveExecDatas[gn_exec_seq] = tmpEdit;
                     gn_exec_seq++;
-                    callback(null, '0400');
+                    //資料處理完後再callback
+                    if(ln_count == ga_updateData.length){
+                        callback(null, '0400');
+                    }
                 }
             });
 

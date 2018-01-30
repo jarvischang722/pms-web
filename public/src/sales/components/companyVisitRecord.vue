@@ -74,9 +74,9 @@
         name: 'company-visit-record',
         props: ["rowData", "isVisitRecord"],
         components: {visitRecord},
-        created(){
+        created() {
             var self = this;
-            this.$eventHub.$on("getVisitRecordSingleData",function(visitRecordSingleData){
+            this.$eventHub.$on("getVisitRecordSingleData", function (visitRecordSingleData) {
                 self.visitRecordSingleFieldsData = visitRecordSingleData.fieldsData;
                 self.visitRecordSingleData = visitRecordSingleData.singleData;
             });
@@ -114,12 +114,14 @@
             },
             dataGridRowsData: {
                 handler: function (val) {
+                    if (!_.isEmpty(val)) {
+                        this.$store.dispatch("setVrDataGridRowsData", {
+                            ga_vrDataGridRowsData: val,
+                            ga_vrOriDataGridRowsData: this.oriDataGridRowsData,
+                            go_vrTmpCUD: this.tmpCUD
+                        });
+                    }
                     //將業務備註資料放至Vuex
-                    this.$store.dispatch("setVrDataGridRowsData", {
-                        ga_vrDataGridRowsData: val,
-                        ga_vrOriDataGridRowsData: this.oriDataGridRowsData,
-                        go_vrTmpCUD: this.tmpCUD
-                    });
                 },
                 deep: true
             }
@@ -152,8 +154,16 @@
                 }).then(result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
-                    this.dataGridRowsData = result.dgRowData;
-                    this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+
+                    if (_.isEmpty(this.$store.state.go_allData.ga_vrDataGridRowsData)) {
+                        this.dataGridRowsData = result.dgRowData;
+                        this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                    }
+                    else {
+                        this.dataGridRowsData = this.$store.state.go_allData.ga_vrDataGridRowsData;
+                        this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_vrDataGridRowsData;
+                    }
+
                     this.showDataGrid();
                 });
             },
@@ -188,7 +198,7 @@
                     alert(go_i18nLang["SystemCommon"].SelectData);
                 }
                 else {
-                    this.editingRow = _.extend(lo_editRow,{index: ln_editIndex});
+                    this.editingRow = _.extend(lo_editRow, {index: ln_editIndex});
                     this.showSingleGridDialog();
                 }
             },
@@ -203,12 +213,11 @@
                 }
                 else {
                     //刪除新增的資料
-                    if(!_.isUndefined(this.dataGridRowsData[ln_delIndex].createIndex)){
+                    if (!_.isUndefined(this.dataGridRowsData[ln_delIndex].createIndex)) {
                         var createIdx = this.dataGridRowsData[ln_delIndex].createIndex;
-                        console.log(createIdx);
                         this.tmpCUD.createData.splice(createIdx, 1)
                     }
-                    else{
+                    else {
                         this.tmpCUD.oriData.push(this.dataGridRowsData[ln_delIndex])
                         this.tmpCUD.deleteData.push(this.dataGridRowsData[ln_delIndex]);
                     }
@@ -235,7 +244,7 @@
                     }
                 });
             },
-            dataValidate(){
+            dataValidate() {
                 var self = this;
                 var lo_checkResult;
 
@@ -253,26 +262,30 @@
 
                 return lo_checkResult
             },
-            setNewDataGridRowsData(){
+            setNewDataGridRowsData() {
                 var lo_chkResult = this.dataValidate();
                 if (lo_chkResult.success == false) {
                     alert(lo_chkResult.msg);
                 }
-                else{
-                    var ln_editIdx = _.isUndefined(this.visitRecordSingleData.index)? -1:this.visitRecordSingleData.index;
-                    if(ln_editIdx > -1){
-                        if(!_.isUndefined(this.visitRecordSingleData.createIndex)){
+                else {
+                    this.visitRecordSingleData = _.extend(this.visitRecordSingleData, {
+                        tab_page_id: 5,
+                        event_time: moment().format("YYYY/MM/DD HH:mm:ss")
+                    });
+                    var ln_editIdx = _.isUndefined(this.visitRecordSingleData.index) ? -1 : this.visitRecordSingleData.index;
+                    if (ln_editIdx > -1) {
+                        if (!_.isUndefined(this.visitRecordSingleData.createIndex)) {
                             var createIndex = this.visitRecordSingleData.createIndex;
                             this.tmpCUD.createData[createIndex] = this.visitRecordSingleData;
                         }
-                        else{
+                        else {
                             this.tmpCUD.updateData.push(this.visitRecordSingleData);
                             this.tmpCUD.oriData.push(this.visitRecordSingleData);
                         }
 
                         this.dataGridRowsData[ln_editIdx] = this.visitRecordSingleData;
                     }
-                    else{
+                    else {
                         this.tmpCUD.createData.push(this.visitRecordSingleData);
                         this.dataGridRowsData.push(this.visitRecordSingleData);
                     }
