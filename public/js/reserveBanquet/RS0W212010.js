@@ -1498,7 +1498,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                     }
                 });
             }
-
+            $("#txtSelectCondition").val("");
             self.gridData = textDataGridArray;
             var height = document.documentElement.clientHeight - 160;
             var width = document.documentElement.clientWidth / 2 - 25;    //browser 寬度 - 200功能列
@@ -1613,6 +1613,7 @@ var RS00202010VM = new Vue({
                 self.isLoading = false;
                 if (result.success) {
                     self.pageOneData = result.pageOneData;
+                    console.log(result.pageOneData);
                 }
                 else {
                     alert(result.errorMsg);
