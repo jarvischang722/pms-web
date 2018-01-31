@@ -291,7 +291,7 @@
     </dao>
 
     <!--[PMS0620050] 業務員拜訪記錄 檢查公司編號是否重複-->
-    <dao name="CHK_CUST_MN">
+    <dao name="CHK_CUST_MN_IS_EXIST">
         <statement><![CDATA[
             SELECT  COUNT(*) as cust_mn_count
             FROM  CUST_MN
