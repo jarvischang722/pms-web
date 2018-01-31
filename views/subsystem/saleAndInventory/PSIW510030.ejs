@@ -247,6 +247,7 @@
                 <html lang="zh-TW">
                 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 
+                <div v-for="index in pageNum" style="page-break-before: always">
                 <div style="font-size: 16px; margin-left: 21px; margin-bottom: 5px;font-weight: bold;"><span>新莊FAX: (02)2901-4323</span> <span style="margin-left: 64px">台中FAX: (04)2437-7389</span></div>
                 <div style="font-size: 16px; margin-left: 21px; margin-bottom: 20px;font-weight: bold;"> <span>訂貨門市:</span> <span style="margin-left: 180px">訂貨日期:</span> <span style="margin-left: 180px">訂貨人員:</span> </div>
 
@@ -260,14 +261,14 @@
                         <td style="width: 100px; text-align: center;">訂貨單位</td>
                         <td style="width: 100px; text-align: center;">數量</td>
                     </tr>
-                    <tr v-for="item in order_data" style="font-size:16px;">
+                    <tr v-for="item in order_data[index]" style="font-size:16px;">
                         <td style=" text-align: center;">{{item.goods_cod}}</td>
                         <td>{{item.goods_rmk}}</td>
                         <td style=" text-align: center;">{{item.goods_unit}}</td>
                         <td></td>
                     </tr>
                 </table>
-                <div><br></div>
+                </div>
                 </html>
             </div>
 
