@@ -205,6 +205,7 @@
         data() {
             return {
                 i18nLang: go_i18nLang,
+                userInfo: {},
                 isLoading: false,
                 isCreateStatus: false,
                 isEditStatus: false,
@@ -216,6 +217,9 @@
                 oriPageTwoFieldsData: []
             };
         },
+        mounted(){
+            this.fetchUserInfo();
+        },
         watch: {
             isRelatedSetting(val) {
                 if (val) {
@@ -226,22 +230,39 @@
             singleData: {
                 handler: function (val, oldVal) {
                     if(! _.isEmpty(val)){
-                        var self = this;
+                        if(this.$store.state.gb_isCreateStatus){
+                            val.ins_dat = moment(new Date(val.ins_dat)).format("YYYY/MM/DD HH:mm:ss")
+                            val.ins_usr = this.userInfo.usr_id
+                        }
+                        else{
+                            val.ins_dat = _.isUndefined(val.ins_dat)?null:val.ins_dat;
+                        }
+
                         this.$eventHub.$emit('getRelatedSettingData', {
                             relatedSettingSingleData: val,
-                            relatedSettingOriSingleData: self.oriSingleData
+                            relatedSettingOriSingleData: this.oriSingleData
                         });
                         //將相關設定資料放至Vuex
                         this.$store.dispatch("setRsSingleData", {
                             go_rsSingleData: val,
                             go_rsOriSingleData: this.oriSingleData
                         });
+
+                        console.log(val, this.oriSingleData)
                     }
                 },
                 deep: true
             }
         },
         methods: {
+            fetchUserInfo() {
+                var self = this;
+                $.post('/api/getUserInfo', function (result) {
+                    if (result.success) {
+                        self.userInfo = result.userInfo;
+                    }
+                });
+            },
             initData() {
                 this.isCreateStatus = this.$store.state.gb_isCreateStatus;
                 this.isEditStatus = this.$store.state.gb_isEditStatus;

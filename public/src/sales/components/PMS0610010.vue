@@ -411,7 +411,7 @@
                         prg_id: "PMS0610020",
                         page_id: 2,
                         tab_page_id: 1020,
-                        searchCond: {cust_cod: this.contractStaMnSingleData.cust_mn_cust_cod}
+                        searchCond: {cust_cod: this.contractStaMnSingleData.cust_cod}
                     }).then(result => {
                         this.contractStaDtFieldData = result.dgFieldsData;
                         this.contractStaDtRowsData = result.dgRowData;
@@ -576,7 +576,7 @@
                     rule_func_name: rule_func_name,
                     validateField: this.compStaFieldData[0][0].ui_field_name,
                     singleRowData: JSON.parse(JSON.stringify(this.compStaSingleData)),
-                    oriSingleData: this.$store.state.go_allData.go_mnSingleData.cust_mn_status_cod,
+                    oriSingleData: this.$store.state.go_allData.go_mnSingleData.status_cod,
                     isFirst: true
                 };
 
@@ -608,12 +608,13 @@
                 var self = this;
                 var rule_func_name = this.compStaFieldData[0][0].rule_func_name;
                 this.compStaSingleData = _.extend(this.compStaSingleData, {cust_cod: this.$store.state.gs_custCod});
+
                 if (!_.isEmpty(rule_func_name.trim())) {
                     var postData = {
                         prg_id: "PMS0610020",
                         validateField: this.compStaFieldData[0][0].ui_field_name,
                         singleRowData: JSON.parse(JSON.stringify(this.compStaSingleData)),
-                        oriSingleData: this.$store.state.go_allData.go_mnSingleData.cust_mn_status_cod
+                        oriSingleData: this.$store.state.go_allData.go_mnSingleData.status_cod
                     };
 
                     $.post('/api/chkFieldRule', postData, function (result) {
@@ -644,14 +645,14 @@
                 this.$eventHub.$emit("contractStateData", {
                     singleData: self.contractStaMnSingleData
                 });
-                var statusDescIdx = _.findIndex(this.contractStaMnFieldData.selectData,{value: this.contractStaMnSingleData.cust_mn_contract_sta});
-                var ls_statusDesc = this.contractStaMnFieldData.selectData[statusDescIdx].display.split(":")[1].trim();
+                var ln_statusDescIdx = _.findIndex(this.contractStaMnFieldData.selectData,{value: this.contractStaMnSingleData.contract_sta});
+                var ls_statusDesc = this.contractStaMnFieldData.selectData[ln_statusDescIdx].display.split(":")[1].trim();
                 this.contractStaMnSingleData = _.extend(this.contractStaMnSingleData, {status_desc: ls_statusDesc});
                 var postData = {
                     prg_id: "PMS0610020",
                     validateField: this.contractStaMnFieldData.ui_field_name,
                     singleRowData: JSON.parse(JSON.stringify(this.contractStaMnSingleData)),
-                    oriSingleData: this.$store.state.go_allData.go_mnSingleData.cust_mn_contract_sta
+                    oriSingleData: this.$store.state.go_allData.go_mnSingleData.contract_sta
                 };
 
                 $.post('/api/sales/doContractState', postData, function(result){

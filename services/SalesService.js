@@ -942,12 +942,12 @@ exports.handleCompState = function (session, postData, callback) {
     let lb_isFirst = postData.isFirst == 'true' ? true : false;
     if (lb_isFirst) {
         //新狀態=舊狀態，則不異動資料
-        if (postData.oriSingleData == postData.singleRowData.cust_mn_status_cod) {
+        if (postData.oriSingleData == postData.singleRowData.status_cod) {
             callback(lo_error, lo_result);
         }
         else {
             //檢查是否為其他商務公司資料指定為總公司或簽帳公司，若是則顯示提示訊息予使用者確認是否變更，若確認變更則執行處理
-            if (postData.singleRowData.cust_mn_status_cod == 'D') {
+            if (postData.singleRowData.status_cod == 'D') {
                 queryAgent.query("CHK_CUST_MN_IS_OTHER_HOFFICE_OR_PCUST", {
                     athena_id: session.user.athena_id,
                     cust_cod: postData.singleRowData.cust_cod
@@ -993,7 +993,7 @@ exports.handleCompState = function (session, postData, callback) {
                     operation: "=",
                     value: postData.singleRowData.cust_cod
                 }],
-                cust_sta: postData.singleRowData.cust_mn_status_cod
+                cust_sta: postData.singleRowData.status_cod
             }
         };
         let apiParams = {
@@ -1051,7 +1051,7 @@ exports.handleContractState = function (session, postData, callback) {
     function qryMaxContractLogSeqNos(cb) {
         queryAgent.query("QRY_MAX_CONTRACT_LOG_SEQ_NOS", {
             athena_id: session.user.athena_id,
-            cust_cod: postData.singleRowData.cust_mn_cust_cod
+            cust_cod: postData.singleRowData.cust_cod
         }, function (err, getResult) {
             if (err) {
                 lo_result.success = false;
@@ -1060,10 +1060,10 @@ exports.handleContractState = function (session, postData, callback) {
                 cb(lo_error, lo_result);
             }
             else {
-                if(getResult.max_seq_nos == null){
+                if (getResult.max_seq_nos == null) {
                     cb(null, 1);
                 }
-                else{
+                else {
                     var ln_seqNos = Number(getResult.max_seq_nos) + 1;
                     cb(null, ln_seqNos);
                 }
@@ -1083,18 +1083,18 @@ exports.handleContractState = function (session, postData, callback) {
                 }, {
                     key: 'cust_cod',
                     operation: "=",
-                    value: postData.singleRowData.cust_mn_cust_cod
+                    value: postData.singleRowData.cust_cod
                 }],
-                contract_sta : postData.singleRowData.cust_mn_contract_sta
+                contract_sta: postData.singleRowData.contract_sta
             },
             2: {
                 function: '1',
                 table_name: 'cust_mn_contract_sta_log',
                 athena_id: session.user.athena_id,
-                cust_cod: postData.singleRowData.cust_mn_cust_cod,
+                cust_cod: postData.singleRowData.cust_cod,
                 seq_nos: max_seq_nos,
-                status_cod: postData.singleRowData.cust_mn_contract_sta,
-                status_desc:  postData.singleRowData.status_desc,
+                status_cod: postData.singleRowData.contract_sta,
+                status_desc: postData.singleRowData.status_desc,
                 ins_usr: session.user.usr_id,
                 ins_dat: moment().format("YYYY/MM/DD")
             }

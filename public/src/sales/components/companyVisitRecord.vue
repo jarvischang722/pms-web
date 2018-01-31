@@ -196,6 +196,13 @@
                 var lo_editRow = $('#companyVisitRecord_dg').datagrid('getSelected');
                 var ln_editIndex = $('#companyVisitRecord_dg').datagrid('getRowIndex', lo_editRow);
 
+
+                //轉換原始資料時間格式
+                this.visitRecordOriSingleData["visit_dat"] =
+                    _.isNull(this.visitRecordOriSingleData["visit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["visit_dat"])).format("YYYY/MM/DD");
+                this.visitRecordOriSingleData["avisit_dat"] =
+                    _.isNull(this.visitRecordOriSingleData["avisit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
+
                 if (!lo_editRow) {
                     alert(go_i18nLang["SystemCommon"].SelectData);
                 }
@@ -205,8 +212,6 @@
                 }
             },
             removeRow() {
-                var lo_delRow = $('#companyVisitRecord_dg').datagrid("getSelected");
-
                 var lo_delRow = $('#companyVisitRecord_dg').datagrid('getSelected');
                 var ln_delIndex = $('#companyVisitRecord_dg').datagrid('getRowIndex', lo_delRow);
 
@@ -220,10 +225,28 @@
                         this.tmpCUD.createData.splice(createIdx, 1)
                     }
                     else {
-                        this.tmpCUD.oriData.push(this.dataGridRowsData[ln_delIndex])
+                        //刪除編輯的資料
+                        if (!_.isUndefined(lo_delRow.index)) {
+                            var ln_editIndex = _.findIndex(this.tmpCUD.updateData, {index: lo_delRow.index})
+                            this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                            this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                        }
+
+                        //轉換日期格式
+                        this.oriDataGridRowsData[ln_delIndex]["visit_dat"] =
+                            _.isNull(this.oriDataGridRowsData[ln_delIndex]["visit_dat"]) ? "" : moment(new Date(this.oriDataGridRowsData[ln_delIndex]["visit_dat"])).format("YYYY/MM/DD");
+                        this.oriDataGridRowsData[ln_delIndex]["avisit_dat"] =
+                            _.isNull(this.oriDataGridRowsData[ln_delIndex]["avisit_dat"]) ? "" : moment(new Date(this.oriDataGridRowsData[ln_delIndex]["avisit_dat"])).format("YYYY/MM/DD");
+                        this.dataGridRowsData[ln_delIndex]["visit_dat"] =
+                            _.isNull(this.dataGridRowsData[ln_delIndex]["visit_dat"]) ? "" : moment(new Date(this.dataGridRowsData[ln_delIndex]["visit_dat"])).format("YYYY/MM/DD");
+                        this.dataGridRowsData[ln_delIndex]["avisit_dat"] =
+                            _.isNull(this.oriDataGridRowsData[ln_delIndex]["avisit_dat"]) ? "" : moment(new Date(this.dataGridRowsData[ln_delIndex]["avisit_dat"])).format("YYYY/MM/DD");
+
+                        this.tmpCUD.oriData.push(this.oriDataGridRowsData[ln_delIndex]);
                         this.tmpCUD.deleteData.push(this.dataGridRowsData[ln_delIndex]);
                     }
                     this.dgIns.removeRow();
+                    console.log(this.tmpCUD);
                 }
             },
             showSingleGridDialog() {

@@ -352,21 +352,27 @@
             removeRow() {
                 var lo_delRow = $('#otherRemark_dg').datagrid('getSelected');
                 var ln_delIndex = $('#otherRemark_dg').datagrid('getRowIndex', lo_delRow);
-
                 if (!lo_delRow) {
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
                     //刪除新增的資料
                     if(!_.isUndefined(this.dataGridRowsData[ln_delIndex].createIndex)){
-                        var createIdx = this.dataGridRowsData[ln_delIndex].createIndex;
-                        this.tmpCUD.createData.splice(createIdx, 1)
+                        var ln_createIdx = this.dataGridRowsData[ln_delIndex].createIndex;
+                        this.tmpCUD.createData.splice(ln_createIdx, 1)
                     }
                     else{
-                        this.tmpCUD.oriData.push(this.dataGridRowsData[ln_delIndex])
+                        //刪除編輯的資料
+                        if(!_.isUndefined(lo_delRow.index) ){
+                            var ln_editIndex = _.findIndex(this.tmpCUD.updateData, {index: lo_delRow.index})
+                            this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                            this.tmpCUD.oriData.splice(ln_editIndex,1);
+                        }
+                        this.tmpCUD.oriData.push(this.oriDataGridRowsData[ln_delIndex]);
                         this.tmpCUD.deleteData.push(this.dataGridRowsData[ln_delIndex]);
                     }
                     this.dgIns.removeRow();
+                    console.log(this.tmpCUD)
                 }
             },
             showSingleGridDialog() {

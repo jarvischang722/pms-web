@@ -18,4 +18,21 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">cust_cod</parameter>
     </dao>
+
+    <!--[PMS0610020 商務公司資料編輯] 相關人員 檢查此相關人員的客戶索引檔是否被使用-->
+    <dao name="CHK_RELATED_PERSON_IS_USED">
+        <statement><![CDATA[
+			SELECT  COUNT(*) AS related_person_count
+            FROM  CUST_MN_PERS_DT
+            WHERE  ATHENA_ID = :athena_id
+            AND  PER_CUST_COD = :per_cust_cod
+            AND  CUST_COD <> :cust_cod
+            AND  ROWNUM <= 1
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+        <parameter type="string" kind="3">per_cust_cod</parameter>
+    </dao>
+
 </root>

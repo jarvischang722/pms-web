@@ -736,6 +736,8 @@ function convertToApiFormat(lo_saveExecDatasSorted, callback) {
         "REVE-CODE": go_postData.trans_cod,
         "program_id": go_postData.prg_id,
         "function_id": go_postData.func_id || "",
+        "athena_id": go_session.user.athena_id,
+        "hotel_cod": go_session.user.hotel_cod,
         "user": go_session.user.usr_id,
         "table_name": gs_mainTableName,
         "count": Object.keys(lo_saveExecDatasSorted).length,

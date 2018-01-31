@@ -13,6 +13,7 @@ var commandRules = require("./../CommonRule");
 var ReturnClass = require(ruleRootPath + "/returnClass");
 var ErrorClass = require(ruleRootPath + "/errorClass");
 var tools = require(appRootDir + "/utils/CommonTools");
+var sysConf = require("../../../configs/systemConfig");
 
 module.exports = {
     /**
@@ -48,49 +49,41 @@ module.exports = {
             },
             //取得欄位custCod、showCod
             function (result, cb) {
-                if (_.isUndefined(postData.prg_id)) {
-                    lo_error = new ErrorClass();
-                    lo_error.errorMsg = "Missing Program ID.";
-                    lo_result.success = false;
-                    cb(lo_error, lo_result);
-                }
-                else {
-                    let prg_id = postData.prg_id;
+                // let apiParams = {
+                //     "REVE-CODE": "BAC0900805",
+                //     "function_id": "0000",
+                //     "athena_id": session.user.athena_id,
+                //     "comp_cod": session.user.cmp_id,
+                //     "hotel_cod": session.user.hotel_cod,
+                //     "sys_cod": "CS",
+                //     "nos_nam": "CUST_COD",
+                //     "link_dat": "2000/01/01"
+                // };
+                // tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+                //     if (apiErr || !data) {
+                //         lo_result.success = false;
+                //         lo_error = new ErrorClass();
+                //         lo_error.errorMsg = apiErr;
+                //     }
+                //     else if (data["RETN-CODE"] != "0000") {
+                //         lo_result.success = false;
+                //         lo_error = new ErrorClass();
+                //         console.error(data["RETN-CODE-DESC"]);
+                //         lo_error.errorMsg = "save error!";
+                //     }
+                //     else {
+                //         let ls_cod = data["SERIES_NOS"].toString();
+                //         ls_custMnCustCod = "CS " + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
+                //         ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
+                //         ls_custMnPcustCod = ls_custMnCustCod;
+                //     }
+                //     cb(lo_error, lo_result);
+                // });
+                ls_custMnCustCod = "CS 000000000142602  ";
+                ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
+                ls_custMnPcustCod = ls_custMnCustCod;
 
-                    // let apiParams = {
-                    //     "REVE-CODE": "PMS0620030",
-                    //     "athena_id": userInfo.athena_id,
-                    //     "hotel_cod": userInfo.hotel_cod,
-                    //     "program_id": prg_id,
-                    //     "user": userInfo.usr_id,
-                    //     "count": 1,
-                    //     "exec_data": [{
-                    //         function: '0500',
-                    //         sales_cod: sales_cod,
-                    //         cust_cod: cust_cod,
-                    //         upd_order_mn: upd_order_mn
-                    //     }]
-                    // };
-                    // tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
-                    //
-                    //     if (apiErr || !data) {
-                    //         lo_result.success = false;
-                    //         lo_error = new ErrorClass();
-                    //         lo_error.errorMsg = apiErr;
-                    //     }
-                    //     else if (data["RETN-CODE"] != "0000") {
-                    //         lo_result.success = false;
-                    //         lo_error = new ErrorClass();
-                    //         console.error(data["RETN-CODE-DESC"]);
-                    //         lo_error.errorMsg = "save error!";
-                    //     }
-                    //     cb(lo_error, lo_result);
-                    // });
-                    ls_custMnCustCod = "CS 000000000004802  ";
-                    ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
-                    ls_custMnPcustCod = ls_custMnCustCod;
-                    cb(lo_error, lo_result);
-                }
+                cb(lo_error, lo_result);
             }
         ], function (err, result) {
             lo_result.defaultValues = {
@@ -174,7 +167,7 @@ module.exports = {
                 lo_param.end_dat = moment(new Date(ls_endDat)).format("YYYY/MM/DD");
                 lo_param.begin_dat = moment(new Date(ls_beginDat)).format("YYYY/MM/DD");
                 lo_param.rate_cod = ls_rateCod;
-                queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
+                queryAgent.queryList("QRY_CONTRACT_EXIST", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
@@ -241,7 +234,7 @@ module.exports = {
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 合約內容 開始日期
+     * PMS0610020 商務公司資料編輯 合約內容 結束日期
      * 1.合約期間檢查:
      * 如果『合約起始日』、『合約終止日』、『參考房價代號』3欄位都有值,如果sql檢查=0,訊息『相同館別及房價代號之合約期間不可重覆』,起始日回復到舊值
      * 2.合約內容 參考房價代號下拉資料
@@ -275,7 +268,7 @@ module.exports = {
                 lo_param.end_dat = moment(new Date(ls_endDat)).format("YYYY/MM/DD");
                 lo_param.begin_dat = moment(new Date(ls_beginDat)).format("YYYY/MM/DD");
                 lo_param.rate_cod = ls_rateCod;
-                queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
+                queryAgent.queryList("QRY_CONTRACT_EXIST", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
@@ -442,6 +435,49 @@ module.exports = {
         }
 
         callback(lo_error, lo_result);
+    },
+
+    /**
+     * PMS0610020 商務公司資料編輯 相關人員預設值
+     * 取得相關人員
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    defaultRelatedPerson: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let apiParams = {
+            "REVE-CODE": "BAC0900805",
+            "function_id": "0000",
+            "athena_id": session.user.athena_id,
+            "comp_cod": session.user.cmp_id,
+            "hotel_cod": session.user.hotel_cod,
+            "sys_cod": "CSP",
+            "nos_nam": "CUST_COD",
+            "link_dat": "2000/01/01"
+        };
+
+        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+            if (apiErr || !data) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = "save error!";
+                console.error(data["RETN-CODE-DESC"]);
+            }
+            else {
+                let ls_cod = data["SERIES_NOS"].toString();
+                let ls_perCustCod = "CSP" + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
+                lo_result.defaultValues = {per_cust_cod: ls_perCustCod};
+            }
+            callback(lo_error, lo_result);
+        });
     },
 
     /**
@@ -689,20 +725,33 @@ module.exports = {
         }
 
         function qryContract(data, cb) {
-            let la_examContractData = [];
+            let la_examData = [];
             _.each(la_dtCreateData, function (lo_dtCreateData) {
                 if (Number(lo_dtCreateData.tab_page_id) == 4) {
-                    la_examContractData.push(lo_dtCreateData);
+                    la_examData.push(lo_dtCreateData);
                 }
             });
 
-            // for (let i = 0; i < la_examContractData.length; i++) {
-            //     for (let j = 0; j < i; j++) {
-            //         if(la_examContractData[j].rate_cod == la_examContractData[i].rate_cod){
-            //
-            //         }
-            //     }
-            // }
+            for (let i = 0; i < la_examData.length; i++) {
+                for (let j = 0; j < i; j++) {
+                    let lo_nowData = la_examData[i];
+                    let lo_compareData = la_examData[j];
+                    if (lo_compareData.rate_cod == lo_nowData.rate_cod && lo_compareData.hotel_cod == lo_nowData.hotel_cod) {
+                        let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
+                        let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
+                        let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
+                        let ls_compareEndDat = moment(new Date(lo_compareData.begin_dat));
+                        let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+
+                        if (lb_chkOverLap) {
+                            lo_result.success = false;
+                            lo_error = new ErrorClass();
+                            lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
+                            break;
+                        }
+                    }
+                }
+            }
             cb(lo_error, lo_result);
         }
 
@@ -731,43 +780,26 @@ module.exports = {
                 kindOfRel: 'dt'
             });
             //cust_mn_pers_dt 資料 儲存cust_idx
-            // _.each(la_dtCreateData, function (lo_dtCreateData, idx) {
-            //     if (Number(lo_dtUpdateData.tab_page_id) == 2) {
-            //         lo_result.extendExecDataArrSet.push({
-            //             function: '2',
-            //             table_name: 'cust_idx',
-            //             condition: [
-            //                 {
-            //                     key: 'athena_id',
-            //                     operation: "=",
-            //                     value: userInfo.athena_id
-            //                 },
-            //                 {
-            //                     key: 'cust_cod',
-            //                     operation: "=",
-            //                     value: lo_mnOriData.cust_cod
-            //                 },
-            //                 {
-            //                     key: 'show_cod',
-            //                     operation: "=",
-            //                     value: lo_mnOriData.show_cod
-            //                 }
-            //             ],
-            //             athena_id: userInfo.athena_id,
-            //             cust_cod: lo_mnSaveData.cust_cod,
-            //             alt_nam: lo_dtUpdateData.alt_nam,
-            //             from_table: 'CUST_MN_PERS_DT',
-            //             cust_typ: 'H',
-            //             office_tel: lo_dtUpdateData.office_tel,
-            //             fax_nos: lo_dtUpdateData.fax_nos,
-            //             mobile_nos: lo_dtUpdateData.mobile_nos,
-            //             home_tel: lo_dtUpdateData.home_tel,
-            //             e_mail: lo_dtUpdateData.e_mail,
-            //             birth_dat: lo_dtUpdateData.birth_dat,
-            //             sex_typ: lo_dtUpdateData.sex_typ
-            //         });
-            //     }
-            // });
+            _.each(la_dtCreateData, function (lo_dtCreateData, idx) {
+                if (Number(lo_dtCreateData.tab_page_id) == 2) {
+                    lo_result.extendExecDataArrSet.push({
+                        function: '1',
+                        table_name: 'cust_idx',
+                        athena_id: userInfo.athena_id,
+                        cust_cod: lo_dtCreateData.per_cust_cod,
+                        alt_nam: lo_dtCreateData.alt_nam,
+                        from_table: 'CUST_MN_PERS_DT',
+                        cust_typ: 'H',
+                        office_tel: lo_dtCreateData.office_tel,
+                        fax_nos: lo_dtCreateData.fax_nos,
+                        mobile_nos: lo_dtCreateData.mobile_nos,
+                        home_tel: lo_dtCreateData.home_tel,
+                        e_mail: lo_dtCreateData.e_mail,
+                        birth_dat: lo_dtCreateData.birth_dat,
+                        sex_typ: lo_dtCreateData.sex_typ
+                    });
+                }
+            });
 
             cb(lo_error, lo_result);
         }
@@ -779,6 +811,7 @@ module.exports = {
      * 2.公司編號不可與財務應收客戶重複
      * 3.檢查相同館別及房價代號之合約期間不可重覆
      * 4.修改cust_idx
+     * 5.刪除cust_idx(相關人員)
      * @param postData
      * @param session
      * @param callback
@@ -798,7 +831,8 @@ module.exports = {
             qryCustMn,
             qryFincustMn,
             qryContract,
-            addCustIdx
+            updateCustIdx,
+            deleteCustIdx
         ], function (err, result) {
             callback(err, result);
         });
@@ -858,29 +892,42 @@ module.exports = {
         }
 
         function qryContract(data, cb) {
-            let la_examContractData = [];
+            let la_examData = [];
             _.each(la_dtCreateData, function (lo_dtCreateData) {
                 if (Number(lo_dtCreateData.tab_page_id) == 4) {
-                    la_examContractData.push(lo_dtCreateData);
+                    la_examData.push(lo_dtCreateData);
                 }
             });
             _.each(la_dtUpdateData, function (lo_dtUpdateData) {
                 if (Number(lo_dtUpdateData.tab_page_id) == 4) {
-                    la_examContractData.push(lo_dtUpdateData);
+                    la_examData.push(lo_dtUpdateData);
                 }
             });
 
-            // for (let i = 0; i < la_examContractData.length; i++) {
-            //     for (let j = 0; j < i; j++) {
-            //         if(la_examContractData[j].rate_cod == la_examContractData[i].rate_cod){
-            //
-            //         }
-            //     }
-            // }
+            for (let i = 0; i < la_examData.length; i++) {
+                for (let j = 0; j < i; j++) {
+                    let lo_nowData = la_examData[i];
+                    let lo_compareData = la_examData[j];
+                    if (lo_compareData.rate_cod == lo_nowData.rate_cod && lo_compareData.hotel_cod == lo_nowData.hotel_cod) {
+                        let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
+                        let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
+                        let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
+                        let ls_compareEndDat = moment(new Date(lo_compareData.begin_dat));
+                        let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+
+                        if (lb_chkOverLap) {
+                            lo_result.success = false;
+                            lo_error = new ErrorClass();
+                            lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
+                            break;
+                        }
+                    }
+                }
+            }
             cb(lo_error, lo_result);
         }
 
-        function addCustIdx(data, cb) {
+        function updateCustIdx(data, cb) {
             //cust_mn資料 儲存cust_idx
             lo_result.extendExecDataArrSet.push({
                 function: '2',
@@ -923,45 +970,124 @@ module.exports = {
                 kindOfRel: 'dt'
             });
             //cust_mn_pers_dt 資料 儲存cust_idx
-            // _.each(la_dtCreateData, function (lo_dtCreateData, idx) {
-            //     if (Number(lo_dtUpdateData.tab_page_id) == 2) {
-            //         lo_result.extendExecDataArrSet.push({
-            //             function: '2',
-            //             table_name: 'cust_idx',
-            //             condition: [
-            //                 {
-            //                     key: 'athena_id',
-            //                     operation: "=",
-            //                     value: userInfo.athena_id
-            //                 },
-            //                 {
-            //                     key: 'cust_cod',
-            //                     operation: "=",
-            //                     value: lo_mnOriData.cust_cod
-            //                 },
-            //                 {
-            //                     key: 'show_cod',
-            //                     operation: "=",
-            //                     value: lo_mnOriData.show_cod
-            //                 }
-            //             ],
-            //             athena_id: userInfo.athena_id,
-            //             cust_cod: lo_mnSaveData.cust_cod,
-            //             alt_nam: lo_dtUpdateData.alt_nam,
-            //             from_table: 'CUST_MN_PERS_DT',
-            //             cust_typ: 'H',
-            //             office_tel: lo_dtUpdateData.office_tel,
-            //             fax_nos: lo_dtUpdateData.fax_nos,
-            //             mobile_nos: lo_dtUpdateData.mobile_nos,
-            //             home_tel: lo_dtUpdateData.home_tel,
-            //             e_mail: lo_dtUpdateData.e_mail,
-            //             birth_dat: lo_dtUpdateData.birth_dat,
-            //             sex_typ: lo_dtUpdateData.sex_typ
-            //         });
-            //     }
-            // });
+            _.each(la_dtCreateData, function (lo_dtCreateData) {
+                if (Number(lo_dtCreateData.tab_page_id) == 2) {
+                    lo_result.extendExecDataArrSet.push({
+                        function: '1',
+                        table_name: 'cust_idx',
+                        athena_id: userInfo.athena_id,
+                        cust_cod: lo_dtCreateData.per_cust_cod,
+                        alt_nam: lo_dtCreateData.alt_nam,
+                        from_table: 'CUST_MN_PERS_DT',
+                        cust_typ: 'H',
+                        office_tel: lo_dtCreateData.office_tel,
+                        fax_nos: lo_dtCreateData.fax_nos,
+                        mobile_nos: lo_dtCreateData.mobile_nos,
+                        home_tel: lo_dtCreateData.home_tel,
+                        e_mail: lo_dtCreateData.e_mail,
+                        birth_dat: lo_dtCreateData.birth_dat,
+                        sex_typ: lo_dtCreateData.sex_typ
+                    });
+                }
+            });
+            _.each(la_dtUpdateData, function (lo_dtUpdateData) {
+                if (Number(lo_dtUpdateData.tab_page_id) == 2) {
+                    lo_result.extendExecDataArrSet.push({
+                        function: '2',
+                        table_name: 'cust_idx',
+                        condition: [
+                            {
+                                key: 'athena_id',
+                                operation: "=",
+                                value: userInfo.athena_id
+                            },
+                            {
+                                key: 'cust_cod',
+                                operation: "=",
+                                value: lo_dtUpdateData.per_cust_cod
+                            },
+                            {
+                                key: 'show_cod',
+                                operation: "=",
+                                value: lo_mnOriData.show_cod
+                            }
+                        ],
+                        athena_id: userInfo.athena_id,
+                        cust_cod: lo_dtUpdateData.per_cust_cod,
+                        alt_nam: lo_dtUpdateData.alt_nam,
+                        from_table: 'CUST_MN_PERS_DT',
+                        cust_typ: 'H',
+                        office_tel: lo_dtUpdateData.office_tel,
+                        fax_nos: lo_dtUpdateData.fax_nos,
+                        mobile_nos: lo_dtUpdateData.mobile_nos,
+                        home_tel: lo_dtUpdateData.home_tel,
+                        e_mail: lo_dtUpdateData.e_mail,
+                        birth_dat: lo_dtUpdateData.birth_dat,
+                        sex_typ: lo_dtUpdateData.sex_typ
+                    });
+                }
+            });
 
             cb(lo_error, lo_result);
+        }
+
+        function deleteCustIdx(data, cb) {
+            let ln_rpDataCount = 0;
+            let la_rpData = [];
+
+            if (la_dtDeleteData.length > 0) {
+                //取出相關人員資料
+                _.each(la_dtDeleteData, function (lo_dtDeleteData) {
+                    if (Number(lo_dtDeleteData.tab_page_id) == 2) {
+                        la_rpData.push(lo_dtDeleteData);
+                    }
+                });
+
+                if (la_rpData.length > 0) {
+                    //檢查此相關人員的客戶索引檔是否被使用，沒有則刪除此相關人員的客戶索引檔
+                    _.each(la_rpData, function (lo_rpData) {
+                        queryAgent.query("CHK_RELATED_PERSON_IS_USED", {
+                            athena_id: session.user.athena_id,
+                            per_cust_cod: lo_rpData.per_cust_cod,
+                            cust_cod: lo_mnSaveData.cust_cod
+                        }, function (err, getResult) {
+                            ln_rpDataCount++;
+                            if (err) {
+                                lo_result.success = false;
+                                lo_error = new ErrorClass();
+                                lo_error.errorMsg = "sql err";
+                                return cb(lo_error, lo_result);
+                            }
+                            else {
+                                if (getResult.fincust_mn_count <= 0) {
+                                    lo_result.extendExecDataArrSet.push({
+                                        function: '0',
+                                        table_name: 'cust_idx',
+                                        condition: [{
+                                            key: 'athena_id',
+                                            operation: "=",
+                                            value: userInfo.athena_id
+                                        }, {
+                                            key: 'cust_cod',
+                                            operation: "=",
+                                            value: lo_rpData.per_cust_cod
+                                        }]
+                                    });
+                                    if (ln_rpDataCount == la_rpData.length) {
+                                        cb(lo_error, lo_result);
+                                    }
+                                }
+                            }
+                        });
+                    });
+                }
+                else {
+                    cb(lo_error, lo_result);
+                }
+            }
+            else {
+                cb(lo_error, lo_result);
+            }
         }
     }
 };

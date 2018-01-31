@@ -185,6 +185,8 @@ const actions = {
             dt_deleteData: [],
             dt_oriData: []
         };
+        let lo_rsSingleData = JSON.parse(JSON.stringify(state.go_allData.go_rsSingleData));
+        lo_rsSingleData.ins_dat = moment(new Date(lo_rsSingleData.ins_dat)).format("YYYY/MM/DD HH:mm:ss");
 
         if (state.gb_isCreateStatus) {
             lo_tmpCUD.createData = [
@@ -205,7 +207,7 @@ const actions = {
         }
         else if (state.gb_isEditStatus) {
             lo_tmpCUD.updateData = [
-                _.extend(state.go_allData.go_mnSingleData, state.go_allData.go_rsSingleData)
+                _.extend(state.go_allData.go_mnSingleData, lo_rsSingleData)
             ];
             lo_tmpCUD.oriData = [
                 _.extend(state.go_allOriData.go_mnSingleData, state.go_allData.go_rsSingleData)
@@ -265,14 +267,13 @@ const actions = {
         }
 
         console.log(lo_tmpCUD);
-        $.post('/api/doOperationSave', {
+        return $.post('/api/doOperationSave', {
             prg_id: 'PMS0610020',
             page_id: 1,
             func_id: lo_tmpCUD.createData.length > 0 ? "0200" : "0400",
             trans_cod: 'PMS0610020',
             tmpCUD: lo_tmpCUD
         }).then(result => {
-            console.log(result);
             return (result);
         });
     }
