@@ -49,41 +49,36 @@ module.exports = {
             },
             //取得欄位custCod、showCod
             function (result, cb) {
-                // let apiParams = {
-                //     "REVE-CODE": "BAC0900805",
-                //     "function_id": "0000",
-                //     "athena_id": session.user.athena_id,
-                //     "comp_cod": session.user.cmp_id,
-                //     "hotel_cod": session.user.hotel_cod,
-                //     "sys_cod": "CS",
-                //     "nos_nam": "CUST_COD",
-                //     "link_dat": "2000/01/01"
-                // };
-                // tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
-                //     if (apiErr || !data) {
-                //         lo_result.success = false;
-                //         lo_error = new ErrorClass();
-                //         lo_error.errorMsg = apiErr;
-                //     }
-                //     else if (data["RETN-CODE"] != "0000") {
-                //         lo_result.success = false;
-                //         lo_error = new ErrorClass();
-                //         console.error(data["RETN-CODE-DESC"]);
-                //         lo_error.errorMsg = "save error!";
-                //     }
-                //     else {
-                //         let ls_cod = data["SERIES_NOS"].toString();
-                //         ls_custMnCustCod = "CS " + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
-                //         ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
-                //         ls_custMnPcustCod = ls_custMnCustCod;
-                //     }
-                //     cb(lo_error, lo_result);
-                // });
-                ls_custMnCustCod = "CS 000000000142602  ";
-                ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
-                ls_custMnPcustCod = ls_custMnCustCod;
-
-                cb(lo_error, lo_result);
+                let apiParams = {
+                    "REVE-CODE": "BAC0900805",
+                    "function_id": "0000",
+                    "athena_id": session.user.athena_id,
+                    "comp_cod": session.user.cmp_id,
+                    "hotel_cod": session.user.hotel_cod,
+                    "sys_cod": "CS",
+                    "nos_nam": "CUST_COD",
+                    "link_dat": "2000/01/01"
+                };
+                tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+                    if (apiErr || !data) {
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = apiErr;
+                    }
+                    else if (data["RETN-CODE"] != "0000") {
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        console.error(data["RETN-CODE-DESC"]);
+                        lo_error.errorMsg = "save error!";
+                    }
+                    else {
+                        let ls_cod = data["SERIES_NOS"].toString();
+                        ls_custMnCustCod = "CS " + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
+                        ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
+                        ls_custMnPcustCod = ls_custMnCustCod;
+                    }
+                    cb(lo_error, lo_result);
+                });
             }
         ], function (err, result) {
             lo_result.defaultValues = {
