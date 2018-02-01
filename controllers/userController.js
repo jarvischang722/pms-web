@@ -25,6 +25,7 @@ exports.loginPage = function (req, res) {
         return;
     }
 
+
     try {
         async.waterfall([
             function (callback) {
@@ -77,21 +78,24 @@ exports.loginPage = function (req, res) {
     }
 };
 
-
 exports.getDefaultAccount = function (req, res) {
-    var ls_clientIP = req.body.clientIP;
-    var ls_account = "";
+    let ls_account = "";
+    let clientIP = req.body.ip;
+
+    clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
+
+    //判斷IP網段是否有對應的username
     fs.exists("configs/IPsUsersRef.json", function (isExist) {
         if (isExist) {
             let IPsUsersRef = require("../configs/IPsUsersRef.json");
 
             _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
                 if (ipSubnet.toString().indexOf("/") > -1) {
-                    if (ip.cidrSubnet(ipSubnet).contains(ls_clientIP)) {
+                    if (ip.cidrSubnet(ipSubnet).contains(clientIP)) {
                         ls_account = user.toString();
                     }
                 } else {
-                    if (_.isEqual(ipSubnet, ls_clientIP)) {
+                    if (_.isEqual(ipSubnet, clientIP)) {
                         ls_account = user.toString();
                     }
                 }
@@ -101,6 +105,7 @@ exports.getDefaultAccount = function (req, res) {
     });
 
 };
+
 /**
  * casLogin
  */

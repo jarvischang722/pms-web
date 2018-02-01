@@ -17,8 +17,9 @@ module.exports = function (app, passport) {
     app.get('/casLogin', userCrtl.casLogin);
 
     /** API  **/
-    //驗證是否登入成功
+    //取得預設帳號
     app.post('/api/getDefaultAccount', userCrtl.getDefaultAccount);
+
     //驗證是否登入成功
     app.post('/api/authLogin', userCrtl.authLogin);
     //取得使用者資料

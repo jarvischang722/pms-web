@@ -42,8 +42,6 @@ exports.qryPageOneData = function (postData, session, callback) {
     });
 
     function qryBanquetData(cb) {
-        // fs.readFil／
-
         let params = {
             "REVE-CODE": "RS0W212010",
             "program_id": "RS0W212010",
@@ -65,15 +63,14 @@ exports.qryPageOneData = function (postData, session, callback) {
         });
     }
 
+    /**
+     * N預約，W等待，Q詢價
+     * @param cb {array} 定位資訊
+     */
     function qryBanquetSta(cb) {
-
-        // fs.readFile("./public/jsonData/reservation/bq_order.json", "utf8", function (err, result) {
-        //     let la_order = JSON.parse(result);
-        //     cb(err, la_order);
-        // });
-
-        queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function (err, result) {
-            cb(null, result);
+        queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function (err, la_order) {
+            la_order = _.sortBy(la_order, "begin_tim");
+            cb(err, la_order);
         });
     }
 };
@@ -100,7 +97,6 @@ class ResvBanquetData {
             la_order[index].end_tim = self.chkTimeAdd24Min(lo_order.end_tim);
         });
         //訂席單排序
-        // la_order = _.sortBy(la_order, "begin_tim");
         this.lo_order = this.chkOrderOverLap(la_order);
 
     }
@@ -247,22 +243,34 @@ class ResvBanquetData {
 
         _.each(this.la_place, function (lo_place) {
             let la_newOrderData = [];
-            let la_order = _.sortBy(la_orderGroup[lo_place.place_cod], "begin_tim");
+            // let la_order = _.sortBy(la_orderGroup[lo_place.place_cod], "wait_seq");
+            let la_orderByPlace = la_orderGroup[lo_place.place_cod];
 
-            _.each(la_order, function (lo_order, index) {
+            _.each(la_orderByPlace, function (lo_order, index) {
                 lo_order.rowId = 1;
                 if (index == 0) {
                     la_newOrderData.push(lo_order);
                 }
                 else {
-                    _.every(la_newOrderData, function (lo_newOrderData) {
+                    _.every(la_newOrderData, function (lo_newOrderData, ln_newOrderIdx) {
                         let ln_order_begin_tim = self.convertToMin(lo_order.begin_tim);
                         let ln_order_end_tim = self.convertToMin(lo_order.end_tim);
                         let ln_newOrder_begin_tim = self.convertToMin(lo_newOrderData.begin_tim);
                         let ln_newOrder_end_tim = self.convertToMin(lo_newOrderData.end_tim);
                         //重疊
                         if (ln_order_begin_tim < ln_newOrder_end_tim && ln_order_end_tim > ln_newOrder_begin_tim && lo_order.rowId == lo_newOrderData.rowId) {
-                            lo_order.rowId = lo_newOrderData.rowId + 1;
+                            if ((lo_newOrderData.order_sta == "Q" && lo_order.order_sta == "N") || (lo_newOrderData.order_sta == "W" && lo_order.order_sta == "Q") || (lo_newOrderData.order_sta == "W" && lo_order.order_sta == "N")) {
+                                lo_order.rowId = lo_newOrderData.rowId;
+                                lo_newOrderData.rowId = lo_newOrderData.rowId + 1;
+                            }
+                            else if (lo_newOrderData.order_sta == "W" && lo_order.order_sta == "W" && lo_newOrderData.wait_seq > lo_order.wait_seq) {
+                                lo_order.rowId = lo_newOrderData.rowId;
+                                lo_newOrderData.rowId = lo_newOrderData.rowId + 1;
+                            }
+                            else {
+                                lo_order.rowId = lo_newOrderData.rowId + 1;
+                            }
+
                         }
                         return true;
                     });
