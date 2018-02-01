@@ -1622,19 +1622,14 @@
 //      專案訂房 PMS0110030
         $('#PMS0110030-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 10, everyColumnsAddWith: 0 });
 
-//      依房型訂房
-        $('#resRoomPlan-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 20, everyColumnsAddWith: 0 });
-
 //      櫃檯備品
         $('#amenities-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 60, everyColumnsAddWith: 0 });
-
-//      依房號訂房
 
 
 //        https://www.sitepoint.com/community/t/fixed-header-and-first-column-in-table/29828/11
         //實測好像先hide的比較慢 170906
 //        $('#resRoomType-table').hide().fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 }).show();
-        $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
+//        $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
 
 //      櫃檯備品CounterSupplies
 //        $('#counterSupplies-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 100, everyColumnsAddWith: 0 });
@@ -1850,5 +1845,11 @@
         $('.depositsBtn').removeClass('resv_depositsStep3A').addClass('resv_depositsStep3B');
     });
 
+    $(document).ready(function() {
+        $("#resRoomPlan-table").tableHeadFixer({"left" : 1});
+    });
+    $(document).ready(function() {
+        $("#resRoomType-table").tableHeadFixer({"left" : 1});
+    });
 
 </script>

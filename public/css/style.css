@@ -3599,6 +3599,13 @@ input[type="datetime-local"] {
   display: inline-block;
 }
 
+.room-Num-Left, .room-Num-Right, .roomPlan-Num2, .roomPlan-Num1 {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 span.roomNum-text {
   padding-left: 3px;
 }
@@ -3613,7 +3620,7 @@ span.roomNum-text {
 }
 
 td div.triangle-box {
-  width: 80%;
+  width: 100%;
   height: 19px;
   /* margin-left: 18px */
   margin: 0px auto;
@@ -3621,7 +3628,7 @@ td div.triangle-box {
   position: relative;
   background-color: #f8cbac;
 }
-td div.triangle-box:before, td div.triangle-box:after {
+td div.triangle-box span:before, td div.triangle-box span:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3630,12 +3637,12 @@ td div.triangle-box:before, td div.triangle-box:after {
   width: 0;
   border-color: transparent #f8cbac;
 }
-td div.triangle-box:before {
-  left: -10px;
+td div.triangle-box span:before {
+  left: 0px;
   border-width: 9px 10px 9px 0px;
 }
-td div.triangle-box:after {
-  right: -10px;
+td div.triangle-box span:after {
+  right: 0px;
   border-width: 9px 0 9px 10px;
 }
 td div.triangle-box span.triangle-text {
@@ -3645,11 +3652,13 @@ td div.triangle-box span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #555;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
-td div.triangle-box.status_a {
+td div.triangle-box.status_a span {
   background: #8AC926;
 }
-td div.triangle-box.status_a:before, td div.triangle-box.status_a:after {
+td div.triangle-box.status_a span:before, td div.triangle-box.status_a span:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3658,12 +3667,12 @@ td div.triangle-box.status_a:before, td div.triangle-box.status_a:after {
   width: 0;
   border-color: transparent #8AC926;
 }
-td div.triangle-box.status_a:before {
-  left: -10px;
+td div.triangle-box.status_a span:before {
+  left: 0px;
   border-width: 9px 10px 9px 0px;
 }
-td div.triangle-box.status_a:after {
-  right: -10px;
+td div.triangle-box.status_a span:after {
+  right: 0px;
   border-width: 9px 0 9px 10px;
 }
 td div.triangle-box.status_a span.triangle-text {
@@ -3673,11 +3682,13 @@ td div.triangle-box.status_a span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
-td div.triangle-box.status_o {
+td div.triangle-box.status_o span {
   background: #FF595E;
 }
-td div.triangle-box.status_o:before, td div.triangle-box.status_o:after {
+td div.triangle-box.status_o span:before, td div.triangle-box.status_o span:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3686,12 +3697,12 @@ td div.triangle-box.status_o:before, td div.triangle-box.status_o:after {
   width: 0;
   border-color: transparent #FF595E;
 }
-td div.triangle-box.status_o:before {
-  left: -10px;
+td div.triangle-box.status_o span:before {
+  left: 0px;
   border-width: 9px 10px 9px 0px;
 }
-td div.triangle-box.status_o:after {
-  right: -10px;
+td div.triangle-box.status_o span:after {
+  right: 0px;
   border-width: 9px 0 9px 10px;
 }
 td div.triangle-box.status_o span.triangle-text {
@@ -3701,11 +3712,13 @@ td div.triangle-box.status_o span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
-td div.triangle-box.status_s {
+td div.triangle-box.status_s span {
   background: #FFCA3A;
 }
-td div.triangle-box.status_s:before, td div.triangle-box.status_s:after {
+td div.triangle-box.status_s span:before, td div.triangle-box.status_s span:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3714,12 +3727,12 @@ td div.triangle-box.status_s:before, td div.triangle-box.status_s:after {
   width: 0;
   border-color: transparent #FFCA3A;
 }
-td div.triangle-box.status_s:before {
-  left: -10px;
+td div.triangle-box.status_s span:before {
+  left: 0px;
   border-width: 9px 10px 9px 0px;
 }
-td div.triangle-box.status_s:after {
-  right: -10px;
+td div.triangle-box.status_s span:after {
+  right: 0px;
   border-width: 9px 0 9px 10px;
 }
 td div.triangle-box.status_s span.triangle-text {
@@ -3729,11 +3742,13 @@ td div.triangle-box.status_s span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
-td div.triangle-box.status_ooo {
+td div.triangle-box.status_ooo span {
   background: #1982C4;
 }
-td div.triangle-box.status_ooo:before, td div.triangle-box.status_ooo:after {
+td div.triangle-box.status_ooo span:before, td div.triangle-box.status_ooo span:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3742,12 +3757,12 @@ td div.triangle-box.status_ooo:before, td div.triangle-box.status_ooo:after {
   width: 0;
   border-color: transparent #1982C4;
 }
-td div.triangle-box.status_ooo:before {
-  left: -10px;
+td div.triangle-box.status_ooo span:before {
+  left: 0px;
   border-width: 9px 10px 9px 0px;
 }
-td div.triangle-box.status_ooo:after {
-  right: -10px;
+td div.triangle-box.status_ooo span:after {
+  right: 0px;
   border-width: 9px 0 9px 10px;
 }
 td div.triangle-box.status_ooo span.triangle-text {
@@ -3757,6 +3772,8 @@ td div.triangle-box.status_ooo span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
 td div.act-box {
   margin: 0px auto;
@@ -4628,6 +4645,124 @@ td div.act-box span.act-text {
   box-shadow: none !important;
 }
 
+.roomNum-wrap {
+  min-width: 320px;
+}
+
+.cus-roomPlan-table {
+  max-height: 700px;
+}
+.cus-roomPlan-table thead tr td, .cus-roomPlan-table thead tr th {
+  min-width: 70px;
+}
+.cus-roomPlan-table thead tr .rp-first-th {
+  width: 320px;
+  box-shadow: 0px 1px 0px 1px #778899;
+}
+.cus-roomPlan-table tbody tr td {
+  height: 22px;
+  min-width: 43px;
+  max-width: 43px;
+}
+
+.cus-roomType-table table thead tr .rp-first-th {
+  min-width: 188px;
+}
+.cus-roomType-table table tbody tr td {
+  min-width: 35px;
+}
+.cus-roomType-table table tbody tr td.middle.td-first {
+  height: 21px;
+}
+
+.only-oneArrow-left div.triangle-box {
+  width: 100%;
+  right: 0px;
+}
+.only-oneArrow-left div.triangle-box .triangle-text {
+  border-left: 0 !important;
+}
+.only-oneArrow-left div.triangle-box .triangle-text:before {
+  left: 0;
+  border-width: 0;
+}
+
+.only-oneArrow-right div.triangle-box {
+  width: 100%;
+  right: 0px;
+}
+.only-oneArrow-right div.triangle-box .triangle-text {
+  border-right: 0 !important;
+}
+.only-oneArrow-right div.triangle-box .triangle-text:after {
+  right: 0;
+  border-width: 0;
+}
+
+.fixed-table-container table {
+  width: 100%;
+}
+.fixed-table-container table thead tr td, .fixed-table-container table thead tr th {
+  background-clip: padding-box !important;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 1;
+  box-shadow: 1px 1px 1px 1px #778899;
+  -moz-box-shadow: 1px 1px 1px 1px #778899;
+  -webkit-box-shadow: 1px 1px 1px 1px #778899;
+}
+.fixed-table-container table thead tr th.td-first {
+  z-index: 99 !important;
+}
+.fixed-table-container table thead tr .rp-first-th {
+  z-index: 99 !important;
+  box-shadow: 0px 0px 0px 2px #778899;
+  -moz-box-shadow: 0px 0px 0px 2px #778899;
+  -webkit-box-shadow: 0px 0px 0px 2px #778899;
+}
+.fixed-table-container table tbody tr td {
+  background-clip: padding-box;
+  border: 1px solid #778899;
+}
+.fixed-table-container table tbody tr td.middle.td-first {
+  z-index: 9;
+  box-shadow: 1px 1px 0px 1px lightslategray;
+  -moz-box-shadow: 1px 1px 0px 1px lightslategray;
+  -webkit-box-shadow: 1px 1px 0px 1px lightslategray;
+}
+
+.cus-roomPlan-table .table-line-1 {
+  position: absolute;
+  width: 1px;
+  height: 660px;
+  background: #778899;
+  display: inline-block;
+  top: 90px;
+  left: 407px;
+  z-index: 0;
+}
+.cus-roomPlan-table .table-line-2 {
+  position: absolute;
+  width: 1px;
+  height: 660px;
+  background: #778899;
+  display: inline-block;
+  top: 90px;
+  left: 493px;
+  z-index: 1;
+}
+
+@-moz-document url-prefix() {
+  .fixed-table-container table thead tr td, .fixed-table-container table thead tr th {
+    box-shadow: 1px 0px 1px 1px #778899;
+  }
+  .fixed-table-container table thead tr .rp-first-th {
+    box-shadow: 1px 0px 1px 1px #778899;
+  }
+  .fixed-table-container table thead tr th.td-first {
+    box-shadow: 1px 0px 1px 1px #778899;
+  }
+}
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;
