@@ -11,7 +11,7 @@ const langSvc = require("../services/LangService");
 const fs = require("fs");
 const ip = require("ip");
 const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
-
+var go_sysConf = require("../configs/systemConfig");
 /**
  * 登入頁面
  */
@@ -78,6 +78,16 @@ exports.loginPage = function (req, res) {
     }
 };
 
+/**
+ * 取系統參數
+ */
+exports.getsysConfig = function (req, res) {
+    res.json({sysConf: go_sysConf});
+};
+
+/**
+ * 取預設帳號
+ */
 exports.getDefaultAccount = function (req, res) {
     let ls_account = "";
     let clientIP = req.body.ip;
