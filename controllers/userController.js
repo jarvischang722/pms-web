@@ -372,7 +372,6 @@ exports.getFuncsOfRole = function (req, res) {
     }
 
     queryAgent.queryList("QRY_BAC_SYS_MODULE_BY_USER", lo_params, 0, 0, function (err, funcsOfRole) {
-        // let la_function = _.where(funcsOfRole, {id_typ: "FUNCTION"});
         res.json({success: true, funcsOfRole: funcsOfRole});
     });
 };

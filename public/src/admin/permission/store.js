@@ -72,7 +72,7 @@ const mutations = {
     setAllModules(state, la_funcList) {
         state.ga_funcList = la_funcList;
     },
-    setOriFuncList(state, la_oriFuncList){
+    setOriFuncList(state, la_oriFuncList) {
         state.ga_oriFuncList = la_oriFuncList;
     },
     setPermissionModel(state, ls_permissionModel) {
@@ -84,7 +84,7 @@ const mutations = {
     setStaffTreeIns(state, lo_staffTreeIns) {
         state.go_staffTreeIns = lo_staffTreeIns;
     },
-    setFuncTreeIns(state, lo_funcTreeIns){
+    setFuncTreeIns(state, lo_funcTreeIns) {
         state.go_funcTreeIns = lo_funcTreeIns;
     },
     // updFuncChecked(state, la_funcChecked) {
@@ -259,30 +259,33 @@ const actions = {
         let ls_node_text = "";
 
         //system
-        _.each(la_funcList, function (lo_funcList) {
-            la_funcList4Tree.push(treeDataObj(lo_funcList.current_id, "#", lo_funcList["sys_name_" + gs_locale]));
+        let la_sys = _.where(la_funcList, {id_typ: "SYSTEM"});
+        _.each(la_sys, function(lo_sys){
+            la_funcList4Tree.push(treeDataObj(lo_sys.current_id, "#", lo_sys["sys_name_" + gs_locale]));
+        });
 
-            //subSystem
-            _.each(lo_funcList.subSys, function (lo_subSys) {
-                ls_node_text = (lo_subSys["subsys_nam_" + gs_locale] == "") ? "(" + gs_locale + ")" + lo_subSys.subsys_nam : lo_subSys["subsys_nam_" + gs_locale];
-                la_funcList4Tree.push(treeDataObj(lo_subSys.subsys_id, lo_subSys.sys_id, ls_node_text));
+        //subSystem
+        let la_subSys = _.where(la_funcList, {id_typ: "SUBSYS"});
+        _.each(la_subSys, function(lo_subSys){
+            la_funcList4Tree.push(treeDataObj(lo_subSys.current_id, lo_subSys.pre_id, lo_subSys["subsys_nam_" + gs_locale]));
+        });
 
-                //module
-                _.each(lo_subSys.mdlMenu, function (lo_mdlMenu) {
-                    la_funcList4Tree.push(treeDataObj(lo_mdlMenu.mdl_id, lo_subSys.subsys_id, lo_mdlMenu["mdl_name_" + gs_locale]));
+        //model
+        let la_model = _.where(la_funcList, {id_typ: "MODEL"});
+        _.each(la_model, function(lo_model){
+            la_funcList4Tree.push(treeDataObj(lo_model.current_id, lo_model.pre_id, lo_model["mdl_nam_" + gs_locale]));
+        });
 
-                    //process
-                    _.each(lo_mdlMenu.processMenu, function (lo_processMenu) {
-                        la_funcList4Tree.push(treeDataObj(lo_processMenu.pro_id, lo_processMenu.mdl_id, lo_processMenu["pro_name_" + gs_locale]));
-                        //function
-                        _.each(lo_processMenu.functionList, function (lo_functionList) {
-                            let ls_id = lo_functionList.pre_id + "_" + lo_functionList.current_id;
-                            la_funcList4Tree.push(treeDataObj(ls_id, lo_functionList.pre_id, lo_functionList["func_name_" + gs_locale]));
-                        })
-                    })
-
-                })
-            })
+        //process
+        let la_process = _.where(la_funcList, {id_typ: "PROCESS"});
+        _.each(la_process, function(lo_process){
+            la_funcList4Tree.push(treeDataObj(lo_process.current_id, lo_process.pre_id, lo_process["pro_nam_" + gs_locale]));
+        });
+        //function
+        let la_func = _.where(la_funcList, {id_typ: "FUNCTION"});
+        _.each(la_func, function(lo_func){
+            let ls_id = lo_func.pre_id + "_" + lo_func.current_id;
+            la_funcList4Tree.push(treeDataObj(ls_id, lo_func.pre_id, lo_func["func_nam_" + gs_locale]));
         });
         commit("setFuncList4Tree", la_funcList4Tree);
     },
@@ -290,11 +293,58 @@ const actions = {
     doSaveByRole({state, commit, dispatch}) {
         let la_staffAllChecked = state.go_staffTreeIns.get_checked();
         let la_funcAllChecked = state.go_funcTreeIns.get_checked();
-        let la_funcList = state.ga_oriFuncList;
+        let la_funcChecked = [];
+        let la_funcUnChecked = [];
         let la_staffChecked = [];
         let la_staffUnChecked = [];
 
-        console.log(la_funcList);
+        //刪除功能權限
+        _.each(state.ga_funcsOfRole, function (lo_funcsOfRole) {
+            let ln_isExist = _.findIndex(la_funcAllChecked, function (lo_funcAllChecked) {
+                let ln_isSplit = lo_funcAllChecked.indexOf("_");
+                if(ln_isSplit != -1){
+                    let la_checkedSplit = lo_funcAllChecked.split("_");
+                    let lo_checked_pre_id = ln_isSplit != -1 ? la_checkedSplit[0] : lo_funcAllChecked;
+                    let lo_checked_current_id = ln_isSplit != -1 ? la_checkedSplit[1] : lo_funcAllChecked;
+                    return lo_checked_current_id == lo_funcsOfRole.current_id && lo_checked_pre_id == lo_funcsOfRole.pre_id;
+                }
+                else{
+                    return lo_funcAllChecked == lo_funcsOfRole.current_id;
+                }
+            });
+
+            if (ln_isExist == -1) {
+                if (state.go_funcTreeIns.get_node(lo_funcsOfRole.current_id) == false) {
+                    la_funcUnChecked.push(lo_funcsOfRole.current_id);
+                }
+                else {
+                    la_funcUnChecked.push(state.go_funcTreeIns.get_node(lo_funcsOfRole.current_id));
+                }
+            }
+        });
+
+        //新增功能權限
+        _.each(la_funcAllChecked, function (lo_funcAllChecked) {
+            let ln_isFuncExist = _.findIndex(state.ga_funcsOfRole, function (lo_funcsOfRole) {
+                let ln_isSplit = lo_funcAllChecked.indexOf("_");
+                if(ln_isSplit != -1){
+                    let la_checkedSplit = lo_funcAllChecked.split("_");
+                    let lo_checked_pre_id = ln_isSplit != -1 ? la_checkedSplit[0] : lo_funcAllChecked;
+                    let lo_checked_current_id = ln_isSplit != -1 ? la_checkedSplit[1] : lo_funcAllChecked;
+                    return lo_checked_current_id == lo_funcsOfRole.current_id && lo_checked_pre_id == lo_funcsOfRole.pre_id;
+                }
+                else{
+                    return lo_funcAllChecked == lo_funcsOfRole.current_id;
+                }
+            });
+
+            if (ln_isFuncExist == -1) {
+                la_funcChecked.push(state.go_funcTreeIns.get_node(lo_funcAllChecked));
+            }
+        });
+
+        console.log(la_funcChecked, la_funcUnChecked);
+
         return;
 
         //新增人員
@@ -306,7 +356,6 @@ const actions = {
             if (ln_isOriExist == -1) {
                 let lo_node = state.go_staffTreeIns.get_node(lo_staffAllChecked);
                 if (lo_node.children.length == 0) {
-                    console.log(lo_node.id);
                     la_staffChecked.push(lo_node);
                 }
             }
@@ -320,13 +369,10 @@ const actions = {
             if (ln_isOriExist == -1) {
                 let lo_node = state.go_staffTreeIns.get_node(lo_staffOfRole.user_id);
                 if (lo_node.children.length == 0) {
-                    console.log(lo_node.id);
                     la_staffUnChecked.push(state.go_staffTreeIns.get_node(lo_staffOfRole.user_id));
                 }
             }
         });
-
-
 
         let lo_params = {
             staffList: state.ga_compGrpList,

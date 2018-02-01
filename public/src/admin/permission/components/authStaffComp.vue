@@ -180,17 +180,7 @@
 
                     self.treeIns = $("#permissionAccountTree").jstree(true);
                     self.$store.commit("setStaffTreeIns", self.treeIns);
-                    // if (self.$store.state.gs_permissionModel != "authByStaff") {
-                    //     $("#permissionAccountTree").on("check_node.jstree uncheck_node.jstree", function (e, data) {
-                    //         let la_staffChecked = self.treeIns.get_checked();
-                    //
-                    //         _.each(la_staffChecked, function (lo_staffChecked) {
-                    //
-                    //         });
-                    //
-                    //         self.$store.commit("updStaffChecked", la_staffChecked);
-                    //     });
-                    // }
+
                     // 以人員為主
                     if(self.$store.state.gs_permissionModel == "authByStaff") {
                         $("#permissionAccountTree").on("select_node.jstree", function (e, data) {

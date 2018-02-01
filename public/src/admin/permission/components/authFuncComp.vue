@@ -163,7 +163,7 @@
                     });
                     self.isInitChecked = false;
                     self.isLoading = false;
-                }, 100);
+                }, 200);
             },
 
             checkedRoleByCurrentID(lo_selectedNode) {

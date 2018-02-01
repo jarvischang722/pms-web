@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- 撈取全部功能-->
+    <!-- 撈取客戶授權全部功能-->
     <dao name="QRY_BAC_PROCESSMENU">
         <statement><![CDATA[
             select pre_id, current_id, id_typ, level_nos from bac_processmenu
