@@ -77,7 +77,7 @@
         <el-dialog
                 :close-on-click-modal="true" :show-close="false" :title=" i18nLang.program.PMS0610020.company_status "
                 :visible.sync="isOpenCompSta" style="width: 43%; left: 30%;"
-                :before-close="doCloseCompanyStatusDialog">
+                :before-close="doCloseCompStaDialog">
             <div class="businessCompanyData" v-loading="isLoadingDialog" element-loading-text="saving...">
                 <div class="col-sm-12 col-xs-12">
                     <div class="row">
