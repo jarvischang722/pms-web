@@ -29,9 +29,9 @@ let ReturnClass = require("../ruleEngine/returnClass");
 exports.doCheckOnlineUser = function (session, session_id, callback) {
     let success = true;
     let errorMsg = null;
-    if(_.isUndefined(session.user.onlineUserBy)){
+    if(_.isUndefined(session.user)){
         success = false;
-        errorMsg = "fail";
+        errorMsg = " Please login again";
         callback(errorMsg, success);
     }
     else{
@@ -152,41 +152,49 @@ exports.doCheckOnlineUser = function (session, session_id, callback) {
 exports.doReleaseOnlineUser = function (session, session_id, callback) {
     let success = true;
     let errorMsg = null;
-    let lo_params = {
-        athena_id: session.user.onlineUserBy.athena_id,
-        comp_cod: session.user.onlineUserBy.comp_cod.trim(),
-        hotel_cod: session.user.onlineUserBy.hotel_cod
-    };
+    if(_.isUndefined(session.user)){
+        success = false;
+        errorMsg = " Please  login again";
+        callback(errorMsg, success);
+    }
+    else{
+        let lo_params = {
+            athena_id: session.user.onlineUserBy.athena_id,
+            comp_cod: session.user.onlineUserBy.comp_cod.trim(),
+            hotel_cod: session.user.onlineUserBy.hotel_cod
+        };
 
-    mongoAgent.OnlineUser.findOne(lo_params, function (err, getResult) {
-        if (err) {
-            success = false;
-            errorMsg = err;
-            callback(errorMsg, success);
-        }
-        else if (!getResult) {
-            success = false;
-            errorMsg = 'OnlineUser is null';
-            callback(errorMsg, success);
-        }
-        else {
-            let ln_sessionUserIndex = _.findIndex(getResult.onlineUserSession, {session_id: session_id});
-            if (ln_sessionUserIndex > -1) {
-                getResult.onlineUserSession.splice(ln_sessionUserIndex, 1);
-                mongoAgent.OnlineUser.update(lo_params, {onlineUserSession: getResult.onlineUserSession}, function (err) {
-                    if (err) {
-                        success = false;
-                        errorMsg = err;
-                    }
-                    callback(errorMsg, success);
-                });
-            }
-            else {
+        mongoAgent.OnlineUser.findOne(lo_params, function (err, getResult) {
+            if (err) {
                 success = false;
-                errorMsg = "555";
+                errorMsg = err;
                 callback(errorMsg, success);
             }
-        }
+            else if (!getResult) {
+                success = false;
+                errorMsg = 'OnlineUser is null';
+                callback(errorMsg, success);
+            }
+            else {
+                let ln_sessionUserIndex = _.findIndex(getResult.onlineUserSession, {session_id: session_id});
+                if (ln_sessionUserIndex > -1) {
+                    getResult.onlineUserSession.splice(ln_sessionUserIndex, 1);
+                    mongoAgent.OnlineUser.update(lo_params, {onlineUserSession: getResult.onlineUserSession}, function (err) {
+                        if (err) {
+                            success = false;
+                            errorMsg = err;
+                        }
+                        callback(errorMsg, success);
+                    });
+                }
+                else {
+                    success = false;
+                    errorMsg = "555";
+                    callback(errorMsg, success);
+                }
+            }
 
-    });
+        });
+    }
+
 };
