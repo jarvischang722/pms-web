@@ -63,7 +63,7 @@ var loginVM = new Vue({
     methods: {
         getDefaultAccount: function () {
             var self = this;
-            $.get("http://192.168.168.223/bacchus/Api/GatewaySvc/?getip=''", function (ip) {
+            $.get("http://192.168.2.6/bacchus/Api/GatewaySvc/?getip=''", function (ip) {
                 console.log(ip);
                 $.post("/api/getDefaultAccount", {ip: ip}, function (result) {
                     self.username = result.account;
