@@ -5820,8 +5820,11 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   width: 79.4%;
 }
 
-.border-raduis-5 {
+.btn-spc-sm {
   border-radius: 5px;
+  height: 20px !important;
+  border-width: 1px;
+  line-height: 15px;
 }
 
 .extendGrid {
