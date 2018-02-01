@@ -254,6 +254,7 @@ var PSIW510030 = new Vue({
         select_format_sta: "",
         select_quote_rmk: "",
         select_order_time: "",
+        pageNum: "",
         order_data: [],
 
         ship_mn_round_nos: "",       //(系統參數)單據主檔金額小數位數
@@ -1853,7 +1854,26 @@ var PSIW510030 = new Vue({
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
-                    self.order_data = result.data;
+
+                    self.order_data = [];
+                    var li_page_num = 0;
+                    var temp = [];
+
+                    for(let i = 0; i < result.data.length; i++){
+                        //30 = 一頁幾筆明細
+                        if(i % 33 == 0){
+                            self.order_data.push(temp);
+                            li_page_num += 1;
+                            temp = [];
+                        }
+                        temp.push(result.data[i]);
+
+                        if(i == result.data.length - 1){
+                            self.order_data.push(temp);
+                        }
+                    }
+                    self.pageNum = li_page_num;
+
                     //取quote_rmk, order_time
                     _.each(self.allOrderSelectData, function (value, index) {
                         if(value.format_sta == self.select_format_sta){
@@ -1861,7 +1881,6 @@ var PSIW510030 = new Vue({
                             self.select_order_time = value.order_time || '';
                         }
                     });
-
                 } else {
                     alert(result.error.errorMsg);
                 }
@@ -2014,11 +2033,6 @@ BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop"]);
 var go_isExit = true;
 
 $(window).on('beforeunload', function () {
-    if(go_isExit){
-        //關閉時要登出，清除session
-        $.post("/cas/logout", function (data) {});
-    }
-
     PSIW510030.doRowUnLock();
 });
 

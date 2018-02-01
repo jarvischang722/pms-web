@@ -9,7 +9,7 @@ const async = require('async');
  * 設定欄位寬度的屬性
  */
 exports.prgPropsSetup = function (req, res) {
-    res.render("subsystem/admin/PrgPropsSetup");
+    res.render("subsystem/admin/prgPropsSetup");
 };
 
 
