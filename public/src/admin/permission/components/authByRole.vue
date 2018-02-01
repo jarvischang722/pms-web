@@ -41,7 +41,7 @@
         </div>
 
         <template>
-            <el-dialog title="新增角色" :visible.sync="gb_isDialogShow" size="tiny">
+            <el-dialog title="新增角色" :visible.sync="isRoleDialogShow" size="tiny">
                 <div>
                     <label for="role_id">角色代碼</label>
                     <input type="text" id="role_id" style="width:80%" v-model="role_id">
@@ -82,21 +82,40 @@
             authStaffComp,
             authFuncComp
         },
+        watch: {
+            gb_isDialogShow(){}
+        },
         computed: {
             gb_isLoading() {
                 return this.$store.state.gb_isLoading;
             },
             gb_isDialogShow() {
-
+                let gb_isDialogShow = this.$store.state.gb_isDialogShow;
+                if(gb_isDialogShow && this.$store.state.gs_permissionModel == "authByRole"){
+                    this.isRoleDialogShow = true;
+                }
                 return this.$store.state.gb_isDialogShow;
             }
         },
         methods: {
             closeDialog() {
+                this.isRoleDialogShow = false;
                 this.$store.commit("setIsDialogShow", false);
             },
             addRole() {
-                $.post("/api/addRole",)
+                $.post("/api/addRole", {role_id: this.role_id, role_name: this.role_name}).then(
+                    result => {
+                        if (result.success) {
+                            alert("save success");
+                        }
+                        else {
+                            alert(result.msg);
+                        }
+                    },
+                    err => {
+                        alert(err);
+                    }
+                );
                 console.log(this.role_id, this.role_name);
             },
             ...mapActions([

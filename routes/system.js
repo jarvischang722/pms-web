@@ -38,5 +38,7 @@ module.exports = function (app) {
     app.post("/api/saveAuthByFunc", middles, permissionCrtl.saveAuthByFunc);
     app.post("/api/qryRoleByUserID", middles, permissionCrtl.qryRoleByUserID);
     app.post("/api/qryRoleByCurrentID", middles, permissionCrtl.qryRoleByCurrentID);
+    app.post("/api/addRole", middles, permissionCrtl.addRole);
+    app.post("/api/addStaff", middles, permissionCrtl.addStaff);
 
 };

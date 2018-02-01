@@ -39,6 +39,26 @@
                 </div> <!-- authorityTree -->
             </div>
         </div>
+
+        <!--<template>-->
+            <!--<el-dialog title="新增人員" :visible.sync="isStaffDialogShow" size="tiny">-->
+                <!--<div>-->
+                    <!--<label for="usr_id">人員代碼</label>-->
+                    <!--<input type="text" id="usr_id" style="width:80%" v-model="usr_id">-->
+                    <!--<div class="space-6"></div>-->
+                    <!--<label for="usr_cname">人員名稱</label>-->
+                    <!--<input type="text" id="usr_cname" style="width:80%" v-model="usr_cname">-->
+                    <!--<div class="space-6"></div>-->
+                    <!--<label for="usr_pwd">人員密碼</label>-->
+                    <!--<input type="password" id="usr_pwd" style="width:80%" v-model="usr_pwd">-->
+                <!--</div>-->
+                <!--<div class="space-4"></div>-->
+                <!--<div slot="footer" class="dialog-footer" style="text-align: center;">-->
+                    <!--<el-button @click="closeDialog">取 消</el-button>-->
+                    <!--<el-button type="primary" @click="addStaff">确 定</el-button>-->
+                <!--</div>-->
+            <!--</el-dialog>-->
+        <!--</template>-->
     </div><!-- /.roomNumPlanPage -->
 </template>
 
@@ -52,6 +72,14 @@
 
     export default {
         name: "auth-by-staff",
+        data(){
+            return {
+                isStaffDialogShow: false,
+                usr_id: "",
+                usr_cname: "",
+                usr_pwd: ""
+            }
+        },
         components: {
             authNavbar,
             authRoleComp,
@@ -63,10 +91,12 @@
                 return this.$store.state.gb_isLoading;
             }
         },
-        methods: mapActions([
-            "qryAllRoles",
-            "doSaveByStaff"
-        ])
+        methods: {
+            ...mapActions([
+                "qryAllRoles",
+                "doSaveByStaff"
+            ])
+        }
     }
 </script>
 

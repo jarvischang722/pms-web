@@ -4,6 +4,26 @@
         <div class="easyui-panel tree-body ">
             <ul id="permissionAccountTree" class="easyui-tree  authHt" :style="authHt"></ul>
         </div>
+
+        <template>
+            <el-dialog title="新增人員" :visible.sync="isStaffDialogShow" size="tiny">
+                <div>
+                    <label for="usr_id">人員代碼</label>
+                    <input type="text" id="usr_id" style="width:80%" v-model="usr_id">
+                    <div class="space-6"></div>
+                    <label for="usr_cname">人員名稱</label>
+                    <input type="text" id="usr_cname" style="width:80%" v-model="usr_cname">
+                    <div class="space-6"></div>
+                    <label for="usr_pwd">人員密碼</label>
+                    <input type="password" id="usr_pwd" style="width:80%" v-model="usr_pwd">
+                </div>
+                <div class="space-4"></div>
+                <div slot="footer" class="dialog-footer" style="text-align: center;">
+                    <el-button @click="closeDialog">取 消</el-button>
+                    <el-button type="primary" @click="addStaff">确 定</el-button>
+                </div>
+            </el-dialog>
+        </template>
     </div>
 </template>
 
@@ -19,7 +39,11 @@
                 treeIns: null,
                 isLoading: false,
                 selectedNode: null,
-                authHt: {}
+                authHt: {},
+                isTreeAddNode: false,
+                isTreeDelNode: false,
+                isStaffDialogShow: false,
+                isInitChecked: true,
             }
         },
         mounted() {
@@ -60,6 +84,13 @@
             gb_isAuthDelete() {
                 this.delete_node(this.$store.state.gb_isAuthDelete);
                 return this.$store.state.gb_isAuthDelete;
+            },
+            gb_isDialogShow() {
+                let gb_isDialogShow = this.$store.state.gb_isDialogShow;
+                if (gb_isDialogShow && this.$store.state.gs_permissionModel == "authByStaff") {
+                    this.isStaffDialogShow = true;
+                }
+                return this.$store.state.gb_isDialogShow;
             }
         },
         watch: {
@@ -68,6 +99,8 @@
             gb_isAuthUpdate() {
             },
             gb_isAuthCreate() {
+            },
+            gb_isDialogShow() {
             }
         },
         methods: {
@@ -146,15 +179,20 @@
                     });
 
                     self.treeIns = $("#permissionAccountTree").jstree(true);
-
-                    if (self.$store.state.gs_permissionModel != "authByStaff") {
-                        $("#permissionAccountTree").on("check_node.jstree uncheck_node.jstree", function (e, data) {
-                            let la_staffChecked = self.treeIns.get_checked();
-                            self.$store.commit("updStaffChecked", la_staffChecked);
-                        });
-                    }
+                    self.$store.commit("setStaffTreeIns", self.treeIns);
+                    // if (self.$store.state.gs_permissionModel != "authByStaff") {
+                    //     $("#permissionAccountTree").on("check_node.jstree uncheck_node.jstree", function (e, data) {
+                    //         let la_staffChecked = self.treeIns.get_checked();
+                    //
+                    //         _.each(la_staffChecked, function (lo_staffChecked) {
+                    //
+                    //         });
+                    //
+                    //         self.$store.commit("updStaffChecked", la_staffChecked);
+                    //     });
+                    // }
                     // 以人員為主
-                    else {
+                    if(self.$store.state.gs_permissionModel == "authByStaff") {
                         $("#permissionAccountTree").on("select_node.jstree", function (e, data) {
                             self.selectedNode = data.node;
                             self.$store.commit("setSelectedUserID", self.selectedNode.id);
@@ -178,17 +216,45 @@
 
                 this.isLoading = true;
                 this.treeIns.uncheck_all();
+                this.isInitChecked = true;
                 setTimeout(function () {
                     _.each(la_staffOfRole, function (account) {
                         self.treeIns.check_node("#" + account.user_id);
                     });
                     self.isLoading = false;
+                    self.isInitChecked = false;
                 }, 100);
             },
 
             //勾選有此人員的角色
             checkedRoleByUserID(user_id) {
                 this.$store.dispatch("qryRoleByUserID", user_id);
+            },
+
+            addStaff() {
+                let lo_params = {
+                    usr_id: this.usr_id,
+                    usr_cname: this.usr_cname,
+                    usr_pwd: this.usr_pwd
+                };
+                $.post("/api/addStaff", lo_params).then(
+                    result => {
+                        if (result.success) {
+                            alert("save success");
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+                    },
+                    err => {
+                        alert(err);
+                    }
+                )
+            },
+
+            closeDialog() {
+                this.isStaffDialogShow = false;
+                this.$store.commit("setIsDialogShow", false);
             },
 
             rename_node(lb_isAuthUpdate) {
@@ -204,7 +270,7 @@
             create_node(lb_isAuthCreate) {
                 if (lb_isAuthCreate) {
                     $("#permissionAccountTree").jstree("create_node", this.selectedNode, null, "last", function (node) {
-                        this.edit(node);
+                        // this.edit(node);
                     });
                     this.$store.commit("setIsAuthCreate", false);
                 }

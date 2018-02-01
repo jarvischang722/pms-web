@@ -35,134 +35,143 @@ exports.saveAuthByRole = function (postData, session, callback) {
             ln_exec_seq++;
         });
 
-        dbSvc.execSQL("SYS0110010", saveExecData, session, callback);
-        // let apiParams = {
-        //     "REVE-CODE": "BAC03009010000",
-        //     "program_id": "SYS0110010",
-        //     "user": session.user.usr_id,
-        //     "count": Object.keys(saveExecData).length,
-        //     "exec_data": saveExecData
-        // };
-        // if (_.size(saveExecData) > 0) {
-        //     tools.requestApi(sysConfig.api_url, apiParams, function (apiErr, apiRes, data) {
-        //         var success = true;
-        //         var errMsg = null;
-        //         var log_id = moment().format("YYYYMMDDHHmmss");
-        //         if (apiErr) {
-        //             success = false;
-        //             errMsg = apiErr;
-        //         }
-        //         else if (data["RETN-CODE"] != "0000") {
-        //             success = false;
-        //             errMsg = data["RETN-CODE-DESC"];
-        //         }
-        //
-        //         //寄出exceptionMail
-        //         if (!success) {
-        //             mailSvc.sendExceptionMail({
-        //                 log_id: log_id,
-        //                 exceptionType: "execSQL",
-        //                 errorMsg: errMsg
-        //             });
-        //         }
-        //
-        //         logSvc.recordLogAPI({
-        //             success: success,
-        //             log_id: log_id,
-        //             prg_id: "SYS0110010",
-        //             api_prg_code: '0300901000',
-        //             req_content: apiParams,
-        //             res_content: data
-        //         });
-        //
-        //         callback(errMsg, success);
-        //     });
-        // }
-        // else {
-        //     callback(null, true);
-        // }
+        console.log(saveExecData);
+        callback(err, "");
+        // dbSvc.execSQL("SYS0110010", saveExecData, session, callback);
     });
 };
 
 function combinStaffExecData(postData, session, callback) {
 
     let ln_exec_seq = 1;
-    let la_staffOfRole = postData.staffOfRole;
+    // let la_staffOfRole = postData.staffOfRole;
     let la_staffChecked = postData.staffChecked;
+    let la_staffUnChecked = postData.staffUnChecked;
     let la_staffList = postData.staffList;
     let ls_selRole = postData.selRole;
     let lo_savaExecDatas = {};
     let lo_userInfo = session.user;
-    //原始資料在勾選人員資料裡沒有，代表刪除
-    _.each(la_staffOfRole, function (lo_staffOfRole) {
-        let ln_isExist = _.findIndex(la_staffChecked, function (ls_staffChecked) {
-            return ls_staffChecked == lo_staffOfRole.user_id;
-        });
 
-        if (ln_isExist == -1) {
-            let tmpDel = {"function": "0"}; //0 代表刪除
-            tmpDel["table_name"] = "BAC_ROLE_USER";
-            tmpDel.condition = [
-                {
-                    key: "role_id",
-                    operation: "=",
-                    value: ls_selRole
-                },
-                {
-                    key: "user_athena_id",
-                    operation: "=",
-                    value: lo_userInfo.user_athena_id
-                },
-                {
-                    key: "user_comp_cod",
-                    operation: "=",
-                    value: lo_userInfo.cmp_id
-                },
-                {
-                    key: "user_id",
-                    operation: "=",
-                    value: lo_staffOfRole.user_id
-                }
-            ];
-            lo_savaExecDatas[ln_exec_seq] = tmpDel;
+    //勾選增加人員資料
+    _.each(la_staffChecked, function (lo_staffChecked) {
+        let tmpIns = {"function": "1"}; //1  新增
+        tmpIns["table_name"] = "BAC_ROLE_USER";
+
+        let lo_staff = _.findWhere(la_staffList, {usr_id: lo_staffChecked.usr_id});
+        if (!_.isUndefined(lo_staff)) {
+            tmpIns.role_athena_id = lo_userInfo.athena_id;
+            tmpIns.role_comp_cod = lo_staff.cmp_id;
+            tmpIns.role_id = ls_selRole;
+            tmpIns.user_athena_id = lo_userInfo.athena_id;
+            tmpIns.user_comp_cod = lo_staff.cmp_id;
+            tmpIns.user_id = lo_staff.usr_id;
+
+            tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+            lo_savaExecDatas[ln_exec_seq] = tmpIns;
             ln_exec_seq++;
         }
     });
 
-    //勾選人員資料在原始資料裡沒有，代表新增
-    _.each(la_staffChecked, function (ls_staffChecked) {
-        let ln_isExist = _.findIndex(la_staffOfRole, function (lo_staffOfRole) {
-            return ls_staffChecked == lo_staffOfRole.user_id;
-        });
-        if (ln_isExist == -1) {
-            let tmpIns = {"function": "1"}; //1  新增
-            tmpIns["table_name"] = "BAC_ROLE_USER";
-
-            let lo_staff = _.findWhere(la_staffList, {usr_id: ls_staffChecked});
-            if (!_.isUndefined(lo_staff)) {
-                tmpIns.role_athena_id = lo_userInfo.athena_id;
-                tmpIns.role_comp_cod = lo_staff.cmp_id;
-                tmpIns.role_id = ls_selRole;
-                tmpIns.user_athena_id = lo_userInfo.athena_id;
-                tmpIns.user_comp_cod = lo_staff.cmp_id;
-                tmpIns.user_id = lo_staff.usr_id;
-
-                tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
-                lo_savaExecDatas[ln_exec_seq] = tmpIns;
-                ln_exec_seq++;
+    //取消勾選刪除人員資料
+    _.each(la_staffUnChecked, function (lo_staffUnChecked) {
+        let tmpDel = {"function": "0"}; //0 代表刪除
+        tmpDel["table_name"] = "BAC_ROLE_USER";
+        tmpDel.condition = [
+            {
+                key: "role_id",
+                operation: "=",
+                value: ls_selRole
+            },
+            {
+                key: "user_athena_id",
+                operation: "=",
+                value: lo_userInfo.user_athena_id
+            },
+            {
+                key: "user_comp_cod",
+                operation: "=",
+                value: lo_userInfo.cmp_id
+            },
+            {
+                key: "user_id",
+                operation: "=",
+                value: lo_staffUnChecked.user_id
             }
-
-        }
+        ];
+        lo_savaExecDatas[ln_exec_seq] = tmpDel;
+        ln_exec_seq++;
     });
+
+    //原始資料在勾選人員資料裡沒有，代表刪除
+    // _.each(la_staffOfRole, function (lo_staffOfRole) {
+    //     let ln_isExist = _.findIndex(la_staffChecked, function (ls_staffChecked) {
+    //         return ls_staffChecked == lo_staffOfRole.user_id;
+    //     });
+    //
+    //     if (ln_isExist == -1) {
+    //         let tmpDel = {"function": "0"}; //0 代表刪除
+    //         tmpDel["table_name"] = "BAC_ROLE_USER";
+    //         tmpDel.condition = [
+    //             {
+    //                 key: "role_id",
+    //                 operation: "=",
+    //                 value: ls_selRole
+    //             },
+    //             {
+    //                 key: "user_athena_id",
+    //                 operation: "=",
+    //                 value: lo_userInfo.user_athena_id
+    //             },
+    //             {
+    //                 key: "user_comp_cod",
+    //                 operation: "=",
+    //                 value: lo_userInfo.cmp_id
+    //             },
+    //             {
+    //                 key: "user_id",
+    //                 operation: "=",
+    //                 value: lo_staffOfRole.user_id
+    //             }
+    //         ];
+    //         lo_savaExecDatas[ln_exec_seq] = tmpDel;
+    //         ln_exec_seq++;
+    //     }
+    // });
+
+    //勾選人員資料在原始資料裡沒有，代表新增
+    // _.each(la_staffChecked, function (ls_staffChecked) {
+    //     let ln_isExist = _.findIndex(la_staffOfRole, function (lo_staffOfRole) {
+    //         return ls_staffChecked == lo_staffOfRole.user_id;
+    //     });
+    //     if (ln_isExist == -1) {
+    //         let tmpIns = {"function": "1"}; //1  新增
+    //         tmpIns["table_name"] = "BAC_ROLE_USER";
+    //
+    //         let lo_staff = _.findWhere(la_staffList, {usr_id: ls_staffChecked});
+    //         if (!_.isUndefined(lo_staff)) {
+    //             tmpIns.role_athena_id = lo_userInfo.athena_id;
+    //             tmpIns.role_comp_cod = lo_staff.cmp_id;
+    //             tmpIns.role_id = ls_selRole;
+    //             tmpIns.user_athena_id = lo_userInfo.athena_id;
+    //             tmpIns.user_comp_cod = lo_staff.cmp_id;
+    //             tmpIns.user_id = lo_staff.usr_id;
+    //
+    //             tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+    //             lo_savaExecDatas[ln_exec_seq] = tmpIns;
+    //             ln_exec_seq++;
+    //         }
+    //
+    //     }
+    // });
     callback(null, lo_savaExecDatas);
 }
 
 function combinFuncExecData(postData, session, callback) {
     let ln_exec_seq = 1;
-    let la_funcOfRole = postData.funcsOfRole;
+    // let la_funcOfRole = postData.funcsOfRole;
     let la_funcChecked = postData.funcChecked || [];
     let la_funcUnChecked = postData.funcUnChecked || [];
-    let la_funcList = postData.funcList;
+    // let la_funcList = postData.funcList;
 
     let ls_selRole = postData.selRole;
     let lo_savaExecDatas = {};
@@ -175,7 +184,7 @@ function combinFuncExecData(postData, session, callback) {
             });
         },
         function (la_funcList, cb) {
-            _.each(la_funcUnChecked, function(lo_funcUnChecked){
+            _.each(la_funcUnChecked, function (lo_funcUnChecked) {
                 let tmpDel = {"function": "0"}; //0 代表刪除
                 tmpDel["table_name"] = "BAC_ROLE_FUNCTION";
                 let ls_func_id = lo_funcUnChecked.id.indexOf("_") != -1 ? lo_funcUnChecked.id.split("_")[1] : lo_funcUnChecked.id;
@@ -215,7 +224,7 @@ function combinFuncExecData(postData, session, callback) {
                 ln_exec_seq++;
             });
 
-            _.each(la_funcChecked, function(lo_funcChecked){
+            _.each(la_funcChecked, function (lo_funcChecked) {
                 let tmpIns = {"function": "1"}; //1  新增
                 tmpIns["table_name"] = "BAC_ROLE_FUNCTION";
                 let ls_func_id = lo_funcChecked.id.indexOf("_") != -1 ? lo_funcChecked.id.split("_")[1] : lo_funcChecked.id;
@@ -489,6 +498,31 @@ exports.saveAuthByFunc = function (postData, session, callback) {
     });
 };
 
+exports.addRole = function (postData, session, callback) {
+    let lo_params = {
+        "function": "1",
+        table_name: "BAC_ROLE",
+        role_id: postData.role_id,
+        role_nam: postData.role_name,
+        role_athena_id: session.user.athena_id,
+        role_comp_cod: session.user.cmp_id
+    };
+    lo_params = _.extend(lo_params, commonRule.getCreateCommonDefaultDataRule(session));
+    let lo_saveExecDatas = {
+        "0": lo_params
+    };
+    dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
+};
+
+exports.addStaff = function (postData, session, callback) {
+    let lo_params = {
+        "function": "1",
+        table_name: "S99_user",
+        usr_id: postData.usr_id,
+        usr_cname: postData.usr_cname
+    };
+};
+
 exports.qryPermissionFuncTreeData = function (req, session, callback) {
     async.waterfall([
         qryFuncList.bind(null, session.user),  //取功能清單
@@ -525,7 +559,11 @@ exports.qryPermissionFuncTreeData = function (req, session, callback) {
                         });
                     }
                 ], function (err, result) {
-                    cb(err, result);
+                    let lo_rtn = {
+                        funcList: funcList,
+                        funcTreeData: result
+                    };
+                    cb(err, lo_rtn);
                 });
             });
         }          //組樹狀資料結構
@@ -671,12 +709,14 @@ function getChildNodeBySysId(req, funcList, sysID, callback) {
                             la_mdlList.push(mdlList[_.findIndex(mdlList, {mdl_id: ls_mdl_id})]);
                         }
                     });
-                    subsysList[sIdx]["mdlMenu"] = la_mdlList;
+                    if (menuMdlList.length == 0) {
+
+                    }
+                    subsysList[sIdx]["mdlMenu"] = mdlList[0];
                 });
 
                 cb(err, subsysList);
             });
-
         },
         //組合QuickMenu
         function (subsysList, cb) {
@@ -729,7 +769,8 @@ function getChildNodeBySysId(req, funcList, sysID, callback) {
                                 });
                                 la_allQuickMenu.push(tmpQuickObj);
                             }
-                        } else if (lo_pro.id_typ == "PROCESS") {
+                        }
+                        else if (lo_pro.id_typ == "PROCESS") {
                             let lo_verConf = require("../configs/versionCtrlPrgConf.json");
                             let pro = _.findWhere(la_allMdlProList, {pro_id: lo_pro.current_id});
                             if (!_.isUndefined(pro)) {

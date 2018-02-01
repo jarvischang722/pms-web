@@ -130,36 +130,9 @@
                     "plugins": la_plugins
                 });
                 this.treeIns = $("#permissionFuncTree").jstree(true);
+                this.$store.commit("setFuncTreeIns", this.treeIns);
 
-                if (this.$store.state.gs_permissionModel != "authByFunc") {
-                    let la_funcChecked = [];
-                    let la_funcUnChecked = [];
-                    $("#permissionFuncTree").on("check_node.jstree", function (e, data) {
-                        if (self.isInitChecked == false) {
-
-                            let ln_isUnCheckedExist = _.findIndex(la_funcUnChecked, function (lo_funcUnChecked) {
-                                return lo_funcUnChecked.parent == data.node.parent && lo_funcUnChecked.id == data.node.id;
-                            });
-                            if (ln_isUnCheckedExist != -1) {
-                                la_funcUnChecked = _.without(la_funcUnChecked, data.node);
-                            }
-                            la_funcChecked.push(data.node);
-                            self.$store.commit("updFuncChecked", la_funcChecked);
-                        }
-                    }).on("uncheck_node.jstree", function (e, data) {
-                        if (self.isInitChecked == false) {
-                            let ln_isCheckedExist = _.findIndex(la_funcChecked, function (lo_funcChecked) {
-                                return lo_funcChecked.parent == data.node.parent && lo_funcChecked.id == data.node.id;
-                            });
-                            if (ln_isCheckedExist != -1) {
-                                la_funcChecked = _.without(la_funcChecked, data.node);
-                            }
-                            la_funcUnChecked.push(data.node);
-                            self.$store.commit("updFuncUnChecked", la_funcUnChecked);
-                        }
-                    });
-                }
-                else {
+                if (this.$store.state.gs_permissionModel == "authByFunc") {
                     $("#permissionFuncTree").on("select_node.jstree", function (e, data) {
                         let lo_funcSelected = data.node;
                         self.$store.commit("setSelectedCurrentID", lo_funcSelected);

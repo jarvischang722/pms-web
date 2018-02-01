@@ -17,15 +17,17 @@ const state = {
     ga_compGrpList: [],
     ga_compGrpList4Tree: [],
     ga_staffOfRole: [],
-    ga_staffChecked: [],
     gs_selectedUserId: null,
+    go_staffTreeIns: null,
 
+    ga_oriFuncList: [],
     ga_funcList: [],
     ga_funcList4Tree: [],
     ga_funcsOfRole: [],
     ga_funcChecked: [],
     ga_funcUnChecked: [],
     gs_selectedCurrentId: null,
+    go_funcTreeIns: null,
 
     gb_isAuthUpdate: false,
     gb_isAuthCreate: false,
@@ -70,21 +72,27 @@ const mutations = {
     setAllModules(state, la_funcList) {
         state.ga_funcList = la_funcList;
     },
+    setOriFuncList(state, la_oriFuncList){
+        state.ga_oriFuncList = la_oriFuncList;
+    },
     setPermissionModel(state, ls_permissionModel) {
         state.gs_permissionModel = ls_permissionModel;
     },
-    setIsDialogShow(state, lb_isDialogShow){
+    setIsDialogShow(state, lb_isDialogShow) {
         state.gb_isDialogShow = lb_isDialogShow;
     },
-    updStaffChecked(state, la_staffChecked) {
-        state.ga_staffChecked = la_staffChecked;
+    setStaffTreeIns(state, lo_staffTreeIns) {
+        state.go_staffTreeIns = lo_staffTreeIns;
     },
-    updFuncChecked(state, la_funcChecked) {
-        state.ga_funcChecked = la_funcChecked;
+    setFuncTreeIns(state, lo_funcTreeIns){
+        state.go_funcTreeIns = lo_funcTreeIns;
     },
-    updFuncUnChecked(state, la_funcUnChecked) {
-        state.ga_funcUnChecked = la_funcUnChecked;
-    },
+    // updFuncChecked(state, la_funcChecked) {
+    //     state.ga_funcChecked = la_funcChecked;
+    // },
+    // updFuncUnChecked(state, la_funcUnChecked) {
+    //     state.ga_funcUnChecked = la_funcUnChecked;
+    // },
     checkedRoleList(state, la_checkedRoleList) {
         state.ga_checkedRoleList = la_checkedRoleList;
     },
@@ -141,7 +149,8 @@ const actions = {
         return await $.post("/api/getAllFuncs").then(
             (result) => {
                 if (result.success) {
-                    commit("setAllModules", result.funcList);
+                    commit("setOriFuncList", result.funcList);
+                    commit("setAllModules", result.funcTreeData);
                     dispatch("combineFuncListTree");
                     return {success: true, funcList4Tree: state.ga_funcList4Tree};
                 }
@@ -155,10 +164,12 @@ const actions = {
     },
 
     //選擇角色觸發Event
-    changeRoleEvent({dispatch, commit}, role_id) {
+    async changeRoleEvent({dispatch, commit}, role_id) {
         commit("setSelRole", role_id);
-        dispatch("qryRoleOfAccounts", role_id);
-        dispatch("qryRoleOfFuncs", role_id);
+        commit("setIsLoading", true);
+        await dispatch("qryRoleOfAccounts", role_id);
+        await dispatch("qryRoleOfFuncs", role_id);
+        commit("setIsLoading", false);
     },
 
     //取得角色對應之全部帳號
@@ -276,13 +287,51 @@ const actions = {
         commit("setFuncList4Tree", la_funcList4Tree);
     },
 
-    doSaveByRole({state, commit}) {
+    doSaveByRole({state, commit, dispatch}) {
+        let la_staffAllChecked = state.go_staffTreeIns.get_checked();
+        let la_funcAllChecked = state.go_funcTreeIns.get_checked();
+        let la_funcList = state.ga_oriFuncList;
+        let la_staffChecked = [];
+        let la_staffUnChecked = [];
+
+        console.log(la_funcList);
+        return;
+
+        //新增人員
+        _.each(la_staffAllChecked, function (lo_staffAllChecked) {
+            let ln_isOriExist = _.findIndex(state.ga_staffOfRole, function (lo_staffOfRole) {
+                return lo_staffOfRole.user_id == lo_staffAllChecked;
+            });
+
+            if (ln_isOriExist == -1) {
+                let lo_node = state.go_staffTreeIns.get_node(lo_staffAllChecked);
+                if (lo_node.children.length == 0) {
+                    console.log(lo_node.id);
+                    la_staffChecked.push(lo_node);
+                }
+            }
+        });
+        //移除人員
+        _.each(state.ga_staffOfRole, function (lo_staffOfRole) {
+            let ln_isOriExist = _.findIndex(la_staffAllChecked, function (lo_staffAllChecked) {
+                return lo_staffOfRole.user_id == lo_staffAllChecked;
+            });
+
+            if (ln_isOriExist == -1) {
+                let lo_node = state.go_staffTreeIns.get_node(lo_staffOfRole.user_id);
+                if (lo_node.children.length == 0) {
+                    console.log(lo_node.id);
+                    la_staffUnChecked.push(state.go_staffTreeIns.get_node(lo_staffOfRole.user_id));
+                }
+            }
+        });
+
+
+
         let lo_params = {
             staffList: state.ga_compGrpList,
-            staffOfRole: state.ga_staffOfRole,
-            funcList: state.ga_funcList,
-            funcsOfRole: state.ga_funcsOfRole,
-            staffChecked: state.ga_staffChecked,
+            staffChecked: la_staffChecked,
+            staffUnChecked: la_staffUnChecked,
             funcChecked: state.ga_funcChecked,
             funcUnChecked: state.ga_funcUnChecked,
             selRole: state.gs_selRole
@@ -293,6 +342,7 @@ const actions = {
             result => {
                 commit("setIsLoading", false);
                 if (result.success) {
+                    dispatch("changeRoleEvent", state.role_id);
                     alert("save success");
                 }
                 else {
