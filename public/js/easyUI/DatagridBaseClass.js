@@ -86,7 +86,6 @@ function DatagridBaseClass() {
      * @param field
      */
     this.onClickCell = function (index, field) {
-
         if (self.editIndex != index) {
             if (self.endEditing()) {
                 $('#' + self.dgName).datagrid('selectRow', index)
@@ -280,7 +279,7 @@ function DatagridBaseClass() {
                 $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
             } else {
                 self.tmpCUD.deleteData = _.without(self.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
-                self.endEditing();
+                vueMain.endEditing();
                 alert(result.errorMsg);
             }
 
@@ -304,10 +303,16 @@ function DatagridBaseClass() {
 
         _.each(allField, function (field, fIdx) {
             var currentColumOption = $('#' + self.dgName).datagrid("getColumnOption", field);
+            var lo_currentColumOption = JSON.parse(JSON.stringify(currentColumOption));
+            lo_currentColumOption.col_seq = fIdx;
+            delete lo_currentColumOption._id;
 
-            currentColumOption.col_seq = fIdx;
-            delete currentColumOption._id;
-            saveField.push(_.extend(currentColumOption));
+            //因前檯小數關係，format_func_name可能是object，存進mongo前的前置處理
+            if (typeof lo_currentColumOption.format_func_name === "object") {
+                lo_currentColumOption.format_func_name = lo_currentColumOption.format_func_name.rule_name;
+            }
+
+            saveField.push(_.extend(lo_currentColumOption));
         });
 
         $.post("/api/saveFieldOptionByUser", {
