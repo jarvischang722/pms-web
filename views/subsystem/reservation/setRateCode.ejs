@@ -195,13 +195,13 @@
                                             <option value="no">否</option>
                                         </select>
                                     </div>
-                                    <div class="grid-item">
-                                        <label class="label_w80">含稅計價</label>
-                                        <select class="input-medium rateCode-s2">
-                                            <option value="yes">是</option>
-                                            <option value="no">否</option>
-                                        </select>
-                                    </div>
+                                    <!--<div class="grid-item">-->
+                                        <!--<label class="label_w80">含稅計價</label>-->
+                                        <!--<select class="input-medium rateCode-s2">-->
+                                            <!--<option value="yes">是</option>-->
+                                            <!--<option value="no">否</option>-->
+                                        <!--</select>-->
+                                    <!--</div>-->
                                     <div class="grid-item popCheckbox" style="display: none;">
                                         <span class="checkbox">
                                           <label class="checkbox-width">
@@ -359,7 +359,7 @@
                                                         </div>
                                                     </template>
                                                 </div>
-                                                <div class="clearfix"></div>
+                                              <div class="clearfix"></div>
                                             </div>
                                             <div class="clearfix"></div>
                                             <div class="space-12"></div>
@@ -821,6 +821,8 @@
                                         <input type="text" class="input-medium rateCode-s1"
                                                placeholder="01:散客房價"/>
                                     </div>
+                                    <div class=" margin-left: 90px;"></div>
+                                    <div class="input-medium rateCode-s2"></div>
                                     <div class="grid-item">
                                         <label>散客使用</label>
                                         <select class="input-medium rateCode-s2">
@@ -828,22 +830,14 @@
                                             <option value="no">否</option>
                                         </select>
                                     </div>
-                                    <div class="grid-item">
-                                        <label class="label_w80">含稅計價</label>
-                                        <select class="input-medium rateCode-s2">
-                                            <option value="yes">是</option>
-                                            <option value="no">否</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item popCheckbox" style="display: none;">
-                                        <span class="checkbox">
-                                          <label class="checkbox-width">
-                                              <input name="form-field-checkbox" type="checkbox"
-                                                     class="ace">
-                                              <span class="lbl">Base Rate</span>
-                                          </label>
-                                      </span>
-                                    </div>
+                                    <!--<div class="grid-item">-->
+                                        <!--<label class="label_w80">含稅計價</label>-->
+                                        <!--<select class="input-medium rateCode-s2">-->
+                                            <!--<option value="yes">是</option>-->
+                                            <!--<option value="no">否</option>-->
+                                        <!--</select>-->
+                                    <!--</div>-->
+
                                 </div>
                                 <!--2-->
                                 <div class="grid">
@@ -2953,7 +2947,7 @@
                     {
                         field: 'useRange',
                         title: '使用期間',
-                        width: 200,
+                        width: 220,
                         titleAlign: 'center',
                         columnAlign: 'center',
                         isFrozen: true,
@@ -2962,7 +2956,7 @@
                     {
                         field: 'dateRule',
                         title: '日期規則',
-                        width: 120,
+                        width: 140,
                         titleAlign: 'center',
                         columnAlign: 'center',
                         isResize: true
@@ -2970,7 +2964,7 @@
                     {
                         field: 'twoRoomPrice',
                         title: '房價',
-                        width: 100,
+                        width: 120,
                         titleAlign: 'center',
                         columnAlign: 'right',
                         isResize: true
@@ -2978,7 +2972,7 @@
                     {
                         field: 'adultPlus',
                         title: '加大人',
-                        width: 100,
+                        width: 120,
                         titleAlign: 'center',
                         columnAlign: 'right',
                         isResize: true
@@ -2986,15 +2980,7 @@
                     {
                         field: 'childPlus',
                         title: '加小孩',
-                        width: 100,
-                        titleAlign: 'center',
-                        columnAlign: 'right',
-                        isResize: true
-                    },
-                    {
-                        field: 'serviceFee',
-                        title: '服務費',
-                        width: 100,
+                        width: 120,
                         titleAlign: 'center',
                         columnAlign: 'right',
                         isResize: true
