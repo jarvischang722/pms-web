@@ -78,7 +78,7 @@
                 :close-on-click-modal="true" :show-close="false" :title=" i18nLang.program.PMS0610020.company_status "
                 :visible.sync="isOpenCompSta" style="width: 43%; left: 30%;"
                 :before-close="doCloseCompanyStatusDialog">
-            <div class="businessCompanyData">
+            <div class="businessCompanyData" v-loading="isLoadingDialog" element-loading-text="saving...">
                 <div class="col-sm-12 col-xs-12">
                     <div class="row">
                         <div class="col-sm-10 col-xs-10">
@@ -130,83 +130,85 @@
         </el-dialog>
         <!--/.Status chg -->
         <!--合約狀態變更-->
-        <el-dialog
-                :close-on-click-modal="true" :show-close="false" :title="i18nLang.program.PMS0610020.contract_status"
-                :visible.sync="isOpenContractStatus" style="width: 53%; left: 25%;"
-                :before-close="doCloseContractStatusDialog">
-            <div class="businessCompanyData">
-                <div class="col-sm-12 col-xs-12">
-                    <div class="row">
-                        <div class="col-sm-10 col-xs-10">
-                            <div class="row billInfo no-margin-right">
-                                <div class="grid-item">
-                                    <label v-if="contractStaMnFieldData.visiable == 'Y' && contractStaMnFieldData.ui_type != 'checkbox'">
-                                        <span v-if=" contractStaMnFieldData.requirable == 'Y' " style="color: red;">*</span>
-                                        <span>{{ contractStaMnFieldData.ui_display_name }}</span>
-                                    </label>
-                                    <bac-select :style="{width:contractStaMnFieldData.width + 'px' , height:contractStaMnFieldData.height + 'px'}"
-                                                v-model="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
-                                                :data="contractStaMnFieldData.selectData"
-                                                is-qry-src-before="Y" value-field="value" text-field="display"
-                                                @update:v-model="val => contractStaMnSingleData[contractStaMnFieldData.ui_field_name] = val"
-                                                :default-val="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
-                                                :disabled="contractStaMnFieldData.modificable == 'N'|| (contractStaMnFieldData.modificable == 'I' && isEditStatus) || (contractStaMnFieldData.modificable == 'E' && isCreateStatus)">
-                                    </bac-select>
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="space-6"></div>
-                                <div class="main-content-data borderFrame">
-                                    <div class="fixHeadTable">
-                                        <div class="tbl-header02">
-                                            <table class=" custab">
-                                                <thead class="custab-head">
-                                                <tr>
-                                                    <th class="width-15 text-center" v-for="field in contractStaDtFieldData">
-                                                        {{field.ui_display_name}}
-                                                    </th>
-                                                </tr>
-                                                </thead>
-                                            </table>
-                                        </div>
-                                        <div class="tbl-content02" style="height: 300px;">
-                                            <table class="custab">
-                                                <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
-                                                <tr v-for="contractData in contractStaDtRowsData">
-                                                    <td class="width-15">{{contractData.STATUS_DESC}}</td>
-                                                    <td class="width-15">{{contractData.INS_DAT}}</td>
-                                                    <td class="width-15">{{contractData.INS_USR}}</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
+        <div>
+            <el-dialog
+                    :close-on-click-modal="true" :show-close="false" :title="i18nLang.program.PMS0610020.contract_status"
+                    :visible.sync="isOpenContractStatus" style="width: 53%; left: 25%;"
+                    :before-close="doCloseContractStatusDialog">
+                <div class="businessCompanyData">
+                    <div class="col-sm-12 col-xs-12" v-loading="isLoadingDialog" element-loading-text="saving...">
+                        <div class="row">
+                            <div class="col-sm-10 col-xs-10">
+                                <div class="row billInfo no-margin-right">
+                                    <div class="grid-item">
+                                        <label v-if="contractStaMnFieldData.visiable == 'Y' && contractStaMnFieldData.ui_type != 'checkbox'">
+                                            <span v-if=" contractStaMnFieldData.requirable == 'Y' " style="color: red;">*</span>
+                                            <span>{{ contractStaMnFieldData.ui_display_name }}</span>
+                                        </label>
+                                        <bac-select :style="{width:contractStaMnFieldData.width + 'px' , height:contractStaMnFieldData.height + 'px'}"
+                                                    v-model="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
+                                                    :data="contractStaMnFieldData.selectData"
+                                                    is-qry-src-before="Y" value-field="value" text-field="display"
+                                                    @update:v-model="val => contractStaMnSingleData[contractStaMnFieldData.ui_field_name] = val"
+                                                    :default-val="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
+                                                    :disabled="contractStaMnFieldData.modificable == 'N'|| (contractStaMnFieldData.modificable == 'I' && isEditStatus) || (contractStaMnFieldData.modificable == 'E' && isCreateStatus)">
+                                        </bac-select>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="space-6"></div>
+                                    <div class="main-content-data borderFrame">
+                                        <div class="fixHeadTable">
+                                            <div class="tbl-header02">
+                                                <table class=" custab">
+                                                    <thead class="custab-head">
+                                                    <tr>
+                                                        <th class="width-15 text-center" v-for="field in contractStaDtFieldData">
+                                                            {{field.ui_display_name}}
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                            <div class="tbl-content02" style="height: 300px;">
+                                                <table class="custab">
+                                                    <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
+                                                    <tr v-for="contractData in contractStaDtRowsData">
+                                                        <td class="width-15">{{contractData.status_desc}}</td>
+                                                        <td class="width-15">{{contractData.ins_dat}}</td>
+                                                        <td class="width-15">{{contractData.ins_usr}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-2 col-xs-2">
-                            <div class="row">
-                                <div class="right-menu-co">
-                                    <ul>
-                                        <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                    role="button" @click="doSaveContractStatus">
-                                                {{i18nLang.SystemCommon.Save}}
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                    role="button" @click="doCloseContractStatusDialog">
-                                                {{i18nLang.SystemCommon.Leave}}
-                                            </button>
-                                        </li>
-                                    </ul>
+                            <div class="col-sm-2 col-xs-2">
+                                <div class="row">
+                                    <div class="right-menu-co">
+                                        <ul>
+                                            <li>
+                                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                        role="button" @click="doSaveContractStatus">
+                                                    {{i18nLang.SystemCommon.Save}}
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                        role="button" @click="doCloseContractStatusDialog">
+                                                    {{i18nLang.SystemCommon.Leave}}
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </el-dialog>
+            </el-dialog>
+        </div>
         <!--合約狀態變更-->
         <!--/.商務公司資料編輯-->
         <!--業務員指派-->
@@ -354,6 +356,7 @@
                 searchCond: {},
                 dgIns: {},
                 isLoading: false,
+                isLoadingDialog: false,
                 editingRow: {},
                 editRows: [],
                 isAddEnable: false,
@@ -417,7 +420,18 @@
                         this.contractStaDtRowsData = result.dgRowData;
                     });
                 }
+            },
+            contractStaDtRowsData: {
+                handler(val) {
+                    if (val.length > 0) {
+                        _.each(val, function (lo_val, idx){
+                            val[idx].ins_dat = moment(new Date(lo_val.ins_dat)).format("YYYY/MM/DD");
+                        });
+                    }
+                },
+                deep: true
             }
+
         },
         methods: {
             initAllAuthBtn() {
@@ -569,6 +583,7 @@
             //單筆 ststus chg.(公司狀態)
             doSaveCompSta() {
                 var self = this;
+                this.isLoadingDialog = true;
                 var rule_func_name = this.compStaFieldData[0][0].rule_func_name;
                 this.compStaSingleData = _.extend(this.compStaSingleData, {cust_cod: this.$store.state.gs_custCod});
                 var postData = {
@@ -580,23 +595,34 @@
                     isFirst: true
                 };
 
-                this.chkCompStat(function(result){
-                    if(result){
-                        $.post('/api/sales/doCompState', postData, function(res){
-                            if(res.success){
-                                if(res.showConfirm){
-                                    if(confirm(res.confirmMsg)){
+                this.chkCompStat(function (result) {
+                    if (result) {
+                        $.post('/api/sales/doCompState', postData, function (res) {
+                            if (res.success) {
+                                if (res.showConfirm) {
+                                    if (confirm(res.confirmMsg)) {
                                         postData.isFirst = false;
                                         $.post(res.ajaxURL, postData, function (res2) {
+                                            //傳公司狀態回商務公司資料編輯
+                                            self.$eventHub.$emit("compStateData", {
+                                                singleData: self.compStaSingleData
+                                            });
                                             self.isOpenCompSta = false;
+                                            self.isLoadingDialog = false;
                                         });
                                     }
                                 }
-                                else{
+                                else {
+                                    //傳公司狀態回商務公司資料編輯
+                                    self.$eventHub.$emit("compStateData", {
+                                        singleData: self.compStaSingleData
+                                    });
+                                    self.isLoadingDialog = false;
                                     self.isOpenCompSta = false;
                                 }
                             }
-                            else{
+                            else {
+                                self.isLoadingDialog = false;
                                 self.isOpenCompSta = true;
                                 alert(res.errorMsg);
                             }
@@ -604,7 +630,7 @@
                     }
                 });
             },
-            chkCompStat(callback){
+            chkCompStat(callback) {
                 var self = this;
                 var rule_func_name = this.compStaFieldData[0][0].rule_func_name;
                 this.compStaSingleData = _.extend(this.compStaSingleData, {cust_cod: this.$store.state.gs_custCod});
@@ -619,13 +645,9 @@
 
                     $.post('/api/chkFieldRule', postData, function (result) {
                         if (result.success) {
-                            //傳公司狀態回商務公司資料編輯
-                            self.$eventHub.$emit("compStateData", {
-                                singleData: self.compStaSingleData
-                            });
                             callback(true);
-
-                        } else {
+                        }
+                        else {
                             self.isOpenCompSta = true;
                             alert(result.errorMsg);
                             callback(false)
@@ -642,10 +664,8 @@
             //單筆 合約狀態變更
             doSaveContractStatus() {
                 var self = this;
-                this.$eventHub.$emit("contractStateData", {
-                    singleData: self.contractStaMnSingleData
-                });
-                var ln_statusDescIdx = _.findIndex(this.contractStaMnFieldData.selectData,{value: this.contractStaMnSingleData.contract_sta});
+                this.isLoadingDialog = true;
+                var ln_statusDescIdx = _.findIndex(this.contractStaMnFieldData.selectData, {value: this.contractStaMnSingleData.contract_sta});
                 var ls_statusDesc = this.contractStaMnFieldData.selectData[ln_statusDescIdx].display.split(":")[1].trim();
                 this.contractStaMnSingleData = _.extend(this.contractStaMnSingleData, {status_desc: ls_statusDesc});
                 var postData = {
@@ -655,14 +675,18 @@
                     oriSingleData: this.$store.state.go_allData.go_mnSingleData.contract_sta
                 };
 
-                $.post('/api/sales/doContractState', postData, function(result){
-                    if(result.success){
+                $.post('/api/sales/doContractState', postData, function (result) {
+                    if (result.success) {
+                        self.$eventHub.$emit("contractStateData", {
+                            singleData: self.contractStaMnSingleData
+                        });
                         self.isOpenContractStatus = false;
                     }
-                    else{
+                    else {
                         self.isOpenContractStatus = true;
                         alert(result.errorMsg);
                     }
+                    self.isLoadingDialog = false;
                 });
 
             },

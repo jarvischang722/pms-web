@@ -972,12 +972,12 @@ exports.handleCompState = function (session, postData, callback) {
             }
         }
     }
-    //第二次打回來，更新客戶索引檔狀態
+    //第二次打回來，更新cust_idx, cust_mn
     else {
         saveCustIdx();
     }
 
-    //更新客戶索引檔狀態
+    //更新cust_idx, cust_mn狀態
     function saveCustIdx() {
 
         let lo_savaExecDatas = {
@@ -994,15 +994,30 @@ exports.handleCompState = function (session, postData, callback) {
                     value: postData.singleRowData.cust_cod
                 }],
                 cust_sta: postData.singleRowData.status_cod
+            },
+            2:{
+                function: '2',
+                table_name: 'cust_mn',
+                condition: [{
+                    key: 'athena_id',
+                    operation: "=",
+                    value: session.user.athena_id
+                }, {
+                    key: 'cust_cod',
+                    operation: "=",
+                    value: postData.singleRowData.cust_cod
+                }],
+                status_cod: postData.singleRowData.status_cod
             }
         };
         let apiParams = {
-            "REVE-CODE": "BAC03009010000",
+            "REVE-CODE": "PMS0610020",
             "program_id": postData.prg_id,
-            "func_id": "",
+            "athena_id": session.user.athena_id,
+            "hotel_cod": session.user.hotel_cod,
+            "function_id": "1010",
             "user": session.user.usr_id,
-            "table_name": "cust_idx",
-            "count": 1,
+            "count": 2,
             "exec_data": lo_savaExecDatas
         };
 
@@ -1100,11 +1115,12 @@ exports.handleContractState = function (session, postData, callback) {
             }
         };
         let apiParams = {
-            "REVE-CODE": "BAC03009010000",
+            "REVE-CODE": "PMS0610020",
             "program_id": postData.prg_id,
-            "func_id": "",
+            "athena_id" : session.user.athena_id,
+            "hotel_cod":session.user.hotel_cod,
+            "function_id": "1020",
             "user": session.user.usr_id,
-            "table_name": "cust_idx",
             "count": 2,
             "exec_data": lo_savaExecDatas
         };

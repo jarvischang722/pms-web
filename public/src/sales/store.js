@@ -173,7 +173,7 @@ const actions = {
         });
     },
     //儲存所有資料
-    doSaveAllData({commit, dispatch, state}) {
+    async doSaveAllData({commit, dispatch, state}) {
         var err = null;
         var lo_tmpCUD = {
             createData: [],
@@ -267,7 +267,7 @@ const actions = {
         }
 
         console.log(lo_tmpCUD);
-        return $.post('/api/doOperationSave', {
+        return await $.post('/api/doOperationSave', {
             prg_id: 'PMS0610020',
             page_id: 1,
             func_id: lo_tmpCUD.createData.length > 0 ? "0200" : "0400",
@@ -276,6 +276,7 @@ const actions = {
         }).then(result => {
             return (result);
         });
+
     }
 };
 

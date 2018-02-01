@@ -459,7 +459,57 @@ exports.getCustMnCreditSta = function(){
 /**
  * [PMS0610020_商務公司資料編輯] 取得公司類別下拉資料
  */
-//TODO 公司關係別要再去問洪興大哥下拉內容為何
+exports.getCustMnRankNos = function(){
+    var rankNosList = [
+        {
+            display: '0',
+            value: '0'
+        },
+        {
+            display: '1',
+            value: '1'
+        },
+        {
+            display: '2',
+            value: '2'
+        },
+        {
+            display: '3',
+            value: '3'
+        },
+        {
+            display: '4',
+            value: '4'
+        },
+        {
+            display: '5',
+            value: '5'
+        },
+        {
+            display: '6',
+            value: '6'
+        },
+        {
+            display: '7',
+            value: '7'
+        },
+        {
+            display: '8',
+            value: '8'
+        },
+        {
+            display: '9',
+            value: '9'
+        }
+    ];
+
+    return rankNosList;
+};
+
+
+/**
+ * [PMS0610020_商務公司資料編輯] 取得公司類別下拉資料
+ */
 exports.getCustMnRelatCod = function(){
     var relatCodList = [
         {
@@ -1196,15 +1246,24 @@ exports.lang_UpdateOrderMn = function (params, callback) {
 };
 
 /**
+ * 商務公司資料編輯(PMS0610020) 取得等級下拉資料
+ */
+exports.lang_CustMnRankNos = function(params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustMnRankNos();
+    callback(null, lo_result);
+};
+
+/**
  * 商務公司資料編輯(PMS0610020) 取得公司類別下拉資料
  */
-exports.lang_CustMnRelatCod = function(parans, callback) {
+exports.lang_CustMnRelatCod = function(params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustMnRelatCod();
     callback(null, lo_result);
 };
 
-exports.lang_CustMnCreditSta = function(parans, callback) {
+exports.lang_CustMnCreditSta = function(params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustMnCreditSta();
     callback(null, lo_result);
@@ -1213,7 +1272,7 @@ exports.lang_CustMnCreditSta = function(parans, callback) {
 /**
  * 商務公司資料編輯(PMS0610020) 取得欄位收取DM閜拉資料
  */
-exports.lang_CustMnDmFlag = function (parans, callback) {
+exports.lang_CustMnDmFlag = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustMnCreditStaDmFlag();
     callback(null, lo_result);
@@ -1222,7 +1281,7 @@ exports.lang_CustMnDmFlag = function (parans, callback) {
 /**
  * 商務公司資料編輯(PMS0610020) 相關人員 欄位狀態下拉資料
  */
-exports.lang_CustmnPersdtJobSta = function (parans, callback) {
+exports.lang_CustmnPersdtJobSta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustmnPersdtJobSta();
     callback(null, lo_result);
@@ -1231,7 +1290,7 @@ exports.lang_CustmnPersdtJobSta = function (parans, callback) {
 /**
  * 商務公司資料編輯(PMS0610020) 相關人員 欄位性別下拉資料
  */
-exports.lang_CustIdxSexTyp = function (parans, callback) {
+exports.lang_CustIdxSexTyp = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustIdxSexTyp();
     callback(null, lo_result);
@@ -1240,7 +1299,7 @@ exports.lang_CustIdxSexTyp = function (parans, callback) {
 /**
  * 商務公司資料編輯(PMS0610020) 相關人員 是否為主要聯絡人
  */
-exports.qry_CustMnPerPrmaryPers = function (parans, callback) {
+exports.qry_CustMnPerPrmaryPers = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustMnPersPrmaryPers();
     callback(null, lo_result);

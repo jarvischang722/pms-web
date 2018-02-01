@@ -17,7 +17,9 @@ var sysConf = require("../../../configs/systemConfig");
 
 module.exports = {
     /**
-     * PMS0610020 商務公司資料編輯 單筆主檔各欄位預設值
+     * 單筆主檔各欄位預設值
+     * 1.取得欄位contractSta
+     * 2.取得欄位custCod、showCod
      * @param postData
      * @param session
      * @param callback
@@ -74,7 +76,7 @@ module.exports = {
                     else {
                         let ls_cod = data["SERIES_NOS"].toString();
                         ls_custMnCustCod = "CS " + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
-                        ls_custMnShowCod = ls_custMnCustCod.substring(8, 12);
+                        ls_custMnShowCod = ls_custMnCustCod.substring(8, 20);
                         ls_custMnPcustCod = ls_custMnCustCod;
                     }
                     cb(lo_error, lo_result);
@@ -92,7 +94,7 @@ module.exports = {
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 頁籤合約 預設值
+     * 頁籤合約 預設值
      * @param postData
      * @param session
      * @param callback
@@ -126,7 +128,7 @@ module.exports = {
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 合約內容 開始日期
+     * 合約內容 開始日期
      * 1.合約期間檢查:
      * 如果『合約起始日』、『合約終止日』、『參考房價代號』3欄位都有值,如果sql檢查=0,訊息『相同館別及房價代號之合約期間不可重覆』,起始日回復到舊值
      * 2.輸入合約起始日小於參數『訂房中心滾房租日』時，顯示提示訊息「合約起始日在今天之前」,但可以繼續輸入
@@ -229,7 +231,7 @@ module.exports = {
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 合約內容 結束日期
+     * 合約內容 結束日期
      * 1.合約期間檢查:
      * 如果『合約起始日』、『合約終止日』、『參考房價代號』3欄位都有值,如果sql檢查=0,訊息『相同館別及房價代號之合約期間不可重覆』,起始日回復到舊值
      * 2.合約內容 參考房價代號下拉資料
@@ -310,7 +312,7 @@ module.exports = {
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 合約內容 館別
+     * 合約內容 館別
      * 1.合約內容 參考房價代號下拉資料
      * 2.合約內容 餐廳折扣下拉資料
      * @param postData
@@ -379,7 +381,7 @@ module.exports = {
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 合約內容 參考房價代號
+     * 合約內容 參考房價代號
      * 房價代號帶回房價名稱
      * @param postData
      * @param session
@@ -409,7 +411,7 @@ module.exports = {
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 相關人員 切換主要聯絡人
+     * 相關人員 切換主要聯絡人
      * 1.主要聯絡人僅可指定予一筆相關人員資料，於勾選欄位時自動切換
      * 2.主要聯絡人非必要勾選，可無指定主要聯絡人
      * 3.主要聯絡人的seq_nos要入到主檔cust_mn.atten_cod
@@ -433,7 +435,7 @@ module.exports = {
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 相關人員預設值
+     * 相關人員預設值
      * 取得相關人員
      * @param postData
      * @param session
@@ -476,7 +478,7 @@ module.exports = {
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 相關人員刪除前檢查
+     * 相關人員刪除前檢查
      * 主要聯絡人打勾，則不允許刪除 訊息「此筆資料設為主要聯絡人，不可刪除」
      * @param postData
      * @param session
@@ -496,7 +498,7 @@ module.exports = {
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 合約內容刪除前檢查
+     * 合約內容刪除前檢查
      * 1.檢查訂房卡資料
      * 2.檢查住客資料
      * @param postData
@@ -568,7 +570,7 @@ module.exports = {
     },
 
     /**
-     * PMS0610020 商務公司資料編輯 公司狀態是否可以為刪除
+     * 公司狀態是否可以為刪除
      * @param postData
      * @param session
      * @param callback
