@@ -122,8 +122,8 @@
                         }
                     },
                     "checkbox": {
-                        "three_state": false,
-                        "keep_selected_style": false,
+                        "three_state": true,
+                        "keep_selected_style": true,
                         "whole_node": false,
                         "tie_selection": false   // 選取時，false只會選到父節點，不會選到子結點
                     },
@@ -139,6 +139,8 @@
                         self.checkedRoleByCurrentID(lo_funcSelected);
                     })
                 }
+
+
                 cb(null, "");
             },
 
@@ -161,6 +163,7 @@
                             self.treeIns.check_node("#" + func.current_id);
                         }
                     });
+
                     self.isInitChecked = false;
                     self.isLoading = false;
                 }, 200);

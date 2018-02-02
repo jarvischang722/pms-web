@@ -208,7 +208,7 @@ exports.selectSystem = function (req, res) {
 
                     roleFuncSvc.updateUserPurview(req, function (err) {
                         let usingSubsysID = req.session.user.subsysMenu.length > 0 ? req.session.user.subsysMenu[0].subsys_id : "";
-                        if (!_.isUndefined(req.cookies.usingSubsysID)) {
+                        if (!_.isUndefined(req.cookies.usingSubsysID) && req.cookies.usingSubsysID != "") {
                             usingSubsysID = req.cookies.usingSubsysID;
                         }
                         res.cookie('usingSubsysID', usingSubsysID);
