@@ -84,18 +84,18 @@ app.use(i18n.init);
 app.use(flash());
 
 //session setting
-const maxAgeSec = 180 * 60;                //session 設定過期時間（秒）
+const maxAgeSec = sysConfig.sessionExpiredMS || 1000 * 60 * 60 * 3;                //session 設定過期時間（秒）
 let sessionMiddleware = session({
     secret: sysConfig.secret,             // 防止cookie竊取
     proxy: true,                          //安全cookie的反向代理，通过x-forwarded-proto實現
     resave: false,                       //即使 session 没有被修改，也保存 session 值，預設為 true。
     saveUninitialized: false,              //是指無論有没有session cookie，每次请求都設置個session cookie ，預設為 connect.sid,
     cookie: {
-        maxAge: maxAgeSec * 1000        //單位 毫秒
+        maxAge: maxAgeSec       //單位 毫秒
     },
     store: new MongoStore({
         url: dbconn,
-        ttl: maxAgeSec                   //單位 秒
+        ttl: maxAgeSec / 1000                   //單位 秒
     })
 });
 

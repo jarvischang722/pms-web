@@ -11,6 +11,7 @@ const langSvc = require("../services/LangService");
 const fs = require("fs");
 const ip = require("ip");
 const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
+const go_sysConfig = require('../configs/systemConfig');
 
 /**
  * 登入頁面
@@ -55,7 +56,7 @@ exports.loginPage = function (req, res) {
             function (data, callback) {
                 //TODO 判別每間公司館別可以用的語系，
                 let options = {
-                    maxAge: 1000 * 60 * 60 // would expire after 15 minutes
+                    maxAge: go_sysConfig.sessionExpiredMS || 1000 * 60 * 60 * 3 // would expire after 15 minutes
                     //httpOnly: true, // The cookie only accessible by the web server
                     //signed: true // Indicates if the cookie should be signed
                 };
@@ -64,7 +65,7 @@ exports.loginPage = function (req, res) {
                     {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')},
                     {lang: 'ja', sort: 3, name: encodeURIComponent('日本語')}
                 ];
-                res.cookie('sys_locales', localeInfo, options);
+                res.cookie('sys_locales', localeInfo,options);
                 callback(null, 'done');
             }
         ], function (err) {
