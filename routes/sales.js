@@ -41,4 +41,9 @@ module.exports = function (app) {
     //[PMS0620030_業務員指派] 編輯商務公司的業務員
     app.post("/api/sales/doEditSalesClerk", apiMiddles, salesCrtl.doEditSalesClerk);
 
+    //[PMS0610020_商務公司資料編輯] 變更公司狀態
+    app.post("/api/sales/doCompState", apiMiddles, salesCrtl.doCompState);
+
+    //[PMS_0610020_商務公司資料編輯] 變更合約狀態
+    app.post("/api/sales/doContractState", apiMiddles, salesCrtl.doContractState);
 };

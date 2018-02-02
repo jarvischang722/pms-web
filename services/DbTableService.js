@@ -863,31 +863,12 @@ function operationSaveProc(postData, session) {
 
     //檢查是否有rule
     function chkRuleIsExist(callback) {
-        if (postData.page_id == 1) {
-            qryDataGridFuncRule(postData.page_id, callback);
-        }
-        else if (postData.page_id == 2) {
-            qryPageFuncRule(postData.page_id, callback);
-        }
-    }
-
-    //查詢DatagridFunc
-    function qryDataGridFuncRule(ls_page_id, callback) {
-        mongoAgent.SetupDatagridFunction.find({
+        mongoAgent.PrgFunction.find({
             prg_id: postData.prg_id,
-            page_id: _.isNaN(Number(ls_page_id)) ? 1 : Number(ls_page_id)
+            page_id: _.isNaN(Number(postData.page_id)) ? 1 : Number(postData.page_id)
         }, function (err, getResult) {
             callback(err, tools.mongoDocToObject(getResult));
         });
     }
 
-    //查詢PageFunc
-    function qryPageFuncRule(ls_page_id, callback) {
-        mongoAgent.SetupPageFunction.find({
-            prg_id: postData.prg_id,
-            page_id: ls_page_id
-        }, function (err, getResult) {
-            callback(err, tools.mongoDocToObject(getResult));
-        });
-    }
 }

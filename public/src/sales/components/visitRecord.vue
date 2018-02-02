@@ -1,86 +1,77 @@
 <template>
     <div id="visitRecord" class="hide padding-5">
         <div class="businessCompanyData">
-            <div class="col-sm-12 col-xs-12">
+            <div class="col-sm-12 col-xs-12" v-loading="isLoadingDialog" :element-loading-text="loadingText">
                 <div class="row">
                     <!--單筆 拜訪紀錄-->
                     <div class="col-sm-10 col-xs-10">
                         <div class="row no-margin-right">
                             <div class="main-content-data borderFrame">
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>拜訪方式</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">1.親訪</option>
-                                            <option value="2">2.電訪</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>預定拜訪日</label>
-                                        <!--<input class="easyui-datebox input-medium medium-c1">-->
-                                        <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
-                                               class="input-medium medium-c1 dateClass" type="date" required="">
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>拜訪狀態</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="Y">Y:已拜訪</option>
-                                            <option value="N">N:未拜訪</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>實際拜訪日</label>
-                                        <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
-                                               class="input-medium medium-c1 dateClass" type="date" required="">
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>交通費</label>
-                                        <input type="text" class="input-medium medium-c1 text-right" placeholder="435"/>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>主旨</label>
-                                        <input type="text" class="input-medium input-spc-1" placeholder="初談合約"/>
-                                    </div>
-                                </div>
+                                <div v-for="fields in fieldsData">
+                                    <div class="grid">
+                                        <div class="grid-item" v-for="field in fields">
+                                            <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
+                                                <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                <span>{{ field.ui_display_name }}</span>
+                                            </label>
 
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>內容</label>
-                                        <textarea class="input-medium input-spc-1 height-auto rzNone" style="width: 434px; max-width: 100%;"
-                                                  rows="4" placeholder="談合約其貢獻度數字以及房價等級定義"></textarea>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
+                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                                   v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
+                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                   :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                                   :required="field.requirable == 'Y'" min="0"
+                                                   :maxlength="field.ui_field_length"
+                                                   :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')">
 
-                                <div class="space-6"></div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>新增日</label>
-                                        <input type="text" class="input-medium medium-c1"
-                                               placeholder="2000/01/01 12:30:00" disabled="disabled"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>新增者</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="cio"
-                                               disabled="disabled"/>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>最後異動日</label>
-                                        <input type="text" class="input-medium medium-c1"
-                                               placeholder="2000/01/01 12:30:00" disabled="disabled"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>最後異動者</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="cio"
-                                               disabled="disabled"/>
+                                            <!--number 金額顯示format-->
+                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                                   v-if="field.visiable == 'Y' && field.ui_type == 'number'"
+                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                   :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                                   @keyup="formatAmt(singleData[field.ui_field_name], field)">
+
+                                            <!-- 日期選擇器 -->
+                                            <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'date'"
+                                                            v-model="singleData[field.ui_field_name]"
+                                                            type="date" size="small"
+                                                            :disabled="field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
+                                                            format="yyyy/MM/dd"
+                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                            </el-date-picker>
+
+                                            <!-- 日期時間選擇器 -->
+                                            <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
+                                                            v-model="singleData[field.ui_field_name]" type="datetime"
+                                                            change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                            :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
+                                                            size="small" format="yyyy/MM/dd HH:mm:ss"
+                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                            </el-date-picker>
+
+
+                                            <!--  textarea -->
+                                            <textarea v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
+                                                      v-model="singleData[field.ui_field_name]"
+                                                      class="numStyle-none" rows="4"
+                                                      :style="{width:field.width + 'px'}" style="resize: none;"
+                                                      :required="field.requirable == 'Y'"
+                                                      :maxlength="field.ui_field_length"
+                                                      :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
+                                                      @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                            </textarea>
+
+                                            <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                        v-model="singleData[field.ui_field_name]" :data="field.selectData"
+                                                        is-qry-src-before="Y" value-field="value" text-field="display"
+                                                        @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                        :default-val="singleData[field.ui_field_name] || field.defaultVal"
+                                                        :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                            </bac-select>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -95,35 +86,35 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                :disabled="BTN_action || isFirstData" v-if="isEditStatus" @click="toFirstData">
+                                                :disabled="BTN_action || isFirstData" v-if="isEditStatus"
+                                                @click="toFirstData">
                                             {{i18nLang.SystemCommon.First}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                :disabled="BTN_action || isFirstData" v-if="isEditStatus" @click="toPreData">
+                                                :disabled="BTN_action || isFirstData" v-if="isEditStatus"
+                                                @click="toPreData">
                                             {{i18nLang.SystemCommon.Previous}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                :disabled="BTN_action || isLastData" v-if="isEditStatus" @click="toNextData">
+                                                :disabled="BTN_action || isLastData" v-if="isEditStatus"
+                                                @click="toNextData">
                                             {{i18nLang.SystemCommon.Next}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                :disabled="BTN_action || isLastData" v-if="isEditStatus" @click="toLastData">
+                                                :disabled="BTN_action || isLastData" v-if="isEditStatus"
+                                                @click="toLastData">
                                             {{i18nLang.SystemCommon.Last}}
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-danger btn-white btn-defaultWidth" role="button" @click="doRemoveRow">
-                                            {{i18nLang.SystemCommon.Delete}}
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="doCloseDialog">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                                @click="doCloseDialog">
                                             {{i18nLang.SystemCommon.Leave}}
                                         </button>
                                     </li>
@@ -142,7 +133,7 @@
 <script>
     export default {
         name: 'visit-record',
-        props: ["rowData", "paramsData", "isCreateStatus", "isEditStatus"],
+        props: ["rowData", "pageOneDataGridRows", "isSingleVisitRecord", "isCreateStatus", "isEditStatus"],
         data() {
             return {
                 i18nLang: go_i18nLang,
@@ -168,25 +159,30 @@
             this.loadingText = "Loading...";
         },
         watch: {
-            rowData(val) {
-                if (!_.isEmpty(val)) {
+            isSingleVisitRecord(val) {
+                if (val) {
                     this.initData();
                     this.fetchFieldData();
+                }
+            },
+            rowData(val) {
+                if (!_.isEmpty(val)) {
+                    this.fetchFieldData();
 
-                    var nowDatagridRowIndex = $("#" + this.paramsData.dgId).datagrid('getRowIndex', val);
+                    var nowDatagridRowIndex = $("#companyVisitRecord_dg").datagrid('getRowIndex', val);
 
-                    $("#" + this.paramsData.dgId).datagrid('selectRow', nowDatagridRowIndex);
+                    $("#companyVisitRecord_dg").datagrid('selectRow', nowDatagridRowIndex);
 
-                    if ($("#" + this.paramsData.dgId).datagrid('getRowIndex', val) == 0) {
+                    if ($("#companyVisitRecord_dg").datagrid('getRowIndex', val) == 0) {
                         //已經到第一筆
                         this.isFirstData = true;
                         this.isLastData = false;
-                        if ($("#" + this.paramsData.dgId).datagrid('getRowIndex', val) == this.paramsData.pageOneDataGridRows.length - 1) {
+                        if ($("#companyVisitRecord_dg").datagrid('getRowIndex', val) == this.pageOneDataGridRows.length - 1) {
                             this.isLastData = true;
                         }
 
                     }
-                    else if ($("#" + this.paramsData.dgId).datagrid('getRowIndex', val) == this.paramsData.pageOneDataGridRows.length - 1) {
+                    else if ($("#companyVisitRecord_dg").datagrid('getRowIndex', val) == this.pageOneDataGridRows.length - 1) {
                         //已經到最後一筆
                         this.isFirstData = false;
                         this.isLastData = true;
@@ -196,6 +192,19 @@
                         this.isLastData = false;
                     }
                 }
+            },
+            singleData: {
+                handler: function (val) {
+                    if(!_.isEmpty(val)){
+                        var self = this;
+                        this.$eventHub.$emit("getVisitRecordSingleData", {
+                            singleData: val,
+                            oriSingleData: self.oriSingleData,
+                            fieldsData: self.oriFieldsData
+                        });
+                    }
+                },
+                deep: true
             }
         },
         methods: {
@@ -214,34 +223,90 @@
                 this.oriFieldsData = [];
             },
             fetchFieldData() {
-                var self = this;
-//                $.post("", {
-//                    prg_id: self.paramsData.gridSinglePrgId,
-//                    page_id: self.paramsData.gridSinglePageId,
-//                    singleRowData: self.rowData
-//                }, function (result) {
-//                    if (result.success) {
-//                        self.oriFieldsData = result.fieldData;
-//                        self.fieldsData = _.values(_.groupBy(_.sortBy(result.fieldData, "row_seq"), "row_seq"));
-//                        self.fetchRowData(self.rowData);
-//                    }
-//                });
+                this.isLoadingDialog = true;
+                $.post("/api/fetchOnlySinglePageFieldData", {
+                    prg_id: "PMS0610020",
+                    page_id: 2,
+                    tab_page_id: 1100
+                }).then(result => {
+                    this.fieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
+                    this.oriFieldsData = JSON.parse(JSON.stringify(result.gsFieldsData));
+                    this.fetchRowData();
+                });
             },
-            fetchRowData(editingRow) {
-//                editingRow.visit_dat = moment(new Date(editingRow.visit_dat)).format("YYYY/MM/DD");
-//                editingRow.avisit_dat = moment(new Date(editingRow.avisit_dat)).format("YYYY/MM/DD");
-//                $.post("/api/fetchSinglePageFieldData", {
-//                    prg_id: self.paramsData.gridSinglePrgId,
-//                    page_id: self.paramsData.gridSinglePageId,
-//                    searchCond: editingRow
-//                }, function (result) {
-//
-//                });
+            fetchRowData() {
+                this.singleData = JSON.parse(JSON.stringify(this.rowData)) ;
+                this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
+                this.isLoadingDialog = false;
+            },
+            chkFieldRule(ui_field_name, rule_func_name) {
+                if (rule_func_name === "") {
+                    return;
+                }
+                var self = this;
+                var la_originData = [this.oriSingleData];
+                var la_singleData = [this.singleData];
+                var la_diff = _.difference(la_originData, la_singleData);
+
+                // 判斷資料是否有異動
+                if (la_diff.length != 0) {
+                    this.isUpdate = true;
+                }
+
+                if (!_.isEmpty(rule_func_name.trim())) {
+                    var postData = {
+                        prg_id: "PMS0610020",
+                        rule_func_name: rule_func_name,
+                        validateField: ui_field_name,
+                        singleRowData: JSON.parse(JSON.stringify(this.singleData)),
+                        oriSingleData: this.oriSingleData
+                    };
+                    $.post('/api/chkFieldRule', postData, function (result) {
+
+                        if (result.success) {
+                            //是否要show出訊息
+                            if (result.showAlert) {
+                                alert(result.alertMsg);
+                            }
+
+                            //是否要show出詢問視窗
+                            if (result.showConfirm) {
+                                if (confirm(result.confirmMsg)) {
+
+                                } else {
+                                    //有沒有要再打一次ajax到後端
+                                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
+                                        $.post(result.ajaxURL, postData, function (result) {
+
+                                            if (!result.success) {
+                                                alert(result.errorMsg);
+                                            } else {
+
+                                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                    self.singleData = _.extend(self.singleData, result.effectValues);
+                                                }
+
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+
+                        } else {
+                            alert(result.errorMsg);
+                        }
+
+                        //連動帶回的值
+                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                            self.singleData = _.extend(self.singleData, result.effectValues);
+                        }
+
+                    });
+                }
             },
             formatAmt(val, field) {
                 var ls_amtValue = val;
                 var ls_ruleVal = field.format_func_name.rule_val;
-                ls_ruleVal = "###,###,##0";
 
                 if (ls_ruleVal != "") {
                     this.singleData[field.ui_field_name] = go_formatDisplayClass.amtFormat(ls_amtValue, ls_ruleVal);
@@ -253,27 +318,20 @@
             toFirstData() {
                 this.isFirstData = true;
                 this.isLastData = false;
-                this.rowData = _.first(this.paramsData.pageOneDataGridRows);
+                this.rowData = _.first(this.pageOneDataGridRows);
             },
             toPreData() {
-                var nowRowIndex = $("#visitPlan_dg").datagrid('getRowIndex', this.rowData);
-                this.rowData = this.paramsData.pageOneDataGridRows[nowRowIndex - 1];
+                var nowRowIndex = $("#companyVisitRecord_dg").datagrid('getRowIndex', this.rowData);
+                this.rowData = this.pageOneDataGridRows[nowRowIndex - 1];
             },
             toNextData() {
-                var nowRowIndex = $("#visitPlan_dg").datagrid('getRowIndex', this.rowData);
-                this.rowData = this.paramsData.pageOneDataGridRows[nowRowIndex + 1];
+                var nowRowIndex = $("#companyVisitRecord_dg").datagrid('getRowIndex', this.rowData);
+                this.rowData = this.pageOneDataGridRows[nowRowIndex + 1];
             },
             toLastData() {
                 this.isFirstData = false;
                 this.isLastData = true;
-                this.rowData = _.last(this.paramsData.pageOneDataGridRows);
-            },
-            doRemoveRow() {
-                var self = this;
-                var q = confirm(go_i18nLang["SystemCommon"].check_delete);
-                if (q) {
-
-                }
+                this.rowData = _.last(this.pageOneDataGridRows);
             },
             doCloseDialog() {
                 this.initData();
