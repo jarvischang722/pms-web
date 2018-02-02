@@ -1,5 +1,5 @@
 <!--page-content-->
-<div>
+<div id="PMS0110010App">
     <div class="page-header"></div><!-- /.page-header -->
     <!-- 依房型訂房(Room Type Plan) Page-->
     <div class="pageMain">
@@ -70,6 +70,18 @@
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
     </div>
+
+    <template v-for="(roomTyp,roomTypKey,roomTypIdx) in roomTypData">
+        <span>{{roomTypKey}}</span>
+        <template v-for="(room,roomKey,roomIdx) in roomTyp">
+            <tr v-if="(roomIdx+1)%5 == 0" :data-tt-id="roomIdx+1">
+                <span>{{roomKey}}</span>
+            </tr>
+            <tr v-else :data-tt-id="roomIdx+1" :data-tt-parent-id="roomTypIdx+1">
+                <span>{{roomKey}}</span>
+            </tr>
+        </template>
+    </template>
 
     <!--  依房型訂房 彈出視窗內容-->
     <%- include PMS0100000_module/resvRoomTypeBtn_1 %>
@@ -273,4 +285,6 @@
 <!--  業務 -->
 <%- include ../sales/sales_module/sales_includeJs.ejs %>
 <!--  /.End 業務 -->
+
+<script src="/js/reservation/PMS0110010.main.js"></script>
 

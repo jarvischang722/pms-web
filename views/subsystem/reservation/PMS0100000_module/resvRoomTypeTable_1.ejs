@@ -9,30 +9,19 @@
                 <th class="ca-headerTitle height-fntThead rp-first-th" rowspan="2">
                     <!--ca-center-->
                     <div class="caSelect">
-                        <select class="input-medium ca-select">
-                            <option value="2016">2016</option>
-                            <option value="2017">2017</option>
-                            <option value="2018">2018</option>
-                            <option value="2019">2019</option>
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
-                        </select>
+                        <bac-select class="input-medium ca-select"
+                                    v-model="searchData['year']" :data="yearSelectData"
+                                    is-qry-src-before="Y" value-field="value" text-field="display"
+                                    @update:v-model="val => searchData['year'] = val"
+                                    :default-val="searchData['year']">
+                        </bac-select>
                         <div class="space-2"></div>
-                        <select class="input-medium ca-select">
-                            <option value="1">Jan</option>
-                            <option value="2">Feb</option>
-                            <option value="3">Mar</option>
-                            <option value="4">Apr</option>
-                            <option value="5">May</option>
-                            <option value="6">Jun</option>
-                            <option value="7">Jul</option>
-                            <option value="8">Aug</option>
-                            <option value="9">Sep</option>
-                            <option value="10">Oct</option>
-                            <option value="11">Nov</option>
-                            <option value="12">Dec</option>
-                        </select>
+                        <bac-select class="input-medium ca-select"
+                                    v-model="searchData['month']" :data="monthSelectData"
+                                    is-qry-src-before="Y" value-field="value" text-field="display"
+                                    @update:v-model="val => searchData['month'] = val"
+                                    :default-val="searchData['month']">
+                        </bac-select>
                     </div>
                     <div class="caIcon">
                         <span class="ca-headerIcon">
@@ -41,269 +30,22 @@
                     </div>
                     <div class="clearfix"></div>
                 </th>
-
-                <th class="dateColor">14</th>
-                <th class="dateColor">15</th>
-                <th class="dateColor">16</th>
-                <th class="dateColor">17</th>
-                <th class="dateColor">18</th>
-
-                <th class="dateColor">19</th>
-                <th class="dateColor">20</th>
-                <th class="dateColor">21</th>
-                <th class="dateColor">22</th>
-                <th class="dateColor">23</th>
-
-                <th class="dateColor">24</th>
-                <th class="dateColor">25</th>
-                <th class="dateColor">26</th>
-                <th class="dateColor">27</th>
-                <th class="dateColor">28</th>
-
-                <th class="dateColor">01</th>
-                <th class="dateColor">02</th>
-                <th class="dateColor">03</th>
-                <th class="dateColor">04</th>
-                <th class="dateColor">05</th>
-
-                <th class="dateColor">06</th>
-                <th class="dateColor">07</th>
-                <th class="dateColor">08</th>
-                <th class="dateColor">09</th>
-                <th class="dateColor">10</th>
-
-                <th class="dateColor">11</th>
-                <th class="dateColor">12</th>
-                <th class="dateColor">13</th>
-                <th class="dateColor">14</th>
-                <th class="dateColor">15</th>
-
-                <th class="dateColor">16</th>
-                <th class="dateColor">17</th>
-                <th class="dateColor">18</th>
-                <th class="dateColor">19</th>
-                <th class="dateColor">20</th>
-
-                <th class="dateColor">21</th>
-                <th class="dateColor">22</th>
-                <th class="dateColor">23</th>
-                <th class="dateColor">24</th>
-                <th class="dateColor">25</th>
-
-                <th class="dateColor">26</th>
-                <th class="dateColor">27</th>
-
+                <!--日期-->
+                <th class="dateColor" v-for="field in dateFieldData">{{field}}</th>
             </tr>
             <tr>
-
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th class="holiday-color">Sat</th>
-
-                <th class="holiday-color">Sun</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-
-                <th>Fri</th>
-                <th class="holiday-color">Sat</th>
-                <th class="holiday-color">Sun</th>
-                <th >Mon</th>
-                <th >Tue</th>
-
-                <th >Wed</th>
-                <th >Thu</th>
-                <th >Fri</th>
-                <th class="holiday-color">Sat</th>
-                <th class="holiday-color">Sun</th>
-
-                <th >Mon</th>
-                <th >Tue</th>
-                <th >Wed</th>
-                <th >Thu</th>
-                <th >Fri</th>
-
-                <th class="holiday-color">Sat</th>
-                <th class="holiday-color">Sun</th>
-                <th >Mon</th>
-                <th >Tue</th>
-                <th >Wed</th>
-
-                <th >Thu</th>
-                <th >Fri</th>
-                <th class="holiday-color">Sat</th>
-                <th class="holiday-color">Sun</th>
-                <th >Mon</th>
-
-                <th >Tue</th>
-                <th >Wed</th>
-                <th >Thu</th>
-                <th >Fri</th>
-                <th class="holiday-color">Sat</th>
-
-                <th class="holiday-color">Sun</th>
-                <th >Mon</th>
-
-                </tr>
+                <!--星期-->
+                <th v-for="field in dayFieldData" :class="{'holiday-color': field == 'Sat' || field == 'Sun'}">{{field}}</th>
+            </tr>
             </thead>
             <tbody>
-            <!--hidden first tr 解決第一列無法合併儲存格-->
-            <!--lite版隱藏-->
-            <!--<tr class="hidden-firstTr">-->
-                <!--<td class="middle td-first hidden-firstTd"></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
 
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-            <!--</tr>-->
-            <!--<tr style="display: none; overflow: hidden;">-->
-                <!--<td class="middle td-first orangeTag" style="display: none; overflow: hidden;">2016台北資訊展</td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class="numeric orangeTag" colspan="3">-->
-                    <!--2016台北資訊展-->
-                <!--</td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-                <!--<td class=""></td>-->
-            <!--</tr>-->
-            <!--<tr style="display: none; overflow: hidden;">-->
-                <!--<td class="middle td-first greenTag" style="display: none; overflow: hidden;">冬季旅展大登場</td>-->
-
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric greenTag" colspan="4">-->
-                    <!--冬季旅展大登場-->
-                <!--</td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-                <!--<td class="numeric"></td>-->
-            <!--</tr>-->
-
-
+            <!--<template v-for="(roomTyp,idx) in roomTypData">-->
+                <!--<template v-for="(room,roomKey,roomIdx) in roomTyp">-->
+                    <!--<tr v-if="(roomIdx+1)%5 == 0" :data-tt-id="roomIdx+1"></tr>-->
+                    <!--<tr v-else :data-tt-id="roomIdx+1" :data-tt-parent-id="idx+1"></tr>-->
+                <!--</template>-->
+            <!--</template>-->
             <tr data-tt-id="1">
                 <td class="middle td-first">STD <span class="roomNumTip">10</span></td>
                 <td class="numeric">14</td>
