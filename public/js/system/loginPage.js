@@ -78,7 +78,7 @@ var loginVM = new Vue({
         //參數控制取預設帳號
         getDefaultAccount: function () {
             var self = this;
-            if(!_.isUndefined(self.sysConfig.sysParameter.isDefaultUserID) && self.sysConfig.sysParameter.isDefaultUserID === "Y"){
+            if(!_.isUndefined(self.sysConfig.isDefaultUserID) && self.sysConfig.isDefaultUserID === "Y"){
                 $.get(self.sysConfig.api_url + "/?getip=''", function (ip) {
                     $.post("/api/getDefaultAccount", {ip: ip}, function (result) {
                         self.username = result.account;
