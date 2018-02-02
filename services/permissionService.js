@@ -35,9 +35,9 @@ exports.saveAuthByRole = function (postData, session, callback) {
             ln_exec_seq++;
         });
 
-        console.log(saveExecData);
-        callback(err, "");
-        // dbSvc.execSQL("SYS0110010", saveExecData, session, callback);
+        // console.log(saveExecData);
+        // callback(err, "");
+        dbSvc.execSQL("SYS0110010", saveExecData, session, callback);
     });
 };
 
@@ -284,8 +284,13 @@ exports.saveAuthByFunc = function (postData, session, callback) {
 
     async.waterfall([
         function (cb) {
-            qryFuncList(session.user, function (err, la_funcList) {
-                cb(err, la_funcList);
+            let lo_params = {
+                athena_id: lo_userInfo.athena_id,
+                comp_cod: lo_userInfo.cmp_id,
+                hotel_cod: lo_userInfo.fun_hotel_cod
+            };
+            queryAgent.queryList("QRY_BAC_PROCESSMENU", lo_params, 0, 0, function (err, result) {
+                cb(err, result);
             });
         },
         function (la_funcList, cb) {

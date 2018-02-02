@@ -46,7 +46,9 @@
             },
             ga_funcsOfRole: {
                 get() {
-                    this.checkedTreeNodeByFuncsOfRole();
+                    if (this.treeIns != null) {
+                        this.checkedTreeNodeByFuncsOfRole();
+                    }
                     return this.$store.state.ga_funcsOfRole;
                 }
             }
@@ -94,6 +96,7 @@
                 if (this.$store.state.gs_permissionModel == "authByFunc") {
                     la_plugins.splice(4, 1);
                 }
+
                 $('#permissionFuncTree').jstree({
                     "core": {
                         "animation": 0,
@@ -139,8 +142,6 @@
                         self.checkedRoleByCurrentID(lo_funcSelected);
                     })
                 }
-
-
                 cb(null, "");
             },
 
@@ -155,12 +156,13 @@
                 this.isLoading = true;
                 this.treeIns.uncheck_all();
                 setTimeout(function () {
+                    let ls_node_id = "";
+                    let ls_node = null;
                     _.each(la_funcsOfRole, function (func) {
-                        if (func.current_id.length <= 4) {
-                            self.treeIns.check_node("#" + func.pre_id + "_" + func.current_id);
-                        }
-                        else {
-                            self.treeIns.check_node("#" + func.current_id);
+                        ls_node_id = func.current_id.length <= 4 ? func.pre_id + "_" + func.current_id : func.current_id;
+                        ls_node = self.treeIns.get_node(ls_node_id);
+                        if (ls_node != null && !_.isUndefined(ls_node.children) && ls_node.children.length == 0) {
+                            self.treeIns.check_node("#" + ls_node_id);
                         }
                     });
 

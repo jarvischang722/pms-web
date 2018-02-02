@@ -209,7 +209,9 @@
                 this.isInitChecked = true;
                 setTimeout(function () {
                     _.each(la_staffOfRole, function (account) {
-                        self.treeIns.check_node("#" + account.user_id);
+                        if(self.treeIns.get_node(account.user_id).children.length == 0){
+                            self.treeIns.check_node("#" + account.user_id);
+                        }
                     });
                     self.isLoading = false;
                     self.isInitChecked = false;
