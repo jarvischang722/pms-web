@@ -24,15 +24,7 @@ exports.loginPage = function (req, res) {
         res.redirect("/systemOption");
         return;
     }
-    let ls_account = "";
-    let clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
 
-    console.log("headers = " + JSON.stringify(req.headers));// 包含了各种header，包括x-forwarded-for(如果被代理过的话)
-    console.log("x-forwarded-for = " + req.header('x-forwarded-for'));// 各阶段ip的CSV, 最左侧的是原始ip
-    console.log("ips = " + JSON.stringify(req.ips));// 相当于(req.header('x-forwarded-for') || '').split(',')
-    console.log("remoteAddress = " + req.connection.remoteAddress);// 未发生代理时，请求的ip
-    console.log("ip = " + req.ip);// 同req.connection.remoteAddress, 但是格式要好一些
 
     try {
         async.waterfall([
@@ -74,37 +66,44 @@ exports.loginPage = function (req, res) {
                 ];
                 res.cookie('sys_locales', localeInfo, options);
                 callback(null, 'done');
-            },
-            //判斷IP網段是否有對應的username
-            function (data, callback) {
-                fs.exists("configs/IPsUsersRef.json", function (isExist) {
-                    if (isExist) {
-                        let IPsUsersRef = require("../configs/IPsUsersRef.json");
-
-                        _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
-                            if (ipSubnet.toString().indexOf("/") > -1) {
-                                if (ip.cidrSubnet(ipSubnet).contains(clientIP)) {
-                                    ls_account = user.toString();
-                                }
-                            } else {
-                                if (_.isEqual(ipSubnet, clientIP)) {
-                                    ls_account = user.toString();
-                                }
-                            }
-                        });
-                    }
-                    callback(null, 'done');
-                });
             }
         ], function (err) {
-            res.render('user/loginPage', {account: ls_account});
+            res.render('user/loginPage');
         });
 
     }
     catch (ex) {
         console.error(ex);
-        res.render('user/loginPage', {account: ls_account});
+        res.render('user/loginPage');
     }
+};
+
+exports.getDefaultAccount = function (req, res) {
+    let ls_account = "";
+    let clientIP = req.body.ip;
+
+    clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
+
+    //判斷IP網段是否有對應的username
+    fs.exists("configs/IPsUsersRef.json", function (isExist) {
+        if (isExist) {
+            let IPsUsersRef = require("../configs/IPsUsersRef.json");
+
+            _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
+                if (ipSubnet.toString().indexOf("/") > -1) {
+                    if (ip.cidrSubnet(ipSubnet).contains(clientIP)) {
+                        ls_account = user.toString();
+                    }
+                } else {
+                    if (_.isEqual(ipSubnet, clientIP)) {
+                        ls_account = user.toString();
+                    }
+                }
+            });
+        }
+        res.json({account: ls_account});
+    });
+
 };
 
 /**
