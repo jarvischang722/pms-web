@@ -10,7 +10,7 @@
                                     <!--checkbox-->
                                     <div v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'" style="margin-left: 87px;">
                                         <input style="margin-top: 5px;"
-                                               v-model="rowData[field.ui_field_name]" type="checkbox"
+                                               v-model="singleData[field.ui_field_name]" type="checkbox"
                                                :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
                                                :disabled="field.modificable == 'N'||
                                                 (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus) "
@@ -64,8 +64,7 @@
                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                            :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                            :disabled="field.modificable == 'N'||
-                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                           @keyup="formatAmt(singleData[field.ui_field_name], field)">
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
                                     <!-- 日期時間選擇器 -->
                                     <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
@@ -102,10 +101,10 @@
                                                             <!--checkbox-->
                                                             <div v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'" style="margin-left: 87px;">
                                                                 <input style="margin-top: 5px;"
-                                                                       v-model="rowData[field.ui_field_name]" type="checkbox"
+                                                                       v-model="singleData[field.ui_field_name]" type="checkbox"
                                                                        :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
                                                                        :disabled="field.modificable == 'N'||(field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus) "
-                                                                       @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                                       @change="chkDmFlag">
                                                                 <label style="width:auto" v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
                                                                     <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                                     <span>{{ field.ui_display_name }}</span>
@@ -134,7 +133,7 @@
                                                                    :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                                                    :disabled="field.modificable == 'N'||
                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                                   @keyup="formatAmt(singleData[field.ui_field_name], field)">
+                                                                   @keyup="computeAmt(singleData[field.ui_field_name], field)">
 
                                                             <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
                                                                              :style="{width:field.width + 'px' , height:field.height + 'px'}"
@@ -206,6 +205,7 @@
         data() {
             return {
                 i18nLang: go_i18nLang,
+                userInfo: {},
                 isLoading: false,
                 isCreateStatus: false,
                 isEditStatus: false,
@@ -217,15 +217,52 @@
                 oriPageTwoFieldsData: []
             };
         },
+        mounted(){
+            this.fetchUserInfo();
+        },
         watch: {
             isRelatedSetting(val) {
                 if (val) {
                     this.initData();
                     this.fetchFieldData();
                 }
+            },
+            singleData: {
+                handler: function (val, oldVal) {
+                    if(! _.isEmpty(val)){
+                        if(this.$store.state.gb_isCreateStatus){
+                            val.ins_dat = moment(new Date(val.ins_dat)).format("YYYY/MM/DD HH:mm:ss")
+                            val.ins_usr = this.userInfo.usr_id
+                        }
+                        else{
+                            val.ins_dat = _.isUndefined(val.ins_dat)?null:val.ins_dat;
+                        }
+
+                        this.$eventHub.$emit('getRelatedSettingData', {
+                            relatedSettingSingleData: val,
+                            relatedSettingOriSingleData: this.oriSingleData
+                        });
+                        //將相關設定資料放至Vuex
+                        this.$store.dispatch("setRsSingleData", {
+                            go_rsSingleData: val,
+                            go_rsOriSingleData: this.oriSingleData
+                        });
+
+                        console.log(val, this.oriSingleData)
+                    }
+                },
+                deep: true
             }
         },
         methods: {
+            fetchUserInfo() {
+                var self = this;
+                $.post('/api/getUserInfo', function (result) {
+                    if (result.success) {
+                        self.userInfo = result.userInfo;
+                    }
+                });
+            },
             initData() {
                 this.isCreateStatus = this.$store.state.gb_isCreateStatus;
                 this.isEditStatus = this.$store.state.gb_isEditStatus;
@@ -250,30 +287,40 @@
             },
             fetchRowData() {
                 var self = this;
-                if (this.isCreateStatus) {
-                    this.singleData = {
-                        hoffice_cod: self.$store.state.gs_custCod,
-                        dm_flag: 'Y',
-                        cust_idx_ar_amt: 0,
-                        business_cod: '01  ',
-                        type_cod: '01  '
-                    };
-                    this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
+                //第一次載入相關設定
+                if(_.isEmpty(this.$store.state.go_allData.go_rsSingleData)){
+                    if (this.isCreateStatus) {
+                        this.singleData = {
+                            hoffice_cod: self.$store.state.gs_custCod,
+                            dm_flag: 'Y',
+                            cust_idx_ar_amt: 0,
+                            business_cod: '01  ',
+                            type_cod: '01  '
+                        };
+                        this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
+                        this.isLoading = false;
+                    }
+                    else if (this.isEditStatus) {
+                        var self = this;
+                        $.post("/api/fetchSinglePageFieldData", {
+                            prg_id: "PMS0610020",
+                            page_id: 1,
+                            tab_page_id: 1,
+                            template_id: "gridsingledt",
+                            searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
+                        }).then(result => {
+                            this.singleData = result.gsMnData.rowData[0];
+                            this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                            this.isLoading = false;
+                        });
+                    }
+                }
+                else{
+                    this.singleData = this.$store.state.go_allData.go_rsSingleData;
+                    this.oriSingleData = this.$store.state.go_allOriData.go_rsSingleData;
                     this.isLoading = false;
                 }
-                else if (this.isEditStatus) {
-                    $.post("/api/fetchSinglePageFieldData", {
-                        prg_id: "PMS0610020",
-                        page_id: 1,
-                        tab_page_id: 1,
-                        template_id: "gridsingledt",
-                        searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
-                    }).then(result => {
-                        this.singleData = result.gsMnData.rowData[0];
-                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.isLoading = false;
-                    });
-                }
+
 
             },
             chkFieldRule(ui_field_name, rule_func_name) {
@@ -341,17 +388,31 @@
                     });
                 }
             },
-            formatAmt(val, field) {
-                var ls_amtValue = val;
+            //可簽帳時，目前簽帳金額可改變
+            chkDmFlag(item) {
+                if(item.target.checked){
+                    this.pageTwoFieldsData[3][0].modificable = 'Y';
+                }
+                else{
+                    this.pageTwoFieldsData[3][0].modificable = 'N';
+                }
+            },
+            computeAmt(val, field) {
                 var ls_ruleVal = field.format_func_name.rule_val;
-                ls_ruleVal = "###,###,##0";
 
-                if (ls_ruleVal != "") {
-                    this.singleData[field.ui_field_name] = go_formatDisplayClass.amtFormat(ls_amtValue, ls_ruleVal);
-                }
-                else {
-                    this.singleData[field.ui_field_name] = ls_amtValue;
-                }
+                var ln_creditAmt = _.isUndefined(this.singleData['cust_idx_credit_amt']) ?
+                        "":this.singleData['cust_idx_credit_amt'];
+                var ln_arAmt = _.isUndefined(this.singleData['cust_idx_ar_amt']) ?
+                    "": this.singleData['cust_idx_ar_amt'];
+                ln_creditAmt = ln_creditAmt.toString();
+                ln_arAmt = ln_arAmt.toString();
+
+                var ln_balance =
+                    Number(go_formatDisplayClass.removeAmtFormat(ln_creditAmt)) - Number(go_formatDisplayClass.removeAmtFormat(ln_arAmt));
+
+                this.singleData["cust_idx_credit_amt"] = go_formatDisplayClass.amtFormat(ln_creditAmt, ls_ruleVal);
+                this.singleData["cust_idx_ar_amt"] = go_formatDisplayClass.amtFormat(ln_arAmt, ls_ruleVal);
+                this.singleData['balance'] = go_formatDisplayClass.amtFormat(ln_balance, ls_ruleVal);
             },
             //信用額度變更
             async doChangeCreditLimit() {

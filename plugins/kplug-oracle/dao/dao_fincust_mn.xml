@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- PMS0820030 取得所有房間顏色設定資料 -->
+    <dao name="CHK_FIN_CUST_MN_IS_EXIST_">
+        <statement><![CDATA[
+            SELECT  COUNT(*) as fincust_mn_count
+            FROM  FINCUST_MN
+            WHERE  ATHENA_ID = :athena_id
+            AND  SHOW_COD = :show_cod
+            AND  CUST_COD <> :cust_cod
+            AND  ROWNUM <= 1
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">show_cod</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
+
+
+</root>

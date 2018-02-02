@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-loading="isLoading" element-loading-text="Loading...">
         <div class="col-xs-12 col-sm-12">
             <div class="row">
                 <!-- 多筆 拜訪紀錄 dataGrid -->
@@ -41,7 +41,8 @@
                 <!--單筆 拜訪紀錄-->
                 <visit-record
                         :row-data="editingRow"
-                        :params-data="paramsData"
+                        :page-one-data-grid-rows="dataGridRowsData"
+                        :is-single-visit-record="isSingleVisitRecord"
                         :is-create-status="isCreateStatus"
                         :is-edit-status="isEditStatus"
                 ></visit-record>
@@ -73,12 +74,22 @@
         name: 'company-visit-record',
         props: ["rowData", "isVisitRecord"],
         components: {visitRecord},
+        created() {
+            var self = this;
+            this.$eventHub.$on("getVisitRecordSingleData", function (visitRecordSingleData) {
+                self.visitRecordSingleFieldsData = visitRecordSingleData.fieldsData;
+                self.visitRecordSingleData = visitRecordSingleData.singleData;
+                self.visitRecordOriSingleData = visitRecordSingleData.oriSingleData;
+            });
+        },
         data() {
             return {
                 i18nLang: go_i18nLang,
+                isLoading: false,
                 BTN_action: false,
                 isCreateStatus: false,
                 isEditStatus: false,
+                isSingleVisitRecord: false,
                 tmpCUD: {
                     createData: [],
                     updateData: [],
@@ -91,15 +102,30 @@
                 oriFieldsData: [],
                 dgIns: {},
                 editingRow: {},
-                paramsData: {}
+                visitRecordSingleFieldsData: [],
+                visitRecordSingleData: {},
+                visitRecordOriSingleData: {}
             };
         },
         watch: {
             isVisitRecord(val) {
                 if (val) {
                     this.initData();
-                    this.fetchFieldData(this.rowData);
+                    this.fetchFieldData();
                 }
+            },
+            dataGridRowsData: {
+                handler: function (val) {
+                    if (!_.isEmpty(val)) {
+                        this.$store.dispatch("setVrDataGridRowsData", {
+                            ga_vrDataGridRowsData: val,
+                            ga_vrOriDataGridRowsData: this.oriDataGridRowsData,
+                            go_vrTmpCUD: this.tmpCUD
+                        });
+                    }
+                    //將業務備註資料放至Vuex
+                },
+                deep: true
             }
         },
         methods: {
@@ -112,6 +138,8 @@
                 }
             },
             initData() {
+                this.isCreateStatus = this.$store.state.gb_isCreateStatus;
+                this.isEditStatus = this.$store.state.gb_isEditStatus;
                 this.dataGridRowsData = [];
                 this.oriDataGridRowsData = [];
                 this.fieldsData = [];
@@ -119,92 +147,112 @@
                 this.dgIns = {};
                 this.editingRow = {};
             },
-            fetchFieldData(rowData) {
-                var self = this;
+            fetchFieldData() {
+                this.isLoading = true;
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0610020",
+                    tab_page_id: 5,
+                    searchCond: {cust_cod: this.$store.state.gs_custCod}
+                }).then(result => {
+                    this.searchFields = result.searchFields;
+                    this.fieldsData = result.dgFieldsData;
 
-                self.fetchRowData(rowData);
-            },
-            fetchRowData(rowData) {
-                var self = this;
+                    if (_.isEmpty(this.$store.state.go_allData.ga_vrDataGridRowsData)) {
+                        this.dataGridRowsData = result.dgRowData;
+                        this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                    }
+                    else {
+                        this.dataGridRowsData = this.$store.state.go_allData.ga_vrDataGridRowsData;
+                        this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_vrDataGridRowsData;
+                    }
 
-                this.showDataGrid();
-            },
-            showDataGrid() {
-//                this.dgIns = new DatagridSingleGridClass();
-//                this.dgIns.init("PMS0610020", "companyVisitRecord_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'companyVisitRecord_dg'), this.fieldsData);
-//                this.dgIns.loadDgData(this.dataGridRowsData);
-
-                $('#companyVisitRecord_dg').datagrid({
-                    singleSelect: true,
-                    collapsible: true,
-                    // 從json 撈
-                    url: '/jsonData/sales/bsCompany_visitRecord.json',
-                    method: 'get',
-                    columns: [[
-                        {field: 'visitWay', title: '拜訪方式', width: 70},
-                        {field: 'visitDate', title: '預定拜訪日', width: 100},
-                        {field: 'visitStatus', title: '拜訪狀態', width: 70},
-                        {field: 'subject', title: '主旨', width: 100},
-                        {field: 'contentSum', title: '內容(摘要)', width: 170},
-                        {field: 'realVisitDate', title: '實際拜訪日', width: 100},
-                        {field: 'traffic', title: '交通費', width: 70, align: 'right'}
-                    ]]
+                    this.showDataGrid();
                 });
             },
-            setParamsData() {
-                var self = this;
-
-                this.paramsData = {
-                    dgId: "companyVisitRecord_dg",
-                    pageOneDataGridRows: self.dataGridRowsData,
-                    gridSinglePrgId: "PMS0610020",
-                    gridSinglePageId: 3
-                };
+            showDataGrid() {
+                this.isLoading = false;
+                this.dgIns = new DatagridSingleGridClass();
+                this.dgIns.init("PMS0610020", "companyVisitRecord_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'companyVisitRecord_dg'), this.fieldsData);
+                this.dgIns.loadDgData(this.dataGridRowsData);
             },
             appendRow() {
-//                this.BTN_action = true;
-                this.initTmpCUD();
-                this.setParamsData();
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
                 this.editingRow = {
                     avisit_dat: "",
-                    cust_cod: ""
+                    cust_cod: "",
+                    visit_typ: '1',
+                    visit_sta: 'N',
+                    createIndex: this.tmpCUD.createData.length
                 };
 
                 this.showSingleGridDialog();
             },
             editRow() {
-                this.initTmpCUD();
-                this.setParamsData();
-//                this.BTN_action = true;
                 this.isCreateStatus = false;
                 this.isEditStatus = true;
+                this.editingRow = {};
 
                 var lo_editRow = $('#companyVisitRecord_dg').datagrid('getSelected');
+                var ln_editIndex = $('#companyVisitRecord_dg').datagrid('getRowIndex', lo_editRow);
+
+
+                //轉換原始資料時間格式
+                this.visitRecordOriSingleData["visit_dat"] =
+                    _.isNull(this.visitRecordOriSingleData["visit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["visit_dat"])).format("YYYY/MM/DD");
+                this.visitRecordOriSingleData["avisit_dat"] =
+                    _.isNull(this.visitRecordOriSingleData["avisit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
 
                 if (!lo_editRow) {
                     alert(go_i18nLang["SystemCommon"].SelectData);
                 }
                 else {
-                    this.editingRow = lo_editRow;
+                    this.editingRow = _.extend(lo_editRow, {index: ln_editIndex});
                     this.showSingleGridDialog();
                 }
             },
             removeRow() {
-                var lo_delRow = $('#companyVisitRecord_dg').datagrid("getSelected");
+                var lo_delRow = $('#companyVisitRecord_dg').datagrid('getSelected');
+                var ln_delIndex = $('#companyVisitRecord_dg').datagrid('getRowIndex', lo_delRow);
 
                 if (!lo_delRow) {
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
-                    console.log("delete this row");
-//                    this.dgIns.removeRow();
+                    //刪除新增的資料
+                    if (!_.isUndefined(this.dataGridRowsData[ln_delIndex].createIndex)) {
+                        var createIdx = this.dataGridRowsData[ln_delIndex].createIndex;
+                        this.tmpCUD.createData.splice(createIdx, 1)
+                    }
+                    else {
+                        //刪除編輯的資料
+                        if (!_.isUndefined(lo_delRow.index)) {
+                            var ln_editIndex = _.findIndex(this.tmpCUD.updateData, {index: lo_delRow.index})
+                            this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                            this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                        }
+
+                        //轉換日期格式
+                        this.oriDataGridRowsData[ln_delIndex]["visit_dat"] =
+                            _.isNull(this.oriDataGridRowsData[ln_delIndex]["visit_dat"]) ? "" : moment(new Date(this.oriDataGridRowsData[ln_delIndex]["visit_dat"])).format("YYYY/MM/DD");
+                        this.oriDataGridRowsData[ln_delIndex]["avisit_dat"] =
+                            _.isNull(this.oriDataGridRowsData[ln_delIndex]["avisit_dat"]) ? "" : moment(new Date(this.oriDataGridRowsData[ln_delIndex]["avisit_dat"])).format("YYYY/MM/DD");
+                        this.dataGridRowsData[ln_delIndex]["visit_dat"] =
+                            _.isNull(this.dataGridRowsData[ln_delIndex]["visit_dat"]) ? "" : moment(new Date(this.dataGridRowsData[ln_delIndex]["visit_dat"])).format("YYYY/MM/DD");
+                        this.dataGridRowsData[ln_delIndex]["avisit_dat"] =
+                            _.isNull(this.oriDataGridRowsData[ln_delIndex]["avisit_dat"]) ? "" : moment(new Date(this.dataGridRowsData[ln_delIndex]["avisit_dat"])).format("YYYY/MM/DD");
+
+                        this.tmpCUD.oriData.push(this.oriDataGridRowsData[ln_delIndex]);
+                        this.tmpCUD.deleteData.push(this.dataGridRowsData[ln_delIndex]);
+                    }
+                    this.dgIns.removeRow();
+                    console.log(this.tmpCUD);
                 }
             },
             showSingleGridDialog() {
                 var self = this;
                 this.BTN_action = false;
+                this.isSingleVisitRecord = true;
 
                 var dialog = $("#visitRecord").removeClass('hide').dialog({
                     modal: true,
@@ -213,13 +261,74 @@
                     width: 800,
                     maxwidth: 1920,
                     dialogClass: "test",
-                    zIndex: 9999,
                     resizable: true,
                     onBeforeClose: function () {
-                        self.editRows = [];
-                        self.fetchDataParams = {};
+                        self.setNewDataGridRowsData();
+                        self.editingRow = {};
+                        self.isSingleVisitRecord = false;
                     }
                 });
+            },
+            dataValidate() {
+                var self = this;
+                var lo_checkResult;
+
+                for (var i = 0; i < this.visitRecordSingleFieldsData.length; i++) {
+                    var lo_field = this.visitRecordSingleFieldsData[i];
+                    //必填
+                    if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
+                        lo_checkResult = go_validateClass.required(self.visitRecordSingleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        if (lo_checkResult.success == false) {
+                            break;
+                        }
+                    }
+
+                }
+
+                return lo_checkResult
+            },
+            setNewDataGridRowsData() {
+                var lo_chkResult = this.dataValidate();
+                if (lo_chkResult.success == false) {
+                    alert(lo_chkResult.msg);
+                }
+                else {
+                    this.visitRecordSingleData = _.extend(this.visitRecordSingleData, {
+                        tab_page_id: 5,
+                        event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+                        cust_cod: this.$store.state.gs_custCod
+                    });
+                    //轉換資料時間格式
+                    this.visitRecordSingleData["visit_dat"] =
+                        _.isNull(this.visitRecordSingleData["visit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["visit_dat"])).format("YYYY/MM/DD");
+                    this.visitRecordSingleData["avisit_dat"] =
+                        _.isNull(this.visitRecordSingleData["avisit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
+                    //轉換原始資料時間格式
+                    this.visitRecordOriSingleData["visit_dat"] =
+                        _.isNull(this.visitRecordOriSingleData["visit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["visit_dat"])).format("YYYY/MM/DD");
+                    this.visitRecordOriSingleData["avisit_dat"] =
+                        _.isNull(this.visitRecordOriSingleData["avisit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
+
+
+                    var ln_editIdx = _.isUndefined(this.visitRecordSingleData.index) ? -1 : this.visitRecordSingleData.index;
+                    if (ln_editIdx > -1) {
+                        if (!_.isUndefined(this.visitRecordSingleData.createIndex)) {
+                            var createIndex = this.visitRecordSingleData.createIndex;
+                            this.tmpCUD.createData[createIndex] = this.visitRecordSingleData;
+                        }
+                        else {
+                            this.tmpCUD.updateData.push(this.visitRecordSingleData);
+                            this.tmpCUD.oriData.push(this.visitRecordOriSingleData);
+                        }
+
+                        this.dataGridRowsData[ln_editIdx] = this.visitRecordSingleData;
+                    }
+                    else {
+                        this.tmpCUD.createData.push(this.visitRecordSingleData);
+                        this.dataGridRowsData.push(this.visitRecordSingleData);
+                    }
+                    this.showDataGrid();
+                }
             }
         }
     }
