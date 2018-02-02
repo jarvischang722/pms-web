@@ -1200,3 +1200,24 @@
     "rule_func_name" : "r_pms0820050_dt_add", 
     "page_id" : NumberInt(2)
 }
+{ 
+    "_id" : ObjectId("5a6b0cb3c9e9af44f4c70e2c"), 
+    "prg_id" : "PMS0820040", 
+    "page_id" : NumberInt(1), 
+    "func_id" : "0200", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5a6b0cb3c9e9af44f4c70e2d"), 
+    "prg_id" : "PMS0820040", 
+    "page_id" : NumberInt(1), 
+    "func_id" : "0300", 
+    "rule_func_name" : "chk_ghist_airline_rf_del"
+}
+{ 
+    "_id" : ObjectId("5a6b0cb3c9e9af44f4c70e2e"), 
+    "prg_id" : "PMS0820040", 
+    "page_id" : NumberInt(1), 
+    "func_id" : "0400", 
+    "rule_func_name" : ""
+}
