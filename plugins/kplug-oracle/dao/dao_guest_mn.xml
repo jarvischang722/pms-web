@@ -12,6 +12,18 @@
         <parameter type="string" kind="1">guest_typ</parameter>
     </dao>
 
+    <!-- ['PMS0820040'] 檢查住客歷史有無用到-->
+    <dao name="GET_GUEST_MN.AIRLINE_COD_COUNT">
+        <statement><![CDATA[
+            select count(*) as guest_count
+             from guest_mn
+             where athena_id = ? and trim(airline_cod) = :airline_cod and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="3">airline_cod</parameter>
+    </dao>
+
     <!--[PMS0610020 商務公司資料編輯] 合約內容
         合約指定的房價代號未有相關訂房卡指定則可刪除合約-->
     <dao name="CHK_RATE_COD_IS_EXIST_IN_GUEST_MN">
