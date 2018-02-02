@@ -8,5 +8,7 @@ module.exports = {
     api_url: "http://192.168.60.74:8080/bacchus/GatewaySvc",
     upload_url: "/var/www/images/bacchus/",    //上傳圖片路徑
     image_url: "http://wrs.linktravel.tw/images/bacchus/", //讀取圖片路徑
-
+    sysParameter: {
+        isDefaultUserID: "Y"                                    //是否使用預設帳號
+    }
 };

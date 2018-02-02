@@ -11,8 +11,7 @@ const langSvc = require("../services/LangService");
 const fs = require("fs");
 const ip = require("ip");
 const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
-const go_sysConfig = require('../configs/systemConfig');
-
+var go_sysConf = require("../configs/systemConfig");
 /**
  * 登入頁面
  */
@@ -56,7 +55,7 @@ exports.loginPage = function (req, res) {
             function (data, callback) {
                 //TODO 判別每間公司館別可以用的語系，
                 let options = {
-                    maxAge: go_sysConfig.sessionExpiredMS || 1000 * 60 * 60 * 3 // would expire after 15 minutes
+                    maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3 // would expire after 15 minutes
                     //httpOnly: true, // The cookie only accessible by the web server
                     //signed: true // Indicates if the cookie should be signed
                 };
@@ -79,6 +78,16 @@ exports.loginPage = function (req, res) {
     }
 };
 
+/**
+ * 取系統參數
+ */
+exports.getsysConfig = function (req, res) {
+    res.json({sysConf: go_sysConf});
+};
+
+/**
+ * 取預設帳號
+ */
 exports.getDefaultAccount = function (req, res) {
     let ls_account = "";
     let clientIP = req.body.ip;
