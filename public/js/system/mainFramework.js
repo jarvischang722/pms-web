@@ -305,6 +305,7 @@ var BacchusMainVM = new Vue({
                     if (result.success) {
                         alert('Edit success!');
                         self.openEditPasswordDialog = false;
+                        self.doLogout();
                     }
                     else {
                         alert(result.errorMsg);
