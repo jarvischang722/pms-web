@@ -987,7 +987,7 @@ table.treetable tr.expanded span.indenter a {
   cursor: pointer;
 }
 .themeTable thead th.holiday-color, .themeTable .holiday-color.numeric {
-  background: #FECAE4;
+  background: #FECAE4 !important;
 }
 .themeTable thead th.dateColor, .themeTable .dateColor.numeric {
   background: #DAEAFC;
