@@ -40,2249 +40,435 @@
             </thead>
             <tbody>
 
-            <!--<template v-for="(roomTyp,idx) in roomTypData">-->
-                <!--<template v-for="(room,roomKey,roomIdx) in roomTyp">-->
-                    <!--<tr v-if="(roomIdx+1)%5 == 0" :data-tt-id="roomIdx+1"></tr>-->
-                    <!--<tr v-else :data-tt-id="roomIdx+1" :data-tt-parent-id="idx+1"></tr>-->
-                <!--</template>-->
-            <!--</template>-->
-            <tr data-tt-id="1">
-                <td class="middle td-first">STD <span class="roomNumTip">10</span></td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
+            <template v-for="(field,fieldIdx) in roomFieldData">
+                <template v-for="(roomTyp, roomIdx) in roomTypData[field]">
+                    <tr :data-tt-id="5*roomTyp.idx + 1">
+                        <td class="middle td-first">{{field}} <span class="roomNumTip">{{roomTyp.room_qnt}}</span></td>
+                        <template v-for="emptyRm in roomTyp.emptyRm">
+                            <td class="numeric" v-if="emptyRm == ''"> </td>
+                            <td class="numeric" v-else> {{ emptyRm }}</td>
+                        </template>
+                    </tr>
+                    <tr :data-tt-id="5*roomTyp.idx + 2" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
+                        <td class="middle td-first subTree-title">用房數</td>
+                        <template v-for="useRm in roomTyp.useRm">
+                            <td class="numeric" v-if="useRm == ''"> </td>
+                            <td class="numeric" v-else> {{ useRm }}</td>
+                        </template>
+                    </tr>
+                    <tr :data-tt-id="5*roomTyp.idx + 3" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
+                        <td class="middle td-first subTree-title">非鎖控剩餘數</td>
+                        <template v-for="notWrsRm in roomTyp.notWrsRm">
+                            <td class="numeric" v-if="notWrsRm == ''"> </td>
+                            <td class="numeric" v-else> {{ notWrsRm }}</td>
+                        </template>
+                    </tr>
+                    <tr :data-tt-id="5*roomTyp.idx + 4" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
+                        <td class="middle td-first subTree-title">鎖控剩餘數</td>
+                        <template v-for="wrsRm in roomTyp.wrsRm">
+                            <td class="numeric" v-if="wrsRm == ''"> </td>
+                            <td class="numeric" v-else> {{ wrsRm }}</td>
+                        </template>
+                    </tr>
+                    <tr :data-tt-id="5*roomTyp.idx + 5" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
+                        <td class="middle td-first subTree-title">庫存可超訂的剩餘數</td>
+                        <template v-for="overBooking in roomTyp.overBooking">
+                            <td class="numeric" v-if="overBooking == ''"> </td>
+                            <td class="numeric" v-else> {{ overBooking }}</td>
+                        </template>
+                    </tr>
+                </template>
+            </template>
 
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="2" data-tt-parent-id="1" class="subTree-s">
-                <td class="middle td-first subTree-title">用房數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="3" data-tt-parent-id="1" class="subTree-s">
-                <td class="middle td-first subTree-title">非WRS鎖控剩餘數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="4" data-tt-parent-id="1" class="subTree-s">
-                <td class="middle td-first subTree-title">WRS鎖控剩餘數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="5" data-tt-parent-id="1" class="subTree-s">
-                <td class="middle td-first subTree-title">庫存可超訂的剩餘數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-
-            <tr data-tt-id="6">
-                <td class="middle td-first">DXK <span class="roomNumTip">10</span></td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="7" data-tt-parent-id="6" class="subTree-s">
-                <td class="middle td-first subTree-title">用房數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="8" data-tt-parent-id="6" class="subTree-s">
-                <td class="middle td-first subTree-title">非WRS鎖控剩餘數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="9" data-tt-parent-id="6" class="subTree-s">
-                <td class="middle td-first subTree-title">WRS鎖控剩餘數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="10" data-tt-parent-id="6" class="subTree-s">
-                <td class="middle td-first subTree-title">庫存可超訂剩餘數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-
-            <tr data-tt-id="11">
-                <td class="middle td-first">DXK <span class="roomNumTip">10</span></td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="12" data-tt-parent-id="11" class="subTree-s">
-                <td class="middle td-first subTree-title">用房數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="13" data-tt-parent-id="11" class="subTree-s">
-                <td class="middle td-first subTree-title">非WRS鎖控剩餘數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="14" data-tt-parent-id="11" class="subTree-s">
-                <td class="middle td-first subTree-title">WRS鎖控剩餘數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="15" data-tt-parent-id="11" class="subTree-s">
-                <td class="middle td-first subTree-title">庫存可超訂剩餘數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-
-            <tr data-tt-id="16">
-                <td class="middle td-first">DXK <span class="roomNumTip">10</span></td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="17" data-tt-parent-id="16" class="subTree-s">
-                <td class="middle td-first subTree-title">用房數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="18" data-tt-parent-id="16" class="subTree-s">
-                <td class="middle td-first subTree-title">非WRS鎖控剩餘數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="19" data-tt-parent-id="16" class="subTree-s">
-                <td class="middle td-first subTree-title">WRS鎖控剩餘數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr data-tt-id="20" data-tt-parent-id="16" class="subTree-s">
-                <td class="middle td-first subTree-title">庫存可超訂剩餘數
-                </td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric holiday-color">14</td>
-                <td class="numeric holiday-color">14</td>
-
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric holiday-color">
-                    13
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric holiday-color">13</td>
-                <td class="numeric">123</td>
-            </tr>
-
-            <!-- no-data 設定高 -->
             <tr>
                 <td class="middle td-first">Total available</td>
-                <td class="numeric">152</td>
-                <td class="numeric">173</td>
-                <td class="numeric">178</td>
-                <td class="numeric">196</td>
-                <td class="numeric">172</td>
-                <td class="numeric ">129</td>
-                <td class="numeric">116</td>
-                <td class="numeric">195</td>
-                <td class="numeric">164</td>
-                <td class="numeric">164</td>
-                <td class="numeric">180</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">14</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
+                <td class="numeric" v-for="number in totalAvailable.number">{{number}}</td>
             </tr>
-            <tr style="display: none;">
-                <td class="middle td-first" style="display: none;">Allocation</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric ">0</td>
-                <td class="numeric ">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
+            <tr >
+                <td class="middle td-first">occupancy</td>
+                <td class="numeric" v-for="number in occupancy.number">{{number}}</td>
             </tr>
-            <tr style="display: none;">
-                <td class="middle td-first" style="display: none;">Option</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric ">0</td>
-                <td class="numeric ">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
+            <tr >
+                <td class="middle td-first">phyOccupancy</td>
+                <td class="numeric" v-for="number in phyOccupancy.number">{{number}}</td>
             </tr>
-            <tr style="display: none;">
-                <td class="middle td-first" style="display: none;">Provisional</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric ">0</td>
-                <td class="numeric ">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
+            <tr >
+                <td class="middle td-first">phyAvailable</td>
+                <td class="numeric" v-for="number in phyAvailable.number">{{number}}</td>
             </tr>
-            <tr style="display: none;">
-                <td class="middle td-first" style="display: none;">Waiting list</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric ">0</td>
-                <td class="numeric ">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-            </tr>
-            <tr style="display: none;">
-                <td class="middle td-first" style="display: none;">Confirmed</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric ">0</td>
-                <td class="numeric ">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-            </tr>
-            <tr>
-                <td class="middle td-first ">Occupancy(perc.)</td>
-                <td class="numeric">
-                    36
-                </td>
-                <td class="numeric">
-                    25
-                </td>
-                <td class="numeric">
-                    15
-                </td>
-                <td class="numeric">
-                    12
-                </td>
-                <td class="numeric ">
-                    46
-                </td>
-                <td class="numeric ">
-                    57
-                </td>
-                <td class="numeric">
-                    65
-                </td>
-                <td class="numeric">
-                    72
-                </td>
-                <td class="numeric">
-                    26
-                </td>
-                <td class="numeric">
-                    50
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">
-                    14
-                </td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-                <td class="numeric">123</td>
-            </tr>
-            <tr>
-                <td class="middle td-first">Physically available</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric ">0</td>
-                <td class="numeric ">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-                <td class="numeric">0</td>
-            </tr>
+
+
+            <!--<tr style="display: none;">-->
+                <!--<td class="middle td-first" style="display: none;">Allocation</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric ">0</td>-->
+                <!--<td class="numeric ">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+            <!--</tr>-->
+            <!--<tr style="display: none;">-->
+                <!--<td class="middle td-first" style="display: none;">Option</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric ">0</td>-->
+                <!--<td class="numeric ">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+            <!--</tr>-->
+            <!--<tr style="display: none;">-->
+                <!--<td class="middle td-first" style="display: none;">Provisional</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric ">0</td>-->
+                <!--<td class="numeric ">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+            <!--</tr>-->
+            <!--<tr style="display: none;">-->
+                <!--<td class="middle td-first" style="display: none;">Waiting list</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric ">0</td>-->
+                <!--<td class="numeric ">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+            <!--</tr>-->
+            <!--<tr style="display: none;">-->
+                <!--<td class="middle td-first" style="display: none;">Confirmed</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric ">0</td>-->
+                <!--<td class="numeric ">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td class="middle td-first ">Occupancy(perc.)</td>-->
+                <!--<td class="numeric">-->
+                    <!--36-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--25-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--15-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--12-->
+                <!--</td>-->
+                <!--<td class="numeric ">-->
+                    <!--46-->
+                <!--</td>-->
+                <!--<td class="numeric ">-->
+                    <!--57-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--65-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--72-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--26-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--50-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">-->
+                    <!--14-->
+                <!--</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+                <!--<td class="numeric">123</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td class="middle td-first">Physically available</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric ">0</td>-->
+                <!--<td class="numeric ">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+                <!--<td class="numeric">0</td>-->
+            <!--</tr>-->
 
             </tbody>
         </table>

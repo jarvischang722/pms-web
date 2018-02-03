@@ -18,38 +18,41 @@
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
                                         role="button" data-rel="tooltip" data-placement="bottom" title="前7天">
-                                        <i class="fa fa-angle-left fa-lg"></i>
+                                    <i class="fa fa-angle-left fa-lg"></i>
                                 </button>
                                 <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
                                         role="button" data-rel="tooltip" data-placement="bottom" title="後7天">
-                                        <i class="fa fa-angle-right fa-lg"></i>
+                                    <i class="fa fa-angle-right fa-lg"></i>
                                 </button>
                                 <div class="clearfix"></div>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
                                         role="button" data-rel="tooltip" data-placement="bottom" title="前14天">
-                                        <i class="fa fa-angle-double-left fa-lg"></i>
+                                    <i class="fa fa-angle-double-left fa-lg"></i>
                                 </button>
                                 <button
                                         class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
                                         role="button" data-rel="tooltip" data-placement="bottom" title="後14天">
-                                        <i class="fa fa-angle-double-right fa-lg"></i>
+                                    <i class="fa fa-angle-double-right fa-lg"></i>
                                 </button>
                                 <div class="clearfix"></div>
                             </li>
                             <li>
                                 <!--@click="reservationDialog_1" -->
                                 <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                        role="button">Reservation</button>
+                                        role="button">Reservation
+                                </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">Print</button>
+                                        role="button">Print
+                                </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth saveAsBtn"
-                                        role="button">Save As</button>
+                                        role="button">Save As
+                                </button>
                             </li>
                             <!--PMS(lite) excample:"
                                 加：btn-gray disabled" "
@@ -57,11 +60,13 @@
                                 -->
                             <li>
                                 <button class="btn btn-gray btn-defaultWidth resv_ratePlanBtn"
-                                        role="button">Rate Plan</button>
+                                        role="button">Rate Plan
+                                </button>
                             </li>
                             <li>
                                 <button class="btn btn-skin btn-defaultWidth resv_amenitiesIny"
-                                        role="button">Amenities Iny.</button>
+                                        role="button">Amenities Iny.
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -70,18 +75,6 @@
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
     </div>
-
-    <template v-for="(roomTyp,roomTypKey,roomTypIdx) in roomTypData">
-        <span>{{roomTypKey}}</span>
-        <template v-for="(room,roomKey,roomIdx) in roomTyp">
-            <tr v-if="(roomIdx+1)%5 == 0" :data-tt-id="roomIdx+1">
-                <span>{{roomKey}}</span>
-            </tr>
-            <tr v-else :data-tt-id="roomIdx+1" :data-tt-parent-id="roomTypIdx+1">
-                <span>{{roomKey}}</span>
-            </tr>
-        </template>
-    </template>
 
     <!--  依房型訂房 彈出視窗內容-->
     <%- include PMS0100000_module/resvRoomTypeBtn_1 %>
@@ -116,93 +109,97 @@
                     <div class="search-content">
                         <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
                         <div class="search-co">
-                                <div class="search-co-h">
-                                    <i class="ace-icon fa fa-search search-icon"></i>
-                                    <span>Search</span>
-                                </div>
-                                <div class="row">
-                                    <div class="search-co-content col-xs-12 rece-search-detail">
-                                        <div class="row search-footer-btn">
-                                            <div class="footer-btn-menu-co">
-                                                <ul>
-                                                    <li>
-                                                        <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
-                                                            <div class="icon-reStyle icon-co-14"></div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
-                                                            <div class="icon-reStyle icon-co-11"></div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>  <!-- /.footer-btn-menu-co -->
-                                        </div> <!-- /.search-footer-btn -->
-                                        <div class="width-95">
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>查詢日期</label>
-                                                    <input type="date" class="input-medium popWindow-s1" placeholder="">
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>住宿天數</label>
-                                                    <input type="text" class="input-medium popWindow-s1" placeholder="">
-                                                </div>
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>Search</span>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12 rece-search-detail">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+                                    <div class="width-95">
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>查詢日期</label>
+                                                <input type="date" class="input-medium popWindow-s1" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>住宿天數</label>
+                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
+                                            </div>
 
-                                                <div class="searchCheckbox pull-left">
+                                            <div class="searchCheckbox pull-left">
                                                     <span class="checkbox">
                                                       <label class="checkbox-width">
-                                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                                          <input name="form-field-checkbox" type="checkbox" class="ace"
+                                                                 checked>
                                                           <span class="lbl">隱藏無空房數房價</span>
                                                       </label>
                                                     </span>
-                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>訂房公司</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2"
+                                                       placeholder="">
                                             </div>
 
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>訂房公司</label>
-                                                    <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
-                                                </div>
-
-                                                <div class="searchCheckbox pull-left">
+                                            <div class="searchCheckbox pull-left">
                                                     <span class="checkbox">
                                                       <label class="checkbox-width">
-                                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                                          <input name="form-field-checkbox" type="checkbox" class="ace"
+                                                                 checked>
                                                           <span class="lbl">keyword</span>
                                                       </label>
                                                     </span>
-                                                </div>
                                             </div>
+                                        </div>
 
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>房價代號</label>
-                                                    <input type="text" class="input-medium popWindow-s1" placeholder="">
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>房型</label>
-                                                    <select id="" class="input-medium popWindow-s1">
-                                                        <option value="1">STD</option>
-                                                        <option value="2">SUP</option>
-                                                        <option value="3">DXK</option>
-                                                        <option value="4">DXT</option>
-                                                    </select>
-                                                </div>
-                                                <div class="searchCheckbox pull-left">
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>房價代號</label>
+                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>房型</label>
+                                                <select id="" class="input-medium popWindow-s1">
+                                                    <option value="1">STD</option>
+                                                    <option value="2">SUP</option>
+                                                    <option value="3">DXK</option>
+                                                    <option value="4">DXT</option>
+                                                </select>
+                                            </div>
+                                            <div class="searchCheckbox pull-left">
                                                     <span class="checkbox">
                                                       <label class="checkbox-width">
-                                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                                          <input name="form-field-checkbox" type="checkbox" class="ace"
+                                                                 checked>
                                                           <span class="lbl">package</span>
                                                       </label>
                                                     </span>
-                                                </div>
                                             </div>
                                         </div>
-                                        <div class="clearfix"></div>
                                     </div>
-                                </div> <!-- row-->
-                            </div> <!-- /.search-co -->
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div> <!-- row-->
+                        </div> <!-- /.search-co -->
                     </div> <!-- /.row  search-content-->
                 </div>
             </div>
@@ -211,7 +208,8 @@
                 <div class="">
                     <div class="col-sm-11 col-xs-11">
                         <div class="row no-margin-right">
-                            <iframe src="../resv_ratePlanTable" style="width: 100%; min-height: 250px;" frameborder="0" scrolling="0"></iframe>
+                            <iframe src="../resv_ratePlanTable" style="width: 100%; min-height: 250px;" frameborder="0"
+                                    scrolling="0"></iframe>
                         </div>
                     </div>
                     <div class="col-xs-1 col-sm-1">
@@ -220,11 +218,13 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth resv_counterSupplies"
-                                                role="button">Amenities Iny.</button>
+                                                role="button">Amenities Iny.
+                                        </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Rate Info</button>
+                                                role="button">Rate Info
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
@@ -251,11 +251,13 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                                role="button">Reservation</button>
+                                                role="button">Reservation
+                                        </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button">Delete</button>
+                                                role="button">Delete
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
