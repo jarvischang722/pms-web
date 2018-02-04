@@ -3,15 +3,22 @@ import _s from 'underscore.string';
 var vm = new Vue({
     el: '#PMS0110010App',
     mounted() {
+        // this.fetchRentCalDat();
         this.fetchData();
     },
-    updated(){
-        $("table.treeControl").agikiTreeTable({
-            persist: false,
-            persistStoreName: "files"
-        });
+    updated() {
+        if (this.isFirst) {
+            $("table.treeControl").agikiTreeTable({
+                persist: false,
+                persistStoreName: "files"
+            });
+
+            this.isFirst = false;
+        }
     },
     data: {
+        //滾房租日
+        rentCalDat: "",
         //搜尋選單下拉資料
         yearSelectData: [
             {display: '2016', value: '2016'},
@@ -40,11 +47,15 @@ var vm = new Vue({
             month: '01',
             date: '20'
         },
+        nowSearchDate: "",
         //日期欄位資料
-        dateNumData: [],
         dateFieldData: [],
         dayFieldData: [],
+        //開始數與結束數
+        beginNum: "",
+        endNum: "",
         //房型資料
+        roomFieldData: [],
         roomTypData: {
             //房型不重複了
             //DSX房型
@@ -88,17 +99,17 @@ var vm = new Vue({
                 {
                     room_qnt: 10,	//房間總數
                     begin_dat: 20,
-                    end_dat: 24,
+                    end_dat: 25,
                     //空房數
-                    emptyRm: [10, 10, 10, 10, 10], //對應天數給房間庫存
+                    emptyRm: [10, 10, 10, 10, 10, 10], //對應天數給房間庫存
                     //用房數
-                    useRm: [10, 10, 10, 10, 10], //對應天數給房間庫存
+                    useRm: [10, 10, 10, 10, 10, 10], //對應天數給房間庫存
                     //鎖控剩餘數
-                    wrsRm: [10, 10, 10, 10, 10],
+                    wrsRm: [10, 10, 10, 10, 10, 10],
                     //非鎖控剩餘數
-                    notWrsRm: [10, 10, 10, 10, 10],
+                    notWrsRm: [10, 10, 10, 10, 10, 10],
                     //庫存可超訂
-                    overBooking: [10, 10, 10, 10, 10]
+                    overBooking: [10, 10, 10, 10, 10, 10]
                 },
                 //依照房間總數分object
                 {
@@ -140,50 +151,70 @@ var vm = new Vue({
             end_dat: 40,
             number: [10, 10, 10, 10, 10]
         },
-        roomFieldData: ["DSX", "DRK"]
+        //控制套件參數
+        isFirst: true
     },
     methods: {
+        fetchRentCalDat() {
+            $.post('', {}, (restult) => {
+
+            });
+        },
+        initData() {
+            this.dateFieldData = [];
+            this.dayFieldData = [];
+            this.roomFieldData = [];
+
+        },
         fetchData() {
+
+            this.initData();
+
             var self = this;
+            this.nowSearchDate = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+
             var lo_param = {
-                date: this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0')
+                date: this.nowSearchDate
             };
             var ls_beginDate = 20;
             var ls_endDate = 40;
 
-            this.beginDate = ls_beginDate;
-            this.endDate = ls_endDate;
+            this.beginNum = ls_beginDate;
+            this.endNum = ls_endDate;
 
             // $.post('', lo_param).then(result => {
-            //     ls_beginDate = result.roomTypMap.date_range.begin_dat;
-            //     ls_endDate = result.roomTypMap.date_range.end_dat;
             //
-            //     for (let i = (ls_beginDate - 1); i <= (ls_endDate - 1); i++) {
-            //         let lo_date = moment(new Date(lo_param.date)).add('days', i);
-            //         this.dateFieldData.push(lo_date.format("YYYY/MM/DD").toString().split("/")[2]);
-            //         this.dayFieldData.push(lo_date.format("ddd"));
-            //     }
             // });
 
+            this.convertData();
+
+        },
+        convertData() {
+            var self = this;
+
+            //取房型種類
+            _.each(this.roomTypData, (data, key) => {
+                this.roomFieldData.push(key);
+            });
+
+            //處理日期欄位資料
+            var ls_date = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+
             for (let i = 0; i <= 20; i++) {
-                let lo_date = moment(new Date(lo_param.date)).add('days', i);
+                let lo_date = moment(new Date(ls_date)).add('days', i);
                 this.dateFieldData.push(lo_date.format("YYYY/MM/DD").toString().split("/")[2]);
                 this.dayFieldData.push(lo_date.format("ddd"));
             }
 
-            for (let i = ls_beginDate; i <= ls_endDate; i++) {
-                this.dateNumData.push(i);
+            //處理個房型每日數量
+            var la_dateNumData = [];
+            for (let i = this.beginNum; i <= this.endNum; i++) {
+                la_dateNumData.push(i);
             }
-
-            //取房型種類
-            // _.each(this.roomTypData, (data, key) => {
-            //     this.roomFieldData.push(key);
-            // });
-
             _.each(this.roomTypData, (data, key, idx) => {
                 _.each(this.roomTypData[key], (roomData, idx) => {
-                    let ln_beginIdx = _.indexOf(self.dateNumData, roomData.begin_dat);
-                    let ln_endIdx = _.indexOf(self.dateNumData, roomData.end_dat);
+                    let ln_beginIdx = _.indexOf(la_dateNumData, roomData.begin_dat);
+                    let ln_endIdx = _.indexOf(la_dateNumData, roomData.end_dat);
 
                     let la_emptyRm = new Array(21);
                     let la_notWrsRm = new Array(21);
@@ -193,6 +224,10 @@ var vm = new Vue({
 
                     for (let i = 0; i < 21; i++) {
                         la_emptyRm[i] = "";
+                        la_notWrsRm[i] = "";
+                        la_overBooking[i] = "";
+                        la_useRm[i] = "";
+                        la_wrsRm[i] = "";
                     }
 
                     for (let i = ln_beginIdx; i <= ln_endIdx; i++) {
@@ -212,15 +247,31 @@ var vm = new Vue({
                 });
             });
 
-            var ln_length = 0;
+
+            //處理房型套件樹狀結構
+            var ln_roomTypLen = 0;
 
             for (let i = 0; i < this.roomFieldData.length; i++) {
-                _.each(this.roomTypData[this.roomFieldData[i]], function(val, idx){
-                    self.roomTypData[self.roomFieldData[i]][idx].idx =  ln_length + idx;
+                _.each(this.roomTypData[this.roomFieldData[i]], function (val, idx) {
+                    self.roomTypData[self.roomFieldData[i]][idx].idx = ln_roomTypLen + idx;
                 });
-                ln_length = ln_length + this.roomTypData[this.roomFieldData[i]].length;
+                ln_roomTypLen = ln_roomTypLen + this.roomTypData[this.roomFieldData[i]].length;
             }
+        },
+        backToRentCalDat() {
+            this.searchDate.year = this.rentCalDat.split("/")[0];
+            this.searchDate.month = this.rentCalDat.split("/")[1];
+            this.searchDate.date = this.rentCalDat.split("/")[2];
+            this.fetchData();
+        },
+        changDate(num) {
+            var self = this;
+            var ls_date = moment(new Date(this.nowSearchDate)).add('days', num).format("YYYY/MM/DD").toString();
+            this.searchData.year = ls_date.split("/")[0];
+            this.searchData.month = ls_date.split("/")[1];
+            this.searchData.date = ls_date.split("/")[2];
 
+            this.fetchData();
         }
     }
 });
