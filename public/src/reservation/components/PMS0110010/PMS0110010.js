@@ -3,7 +3,7 @@ import _s from 'underscore.string';
 var vm = new Vue({
     el: '#PMS0110010App',
     mounted() {
-        // this.fetchRentCalDat();
+        this.fetchRentCalDat();
         this.fetchData();
     },
     updated() {
@@ -156,21 +156,27 @@ var vm = new Vue({
     },
     methods: {
         fetchRentCalDat() {
-            $.post('', {}, (restult) => {
-
-            });
+            // $.post('', {}, (restult) => {
+            //     this.rentCalDat = result.rent_cal_dat;
+            // });
         },
         initData() {
-            this.dateFieldData = [];
-            this.dayFieldData = [];
-            this.roomFieldData = [];
+            // this.dateFieldData = [];
+            // this.dayFieldData = [];
+            // this.roomFieldData = [];
+            // this.roomTypData = {};
+            // this.totalAvailable = {};
+            // this.occupancy = {};
+            // this.phyAvailable = {};
+            // this.phyOccupancy = {};
+            // this.beginNum = "";
+            // this.endNum = "";
 
         },
         fetchData() {
 
             this.initData();
 
-            var self = this;
             this.nowSearchDate = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
 
             var lo_param = {
@@ -183,10 +189,15 @@ var vm = new Vue({
             this.endNum = ls_endDate;
 
             // $.post('', lo_param).then(result => {
-            //
+            //     this.beginNum = result.date_range.begin_dat;
+            //     this.endNum = result.date_range.end_dat;
+            //     this.roomTypData = result.roomTypData;
+            //     this.totalAvailable = result.totalAvailable;
+            //     this.occupancy = result.occupancy;
+            //     this.phyAvailable = result.phyAvailable;
+            //     this.phyOccupancy = result.phyOccupancy;
+                this.convertData();
             // });
-
-            this.convertData();
 
         },
         convertData() {
