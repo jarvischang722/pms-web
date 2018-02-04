@@ -25,4 +25,15 @@
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">contry_cod</parameter>
     </dao>
+
+    <!-- [PMS0110010] WRS鎖控代號 -->
+    <dao name="QRY_WRS_COD">
+        <statement><![CDATA[
+                select val_nam as as_wrs_cod
+                from hotel_sval_mn
+                where athena_id = :athena_id and sys_cod = 'WRS' and val_rmk = 'block_cod' and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
 </root>
