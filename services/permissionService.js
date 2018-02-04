@@ -388,7 +388,116 @@ exports.addRole = function (postData, session, callback) {
     let lo_saveExecDatas = {
         "0": lo_params
     };
-    dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
+    callback(null, "");
+    // dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
+};
+
+exports.delRole = function (postData, session, callback) {
+    let lo_del_bac_role = {
+        "function": "0",
+        table_name: "BAC_ROLE",
+        condition: [
+            {
+                key: "role_id",
+                operation: "=",
+                value: postData.role_id
+            },
+            {
+                key: "role_athena_id",
+                operation: "=",
+                value: session.user.athena_id
+            },
+            {
+                key: "role_comp_cod",
+                operation: "=",
+                value: session.user.cmp_id
+            }
+        ]
+    };
+    let lo_del_bac_role_func = {
+        "function": "0",
+        table_name: "BAC_ROLE_FUNCTION",
+        condition: [
+            {
+                key: "role_athena_id",
+                operation: "=",
+                value: session.user.athena_id
+            },
+            {
+                key: "role_comp_cod",
+                operation: "=",
+                value: session.user.cmp_id
+            },
+            {
+                key: "role_id",
+                operation: "=",
+                value: postData.role_id
+            }
+        ]
+    };
+    let lo_del_bac_role_user = {
+        "function": "0",
+        table_name: "BAC_ROLE_FUNCTION",
+        condition: [
+            {
+                key: "role_athena_id",
+                operation: "=",
+                value: session.user.athena_id
+            },
+            {
+                key: "role_comp_cod",
+                operation: "=",
+                value: session.user.cmp_id
+            },
+            {
+                key: "role_id",
+                operation: "=",
+                value: postData.role_id
+            }
+        ]
+    };
+    let lo_saveExecDatas = {
+        "0": lo_del_bac_role,
+        "1": lo_del_bac_role_user,
+        "2": lo_del_bac_role_func
+    };
+    console.log(lo_saveExecDatas);
+    callback(null, "");
+    // dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
+};
+
+exports.updRole = function (postData, session, callback) {
+    let lo_userInfo = session.user;
+    let lo_params = {
+        "function": "2",
+        table_name: "BAC_ROLE",
+        role_id: postData.role_id,
+        role_name: postData.role_name,
+        role_athena_id: session.user.athena_id,
+        role_comp_cod: session.user.cmp_id,
+        condition: [
+            {
+                key: 'role_athena_id',
+                operation: "=",
+                value: lo_userInfo.athena_id
+            },
+            {
+                key: 'role_comp_cod',
+                operation: "=",
+                value: lo_userInfo.cmp_id
+            },
+            {
+                key: 'role_id',
+                operation: "=",
+                value: postData.ori_role_id
+            }
+        ]
+    };
+    let lo_saveExecDatas = {
+        "0": lo_params
+    };
+    console.log(lo_saveExecDatas);
+    callback(null, "");
 };
 
 exports.addStaff = function (postData, session, callback) {
@@ -485,7 +594,10 @@ function genPermissionFuncTree(req, la_funcList, callback) {
                 _.each(la_subsys, function (lo_subsys) {
                     //子系統多語系
                     _.each(la_locales, function (lo_locale) {
-                        let lo_subsysLang = _.findWhere(la_subsysLang, {subsys_id: lo_subsys.current_id, locale: lo_locale});
+                        let lo_subsysLang = _.findWhere(la_subsysLang, {
+                            subsys_id: lo_subsys.current_id,
+                            locale: lo_locale
+                        });
                         let subsys_name = _.isUndefined(lo_subsysLang) ? lo_subsys.current_id : lo_subsysLang.words;
                         lo_subsys["subsys_nam_" + lo_locale] = subsys_name;
                     });
@@ -501,19 +613,26 @@ function genPermissionFuncTree(req, la_funcList, callback) {
                         });
 
                         let la_process = _.where(la_funcList, {pre_id: lo_model.current_id, id_typ: "PROCESS"});
-                        _.each(la_process, function(lo_process){
+                        _.each(la_process, function (lo_process) {
                             //作業多語系
                             _.each(la_locales, function (lo_locale) {
-                                let lo_proLang = _.findWhere(la_proLang, {locale: lo_locale, pro_id: lo_process.current_id});
+                                let lo_proLang = _.findWhere(la_proLang, {
+                                    locale: lo_locale,
+                                    pro_id: lo_process.current_id
+                                });
                                 let pro_name = _.isUndefined(lo_proLang) ? lo_process.current_id : lo_proLang.words;
                                 lo_process["pro_nam_" + lo_locale] = pro_name;
                             });
 
                             let la_func = _.where(la_funcList, {pre_id: lo_process.current_id, id_typ: "FUNCTION"});
-                            _.each(la_func, function(lo_func){
+                            _.each(la_func, function (lo_func) {
                                 //功能多語系
                                 _.each(la_locales, function (lo_locale) {
-                                    let lo_funcLang = _.findWhere(la_funcLang, {locale: lo_locale, func_id: lo_func.current_id, pro_id: lo_process.current_id});
+                                    let lo_funcLang = _.findWhere(la_funcLang, {
+                                        locale: lo_locale,
+                                        func_id: lo_func.current_id,
+                                        pro_id: lo_process.current_id
+                                    });
                                     let func_name = _.isUndefined(lo_funcLang) ? lo_func.current_id : lo_funcLang.words;
                                     lo_func["func_nam_" + lo_locale] = func_name;
                                 });

@@ -41,6 +41,18 @@ exports.addRole = function (req, res) {
     });
 };
 
+exports.delRole = function (req, res) {
+    permissionSvc.delRole(req.body, req.session, function (err, result) {
+        res.json({success: err == null, errorMsg: err});
+    });
+};
+
+exports.updRole = function (req, res) {
+    permissionSvc.updRole(req.body, req.session, function (err, result) {
+        res.json({success: err == null, errorMsg: err});
+    });
+};
+
 exports.addStaff = function (req, res) {
     permissionSvc.addStaff(req.body, req.session, function (err, result) {
         res.json({success: err == null, errorMsg: err});

@@ -78,9 +78,6 @@ const mutations = {
     setPermissionModel(state, ls_permissionModel) {
         state.gs_permissionModel = ls_permissionModel;
     },
-    setIsDialogShow(state, lb_isDialogShow) {
-        state.gb_isDialogShow = lb_isDialogShow;
-    },
     setStaffTreeIns(state, lo_staffTreeIns) {
         state.go_staffTreeIns = lo_staffTreeIns;
     },
@@ -105,10 +102,14 @@ const mutations = {
     setSelectedCurrentID(state, ls_current_id) {
         state.gs_selectedCurrentId = ls_current_id;
     },
+    setIsDialogShow(state, lb_isDialogShow) {
+        state.gb_isDialogShow = lb_isDialogShow;
+    },
     setIsAuthUpdate(state, lb_isAuthUpdate) {
         state.gb_isAuthUpdate = lb_isAuthUpdate;
     },
     setIsAuthCreate(state, lb_isAuthCreate) {
+        console.log(lb_isAuthCreate);
         state.gb_isAuthCreate = lb_isAuthCreate;
     },
     setIsAuthDelete(state, lb_isAuthDelete) {
@@ -245,7 +246,7 @@ const actions = {
                     id: account.usr_id,
                     parent: account.grp_id,
                     text: account.usr_cname + "(" + account.usr_id + ")"
-                }
+                };
                 la_compGrpList4Tree.push(lo_treeData);
             });
         });

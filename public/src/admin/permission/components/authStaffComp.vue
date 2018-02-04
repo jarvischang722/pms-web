@@ -209,7 +209,8 @@
                 this.isInitChecked = true;
                 setTimeout(function () {
                     _.each(la_staffOfRole, function (account) {
-                        if(self.treeIns.get_node(account.user_id).children.length == 0){
+                        let lo_node = self.treeIns.get_node(account.user_id);
+                        if(lo_node != null && !_.isUndefined(lo_node.children) && lo_node.children.length == 0){
                             self.treeIns.check_node("#" + account.user_id);
                         }
                     });
@@ -260,7 +261,7 @@
             },
 
             create_node(lb_isAuthCreate) {
-                if (lb_isAuthCreate) {
+                if (lb_isAuthCreate && this.$store.state.gs_permissionModel == "authByStaff") {
                     $("#permissionAccountTree").jstree("create_node", this.selectedNode, null, "last", function (node) {
                         // this.edit(node);
                     });

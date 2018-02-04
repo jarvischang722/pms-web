@@ -39,6 +39,8 @@ module.exports = function (app) {
     app.post("/api/qryRoleByUserID", middles, permissionCrtl.qryRoleByUserID);
     app.post("/api/qryRoleByCurrentID", middles, permissionCrtl.qryRoleByCurrentID);
     app.post("/api/addRole", middles, permissionCrtl.addRole);
+    app.post("/api/delRole", middles, permissionCrtl.delRole);
+    app.post("/api/updRole", middles, permissionCrtl.updRole);
     app.post("/api/addStaff", middles, permissionCrtl.addStaff);
 
 };

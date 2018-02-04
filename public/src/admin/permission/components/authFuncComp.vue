@@ -132,10 +132,10 @@
                     },
                     "plugins": la_plugins
                 });
-                this.treeIns = $("#permissionFuncTree").jstree(true);
-                this.$store.commit("setFuncTreeIns", this.treeIns);
+                self.treeIns = $("#permissionFuncTree").jstree(true);
+                self.$store.commit("setFuncTreeIns", self.treeIns);
 
-                if (this.$store.state.gs_permissionModel == "authByFunc") {
+                if (self.$store.state.gs_permissionModel == "authByFunc") {
                     $("#permissionFuncTree").on("select_node.jstree", function (e, data) {
                         let lo_funcSelected = data.node;
                         self.$store.commit("setSelectedCurrentID", lo_funcSelected);
@@ -143,6 +143,7 @@
                     })
                 }
                 cb(null, "");
+
             },
 
             checkedTreeNodeByFuncsOfRole() {
@@ -157,11 +158,11 @@
                 this.treeIns.uncheck_all();
                 setTimeout(function () {
                     let ls_node_id = "";
-                    let ls_node = null;
+                    let lo_node = null;
                     _.each(la_funcsOfRole, function (func) {
                         ls_node_id = func.current_id.length <= 4 ? func.pre_id + "_" + func.current_id : func.current_id;
-                        ls_node = self.treeIns.get_node(ls_node_id);
-                        if (ls_node != null && !_.isUndefined(ls_node.children) && ls_node.children.length == 0) {
+                        lo_node = self.treeIns.get_node(ls_node_id);
+                        if (lo_node != null && !_.isUndefined(lo_node.children) && lo_node.children.length == 0) {
                             self.treeIns.check_node("#" + ls_node_id);
                         }
                     });

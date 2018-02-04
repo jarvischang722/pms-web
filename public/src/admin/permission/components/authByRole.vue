@@ -40,22 +40,22 @@
             </div>
         </div>
 
-        <template>
-            <el-dialog title="新增角色" :visible.sync="isRoleDialogShow" size="tiny">
-                <div>
-                    <label for="role_id">角色代碼</label>
-                    <input type="text" id="role_id" style="width:80%" v-model="role_id">
-                    <div class="space-6"></div>
-                    <label for="role_nam">角色名稱</label>
-                    <input type="text" id="role_nam" style="width:80%" v-model="role_name">
-                </div>
-                <div class="space-4"></div>
-                <div slot="footer" class="dialog-footer" style="text-align: center;">
-                    <el-button @click="closeDialog">取 消</el-button>
-                    <el-button type="primary" @click="addRole">确 定</el-button>
-                </div>
-            </el-dialog>
-        </template>
+        <!--<template>-->
+            <!--<el-dialog title="新增角色" :visible.sync="isRoleDialogShow" size="tiny">-->
+                <!--<div>-->
+                    <!--<label for="role_id">角色代碼</label>-->
+                    <!--<input type="text" id="role_id" style="width:80%" v-model="role_id">-->
+                    <!--<div class="space-6"></div>-->
+                    <!--<label for="role_nam">角色名稱</label>-->
+                    <!--<input type="text" id="role_nam" style="width:80%" v-model="role_name">-->
+                <!--</div>-->
+                <!--<div class="space-4"></div>-->
+                <!--<div slot="footer" class="dialog-footer" style="text-align: center;">-->
+                    <!--<el-button @click="closeDialog">取 消</el-button>-->
+                    <!--<el-button type="primary" @click="addRole">确 定</el-button>-->
+                <!--</div>-->
+            <!--</el-dialog>-->
+        <!--</template>-->
     </div><!-- /.roomNumPlanPage -->
 </template>
 
@@ -82,42 +82,12 @@
             authStaffComp,
             authFuncComp
         },
-        watch: {
-            gb_isDialogShow(){}
-        },
         computed: {
             gb_isLoading() {
                 return this.$store.state.gb_isLoading;
-            },
-            gb_isDialogShow() {
-                let gb_isDialogShow = this.$store.state.gb_isDialogShow;
-                if(gb_isDialogShow && this.$store.state.gs_permissionModel == "authByRole"){
-                    this.isRoleDialogShow = true;
-                }
-                return this.$store.state.gb_isDialogShow;
             }
         },
         methods: {
-            closeDialog() {
-                this.isRoleDialogShow = false;
-                this.$store.commit("setIsDialogShow", false);
-            },
-            addRole() {
-                $.post("/api/addRole", {role_id: this.role_id, role_name: this.role_name}).then(
-                    result => {
-                        if (result.success) {
-                            alert("save success");
-                        }
-                        else {
-                            alert(result.msg);
-                        }
-                    },
-                    err => {
-                        alert(err);
-                    }
-                );
-                console.log(this.role_id, this.role_name);
-            },
             ...mapActions([
                 "doSaveByRole"
             ])

@@ -41,6 +41,7 @@
         },
         methods: {
             authUpdate() {
+                this.$store.commit("setIsDialogShow", true);
                 this.$store.commit("setIsAuthUpdate", true);
             },
             authDelete() {
