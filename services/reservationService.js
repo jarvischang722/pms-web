@@ -79,10 +79,17 @@ function convResvRmTypData(la_resvRmTypData) {
         let la_rmTypGroupByRmQnt = _.groupBy(la_resvRmCod, "room_qnt");
         let la_rmTypConvData = [];
         _.each(la_rmTypGroupByRmQnt, function (la_resvRmQnt, key) {
+            let ln_begin_dat = moment(la_resvRmQnt[0].batch_dat).date();
+            let ln_end_dat = moment(la_resvRmQnt[la_resvRmQnt.length-1].batch_dat).date();
+            let ln_diff_date = moment(la_resvRmQnt[0].batch_dat).diff(moment(la_resvRmQnt[la_resvRmQnt.length-1].batch_dat), "days");
+            ln_diff_date = Math.abs(ln_diff_date);
+            if(ln_end_dat <= ln_begin_dat){
+                ln_end_dat += ln_diff_date;
+            }
             let lo_resvRmTypData = {
                 room_qnt: key,
                 begin_dat: moment(la_resvRmQnt[0].batch_dat).date(),
-                end_dat: moment(la_resvRmQnt[la_resvRmQnt.length - 1].batch_dat).date(),
+                end_dat: ln_end_dat,
                 emptyRm: [],
                 useRm: [],
                 wrsRm: [],
