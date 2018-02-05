@@ -9,23 +9,20 @@
                 <th class="ca-headerTitle height-fntThead rp-first-th" rowspan="2">
                     <!--ca-center-->
                     <div class="caSelect">
-                        <bac-select class="input-medium ca-select"
-                                    v-model="searchData['year']" :data="yearSelectData"
-                                    is-qry-src-before="Y" value-field="value" text-field="display"
-                                    @update:v-model="val => searchData['year'] = val"
-                                    :default-val="searchData['year']">
-                        </bac-select>
+                        <el-date-picker
+                                class="input-medium ca-select"
+                                v-model="searchData4Month"
+                                :clearable="false"
+                                :editable="false"
+                                type="month"
+                                placeholder="选择月">
+                        </el-date-picker>
                         <div class="space-2"></div>
-                        <bac-select class="input-medium ca-select"
-                                    v-model="searchData['month']" :data="monthSelectData"
-                                    is-qry-src-before="Y" value-field="value" text-field="display"
-                                    @update:v-model="val => searchData['month'] = val"
-                                    :default-val="searchData['month']">
-                        </bac-select>
                     </div>
                     <div class="caIcon">
                         <span class="ca-headerIcon">
-                            <i class="fa fa-calendar-check-o orange fa-lg" data-rel="tooltip" data-placement="bottom" title="Today"></i>
+                            <i class="fa fa-calendar-check-o orange fa-lg" data-rel="tooltip" data-placement="bottom" title="Today"
+                            @click="backToRentCalDat"></i>
                         </span>
                     </div>
                     <div class="clearfix"></div>
@@ -45,57 +42,59 @@
                     <tr :data-tt-id="5*roomTyp.idx + 1">
                         <td class="middle td-first">{{field}} <span class="roomNumTip">{{roomTyp.room_qnt}}</span></td>
                         <template v-for="emptyRm in roomTyp.emptyRm">
-                            <td v-if="emptyRm.num === ''" class="numeric"> </td>
-                            <td v-else class="numeric" > {{ emptyRm.num }}</td>
+                            <td v-if="emptyRm.num === ''" class="numeric" :style="{background:emptyRm.color}"> </td>
+                            <td v-else class="numeric" :style="{background:emptyRm.color}" > {{ emptyRm.num }}</td>
                         </template>
                     </tr>
                     <tr :data-tt-id="5*roomTyp.idx + 2" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
                         <td class="middle td-first subTree-title">用房數</td>
                         <template v-for="useRm in roomTyp.useRm">
-                            <td class="numeric" v-if="useRm.num === ''"> </td>
-                            <td class="numeric" v-else> {{ useRm.num }}</td>
+                            <td class="numeric" v-if="useRm.num === ''" :style="{background:useRm.color}"> </td>
+                            <td class="numeric" v-else :style="{background:useRm.color}"> {{ useRm.num }}</td>
                         </template>
                     </tr>
                     <tr :data-tt-id="5*roomTyp.idx + 3" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
                         <td class="middle td-first subTree-title">非鎖控剩餘數</td>
                         <template v-for="notWrsRm in roomTyp.notWrsRm">
-                            <td class="numeric" v-if="notWrsRm.num === ''"> </td>
-                            <td class="numeric" v-else> {{ notWrsRm.num }}</td>
+                            <td class="numeric" v-if="notWrsRm.num === ''" :style="{background:notWrsRm.color}"> </td>
+                            <td class="numeric" v-else :style="{background:notWrsRm.color}"> {{ notWrsRm.num }}</td>
                         </template>
                     </tr>
                     <tr :data-tt-id="5*roomTyp.idx + 4" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
                         <td class="middle td-first subTree-title">鎖控剩餘數</td>
                         <template v-for="wrsRm in roomTyp.wrsRm">
-                            <td class="numeric" v-if="wrsRm.num === ''"> </td>
-                            <td class="numeric" v-else> {{ wrsRm.num }}</td>
+                            <td class="numeric" v-if="wrsRm.num === ''" :style="{background:wrsRm.color}"> </td>
+                            <td class="numeric" v-else :style="{background:wrsRm.color}"> {{ wrsRm.num }}</td>
                         </template>
                     </tr>
                     <tr :data-tt-id="5*roomTyp.idx + 5" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
                         <td class="middle td-first subTree-title">庫存可超訂的剩餘數</td>
                         <template v-for="overBooking in roomTyp.overBooking">
-                            <td class="numeric" v-if="overBooking.num === ''"> </td>
-                            <td class="numeric" v-else> {{ overBooking.num }}</td>
+                            <td class="numeric" v-if="overBooking.num === ''" :style="{background:overBooking.color}"> </td>
+                            <td class="numeric" v-else :style="{background:overBooking.color}"> {{ overBooking.num }}</td>
                         </template>
                     </tr>
                 </template>
             </template>
 
-            <tr>
-                <td class="middle td-first">Total available</td>
-                <td class="numeric" v-for="number in totalAvailable.number">{{number}}</td>
-            </tr>
-            <tr >
-                <td class="middle td-first">occupancy</td>
-                <td class="numeric" v-for="number in occupancy.number">{{number}}</td>
-            </tr>
-            <tr >
-                <td class="middle td-first">phyOccupancy</td>
-                <td class="numeric" v-for="number in phyOccupancy.number">{{number}}</td>
-            </tr>
-            <tr >
-                <td class="middle td-first">phyAvailable</td>
-                <td class="numeric" v-for="number in phyAvailable.number">{{number}}</td>
-            </tr>
+            <template v-if="is4fieldAppear">
+                <tr>
+                    <td class="middle td-first">Total available</td>
+                    <td class="numeric" v-for="number in totalAvailable.number">{{number.num}}</td>
+                </tr>
+                <tr >
+                    <td class="middle td-first">occupancy</td>
+                    <td class="numeric" v-for="number in occupancy.number">{{number.num}}</td>
+                </tr>
+                <tr >
+                    <td class="middle td-first">phyOccupancy</td>
+                    <td class="numeric" v-for="number in phyOccupancy.number">{{number.num}}</td>
+                </tr>
+                <tr >
+                    <td class="middle td-first">phyAvailable</td>
+                    <td class="numeric" v-for="number in phyAvailable.number">{{number.num}}</td>
+                </tr>
+            </template>
 
 
             <!--<tr style="display: none;">-->

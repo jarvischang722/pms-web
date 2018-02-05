@@ -3,15 +3,11 @@ import _s from 'underscore.string';
 var vm = new Vue({
     el: '#PMS0110010App',
     mounted() {
+        // this.isLoading = false;
         this.fetchRentCalDat();
         this.fetchData();
     },
     updated() {
-        if (this.isFirst) {
-
-
-            this.isFirst = false;
-        }
         $("table.treeControl").agikiTreeTable({
             persist: false,
             persistStoreName: "files"
@@ -20,44 +16,31 @@ var vm = new Vue({
     },
     watch: {
         searchData: {
-            handler(val){
+            handler(val) {
+                this.isLoading = true;
                 this.fetchData();
             },
             deep: true
+        },
+        searchData4Month(val){
+            var ls_date = moment(new Date(val)).format("YYYY/MM/DD").toString();
+            this.searchData.year = ls_date.split("/")[0];
+            this.searchData.month = ls_date.split("/")[1];
+            this.searchData.date = ls_date.split("/")[2];
         }
     },
     data: {
+        isLoading: true,
         //滾房租日
         rentCalDat: "",
-        //搜尋選單下拉資料
-        yearSelectData: [
-            {display: '2016', value: '2016'},
-            {display: '2017', value: '2017'},
-            {display: '2018', value: '2018'},
-            {display: '2019', value: '2019'},
-            {display: '2020', value: '2020'},
-            {display: '2021', value: '2021'}
-        ],
-        monthSelectData: [
-            {display: 'Jan', value: '01'},
-            {display: 'Feb', value: '02'},
-            {display: 'Mar', value: '03'},
-            {display: 'Apr', value: '04'},
-            {display: 'May', value: '05'},
-            {display: 'Jun', value: '06'},
-            {display: 'Jul', value: '07'},
-            {display: 'Aug', value: '08'},
-            {display: 'Sep', value: '09'},
-            {display: 'Oct', value: '10'},
-            {display: 'Nov', value: '11'},
-            {display: 'Dec', value: '12'}
-        ],
+        //搜尋日期
         searchData: {
             year: '2016',
             month: '01',
             date: '01'
         },
         nowSearchDate: "",
+        searchData4Month:"",
         //日期欄位資料
         dateFieldData: [],
         dayFieldData: [],
@@ -75,14 +58,16 @@ var vm = new Vue({
         phyOccupancy: {},
         //控制套件參數
         isFirst: true,
+        //控制4欄顯示參數
+        is4fieldAppear: true,
         //各欄位顏色
         color: []
     },
     methods: {
         fetchRentCalDat() {
-            // $.post('', {}, (restult) => {
-            //     this.rentCalDat = result.rent_cal_dat;
-            // });
+            $.post('/api/qryRentCalDat', {}, (result) => {
+                this.rentCalDat = result.rent_cal_dat;
+            });
         },
         initData() {
             this.dateFieldData = [];
@@ -98,7 +83,6 @@ var vm = new Vue({
 
         },
         fetchData() {
-
             this.initData();
 
             this.nowSearchDate = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
@@ -106,35 +90,6 @@ var vm = new Vue({
             var lo_param = {
                 begin_dat: this.nowSearchDate
             };
-
-            $.post('/api/qryPageOneDataByRmTyp', lo_param).then(result => {
-                if (result.success) {
-                    this.beginNum = result.data.date_range.begin_dat;
-                    this.endNum = result.data.date_range.end_dat;
-                    this.color = result.data.date_range.color;
-                    this.roomTypData = result.data.roomTypData;
-                    this.totalAvailable = result.data.totalAvailable;
-                    this.occupancy = result.data.occupancy;
-                    this.phyAvailable = result.data.phyAvailable;
-                    this.phyOccupancy = result.data.phyOccupancy;
-                    this.convertData();
-                }
-            });
-
-        },
-        convertData() {
-            var self = this;
-
-            //轉換顏色格式
-            _.each(this.color, (ls_color, idx) =>{
-                this.color[idx] = colorTool.colorCodToRgb(ls_color);
-            });
-
-
-            //取房型種類
-            _.each(this.roomTypData, (data, key) => {
-                this.roomFieldData.push(key);
-            });
 
             //處理日期欄位資料
             var ls_date = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
@@ -144,8 +99,46 @@ var vm = new Vue({
                 this.dayFieldData.push(lo_date.format("ddd"));
             }
 
+            $.post('/api/qryPageOneDataByRmTyp', lo_param).then(result => {
+                if (result.success) {
+                    if(!_.isEmpty(result.data)){
+                        this.is4fieldAppear = true;
+                        this.beginNum = result.data.date_range.begin_dat;
+                        this.endNum = result.data.date_range.end_dat;
+                        this.color = result.data.date_range.color;
+                        this.roomTypData = result.data.roomTypData;
+                        this.totalAvailable = result.data.totalAvailable;
+                        this.occupancy = result.data.occupancy;
+                        this.phyAvailable = result.data.phyAvailable;
+                        this.phyOccupancy = result.data.phyOccupancy;
+                        this.convertData();
+                        this.isLoading = false;
+                    }
+                    else{
+                        this.is4fieldAppear = false;
+                        this.isLoading = false;
+                        alert('查無資料');
+                    }
+
+                }
+            });
+
+        },
+        convertData() {
+            var self = this;
+
+            //轉換顏色格式
+            _.each(this.color, (ls_color, idx) => {
+                this.color[idx] = 'rgb(' + colorTool.colorCodToRgb(ls_color).r + ', ' + colorTool.colorCodToRgb(ls_color).g + ', ' + colorTool.colorCodToRgb(ls_color).b + ')';
+            });
+
+            //取房型種類
+            _.each(this.roomTypData, (data, key) => {
+                this.roomFieldData.push(key);
+            });
+
             //處理個房型每日數量
-            var la_dateNumData = [];
+            let la_dateNumData = [];
             for (let i = this.beginNum; i <= this.endNum; i++) {
                 la_dateNumData.push(i);
             }
@@ -184,6 +177,7 @@ var vm = new Vue({
                 });
             });
 
+
             //處理房型套件樹狀結構
             var ln_roomTypLen = 0;
 
@@ -193,12 +187,49 @@ var vm = new Vue({
                 });
                 ln_roomTypLen = ln_roomTypLen + this.roomTypData[this.roomFieldData[i]].length;
             }
+
+            //處理下面四欄位資料
+            let la_dataNumData4Field = [];
+
+            for (let i = this.beginNum; i <= this.endNum; i++) {
+                la_dataNumData4Field.push(i);
+            }
+
+            let ln_beginIdx4Field = _.indexOf(la_dataNumData4Field, this.beginNum);
+            let ln_endIdx4Field = _.indexOf(la_dataNumData4Field, this.endNum);
+
+            let la_totalAvailable = new Array(21);
+            let la_occupancy = new Array(21);
+            let la_phyAvailable = new Array(21);
+            let la_phyOccupancy = new Array(21);
+
+            for (let i = 0; i < 21; i++) {
+                la_totalAvailable[i] = {color: self.color[i], num: ''};
+                la_occupancy[i] = {color: self.color[i], num: ''};
+                la_phyAvailable[i] = {color: self.color[i], num: ''};
+                la_phyOccupancy[i] = {color: self.color[i], num: ''};
+            }
+
+
+            for (let i = ln_beginIdx4Field; i <= ln_endIdx4Field; i++) {
+                if((i - ln_beginIdx4Field) < this.totalAvailable.number.length){
+                    la_totalAvailable[i].num = JSON.parse(JSON.stringify(self.totalAvailable.number[i - ln_beginIdx4Field]));
+                    la_occupancy[i].num = JSON.parse(JSON.stringify(self.occupancy.number[i - ln_beginIdx4Field]));
+                    la_phyAvailable[i].num = JSON.parse(JSON.stringify(self.phyAvailable.number[i - ln_beginIdx4Field]));
+                    la_phyOccupancy[i].num = JSON.parse(JSON.stringify(self.phyOccupancy.number[i - ln_beginIdx4Field]));
+                }
+            }
+
+            this.totalAvailable.number = la_totalAvailable;
+            this.occupancy.number = la_occupancy;
+            this.phyAvailable.number = la_phyAvailable;
+            this.phyOccupancy.number = la_phyOccupancy;
+
         },
         backToRentCalDat() {
-            this.searchDate.year = this.rentCalDat.split("/")[0];
-            this.searchDate.month = this.rentCalDat.split("/")[1];
-            this.searchDate.date = this.rentCalDat.split("/")[2];
-            this.fetchData();
+            this.searchData.year = this.rentCalDat.split("/")[0];
+            this.searchData.month = this.rentCalDat.split("/")[1];
+            this.searchData.date = this.rentCalDat.split("/")[2];
         },
         changDate(num) {
             var self = this;
@@ -207,7 +238,6 @@ var vm = new Vue({
             this.searchData.month = ls_date.split("/")[1];
             this.searchData.date = ls_date.split("/")[2];
 
-            // this.fetchData();
         }
     }
 });
