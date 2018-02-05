@@ -2012,6 +2012,13 @@ a {
 .authorityTree p.topTitle {
   margin: 5px auto;
   font-size: 1.2em;
+  color: #ffffff;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  background: linear-gradient(314deg, rgba(93, 203, 179, 0.5) 15%, #468eb7 60%);
+  background: -moz-linear-gradient(314deg, rgba(93, 203, 179, 0.5) 15%, #468eb7 60%);
+  background: -o-linear-gradient(314deg, rgba(93, 203, 179, 0.5) 15%, #468eb7 60%);
 }
 .authorityTree .authRadio {
   margin-right: 2px;
@@ -4941,6 +4948,10 @@ td div.act-box span.act-text {
 
 .mr-5 {
   margin-right: 5px;
+}
+
+.mr-10 {
+  margin-right: 10px;
 }
 
 .cardDetail_margin {
