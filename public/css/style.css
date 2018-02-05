@@ -987,7 +987,7 @@ table.treetable tr.expanded span.indenter a {
   cursor: pointer;
 }
 .themeTable thead th.holiday-color, .themeTable .holiday-color.numeric {
-  background: #FECAE4;
+  background: #FECAE4 !important;
 }
 .themeTable thead th.dateColor, .themeTable .dateColor.numeric {
   background: #DAEAFC;
@@ -1066,6 +1066,10 @@ table.treetable tr.expanded span.indenter a {
 .themeTable.themeTableTwo .blueBg {
   background: #3d48a6;
   color: #fff;
+}
+
+.resRoomType-table .themeTable thead th i {
+  margin-top: 5px;
 }
 
 .wrapper {
@@ -6017,6 +6021,11 @@ a {
 }
 .input-medium.ca-select {
   width: 65px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.ca-select-l {
+  width: 93px;
   max-width: 100%;
   height: 25px;
 }

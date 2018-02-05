@@ -119,6 +119,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_hc_adjfolio_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_pers_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rminv_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rminv_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_unit_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bqother_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bqplace_rf.xml"/>

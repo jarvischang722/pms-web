@@ -119,7 +119,7 @@ $switchLeft:      23px       //  39px
     color: $open-text-color
     cursor: pointer
   &.holiday-color
-    background: $holiday-color
+    background: $holiday-color !important
   &.dateColor
     background: $date-color
     //padding: 3px //使用padding 會跑版
@@ -193,7 +193,12 @@ $switchLeft:      23px       //  39px
       background: $blueBg
       color: #fff
 
-
+.resRoomType-table
+  .themeTable
+    thead
+      th
+        i
+          margin-top: 5px
 // tooltip
 $wrapper-color: #fff  //#fff
 $wrapper-bg-color: #825C26 //#1496bb
