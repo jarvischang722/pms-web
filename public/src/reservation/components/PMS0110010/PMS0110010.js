@@ -8,12 +8,22 @@ var vm = new Vue({
     },
     updated() {
         if (this.isFirst) {
-            $("table.treeControl").agikiTreeTable({
-                persist: false,
-                persistStoreName: "files"
-            });
+
 
             this.isFirst = false;
+        }
+        $("table.treeControl").agikiTreeTable({
+            persist: false,
+            persistStoreName: "files"
+        });
+
+    },
+    watch: {
+        searchData: {
+            handler(val){
+                this.fetchData();
+            },
+            deep: true
         }
     },
     data: {
@@ -45,7 +55,7 @@ var vm = new Vue({
         searchData: {
             year: '2016',
             month: '01',
-            date: '20'
+            date: '01'
         },
         nowSearchDate: "",
         //日期欄位資料
@@ -56,103 +66,17 @@ var vm = new Vue({
         endNum: "",
         //房型資料
         roomFieldData: [],
-        roomTypData: {
-            //房型不重複了
-            //DSX房型
-            DSX: [
-                //依照房間總數分object
-                {
-                    room_qnt: 10,	//房間總數
-                    begin_dat: 26,
-                    end_dat: 30,
-                    //空房數
-                    emptyRm: [10, 10, 10, 10, 10], //對應天數給房間庫存
-                    //用房數
-                    useRm: [10, 10, 10, 10, 10], //對應天數給房間庫存
-                    //鎖控剩餘數
-                    wrsRm: [10, 10, 10, 10, 10],
-                    //非鎖控剩餘數
-                    notWrsRm: [10, 10, 10, 10, 10],
-                    //庫存可超訂
-                    overBooking: [10, 10, 10, 10, 10]
-                },
-                //依照房間總數分object
-                {
-                    room_qnt: 20,	//房間總數
-                    begin_dat: 36,
-                    end_dat: 40,
-                    //空房數
-                    emptyRm: [20, 20, 20, 20, 20], //對應天數給房間庫存
-                    //用房數
-                    useRm: [20, 20, 20, 20, 20], //對應天數給房間庫存
-                    //鎖控剩餘數
-                    wrsRm: [20, 20, 20, 20, 20],
-                    //非鎖控剩餘數
-                    notWrsRm: [20, 20, 20, 20, 20],
-                    //庫存可超訂
-                    overBooking: [20, 20, 20, 20, 20]
-                }
-            ],
-            //DRK房型
-            DRK: [
-                //依照房間總數分object
-                {
-                    room_qnt: 10,	//房間總數
-                    begin_dat: 20,
-                    end_dat: 25,
-                    //空房數
-                    emptyRm: [10, 10, 10, 10, 10, 10], //對應天數給房間庫存
-                    //用房數
-                    useRm: [10, 10, 10, 10, 10, 10], //對應天數給房間庫存
-                    //鎖控剩餘數
-                    wrsRm: [10, 10, 10, 10, 10, 10],
-                    //非鎖控剩餘數
-                    notWrsRm: [10, 10, 10, 10, 10, 10],
-                    //庫存可超訂
-                    overBooking: [10, 10, 10, 10, 10, 10]
-                },
-                //依照房間總數分object
-                {
-                    room_qnt: 20,	//房間總數
-                    begin_dat: 31,
-                    end_dat: 35,
-                    //空房數
-                    emptyRm: [20, 20, 20, 20, 20], //對應天數給房間庫存
-                    //用房數
-                    useRm: [20, 20, 20, 20, 20], //對應天數給房間庫存
-                    //鎖控剩餘數
-                    wrsRm: [20, 20, 20, 20, 20],
-                    //非鎖控剩餘數
-                    notWrsRm: [20, 20, 20, 20, 20],
-                    //庫存可超訂
-                    overBooking: [20, 20, 20, 20, 20]
-                }
-            ]
-        },
+        roomTypData: {},
         //以下四個為頁面上不是房型的最後四筆
         //房間總數
-        totalAvailable: {
-            begin_dat: 20,
-            end_dat: 40,
-            number: [10, 10, 10, 10, 10]
-        },
-        occupancy: {
-            begin_dat: 20,
-            end_dat: 40,
-            number: [10, 10, 10, 10, 10]
-        },
-        phyAvailable: {
-            begin_dat: 20,
-            end_dat: 40,
-            number: [10, 10, 10, 10, 10]
-        },
-        phyOccupancy: {
-            begin_dat: 20,
-            end_dat: 40,
-            number: [10, 10, 10, 10, 10]
-        },
+        totalAvailable: {},
+        occupancy: {},
+        phyAvailable: {},
+        phyOccupancy: {},
         //控制套件參數
-        isFirst: true
+        isFirst: true,
+        //各欄位顏色
+        color: []
     },
     methods: {
         fetchRentCalDat() {
@@ -161,16 +85,16 @@ var vm = new Vue({
             // });
         },
         initData() {
-            // this.dateFieldData = [];
-            // this.dayFieldData = [];
-            // this.roomFieldData = [];
-            // this.roomTypData = {};
-            // this.totalAvailable = {};
-            // this.occupancy = {};
-            // this.phyAvailable = {};
-            // this.phyOccupancy = {};
-            // this.beginNum = "";
-            // this.endNum = "";
+            this.dateFieldData = [];
+            this.dayFieldData = [];
+            this.roomFieldData = [];
+            this.roomTypData = {};
+            this.totalAvailable = {};
+            this.occupancy = {};
+            this.phyAvailable = {};
+            this.phyOccupancy = {};
+            this.beginNum = "";
+            this.endNum = "";
 
         },
         fetchData() {
@@ -180,28 +104,32 @@ var vm = new Vue({
             this.nowSearchDate = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
 
             var lo_param = {
-                date: this.nowSearchDate
+                begin_dat: this.nowSearchDate
             };
-            var ls_beginDate = 20;
-            var ls_endDate = 40;
 
-            this.beginNum = ls_beginDate;
-            this.endNum = ls_endDate;
-
-            // $.post('', lo_param).then(result => {
-            //     this.beginNum = result.date_range.begin_dat;
-            //     this.endNum = result.date_range.end_dat;
-            //     this.roomTypData = result.roomTypData;
-            //     this.totalAvailable = result.totalAvailable;
-            //     this.occupancy = result.occupancy;
-            //     this.phyAvailable = result.phyAvailable;
-            //     this.phyOccupancy = result.phyOccupancy;
-                this.convertData();
-            // });
+            $.post('/api/qryPageOneDataByRmTyp', lo_param).then(result => {
+                if (result.success) {
+                    this.beginNum = result.data.date_range.begin_dat;
+                    this.endNum = result.data.date_range.end_dat;
+                    this.color = result.data.date_range.color;
+                    this.roomTypData = result.data.roomTypData;
+                    this.totalAvailable = result.data.totalAvailable;
+                    this.occupancy = result.data.occupancy;
+                    this.phyAvailable = result.data.phyAvailable;
+                    this.phyOccupancy = result.data.phyOccupancy;
+                    this.convertData();
+                }
+            });
 
         },
         convertData() {
             var self = this;
+
+            //轉換顏色格式
+            _.each(this.color, (ls_color, idx) =>{
+                this.color[idx] = colorTool.colorCodToRgb(ls_color);
+            });
+
 
             //取房型種類
             _.each(this.roomTypData, (data, key) => {
@@ -210,7 +138,6 @@ var vm = new Vue({
 
             //處理日期欄位資料
             var ls_date = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
-
             for (let i = 0; i <= 20; i++) {
                 let lo_date = moment(new Date(ls_date)).add('days', i);
                 this.dateFieldData.push(lo_date.format("YYYY/MM/DD").toString().split("/")[2]);
@@ -234,19 +161,19 @@ var vm = new Vue({
                     let la_wrsRm = new Array(21);
 
                     for (let i = 0; i < 21; i++) {
-                        la_emptyRm[i] = "";
-                        la_notWrsRm[i] = "";
-                        la_overBooking[i] = "";
-                        la_useRm[i] = "";
-                        la_wrsRm[i] = "";
+                        la_emptyRm[i] = {color: self.color[i], num: ''};
+                        la_notWrsRm[i] = {color: self.color[i], num: ''};
+                        la_overBooking[i] = {color: self.color[i], num: ''};
+                        la_useRm[i] = {color: self.color[i], num: ''};
+                        la_wrsRm[i] = {color: self.color[i], num: ''};
                     }
 
                     for (let i = ln_beginIdx; i <= ln_endIdx; i++) {
-                        la_emptyRm[i] = JSON.parse(JSON.stringify(roomData.emptyRm[i - ln_beginIdx]));
-                        la_notWrsRm[i] = JSON.parse(JSON.stringify(roomData.notWrsRm[i - ln_beginIdx]));
-                        la_overBooking[i] = JSON.parse(JSON.stringify(roomData.overBooking[i - ln_beginIdx]));
-                        la_useRm[i] = JSON.parse(JSON.stringify(roomData.useRm[i - ln_beginIdx]));
-                        la_wrsRm[i] = JSON.parse(JSON.stringify(roomData.wrsRm[i - ln_beginIdx]));
+                        la_emptyRm[i].num = JSON.parse(JSON.stringify(roomData.emptyRm[i - ln_beginIdx]));
+                        la_notWrsRm[i].num = JSON.parse(JSON.stringify(roomData.notWrsRm[i - ln_beginIdx]));
+                        la_overBooking[i].num = JSON.parse(JSON.stringify(roomData.overBooking[i - ln_beginIdx]));
+                        la_useRm[i].num = JSON.parse(JSON.stringify(roomData.useRm[i - ln_beginIdx]));
+                        la_wrsRm[i].num = JSON.parse(JSON.stringify(roomData.wrsRm[i - ln_beginIdx]));
                     }
 
                     roomData.emptyRm = la_emptyRm;
@@ -254,10 +181,8 @@ var vm = new Vue({
                     roomData.overBooking = la_overBooking;
                     roomData.useRm = la_useRm;
                     roomData.wrsRm = la_wrsRm;
-
                 });
             });
-
 
             //處理房型套件樹狀結構
             var ln_roomTypLen = 0;
@@ -282,7 +207,7 @@ var vm = new Vue({
             this.searchData.month = ls_date.split("/")[1];
             this.searchData.date = ls_date.split("/")[2];
 
-            this.fetchData();
+            // this.fetchData();
         }
     }
 });

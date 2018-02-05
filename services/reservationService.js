@@ -34,7 +34,7 @@ exports.qryPageOneDataByRmTyp = function (postData, session, callback) {
         let lo_converData = convResvRmTypData(la_resvRmTypData);
         let lo_rtnData = {
             date_range: {
-                bage_dat: ln_begin_dat,
+                begin_dat: ln_begin_dat,
                 end_dat: ln_end_dat,
                 color: lo_converData.color
             },
@@ -44,6 +44,7 @@ exports.qryPageOneDataByRmTyp = function (postData, session, callback) {
             phyAvailable: lo_converData.calcAllRmData.phyAva,
             phyOccupancy: lo_converData.calcAllRmData.phyOccu
         };
+
         callback(err, lo_rtnData);
     });
 
