@@ -2426,23 +2426,14 @@ td
 
 
 //產生房號訂房內容各種長度
-@for $i from 3 through 28
-  $width: percentage(1 * $i)
-  $error-value: (2 * $i)
+@for $i from 1 through 28
+  $width: 38 * $i
+  $error-value: 1
   td
     div
       &.triangle-box
         &.colspan-#{$i}
-          width: $width + $error-value
-//產生房號訂房內容各種長度 - firefox相容性處理
-@for $i from 1 through 28
-  $width: percentage(1 * $i)
-  @-moz-document url-prefix()
-    td
-      div
-        &.triangle-box
-          &.colspan-#{$i}
-            width: $width - 2%
+          width: $width - $error-value + px
 
 /*---- 達美樂介面 ----*/
 @import partials/_dominosStyle.sass
