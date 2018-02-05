@@ -110,8 +110,19 @@ exports.getResv_rateListTable = function (req, res) {
     res.render("subsystem/reservation/PMS0100000_module/resv_rateListTable");
 };
 
-exports.qryPageOneDataByRmTyp = function(req, res){
-    resvSvc.qryPageOneDataByRmTyp(req.body, req.session, function(err, result){
+exports.qryPageOneDataByRmTyp = function (req, res) {
+    resvSvc.qryPageOneDataByRmTyp(req.body, req.session, function (err, result) {
         res.json({success: err == null, data: result, errorMsg: err});
+    });
+};
+
+exports.qryRentCalDat = function (req, res) {
+    let lo_userInfo = req.session.user;
+    let lo_params = {
+        athena_id: lo_userInfo.athena_id,
+        hotel_cod: lo_userInfo.hotel_cod
+    };
+    queryAgent.query("QRY_RENT_CAL_DAT", lo_params, function(err, result){
+        res.json({success: err == null, rent_cal_dat: result.rent_cal_dat});
     });
 };

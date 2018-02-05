@@ -29,23 +29,28 @@ exports.qryPageOneDataByRmTyp = function (postData, session, callback) {
             });
         }
     ], function (err, la_resvRmTypData) {
-        let ln_begin_dat = moment(postData.begin_dat).date();
-        let ln_end_dat = ln_begin_dat + ln_date_range;
-        let lo_converData = convResvRmTypData(la_resvRmTypData);
-        let lo_rtnData = {
-            date_range: {
-                begin_dat: ln_begin_dat,
-                end_dat: ln_end_dat,
-                color: lo_converData.color
-            },
-            roomTypData: lo_converData.rmTypData,
-            totalAvailable: lo_converData.calcAllRmData.totalAva,
-            occupancy: lo_converData.calcAllRmData.occu,
-            phyAvailable: lo_converData.calcAllRmData.phyAva,
-            phyOccupancy: lo_converData.calcAllRmData.phyOccu
-        };
+        if (la_resvRmTypData.length == 0) {
+            callback(null, {});
+        }
+        else {
+            let ln_begin_dat = moment(postData.begin_dat).date();
+            let ln_end_dat = ln_begin_dat + ln_date_range;
+            let lo_converData = convResvRmTypData(la_resvRmTypData);
+            let lo_rtnData = {
+                date_range: {
+                    begin_dat: ln_begin_dat,
+                    end_dat: ln_end_dat,
+                    color: lo_converData.color
+                },
+                roomTypData: lo_converData.rmTypData,
+                totalAvailable: lo_converData.calcAllRmData.totalAva,
+                occupancy: lo_converData.calcAllRmData.occu,
+                phyAvailable: lo_converData.calcAllRmData.phyAva,
+                phyOccupancy: lo_converData.calcAllRmData.phyOccu
+            };
 
-        callback(err, lo_rtnData);
+            callback(err, lo_rtnData);
+        }
     });
 
 };
@@ -77,7 +82,7 @@ function convResvRmTypData(la_resvRmTypData) {
             let lo_resvRmTypData = {
                 room_qnt: key,
                 begin_dat: moment(la_resvRmQnt[0].batch_dat).date(),
-                end_dat: moment(la_resvRmQnt[0].batch_dat).date() + ln_date_range,
+                end_dat: moment(la_resvRmQnt[la_resvRmQnt.length - 1].batch_dat).date(),
                 emptyRm: [],
                 useRm: [],
                 wrsRm: [],
@@ -127,7 +132,7 @@ function convResvRmTypData(la_resvRmTypData) {
         number: []
     };
     let ls_batch_dat = null;
-    _.each(la_sortRmTypByBatchDat, function (lo_sortRmTypByBatchDat) {
+    _.each(la_sortRmTypByBatchDat, function (lo_sortRmTypByBatchDat, idx) {
         if (ls_batch_dat != lo_sortRmTypByBatchDat.batch_dat) {
             if (ls_batch_dat != null) {
                 lo_totalAva.number.push(ln_totalAva);
@@ -145,6 +150,13 @@ function convResvRmTypData(la_resvRmTypData) {
         ln_occu = lo_sortRmTypByBatchDat.order_rat_all;
         ln_phyAva += lo_sortRmTypByBatchDat.phy_qnt;
         ln_phyOccu = lo_sortRmTypByBatchDat.order_rat_phy;
+
+        if (idx == la_sortRmTypByBatchDat.length - 1) {
+            lo_totalAva.number.push(ln_totalAva);
+            lo_occu.number.push(ln_occu);
+            lo_phyAva.number.push(ln_phyAva);
+            lo_phyOccu.number.push(ln_phyOccu);
+        }
     });
 
     let lo_calcAllRmData = {

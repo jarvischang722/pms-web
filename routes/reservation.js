@@ -59,7 +59,7 @@ module.exports = function (app) {
 
     app.post("/api/qryPageOneDataByRmTyp", middles, reservationCrtl.qryPageOneDataByRmTyp);
 
-    // app.post("/api/QRY_RENT_CAL_DAT")
+    app.post("/api/qryRentCalDat", middles, reservationCrtl.qryRentCalDat);
 
 
 };
