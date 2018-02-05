@@ -2,13 +2,9 @@
  * Created by jing on 2017/5/31.
  */
 
-var _ = require("underscore");
-var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var roleFuncSvc = require("../services/RoleFuncService");
-var fs = require("fs");
-var path = require('path');
-var appRootDir = path.dirname(require.main.filename);
-var roleSvc = require("../services/RoleFuncService");
+const _ = require("underscore");
+const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const resvSvc = require("../services/reservationService");
 
 /**
  * 依房型訂房(靜態)
@@ -16,6 +12,7 @@ var roleSvc = require("../services/RoleFuncService");
 exports.getReservationRoomType = function (req, res) {
     res.render("subsystem/reservation/reservationRoomType");
 };
+
 /**
  * setUp 房價設定(靜態)
  */
@@ -111,4 +108,10 @@ exports.getPMS0120070 = function (req, res) {
  */
 exports.getResv_rateListTable = function (req, res) {
     res.render("subsystem/reservation/PMS0100000_module/resv_rateListTable");
+};
+
+exports.qryPageOneDataByRmTyp = function(req, res){
+    resvSvc.qryPageOneDataByRmTyp(req.body, req.session, function(err, result){
+        res.json({success: err == null, data: result, errorMsg: err});
+    });
 };
