@@ -21,12 +21,6 @@ var vm = new Vue({
                 this.fetchData();
             },
             deep: true
-        },
-        searchData4Month(val){
-            var ls_date = moment(new Date(val)).format("YYYY/MM/DD").toString();
-            this.searchData.year = ls_date.split("/")[0];
-            this.searchData.month = ls_date.split("/")[1];
-            this.searchData.date = ls_date.split("/")[2];
         }
     },
     data: {
@@ -35,12 +29,12 @@ var vm = new Vue({
         rentCalDat: "",
         //搜尋日期
         searchData: {
-            year: '2016',
-            month: '01',
-            date: '01'
+            year: moment(new Date()).format("YYYY/MM/DD").toString().split("/")[0],
+            month: moment(new Date()).format("YYYY/MM/DD").toString().split("/")[1],
+            date: moment(new Date()).format("YYYY/MM/DD").toString().split("/")[2]
         },
         nowSearchDate: "",
-        searchData4Month:"",
+        searchData4Month: moment(new Date()).format("YYYY/MM/DD").toString(),
         //日期欄位資料
         dateFieldData: [],
         dayFieldData: [],
@@ -101,7 +95,7 @@ var vm = new Vue({
 
             $.post('/api/qryPageOneDataByRmTyp', lo_param).then(result => {
                 if (result.success) {
-                    if(!_.isEmpty(result.data)){
+                    if (!_.isEmpty(result.data)) {
                         this.is4fieldAppear = true;
                         this.beginNum = result.data.date_range.begin_dat;
                         this.endNum = result.data.date_range.end_dat;
@@ -114,7 +108,7 @@ var vm = new Vue({
                         this.convertData();
                         this.isLoading = false;
                     }
-                    else{
+                    else {
                         this.is4fieldAppear = false;
                         this.isLoading = false;
                         alert('查無資料');
@@ -212,7 +206,7 @@ var vm = new Vue({
 
 
             for (let i = ln_beginIdx4Field; i <= ln_endIdx4Field; i++) {
-                if((i - ln_beginIdx4Field) < this.totalAvailable.number.length){
+                if ((i - ln_beginIdx4Field) < this.totalAvailable.number.length) {
                     la_totalAvailable[i].num = JSON.parse(JSON.stringify(self.totalAvailable.number[i - ln_beginIdx4Field]));
                     la_occupancy[i].num = JSON.parse(JSON.stringify(self.occupancy.number[i - ln_beginIdx4Field]));
                     la_phyAvailable[i].num = JSON.parse(JSON.stringify(self.phyAvailable.number[i - ln_beginIdx4Field]));
@@ -230,6 +224,8 @@ var vm = new Vue({
             this.searchData.year = this.rentCalDat.split("/")[0];
             this.searchData.month = this.rentCalDat.split("/")[1];
             this.searchData.date = this.rentCalDat.split("/")[2];
+            this.searchData4Month = moment(new Date(this.rentCalDat));
+
         },
         changDate(num) {
             var self = this;
@@ -237,7 +233,14 @@ var vm = new Vue({
             this.searchData.year = ls_date.split("/")[0];
             this.searchData.month = ls_date.split("/")[1];
             this.searchData.date = ls_date.split("/")[2];
+            this.searchData4Month = moment(new Date(ls_date));
 
+        },
+        selectDate() {
+            var ls_date = moment(new Date(this.searchData4Month)).format("YYYY/MM/DD").toString();
+            this.searchData.year = ls_date.split("/")[0];
+            this.searchData.month = ls_date.split("/")[1];
+            this.searchData.date = ls_date.split("/")[2];
         }
     }
 });
