@@ -84,9 +84,108 @@
         watch: {
             isContractContent(val) {
                 if (val) {
-                    this.initData();
+                    //第一次載入合約內容
+                    if(_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)){
+                        this.initData();
+                    }
                     this.fetchDefaultData();
                 }
+            },
+            dataGridRowsData: {
+                handler(val){
+                    if(!_.isEmpty(val)){
+                        var self = this;
+                        //將cust_cod放置tmpCUD中
+                        _.each(this.dgIns.tmpCUD.createData, function(lo_createData, idx){
+                            self.dgIns.tmpCUD.createData[idx] =
+                                _.extend(self.dgIns.tmpCUD.createData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.updateData, function(lo_updateData, idx){
+                            self.dgIns.tmpCUD.updateData[idx] =
+                                _.extend(self.dgIns.tmpCUD.updateData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.deleteData, function(lo_deleteData, idx){
+                            self.dgIns.tmpCUD.deleteData[idx] =
+                                _.extend(self.dgIns.tmpCUD.deleteData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.oriData, function(lo_oriData, idx){
+                            self.dgIns.tmpCUD.oriData[idx] =
+                                _.extend(self.dgIns.tmpCUD.oriData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+
+                        //將合約內容資料放至Vuex
+                        this.$store.dispatch("setCcDataGridRowsData", {
+                            ga_ccDataGridRowsData: val,
+                            go_ccOriDataGridRowsData: this.oriDataGridRowsData,
+                            go_ccTmpCUD: this.dgIns.tmpCUD
+                        });
+                    }
+                },
+                deep: true
+            },
+            dataGridRowsDataOfExpire: {
+                handler(val){
+                    if(!_.isEmpty(val)){
+                        var self = this;
+                        //將cust_cod放置tmpCUD中
+                        _.each(this.dgIns.tmpCUD.createData, function(lo_createData, idx){
+                            self.dgIns.tmpCUD.createData[idx] =
+                                _.extend(self.dgIns.tmpCUD.createData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.updateData, function(lo_updateData, idx){
+                            self.dgIns.tmpCUD.updateData[idx] =
+                                _.extend(self.dgIns.tmpCUD.updateData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.deleteData, function(lo_deleteData, idx){
+                            self.dgIns.tmpCUD.deleteData[idx] =
+                                _.extend(self.dgIns.tmpCUD.deleteData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.oriData, function(lo_oriData, idx){
+                            self.dgIns.tmpCUD.oriData[idx] =
+                                _.extend(self.dgIns.tmpCUD.oriData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+
+                        //將合約內容資料放至Vuex
+                        this.$store.dispatch("setCcDataGridRowsData", {
+                            ga_ccDataGridRowsData: val,
+                            go_ccOriDataGridRowsData: this.oriDataGridRowsData,
+                            go_ccTmpCUD: this.dgIns.tmpCUD
+                        });
+                    }
+                },
+                deep: true
+            },
+            dataGridRowsDataOfRateCode: {
+                handler(val){
+                    if(!_.isEmpty(val)){
+                        var self = this;
+                        //將cust_cod放置tmpCUD中
+                        _.each(this.dgIns.tmpCUD.createData, function(lo_createData, idx){
+                            self.dgIns.tmpCUD.createData[idx] =
+                                _.extend(self.dgIns.tmpCUD.createData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.updateData, function(lo_updateData, idx){
+                            self.dgIns.tmpCUD.updateData[idx] =
+                                _.extend(self.dgIns.tmpCUD.updateData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.deleteData, function(lo_deleteData, idx){
+                            self.dgIns.tmpCUD.deleteData[idx] =
+                                _.extend(self.dgIns.tmpCUD.deleteData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+                        _.each(this.dgIns.tmpCUD.oriData, function(lo_oriData, idx){
+                            self.dgIns.tmpCUD.oriData[idx] =
+                                _.extend(self.dgIns.tmpCUD.oriData[idx],{cust_cod: self.$store.state.gs_custCod});
+                        });
+
+                        //將合約內容資料放至Vuex
+                        this.$store.dispatch("setCcDataGridRowsData", {
+                            ga_ccDataGridRowsData: val,
+                            go_ccOriDataGridRowsData: this.oriDataGridRowsData,
+                            go_ccTmpCUD: this.dgIns.tmpCUD
+                        });
+                    }
+                },
+                deep: true
             }
         },
         methods: {
@@ -106,7 +205,6 @@
                 this.oriDataGridRowsData = [];
                 this.fieldsData = [];
                 this.oriFieldsData = [];
-                this.dgIns = {};
             },
             fetchFieldData() {
                 this.isLoading = true;
@@ -117,21 +215,35 @@
                 }).then(result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
-                    this.dataGridRowsData = result.dgRowData;
-                    this.dataGridRowsDataOfExpire = _.filter(JSON.parse(JSON.stringify(result.dgRowData)), lo_dgRowData => {
-                        return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
-                    });
-                    this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
-                    console.log(this.oriDataGridRowsData);
-                    this.showDataGrid(this.dataGridRowsDataOfExpire);
+                    //第一次載入合約內容
+                    if(_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)){
+                        this.dataGridRowsData = result.dgRowData;
+                        this.dataGridRowsDataOfExpire = _.filter(JSON.parse(JSON.stringify(result.dgRowData)), lo_dgRowData => {
+                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                        });
+                        this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        this.showDataGrid(this.dataGridRowsDataOfExpire);
+                    }
+                    else{
+                        this.dataGridRowsData = this.$store.state.go_allData.ga_ccDataGridRowsData;
+                        this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify( this.dataGridRowsData)), lo_dgRowData => {
+                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                        });
+                        this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_ccDataGridRowsData;
+                        this.dgIns.loadDgData(this.dataGridRowsDataOfStaff);
+                        this.isLoading = false;
+                    }
                 });
             },
             showDataGrid(dataGridRowsData) {
                 this.dgIns = new DatagridBaseClass();
-                this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
+                this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'contractContent_dg'), this.fieldsData);
                 this.dgIns.loadDgData(dataGridRowsData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
+                this.dgIns.updateMnRowData(this.$store.state.go_allData.go_mnSingleData);
+
                 this.isLoading = false;
+
             },
             doChangeRowData() {
 
@@ -161,18 +273,18 @@
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
-                    console.log("delete this row");
                     this.dgIns.removeRow();
                 }
             },
             doHideExpire() {
                 if (this.isHideExpire) {
-                    this.showDataGrid(this.dataGridRowsData);
+                    this.dgIns.loadDgData(this.dataGridRowsData);
                 }
                 else {
-                    this.showDataGrid(this.dataGridRowsDataOfExpire);
+                    this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
                 }
             }
         }
     }
+
 </script>

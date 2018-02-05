@@ -108,60 +108,66 @@ exports.doAuthAccount = function (authData, callback) {
             },
             //insert 到mongo
             function (user, cb) {
-                mongoAgent.OnlineUser.findOne({
-                    athena_id: user.onlineUserBy.athena_id,
-                    comp_cod: user.onlineUserBy.comp_cod,
-                    hotel_cod: user.onlineUserBy.hotel_cod
-                }, function (err, result) {
-                    if (err) {
-                        err.message = "mongo 's err";
-                        cb(err, user);
-                    }
-                    //mongo沒有這筆資料則新增一筆
-                    else if (!result) {
-                        let lo_saveData = {
-                            athena_id: user.onlineUserBy.athena_id,
-                            comp_cod: user.onlineUserBy.comp_cod,
-                            hotel_cod: user.onlineUserBy.hotel_cod,
-                            onlineUserSession: [],
-                            availUserNum: user.onlineUserBy.availUserNum,
-                            lastUpdTime: moment(new Date())
-                        };
-                        mongoAgent.OnlineUser(lo_saveData).save(function (errSave) {
-                            if (errSave) {
-                                errSave.message = "mongo 's err";
-                            }
-                            cb(errSave, user);
-                        });
-                    }
-                    //mongo有這筆資料則更新availUserNum
-                    else {
-                        var lo_lastUpdTime = moment(new Date(result.lastUpdTime));
-                        var lo_today = moment(new Date());
-                        var ln_duration = Number(moment.duration(lo_lastUpdTime.diff(lo_today)).asDays());
-
-                        let lo_cond = {
-                            "athena_id": user.onlineUserBy.athena_id,
-                            "comp_cod": user.onlineUserBy.comp_cod,
-                            "hotel_cod": user.onlineUserBy.hotel_cod
-                        };
-                        //lastUpdTime 超過今天一天就更新mongo中的availUserNum、lastUpdTime
-                        if (Math.abs(ln_duration) > 1) {
-                            mongoAgent.OnlineUser.update(lo_cond, {
-                                availUserNum: user.onlineUserBy.availUserNum,
-                                lastUpdTime: moment(new Date())
-                            }, function (errUpdate) {
-                                if (errUpdate) {
-                                    errUpdate.message = "mongo 's err";
-                                }
-                                cb(errUpdate, user);
-                            });
-                        }
-                        else {
+                if(_.isUndefined(user.onlineUserBy)){
+                    var err = {message: "Login fail!"};
+                    cb(err, null);
+                }
+                else{
+                    mongoAgent.OnlineUser.findOne({
+                        athena_id: user.onlineUserBy.athena_id,
+                        comp_cod: user.onlineUserBy.comp_cod,
+                        hotel_cod: user.onlineUserBy.hotel_cod
+                    }, function (err, result) {
+                        if (err) {
+                            err.message = "mongo 's err";
                             cb(err, user);
                         }
-                    }
-                });
+                        //mongo沒有這筆資料則新增一筆
+                        else if (!result) {
+                            let lo_saveData = {
+                                athena_id: user.onlineUserBy.athena_id,
+                                comp_cod: user.onlineUserBy.comp_cod,
+                                hotel_cod: user.onlineUserBy.hotel_cod,
+                                onlineUserSession: [],
+                                availUserNum: user.onlineUserBy.availUserNum,
+                                lastUpdTime: moment(new Date())
+                            };
+                            mongoAgent.OnlineUser(lo_saveData).save(function (errSave) {
+                                if (errSave) {
+                                    errSave.message = "mongo 's err";
+                                }
+                                cb(errSave, user);
+                            });
+                        }
+                        //mongo有這筆資料則更新availUserNum
+                        else {
+                            var lo_lastUpdTime = moment(new Date(result.lastUpdTime));
+                            var lo_today = moment(new Date());
+                            var ln_duration = Number(moment.duration(lo_lastUpdTime.diff(lo_today)).asDays());
+
+                            let lo_cond = {
+                                "athena_id": user.onlineUserBy.athena_id,
+                                "comp_cod": user.onlineUserBy.comp_cod,
+                                "hotel_cod": user.onlineUserBy.hotel_cod
+                            };
+                            //lastUpdTime 超過今天一天就更新mongo中的availUserNum、lastUpdTime
+                            if (Math.abs(ln_duration) > 1) {
+                                mongoAgent.OnlineUser.update(lo_cond, {
+                                    availUserNum: user.onlineUserBy.availUserNum,
+                                    lastUpdTime: moment(new Date())
+                                }, function (errUpdate) {
+                                    if (errUpdate) {
+                                        errUpdate.message = "mongo 's err";
+                                    }
+                                    cb(errUpdate, user);
+                                });
+                            }
+                            else {
+                                cb(err, user);
+                            }
+                        }
+                    });
+                }
             }
         ], function (err, user) {
             if (err) {

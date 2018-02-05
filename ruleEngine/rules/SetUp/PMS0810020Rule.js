@@ -307,7 +307,8 @@ module.exports = {
                                             tmpExtendExecDataArrSet.push({
                                                 function: '2',
                                                 table_name: 'lang_rvrmcod_rf',
-                                                condition: [{
+                                                condition: [
+                                                    {
                                                     key: 'athena_id',
                                                     operation: "=",
                                                     value: userInfo.athena_id

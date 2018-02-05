@@ -35,6 +35,9 @@
 .grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option, .grid-item .input-medium, .grid-item input, .grid-item textarea {
   font-size: 13px !important;
 }
+.grid-item span.font-xxs, .grid-item p.font-xxs, .grid-item div.font-xxs, .grid-item select.font-xxs, .grid-item option.font-xxs, .grid-item .input-medium.font-xxs, .grid-item input.font-xxs, .grid-item textarea.font-xxs {
+  font-size: 12px !important;
+}
 .grid-item span.subtxt {
   margin: auto 2px auto auto;
 }
@@ -5903,9 +5906,6 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
 .popCheckbox.resvCk-1 {
   width: 106px;
 }
-.popCheckbox.resvCk-1 .checkbox label {
-  padding-left: 14px;
-}
 .popCheckbox .checkbox {
   margin: 1px auto 0 auto;
 }
@@ -5955,8 +5955,11 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   width: 79.4%;
 }
 
-.border-raduis-5 {
+.btn-spc-sm {
   border-radius: 5px;
+  height: 20px !important;
+  border-width: 1px;
+  line-height: 15px;
 }
 
 .extendGrid {

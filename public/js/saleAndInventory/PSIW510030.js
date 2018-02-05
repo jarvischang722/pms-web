@@ -1877,7 +1877,7 @@ var PSIW510030 = new Vue({
                     //取quote_rmk, order_time
                     _.each(self.allOrderSelectData, function (value, index) {
                         if(value.format_sta == self.select_format_sta){
-                            self.select_quote_rmk = value.quote_rmk || '';
+                            self.select_quote_rmk = value.quote_rmk + '-空白訂單下載' || '';
                             self.select_order_time = value.order_time || '';
                         }
                     });

@@ -17,9 +17,10 @@ module.exports = function (app, passport) {
     app.get('/casLogin', userCrtl.casLogin);
 
     /** API  **/
+    //取得系統參數
+    app.post('/api/getsysConfig', userCrtl.getsysConfig);
     //取得預設帳號
     app.post('/api/getDefaultAccount', userCrtl.getDefaultAccount);
-
     //驗證是否登入成功
     app.post('/api/authLogin', userCrtl.authLogin);
     //取得使用者資料

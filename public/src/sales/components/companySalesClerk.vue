@@ -45,6 +45,14 @@
     export default {
         name: 'sales-clerk',
         props: ["rowData", "isSalesClerk", "isCreateStatus", "isEditStatus"],
+        created() {
+            var self = this;
+            this.$eventHub.$on('doEditSalesClerk', function (result) {
+                if(result.success){
+                    self.fetchFieldData();
+                }
+            });
+        },
         data() {
             return {
                 i18nLang: go_i18nLang,
@@ -63,7 +71,7 @@
             isSalesClerk(val) {
                 if (val) {
                     this.initData();
-                    this.fetchFieldData(this.rowData);
+                    this.fetchFieldData();
                 }
             }
         },
@@ -76,8 +84,7 @@
                 this.dgIns = {};
                 this.editRows = [];
             },
-            fetchFieldData(rowData) {
-                var self = this;
+            fetchFieldData() {
                 this.isLoading = true;
                 $.post("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
@@ -100,14 +107,33 @@
             },
             doEditSalesClerk() {
                 var self = this;
+                var lo_singleData = this.$store.state.go_allData.go_mnSingleData;
+                var lo_oriSingleData = this.$store.state.go_allOriData.go_mnSingleData;
+                var lb_isEditStatus = this.$store.state.gb_isEditStatus;
                 this.rowData = _.extend(this.rowData, {isSalesClerk: self.isSalesClerk});
 
-                this.$eventHub.$emit('doEditSalesClerk', {
-                    isEditSalesClerk: true,
-                    editRows: [self.rowData],
-                    isEditStatus: self.isEditStatus,
-                    isCreateStatus: self.isCreateStatus
-                });
+                if (lb_isEditStatus) {
+                    if (_.isMatch(lo_singleData, lo_oriSingleData)) {
+                        this.$eventHub.$emit('doEditSalesClerk', {
+                            isEditSalesClerk: true,
+                            editRows: [self.rowData],
+                            isEditStatus: self.isEditStatus,
+                            isCreateStatus: self.isCreateStatus
+                        });
+                    }
+                    else {
+                        alert("請先儲存主檔資料");
+                    }
+                }
+                else {
+                    this.$eventHub.$emit('doEditSalesClerk', {
+                        isEditSalesClerk: true,
+                        editRows: [self.rowData],
+                        isEditStatus: self.isEditStatus,
+                        isCreateStatus: self.isCreateStatus
+                    });
+                }
+
             }
         }
     }
