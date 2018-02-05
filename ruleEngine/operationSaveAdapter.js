@@ -187,7 +187,9 @@ function qryFieldData(rfData, callback) {
 function combineDtDeleteExecData(rfData, callback) {
     try {
         _.each(ga_dtDeleteData, function (data) {
-            var ls_dgTableName = _.findWhere(ga_rfData, {tab_page_id: Number(data.tab_page_id)}).table_name;
+            let ln_tab_page_id = _.isUndefined(data.tab_page_id) ? 1 : data.tab_page_id;
+            var ls_dgTableName = _.findWhere(ga_rfData, {tab_page_id: Number(ln_tab_page_id), template_id: "datagrid"}).table_name;
+
             var lo_fieldsData = qryFieldsDataByTabPageID(data);
             var tmpDel = {
                 "function": "0",
@@ -211,29 +213,6 @@ function combineDtDeleteExecData(rfData, callback) {
             });
             go_saveExecDatas[gn_exec_seq] = tmpDel;
             gn_exec_seq++;
-
-            // 修改Mn: 此目的為了更新Mn最後異動日
-            // var mnEvent_time = moment(new Date(data.event_time)).subtract(1, "seconds").format("YYYY/MM/DD HH:mm:ss");
-            // var tmpMnUpd = {
-            //     "function": "2",
-            //     "table_name": gs_mainTableName,
-            //     event_time: mnEvent_time
-            // };
-            // tmpMnUpd = _.extend(tmpMnUpd, commonRule.getEditDefaultDataRule(go_session));
-            // tmpMnUpd.condition = [];
-            // //組合where 條件
-            // _.each(lo_fieldsData.mainKeyFields, function (keyField) {
-            //     if (!_.isUndefined(data[keyField.ui_field_name])) {
-            //         tmpMnUpd.condition.push({
-            //             key: keyField.ui_field_name,
-            //             operation: "=",
-            //             value: data[keyField.ui_field_name]
-            //         });
-            //     }
-            //
-            // });
-            // go_saveExecDatas[gn_exec_seq] = tmpMnUpd;
-            // gn_exec_seq++;
         });
         callback(null, '0300');
     }
@@ -488,15 +467,16 @@ function combineMainData(rfData, callback) {
 
 //組合DT 新增修改執行資料
 function combineDtCreateEditExecData(rfData, callback) {
+    //多語系欄位
     var la_dtMultiLangFields = _.filter(ga_dgFieldsData, function (field) {
         return field.multi_lang_table != "";
-    });  //多語系欄位
+    });
 
     try {
         //dt 新增
         _.each(ga_dtCreateData, function (data) {
-
-            var ls_dgTableName = _.findWhere(ga_rfData, {tab_page_id: Number(data.tab_page_id)}).table_name;
+            let ln_tab_page_id = _.isUndefined(data.tab_page_id) ? 1 : data.tab_page_id;
+            var ls_dgTableName = _.findWhere(ga_rfData, {tab_page_id: Number(ln_tab_page_id), template_id: "datagrid"}).table_name;
             var lo_fieldsData = qryFieldsDataByTabPageID(data);
             var tmpIns = {"function": "1", "table_name": ls_dgTableName, "kindOfRel": "dt"}; //1  新增
             var mnRowData = data["mnRowData"] || {};
@@ -557,7 +537,8 @@ function combineDtCreateEditExecData(rfData, callback) {
 
         //dt 編輯
         _.each(ga_dtUpdateData, function (data, index) {
-            var ls_dgTableName = _.findWhere(ga_rfData, {tab_page_id: Number(data.tab_page_id)}).table_name;
+            let ln_tab_page_id = _.isUndefined(data.tab_page_id) ? 1 : data.tab_page_id;
+            var ls_dgTableName = _.findWhere(ga_rfData, {tab_page_id: Number(ln_tab_page_id), template_id: "datagrid"}).table_name;
             var lo_fieldsData = qryFieldsDataByTabPageID(data);
             var tmpEdit = {"function": "2", "table_name": ls_dgTableName, "kindOfRel": "dt"}; //2  編輯
             var mnRowData = data["mnRowData"] || {};
@@ -599,29 +580,6 @@ function combineDtCreateEditExecData(rfData, callback) {
             });
             go_saveExecDatas[gn_exec_seq] = tmpEdit;
             gn_exec_seq++;
-
-            // 修改Mn: 此目的為了更新Mn最後異動日
-            // var mnEvent_time = moment(new Date(data.event_time)).subtract(1, "seconds").format("YYYY/MM/DD HH:mm:ss");
-            // var tmpMnUpd = {
-            //     "function": "2",
-            //     "table_name": gs_mainTableName,
-            //     event_time: mnEvent_time
-            // };
-            // tmpMnUpd = _.extend(tmpMnUpd, commonRule.getEditDefaultDataRule(go_session));
-            // tmpMnUpd.condition = [];
-            // //組合where 條件
-            // _.each(lo_fieldsData.mainKeyFields, function (keyField) {
-            //     if (!_.isUndefined(data[keyField.ui_field_name])) {
-            //         tmpMnUpd.condition.push({
-            //             key: keyField.ui_field_name,
-            //             operation: "=",
-            //             value: data[keyField.ui_field_name]
-            //         });
-            //     }
-            //
-            // });
-            // go_saveExecDatas[gn_exec_seq] = tmpMnUpd;
-            // gn_exec_seq++;
 
             /** 處理每一筆多語系 handleSaveMultiLang **/
             if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
@@ -733,9 +691,9 @@ function sortByEventTime(data, callback) {
 //轉換為API格式
 function convertToApiFormat(lo_saveExecDatasSorted, callback) {
     var apiParams = {
-        "REVE-CODE": go_postData.trans_cod,
+        // "REVE-CODE": go_postData.trans_cod,
         "program_id": go_postData.prg_id,
-        "function_id": go_postData.func_id || "",
+        "func_id": go_postData.func_id || "",
         "athena_id": go_session.user.athena_id,
         "hotel_cod": go_session.user.hotel_cod,
         "user": go_session.user.usr_id,
