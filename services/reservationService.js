@@ -142,9 +142,9 @@ function convResvRmTypData(la_resvRmTypData) {
             ls_batch_dat = lo_sortRmTypByBatchDat.batch_dat;
         }
         ln_totalAva += lo_sortRmTypByBatchDat.left_qnt;
-        ln_occu += parseInt(lo_sortRmTypByBatchDat.order_rat_all.split("%")[0]) || 0;
+        ln_occu = lo_sortRmTypByBatchDat.order_rat_all;
         ln_phyAva += lo_sortRmTypByBatchDat.phy_qnt;
-        ln_phyOccu += parseInt(lo_sortRmTypByBatchDat.order_rat_phy.split("%")[0]) || 0;
+        ln_phyOccu = lo_sortRmTypByBatchDat.order_rat_phy;
     });
 
     let lo_calcAllRmData = {

@@ -29,7 +29,7 @@
     <!-- [PMS0110010] WRS鎖控代號 -->
     <dao name="QRY_WRS_COD">
         <statement><![CDATA[
-                select pg_ais2.sf_get_hotel_sval(trim(:hotel_cod), 'WRS', 'block_cod', :athena_id) as rent_cal_dat from dual;
+                select pg_ais2.sf_get_hotel_sval(trim(:hotel_cod), 'WRS', 'block_cod', :athena_id) as as_wrs_cod from dual
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
