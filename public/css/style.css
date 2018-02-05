@@ -1068,6 +1068,10 @@ table.treetable tr.expanded span.indenter a {
   color: #fff;
 }
 
+.resRoomType-table .themeTable thead th i {
+  margin-top: 5px;
+}
+
 .wrapper {
   text-transform: uppercase;
   padding: 5px 10px;
@@ -5767,6 +5771,11 @@ a {
 }
 .input-medium.ca-select {
   width: 65px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.ca-select-l {
+  width: 93px;
   max-width: 100%;
   height: 25px;
 }
