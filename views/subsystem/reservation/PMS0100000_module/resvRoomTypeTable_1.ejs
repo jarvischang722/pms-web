@@ -45,36 +45,36 @@
                     <tr :data-tt-id="5*roomTyp.idx + 1">
                         <td class="middle td-first">{{field}} <span class="roomNumTip">{{roomTyp.room_qnt}}</span></td>
                         <template v-for="emptyRm in roomTyp.emptyRm">
-                            <td class="numeric" v-if="emptyRm == ''"> </td>
-                            <td class="numeric" v-else> {{ emptyRm }}</td>
+                            <td v-if="emptyRm.num === ''" class="numeric"> </td>
+                            <td v-else class="numeric" > {{ emptyRm.num }}</td>
                         </template>
                     </tr>
                     <tr :data-tt-id="5*roomTyp.idx + 2" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
                         <td class="middle td-first subTree-title">用房數</td>
                         <template v-for="useRm in roomTyp.useRm">
-                            <td class="numeric" v-if="useRm == ''"> </td>
-                            <td class="numeric" v-else> {{ useRm }}</td>
+                            <td class="numeric" v-if="useRm.num === ''"> </td>
+                            <td class="numeric" v-else> {{ useRm.num }}</td>
                         </template>
                     </tr>
                     <tr :data-tt-id="5*roomTyp.idx + 3" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
                         <td class="middle td-first subTree-title">非鎖控剩餘數</td>
                         <template v-for="notWrsRm in roomTyp.notWrsRm">
-                            <td class="numeric" v-if="notWrsRm == ''"> </td>
-                            <td class="numeric" v-else> {{ notWrsRm }}</td>
+                            <td class="numeric" v-if="notWrsRm.num === ''"> </td>
+                            <td class="numeric" v-else> {{ notWrsRm.num }}</td>
                         </template>
                     </tr>
                     <tr :data-tt-id="5*roomTyp.idx + 4" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
                         <td class="middle td-first subTree-title">鎖控剩餘數</td>
                         <template v-for="wrsRm in roomTyp.wrsRm">
-                            <td class="numeric" v-if="wrsRm == ''"> </td>
-                            <td class="numeric" v-else> {{ wrsRm }}</td>
+                            <td class="numeric" v-if="wrsRm.num === ''"> </td>
+                            <td class="numeric" v-else> {{ wrsRm.num }}</td>
                         </template>
                     </tr>
                     <tr :data-tt-id="5*roomTyp.idx + 5" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
                         <td class="middle td-first subTree-title">庫存可超訂的剩餘數</td>
                         <template v-for="overBooking in roomTyp.overBooking">
-                            <td class="numeric" v-if="overBooking == ''"> </td>
-                            <td class="numeric" v-else> {{ overBooking }}</td>
+                            <td class="numeric" v-if="overBooking.num === ''"> </td>
+                            <td class="numeric" v-else> {{ overBooking.num }}</td>
                         </template>
                     </tr>
                 </template>
