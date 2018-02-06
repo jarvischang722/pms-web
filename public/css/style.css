@@ -4725,8 +4725,22 @@ td div.act-box span.act-text {
     box-shadow: 1px 0px 1px 1px #778899;
   }
 }
+.cus-roomType-table table {
+  width: 100%;
+}
 .cus-roomType-table table thead tr .rp-first-th {
+  width: 188px;
   min-width: 188px;
+}
+.cus-roomType-table table thead tr .rp-first-th .caSelect {
+  margin: 12px 0 10px 0;
+}
+.cus-roomType-table table thead tr .rp-first-th .caSelect .el-icon-date:before {
+  font-family: FontAwesome;
+  content: "";
+  color: #FF892A !important;
+  font-weight: 300;
+  font-size: 16px;
 }
 .cus-roomType-table table tbody tr td {
   min-width: 35px;
@@ -4736,7 +4750,7 @@ td div.act-box span.act-text {
 }
 
 .cus-roomPlan-table {
-  max-height: 700px;
+  max-height: 800px;
 }
 .cus-roomPlan-table table thead tr td, .cus-roomPlan-table table thead tr th {
   min-width: 70px;
@@ -4747,8 +4761,8 @@ td div.act-box span.act-text {
 }
 .cus-roomPlan-table table tbody tr td {
   height: 22px;
-  min-width: 38px;
-  max-width: 38px;
+  min-width: 30px;
+  max-width: 30px;
 }
 .cus-roomPlan-table table tbody tr td:nth-child(odd):not(:first-child) {
   border-left: 0;
@@ -4770,117 +4784,589 @@ td div.act-box span.act-text {
 }
 
 td div.triangle-box.colspan-1 {
-  width: 37px;
+  width: 29px;
 }
 
 td div.triangle-box.colspan-2 {
-  width: 75px;
+  width: 59px;
 }
 
 td div.triangle-box.colspan-3 {
-  width: 113px;
+  width: 89px;
 }
 
 td div.triangle-box.colspan-4 {
-  width: 151px;
+  width: 119px;
 }
 
 td div.triangle-box.colspan-5 {
-  width: 189px;
+  width: 149px;
 }
 
 td div.triangle-box.colspan-6 {
-  width: 227px;
+  width: 179px;
 }
 
 td div.triangle-box.colspan-7 {
-  width: 265px;
+  width: 209px;
 }
 
 td div.triangle-box.colspan-8 {
-  width: 303px;
+  width: 239px;
 }
 
 td div.triangle-box.colspan-9 {
-  width: 341px;
+  width: 269px;
 }
 
 td div.triangle-box.colspan-10 {
-  width: 379px;
+  width: 299px;
 }
 
 td div.triangle-box.colspan-11 {
-  width: 417px;
+  width: 329px;
 }
 
 td div.triangle-box.colspan-12 {
-  width: 455px;
+  width: 359px;
 }
 
 td div.triangle-box.colspan-13 {
-  width: 493px;
+  width: 389px;
 }
 
 td div.triangle-box.colspan-14 {
-  width: 531px;
+  width: 419px;
 }
 
 td div.triangle-box.colspan-15 {
-  width: 569px;
+  width: 449px;
 }
 
 td div.triangle-box.colspan-16 {
-  width: 607px;
+  width: 479px;
 }
 
 td div.triangle-box.colspan-17 {
-  width: 645px;
+  width: 509px;
 }
 
 td div.triangle-box.colspan-18 {
-  width: 683px;
+  width: 539px;
 }
 
 td div.triangle-box.colspan-19 {
-  width: 721px;
+  width: 569px;
 }
 
 td div.triangle-box.colspan-20 {
-  width: 759px;
+  width: 599px;
 }
 
 td div.triangle-box.colspan-21 {
-  width: 797px;
+  width: 629px;
 }
 
 td div.triangle-box.colspan-22 {
-  width: 835px;
+  width: 659px;
 }
 
 td div.triangle-box.colspan-23 {
-  width: 873px;
+  width: 689px;
 }
 
 td div.triangle-box.colspan-24 {
-  width: 911px;
+  width: 719px;
 }
 
 td div.triangle-box.colspan-25 {
-  width: 949px;
+  width: 749px;
 }
 
 td div.triangle-box.colspan-26 {
-  width: 987px;
+  width: 779px;
 }
 
 td div.triangle-box.colspan-27 {
-  width: 1025px;
+  width: 809px;
 }
 
 td div.triangle-box.colspan-28 {
-  width: 1063px;
+  width: 839px;
 }
 
+@media screen and (min-width: 1470px) {
+  .cus-roomPlan-table table tbody tr td {
+    min-width: 33px;
+    max-width: 33px;
+  }
+
+  td div.triangle-box.colspan-1 {
+    width: 32px;
+  }
+
+  td div.triangle-box.colspan-2 {
+    width: 65px;
+  }
+
+  td div.triangle-box.colspan-3 {
+    width: 98px;
+  }
+
+  td div.triangle-box.colspan-4 {
+    width: 131px;
+  }
+
+  td div.triangle-box.colspan-5 {
+    width: 164px;
+  }
+
+  td div.triangle-box.colspan-6 {
+    width: 197px;
+  }
+
+  td div.triangle-box.colspan-7 {
+    width: 230px;
+  }
+
+  td div.triangle-box.colspan-8 {
+    width: 263px;
+  }
+
+  td div.triangle-box.colspan-9 {
+    width: 296px;
+  }
+
+  td div.triangle-box.colspan-10 {
+    width: 329px;
+  }
+
+  td div.triangle-box.colspan-11 {
+    width: 362px;
+  }
+
+  td div.triangle-box.colspan-12 {
+    width: 395px;
+  }
+
+  td div.triangle-box.colspan-13 {
+    width: 428px;
+  }
+
+  td div.triangle-box.colspan-14 {
+    width: 461px;
+  }
+
+  td div.triangle-box.colspan-15 {
+    width: 494px;
+  }
+
+  td div.triangle-box.colspan-16 {
+    width: 527px;
+  }
+
+  td div.triangle-box.colspan-17 {
+    width: 560px;
+  }
+
+  td div.triangle-box.colspan-18 {
+    width: 593px;
+  }
+
+  td div.triangle-box.colspan-19 {
+    width: 626px;
+  }
+
+  td div.triangle-box.colspan-20 {
+    width: 659px;
+  }
+
+  td div.triangle-box.colspan-21 {
+    width: 692px;
+  }
+
+  td div.triangle-box.colspan-22 {
+    width: 725px;
+  }
+
+  td div.triangle-box.colspan-23 {
+    width: 758px;
+  }
+
+  td div.triangle-box.colspan-24 {
+    width: 791px;
+  }
+
+  td div.triangle-box.colspan-25 {
+    width: 824px;
+  }
+
+  td div.triangle-box.colspan-26 {
+    width: 857px;
+  }
+
+  td div.triangle-box.colspan-27 {
+    width: 890px;
+  }
+
+  td div.triangle-box.colspan-28 {
+    width: 923px;
+  }
+}
+@media screen and (min-width: 1570px) {
+  .cus-roomPlan-table table tbody tr td {
+    min-width: 36px;
+    max-width: 36px;
+  }
+
+  td div.triangle-box.colspan-1 {
+    width: 35px;
+  }
+
+  td div.triangle-box.colspan-2 {
+    width: 71px;
+  }
+
+  td div.triangle-box.colspan-3 {
+    width: 107px;
+  }
+
+  td div.triangle-box.colspan-4 {
+    width: 143px;
+  }
+
+  td div.triangle-box.colspan-5 {
+    width: 179px;
+  }
+
+  td div.triangle-box.colspan-6 {
+    width: 215px;
+  }
+
+  td div.triangle-box.colspan-7 {
+    width: 251px;
+  }
+
+  td div.triangle-box.colspan-8 {
+    width: 287px;
+  }
+
+  td div.triangle-box.colspan-9 {
+    width: 323px;
+  }
+
+  td div.triangle-box.colspan-10 {
+    width: 359px;
+  }
+
+  td div.triangle-box.colspan-11 {
+    width: 395px;
+  }
+
+  td div.triangle-box.colspan-12 {
+    width: 431px;
+  }
+
+  td div.triangle-box.colspan-13 {
+    width: 467px;
+  }
+
+  td div.triangle-box.colspan-14 {
+    width: 503px;
+  }
+
+  td div.triangle-box.colspan-15 {
+    width: 539px;
+  }
+
+  td div.triangle-box.colspan-16 {
+    width: 575px;
+  }
+
+  td div.triangle-box.colspan-17 {
+    width: 611px;
+  }
+
+  td div.triangle-box.colspan-18 {
+    width: 647px;
+  }
+
+  td div.triangle-box.colspan-19 {
+    width: 683px;
+  }
+
+  td div.triangle-box.colspan-20 {
+    width: 719px;
+  }
+
+  td div.triangle-box.colspan-21 {
+    width: 755px;
+  }
+
+  td div.triangle-box.colspan-22 {
+    width: 791px;
+  }
+
+  td div.triangle-box.colspan-23 {
+    width: 827px;
+  }
+
+  td div.triangle-box.colspan-24 {
+    width: 863px;
+  }
+
+  td div.triangle-box.colspan-25 {
+    width: 899px;
+  }
+
+  td div.triangle-box.colspan-26 {
+    width: 935px;
+  }
+
+  td div.triangle-box.colspan-27 {
+    width: 971px;
+  }
+
+  td div.triangle-box.colspan-28 {
+    width: 1007px;
+  }
+}
+@media screen and (min-width: 1670px) {
+  .cus-roomPlan-table table tbody tr td {
+    min-width: 39px;
+    max-width: 39px;
+  }
+
+  td div.triangle-box.colspan-1 {
+    width: 38px;
+  }
+
+  td div.triangle-box.colspan-2 {
+    width: 77px;
+  }
+
+  td div.triangle-box.colspan-3 {
+    width: 116px;
+  }
+
+  td div.triangle-box.colspan-4 {
+    width: 155px;
+  }
+
+  td div.triangle-box.colspan-5 {
+    width: 194px;
+  }
+
+  td div.triangle-box.colspan-6 {
+    width: 233px;
+  }
+
+  td div.triangle-box.colspan-7 {
+    width: 272px;
+  }
+
+  td div.triangle-box.colspan-8 {
+    width: 311px;
+  }
+
+  td div.triangle-box.colspan-9 {
+    width: 350px;
+  }
+
+  td div.triangle-box.colspan-10 {
+    width: 389px;
+  }
+
+  td div.triangle-box.colspan-11 {
+    width: 428px;
+  }
+
+  td div.triangle-box.colspan-12 {
+    width: 467px;
+  }
+
+  td div.triangle-box.colspan-13 {
+    width: 506px;
+  }
+
+  td div.triangle-box.colspan-14 {
+    width: 545px;
+  }
+
+  td div.triangle-box.colspan-15 {
+    width: 584px;
+  }
+
+  td div.triangle-box.colspan-16 {
+    width: 623px;
+  }
+
+  td div.triangle-box.colspan-17 {
+    width: 662px;
+  }
+
+  td div.triangle-box.colspan-18 {
+    width: 701px;
+  }
+
+  td div.triangle-box.colspan-19 {
+    width: 740px;
+  }
+
+  td div.triangle-box.colspan-20 {
+    width: 779px;
+  }
+
+  td div.triangle-box.colspan-21 {
+    width: 818px;
+  }
+
+  td div.triangle-box.colspan-22 {
+    width: 857px;
+  }
+
+  td div.triangle-box.colspan-23 {
+    width: 896px;
+  }
+
+  td div.triangle-box.colspan-24 {
+    width: 935px;
+  }
+
+  td div.triangle-box.colspan-25 {
+    width: 974px;
+  }
+
+  td div.triangle-box.colspan-26 {
+    width: 1013px;
+  }
+
+  td div.triangle-box.colspan-27 {
+    width: 1052px;
+  }
+
+  td div.triangle-box.colspan-28 {
+    width: 1091px;
+  }
+}
+@media screen and (min-width: 1770px) {
+  .cus-roomPlan-table table tbody tr td {
+    min-width: 43px;
+    max-width: 43px;
+  }
+
+  td div.triangle-box.colspan-1 {
+    width: 42px;
+  }
+
+  td div.triangle-box.colspan-2 {
+    width: 85px;
+  }
+
+  td div.triangle-box.colspan-3 {
+    width: 128px;
+  }
+
+  td div.triangle-box.colspan-4 {
+    width: 171px;
+  }
+
+  td div.triangle-box.colspan-5 {
+    width: 214px;
+  }
+
+  td div.triangle-box.colspan-6 {
+    width: 257px;
+  }
+
+  td div.triangle-box.colspan-7 {
+    width: 300px;
+  }
+
+  td div.triangle-box.colspan-8 {
+    width: 343px;
+  }
+
+  td div.triangle-box.colspan-9 {
+    width: 386px;
+  }
+
+  td div.triangle-box.colspan-10 {
+    width: 429px;
+  }
+
+  td div.triangle-box.colspan-11 {
+    width: 472px;
+  }
+
+  td div.triangle-box.colspan-12 {
+    width: 515px;
+  }
+
+  td div.triangle-box.colspan-13 {
+    width: 558px;
+  }
+
+  td div.triangle-box.colspan-14 {
+    width: 601px;
+  }
+
+  td div.triangle-box.colspan-15 {
+    width: 644px;
+  }
+
+  td div.triangle-box.colspan-16 {
+    width: 687px;
+  }
+
+  td div.triangle-box.colspan-17 {
+    width: 730px;
+  }
+
+  td div.triangle-box.colspan-18 {
+    width: 773px;
+  }
+
+  td div.triangle-box.colspan-19 {
+    width: 816px;
+  }
+
+  td div.triangle-box.colspan-20 {
+    width: 859px;
+  }
+
+  td div.triangle-box.colspan-21 {
+    width: 902px;
+  }
+
+  td div.triangle-box.colspan-22 {
+    width: 945px;
+  }
+
+  td div.triangle-box.colspan-23 {
+    width: 988px;
+  }
+
+  td div.triangle-box.colspan-24 {
+    width: 1031px;
+  }
+
+  td div.triangle-box.colspan-25 {
+    width: 1074px;
+  }
+
+  td div.triangle-box.colspan-26 {
+    width: 1117px;
+  }
+
+  td div.triangle-box.colspan-27 {
+    width: 1160px;
+  }
+
+  td div.triangle-box.colspan-28 {
+    width: 1203px;
+  }
+}
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;
