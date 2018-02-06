@@ -1,5 +1,5 @@
 <template>
-    <div class="col-xs-12 col-sm-12">
+    <div class="col-xs-12 col-sm-12" v-loading="isLoading" element-loading-text="Loading...">
         <div class="row">
             <!--多筆 歷史消費 dataGrid -->
             <div class="col-xs-11 col-sm-11">
@@ -29,12 +29,26 @@
 </template>
 
 <script>
+    /** DatagridRmSingleGridClass **/
+    function DatagridSingleGridClass() {
+    }
+
+    DatagridSingleGridClass.prototype = new DatagridBaseClass();
+    DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    };
+    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    };
+    DatagridSingleGridClass.prototype.doSaveColumnFields = function () {
+    };
+    /*** Class End  ***/
+
     export default {
         name: 'historical-consumption',
         props: ["rowData", "isHistoricalConsumption"],
         data() {
             return {
                 i18nLang: go_i18nLang,
+                isLoading: false,
                 dataGridRowsData: [],
                 oriDataGridRowsData: [],
                 fieldsData: [],
@@ -58,40 +72,24 @@
                 this.oriFieldsData = [];
                 this.dgIns = {};
             },
-            fetchFieldData(rowData) {
-                var self = this;
-
-                self.fetchRowData(rowData);
-            },
-            fetchRowData(rowData) {
-                var self = this;
-
-                this.showDataGrid();
+            fetchFieldData() {
+                this.isLoading = true;
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0610020",
+                    tab_page_id: 7,
+                    searchCond: {cust_cod: this.$store.state.gs_custCod}
+                }).then(result => {
+                    this.searchFields = result.searchFields;
+                    this.fieldsData = result.dgFieldsData;
+                    this.dataGridRowsData = result.dgRowData;
+                    this.showDataGrid();
+                });
             },
             showDataGrid() {
-//                this.dgIns = new DatagridBaseClass();
-//                this.dgIns.init("PMS0610020", "historicalConsumption_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'historicalConsumption_dg'), this.fieldsData);
-//                this.dgIns.loadDgData(this.dataGridRowsData);
-
-                $('#historicalConsumption_dg').datagrid({
-                    singleSelect: true,
-                    collapsible: true,
-                    // 從json 撈
-                    url: '/jsonData/sales/bsCompany_historyConsumption.json',
-                    method: 'get',
-                    columns: [[
-                        {field: 'consumeDate', title: '消費日期', width: 80},
-                        {field: 'serialNum', title: '序號', width: 40},
-                        {field: 'consumeHall', title: '消費館別', width: 80},
-                        {field: 'consumePlace', title: '消費地點', width: 80},
-                        {field: 'consumePrice', title: '消費金額', width: 80, align: 'right'},
-                        {field: 'subPay', title: '代支', width: 80, align: 'right'},
-                        {field: 'consumeDescription', title: '消費說明', width: 80},
-                        {field: 'consumeTip', title: '小費', width: 80, align: 'right'},
-                        {field: 'uniformNum', title: '統一編號', width: 80},
-                        {field: 'invoiceNum', title: '發票號碼', width: 80}
-                    ]]
-                });
+                this.dgIns = new DatagridSingleGridClass();
+                this.dgIns.init("PMS0610020", "historicalConsumption_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'historicalConsumption_dg'), this.fieldsData);
+                this.dgIns.loadDgData(this.dataGridRowsData);
+                this.isLoading = false;
             }
         }
     }

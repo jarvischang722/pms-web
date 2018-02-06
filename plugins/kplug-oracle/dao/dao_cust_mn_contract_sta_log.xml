@@ -12,5 +12,18 @@
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">cust_cod</parameter>
     </dao>
+
+    <dao name="QRY_MAX_CONTRACT_LOG_SEQ_NOS">
+        <statement><![CDATA[
+			SELECT  MAX(seq_nos) as max_seq_nos
+            FROM  CUST_MN_CONTRACT_STA_LOG
+            WHERE  ATHENA_ID = :athena_id
+            AND  CUST_COD = :cust_cod
+            ORDER  BY  INS_DAT
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
 </root>
 

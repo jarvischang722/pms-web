@@ -1075,7 +1075,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(4), 
     "template_id" : "datagrid", 
-    "table_name" : "CONTRACT_DT ", 
+    "table_name" : "contract_dt", 
     "rule_func_name" : "qry_contract_dt", 
     "lock_table" : "", 
     "lock_type" : "", 
@@ -1107,4 +1107,15 @@
     "lock_type" : "", 
     "hotel_cod" : "", 
     "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5a6b0c8ac9e9af44f4c70e1f"), 
+    "prg_id" : "PMS0820040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "ghist_airline_rf", 
+    "rule_func_name" : "qry_ghist_airline_rf", 
+    "lock_table" : "ghist_airline_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "NULL"
 }

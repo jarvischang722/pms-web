@@ -69,11 +69,8 @@ exports.qryPageOneData = function (postData, session, callback) {
      */
     function qryBanquetSta(cb) {
         queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function (err, la_order) {
-            let la_reserv = _.where(la_order, {order_sta: "N"});
-            let la_wait = _.where(la_order, {order_sta: "W"});
-            let la_quest = _.where(la_order, {order_sta: "Q"});
-            let la_orderData = la_reserv.concat(la_quest, la_wait);
-            cb(null, la_orderData);
+            la_order = _.sortBy(la_order, "begin_tim");
+            cb(err, la_order);
         });
     }
 };
@@ -246,22 +243,34 @@ class ResvBanquetData {
 
         _.each(this.la_place, function (lo_place) {
             let la_newOrderData = [];
-            let la_order = _.sortBy(la_orderGroup[lo_place.place_cod], "wait_seq");
+            // let la_order = _.sortBy(la_orderGroup[lo_place.place_cod], "wait_seq");
+            let la_orderByPlace = la_orderGroup[lo_place.place_cod];
 
-            _.each(la_order, function (lo_order, index) {
+            _.each(la_orderByPlace, function (lo_order, index) {
                 lo_order.rowId = 1;
                 if (index == 0) {
                     la_newOrderData.push(lo_order);
                 }
                 else {
-                    _.every(la_newOrderData, function (lo_newOrderData) {
+                    _.every(la_newOrderData, function (lo_newOrderData, ln_newOrderIdx) {
                         let ln_order_begin_tim = self.convertToMin(lo_order.begin_tim);
                         let ln_order_end_tim = self.convertToMin(lo_order.end_tim);
                         let ln_newOrder_begin_tim = self.convertToMin(lo_newOrderData.begin_tim);
                         let ln_newOrder_end_tim = self.convertToMin(lo_newOrderData.end_tim);
                         //重疊
                         if (ln_order_begin_tim < ln_newOrder_end_tim && ln_order_end_tim > ln_newOrder_begin_tim && lo_order.rowId == lo_newOrderData.rowId) {
-                            lo_order.rowId = lo_newOrderData.rowId + 1;
+                            if ((lo_newOrderData.order_sta == "Q" && lo_order.order_sta == "N") || (lo_newOrderData.order_sta == "W" && lo_order.order_sta == "Q") || (lo_newOrderData.order_sta == "W" && lo_order.order_sta == "N")) {
+                                lo_order.rowId = lo_newOrderData.rowId;
+                                lo_newOrderData.rowId = lo_newOrderData.rowId + 1;
+                            }
+                            else if (lo_newOrderData.order_sta == "W" && lo_order.order_sta == "W" && lo_newOrderData.wait_seq > lo_order.wait_seq) {
+                                lo_order.rowId = lo_newOrderData.rowId;
+                                lo_newOrderData.rowId = lo_newOrderData.rowId + 1;
+                            }
+                            else {
+                                lo_order.rowId = lo_newOrderData.rowId + 1;
+                            }
+
                         }
                         return true;
                     });

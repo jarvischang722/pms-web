@@ -84,6 +84,31 @@
         <parameter type="string" kind="1">guarentee_typ</parameter>
     </dao>
 
+    <!--[PMS0610020 商務公司資料編輯] 合約內容
+        合約指定的房價代號未有相關訂房卡指定則可刪除合約
+    -->
+    <dao name="CHK_RATE_COD_IS_EXIST_IN_ORDER_MN">
+        <statement><![CDATA[
+            SELECT  COUNT(*) as order_rate_Count
+            FROM  ORDER_MN
+            WHERE  ATHENA_ID = :athena_id
+            AND  ACUST_COD = :cust_cod
+            AND  trim(HOTEL_COD) = trim(:hotel_cod)
+            AND  EXISTS (
+                SELECT  *
+                FROM  ORDER_DT
+                WHERE  ATHENA_ID = ORDER_MN.ATHENA_ID
+                AND  IKEY = ORDER_MN.IKEY
+                AND  trim(RATE_COD) = trim(:rate_cod) )
+            AND  ROWNUM <= 1
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+    </dao>
+
     <!--
     [PMS0620010] 未於訂房卡資料指定者可刪除
     訊息『訂房卡資料已使用，不可刪除』

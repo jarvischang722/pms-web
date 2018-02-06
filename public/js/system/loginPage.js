@@ -1,6 +1,7 @@
 var loginVM = new Vue({
     el: "#loginAPP",
     data: {
+        sysConfig: "",
         location: "",
         locations: [
             {"name": "Location A"},
@@ -8,7 +9,7 @@ var loginVM = new Vue({
         ],
         companyData: [],
         rememberMeCheck: false,
-        username: gs_account,
+        username: "",
         passwd: "",
         dbname: "0",
         comp_id: "0",
@@ -40,6 +41,8 @@ var loginVM = new Vue({
 
     },
     mounted: function () {
+        this.getSysConfig();
+        this.getDefaultAccount();
         this.getCompaonyData();
         setTimeout(function () {
             loginVM.showUserCookie();
@@ -60,6 +63,29 @@ var loginVM = new Vue({
         });
     },
     methods: {
+        //取系統參數
+        getSysConfig: function () {
+            var self = this;
+            $.ajax({
+                url: '/api/getsysConfig',
+                async: false,
+                type: 'json',
+                method: 'post'
+            }).done(function (result) {
+                self.sysConfig = result.sysConf;
+            });
+        },
+        //參數控制取預設帳號
+        getDefaultAccount: function () {
+            var self = this;
+            if(!_.isUndefined(self.sysConfig.isDefaultUserID) && self.sysConfig.isDefaultUserID === "Y"){
+                $.get(self.sysConfig.api_url + "/?getip=''", function (ip) {
+                    $.post("/api/getDefaultAccount", {ip: ip}, function (result) {
+                        self.username = result.account;
+                    });
+                });
+            }
+        },
         getCompaonyData: function () {
             $.post("/api/getSelectCompany", function (result) {
                 if (result.success) {

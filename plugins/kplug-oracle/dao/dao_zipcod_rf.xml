@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- [PMS0610020 商務公司資料編輯] 主檔 欄位郵遞區號 -->
+    <dao name="QRY_ZIP_COD">
+        <statement><![CDATA[
+            SELECT  ZIP_COD as value, ZIP_RMK as display
+            FROM  ZIPCOD_RF
+            WHERE  ATHENA_ID = :athena_id
+            ORDER  BY  ZIP_COD
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+</root>

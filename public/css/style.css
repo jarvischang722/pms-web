@@ -35,6 +35,9 @@
 .grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option, .grid-item .input-medium, .grid-item input, .grid-item textarea {
   font-size: 13px !important;
 }
+.grid-item span.font-xxs, .grid-item p.font-xxs, .grid-item div.font-xxs, .grid-item select.font-xxs, .grid-item option.font-xxs, .grid-item .input-medium.font-xxs, .grid-item input.font-xxs, .grid-item textarea.font-xxs {
+  font-size: 12px !important;
+}
 .grid-item span.subtxt {
   margin: auto 2px auto auto;
 }
@@ -984,7 +987,7 @@ table.treetable tr.expanded span.indenter a {
   cursor: pointer;
 }
 .themeTable thead th.holiday-color, .themeTable .holiday-color.numeric {
-  background: #FECAE4;
+  background: #FECAE4 !important;
 }
 .themeTable thead th.dateColor, .themeTable .dateColor.numeric {
   background: #DAEAFC;
@@ -1063,6 +1066,10 @@ table.treetable tr.expanded span.indenter a {
 .themeTable.themeTableTwo .blueBg {
   background: #3d48a6;
   color: #fff;
+}
+
+.resRoomType-table .themeTable thead th i {
+  margin-top: 5px;
 }
 
 .wrapper {
@@ -2009,6 +2016,13 @@ a {
 .authorityTree p.topTitle {
   margin: 5px auto;
   font-size: 1.2em;
+  color: #ffffff;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  background: linear-gradient(314deg, rgba(93, 203, 179, 0.5) 15%, #468eb7 60%);
+  background: -moz-linear-gradient(314deg, rgba(93, 203, 179, 0.5) 15%, #468eb7 60%);
+  background: -o-linear-gradient(314deg, rgba(93, 203, 179, 0.5) 15%, #468eb7 60%);
 }
 .authorityTree .authRadio {
   margin-right: 2px;
@@ -3596,6 +3610,13 @@ input[type="datetime-local"] {
   display: inline-block;
 }
 
+.room-Num-Left, .room-Num-Right, .roomPlan-Num2, .roomPlan-Num1 {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 span.roomNum-text {
   padding-left: 3px;
 }
@@ -3610,15 +3631,20 @@ span.roomNum-text {
 }
 
 td div.triangle-box {
-  width: 80%;
+  width: 100%;
   height: 19px;
-  /* margin-left: 18px */
-  margin: 0px auto;
   color: #000;
   position: relative;
   background-color: #f8cbac;
+  z-index: 3;
 }
-td div.triangle-box:before, td div.triangle-box:after {
+td div.triangle-box.colspan-1 {
+  width: 100%;
+}
+td div.triangle-box.colspan-2 {
+  width: 200%;
+}
+td div.triangle-box span:before, td div.triangle-box span:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3627,12 +3653,12 @@ td div.triangle-box:before, td div.triangle-box:after {
   width: 0;
   border-color: transparent #f8cbac;
 }
-td div.triangle-box:before {
-  left: -10px;
+td div.triangle-box span:before {
+  left: 0px;
   border-width: 9px 10px 9px 0px;
 }
-td div.triangle-box:after {
-  right: -10px;
+td div.triangle-box span:after {
+  right: 0px;
   border-width: 9px 0 9px 10px;
 }
 td div.triangle-box span.triangle-text {
@@ -3642,11 +3668,13 @@ td div.triangle-box span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #555;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
-td div.triangle-box.status_a {
+td div.triangle-box.status_a span {
   background: #8AC926;
 }
-td div.triangle-box.status_a:before, td div.triangle-box.status_a:after {
+td div.triangle-box.status_a span:before, td div.triangle-box.status_a span:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3655,12 +3683,12 @@ td div.triangle-box.status_a:before, td div.triangle-box.status_a:after {
   width: 0;
   border-color: transparent #8AC926;
 }
-td div.triangle-box.status_a:before {
-  left: -10px;
+td div.triangle-box.status_a span:before {
+  left: 0px;
   border-width: 9px 10px 9px 0px;
 }
-td div.triangle-box.status_a:after {
-  right: -10px;
+td div.triangle-box.status_a span:after {
+  right: 0px;
   border-width: 9px 0 9px 10px;
 }
 td div.triangle-box.status_a span.triangle-text {
@@ -3670,11 +3698,13 @@ td div.triangle-box.status_a span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
-td div.triangle-box.status_o {
+td div.triangle-box.status_o span {
   background: #FF595E;
 }
-td div.triangle-box.status_o:before, td div.triangle-box.status_o:after {
+td div.triangle-box.status_o span:before, td div.triangle-box.status_o span:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3683,12 +3713,12 @@ td div.triangle-box.status_o:before, td div.triangle-box.status_o:after {
   width: 0;
   border-color: transparent #FF595E;
 }
-td div.triangle-box.status_o:before {
-  left: -10px;
+td div.triangle-box.status_o span:before {
+  left: 0px;
   border-width: 9px 10px 9px 0px;
 }
-td div.triangle-box.status_o:after {
-  right: -10px;
+td div.triangle-box.status_o span:after {
+  right: 0px;
   border-width: 9px 0 9px 10px;
 }
 td div.triangle-box.status_o span.triangle-text {
@@ -3698,11 +3728,13 @@ td div.triangle-box.status_o span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
-td div.triangle-box.status_s {
+td div.triangle-box.status_s span {
   background: #FFCA3A;
 }
-td div.triangle-box.status_s:before, td div.triangle-box.status_s:after {
+td div.triangle-box.status_s span:before, td div.triangle-box.status_s span:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3711,12 +3743,12 @@ td div.triangle-box.status_s:before, td div.triangle-box.status_s:after {
   width: 0;
   border-color: transparent #FFCA3A;
 }
-td div.triangle-box.status_s:before {
-  left: -10px;
+td div.triangle-box.status_s span:before {
+  left: 0px;
   border-width: 9px 10px 9px 0px;
 }
-td div.triangle-box.status_s:after {
-  right: -10px;
+td div.triangle-box.status_s span:after {
+  right: 0px;
   border-width: 9px 0 9px 10px;
 }
 td div.triangle-box.status_s span.triangle-text {
@@ -3726,11 +3758,13 @@ td div.triangle-box.status_s span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
-td div.triangle-box.status_ooo {
+td div.triangle-box.status_ooo span {
   background: #1982C4;
 }
-td div.triangle-box.status_ooo:before, td div.triangle-box.status_ooo:after {
+td div.triangle-box.status_ooo span:before, td div.triangle-box.status_ooo span:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3739,12 +3773,12 @@ td div.triangle-box.status_ooo:before, td div.triangle-box.status_ooo:after {
   width: 0;
   border-color: transparent #1982C4;
 }
-td div.triangle-box.status_ooo:before {
-  left: -10px;
+td div.triangle-box.status_ooo span:before {
+  left: 0px;
   border-width: 9px 10px 9px 0px;
 }
-td div.triangle-box.status_ooo:after {
-  right: -10px;
+td div.triangle-box.status_ooo span:after {
+  right: 0px;
   border-width: 9px 0 9px 10px;
 }
 td div.triangle-box.status_ooo span.triangle-text {
@@ -3754,6 +3788,8 @@ td div.triangle-box.status_ooo span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
 td div.act-box {
   margin: 0px auto;
@@ -4625,6 +4661,358 @@ td div.act-box span.act-text {
   box-shadow: none !important;
 }
 
+/* 新增 fixtable新套件樣式、修改房號訂房table */
+.triangle-box.only-oneArrow-right {
+  width: 100%;
+  right: 0px;
+}
+.triangle-box.only-oneArrow-right .triangle-text {
+  border-right: 0 !important;
+}
+.triangle-box.only-oneArrow-right .triangle-text:after {
+  right: 0;
+  border-width: 0 !important;
+}
+.triangle-box.only-oneArrow-left {
+  width: 100%;
+  right: 0px;
+}
+.triangle-box.only-oneArrow-left .triangle-text {
+  border-left: 0 !important;
+}
+.triangle-box.only-oneArrow-left .triangle-text:before {
+  left: 0;
+  border-width: 0;
+}
+
+.fixed-table-container table thead tr td, .fixed-table-container table thead tr th {
+  background-clip: padding-box !important;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 4;
+  box-shadow: 1px 1px 1px 1px #778899;
+  -moz-box-shadow: 1px 1px 1px 1px #778899;
+  -webkit-box-shadow: 1px 1px 1px 1px #778899;
+}
+.fixed-table-container table thead tr th.td-first {
+  z-index: 99 !important;
+}
+.fixed-table-container table thead tr .rp-first-th {
+  z-index: 99 !important;
+  box-shadow: 0px 0px 0px 2px #778899;
+  -moz-box-shadow: 0px 0px 0px 2px #778899;
+  -webkit-box-shadow: 0px 0px 0px 2px #778899;
+}
+.fixed-table-container table tbody tr td {
+  background-clip: padding-box;
+  border: 1px solid #778899;
+}
+.fixed-table-container table tbody tr td.middle.td-first {
+  z-index: 9;
+  box-shadow: 1px 1px 0px 1px lightslategray;
+  -moz-box-shadow: 1px 1px 0px 1px lightslategray;
+  -webkit-box-shadow: 1px 1px 0px 1px lightslategray;
+}
+
+@-moz-document url-prefix() {
+  .fixed-table-container table thead tr td, .fixed-table-container table thead tr th {
+    box-shadow: 1px 0px 1px 1px #778899;
+  }
+  .fixed-table-container table thead tr .rp-first-th {
+    box-shadow: 1px 0px 1px 1px #778899;
+  }
+  .fixed-table-container table thead tr th.td-first {
+    box-shadow: 1px 0px 1px 1px #778899;
+  }
+}
+.cus-roomType-table table thead tr .rp-first-th {
+  min-width: 188px;
+}
+.cus-roomType-table table tbody tr td {
+  min-width: 35px;
+}
+.cus-roomType-table table tbody tr td.middle.td-first {
+  height: 21px;
+}
+
+.cus-roomPlan-table {
+  max-height: 700px;
+}
+.cus-roomPlan-table table thead tr td, .cus-roomPlan-table table thead tr th {
+  min-width: 70px;
+}
+.cus-roomPlan-table table thead tr .rp-first-th {
+  width: 321px;
+  min-width: 321px;
+}
+.cus-roomPlan-table table tbody tr td {
+  height: 22px;
+  min-width: 38px;
+  max-width: 38px;
+}
+.cus-roomPlan-table table tbody tr td:nth-child(odd):not(:first-child) {
+  border-left: 0;
+}
+.cus-roomPlan-table table tbody tr td:nth-child(even) {
+  border-right: 0;
+}
+
+.th-width-s {
+  width: 100px;
+  float: left;
+  padding: 0 7px;
+}
+
+.th-width-l {
+  width: 120px;
+  float: left;
+  padding: 0 7px;
+}
+
+td div.triangle-box.colspan-3 {
+  width: 306%;
+}
+
+td div.triangle-box.colspan-4 {
+  width: 408%;
+}
+
+td div.triangle-box.colspan-5 {
+  width: 510%;
+}
+
+td div.triangle-box.colspan-6 {
+  width: 612%;
+}
+
+td div.triangle-box.colspan-7 {
+  width: 714%;
+}
+
+td div.triangle-box.colspan-8 {
+  width: 816%;
+}
+
+td div.triangle-box.colspan-9 {
+  width: 918%;
+}
+
+td div.triangle-box.colspan-10 {
+  width: 1020%;
+}
+
+td div.triangle-box.colspan-11 {
+  width: 1122%;
+}
+
+td div.triangle-box.colspan-12 {
+  width: 1224%;
+}
+
+td div.triangle-box.colspan-13 {
+  width: 1326%;
+}
+
+td div.triangle-box.colspan-14 {
+  width: 1428%;
+}
+
+td div.triangle-box.colspan-15 {
+  width: 1530%;
+}
+
+td div.triangle-box.colspan-16 {
+  width: 1632%;
+}
+
+td div.triangle-box.colspan-17 {
+  width: 1734%;
+}
+
+td div.triangle-box.colspan-18 {
+  width: 1836%;
+}
+
+td div.triangle-box.colspan-19 {
+  width: 1938%;
+}
+
+td div.triangle-box.colspan-20 {
+  width: 2040%;
+}
+
+td div.triangle-box.colspan-21 {
+  width: 2142%;
+}
+
+td div.triangle-box.colspan-22 {
+  width: 2244%;
+}
+
+td div.triangle-box.colspan-23 {
+  width: 2346%;
+}
+
+td div.triangle-box.colspan-24 {
+  width: 2448%;
+}
+
+td div.triangle-box.colspan-25 {
+  width: 2550%;
+}
+
+td div.triangle-box.colspan-26 {
+  width: 2652%;
+}
+
+td div.triangle-box.colspan-27 {
+  width: 2754%;
+}
+
+td div.triangle-box.colspan-28 {
+  width: 2856%;
+}
+
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-1 {
+    width: 98%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-2 {
+    width: 198%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-3 {
+    width: 298%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-4 {
+    width: 398%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-5 {
+    width: 498%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-6 {
+    width: 598%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-7 {
+    width: 698%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-8 {
+    width: 798%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-9 {
+    width: 898%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-10 {
+    width: 998%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-11 {
+    width: 1098%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-12 {
+    width: 1198%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-13 {
+    width: 1298%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-14 {
+    width: 1398%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-15 {
+    width: 1498%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-16 {
+    width: 1598%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-17 {
+    width: 1698%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-18 {
+    width: 1798%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-19 {
+    width: 1898%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-20 {
+    width: 1998%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-21 {
+    width: 2098%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-22 {
+    width: 2198%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-23 {
+    width: 2298%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-24 {
+    width: 2398%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-25 {
+    width: 2498%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-26 {
+    width: 2598%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-27 {
+    width: 2698%;
+  }
+}
+@-moz-document url-prefix() {
+  td div.triangle-box.colspan-28 {
+    width: 2798%;
+  }
+}
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;
@@ -4803,6 +5191,10 @@ td div.act-box span.act-text {
 
 .mr-5 {
   margin-right: 5px;
+}
+
+.mr-10 {
+  margin-right: 10px;
 }
 
 .cardDetail_margin {
@@ -5632,6 +6024,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.ca-select-l {
+  width: 93px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.checkMail {
   width: 530px;
   max-width: 100%;
@@ -5768,9 +6165,6 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
 .popCheckbox.resvCk-1 {
   width: 106px;
 }
-.popCheckbox.resvCk-1 .checkbox label {
-  padding-left: 14px;
-}
 .popCheckbox .checkbox {
   margin: 1px auto 0 auto;
 }
@@ -5820,8 +6214,11 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   width: 79.4%;
 }
 
-.border-raduis-5 {
+.btn-spc-sm {
   border-radius: 5px;
+  height: 20px !important;
+  border-width: 1px;
+  line-height: 15px;
 }
 
 .extendGrid {

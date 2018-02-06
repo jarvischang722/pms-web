@@ -198,7 +198,22 @@ function DatagridBaseClass() {
             };
         }
         if (self.endEditing()) {
-            $.post("/api/handleDataGridAddEventRule", {prg_id: self.prg_id}, function (result) {
+            //設定搜尋條件
+            var lo_param = {};
+            if(this.dtOriRowData.length != 0){
+                lo_param = {
+                    prg_id: self.prg_id,
+                    page_id: self.fieldsData[0].page_id,
+                    tab_page_id: self.fieldsData[0].tab_page_id
+                };
+            }
+            else{
+                lo_param = {
+                    prg_id: self.prg_id
+                };
+            }
+
+            $.post("/api/handleDataGridAddEventRule", lo_param, function (result) {
                 var prgDefaultObj = {createRow: 'Y'};
                 if (result.success) {
                     prgDefaultObj = result.prgDefaultObj;
@@ -245,10 +260,21 @@ function DatagridBaseClass() {
 
         $("#gridEdit").val(self.tmpCUD);
 
-        $.post("/api/handleDataGridDeleteEventRule", {
-            prg_id: self.prg_id,
-            deleteData: self.tmpCUD.deleteData
-        }, function (result) {
+        var lo_param = {};
+        if(this.dtOriRowData.length != 0){
+            lo_param = {
+                prg_id: self.prg_id,
+                tab_page_id: self.fieldsData[0].tab_page_id,
+                deleteData: self.tmpCUD.deleteData
+            };
+        }
+        else{
+            lo_param = {
+                prg_id: self.prg_id,
+                deleteData: self.tmpCUD.deleteData
+            };
+        }
+        $.post("/api/handleDataGridDeleteEventRule", lo_param, function (result) {
             if (result.success) {
                 $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
             } else {
@@ -277,9 +303,16 @@ function DatagridBaseClass() {
 
         _.each(allField, function (field, fIdx) {
             var currentColumOption = $('#' + self.dgName).datagrid("getColumnOption", field);
-            currentColumOption.col_seq = fIdx;
-            delete currentColumOption._id;
-            saveField.push(_.extend(currentColumOption));
+            var lo_currentColumOption = JSON.parse(JSON.stringify(currentColumOption));
+            lo_currentColumOption.col_seq = fIdx;
+            delete lo_currentColumOption._id;
+
+            //因前檯小數關係，format_func_name可能是object，存進mongo前的前置處理
+            if (typeof lo_currentColumOption.format_func_name === "object") {
+                lo_currentColumOption.format_func_name = lo_currentColumOption.format_func_name.rule_name;
+            }
+
+            saveField.push(_.extend(lo_currentColumOption));
         });
 
         $.post("/api/saveFieldOptionByUser", {

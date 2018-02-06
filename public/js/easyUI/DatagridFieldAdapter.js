@@ -135,15 +135,15 @@ var DatagridFieldAdapter = {
         /** Formatter 顯示  **/
         if (dataType == "datebox") {
             var dateFunc = function (date) {
-                if (date != "" && !_.isUndefined(date)) {
+                if (date != "" && !_.isUndefined(date) && !_.isNull(date)) {
                     return moment(date).format("YYYY/MM/DD");
                 }
 
-                return new moment().format("YYYY/MM/DD");
+                return moment().format("YYYY/MM/DD");
             };
 
             var dateParserFunc = function (date) {
-                if (date != "" && !_.isUndefined(date)) {
+                if (date != "" && !_.isUndefined(date) && !_.isNull(date)) {
                     return new Date(Date.parse(date));
                 }
                 return new Date();
@@ -158,7 +158,6 @@ var DatagridFieldAdapter = {
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
-
                     if (isUserEdit) {
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
@@ -325,7 +324,7 @@ var DatagridFieldAdapter = {
             }
 
             tmpFieldObj.formatter = function (val) {
-                if(_.isNull(val) || _.isUndefined(val)){
+                if (_.isNull(val) || _.isUndefined(val)) {
                     return val;
                 }
                 val = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
@@ -335,7 +334,7 @@ var DatagridFieldAdapter = {
                 return val;
             };
             tmpFieldObj.editor.options.formatter = function (val) {
-                if(_.isNull(val) || _.isUndefined(val)){
+                if (_.isNull(val) || _.isUndefined(val)) {
                     return val;
                 }
                 val = val.toString().replace(/,/g, "");
@@ -414,6 +413,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         };
 
         isUserEdit = false;
+
         $.post('/api/chkFieldRule', postData, function (result) {
             if (result.success) {
                 //是否要show出訊息
@@ -472,7 +472,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                 }
                 else {
                     _.each(effectValues, function (item, index) {
-
                         var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
                         $('#' + dgName).datagrid('updateRow', {
                             index: indexRow,
@@ -503,6 +502,28 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     });
                     $(lo_editor.target).textbox("readonly", true);
                 });
+            }
+
+            // 動態產生下拉資料
+            if (result.selectField.length > 0) {
+                //單一欄位下拉資料
+                if(result.selectField.length == 1){
+                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                        index: indexRow,
+                        field: result.selectField
+                    });
+                    $(lo_editor.target).combobox("loadData", result.selectOptions);
+                }
+                //多個欄位
+                else{
+                    _.each(result.selectField, function(ls_field){
+                        var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                            index: indexRow,
+                            field: ls_field
+                        });
+                        $(lo_editor.target).combobox("loadData", result.multiSelectOptions[ls_field]);
+                    });
+                }
             }
 
             isUserEdit = true;
