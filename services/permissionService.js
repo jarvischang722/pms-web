@@ -562,7 +562,7 @@ exports.addStaff = function (postData, session, callback) {
         "1": lo_params
     };
     callback(null, lo_params);
-    dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
+    // dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
 };
 
 exports.qryPermissionFuncTreeData = function (req, session, callback) {
