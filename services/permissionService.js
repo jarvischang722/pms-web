@@ -561,7 +561,7 @@ exports.addStaff = function (postData, session, callback) {
     let lo_saveExecDatas = {
         "1": lo_params
     };
-    callback(null, lo_params);
+    callback(null, lo_saveExecDatas);
     // dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
 };
 
