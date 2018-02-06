@@ -1354,8 +1354,8 @@ var singlePage = Vue.extend({
                         callback(true);
                     });
                 }
-                if (result.msg != "") {
-                    alert(result.msg);
+                if (result.errorMsg != "") {
+                    alert(result.errorMsg);
                     callback(false);
                 }
             });
