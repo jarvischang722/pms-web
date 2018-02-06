@@ -4748,6 +4748,13 @@ td div.act-box span.act-text {
 .cus-roomType-table table tbody tr td.middle.td-first {
   height: 21px;
 }
+.cus-roomType-table table tbody tr td.middle.td-first.subTree-title, .cus-roomType-table table tbody tr td.middle.td-first .room-field-text {
+  padding-left: 4px;
+}
+.cus-roomType-table table tbody tr td.middle.td-first .roomNumTip {
+  width: 42px;
+  text-align: center;
+}
 
 .cus-roomPlan-table {
   max-height: 800px;

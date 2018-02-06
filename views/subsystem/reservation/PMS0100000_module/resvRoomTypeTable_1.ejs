@@ -79,19 +79,19 @@
 
             <template v-if="is4fieldAppear">
                 <tr>
-                    <td class="middle td-first">Total available</td>
+                    <td class="middle td-first"><span class="room-field-text">Total available</span></td>
                     <td class="numeric" v-for="number in totalAvailable.number">{{number.num}}</td>
                 </tr>
                 <tr>
-                    <td class="middle td-first">occupancy</td>
+                    <td class="middle td-first"><span class="room-field-text">occupancy</span></td>
                     <td class="numeric" v-for="number in occupancy.number">{{number.num}}</td>
                 </tr>
                 <tr>
-                    <td class="middle td-first">phyOccupancy</td>
+                    <td class="middle td-first"><span class="room-field-text">phyOccupancy</span></td>
                     <td class="numeric" v-for="number in phyOccupancy.number">{{number.num}}</td>
                 </tr>
                 <tr>
-                    <td class="middle td-first">phyAvailable</td>
+                    <td class="middle td-first"><span class="room-field-text">phyAvailable</span></td>
                     <td class="numeric" v-for="number in phyAvailable.number">{{number.num}}</td>
                 </tr>
             </template>
