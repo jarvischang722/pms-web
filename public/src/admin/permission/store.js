@@ -7,7 +7,7 @@ Vue.use(Vuex);
 // root state object.
 // each Vuex instance is just a single state tree.
 const state = {
-    gs_permissionModel: "authByStaff",
+    gs_permissionModel: "authByRole",
 
     ga_allRoles: [],
     gs_selRole: "",
