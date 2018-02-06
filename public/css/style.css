@@ -4576,8 +4576,8 @@ td div.act-box span.act-text {
 
 /***** vue 問題 **** */
 .vue-treeselect__menu label {
-  text-align: left;
-  width: auto;
+  text-align: left !important;
+  width: auto !important;
 }
 
 .vue-treeselect {
@@ -4736,11 +4736,16 @@ td div.act-box span.act-text {
   margin: 12px 0 10px 0;
 }
 .cus-roomType-table table thead tr .rp-first-th .caSelect .el-icon-date:before {
-  font-family: FontAwesome;
-  content: "";
-  color: #FF892A !important;
-  font-weight: 300;
-  font-size: 16px;
+  content: none;
+}
+.cus-roomType-table table thead tr .rp-first-th .caSelect .el-input__icon + .el-input__inner {
+  padding: 0;
+}
+.cus-roomType-table table thead tr .rp-first-th .caSelect .el-input__inner {
+  text-align: center;
+}
+.cus-roomType-table table thead tr .rp-first-th .caIcon {
+  margin-top: 6px;
 }
 .cus-roomType-table table tbody tr td {
   min-width: 35px;
