@@ -6,7 +6,7 @@
                 <button class="btn btn-primary btn-white btn-defaultWidth" style="height: 30px;"
                         role="button">特別權限</button>
             </div>
-            <div class="btn-group pull-left" v-if="permissionModel == 'authByStaff' || permissionModel == 'authByRole'">
+            <div class="btn-group pull-left" v-if="permissionModel == 'authByRole'">
                 <button class="btn btn-primary btn-white btn-sm" style="height: 30px;" @click="authUpdate">
                     <i class="fa fa-pencil"></i> 修改
                 </button>
