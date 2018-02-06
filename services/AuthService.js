@@ -141,30 +141,40 @@ exports.doAuthAccount = function (authData, callback) {
                         }
                         //mongo有這筆資料則更新availUserNum
                         else {
-                            var lo_lastUpdTime = moment(new Date(result.lastUpdTime));
-                            var lo_today = moment(new Date());
-                            var ln_duration = Number(moment.duration(lo_lastUpdTime.diff(lo_today)).asDays());
-
                             let lo_cond = {
                                 "athena_id": user.onlineUserBy.athena_id,
                                 "comp_cod": user.onlineUserBy.comp_cod,
                                 "hotel_cod": user.onlineUserBy.hotel_cod
                             };
+                            //TODO 更新時間(lastUpdTime)在討論
+                            // var lo_lastUpdTime = moment(new Date(result.lastUpdTime));
+                            // var lo_today = moment(new Date());
+                            // var ln_duration = Number(moment.duration(lo_lastUpdTime.diff(lo_today)).asDays());
+
                             //lastUpdTime 超過今天一天就更新mongo中的availUserNum、lastUpdTime
-                            if (Math.abs(ln_duration) > 1) {
-                                mongoAgent.OnlineUser.update(lo_cond, {
-                                    availUserNum: user.onlineUserBy.availUserNum,
-                                    lastUpdTime: moment(new Date())
-                                }, function (errUpdate) {
-                                    if (errUpdate) {
-                                        errUpdate.message = "mongo 's err";
-                                    }
-                                    cb(errUpdate, user);
-                                });
-                            }
-                            else {
-                                cb(err, user);
-                            }
+                            // if (Math.abs(ln_duration) > 1) {
+                            //     mongoAgent.OnlineUser.update(lo_cond, {
+                            //         availUserNum: user.onlineUserBy.availUserNum,
+                            //         lastUpdTime: moment(new Date())
+                            //     }, function (errUpdate) {
+                            //         if (errUpdate) {
+                            //             errUpdate.message = "mongo 's err";
+                            //         }
+                            //         cb(errUpdate, user);
+                            //     });
+                            // }
+                            // else {
+                            //     cb(err, user);
+                            // }
+                            mongoAgent.OnlineUser.update(lo_cond, {
+                                availUserNum: user.onlineUserBy.availUserNum,
+                                lastUpdTime: moment(new Date())
+                            }, function (errUpdate) {
+                                if (errUpdate) {
+                                    errUpdate.message = "mongo 's err";
+                                }
+                                cb(errUpdate, user);
+                            });
                         }
                     });
                 }
