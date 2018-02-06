@@ -16,6 +16,9 @@
                     <div class="space-6"></div>
                     <label for="usr_pwd">人員密碼</label>
                     <input type="password" id="usr_pwd" style="width:80%" v-model="usr_pwd">
+                    <div class="space-6"></div>
+                    <label for="usr_pwdChk">確認密碼</label>
+                    <input type="password" id="usr_pwdChk" style="width:80%" v-model="usr_pwdChk">
                 </div>
                 <div class="space-4"></div>
                 <div slot="footer" class="dialog-footer" style="text-align: center;">
@@ -78,7 +81,6 @@
                 return this.$store.state.gb_isAuthUpdate;
             },
             gb_isAuthCreate() {
-                this.create_node(this.$store.state.gb_isAuthCreate);
                 return this.$store.state.gb_isAuthCreate;
             },
             gb_isAuthDelete() {
@@ -225,11 +227,16 @@
             },
 
             addStaff() {
+                if(this.usr_pwd != this.usr_pwdChk){
+                    alert("密碼確認有誤");
+                    return;
+                }
                 let lo_params = {
                     usr_id: this.usr_id,
                     usr_cname: this.usr_cname,
                     usr_pwd: this.usr_pwd
                 };
+                this.create_node(this.$store.state.gb_isAuthCreate);
                 $.post("/api/addStaff", lo_params).then(
                     result => {
                         if (result.success) {

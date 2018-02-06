@@ -388,8 +388,8 @@ exports.addRole = function (postData, session, callback) {
     let lo_saveExecDatas = {
         "0": lo_params
     };
-    callback(null, "");
-    // dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
+    // callback(null, "");
+    dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
 };
 
 exports.delRole = function (postData, session, callback) {
