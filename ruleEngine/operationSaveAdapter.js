@@ -691,7 +691,7 @@ function sortByEventTime(data, callback) {
 //轉換為API格式
 function convertToApiFormat(lo_saveExecDatasSorted, callback) {
     var apiParams = {
-        // "REVE-CODE": go_postData.trans_cod,
+        "REVE-CODE": go_postData.trans_cod,
         "program_id": go_postData.prg_id,
         "func_id": go_postData.func_id || "",
         "athena_id": go_session.user.athena_id,

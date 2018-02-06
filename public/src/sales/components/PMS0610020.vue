@@ -363,8 +363,10 @@
             singleData: {
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
-                        //cust_mn 的公司名稱為 cust_idx的公司名稱
-                        val.cust_nam = val.cust_idx_alt_nam;
+                        //cust_mn 的公司名稱為 cust_idx的公司名稱(不是第一次載入)
+                        if(!_.isEmpty(this.$store.state.go_allData.go_mnSingleData)){
+                            val.cust_nam = val.cust_idx_alt_nam;
+                        }
 
                         var lo_singleData = JSON.parse(JSON.stringify(val));
                         var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
@@ -455,7 +457,6 @@
                 });
             },
             fetchRowData() {
-                var self = this;
                 if (this.isCreateStatus) {
                     $.post("/api/fetchDefaultSingleRowData", {
                         prg_id: "PMS0610020",
@@ -536,6 +537,7 @@
                 var self = this;
                 if (this.isEditStatus) {
                     this.$store.dispatch("qryAllDataIsChange").then(result => {
+                        console.log(result);
                         if (result.success) {
                             if (!result.isChange) {
                                 this.isOpenCompanyStatus = true;
