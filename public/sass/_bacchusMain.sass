@@ -2334,7 +2334,6 @@ td
 //fixtable套件bug修正
 .fixed-table-container
   table
-    //width: 100%
     thead
       tr
         td,th
@@ -2381,11 +2380,22 @@ td
 //客製化房型訂房
 .cus-roomType-table
   table
+    width: 100%
     thead
       tr
         th
         .rp-first-th
+          width: 188px
           min-width: 188px
+          .caSelect
+            margin: 12px 0 10px 0
+            .el-icon-date
+              &:before
+                font-family: FontAwesome
+                content: "\f274"
+                color: #FF892A !important
+                font-weight: 300
+                font-size: 16px
     tbody
       tr
         td
@@ -2394,10 +2404,9 @@ td
             height: 21px
 //客製化房號訂房table
 .cus-roomPlan-table
-  max-height: 700px
+  max-height: 800px
   table
-    //width: 100% !important
-    //overflow: hidden
+    //width: 100%
     thead
       tr
         td,th
@@ -2409,8 +2418,8 @@ td
       tr
         td
           height: 22px
-          min-width: 38px
-          max-width: 38px
+          min-width: 30px
+          max-width: 30px
           &:nth-child(odd):not(:first-child)
             border-left: 0
           &:nth-child(even)
@@ -2426,24 +2435,79 @@ td
 
 
 //產生房號訂房內容各種長度
-@for $i from 3 through 28
-  $width: percentage(1 * $i)
-  $error-value: (2 * $i)
+@for $i from 1 through 28
+  $width: 30 * $i
+  $error-value: 1
   td
     div
       &.triangle-box
         &.colspan-#{$i}
-          width: $width + $error-value
-//產生房號訂房內容各種長度 - firefox相容性處理
-@for $i from 1 through 28
-  $width: percentage(1 * $i)
-  @-moz-document url-prefix()
+          width: $width - $error-value + px
+
+@media screen and (min-width: 1470px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: 33px
+            max-width: 33px
+  @for $i from 1 through 28
+    $width: 33 * $i
+    $error-value: 1
     td
       div
         &.triangle-box
           &.colspan-#{$i}
-            width: $width - 2%
-
+            width: $width - $error-value + px
+@media screen and (min-width: 1570px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: 36px
+            max-width: 36px
+  @for $i from 1 through 28
+    $width: 36 * $i
+    $error-value: 1
+    td
+      div
+        &.triangle-box
+          &.colspan-#{$i}
+            width: $width - $error-value + px
+@media screen and (min-width: 1670px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: 39px
+            max-width: 39px
+  @for $i from 1 through 28
+    $width: 39 * $i
+    $error-value: 1
+    td
+      div
+        &.triangle-box
+          &.colspan-#{$i}
+            width: $width - $error-value + px
+@media screen and (min-width: 1770px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: 43px
+            max-width: 43px
+  @for $i from 1 through 28
+    $width: 43 * $i
+    $error-value: 1
+    td
+      div
+        &.triangle-box
+          &.colspan-#{$i}
+            width: $width - $error-value + px
 /*---- 達美樂介面 ----*/
 @import partials/_dominosStyle.sass
 
