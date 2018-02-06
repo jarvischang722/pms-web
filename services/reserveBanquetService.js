@@ -244,9 +244,14 @@ class ResvBanquetData {
         _.each(this.la_place, function (lo_place) {
             let la_newOrderData = [];
             // let la_order = _.sortBy(la_orderGroup[lo_place.place_cod], "wait_seq");
-            let la_orderByPlace = la_orderGroup[lo_place.place_cod];
+            let la_orderByPlace = _.clone(la_orderGroup[lo_place.place_cod]);
+            let la_orderStaIsN = _.where(la_orderByPlace, {order_sta: "N"});
+            let la_orderStaIsQ = _.where(la_orderByPlace, {order_sta: "Q"});
+            let la_orderStaIsW = _.where(la_orderByPlace, {order_sta: "W"});
+            la_orderStaIsW = _.sortBy(la_orderStaIsW, "wait_seq");
+            let la_newOrderByPlace = la_orderStaIsN.concat(la_orderStaIsQ, la_orderStaIsW);
 
-            _.each(la_orderByPlace, function (lo_order, index) {
+            _.each(la_newOrderByPlace, function (lo_order, index) {
                 lo_order.rowId = 1;
                 if (index == 0) {
                     la_newOrderData.push(lo_order);
@@ -259,29 +264,32 @@ class ResvBanquetData {
                         let ln_newOrder_begin_tim = self.convertToMin(lo_newOrderData.begin_tim);
                         let ln_newOrder_end_tim = self.convertToMin(lo_newOrderData.end_tim);
 
-                        // self.chkOverLap();
                         //重疊
                         if (ln_order_begin_tim < ln_newOrder_end_tim && ln_order_end_tim > ln_newOrder_begin_tim) {
-                            // lo_order.rowId = lo_newOrderData.rowId + 1;
-                            // if ((lo_newOrderData.order_sta == "Q" && lo_order.order_sta == "N") || (lo_newOrderData.order_sta == "W" && lo_order.order_sta == "Q") || (lo_newOrderData.order_sta == "W" && lo_order.order_sta == "N")) {
-                            //     lo_order.rowId = lo_newOrderData.rowId;
-                            //     lo_newOrderData.rowId = lo_newOrderData.rowId + 1;
-                            // }
-                            // if (lo_newOrderData.order_sta == "W" && lo_order.order_sta == "W" && lo_newOrderData.wait_seq > lo_order.wait_seq) {
-                            //     lo_order.rowId = lo_newOrderData.rowId;
-                            //     lo_newOrderData.rowId = lo_newOrderData.rowId + 1;
-                            // }
-                            // else {
-                                lo_order.rowId = lo_newOrderData.rowId + 1;
-                            // }
-
+                            lo_order.rowId = lo_newOrderData.rowId + 1;
                         }
                     });
                     la_newOrderData.push(lo_order);
-                    la_newOrderData = _.sortBy(la_newOrderData, "rowId");
+                    // la_newOrderData = _.sortBy(la_newOrderData, "rowId");
                 }
             });
-            lo_newOrderData[lo_place.place_cod] = la_newOrderData;
+
+            let lo_groupDataByRowId = _.groupBy(la_newOrderData, "rowId");
+            la_newOrderData = [];
+            if (Object.keys(lo_groupDataByRowId).length > 0) {
+                _.each(lo_groupDataByRowId, function(la_eachGroupData){
+                    la_eachGroupData = _.sortBy(la_eachGroupData, "begin_tim");
+                    _.each(la_eachGroupData, function(lo_eachData){
+                        la_newOrderData.push(lo_eachData);
+                    });
+
+                });
+
+            }
+
+
+
+            lo_newOrderData[lo_place.place_cod] = _.clone(la_newOrderData);
         });
         return lo_newOrderData;
     }
