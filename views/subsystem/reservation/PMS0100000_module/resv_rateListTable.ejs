@@ -1,0 +1,626 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include ../../../common/cssFile/importFiles_CssBase %>
+
+<%- include ../../../common/jsFile/importFiles_JsBase %>
+
+
+<body class="no-skin" style="background-image: none; background: #fff;">
+<div class="businessCompanyData">
+    <div class="col-xs-12 col-sm-12">
+        <div class="row">
+            <div class="main-content-data">
+
+                <!--  房型一覽表表格 -->
+
+                <select class="input-medium ca-select">
+                    <option value="2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                </select>
+                <select class="input-medium ca-select">
+                    <option value="DW">DW</option>
+                    <option value="LD">LD</option>
+                    <option value="FM">FM</option>
+                    <option value="DW">DW</option>
+                </select>
+                <div class="space-2"></div>
+
+                <div class="container_12 divider">
+                    <!--暫時設定高度-->
+                    <!--window 問題：最後一個<th>會超出範圍，並且看不到-->
+                    <div class="grid_12 height600 resRoomType-table" style="width: 99% !important; height: 280px;">
+                        <table class="fancyTable themeTable treeControl" id="resv_rateListTable" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th class="dateColor">月/日</th>
+
+                                    <th class="dateColor">01</th>
+                                    <th class="dateColor">02</th>
+                                    <th class="dateColor">03</th>
+                                    <th class="dateColor">04</th>
+                                    <th class="dateColor">05</th>
+
+                                    <th class="dateColor">06</th>
+                                    <th class="dateColor">07</th>
+                                    <th class="dateColor">08</th>
+                                    <th class="dateColor">09</th>
+                                    <th class="dateColor">10</th>
+
+                                    <th class="dateColor">11</th>
+                                    <th class="dateColor">12</th>
+                                    <th class="dateColor">13</th>
+                                    <th class="dateColor">14</th>
+
+                                    <th class="dateColor">15</th>
+                                    <th class="dateColor">16</th>
+                                    <th class="dateColor">17</th>
+                                    <th class="dateColor">18</th>
+                                    <th class="dateColor">19</th>
+                                    <th class="dateColor">20</th>
+
+                                    <th class="dateColor">21</th>
+                                    <th class="dateColor">22</th>
+                                    <th class="dateColor">23</th>
+                                    <th class="dateColor">24</th>
+                                    <th class="dateColor">25</th>
+
+                                    <th class="dateColor">26</th>
+                                    <th class="dateColor">27</th>
+                                    <th class="dateColor">28</th>
+                                    <th class="dateColor">29</th>
+                                    <th class="dateColor">30</th>
+                                    <th class="dateColor">31</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--1-->
+                                <tr>
+                                    <td class="numeric dateColor">1</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                </tr>
+                                <!--2-->
+                                <tr>
+                                    <td class="numeric dateColor">2</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                </tr>
+                                <!--3-->
+                                <tr>
+                                    <td class="numeric dateColor">3</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                </tr>
+                                <!--4-->
+                                <tr>
+                                    <td class="numeric dateColor">4</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                </tr>
+                                <!--5-->
+                                <tr>
+                                    <td class="numeric dateColor">5</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                </tr>
+                                <!--6-->
+                                <tr>
+                                    <td class="numeric dateColor">6</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                </tr>
+                                <!--7-->
+                                <tr>
+                                    <td class="numeric dateColor">7</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                </tr>
+                                <!--8-->
+                                <tr>
+                                    <td class="numeric dateColor">8</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                </tr>
+                                <!--9-->
+                                <tr>
+                                    <td class="numeric dateColor">9</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                </tr>
+                                <!--10-->
+                                <tr>
+                                    <td class="numeric dateColor">10</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                </tr>
+                                <!--11-->
+                                <tr>
+                                    <td class="numeric dateColor">11</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                </tr>
+                                <!--12-->
+                                <tr>
+                                    <td class="numeric dateColor">12</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+                                    <td class="numeric"></td>
+
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+                                    <td class="numeric">*</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clear"></div>
+                </div> <!-- table -->
+
+                <!--  /.End 房型一覽表表格 -->
+
+
+            </div><!--main-content-data-->
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+</div>
+</body>
+
+<%- include ../../../common/jsFile/groupJs_fixTable %>
+<script type="text/javascript">
+
+    var treeTdId = new Set();
+    $(function () {
+
+//      ***** fixedHeaderTable *****
+        $('#resv_rateListTable').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 0, everyColumnsAddWith: 0 });
+
+        //fixedColumns             : 固定左側列行數
+        //addPxForFixedColumnsWidth: 固定左側列行數-寬
+        //everyColumnsAddWith      : 每一個欄位的-寬
+//        alert('test123');
+
+        // resize table
+        // divider margin 40px && fht-body -85px
+        var header1 = $(".navbar-container").height();
+        var header2 = $(".top-sec-ul").height()+5; //padding-top: 5px
+//
+//        height=$(window).height()-header1-header2-10;
+//        $(".height600").css("height", height);
+//        //		$(".height600").removeClass("height600");
+//        $(".fht-tbody").css("height", height-80);
+//        $(window).resize(function() {
+//            height=$(window).height()-header1-header2-10;
+//            $(".height600").css("height", height);
+//            $(".fht-tbody").css("height", height-80);
+//        });
+
+    });
+</script>
+</html>
+

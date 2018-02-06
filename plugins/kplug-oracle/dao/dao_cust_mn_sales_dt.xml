@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!--[PMS0610020 商務公司資料編輯] 業務員 取多筆資料-->
+    <dao name="QRY_CUST_MN_SALES_DT">
+        <statement><![CDATA[
+			select  nvl( sales_mn.sales_nam, cust_mn_sales_dt.sales_cod ) sales_nam, cust_mn_sales_dt.begin_dat, cust_mn_sales_dt.end_dat,
+            cust_mn_sales_dt.ins_dat, cust_mn_sales_dt.ins_usr, cust_mn_sales_dt.upd_dat, cust_mn_sales_dt.upd_usr
+            from  cust_mn_sales_dt
+            join  sales_mn on sales_mn.athena_id = cust_mn_sales_dt.athena_id and sales_mn.sales_cod = cust_mn_sales_dt.sales_cod
+            where cust_mn_sales_dt.athena_id = :athena_id
+            and cust_mn_sales_dt.cust_cod = :cust_cod
+            order by end_dat desc
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
+</root>

@@ -19,7 +19,7 @@ let langSvc = require("./LangService");
 let fieldAttrSvc = require("./FieldsAttrService");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir+"/ruleEngine/";
+var ruleRootPath = appRootDir + "/ruleEngine/";
 
 var ErrorClass = require(ruleRootPath + "/errorClass");
 
@@ -420,7 +420,7 @@ exports.getAllFormatSta = function (params ,session, callback) {
 };
 
 /**
- * 取得所有訂單格式(空白表單下載用)
+ * 取得訂單資料(空白表單下載用)
  * @param params
  * @param session
  * @param callback
@@ -487,7 +487,7 @@ exports.chkFormatSta = function (params ,session, callback) {
                 }
                 else {
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = err || "error";
+                    lo_error.errorMsg = err.message || "error";
                     lo_error.errorCod = "1111";
                     cb(true, lo_error);
                 }
@@ -517,7 +517,7 @@ exports.chkFormatSta = function (params ,session, callback) {
                     }
                     else {
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = err || "error";
+                        lo_error.errorMsg = err.message || "error";
                         lo_error.errorCod = "1111";
                         cb(true, lo_error);
                     }
@@ -550,7 +550,7 @@ exports.chkFormatSta = function (params ,session, callback) {
                     }
                     else {
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = err || "error";
+                        lo_error.errorMsg = err.message || "error";
                         lo_error.errorCod = "1111";
                         cb(true, lo_error);
                     }
@@ -583,7 +583,7 @@ exports.chkFormatSta = function (params ,session, callback) {
                     }
                     else {
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = err || "error";
+                        lo_error.errorMsg = err.message || "error";
                         lo_error.errorCod = "1111";
                         cb(true, lo_error);
                     }
@@ -1048,7 +1048,7 @@ exports.PSI0000001 = function (params ,session, callback) {
         });
 
         //endregion
-        console.log(ls_error_Msg);
+
         if(lb_check){
 
             //打API

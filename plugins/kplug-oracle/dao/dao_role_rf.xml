@@ -7,4 +7,16 @@
         ]]></statement>
         <parameter type="string" kind="3">role_cod</parameter>
     </dao>
+
+    <!--[PMS0610020 商務公司資料編輯] 欄位職稱下拉選單-->
+    <dao name="SEL_CUST_MN_PERS_DT_ROLE_COD">
+        <statement><![CDATA[
+            SELECT  ROLE_COD as value, ROLE_RMK as display
+            FROM  ROLE_RF
+            WHERE  ATHENA_ID = :athena_id
+            ORDER  BY  ROLE_COD
+
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
 </root>

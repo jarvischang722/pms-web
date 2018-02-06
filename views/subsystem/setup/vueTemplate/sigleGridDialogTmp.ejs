@@ -1,43 +1,44 @@
 <!-- 單檔彈出視窗 -->
 <script type="text/x-template" id="sigleGridDialogTmp">
     <div id="singleGridDialog" v-show="false" v-loading="$parent.isSaving" element-loading-text="Saving">
-        <div class="col-sm-12 col-xs-12 singleGridContent">
-            <div class="">
-                <div class="col-sm-11 col-xs-11">
-                    <div class="row no-margin-right">
-                        <!-- Start Content -->
-                        <form id="singleDataForm" method="post">
-                            <div id="singleGridDiv">
-                                <div v-for="fields in pageTwoFieldData">
-                                    <div class=" grid">
-                                        <div class="grid-item" v-for="field in fields">
-                                            <!--  CheckBox add class="labelCkbox" -->
-                                            <label :style="{width:field.label_width + 'px'}"
-                                                   v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
-                                                   :title="field.ui_hint"
-                                                   class="labelCkbox">
-                                                <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
-                                                <a @click="editFieldMultiLang(field)"
-                                                   v-if="field.multi_lang_table != ''">
-                                                    {{field.ui_display_name}}
-                                                </a>
-                                                <span v-else>{{field.ui_display_name}} </span>
-                                            </label>
+        <div class="singleGridContent padding-5">
+            <div class="col-sm-12 col-xs-12 ">
+                <div class="row">
+                    <div class="col-sm-11 col-xs-11">
+                        <div class="row no-margin-right">
+                            <!-- Start Content -->
+                            <form id="singleDataForm" method="post">
+                                <div id="singleGridDiv">
+                                    <div v-for="fields in pageTwoFieldData">
+                                        <div class="grid">
+                                            <div class="grid-item" v-for="field in fields">
+                                                <!--  CheckBox add class="labelCkbox" -->
+                                                <label :style="{width:field.label_width + 'px'}"
+                                                       v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
+                                                       :title="field.ui_hint"
+                                                       class="labelCkbox">
+                                                    <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                    <a @click="editFieldMultiLang(field)"
+                                                       v-if="field.multi_lang_table != ''">
+                                                        {{field.ui_display_name}}
+                                                    </a>
+                                                    <span v-else>{{field.ui_display_name}} </span>
+                                                </label>
 
-                                            <label :style="{width:field.label_width + 'px'}"
-                                                   :title="field.ui_hint"
-                                                   v-else-if="field.visiable == 'Y'">
-                                                <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
-                                                <a @click="editFieldMultiLang(field)"
-                                                   v-if="field.multi_lang_table != ''">
-                                                    {{field.ui_display_name}}
-                                                </a>
-                                                <span v-else>{{field.ui_display_name}} </span>
-                                            </label>
-                                            <!--  Text & Number -->
-                                            <!--  number no spinner add class="numStyle-none" -->
-                                            <input v-model="singleData[field.ui_field_name]"
-                                                   v-if="field.visiable == 'Y' &&
+                                                <label :style="{width:field.label_width + 'px'}"
+                                                       :title="field.ui_hint"
+                                                       v-else-if="field.visiable == 'Y'">
+                                                    <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                    <a @click="editFieldMultiLang(field)"
+                                                       v-if="field.multi_lang_table != ''">
+                                                        {{field.ui_display_name}}
+                                                    </a>
+                                                    <span v-else>{{field.ui_display_name}} </span>
+                                                </label>
+                                                <!--  Text & Number -->
+                                                <!--  number no spinner add class="numStyle-none" -->
+                                                <input v-model="singleData[field.ui_field_name]"
+                                                       v-if="field.visiable == 'Y' &&
                                                                                         (field.ui_type == 'text' ||
                                                                                           field.ui_type == 'number' ||
                                                                                           field.ui_type == 'date' ||
@@ -45,181 +46,184 @@
                                                                                            field.ui_type == 'percent'  ||
                                                                                          field.ui_type == 'time' ||
                                                                                          field.ui_type == 'popupgrid')"
-                                                   type="text"
-                                                   class="numStyle-none"
-                                                   :class="{'input_sta_required' : field.requirable == 'Y' ,date_picker: field.ui_type == 'date' ,  date_timepicker : field.ui_type == 'datetime' }"
-                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                   :required="field.requirable == 'Y'"
-                                                   :min="0"
-                                                   :maxlength="field.ui_field_length"
-                                                   :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
-                                                   @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                                   @focus="initRuleComplete(field.ui_field_name, field.rule_func_name)"
-                                                   @click="chkClickPopUpGrid(field)"
-                                            >
+                                                       type="text"
+                                                       class="numStyle-none"
+                                                       :class="{'input_sta_required' : field.requirable == 'Y' ,date_picker: field.ui_type == 'date' ,  date_timepicker : field.ui_type == 'datetime' }"
+                                                       :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                       :required="field.requirable == 'Y'"
+                                                       :min="0"
+                                                       :maxlength="field.ui_field_length"
+                                                       :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
+                                                       @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                       @focus="initRuleComplete(field.ui_field_name, field.rule_func_name)"
+                                                       @click="chkClickPopUpGrid(field)"
+                                                >
 
-                                            <!--  textarea -->
-                                            <textarea v-model="singleData[field.ui_field_name]"
-                                                      v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
-                                                      class="numStyle-none"
-                                                      :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                      :required="field.requirable == 'Y'"
-                                                      :maxlength="field.ui_field_length"
-                                                      :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
-                                                      @click="chkFieldRule(field.ui_field_name,field.rule_func_name)"></textarea>
+                                                <!--  textarea -->
+                                                <textarea v-model="singleData[field.ui_field_name]"
+                                                          v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
+                                                          class="numStyle-none"
+                                                          :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                          :required="field.requirable == 'Y'"
+                                                          :maxlength="field.ui_field_length"
+                                                          :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
+                                                          @click="chkFieldRule(field.ui_field_name,field.rule_func_name)"></textarea>
 
-                                            <!--  label -->
-                                            <label :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                    class="numStyle-none"
-                                                    v-if="field.visiable == 'Y' && field.ui_type == 'label'"
-                                                    :maxlength="field.ui_field_length"
-                                            >
-                                                {{singleData[field.ui_field_name]}}
-                                            </label>
+                                                <!--  label -->
+                                                <label :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                       class="numStyle-none moreHide text-left"
+                                                       v-if="field.visiable == 'Y' && field.ui_type == 'label'"
+                                                       :maxlength="field.ui_field_length"
+                                                >
+                                                    {{singleData[field.ui_field_name]}}
+                                                </label>
 
-                                            <!--  checkbox -->
-                                            <input v-model="singleData[field.ui_field_name]"
-                                                   v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
-                                                   type="checkbox"
-                                                   class="numStyle-none"
-                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                   :required="field.requirable == 'Y'"
-                                                   :maxlength="field.ui_field_length"
-                                                   :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
-                                                   @click="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                            >
+                                                <!--  checkbox -->
+                                                <input v-model="singleData[field.ui_field_name]"
+                                                       v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
+                                                       type="checkbox"
+                                                       class="numStyle-none"
+                                                       :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                       :required="field.requirable == 'Y'"
+                                                       :maxlength="field.ui_field_length"
+                                                       :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
+                                                       @click="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                >
 
-                                            <!-- 下拉選單 -->
-                                            <select v-model="singleData[field.ui_field_name]"
-                                                    @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                                    :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
-                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                    :class="{'input_sta_required' : field.requirable == 'Y' }"
-                                                    v-if="field.visiable == 'Y' && (field.ui_type == 'select' )">
+                                                <!-- 下拉選單 -->
+                                                <select v-model="singleData[field.ui_field_name]"
+                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                        :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                                        v-if="field.visiable == 'Y' && (field.ui_type == 'select' )">
 
-                                                <option v-for="opt in field.selectData" :value="opt.value">
-                                                    {{opt.display}}
-                                                </option>
-                                            </select>
-
-                                            <template v-if="field.visiable == 'Y' && field.ui_type == 'multiselect' ">
-                                                <el-select v-model="singleData[field.ui_field_name]" multiple
-                                                           :changed="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                                           :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
-                                                           :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                           :class="{'input_sta_required' : field.requirable == 'Y' }">
-                                                    <el-option v-for="opt in field.selectData" :value="opt.value">
+                                                    <option v-for="opt in field.selectData" :value="opt.value">
                                                         {{opt.display}}
-                                                    </el-option>
-                                                </el-select>
-                                            </template>
+                                                    </option>
+                                                </select>
 
-                                            <input type="hidden"
-                                                   v-model="singleData[field.ui_field_name]"
-                                                   v-if="field.visiable == 'N'"/>
+                                                <template
+                                                        v-if="field.visiable == 'Y' && field.ui_type == 'multiselect' ">
+                                                    <el-select v-model="singleData[field.ui_field_name]" multiple
+                                                               :changed="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                               :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                               :class="{'input_sta_required' : field.requirable == 'Y' }">
+                                                        <el-option v-for="opt in field.selectData" :value="opt.value">
+                                                            {{opt.display}}
+                                                        </el-option>
+                                                    </el-select>
+                                                </template>
+
+                                                <input type="hidden"
+                                                       v-model="singleData[field.ui_field_name]"
+                                                       v-if="field.visiable == 'N'"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- DT 的datagrid -->
+                                    <div id="dt_dg_DIV" style="display: none;">
+                                        <table class="easyui-datagrid" id="dt_dg" style="width:95%;height:auto;">
+                                        </table>
+
+                                        <div id="tb" style="height:auto" class="dataGrid-toolBar01">
+                                            <a href="javascript:void(0)" class="easyui-linkbutton"
+                                               data-options="iconCls:'icon-add',plain:true"
+                                               @click="appendDtRow">
+                                                <i class="fa fa-plus green"></i>
+                                                <%= __("SystemCommon").Add %>
+                                            </a>
+                                            <a href="javascript:void(0)" class="easyui-linkbutton"
+                                               data-options="iconCls:'icon-remove',plain:true"
+                                               @click="removeDtRow">
+                                                <i class="fa fa-minus red"></i>
+                                                <%= __("SystemCommon").Delete %>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
+                            </form>
+                            <!-- End Content -->
 
-                                <!-- DT 的datagrid -->
-                                <div id="dt_dg_DIV" style="display: none;">
-                                    <table class="easyui-datagrid" id="dt_dg" style="width:95%;height:auto;">
-                                    </table>
-
-                                    <div id="tb" style="height:auto" class="dataGrid-toolBar01">
-                                        <a href="javascript:void(0)" class="easyui-linkbutton"
-                                           data-options="iconCls:'icon-add',plain:true"
-                                           @click="appendDtRow">
-                                            <i class="fa fa-plus green"></i>
-                                            <%= __("SystemCommon").Add %>
-                                        </a>
-                                        <a href="javascript:void(0)" class="easyui-linkbutton"
-                                           data-options="iconCls:'icon-remove',plain:true"
-                                           @click="removeDtRow">
-                                            <i class="fa fa-minus red"></i>
-                                            <%= __("SystemCommon").Delete %>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- End Content -->
-
-                    </div>
-
-                </div>
-                <!-- Control Panel -->
-                <div class="col-sm-1 col-xs-1 singleRelative">
-                    <div class="row" >
-                        <div class="singleEditStatus right-menu-co">
-                            <ul>
-                                <template v-if="editStatus">
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isFistData  || BTN_action"
-                                                style="" @click="toFirstData"><%= __("SystemCommon").First %>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isFistData  || BTN_action"
-                                                style="" @click="toPreData"><%= __("SystemCommon").Previous %>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isLastData  || BTN_action"
-                                                style="" @click="toNextData"><%= __("SystemCommon").Next %>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isLastData  || BTN_action"
-                                                style="" @click="toLastData"><%= __("SystemCommon").Last %>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                :disabled="BTN_action"
-                                                style=""
-                                                @click="handleDeleteSingleData">
-                                            <%= __("SystemCommon").Delete %>
-                                        </button>
-                                    </li>
-                                </template>
-                                <li v-if="createStatus">
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            @click="doSaveGrid('addOther')" :disabled="BTN_action">
-                                        <%= __("SystemCommon").Add_after_save %>
-                                    </button>
-                                </li>
-                                <li v-if="createStatus ||  editStatus">
-                                    <button :disabled="(editStatus && !isModifiable) || BTN_action"
-                                            class="btn btn-primary btn-white btn-defaultWidth" @click="doSaveGrid('closeDialog')">
-                                        <%= __("SystemCommon").Leave_after_save %>
-                                    </button>
-                                </li>
-                                <li v-if="editStatus">
-                                    <button :disabled="(editStatus && !isModifiable) || BTN_action"
-                                            class="btn btn-primary btn-white btn-defaultWidth"
-                                            @click="doSaveGrid('')">
-                                        <%= __("SystemCommon").Save %>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" @click="emitCloseGridDialog" :disabled="BTN_action">
-                                        <%= __("SystemCommon").Leave %>
-                                    </button>
-                                </li>
-                            </ul>
                         </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <!-- End Control Panel -->
-                <div class="clearfix"></div>
-                <hr>
 
+                    </div>
+                    <!-- Control Panel -->
+                    <div class="col-sm-1 col-xs-1 singleRelative">
+                        <div class="row">
+                            <div class="singleEditStatus right-menu-co">
+                                <ul>
+                                    <template v-if="editStatus">
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    :disabled="isFistData  || BTN_action"
+                                                    style="" @click="toFirstData"><%= __("SystemCommon").First %>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    :disabled="isFistData  || BTN_action"
+                                                    style="" @click="toPreData"><%= __("SystemCommon").Previous %>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    :disabled="isLastData  || BTN_action"
+                                                    style="" @click="toNextData"><%= __("SystemCommon").Next %>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    :disabled="isLastData  || BTN_action"
+                                                    style="" @click="toLastData"><%= __("SystemCommon").Last %>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                    :disabled="BTN_action"
+                                                    style=""
+                                                    @click="handleDeleteSingleData">
+                                                <%= __("SystemCommon").Delete %>
+                                            </button>
+                                        </li>
+                                    </template>
+                                    <li v-if="createStatus">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="doSaveGrid('addOther')" :disabled="BTN_action">
+                                            <%= __("SystemCommon").Add_after_save %>
+                                        </button>
+                                    </li>
+                                    <li v-if="createStatus ||  editStatus">
+                                        <button :disabled="(editStatus && !isModifiable) || BTN_action"
+                                                class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="doSaveGrid('closeDialog')">
+                                            <%= __("SystemCommon").Leave_after_save %>
+                                        </button>
+                                    </li>
+                                    <li v-if="editStatus">
+                                        <button :disabled="(editStatus && !isModifiable) || BTN_action"
+                                                class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="doSaveGrid('')">
+                                            <%= __("SystemCommon").Save %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="emitCloseGridDialog" :disabled="BTN_action">
+                                            <%= __("SystemCommon").Leave %>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <!-- End Control Panel -->
+                    <div class="clearfix"></div>
+                    <hr>
+                </div>
             </div>
 
         </div>
@@ -227,12 +231,12 @@
 
         <!-- buttons -->
         <!--<div class="col-sm-12 col-xs-12 center" id="dialogBtns" style="display: none;">-->
-            <!--<div class="singleRelative">-->
-                <!--<div class="singleBtnBottom">-->
-                    <!---->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="clearfix"></div>-->
+        <!--<div class="singleRelative">-->
+        <!--<div class="singleBtnBottom">-->
+        <!---->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="clearfix"></div>-->
         <!--</div>-->
     </div>
     <!-- /.settingSingleDialog -->

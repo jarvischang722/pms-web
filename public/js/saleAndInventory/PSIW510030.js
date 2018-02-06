@@ -191,7 +191,7 @@ var PSIW510030 = new Vue({
         this.initSearchComp();
         this.getSystemParam();
         this.fetchUserInfo();
-        this.loadDataGrid();
+
     },
     components: {
         "search-comp": go_searchComp
@@ -228,14 +228,12 @@ var PSIW510030 = new Vue({
         dgIns: {},
         dgInsDT: {},
 
-        FieldData: [],              //多筆欄位
         DataGridRows: [],           //多筆資料
 
         originData: {},             //原始單筆資料
         singleData: {},             //單筆資料
         singleDataTemp: {},         //單筆資料暫存
 
-        pageTwoDTFieldData: [],     //單筆 DT 欄位
         singleDataGridRows: [],     //單筆 DT 資料
         oriSingleDataGridRows: [],  //單筆 DT 原始資料
 
@@ -256,6 +254,7 @@ var PSIW510030 = new Vue({
         select_format_sta: "",
         select_quote_rmk: "",
         select_order_time: "",
+        pageNum: "",
         order_data: [],
 
         ship_mn_round_nos: "",       //(系統參數)單據主檔金額小數位數
@@ -321,6 +320,43 @@ var PSIW510030 = new Vue({
     methods: {
 
         /**
+         * 初始化下拉選單
+         */
+        initSelect: function () {
+
+            var self = this;
+            //客戶代號
+            var lo_params = {
+                func: "getShowCodSelect"
+            };
+            this.isLoading = true;
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+                    self.custSelectData = result.data;
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
+            //單位
+            lo_params = {
+                func: "getUnitSelect"
+            };
+            this.isLoading = true;
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+                    self.unitSelectData = result.data;
+                    self.initDataGridField();
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
+        },
+
+        /**
          * 初始化Search
          */
         initSearchComp: function () {
@@ -374,10 +410,10 @@ var PSIW510030 = new Vue({
                         },
                         {
                             ui_field_name: "order_dat",
-                            ui_type: "date",
+                            ui_type: "daterange",
                             row_seq: 1,
                             col_seq: 1,
-                            width: 100,
+                            width: 150,
                             ui_display_name: "訂單日期"
                         },
                         {
@@ -405,6 +441,15 @@ var PSIW510030 = new Vue({
                             col_seq: 1,
                             width: 200,
                             ui_display_name: "訂貨人姓名"
+                        },
+                        {
+                            ui_field_name: "order_sta",
+                            ui_type: "select",
+                            row_seq: 1,
+                            col_seq: 1,
+                            width: 200,
+                            selectData: [{"value":"N", "display":"N:待准"}, {"value":"C", "display":"C:核准"}, {"value":"O", "display":"O:出貨中"}, {"value":"S", "display":"S:結清"}, {"value":"H", "display":"H:保留"}, {"value":"X", "display":"X:出貨完畢"}],
+                            ui_display_name: "訂單狀態"
                         }
                     ];
 
@@ -474,6 +519,20 @@ var PSIW510030 = new Vue({
         },
 
         /**
+         * 初始化DataGrid
+         */
+        initDataGridField: function () {
+            var self = this;
+
+            self.dgIns = new DatagridRmSingleGridClass();
+            self.dgIns.init(prg_id, 'PSIW510030_dg', DatagridFieldAdapter.combineFieldOption(self.bindingFieldData(), 'PSIW510030_dg'));
+
+            self.dgInsDT = new DatagridRmSingleDTGridClass();
+            self.dgInsDT.init(prg_id, 'PSIW510030_dt', DatagridFieldAdapter.combineFieldOption(self.bindingDTFieldData(), 'PSIW510030_dt'));
+            $("#PSIW510030_dt").datagrid({}).datagrid("keyCtr");
+        },
+
+        /**
          * 驗證人員編號
          */
         verify: function() {
@@ -512,7 +571,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 20,
                     ui_field_num_point: 0,
                     col_seq: 0,
-                    width: 100,
+                    width: 80,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -534,7 +593,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 20,
                     ui_field_num_point: 0,
                     col_seq: 2,
-                    width: 100,
+                    width: 80,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -556,7 +615,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 1,
                     ui_field_num_point: 0,
                     col_seq : 4,
-                    width : 100,
+                    width : 50,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -578,7 +637,7 @@ var PSIW510030 = new Vue({
                     ui_field_length : 4,
                     ui_field_num_point : 0,
                     col_seq : 5,
-                    width : 100,
+                    width : 80,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -600,7 +659,7 @@ var PSIW510030 = new Vue({
                     ui_field_length : 20,
                     ui_field_num_point : 0,
                     col_seq : 6,
-                    width : 100,
+                    width : 80,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -666,7 +725,7 @@ var PSIW510030 = new Vue({
                     ui_field_length : 20,
                     ui_field_num_point : 0,
                     col_seq : 8,
-                    width : 100,
+                    width : 80,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -688,7 +747,7 @@ var PSIW510030 = new Vue({
                     ui_field_length : 10,
                     ui_field_num_point : 0,
                     col_seq : 9,
-                    width : 100,
+                    width : 80,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -732,7 +791,7 @@ var PSIW510030 = new Vue({
                     ui_field_length : 10,
                     ui_field_num_point : 0,
                     col_seq : 11,
-                    width : 100,
+                    width : 80,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -764,7 +823,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 5,
                     ui_field_num_point: 0,
                     col_seq: 0,
-                    width: 80,
+                    width: 35,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -775,7 +834,8 @@ var PSIW510030 = new Vue({
                     user_athena_id: "",
                     multi_lang_table: "",
                     page_id: 1,
-                    ui_display_name: "序號"
+                    ui_display_name: "序號",
+                    align: "center"
                 },
                 {
                     athena_id: "",
@@ -786,7 +846,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 15,
                     ui_field_num_point: 0,
                     col_seq: 1,
-                    width: 100,
+                    width: 70,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -797,7 +857,8 @@ var PSIW510030 = new Vue({
                     user_athena_id: "",
                     multi_lang_table: "",
                     page_id: 1,
-                    ui_display_name: "貨號"
+                    ui_display_name: "貨號",
+                    align: "center"
                 },
                 {
                     athena_id: "",
@@ -808,7 +869,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 100,
                     ui_field_num_point: 0,
                     col_seq: 2,
-                    width: 300,
+                    width: 200,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -828,9 +889,9 @@ var PSIW510030 = new Vue({
                     ui_field_name: "stock_qnt",
                     ui_type: "number",
                     ui_field_length: 15,
-                    ui_field_num_point: 3,
+                    ui_field_num_point: 2,
                     col_seq: 4,
-                    width: 100,
+                    width: 50,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -851,9 +912,9 @@ var PSIW510030 = new Vue({
                     ui_field_name: "thu_qty",
                     ui_type: "number",
                     ui_field_length: 15,
-                    ui_field_num_point: 3,
+                    ui_field_num_point: 2,
                     col_seq: 4,
-                    width: 100,
+                    width: 60,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -876,7 +937,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 10,
                     ui_field_num_point: 0,
                     col_seq: 4,
-                    width: 100,
+                    width: 65,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -888,7 +949,8 @@ var PSIW510030 = new Vue({
                     multi_lang_table: "",
                     page_id: 1,
                     ui_display_name: "庫存單位",
-                    selectData: this.unitSelectData
+                    selectData: this.unitSelectData,
+                    align: "center"
                 },
                 {
                     athena_id: "",
@@ -897,9 +959,9 @@ var PSIW510030 = new Vue({
                     ui_field_name: "order_qnt",
                     ui_type: "number",
                     ui_field_length: 15,
-                    ui_field_num_point: 3,
+                    ui_field_num_point: 2,
                     col_seq: 5,
-                    width: 100,
+                    width: 75,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -920,9 +982,9 @@ var PSIW510030 = new Vue({
                     ui_field_name: "item_qnt",
                     ui_type: "number",
                     ui_field_length: 15,
-                    ui_field_num_point: 3,
+                    ui_field_num_point: 2,
                     col_seq: 6,
-                    width: 100,
+                    width: 50,
                     visiable: "Y",
                     modificable: "Y",
                     requirable: "Y",
@@ -945,7 +1007,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 10,
                     ui_field_num_point: 0,
                     col_seq: 3,
-                    width: 80,
+                    width: 65,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -957,7 +1019,8 @@ var PSIW510030 = new Vue({
                     multi_lang_table: "",
                     page_id: 1,
                     ui_display_name: "訂購單位",
-                    selectData: this.unitSelectData
+                    selectData: this.unitSelectData,
+                    align: "center"
                 },
                 {
                     athena_id: "",
@@ -968,7 +1031,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 10,
                     ui_field_num_point: 0,
                     col_seq: 4,
-                    width: 100,
+                    width: 80,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -979,7 +1042,8 @@ var PSIW510030 = new Vue({
                     user_athena_id: "",
                     multi_lang_table: "",
                     page_id: 1,
-                    ui_display_name: "預計到貨日"
+                    ui_display_name: "預計到貨日",
+                    align: "center"
                 },
                 {
                     athena_id: "",
@@ -1001,7 +1065,8 @@ var PSIW510030 = new Vue({
                     user_athena_id: "",
                     multi_lang_table: "",
                     page_id: 1,
-                    ui_display_name: "預計下次到貨日"
+                    ui_display_name: "預計下次到貨日",
+                    align: "center"
                 },
                 {
                     athena_id: "",
@@ -1012,7 +1077,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 10,
                     ui_field_num_point: 0,
                     col_seq: 4,
-                    width: 100,
+                    width: 60,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -1035,7 +1100,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 100,
                     ui_field_num_point: 0,
                     col_seq: 7,
-                    width: 300,
+                    width: 200,
                     visiable: "Y",
                     modificable: "Y",
                     requirable: "N",
@@ -1056,28 +1121,21 @@ var PSIW510030 = new Vue({
          * 取得多筆資料
          */
         loadDataGrid: function () {
+            var self = this;
 
             var lo_params = {
                 prg_id: prg_id,
                 func : "getDataGridRows",
                 searchCond: this.searchCond
             };
-            var self = this;
+
             self.isLoading = true;
             //撈多筆資料
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
                     self.DataGridRows = result.data;
-                    self.FieldData = self.bindingFieldData();
-                    self.dgIns = new DatagridRmSingleGridClass();
-                    self.dgIns.init(prg_id, 'PSIW510030_dg', DatagridFieldAdapter.combineFieldOption(self.FieldData, 'PSIW510030_dg'));
                     self.dgIns.loadDgData(self.DataGridRows);
-
-                    self.pageTwoDTFieldData = self.bindingDTFieldData();    //組DT欄位
-                    self.dgInsDT = new DatagridRmSingleDTGridClass();
-                    self.dgInsDT.init(prg_id, 'PSIW510030_dt', DatagridFieldAdapter.combineFieldOption(self.pageTwoDTFieldData, 'PSIW510030_dt'));
-                    $("#PSIW510030_dt").datagrid({}).datagrid("keyCtr");
                 } else {
                     alert(result.error.errorMsg);
                 }
@@ -1143,9 +1201,9 @@ var PSIW510030 = new Vue({
 
                     //db撈出來小數超亂, 直接做四捨五入
                     _.each(result.data, function (value) {
-                        value.item_qnt = formatFloat(value.item_qnt, 3);
-                        value.order_qnt = formatFloat(value.order_qnt, 3);
-                        value.thu_qty = formatFloat(value.thu_qty, 3);
+                        value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 2);
+                        value.order_qnt = go_MathTool.formatFloat(value.order_qnt, 2);
+                        value.thu_qty = go_MathTool.formatFloat(value.thu_qty, 2);
                     });
 
                     self.singleDataGridRows = result.data;
@@ -1187,7 +1245,7 @@ var PSIW510030 = new Vue({
          * 新增資料預設值
          */
         defaultValue: function() {
-            
+
             //region //塞預設值
 
             //初始化主檔MN
@@ -1280,42 +1338,6 @@ var PSIW510030 = new Vue({
                 this.singleData.cust_nam = this.custSelectData[0].cust_nam;
                 this.custSelectChange();
             }
-
-        },
-
-        /**
-         * 初始化下拉選單
-         */
-        initSelect: function () {
-
-            var self = this;
-            //客戶代號
-            var lo_params = {
-                func: "getShowCodSelect"
-            };
-            this.isLoading = true;
-            $.post("/api/getQueryResult", lo_params, function (result) {
-                self.isLoading = false;
-                if (!_.isUndefined(result.data)) {
-                    self.custSelectData = result.data;
-                } else {
-                    alert(result.error.errorMsg);
-                }
-            });
-
-            //單位
-            lo_params = {
-                func: "getUnitSelect"
-            };
-            this.isLoading = true;
-            $.post("/api/getQueryResult", lo_params, function (result) {
-                self.isLoading = false;
-                if (!_.isUndefined(result.data)) {
-                    self.unitSelectData = result.data;
-                } else {
-                    alert(result.error.errorMsg);
-                }
-            });
 
         },
 
@@ -1605,8 +1627,8 @@ var PSIW510030 = new Vue({
                 value.trans_nos = '';
                 value.trans_typ = '';
 
-                value.sorder_amt = formatFloat(value.sale_amt * value.item_qnt, self.ship_dt_round_nos) || 0;    // 小計 = 售價 * 數量(訂購量) (取單據明細小計小數位數)
-                value.sorder_tax = formatFloat(value.sorder_amt * value.tax_rat, 2) || 0;                        // 稅額 = 小計 * 稅率 (取小數第二位)
+                value.sorder_amt = go_MathTool.formatFloat(value.sale_amt * value.item_qnt, self.ship_dt_round_nos) || 0;    // 小計 = 售價 * 數量(訂購量) (取單據明細小計小數位數)
+                value.sorder_tax = go_MathTool.formatFloat(value.sorder_amt * value.tax_rat, 2) || 0;                        // 稅額 = 小計 * 稅率 (取小數第二位)
                 value.remain_qnt = value.item_qnt * value.unit_nos || 0;                                         // 未出貨量 = 數量(訂購量) * 單位轉換率
 
                 self.singleData.order_amt += value.sorder_amt;
@@ -1616,8 +1638,8 @@ var PSIW510030 = new Vue({
             var lf_temp_amt = self.singleData.order_amt;
             var lf_temp_tax = self.singleData.order_tax;
 
-            self.singleData.order_amt = formatFloat(self.singleData.order_amt, self.ship_mn_round_nos) || 0;
-            self.singleData.order_tax = formatFloat(self.singleData.order_tax, self.ship_mn_round_nos) || 0;
+            self.singleData.order_amt = go_MathTool.formatFloat(self.singleData.order_amt, self.ship_mn_round_nos) || 0;
+            self.singleData.order_tax = go_MathTool.formatFloat(self.singleData.order_tax, self.ship_mn_round_nos) || 0;
             self.singleData.order_tot = self.singleData.order_amt + self.singleData.order_tax;
 
             var lf_div_amt = self.singleData.order_amt - lf_temp_amt;
@@ -1629,8 +1651,8 @@ var PSIW510030 = new Vue({
             });
 
             if(index != -1){
-                self.singleDataGridRows[index].sorder_amt = formatFloat(self.singleDataGridRows[index].sorder_amt + lf_div_amt, self.ship_dt_round_nos);
-                self.singleDataGridRows[index].sorder_tax = formatFloat(self.singleDataGridRows[index].sorder_tax + lf_div_tax, 2);
+                self.singleDataGridRows[index].sorder_amt = go_MathTool.formatFloat(self.singleDataGridRows[index].sorder_amt + lf_div_amt, self.ship_dt_round_nos);
+                self.singleDataGridRows[index].sorder_tax = go_MathTool.formatFloat(self.singleDataGridRows[index].sorder_tax + lf_div_tax, 2);
             }
 
             //endregion
@@ -1820,7 +1842,7 @@ var PSIW510030 = new Vue({
         /**
          * 空白訂單下拉 Event
          */
-        orderSelectOnChange(){
+        orderSelectOnChange: function(){
 
             var self = this;
 
@@ -1832,40 +1854,37 @@ var PSIW510030 = new Vue({
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
-                    self.order_data = result.data;
+
+                    self.order_data = [];
+                    var li_page_num = 0;
+                    var temp = [];
+
+                    for(let i = 0; i < result.data.length; i++){
+                        //30 = 一頁幾筆明細
+                        if(i % 33 == 0){
+                            self.order_data.push(temp);
+                            li_page_num += 1;
+                            temp = [];
+                        }
+                        temp.push(result.data[i]);
+
+                        if(i == result.data.length - 1){
+                            self.order_data.push(temp);
+                        }
+                    }
+                    self.pageNum = li_page_num;
+
                     //取quote_rmk, order_time
                     _.each(self.allOrderSelectData, function (value, index) {
                         if(value.format_sta == self.select_format_sta){
-                            self.select_quote_rmk = value.quote_rmk || '';
+                            self.select_quote_rmk = value.quote_rmk + '-空白訂單下載' || '';
                             self.select_order_time = value.order_time || '';
                         }
                     });
-
                 } else {
                     alert(result.error.errorMsg);
                 }
             });
-        },
-
-        /**
-         * download Event
-         */
-        download: function() {
-            var self = this;
-
-            $("#order_tag").show();
-
-            html2canvas($('#order_tag'), {
-                onrendered: function(canvas) {
-                    var imgData = canvas.toDataURL('image/png');
-                    var doc = new jsPDF();
-                    doc.addImage(imgData, 'PNG', 10, 10);
-                    doc.save('空白訂貨表單-'+ self.select_quote_rmk +'.pdf');
-                }
-            });
-
-            $("#order_tag").hide();
-
         },
 
         /**
@@ -2011,21 +2030,27 @@ var PSIW510030 = new Vue({
 BacchusMainVM.setPrgVueIns(PSIW510030);
 BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop"]);
 
+var go_isExit = true;
+
 $(window).on('beforeunload', function () {
-    BacchusMainVM.doLogout();
-    return PSIW510030.doRowUnLock();
+    PSIW510030.doRowUnLock();
 });
 
-/**
- * 四捨五入
- * @param num {Double}
- * @param pos {Int}
- */
-function formatFloat(num, pos)
-{
-    var size = Math.pow(10, pos);
-    return Math.round(num * size) / size;
-}
+//使用一個flag判斷是否是離開網頁，才登出。
+$(function(){
+    $('#breadcrumbs').click(function(){
+        go_isExit = false;
+    });
+
+    $(document).on('click','#subsysUl li',function(){
+        go_isExit = false;
+    });
+
+    $(document).on('click','#quickMenuUl li',function(){
+        go_isExit = false;
+    });
+
+});
 
 var adpterDg = new DatagridAdapter(PSIW510030);
 
@@ -2278,4 +2303,3 @@ $('.dominos-inventory-right').resize(function(){
 });
 
 //endregion
-

@@ -123,9 +123,27 @@
                                                 <div class="border-double1"></div>
                                                 <!--4-->
                                                 <div class="grid">
+
+                                                    <div class="grid-item">
+                                                        <label>Rv. Type</label>
+                                                        <select class="input-medium resvCard">
+                                                            <option value="y">Yes</option>
+                                                            <option value="n">No</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label class="pull-left">Deposit Req.</label>
+                                                        <input type="text" class="input-medium resvCard-m pull-left"
+                                                               placeholder=""/>
+                                                        <select class="input-medium resvCard-2xs ml-2 pull-left">
+                                                            <option value="c">C</option>
+                                                            <option value="p">P</option>
+                                                        </select>
+                                                    </div>
+
                                                     <div class="grid-item">
                                                         <label>Contact</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
+                                                        <input type="text" class="input-medium resvCard"
                                                                placeholder="Gloria"/>
                                                     </div>
                                                     <div class="grid-item">
@@ -133,14 +151,25 @@
                                                         <input type="text" class="input-medium resvCard"
                                                                placeholder="Ms."/>
                                                     </div>
-                                                    <div class="grid-item">
-                                                        <label>Form</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="Company Contact"/>
-                                                    </div>
+
+                                                    <!--<div class="grid-item">-->
+                                                    <!--<label>Form</label>-->
+                                                    <!--<input type="text" class="input-medium resvCard"-->
+                                                    <!--placeholder="Company Contact"/>-->
+                                                    <!--</div>-->
                                                 </div>
                                                 <!--5-->
                                                 <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>Keep Date</label>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder=""/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>Deposit acc.</label>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder="16000001"/>
+                                                    </div>
                                                     <div class="grid-item">
                                                         <label>Ｍobile</label>
                                                         <input type="text" class="input-medium resvCard"
@@ -152,35 +181,24 @@
                                                                placeholder="02-25175008"/>
                                                         <i class="moreClick fa fa-ellipsis-h"></i>
                                                     </div>
-                                                    <div class="grid-item">
-                                                        <label>Email</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder="simonoowll@nokia.com"/>
-                                                    </div>
                                                 </div>
                                                 <!--5-->
                                                 <div class="grid">
                                                     <div class="grid-item">
-                                                        <label>Rv. Type</label>
-                                                        <select class="input-medium resvCard">
-                                                            <option value="y">Yes</option>
-                                                            <option value="n">No</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Deposit Req.</label>
+                                                        <label>Keep Time</label>
                                                         <input type="text" class="input-medium resvCard"
                                                                placeholder=""/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Deposit acc.</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="16000001"/>
                                                     </div>
                                                     <div class="grid-item">
                                                         <label>Deposit$</label>
                                                         <input type="text" class="input-medium resvCard text-right"
                                                                placeholder="5000" disabled/>
+
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>Email</label>
+                                                        <input type="text" class="input-medium resvCard-col2"
+                                                               placeholder="simonoowll@nokia.com"/>
                                                     </div>
                                                 </div>
                                                 <!--6-->
@@ -204,54 +222,123 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div title="others" class="padding-tabs">
+                                <div title="Detail" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
                                             <div class="main-content-data">
+
+                                                <!--2-->
+                                                <!--<div class="grid">-->
+                                                <!--<div class="grid-item">-->
+                                                <!--<label>Skymiles</label>-->
+                                                <!--<input type="text" class="input-medium resvCard" placeholder=""-->
+                                                <!--disabled/>-->
+                                                <!--</div>-->
+                                                <!--<div class="grid-item">-->
+                                                <!--<label>Sky No.</label>-->
+                                                <!--<input type="text" class="input-medium resvCardRm"-->
+                                                <!--placeholder="" disabled/>-->
+                                                <!--<i class="moreClick fa fa-ellipsis-h aviationMile-btn"></i>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--&lt;!&ndash;3&ndash;&gt;-->
+                                                <!--<div class="grid">-->
+
+                                                <!--<div class="grid-item">-->
+                                                <!--<label>C/I Alert</label>-->
+                                                <!--<input type="text" class="input-medium resvCard-fullRm"-->
+                                                <!--placeholder=""/>-->
+                                                <!--<i class="moreClick fa fa-ellipsis-h"></i>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--&lt;!&ndash;4&ndash;&gt;-->
+                                                <!--<div class="grid">-->
+                                                <!--<div class="grid-item">-->
+                                                <!--<label>C/O Alert</label>-->
+                                                <!--<input type="text" class="input-medium resvCard-fullRm"-->
+                                                <!--placeholder=""/>-->
+                                                <!--<i class="moreClick fa fa-ellipsis-h"></i>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+
+                                                <!--與Rick確認後刪除-->
+
                                                 <!--1-->
                                                 <div class="grid">
                                                     <div class="grid-item">
-                                                        <label>Pre.RM</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled/>
+                                                        <label>Source</label>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder="WEB"/>
                                                     </div>
                                                     <div class="grid-item">
-                                                        <label>Vehicle No.</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder=""/>
+                                                        <label>CI Time</label>
+                                                        <input type="time" class="input-medium resvCard"
+                                                               placeholder="15:00"/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>Assign Rmk</label>
+                                                        <input type="text" class="input-medium resvCard-col2"
+                                                               placeholder="high floor"/>
                                                     </div>
                                                 </div>
                                                 <!--2-->
                                                 <div class="grid">
                                                     <div class="grid-item">
-                                                        <label>Skymiles</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled/>
+                                                        <label>Market</label>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder="OTA-ACODA"/>
                                                     </div>
                                                     <div class="grid-item">
-                                                        <label>Sky No.</label>
-                                                        <input type="text" class="input-medium resvCardRm"
-                                                               placeholder="" disabled/>
-                                                        <i class="moreClick fa fa-ellipsis-h aviationMile-btn"></i>
+                                                        <label>CO Time</label>
+                                                        <input type="time" class="input-medium resvCard"
+                                                               placeholder="8:00"/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>Rm Feature</label>
+                                                        <input type="text" class="input-medium resvCard-col2"
+                                                               placeholder="non smoking"/>
                                                     </div>
                                                 </div>
                                                 <!--3-->
                                                 <div class="grid">
-
                                                     <div class="grid-item">
-                                                        <label>C/I Alert</label>
-                                                        <input type="text" class="input-medium resvCard-fullRm"
+                                                        <label>Block</label>
+                                                        <input type="text" class="input-medium resvCard"
                                                                placeholder=""/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>Commision</label>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder=""/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>Rm No.</label>
+                                                        <input type="text" class="input-medium resvCard-col2Rm"
+                                                               placeholder="1001,1002"/>
                                                         <i class="moreClick fa fa-ellipsis-h"></i>
                                                     </div>
                                                 </div>
                                                 <!--4-->
                                                 <div class="grid">
                                                     <div class="grid-item">
-                                                        <label>C/O Alert</label>
-                                                        <input type="text" class="input-medium resvCard-fullRm"
+                                                        <label>Upgd By</label>
+                                                        <input type="text" class="input-medium resvCard"
                                                                placeholder=""/>
-                                                        <i class="moreClick fa fa-ellipsis-h"></i>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>Reason</label>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder=""/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>Dics.By</label>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder=""/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>Reason</label>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder=""/>
                                                     </div>
                                                 </div>
 
@@ -259,7 +346,12 @@
                                                 <!--5-->
                                                 <div class="grid">
                                                     <div class="grid-item">
-                                                        <label>Keep Date</label>
+                                                        <label>Tour Guide</label>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder=""/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>T.G. Tel.</label>
                                                         <input type="text" class="input-medium resvCard"
                                                                placeholder=""/>
                                                     </div>
@@ -268,38 +360,18 @@
                                                         <input type="text" class="input-medium resvCard"
                                                                placeholder=""/>
                                                     </div>
-                                                    <div class="grid-item">
-                                                        <label>Tour Guide</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder=""/>
-                                                    </div>
                                                 </div>
                                                 <!--6-->
                                                 <div class="grid">
                                                     <div class="grid-item">
-                                                        <label>Keep Time</label>
+                                                        <label>T.G.Rm.</label>
                                                         <input type="text" class="input-medium resvCard"
                                                                placeholder=""/>
                                                     </div>
                                                     <div class="grid-item">
-                                                        <label>電話限撥</label>
-                                                        <select class="input-medium resvCard">
-                                                            <option value="y">Yes</option>
-                                                            <option value="n">No</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>T.G. Tel.</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder=""/>
-                                                    </div>
-                                                </div>
-                                                <!--7-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Collector</label>
+                                                        <label>M/C Time</label>
                                                         <input type="text" class="input-medium resvCard"
-                                                               placeholder="林志玲"/>
+                                                               placeholder=""/>
                                                     </div>
                                                     <div class="grid-item">
                                                         <label class="pull-left">CFML</label>
@@ -316,16 +388,20 @@
                                                         </div>
                                                         <div class="clearfix"></div>
                                                     </div>
-                                                    <div class="grid-item">
-                                                        <label>RM No.</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder=""/>
-                                                    </div>
                                                 </div>
                                                 <!--7-->
                                                 <div class="grid">
                                                     <div class="grid-item">
-                                                        <div style=" width: 200px;"></div>
+                                                        <label>Collector</label>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder="林志玲"/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>電話限撥</label>
+                                                        <select class="input-medium resvCard">
+                                                            <option value="y">Yes</option>
+                                                            <option value="n">No</option>
+                                                        </select>
                                                     </div>
                                                     <div class="grid-item">
                                                         <label class="pull-left">R Card</label>
@@ -343,10 +419,28 @@
                                                         </div>
                                                         <div class="clearfix"></div>
                                                     </div>
+                                                </div>
+                                                <!--7-->
+                                                <div class="grid">
                                                     <div class="grid-item">
-                                                        <label>M/C Time</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder=""/>
+                                                        <label>Add Date</label>
+                                                        <input type="text" class="input-medium resvCard font-xxs"
+                                                               placeholder="2016/11/01  12:25:00" disabled/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>Add By</label>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder="Abby" disabled/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>Upd Date</label>
+                                                        <input type="text" class="input-medium resvCard font-xxs"
+                                                               placeholder="2016/11/25  12:25:00" disabled/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>Upd By</label>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder="John" disabled/>
                                                     </div>
                                                 </div>
                                             </div><!--main-content-data-->
@@ -368,196 +462,25 @@
 
                                         </div>
                                         <div class="resvCard-data">
-                                            <span>RM chrg:10,000</span>
-                                            <span>Svc:1,000</span>
-                                            <span>Others:700</span>
-                                            <span>Grand Total:11,700</span>
+                                            <div class="pull-left">
+                                                <span>RM.:<span class="font-lg">10,000</span></span>
+                                                <span>Svc:<span class="font-lg">10,00</span></span>
+                                                <span>Others:<span class="font-lg">700</span></span>
+                                                <span>S.T.:<span class="font-lg">11,700</span></span>
+                                            </div>
+                                            <div class="pull-left divideLine">｜</div>
+                                            <div class="pull-left">
+                                                <span>RM.:<span class="font-lg">20,000</span></span>
+                                                <span>Svc:<span class="font-lg">20,00</span></span>
+                                                <span>Others:<span class="font-lg">1,400</span></span>
+                                                <span>G.T.:<span class="font-lg">23,300</span></span>
+                                            </div>
                                         </div>
                                     </div><!--main-content-data-->
                                 </div>
                             </div>
 
                             <div class="clearfix"></div>
-                            <div class="space-6"></div>
-                            <div class="col-xs-12 col-sm-12">
-                                <div class="row">
-                                    <div class="main-content-data borderFrame">
-                                        <!--1-->
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>Source</label>
-                                                <input type="text" class="input-medium resvCard" placeholder="WEB"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>CI Time</label>
-                                                <input type="text" class="input-medium resvCard" placeholder="15:00"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>Assign Rmk</label>
-                                                <input type="text" class="input-medium resvCard-col2"
-                                                       placeholder="high floor"/>
-                                            </div>
-                                        </div>
-                                        <!--2-->
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>Market</label>
-                                                <input type="text" class="input-medium resvCard"
-                                                       placeholder="OTA-AGODA"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>CO Time</label>
-                                                <input type="text" class="input-medium resvCard" placeholder="8:00"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>Rm Features</label>
-                                                <input type="text" class="input-medium resvCard-col2"
-                                                       placeholder="non smoking"/>
-                                            </div>
-                                        </div>
-                                        <!--3-->
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>Block</label>
-                                                <input type="text" class="input-medium resvCard" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label class="">Pax</label>
-                                                <input type="text" class="input-medium resvCard-2xs text-right"
-                                                       placeholder="1"/>
-                                                <!--<span>/</span>-->
-                                                <input type="text" class="input-medium resvCard-2xs text-right ml-2"
-                                                       placeholder="0"/>
-                                                <!--<span>/</span>-->
-                                                <input type="text" class="input-medium resvCard-2xs text-right ml-2"
-                                                       placeholder="0"/>
-                                                <!--<input type="text" class="input-medium resvCard" placeholder="大/小/嬰"/>-->
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>Rm No.</label>
-                                                <input type="text" class="input-medium resvCard-col2Rm"
-                                                       placeholder="1001,1002"/>
-                                                <i class="moreClick fa fa-ellipsis-h"></i>
-                                            </div>
-                                        </div>
-                                        <!--4-->
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>Ugd By</label>
-                                                <input type="text" class="input-medium resvCard" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>Reason</label>
-                                                <input type="text" class="input-medium resvCard" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>Dics. By</label>
-                                                <input type="text" class="input-medium resvCard" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>Reason</label>
-                                                <input type="text" class="input-medium resvCard" placeholder=""/>
-                                            </div>
-                                        </div>
-                                        <div class="extendGrid">
-                                            <div class="extendIcon show-extendContent">
-                                                <i class="fa fa-angle-double-down"></i>
-                                            </div>
-                                            <div class="extendContent">
-                                                <!--5-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Add date</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="2016/11/1" disabled/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Cfmd status</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="cfmd"
-                                                               disabled/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Cxl reason</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder=""
-                                                               disabled/>
-                                                    </div>
-                                                </div>
-                                                <!--6-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Add by</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="abby"
-                                                               disabled/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Cfmd no.</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="F54156" disabled/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Cxl No.</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder=""
-                                                               disabled/>
-                                                    </div>
-                                                </div>
-                                                <!--7-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Upd date</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="2016/11/25" disabled/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Cfmd date</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="2016/11/25" disabled/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Cxl date</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder=""
-                                                               disabled/>
-                                                    </div>
-                                                </div>
-                                                <!--8-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Upd by</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="john"
-                                                               disabled/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Cfmd by</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="john"
-                                                               disabled/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Cxl No.</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder=""
-                                                               disabled/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div><!--main-content-data-->
-
-                                    <div class="space-4"></div>
-                                    <!--<div>-->
-                                    <!--<span class="orangeBlock1">pick up</span>-->
-                                    <!--<span class="orangeBlock1">Enter bed</span>-->
-                                    <!--<span class="orangeBlock1">FOC</span>-->
-                                    <!--<span class="orangeBlock1">Gtd</span>-->
-                                    <!--</div>-->
-
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="col-xs-1 col-sm-1">
@@ -679,11 +602,13 @@
                                                     </div>
                                                     <div class="grid-item">
                                                         <label>title</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder="E1:Mr"/>
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder="E1:Mr"/>
                                                     </div>
                                                     <div class="grid-item">
                                                         <label>Profile No</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder="1234567801"
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder="1234567801"
                                                                disabled/>
                                                     </div>
                                                 </div>
@@ -776,7 +701,7 @@
                                                     <div class="grid-item">
                                                         <label>Skymiles</label>
                                                         <input type="text" class="input-medium resvCard"
-                                                               placeholder="Asia Miles" />
+                                                               placeholder="Asia Miles"/>
                                                     </div>
                                                 </div>
                                                 <!--5-->
@@ -894,7 +819,8 @@
                                                     </div>
                                                     <div class="grid-item">
                                                         <label>MB Name</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder="林志玲"
+                                                        <input type="text" class="input-medium resvCard"
+                                                               placeholder="林志玲"
                                                                disabled/>
                                                     </div>
                                                     <div class="grid-item">
@@ -999,346 +925,6 @@
                                     <div class="clearfix"></div>
                                 </div>
 
-                                <!--舊版備份-->
-                                <!--<div title="Profile2" class="padding-tabs">-->
-                                    <!--<div class="col-xs-12 col-sm-12">-->
-                                        <!--<div class="row">-->
-                                            <!--&lt;!&ndash;content-col-4&ndash;&gt;-->
-                                            <!--<div class="main-content-data">-->
-                                                <!--&lt;!&ndash;1&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Full Name</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col2"-->
-                                                               <!--placeholder="23598233"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>title</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3" placeholder="E1:Mr"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Profile No</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3" placeholder="1234567801"-->
-                                                               <!--disabled/>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;2&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>First Name</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col2"-->
-                                                               <!--placeholder="德安資訊國際股份有限公司台北分公司"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Gender</label>-->
-                                                        <!--<select class="input-medium medium-c3">-->
-                                                            <!--<option value="male">男</option>-->
-                                                            <!--<option value="female">女</option>-->
-                                                        <!--</select>-->
-                                                        <!--&lt;!&ndash;<label style="width:auto;"><input type="radio" name="gender" value="male"/>男</label>&ndash;&gt;-->
-                                                        <!--&lt;!&ndash;<label style="width:auto;"><input type="radio" name="gender" value="female"/>女</label>&ndash;&gt;-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Status</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3" placeholder="VIP"/>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;3&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Last Name</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col2"-->
-                                                               <!--placeholder="黃先生"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Nationality</label>-->
-                                                        <!--<select class="input-medium medium-c3">-->
-                                                            <!--<option value="TW">台灣</option>-->
-                                                            <!--<option value="USA">美國</option>-->
-                                                        <!--</select>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>VIP</label>-->
-                                                        <!--<select class="input-medium medium-c3">-->
-                                                            <!--<option value="yes">1</option>-->
-                                                            <!--<option value="no">2</option>-->
-                                                        <!--</select>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;4&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Mobile</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col2"-->
-                                                               <!--placeholder="0923654561"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Live</label>-->
-                                                        <!--<select class="input-medium medium-c3">-->
-                                                            <!--<option value="0">台北</option>-->
-                                                            <!--<option value="1">台中</option>-->
-                                                            <!--<option value="2">台南</option>-->
-                                                        <!--</select>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>I.D No.</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3"-->
-                                                               <!--placeholder="a123456789"/>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;5&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Co.Tel.</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col2"-->
-                                                               <!--placeholder="02-98765432"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Language</label>-->
-                                                        <!--<select class="input-medium medium-c3">-->
-                                                            <!--<option value="ch_tw">CHI:中文</option>-->
-                                                            <!--<option value="en">英文</option>-->
-                                                        <!--</select>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Birth date</label>-->
-                                                        <!--<input type="date" class="input-medium medium-c3"-->
-                                                               <!--placeholder="1977/01/11"/>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;5&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Tel</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col2"-->
-                                                               <!--placeholder="02-98765432"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Job Title</label>-->
-                                                        <!--<select class="input-medium medium-c3">-->
-                                                            <!--<option value="0">業務</option>-->
-                                                            <!--<option value="1">客服</option>-->
-                                                            <!--<option value="2">工程師</option>-->
-                                                        <!--</select>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;6&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Fax</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col2"-->
-                                                               <!--placeholder="(02)98765432"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Collector</label>-->
-                                                        <!--<select class="input-medium medium-c3">-->
-                                                            <!--<option value="1">01</option>-->
-                                                            <!--<option value="2">02</option>-->
-                                                        <!--</select>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<input type="text" class="input-medium medium-c3" placeholder="林志玲"-->
-                                                               <!--disabled/>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;7&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>E-mail</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col2"-->
-                                                               <!--placeholder="abc123456@gmail.com"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>MB Type</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col1-5"-->
-                                                               <!--placeholder="積點會員" disabled/>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;8&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Address</label>-->
-                                                        <!--<input type="text" class="input-medium postalCode"-->
-                                                               <!--placeholder="10411"/>-->
-                                                        <!--<input type="text" class="input-medium postaladdress2 ml-2"-->
-                                                               <!--placeholder="台北市松江路309號8樓"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Vehicle No.</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3"-->
-                                                               <!--placeholder="123"/>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;9&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Agent</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col2"-->
-                                                               <!--placeholder="agoda"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>C.C.No.</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-card"-->
-                                                               <!--placeholder="1234567890123456"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Expire Date</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-card-2"-->
-                                                               <!--placeholder="12/19"/>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;10&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Company</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col2">-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Sky No.</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-card"-->
-                                                               <!--placeholder="1234567890123456"/>-->
-                                                        <!--&lt;!&ndash;&lt;!&ndash;<i class="moreClick fa fa-ellipsis-h aviationMile-btn"></i>&ndash;&gt;-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<input type="text" class="input-medium medium-skyNo"-->
-                                                               <!--placeholder="Asia Miles" />-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;11&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>G.U.I Title</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col2"-->
-                                                               <!--placeholder="發票抬頭"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>G.U.I NO.</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-card"-->
-                                                               <!--placeholder=""/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>DM</label>-->
-                                                        <!--<select class="input-medium medium-c3-card-2">-->
-                                                            <!--<option value="0">Y</option>-->
-                                                            <!--<option value="1">N</option>-->
-                                                        <!--</select>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;12&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Remarks</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col3Rm"-->
-                                                               <!--placeholder=""/>-->
-                                                        <!--<i class="moreClick fa fa-ellipsis-h"></i>-->
-                                                    <!--</div>-->
-
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>C/O Delete</label>-->
-                                                        <!--<select class="input-medium medium-c3-card-2">-->
-                                                            <!--<option value="y">Y</option>-->
-                                                            <!--<option value="N">N</option>-->
-                                                        <!--</select>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;13&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Pre.RM</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm"-->
-                                                               <!--placeholder=""/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Last RM No.</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Pre. Features</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-col2_3"-->
-                                                               <!--placeholder="" disabled="disabled"/>-->
-                                                        <!--<i class="moreClick fa fa-ellipsis-h"></i>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;14&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Visit No.</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>First visit Date</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>RM Amt.</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Others Amt.</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;15&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Visit days</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Last Visit Date</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>F&B Amt.</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Total Amt.</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--&lt;!&ndash;16&ndash;&gt;-->
-                                                <!--<div class="grid">-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Add date</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Add by</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Upd date</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                        <!--<label>Upd by</label>-->
-                                                        <!--<input type="text" class="input-medium medium-c3-sm" placeholder=""-->
-                                                               <!--disabled="disabled"/>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="clearfix"></div>-->
-                                            <!--</div>&lt;!&ndash;main-content-data&ndash;&gt;-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-
-                                    <!--<div class="clearfix"></div>-->
-                                <!--</div>-->
-
-                                <!-- /.end舊版備份-->
-
                                 <!--來館資料-->
                                 <div title="Visits" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
@@ -1360,99 +946,7 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <!--館別備註-->
-                                <!--<div title="Remarks" class="padding-tabs">-->
-                                    <!--<div class="col-xs-12 col-sm-12">-->
-                                        <!--<div class="row">-->
-                                            <!--&lt;!&ndash;館別備註 table&ndash;&gt;-->
-                                            <!--<table id="reservation_hallRemark-table" style="height: 200px;"></table>-->
 
-                                            <!--<div class="space-12"></div>-->
-                                            <!--<div class="borderFrame">-->
-                                                <!--<div class="col-xs-12 col-sm-12">-->
-                                                    <!--<div class="row">-->
-                                                        <!--<div class="col-xs-11 col-sm-11">-->
-                                                            <!--<div class="row no-margin-right">-->
-                                                                <!--<div class="main-content-data">-->
-                                                                    <!--<div class="grid">-->
-                                                                        <!--<div class="grid-item">-->
-                                                                            <!--<label>館別</label>-->
-                                                                            <!--<select class="input-medium medium-c3">-->
-                                                                                <!--<option value="0">0</option>-->
-                                                                                <!--<option value="1">1</option>-->
-                                                                                <!--<option value="2">2</option>-->
-                                                                            <!--</select>-->
-                                                                        <!--</div>-->
-                                                                        <!--<div class="grid-item">-->
-                                                                            <!--<label>序號</label>-->
-                                                                            <!--<select class="input-medium medium-c3">-->
-                                                                                <!--<option value="1">01</option>-->
-                                                                                <!--<option value="2">02</option>-->
-                                                                            <!--</select>-->
-                                                                        <!--</div>-->
-                                                                    <!--</div>-->
-                                                                    <!--<div class="grid">-->
-                                                                        <!--<div class="grid-item">-->
-                                                                            <!--<label>備註</label>-->
-                                                                            <!--<textarea class="input-medium medium-c1-sc3Key height-auto rzNone" rows="5"></textarea>-->
-                                                                        <!--</div>-->
-                                                                    <!--</div>-->
-                                                                    <!--<div class="grid">-->
-                                                                        <!--<div class="grid-item">-->
-                                                                            <!--<label>輸入者</label>-->
-                                                                            <!--<input type="text"-->
-                                                                                   <!--class="input-medium medium-c3"-->
-                                                                                   <!--placeholder=""/>-->
-                                                                        <!--</div>-->
-                                                                        <!--<div class="grid-item">-->
-                                                                            <!--<label>輸入日</label>-->
-                                                                            <!--<input type="date"-->
-                                                                                   <!--class="input-medium medium-c3"-->
-                                                                                   <!--placeholder=""/>-->
-                                                                        <!--</div>-->
-                                                                        <!--<div class="grid">-->
-                                                                        <!--</div>-->
-                                                                        <!--<div class="grid-item">-->
-                                                                            <!--<label>最後異動者</label>-->
-                                                                            <!--<input type="text"-->
-                                                                                   <!--class="input-medium medium-c3"-->
-                                                                                   <!--placeholder=""/>-->
-                                                                        <!--</div>-->
-                                                                        <!--<div class="grid-item">-->
-                                                                            <!--<label>最後異動日</label>-->
-                                                                            <!--<input type="date"-->
-                                                                                   <!--class="input-medium medium-c3"-->
-                                                                                   <!--placeholder=""/>-->
-                                                                        <!--</div>-->
-                                                                    <!--</div>-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                        <!--</div>-->
-                                                        <!--<div class="col-xs-1 col-sm-1">-->
-                                                            <!--<div class="row">-->
-                                                                <!--<div class="right-menu-co">-->
-                                                                    <!--<ul>-->
-                                                                        <!--<li>-->
-                                                                            <!--<button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark"-->
-                                                                                    <!--role="button">Add-->
-                                                                            <!--</button>-->
-                                                                        <!--</li>-->
-                                                                        <!--<li>-->
-                                                                            <!--<button class="btn btn-danger btn-white btn-defaultWidth"-->
-                                                                                    <!--role="button">Delete-->
-                                                                            <!--</button>-->
-                                                                        <!--</li>-->
-                                                                    <!--</ul>-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                        <!--</div>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="clearfix"></div>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
                                 <!--喜好-->
                                 <div title="Reference" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
@@ -1494,7 +988,8 @@
                                                                                           <label class="checkbox-width">
                                                                                               <input name="form-field-checkbox"
                                                                                                      type="checkbox"
-                                                                                                     class="ace" checked>
+                                                                                                     class="ace"
+                                                                                                     checked>
                                                                                               <span class="lbl">
                                                                                                 <span class="txt"></span>
                                                                                               </span>
@@ -1574,7 +1069,8 @@
                                                                                           <label class="checkbox-width">
                                                                                               <input name="form-field-checkbox"
                                                                                                      type="checkbox"
-                                                                                                     class="ace" checked>
+                                                                                                     class="ace"
+                                                                                                     checked>
                                                                                               <span class="lbl">
                                                                                                 <span class="txt"></span>
                                                                                               </span>
@@ -1673,7 +1169,8 @@
 
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button">Delete</button>
+                                                role="button">Delete
+                                        </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-gray btn-defaultWidth classified-btn"
@@ -1762,8 +1259,8 @@
                                         <div class="css_tr">
                                             <div class="css_td">1</div>
                                             <div class="css_td">正常</div>
-                                            <div class="css_td">2005/11/13(日)</div>
-                                            <div class="css_td">2005/11/19(六)</div>
+                                            <div class="css_td">2005/11/13(Su)</div>
+                                            <div class="css_td">2005/11/19(Mo)</div>
                                             <div class="css_td">gp004-03</div>
                                             <div class="css_td">94國旅c-1</div>
                                             <div class="css_td">家庭客房</div>
@@ -1776,8 +1273,8 @@
                                         <div class="css_tr">
                                             <div class="css_td">1</div>
                                             <div class="css_td">正常</div>
-                                            <div class="css_td">2005/11/13(日)</div>
-                                            <div class="css_td">2005/11/19(六)</div>
+                                            <div class="css_td">2005/11/13(Su)</div>
+                                            <div class="css_td">2005/11/19(Mo)</div>
                                             <div class="css_td">gp004-03</div>
                                             <div class="css_td">94國旅c-1</div>
                                             <div class="css_td">家庭客房</div>
@@ -1790,8 +1287,8 @@
                                         <div class="css_tr">
                                             <div class="css_td">1</div>
                                             <div class="css_td">正常</div>
-                                            <div class="css_td">2005/11/13(日)</div>
-                                            <div class="css_td">2005/11/19(六)</div>
+                                            <div class="css_td">2005/11/13(Su)</div>
+                                            <div class="css_td">2005/11/19(Mo)</div>
                                             <div class="css_td">gp004-03</div>
                                             <div class="css_td">94國旅c-1</div>
                                             <div class="css_td">家庭客房</div>
@@ -2080,28 +1577,37 @@
                                                 <div class="css_th" style="min-width:100px;">計價房種</div>
                                                 <div class="css_th" style="min-width:60px;">使用房種</div>
                                                 <div class="css_th" style="min-width:60px;">間數</div>
+                                                <div class="css_th" style="min-width:40px;">大人</div>
+                                                <div class="css_th" style="min-width:40px;">小孩</div>
+                                                <div class="css_th" style="min-width:40px;">嬰兒</div>
                                             </div>
                                         </div>
                                         <div class="css_tbody">
                                             <div class="css_tr">
                                                 <div class="css_td">1</div>
                                                 <div class="css_td">正常</div>
-                                                <div class="css_td">2005/11/13</div>
-                                                <div class="css_td">2005/11/19</div>
+                                                <div class="css_td">2005/11/13(Su)</div>
+                                                <div class="css_td">2005/11/19(Mo)</div>
                                                 <div class="css_td">FIT2017:一般散客價</div>
                                                 <div class="css_td">STD</div>
                                                 <div class="css_td">STD</div>
                                                 <div class="css_td text-right">3</div>
+                                                <div class="css_td text-right">4</div>
+                                                <div class="css_td text-right">1</div>
+                                                <div class="css_td text-right">1</div>
                                             </div>
                                             <div class="css_tr">
                                                 <div class="css_td">2</div>
                                                 <div class="css_td">正常</div>
-                                                <div class="css_td">2005/11/13</div>
-                                                <div class="css_td">2005/11/19</div>
+                                                <div class="css_td">2005/11/13(Su)</div>
+                                                <div class="css_td">2005/11/19(Mo)</div>
                                                 <div class="css_td">TRA:旅展價</div>
                                                 <div class="css_td">DXT</div>
                                                 <div class="css_td">DXT</div>
                                                 <div class="css_td text-right">2</div>
+                                                <div class="css_td text-right">4</div>
+                                                <div class="css_td text-right">1</div>
+                                                <div class="css_td text-right">1</div>
                                             </div>
                                         </div>
                                     </div>
@@ -2136,8 +1642,8 @@
                                                                         <thead class="css_thead">
                                                                             <tr class="css_tr">
                                                                                 <th class="css_th"
-                                                                                    style="min-width:25px;"><i
-                                                                                            class="fa fa-plus green pointer"></i>
+                                                                                    style="min-width:25px;">
+                                                                                    <i class="fa fa-plus green pointer"></i>
                                                                                 </th>
                                                                                 <th class="css_th"
                                                                                     style="min-width:200px;">住客姓名
@@ -2164,8 +1670,8 @@
                                                                                 <td class="css_td">201</td>
                                                                             </tr>
                                                                             <tr class="css_tr">
-                                                                                <td class="css_td"><i
-                                                                                            class="fa fa-minus red pointer"></i>
+                                                                                <td class="css_td">
+                                                                                    <i class="fa fa-minus red pointer"></i>
                                                                                 </td>
                                                                                 <td class="css_td">王美美</td>
                                                                                 <td class="css_td">1</td>
@@ -2173,8 +1679,8 @@
                                                                                 <td class="css_td">201</td>
                                                                             </tr>
                                                                             <tr class="css_tr">
-                                                                                <td class="css_td"><i
-                                                                                            class="fa fa-minus red pointer"></i>
+                                                                                <td class="css_td">
+                                                                                    <i class="fa fa-minus red pointer"></i>
                                                                                 </td>
                                                                                 <td class="css_td">李大同</td>
                                                                                 <td class="css_td">2</td>
@@ -2182,8 +1688,8 @@
                                                                                 <td class="css_td">302</td>
                                                                             </tr>
                                                                             <tr class="css_tr">
-                                                                                <td class="css_td"><i
-                                                                                            class="fa fa-minus red pointer"></i>
+                                                                                <td class="css_td">
+                                                                                    <i class="fa fa-minus red pointer"></i>
                                                                                 </td>
                                                                                 <td class="css_td">陳小華</td>
                                                                                 <td class="css_td">3</td>
@@ -2191,8 +1697,8 @@
                                                                                 <td class="css_td"></td>
                                                                             </tr>
                                                                             <tr class="css_tr">
-                                                                                <td class="css_td"><i
-                                                                                            class="fa fa-minus red pointer"></i>
+                                                                                <td class="css_td">
+                                                                                    <i class="fa fa-minus red pointer"></i>
                                                                                 </td>
                                                                                 <td class="css_td">張三</td>
                                                                                 <td class="css_td"></td>
@@ -2200,8 +1706,8 @@
                                                                                 <td class="css_td"></td>
                                                                             </tr>
                                                                             <tr class="css_tr">
-                                                                                <td class="css_td"><i
-                                                                                            class="fa fa-minus red pointer"></i>
+                                                                                <td class="css_td">
+                                                                                    <i class="fa fa-minus red pointer"></i>
                                                                                 </td>
                                                                                 <td class="css_td">李四</td>
                                                                                 <td class="css_td"></td>
@@ -2271,7 +1777,7 @@
                                                                             <label>房組</label>
                                                                             <input type="text"
                                                                                    class="input-medium resvCard"
-                                                                                   placeholder=""/>
+                                                                                   placeholder="" disabled/>
                                                                         </div>
                                                                         <div class="grid-item">
                                                                             <label>排房狀態</label>
@@ -2291,9 +1797,17 @@
                                                                         <div class="grid-item">
                                                                             <label>入住提醒</label>
                                                                             <input type="text"
-                                                                                   class="input-medium resvCard-col2"
+                                                                                   class="input-medium resvCard-col2Rm"
                                                                                    placeholder=""/>
                                                                             <i class="moreClick fa fa-ellipsis-h"></i>
+                                                                        </div>
+
+                                                                        <div class="grid-item">
+                                                                            <label>喜好房號</label>
+                                                                            <input type="text"
+                                                                                   class="input-medium resvCard"
+                                                                                   placeholder=""
+                                                                                   disabled/>
                                                                         </div>
                                                                     </div>
                                                                     <!--6-->
@@ -2301,9 +1815,17 @@
                                                                         <div class="grid-item">
                                                                             <label>退房提醒</label>
                                                                             <input type="text"
-                                                                                   class="input-medium resvCard-col2"
+                                                                                   class="input-medium resvCard-col2Rm"
                                                                                    placeholder=""/>
                                                                             <i class="moreClick fa fa-ellipsis-h"></i>
+                                                                        </div>
+                                                                        <div class="grid">
+                                                                            <div class="grid-item">
+                                                                                <label>車號</label>
+                                                                                <input type="text"
+                                                                                       class="input-medium resvCard"
+                                                                                       placeholder=""/>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="border-double1"></div>
@@ -2394,7 +1916,7 @@
                                                                             class="fa fa-minus red pointer"></i></td>
                                                                 <td class="css_td">1</td>
                                                                 <td class="css_td">王大明
-                                                                    <button class="btn btn-sm btn-primary btn-white btn-sm-font2">
+                                                                    <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
                                                                         Profile
                                                                     </button>
                                                                 </td>
@@ -2411,7 +1933,7 @@
                                                                             class="fa fa-minus red pointer"></i></td>
                                                                 <td class="css_td">2</td>
                                                                 <td class="css_td">王美美
-                                                                    <button class="btn btn-sm btn-primary btn-white btn-sm-font2">
+                                                                    <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
                                                                         Profile
                                                                     </button>
                                                                 </td>
@@ -2428,7 +1950,7 @@
                                                                             class="fa fa-minus red pointer"></i></td>
                                                                 <td class="css_td">3</td>
                                                                 <td class="css_td">李大同
-                                                                    <button class="btn btn-sm btn-primary btn-white btn-sm-font2">
+                                                                    <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
                                                                         Profile
                                                                     </button>
                                                                 </td>
@@ -2445,7 +1967,7 @@
                                                                             class="fa fa-minus red pointer"></i></td>
                                                                 <td class="css_td">4</td>
                                                                 <td class="css_td">陳小華
-                                                                    <button class="btn btn-sm btn-primary btn-white btn-sm-font2">
+                                                                    <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
                                                                         Profile
                                                                     </button>
                                                                 </td>
@@ -2462,7 +1984,7 @@
                                                                             class="fa fa-minus red pointer"></i></td>
                                                                 <td class="css_td">5</td>
                                                                 <td class="css_td">張三
-                                                                    <button class="btn btn-sm btn-primary btn-white btn-sm-font2">
+                                                                    <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
                                                                         Profile
                                                                     </button>
                                                                 </td>
@@ -2479,7 +2001,7 @@
                                                                             class="fa fa-minus red pointer"></i></td>
                                                                 <td class="css_td">6</td>
                                                                 <td class="css_td">李四
-                                                                    <button class="btn btn-sm btn-primary btn-white btn-sm-font2">
+                                                                    <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
                                                                         Profile
                                                                     </button>
                                                                 </td>
@@ -2662,41 +2184,50 @@
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
-                        <div class="main-content-data">
+                        <div class="row main-content-data">
                             <div class="horizTable-outer">
                                 <div class="css_table horizTable">
                                     <div class="css_thead">
                                         <div class="css_tr">
                                             <div class="css_th" style="min-width:40px;">序號</div>
-                                            <div class="css_th" style="min-width:60px;">狀態</div>
-                                            <div class="css_th" style="min-width:100px;">入住日期</div>
-                                            <div class="css_th" style="min-width:100px;">退房日期</div>
-                                            <div class="css_th" style="min-width:150px;">房價代號</div>
-                                            <div class="css_th" style="min-width:100px;">計價房種</div>
-                                            <div class="css_th" style="min-width:60px;">使用房種</div>
-                                            <div class="css_th" style="min-width:60px;">間數</div>
+                                            <div class="css_th" style="min-width:50px;">狀態</div>
+                                            <div class="css_th" style="min-width:80px;">入住日期</div>
+                                            <div class="css_th" style="min-width:80px;">退房日期</div>
+                                            <div class="css_th" style="min-width:140px;">房價代號</div>
+                                            <div class="css_th" style="min-width:70px;">計價房種</div>
+                                            <div class="css_th" style="min-width:70px;">使用房種</div>
+                                            <div class="css_th" style="min-width:40px;">間數</div>
+                                            <div class="css_th" style="min-width:40px;">大人</div>
+                                            <div class="css_th" style="min-width:40px;">小孩</div>
+                                            <div class="css_th" style="min-width:40px;">嬰兒</div>
                                         </div>
                                     </div>
                                     <div class="css_tbody">
                                         <div class="css_tr">
                                             <div class="css_td">1</div>
                                             <div class="css_td">正常</div>
-                                            <div class="css_td">2005/11/13</div>
-                                            <div class="css_td">2005/11/19</div>
+                                            <div class="css_td">2005/11/13(Su)</div>
+                                            <div class="css_td">2005/11/19(Mo)</div>
                                             <div class="css_td">FIT2017:一般散客價</div>
                                             <div class="css_td">STD</div>
                                             <div class="css_td">STD</div>
                                             <div class="css_td text-right">3</div>
+                                            <div class="css_td text-right">4</div>
+                                            <div class="css_td text-right">1</div>
+                                            <div class="css_td text-right">1</div>
                                         </div>
                                         <div class="css_tr">
                                             <div class="css_td">2</div>
                                             <div class="css_td">正常</div>
-                                            <div class="css_td">2005/11/13</div>
-                                            <div class="css_td">2005/11/19</div>
+                                            <div class="css_td">2005/11/13(Su)</div>
+                                            <div class="css_td">2005/11/19(Mo)</div>
                                             <div class="css_td">TRA:旅展價</div>
                                             <div class="css_td">DXT</div>
                                             <div class="css_td">DXT</div>
                                             <div class="css_td text-right">2</div>
+                                            <div class="css_td text-right">4</div>
+                                            <div class="css_td text-right">1</div>
+                                            <div class="css_td text-right">1</div>
                                         </div>
                                     </div>
                                 </div>
@@ -2715,8 +2246,110 @@
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
                         <div class="main-content-data">
-                            <div class="col-xs-12 col-sm-12">
+                            <div class="">
                                 <div class="row">
+                                    <div class="col-xs-9 col-sm-9">
+                                        <div class="row">
+                                            <div class="horizTable-outer">
+                                                <table class="css_table horizTable">
+                                                    <thead class="css_thead">
+                                                        <tr class="css_tr">
+                                                            <th class="css_th"
+                                                                style="min-width:60px; text-align: center;">房組
+                                                            </th>
+                                                            <th class="css_th" style="min-width:60px;">房號</th>
+                                                            <th class="css_th" style="min-width:60px;">Share Rate</th>
+                                                            <th class="css_th" style="min-width:60px;">選擇</th>
+                                                            <th class="css_th" style="min-width:250px;">住客姓名</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="css_tbody">
+                                                        <tr class="css_tr">
+                                                            <td class="css_td">
+                                                                <button class="btn btn-primary btn-defaultWidth btn-spc-sm"
+                                                                        role="button">1
+                                                                </button>
+                                                            </td>
+                                                            <td class="css_td">201</td>
+                                                            <td class="css_td">
+                                                                <select class="selectHt">
+                                                                    <option value="S">S</option>
+                                                                    <option value="N">N</option>
+                                                                </select>
+                                                            </td>
+                                                            <td class="css_td">
+                                                                <div class="popCheckbox rmAssignCk">
+                                                                                <span class="checkbox">
+                                                                                      <label class="checkbox-width">
+                                                                                          <input name="form-field-checkbox"
+                                                                                                 type="checkbox"
+                                                                                                 class="ace">
+                                                                                          <span class="lbl"></span>
+                                                                                      </label>
+                                                                                </span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="css_td">王大明;李大同</td>
+                                                        </tr>
+                                                        <tr class="css_tr">
+                                                            <td class="css_td">
+                                                                <button class="btn btn-primary btn-defaultWidth btn-spc-sm"
+                                                                        role="button">2
+                                                                </button>
+                                                            </td>
+                                                            <td class="css_td">302</td>
+                                                            <td class="css_td">
+                                                                <select class="selectHt">
+                                                                    <option value="S">S</option>
+                                                                    <option value="N">N</option>
+                                                                </select>
+                                                            </td>
+                                                            <td class="css_td">
+                                                                <div class="popCheckbox rmAssignCk">
+                                                                                <span class="checkbox">
+                                                                                      <label class="checkbox-width">
+                                                                                          <input name="form-field-checkbox"
+                                                                                                 type="checkbox"
+                                                                                                 class="ace">
+                                                                                          <span class="lbl"></span>
+                                                                                      </label>
+                                                                                </span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="css_td">李大同;沈大偉</td>
+                                                        </tr>
+                                                        <tr class="css_tr">
+                                                            <td class="css_td">
+                                                                <button class="btn btn-primary btn-defaultWidth btn-spc-sm"
+                                                                        role="button">3
+                                                                </button>
+                                                            </td>
+                                                            <td class="css_td" rowspan="2">303</td>
+                                                            <td class="css_td" rowspan="2">
+                                                                <select class="selectHt">
+                                                                    <option value="S">S</option>
+                                                                    <option value="N">N</option>
+                                                                </select>
+                                                            </td>
+                                                            <td class="css_td">
+                                                                <div class="popCheckbox rmAssignCk">
+                                                                                <span class="checkbox">
+                                                                                      <label class="checkbox-width">
+                                                                                          <input name="form-field-checkbox"
+                                                                                                 type="checkbox"
+                                                                                                 class="ace">
+                                                                                          <span class="lbl"></span>
+                                                                                      </label>
+                                                                                </span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="css_td">李大同;菜一目</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-xs-3 col-sm-3">
                                         <div class="row">
                                             <div class="horizTable-outer">
@@ -2760,7 +2393,7 @@
                                                         </tr>
                                                         <tr class="css_tr">
                                                             <td class="css_td">
-                                                                <div class="popCheckbox　rmAssignCk">
+                                                                <div class="popCheckbox rmAssignCk">
                                                                     <span class="checkbox">
                                                                           <label class="checkbox-width">
                                                                               <input name="form-field-checkbox"
@@ -2791,149 +2424,6 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-9 col-sm-9">
-                                        <div class="">
-                                            <div class="main-content-data">
-                                                <div class="horizTable-outer">
-                                                    <table class="css_table horizTable">
-                                                        <thead class="css_thead">
-                                                            <tr class="css_tr">
-                                                                <th class="css_th"
-                                                                    style="min-width:60px; text-align: center;">房組
-                                                                </th>
-                                                                <th class="css_th" style="min-width:60px;">房號</th>
-                                                                <th class="css_th" style="min-width:60px;">選擇</th>
-                                                                <th class="css_th" style="min-width:130px;">住客姓名</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="css_tbody">
-                                                            <tr class="css_tr">
-                                                                <td class="css_td" rowspan="3">
-                                                                    <button class="btn btn-primary btn-defaultWidth border-raduis-5"
-                                                                            role="button">1
-                                                                    </button>
-                                                                </td>
-                                                                <td class="css_td" rowspan="3">201</td>
-                                                                <td class="css_td">
-                                                                    <div class="popCheckbox rmAssignCk">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl"></span>
-                                                                                          </label>
-                                                                                    </span>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="css_td">王大明</td>
-                                                            </tr>
-                                                            <tr class="css_tr">
-                                                                <td class="css_td">
-                                                                    <div class="popCheckbox rmAssignCk">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl"></span>
-                                                                                          </label>
-                                                                                    </span>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="css_td">李大同</td>
-                                                            </tr>
-                                                            <tr class="css_tr">
-                                                                <td class="css_td"></td>
-                                                                <td class="css_td"></td>
-                                                            </tr>
-                                                            <tr class="css_tr">
-                                                                <td class="css_td" rowspan="3">
-                                                                    <button class="btn btn-primary btn-defaultWidth border-raduis-5"
-                                                                            role="button">2
-                                                                    </button>
-                                                                </td>
-                                                                <td class="css_td" rowspan="3">302</td>
-                                                                <td class="css_td">
-                                                                    <div class="popCheckbox rmAssignCk">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl"></span>
-                                                                                          </label>
-                                                                                    </span>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="css_td">李大同</td>
-                                                            </tr>
-                                                            <tr class="css_tr">
-                                                                <td class="css_td">
-                                                                    <div class="popCheckbox rmAssignCk">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl"></span>
-                                                                                          </label>
-                                                                                    </span>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="css_td">李大同</td>
-                                                            </tr>
-                                                            <tr class="css_tr">
-                                                                <td class="css_td"></td>
-                                                                <td class="css_td"></td>
-                                                            </tr>
-                                                            <tr class="css_tr">
-                                                                <td class="css_td" rowspan="3">
-                                                                    <button class="btn btn-primary btn-defaultWidth border-raduis-5"
-                                                                            role="button">3
-                                                                    </button>
-                                                                </td>
-                                                                <td class="css_td" rowspan="3"></td>
-                                                                <td class="css_td">
-                                                                    <div class="popCheckbox rmAssignCk">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl"></span>
-                                                                                          </label>
-                                                                                    </span>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="css_td">李大同</td>
-                                                            </tr>
-                                                            <tr class="css_tr">
-                                                                <td class="css_td">
-                                                                    <div class="popCheckbox rmAssignCk">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl"></span>
-                                                                                          </label>
-                                                                                    </span>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="css_td">李大同</td>
-                                                            </tr>
-                                                            <tr class="css_tr">
-                                                                <td class="css_td"></td>
-                                                                <td class="css_td"></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div><!--main-content-data-->
-
                                         </div>
                                     </div>
                                 </div>
@@ -3005,8 +2495,8 @@
                                             <div class="css_tr">
                                                 <div class="css_td">1</div>
                                                 <div class="css_td">正常</div>
-                                                <div class="css_td">2005/11/13</div>
-                                                <div class="css_td">2005/11/19</div>
+                                                <div class="css_td">2005/11/13(Su)</div>
+                                                <div class="css_td">2005/11/19(Mo)</div>
                                                 <div class="css_td">DDT:家庭客房</div>
                                                 <div class="css_td">一XXXXX旅社</div>
                                                 <div class="css_td text-right">20</div>
@@ -3014,8 +2504,8 @@
                                             <div class="css_tr">
                                                 <div class="css_td">2</div>
                                                 <div class="css_td">正常</div>
-                                                <div class="css_td">2005/11/13</div>
-                                                <div class="css_td">2005/11/19</div>
+                                                <div class="css_td">2005/11/13(Su)</div>
+                                                <div class="css_td">2005/11/19(Mo)</div>
                                                 <div class="css_td">SSG:精緻客房</div>
                                                 <div class="css_td">一XXXXX旅社</div>
                                                 <div class="css_td text-right">15</div>
@@ -3023,8 +2513,8 @@
                                             <div class="css_tr">
                                                 <div class="css_td">1</div>
                                                 <div class="css_td">正常</div>
-                                                <div class="css_td">2005/11/13</div>
-                                                <div class="css_td">2005/11/19</div>
+                                                <div class="css_td">2005/11/13(Su)</div>
+                                                <div class="css_td">2005/11/19(Mo)</div>
                                                 <div class="css_td">JPN:和式客房12</div>
                                                 <div class="css_td">一XXXXX旅社</div>
                                                 <div class="css_td text-right">5</div>
@@ -3032,8 +2522,8 @@
                                             <div class="css_tr">
                                                 <div class="css_td">2</div>
                                                 <div class="css_td">正常</div>
-                                                <div class="css_td">2005/11/13</div>
-                                                <div class="css_td">2005/11/19</div>
+                                                <div class="css_td">2005/11/13(Su)</div>
+                                                <div class="css_td">2005/11/19(Mo)</div>
                                                 <div class="css_td">JPN:和式客房12</div>
                                                 <div class="css_td">一XXXXX旅社</div>
                                                 <div class="css_td text-right">7</div>
@@ -3041,8 +2531,8 @@
                                             <div class="css_tr">
                                                 <div class="css_td">1</div>
                                                 <div class="css_td">正常</div>
-                                                <div class="css_td">2005/11/13</div>
-                                                <div class="css_td">2005/11/19</div>
+                                                <div class="css_td">2005/11/13(Su)</div>
+                                                <div class="css_td">2005/11/19(Mo)</div>
                                                 <div class="css_td">DDT:家庭客房</div>
                                                 <div class="css_td">一XXXXX旅社</div>
                                                 <div class="css_td text-right">20</div>
@@ -3050,8 +2540,8 @@
                                             <div class="css_tr">
                                                 <div class="css_td">1</div>
                                                 <div class="css_td">正常</div>
-                                                <div class="css_td">2005/11/13</div>
-                                                <div class="css_td">2005/11/19</div>
+                                                <div class="css_td">2005/11/13(Su)</div>
+                                                <div class="css_td">2005/11/19(Mo)</div>
                                                 <div class="css_td">DDT:家庭客房</div>
                                                 <div class="css_td">一XXXXX旅社</div>
                                                 <div class="css_td text-right">20</div>
@@ -3337,7 +2827,8 @@
                                                             <tr class="css_tr">
                                                                 <td class="css_td">住家地址</td>
                                                                 <td class="css_td"></td>
-                                                                <td class="css_td"><i class="moreClick fa fa-ellipsis-h"></i></td>
+                                                                <td class="css_td"><i
+                                                                            class="moreClick fa fa-ellipsis-h"></i></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -3577,8 +3068,12 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label class="pull-left">Message</label>
-                                        <textarea class="input-medium pull-left rateCode-s1-col3Bring height-auto rzNone" placeholder="" rows="4"></textarea>
-                                        <button class="btn btn-sm btn-primary btn-white btn-sm-font2 pull-left ml-5">帶入</button>
+                                        <textarea
+                                                class="input-medium pull-left rateCode-s1-col3Bring height-auto rzNone"
+                                                placeholder="" rows="4"></textarea>
+                                        <button class="btn btn-sm btn-primary btn-white btn-sm-font2 pull-left ml-5">
+                                            帶入
+                                        </button>
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
@@ -3672,7 +3167,8 @@
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>狀態</label>
-                                                <input type="text" class="input-medium medium-c4" placeholder="P:處理中" disabled/>
+                                                <input type="text" class="input-medium medium-c4" placeholder="P:處理中"
+                                                       disabled/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>接單者</label>
@@ -3683,13 +3179,15 @@
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>發生日期</label>
-                                                <input type="text" class="input-medium medium-c4" placeholder="2012/12/11 09:43:48"
+                                                <input type="text" class="input-medium medium-c4"
+                                                       placeholder="2012/12/11 09:43:48"
                                                        disabled="disabled">
                                             </div>
 
                                             <div class="grid-item">
                                                 <label>反應日期</label>
-                                                <input type="text" class="input-medium medium-c4" placeholder="2012/12/11 11:16:48"
+                                                <input type="text" class="input-medium medium-c4"
+                                                       placeholder="2012/12/11 11:16:48"
                                                        disabled="disabled">
                                             </div>
                                         </div>
@@ -3701,7 +3199,8 @@
                                                     <option value="y">大廳</option>
                                                     <option value="n">No</option>
                                                 </select>
-                                                <input type="text" class="input-medium input-spc-3 pull-left ml-2" placeholder="">
+                                                <input type="text" class="input-medium input-spc-3 pull-left ml-2"
+                                                       placeholder="">
                                                 <div class="clearfix"></div>
                                             </div>
                                         </div>
@@ -3715,7 +3214,8 @@
 
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label class="text-top">顧客回覆<br> <i class="moreClick fa fa-ellipsis-h"></i></label>
+                                                <label class="text-top">顧客回覆<br> <i
+                                                            class="moreClick fa fa-ellipsis-h"></i></label>
                                                 <textarea class="input-medium input-spc-2 height-auto rzNone input-h70"
                                                           placeholder="全球最大的多媒體應用軟體公司奧多比（Adobe）驚傳上週五關閉台灣辦公室，連台灣總經理黃中平也在裁員名單之列。不少外商公司員工聽聞此事也感到人心惶惶。"></textarea>
                                             </div>
@@ -3736,7 +3236,8 @@
 
                                             <div class="grid-item">
                                                 <label>處理部門</label>
-                                                <input type="text" class="input-medium input-more-1" placeholder="客服部" disabled>
+                                                <input type="text" class="input-medium input-more-1" placeholder="客服部"
+                                                       disabled>
                                                 <i class="moreClick fa fa-ellipsis-h"></i>
                                             </div>
                                         </div>
@@ -3765,7 +3266,8 @@
                                         <div class="grid">
 
                                             <div class="grid-item">
-                                                <label class="text-top">顧客回覆<br> <i class="moreClick fa fa-ellipsis-h"></i></label>
+                                                <label class="text-top">顧客回覆<br> <i
+                                                            class="moreClick fa fa-ellipsis-h"></i></label>
                                                 <textarea class="input-medium input-spc-2 height-auto rzNone input-h70"
                                                           placeholder="奧多比去年全球營收達42.1億美元，全球有近萬名員工，也一直是賺錢的公司，此次裁撤台灣辦公室，這個決定令不少軟體界人士大感意外。"></textarea>
                                             </div>
@@ -3807,12 +3309,14 @@
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>輸入日</label>
-                                                <input type="text" class="input-medium medium-c4" placeholder="2014/12/06 11:16:48"
+                                                <input type="text" class="input-medium medium-c4"
+                                                       placeholder="2014/12/06 11:16:48"
                                                        disabled="disabled">
                                             </div>
                                             <div class="grid-item">
                                                 <label>最後異動日</label>
-                                                <input type="text" class="input-medium medium-c4" placeholder="2017/1/06 11:16:48"
+                                                <input type="text" class="input-medium medium-c4"
+                                                       placeholder="2017/1/06 11:16:48"
                                                        disabled="disabled">
                                             </div>
                                         </div>
@@ -3827,7 +3331,8 @@
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>顧客代號</label>
-                                                <input type="text" class="input-medium resvCard-date" placeholder="020000100">
+                                                <input type="text" class="input-medium resvCard-date"
+                                                       placeholder="020000100">
                                             </div>
                                         </div>
                                         <div class="grid">
@@ -3882,43 +3387,50 @@
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>意見性質</label>
-                                                <input type="text" class="input-medium resvCard-date" placeholder="S:建議">
+                                                <input type="text" class="input-medium resvCard-date"
+                                                       placeholder="S:建議">
                                             </div>
                                         </div>
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>意見類別</label>
-                                                <input type="text" class="input-medium resvCard-date" placeholder="硬體" disabled>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="硬體"
+                                                       disabled>
                                             </div>
                                         </div>
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>顧客評價 <br> (是否滿意)</label>
-                                                <input type="text" class="input-medium resvCard-date" placeholder="Y:滿意">
+                                                <input type="text" class="input-medium resvCard-date"
+                                                       placeholder="Y:滿意">
                                             </div>
                                         </div>
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>預定結案日期</label>
-                                                <input type="date" class="input-medium resvCard-date" placeholder="2012/12/11">
+                                                <input type="date" class="input-medium resvCard-date"
+                                                       placeholder="2012/12/11">
                                             </div>
                                         </div>
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>結案日期</label>
-                                                <input type="date" class="input-medium resvCard-date" placeholder="2012/12/11" disabled>
+                                                <input type="date" class="input-medium resvCard-date"
+                                                       placeholder="2012/12/11" disabled>
                                             </div>
                                         </div>
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>結案者</label>
-                                                <input type="text" class="input-medium resvCard-date" placeholder="cio" disabled>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="cio"
+                                                       disabled>
                                             </div>
                                         </div>
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>結案天數</label>
-                                                <input type="text" class="input-medium resvCard-date" placeholder="0.01" disabled>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="0.01"
+                                                       disabled>
                                             </div>
                                         </div>
                                         <div class="grid">
@@ -3928,9 +3440,11 @@
                                             </div>
                                         </div>
                                         <div class="grid suggestion-btnGroup">
-                                            <button class="btn btn-primary btn-white btn-defaultWidth sug-btn" role="button">儲存回覆文件路徑
+                                            <button class="btn btn-primary btn-white btn-defaultWidth sug-btn"
+                                                    role="button">儲存回覆文件路徑
                                             </button>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth sug-btn" role="button">開啟回覆文件
+                                            <button class="btn btn-primary btn-white btn-defaultWidth sug-btn"
+                                                    role="button">開啟回覆文件
                                             </button>
                                         </div>
                                     </div>
@@ -3940,28 +3454,28 @@
                         </div>
                     </div>
                     <div class="col-xs-1 col-sm-1">
-                    <div class="row">
-                        <div class="right-menu-co">
-                            <ul>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Add
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Edit
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Save
-                                    </button>
-                                </li>
-                            </ul>
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Add
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Edit
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Save
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </div>
             </div>
             <div class="clearfix"></div>

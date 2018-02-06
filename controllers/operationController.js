@@ -21,20 +21,13 @@ exports.doOperationSave = function (req, res) {
 };
 
 function doOperationProc(req, res) {
+    //TODO 沒給交易代碼要拋出錯誤
     req.body.trans_cod = req.body.trans_cod || "BAC03009010000";
 
-    //特殊交易
-    if (req.body.trans_cod != "" && req.body.trans_cod != "BAC03009010000") {
-        dbSVC.execTransSQL(req.body, req.session, function (err, success) {
-            res.json(tools.mergeRtnErrResultJson(err, success));
-        });
-    }
-    //一般儲存
-    else {
-        dbSVC.execNormalSQL(req.body, req.session, function (err, success) {
-            res.json(tools.mergeRtnErrResultJson(err, success));
-        });
-    }
+    dbSVC.execNormalSQL(req.body, req.session, function (err, result) {
+        res.json(tools.mergeRtnErrResultJson(err, result));
+        // res.json({success: err == null, errorMsg: result.msg});
+    });
 }
 
 /**
@@ -124,7 +117,7 @@ exports.fetchDefaultGsRowData = function (req, res) {
         let lo_rtnData = {
             success: _.isNull(err),
             errorMsg: err,
-            gsDefaultData: result.gsDefaultData
+            gsDefaultData: result.gsDefaultData.defaultValues
         };
         res.json(lo_rtnData);
     });

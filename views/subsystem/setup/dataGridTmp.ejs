@@ -1,7 +1,7 @@
 <div id="datagridApp">
     <div class="col-xs-12">
         <div class="row">
-            <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
+            <%-include('./programInfoTheme', {prg_id:  prg_id })%>
         </div>
     </div>
 
@@ -21,7 +21,6 @@
                         <!--控制table 高度 jing add-->
                         <table id="prg_dg" class="prg_dgHt"></table>
 
-                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
@@ -32,14 +31,14 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                        data-purview_func_id="<%=prg_id%>0200"
+                                        data-purview_func_id="<%= prg_id %>-0200"
                                         @click="appendRow">
                                     <%= __("SystemCommon").Add %>
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
-                                        data-purview_func_id="<%= prg_id %>0300"
+                                        data-purview_func_id="<%= prg_id %>-0300"
                                         @click="removeRow();">
                                     <%= __("SystemCommon").Delete %>
                                 </button>
@@ -77,25 +76,24 @@
                :visible.sync="openChangeLogDialog" size="large" class="openChangeLogDialog">
 
         <div class="col-xs-12">
-            <div class="col-sm-12 col-xs-12">
-                <div class="row">
-                    <div class="fixHeadTable">
-                        <div class="tbl-header02">
-                            <table class=" custab">
-                                <thead class="custab-head">
+            <div class="row">
+                <div class="fixHeadTable">
+                    <div class="tbl-header02">
+                        <table class=" custab">
+                            <thead class="custab-head">
                                 <tr>
                                     <th class="width-15 text-center">Time</th>
                                     <th class="width-10 text-center">User</th>
                                     <th class="width-15 text-center">Action Type</th>
                                     <th class="width-20 text-center">Description MN</th>
                                 </tr>
-                                </thead>
-                            </table>
-                        </div>
-                        <div class="tbl-content02" style="">
-                            <table class="custab">
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="tbl-content02" style="">
+                        <table class="custab">
 
-                                <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
+                            <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
                                 <tr v-for="logData in allChangeLogList">
                                     <td class="width-15">{{logData.event_time}}</td>
                                     <td class="width-10">{{logData.user}}</td>
@@ -105,46 +103,51 @@
                                         <div class="blue bold" style="text-transform: capitalize;">{{logData.action }}
                                         </div>
                                         <span v-for="mnData in logData.desc_mn">
-                                        {{mnData.field_name}} :
-                                        {{mnData.oldVal}}
-                                        <span v-if="logData.action == 'update'"> →  </span>
-                                        {{mnData.newVal}}
-                                        <br>
-                                    </span>
+                                    {{mnData.field_name}} :
+                                    {{mnData.oldVal}}
+                                    <span v-if="logData.action == 'update'"> →  </span>
+                                    {{mnData.newVal}}
+                                    <br>
+                                </span>
                                     </td>
                                 </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="clearfix"></div>
-                    <script>
-                        // console.log(navigator.userAgent);
-                        // 判斷如果不是window 不執行(判斷瀏覽器js在include.js)
-                        // 0822 有些mac的scrollBar 會推，有些不會(jun會)
-                        // if(navigator.userAgent.indexOf("Window") !=-1){
+                </div>
+                <div class="clearfix"></div>
+                <script type="text/javascript">
+                    // console.log(navigator.userAgent);
+                    // 判斷如果不是window 不執行(判斷瀏覽器js在include.js)
+                    // 0822 有些mac的scrollBar 會推，有些不會(jun會)
+                    // if(navigator.userAgent.indexOf("Window") !=-1){
 
-                        // var fixHeadTableH = $(window).height() - 350;
-                        // $('.tbl-content02').css({'height': fixHeadTableH});
-                        // alert(fixHeadTableH);
+                    // var fixHeadTableH = $(window).height() - 350;
+                    // $('.tbl-content02').css({'height': fixHeadTableH});
+                    // alert(fixHeadTableH);
 
 
-                        // 異動紀錄 偵測高度(掛外面無法正常運作)
+                    // 異動紀錄 偵測高度(掛外面無法正常運作)
+                    $(function () {
+
+//                        todo 與外面的resize 衝突，之後換table寫法更改
                         var tblContentHt = $(window).height() - 270;
                         $('.tbl-content02').css({'height': tblContentHt});
-                        $(window).on("load resize ", function () {
-                            var scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
+                        $(window).resize(function () {
+                            let scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
                             $('.tbl-header02').css({'padding-right': '17px'});
-                            var fixHeadTableH = $(window).height() - 20;
+                            let fixHeadTableH = $(window).height() - 20;
                             // 異動紀錄 偵測高度
-                            var tblContentHt = $(window).height() - 270;
+                            let tblContentHt = $(window).height() - 270;
                             $('.tbl-content02').css({'height': tblContentHt});
-                        }).resize();
-                        //                        }
-                        // /.end 判斷如果不是window不執行
+                        });
+                        $(window).trigger('resize');
+                    })
 
-                    </script>
-                </div>
+                    //                        }
+                    // /.end 判斷如果不是window不執行
+
+                </script>
             </div>
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
@@ -163,27 +166,4 @@
 <script src="/js/setup/vueCompLib/searchComp.js"></script>
 <script src="/js/setup/datagrid.js"></script>
 
-<script>
-    //common JS
-    jQuery(function () {
-        // Resize Table Height // Date:170920
-        //        alert('menuHeight1');
-        var menuHeight1 = $(".navbar-container").height();
-        var menuHeight2 = $(".top-sec-ul").height() + 30 + $(".page-header").height() + $(".search-content").height();//padding-top: 5px
-        //    console.log('menuHeight1',menuHeight1);
-        //    console.log('gridTableHt',menuHeight2);
-        height = $(window).height() - menuHeight1 - menuHeight2 - 10;
-        prg_dgHt = $(window).height() - menuHeight1 - menuHeight2 - 80;
-        $(".tab-content").css("height", height);
-        $(".prg_dgHt").css("height", prg_dgHt);
-        //        console.log('gridTableHt .panel-body',height);
-        $(window).resize(function () {
-            height = $(window).height() - menuHeight1 - menuHeight2 - 10;
-            prg_dgHt = $(window).height() - menuHeight1 - menuHeight2 - 80;
-            $(".tab-content").css("height", height);
-            $(".prg_dgHt").css("height", prg_dgHt);
-        });
-    });
-    //    alert(gridTableHt);
-
-</script>
+<script src="/js/webInit/initResizeHt.js"></script>

@@ -1,7 +1,7 @@
 <div id="GSApp">
     <div class="col-xs-12">
         <div class="row">
-            <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
+            <%-include('../programInfoTheme', {prg_id:  prg_id })%>
         </div>
     </div>
     <input type="hidden" id="prg_id" value="<%= prg_id %>" style="border: 0px">
@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
-                    <table id="PMS0820020_dg" style="height: 300px; display: inline;"></table>
+                    <table id="PMS0820020_dg" class="prg_dgHt_searchRow2"></table>
                 </div>
             </div>
 
@@ -176,6 +176,7 @@
 <%- include ../vueTemplate/searchTmp.ejs %>
 <%- include ../vueTemplate/PMS0820020RmListTmp.ejs %>
 
+<script src="/js/webInit/initResizeHt.js"></script>
 <script src="/js/setup/vueCompLib/searchComp.js"></script>
 <script src="/js/easyUI/DatagridForSingleGridClass.js"></script>
 <script src="/js/setup/common/UIFieldAttrClass.js"></script>

@@ -12,6 +12,24 @@
         <parameter type="string" kind="1">visit_typ</parameter>
     </dao>
 
+    <!--[PMS0610020 商公司資料編輯] 取拜訪記錄多筆資料-->
+    <dao name="QRY_PS_VISIT_DT_FOR_CUST">
+        <statement><![CDATA[
+            SELECT ps_visit_dt.athena_id,ps_visit_dt.cust_cod,PS_VISIT_RF.VISIT_NAM, PS_VISIT_DT.VISIT_DAT,
+            PS_VISIT_DT.VISIT_STA, PS_VISIT_DT.PURPORT_RMK, PS_VISIT_DT.REMARK,PS_VISIT_DT.VISIT_TYP,
+            PS_VISIT_DT.AVISIT_DAT, PS_VISIT_DT.TRAFFIC_AMT
+            FROM PS_VISIT_DT
+            join PS_VISIT_RF on PS_VISIT_DT.ATHENA_ID = PS_VISIT_RF.ATHENA_ID
+            AND PS_VISIT_DT.VISIT_TYP = PS_VISIT_RF.VISIT_TYP
+            WHERE PS_VISIT_DT.ATHENA_ID = :athena_id
+            AND PS_VISIT_DT.CUST_COD = :cust_cod
+            ORDER BY PS_VISIT_DT.VISIT_DAT
+        ]]>
+        </statement>
+        <parameter type="number" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">cust_cod</parameter>
+    </dao>
+
     <!--[PMS0620050] 取多筆拜訪紀錄-->
     <dao name="QRY_PS_VISIT_DT">
         <statement><![CDATA[
@@ -20,8 +38,8 @@
             FROM  PS_VISIT_DT, CUST_MN, PS_VISIT_RF, CONTRACT_STATUS_RF
             WHERE  CUST_MN.ATHENA_ID = PS_VISIT_DT.ATHENA_ID
             AND  CUST_MN.CUST_COD = PS_VISIT_DT.CUST_COD
-            AND  CUST_MN.ATHENA_ID = CONTRACT_STATUS_RF.ATHENA_ID
-            AND  CUST_MN.CONTRACT_STA = CONTRACT_STATUS_RF.STATUS_COD
+            AND  CUST_MN.ATHENA_ID = CONTRACT_STATUS_RF.ATHENA_ID(+)
+            AND  CUST_MN.CONTRACT_STA = CONTRACT_STATUS_RF.STATUS_COD(+)
             AND  PS_VISIT_DT.ATHENA_ID = PS_VISIT_RF.ATHENA_ID
             AND  PS_VISIT_DT.VISIT_TYP = PS_VISIT_RF.VISIT_TYP
             AND  PS_VISIT_DT.ATHENA_ID = :athena_id
@@ -30,12 +48,13 @@
         <parameter type="likestring" kind="2" condition="CUST_MN.show_cod like ? ">show_cod</parameter>
         <parameter type="likestring" kind="2" condition="PS_VISIT_DT.purport_rmk like ? ">purport_rmk</parameter>
         <parameter type="likestring" kind="2" condition="PS_VISIT_DT.remark like ? ">remark</parameter>
-        <parameter type="string" kind="2" condition="PS_VISIT_DT.visit_dat = to_date(:visit_dat, 'YYYY/MM/DD') ">visit_dat</parameter>
-        <parameter type="string" kind="2" condition="PS_VISIT_DT.avisit_dat = to_date(:avisit_dat, 'YYYY/MM/DD') ">avisit_dat</parameter>
+        <parameter type="string" kind="2" condition="trunc(PS_VISIT_DT.visit_dat) = to_date(:visit_dat, 'YYYY/MM/DD') ">visit_dat</parameter>
+        <parameter type="string" kind="2" condition="trunc(PS_VISIT_DT.avisit_dat) = to_date(:avisit_dat, 'YYYY/MM/DD') ">avisit_dat</parameter>
         <parameter type="string" kind="2" condition="trim(CUST_MN.status_cod) = trim(:status_cod) ">status_cod</parameter>
         <parameter type="string" kind="2" condition="trim(CUST_MN.cust_nam) = trim(:cust_nam) ">cust_nam</parameter>
         <parameter type="string" kind="2" condition="trim(PS_VISIT_DT.visit_typ) = trim(:visit_typ) ">visit_typ</parameter>
-        <parameter type="string" kind="2" condition="trim(PS_VISIT_DT.visit_sta) = trim(:visit_sta) ">visit_sta</parameter>
+        <parameter type="instring" kind="3">visit_sta</parameter>
+        <statement test="_v(param.visit_sta)"><![CDATA[and PS_VISIT_DT.visit_sta in(:visit_sta)]]></statement>
         <parameter type="instring" kind="3">type_cod</parameter>
         <statement test="_v(param.type_cod)"><![CDATA[and type_cod in(:type_cod)]]></statement>
         <parameter type="instring" kind="3">contract_sta</parameter>
@@ -56,8 +75,8 @@
             ps.remark, cust.show_cod, cust.cust_nam, cust.status_cod, rf.status_desc, ps.ins_usr, ps.ins_dat, ps.upd_usr, ps.upd_dat
             from ps_visit_dt ps, cust_mn cust, contract_status_rf rf
             where ps.athena_id = cust.athena_id and ps.cust_cod = cust.cust_cod
-            and cust.athena_id = rf.athena_id
-            and cust.contract_sta = rf.status_cod
+            and cust.athena_id = rf.athena_id(+)
+            and cust.contract_sta = rf.status_cod(+)
             and ps.athena_id =:athena_id and trim(ps.cust_cod) =trim(:cust_cod) and ps.visit_typ = :visit_typ and ps.visit_dat = to_date(:visit_dat, 'YYYY/MM/DD')
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>

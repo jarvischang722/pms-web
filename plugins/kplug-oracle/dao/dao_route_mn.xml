@@ -28,5 +28,13 @@
 
     </dao>
 
-
+    <!--[pms0610020] 分帳規則下拉選單-->
+    <dao name="SEL_CUSTMNROUTECOD">
+        <statement><![CDATA[
+          select route_cod as value, route_nam as display from route_mn
+          where athena_id = :athena_id
+          order by route_cod
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
 </root>

@@ -11,7 +11,7 @@ const langSvc = require("../services/LangService");
 const fs = require("fs");
 const ip = require("ip");
 const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
-
+var go_sysConf = require("../configs/systemConfig");
 /**
  * 登入頁面
  */
@@ -24,32 +24,96 @@ exports.loginPage = function (req, res) {
         res.redirect("/systemOption");
         return;
     }
-    let ls_account = "";
-    let clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
-    try {
-        fs.exists("configs/IPsUsersRef.json", function (isExist) {
-            if (isExist) {
-                let IPsUsersRef = require("../configs/IPsUsersRef.json");
 
-                _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
-                    if (ipSubnet.toString().indexOf("/") > -1) {
-                        if (ip.cidrSubnet(ipSubnet).contains(clientIP)) {
-                            ls_account = user.toString();
-                        }
-                    } else {
-                        if (_.isEqual(ipSubnet, clientIP)) {
-                            ls_account = user.toString();
-                        }
+
+    try {
+        async.waterfall([
+            function (callback) {
+                if (_.isUndefined(req.params.athena_id)) {
+                    if (!_.isUndefined(req.session.athena_id) && !_.isUndefined(req.session.comp_cod)) {
+                        return res.redirect(`/${req.session.athena_id}/${req.session.comp_cod}/login`);
+                    } else if (!_.isUndefined(req.session.athena_id) && _.isUndefined(req.session.comp_cod)) {
+                        return res.redirect(`/${req.session.athena_id}/login`);
                     }
-                });
+                    queryAgent.query("QRY_SELECT_COMPANY", {}, function (err, company) {
+                        if (err) {
+                            return callback(err, 'done');
+                        } else {
+                            if (company) {
+                                return res.redirect(`/${company.athena_id}/${company.cmp_id.trim()}/login`);
+                            }
+                        }
+                        callback(null, 'done');
+                    });
+                } else {
+                    req.session.athena_id = req.params.athena_id;
+                    req.session.comp_cod = req.params.comp_cod || "";
+                    callback(null, 'done');
+                }
+            },
+            //公司館別可用語系判斷
+            function (data, callback) {
+                //TODO 判別每間公司館別可以用的語系，
+                let options = {
+                    maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3 // would expire after 15 minutes
+                    //httpOnly: true, // The cookie only accessible by the web server
+                    //signed: true // Indicates if the cookie should be signed
+                };
+                let localeInfo = [
+                    {lang: 'en', sort: 1, name: 'English'},
+                    {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')},
+                    {lang: 'ja', sort: 3, name: encodeURIComponent('日本語')}
+                ];
+                res.cookie('sys_locales', localeInfo, options);
+                callback(null, 'done');
             }
-            res.render('user/loginPage', {account: ls_account});
+        ], function (err) {
+            res.render('user/loginPage');
         });
+
     }
     catch (ex) {
-        res.render('user/loginPage', {account: ls_account});
+        console.error(ex);
+        res.render('user/loginPage');
     }
+};
+
+/**
+ * 取系統參數
+ */
+exports.getsysConfig = function (req, res) {
+    res.json({sysConf: go_sysConf});
+};
+
+/**
+ * 取預設帳號
+ */
+exports.getDefaultAccount = function (req, res) {
+    let ls_account = "";
+    let clientIP = req.body.ip;
+
+    clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
+
+    //判斷IP網段是否有對應的username
+    fs.exists("configs/IPsUsersRef.json", function (isExist) {
+        if (isExist) {
+            let IPsUsersRef = require("../configs/IPsUsersRef.json");
+
+            _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
+                if (ipSubnet.toString().indexOf("/") > -1) {
+                    if (ip.cidrSubnet(ipSubnet).contains(clientIP)) {
+                        ls_account = user.toString();
+                    }
+                } else {
+                    if (_.isEqual(ipSubnet, clientIP)) {
+                        ls_account = user.toString();
+                    }
+                }
+            });
+        }
+        res.json({account: ls_account});
+    });
+
 };
 
 /**
@@ -82,15 +146,19 @@ exports.casLogin = function (req, res, next) {
  */
 exports.authLogin = function (req, res) {
 
-
     authSvc.doAuthAccount(req.body, function (err, errorCode, userInfo) {
-
         if (!err && userInfo) {
             req.session.user = userInfo;
-
+            req.session.athena_id = userInfo.athena_id;
+            req.session.comp_cod = userInfo.cmp_id.trim();
         }
 
-        res.json({success: !_.isNull(userInfo), errorCode: errorCode, errorMsg: "", user: userInfo});
+        res.json({
+            success: !_.isNull(userInfo),
+            errorCode: errorCode,
+            errorMsg: _.isNull(err) || _.isUndefined(err.message) ? "" : err.message,
+            user: userInfo
+        });
     });
 
 };
@@ -194,7 +262,19 @@ exports.getSubsysQuickMenu = function (req, res) {
  * 取得選擇的公司
  */
 exports.getSelectCompony = function (req, res) {
-    queryAgent.queryList("QRY_SELECT_COMPANY", {}, 0, 0, function (err, getData) {
+    let start = new Date().getTime();
+    queryAgent.queryList("QRY_SELECT_COMPANY", {
+        athena_id: req.session.athena_id,
+        comp_cod: req.session.comp_cod
+    }, 0, 0, function (err, getData) {
+        //TODO 2018/02/06  因為達美樂首頁公司別出不來的因素，懷疑因為DB塞車導致回應速度慢，故加上時間紀錄
+        let end = new Date().getTime();
+        if ((end - start) / 1000 > 1) {
+            console.error(` 公司別撈取執行時間:  ${(end - start) / 1000} sec`);
+        } else {
+            console.log(` 公司別撈取執行時間:  ${(end - start) / 1000} sec`);
+        }
+
         if (err) {
             res.json({success: false, errorMsg: err});
         }
@@ -264,6 +344,59 @@ exports.getRoleOfAccounts = function (req, res) {
 };
 
 /**
+ * 抓取全部功能權限
+ */
+exports.getAllFuncs = function (req, res) {
+    async.waterfall([
+        getAllSystem,
+        getUserSubsysPurviewBySysID
+    ], function (err, result) {
+        res.json({success: err == null, errMsg: err, funcList: result});
+    });
+
+    function getAllSystem(cb) {
+        SysFuncPurviewSvc.getAllSystem(req.body, req.session, function (err, sysList) {
+            cb(err, sysList);
+        });
+    }
+
+    function getUserSubsysPurviewBySysID(sysList, cb) {
+        let ln_counter = 0;
+        req.body.remove = true;
+        _.each(sysList, function (lo_sysList) {
+            let ls_sysID = lo_sysList.sys_id;
+            SysFuncPurviewSvc.getUserSubsysPurviewBySysID(req, ls_sysID, function (err, subsysMenu) {
+                ln_counter++;
+                lo_sysList.subSys = subsysMenu;
+                if (ln_counter == sysList.length) {
+                    cb(err, sysList);
+                }
+            });
+        });
+    }
+};
+
+/**
+ * 抓取單一角色對應的功能權限
+ */
+exports.getFuncsOfRole = function (req, res) {
+    let lo_userInfo = req.session.user;
+    let lo_params = {};
+    if (req.body.role_id) {
+        lo_params.user_athena_id = lo_userInfo.athena_id;
+        lo_params.user_comp_cod = lo_userInfo.cmp_id;
+        lo_params.role_id = req.body.role_id;
+        lo_params.athena_id = lo_userInfo.athena_id;
+        lo_params.func_hotel_cod = lo_userInfo.fun_hotel_cod;
+    }
+
+    queryAgent.queryList("QRY_BAC_SYS_MODULE_BY_USER", lo_params, 0, 0, function (err, funcsOfRole) {
+        // let la_function = _.where(funcsOfRole, {id_typ: "FUNCTION"});
+        res.json({success: true, funcsOfRole: funcsOfRole});
+    });
+};
+
+/**
  * 取得作業每顆按鈕func_id的權限
  */
 exports.getUserFuncPurviewByProID = function (req, res) {
@@ -317,10 +450,15 @@ exports.userSubsysPurviewBySysID = function (req, res) {
     });
 };
 
-
 /**
- * 新增 修改密碼(靜態)
+ * 修改密碼
  */
-exports.getEditPassword = function (req, res) {
-    res.render("user/editPassword");
+exports.doEditPassword = function (req, res) {
+    authSvc.doEditPassword(req, function (err, errorCode) {
+        res.json({
+            success: _.isNull(err),
+            errorCode: errorCode,
+            errorMsg: _.isNull(err) || _.isUndefined(err.message) ? "" : err.message
+        });
+    });
 };

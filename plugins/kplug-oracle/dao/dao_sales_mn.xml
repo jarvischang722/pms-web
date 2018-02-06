@@ -22,7 +22,6 @@
         <parameter type="string" kind="3">class_cod</parameter>
     </dao>
 
-
     <!--[PMS0620010] 取得業務員多筆-->
     <dao name="QRY_SALES_MN_ORDER_BY_SALE_COD_AND_DECODE_STATUS_COD">
         <statement><![CDATA[
@@ -50,6 +49,7 @@
         <parameter type="string" kind="3">sales_cod</parameter>
     </dao>
 
+    <!--[PMS0620020] 取得業務員sales_mn(user_nos存在)-->
     <dao name="QRY_SALES_MN_ALL_FIELDS_WITH_USER_NOS">
         <statement><![CDATA[
         SELECT trim(a.SALES_COD) as sales_cod, trim(a.SALES_NAM) as sales_nam, a.STATUS_COD, a.CLASS_COD, a.HOTEL_SALES, a.BQ_SALES, a.MEMBER_SALES, a.USER_NOS, b.usr_cname, a.INS_DAT, a.INS_USR, a.UPD_DAT, a.UPD_USR,a.TEL_NOS
@@ -59,7 +59,7 @@
         <parameter type="string" kind="3">sales_cod</parameter>
     </dao>
 
-    <!--[PMS0620020] 取得業務員sales_mn(user_nos存在)-->
+    <!--[PMS0620020] 取得業務員sales_mn-->
     <dao name="QRY_SALES_MN_ALL_FIELDS">
         <statement test="_d(param.user_nos != '')"><![CDATA[
         SELECT trim(a.SALES_COD) as sales_cod, trim(a.SALES_NAM) as sales_nam, a.STATUS_COD, a.CLASS_COD, a.HOTEL_SALES, a.BQ_SALES, a.MEMBER_SALES, a.USER_NOS, b.usr_cname, a.INS_DAT, a.INS_USR, a.UPD_DAT, a.UPD_USR,a.TEL_NOS
@@ -84,6 +84,21 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">sales_cod</parameter>
         <parameter type="string" kind="3">user_nos</parameter>
+    </dao>
+
+    <!--[PMS0610020] 取得業務員下拉選單-->
+    <dao name="SEL_SALES_MN_HOTEL_STATUS_N">
+        <statement><![CDATA[
+        SELECT  SALES_MN.SALES_COD AS SALES_COD, SALES_MN.SALES_NAM AS SALES_NAM, SALES_CLASS_KVRF.CLASS_NAM AS CLASS_NAM, (trim(SALES_MN.SALES_COD) ||':'|| SALES_MN.SALES_NAM) as sales_display
+        FROM SALES_MN, SALES_CLASS_KVRF
+        WHERE SALES_MN.ATHENA_ID = SALES_CLASS_KVRF.ATHENA_ID
+        AND SALES_MN.CLASS_COD = SALES_CLASS_KVRF.CLASS_COD
+        AND SALES_MN.STATUS_COD = 'N'
+        AND SALES_MN.HOTEL_SALES = 'Y'
+        AND SALES_MN.ATHENA_ID = :athena_id
+        ORDER BY  SALES_MN.SALES_COD
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 
 

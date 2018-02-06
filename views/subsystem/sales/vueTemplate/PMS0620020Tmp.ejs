@@ -1,12 +1,11 @@
 <script type="text/x-template" id="singleGridPMS0620020Tmp">
-
     <div id="singleGridPMS0620020" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-sm-11 col-xs-11" v-loading="isLoadingDialog" :element-loading-text="loadingText">
                         <div class="borderFrame main-content-data ">
-                            <div class="row" v-for="fields in fieldData">
+                            <div class="grid" v-for="fields in fieldData">
                                 <div class="grid-item" v-for="field in fields">
                                     <!--  checkbox -->
                                     <input v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
@@ -74,27 +73,16 @@
                                     </template>
 
                                     <!-- 下拉選單 -->
-                                    <span class="dropdown margin-adjust" align="left"
-                                          :class="{'input_sta_required' : field.requirable == 'Y' }"
-                                          v-if="field.visiable == 'Y' && field.ui_type == 'select'"
-                                          :style="{width:field.width + 'px' , height:field.height + 'px'}">
-                                        <button :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
-                                                class="btn btn-default btn-white dropdown-toggle btn-height"
-                                                style="text-align: left!important;"
-                                                type="button" data-toggle="dropdown"
-                                                :style="{width:field.width + 'px' , height:field.height + 'px'}">
-                                            {{ showDropdownDisplayName(rowData[field.ui_field_name] , field.selectData) }}
-                                            <span class="caret" style="text-align: right"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-h" role="menu" aria-labelledby="menu1">
-                                            <li role="presentation" v-for="opt in field.selectData"
-                                                @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
-                                                <a @click.prevent="rowData[field.ui_field_name] = opt.value">
-                                                    {{opt.display}}
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </span>
+                                    <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                v-model="rowData[field.ui_field_name]" :data="field.selectData"
+                                                is-qry-src-before="Y" value-field="value" text-field="display"
+                                                @update:v-model="val => rowData[field.ui_field_name] = val"
+                                                :default-val="rowData[field.ui_field_name]"
+                                                :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                    </bac-select>
+
                                 </div>
                             </div>
                         </div>
@@ -122,14 +110,14 @@
                                                 <div class="right-menu-co">
                                                     <ul>
                                                         <li>
-                                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                    role="button"
+                                                            <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                                                    role="button" :disabled="BTN_action" data-purview_func_id="PMS0620020-1010"
                                                                     @click="appendDtRow"><%= __("SystemCommon")["Add"] %>
                                                             </button>
                                                         </li>
                                                         <li>
-                                                            <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                    role="button"
+                                                            <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
+                                                                    role="button" :disabled="BTN_action" data-purview_func_id="PMS0620020-1020"
                                                                     @click="removeDtRow"><%= __("SystemCommon")["Delete"] %>
                                                             </button>
                                                         </li>
@@ -169,8 +157,8 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                @click="doSave">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
+                                                @click="doSave" data-purview_func_id="PMS0620020-0500" :disabled="isSaveEnable">
                                             <%= __("SystemCommon")["Save"] %>
                                         </button>
                                     </li>

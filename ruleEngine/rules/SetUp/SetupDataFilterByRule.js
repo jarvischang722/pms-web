@@ -231,11 +231,12 @@ exports.PMS0830010Filter = function (rows, session, searchCond, callback) {
  * @constructor
  */
 exports.PSIW510030Filter = function (rows, session, searchCond, callback) {
-    if (!_.isUndefined(searchCond.order_dat) && searchCond.order_dat.length > 0) {
-        searchCond.order_dat = moment(searchCond.order_dat).format("YYYY/MM/DD");
+
+    if (!_.isUndefined(searchCond.order_dat) && !_.isEmpty(searchCond.order_dat[0]) && !_.isEmpty(searchCond.order_dat[1])) {
+        let ld_begin_dat = searchCond.order_dat[0];
+        let ld_end_dat = searchCond.order_dat[1];
         rows = _.filter(rows, function (d) {
-            var ld_order_dat = moment(d.order_dat).format("YYYY/MM/DD");
-            return ld_order_dat == searchCond.order_dat;
+            return new Date(d.order_dat) >= new Date(ld_begin_dat) && new Date(d.order_dat) <= new Date(ld_end_dat);
         });
     }
     callback(rows);

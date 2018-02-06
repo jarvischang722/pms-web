@@ -52,7 +52,8 @@ function DatagridBaseClass() {
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
             onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
-            onSortColumn: this.doSortColumn
+            onSortColumn: this.doSortColumn,
+            onSelect: this.onSelect
         }).datagrid('columnMoving');
 
     };
@@ -102,6 +103,14 @@ function DatagridBaseClass() {
             }
         }
 
+    };
+
+    /**
+     * 勾起一個Row
+     * @param index
+     * @param field
+     */
+    this.onSelect = function (index, field) {
     };
 
     //結束編輯
@@ -173,7 +182,7 @@ function DatagridBaseClass() {
             var editors = $('#' + self.dgName).datagrid('getEditors', index);
             var lo_editor = _.findWhere(editors, {field: lo_timeField.ui_field_name});
 
-            if(!_.isUndefined(lo_editor)){
+            if (!_.isUndefined(lo_editor)) {
                 $(lo_editor.target).textbox('setValue', ls_field_name);
             }
 
@@ -183,9 +192,28 @@ function DatagridBaseClass() {
     /**
      * 新增一個Row
      */
-    this.appendRow = function () {
+    this.appendRow = function (callback) {
+        if (_.isUndefined(callback)) {
+            callback = function (result) {
+            };
+        }
         if (self.endEditing()) {
-            $.post("/api/handleDataGridAddEventRule", {prg_id: self.prg_id}, function (result) {
+            //設定搜尋條件
+            var lo_param = {};
+            if(this.dtOriRowData.length != 0){
+                lo_param = {
+                    prg_id: self.prg_id,
+                    page_id: self.fieldsData[0].page_id,
+                    tab_page_id: self.fieldsData[0].tab_page_id
+                };
+            }
+            else{
+                lo_param = {
+                    prg_id: self.prg_id
+                };
+            }
+
+            $.post("/api/handleDataGridAddEventRule", lo_param, function (result) {
                 var prgDefaultObj = {createRow: 'Y'};
                 if (result.success) {
                     prgDefaultObj = result.prgDefaultObj;
@@ -194,6 +222,7 @@ function DatagridBaseClass() {
                 self.editIndex = $('#' + self.dgName).datagrid('getRows').length - 1;
                 $('#' + self.dgName).datagrid('selectRow', self.editIndex)
                     .datagrid('beginEdit', self.editIndex);
+                callback(true);
             });
             // $("#gridEdit").val(self.tmpCUD);
         }
@@ -231,10 +260,21 @@ function DatagridBaseClass() {
 
         $("#gridEdit").val(self.tmpCUD);
 
-        $.post("/api/handleDataGridDeleteEventRule", {
-            prg_id: self.prg_id,
-            deleteData: self.tmpCUD.deleteData
-        }, function (result) {
+        var lo_param = {};
+        if(this.dtOriRowData.length != 0){
+            lo_param = {
+                prg_id: self.prg_id,
+                tab_page_id: self.fieldsData[0].tab_page_id,
+                deleteData: self.tmpCUD.deleteData
+            };
+        }
+        else{
+            lo_param = {
+                prg_id: self.prg_id,
+                deleteData: self.tmpCUD.deleteData
+            };
+        }
+        $.post("/api/handleDataGridDeleteEventRule", lo_param, function (result) {
             if (result.success) {
                 $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
             } else {
@@ -263,8 +303,16 @@ function DatagridBaseClass() {
 
         _.each(allField, function (field, fIdx) {
             var currentColumOption = $('#' + self.dgName).datagrid("getColumnOption", field);
-            currentColumOption.col_seq = fIdx;
-            saveField.push(_.extend(currentColumOption));
+            var lo_currentColumOption = JSON.parse(JSON.stringify(currentColumOption));
+            lo_currentColumOption.col_seq = fIdx;
+            delete lo_currentColumOption._id;
+
+            //因前檯小數關係，format_func_name可能是object，存進mongo前的前置處理
+            if (typeof lo_currentColumOption.format_func_name === "object") {
+                lo_currentColumOption.format_func_name = lo_currentColumOption.format_func_name.rule_name;
+            }
+
+            saveField.push(_.extend(lo_currentColumOption));
         });
 
         $.post("/api/saveFieldOptionByUser", {
@@ -327,14 +375,14 @@ function DatagridBaseClass() {
             }
         }
         // 設定檔
-        else{
+        else {
             self.tmpCUD[dataType].push(lo_chkKeyRowData);
             $("#gridEdit").val(self.tmpCUD);
         }
 
     };
 
-    this.insertKeyRowData = function(lo_chkKeyRowData){
+    this.insertKeyRowData = function (lo_chkKeyRowData) {
         lo_chkKeyRowData["mnRowData"] = this.mnRowData;
         lo_chkKeyRowData["tab_page_id"] = this.fieldsData[0].tab_page_id;
         lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");

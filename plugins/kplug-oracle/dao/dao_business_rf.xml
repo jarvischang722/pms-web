@@ -11,6 +11,14 @@
         <parameter type="string" kind="1">athena_id</parameter>
     </dao>
 
+    <!--[PMS0610020] 商務公司資料編輯 相關設定 行業別選單-->
+    <dao name="SEL_CUSTMNBUSINESSCOD">
+        <statement><![CDATA[
+              select business_cod as value, business_rmk as display from business_rf where athena_id = :athena_id
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
 
     <!--[PMS0620050] 業務員拜訪記錄 行業別選單-->
     <dao name="SEL_BUSINESS_RF">

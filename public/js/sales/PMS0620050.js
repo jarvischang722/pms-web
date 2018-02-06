@@ -1,4 +1,7 @@
+var vmHub = new Vue();
 var gs_prgId = "PMS0620050";
+
+var go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
 
 /** DatagridRmSingleGridClass **/
 function DatagridSingleGridClass() {
@@ -28,9 +31,35 @@ Vue.component('single-grid-pms0620050-tmp', {
             isFirstData: false,
             isLastData: false,
             BTN_action: false,
+            isSaveEnable: false,
+            isDelEnable: false,
             isLoadingDialog: false,
             loadingText: ""
         };
+    },
+    created: function () {
+        var self = this;
+        vmHub.$on('doSaveModifyData', function (res) {
+            if (vm.isOnlyClose) {
+                self.doSaveModifyData(function (result) {
+                    if (result) {
+                        vm.isAction = true;
+                        vm.editingRow = {};
+                        vm.isLoading = true;
+                        vm.initTmpCUD();
+                        vm.loadDataGridByPrgID();
+                    }
+                });
+            }
+            else {
+                vm.isAction = true;
+                vm.editingRow = {};
+                vm.isLoading = true;
+                vm.initTmpCUD();
+                vm.loadDataGridByPrgID();
+            }
+        });
+        this.initPurview();
     },
     mounted: function () {
         this.isLoadingDialog = true;
@@ -38,48 +67,85 @@ Vue.component('single-grid-pms0620050-tmp', {
     },
     watch: {
         rowData: function (val) {
-            this.initData();
-            this.fetchFieldData();
+            if (!_.isEmpty(val)) {
+                this.initData();
+                this.fetchFieldData();
 
-            var nowDatagridRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', val);
+                var nowDatagridRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', val);
 
-            $("#PMS0620050_dg").datagrid('selectRow', nowDatagridRowIndex);
+                $("#PMS0620050_dg").datagrid('selectRow', nowDatagridRowIndex);
 
-            if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == 0) {
-                //已經到第一筆
-                this.isFirstData = true;
-                this.isLastData = false;
-                if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+                if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == 0) {
+                    //已經到第一筆
+                    this.isFirstData = true;
+                    this.isLastData = false;
+                    if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+                        this.isLastData = true;
+                    }
+
+                }
+                else if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+                    //已經到最後一筆
+                    this.isFirstData = false;
                     this.isLastData = true;
                 }
+                else {
 
-            }
-            else if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
-                //已經到最後一筆
-                this.isFirstData = false;
-                this.isLastData = true;
-            }
-            else {
-
-                this.isFirstData = false;
-                this.isLastData = false;
+                    this.isFirstData = false;
+                    this.isLastData = false;
+                }
             }
         },
         singleData: function (val) {
-            var ln_amtValue = _.clone(val['traffic_amt']);
-            var lo_amtField = {};
+            if (!_.isEmpty(val)) {
+                var ln_amtValue = _.clone(val['traffic_amt']);
+                var lo_amtField = {};
 
-            _.each(this.oriFieldsData, function (lo_field) {
-                if (lo_field.ui_field_name == 'traffic_amt') {
-                    lo_amtField = lo_field;
-                }
+                _.each(this.oriFieldsData, function (lo_field) {
+                    if (lo_field.ui_field_name == 'traffic_amt') {
+                        lo_amtField = lo_field;
+                    }
+                });
+
+                this.formatAmt(ln_amtValue, lo_amtField);
+            }
+        },
+        isSaveEnable: function (val) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0500";
             });
-
-            this.formatAmt(ln_amtValue, lo_amtField);
+            if (purview == -1) {
+                this.isSaveEnable = true;
+            }
+        },
+        isDelEnable: function (val) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0300";
+            });
+            if (purview == -1) {
+                this.isDelEnable = true;
+            }
         }
     },
     methods: {
+        initPurview: function () {
+            var purview;
+            purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0500";
+            });
+            if (purview == -1) {
+                this.isSaveEnable = true;
+            }
+
+            purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0300";
+            });
+            if (purview == -1) {
+                this.isDelEnable = true;
+            }
+        },
         initData: function () {
+            this.isLoadingDialog = true;
             this.singleData = {};
             this.oriSingleData = {};
             this.fieldsData = [];
@@ -103,15 +169,17 @@ Vue.component('single-grid-pms0620050-tmp', {
         fetchRowData: function (editingRow) {
             var self = this;
             editingRow = _.extend(editingRow, {prg_id: gs_prgId});
-            this.isLoadingDialog = false;
 
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 if (result.success) {
                     self.singleData = result.rowData;
                     self.oriSingleData = _.clone(result.rowData);
+                    self.singleData["avisit_dat"] = _.isNull(self.singleData["avisit_dat"]) ? "" : moment(new Date(self.singleData["avisit_dat"])).format("YYYY/MM/DD");
+                    self.oriSingleData["avisit_dat"] = _.isNull(self.oriSingleData["avisit_dat"]) ? "" : moment(new Date(self.oriSingleData["avisit_dat"])).format("YYYY/MM/DD");
                 } else {
                     console.error(result.errorMsg);
                 }
+                self.isLoadingDialog = false;
             });
 
             editingRow.visit_dat = moment(new Date(editingRow.visit_dat)).format("YYYY/MM/DD");
@@ -248,22 +316,46 @@ Vue.component('single-grid-pms0620050-tmp', {
 
         },
         toFirstData: function () {
-            this.isFirstData = true;
-            this.isLastData = false;
-            this.rowData = _.first(vm.pageOneDataGridRows);
+            var self = this;
+            this.doSaveModifyData(function (res) {
+                if (res) {
+                    self.isFirstData = true;
+                    self.isLastData = false;
+                    self.isLoadingDialog = true;
+                    self.rowData = _.first(vm.pageOneDataGridRows);
+                }
+            });
         },
         toPreData: function () {
-            var nowRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', this.rowData);
-            this.rowData = vm.pageOneDataGridRows[nowRowIndex - 1];
+            var self = this;
+            this.doSaveModifyData(function (res) {
+                if (res) {
+                    self.isLoadingDialog = true;
+                    var nowRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', self.rowData);
+                    self.rowData = vm.pageOneDataGridRows[nowRowIndex - 1];
+                }
+            });
         },
         toNextData: function () {
-            var nowRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', this.rowData);
-            this.rowData = vm.pageOneDataGridRows[nowRowIndex + 1];
+            var self = this;
+            this.doSaveModifyData(function (res) {
+                if (res) {
+                    self.isLoadingDialog = true;
+                    var nowRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', self.rowData);
+                    self.rowData = vm.pageOneDataGridRows[nowRowIndex + 1];
+                }
+            });
         },
         toLastData: function () {
-            this.isFirstData = false;
-            this.isLastData = true;
-            this.rowData = _.last(vm.pageOneDataGridRows);
+            var self = this;
+            this.doSaveModifyData(function (res) {
+                if (res) {
+                    self.isFirstData = false;
+                    self.isLastData = true;
+                    self.isLoadingDialog = true;
+                    self.rowData = _.last(vm.pageOneDataGridRows);
+                }
+            });
         },
         doDelGrid: function () {
             var self = this;
@@ -279,7 +371,9 @@ Vue.component('single-grid-pms0620050-tmp', {
                         vm.tmpCUD.deleteData = [self.singleData];
                         vm.tmpCUD.oriData = [self.oriSingleData];
                         vm.doSaveCUD("PMS0620050", 1, function (result) {
+                            alert(go_i18nLang["SystemCommon"].delSuccess);
                             vm.initTmpCUD();
+                            vm.isOnlyClose = false;
                             self.doCloseDialog();
                         });
 
@@ -287,6 +381,83 @@ Vue.component('single-grid-pms0620050-tmp', {
                         alert(result.errorMsg);
                     }
                 });
+            }
+        },
+        doSaveModifyData(callback) {
+            var self = this;
+            var lb_isDataChang = false;
+            var lo_checkRowData = JSON.parse(JSON.stringify(this.singleData));
+
+            //將欄位traffic_amt的值從有format轉回原本number
+            var ls_trafficAmt = "";
+
+            if (lo_checkRowData["traffic_amt"].indexOf(',') > -1) {
+                var la_splitAmtValue = lo_checkRowData["traffic_amt"].split(',');
+                _.each(la_splitAmtValue, function (ls_splitAmtValue) {
+                    ls_trafficAmt = ls_trafficAmt + ls_splitAmtValue;
+                });
+            }
+            else {
+                ls_trafficAmt = lo_checkRowData["traffic_amt"];
+            }
+
+            lo_checkRowData["traffic_amt"] = Number(ls_trafficAmt);
+            lo_checkRowData["avisit_dat"] = moment(new Date(lo_checkRowData["avisit_dat"])).format("YYYY/MM/DD");
+            lo_checkRowData["visit_dat"] = moment(new Date(lo_checkRowData["visit_dat"])).format("YYYY/MM/DD");
+            self.oriSingleData["avisit_dat"] = moment(new Date(self.oriSingleData["avisit_dat"])).format("YYYY/MM/DD");
+
+            _.each(lo_checkRowData, function (val, key) {
+                if (self.oriSingleData[key] != val) {
+                    lb_isDataChang = true;
+                    return;
+                }
+            });
+
+            if (lb_isDataChang) {
+                var q = confirm(go_i18nLang["SystemCommon"].Save_changed_data);
+
+                if (q) {
+                    this.isLoadingDialog = true;
+                    this.loadingText = "Saving...";
+
+                    var lo_chkResult = this.dataValidate();
+
+                    if (lo_chkResult.success == false && vm.tmpCUD.deleteData.length == 0) {
+                        alert(lo_chkResult.msg);
+                        this.isLoadingDialog = false;
+                    }
+                    else {
+                        lo_checkRowData["tab_page_id"] = 1;
+                        lo_checkRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+
+                        vm.tmpCUD.updateData = [lo_checkRowData];
+                        vm.tmpCUD.oriData = [this.oriSingleData];
+
+                        var lo_params = {
+                            prg_id: "PMS0620050",
+                            page_id: 2,
+                            tmpCUD: vm.tmpCUD
+                        };
+
+                        $.post("/api/doOperationSave", lo_params, function (result) {
+                            if (result.success) {
+                                alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                            self.isLoadingDialog = false;
+                            vm.initTmpCUD();
+                            callback(true);
+                        });
+                    }
+                }
+                else {
+                    callback(true);
+                }
+            }
+            else {
+                callback(true);
             }
         },
         dataValidate: function () {
@@ -326,7 +497,8 @@ Vue.component('single-grid-pms0620050-tmp', {
             if (lo_chkResult.success == false && vm.tmpCUD.deleteData.length == 0) {
                 alert(lo_chkResult.msg);
                 this.isLoadingDialog = false;
-            } else {
+            }
+            else {
                 var postRowData = _.clone(this.singleData);
 
                 //將欄位traffic_amt的值從有format轉回原本number
@@ -354,6 +526,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                 vm.doSaveCUD("PMS0620050", 2, function (result) {
                     if (result.success) {
                         alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
+                        vm.isOnlyClose = false;
                         self.doCloseDialog();
                     }
                     else {
@@ -365,19 +538,23 @@ Vue.component('single-grid-pms0620050-tmp', {
             }
         },
         doCloseDialog: function () {
-            vm.initTmpCUD();
-            vm.editingRow = {};
+            var self = this;
             $("#singleGridPMS0620050").dialog('close');
+            vm.isOnlyClose = true;
         }
     }
 });
 
 var vm = new Vue({
     el: "#PMS0620050App",
+    components: {
+        "search-comp": go_searchComp
+    },
     mounted: function () {
         this.fetchUserInfo();
         this.initTmpCUD();
         this.loadDataGridByPrgID();
+        this.fetchSingleWidth();
     },
     data: {
         tmpCUD: {
@@ -399,7 +576,7 @@ var vm = new Vue({
             sales_cod: [],
             business_cod: [],
             area_cod: [],
-            visit_sta: "",
+            visit_sta: [],
             visit_typ: "",
             visit_dat: "",
             avisit_dat: "",
@@ -409,7 +586,21 @@ var vm = new Vue({
         dgIns: {},
         isLoading: true,
         editingRow: {},
-        isModifiable: true
+        isModifiable: true,
+        isAction: false,
+        isEditEnable: false,
+        isOnlyClose: true,
+        maxWidth: 0
+    },
+    watch: {
+        isEditEnable(val) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0400";
+            });
+            if (purview == -1) {
+                this.isEditEnable = true;
+            }
+        }
     },
     methods: {
         fetchUserInfo: function () {
@@ -430,11 +621,10 @@ var vm = new Vue({
         loadDataGridByPrgID: function () {
             var lo_searchCond = _.clone(this.searchCond);
 
-            lo_searchCond["avisit_dat"] = lo_searchCond["avisit_dat"] == "" ? "" :
+            lo_searchCond["avisit_dat"] = lo_searchCond["avisit_dat"] == "" || _.isUndefined(lo_searchCond["avisit_dat"]) ? "" :
                 moment(new Date(lo_searchCond["avisit_dat"])).format("YYYY/MM/DD");
-            lo_searchCond["visit_dat"] = lo_searchCond["visit_dat"] == "" ? "" :
+            lo_searchCond["visit_dat"] = lo_searchCond["visit_dat"] == "" || _.isUndefined(lo_searchCond["visit_dat"]) ? "" :
                 moment(new Date(lo_searchCond["visit_dat"])).format("YYYY/MM/DD");
-
             if (this.searchFields.length != 0) {
                 if (lo_searchCond["area_cod"].length != 0) {
                     let la_options = [];
@@ -477,9 +667,10 @@ var vm = new Vue({
         },
         showDataGrid: function () {
             this.isLoading = false;
-            vm.dgIns = new DatagridSingleGridClass();
-            vm.dgIns.init(gs_prgId, "PMS0620050_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0620050_dg'), this.pageOneFieldData);
-            vm.dgIns.loadDgData(this.pageOneDataGridRows);
+            this.dgIns = new DatagridSingleGridClass();
+            this.dgIns.init(gs_prgId, "PMS0620050_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0620050_dg'), this.pageOneFieldData);
+            this.dgIns.loadDgData(this.pageOneDataGridRows);
+            this.isAction = false;
         },
         editRow: function () {
             this.initTmpCUD();
@@ -495,19 +686,56 @@ var vm = new Vue({
                 this.editingRow = editRow;
                 this.showSingleGridDialog();
             }
+
+            this.isLoading = false;
+        },
+        fetchSingleWidth: function(){
+            var self = this;
+            $.post("/api/singleGridPageFieldQuery", {
+                prg_id: gs_prgId,
+                page_id: 2
+            }, function (result) {
+                if (result.success) {
+
+                    var fieldsData = _.values(_.groupBy(_.sortBy(result.fieldData, "row_seq"), "row_seq"));
+                    // 算最小寬度 && 最大行數
+                    var maxField = fieldsData[0];
+                    console.log(maxField);
+                    console.log(maxField);
+                    _.each(maxField, function (lo_maxField, index) {
+
+                        var width = parseInt(lo_maxField.width) || 35; //90
+                        var label_width = parseInt(lo_maxField.label_width) || 50; //165
+                        self.maxWidth += (width + label_width + 100);
+                        //todo 此單筆最後一排有超過五個以上的grid-item 會錯誤
+                        // if(index >= 2) return true;
+                    });
+                    console.log(self.maxWidth);
+                }
+            });
+
         },
         showSingleGridDialog: function () {
+            var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+            // gridWt = $('.singleGridContent .grid-item label').width() + $('.singleGridContent .grid-item input').width() +14;
+            var dialogWt = this.maxWidth + 120;
+            var height = 10 * 50; // 預設一個row 高度
             var dialog = $('#singleGridPMS0620050').removeClass('hide').dialog({
                 autoOpen: false,
                 modal: true,
                 title: go_i18nLang["program"]["PMS0620050"].edit_vist_mn,
-                width: 700,
-                maxHeight: 1920,
-                resizable: true
+                minWidth: _.min([dialogWt, 1000]),
+                width: _.min([dialogWt, 1000]),
+                maxHeight: maxHeight,
+                resizable: true,
+                onBeforeClose: function () {
+                    vmHub.$emit('doSaveModifyData');
+                }
             }).dialog('open');
+            this.isLoading = false;
+            $("#singleGridPMS0620050").css("height", _.min([maxHeight, height]) + 20);
         },
         doSaveCUD: function (prg_id, page_id, callback) {
-            var self = this;
             var lo_params = {
                 prg_id: prg_id,
                 page_id: page_id,
@@ -515,13 +743,9 @@ var vm = new Vue({
             };
 
             $.post("/api/doOperationSave", lo_params, function (result) {
-                self.loadDataGridByPrgID();
                 callback(result);
             });
         }
-    },
-    components: {
-        "search-comp": go_searchComp
     }
 });
 

@@ -12,7 +12,9 @@ let UITypeSelectSchema = new Schema({
     multi_lang_table: String,     //
     multi_value_field: String,    //
     multi_display_field: String,  //
-    defaultVal: String   　      //(option 預設值
+    defaultVal: String,   　      //(option 預設值
+    is_qry_src_before: String,     //'Y':先撈資料、'N':輸入完資料才撈資料
+    column_func_name: String      //欄位名稱來源規則
 }, {collection: "UITypeSelect"});
 
 UITypeSelectSchema.index({prg_id: 1, ui_field_name: 1}, {unique: true});

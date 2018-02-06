@@ -55,7 +55,7 @@ function judgeBrowserLang(req) {
         defaultLocale = req.language;
     }
 
-    return _.findIndex(haveLangList, defaultLocale) > -1 ? defaultLocale : "en";
+    return _.indexOf(haveLangList, defaultLocale) > -1 ? defaultLocale : "en";
 }
 
 function _v(value) {

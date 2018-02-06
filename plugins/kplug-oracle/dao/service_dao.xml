@@ -7,7 +7,10 @@
         <sql-source base="true" comment="test" key="test" path="dao_ais_external_dw.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ais_mail_fmt_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_area_cod_kvrf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bac_processmenu.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bac_role.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bac_license.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bac_role_function.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bac_role_user.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bquet_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_business_rf.xml"/>
@@ -18,14 +21,19 @@
         <sql-source base="true" comment="test" key="test" path="dao_contact_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_contact_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_contract_status_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cust_idx_tr.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_cust_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cust_mn_contract_sta_log.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cust_mn_sales_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_cust_type_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_dept_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_deposit_mn.xml"/>
         <sql-source base="true" comment="user" key="user" path="dao_email.xml"/>
+        <sql-source base="true" comment="user" key="user" path="dao_fincust_mn.xml"/>
         <sql-source base="true" comment="user" key="user" path="dao_fmoney_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_foc_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_foc_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ghist_airline_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ghist_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_guest_grp_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_guest_mn.xml"/>
@@ -52,6 +60,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_holiday_kind_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_holiday_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hotel_sval_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_lang_bac_process_func_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hotel_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_lang_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_msggtrmk_rf.xml"/>
@@ -70,11 +79,13 @@
         <sql-source base="true" comment="test" key="test" path="dao_psi_quote_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_psi_quote_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_psi_quote_rf_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ratecod_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_typ_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_room_cod_order.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_room_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_room_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rsdisc_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rvcancel_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rvdiscpers_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rvrmcod_rf.xml"/>
@@ -108,6 +119,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_hc_adjfolio_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_pers_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rminv_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rminv_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_unit_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bqother_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bqplace_rf.xml"/>
@@ -121,5 +133,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_rspt_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_saleclass_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bqcust_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_zipcod_rf.xml"/>
     </sql-sources>
 </struts-config>

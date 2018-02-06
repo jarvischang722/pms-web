@@ -1,8 +1,11 @@
 @charset "UTF-8"
 
-@import compass/css3
-@import modules/_var
-@import modules/_mixin
+@import compass/_css3.scss
+//@import "../../node_modules/compass-mixins/lib/compass/css3" // webpack 編譯使用
+//@import "../../node_modules/compass-mixins/lib/_animate.scss"
+
+@import modules/_var.sass
+@import modules/_mixin.sass
 
 //@import scss/mixins
 //@import scss/sidebar
@@ -12,22 +15,21 @@
 //@import vendor/_ace-nav
 //@import vendor/_sidebar
 //@import vendor/_no-skin
-@import vendor/_grid
-@import _right-menu
+@import vendor/_grid.sass
+@import _right-menu.sass
 
-@import editDefault/_editBootstrap
-@import editDefault/editEasyUi
+@import editDefault/_editBootstrap.sass
+@import editDefault/editEasyUi.sass
 
-@import partials/_fixTableTheme
-@import partials/_jquery.treetable
-@import partials/_fixTableMain
+@import partials/_fixTableTheme.sass
+@import partials/_jquery.treetable.sass
+@import partials/_fixTableMain.sass
 
-@import _login
-@import _bacchusMain
+@import _login.sass
+@import _bacchusMain.sass
 
 
-@import modules/_public
+@import modules/_public.sass
 /*-------------- responsive --------------*/
-@import _responsive
-
+@import _responsive.sass
 

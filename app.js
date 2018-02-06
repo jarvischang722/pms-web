@@ -63,7 +63,7 @@ app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || port);
 
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, 'public/images/icon', 'athenaIco.ico')));
+app.use(favicon(path.join(__dirname, 'public/images/icon', 'athena_lg.ico')));
 
 //以下app.use使用中介軟體完成http功能
 //app.use(logger('dev'));
@@ -84,18 +84,18 @@ app.use(i18n.init);
 app.use(flash());
 
 //session setting
-const maxAgeSec = 180 * 60;                //session 設定過期時間（秒）
+const maxAgeSec = sysConfig.sessionExpiredMS || 1000 * 60 * 60 * 3;                //session 設定過期時間（秒）
 let sessionMiddleware = session({
     secret: sysConfig.secret,             // 防止cookie竊取
     proxy: true,                          //安全cookie的反向代理，通过x-forwarded-proto實現
     resave: false,                       //即使 session 没有被修改，也保存 session 值，預設為 true。
     saveUninitialized: false,              //是指無論有没有session cookie，每次请求都設置個session cookie ，預設為 connect.sid,
     cookie: {
-        maxAge: maxAgeSec * 1000        //單位 毫秒
+        maxAge: maxAgeSec       //單位 毫秒
     },
     store: new MongoStore({
         url: dbconn,
-        ttl: maxAgeSec                   //單位 秒
+        ttl: maxAgeSec / 1000                   //單位 秒
     })
 });
 
@@ -117,22 +117,7 @@ require("./plugins/socket.io/socketEvent")(io);
 app.use(function (req, res, next) {
     res.locals.session = req.session;
     res.locals.locale = req.session.locale;
-    next();
-});
-
-//設定系統提供語系
-app.use(function (req, res, next) {
-    let options = {
-        maxAge: 1000 * 60 * 15 // would expire after 15 minutes
-        //httpOnly: true, // The cookie only accessible by the web server
-        //signed: true // Indicates if the cookie should be signed
-    };
-    let localeInfo = [
-        {lang: 'en', sort: 1, name: 'English'},
-        {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')},
-        {lang: 'ja', sort: 3, name: encodeURIComponent('日本語')}
-    ];
-    res.cookie('sys_locales', localeInfo, options);
+    res.locals._ = require("underscore");
     next();
 });
 
@@ -156,10 +141,10 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
-tableUnlockforAllPrg();
 
 server.listen(port, function () {
     // debug('Listening on ' + app.get('port'));
+    tableUnlockforAllPrg();
     console.log('Express server listening on port ' + app.get('port'));
 });
 

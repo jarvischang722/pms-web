@@ -25,4 +25,17 @@
         <parameter type="int" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">live_cod</parameter>
     </dao>
+
+    <!-- ['PMS0820040'] 檢查住客歷史有無用到-->
+    <dao name="GET_GHIST_MN.AIRLINE_COD_COUNT">
+        <statement><![CDATA[
+         select count(*) as ghistcount
+         from ghist_mn
+         where athena_id =? and trim(airline_cod) = :airline_cod and rownum = 1
+
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="3">airline_cod</parameter>
+    </dao>
 </root>

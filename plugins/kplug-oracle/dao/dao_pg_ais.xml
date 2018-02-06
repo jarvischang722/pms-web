@@ -82,7 +82,7 @@
     </dao>
 
     <!-- ['RS0W212010'] 滾房租日期 -->
-    <dao name="QRY_RENT_CAL_DAT">
+    <dao name="QRY_PG_AIS_RENT_CAL_DAT">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval('NULL', 'HFD', 'rent_cal_dat') as rent_cal_dat from dual
         ]]>
@@ -129,18 +129,10 @@
         </statement>
     </dao>
 
-    <!-- ['RS0W212010'] 預定人數預設值 -->
+    <!-- ['RS0W212010'] 預定/保證人數預設值 -->
     <dao name="QRY_DEFAULT_ADULT_QNT">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_adult_qnt') as default_adult_qnt from dual
-        ]]>
-        </statement>
-    </dao>
-
-    <!-- ['RS0W212010'] 保證人數預設值 -->
-    <dao name="QRY_DEFAULT_POADULT_QNT">
-        <statement><![CDATA[
-               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_poadult_qnt') as default_poadult_qnt from dual
         ]]>
         </statement>
     </dao>

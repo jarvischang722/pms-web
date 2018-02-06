@@ -9,8 +9,6 @@ var middles = [i18nMW, authMW, sysMW];
 
 /* GET  page. */
 module.exports = function (app) {
-
-
     //依房型訂房(靜態)
     app.get('/reservationRoomType', middles, reservationCrtl.getReservationRoomType);
 
@@ -55,5 +53,13 @@ module.exports = function (app) {
 
     //交辦事項(靜態)
     app.get('/PMS0120070', middles, reservationCrtl.getPMS0120070);
+
+    //房價一覽表iframe(靜態)
+    app.get('/resv_rateListTable', middles, reservationCrtl.getResv_rateListTable);
+
+    app.post("/api/qryPageOneDataByRmTyp", middles, reservationCrtl.qryPageOneDataByRmTyp);
+
+    app.post("/api/qryRentCalDat", middles, reservationCrtl.qryRentCalDat);
+
 
 };

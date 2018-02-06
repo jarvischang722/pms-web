@@ -69,7 +69,7 @@
                                 </li>
                                 <li>
                                     <div class="" data-rel="tooltip" data-placement="bottom"
-                                         title="清除" @click="searchCond = {}">
+                                         title="清除" @click="doClear">
                                         <div class="icon-reStyle icon-co-11"></div>
                                     </div>
                                 </li>
@@ -91,13 +91,21 @@
                                 <div class="grid-item" v-for="field in searchFieldList" v-if="index != 0">
                                     <label>{{field.ui_display_name}}</label>
                                     <template
-                                            v-if="field.ui_type == 'text' || field.ui_type == 'number' || field.ui_type == 'popupgrid' || field.ui_type == 'multipopupgrid' ">
+                                            v-if="field.ui_type == 'text' || field.ui_type == 'popupgrid' || field.ui_type == 'multipopupgrid' ">
                                         <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
                                                class="numStyle-none defHt"
                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                min="0"
                                                :required="field.requirable == 'Y'"
                                                @click="chkClickPopUpGrid(field)"/>
+                                    </template>
+
+                                    <template  v-if="field.visiable == 'Y' && field.ui_type == 'number'">
+                                        <input type="text" v-model="searchCond[field.ui_field_name]"
+                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                               :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                               @keyup="formatAmt(searchCond[field.ui_field_name], field)"
+                                        >
                                     </template>
 
                                     <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">

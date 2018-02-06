@@ -407,9 +407,183 @@ exports.getCashierrfUseSta = function () {
 };
 
 /**
+ * [PMS0610010_商務公司]
+ * credit_sta 下拉資料
+ */
+exports.getCreditSta = function () {
+    var lo_optionList = [
+        {
+            display: "可簽帳",
+            value: "Y"
+        },
+        {
+            display: "不可簽帳",
+            value: "N"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ * [PMS0610010_商務公司] 業務員指派(修改業務員PMS0620030) 是否更新未來房卡
+ */
+exports.getUpdateOrderMn = function () {
+    var lo_optionList = [
+        {
+            on: 'Y',
+            off: 'N'
+        }, {
+            Y: '是',
+            N: '否'
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ * [PMS0610020_商務公司資料編輯] 是否可簽帳
+ */
+exports.getCustMnCreditSta = function(){
+    var lo_optionList = [
+        {
+            on: 'Y',
+            off: 'N'
+        }, {
+            Y: '是',
+            N: '否'
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ * [PMS0610020_商務公司資料編輯] 取得公司類別下拉資料
+ */
+exports.getCustMnRankNos = function(){
+    var rankNosList = [
+        {
+            display: '0',
+            value: '0'
+        },
+        {
+            display: '1',
+            value: '1'
+        },
+        {
+            display: '2',
+            value: '2'
+        },
+        {
+            display: '3',
+            value: '3'
+        },
+        {
+            display: '4',
+            value: '4'
+        },
+        {
+            display: '5',
+            value: '5'
+        },
+        {
+            display: '6',
+            value: '6'
+        },
+        {
+            display: '7',
+            value: '7'
+        },
+        {
+            display: '8',
+            value: '8'
+        },
+        {
+            display: '9',
+            value: '9'
+        }
+    ];
+
+    return rankNosList;
+};
+
+
+/**
+ * [PMS0610020_商務公司資料編輯] 取得公司類別下拉資料
+ */
+exports.getCustMnRelatCod = function(){
+    var relatCodList = [
+        {
+            display: '關係',
+            value: '1'
+        },
+        {
+            display: '非關係',
+            value: '2'
+        }
+    ];
+
+    return relatCodList;
+};
+
+/**
+ * [PMS0610020_商務公司資料編輯] 取得欄位收取DM閜拉資料
+ */
+exports.getCustMnCreditStaDmFlag = function(){
+    var relatCodList = [
+        {
+            display: '是',
+            value: 'Y'
+        },
+        {
+            display: '否',
+            value: 'N'
+        }
+    ];
+
+    return relatCodList;
+};
+
+/**
+ * [PMS0610020_商務公司資料編輯] 相關人員 欄位狀態下拉資料
+ */
+exports.getCustmnPersdtJobSta = function(){
+    var jobStaList = [
+        {
+            display: '在職',
+            value: 'N'
+        },
+        {
+            display: '離職',
+            value: 'Q'
+        }
+    ];
+
+    return jobStaList;
+};
+
+/**
+ * [PMS0610020_商務公司資料編輯] 相關人員 欄位性別下拉資料
+ */
+exports.getCustIdxSexTyp = function(){
+    var sexList = [
+        {
+            display: '男',
+            value: 'M'
+        },
+        {
+            display: '女',
+            value: 'F'
+        }
+    ];
+
+    return sexList;
+};
+
+
+/**
  * [PMS0620020_業務員資料編輯] 是否飯店、餐飲、會員業務
  */
-exports.getSalesChkeckedList = function(){
+exports.getSalesChkeckedList = function () {
     var lo_optionList = [
         {
             on: 'Y',
@@ -743,11 +917,28 @@ exports.getSalesStatus = function () {
 };
 
 /**
+ * PMS0610020 商務公司資料編輯 相關人員 主要聯絡人是否打勾
+ * @returns {array}
+ */
+exports.getCustMnPersPrmaryPers = function () {
+    var la_optionList = [
+        {
+            on: 'Y',
+            off: 'N'
+        }, {
+            Y: '<input type="checkbox" checked>',
+            N: '<input type="checkbox" >'
+        }
+    ];
+    return la_optionList;
+};
+
+/**
  * PMS0620020 業務員資料編輯
  * 館別 欄位 status下拉資料
  * @returns {[null,null]}
  */
-exports.getSalesHotelDtStatus = function(){
+exports.getSalesHotelDtStatus = function () {
     var la_optionList = [
         {
             display: "正常",
@@ -767,7 +958,7 @@ exports.getSalesHotelDtStatus = function(){
  * cust mn status 下拉資料
  * @returns {[null,null]}
  */
-exports.getCustMnStatusCod = function(){
+exports.getCustMnStatusCod = function () {
     var la_optionList = [
         {
             display: "正常",
@@ -797,7 +988,7 @@ exports.getCustMnStatusCod = function(){
  * ps visit dt visit status 下拉資料
  * @returns {[null,null]}
  */
-exports.getPsVisitDtVisitSta = function(){
+exports.getPsVisitDtVisitSta = function () {
     var la_optionList = [
         {
             display: "預計拜訪",
@@ -1037,6 +1228,85 @@ exports.qry_address_rf_ghist_use = function (params, callback) {
 };
 
 /**
+ * 商務公司(PMS0610010) 取得是否可簽帳
+ */
+exports.lang_CustidxCreditsta = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCreditSta();
+    callback(null, lo_result);
+};
+
+/**
+ * 商務公司(PMS0610010) 取得業務員指派(修改業務員PMS0620030)中是否更新未來房卡
+ */
+exports.lang_UpdateOrderMn = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getUpdateOrderMn();
+    callback(null, lo_result);
+};
+
+/**
+ * 商務公司資料編輯(PMS0610020) 取得等級下拉資料
+ */
+exports.lang_CustMnRankNos = function(params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustMnRankNos();
+    callback(null, lo_result);
+};
+
+/**
+ * 商務公司資料編輯(PMS0610020) 取得公司類別下拉資料
+ */
+exports.lang_CustMnRelatCod = function(params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustMnRelatCod();
+    callback(null, lo_result);
+};
+
+exports.lang_CustMnCreditSta = function(params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustMnCreditSta();
+    callback(null, lo_result);
+};
+
+/**
+ * 商務公司資料編輯(PMS0610020) 取得欄位收取DM閜拉資料
+ */
+exports.lang_CustMnDmFlag = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustMnCreditStaDmFlag();
+    callback(null, lo_result);
+};
+
+/**
+ * 商務公司資料編輯(PMS0610020) 相關人員 欄位狀態下拉資料
+ */
+exports.lang_CustmnPersdtJobSta = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustmnPersdtJobSta();
+    callback(null, lo_result);
+};
+
+/**
+ * 商務公司資料編輯(PMS0610020) 相關人員 欄位性別下拉資料
+ */
+exports.lang_CustIdxSexTyp = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustIdxSexTyp();
+    callback(null, lo_result);
+};
+
+/**
+ * 商務公司資料編輯(PMS0610020) 相關人員 是否為主要聯絡人
+ */
+exports.qry_CustMnPerPrmaryPers = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustMnPersPrmaryPers();
+    callback(null, lo_result);
+};
+
+
+/**
  *
  * 業務員作業(PMS0620010)取得狀態是否在職
  */
@@ -1069,7 +1339,7 @@ exports.lang_yn_chkBox = function (params, callback) {
  *
  *業務員資料編輯(PMS0620020)取得狀態是否停用
  */
-exports.lang_sales_hotel_dt_status_cod = function(params, callback) {
+exports.lang_sales_hotel_dt_status_cod = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getSalesHotelDtStatus();
     callback(null, lo_result);
@@ -1079,7 +1349,7 @@ exports.lang_sales_hotel_dt_status_cod = function(params, callback) {
  *
  *業務員拜訪記錄(PMS0620050) cust mn status 下拉資料
  */
-exports.lang_CustmnStatuscod = function(params, callback) {
+exports.lang_CustmnStatuscod = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustMnStatusCod();
     callback(null, lo_result);
@@ -1089,7 +1359,7 @@ exports.lang_CustmnStatuscod = function(params, callback) {
  *
  *業務員拜訪記錄(PMS0620050) visit status 下拉資料
  */
-exports.lang_PsvisitdtVisitsta = function(params, callback) {
+exports.lang_PsvisitdtVisitsta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getPsVisitDtVisitSta();
     callback(null, lo_result);
@@ -1297,10 +1567,10 @@ exports.qryRoommnCleansta = function (params, callback) {
  * PMS0820020 清掃狀況
  * @param params
  */
-exports.qryRoommnBedsta = function(params,callback){
+exports.qryRoommnBedsta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.roomMnBedSta();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
@@ -1308,7 +1578,7 @@ exports.qryRoommnBedsta = function(params,callback){
  * 搜尋AreapntSta下拉資料
  * @returns {[*,*]}
  */
-exports.qrySearchAreapntSta = function(params, callback){
+exports.qrySearchAreapntSta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.searchAreapntSta();
     callback(null,lo_result);

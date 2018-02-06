@@ -19,7 +19,7 @@
                                        :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                        :required="field.requirable == 'Y'" min="0"
                                        :maxlength="field.ui_field_length"
-                                       :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I'&& editStatus) || (field.modificable == 'E'&& createStatus)"
+                                       :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
                                        @click="chkClickPopUpGrid(field)">
 
                                 <input type="text" v-model="singleData[field.ui_field_name]"
@@ -27,13 +27,13 @@
                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                        :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                        @keyup="formatAmt(singleData[field.ui_field_name], field)"
-                                      >
+                                >
 
                                 <template v-if="field.visiable == 'Y' && field.ui_type == 'date'">
                                     <el-date-picker v-model="singleData[field.ui_field_name]"
                                                     type="date"
                                                     size="small"
-                                                    :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                    :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
                                                     format="yyyy/MM/dd"
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
@@ -46,7 +46,7 @@
                                     <el-date-picker v-model="singleData[field.ui_field_name]"
                                                     type="datetime"
                                                     change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                                    :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                    :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
                                                     size="small"
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     format="yyyy/MM/dd HH:mm:ss"
@@ -55,11 +55,11 @@
                                 </template>
 
                                 <!-- 下拉選單 -->
-                                <span class="dropdown margin-adjust" align="left"
+                                <span class="dropdown dropdownCustom" align="left"
                                       :class="{'input_sta_required' : field.requirable == 'Y' }"
                                       v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                       :style="{width:field.width + 'px' , height:field.height + 'px'}">
-                                    <button :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                    <button :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
                                             class="btn btn-default btn-white dropdown-toggle btn-height"
                                             style="text-align: left!important;"
                                             type="button" data-toggle="dropdown"
@@ -85,7 +85,7 @@
                                           :style="{width:field.width + 'px'}"
                                           :required="field.requirable == 'Y'"
                                           :maxlength="field.ui_field_length"
-                                          :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
+                                          :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E' && createStatus) || !isModifiable"
                                           @click="chkFieldRule(field.ui_field_name,field.rule_func_name)"></textarea>
                             </div>
                         </div>
@@ -98,44 +98,44 @@
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
                                             @click="toFirstData" :disabled="BTN_action || isFirstData">
-                                        <%= __("SystemCommon")["First"]%>
+                                        <%= __("SystemCommon")["First"] %>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
                                             @click="toPreData" :disabled="BTN_action || isFirstData">
-                                        <%= __("SystemCommon")["Previous"]%>
+                                        <%= __("SystemCommon")["Previous"] %>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
                                             @click="toNextData" :disabled="BTN_action || isLastData">
-                                        <%= __("SystemCommon")["Next"]%>
+                                        <%= __("SystemCommon")["Next"] %>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
                                             @click="toLastData" :disabled="BTN_action || isLastData">
-                                        <%= __("SystemCommon")["Last"]%>
+                                        <%= __("SystemCommon")["Last"] %>
                                     </button>
                                 </li>
 
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button"
-                                            @click="doDelGrid">
-                                        <%= __("SystemCommon")["Delete"]%>
+                                    <button class="btn btn-danger btn-white btn-defaultWidth purview_btn" role="button"
+                                            @click="doDelGrid" data-purview_func_id="PMS0620050-0300" :disabled="isDelEnable">
+                                        <%= __("SystemCommon")["Delete"] %>
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                            @click="doSaveGrid">
-                                        <%= __("SystemCommon")["Save"]%>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
+                                            @click="doSaveGrid" data-purview_func_id="PMS0620050-0500" :disabled="isSaveEnable">
+                                        <%= __("SystemCommon")["Save"] %>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-danger btn-white btn-defaultWidth" role="button"
                                             @click="doCloseDialog">
-                                        <%= __("SystemCommon")["Leave"]%>
+                                        <%= __("SystemCommon")["Leave"] %>
                                     </button>
                                 </li>
                             </ul>

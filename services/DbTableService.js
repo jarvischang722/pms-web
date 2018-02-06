@@ -193,6 +193,9 @@ exports.doTableAllUnLock = function (callback) {
 
 };
 
+
+
+
 /**
  *
  * @param callback
@@ -204,17 +207,22 @@ exports.handleExecSQLProcess = function (formData, session, callback) {
     if (_.isUndefined(session.user) || _.size(session.user) == 0) {
         return callback("Not Login.", false);
     }
-    var savaExecDatas = this.combineExecData(formData.fieldData, formData.tmpCUD, session, formData.mainTableName);
+
     var prg_id = formData.prg_id;
+    var saveExecDatas = this.combineExecData(formData.fieldData, formData.tmpCUD, session, formData.mainTableName);
+    this.execSQL(prg_id, saveExecDatas, session, callback);
+};
+
+exports.execSQL = function (prg_id, saveExecDatas, session, callback) {
     var userInfo = session.user;
     var apiParams = {
         "REVE-CODE": "BAC03009010000",
         "program_id": prg_id,
         "user": userInfo.usr_id,
-        "count": Object.keys(savaExecDatas).length,
-        "exec_data": savaExecDatas
+        "count": Object.keys(saveExecDatas).length,
+        "exec_data": saveExecDatas
     };
-    if (_.size(savaExecDatas) > 0) {
+    if (_.size(saveExecDatas) > 0) {
         tools.requestApi(sysConfig.api_url, apiParams, function (apiErr, apiRes, data) {
             var success = true;
             var errMsg = null;
@@ -248,11 +256,10 @@ exports.handleExecSQLProcess = function (formData, session, callback) {
 
             callback(errMsg, success);
         });
-    } else {
+    }
+    else {
         callback(null, true);
     }
-
-
 };
 
 /**
@@ -396,7 +403,7 @@ exports.doSavePMS0830080 = function (session, postData, callback) {
         lo_mnData = lo_updateData;
         let tmpUpdData = {"function": "2", "table_name": "route_mn"};
         tmpUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
-        ;
+
         tmpUpdData.condition.push({
             key: "route_cod",
             operation: "=",
@@ -439,7 +446,7 @@ exports.doSavePMS0830080 = function (session, postData, callback) {
     _.each(la_dtUpdateData, function (dtUpdData) {
         let tmpDtUpdData = {"function": "2", "table_name": "route_dt"};
         tmpDtUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
-        ;
+
         tmpDtUpdData.condition.push({
                 key: "route_cod",
                 operation: "=",
@@ -630,7 +637,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     });
 
     //dt2 刪除資料
-    _.each(la_dt2DeleteData, function(lo_dt2DeleteData){
+    _.each(la_dt2DeleteData, function (lo_dt2DeleteData) {
         let dt2DelData = {"function": "0", "table_name": "hc_adjfolio_dt2"};
         dt2DelData.condition = _.clone(la_commonCond);
         dt2DelData.condition.push(
@@ -653,7 +660,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
         ln_exec_seq++;
     });
     //dt2 新增資料
-    _.each(la_dt2CreateData, function(lo_dt2CreateData){
+    _.each(la_dt2CreateData, function (lo_dt2CreateData) {
         let dt2CreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
         dt2CreateData = _.extend(dt2CreateData, lo_dt2CreateData);
         dt2CreateData["athena_id"] = session.user.athena_id;
@@ -717,6 +724,19 @@ exports.execNormalSQL = function (postData, session, callback) {
     });
 };
 
+/**
+ * 前端插入資料資料庫api
+ */
+exports.doSQLProcess = function (postData, session, callback) {
+    let lo_saveProc = new operationSaveProc(postData, session);
+    async.waterfall([
+        lo_saveProc.doSQLProcess,
+        lo_saveProc.doAPI
+    ], function (err, result) {
+        callback(err, result);
+    });
+};
+
 // 作業儲存流程
 function operationSaveProc(postData, session) {
     let lo_saveExecDatas = {};  //要打API 所有exec data
@@ -763,109 +783,108 @@ function operationSaveProc(postData, session) {
         if (ln_exec_seq != 1) {
             lo_optSaveAdapter.set_saveExecDatas(ln_exec_seq, lo_saveExecDatas);
         }
-        callback(null, lo_optSaveAdapter);
+
+        //轉換格式
+        lo_optSaveAdapter.formating(function (err, lo_apiParams) {
+            callback(null, lo_optSaveAdapter);
+        });
     };
 
     // 打API
     this.doAPI = function (optSaveAdapter, callback) {
-        var rtnData;
+        let rtnData;
         if (_.isUndefined(optSaveAdapter)) {
             rtnData = {
                 success: false,
-                msg: "optAdapter is undefined"
+                errorMsg: "optAdapter is undefined"
             };
-            return callback(true, rtnData);
+            return callback({}, rtnData);
         }
 
         // 一定樣經過轉接器才能打API
-        let lb_isOptSaveAdpt = (optSaveAdapter.constructor.name == "operationSaveAdapterClass") ? true : false;
+        let lb_isOptSaveAdpt = optSaveAdapter.constructor.name == "operationSaveAdapterClass" ? true : false;
         if (lb_isOptSaveAdpt == false) {
             rtnData = {
                 success: false,
-                msg: "Data format is not from operationSaveAdapter"
+                errorMsg: "Data format is not from operationSaveAdapter"
             };
             console.error(rtnData);
-            return callback(true, rtnData);
+            return callback({}, rtnData);
         }
 
-        //轉換後打API
-        optSaveAdapter.exec(function (err, lo_apiParams) {
-            tools.requestApi(go_sysConf.api_url, lo_apiParams, function (apiErr, apiRes, data) {
-                var log_id = moment().format("YYYYMMDDHHmmss");
-                var ls_msg = null;
-                var lb_success = true;
-                if (apiErr || !data) {
-                    lb_success = false;
-                    ls_msg = apiErr;
-                }
-                else if (data["RETN-CODE"] != "0000") {   //回傳有誤
-                    lb_success = false;
-                    console.error(data["RETN-CODE-DESC"]);
-                    ls_msg = data["RETN-CODE-DESC"] || "error!!";
-                }
-                else{                                       //成功
-                    lb_success = true;
-                    console.info(data["RETN-CODE-DESC"]);
-                    ls_msg = data["RETN-CODE-DESC"] || "";
-                }
-
-                //寄出exceptionMail
-                if (lb_success == false) {
-                    mailSvc.sendExceptionMail({
-                        log_id: log_id,
-                        exceptionType: "execSQL",
-                        errorMsg: ls_msg
-                    });
-                }
-                //log 紀錄
-                logSvc.recordLogAPI({
-                    log_id: log_id,
-                    success: lb_success,
-                    prg_id: postData.prg_id,
-                    api_prg_code: postData.trans_cod,
-                    req_content: lo_apiParams,
-                    res_content: data
-                });
-
-                var rtnData = {
-                    success: lb_success,
-                    msg: ls_msg,
-                    data: data["RETN-DATA"] || {}
+        //取API格式
+        let lb_isApiError = false;
+        let lo_apiParams = optSaveAdapter.getApiFormat();
+        let la_apiField = ["REVE-CODE", "program_id", "func_id", "athena_id", "hotel_cod", "user", "table_name", "count", "exec_data"];
+        _.every(la_apiField, function(ls_apiField){
+            if(_.isUndefined(lo_apiParams[ls_apiField]) || lo_apiParams[ls_apiField].trim() == ""){
+                rtnData = {
+                    success: false,
+                    errorMsg: "api format error"
                 };
-                callback(null, rtnData);
+                lb_isApiError = true;
+                return false;
+            }
+        });
+
+        if(lb_isApiError) {
+            return callback({}, rtnData);
+        }
+        //打A
+        tools.requestApi(go_sysConf.api_url, lo_apiParams, function (apiErr, apiRes, data) {
+            var log_id = moment().format("YYYYMMDDHHmmss");
+            var ls_msg = null;
+            var lb_success = true;
+            if (apiErr || !data) {
+                lb_success = false;
+                ls_msg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {   //回傳有誤
+                lb_success = false;
+                console.error(data["RETN-CODE-DESC"]);
+                ls_msg = data["RETN-CODE-DESC"] || "error!!";
+            }
+            else {                                       //成功
+                lb_success = true;
+                console.info(data["RETN-CODE-DESC"]);
+                ls_msg = data["RETN-CODE-DESC"] || "";
+            }
+
+            //寄出exceptionMail
+            if (lb_success == false) {
+                mailSvc.sendExceptionMail({
+                    log_id: log_id,
+                    exceptionType: "execSQL",
+                    errorMsg: ls_msg
+                });
+            }
+            //log 紀錄
+            logSvc.recordLogAPI({
+                log_id: log_id,
+                success: lb_success,
+                prg_id: postData.prg_id,
+                api_prg_code: postData.trans_cod,
+                req_content: lo_apiParams,
+                res_content: data
             });
 
+            var rtnData = {
+                success: lb_success,
+                errorMsg: ls_msg,
+                data: data["RETN-DATA"] || {}
+            };
+            callback(null, rtnData);
         });
     };
 
     //檢查是否有rule
     function chkRuleIsExist(callback) {
-        if (postData.page_id == 1) {
-            qryDataGridFuncRule(postData.page_id, callback);
-        }
-        else if (postData.page_id == 2) {
-            qryPageFuncRule(postData.page_id, callback);
-        }
-    }
-
-    //查詢DatagridFunc
-    function qryDataGridFuncRule(ls_page_id, callback) {
-        mongoAgent.SetupDatagridFunction.find({
+        mongoAgent.PrgFunction.find({
             prg_id: postData.prg_id,
-            page_id: _.isNaN(Number(ls_page_id))? 1 : Number(ls_page_id)
+            page_id: _.isNaN(Number(postData.page_id)) ? 1 : Number(postData.page_id)
         }, function (err, getResult) {
             callback(err, tools.mongoDocToObject(getResult));
         });
     }
 
-    //查詢PageFunc
-    function qryPageFuncRule(ls_page_id, callback) {
-        mongoAgent.SetupPageFunction.find({
-            prg_id: postData.prg_id,
-            page_id: ls_page_id
-        }, function (err, getResult) {
-            callback(err, tools.mongoDocToObject(getResult));
-        });
-    }
 }
-

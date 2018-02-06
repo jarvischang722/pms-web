@@ -7,4 +7,12 @@
         ]]></statement>
         <parameter type="number" kind="3" >athena_id</parameter>
     </dao>
+
+    <!--[PMS0610020] 合約內容 取得業務員館別((selectOptionList))-->
+    <dao name="QRY_HOTEL_COD_FOR_SNA">
+        <statement><![CDATA[
+        select hotel_cod as value, hotel_sna as display from hotel_rf where athena_id = :athena_id order by hotel_cod
+        ]]></statement>
+        <parameter type="number" kind="3" >athena_id</parameter>
+    </dao>
 </root>

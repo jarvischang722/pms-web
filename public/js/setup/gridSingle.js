@@ -609,11 +609,14 @@ Vue.component('sigle-grid-dialog-tmp', {
                         //取下一筆
                         targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx + 1];
                     }
+                    this.editingRow = targetRowAfterDelete;
                 }
 
                 if (this.createStatus) {
+                    this.editingRow = this.pageOneDataGridRows[0];
                     this.tmpCud.createData = [this.singleData];
-                } else if (this.editStatus) {
+                }
+                else if (this.editStatus) {
                     this.tmpCud.editData = [this.singleData];
                 }
                 this.BTN_action = true;
@@ -630,7 +633,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                             self.singleData = {};
                             self.emitAppendRow();
                         }
-
                         if (self.deleteStatue) {
                             /**
                              * 刪除成功
@@ -639,12 +641,12 @@ Vue.component('sigle-grid-dialog-tmp', {
                              * 3.連一筆都沒有關掉dialog 回多筆
                              **/
                             if ($("#dg").datagrid('getRows').length > 0) {
-                                self.editingRow = targetRowAfterDelete;
                                 self.emitFetchSingleData(); //做完操作，重load單筆
                             } else {
                                 //連一筆都沒有就關掉視窗
                                 self.emitCloseGridDialog();
                             }
+                            self.deleteStatue = false;
                         }
                     }
                 });
@@ -793,14 +795,10 @@ Vue.component('sigle-grid-dialog-tmp', {
             var saveField = [];
             var allField = $('#dt_dg').datagrid("getColumnFields");
 
-            //過濾不用存的欄位
-            allField = _.filter(allField, function (field) {
-                return field != 'langAction';
-            });
-
             _.each(allField, function (field, fIdx) {
                 var currentColumOption = $('#dt_dg').datagrid("getColumnOption", field);
                 currentColumOption.col_seq = fIdx;
+                delete currentColumOption._id; //mongo key值 _id會重複
                 saveField.push(_.extend(currentColumOption));
             });
 
@@ -874,8 +872,8 @@ Vue.component('sigle-grid-dialog-tmp', {
 
         //DT datagrid資料放入暫存
         tempExecData: function (rowData) {
-            rowData["mnRowData"] = _.clone(this.singleData);
-            rowData = _.extend(rowData, rowData["mnRowData"]);
+            rowData["mnRowData"] = JSON.parse(JSON.stringify(this.singleData));
+            rowData = _.extend(JSON.parse(JSON.stringify(this.singleData)), rowData);
 
             //檢查資料是否有重複
             this.examineTmpData(rowData, vm.tmpCud);
@@ -960,7 +958,8 @@ var vm = new Vue({
         openChangeLogDialog: false,
         allChangeLogList: [],
         isSaving: false,
-        isRuleComplete: true
+        isRuleComplete: true,
+        maxWidth: 0
     },
     watch: {
         editStatus: function (newVal) {
@@ -1014,6 +1013,7 @@ var vm = new Vue({
         },
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function (callback) {
+            vm.maxWidth = 0;
             if (_.isUndefined(callback) || _.isNull(callback)) {
                 callback = function () {
                 };
@@ -1026,6 +1026,19 @@ var vm = new Vue({
                 var fieldData = result.fieldData;
                 vm.oriPageTwoFieldData = fieldData;
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
+
+                // 算最小寬度 && 最大行數
+                var maxField = _.max(vm.pageTwoFieldData, function (lo_pageTwoField) {
+                    return lo_pageTwoField.length;
+                });
+
+                _.each(maxField, function (lo_maxField, index) {
+                    var width = parseInt(lo_maxField.width) || 35; //90
+                    var label_width = parseInt(lo_maxField.label_width) || 50; //165
+                    vm.maxWidth += (width + label_width + 14);
+                    //todo 此單筆最後一排有超過五個以上的grid-item 會錯誤
+                    // if(index >= 2) return true;
+                });
 
                 //page2  datagrid 欄位屬性
                 if (_.findIndex(fieldData, {ui_type: 'grid'}) > -1) {
@@ -1058,6 +1071,31 @@ var vm = new Vue({
             this.dgIns.init(prg_id, "dg", colOption, this.pageOneFieldData, {
                 singleSelect: false
             });
+            //** 計算網頁高度 **//
+            // 藍色系統列
+            var navHt = $(".navbar-container").height();
+            // quickMenus + 搜尋欄位
+            var menuHt = $(".top-sec-ul").height()+ 30+ $(".page-header").height();//padding-top: 5px
+            // 高度 margin或padding 的差距
+            var menuHt3 = 70;
+            var searchHt = $('.search-content').height() +5;
+            function allHt() {
+                prg_dgHtSingle = $(window).height() - navHt - menuHt - menuHt3 - searchHt;  // PMS0810020
+            }
+            allHt();
+
+            $('.prg_dgHtSingle').datagrid('resize',{
+                height:prg_dgHtSingle
+            });
+            // $(".prg_dgHt").css("height", prg_dgHt); // PMS0810020
+
+            $(window).resize(function () {
+                allHt();
+                // $('.prg_dgHt').datagrid('resize',{
+                //     height:prg_dgHt
+                // });
+            })
+            //** End.計算網頁高度 **//
             this.dgIns.loadDgData(this.pageOneDataGridRows);
         },
 
@@ -1254,18 +1292,21 @@ var vm = new Vue({
         showSingleGridDialog: function () {
             this.initDatePicker();
             this.dialogVisible = true;
-            var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
-            var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
-            if (this.pageTwoDataGridFieldData.length > 0) {
-                //加上 dt 高度
-                height += this.dtData.length * 35 + 130;
-            }
+            var height = this.pageTwoFieldData.length * 50 + 130; // 預設一個row 高度
+            var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+            var dialogWt = this.maxWidth + 125;
+
+            // if (this.pageTwoDataGridFieldData.length > 0) {
+            //     //加上 dt 高度
+            //     height += this.dtData.length * 35 + 130;
+            // }
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
                 height: _.min([maxHeight, height]),
                 title: prg_id,
-                minWidth: 760,
+                minWidth: _.min([dialogWt, 1000]),
+                width: _.min([dialogWt, 1000]),
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns"
@@ -1292,6 +1333,7 @@ var vm = new Vue({
             _.each(allField, function (field, fIdx) {
                 var currentColumOption = $("#dg").datagrid("getColumnOption", field);
                 currentColumOption.col_seq = fIdx;
+                delete currentColumOption._id; //mongo key值 _id會重複
                 saveField.push(_.extend(currentColumOption));
             });
 

@@ -7,3 +7,5 @@ public/.DS_Store
 .sass-cache/
 configs/database.js
 configs/systemConfig.js
+webpack.config.js
+/package-lock.json

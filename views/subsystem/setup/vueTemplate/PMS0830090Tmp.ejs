@@ -8,17 +8,29 @@
                         <div id="singleGridDiv" class="col-sm-11 col-xs-11 grid">
                             <div class="row" v-for="fields in pageTwoFieldData">
                                 <div class="grid-item " v-for="field in fields">
+                                    <!--  CheckBox add class="labelCkbox" -->
                                     <label :style="{width:field.label_width + 'px'}"
-                                           v-if="field.visiable == 'Y'" :title="field.ui_hint">
+                                           v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
+                                           :title="field.ui_hint"
+                                           class="labelCkbox">
                                         <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
-                                        <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
+                                        <a @click="editFieldMultiLang(field)"
+                                           v-if="field.multi_lang_table != ''">
                                             {{field.ui_display_name}}
                                         </a>
-                                        <span v-else>{{field.ui_display_name}}</span>
+                                        <span v-else>{{field.ui_display_name}} </span>
                                     </label>
-                                    <span v-if="field.visiable == 'Y'"
-                                          style="width: 15px; text-align: center;
-                                          display: inline-block; min-width: 15px;">:</span>
+
+                                    <label :style="{width:field.label_width + 'px'}"
+                                           :title="field.ui_hint"
+                                           v-else-if="field.visiable == 'Y'">
+                                        <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                        <a @click="editFieldMultiLang(field)"
+                                           v-if="field.multi_lang_table != ''">
+                                            {{field.ui_display_name}}
+                                        </a>
+                                        <span v-else>{{field.ui_display_name}} </span>
+                                    </label>
 
                                     <!--  Text & Number -->
                                     <!--  number no spinner add class="numStyle-none" -->
@@ -45,7 +57,7 @@
                                     <!--  label -->
                                     <label
                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                            class="numStyle-none"
+                                            class="numStyle-none moreHide text-left"
                                             v-if="field.visiable == 'Y' && field.ui_type == 'label'"
                                             :maxlength="field.ui_field_length"
                                     >

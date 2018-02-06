@@ -27,7 +27,8 @@
     "settings": "Settings",
     "staff_area": "Staff Area",
     "oc_shift": "Open/Close Shift",
-    "logout": "Logout"
+    "logout": "Logout",
+    "editPwd": "Edit Password"
   },
   "BAC01P0130": {
     "news": "News",
@@ -160,6 +161,49 @@
       "is_master": "丟公帳(EN)",
       "to_master": "移至公帳(EN)"
     },
+    "PMS0610010": {
+      "save_as": "Save As",
+      "sales_assign": "Sales Assign",
+      "visit_plan": "Visit Plan",
+      "edit_sales": "修改業務員(英)",
+      "add_visit_plan": "新增拜訪計畫(英)"
+    },
+    "PMS0610020": {
+      "company_status": "Status chg.",
+      "company_maintain": "商務公司維護(英)",
+      "company_related_diagram": "公司關聯圖(英)",
+      "company_status": "Status chg.",
+      "contract_status": "合約狀態變更(英)",
+      "related_set": "相關設定(英)",
+      "related_personnel": "相關人員(英)",
+      "sales": "業務員(英)",
+      "contract_content": "合約內容(英)",
+      "visit_record": "拜訪紀錄(英)",
+      "other_remark": "業務備註(英)",
+      "historical_consumption": "歷史消費(英)",
+      "contribution": "貢獻度(英)",
+      "change_credit_limit": "信用額度變更(英)",
+      "append_contact_person": "新增聯絡人(英)",
+      "remove_contact_person": "刪除聯絡人(英)",
+      "hide_leaving_staff": "離職不顯示(英)",
+      "append_contract": "新增合約(英)",
+      "remove_contract": "刪除合約(英)",
+      "special_contract": "特殊合約(英)",
+      "hide_expired": "過期不顯示(英)",
+      "append_remark": "新增備註(英)",
+      "update_remark": "修改備註(英)",
+      "remove_remark": "刪除備註(英)",
+      "appear_consumption_dt": "顯示消費明細(英)",
+      "show_cod": "公司編號(英)",
+      "cust_nam": "公司名稱(英)",
+      "uni_cod": "統一編號(英)",
+      "uni_title": "發票抬頭(英)",
+      "cust_cod": "公司代號(英)",
+      "sales_cod": "業務員代號(英)",
+      "sales_nam": "業務員姓名(英)",
+      "class_nam": "組別(英)",
+      "rate": "房價代號或名稱(英)"
+    },
     "PMS0620020": {
       "sales_cod": "Sales Id",
       "sales_nam": "Name",
@@ -179,8 +223,13 @@
       "saveSuccess": "Save Success",
       "delSuccess": "Delete Success"
     },
+    "PMS0620030":{
+      "edit_sales_clerk": "修改業務員(英)"
+    },
     "PMS0620050": {
-      "edit_vist_mn": "修改拜訪紀錄(英)"
+      "add_visit_mn": "新增拜訪紀錄(英)",
+      "edit_vist_mn": "修改拜訪紀錄(英)",
+      "remove_visit_mn": "刪除拜訪紀錄(英)"
     }
   },
   "table_in_use": "Table in use (%s)",
@@ -207,13 +256,28 @@
     "ChangeLog": "Change Log",
     "LogOutTime": "Logout remaining time",
     "SelectData": "請選擇資料(英)",
+    "SelectOneData": "請選擇一筆資料(英)",
     "Time": "Time",
     "User": "User",
     "Action_type": "Action Type",
     "Desciption_Mn": "Desciption MN",
     "Desciption_Dt": "Desciption_DT",
     "check_delete": "確定刪除此筆資料(英)",
-    "CompanyName": "Athena Information Systems"
+    "CompanyName": "Athena Information Systems",
+    "Setting": "Setting",
+    "Save_changed_data": "資料已修改是否存檔(英)",
+    "saveSuccess": "Save Success",
+    "delSuccess": "Delete Success",
+    "dataGridBeforePageText": "第(英)",
+    "dataGridAfterPageText": "頁,共{pages}頁(英)",
+    "dataGridDisplayMsg": "顯示{from}到{to}筆資料, 共{total}筆資料(英)",
+    "exceedPeopleNum": "超過人數上限(英)",
+    "editPwd": "EDIT PASSWORD",
+    "verifyIdentify": "Please verify your identity first.",
+    "oriPwd": "Original Password",
+    "enterNewPwd": "Enter new password.",
+    "checkNewPwd": "Check new password.",
+    "newPwd": "New Password"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",
@@ -236,12 +300,11 @@
       "ChkZeroToHundred": "%s 請輸入0~100的數字(英文)",
       "ChkZeroToMaxNum": "%s 請輸入0~99999的數字(英文)",
       "FmtHHMM": "%s time format is 'HH:MM'",
-      "ChkHHMM": "%s time format is 'HHMM'",
+      "ChkHHMM": "%s time format is 'HHMM' or 'HH:MM'",
       "ChkPointOne": "%s 僅能輸入至小數點1位(英文)",
       "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)"
     }
   },
-  "PMS0830090": "PMS0830090",
   "ErrorMsg": {
     "pms81msg1": "此房型的結束日小於滾房租日，故無法修改(英文)",
     "pms81msg2": "結束日期不可以早於開始日期(英文)",
@@ -301,6 +364,8 @@
     "pms82msg24": "此房間於【%s】已有排房，請取消排房後再修改房型(英文)",
     "pms82msg25": "此房間於【%s】尚有修理設定，請刪除修理後再修改房型(英文)",
     "pms82msg26": "此房間於【%s】尚有參觀設定，請刪除參觀後再修改房型(英文)",
+    "pms82msg27": "已於住客歷史資料中使用，不可刪除(英文)",
+    "pms82msg28": "已於住客資料中使用，不可刪除(英文)",
     "pms83msg1": "今天已經有開班，不能異動(英文)",
     "pms83msg2": "預設班別不可重複(英文)",
     "pms83msg3": "欄位預設班別必輸入值(英文)",
@@ -337,6 +402,15 @@
     "pms62msg5": "請輸入停用年月(英文)",
     "pms62msg6": "商務公司資料已使用，不可修改狀態(英文)",
     "pms62msg7": "館別代號已使用，請刪除此筆資料(英文)",
-    "pms62msg8": "使用者代號(訂席用)『%s』 已於其他業務員資料指定(英文)"
+    "pms62msg8": "使用者代號(訂席用)『%s』 已於其他業務員資料指定(英文)",
+    "pms61msg1": "相同館別及房價代號之合約期間不可重覆(英文)",
+    "pms61msg2": "合約起始日在今天之前(英文)",
+    "pms61msg3": "此房價代號已於住客資料使用，不可刪除(英文)",
+    "pms61msg4": "此房價代號已於住客資料使用，不可刪除(英文)",
+    "pms61msg5": "此筆資料為一般散客代號，不可變更狀態為刪除(英文)",
+    "pms61msg6": "此筆資料為官網訂房公司代號，不可變更狀態為刪除(英文)",
+    "pms61msg7": "此筆資料設為主要聯絡人，不可刪除(英文)",
+    "pms61msg8": "指定公司編號『%s』已指定於他筆商務公司，請重新輸入(英文)",
+    "pms61msg9": "指定公司編號『%s』已使用於財務系統，請重新輸入(英文)"
   }
 }

@@ -87,11 +87,12 @@
     <!-- 角色對應之帳號 -->
     <dao name="QRY_ROLE_OF_ACCOUNTS">
         <statement><![CDATA[
-        select  bru.role_id,bru.role_comp_cod,bru.user_id
-        from bac_role_user bru
-        where bru.USER_ATHENA_ID = ?
+            select  bru.role_id,bru.role_comp_cod,bru.user_id
+            from bac_role_user bru
+            where bru.USER_ATHENA_ID = ?
         ]]> </statement>
         <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="2" condition="trim(role_id) = trim(:role_id) ">role_id</parameter>
+        <parameter type="string" kind="2" condition="trim(user_id) = trim(:user_id) ">user_id</parameter>
     </dao>
 </root>

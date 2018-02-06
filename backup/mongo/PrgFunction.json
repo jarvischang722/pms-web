@@ -24,3 +24,345 @@
     "link_prg_id" : "", 
     "template_id" : ""
 }
+{ 
+    "_id" : ObjectId("5a3721c71801a92bb0c8e042"), 
+    "prg_id" : "PMS0620030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "0400", 
+    "rule_func_name" : "r_0400", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("59ddadf58c50201fd0130a00"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0200", 
+    "rule_func_name" : "", 
+    "link_prg_id" : "PMS0620020"
+}
+{ 
+    "_id" : ObjectId("59ddadf58c50201fd0130a01"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0300", 
+    "rule_func_name" : "r_SalesmnDelSave", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("59ddadf58c50201fd0130a02"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0400", 
+    "rule_func_name" : "", 
+    "link_prg_id" : "PMS0620020"
+}
+{ 
+    "_id" : ObjectId("59fbe48ffa73042d140e4993"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0531", 
+    "rule_func_name" : "r_SalesmnDelSave", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d2c8c50201fc486f756"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "1010", 
+    "rule_func_name" : "r_Salesmn1010", 
+    "link_prg_id" : "", 
+    "template_id" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d2c8c50201fc486f757"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "1020", 
+    "rule_func_name" : "r_Salesmn1020", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("59f2a71afa73041f58f49075"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0521", 
+    "rule_func_name" : "r_SalesmnAdd", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("59f2a73efa73041f58f49076"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0541", 
+    "rule_func_name" : "r_SalesmnUpdate", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("59fbe741fa73042d140e4999"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0531", 
+    "rule_func_name" : "r_SalesmnDelSave", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a420be055fef745006c1c2a"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0521", 
+    "rule_func_name" : "r_SalesVisitPlanAddSave", 
+    "link_prg_id" : "", 
+    "template_id" : "gridSingle"
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f4049712"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0500", 
+    "rule_func_name" : "r_0500", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f4049713"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0800", 
+    "rule_func_name" : "異動記錄 (SA 7.17)", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f4049714"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1010", 
+    "rule_func_name" : "r_1010", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f4049715"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1020", 
+    "rule_func_name" : "r_1020", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f4049716"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1030", 
+    "rule_func_name" : "r_1030", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f4049717"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "func_id" : "1040", 
+    "rule_func_name" : "r_1040", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f4049718"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "func_id" : "1050", 
+    "rule_func_name" : "r_1050", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f4049719"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "template_id" : "datagrid", 
+    "func_id" : "1060【新增商務公司時不可使用,修改商務公司時才可使用】", 
+    "rule_func_name" : "r_1060", 
+    "link_prg_id" : "PMS0620030"
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f404971a"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(4), 
+    "template_id" : "datagrid", 
+    "func_id" : "1070【若編輯官網訂房公司代號之商務公司資料時，合約資料唯讀顯示，且不可新增及刪除合約 (看SA7.8.4)】", 
+    "rule_func_name" : "r_1070", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f404971b"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(4), 
+    "template_id" : "datagrid", 
+    "func_id" : "1080【若編輯官網訂房公司代號之商務公司資料時，合約資料唯讀顯示，且不可新增及刪除合約 (看SA7.8.4)】", 
+    "rule_func_name" : "r_1080", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f404971c"), 
+    "prg_id" : "PMS0610021", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(5), 
+    "template_id" : "datagrid", 
+    "func_id" : "1090", 
+    "rule_func_name" : "r_1090", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f404971d"), 
+    "prg_id" : "PMS0610022", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(5), 
+    "template_id" : "datagrid", 
+    "func_id" : "1100", 
+    "rule_func_name" : "r_1100", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f404971e"), 
+    "prg_id" : "PMS0610023", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(5), 
+    "template_id" : "datagrid", 
+    "func_id" : "1110", 
+    "rule_func_name" : "r_1110", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f404971f"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(6), 
+    "template_id" : "datagrid", 
+    "func_id" : "1120", 
+    "rule_func_name" : "r_1120", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f4049720"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(6), 
+    "template_id" : "datagrid", 
+    "func_id" : "1130", 
+    "rule_func_name" : "r_1130", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f4049721"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(6), 
+    "template_id" : "datagrid", 
+    "func_id" : "1140", 
+    "rule_func_name" : "r_1140", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a544f74c9e9af29f4049722"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1120), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0300", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a56faadc9e9af0960556b85"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0200", 
+    "rule_func_name" : "defaultCustMn", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a6018710bf3d93ee0d56570"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(4), 
+    "template_id" : "datagrid", 
+    "func_id" : "0200", 
+    "rule_func_name" : "defaultCustMnContract", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a67f98fc9e9af45c8e4ffb8"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "func_id" : "0300", 
+    "rule_func_name" : "deleteRelatedPerson", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a681c75c9e9af45c8e4ffbc"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(4), 
+    "template_id" : "datagrid", 
+    "func_id" : "0300", 
+    "rule_func_name" : "deleteContractContent", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a69757b9f454b2b705f9fc3"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "func_id" : "0200", 
+    "rule_func_name" : "defaultRelatedPerson", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a6ffc68c9e9af472408d098"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0521", 
+    "rule_func_name" : "r_compMnAdd", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a6ffc8ac9e9af472408d099"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0541", 
+    "rule_func_name" : "r_compMnUpdate", 
+    "link_prg_id" : ""
+}

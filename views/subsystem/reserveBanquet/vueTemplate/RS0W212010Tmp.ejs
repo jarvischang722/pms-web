@@ -11,7 +11,7 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>訂席單號</label>
-                                            <input type="text" v-model="singleData.bquet_nos" class="input-medium w142px" disabled/>
+                                            <input type="text" v-model="singleData.bquet_nos" class="input-medium width-142px" disabled/>
                                         </div>
                                         <div class="grid-item-inline no-margin-left">
                                             <label>館別</label>
@@ -43,7 +43,7 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>客戶姓名</label>
-                                            <input type="text" @click="chkClickPopUpGrid('alt_nam')" v-model="singleData.alt_nam" class="input-medium rateCode-s1" :disabled="readonly"/>
+                                            <input type="text" @click="chkClickPopUpGrid('alt_nam')" @keyup="chkClickPopUpGrid('alt_nam')" v-model="singleData.alt_nam" class="input-medium rateCode-s1" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item">
                                             <select v-model="singleData.contact1_cod" class="input-medium resvCard-date margin-right-4" :disabled="readonly">
@@ -55,7 +55,7 @@
                                         </div>
                                         <div class="grid-item">
                                             <label>聯絡人</label>
-                                            <input type="text" @click="chkClickPopUpGrid('atten_nam')" v-model="singleData.atten_nam" class="input-medium resvCard-date" :disabled="readonly"/>
+                                            <input type="text" @click="chkClickPopUpGrid('atten_nam')" @keyup="chkClickPopUpGrid('atten_nam')" v-model="singleData.atten_nam" class="input-medium resvCard-date" :disabled="readonly"/>
                                         </div>
                                     </div>
                                     <div class="grid">
@@ -236,7 +236,7 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>場地金額</label>
-                                            <input type="text" v-model="singleData.place_amt" class="input-medium addedDate" @keyup="formatAmt('place_amt')" :disabled="readonly"/>
+                                            <input type="text" v-model="singleData.place_amt" class="input-medium addedDate" @keyup="formatAmt('place_amt')" disabled/>
                                         </div>
                                         <div class="grid-item">
                                             <label class="width-103px">應付訂金</label>
@@ -244,7 +244,7 @@
                                         </div>
                                         <div class="grid-item">
                                             <label>已付訂金</label>
-                                            <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date" @keyup="formatAmt('deposit_amt')" :disabled="readonly"/>
+                                            <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date" @keyup="formatAmt('deposit_amt')" disabled/>
                                         </div>
                                     </div>
                                 </div>
@@ -288,16 +288,16 @@
                                                 <legend class="blue">訂席狀態</legend>
                                                 <div class="grid">
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120101010" role="button" @click="ModifyStatus('X')" :disabled="!cancelEnable">取消</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W212010-1010" role="button" @click="ModifyStatus('X')" :disabled="!cancelEnable">取消</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120101020" role="button" @click="ModifyStatus('N')" :disabled="!reserveEnable">預約</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W212010-1020" role="button" @click="ModifyStatus('N')" :disabled="!reserveEnable">預約</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120101030" role="button" @click="ModifyStatus('W')" :disabled="!waitEnable">等待</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W212010-1030" role="button" @click="ModifyStatus('W')" :disabled="!waitEnable">等待</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120101040" role="button" @click="ModifyStatus('Q')" :disabled="!inquiryEnable">詢價</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W212010-1040" role="button" @click="ModifyStatus('Q')" :disabled="!inquiryEnable">詢價</button>
                                                     </li>
                                                 </div>
                                             </fieldset>
@@ -315,7 +315,7 @@
                         <div class="row no-margin-right">
                             <!-------- tabPage -------->
                             <div class="easyui-tabs easyUi-custom1 margin-top20" style="overflow-y: auto; width: 100%;">
-                                <div title="場地(1)" class="padding-tabs">
+                                <div title="場地" class="padding-tabs">
                                     <div class="col-xs-11 col-sm-11">
                                         <div class="row">
                                             <div class="main-content-data gs-order-table-wrap">
@@ -330,13 +330,13 @@
                                             <div class="right-menu-co">
                                                 <ul>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120100400" role="button" @click="chkClickPopUpGrid('place_cod_button')" :disabled="!modifyEnable">選取場地</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W212010-0400" role="button" @click="chkClickPopUpGrid('place_cod_button')" :disabled="!modifyEnable">選取場地</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120100400" role="button" @click="delPlace" :disabled="!modifyEnable">刪除場地</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W212010-0400" role="button" @click="delPlace" :disabled="!modifyEnable">刪除場地</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120100400" role="button" @click="CheckInventory" :disabled="!modifyEnable">庫存檢查</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W212010-0400" role="button" @click="CheckInventory" :disabled="!modifyEnable">庫存檢查</button>
                                                     </li>
 
                                                 </ul>

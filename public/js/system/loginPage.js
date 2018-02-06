@@ -1,6 +1,7 @@
 var loginVM = new Vue({
     el: "#loginAPP",
     data: {
+        sysConfig: "",
         location: "",
         locations: [
             {"name": "Location A"},
@@ -8,14 +9,40 @@ var loginVM = new Vue({
         ],
         companyData: [],
         rememberMeCheck: false,
-        username: gs_account,
-        passwd:"",
+        username: "",
+        passwd: "",
         dbname: "0",
         comp_id: "0",
         currentLocale: gs_locale,
         locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", ""))
+        ,person: {
+            name: 'jun',
+            name2: 'maggie'
+
+        },
+        fieldName: 'name',
+        selectData: [{
+            "id": 1,
+            "text": "text1"
+        }, {
+            "id": 2,
+            "text": "text2"
+        }, {
+            "id": 3,
+            "text": "text3",
+            "selected": false
+        }, {
+            "id": 4,
+            "text": "text4"
+        }, {
+            "id": 5,
+            "text": "text5"
+        }]
+
     },
     mounted: function () {
+        this.getSysConfig();
+        this.getDefaultAccount();
         this.getCompaonyData();
         setTimeout(function () {
             loginVM.showUserCookie();
@@ -36,13 +63,34 @@ var loginVM = new Vue({
         });
     },
     methods: {
+        //取系統參數
+        getSysConfig: function () {
+            var self = this;
+            $.ajax({
+                url: '/api/getsysConfig',
+                async: false,
+                type: 'json',
+                method: 'post'
+            }).done(function (result) {
+                self.sysConfig = result.sysConf;
+            });
+        },
+        //參數控制取預設帳號
+        getDefaultAccount: function () {
+            var self = this;
+            if(!_.isUndefined(self.sysConfig.isDefaultUserID) && self.sysConfig.isDefaultUserID === "Y"){
+                $.get(self.sysConfig.api_url + "/?getip=''", function (ip) {
+                    $.post("/api/getDefaultAccount", {ip: ip}, function (result) {
+                        self.username = result.account;
+                    });
+                });
+            }
+        },
         getCompaonyData: function () {
             $.post("/api/getSelectCompany", function (result) {
                 if (result.success) {
                     loginVM.companyData = result.selectCompany;
-
-                    //dominos需求，預設選取第一間公司別
-                    loginVM.comp_id = loginVM.companyData[0].cmp_id.trim();
+                    loginVM.comp_id = result.selectCompany.length > 0 ? result.selectCompany[0].cmp_id.trim() : "";
                 }
             });
         },
@@ -82,8 +130,9 @@ var loginVM = new Vue({
 
                     alert('Login success!');
                     location.href = "/systemOption";
-                } else {
-                    alert('Login fail!');
+                }
+                else {
+                    alert(result.errorMsg);
                 }
             });
 
@@ -94,4 +143,3 @@ var loginVM = new Vue({
         }
     }
 });
-

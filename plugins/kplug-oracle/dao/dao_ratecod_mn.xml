@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0610020 商務公司資料編輯] 合約內容 參考房價代號下拉資料  -->
+    <dao name="QRY_CONTRACT_DT_RATE_COD">
+        <statement><![CDATA[
+            SELECT  DISTINCT RATECOD_MN.RATE_COD as value, RATECOD_MN.RATE_COD ||':'|| RATECOD_MN.RATECOD_NAM as display
+            FROM  RATESUPPLY_DT, RATECOD_MN
+            WHERE  RATECOD_MN.ATHENA_ID = RATESUPPLY_DT.ATHENA_ID
+            AND  RATECOD_MN.KEY = RATESUPPLY_DT.KEY
+            AND  to_date(:end_dat, 'YYYY/MM/DD') <= RATESUPPLY_DT.END_DAT
+            AND  to_date(:begin_dat, 'YYYY/MM/DD') >= RATESUPPLY_DT.BEGIN_DAT
+            AND  RATECOD_MN.SHOW_STA = 'Y'
+            AND  RATECOD_MN.ATHENA_ID = :athena_id
+            AND  trim(RATECOD_MN.HOTEL_COD) = trim(:hotel_cod)
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">end_dat</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- [PMS0610020 商務公司資料編輯] 合約內容 檢查合約是否重複  -->
+    <dao name="QRY_CONTRACT_EXIST">
+        <statement><![CDATA[
+            SELECT COUNT(*)
+            FROM  RATESUPPLY_DT, RATECOD_MN
+            WHERE  RATECOD_MN.ATHENA_ID = RATESUPPLY_DT.ATHENA_ID
+            AND  RATECOD_MN.KEY = RATESUPPLY_DT.KEY
+            AND  to_date(:end_dat, 'YYYY/MM/DD') <= RATESUPPLY_DT.END_DAT
+            AND  to_date(:begin_dat, 'YYYY/MM/DD') >= RATESUPPLY_DT.BEGIN_DAT
+            AND  RATECOD_MN.SHOW_STA = 'Y'
+            AND  RATECOD_MN.ATHENA_ID = :athena_id
+            AND  trim(RATECOD_MN.HOTEL_COD) = trim(:hotel_cod)
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">end_dat</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <dao name="QRY_RATE_NAM">
+        <statement><![CDATA[
+            SELECT RATECOD_NAM
+            FROM RATECOD_MN
+            WHERE trim(rate_cod) = trim(:rate_cod)
+        ]]></statement>
+        <parameter type="string" kind="3">rate_cod</parameter>
+    </dao>
+
+</root>

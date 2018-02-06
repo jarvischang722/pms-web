@@ -23,7 +23,7 @@
 
                     <div class="dominos-inventory-container">
 
-                        <div class="dominos-inventory-left">
+                        <div class="dominos-inventory-left"　style="min-width: auto;">
 
                             <div class="main-content-data">
                                 <div class="horizTable-outer">
@@ -38,19 +38,19 @@
                             <div class="dominos-btn-group">
                                     <ul>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details purview_btn" data-purview_func_id="PSIW5100300200" @click="addData()" :disabled="!addEnable" role="button">新增</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details purview_btn" data-purview_func_id="PSIW510030-0200" @click="addData()" :disabled="!addEnable" role="button">新增</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_walkIn purview_btn" data-purview_func_id="PSIW5100300400" @click="editData()" :disabled="!editEnable" role="button">修改</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_walkIn purview_btn" data-purview_func_id="PSIW510030-0400" @click="editData()" :disabled="!editEnable" role="button">修改</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse purview_btn" data-purview_func_id="PSIW5100300300" @click="deleteData()" :disabled="!deleteEnable" role="button">刪除</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse purview_btn" data-purview_func_id="PSIW510030-0300" @click="deleteData()" :disabled="!deleteEnable" role="button">刪除</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse purview_btn" data-purview_func_id="PSIW5100301010" @click="approved()" :disabled="!cnfirmEnable" role="button">核准</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse purview_btn" data-purview_func_id="PSIW510030-1010" @click="approved()" :disabled="!cnfirmEnable" role="button">核准</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse purview_btn" data-purview_func_id="PSIW5100301020" @click="cancel()" :disabled="!cancelEnable" role="button">取消核准</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse purview_btn" data-purview_func_id="PSIW510030-1020" @click="cancel()" :disabled="!cancelEnable" role="button">取消核准</button>
                                         </li>
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth" @click="save()" :disabled="!saveEnable" role="button">儲存</button>
@@ -59,10 +59,10 @@
                                             <button class="btn btn-primary btn-white btn-defaultWidth" @click="drop()" :disabled="!dropEnable" role="button">放棄</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="PSIW5100300800" @click="loadChangeLog()" :disabled="!changeLogEnable" role="button"><%= __("SystemCommon").ChangeLog %></button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="PSIW510030-0800" @click="loadChangeLog()" :disabled="!changeLogEnable" role="button"><%= __("SystemCommon").ChangeLog %></button>
                                         </li>
                                         <li class="order-down btn-120">
-                                            <button class="btn btn-primary btn-white btn-defaultWidth PSIW510030-down purview_btn" data-purview_func_id="PSIW5100301030" @click="orderSearch()" :disabled="!orderDownloadEnable" role="button">空白訂貨表單下載</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth PSIW510030-down purview_btn" data-purview_func_id="PSIW510030-1030" @click="orderSearch()" :disabled="!orderDownloadEnable" role="button">空白訂貨表單下載</button>
                                         </li>
                                     </ul>
                             </div>
@@ -105,10 +105,9 @@
                                         <label>客戶代號</label>
                                         <select v-model="singleData.cust_cod" class="input-medium resvCardSpec1" @change="custSelectChange()" :disabled="!isModificableFormat">
                                             <option v-for="opt in custSelectData" :value="opt.cust_cod">
-                                                {{opt.show_cod}}
+                                                {{opt.show_cod}} : {{opt.cust_nam}}
                                             </option>
                                         </select>
-                                        <input v-model="singleData.cust_nam" type="text" class="input-medium w304px input-second-2" placeholder="" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
@@ -230,7 +229,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-2">
-                                <button role="button" class="btn btn-primary btn-white btn-defaultWidth" @click="download()">下載</button>
+                                <a class="btn btn-primary btn-white btn-defaultWidth" onclick="this.href='data:text/html;charset=UTF-8,' + encodeURIComponent($('#order_tag').html())" href="#" :download="select_quote_rmk">下載</a>
                             </div>
                             <div class="clearfix"></div>
                             <div class="space-6"></div>
@@ -245,13 +244,16 @@
         <!-- 空白訂單下載 PDF表格 -->
         <div class="main-content-data" >
             <div id="order_tag" class="horizTable-outer" style="display: none;">
+                <html lang="zh-TW">
+                <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+
+                <div v-for="index in pageNum" style="page-break-before: always">
                 <div style="font-size: 16px; margin-left: 21px; margin-bottom: 5px;font-weight: bold;"><span>新莊FAX: (02)2901-4323</span> <span style="margin-left: 64px">台中FAX: (04)2437-7389</span></div>
                 <div style="font-size: 16px; margin-left: 21px; margin-bottom: 20px;font-weight: bold;"> <span>訂貨門市:</span> <span style="margin-left: 180px">訂貨日期:</span> <span style="margin-left: 180px">訂貨人員:</span> </div>
 
                 <span style="font-size: 16px; margin: auto 30px 10px 20px;"><span style="font-weight: bold;">訂單格式：</span>{{select_format_sta}}</span>
                 <span style="font-size: 16px; margin: auto 30px 10px auto;"><span style="font-weight: bold;">格式說明：</span>{{select_quote_rmk}}</span>
-                <span style="font-size: 16px; margin: auto 30px 10px auto;"><span style="font-weight: bold;">訂單時間：</span>{{select_order_time}}</span>
-
+                <span style="font-size: 16px; margin: auto 30px 10px 10px;"><span style="font-weight: bold;">訂單時間：</span>{{select_order_time}}</span>
                 <table border="1">
                     <tr style="font-size:20px;">
                         <td style="width: 120px; text-align: center;">貨品代號</td>
@@ -259,14 +261,15 @@
                         <td style="width: 100px; text-align: center;">訂貨單位</td>
                         <td style="width: 100px; text-align: center;">數量</td>
                     </tr>
-                    <tr v-for="item in order_data" style="font-size:16px;">
+                    <tr v-for="item in order_data[index]" style="font-size:16px;">
                         <td style=" text-align: center;">{{item.goods_cod}}</td>
                         <td>{{item.goods_rmk}}</td>
                         <td style=" text-align: center;">{{item.goods_unit}}</td>
                         <td></td>
                     </tr>
                 </table>
-                <div><br></div>
+                </div>
+                </html>
             </div>
 
         </div>
@@ -354,7 +357,4 @@
     <%- include ../setup/vueTemplate/searchTmp.ejs %>
 
     <script src="/js/setup/vueCompLib/searchComp.js"></script>
-    <script src="/js/tools/jspdf.min.js"></script>
-    <script src="/js/tools/jspdf.plugin.autotable.js"></script>
-    <script src="/js/tools/html2canvas.min.js"></script>
     <script src="/js/saleAndInventory/PSIW510030.js"></script>

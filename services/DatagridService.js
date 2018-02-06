@@ -810,11 +810,43 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
     var addTypeSelect = "";  //帶預設值
     var prg_id = postData["prg_id"];
     var page_id = Number(postData["page_id"]) || 1;
+    var tab_page_id = Number(postData["tab_page_id"]) || 1;
+    let lo_mongoCollection = prg_id.substring(0, 5) == "PMS08"?"SetupDatagridFunction" : "PrgFunction";//設定的collection 為SetupDatagridFunction、作業為PrgFunction
+    let lo_paramsFunc = {};//mongo 搜尋function條件
+    let lo_paramUItype = {};//mongo 搜尋UITypeSelect條件
+
+    //設定搜尋條件
+    if(lo_mongoCollection == "SetupDatagridFunction"){
+        lo_paramsFunc = {
+            prg_id: prg_id,
+            page_id: Number(page_id),
+            func_id: '0200'
+        };
+
+        lo_paramUItype = {
+            prg_id: prg_id
+        };
+    }
+    else{
+        lo_paramsFunc = {
+            prg_id: prg_id,
+            page_id: Number(page_id),
+            tab_page_id: Number(tab_page_id),
+            func_id: '0200'
+        };
+
+        lo_paramUItype = {
+            prg_id: prg_id,
+            page_id: Number(page_id),
+            tab_page_id: Number(tab_page_id)
+        };
+    }
+
     async.waterfall([
         //抓取規則
         function (callback) {
-            mongoAgent.SetupDatagridFunction
-                .findOne({prg_id: prg_id, page_id: page_id, func_id: '0200'}).exec(function (err, funcRules) {
+            mongoAgent[lo_mongoCollection]
+                .findOne(lo_paramsFunc).exec(function (err, funcRules) {
 
                 if (funcRules) {
                     addRuleFunc = funcRules.toObject();
@@ -826,7 +858,7 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
         //取得欄位預設值
         function (data, callback) {
             mongoAgent.UITypeSelect
-                .findOne({prg_id: prg_id}).find(function (err, funcRules) {
+                .findOne(lo_paramUItype).find(function (err, funcRules) {
 
                 if (funcRules) {
                     addTypeSelect = funcRules;
