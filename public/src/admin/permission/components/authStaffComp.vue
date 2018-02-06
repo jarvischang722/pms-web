@@ -22,7 +22,7 @@
                 </div>
                 <div class="space-4"></div>
                 <div slot="footer" class="dialog-footer" style="text-align: center;">
-                    <el-button @click="closeDialog">取 消</el-button>
+                    <el-button @click="closeDialog(false)">取 消</el-button>
                     <el-button type="primary" @click="addStaff">确 定</el-button>
                 </div>
             </el-dialog>
@@ -47,6 +47,7 @@
                 isTreeDelNode: false,
                 isStaffDialogShow: false,
                 isInitChecked: true,
+                isNodeCreate: false
             }
         },
         mounted() {
@@ -84,7 +85,7 @@
                 return this.$store.state.gb_isAuthCreate;
             },
             gb_isAuthDelete() {
-                this.delete_node(this.$store.state.gb_isAuthDelete);
+                this.delete_node(this.$store.state.gb_isAuthDelete, true);
                 return this.$store.state.gb_isAuthDelete;
             },
             gb_isDialogShow() {
@@ -102,6 +103,8 @@
             },
             gb_isAuthCreate() {
             },
+            gb_isAuthDelete() {
+            },
             gb_isDialogShow() {
             }
         },
@@ -112,7 +115,15 @@
                 this.isLoading = true;
 
                 async.waterfall([
-                    self.qryCompGrpList,    //取公司角色資料
+                    //取公司角色資料
+                    function (cb) {
+                        if (self.treeIns == null) {
+                            self.qryCompGrpList(cb);
+                        }
+                        else{
+                            cb(null, "");
+                        }
+                    },
                     self.initTree           //初始化tree
                 ], function (err, result) {
                     self.isLoading = false;
@@ -121,14 +132,9 @@
 
             //取公司角色資料
             qryCompGrpList(cb) {
-                if (this.treeIns == null) {
-                    this.$store.dispatch("qryCompGrp").then((la_compGrpList4Tree) => {
-                        cb(null, la_compGrpList4Tree);
-                    })
-                }
-                else {
-                    cb(null, "");
-                }
+                this.$store.dispatch("qryCompGrp").then((la_compGrpList4Tree) => {
+                    cb(null, la_compGrpList4Tree);
+                })
             },
 
             //初始化tree
@@ -184,7 +190,7 @@
                     self.$store.commit("setStaffTreeIns", self.treeIns);
 
                     // 以人員為主
-                    if(self.$store.state.gs_permissionModel == "authByStaff") {
+                    if (self.$store.state.gs_permissionModel == "authByStaff") {
                         $("#permissionAccountTree").on("select_node.jstree", function (e, data) {
                             self.selectedNode = data.node;
                             self.$store.commit("setSelectedUserID", self.selectedNode.id);
@@ -212,7 +218,7 @@
                 setTimeout(function () {
                     _.each(la_staffOfRole, function (account) {
                         let lo_node = self.treeIns.get_node(account.user_id);
-                        if(lo_node != null && !_.isUndefined(lo_node.children) && lo_node.children.length == 0){
+                        if (lo_node != null && !_.isUndefined(lo_node.children) && lo_node.children.length == 0) {
                             self.treeIns.check_node("#" + account.user_id);
                         }
                     });
@@ -226,21 +232,42 @@
                 this.$store.dispatch("qryRoleByUserID", user_id);
             },
 
+            //新增人員
             addStaff() {
-                if(this.usr_pwd != this.usr_pwdChk){
+                if (this.usr_pwd != this.usr_pwdChk) {
                     alert("密碼確認有誤");
                     return;
                 }
+
+                if (_.isUndefined(this.usr_cname) || _.isUndefined(this.usr_id) || _.isUndefined(this.usr_pwd) || _.isUndefined(this.usr_pwdChk) ||
+                    this.usr_cname.trim() == "" || this.usr_id.trim() == "" || this.usr_pwd.trim() == "" || this.usr_pwdChk.trim() == "") {
+                    alert("尚有欄位未填寫");
+                    return;
+                }
+
                 let lo_params = {
                     usr_id: this.usr_id,
                     usr_cname: this.usr_cname,
                     usr_pwd: this.usr_pwd
                 };
                 this.create_node(this.$store.state.gb_isAuthCreate);
+                lo_params.grp_id = this.selectedNode.parent;
+                let self = this;
                 $.post("/api/addStaff", lo_params).then(
                     result => {
                         if (result.success) {
-                            alert("save success");
+                            self.qryCompGrpList(function (err, la_compGrpList4Tree) {
+                                if(!err){
+                                    console.log(la_compGrpList4Tree);
+                                    self.treeIns.settings.core.data = la_compGrpList4Tree;
+                                    self.treeIns.refresh();
+                                    alert("save success");
+                                }
+                                else{
+                                    alert("reolad data error");
+                                }
+
+                            });
                         }
                         else {
                             alert(result.errorMsg);
@@ -252,8 +279,9 @@
                 )
             },
 
-            closeDialog() {
+            closeDialog(ln_isDelNode) {
                 this.isStaffDialogShow = false;
+                this.delete_node(true, ln_isDelNode);
                 this.$store.commit("setIsDialogShow", false);
             },
 
@@ -268,16 +296,26 @@
             },
 
             create_node(lb_isAuthCreate) {
+                let self = this;
                 if (lb_isAuthCreate && this.$store.state.gs_permissionModel == "authByStaff") {
-                    $("#permissionAccountTree").jstree("create_node", this.selectedNode, null, "last", function (node) {
-                        // this.edit(node);
+                    this.treeIns.create_node(this.selectedNode, null, "last", function (node) {
+                        this.deselect_node(self.selectedNode);
+                        this.select_node(node);
+                        this.set_text(node, self.usr_cname);
+                        this.set_id(node, self.usr_id);
+                        self.closeDialog(false);
                     });
                     this.$store.commit("setIsAuthCreate", false);
                 }
             },
 
-            delete_node(lb_isAuthDelete) {
-                if (lb_isAuthDelete) {
+            delete_node(lb_isAuthDelete, ln_isDelNode) {
+                console.log(lb_isAuthDelete, ln_isDelNode);
+                if (lb_isAuthDelete && this.$store.state.gs_permissionModel == "authByStaff" && ln_isDelNode) {
+                    let ls_parent_id = this.selectedNode.parent;
+                    this.treeIns.delete_node(this.selectedNode);
+                    this.treeIns.select_node(ls_parent_id);
+                    this.$store.commit("setIsAuthDelete", false);
                 }
             }
         }

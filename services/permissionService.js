@@ -386,7 +386,7 @@ exports.addRole = function (postData, session, callback) {
     };
     lo_params = _.extend(lo_params, commonRule.getCreateCommonDefaultDataRule(session));
     let lo_saveExecDatas = {
-        "0": lo_params
+        "1": lo_params
     };
     // callback(null, "");
     dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
@@ -457,13 +457,11 @@ exports.delRole = function (postData, session, callback) {
         ]
     };
     let lo_saveExecDatas = {
-        "0": lo_del_bac_role,
-        "1": lo_del_bac_role_user,
-        "2": lo_del_bac_role_func
+        "1": lo_del_bac_role,
+        "2": lo_del_bac_role_user,
+        "3": lo_del_bac_role_func
     };
-    console.log(lo_saveExecDatas);
-    callback(null, "");
-    // dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
+    dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
 };
 
 exports.updRole = function (postData, session, callback) {
@@ -472,7 +470,7 @@ exports.updRole = function (postData, session, callback) {
         "function": "2",
         table_name: "BAC_ROLE",
         role_id: postData.role_id,
-        role_name: postData.role_name,
+        role_nam: postData.role_name,
         role_athena_id: session.user.athena_id,
         role_comp_cod: session.user.cmp_id,
         condition: [
@@ -493,20 +491,78 @@ exports.updRole = function (postData, session, callback) {
             }
         ]
     };
-    let lo_saveExecDatas = {
-        "0": lo_params
+    let lo_upd_bac_role_func = {
+        "function": "2",
+        table_name: "BAC_ROLE_FUNCTION",
+        role_id: postData.role_id,
+        condition: [
+            {
+                key: "role_athena_id",
+                operation: "=",
+                value: lo_userInfo.athena_id
+            },
+            {
+                key: "role_comp_cod",
+                operation: "=",
+                value: lo_userInfo.cmp_id
+            },
+            {
+                key: "role_id",
+                operation: "=",
+                value: postData.ori_role_id
+            }
+        ]
     };
-    console.log(lo_saveExecDatas);
-    callback(null, "");
+    let lo_upd_bac_role_user = {
+        "function": "2",
+        table_name: "BAC_ROLE_FUNCTION",
+        role_id: postData.role_id,
+        condition: [
+            {
+                key: "role_athena_id",
+                operation: "=",
+                value: session.user.athena_id
+            },
+            {
+                key: "role_comp_cod",
+                operation: "=",
+                value: session.user.cmp_id
+            },
+            {
+                key: "role_id",
+                operation: "=",
+                value: postData.ori_role_id
+            }
+        ]
+    };
+    let lo_saveExecDatas = {
+        "1": lo_params,
+        "2": lo_upd_bac_role_func,
+        "3": lo_upd_bac_role_user
+    };
+    // console.log(lo_saveExecDatas);
+    // callback(null, "");
+    dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
 };
 
 exports.addStaff = function (postData, session, callback) {
+    let lo_userInfo = session.user;
     let lo_params = {
         "function": "1",
         table_name: "S99_user",
+        user_athena_id: lo_userInfo.athena_id,
+        hotel_cod: lo_userInfo.hotel_cod,
         usr_id: postData.usr_id,
-        usr_cname: postData.usr_cname
+        usr_cname: postData.usr_cname,
+        grp_id: postData.grp_id,
+        cmp_id: session.user.cmp_id
     };
+    lo_params = _.extend(lo_params, commonRule.getCreateCommonDefaultDataRule(session));
+    let lo_saveExecDatas = {
+        "1": lo_params
+    };
+    callback(null, lo_params);
+    dbSvc.execSQL("SYS0110010", lo_saveExecDatas, session, callback);
 };
 
 exports.qryPermissionFuncTreeData = function (req, session, callback) {

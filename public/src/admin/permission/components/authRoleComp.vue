@@ -123,11 +123,13 @@
                 this.$store.commit("setIsDialogShow", false);
             },
             saveRole() {
+                let self = this;
                 if (this.$store.state.gb_isAuthCreate && this.gs_permissionModel == "authByRole") {
                     this.$store.commit("setIsLoading", true);
                     $.post("/api/addRole", {role_id: this.role_id, role_name: this.role_name}).then(
                         result => {
                             if (result.success) {
+                                self.qryAllRoles();
                                 alert("save success");
                             }
                             else {
@@ -148,6 +150,7 @@
                     $.post("/api/updRole", {role_id: this.role_id, role_name: this.role_name, ori_role_id: this.ori_role_id}).then(
                         result => {
                             if (result.success) {
+                                self.qryAllRoles();
                                 alert("save success");
                             }
                             else {
@@ -172,6 +175,7 @@
                     $.post("/api/delRole", {role_id: this.selRole}).then(
                         result => {
                             if (result.success) {
+                                self.qryAllRoles();
                                 alert("save success");
                             }
                             else {

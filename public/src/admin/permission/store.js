@@ -7,7 +7,7 @@ Vue.use(Vuex);
 // root state object.
 // each Vuex instance is just a single state tree.
 const state = {
-    gs_permissionModel: "authByRole",
+    gs_permissionModel: "authByStaff",
 
     ga_allRoles: [],
     gs_selRole: "",
@@ -84,12 +84,6 @@ const mutations = {
     setFuncTreeIns(state, lo_funcTreeIns) {
         state.go_funcTreeIns = lo_funcTreeIns;
     },
-    // updFuncChecked(state, la_funcChecked) {
-    //     state.ga_funcChecked = la_funcChecked;
-    // },
-    // updFuncUnChecked(state, la_funcUnChecked) {
-    //     state.ga_funcUnChecked = la_funcUnChecked;
-    // },
     checkedRoleList(state, la_checkedRoleList) {
         state.ga_checkedRoleList = la_checkedRoleList;
     },
