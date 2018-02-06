@@ -339,6 +339,19 @@ a
     &.topTitle
       margin: 5px auto
       font-size: 1.2em
+      //background: #468EB7
+      color: #ffffff
+      padding-left: 10px
+      padding-top: 3px
+      padding-bottom: 3px
+      background: linear-gradient(314deg, rgba(93, 203, 179, 0.5)15%, rgba(70, 142, 183, 1)60%)
+      background: -moz-linear-gradient(314deg, rgba(93, 203, 179, 0.5)15%, rgba(70, 142, 183, 1)60%)
+      background: -o-linear-gradient(314deg, rgba(93, 203, 179, 0.5)15%, rgba(70, 142, 183, 1)60%)
+      //background: linear-gradient(314deg, rgba(74, 207, 179, 1)55%, rgba(0, 169, 255, 1)81%)
+      //background: -moz-linear-gradient(314deg, rgba(74, 207, 179, 1)55%, rgba(0, 169, 255, 1)81%)
+      //background: -webkit-linear-gradient(314deg, rgba(74, 207, 179, 1)55%, rgba(0, 169, 255, 1)81%)
+      //background: -o-linear-gradient(314deg, rgba(74, 207, 179, 1)55%, rgba(0, 169, 255, 1)81%)
+
   .authRadio
     margin-right: 2px
   //height: 11px
@@ -2321,7 +2334,6 @@ td
 //fixtable套件bug修正
 .fixed-table-container
   table
-    //width: 100%
     thead
       tr
         td,th
@@ -2368,11 +2380,22 @@ td
 //客製化房型訂房
 .cus-roomType-table
   table
+    width: 100%
     thead
       tr
         th
         .rp-first-th
+          width: 188px
           min-width: 188px
+          .caSelect
+            margin: 12px 0 10px 0
+            .el-icon-date
+              &:before
+                font-family: FontAwesome
+                content: "\f274"
+                color: #FF892A !important
+                font-weight: 300
+                font-size: 16px
     tbody
       tr
         td
@@ -2381,10 +2404,9 @@ td
             height: 21px
 //客製化房號訂房table
 .cus-roomPlan-table
-  max-height: 700px
+  max-height: 800px
   table
-    //width: 100% !important
-    //overflow: hidden
+    //width: 100%
     thead
       tr
         td,th
@@ -2396,8 +2418,8 @@ td
       tr
         td
           height: 22px
-          min-width: 38px
-          max-width: 38px
+          min-width: 30px
+          max-width: 30px
           &:nth-child(odd):not(:first-child)
             border-left: 0
           &:nth-child(even)
@@ -2414,7 +2436,7 @@ td
 
 //產生房號訂房內容各種長度
 @for $i from 1 through 28
-  $width: 38 * $i
+  $width: 30 * $i
   $error-value: 1
   td
     div
@@ -2422,6 +2444,70 @@ td
         &.colspan-#{$i}
           width: $width - $error-value + px
 
+@media screen and (min-width: 1470px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: 33px
+            max-width: 33px
+  @for $i from 1 through 28
+    $width: 33 * $i
+    $error-value: 1
+    td
+      div
+        &.triangle-box
+          &.colspan-#{$i}
+            width: $width - $error-value + px
+@media screen and (min-width: 1570px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: 36px
+            max-width: 36px
+  @for $i from 1 through 28
+    $width: 36 * $i
+    $error-value: 1
+    td
+      div
+        &.triangle-box
+          &.colspan-#{$i}
+            width: $width - $error-value + px
+@media screen and (min-width: 1670px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: 39px
+            max-width: 39px
+  @for $i from 1 through 28
+    $width: 39 * $i
+    $error-value: 1
+    td
+      div
+        &.triangle-box
+          &.colspan-#{$i}
+            width: $width - $error-value + px
+@media screen and (min-width: 1770px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: 43px
+            max-width: 43px
+  @for $i from 1 through 28
+    $width: 43 * $i
+    $error-value: 1
+    td
+      div
+        &.triangle-box
+          &.colspan-#{$i}
+            width: $width - $error-value + px
 /*---- 達美樂介面 ----*/
 @import partials/_dominosStyle.sass
 

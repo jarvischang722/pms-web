@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0110010] 查詢依房型訂房資料 -->
+    <dao name="QRY_RESV_ROOM_TYP">
+        <statement><![CDATA[
+             SELECT RMINV_MN.ROOM_COD,
+             RMINV_MN.BATCH_DAT,
+             RMINV_MN.LEFT_QNT,
+             RMINV_MN.ROOM_QNT,
+             RMINV_MN.ROOM_QNT - RMINV_MN.LEFT_QNT USE_QNT,
+             RMINV_MN.OVER_LIMIT,
+             RMINV_MN.ROOM_QNT - RMINV_MN.ooo_qnt - RMINV_MN.show_qnt phy_qnt,
+             pg_hfd_other2.Pf_Get_left_block_qnt(:athena_id, batch_dat, rminv_mn.room_cod, trim(:as_wrs_cod), 'WRS') wrs_block,
+             pg_hfd_other2.Pf_Get_left_block_qnt(:athena_id, batch_dat, rminv_mn.room_cod, trim(:as_wrs_cod), 'NotWRS') notwrs_block,
+             pg_hfd_other2.Pf_Get_holiday_color(:athena_id, rminv_mn.batch_dat, rminv_mn.hotel_cod) color,
+             trim(pg_hfd_other2.Pf_Get_order_rate(:athena_id, rminv_mn.batch_dat, 'Y', rminv_mn.hotel_cod)) order_rat_all,
+             trim(pg_hfd_other2.Pf_Get_order_rate(:athena_id, rminv_mn.batch_dat, 'N', rminv_mn.hotel_cod)) order_rat_phy
+             FROM RMINV_MN, ROOM_COD_ORDER
+             WHERE rminv_mn.athena_id = :athena_id
+             and rminv_mn.athena_id = room_cod_order.athena_id
+             and RMINV_MN.HOTEL_COD = ROOM_COD_ORDER.HOTEL_COD
+             and ROOM_COD_ORDER.ROOM_COD = RMINV_MN.ROOM_COD
+             and RMINV_MN.BATCH_DAT between :begin_dat and :end_dat
+             and trim(RMINV_MN.HOTEL_COD)= trim(:hotel_cod)
+             ORDER BY VIEW_SEQ, ROOM_COD, rminv_mn.room_qnt, batch_dat
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">as_wrs_cod</parameter>
+        <parameter type="date" kind="3">begin_dat</parameter>
+        <parameter type="date" kind="3">end_dat</parameter>
+    </dao>
+</root>
