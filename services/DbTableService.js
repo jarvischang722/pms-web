@@ -830,7 +830,7 @@ function operationSaveProc(postData, session) {
         if(lb_isApiError) {
             return callback({}, rtnData);
         }
-        //打API
+        //打A
         tools.requestApi(go_sysConf.api_url, lo_apiParams, function (apiErr, apiRes, data) {
             var log_id = moment().format("YYYYMMDDHHmmss");
             var ls_msg = null;
