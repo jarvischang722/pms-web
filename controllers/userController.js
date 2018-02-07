@@ -208,7 +208,7 @@ exports.selectSystem = function (req, res) {
 
                     roleFuncSvc.updateUserPurview(req, function (err) {
                         let usingSubsysID = req.session.user.subsysMenu.length > 0 ? req.session.user.subsysMenu[0].subsys_id : "";
-                        if (!_.isUndefined(req.cookies.usingSubsysID)) {
+                        if (!_.isUndefined(req.cookies.usingSubsysID) && req.cookies.usingSubsysID != "") {
                             usingSubsysID = req.cookies.usingSubsysID;
                         }
                         res.cookie('usingSubsysID', usingSubsysID);
@@ -391,7 +391,6 @@ exports.getFuncsOfRole = function (req, res) {
     }
 
     queryAgent.queryList("QRY_BAC_SYS_MODULE_BY_USER", lo_params, 0, 0, function (err, funcsOfRole) {
-        // let la_function = _.where(funcsOfRole, {id_typ: "FUNCTION"});
         res.json({success: true, funcsOfRole: funcsOfRole});
     });
 };

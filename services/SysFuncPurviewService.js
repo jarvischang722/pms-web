@@ -63,9 +63,9 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
         func_hotel_cod: userInfo.fun_hotel_cod.trim()
     };
 
-    if (!_.isUndefined(req.body.remove) && req.body.remove) {
-        delete params.user_id;
-    }
+    // if (!_.isUndefined(req.body.remove) && req.body.remove) {
+    //     delete params.user_id;
+    // }
 
     let la_allMdlProList = [];  // 全部作業
     let la_allMenuList = []; // 全部Menu
@@ -84,9 +84,9 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                 });
 
                 la_allMenuList = menuList;
-                la_allMenuList = _.uniq(menuList, function(lo_allMenuSubSys){
-                    return lo_allMenuSubSys.current_id;
-                });
+                // la_allMenuList = _.uniq(menuList, function(lo_allMenuSubSys){
+                //     return lo_allMenuSubSys.current_id;
+                // });
 
                 callback(err, menuList);
             });
@@ -98,9 +98,9 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                 pre_id: ls_sys_id,
                 id_typ: 'SUBSYS'
             });
-            la_allMenuSubSys = _.uniq(la_allMenuSubSys, function(lo_allMenuSubSys){
-                return lo_allMenuSubSys.current_id;
-            });
+            // la_allMenuSubSys = _.uniq(la_allMenuSubSys, function(lo_allMenuSubSys){
+            //     return lo_allMenuSubSys.current_id;
+            // });
             queryAgent.queryList("QRY_BAC_SUBSYSTEM_BY_SYS_ID", {sys_id: ls_sys_id}, 0, 0, function (err, subsysList) {
                 subsysList = alasql("select subsys.* " +
                     "from  ? subsys  " +
