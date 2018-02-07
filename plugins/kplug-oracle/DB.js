@@ -40,11 +40,11 @@ list.forEach(function (source) {
 console.log("Finished loading DAOs.");
 
 // Oracle db options
-oracledb.maxRows = dbConfig.maxRows || 1000;
-oracledb.poolMin = dbConfig.poolMin || 5;
-oracledb.poolMax = dbConfig.poolMax || 20;
-oracledb.poolTimeout = dbConfig.poolTimeout || 60;
-oracledb.poolIncrement = dbConfig.poolIncrement || 1;
+oracledb.maxRows = dbConfig.oracle_maxRows || 1000;
+oracledb.poolMin = dbConfig.oracle_poolMin || 5;
+oracledb.poolMax = dbConfig.oracle_poolMax || 20;
+oracledb.poolTimeout = dbConfig.oracle_poolTimeout || 60;
+oracledb.poolIncrement = dbConfig.oracle_poolIncrement || 1;
 
 // Return all CLOBs as Strings
 oracledb.fetchAsString = [oracledb.CLOB];
