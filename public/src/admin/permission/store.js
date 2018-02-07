@@ -419,7 +419,16 @@ const actions = {
         };
         $.post("/api/saveAuthByStaff", lo_params).then(
             result => {
-                alert("save success");
+                if(result.success){
+                    state.ga_oriCheckedRoleList = state.ga_checkedRoleList;
+                    alert("save success");
+                }
+                else{
+                    alert(result.errMsg);
+                }
+            },
+            err => {
+                alert(err);
             }
         )
     },
@@ -435,7 +444,16 @@ const actions = {
 
         $.post("/api/saveAuthByFunc", lo_params).then(
             result => {
-                alert("save success");
+                if(result.success){
+                    state.ga_oriCheckedRoleList = _.clone(state.ga_checkedRoleList);
+                    alert("save success");
+                }
+                else{
+                    alert(result.errMsg);
+                }
+            },
+            err => {
+                alert(err);
             }
         )
     }
