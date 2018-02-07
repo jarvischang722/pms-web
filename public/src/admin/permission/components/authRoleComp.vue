@@ -190,6 +190,9 @@
                         self.$store.commit("setIsAuthDelete", false);
                     })
                 }
+                else{
+                    this.$store.commit("setIsAuthDelete", false);
+                }
 
             },
             ...mapActions([
