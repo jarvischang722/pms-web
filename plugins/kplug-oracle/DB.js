@@ -40,7 +40,7 @@ list.forEach(function (source) {
 console.log("Finished loading DAOs.");
 
 // Oracle db options
-oracledb.maxRows = dbConfig.maxRows || 0; // The default value is 0, meaning unlimited.
+oracledb.maxRows = dbConfig.maxRows || 1000;
 oracledb.poolMin = dbConfig.poolMin || 5;
 oracledb.poolMax = dbConfig.poolMax || 20;
 oracledb.poolTimeout = dbConfig.poolTimeout || 60;
