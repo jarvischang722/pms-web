@@ -270,7 +270,7 @@ class ResvBanquetData {
                         }
                     });
                     la_newOrderData.push(lo_order);
-                    // la_newOrderData = _.sortBy(la_newOrderData, "rowId");
+                    la_newOrderData = _.sortBy(la_newOrderData, "rowId");
                 }
             });
 
@@ -282,12 +282,8 @@ class ResvBanquetData {
                     _.each(la_eachGroupData, function(lo_eachData){
                         la_newOrderData.push(lo_eachData);
                     });
-
                 });
-
             }
-
-
 
             lo_newOrderData[lo_place.place_cod] = _.clone(la_newOrderData);
         });
