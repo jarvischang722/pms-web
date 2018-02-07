@@ -69,11 +69,8 @@ exports.qryPageOneData = function (postData, session, callback) {
      */
     function qryBanquetSta(cb) {
         queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function (err, la_order) {
-            let la_reserv = _.where(la_order, {order_sta: "N"});
-            let la_wait = _.where(la_order, {order_sta: "W"});
-            let la_quest = _.where(la_order, {order_sta: "Q"});
-            let la_orderData = la_reserv.concat(la_quest, la_wait);
-            cb(null, la_orderData);
+            la_order = _.sortBy(la_order, "begin_tim");
+            cb(err, la_order);
         });
     }
 };
@@ -100,7 +97,7 @@ class ResvBanquetData {
             la_order[index].end_tim = self.chkTimeAdd24Min(lo_order.end_tim);
         });
         //訂席單排序
-        this.lo_order = this.chkOrderOverLap(la_order);
+        this.lo_order = this.chkOrderOverLapByPlace(la_order);
 
     }
 
@@ -239,37 +236,56 @@ class ResvBanquetData {
         return la_rowData;
     }
 
-    chkOrderOverLap(la_order) {
+    chkOrderOverLapByPlace(la_order) {
         let self = this;
         let la_orderGroup = _.groupBy(la_order, "place_cod");
         let lo_newOrderData = {};
 
         _.each(this.la_place, function (lo_place) {
             let la_newOrderData = [];
-            let la_order = _.sortBy(la_orderGroup[lo_place.place_cod], "wait_seq");
+            // let la_order = _.sortBy(la_orderGroup[lo_place.place_cod], "wait_seq");
+            let la_orderByPlace = _.clone(la_orderGroup[lo_place.place_cod]);
+            let la_orderStaIsN = _.where(la_orderByPlace, {order_sta: "N"});
+            let la_orderStaIsQ = _.where(la_orderByPlace, {order_sta: "Q"});
+            let la_orderStaIsW = _.where(la_orderByPlace, {order_sta: "W"});
+            la_orderStaIsW = _.sortBy(la_orderStaIsW, "wait_seq");
+            let la_newOrderByPlace = la_orderStaIsN.concat(la_orderStaIsQ, la_orderStaIsW);
 
-            _.each(la_order, function (lo_order, index) {
+            _.each(la_newOrderByPlace, function (lo_order, index) {
                 lo_order.rowId = 1;
                 if (index == 0) {
                     la_newOrderData.push(lo_order);
                 }
                 else {
-                    _.every(la_newOrderData, function (lo_newOrderData) {
+                    //訂席單順序: 預定N -> 詢問Q -> 等待W(等待號碼由小到大)
+                    _.each(la_newOrderData, function (lo_newOrderData, ln_newOrderIdx) {
                         let ln_order_begin_tim = self.convertToMin(lo_order.begin_tim);
                         let ln_order_end_tim = self.convertToMin(lo_order.end_tim);
                         let ln_newOrder_begin_tim = self.convertToMin(lo_newOrderData.begin_tim);
                         let ln_newOrder_end_tim = self.convertToMin(lo_newOrderData.end_tim);
+
                         //重疊
-                        if (ln_order_begin_tim < ln_newOrder_end_tim && ln_order_end_tim > ln_newOrder_begin_tim && lo_order.rowId == lo_newOrderData.rowId) {
+                        if (ln_order_begin_tim < ln_newOrder_end_tim && ln_order_end_tim > ln_newOrder_begin_tim) {
                             lo_order.rowId = lo_newOrderData.rowId + 1;
                         }
-                        return true;
                     });
                     la_newOrderData.push(lo_order);
                     la_newOrderData = _.sortBy(la_newOrderData, "rowId");
                 }
             });
-            lo_newOrderData[lo_place.place_cod] = la_newOrderData;
+
+            let lo_groupDataByRowId = _.groupBy(la_newOrderData, "rowId");
+            la_newOrderData = [];
+            if (Object.keys(lo_groupDataByRowId).length > 0) {
+                _.each(lo_groupDataByRowId, function(la_eachGroupData){
+                    la_eachGroupData = _.sortBy(la_eachGroupData, "begin_tim");
+                    _.each(la_eachGroupData, function(lo_eachData){
+                        la_newOrderData.push(lo_eachData);
+                    });
+                });
+            }
+
+            lo_newOrderData[lo_place.place_cod] = _.clone(la_newOrderData);
         });
         return lo_newOrderData;
     }
