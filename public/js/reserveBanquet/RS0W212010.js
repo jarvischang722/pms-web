@@ -859,7 +859,7 @@ var singlePage = Vue.extend({
                     if (!self.createStatus) {
                         self.doRowUnLock();
                     }
-                    location.reload();
+                    // location.reload();
                 }
             });
         },
