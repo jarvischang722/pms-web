@@ -1,13 +1,14 @@
-var oracledb = require('oracledb');
-var path = require('path');
-var moment = require('moment');
-var async = require('async');
-var _ = require("underscore");
-var _s = require("underscore.string");
-var exprjs = require('exprjs');
-var parser = new exprjs();
-var XMLUtil = require('./XMLUtil.js');
-var kplugFun = {
+const oracledb = require('oracledb');
+const path = require('path');
+const moment = require('moment');
+const async = require('async');
+const _ = require("underscore");
+const _s = require("underscore.string");
+const exprjs = require('exprjs');
+const parser = new exprjs();
+const XMLUtil = require('./XMLUtil.js');
+const dbConfig = require('../../configs/database');
+const kplugFun = {
     _v: function (value) {
         if (_.isUndefined(value) || _.isNull(value)) {
             return "";
@@ -24,23 +25,28 @@ var kplugFun = {
     }
 };
 
-var prefix = ':';
-var pools = [];
-var daoList = [];
-var months = {};
-var daoPool = {};
-var daoPath = path.join(__dirname, './dao/', 'service_dao.xml');
-var daoDoc = XMLUtil.createDocument(daoPath);
-var list = XMLUtil.getNodeList(daoDoc, "*//sql-source");
-var daoList = [];
+let prefix = ':';
+let pools = [];
+let daoList = [];
+let months = {};
+let daoPool = {};
+let daoPath = path.join(__dirname, './dao/', 'service_dao.xml');
+let daoDoc = XMLUtil.createDocument(daoPath);
+let list = XMLUtil.getNodeList(daoDoc, "*//sql-source");
 list.forEach(function (source) {
     var daoPath2 = path.join(__dirname, './dao/', XMLUtil.getAttr(source, "path"));
     daoList[daoList.length] = XMLUtil.createDocument(daoPath2);
-    //console.log("load dao:" + XMLUtil.getAttr(source, "path"));
 });
-console.log("Complete the dao loading.");
+console.log("Finished loading DAOs.");
 
-// return all CLOBs as Strings
+// Oracle db options
+oracledb.maxRows = dbConfig.maxRows || 0; // The default value is 0, meaning unlimited.
+oracledb.poolMin = dbConfig.poolMin || 5;
+oracledb.poolMax = dbConfig.poolMax || 20;
+oracledb.poolTimeout = dbConfig.poolTimeout || 60;
+oracledb.poolIncrement = dbConfig.poolIncrement || 1;
+
+// Return all CLOBs as Strings
 oracledb.fetchAsString = [oracledb.CLOB];
 
 function DB() {
@@ -48,7 +54,6 @@ function DB() {
 }
 
 DB.prototype.debug = 0;
-DB.prototype.maxRows = 200;  // Default get max rows 200
 DB.prototype.inCon = {};
 DB.prototype.clusters = [];
 DB.prototype.options = {};
@@ -63,9 +68,6 @@ DB.prototype.create = function (opt) {
     options.forEach(function (option) {
         dbObj.clusters.push(option.id);
         dbObj.debug = option.debug;
-        if (option.maxRows && !isNaN(option.maxRows)) {
-            dbObj.maxRows = option.maxRows;
-        }
     });
     async.each(options, function (option, callback) {
         oracledb.createPool(
@@ -110,8 +112,9 @@ function getConnection(arg1, arg2) {
     var id = 'default';
     if (_.isFunction(arg1) == false) {
         cb = arg2;
-        if (_.isUndefined(arg1) == false)
+        if (_.isUndefined(arg1) == false) {
             id = arg1;
+        }
     }
     if (pools[id] == null) {
         console.log('wait [%s] pool init', id);
@@ -153,7 +156,7 @@ DB.prototype.execute = function (sql, param, cb) {
 };
 
 DB.prototype.loadDao = function (dao) {
-    if(dao && dao.dao){
+    if (dao && dao.dao) {
         console.log("Exec Dao name : " + dao.dao);
     }
     if (_.isUndefined(dao.xml) == true && daoPool[dao.dao] != null) {
@@ -235,9 +238,9 @@ DB.prototype.paramTypeFormat = function (ls_paramType, lo_param, ls_paramKey) {
     if (ls_paramType.toLowerCase() == 'likestring') {
         ls_cond = '%' + lo_param[ls_paramKey] + '%';
     }
-    else if(ls_paramType.toLowerCase() == "number"){
+    else if (ls_paramType.toLowerCase() == "number") {
         var strToNum = Number(lo_param[ls_paramKey]);
-        ls_cond = (_.isNaN(strToNum)) ? "" : strToNum;
+        ls_cond = _.isNaN(strToNum) ? "" : strToNum;
     }
     else if (ls_paramType.toLowerCase() == 'date') {
         if (lo_param[ls_paramKey] instanceof Date) {
@@ -296,7 +299,7 @@ DB.prototype.queryDao = function (dao, param, cb) {
         else if (parameter.kind == 3) {
             if (sql.indexOf(prefix + parameter.key) >= 0) {
                 if (parameter.type.toLowerCase() == 'instring') {
-                    if(param[parameter.key] instanceof Array){
+                    if (param[parameter.key] instanceof Array) {
                         _.each(param[parameter.key], function (ls_param, index) {
                             if (index == 0) {
                                 self.inCon[parameter.key] = "";
@@ -308,11 +311,11 @@ DB.prototype.queryDao = function (dao, param, cb) {
                             }
                         });
                     }
-                    else{
+                    else {
                         self.inCon[parameter.key] = param[parameter.key];
                     }
                 }
-                else{
+                else {
                     con[parameter.key] = self.paramTypeFormat(parameter.type, param, parameter.key);
                 }
             }
@@ -353,7 +356,7 @@ DB.prototype.queryDao = function (dao, param, cb) {
 
 DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, size, cb) {
 
-    if (mode == 0 || (mode == 1 && size > 0)) {
+    if (mode == 0 || mode == 1 && size > 0) {
         if (connection.oracleServerVersion >= 1201000000) {
             sqlstring += " OFFSET :offset ROWS FETCH NEXT :maxnumrows ROWS ONLY";
         } else {
@@ -382,7 +385,7 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
         console.log("parameters:" + JSON.stringify(condition));
     }
 
-    connection.execute(sqlstring, condition, {maxRows: dbObj.maxRows}, function (err, result) {
+    connection.execute(sqlstring, condition, function (err, result) {
         if (err) {
             if (mode == 1) {
                 cb(err, []);
