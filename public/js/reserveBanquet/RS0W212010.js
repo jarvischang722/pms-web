@@ -1613,7 +1613,6 @@ var RS00202010VM = new Vue({
                 self.isLoading = false;
                 if (result.success) {
                     self.pageOneData = result.pageOneData;
-                    console.log(result.pageOneData);
                 }
                 else {
                     alert(result.errorMsg);
