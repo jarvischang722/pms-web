@@ -1354,8 +1354,8 @@ var singlePage = Vue.extend({
                         callback(true);
                     });
                 }
-                if (result.msg != "") {
-                    alert(result.msg);
+                if (result.errorMsg != "") {
+                    alert(result.errorMsg);
                     callback(false);
                 }
             });
@@ -1382,8 +1382,8 @@ var singlePage = Vue.extend({
 
                     });
                 }
-                if (result.msg != "") {
-                    alert(result.msg);
+                if (result.errorMsg != "") {
+                    alert(result.errorMsg);
                 }
             });
         },
@@ -1408,8 +1408,8 @@ var singlePage = Vue.extend({
                     $("#gs-order-page").dialog("close");
                     vmHub.$emit("showReserve", {bquet_nos: self.singleData.bquet_nos});
                 }
-                if (result.msg != "") {
-                    alert(result.msg);
+                if (result.errorMsg != "") {
+                    alert(result.errorMsg);
                 }
             });
         },

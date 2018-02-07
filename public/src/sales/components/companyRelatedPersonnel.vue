@@ -81,7 +81,6 @@
             dataGridRowsData: {
                 handler: function (val) {
                     if(!_.isEmpty(val)){
-                        console.log(this.dgIns.tmpCUD);
                         //將相關人員資料放至Vuex
                         this.$store.dispatch("setRpDataGridRowsData", {
                             ga_rpDataGridRowsData: val,

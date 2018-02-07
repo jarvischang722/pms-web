@@ -53,7 +53,7 @@ module.exports = {
             function (result, cb) {
                 let apiParams = {
                     "REVE-CODE": "BAC0900805",
-                    "function_id": "0000",
+                    "func_id": "0000",
                     "athena_id": session.user.athena_id,
                     "comp_cod": session.user.cmp_id,
                     "hotel_cod": session.user.hotel_cod,
@@ -447,7 +447,7 @@ module.exports = {
 
         let apiParams = {
             "REVE-CODE": "BAC0900805",
-            "function_id": "0000",
+            "func_id": "0000",
             "athena_id": session.user.athena_id,
             "comp_cod": session.user.cmp_id,
             "hotel_cod": session.user.hotel_cod,

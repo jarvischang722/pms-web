@@ -13,7 +13,7 @@ const config = {
         // 'PMS0610010.main': "./public/src/sales/PMS0610010.js"
         // 'BacUIComps': "./public/src/components/common/bacUIComps/main"
         // c: ["./c", "./d"]
-    },
+    // },
     output: {
         publicPath: '/dist',
         path: path.join(__dirname, 'public', 'js/system/'),

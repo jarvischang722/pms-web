@@ -871,7 +871,7 @@ exports.handleAddFuncRule_PMS0620020 = function (session, postData, callback) {
 };
 
 /**
- * [PMS0620030] 業務員指派 編輯商務公司的業務員(特殊交易)
+ * [PMS0620030] 業務員指派 編輯商務公司的業務員
  * @param session{Object}
  * @param postData{Object}
  * @param callback{function} (err, rowData)
@@ -896,7 +896,7 @@ exports.handleEditSalesClerk = function (session, postData, callback) {
         "program_id": prg_id,
         "user": userInfo.usr_id,
         "count": 1,
-        "function_id": '0500',
+        "func_id": '0500',
         "exec_data": [{
             sales_cod: sales_cod,
             cust_cod: cust_cod,
@@ -1015,7 +1015,7 @@ exports.handleCompState = function (session, postData, callback) {
             "program_id": postData.prg_id,
             "athena_id": session.user.athena_id,
             "hotel_cod": session.user.hotel_cod,
-            "function_id": "1010",
+            "func_id": "1010",
             "user": session.user.usr_id,
             "count": 2,
             "exec_data": lo_savaExecDatas
@@ -1119,7 +1119,7 @@ exports.handleContractState = function (session, postData, callback) {
             "program_id": postData.prg_id,
             "athena_id" : session.user.athena_id,
             "hotel_cod":session.user.hotel_cod,
-            "function_id": "1020",
+            "func_id": "1020",
             "user": session.user.usr_id,
             "count": 2,
             "exec_data": lo_savaExecDatas
