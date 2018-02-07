@@ -11,7 +11,7 @@
                     <!--ca-center-->
                     <div class="caSelect">
                         <el-date-picker
-                                class="input-medium ca-select-l"
+                                class="input-medium ca-select"
                                 v-model="searchData4Month"
                                 :clearable="false"
                                 :editable="false"
@@ -20,6 +20,12 @@
                                 @change="selectDate()">
                         </el-date-picker>
                         <div class="space-2"></div>
+                    </div>
+                    <div class="caIcon">
+                            <span class="ca-headerIcon">
+                                <i class="fa fa-calendar-check-o orange fa-lg" data-rel="tooltip" data-placement="bottom" title="Today"
+                                   @click="backToRentCalDat"></i>
+                            </span>
                     </div>
                     <div class="clearfix"></div>
                 </th>
