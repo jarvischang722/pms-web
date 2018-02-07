@@ -363,23 +363,18 @@
             singleData: {
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
-                        //cust_mn 的公司名稱為 cust_idx的公司名稱
-                        val.cust_nam = val.cust_idx_alt_nam;
-
                         var lo_singleData = JSON.parse(JSON.stringify(val));
                         var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
 
-                        //將sales_cod從xxx:xxx改為xxx
-                        lo_singleData.sales_cod = val.sales_cod.split(":")[0];
-                        lo_oriSingleData.sales_cod = this.oriSingleData.sales_cod.split(":")[0];
-
                         //取得合約狀態說明
-                        if (!_.isNull(lo_oriSingleData.contract_sta)) {
-                            var lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'})
-                            var lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: lo_oriSingleData.contract_sta});
-                            var ls_contractStaDesc = lo_contractSta.display.split(":")[1];
-                            lo_singleData = _.extend(lo_singleData, {status_desc: ls_contractStaDesc});
-                            lo_oriSingleData = _.extend(lo_oriSingleData, {status_desc: ls_contractStaDesc});
+                        if (!_.isNull(lo_singleData.contract_sta)) {
+                            if(lo_singleData.contract_sta.trim() != ""){
+                                var lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'})
+                                var lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: lo_singleData.contract_sta});
+                                var ls_contractStaDesc = lo_contractSta.display.split(":")[1];
+                                lo_singleData = _.extend(lo_singleData, {status_desc: ls_contractStaDesc});
+                                lo_oriSingleData = _.extend(lo_oriSingleData, {status_desc: ls_contractStaDesc});
+                            }
                         }
 
                         //自動將郵遞區號對應之地址資料帶至地址欄位
@@ -455,7 +450,6 @@
                 });
             },
             fetchRowData() {
-                var self = this;
                 if (this.isCreateStatus) {
                     $.post("/api/fetchDefaultSingleRowData", {
                         prg_id: "PMS0610020",
@@ -503,9 +497,28 @@
 
                 return lo_checkResult;
             },
+            //轉換儲存資料的格式
+            doConvertData() {
+                //cust_nam的內容帶入cust_idx_alt_nam
+                this.singleData.cust_idx_alt_nam = this.singleData.cust_nam;
+
+                var lo_singleData = JSON.parse(JSON.stringify(this.singleData));
+                var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
+
+                //將sales_cod從xxx:xxx改為xxx
+                lo_singleData.sales_cod = this.singleData.sales_cod.split(":")[0];
+                lo_oriSingleData.sales_cod = this.oriSingleData.sales_cod.split(":")[0];
+
+                //將主檔資料放至Vuex
+                this.$store.dispatch("setMnSingleData", {
+                    go_mnSingleData: lo_singleData,
+                    go_mnOriSingleData: lo_oriSingleData
+                });
+            },
             doSaveGrid() {
                 this.isLoadingDialog = true;
                 this.loadingText = "saving";
+                this.doConvertData();
 
                 var lo_chkResult = this.dataValidate();
 
@@ -523,7 +536,7 @@
                             alert(result.errorMsg);
                         }
                         this.isLoadingDialog = false;
-                    })
+                    });
                 }
             },
             doCloseDialog() {

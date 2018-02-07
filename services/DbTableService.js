@@ -796,9 +796,9 @@ function operationSaveProc(postData, session) {
         if (_.isUndefined(optSaveAdapter)) {
             rtnData = {
                 success: false,
-                msg: "optAdapter is undefined"
+                errorMsg: "optAdapter is undefined"
             };
-            return callback(true, rtnData);
+            return callback({}, rtnData);
         }
 
         // 一定樣經過轉接器才能打API
@@ -806,15 +806,31 @@ function operationSaveProc(postData, session) {
         if (lb_isOptSaveAdpt == false) {
             rtnData = {
                 success: false,
-                msg: "Data format is not from operationSaveAdapter"
+                errorMsg: "Data format is not from operationSaveAdapter"
             };
             console.error(rtnData);
-            return callback(true, rtnData);
+            return callback({}, rtnData);
         }
 
         //取API格式
+        let lb_isApiError = false;
         let lo_apiParams = optSaveAdapter.getApiFormat();
-        //打API
+        let la_apiField = ["REVE-CODE", "program_id", "func_id", "athena_id", "hotel_cod", "user", "table_name", "count", "exec_data"];
+        _.every(la_apiField, function(ls_apiField){
+            if(_.isUndefined(lo_apiParams[ls_apiField]) || lo_apiParams[ls_apiField].trim() == ""){
+                rtnData = {
+                    success: false,
+                    errorMsg: "api format error"
+                };
+                lb_isApiError = true;
+                return false;
+            }
+        });
+
+        if(lb_isApiError) {
+            return callback({}, rtnData);
+        }
+        //打A
         tools.requestApi(go_sysConf.api_url, lo_apiParams, function (apiErr, apiRes, data) {
             var log_id = moment().format("YYYYMMDDHHmmss");
             var ls_msg = null;
@@ -854,7 +870,7 @@ function operationSaveProc(postData, session) {
 
             var rtnData = {
                 success: lb_success,
-                msg: ls_msg,
+                errorMsg: ls_msg,
                 data: data["RETN-DATA"] || {}
             };
             callback(null, rtnData);

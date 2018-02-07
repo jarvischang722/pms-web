@@ -64,7 +64,7 @@ exports.loginPage = function (req, res) {
                     {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')},
                     {lang: 'ja', sort: 3, name: encodeURIComponent('日本語')}
                 ];
-                res.cookie('sys_locales', localeInfo,options);
+                res.cookie('sys_locales', localeInfo, options);
                 callback(null, 'done');
             }
         ], function (err) {
@@ -262,10 +262,19 @@ exports.getSubsysQuickMenu = function (req, res) {
  * 取得選擇的公司
  */
 exports.getSelectCompony = function (req, res) {
+    let start = new Date().getTime();
     queryAgent.queryList("QRY_SELECT_COMPANY", {
         athena_id: req.session.athena_id,
         comp_cod: req.session.comp_cod
     }, 0, 0, function (err, getData) {
+        //TODO 2018/02/06  因為達美樂首頁公司別出不來的因素，懷疑因為DB塞車導致回應速度慢，故加上時間紀錄
+        let end = new Date().getTime();
+        if ((end - start) / 1000 > 1) {
+            console.error(` 公司別撈取執行時間:  ${(end - start) / 1000} sec`);
+        } else {
+            console.log(` 公司別撈取執行時間:  ${(end - start) / 1000} sec`);
+        }
+
         if (err) {
             res.json({success: false, errorMsg: err});
         }

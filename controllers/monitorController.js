@@ -44,7 +44,7 @@ exports.monitor = function (req, res) {
 
 };
 
-exports.checkServer = function (req, res) {
+exports.checkServerSta = function (req, res) {
     let go_sysConf = {};
     let go_dbConf = {};
     let gas_outputMsg = [];
