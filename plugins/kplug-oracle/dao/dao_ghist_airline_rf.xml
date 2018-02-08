@@ -21,6 +21,7 @@
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">airline_cod</parameter>
 
     </dao>
 </root>
