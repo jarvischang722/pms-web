@@ -103,7 +103,6 @@ const mutations = {
         state.gb_isAuthUpdate = lb_isAuthUpdate;
     },
     setIsAuthCreate(state, lb_isAuthCreate) {
-        console.log(lb_isAuthCreate);
         state.gb_isAuthCreate = lb_isAuthCreate;
     },
     setIsAuthDelete(state, lb_isAuthDelete) {
@@ -251,7 +250,6 @@ const actions = {
     combineFuncListTree({commit, state}) {
         let la_funcList = state.ga_funcList;
         let la_funcList4Tree = [];
-        let ls_node_text = "";
 
         //system
         let la_sys = _.where(la_funcList, {id_typ: "SYSTEM"});
@@ -276,6 +274,7 @@ const actions = {
         _.each(la_process, function (lo_process) {
             la_funcList4Tree.push(treeDataObj(lo_process.current_id, lo_process.pre_id, lo_process["pro_nam_" + gs_locale]));
         });
+
         //function
         let la_func = _.where(la_funcList, {id_typ: "FUNCTION"});
         _.each(la_func, function (lo_func) {

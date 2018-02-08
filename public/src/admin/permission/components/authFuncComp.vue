@@ -150,12 +150,15 @@
                 let self = this;
                 let la_allRoles = this.$store.state.ga_allRoles;
                 let la_funcsOfRole = this.$store.state.ga_funcsOfRole;
-                if (la_funcsOfRole.length == 0 || this.$store.state.gs_permissionModel == "authByFunc" || la_allRoles.length <= 0 || this.treeIns == null) {
+                if (this.$store.state.gs_permissionModel == "authByFunc" || la_allRoles.length <= 0 || this.treeIns == null) {
+                    return;
+                }
+                if(la_funcsOfRole.length == 0){
+                    this.treeIns.uncheck_all();
                     return;
                 }
 
                 this.isLoading = true;
-                this.treeIns.uncheck_all();
                 setTimeout(function () {
                     let ls_node_id = "";
                     let lo_node = null;
