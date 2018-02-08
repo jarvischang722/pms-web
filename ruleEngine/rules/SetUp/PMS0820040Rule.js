@@ -77,6 +77,36 @@ module.exports = {
                 }
             });
         }
+    },
+
+    /**
+     * 儲存前檢查
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    chk_ghist_airline_is_exist: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        var lo_params = {
+            athena_id: session.user.athena_id,
+            airline_cod: postData.singleRowData.airline_cod
+        };
+
+        queryAgent.query("CHK_GHIST_AIRLINE_RF_IS_EXIST", lo_params, function (err, getResult) {
+            if (err) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = "555";
+            }
+            else if (getResult.air_count > 0) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = commandRules.getMsgByCod('pms82msg29', session.locale);
+            }
+            callback(lo_error, lo_result);
+        });
     }
 };
 
