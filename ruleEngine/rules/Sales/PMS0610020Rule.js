@@ -94,7 +94,39 @@ module.exports = {
     },
 
     /**
-     * 頁籤合約 預設值
+     * 相關設定欄位area_cod下拉選單
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    sel_area_cod_kvrf_single: function(postData, session, callback){
+        let self = this;
+        let lo_error = null;
+        let lo_result = new ReturnClass();
+        let lo_params = {
+            athena_id: session.athena_id
+        };
+
+        queryAgent.queryList("SEL_AREA_COD_KVRF", lo_params, 0, 0, function (err, result) {
+
+            let la_selectData = [];
+            let la_root = _.filter(result, function (lo_rowData) {
+                return lo_rowData.parent_cod.trim() == "ROOT";
+            });
+
+            _.each(la_root, function (lo_root) {
+                let lo_node = new node(lo_root);
+                convertData2TreeData(result, lo_node);
+                la_selectData.push(lo_node);
+            });
+
+            lo_result.selectOptions = la_selectData;
+            callback(lo_error, lo_result);
+        });
+    },
+
+    /**
+     * 合約內容 預設值
      * @param postData
      * @param session
      * @param callback
@@ -1088,3 +1120,27 @@ module.exports = {
         }
     }
 };
+
+//轉換資料格式(tree)
+function convertData2TreeData(lo_selectRowData, lo_parent_node) {
+    let la_rowData = _.filter(lo_selectRowData, function (lo_rowData) {
+        return lo_rowData.parent_cod.trim() == lo_parent_node.value;
+    });
+
+    if (la_rowData.length != 0) {
+        lo_parent_node.children = [];
+        _.each(la_rowData, function (lo_rowData) {
+            let lo_node = new node(lo_rowData);
+            convertData2TreeData(lo_selectRowData, lo_node);
+            lo_parent_node.children.push(lo_node);
+        });
+    }
+}
+//tree 的基本資料結構
+class node {
+    constructor(lo_rowData) {
+        this.parent_cod = lo_rowData.parent_cod;
+        this.label = lo_rowData.area_nam;
+        this.value = lo_rowData.area_cod;
+    }
+}

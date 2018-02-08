@@ -140,7 +140,7 @@ a
     border-radius: 50%
     overflow: hidden
     position: relative
-    cursor: default
+    cursor: pointer
     //margin: 20px
     box-shadow: inset 0 0 0 16px rgba(255, 255, 255, 0.6), 0 1px 2px rgba(0, 0, 0, 0.1)
     +transition(all 0.4s ease-in-out)
@@ -231,6 +231,22 @@ a
   color: $redDefault
   line-height: $lineHeight34
 
+@mixin exLinkIcon
+  i
+    +transition (transform .5s)
+    &:hover
+      //color: $blue
+      +transform(scale(1.2))
+      animation: exLinkIcon_Active 1.2s
+      @keyframes exLinkIcon_Active
+        0%
+          +transform(rotate(0deg))
+        25%
+          +transform(rotate(45deg))
+        50%
+          +transform(rotate(-90deg))
+        100%
+          +transform(rotate(0deg))
 /*-- top-sec-menu --*/
 .top-sec-ul
   max-width: 100%
@@ -308,27 +324,49 @@ a
         background: #888
         color: #fff
       .exLinkIcon
-        i
-          +transition (transform .5s)
-          &:hover
-            //color: $blue
-            +transform(scale(1.2))
-            animation: exLinkIcon_Active 1.2s
-            @keyframes exLinkIcon_Active
-              0%
-                +transform(rotate(0deg))
-              25%
-                +transform(rotate(45deg))
-              50%
-                +transform(rotate(-90deg))
-              100%
-                +transform(rotate(0deg))
+        +exLinkIcon
     .icon-2-style
       width: 12px
       height: 12px
       //margin: 0 10px 3px //edit 符合1024
       margin: 0 3px
 
+  .subnav
+    float: left !important
+    min-width: 80px
+    /*max-width: 100%*/
+    text-align: center
+    display: inline-block
+    box-sizing: border-box
+    color: #555
+    cursor: pointer
+    margin-right: 4px
+    border: 1px solid #F5F5F5
+    .subnav-txt
+      padding: 3px 5px 3px 2px
+      &:hover
+        background: #c6c6c6
+        color: #fff
+    a
+      color: #333
+      z-index: 9999 !important
+
+    .exLinkIcon
+      padding: 3px 5px
+      &:hover
+        background: #c6c6c6
+      a
+        &:hover
+          color: #fff
+      +exLinkIcon
+    &.activeThis
+      background: #888
+      color: #fff
+      a
+        color: #fff
+      .exLinkIcon,.subnav-txt
+        background: #888
+        color: #fff
 
 /*-- authorityNewActor 新增權限 --*/
 .authorityTree
