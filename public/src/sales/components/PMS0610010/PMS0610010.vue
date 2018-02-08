@@ -285,7 +285,7 @@
 </template>
 <script>
     import visitPlan from './visitPlan.vue';
-    import searchComp from '../../common/searchComp.vue';
+    import searchComp from '../../../common/searchComp.vue';
     import editSalesClerk from './editSalesClerk.vue';
     import pms0610020 from './PMS0610020.vue';
     import async from 'async';

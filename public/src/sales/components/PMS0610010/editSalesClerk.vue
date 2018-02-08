@@ -77,8 +77,7 @@
 </template>
 
 <script>
-    import selectGridDialogComp from '../../common/selectGridDialogComp.vue';
-    import ElDialog from "../../../../node_modules/element-ui/packages/dialog/src/component.vue";
+    import ElDialog from '../../../../../node_modules/element-ui/packages/dialog/src/component.vue'
 
     export default {
         name: 'edit-sales-clerk',

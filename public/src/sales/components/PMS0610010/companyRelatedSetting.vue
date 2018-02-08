@@ -78,13 +78,14 @@
                                     </el-date-picker>
 
                                     <!--multi Tree-->
-                                    <template v-if="field.ui_type == 'multitree'">
-                                        <treeselect
-                                                :style="{width:field.width + 'px'}"
-                                                v-model="singleData[field.ui_field_name]"
-                                                :multiple="true"
+                                    <template v-if="field.ui_type == 'tree'">
+                                        <el-cascader
+                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                v-model="areaCodSelectedOption"
+                                                expand-trigger="hover"
                                                 :options="field.selectData"
-                                        />
+                                                class="numStyle-none"
+                                                size="small"></el-cascader>
                                     </template>
 
                                 </div>
@@ -215,10 +216,13 @@
                 fieldsData: [],
                 oriFieldsData: [],
                 pageTwoFieldsData: [],
-                oriPageTwoFieldsData: []
+                oriPageTwoFieldsData: [],
+                //欄位area_cod(tree格式)
+                areaCodSelectData: [],
+                areaCodSelectedOption: []
             };
         },
-        mounted(){
+        mounted() {
             this.fetchUserInfo();
         },
         watch: {
@@ -230,13 +234,13 @@
             },
             singleData: {
                 handler: function (val, oldVal) {
-                    if(! _.isEmpty(val)){
-                        if(this.$store.state.gb_isCreateStatus){
+                    if (!_.isEmpty(val)) {
+                        if (this.$store.state.gb_isCreateStatus) {
                             val.ins_dat = moment(new Date(val.ins_dat)).format("YYYY/MM/DD HH:mm:ss")
                             val.ins_usr = this.userInfo.usr_id
                         }
-                        else{
-                            val.ins_dat = _.isUndefined(val.ins_dat)?null:val.ins_dat;
+                        else {
+                            val.ins_dat = _.isUndefined(val.ins_dat) ? null : val.ins_dat;
                         }
 
                         this.$eventHub.$emit('getRelatedSettingData', {
@@ -249,6 +253,12 @@
                             go_rsOriSingleData: this.oriSingleData
                         });
                     }
+                },
+                deep: true
+            },
+            areaCodSelectedOption: {
+                handler(val) {
+                    this.singleData.area_cod = val[val.length - 1];
                 },
                 deep: true
             }
@@ -281,13 +291,14 @@
                 }, function (result) {
                     self.oriFieldsData = result.gsFieldsData;
                     self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
+                    self.areaCodSelectData = _.findWhere(self.oriFieldsData, {ui_field_name: "area_cod"}).selectData;
                     self.fetchRowData();
                 });
             },
             fetchRowData() {
                 var self = this;
                 //第一次載入相關設定
-                if(_.isEmpty(this.$store.state.go_allData.go_rsSingleData)){
+                if (_.isEmpty(this.$store.state.go_allData.go_rsSingleData)) {
                     if (this.isCreateStatus) {
                         this.singleData = {
                             hoffice_cod: self.$store.state.gs_custCod,
@@ -310,17 +321,43 @@
                         }).then(result => {
                             this.singleData = result.gsMnData.rowData[0];
                             this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+
+                            //找樹狀parent node
+                            findByValue(this.areaCodSelectData, this.singleData.area_cod);
+
+                            //攤平資料(陣列扁平化)
+                            var list = [];
+                            flattenArray(go_rtnResult, list);
+
+                            this.areaCodSelectedOption = [];
+                            var groupList = _.groupBy(list, "parent_cod");
+                            groupList = _.toArray(groupList).reverse();
+                            var ls_parent_cod = "";
+
+                            _.each(groupList, function (la_list) {
+                                var lo_data;
+                                if (ls_parent_cod == "") {
+                                    lo_data = _.findWhere(la_list, {value: self.singleData.area_cod});
+                                }
+                                else {
+                                    lo_data = _.findWhere(la_list, {value: ls_parent_cod});
+                                }
+                                if (!_.isUndefined(lo_data)) {
+                                    self.areaCodSelectedOption.push(lo_data.value);
+                                    ls_parent_cod = lo_data.parent_cod;
+                                }
+                            });
+                            this.areaCodSelectedOption = this.areaCodSelectedOption.reverse();
+
                             this.isLoading = false;
                         });
                     }
                 }
-                else{
+                else {
                     this.singleData = this.$store.state.go_allData.go_rsSingleData;
                     this.oriSingleData = this.$store.state.go_allOriData.go_rsSingleData;
                     this.isLoading = false;
                 }
-
-
             },
             chkFieldRule(ui_field_name, rule_func_name) {
                 if (rule_func_name === "") {
@@ -389,10 +426,10 @@
             },
             //可簽帳時，目前簽帳金額可改變
             chkContractSta(item) {
-                if(item.target.checked){
+                if (item.target.checked) {
                     this.pageTwoFieldsData[3][0].modificable = 'Y';
                 }
-                else{
+                else {
                     this.pageTwoFieldsData[3][0].modificable = 'N';
                 }
             },
@@ -400,9 +437,9 @@
                 var ls_ruleVal = field.format_func_name.rule_val;
 
                 var ln_creditAmt = _.isUndefined(this.singleData['cust_idx_credit_amt']) ?
-                        "":this.singleData['cust_idx_credit_amt'];
+                    "" : this.singleData['cust_idx_credit_amt'];
                 var ln_arAmt = _.isUndefined(this.singleData['cust_idx_ar_amt']) ?
-                    "": this.singleData['cust_idx_ar_amt'];
+                    "" : this.singleData['cust_idx_ar_amt'];
                 ln_creditAmt = ln_creditAmt.toString();
                 ln_arAmt = ln_arAmt.toString();
 
@@ -441,31 +478,40 @@
         }
     }
 
-    function searchValue(la_children, ls_selectData) {
-        _.each(la_children, function (lo_children) {
-            if (_.isUndefined(lo_children.value)) {
-                searchValue(lo_children.children, ls_selectData);
+    var go_rtnResult = [];
+
+    function findByValue(obj, id) {
+        var result;
+        for (var p in obj) {
+            if (obj.value === id) {
+                return obj;
+            }
+            if (typeof obj[p] === 'object') {
+                result = findByValue(obj[p], id);
+
+                if (result) {
+                    go_rtnResult = [];
+                    go_rtnResult.push(obj[p]);
+                    return result;
+                }
+            }
+
+        }
+        return result;
+    }
+
+    function flattenArray(array, la_list) {
+        _.each(array, function (object) {
+            if (!_.isUndefined(object.children)) {
+                la_list.push(object);
+                flattenArray(object.children, la_list);
             }
             else {
-                ls_selectData.push(lo_children.value);
+                la_list.push(object);
                 return;
             }
         });
     }
 
-    function searchOptions(la_options, ls_value, la_selectData) {
-        _.each(la_options, function (lo_option) {
-            var lo_childrenOptions = _.findWhere(lo_option.children, {id: ls_value});
-            if (_.isUndefined(lo_childrenOptions)) {
-                searchOptions(lo_option.children, ls_value, la_selectData);
-            }
-            else if (_.isUndefined(lo_childrenOptions.value)) {
-                searchValue(lo_childrenOptions.children, la_selectData);
-            }
-            else {
-                la_selectData.push(lo_childrenOptions.value);
-                return;
-            }
-        });
-    }
+
 </script>
