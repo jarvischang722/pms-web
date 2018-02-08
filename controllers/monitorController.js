@@ -65,11 +65,7 @@ exports.checkServerSta = function (req, res) {
 
                         ls_dbConfOutput.push(" <br> OracleDB 設定  : <br> ==============");
                         _.each(go_dbConf.oracle, function (dbData, idx) {
-                            ls_dbConfOutput.push(`No: ${idx + 1}`);
-                            ls_dbConfOutput.push(`ID: ${dbData.id}`);
-                            ls_dbConfOutput.push(`ConnectString: ${dbData.connectString}`);
-                            ls_dbConfOutput.push(`User: ${dbData.user}`);
-                            ls_dbConfOutput.push(`---------------`);
+                            ls_dbConfOutput.push(`No: ${idx + 1} => ID: ${dbData.id}, ConnectString: ${dbData.connectString} , User: ${dbData.user}`);
                         });
 
                         gas_outputMsg.push(`<br><b>資料庫設定檔</b>:<br> ${ls_dbConfOutput.join("<br>")}`);
