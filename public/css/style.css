@@ -5567,6 +5567,10 @@ td div.triangle-box.colspan-28 {
   margin-right: 10px;
 }
 
+.pl-10 {
+  padding-left: 10px;
+}
+
 .cardDetail_margin {
   margin-top: -20px;
 }
@@ -5584,7 +5588,7 @@ td div.triangle-box.colspan-28 {
 }
 
 .selectHt {
-  height: 25px;
+  height: 24px;
   padding: 0 3px;
   display: block;
   width: 100%;
@@ -6551,6 +6555,9 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   line-height: 22px;
 }
 .popCheckbox.lbl-after .checkbox label {
+  padding-left: 10px;
+}
+.popCheckbox.rmAssignCk .checkbox label {
   padding-left: 10px;
 }
 
