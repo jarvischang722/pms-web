@@ -16,22 +16,28 @@
     </div>
 
     <!-- Quick menu -->
-    <div class="secondMenu-ul secondMenuClick ">
-        <ul id="quickMenuUl">
-            <li v-for="quick in quickMenu"
-                @click="loadMainProcess(quick.pro_id)"
-                :class="{activeThis:quick.pro_id == usingPrgID, 'btn-skin':quick.isBusinessVer == 'Y', 'btn-gray':quick.isEnterpriseVer == 'Y'}">
+    <div class="secondMenu-ul secondMenuClick">
+        <div id="quickMenuUl">
+            <div v-for="quick in quickMenu"
+                 class="subnav"
+                 :class="{activeThis:quick.pro_id == usingPrgID, 'btn-skin':quick.isBusinessVer == 'Y', 'btn-gray':quick.isEnterpriseVer == 'Y'}">
 
-                <!--會另彈新一頁的icon-->
-                <span class="exLinkIcon">
-                    <i class="fa fa-external-link"></i>
-                </span>
-                <span>
+                <div class="exLinkIcon pull-left">
+                    <a :href="'?prg_id='+quick.pro_id" target="_blank">
+                        <i class="fa fa-external-link"></i>
+                    </a>
+                </div>
+                <div class="pull-left subnav-txt" @click="loadMainProcess(quick.pro_id)">
                     {{ quick["pro_name_" + locale] }}
-                </span>
-
-            </li>
-        </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
     </div>
+
 </div>
+
+<style>
+</style>
+
 
