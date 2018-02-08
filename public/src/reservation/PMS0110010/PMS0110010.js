@@ -141,18 +141,18 @@ var vm = new Vue({
                     let ln_beginIdx = _.indexOf(la_dateNumData, roomData.begin_dat);
                     let ln_endIdx = _.indexOf(la_dateNumData, roomData.end_dat);
 
-                    let la_emptyRm = new Array(21);
-                    let la_notWrsRm = new Array(21);
-                    let la_overBooking = new Array(21);
-                    let la_useRm = new Array(21);
-                    let la_wrsRm = new Array(21);
+                    let la_emptyRm = new Array(this.endNum -  this.beginNum + 1);
+                    let la_notWrsRm = new Array(this.endNum -  this.beginNum + 1);
+                    let la_overBooking = new Array(this.endNum -  this.beginNum + 1);
+                    let la_useRm = new Array(this.endNum -  this.beginNum + 1);
+                    let la_wrsRm = new Array(this.endNum -  this.beginNum + 1);
 
-                    for (let i = 0; i < 21; i++) {
-                        la_emptyRm[i] = {color: self.color[i], num: ''};
-                        la_notWrsRm[i] = {color: self.color[i], num: ''};
-                        la_overBooking[i] = {color: self.color[i], num: ''};
-                        la_useRm[i] = {color: self.color[i], num: ''};
-                        la_wrsRm[i] = {color: self.color[i], num: ''};
+                    for (let i = self.beginNum; i <= self.endNum; i++) {
+                        la_emptyRm[i - self.beginNum] = {color: self.color[i - self.beginNum], num: ''};
+                        la_notWrsRm[i - self.beginNum] = {color: self.color[i - self.beginNum], num: ''};
+                        la_overBooking[i - self.beginNum] = {color: self.color[i - self.beginNum], num: ''};
+                        la_useRm[i - self.beginNum] = {color: self.color[i - self.beginNum], num: ''};
+                        la_wrsRm[i - self.beginNum] = {color: self.color[i - self.beginNum], num: ''};
                     }
 
                     for (let i = ln_beginIdx; i <= ln_endIdx; i++) {
@@ -192,16 +192,16 @@ var vm = new Vue({
             let ln_beginIdx4Field = _.indexOf(la_dataNumData4Field, this.beginNum);
             let ln_endIdx4Field = _.indexOf(la_dataNumData4Field, this.endNum);
 
-            let la_totalAvailable = new Array(21);
-            let la_occupancy = new Array(21);
-            let la_phyAvailable = new Array(21);
-            let la_phyOccupancy = new Array(21);
+            let la_totalAvailable = new Array(this.endNum -  this.beginNum + 1);
+            let la_occupancy = new Array(this.endNum -  this.beginNum + 1);
+            let la_phyAvailable = new Array(this.endNum -  this.beginNum + 1);
+            let la_phyOccupancy = new Array(this.endNum -  this.beginNum + 1);
 
-            for (let i = 0; i < 21; i++) {
-                la_totalAvailable[i] = {color: self.color[i], num: ''};
-                la_occupancy[i] = {color: self.color[i], num: ''};
-                la_phyAvailable[i] = {color: self.color[i], num: ''};
-                la_phyOccupancy[i] = {color: self.color[i], num: ''};
+            for (let i = this.beginNum; i <= this.endNum; i++) {
+                la_totalAvailable[i - this.beginNum] = {color: self.color[i - this.beginNum], num: ''};
+                la_occupancy[i - this.beginNum] = {color: self.color[i - this.beginNum], num: ''};
+                la_phyAvailable[i - this.beginNum] = {color: self.color[i - this.beginNum], num: ''};
+                la_phyOccupancy[i - this.beginNum] = {color: self.color[i - this.beginNum], num: ''};
             }
 
 
