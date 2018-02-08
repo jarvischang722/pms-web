@@ -30,12 +30,12 @@
                     <div class="clearfix"></div>
                 </th>
                 <!--日期-->
-                <th class="dateColor" v-for="field in dateFieldData">{{field}}</th>
+                <th class="dateColor" :style="{background: field.color}" v-for="field in dateFieldData">{{field.data}}</th>
             </tr>
             <tr>
                 <!--星期-->
-                <th v-for="field in dayFieldData" :class="{'holiday-color': field == 'Sat' || field == 'Sun'}">
-                    {{field}}
+                <th v-for="field in dayFieldData" :style="{background: field.color}">
+                    {{field.data}}
                 </th>
             </tr>
             </thead>

@@ -85,14 +85,6 @@ var vm = new Vue({
                 begin_dat: this.nowSearchDate
             };
 
-            //處理日期欄位資料
-            var ls_date = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
-            for (let i = 0; i <= 20; i++) {
-                let lo_date = moment(new Date(ls_date)).add('days', i);
-                this.dateFieldData.push(lo_date.format("YYYY/MM/DD").toString().split("/")[2]);
-                this.dayFieldData.push(lo_date.format("ddd"));
-            }
-
             $.post('/api/qryPageOneDataByRmTyp', lo_param).then(result => {
                 if (result.success) {
                     if (!_.isEmpty(result.data)) {
@@ -125,6 +117,14 @@ var vm = new Vue({
             _.each(this.color, (ls_color, idx) => {
                 this.color[idx] = 'rgb(' + colorTool.colorCodToRgb(ls_color).r + ', ' + colorTool.colorCodToRgb(ls_color).g + ', ' + colorTool.colorCodToRgb(ls_color).b + ')';
             });
+
+            //處理日期欄位資料
+            var ls_date = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+            for (let i = this.beginNum; i <= this.endNum; i++) {
+                let lo_date = moment(new Date(ls_date)).add('days', i - this.beginNum);
+                this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2],color: this.color[i - this.beginNum]});
+                this.dayFieldData.push({data: lo_date.format("ddd"), color: this.color[i - this.beginNum]});
+            }
 
             //取房型種類
             _.each(this.roomTypData, (data, key) => {
