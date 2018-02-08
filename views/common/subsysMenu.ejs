@@ -5,11 +5,11 @@
             <li v-for="subsysItem in subsysMenu"
                 :class="{active_01: usingSubsysID == subsysItem.subsys_id}"
                 @click.prevent="changeSubsys(subsysItem.subsys_id)">
-                    {{
-                        subsysItem["subsys_nam_" + locale] != ""
-                        ? subsysItem["subsys_nam_" + locale]
-                        :subsysItem.subsys_nam
-                    }}
+                {{
+                subsysItem["subsys_nam_" + locale] != ""
+                ? subsysItem["subsys_nam_" + locale]
+                :subsysItem.subsys_nam
+                }}
             </li>
 
         </ul>
@@ -20,19 +20,62 @@
         <ul id="quickMenuUl">
             <li v-for="quick in quickMenu"
                 @click="loadMainProcess(quick.pro_id)"
-                :class="{activeThis:quick.pro_id == usingPrgID, 'btn-skin':quick.isBusinessVer == 'Y', 'btn-gray':quick.isEnterpriseVer == 'Y'}" >
+                :class="{activeThis:quick.pro_id == usingPrgID, 'btn-skin':quick.isBusinessVer == 'Y', 'btn-gray':quick.isEnterpriseVer == 'Y'}">
 
                 <!--會另彈新一頁的icon-->
                 <span class="exLinkIcon">
-                    <i class="fa fa-external-link" ></i>
+                    <i class="fa fa-external-link"></i>
                 </span>
-                <span >
+                <span>
                     {{ quick["pro_name_" + locale] }}
                 </span>
 
             </li>
         </ul>
     </div>
+
+    <!-- Quick menu 使用div  -->
+    <div class="secondMenu-ul secondMenuClick">
+        <div id="quickMenuUl">
+            <div class="activeThis subnav">
+                <div class="exLinkIcon pull-left">
+                    <a href="#" target="_blank">
+                        <i class="fa fa-external-link"></i>
+                    </a>
+                </div>
+                <div class="pull-left subnav-txt">
+                    依房型訂房
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="btn-gray subnav">
+                <div class="exLinkIcon pull-left">
+                    <a href="" target="_blank">
+                        <i class="fa fa-external-link"></i>
+                    </a>
+                </div>
+                <div class="pull-left subnav-txt">
+                    依房號訂房
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="subnav">
+                <div class="exLinkIcon pull-left">
+                    <a href="http://yahoo.com.tw" target="_blank">
+                        <i class="fa fa-external-link"></i>
+                    </a>
+                </div>
+                <div class="pull-left subnav-txt">
+                    專案訂房
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+</style>
 
 
