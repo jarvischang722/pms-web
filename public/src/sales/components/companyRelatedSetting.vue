@@ -104,7 +104,7 @@
                                                                        v-model="singleData[field.ui_field_name]" type="checkbox"
                                                                        :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
                                                                        :disabled="field.modificable == 'N'||(field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus) "
-                                                                       @change="chkDmFlag">
+                                                                       @change="chkContractSta">
                                                                 <label style="width:auto" v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
                                                                     <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                                     <span>{{ field.ui_display_name }}</span>
@@ -123,6 +123,7 @@
                                                                    :required="field.requirable == 'Y'" min="0"
                                                                    :maxlength="field.ui_field_length"
                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                   class="text-right"
                                                                    :disabled="field.modificable == 'N'||
                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
@@ -247,8 +248,6 @@
                             go_rsSingleData: val,
                             go_rsOriSingleData: this.oriSingleData
                         });
-
-                        console.log(val, this.oriSingleData)
                     }
                 },
                 deep: true
@@ -389,7 +388,7 @@
                 }
             },
             //可簽帳時，目前簽帳金額可改變
-            chkDmFlag(item) {
+            chkContractSta(item) {
                 if(item.target.checked){
                     this.pageTwoFieldsData[3][0].modificable = 'Y';
                 }

@@ -246,7 +246,6 @@
                         this.tmpCUD.deleteData.push(this.dataGridRowsData[ln_delIndex]);
                     }
                     this.dgIns.removeRow();
-                    console.log(this.tmpCUD);
                 }
             },
             showSingleGridDialog() {

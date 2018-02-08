@@ -46,7 +46,9 @@
             },
             ga_funcsOfRole: {
                 get() {
-                    this.checkedTreeNodeByFuncsOfRole();
+                    if (this.treeIns != null) {
+                        this.checkedTreeNodeByFuncsOfRole();
+                    }
                     return this.$store.state.ga_funcsOfRole;
                 }
             }
@@ -94,6 +96,7 @@
                 if (this.$store.state.gs_permissionModel == "authByFunc") {
                     la_plugins.splice(4, 1);
                 }
+
                 $('#permissionFuncTree').jstree({
                     "core": {
                         "animation": 0,
@@ -122,44 +125,17 @@
                         }
                     },
                     "checkbox": {
-                        "three_state": false,
-                        "keep_selected_style": false,
+                        "three_state": true,
+                        "keep_selected_style": true,
                         "whole_node": false,
                         "tie_selection": false   // 選取時，false只會選到父節點，不會選到子結點
                     },
                     "plugins": la_plugins
                 });
-                this.treeIns = $("#permissionFuncTree").jstree(true);
+                self.treeIns = $("#permissionFuncTree").jstree(true);
+                self.$store.commit("setFuncTreeIns", self.treeIns);
 
-                if (this.$store.state.gs_permissionModel != "authByFunc") {
-                    let la_funcChecked = [];
-                    let la_funcUnChecked = [];
-                    $("#permissionFuncTree").on("check_node.jstree", function (e, data) {
-                        if (self.isInitChecked == false) {
-
-                            let ln_isUnCheckedExist = _.findIndex(la_funcUnChecked, function (lo_funcUnChecked) {
-                                return lo_funcUnChecked.parent == data.node.parent && lo_funcUnChecked.id == data.node.id;
-                            });
-                            if (ln_isUnCheckedExist != -1) {
-                                la_funcUnChecked = _.without(la_funcUnChecked, data.node);
-                            }
-                            la_funcChecked.push(data.node);
-                            self.$store.commit("updFuncChecked", la_funcChecked);
-                        }
-                    }).on("uncheck_node.jstree", function (e, data) {
-                        if (self.isInitChecked == false) {
-                            let ln_isCheckedExist = _.findIndex(la_funcChecked, function (lo_funcChecked) {
-                                return lo_funcChecked.parent == data.node.parent && lo_funcChecked.id == data.node.id;
-                            });
-                            if (ln_isCheckedExist != -1) {
-                                la_funcChecked = _.without(la_funcChecked, data.node);
-                            }
-                            la_funcUnChecked.push(data.node);
-                            self.$store.commit("updFuncUnChecked", la_funcUnChecked);
-                        }
-                    });
-                }
-                else {
+                if (self.$store.state.gs_permissionModel == "authByFunc") {
                     $("#permissionFuncTree").on("select_node.jstree", function (e, data) {
                         let lo_funcSelected = data.node;
                         self.$store.commit("setSelectedCurrentID", lo_funcSelected);
@@ -167,6 +143,7 @@
                     })
                 }
                 cb(null, "");
+
             },
 
             checkedTreeNodeByFuncsOfRole() {
@@ -180,17 +157,19 @@
                 this.isLoading = true;
                 this.treeIns.uncheck_all();
                 setTimeout(function () {
+                    let ls_node_id = "";
+                    let lo_node = null;
                     _.each(la_funcsOfRole, function (func) {
-                        if (func.current_id.length <= 4) {
-                            self.treeIns.check_node("#" + func.pre_id + "_" + func.current_id);
-                        }
-                        else {
-                            self.treeIns.check_node("#" + func.current_id);
+                        ls_node_id = func.current_id.length <= 4 ? func.pre_id + "_" + func.current_id : func.current_id;
+                        lo_node = self.treeIns.get_node(ls_node_id);
+                        if (lo_node != null && !_.isUndefined(lo_node.children) && lo_node.children.length == 0) {
+                            self.treeIns.check_node("#" + ls_node_id);
                         }
                     });
+
                     self.isInitChecked = false;
                     self.isLoading = false;
-                }, 100);
+                }, 200);
             },
 
             checkedRoleByCurrentID(lo_selectedNode) {

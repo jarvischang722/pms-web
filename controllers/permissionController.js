@@ -26,9 +26,36 @@ exports.saveAuthByStaff = function (req, res) {
     });
 };
 
+/**
+ * 新增功能權限
+ */
 exports.saveAuthByFunc = function (req, res) {
     permissionSvc.saveAuthByFunc(req.body, req.session, function (err, result) {
         res.json({success: err == null, errMsg: err, data: result});
+    });
+};
+
+exports.addRole = function (req, res) {
+    permissionSvc.addRole(req.body, req.session, function (err, result) {
+        res.json({success: err == null, errorMsg: err});
+    });
+};
+
+exports.delRole = function (req, res) {
+    permissionSvc.delRole(req.body, req.session, function (err, result) {
+        res.json({success: err == null, errorMsg: err});
+    });
+};
+
+exports.updRole = function (req, res) {
+    permissionSvc.updRole(req.body, req.session, function (err, result) {
+        res.json({success: err == null, errorMsg: err});
+    });
+};
+
+exports.addStaff = function (req, res) {
+    permissionSvc.addStaff(req.body, req.session, function (err, result) {
+        res.json({success: err == null, errorMsg: err});
     });
 };
 
@@ -37,7 +64,7 @@ exports.saveAuthByFunc = function (req, res) {
  */
 exports.qryPermissionFuncTreeData = function (req, res) {
     permissionSvc.qryPermissionFuncTreeData(req, req.session, function (err, result) {
-        res.json({success: err == null, errMsg: err, funcList: result});
+        res.json({success: err == null, errMsg: err, funcTreeData: result.funcTreeData, funcList: result.funcList});
     });
 };
 

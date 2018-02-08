@@ -60,6 +60,6 @@ module.exports = function (app, passport) {
     app.post('/api/userSubsysPurviewBySysID', apiMiddles, userCrtl.userSubsysPurviewBySysID);
 
     //修改密碼
-    app.post('/api/doEditPassword', apiMiddles, userCrtl.doEditPassword)
+    app.post('/api/doEditPassword', apiMiddles, userCrtl.doEditPassword);
 };
 

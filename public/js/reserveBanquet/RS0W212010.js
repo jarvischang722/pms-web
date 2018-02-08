@@ -859,7 +859,7 @@ var singlePage = Vue.extend({
                     if (!self.createStatus) {
                         self.doRowUnLock();
                     }
-                    location.reload();
+                    // location.reload();
                 }
             });
         },
@@ -1123,22 +1123,22 @@ var singlePage = Vue.extend({
                 return false;
             }
 
-            if (_.isUndefined(self.singleData.wait_seq) || self.singleData.wait_seq === null || self.singleData.wait_seq === "") {
+            if (self.singleData.wait_seq === null || self.singleData.wait_seq === "") {
                 alert("等待為必填！");
                 return false;
             }
 
-            if ((!_.isUndefined(self.singleData.contact1_rmk) && self.singleData.contact1_rmk != null && self.singleData.contact1_rmk != "") && (_.isUndefined(self.singleData.contact1_cod) || self.singleData.contact1_cod === null || self.singleData.contact1_cod === "")) {
+            if ((self.singleData.contact1_rmk != null && self.singleData.contact1_rmk != "") && (self.singleData.contact1_cod == null || self.singleData.contact1_cod === "")) {
                 alert('聯絡方式1的種類未選擇!');
                 return false;
             }
 
-            if ((!_.isUndefined(self.singleData.contact2_rmk) && self.singleData.contact2_rmk != null && self.singleData.contact2_rmk != "") && (_.isUndefined(self.singleData.contact2_cod) || self.singleData.contact2_cod === null || self.singleData.contact2_cod === "")) {
+            if ((self.singleData.contact2_rmk != null && self.singleData.contact2_rmk != "") && (self.singleData.contact2_cod == null || self.singleData.contact2_cod === "")) {
                 alert('聯絡方式2的種類未選擇!');
                 return false;
             }
 
-            if (self.singleData.inter_cod === "MARRY" && required_bride_nam === "Y") {
+            if (self.singleData.inter_cod == "MARRY" && required_bride_nam == "Y") {
                 if (self.singleData.groom_nam === null || self.singleData.groom_nam === "") {
                     alert("新郎為必填!");
                 }
@@ -1148,57 +1148,57 @@ var singlePage = Vue.extend({
                 return false;
             }
 
-            if (_.isUndefined(self.singleData.alt_nam) || self.singleData.alt_nam === null || self.singleData.alt_nam === "") {
+            if (self.singleData.alt_nam === null || self.singleData.alt_nam === "") {
                 alert("客戶姓名為必填！");
                 return false;
             }
 
-            if (_.isUndefined(self.singleData.title_nam) || self.singleData.title_nam === null || self.singleData.title_nam === "") {
+            if (self.singleData.title_nam === null || self.singleData.title_nam === "") {
                 alert("宴會名稱為必填！");
                 return false;
             }
 
-            if (_.isUndefined(self.singleData.atten_nam) || self.singleData.atten_nam === null || self.singleData.atten_nam === "") {
+            if (self.singleData.atten_nam === null || self.singleData.atten_nam === "") {
                 alert("聯絡人為必填！");
                 return false;
             }
 
-            if (_.isUndefined(self.singleData.desk_qnt) || self.singleData.desk_qnt === null || self.singleData.desk_qnt === "") {
+            if (self.singleData.desk_qnt === null || self.singleData.desk_qnt === "") {
                 alert("預訂桌數為必填！");
                 return false;
             }
 
-            if (_.isUndefined(self.singleData.pmdesk_qnt) || self.singleData.pmdesk_qnt === null || self.singleData.pmdesk_qnt === "") {
+            if (self.singleData.pmdesk_qnt === null || self.singleData.pmdesk_qnt === "") {
                 alert("保證桌數為必填！");
                 return false;
             }
 
-            if (_.isUndefined(self.singleData.adult_qnt) || self.singleData.adult_qnt === null || self.singleData.adult_qnt === "") {
+            if (self.singleData.adult_qnt === null || self.singleData.adult_qnt === "") {
                 alert("預訂人數為必填！");
                 return false;
             }
 
-            if (_.isUndefined(self.singleData.poadult_qnt) || self.singleData.poadult_qnt === null || self.singleData.poadult_qnt === "") {
+            if (self.singleData.poadult_qnt === null || self.singleData.poadult_qnt === "") {
                 alert("保證人數為必填！");
                 return false;
             }
 
-            if (_.isUndefined(self.singleData.hpdpst_amt) || self.singleData.hpdpst_amt === null || self.singleData.hpdpst_amt === "") {
+            if (self.singleData.hpdpst_amt === null || self.singleData.hpdpst_amt === "") {
                 alert("應付訂金為必填！");
                 return false;
             }
 
-            if (_.isUndefined(self.singleData.deposit_amt) || self.singleData.deposit_amt === null || self.singleData.deposit_amt === "") {
+            if (self.singleData.deposit_amt === null || self.singleData.deposit_amt === "") {
                 alert("已付訂金為必填！");
                 return false;
             }
 
-            if (_.isUndefined(self.singleData.rspt_cod) || self.singleData.rspt_cod === null || self.singleData.rspt_cod === "") {
+            if (self.singleData.rspt_cod === null || self.singleData.rspt_cod === "") {
                 alert("廳別為必填！");
                 return false;
             }
 
-            if (_.isUndefined(self.singleData.place_amt) || self.singleData.place_amt === null || self.singleData.place_amt === "") {
+            if (self.singleData.place_amt === null || self.singleData.place_amt === "") {
                 alert("場地金額為必填！");
                 return false;
             }
@@ -1354,8 +1354,8 @@ var singlePage = Vue.extend({
                         callback(true);
                     });
                 }
-                if (result.msg != "") {
-                    alert(result.msg);
+                if (result.errorMsg != "") {
+                    alert(result.errorMsg);
                     callback(false);
                 }
             });
@@ -1382,8 +1382,8 @@ var singlePage = Vue.extend({
 
                     });
                 }
-                if (result.msg != "") {
-                    alert(result.msg);
+                if (result.errorMsg != "") {
+                    alert(result.errorMsg);
                 }
             });
         },
@@ -1408,8 +1408,8 @@ var singlePage = Vue.extend({
                     $("#gs-order-page").dialog("close");
                     vmHub.$emit("showReserve", {bquet_nos: self.singleData.bquet_nos});
                 }
-                if (result.msg != "") {
-                    alert(result.msg);
+                if (result.errorMsg != "") {
+                    alert(result.errorMsg);
                 }
             });
         },
@@ -1498,7 +1498,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                     }
                 });
             }
-            $("#txtSelectCondition").val("");
+
             self.gridData = textDataGridArray;
             var height = document.documentElement.clientHeight - 160;
             var width = document.documentElement.clientWidth / 2 - 25;    //browser 寬度 - 200功能列
@@ -1613,7 +1613,6 @@ var RS00202010VM = new Vue({
                 self.isLoading = false;
                 if (result.success) {
                     self.pageOneData = result.pageOneData;
-                    console.log(result.pageOneData);
                 }
                 else {
                     alert(result.errorMsg);
