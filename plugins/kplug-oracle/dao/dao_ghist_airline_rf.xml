@@ -11,4 +11,16 @@
         <parameter type="number" kind="3">athena_id</parameter>
 
     </dao>
+
+    <dao name="CHK_GHIST_AIRLINE_RF_IS_EXIST">
+        <statement><![CDATA[
+               select count(*) as air_count
+               from ghist_airline_rf
+               where athena_id = :athena_id
+               and trim(airline_cod) = trim(:airline_cod)
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+
+    </dao>
 </root>
