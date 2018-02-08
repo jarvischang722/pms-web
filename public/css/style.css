@@ -2008,6 +2008,88 @@ a {
   height: 12px;
   margin: 0 3px;
 }
+.top-sec-ul .subnav {
+  float: left !important;
+  min-width: 80px;
+  /*max-width: 100% */
+  text-align: center;
+  display: inline-block;
+  box-sizing: border-box;
+  color: #555;
+  cursor: pointer;
+  margin-right: 4px;
+  border: 1px solid #F5F5F5;
+}
+.top-sec-ul .subnav .subnav-txt {
+  padding: 3px 5px 3px 2px;
+}
+.top-sec-ul .subnav .subnav-txt:hover {
+  background: #c6c6c6;
+  color: #fff;
+}
+.top-sec-ul .subnav a {
+  color: #333;
+  z-index: 9999 !important;
+}
+.top-sec-ul .subnav .exLinkIcon {
+  padding: 3px 5px;
+}
+.top-sec-ul .subnav .exLinkIcon:hover {
+  background: #c6c6c6;
+}
+.top-sec-ul .subnav .exLinkIcon a:hover {
+  color: #fff;
+}
+.top-sec-ul .subnav .exLinkIcon i {
+  -moz-transition: -moz-transform 0.5s;
+  -o-transition: -o-transform 0.5s;
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+}
+.top-sec-ul .subnav .exLinkIcon i:hover {
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+  animation: exLinkIcon_Active 1.2s;
+}
+@keyframes exLinkIcon_Active {
+  0% {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  25% {
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  50% {
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+  100% {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+.top-sec-ul .subnav.activeThis {
+  background: #888;
+  color: #fff;
+}
+.top-sec-ul .subnav.activeThis a {
+  color: #fff;
+}
+.top-sec-ul .subnav.activeThis .exLinkIcon, .top-sec-ul .subnav.activeThis .subnav-txt {
+  background: #888;
+  color: #fff;
+}
 
 /*-- authorityNewActor 新增權限 -- */
 .authorityTree .tree:before {
@@ -5567,6 +5649,10 @@ td div.triangle-box.colspan-28 {
   margin-right: 10px;
 }
 
+.pl-10 {
+  padding-left: 10px;
+}
+
 .cardDetail_margin {
   margin-top: -20px;
 }
@@ -5584,7 +5670,7 @@ td div.triangle-box.colspan-28 {
 }
 
 .selectHt {
-  height: 25px;
+  height: 24px;
   padding: 0 3px;
   display: block;
   width: 100%;
@@ -6551,6 +6637,9 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   line-height: 22px;
 }
 .popCheckbox.lbl-after .checkbox label {
+  padding-left: 10px;
+}
+.popCheckbox.rmAssignCk .checkbox label {
   padding-left: 10px;
 }
 

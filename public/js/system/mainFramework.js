@@ -159,6 +159,8 @@ var BacchusMainVM = new Vue({
          * @param prg_id
          */
         loadMainProcess: function (prg_id) {
+
+
             g_socket.emit('handleTableUnlock', {'prg_id': getCookie("lockingPrgID")});
 
             var ls_pro_url = "";
@@ -190,6 +192,7 @@ var BacchusMainVM = new Vue({
             }
             // ls_pro_url = "/editPassword";
             if (!_.isEmpty(ls_pro_url)) {
+                this.usingPrgID = prg_id;
                 $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
             }
 

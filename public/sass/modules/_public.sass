@@ -59,6 +59,8 @@
   margin-right: 5px
 .mr-10
   margin-right: 10px
+.pl-10
+  padding-left: 10px
 .cardDetail_margin
   margin-top: -20px
 .height87
@@ -69,7 +71,7 @@
 .defHt
   height: $defHt
 .selectHt
-  height: $defHt
+  height: $defHt - 1px
   padding: 0 3px
   display: block
   width: 100%
@@ -640,7 +642,10 @@ input.numStyle-none
     .checkbox
       label
         padding-left: 10px
-
+  &.rmAssignCk
+    .checkbox
+      label
+        padding-left: 10px
 
 .rzNone
   resize: none
