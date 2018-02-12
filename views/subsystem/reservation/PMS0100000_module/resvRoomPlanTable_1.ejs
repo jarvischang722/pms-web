@@ -32,13 +32,13 @@
                         <!--房種,房號,清掃狀況標題-->
                         <div class="roomNum-wrap room-color">
                             <div class="room-Num-Left th-width-s roomPlan-Num1">
-                                房種<i class="fa fa-caret-down"></i>
+                                房種<i class="fa fa-caret-down" @click="sortData('roomTyp')"></i>
                             </div>
                             <div class="room-Num-Right th-width-s roomPlan-Num1">
-                                房號<i class="fa fa-caret-down"></i>
+                                房號<i class="fa fa-caret-down" @click="sortData('roomNos')"></i>
                             </div>
                             <div class="room-Num-Right th-width-l roomPlan-Num1">
-                                清掃狀況<i class="fa fa-caret-down"></i>
+                                清掃狀況<i class="fa fa-caret-down" @click="sortData('roomSta')"></i>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -56,19 +56,29 @@
 
                 <!--房號資料-->
                 <tbody class="clearfix">
-                <tr class="" v-for="data in roomNosData">
+                <tr class="" v-for="data in roomNosDataDisplay">
                     <td class="middle td-first dateColor">
                         <span class="th-width-s roomPlan-Num1">{{data.roomTyp}}</span>
                         <span class="th-width-s roomPlan-Num2">{{data.room_nos}}</span>
                         <span class="th-width-l roomPlan-Num2">{{data.room_sta}}</span>
                     </td>
-                    <template v-for="roomUse in data.room_use">
-                        <td v-if="roomUse.isUsed" class="name-color">
-                            <div class="triangle-box" :class="roomUse.attClass">
-                                <span class="triangle-text" data-rel="tooltip" data-placement="bottom">{{roomUse.use_rmk}}</span>
-                            </div>
-                        </td>
-                        <td v-else class="empty-color" style=""></td>
+                    <template v-for="roomUse in data.room_use_display">
+                        <template v-if="roomUse.isValidity">
+                            <td v-if="roomUse.isUsed" class="name-color">
+                                <div class="triangle-box" :class="roomUse.attClass">
+                                    <span class="triangle-text" data-rel="tooltip" data-placement="bottom" :title="roomUse.title">{{roomUse.text}}</span>
+                                </div>
+                            </td>
+                            <td v-else class="empty-color"></td>
+                        </template>
+                        <template v-else>
+                            <td v-if="roomUse.isUsed" class="name-color td-bg-gray">
+                                <div class="triangle-box" :class="roomUse.attClass">
+                                    <span class="triangle-text" data-rel="tooltip" data-placement="bottom" :title="roomUse.title">{{roomUse.text}}</span>
+                                </div>
+                            </td>
+                            <td v-else class="empty-color td-bg-gray"></td>
+                        </template>
                     </template>
                 </tr>
                 <tr class="">
