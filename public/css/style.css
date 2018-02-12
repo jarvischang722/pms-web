@@ -4881,6 +4881,14 @@ td div.act-box span.act-text {
   padding: 0 7px;
 }
 
+td.td-bg-gray {
+  background: #888888 !important;
+}
+td.td-bg-gray div.triangle-box span.triangle-text {
+  border-right-color: #888888;
+  border-left-color: #888888;
+}
+
 td div.triangle-box.colspan-1 {
   width: 29px;
 }

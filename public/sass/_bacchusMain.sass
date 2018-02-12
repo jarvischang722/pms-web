@@ -2478,7 +2478,14 @@ td
   float: left
   padding: 0 7px
 
-
+$td-disabled: #888888
+td.td-bg-gray
+  background: $td-disabled !important
+  div
+    &.triangle-box
+      span.triangle-text
+        border-right-color: $td-disabled
+        border-left-color: $td-disabled
 //產生房號訂房內容各種長度
 @for $i from 1 through 28
   $width: 30 * $i
