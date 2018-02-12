@@ -7,41 +7,29 @@
 
                 <tr>
                     <th class="ca-headerTitle height-fntThead datecolor rp-first-th" rowspan="2" style="z-index: 21;">
+                        <!--搜尋日期-->
                         <div class="month-wrap">
                             <div class="caSelect">
-                                <select class="input-medium ca-select">
-                                    <option value="2016">2016</option>
-                                    <option value="2017">2017</option>
-                                    <option value="2018">2018</option>
-                                    <option value="2019">2019</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2022">2022</option>
-                                </select>
+                                <el-date-picker
+                                        class="input-medium ca-select"
+                                        v-model="searchData4Month"
+                                        :clearable="false"
+                                        :editable="false"
+                                        type="month"
+                                        placeholder="選擇月"
+                                        @change="selectDate()">
+                                </el-date-picker>
                                 <div class="space-2"></div>
-                                <select class="input-medium ca-select">
-                                    <option value="1">Jan</option>
-                                    <option value="2">Feb</option>
-                                    <option value="3">Mar</option>
-                                    <option value="4">Apr</option>
-                                    <option value="5">May</option>
-                                    <option value="6">Jun</option>
-                                    <option value="7">Jul</option>
-                                    <option value="8">Aug</option>
-                                    <option value="9">Sep</option>
-                                    <option value="10">Oct</option>
-                                    <option value="11">Nov</option>
-                                    <option value="12">Dec</option>
-                                </select>
                             </div>
                             <div class="caIcon">
                                     <span class="ca-headerIcon">
                                         <i class="fa fa-calendar-check-o orange fa-lg" data-rel="tooltip"
-                                           data-placement="bottom" title="Today"></i>
+                                           data-placement="bottom" title="滾房租日" @click="backToRentCalDat"></i>
                                     </span>
                             </div>
                         </div>
                         <div class="clearfix"></div>
+                        <!--房種,房號,清掃狀況標題-->
                         <div class="roomNum-wrap room-color">
                             <div class="room-Num-Left th-width-s roomPlan-Num1">
                                 房種<i class="fa fa-caret-down"></i>
@@ -55,53 +43,37 @@
                         </div>
                         <div class="clearfix"></div>
                     </th>
-                    <th class="th-h30 datecolor" colspan="2">24
-                        <div class="line-wrap">
-                            <div class="test-line"></div>
-                        </div>
-                    </th>
-                    <th class="datecolor" colspan="2">25</th>
-                    <th class="datecolor" colspan="2">26</th>
-                    <th class="datecolor" colspan="2">27</th>
-                    <th class="datecolor" colspan="2">28</th>
-                    <th class="datecolor" colspan="2">29</th>
-                    <th class="datecolor" colspan="2">30</th>
-                    <th class="datecolor" colspan="2">31</th>
-                    <th class="datecolor" colspan="2">01</th>
-                    <th class="datecolor" colspan="2">02</th>
-                    <th class="datecolor" colspan="2">03</th>
-                    <th class="datecolor" colspan="2">04</th>
-                    <th class="datecolor" colspan="2">05</th>
-                    <th class="datecolor" colspan="2">06</th>
+                    <!--日期-->
+                    <th class="datecolor" colspan="2" v-for="field in dateFieldData">{{field.data}}</th>
                 </tr>
                 <tr>
-                    <th class="dateColor" colspan="2"><span class="">Mon</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Tue</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Wed</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Thu</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Fri</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Sat</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Sun</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Mon</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Tue</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Wed</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Thu</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Fri</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Sat</span></th>
-                    <th class="dateColor" colspan="2"><span class="">Sun</span></th>
+                    <!--星期-->
+                    <th  class="dateColor" colspan="2" v-for="field in dayFieldData">
+                        <span class="">{{field.data}}</span>
+                    </th>
                 </tr>
                 </thead>
 
-
+                <!--房號資料-->
                 <tbody class="clearfix">
+                <tr class="" v-for="data in roomNosData">
+                    <td class="middle td-first dateColor">
+                        <span class="th-width-s roomPlan-Num1">{{data.roomTyp}}</span>
+                        <span class="th-width-s roomPlan-Num2">{{data.room_nos}}</span>
+                        <span class="th-width-l roomPlan-Num2">{{data.room_sta}}</span>
+                    </td>
+                    <template v-for="roomUse in data.room_use">
+                        <td v-if="roomUse.isUsed" class="name-color"></td>
+                        <td v-else class="empty-color"></td>
+                    </template>
+                </tr>
                 <tr class="">
                     <td class="middle td-first dateColor">
                         <span class="th-width-s roomPlan-Num1">DXK</span>
                         <span class="th-width-s roomPlan-Num2">501</span>
                         <span class="th-width-l roomPlan-Num2">Clean</span>
                     </td>
-                    <td class="empty-color">
-                    </td>
+                    <td class="empty-color"></td>
                     <td class="empty-color"></td>
                     <td class="empty-color"></td>
                     <td class="empty-color"></td>
