@@ -93,7 +93,7 @@ new Vue({
                     room_nos: '501',
                     room_sta: 'Q', 	//清掃狀況
                     begin_dat: 24, 	//有效開始日期
-                    end_dat: 30, 	//有效結束日期
+                    end_dat: 37, 	//有效結束日期
                     room_use: [
                         {
                             begin_dat: 25,
@@ -109,7 +109,7 @@ new Vue({
                     roomTyp: 'DXK',
                     room_nos: '502',
                     room_sta: 'Q', //清掃狀況
-                    begin_dat: 32, //有效開始日期
+                    begin_dat: 24, //有效開始日期
                     end_dat: 37,	//有效結束日期
                     room_use: [
                         {
@@ -243,15 +243,7 @@ new Vue({
         },
         //依房種、房號、清掃狀況排序
         sortData(dataTyp){
-            if(dataTyp == "roomTyp"){
-                this.convertData(_.sortBy(this.roomNosData, 'roomTyp'));
-            }
-            else if(dataTyp == "roomNos"){
-                this.convertData(_.sortBy(this.roomNosData, 'room_nos'));
-            }
-            else if(dataTyp == "roomSta"){
-                this.convertData(_.sortBy(this.roomNosData, 'room_sta'));
-            }
+            this.convertData(_.sortBy(this.roomNosData, dataTyp));
         },
         //搜尋日轉回滾房租日
         backToRentCalDat() {
