@@ -3753,6 +3753,7 @@ td div.triangle-box span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #555;
+  cursor: default;
 }
 td div.triangle-box.status_a span {
   background: #8AC926;
@@ -3784,6 +3785,7 @@ td div.triangle-box.status_a span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
+  cursor: default;
 }
 td div.triangle-box.status_o span {
   background: #FF595E;
@@ -3815,6 +3817,7 @@ td div.triangle-box.status_o span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
+  cursor: default;
 }
 td div.triangle-box.status_s span {
   background: #FFCA3A;
@@ -3846,6 +3849,7 @@ td div.triangle-box.status_s span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
+  cursor: default;
 }
 td div.triangle-box.status_ooo span {
   background: #1982C4;
@@ -3877,6 +3881,7 @@ td div.triangle-box.status_ooo span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
+  cursor: default;
 }
 td div.act-box {
   margin: 0px auto;
