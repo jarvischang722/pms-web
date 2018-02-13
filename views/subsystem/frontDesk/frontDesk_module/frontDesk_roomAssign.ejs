@@ -35,25 +35,40 @@
                     <!-- #section:elements.tab.position -->
                     <div class="col-xs-12">
                         <div class="row">
-                            <div class="col-xs-2">
-                                <div class="row no-padding">
-                                    <div class="select-group">
-                                        <button class="btn btn-primary btn-white btn-defaultWidth town-list-btn">
-                                            List
-                                        </button>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth town-graphics-btn">
-                                            Graphics
-                                        </button>
-                                    </div>
+                            <div class="col-xs-4">
+                                <div class="row no-padding searchCheckbox">
+                                    <span class="checkbox">
+                                          <label class="checkbox-width">
+                                              <input name="form-field-checkbox"
+                                                     type="checkbox"
+                                                     class="ace">
+                                              <span class="lbl">
+                                                  <span class="subtxt">W/O Ocuppied/OOO </span>
+                                              </span>
+                                          </label>
+                                    </span>
+
+                                    <!--<input type="checkbox"-->
+                                           <!--class="ace"/>-->
+                                    <!--<span class="lbl"> </span>-->
                                 </div>
                             </div>
-                            <div class="col-xs-4">
-                                <div class="row no-padding">
-                                    <label class="margin-5">
-                                        <input type="checkbox"
-                                               class="ace"/>
-                                        <span class="lbl"> W/O Ocuppied/OOO </span>
-                                    </label>
+                            <div class="col-xs-2">
+                                <div class="row ml--13">
+                                    <div class="select-group">
+                                        <button data-toggle="dropdown"
+                                                class="btn btn-primary btn-white btn-defaultWidth dropdown-toggle"
+                                                aria-expanded="false">
+                                            <span class="dpShowValue">特殊</span>
+                                            <span class="ace-icon fa fa-angle-down icon-on-right"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-info dropdown-menu-right dpUIList">
+                                            <li><a href="#">面山</a></li>
+                                            <li><a href="#">連通房</a></li>
+                                            <li><a href="#">面公道五路</a></li>
+                                            <li><a href="#">不要四號房</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-xs-2">
@@ -118,6 +133,8 @@
                             <div class="clearfix"></div>
                         </div>
                     </div>
+                    <div class="clearfix"></div>
+                    <div class="space-2"></div>
                     <div class="tabbable tabs-left">
                         <div class="horizTable-outer pull-left chooseCount"
                              style="min-width: 39px; max-width:5%;">
@@ -2950,6 +2967,14 @@
                     <li>
                         <button class="btn btn-primary btn-white btn-defaultWidth resv_guestDetail"
                                 role="button">Pax List
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth town-list-btn">
+                            List
+                        </button>
+                        <button class="btn btn-primary btn-white btn-defaultWidth town-graphics-btn">
+                            Graphics
                         </button>
                     </li>
                     <li>

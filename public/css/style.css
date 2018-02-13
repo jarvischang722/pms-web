@@ -2850,7 +2850,7 @@ ul.newVisitOther-btn {
   margin: 5px auto auto 10px;
 }
 .resvCard-data .divideLine {
-  padding: 2px 5px 0 5px;
+  padding: 2px 0 0 0;
 }
 .resvCard-data span {
   padding-right: 5px;
@@ -5667,6 +5667,10 @@ td div.triangle-box.colspan-28 {
 
 .defHt {
   height: 25px;
+}
+
+.defLineHt {
+  line-height: 25px;
 }
 
 .selectHt {
