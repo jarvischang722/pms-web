@@ -299,9 +299,8 @@
         name: 'pms0610010',
         el: "#PMS0610010App",
         created() {
-            this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
-            var self = this;
 
+            var self = this;
             vmHub.$on("doUnLock", function () {
                 self.doRowUnLock();
             });
@@ -334,11 +333,11 @@
                 self.isCreateStatus = editSalesClerkData.isCreateStatus;
                 self.isLoading = false;
                 self.editRows = [];
-                self.initAllAuthBtn();
                 self.loadDataGridByPrgID();
             });
         },
         mounted() {
+            this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
             this.isLoading = true;
             this.fetchUserInfo();
             this.setSearchCond();
@@ -434,12 +433,6 @@
 
         },
         methods: {
-            initAllAuthBtn() {
-                $(".purview_btn").each(function () {
-                    var purview_func_id = $(this).data("purview_func_id");
-                    $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", false);
-                });
-            },
             fetchUserInfo() {
                 var self = this;
                 $.post('/api/getUserInfo', function (result) {
@@ -759,7 +752,6 @@
                                 self.editRows = [];
                                 self.isVisitPlan = false;
                                 self.doRowUnLock();
-                                self.initAllAuthBtn();
                             }
                         });
                     }

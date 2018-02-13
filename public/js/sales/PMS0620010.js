@@ -49,8 +49,10 @@ var PMS0620020App = Vue.extend({
             loadingText: "",
             isLoadingDialog: "",
             BTN_action: false,
+            isAction: false,
             hotelDtRow: 0,
-            isSaveEnable: false
+            isSaveEnable: false,
+            isAddDtEnable: false
         };
     },
     created: function () {
@@ -95,12 +97,12 @@ var PMS0620020App = Vue.extend({
             },
             deep: true
         },
-        isSaveEnable: function (val) {
+        isAddDtEnable: function (val) {
             var purview = _.findIndex(go_funcPurview, function (value) {
-                return value.func_id == "0500";
+                return value.func_id == "1010";
             });
             if (purview == -1) {
-                this.isSaveEnable = true;
+                this.isAddDtEnable = true;
             }
         }
     },
@@ -108,10 +110,10 @@ var PMS0620020App = Vue.extend({
         initPurview: function () {
             var purview;
             purview = _.findIndex(go_funcPurview, function (value) {
-                return value.func_id == "0500";
+                return value.func_id == "1010";
             });
             if (purview == -1) {
-                this.isSaveEnable = true;
+                this.isAddDtEnable = true;
             }
         },
         showDropdownDisplayName: function (val, selectData) {
@@ -326,14 +328,17 @@ var PMS0620020App = Vue.extend({
             this.dgClassHs.loadDgData(this.classHsRowData);
 
         },
-        appendDtRow: function () {
+        appendDtRow: function (event) {
             var self = this;
-            this.BTN_action = true;
-            this.dgHoatelDt.appendRow(function (result) {
-                if (result) {
-                    self.BTN_action = false;
-                }
-            });
+            //壤使用者操作紀錄可執行
+            setTimeout(function(){
+                self.BTN_action = true;
+                self.dgHoatelDt.appendRow(function (result) {
+                    if (result) {
+                        self.BTN_action = false;
+                    }
+                });
+            }, 100);
 
         },
         removeDtRow: function () {
