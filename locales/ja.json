@@ -229,6 +229,19 @@
       "add_visit_mn": "新增拜訪紀錄(日)",
       "edit_vist_mn": "修改拜訪紀錄(日)",
       "remove_visit_mn": "刪除拜訪紀錄(日)"
+    },
+    "RS0W212010": {
+      "show_cod": "客戶代號(日)",
+      "alt_nam": "客戶姓名(日)",
+      "contact_rmk": "聯絡電話(日)",
+      "first_nam": "First Name",
+      "last_nam": "Last Name",
+      "cust_typ": "客戶類別(日)",
+      "cust_sta": "客戶狀態(日)",
+      "cust_cod": "客戶代號(日)",
+      "atten_nam": "名稱(日)",
+      "role_rmk": "職稱(日)",
+      "tel_nos": "電話(日)"
     }
   },
   "table_in_use": "%s 使用中",

@@ -71,28 +71,27 @@ var singlePage = Vue.extend({
             self.initTmpCUD();
             vmHub.$emit("UnReadonly");
 
-            self.loadField(function () {
-                if (PostData.bquet_nos != "") {
-                    self.doRowLock(PostData.bquet_nos);
-                    self.createStatus = false;
-                    self.isModificable = false;
-                    self.fetchSingleData(PostData.bquet_nos);
-                }
-                else {
-                    //新增模式
-                    self.createStatus = true;
-                    self.cancelEnable = false;
-                    self.isModificable = true;
+            if (PostData.bquet_nos != "") {
+                self.doRowLock(PostData.bquet_nos);
+                self.createStatus = false;
+                self.isModificable = false;
+                self.fetchSingleData(PostData.bquet_nos);
+            }
+            else {
+                //新增模式
+                self.createStatus = true;
+                self.cancelEnable = false;
+                self.isModificable = true;
 
-                    self.dataGridRows = [];
+                self.dataGridRows = [];
 
-                    self.singleData = _.clone(self.singleDataEmpty);
-                    self.defaultValue(PostData);
-                }
-                self.initPurview();
-                self.showReserve();
-                self.fetchDataGridData(PostData);
-            });
+                self.singleData = _.clone(self.singleDataEmpty);
+                self.defaultValue(PostData);
+            }
+            self.initPurview();
+            self.showReserve();
+            self.fetchDataGridData(PostData);
+
         });
 
         vmHub.$on('updateBackSelectData', function (chooseData) {
@@ -169,6 +168,7 @@ var singlePage = Vue.extend({
     mounted: function () {
         var self = this;
         this.getSystemParam();
+        this.loadField();
         this.fetchUserInfo();
         this.initTmpCUD();
 
@@ -329,6 +329,7 @@ var singlePage = Vue.extend({
             singleDataEmpty: {},
 
             selectOption: {},
+            selectgridOptions: {alt_nam: {columns: []}},
 
             selectPopUpGridData: [],
             popupFieldName: "",         //哪一個field觸發popup
@@ -566,18 +567,13 @@ var singlePage = Vue.extend({
         /**
          * 撈取MN和DT的欄位
          */
-        loadField: function (callback) {
-            if (_.isUndefined(callback) || _.isNull(callback)) {
-                callback = function () {
-                };
-            }
+        loadField: function () {
             var self = this;
             $.post("/api/singleGridPageFieldQuery", {
                 prg_id: prg_id,
                 page_id: 2,
                 singleRowData: self.editingRow
             }, function (result) {
-
                 //MN FieldData
                 self.singleField = result.fieldData;
 
@@ -586,6 +582,10 @@ var singlePage = Vue.extend({
                     self.singleDataEmpty[value.ui_field_name] = "";
                     if (value.ui_type == "select") {
                         self.selectOption[value.ui_field_name] = value.selectData;
+                    }
+                    if(value.ui_type == "selectgrid"){
+                        self.selectgridOptions[value.ui_field_name] = value.selectGridOptions;
+                        self.selectgridOptions[value.ui_field_name].selectData = value.selectData;
                     }
                 });
 
@@ -606,7 +606,6 @@ var singlePage = Vue.extend({
                     }
                 });
 
-                callback(result);
             });
         },
 
@@ -1613,7 +1612,6 @@ var RS00202010VM = new Vue({
                 self.isLoading = false;
                 if (result.success) {
                     self.pageOneData = result.pageOneData;
-                    console.log(result.pageOneData);
                 }
                 else {
                     alert(result.errorMsg);
