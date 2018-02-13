@@ -1,8 +1,10 @@
 const _ = require("underscore");
 const async = require("async");
+const dbSvc = require("../services/DbTableService");
 const ruleAgent = require("../ruleEngine/ruleAgent");
 const queryAgent = require("../plugins/kplug-oracle/QueryAgent");
 const moment = require("moment");
+const fs = require("fs");
 
 exports.qryPageOneDataByRmTyp = function (postData, session, callback) {
     let ln_date_range = 20;
@@ -173,3 +175,71 @@ function convResvRmTypData(la_resvRmTypData) {
 
     return {rmTypData: la_rmTypGroupByRmCod, color: la_color, calcAllRmData: lo_calcAllRmData};
 }
+
+exports.qryRmNosPageOneMap = async (postData, session, callback) => {
+    let ln_date_range = 14;
+    let lo_userInfo = session.user;
+    let lo_params = {
+        athena_id: lo_userInfo.athena_id,
+        hotel_cod: lo_userInfo.hotel_cod,
+        usr_id: lo_userInfo.usr_id,
+        socket_id: postData.socket_id,
+        begin_dat: postData.begin_dat,
+        query_days: ln_date_range,
+        room_cod: postData.room_cod,
+        room_nos: postData.room_nos,
+        character_rmk: postData.character_rmk,
+        build_nos: postData.build_nos,
+        floor_nos: postData.floor_nos
+    };
+
+    let lo_rmNosPageOneData = await qryRmNosPageOneData();
+    let lo_convRmNosData = await convRmNosData(lo_rmNosPageOneData);
+    callback(null, lo_rmNosPageOneData);
+};
+
+// async function qryRmNosPageOneData(){
+//
+// }
+
+let qryRmNosPageOneData = async () => {
+    let la_data = await Promise.all([
+        new Promise((resolve, reject) => {
+            fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_list.json', 'utf8', function (err, data) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(JSON.parse(data));
+                }
+            })
+        }),
+        new Promise((resolve, reject) => {
+            fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_period.json', 'utf8', function (err, data) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(JSON.parse(data));
+                }
+            })
+        }),
+        new Promise((resolve, reject) => {
+            fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_use.json', 'utf8', function (err, data) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(JSON.parse(data));
+                }
+            })
+        })
+    ]);
+
+    return {roomList: la_data[0], roomPeriod: la_data[1], roomUse: la_data[2]};
+};
+
+let convRmNosData = async (rmNosPageOneData) => {
+    let lo_convData = {};
+    return lo_convData;
+};

@@ -120,7 +120,7 @@ exports.qryPageOneDataByRmTyp = function (req, res) {
 //[PMS0110050依房號訂房] 首頁地圖資料
 exports.qryRmNosPageOneMap = function (req, res) {
     resvSvc.qryRmNosPageOneMap(req.body, req.session, function(err, result){
-
+        res.json({success: err == null, data: result, errorMsg: err});
     });
 };
 
