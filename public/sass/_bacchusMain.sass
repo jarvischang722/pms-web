@@ -1615,18 +1615,30 @@ span.roomNum-text
 @mixin triangle_before($triangle_bg: #f8cbac , $triangle_txt: #555)
   &:before,&:after
     content: ""
-    border-style: solid
-    border-width: 0
-    height: 19px
+    //border-style: solid
+    //border-width: 0
+    //height: 19px
     position: absolute
-    width: 0
-    border-color: transparent $triangle_bg
+    //width: 0
+    //border-color: transparent $triangle_bg
   &:before
-    left: 0px
-    border-width: 9px 10px 9px 0px
+    //left: 0px
+    //border-width: 9px 10px 9px 0px
+    left: -10px
+    width: 0
+    height: 0
+    border-style: solid
+    border-width:  9.5px 10px 9.5px 0
+    border-color: transparent $triangle_bg transparent transparent
   &:after
-    right: 0px
-    border-width: 9px 0 9px 10px
+    //right: 0px
+    //border-width: 9px 0 9px 10px
+    right: -10px
+    width: 0
+    height: 0
+    border-style: solid
+    border-width: 9.5px 0 9.5px 10px
+    border-color: transparent transparent transparent $triangle_bg
   &.triangle-text
     width: 100%
     display: inline-block
@@ -1634,8 +1646,8 @@ span.roomNum-text
     white-space: nowrap
     text-overflow: ellipsis
     color: $triangle_txt
-    border-right: 10px solid #fff
-    border-left: 10px solid #fff
+    //border-right: 10px solid #fff
+    //border-left: 10px solid #fff
 
 //ho-表格td長六角形
 td
@@ -2363,6 +2375,7 @@ td
   &.only-oneArrow-left
     width: 100%
     right: 0px
+    left: 0 !important
     .triangle-text
       border-left: 0 !important
       span
@@ -2494,21 +2507,25 @@ td
 $td-disabled: #888888
 td.td-bg-gray
   background: $td-disabled !important
-  div
-    &.triangle-box
-      span.triangle-text
-        border-right-color: $td-disabled
-        border-left-color: $td-disabled
+
 //產生房號訂房內容各種長度
+//單邊三角形的誤差
+$error-value-1: 10
+//兩邊三角形的誤差加起來
+$error-value-2: $error-value-1 *2
+$unit-px: px
 @for $i from 1 through 28
   $width: 30 * $i
-  $error-value: 1
   td
     div
       &.triangle-box
         &.colspan-#{$i}
-          width: $width - $error-value + px
-
+          width: $width - $error-value-2 + $unit-px
+          left: $error-value-1 + $unit-px
+          &.only-oneArrow-right
+            width: $width - $error-value-2 + $error-value-1 + $unit-px
+          &.only-oneArrow-left
+            width: $width - $error-value-2 + $error-value-1 + $unit-px
 @media screen and (min-width: 1470px)
   .cus-roomPlan-table
     table
@@ -2519,12 +2536,17 @@ td.td-bg-gray
             max-width: 33px
   @for $i from 1 through 28
     $width: 33 * $i
-    $error-value: 1
+    $error-value: 20
     td
       div
         &.triangle-box
           &.colspan-#{$i}
-            width: $width - $error-value + px
+            width: $width - $error-value-2 + $unit-px
+            left: $error-value-1 + $unit-px
+            &.only-oneArrow-right
+              width: $width - $error-value-2 + $error-value-1 + $unit-px
+            &.only-oneArrow-left
+              width: $width - $error-value-2 + $error-value-1 + $unit-px
 @media screen and (min-width: 1570px)
   .cus-roomPlan-table
     table
@@ -2535,12 +2557,17 @@ td.td-bg-gray
             max-width: 36px
   @for $i from 1 through 28
     $width: 36 * $i
-    $error-value: 1
+    $error-value: 20
     td
       div
         &.triangle-box
           &.colspan-#{$i}
-            width: $width - $error-value + px
+            width: $width - $error-value-2 + $unit-px
+            left: $error-value-1 + $unit-px
+            &.only-oneArrow-right
+              width: $width - $error-value-2 + $error-value-1 + $unit-px
+            &.only-oneArrow-left
+              width: $width - $error-value-2 + $error-value-1 + $unit-px
 @media screen and (min-width: 1670px)
   .cus-roomPlan-table
     table
@@ -2551,12 +2578,17 @@ td.td-bg-gray
             max-width: 39px
   @for $i from 1 through 28
     $width: 39 * $i
-    $error-value: 1
+    $error-value: 20
     td
       div
         &.triangle-box
           &.colspan-#{$i}
-            width: $width - $error-value + px
+            width: $width - $error-value-2 + $unit-px
+            left: $error-value-1 + $unit-px
+            &.only-oneArrow-right
+              width: $width - $error-value-2 + $error-value-1 + $unit-px
+            &.only-oneArrow-left
+              width: $width - $error-value-2 + $error-value-1 + $unit-px
 @media screen and (min-width: 1770px)
   .cus-roomPlan-table
     table
@@ -2567,12 +2599,17 @@ td.td-bg-gray
             max-width: 43px
   @for $i from 1 through 28
     $width: 43 * $i
-    $error-value: 1
+    $error-value: 20
     td
       div
         &.triangle-box
           &.colspan-#{$i}
-            width: $width - $error-value + px
+            width: $width - $error-value-2 + $unit-px
+            left: $error-value-1 + $unit-px
+            &.only-oneArrow-right
+              width: $width - $error-value-2 + $error-value-1 + $unit-px
+            &.only-oneArrow-left
+              width: $width - $error-value-2 + $error-value-1 + $unit-px
 /*---- 達美樂介面 ----*/
 @import partials/_dominosStyle.sass
 
