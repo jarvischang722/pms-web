@@ -43,7 +43,7 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>客戶姓名</label>
-                                            <bac-select-grid v-model="singleData.alt_nam" :data="selectgridOptions.alt_nam.selectData" :columns="selectgridOptions.alt_nam.columns" @update:v‐model="val  => person[fieldName] = val">
+                                            <bac-select-grid v-model="singleData.alt_nam" :data="selectgridOptions.alt_nam.selectData" :columns="selectgridOptions.alt_nam.columns" :id-field="selectgridOptions.alt_nam.value" :text-field="selectgridOptions.alt_nam.display" @update:v-model="val => singleData.alt_nam = val">
                                             </bac-select-grid>
                                         </div>
                                         <div class="grid-item">
@@ -56,7 +56,8 @@
                                         </div>
                                         <div class="grid-item">
                                             <label>聯絡人</label>
-                                            <input type="text" @click="chkClickPopUpGrid('atten_nam')" @keyup="chkClickPopUpGrid('atten_nam')" v-model="singleData.atten_nam" class="input-medium resvCard-date" :disabled="readonly"/>
+                                            <bac-select-grid v-model="singleData.atten_nam" :data="selectgridOptions.atten_nam.selectData" :columns="selectgridOptions.atten_nam.columns" :id-field="selectgridOptions.atten_nam.value" :text-field="selectgridOptions.atten_nam.display" @update:v-model="val => singleData.atten_nam = val">
+                                            </bac-select-grid>
                                         </div>
                                     </div>
                                     <div class="grid">
