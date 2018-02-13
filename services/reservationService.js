@@ -1,10 +1,11 @@
 const _ = require("underscore");
 const async = require("async");
-const dbSvc = require("../services/DbTableService");
 const ruleAgent = require("../ruleEngine/ruleAgent");
 const queryAgent = require("../plugins/kplug-oracle/QueryAgent");
 const moment = require("moment");
 const fs = require("fs");
+const tools = require('../utils/CommonTools');
+const sysConf = require("../configs/systemConfig");
 
 exports.qryPageOneDataByRmTyp = function (postData, session, callback) {
     let ln_date_range = 20;
@@ -176,34 +177,71 @@ function convResvRmTypData(la_resvRmTypData) {
     return {rmTypData: la_rmTypGroupByRmCod, color: la_color, calcAllRmData: lo_calcAllRmData};
 }
 
-exports.qryRmNosPageOneMap = async (postData, session, callback) => {
-    let ln_date_range = 14;
-    let lo_userInfo = session.user;
-    let lo_params = {
-        athena_id: lo_userInfo.athena_id,
-        hotel_cod: lo_userInfo.hotel_cod,
-        usr_id: lo_userInfo.usr_id,
-        socket_id: postData.socket_id,
-        begin_dat: postData.begin_dat,
-        query_days: ln_date_range,
-        room_cod: postData.room_cod,
-        room_nos: postData.room_nos,
-        character_rmk: postData.character_rmk,
-        build_nos: postData.build_nos,
-        floor_nos: postData.floor_nos
-    };
-
-    let lo_rmNosPageOneData = await qryRmNosPageOneData();
-    let lo_convRmNosData = await convRmNosData(lo_rmNosPageOneData);
-    callback(null, lo_rmNosPageOneData);
+exports.qryRmNosPageOneMap = async (postData, session) => {
+    let ls_error = null;
+    try {
+        let lb_ps_result = await callProcedure(postData, session);
+        let lo_rmNosPageOneData = await qryRmNosPageOneData();
+        let lo_convRmNosData = await convRmNosData(lo_rmNosPageOneData);
+        return lo_rmNosPageOneData;
+    }
+    catch (error) {
+        return error.message;
+    }
 };
 
-// async function qryRmNosPageOneData(){
-//
-// }
+let callProcedure = async (postData, session) => {
+    let ln_date_range = 14;
+    let lo_userInfo = session.user;
+    let lo_apiParam = {
+        "REVE-CODE": "PMS0110050",
+        hotel_cod: lo_userInfo.hotel_cod,
+        athena_id: lo_userInfo.athena_id,
+        "program_id": "PMS0110050",
+        count: 1,
+        "user": lo_userInfo.usr_id,
+        "func_id": "0100",
+        exec_data: {
+            "1": {
+                athena_id: lo_userInfo.athena_id,
+                hotel_cod: lo_userInfo.hotel_cod,
+                usr_id: lo_userInfo.usr_id,
+                socket_id: postData.socket_id,
+                begin_dat: postData.begin_dat,
+                query_days: ln_date_range,
+                room_cod: postData.room_cod,
+                room_nos: postData.room_nos,
+                character_rmk: postData.character_rmk,
+                build_nos: postData.build_nos,
+                floor_nos: postData.floor_nos
+            }
+        }
+    };
+
+    // return new Promise((resolve, reject) => {
+    //     tools.requestApi(sysConf.api_url, lo_apiParam, function (err, res, data) {
+    //         if (err) {
+    //             reject(err);
+    //         }
+    //         else {
+    //             resolve(data)
+    //         }
+    //     });
+    // });
+    return new Promise((resolve, reject) => {
+        fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_list.json', 'utf8', function (err, data) {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(JSON.parse(data));
+            }
+        })
+    })
+};
 
 let qryRmNosPageOneData = async () => {
-    let la_data = await Promise.all([
+    let [la_roomList, la_roomPeriod, la_roomUse] = await Promise.all([
         new Promise((resolve, reject) => {
             fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_list.json', 'utf8', function (err, data) {
                 if (err) {
@@ -236,7 +274,7 @@ let qryRmNosPageOneData = async () => {
         })
     ]);
 
-    return {roomList: la_data[0], roomPeriod: la_data[1], roomUse: la_data[2]};
+    return {roomList: la_roomList, roomPeriod: la_roomPeriod, roomUse: la_roomUse};
 };
 
 let convRmNosData = async (rmNosPageOneData) => {

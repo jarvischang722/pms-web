@@ -118,10 +118,15 @@ exports.qryPageOneDataByRmTyp = function (req, res) {
 };
 
 //[PMS0110050依房號訂房] 首頁地圖資料
-exports.qryRmNosPageOneMap = function (req, res) {
-    resvSvc.qryRmNosPageOneMap(req.body, req.session, function(err, result){
-        res.json({success: err == null, data: result, errorMsg: err});
-    });
+exports.qryRmNosPageOneMap = async (req, res) => {
+    let lo_result, ls_error = null;
+    try {
+        lo_result = await resvSvc.qryRmNosPageOneMap(req.body, req.session);
+    }
+    catch (err) {
+        ls_error = err;
+    }
+    res.json({err: ls_error == null, data: lo_result, errorMsg: ls_error});
 };
 
 exports.qryRentCalDat = function (req, res) {
