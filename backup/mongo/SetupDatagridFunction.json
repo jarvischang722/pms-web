@@ -1081,6 +1081,7 @@
 { 
     "_id" : ObjectId("59c1ddcb1af7d633f8830935"), 
     "prg_id" : "PMS0810020", 
+    "page_id" : NumberInt(1), 
     "func_id" : "0200", 
     "rule_func_name" : "r_rvrmcod_rf_add"
 }
@@ -1220,4 +1221,11 @@
     "page_id" : NumberInt(1), 
     "func_id" : "0400", 
     "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5a7c1260f8bd39e9b0567d3e"), 
+    "prg_id" : "PMS0820040", 
+    "page_id" : NumberInt(1), 
+    "func_id" : "0521", 
+    "rule_func_name" : "chk_ghist_airline_is_exist"
 }

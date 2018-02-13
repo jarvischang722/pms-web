@@ -987,7 +987,7 @@ table.treetable tr.expanded span.indenter a {
   cursor: pointer;
 }
 .themeTable thead th.holiday-color, .themeTable .holiday-color.numeric {
-  background: #FECAE4;
+  background: #FECAE4 !important;
 }
 .themeTable thead th.dateColor, .themeTable .dateColor.numeric {
   background: #DAEAFC;
@@ -1066,6 +1066,10 @@ table.treetable tr.expanded span.indenter a {
 .themeTable.themeTableTwo .blueBg {
   background: #3d48a6;
   color: #fff;
+}
+
+.resRoomType-table .themeTable thead th i {
+  margin-top: 5px;
 }
 
 .wrapper {
@@ -1783,7 +1787,7 @@ a {
   border-radius: 50%;
   overflow: hidden;
   position: relative;
-  cursor: default;
+  cursor: pointer;
   box-shadow: inset 0 0 0 16px rgba(255, 255, 255, 0.6), 0 1px 2px rgba(0, 0, 0, 0.1);
   -moz-transition: all 0.4s ease-in-out;
   -o-transition: all 0.4s ease-in-out;
@@ -2004,6 +2008,88 @@ a {
   height: 12px;
   margin: 0 3px;
 }
+.top-sec-ul .subnav {
+  float: left !important;
+  min-width: 80px;
+  /*max-width: 100% */
+  text-align: center;
+  display: inline-block;
+  box-sizing: border-box;
+  color: #555;
+  cursor: pointer;
+  margin-right: 4px;
+  border: 1px solid #F5F5F5;
+}
+.top-sec-ul .subnav .subnav-txt {
+  padding: 3px 5px 3px 2px;
+}
+.top-sec-ul .subnav .subnav-txt:hover {
+  background: #c6c6c6;
+  color: #fff;
+}
+.top-sec-ul .subnav a {
+  color: #333;
+  z-index: 9999 !important;
+}
+.top-sec-ul .subnav .exLinkIcon {
+  padding: 3px 5px;
+}
+.top-sec-ul .subnav .exLinkIcon:hover {
+  background: #c6c6c6;
+}
+.top-sec-ul .subnav .exLinkIcon a:hover {
+  color: #fff;
+}
+.top-sec-ul .subnav .exLinkIcon i {
+  -moz-transition: -moz-transform 0.5s;
+  -o-transition: -o-transform 0.5s;
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+}
+.top-sec-ul .subnav .exLinkIcon i:hover {
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+  animation: exLinkIcon_Active 1.2s;
+}
+@keyframes exLinkIcon_Active {
+  0% {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  25% {
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  50% {
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+  100% {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+.top-sec-ul .subnav.activeThis {
+  background: #888;
+  color: #fff;
+}
+.top-sec-ul .subnav.activeThis a {
+  color: #fff;
+}
+.top-sec-ul .subnav.activeThis .exLinkIcon, .top-sec-ul .subnav.activeThis .subnav-txt {
+  background: #888;
+  color: #fff;
+}
 
 /*-- authorityNewActor 新增權限 -- */
 .authorityTree .tree:before {
@@ -2012,6 +2098,13 @@ a {
 .authorityTree p.topTitle {
   margin: 5px auto;
   font-size: 1.2em;
+  color: #ffffff;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  background: linear-gradient(314deg, rgba(93, 203, 179, 0.5) 15%, #468eb7 60%);
+  background: -moz-linear-gradient(314deg, rgba(93, 203, 179, 0.5) 15%, #468eb7 60%);
+  background: -o-linear-gradient(314deg, rgba(93, 203, 179, 0.5) 15%, #468eb7 60%);
 }
 .authorityTree .authRadio {
   margin-right: 2px;
@@ -3622,11 +3715,16 @@ span.roomNum-text {
 td div.triangle-box {
   width: 100%;
   height: 19px;
-  /* margin-left: 18px */
-  margin: 0px auto;
   color: #000;
   position: relative;
   background-color: #f8cbac;
+  z-index: 3;
+}
+td div.triangle-box.colspan-1 {
+  width: 100%;
+}
+td div.triangle-box.colspan-2 {
+  width: 200%;
 }
 td div.triangle-box span:before, td div.triangle-box span:after {
   content: "";
@@ -4560,12 +4658,16 @@ td div.act-box span.act-text {
 
 /***** vue 問題 **** */
 .vue-treeselect__menu label {
-  text-align: left;
-  width: auto;
+  text-align: left !important;
+  width: auto !important;
 }
 
 .vue-treeselect {
   display: inline-block;
+}
+
+#PMS0610020 .vue-treeselect__menu {
+  width: 200px;
 }
 
 .openChangeLogDialog .el-dialog {
@@ -4645,68 +4747,35 @@ td div.act-box span.act-text {
   box-shadow: none !important;
 }
 
-.roomNum-wrap {
-  min-width: 320px;
-}
-
-.cus-roomPlan-table {
-  max-height: 700px;
-}
-.cus-roomPlan-table thead tr td, .cus-roomPlan-table thead tr th {
-  min-width: 70px;
-}
-.cus-roomPlan-table thead tr .rp-first-th {
-  width: 320px;
-  box-shadow: 0px 1px 0px 1px #778899;
-}
-.cus-roomPlan-table tbody tr td {
-  height: 22px;
-  min-width: 43px;
-  max-width: 43px;
-}
-
-.cus-roomType-table table thead tr .rp-first-th {
-  min-width: 188px;
-}
-.cus-roomType-table table tbody tr td {
-  min-width: 35px;
-}
-.cus-roomType-table table tbody tr td.middle.td-first {
-  height: 21px;
-}
-
-.only-oneArrow-left div.triangle-box {
+/* 新增 fixtable新套件樣式、修改房號訂房table */
+.triangle-box.only-oneArrow-right {
   width: 100%;
   right: 0px;
 }
-.only-oneArrow-left div.triangle-box .triangle-text {
+.triangle-box.only-oneArrow-right .triangle-text {
+  border-right: 0 !important;
+}
+.triangle-box.only-oneArrow-right .triangle-text:after {
+  right: 0;
+  border-width: 0 !important;
+}
+.triangle-box.only-oneArrow-left {
+  width: 100%;
+  right: 0px;
+}
+.triangle-box.only-oneArrow-left .triangle-text {
   border-left: 0 !important;
 }
-.only-oneArrow-left div.triangle-box .triangle-text:before {
+.triangle-box.only-oneArrow-left .triangle-text:before {
   left: 0;
   border-width: 0;
 }
 
-.only-oneArrow-right div.triangle-box {
-  width: 100%;
-  right: 0px;
-}
-.only-oneArrow-right div.triangle-box .triangle-text {
-  border-right: 0 !important;
-}
-.only-oneArrow-right div.triangle-box .triangle-text:after {
-  right: 0;
-  border-width: 0;
-}
-
-.fixed-table-container table {
-  width: 100%;
-}
 .fixed-table-container table thead tr td, .fixed-table-container table thead tr th {
   background-clip: padding-box !important;
   font-size: 14px;
   font-weight: bold;
-  z-index: 1;
+  z-index: 4;
   box-shadow: 1px 1px 1px 1px #778899;
   -moz-box-shadow: 1px 1px 1px 1px #778899;
   -webkit-box-shadow: 1px 1px 1px 1px #778899;
@@ -4731,27 +4800,6 @@ td div.act-box span.act-text {
   -webkit-box-shadow: 1px 1px 0px 1px lightslategray;
 }
 
-.cus-roomPlan-table .table-line-1 {
-  position: absolute;
-  width: 1px;
-  height: 660px;
-  background: #778899;
-  display: inline-block;
-  top: 90px;
-  left: 407px;
-  z-index: 0;
-}
-.cus-roomPlan-table .table-line-2 {
-  position: absolute;
-  width: 1px;
-  height: 660px;
-  background: #778899;
-  display: inline-block;
-  top: 90px;
-  left: 493px;
-  z-index: 1;
-}
-
 @-moz-document url-prefix() {
   .fixed-table-container table thead tr td, .fixed-table-container table thead tr th {
     box-shadow: 1px 0px 1px 1px #778899;
@@ -4761,6 +4809,660 @@ td div.act-box span.act-text {
   }
   .fixed-table-container table thead tr th.td-first {
     box-shadow: 1px 0px 1px 1px #778899;
+  }
+}
+.cus-roomType-table table {
+  width: 100%;
+}
+.cus-roomType-table table thead tr .rp-first-th {
+  width: 188px;
+  min-width: 188px;
+}
+.cus-roomType-table table thead tr .rp-first-th .caSelect {
+  margin: 12px 0 10px 0;
+}
+.cus-roomType-table table thead tr .rp-first-th .caSelect .el-icon-date:before {
+  content: none;
+}
+.cus-roomType-table table thead tr .rp-first-th .caSelect .el-input__icon + .el-input__inner {
+  padding: 0;
+}
+.cus-roomType-table table thead tr .rp-first-th .caSelect .el-input__inner {
+  text-align: center;
+}
+.cus-roomType-table table thead tr .rp-first-th .caIcon {
+  margin-top: 6px;
+}
+.cus-roomType-table table tbody tr td {
+  min-width: 35px;
+}
+.cus-roomType-table table tbody tr td.middle.td-first {
+  height: 21px;
+}
+.cus-roomType-table table tbody tr td.middle.td-first.subTree-title, .cus-roomType-table table tbody tr td.middle.td-first .room-field-text {
+  padding-left: 4px;
+}
+.cus-roomType-table table tbody tr td.middle.td-first .roomNumTip {
+  width: 42px;
+  text-align: center;
+}
+
+.cus-roomPlan-table {
+  max-height: 800px;
+}
+.cus-roomPlan-table table thead tr td, .cus-roomPlan-table table thead tr th {
+  min-width: 70px;
+}
+.cus-roomPlan-table table thead tr .rp-first-th {
+  width: 321px;
+  min-width: 321px;
+}
+.cus-roomPlan-table table tbody tr td {
+  height: 22px;
+  min-width: 30px;
+  max-width: 30px;
+}
+.cus-roomPlan-table table tbody tr td:nth-child(odd):not(:first-child) {
+  border-left: 0;
+}
+.cus-roomPlan-table table tbody tr td:nth-child(even) {
+  border-right: 0;
+}
+
+.th-width-s {
+  width: 100px;
+  float: left;
+  padding: 0 7px;
+}
+
+.th-width-l {
+  width: 120px;
+  float: left;
+  padding: 0 7px;
+}
+
+td div.triangle-box.colspan-1 {
+  width: 29px;
+}
+
+td div.triangle-box.colspan-2 {
+  width: 59px;
+}
+
+td div.triangle-box.colspan-3 {
+  width: 89px;
+}
+
+td div.triangle-box.colspan-4 {
+  width: 119px;
+}
+
+td div.triangle-box.colspan-5 {
+  width: 149px;
+}
+
+td div.triangle-box.colspan-6 {
+  width: 179px;
+}
+
+td div.triangle-box.colspan-7 {
+  width: 209px;
+}
+
+td div.triangle-box.colspan-8 {
+  width: 239px;
+}
+
+td div.triangle-box.colspan-9 {
+  width: 269px;
+}
+
+td div.triangle-box.colspan-10 {
+  width: 299px;
+}
+
+td div.triangle-box.colspan-11 {
+  width: 329px;
+}
+
+td div.triangle-box.colspan-12 {
+  width: 359px;
+}
+
+td div.triangle-box.colspan-13 {
+  width: 389px;
+}
+
+td div.triangle-box.colspan-14 {
+  width: 419px;
+}
+
+td div.triangle-box.colspan-15 {
+  width: 449px;
+}
+
+td div.triangle-box.colspan-16 {
+  width: 479px;
+}
+
+td div.triangle-box.colspan-17 {
+  width: 509px;
+}
+
+td div.triangle-box.colspan-18 {
+  width: 539px;
+}
+
+td div.triangle-box.colspan-19 {
+  width: 569px;
+}
+
+td div.triangle-box.colspan-20 {
+  width: 599px;
+}
+
+td div.triangle-box.colspan-21 {
+  width: 629px;
+}
+
+td div.triangle-box.colspan-22 {
+  width: 659px;
+}
+
+td div.triangle-box.colspan-23 {
+  width: 689px;
+}
+
+td div.triangle-box.colspan-24 {
+  width: 719px;
+}
+
+td div.triangle-box.colspan-25 {
+  width: 749px;
+}
+
+td div.triangle-box.colspan-26 {
+  width: 779px;
+}
+
+td div.triangle-box.colspan-27 {
+  width: 809px;
+}
+
+td div.triangle-box.colspan-28 {
+  width: 839px;
+}
+
+@media screen and (min-width: 1470px) {
+  .cus-roomPlan-table table tbody tr td {
+    min-width: 33px;
+    max-width: 33px;
+  }
+
+  td div.triangle-box.colspan-1 {
+    width: 32px;
+  }
+
+  td div.triangle-box.colspan-2 {
+    width: 65px;
+  }
+
+  td div.triangle-box.colspan-3 {
+    width: 98px;
+  }
+
+  td div.triangle-box.colspan-4 {
+    width: 131px;
+  }
+
+  td div.triangle-box.colspan-5 {
+    width: 164px;
+  }
+
+  td div.triangle-box.colspan-6 {
+    width: 197px;
+  }
+
+  td div.triangle-box.colspan-7 {
+    width: 230px;
+  }
+
+  td div.triangle-box.colspan-8 {
+    width: 263px;
+  }
+
+  td div.triangle-box.colspan-9 {
+    width: 296px;
+  }
+
+  td div.triangle-box.colspan-10 {
+    width: 329px;
+  }
+
+  td div.triangle-box.colspan-11 {
+    width: 362px;
+  }
+
+  td div.triangle-box.colspan-12 {
+    width: 395px;
+  }
+
+  td div.triangle-box.colspan-13 {
+    width: 428px;
+  }
+
+  td div.triangle-box.colspan-14 {
+    width: 461px;
+  }
+
+  td div.triangle-box.colspan-15 {
+    width: 494px;
+  }
+
+  td div.triangle-box.colspan-16 {
+    width: 527px;
+  }
+
+  td div.triangle-box.colspan-17 {
+    width: 560px;
+  }
+
+  td div.triangle-box.colspan-18 {
+    width: 593px;
+  }
+
+  td div.triangle-box.colspan-19 {
+    width: 626px;
+  }
+
+  td div.triangle-box.colspan-20 {
+    width: 659px;
+  }
+
+  td div.triangle-box.colspan-21 {
+    width: 692px;
+  }
+
+  td div.triangle-box.colspan-22 {
+    width: 725px;
+  }
+
+  td div.triangle-box.colspan-23 {
+    width: 758px;
+  }
+
+  td div.triangle-box.colspan-24 {
+    width: 791px;
+  }
+
+  td div.triangle-box.colspan-25 {
+    width: 824px;
+  }
+
+  td div.triangle-box.colspan-26 {
+    width: 857px;
+  }
+
+  td div.triangle-box.colspan-27 {
+    width: 890px;
+  }
+
+  td div.triangle-box.colspan-28 {
+    width: 923px;
+  }
+}
+@media screen and (min-width: 1570px) {
+  .cus-roomPlan-table table tbody tr td {
+    min-width: 36px;
+    max-width: 36px;
+  }
+
+  td div.triangle-box.colspan-1 {
+    width: 35px;
+  }
+
+  td div.triangle-box.colspan-2 {
+    width: 71px;
+  }
+
+  td div.triangle-box.colspan-3 {
+    width: 107px;
+  }
+
+  td div.triangle-box.colspan-4 {
+    width: 143px;
+  }
+
+  td div.triangle-box.colspan-5 {
+    width: 179px;
+  }
+
+  td div.triangle-box.colspan-6 {
+    width: 215px;
+  }
+
+  td div.triangle-box.colspan-7 {
+    width: 251px;
+  }
+
+  td div.triangle-box.colspan-8 {
+    width: 287px;
+  }
+
+  td div.triangle-box.colspan-9 {
+    width: 323px;
+  }
+
+  td div.triangle-box.colspan-10 {
+    width: 359px;
+  }
+
+  td div.triangle-box.colspan-11 {
+    width: 395px;
+  }
+
+  td div.triangle-box.colspan-12 {
+    width: 431px;
+  }
+
+  td div.triangle-box.colspan-13 {
+    width: 467px;
+  }
+
+  td div.triangle-box.colspan-14 {
+    width: 503px;
+  }
+
+  td div.triangle-box.colspan-15 {
+    width: 539px;
+  }
+
+  td div.triangle-box.colspan-16 {
+    width: 575px;
+  }
+
+  td div.triangle-box.colspan-17 {
+    width: 611px;
+  }
+
+  td div.triangle-box.colspan-18 {
+    width: 647px;
+  }
+
+  td div.triangle-box.colspan-19 {
+    width: 683px;
+  }
+
+  td div.triangle-box.colspan-20 {
+    width: 719px;
+  }
+
+  td div.triangle-box.colspan-21 {
+    width: 755px;
+  }
+
+  td div.triangle-box.colspan-22 {
+    width: 791px;
+  }
+
+  td div.triangle-box.colspan-23 {
+    width: 827px;
+  }
+
+  td div.triangle-box.colspan-24 {
+    width: 863px;
+  }
+
+  td div.triangle-box.colspan-25 {
+    width: 899px;
+  }
+
+  td div.triangle-box.colspan-26 {
+    width: 935px;
+  }
+
+  td div.triangle-box.colspan-27 {
+    width: 971px;
+  }
+
+  td div.triangle-box.colspan-28 {
+    width: 1007px;
+  }
+}
+@media screen and (min-width: 1670px) {
+  .cus-roomPlan-table table tbody tr td {
+    min-width: 39px;
+    max-width: 39px;
+  }
+
+  td div.triangle-box.colspan-1 {
+    width: 38px;
+  }
+
+  td div.triangle-box.colspan-2 {
+    width: 77px;
+  }
+
+  td div.triangle-box.colspan-3 {
+    width: 116px;
+  }
+
+  td div.triangle-box.colspan-4 {
+    width: 155px;
+  }
+
+  td div.triangle-box.colspan-5 {
+    width: 194px;
+  }
+
+  td div.triangle-box.colspan-6 {
+    width: 233px;
+  }
+
+  td div.triangle-box.colspan-7 {
+    width: 272px;
+  }
+
+  td div.triangle-box.colspan-8 {
+    width: 311px;
+  }
+
+  td div.triangle-box.colspan-9 {
+    width: 350px;
+  }
+
+  td div.triangle-box.colspan-10 {
+    width: 389px;
+  }
+
+  td div.triangle-box.colspan-11 {
+    width: 428px;
+  }
+
+  td div.triangle-box.colspan-12 {
+    width: 467px;
+  }
+
+  td div.triangle-box.colspan-13 {
+    width: 506px;
+  }
+
+  td div.triangle-box.colspan-14 {
+    width: 545px;
+  }
+
+  td div.triangle-box.colspan-15 {
+    width: 584px;
+  }
+
+  td div.triangle-box.colspan-16 {
+    width: 623px;
+  }
+
+  td div.triangle-box.colspan-17 {
+    width: 662px;
+  }
+
+  td div.triangle-box.colspan-18 {
+    width: 701px;
+  }
+
+  td div.triangle-box.colspan-19 {
+    width: 740px;
+  }
+
+  td div.triangle-box.colspan-20 {
+    width: 779px;
+  }
+
+  td div.triangle-box.colspan-21 {
+    width: 818px;
+  }
+
+  td div.triangle-box.colspan-22 {
+    width: 857px;
+  }
+
+  td div.triangle-box.colspan-23 {
+    width: 896px;
+  }
+
+  td div.triangle-box.colspan-24 {
+    width: 935px;
+  }
+
+  td div.triangle-box.colspan-25 {
+    width: 974px;
+  }
+
+  td div.triangle-box.colspan-26 {
+    width: 1013px;
+  }
+
+  td div.triangle-box.colspan-27 {
+    width: 1052px;
+  }
+
+  td div.triangle-box.colspan-28 {
+    width: 1091px;
+  }
+}
+@media screen and (min-width: 1770px) {
+  .cus-roomPlan-table table tbody tr td {
+    min-width: 43px;
+    max-width: 43px;
+  }
+
+  td div.triangle-box.colspan-1 {
+    width: 42px;
+  }
+
+  td div.triangle-box.colspan-2 {
+    width: 85px;
+  }
+
+  td div.triangle-box.colspan-3 {
+    width: 128px;
+  }
+
+  td div.triangle-box.colspan-4 {
+    width: 171px;
+  }
+
+  td div.triangle-box.colspan-5 {
+    width: 214px;
+  }
+
+  td div.triangle-box.colspan-6 {
+    width: 257px;
+  }
+
+  td div.triangle-box.colspan-7 {
+    width: 300px;
+  }
+
+  td div.triangle-box.colspan-8 {
+    width: 343px;
+  }
+
+  td div.triangle-box.colspan-9 {
+    width: 386px;
+  }
+
+  td div.triangle-box.colspan-10 {
+    width: 429px;
+  }
+
+  td div.triangle-box.colspan-11 {
+    width: 472px;
+  }
+
+  td div.triangle-box.colspan-12 {
+    width: 515px;
+  }
+
+  td div.triangle-box.colspan-13 {
+    width: 558px;
+  }
+
+  td div.triangle-box.colspan-14 {
+    width: 601px;
+  }
+
+  td div.triangle-box.colspan-15 {
+    width: 644px;
+  }
+
+  td div.triangle-box.colspan-16 {
+    width: 687px;
+  }
+
+  td div.triangle-box.colspan-17 {
+    width: 730px;
+  }
+
+  td div.triangle-box.colspan-18 {
+    width: 773px;
+  }
+
+  td div.triangle-box.colspan-19 {
+    width: 816px;
+  }
+
+  td div.triangle-box.colspan-20 {
+    width: 859px;
+  }
+
+  td div.triangle-box.colspan-21 {
+    width: 902px;
+  }
+
+  td div.triangle-box.colspan-22 {
+    width: 945px;
+  }
+
+  td div.triangle-box.colspan-23 {
+    width: 988px;
+  }
+
+  td div.triangle-box.colspan-24 {
+    width: 1031px;
+  }
+
+  td div.triangle-box.colspan-25 {
+    width: 1074px;
+  }
+
+  td div.triangle-box.colspan-26 {
+    width: 1117px;
+  }
+
+  td div.triangle-box.colspan-27 {
+    width: 1160px;
+  }
+
+  td div.triangle-box.colspan-28 {
+    width: 1203px;
   }
 }
 /*---- 達美樂介面 ---- */
@@ -4943,6 +5645,14 @@ td div.act-box span.act-text {
   margin-right: 5px;
 }
 
+.mr-10 {
+  margin-right: 10px;
+}
+
+.pl-10 {
+  padding-left: 10px;
+}
+
 .cardDetail_margin {
   margin-top: -20px;
 }
@@ -4960,7 +5670,7 @@ td div.act-box span.act-text {
 }
 
 .selectHt {
-  height: 25px;
+  height: 24px;
   padding: 0 3px;
   display: block;
   width: 100%;
@@ -5770,6 +6480,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.ca-select-l {
+  width: 93px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.checkMail {
   width: 530px;
   max-width: 100%;
@@ -5922,6 +6637,9 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   line-height: 22px;
 }
 .popCheckbox.lbl-after .checkbox label {
+  padding-left: 10px;
+}
+.popCheckbox.rmAssignCk .checkbox label {
   padding-left: 10px;
 }
 

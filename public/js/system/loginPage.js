@@ -1,12 +1,9 @@
 var loginVM = new Vue({
     el: "#loginAPP",
     data: {
+        loadingText:'',
+        isLoading: true,
         sysConfig: "",
-        location: "",
-        locations: [
-            {"name": "Location A"},
-            {"name": "Location B"}
-        ],
         companyData: [],
         rememberMeCheck: false,
         username: "",
@@ -15,30 +12,6 @@ var loginVM = new Vue({
         comp_id: "0",
         currentLocale: gs_locale,
         locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", ""))
-        ,person: {
-            name: 'jun',
-            name2: 'maggie'
-
-        },
-        fieldName: 'name',
-        selectData: [{
-            "id": 1,
-            "text": "text1"
-        }, {
-            "id": 2,
-            "text": "text2"
-        }, {
-            "id": 3,
-            "text": "text3",
-            "selected": false
-        }, {
-            "id": 4,
-            "text": "text4"
-        }, {
-            "id": 5,
-            "text": "text5"
-        }]
-
     },
     mounted: function () {
         this.getSysConfig();
@@ -78,7 +51,7 @@ var loginVM = new Vue({
         //參數控制取預設帳號
         getDefaultAccount: function () {
             var self = this;
-            if(!_.isUndefined(self.sysConfig.isDefaultUserID) && self.sysConfig.isDefaultUserID === "Y"){
+            if (!_.isUndefined(self.sysConfig.isDefaultUserID) && self.sysConfig.isDefaultUserID === "Y") {
                 $.get(self.sysConfig.api_url + "/?getip=''", function (ip) {
                     $.post("/api/getDefaultAccount", {ip: ip}, function (result) {
                         self.username = result.account;
@@ -87,7 +60,9 @@ var loginVM = new Vue({
             }
         },
         getCompaonyData: function () {
+            this.loadingText = 'Loading...';
             $.post("/api/getSelectCompany", function (result) {
+                loginVM.isLoading = false;
                 if (result.success) {
                     loginVM.companyData = result.selectCompany;
                     loginVM.comp_id = result.selectCompany.length > 0 ? result.selectCompany[0].cmp_id.trim() : "";
@@ -105,6 +80,9 @@ var loginVM = new Vue({
 
         },
         doLogin: function () {
+            var self = this;
+            this.loadingText = 'Logging in...';
+            self.isLoading = true;
             setupCookie("login_isRememberMe", this.rememberMeCheck ? "Y" : "N", "/", 2592000000);
             var params = {
                 username: this.username,
@@ -128,10 +106,10 @@ var loginVM = new Vue({
                         delCookie("login_comp_id", params.comp_id);
                     }
 
-                    alert('Login success!');
                     location.href = "/systemOption";
                 }
                 else {
+                    self.isLoading = false;
                     alert(result.errorMsg);
                 }
             });

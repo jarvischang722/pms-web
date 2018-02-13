@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- 撈取全部角色-->
+    <!-- 撈取客戶授權全部功能-->
     <dao name="QRY_BAC_PROCESSMENU">
         <statement><![CDATA[
             select pre_id, current_id, id_typ, level_nos from bac_processmenu
             where trim(comp_cod) = trim(:comp_cod)
             and athena_id = :athena_id
             and trim(hotel_cod) = trim(:hotel_cod)
-            order by sort_cod
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">comp_cod</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="2" condition="id_typ=:id_typ">id_typ</parameter>
+        <orderby>order by sort_cod</orderby>
     </dao>
 
 </root>

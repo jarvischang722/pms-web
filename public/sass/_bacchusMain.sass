@@ -140,7 +140,7 @@ a
     border-radius: 50%
     overflow: hidden
     position: relative
-    cursor: default
+    cursor: pointer
     //margin: 20px
     box-shadow: inset 0 0 0 16px rgba(255, 255, 255, 0.6), 0 1px 2px rgba(0, 0, 0, 0.1)
     +transition(all 0.4s ease-in-out)
@@ -195,24 +195,24 @@ a
         border-top: 5px solid rgba(255, 255, 255, 0.5)
         opacity: 0
         +transition(all 0.4s ease-in-out 0.8s)
-    // if 將”a“tab 往前移會變成一個蛋
-    //a
-    //  display: block
-    //  color: rgba(255, 255, 255, 0.7)
-    //  font-style: normal
-    //  font-weight: 700
-    //  text-transform: uppercase
-    //  font-size: 11px
-    //  letter-spacing: 2px
-    //  padding-top: 7px
-    //  text-decoration: none
-    //  &:hover
-    //    color: rgba(173, 221, 234, 1)
-    //    padding: 5px
-    //    border-radius: 101px
-    //    border: 2px solid #BA611D
-    //    background-color: rgba(186, 97, 29, 0.1)
-    //    //text-decoration: none
+// if 將”a“tab 往前移會變成一個蛋
+//a
+//  display: block
+//  color: rgba(255, 255, 255, 0.7)
+//  font-style: normal
+//  font-weight: 700
+//  text-transform: uppercase
+//  font-size: 11px
+//  letter-spacing: 2px
+//  padding-top: 7px
+//  text-decoration: none
+//  &:hover
+//    color: rgba(173, 221, 234, 1)
+//    padding: 5px
+//    border-radius: 101px
+//    border: 2px solid #BA611D
+//    background-color: rgba(186, 97, 29, 0.1)
+//    //text-decoration: none
 
 
 /*-- footer --*/
@@ -231,6 +231,22 @@ a
   color: $redDefault
   line-height: $lineHeight34
 
+@mixin exLinkIcon
+  i
+    +transition (transform .5s)
+    &:hover
+      //color: $blue
+      +transform(scale(1.2))
+      animation: exLinkIcon_Active 1.2s
+      @keyframes exLinkIcon_Active
+        0%
+          +transform(rotate(0deg))
+        25%
+          +transform(rotate(45deg))
+        50%
+          +transform(rotate(-90deg))
+        100%
+          +transform(rotate(0deg))
 /*-- top-sec-menu --*/
 .top-sec-ul
   max-width: 100%
@@ -308,27 +324,49 @@ a
         background: #888
         color: #fff
       .exLinkIcon
-        i
-          +transition (transform .5s)
-          &:hover
-            //color: $blue
-            +transform(scale(1.2))
-            animation: exLinkIcon_Active 1.2s
-            @keyframes exLinkIcon_Active
-              0%
-                +transform(rotate(0deg))
-              25%
-                +transform(rotate(45deg))
-              50%
-                +transform(rotate(-90deg))
-              100%
-                +transform(rotate(0deg))
+        +exLinkIcon
     .icon-2-style
       width: 12px
       height: 12px
       //margin: 0 10px 3px //edit 符合1024
       margin: 0 3px
 
+  .subnav
+    float: left !important
+    min-width: 80px
+    /*max-width: 100%*/
+    text-align: center
+    display: inline-block
+    box-sizing: border-box
+    color: #555
+    cursor: pointer
+    margin-right: 4px
+    border: 1px solid #F5F5F5
+    .subnav-txt
+      padding: 3px 5px 3px 2px
+      &:hover
+        background: #c6c6c6
+        color: #fff
+    a
+      color: #333
+      z-index: 9999 !important
+
+    .exLinkIcon
+      padding: 3px 5px
+      &:hover
+        background: #c6c6c6
+      a
+        &:hover
+          color: #fff
+      +exLinkIcon
+    &.activeThis
+      background: #888
+      color: #fff
+      a
+        color: #fff
+      .exLinkIcon,.subnav-txt
+        background: #888
+        color: #fff
 
 /*-- authorityNewActor 新增權限 --*/
 .authorityTree
@@ -339,6 +377,19 @@ a
     &.topTitle
       margin: 5px auto
       font-size: 1.2em
+      //background: #468EB7
+      color: #ffffff
+      padding-left: 10px
+      padding-top: 3px
+      padding-bottom: 3px
+      background: linear-gradient(314deg, rgba(93, 203, 179, 0.5)15%, rgba(70, 142, 183, 1)60%)
+      background: -moz-linear-gradient(314deg, rgba(93, 203, 179, 0.5)15%, rgba(70, 142, 183, 1)60%)
+      background: -o-linear-gradient(314deg, rgba(93, 203, 179, 0.5)15%, rgba(70, 142, 183, 1)60%)
+      //background: linear-gradient(314deg, rgba(74, 207, 179, 1)55%, rgba(0, 169, 255, 1)81%)
+      //background: -moz-linear-gradient(314deg, rgba(74, 207, 179, 1)55%, rgba(0, 169, 255, 1)81%)
+      //background: -webkit-linear-gradient(314deg, rgba(74, 207, 179, 1)55%, rgba(0, 169, 255, 1)81%)
+      //background: -o-linear-gradient(314deg, rgba(74, 207, 179, 1)55%, rgba(0, 169, 255, 1)81%)
+
   .authRadio
     margin-right: 2px
   //height: 11px
@@ -508,16 +559,16 @@ a
           margin: 0 0 0 -20px
         label.more-Word
           margin: 0 0 0 -68px
-        //.moreClick
-        //  //width: 25px
-        //  height: $defHt
-        //  //line-height: $defHt
-        //  border: 1px solid $border-color
-        //  background: $border-color
-        //  border-radius: 5px
-        //  padding: 3px 5px 4px 5px
-        //  box-sizing: border-box
-        //  cursor: pointer
+      //.moreClick
+      //  //width: 25px
+      //  height: $defHt
+      //  //line-height: $defHt
+      //  border: 1px solid $border-color
+      //  background: $border-color
+      //  border-radius: 5px
+      //  padding: 3px 5px 4px 5px
+      //  box-sizing: border-box
+      //  cursor: pointer
       //margin-top: -1px
       .search-footer-btn
         position: absolute
@@ -870,10 +921,10 @@ ul.newVisitOther-btn
 @media screen and (min-width: 768px) and (max-width: 1030px)
   .businessCompanyData
     .main-content-data
-      //.medium-c1
-      //  +input-s1(120px)
-      //.input-spc-1
-      //  +input-s1(349px)
+//.medium-c1
+//  +input-s1(120px)
+//.input-spc-1
+//  +input-s1(349px)
 
 /*-- 商務公司資料編輯 修改easyUI dataGrid 樣式 --*/
 .easyUi-custom1
@@ -1199,7 +1250,7 @@ ul.newVisitOther-btn
             box-sizing: border-box
             font-size: 1.2em
             font-weight: bold
-            //color: #555
+    //color: #555
     .customInfo-table
       width: 100%
       .table-left,.table-right
@@ -1592,11 +1643,14 @@ td
     &.triangle-box
       width: 100%
       height: 19px
-      /* margin-left: 18px */
-      margin: 0px auto
       color: #000
       position: relative
       background-color: #f8cbac
+      z-index: 3
+      &.colspan-1
+        width: 100%
+      &.colspan-2
+        width: 200%
       span
         +triangle_before
 
@@ -1890,7 +1944,7 @@ td
 .div_shadow
   border: 1px solid #8aafce
   box-shadow: 3px 3px 2px #ccc
-  //+box-shadow(inset 3px 4px 20px 0px #8F8888,5px 5px 5px 1px #707070)
+//+box-shadow(inset 3px 4px 20px 0px #8F8888,5px 5px 5px 1px #707070)
 
 // Room Assign 排房
 .townPage
@@ -1943,8 +1997,8 @@ td
       //排房active
       &.active
         border: 2px solid red
-        //padding: 2px !important
-        //margin: 0 3px 3px 0
+      //padding: 2px !important
+      //margin: 0 3px 3px 0
 
       .foCnt_icon
         width: 12px
@@ -2170,7 +2224,7 @@ td
     .cleanCheckbox-left, .cleanCheckbox-right
       float: left
       margin-top: -1px
-      //display: inline-block
+    //display: inline-block
     .cleanCheckbox-left
       .cleanArngmtsBox,.checkbox
         float: left
@@ -2232,7 +2286,7 @@ td
 .specRoomTypeSet
   margin: auto auto 50px auto
   .leftTitle
-    //width: 100px
+  //width: 100px
   .dottedLine
     margin: 10px auto
     border: 1px dotted
@@ -2293,76 +2347,38 @@ td
     box-shadow: none !important
 
 
-//房號訂房新套件
-.roomNum-wrap
-  min-width: 320px
-  //max-width: 370px
-//客製化房號訂房table
-.cus-roomPlan-table
-  max-height: 700px
-  thead
-    tr
-      td,th
-        min-width: 70px
-      .rp-first-th
-        width: 320px
-        box-shadow: 0px 1px 0px 1px #778899
-  tbody
-    tr
-      td
-        height: 22px
-        min-width: 43px
-        max-width: 43px
-
-//客製化房型訂房
-.cus-roomType-table
-  table
-    thead
-      tr
-        th
-        .rp-first-th
-          min-width: 188px
-    tbody
-      tr
-        td
-          min-width: 35px
-          &.middle.td-first
-            height: 21px
-//左邊無頭
-.only-oneArrow-left
-  div
-    &.triangle-box
-      width: 100%
-      right: 0px
-      .triangle-text
-        border-left: 0 !important
-        span
-        &:before
-          left: 0
-          border-width: 0
-//右邊無頭
-.only-oneArrow-right
-  div
-    &.triangle-box
-      width: 100%
-      right: 0px
-      .triangle-text
-        border-right: 0 !important
-        span
-        &:after
-          right: 0
-          border-width: 0
+/* 新增 fixtable新套件樣式、修改房號訂房table */
+.triangle-box
+  //右邊無頭
+  &.only-oneArrow-right
+    width: 100%
+    right: 0px
+    .triangle-text
+      border-right: 0 !important
+      span
+      &:after
+        right: 0
+        border-width: 0 !important
+  //左邊無頭
+  &.only-oneArrow-left
+    width: 100%
+    right: 0px
+    .triangle-text
+      border-left: 0 !important
+      span
+      &:before
+        left: 0
+        border-width: 0
 //fixtable套件bug修正
 .fixed-table-container
   table
-    width: 100%
     thead
       tr
         td,th
           background-clip: padding-box !important
           font-size: 14px
           font-weight: bold
-          z-index: 1
+          z-index: 4
           box-shadow: 1px 1px 1px 1px #778899
           -moz-box-shadow: 1px 1px 1px 1px #778899
           -webkit-box-shadow: 1px 1px 1px 1px #778899
@@ -2371,7 +2387,6 @@ td
             z-index: 99 !important
         .rp-first-th
           z-index: 99 !important
-          //box-shadow: 0px 1px 1px 1px #778899
           box-shadow: 0px 0px 0px 2px #778899
           -moz-box-shadow: 0px 0px 0px 2px #778899
           -webkit-box-shadow: 0px 0px 0px 2px #778899
@@ -2382,33 +2397,11 @@ td
           border: 1px solid #778899
           &.middle.td-first
             z-index: 9
-            //box-shadow: 0px 1px 0px 1px #778899
             box-shadow: 1px 1px 0px 1px rgba(119,136,153,1)
             -moz-box-shadow: 1px 1px 0px 1px rgba(119,136,153,1)
             -webkit-box-shadow: 1px 1px 0px 1px rgba(119,136,153,1)
 
-%table-line
-
-.cus-roomPlan-table
-  .table-line-1
-    position: absolute
-    width: 1px
-    height: 660px
-    background: #778899
-    display: inline-block
-    top: 90px
-    left: 407px
-    z-index: 0
-  .table-line-2
-    position: absolute
-    width: 1px
-    height: 660px
-    background: #778899
-    display: inline-block
-    top: 90px
-    left: 493px
-    z-index: 1
-//fixTable套件-firefox hack
+//fixTable新套件-firefox相容性處理
 @-moz-document url-prefix()
   .fixed-table-container
     table
@@ -2422,6 +2415,144 @@ td
             &.td-first
               box-shadow: 1px 0px 1px 1px #778899
 
+//客製化房型訂房
+.cus-roomType-table
+  table
+    width: 100%
+    thead
+      tr
+        th
+        .rp-first-th
+          width: 188px
+          min-width: 188px
+          .caSelect
+            margin: 12px 0 10px 0
+            .el-icon-date
+              &:before
+                content: none
+            .el-input__icon+.el-input__inner
+              padding: 0
+            .el-input__inner
+              text-align: center
+          .caIcon
+            margin-top: 6px
+    tbody
+      tr
+        td
+          min-width: 35px
+          &.middle.td-first
+            height: 21px
+            &.subTree-title , .room-field-text
+              padding-left: 4px
+            .roomNumTip
+              width: 42px
+              text-align: center
+//客製化房號訂房table
+.cus-roomPlan-table
+  max-height: 800px
+  table
+    //width: 100%
+    thead
+      tr
+        td,th
+          min-width: 70px
+        .rp-first-th
+          width: 321px
+          min-width: 321px
+    tbody
+      tr
+        td
+          height: 22px
+          min-width: 30px
+          max-width: 30px
+          &:nth-child(odd):not(:first-child)
+            border-left: 0
+          &:nth-child(even)
+            border-right: 0
+.th-width-s
+  width: 100px
+  float: left
+  padding: 0 7px
+.th-width-l
+  width: 120px
+  float: left
+  padding: 0 7px
 
+
+//產生房號訂房內容各種長度
+@for $i from 1 through 28
+  $width: 30 * $i
+  $error-value: 1
+  td
+    div
+      &.triangle-box
+        &.colspan-#{$i}
+          width: $width - $error-value + px
+
+@media screen and (min-width: 1470px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: 33px
+            max-width: 33px
+  @for $i from 1 through 28
+    $width: 33 * $i
+    $error-value: 1
+    td
+      div
+        &.triangle-box
+          &.colspan-#{$i}
+            width: $width - $error-value + px
+@media screen and (min-width: 1570px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: 36px
+            max-width: 36px
+  @for $i from 1 through 28
+    $width: 36 * $i
+    $error-value: 1
+    td
+      div
+        &.triangle-box
+          &.colspan-#{$i}
+            width: $width - $error-value + px
+@media screen and (min-width: 1670px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: 39px
+            max-width: 39px
+  @for $i from 1 through 28
+    $width: 39 * $i
+    $error-value: 1
+    td
+      div
+        &.triangle-box
+          &.colspan-#{$i}
+            width: $width - $error-value + px
+@media screen and (min-width: 1770px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: 43px
+            max-width: 43px
+  @for $i from 1 through 28
+    $width: 43 * $i
+    $error-value: 1
+    td
+      div
+        &.triangle-box
+          &.colspan-#{$i}
+            width: $width - $error-value + px
 /*---- 達美樂介面 ----*/
 @import partials/_dominosStyle.sass
+

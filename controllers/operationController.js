@@ -24,8 +24,9 @@ function doOperationProc(req, res) {
     //TODO 沒給交易代碼要拋出錯誤
     req.body.trans_cod = req.body.trans_cod || "BAC03009010000";
 
-    dbSVC.execNormalSQL(req.body, req.session, function (err, success) {
-        res.json(tools.mergeRtnErrResultJson(err, success));
+    dbSVC.execNormalSQL(req.body, req.session, function (err, result) {
+        res.json(tools.mergeRtnErrResultJson(err, result));
+        // res.json({success: err == null, errorMsg: result.msg});
     });
 }
 

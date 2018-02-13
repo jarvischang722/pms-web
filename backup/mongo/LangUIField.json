@@ -6681,32 +6681,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "default_adult_qnt", 
-    "ui_display_name_zh_TW" : "預設大人數", 
-    "hint_zh_TW" : "預設大人數", 
+    "ui_display_name_zh_TW" : "標準人數", 
+    "hint_zh_TW" : "標準人數", 
     "ui_display_name_en" : "Adult", 
     "hint_en" : "Number of Adult"
-}
-{ 
-    "_id" : ObjectId("598d4e8ad199904ac07f6ae0"), 
-    "prg_id" : "PMS0810020", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "default_child_qnt", 
-    "ui_display_name_zh_TW" : "預設小孩數", 
-    "hint_zh_TW" : "預設小孩數", 
-    "ui_display_name_en" : "Child", 
-    "hint_en" : "Number of Child"
-}
-{ 
-    "_id" : ObjectId("598d4e8ad199904ac07f6ae1"), 
-    "prg_id" : "PMS0810020", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "default_baby_qnt", 
-    "ui_display_name_zh_TW" : "預設嬰兒數", 
-    "hint_zh_TW" : "預設嬰兒數", 
-    "ui_display_name_en" : "Baby", 
-    "hint_en" : "Number of Baby"
 }
 { 
     "_id" : ObjectId("598d4e8ad199904ac07f6ae2"), 
@@ -11394,4 +11372,15 @@
     "hint_en" : "Upd By", 
     "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "修改者"
+}
+{ 
+    "_id" : ObjectId("5a78029dfeeda20c80fb5b1e"), 
+    "prg_id" : "PMS0810020", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "max_guest_qnt", 
+    "ui_display_name_zh_TW" : "最大人數", 
+    "hint_zh_TW" : "最大人數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
 }
