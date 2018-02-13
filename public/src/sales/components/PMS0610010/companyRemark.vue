@@ -16,20 +16,20 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark"
-                                            role="button" :disabled="BTN_action" @click="appendRow">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark purview_btn"
+                                            role="button" :disabled="BTN_action" @click="appendRow" data-purview_func_id="PMS0610020-1120">
                                         {{i18nLang.program.PMS0610020.append_remark}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark"
-                                            role="button" :disabled="BTN_action" @click="editRow">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark purview_btn"
+                                            role="button" :disabled="BTN_action" @click="editRow" data-purview_func_id="PMS0610020-1130">
                                         {{i18nLang.program.PMS0610020.update_remark}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth"
-                                            role="button" :disabled="BTN_action" @click="removeRow">
+                                    <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
+                                            role="button" :disabled="BTN_action" @click="removeRow" data-purview_func_id="PMS0610020-1140">
                                         {{i18nLang.program.PMS0610020.remove_remark}}
                                     </button>
                                 </li>
@@ -175,6 +175,7 @@
         props: ["rowData", "isOtherRemark"],
         data() {
             return {
+                go_funcPurview: [],
                 i18nLang: go_i18nLang,
                 isLoading: false,
                 isLoadingDialog: false,
@@ -211,6 +212,7 @@
                         this.initTmpCUD();
                     }
                     this.fetchDataGridFieldData();
+                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                 }
             },
             editingRow(val) {

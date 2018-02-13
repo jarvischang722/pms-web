@@ -27,14 +27,13 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain purview_btn"
-                                                role="button" @click="appendRow"
-                                                data-purview_func_id="PMS0610010-0200">{{i18nLang.SystemCommon.Add}}
+                                                role="button" @click="appendRow" data-purview_func_id="PMS0610010-0200">
+                                            {{i18nLang.SystemCommon.Add}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain purview_btn"
-                                                role="button" @click="editRow"
-                                                data-purview_func_id="PMS0610010-0400">
+                                                role="button" @click="editRow" data-purview_func_id="PMS0610010-0400">
                                             {{i18nLang.SystemCommon.Modify}}
                                         </button>
                                     </li>
