@@ -38,7 +38,6 @@ new Vue({
         endNum: "",
         numFieldData: [],
         //房型資料
-        roomFieldData: [],
         roomNosData: [],
         roomNosDataDisplay: []
     },
@@ -53,7 +52,6 @@ new Vue({
         initData() {
             this.dateFieldData = [];
             this.dayFieldData = [];
-            this.roomFieldData = [];
             this.roomNosData = [];
             this.beginNum = "";
             this.endNum = "";
@@ -171,7 +169,7 @@ new Vue({
                 this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2]});
                 this.dayFieldData.push({data: lo_date.format("ddd")});
             }
-
+            //處理房號資料
             _.each(this.roomNosDataDisplay, (lo_roomNosData, idx) => {
                 //處理房間有效日期
                 var ln_numFieldLen = 2 * (this.endNum - this.beginNum + 1);
@@ -251,6 +249,13 @@ new Vue({
             this.searchData.month = this.rentCalDat.split("/")[1];
             this.searchData.date = this.rentCalDat.split("/")[2];
             this.searchData4Month = moment(new Date(this.rentCalDat));
+        },
+        changDate(num) {
+            var ls_date = moment(new Date(this.nowSearchDate)).add('days', num).format("YYYY/MM/DD").toString();
+            this.searchData.year = ls_date.split("/")[0];
+            this.searchData.month = ls_date.split("/")[1];
+            this.searchData.date = ls_date.split("/")[2];
+            this.searchData4Month = moment(new Date(ls_date));
         }
 
     }
