@@ -206,118 +206,60 @@ exports.getUnitSelect = function (params ,session, callback) {
  */
 exports.getCustInfo = function (params ,session, callback) {
 
-    var lo_error = null;
+    var selectDSFunc = [];
 
-    var lo_params = {
-        comp_cod: session.user.cmp_id,
-        cust_cod: params.singleData.cust_cod
-    };
-
-    queryAgent.query("QRY_CUST_INFO", lo_params, function (err, Result) {
-        if (!err) {
-            if(Result)
-                callback(lo_error, Result);
-            else
-                callback(lo_error, "");
+    //取得客戶資料
+    selectDSFunc.push(
+        function (cb) {
+            queryAgent.query("QRY_CUST_INFO", {comp_cod: session.user.cmp_id, cust_cod: params.singleData.cust_cod}, function (err, Result) {
+                cb(err, Result || "");
+            });
         }
-        else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
-        }
-    });
-};
+    );
 
-/**
- * 取得客戶住址
- * @param params
- * @param session
- * @param callback
- */
-exports.getCustAdd = function (params ,session, callback) {
-
-    var lo_error = null;
-
-    var lo_params = {
-        comp_cod: session.user.cmp_id
-    };
-
-    queryAgent.query("QRY_SHIP_ADD_COD", lo_params, function (err, Result) {
-        if (Result) {
-            var lo_params2 = {
-                cust_cod: params.singleData.cust_cod,
-                add_cod: Result.ship_add_cod
-            };
-
-            queryAgent.query("QRY_ADDRESS_DT_SELECT", lo_params2, function (err, Result) {
-                if (!err) {
-                    if(Result)
-                        callback(lo_error, Result);
-                    else
-                        callback(lo_error, "");
+    //取得客戶住址
+    selectDSFunc.push(
+        function (cb) {
+            queryAgent.query("QRY_SHIP_ADD_COD", {comp_cod: session.user.cmp_id}, function (err, Result) {
+                if(err){
+                    cb(err, Result || "");
                 }
                 else {
-                    lo_error = new ErrorClass();
-                    lo_error.errorMsg = err || "error";
-                    lo_error.errorCod = "1111";
-                    callback(lo_error, Result);
+                    queryAgent.query("QRY_ADDRESS_DT_SELECT", {cust_cod: params.singleData.cust_cod, add_cod: Result.ship_add_cod}, function (err, Result) {
+                        cb(err, Result || "");
+                    });
                 }
             });
         }
-        else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
-        }
-    });
+    );
 
-};
-
-/**
- * 取得客戶電話
- * @param params
- * @param session
- * @param callback
- */
-exports.getCustContact = function (params ,session, callback) {
-
-    var lo_error = null;
-
-    var lo_params = {
-        comp_cod: session.user.cmp_id
-    };
-
-    queryAgent.query("QRY_CONTACT_COD", lo_params, function (err, Result) {
-        if (Result) {
-
-            var lo_params2 = {
-                cust_cod: params.singleData.cust_cod,
-                contact_cod: Result.contact_cod
-            };
-
-            queryAgent.query("QRY_CONTACT_DT_SELECT", lo_params2, function (err, Result) {
-                if (!err) {
-                    if(Result)
-                        callback(lo_error, Result);
-                    else
-                        callback(lo_error, "");
+    selectDSFunc.push(
+        //取得客戶電話
+        function (cb) {
+            queryAgent.query("QRY_CONTACT_COD", {comp_cod: session.user.cmp_id}, function (err, Result) {
+                if (err) {
+                    cb(err, Result || "");
                 }
                 else {
-                    lo_error = new ErrorClass();
-                    lo_error.errorMsg = err || "error";
-                    lo_error.errorCod = "1111";
-                    callback(lo_error, Result);
+                    queryAgent.query("QRY_CONTACT_DT_SELECT", { cust_cod: params.singleData.cust_cod, contact_cod: Result.contact_cod}, function (err, Result) {
+                        if(Result == null){
+                            cb(err, {cust_tel: null});
+                        }
+                        else {
+                            cb(err, Result || "");
+                        }
+                    });
                 }
             });
         }
-        else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
-        }
+    );
+
+    async.parallel(selectDSFunc, function (err, result) {
+        var lo_result = {};
+        _.each(result, function (value) {
+           lo_result = _.extend(lo_result, value);
+        });
+        callback(err, lo_result);
     });
 
 };

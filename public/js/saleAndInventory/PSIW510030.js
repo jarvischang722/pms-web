@@ -1433,7 +1433,7 @@ var PSIW510030 = new Vue({
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
-                if (!_.isUndefined(result.data)) {
+                if(result.error == null){
                     self.singleData.accunt_sta = result.data.accunt_sta;
                     self.singleData.accunt_nos = result.data.accunt_nos;
                     self.singleData.ship_typ = result.data.ship_typ;
@@ -1464,13 +1464,11 @@ var PSIW510030 = new Vue({
 
                     self.singleDataTemp = self.singleData;
                     self.initOrderSelect();
-
                 }
-                else {
-                    alert(result.error.errorMsg);
+                else{
+                    alert(result.error.message);
                 }
             });
-
         },
 
         /**
