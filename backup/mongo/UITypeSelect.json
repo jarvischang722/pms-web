@@ -1457,7 +1457,8 @@
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
-    "multi_display_field" : ""
+    "multi_display_field" : "", 
+    "column_func_name" : "qry_user_nos_column"
 }
 { 
     "_id" : ObjectId("59d75d838c50201fc486f769"), 
