@@ -15,26 +15,17 @@
                                     </label>
 
                                     <!--下拉選單-->
-                                    <span class="dropdown margin-adjust" align="left"
-                                          :class="{'input_sta_required' : field.requirable == 'Y' }"
-                                          v-if="field.visiable == 'Y' && field.ui_type == 'select'"
-                                          :style="{width:field.width + 'px' , height:field.height + 'px'}">
-                                        <button :disabled="field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
-                                                class="btn btn-default btn-white dropdown-toggle btn-height"
-                                                style="text-align: left!important;"
-                                                type="button" data-toggle="dropdown"
-                                                :style="{width:field.width + 'px' , height:field.height + 'px'}">
-                                            {{ showDropdownDisplayName(settingGridRowData[field.ui_field_name], field.selectData)}}
-                                            <span class="caret" style="text-align: right"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-h" role="menu" aria-labelledby="menu1">
-                                            <li role="presentation" v-for="opt in field.selectData">
-                                                <a @click.prevent="settingGridRowData[field.ui_field_name] = opt.value">
-                                                    {{opt.display}}
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </span>
+                                    <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                v-model="settingGridRowData[field.ui_field_name]" :data="field.selectData"
+                                                is-qry-src-before="Y" value-field="value" text-field="display"
+                                                @update:v-model="val => settingGridRowData[field.ui_field_name] = val"
+                                                :default-val="settingGridRowData[field.ui_field_name]"
+                                                :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                    </bac-select>
+
 
 
                                     <input type="text" v-model="settingGridRowData[field.ui_field_name]"
@@ -135,27 +126,17 @@
                                         </el-date-picker>
 
                                         <!-- 下拉選單 -->
-                                        <span v-if="field.visiable == 'Y' && field.ui_type == 'select'"
-                                              class="dropdown margin-adjust" align="left"
-                                              :class="{'input_sta_required' : field.requirable == 'Y' }"
-                                              :style="{width:field.width + 'px' , height:field.height + 'px'}">
-                                            <button :disabled=" field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
-                                                    class="btn btn-default btn-white dropdown-toggle btn-height"
-                                                    style="text-align: left!important;"
-                                                    type="button" data-toggle="dropdown"
-                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}">
-                                                    {{ showDropdownDisplayName(singleData[field.ui_field_name], field.selectData)}}
-                                                <span class="caret" style="text-align: right"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-h" role="menu" aria-labelledby="menu1">
-                                                <li role="presentation" v-for="opt in field.selectData"
-                                                    @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
-                                                    <a @click.prevent="singleData[field.ui_field_name] = opt.value">
-                                                        {{opt.display}}
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </span>
+                                        <!--下拉選單-->
+                                        <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                    :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                    v-model="singleData[field.ui_field_name]" :data="field.selectData"
+                                                    is-qry-src-before="Y" value-field="value" text-field="display"
+                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                    :default-val="singleData[field.ui_field_name]"
+                                                    :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                        </bac-select>
 
                                         <!--  textarea -->
                                         <textarea v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"

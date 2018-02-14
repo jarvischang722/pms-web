@@ -11,7 +11,7 @@ const langSvc = require("../services/LangService");
 const fs = require("fs");
 const ip = require("ip");
 const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
-
+var go_sysConf = require("../configs/systemConfig");
 /**
  * 登入頁面
  */
@@ -55,7 +55,7 @@ exports.loginPage = function (req, res) {
             function (data, callback) {
                 //TODO 判別每間公司館別可以用的語系，
                 let options = {
-                    maxAge: 1000 * 60 * 60 // would expire after 15 minutes
+                    maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3 // would expire after 15 minutes
                     //httpOnly: true, // The cookie only accessible by the web server
                     //signed: true // Indicates if the cookie should be signed
                 };
@@ -78,6 +78,16 @@ exports.loginPage = function (req, res) {
     }
 };
 
+/**
+ * 取系統參數
+ */
+exports.getsysConfig = function (req, res) {
+    res.json({sysConf: go_sysConf});
+};
+
+/**
+ * 取預設帳號
+ */
 exports.getDefaultAccount = function (req, res) {
     let ls_account = "";
     let clientIP = req.body.ip;
@@ -198,7 +208,7 @@ exports.selectSystem = function (req, res) {
 
                     roleFuncSvc.updateUserPurview(req, function (err) {
                         let usingSubsysID = req.session.user.subsysMenu.length > 0 ? req.session.user.subsysMenu[0].subsys_id : "";
-                        if (!_.isUndefined(req.cookies.usingSubsysID)) {
+                        if (!_.isUndefined(req.cookies.usingSubsysID) && req.cookies.usingSubsysID != "") {
                             usingSubsysID = req.cookies.usingSubsysID;
                         }
                         res.cookie('usingSubsysID', usingSubsysID);
@@ -252,10 +262,12 @@ exports.getSubsysQuickMenu = function (req, res) {
  * 取得選擇的公司
  */
 exports.getSelectCompony = function (req, res) {
+
     queryAgent.queryList("QRY_SELECT_COMPANY", {
         athena_id: req.session.athena_id,
         comp_cod: req.session.comp_cod
     }, 0, 0, function (err, getData) {
+
         if (err) {
             res.json({success: false, errorMsg: err});
         }
@@ -263,6 +275,7 @@ exports.getSelectCompony = function (req, res) {
             res.json({success: true, selectCompany: getData});
         }
     });
+
 };
 
 /**
@@ -372,7 +385,6 @@ exports.getFuncsOfRole = function (req, res) {
     }
 
     queryAgent.queryList("QRY_BAC_SYS_MODULE_BY_USER", lo_params, 0, 0, function (err, funcsOfRole) {
-        // let la_function = _.where(funcsOfRole, {id_typ: "FUNCTION"});
         res.json({success: true, funcsOfRole: funcsOfRole});
     });
 };

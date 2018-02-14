@@ -20,6 +20,11 @@ var langSvc = require("./LangService");
 let fieldAttrSvc = require("./FieldsAttrService");
 var ruleAgent = require("../ruleEngine/ruleAgent");
 var commonTools = require("../utils/CommonTools");
+var path = require('path');
+var appRootDir = path.dirname(require.main.filename);
+var ruleRootPath = appRootDir + "/ruleEngine/";
+var ReturnClass = require(ruleRootPath + "/returnClass");
+var ErrorClass = require(ruleRootPath + "/errorClass");
 
 /**
  * [PMS0620020] 業務員資料編輯 撈取單筆資料
@@ -489,10 +494,10 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                         if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
 
                             //讀取selectgrid的設定參數
-                            if (field.ui_type == 'selectgrid') {
-                                var func_name = prg_id + '_' + field.ui_field_name;
-                                la_saleMnfields[fIdx].selectGridOptions = ruleAgent[func_name]();
-                            }
+                            // if (field.ui_type == 'selectgrid') {
+                            //     var func_name = prg_id + '_' + field.ui_field_name;
+                            //     la_saleMnfields[fIdx].selectGridOptions = ruleAgent[func_name]();
+                            // }
 
                             selectDSFunc.push(
                                 function (cbw) {
@@ -506,10 +511,18 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                             la_saleMnfields[fIdx].ds_from_sql = selRow.ds_from_sql || "";
                                             la_saleMnfields[fIdx].referiable = selRow.referiable || "N";
                                             la_saleMnfields[fIdx].defaultVal = selRow.defaultVal || "";
-                                            dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
-                                                la_saleMnfields[fIdx].selectData = selectData;
-                                                cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
-                                            });
+                                            if(la_saleMnfields[fIdx].ui_type =='selectgrid'){
+                                                dataRuleSvc.getSelectGridOption(session, selRow, la_saleMnfields[fIdx], function (err, selectData) {
+                                                    la_saleMnfields[fIdx].selectData = selectData;
+                                                    cbw(err, {ui_field_idx: fIdx, ui_field_name: la_saleMnfields[fIdx].ui_field_name});
+                                                });
+                                            }
+                                            else{
+                                                dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
+                                                    la_saleMnfields[fIdx].selectData = selectData;
+                                                    cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                                                });
+                                            }
                                         } else {
                                             cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                         }
@@ -866,13 +879,13 @@ exports.handleAddFuncRule_PMS0620020 = function (session, postData, callback) {
 };
 
 /**
- * [PMS0620030] 業務員指派 編輯商務公司的業務員(特殊交易)
+ * [PMS0620030] 業務員指派 編輯商務公司的業務員
  * @param session{Object}
  * @param postData{Object}
  * @param callback{function} (err, rowData)
  */
 exports.handleEditSalesClerk = function (session, postData, callback) {
-    if(_.isUndefined(postData.prg_id)){
+    if (_.isUndefined(postData.prg_id)) {
         return callback("Missing Program ID.", false);
     }
     if (_.isUndefined(session.user) || _.size(session.user) == 0) {
@@ -891,8 +904,8 @@ exports.handleEditSalesClerk = function (session, postData, callback) {
         "program_id": prg_id,
         "user": userInfo.usr_id,
         "count": 1,
+        "func_id": '0500',
         "exec_data": [{
-            function: '0500',
             sales_cod: sales_cod,
             cust_cod: cust_cod,
             upd_order_mn: upd_order_mn
@@ -916,6 +929,225 @@ exports.handleEditSalesClerk = function (session, postData, callback) {
         callback(err, success);
     });
 
+};
+
+/**
+ * [PMS0610020] 商務公司資料編輯 儲存公司狀態
+ * @param session{Object}
+ * @param postData{Object}
+ * @param callback{function} (err, rowData)
+ */
+exports.handleCompState = function (session, postData, callback) {
+    if (_.isUndefined(postData.prg_id)) {
+        return callback("Missing Program ID.", false);
+    }
+    if (_.isUndefined(session.user) || _.size(session.user) == 0) {
+        return callback("Not Login.", false);
+    }
+
+    let lo_result = new ReturnClass();
+    let lo_error = null;
+    let lb_isFirst = postData.isFirst == 'true' ? true : false;
+    if (lb_isFirst) {
+        //新狀態=舊狀態，則不異動資料
+        if (postData.oriSingleData == postData.singleRowData.status_cod) {
+            callback(lo_error, lo_result);
+        }
+        else {
+            //檢查是否為其他商務公司資料指定為總公司或簽帳公司，若是則顯示提示訊息予使用者確認是否變更，若確認變更則執行處理
+            if (postData.singleRowData.status_cod == 'D') {
+                queryAgent.query("CHK_CUST_MN_IS_OTHER_HOFFICE_OR_PCUST", {
+                    athena_id: session.user.athena_id,
+                    cust_cod: postData.singleRowData.cust_cod
+                }, function (err, getResult) {
+                    if (err) {
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = "sql err";
+                        callback(lo_error, lo_result);
+                    }
+                    else if (getResult.cust_cod_count > 0) {
+                        lo_result.showConfirm = true;
+                        lo_result.confirmMsg = "此筆資料為他筆商務公司指定為總公司或簽帳公司，是否確定修改為刪除狀態？";
+                        lo_result.ajaxURL = "/api/sales/doCompState";
+                        callback(lo_error, lo_result);
+                    }
+                });
+            }
+            //更新客戶索引檔狀態
+            else {
+                saveCustIdx();
+            }
+        }
+    }
+    //第二次打回來，更新cust_idx, cust_mn
+    else {
+        saveCustIdx();
+    }
+
+    //更新cust_idx, cust_mn狀態
+    function saveCustIdx() {
+
+        let lo_savaExecDatas = {
+            1: {
+                function: '2',
+                table_name: 'cust_idx',
+                condition: [{
+                    key: 'athena_id',
+                    operation: "=",
+                    value: session.user.athena_id
+                }, {
+                    key: 'cust_cod',
+                    operation: "=",
+                    value: postData.singleRowData.cust_cod
+                }],
+                cust_sta: postData.singleRowData.status_cod
+            },
+            2:{
+                function: '2',
+                table_name: 'cust_mn',
+                condition: [{
+                    key: 'athena_id',
+                    operation: "=",
+                    value: session.user.athena_id
+                }, {
+                    key: 'cust_cod',
+                    operation: "=",
+                    value: postData.singleRowData.cust_cod
+                }],
+                status_cod: postData.singleRowData.status_cod
+            }
+        };
+        let apiParams = {
+            "REVE-CODE": "PMS0610020",
+            "program_id": postData.prg_id,
+            "athena_id": session.user.athena_id,
+            "hotel_cod": session.user.hotel_cod,
+            "func_id": "1010",
+            "user": session.user.usr_id,
+            "count": 2,
+            "exec_data": lo_savaExecDatas
+        };
+
+        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+            if (apiErr || !data) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = "save error!";
+                console.error(data["RETN-CODE-DESC"]);
+            }
+            callback(lo_error, lo_result);
+        });
+    }
+};
+
+/**
+ * [PMS0610020] 商務公司資料編輯 儲存合約狀態
+ * @param session{Object}
+ * @param postData{Object}
+ * @param callback{function} (err, rowData)
+ */
+exports.handleContractState = function (session, postData, callback) {
+    if (_.isUndefined(postData.prg_id)) {
+        return callback("Missing Program ID.", false);
+    }
+    if (_.isUndefined(session.user) || _.size(session.user) == 0) {
+        return callback("Not Login.", false);
+    }
+
+    let lo_result = new ReturnClass();
+    let lo_error = null;
+
+    async.waterfall([
+        qryMaxContractLogSeqNos,
+        saveContractStaData
+    ], function (err, result) {
+        callback(err, result);
+    });
+
+
+    function qryMaxContractLogSeqNos(cb) {
+        queryAgent.query("QRY_MAX_CONTRACT_LOG_SEQ_NOS", {
+            athena_id: session.user.athena_id,
+            cust_cod: postData.singleRowData.cust_cod
+        }, function (err, getResult) {
+            if (err) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = "sql err";
+                cb(lo_error, lo_result);
+            }
+            else {
+                if (getResult.max_seq_nos == null) {
+                    cb(null, 1);
+                }
+                else {
+                    var ln_seqNos = Number(getResult.max_seq_nos) + 1;
+                    cb(null, ln_seqNos);
+                }
+            }
+        });
+    }
+
+    function saveContractStaData(max_seq_nos, cb) {
+        let lo_savaExecDatas = {
+            1: {
+                function: '2',
+                table_name: 'cust_mn',
+                condition: [{
+                    key: 'athena_id',
+                    operation: "=",
+                    value: session.user.athena_id
+                }, {
+                    key: 'cust_cod',
+                    operation: "=",
+                    value: postData.singleRowData.cust_cod
+                }],
+                contract_sta: postData.singleRowData.contract_sta
+            },
+            2: {
+                function: '1',
+                table_name: 'cust_mn_contract_sta_log',
+                athena_id: session.user.athena_id,
+                cust_cod: postData.singleRowData.cust_cod,
+                seq_nos: max_seq_nos,
+                status_cod: postData.singleRowData.contract_sta,
+                status_desc: postData.singleRowData.status_desc,
+                ins_usr: session.user.usr_id,
+                ins_dat: moment().format("YYYY/MM/DD")
+            }
+        };
+        let apiParams = {
+            "REVE-CODE": "PMS0610020",
+            "program_id": postData.prg_id,
+            "athena_id" : session.user.athena_id,
+            "hotel_cod":session.user.hotel_cod,
+            "func_id": "1020",
+            "user": session.user.usr_id,
+            "count": 2,
+            "exec_data": lo_savaExecDatas
+        };
+
+        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+            if (apiErr || !data) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = "save error!";
+                console.error(data["RETN-CODE-DESC"]);
+            }
+            cb(lo_error, lo_result);
+        });
+    }
 };
 
 

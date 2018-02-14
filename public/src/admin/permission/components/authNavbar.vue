@@ -2,18 +2,22 @@
     <div class="author-navbar">
         <div class="float-right author-nav-btn">
 
-            <div class="btn-group" v-if="permissionModel == 'authByStaff'">
-                <button class="btn btn-primary btn-white btn-sm" @click="authUpdate">
+            <div class="btn-group mr-10 pull-left" style="display: none;">
+                <button class="btn btn-primary btn-white btn-defaultWidth" style="height: 30px;"
+                        role="button">特別權限</button>
+            </div>
+            <div class="btn-group pull-left" v-if="permissionModel == 'authByRole'">
+                <button class="btn btn-primary btn-white btn-sm" style="height: 30px;" @click="authUpdate">
                     <i class="fa fa-pencil"></i> 修改
                 </button>
-                <button class="btn btn-danger btn-sm delete" @click="authDelete">
+                <button class="btn btn-danger delete btn-sm" style="height: 30px;" @click="authDelete">
                     <i class="fa fa-minus"></i> 刪除
                 </button>
-                <button class="btn btn-success btn-white btn-sm" @click="authCreate">
+                <button class="btn btn-success btn-white btn-sm" style="height: 30px;" @click="authCreate">
                     <i class="fa fa-plus"></i> 新增
                 </button>
             </div>
-            <div class="btn-group">
+            <div class="btn-group pull-left">
                 <el-select placeholder="選擇權限" size="small" v-model="permissionModel">
                     <el-option value="authByRole" label="角色權限">角色權限</el-option>
                     <el-option value="authByFunc" label="功能權限">功能權限</el-option>
@@ -41,6 +45,7 @@
         },
         methods: {
             authUpdate() {
+                this.$store.commit("setIsDialogShow", true);
                 this.$store.commit("setIsAuthUpdate", true);
             },
             authDelete() {

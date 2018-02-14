@@ -215,6 +215,7 @@ var PMS0620020App = Vue.extend({
             $.post("/api/sales/qrySingleGridFieldData_PM0620020", {prg_id: "PMS0620020"}, function (result) {
                 self.originFieldData = result.salesMnField;
                 self.fieldData = _.values(_.groupBy(_.sortBy(self.originFieldData, "row_seq"), "row_seq"));
+                console.log(self.fieldData);
                 self.hotelDtFieldData = result.hotelDtField;
                 self.classHsFieldData = result.classHsField;
                 self.classCodSelectData = _.findWhere(self.originFieldData, {ui_field_name: "class_cod"}).selectData;
@@ -228,7 +229,6 @@ var PMS0620020App = Vue.extend({
             if (Object.keys(this.singleData).length == 0) {
                 $.post("/api/sales/addFuncRule_PMS0620020", {prg_id: "PMS0620020", page_id: 1}, function (result) {
                     if (result.success) {
-                        console.log(self.singleData, result.defaultValue);
                         self.rowData = result.defaultValues;
                     } else {
                         alert(result.errorMsg);
@@ -697,8 +697,9 @@ var vm = new Vue({
             $.post("/api/fetchDataGridFieldData", {prg_id: "PMS0620010", page_id: 1}, function (result) {
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dgRowData;
-                vm.pageOneFieldData = result.dgFieldsData;
+                vm.pageOneFieldData = JSON.parse(JSON.stringify(result.dgFieldsData));
                 vm.showDataGrid();
+                console.log(result.dgFieldsData);
             });
         },
         showDataGrid: function () {

@@ -6681,32 +6681,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "default_adult_qnt", 
-    "ui_display_name_zh_TW" : "預設大人數", 
-    "hint_zh_TW" : "預設大人數", 
+    "ui_display_name_zh_TW" : "標準人數", 
+    "hint_zh_TW" : "標準人數", 
     "ui_display_name_en" : "Adult", 
     "hint_en" : "Number of Adult"
-}
-{ 
-    "_id" : ObjectId("598d4e8ad199904ac07f6ae0"), 
-    "prg_id" : "PMS0810020", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "default_child_qnt", 
-    "ui_display_name_zh_TW" : "預設小孩數", 
-    "hint_zh_TW" : "預設小孩數", 
-    "ui_display_name_en" : "Child", 
-    "hint_en" : "Number of Child"
-}
-{ 
-    "_id" : ObjectId("598d4e8ad199904ac07f6ae1"), 
-    "prg_id" : "PMS0810020", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "default_baby_qnt", 
-    "ui_display_name_zh_TW" : "預設嬰兒數", 
-    "hint_zh_TW" : "預設嬰兒數", 
-    "ui_display_name_en" : "Baby", 
-    "hint_en" : "Number of Baby"
 }
 { 
     "_id" : ObjectId("598d4e8ad199904ac07f6ae2"), 
@@ -9547,7 +9525,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_mn_show_cod", 
+    "ui_field_name" : "show_cod", 
     "ui_display_name_zh_TW" : "公司編號", 
     "hint_zh_TW" : "公司編號", 
     "ui_display_name_en" : "", 
@@ -9559,7 +9537,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_mn_cust_nam", 
+    "ui_field_name" : "cust_nam", 
     "ui_display_name_zh_TW" : "公司名稱", 
     "hint_zh_TW" : "公司名稱", 
     "ui_display_name_en" : "", 
@@ -9571,7 +9549,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_mn_status_cod", 
+    "ui_field_name" : "status_cod", 
     "ui_display_name_zh_TW" : "狀態", 
     "hint_zh_TW" : "狀態", 
     "ui_display_name_en" : "", 
@@ -9583,7 +9561,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_mn_contract_sta", 
+    "ui_field_name" : "contract_sta", 
     "ui_display_name_zh_TW" : "合約狀態", 
     "hint_zh_TW" : "合約狀態", 
     "ui_display_name_en" : "", 
@@ -9595,7 +9573,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_mn_owner_nam", 
+    "ui_field_name" : "owner_nam", 
     "ui_display_name_zh_TW" : "負責人", 
     "hint_zh_TW" : "負責人", 
     "ui_display_name_en" : "", 
@@ -9607,7 +9585,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_mn_sales_cod", 
+    "ui_field_name" : "sales_cod", 
     "ui_display_name_zh_TW" : "業務員", 
     "hint_zh_TW" : "業務員", 
     "ui_display_name_en" : "", 
@@ -9619,7 +9597,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_mn_pcust_cod", 
+    "ui_field_name" : "pcust_cod", 
     "ui_display_name_zh_TW" : "總公司", 
     "hint_zh_TW" : "總公司", 
     "ui_display_name_en" : "", 
@@ -9631,7 +9609,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_mn_route_cod", 
+    "ui_field_name" : "route_cod", 
     "ui_display_name_zh_TW" : "分帳規則", 
     "hint_zh_TW" : "分帳規則", 
     "ui_display_name_en" : "", 
@@ -9643,7 +9621,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_mn_rank_nos", 
+    "ui_field_name" : "rank_nos", 
     "ui_display_name_zh_TW" : "等級", 
     "hint_zh_TW" : "等級", 
     "ui_display_name_en" : "", 
@@ -10699,7 +10677,7 @@
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1010), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_mn_status_cod", 
+    "ui_field_name" : "status_cod", 
     "ui_display_name_zh_TW" : "狀態", 
     "hint_zh_TW" : "狀態", 
     "ui_display_name_en" : "", 
@@ -11328,4 +11306,81 @@
     "hint_zh_TW" : "修改者", 
     "ui_display_name_en" : "Upd By", 
     "hint_en" : "Upd By"
+}
+{ 
+    "_id" : ObjectId("5a6b0ce3c9e9af44f4c70e3b"), 
+    "prg_id" : "PMS0820040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "airline_cod", 
+    "ui_display_name_zh_TW" : "代號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a6b0ce3c9e9af44f4c70e3c"), 
+    "prg_id" : "PMS0820040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "airline_nam", 
+    "ui_display_name_en" : "", 
+    "hint_en" : "", 
+    "ui_display_name_zh_TW" : "名稱", 
+    "hint_zh_TW" : ""
+}
+{ 
+    "_id" : ObjectId("5a6b0ce3c9e9af44f4c70e3d"), 
+    "prg_id" : "PMS0820040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ins_dat", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date", 
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日"
+}
+{ 
+    "_id" : ObjectId("5a6b0ce3c9e9af44f4c70e3e"), 
+    "prg_id" : "PMS0820040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ins_usr", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By", 
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者"
+}
+{ 
+    "_id" : ObjectId("5a6b0ce3c9e9af44f4c70e3f"), 
+    "prg_id" : "PMS0820040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "upd_dat", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date", 
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日"
+}
+{ 
+    "_id" : ObjectId("5a6b0ce3c9e9af44f4c70e40"), 
+    "prg_id" : "PMS0820040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "upd_usr", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By", 
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者"
+}
+{ 
+    "_id" : ObjectId("5a78029dfeeda20c80fb5b1e"), 
+    "prg_id" : "PMS0810020", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "max_guest_qnt", 
+    "ui_display_name_zh_TW" : "最大人數", 
+    "hint_zh_TW" : "最大人數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
 }

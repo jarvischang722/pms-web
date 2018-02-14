@@ -229,7 +229,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-2">
-                                <a class="btn btn-primary btn-white btn-defaultWidth" onclick="this.href='data:text/html;charset=UTF-8,' + encodeURIComponent($('#order_tag').html())" href="#" download= "空白訂貨表單">下載</a>
+                                <a class="btn btn-primary btn-white btn-defaultWidth" onclick="this.href='data:text/html;charset=UTF-8,' + encodeURIComponent($('#order_tag').html())" href="#" :download="select_quote_rmk">下載</a>
                             </div>
                             <div class="clearfix"></div>
                             <div class="space-6"></div>
@@ -247,7 +247,7 @@
                 <html lang="zh-TW">
                 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 
-                <div v-for="index in pageNum" style="page-break-before: always">
+                <div v-for="index in pageNum" style="page-break-after: always">
                 <div style="font-size: 16px; margin-left: 21px; margin-bottom: 5px;font-weight: bold;"><span>新莊FAX: (02)2901-4323</span> <span style="margin-left: 64px">台中FAX: (04)2437-7389</span></div>
                 <div style="font-size: 16px; margin-left: 21px; margin-bottom: 20px;font-weight: bold;"> <span>訂貨門市:</span> <span style="margin-left: 180px">訂貨日期:</span> <span style="margin-left: 180px">訂貨人員:</span> </div>
 

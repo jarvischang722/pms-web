@@ -63,10 +63,6 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
         func_hotel_cod: userInfo.fun_hotel_cod.trim()
     };
 
-    if (!_.isUndefined(req.body.remove) && req.body.remove) {
-        delete params.user_id;
-    }
-
     let la_allMdlProList = [];  // 全部作業
     let la_allMenuList = []; // 全部Menu
     async.waterfall([

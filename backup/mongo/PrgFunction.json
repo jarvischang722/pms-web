@@ -316,3 +316,53 @@
     "rule_func_name" : "defaultCustMnContract", 
     "link_prg_id" : ""
 }
+{ 
+    "_id" : ObjectId("5a67f98fc9e9af45c8e4ffb8"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "func_id" : "0300", 
+    "rule_func_name" : "deleteRelatedPerson", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a681c75c9e9af45c8e4ffbc"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(4), 
+    "template_id" : "datagrid", 
+    "func_id" : "0300", 
+    "rule_func_name" : "deleteContractContent", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a69757b9f454b2b705f9fc3"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "func_id" : "0200", 
+    "rule_func_name" : "defaultRelatedPerson", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a6ffc68c9e9af472408d098"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0521", 
+    "rule_func_name" : "r_compMnAdd", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a6ffc8ac9e9af472408d099"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0541", 
+    "rule_func_name" : "r_compMnUpdate", 
+    "link_prg_id" : ""
+}

@@ -95,7 +95,7 @@ module.exports = {
                 result.success = false;
                 error.errorMsg = commandRules.getMsgByCod("pms81msg2", session.locale);
                 result.effectValues[postData.validateField] = "";
-                return callback(error,result);
+                return callback(error, result);
             }
 
         }
@@ -262,9 +262,9 @@ module.exports = {
                                     async.waterfall([
                                         function (callback) {
                                             self.chk_rvrmcod_rf_begin_end_dat({singleRowData: c_data}, session, function (err, data) {
-                                                if(err){
+                                                if (err) {
                                                     callback(err.errorMsg, data);
-                                                }else{
+                                                } else {
                                                     callback(null, data);
                                                 }
                                             });
@@ -275,7 +275,7 @@ module.exports = {
 
                                                 if (Number(data.cover_count || 0) > 0) {
                                                     callback(commandRules.getMsgByCod("pms81msg7", session.locale), []);
-                                                }else{
+                                                } else {
                                                     callback(null, data);
                                                 }
 
@@ -307,15 +307,16 @@ module.exports = {
                                             tmpExtendExecDataArrSet.push({
                                                 function: '2',
                                                 table_name: 'lang_rvrmcod_rf',
-                                                condition: [{
-                                                    key: 'athena_id',
-                                                    operation: "=",
-                                                    value: userInfo.athena_id
-                                                }, {
-                                                    key: 'hotel_cod',
-                                                    operation: "=",
-                                                    value: userInfo.hotel_cod
-                                                }
+                                                condition: [
+                                                    {
+                                                        key: 'athena_id',
+                                                        operation: "=",
+                                                        value: userInfo.athena_id
+                                                    }, {
+                                                        key: 'hotel_cod',
+                                                        operation: "=",
+                                                        value: userInfo.hotel_cod
+                                                    }
                                                     , {
                                                         key: 'room_cod',
                                                         operation: "=",
@@ -444,20 +445,20 @@ module.exports = {
                                     async.waterfall([
                                         function (callback) {
                                             self.chk_rvrmcod_rf_begin_end_dat({singleRowData: e_data}, session, function (err, data) {
-                                              if(err){
-                                                  callback(err.errorMsg, data);
-                                              }else{
-                                                  callback(null, data);
-                                              }
+                                                if (err) {
+                                                    callback(err.errorMsg, data);
+                                                } else {
+                                                    callback(null, data);
+                                                }
 
                                             });
                                         },
                                         function (data, callback) {
                                             e_data["old_begin_dat"] = e_data.begin_dat || "1990/01/01";
-                                            queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT",e_data,function (err,data) {
+                                            queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", e_data, function (err, data) {
                                                 if (Number(data.cover_count || 0) > 0) {
                                                     callback(commandRules.getMsgByCod("pms81msg7", session.locale), data);
-                                                }else{
+                                                } else {
                                                     callback(null, []);
                                                 }
                                             });
@@ -789,10 +790,8 @@ module.exports = {
     },
     r_rvrmcod_rf_add: function (postData, session, callback) {
         let result = new ReturnClass();
-        let error = null;
-        result.defaultValues["rest_tim"] = 0; //到鐘時間
-        result.defaultValues["pre_alram_min"] = 0;  //休息到鐘提醒分鐘數
-        callback(error, result);
+        result.defaultValues["max_guest_qnt"] = 1;  //最大人數
+        callback(null, result);
     },
     /**
      * 比較已經有打過的相同房型的資料在table中,房型類別要一樣,不能改成不一樣,不一樣時提示訊息

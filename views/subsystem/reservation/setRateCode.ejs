@@ -150,7 +150,7 @@
                             </li>
 
                             <li>
-                                <button class="btn btn-danger btn-white btn-defaultWidth"
+                                <button class="btn btn-danger btn-white btn-defaultWidth rateCode_timeRule"
                                         role="button">Delete
                                 </button>
                             </li>
@@ -189,19 +189,19 @@
                                                placeholder="01:散客房價"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>散客使用</label>
+                                        <label>合約價</label>
                                         <select class="input-medium rateCode-s2">
-                                            <option value="yes">是</option>
                                             <option value="no">否</option>
+                                            <option value="yes">是</option>
                                         </select>
                                     </div>
-                                    <div class="grid-item">
-                                        <label class="label_w80">含稅計價</label>
-                                        <select class="input-medium rateCode-s2">
-                                            <option value="yes">是</option>
-                                            <option value="no">否</option>
-                                        </select>
-                                    </div>
+                                    <!--<div class="grid-item">-->
+                                    <!--<label class="label_w80">含稅計價</label>-->
+                                    <!--<select class="input-medium rateCode-s2">-->
+                                    <!--<option value="yes">是</option>-->
+                                    <!--<option value="no">否</option>-->
+                                    <!--</select>-->
+                                    <!--</div>-->
                                     <div class="grid-item popCheckbox" style="display: none;">
                                         <span class="checkbox">
                                           <label class="checkbox-width">
@@ -297,24 +297,24 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>使用說明</label>
-                                        <input type="text" class="input-medium rateCode-s1-col2Rm"
+                                        <input type="text" class="input-medium rateCode-s1-col3Rm"
                                                placeholder=""/>
                                         <i class="moreClick fa fa-ellipsis-h"></i>
                                     </div>
-                                    <div class="grid-item">
-                                        <label>訂房類別</label>
-                                        <select class="input-medium rateCode-s1">
-                                            <option value="roomTep0">無</option>
-                                            <option value="roomTep1">團體房</option>
-                                            <option value="roomTep2">旅展</option>
-                                            <option value="roomTep3">促銷券</option>
-                                        </select>
-                                    </div>
+                                    <!--<div class="grid-item">-->
+                                    <!--<label>訂房類別</label>-->
+                                    <!--<select class="input-medium rateCode-s1">-->
+                                    <!--<option value="roomTep0">無</option>-->
+                                    <!--<option value="roomTep1">團體房</option>-->
+                                    <!--<option value="roomTep2">旅展</option>-->
+                                    <!--<option value="roomTep3">促銷券</option>-->
+                                    <!--</select>-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>確認書說明</label>
-                                        <input type="text" class="input-medium rateCode-s1-col2Rm"
+                                        <input type="text" class="input-medium rateCode-s1-col3Rm"
                                                placeholder=""/>
                                         <i class="moreClick fa fa-ellipsis-h"></i>
                                     </div>
@@ -329,10 +329,12 @@
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row">
 
-                                                <div class="roomCodeTable pull-left width-15">
+                                                <div id="roomCodeTable-add" class="roomCodeTable pull-left width-15">
                                                     <template>
                                                         <div>
                                                             <v-table
+                                                                    is-horizontal-resize
+                                                                    style="width: 100%;"
                                                                     :height="220"
                                                                     :columns="columns"
                                                                     :table-data="tableData"
@@ -344,11 +346,12 @@
                                                     </template>
                                                 </div>
 
-                                                <div class="roomCodeDetail pull-left width-85">
+                                                <div id="roomCodeDetail-add" class="roomCodeDetail pull-left width-85">
                                                     <template>
                                                         <div>
                                                             <v-table
-                                                                    :width="732"
+                                                                    is-horizontal-resize
+                                                                    style="width: 100%;"
                                                                     :height="220"
                                                                     :columns="columns"
                                                                     :table-data="tableData"
@@ -678,6 +681,23 @@
                                                                 </div>
                                                             </td>
                                                             <td class="css_td padding-top width-50">
+
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div title="促銷設定" class="padding-tabs">
+                                        <div class="col-xs-12 col-sm-12">
+                                            <div class="row">
+                                                <table class="css_table">
+                                                    <tbody class="css_tbody">
+                                                        <!--1-->
+                                                        <tr class="css_tr">
+                                                            <td class="css_td padding-top width-100">
                                                                 <div class="grid">
                                                                     <div class="grid-item popCheckbox">
                                                                 <span class="checkbox">
@@ -822,28 +842,20 @@
                                                placeholder="01:散客房價"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>散客使用</label>
+                                        <label>合約價</label>
                                         <select class="input-medium rateCode-s2">
-                                            <option value="yes">是</option>
                                             <option value="no">否</option>
+                                            <option value="yes">是</option>
                                         </select>
                                     </div>
-                                    <div class="grid-item">
-                                        <label class="label_w80">含稅計價</label>
-                                        <select class="input-medium rateCode-s2">
-                                            <option value="yes">是</option>
-                                            <option value="no">否</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item popCheckbox" style="display: none;">
-                                        <span class="checkbox">
-                                          <label class="checkbox-width">
-                                              <input name="form-field-checkbox" type="checkbox"
-                                                     class="ace">
-                                              <span class="lbl">Base Rate</span>
-                                          </label>
-                                      </span>
-                                    </div>
+                                    <!--<div class="grid-item">-->
+                                    <!--<label class="label_w80">含稅計價</label>-->
+                                    <!--<select class="input-medium rateCode-s2">-->
+                                    <!--<option value="yes">是</option>-->
+                                    <!--<option value="no">否</option>-->
+                                    <!--</select>-->
+                                    <!--</div>-->
+
                                 </div>
                                 <!--2-->
                                 <div class="grid">
@@ -930,24 +942,24 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>使用說明</label>
-                                        <input type="text" class="input-medium rateCode-s1-col2Rm"
+                                        <input type="text" class="input-medium rateCode-s1-col3Rm"
                                                placeholder=""/>
                                         <i class="moreClick fa fa-ellipsis-h"></i>
                                     </div>
-                                    <div class="grid-item">
-                                        <label>訂房類別</label>
-                                        <select class="input-medium rateCode-s1">
-                                            <option value="roomTep0">無</option>
-                                            <option value="roomTep1">團體房</option>
-                                            <option value="roomTep2">旅展</option>
-                                            <option value="roomTep3">促銷券</option>
-                                        </select>
-                                    </div>
+                                    <!--<div class="grid-item">-->
+                                    <!--<label>訂房類別</label>-->
+                                    <!--<select class="input-medium rateCode-s1">-->
+                                    <!--<option value="roomTep0">無</option>-->
+                                    <!--<option value="roomTep1">團體房</option>-->
+                                    <!--<option value="roomTep2">旅展</option>-->
+                                    <!--<option value="roomTep3">促銷券</option>-->
+                                    <!--</select>-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>確認書說明</label>
-                                        <input type="text" class="input-medium rateCode-s1-col2Rm"
+                                        <input type="text" class="input-medium rateCode-s1-col3Rm"
                                                placeholder=""/>
                                         <i class="moreClick fa fa-ellipsis-h"></i>
                                     </div>
@@ -972,10 +984,11 @@
                                     <div title="房型" class="padding-tabs">
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row">
-                                                <div class="roomCodeTable pull-left width-15">
+                                                <div id="roomCodeTable-edit" class="roomCodeTable pull-left width-15">
                                                     <template>
                                                         <div>
                                                             <v-table
+                                                                    style="width: 100%;"
                                                                     :height="220"
                                                                     :columns="columns"
                                                                     :table-data="tableData"
@@ -987,11 +1000,11 @@
                                                     </template>
                                                 </div>
 
-                                                <div class="roomCodeDetail pull-left width-85">
+                                                <div id="roomCodeDetail-edit" class="roomCodeDetail pull-left width-85">
                                                     <template>
                                                         <div>
                                                             <v-table
-                                                                    :width="732"
+                                                                    style="width: 100%;"
                                                                     :height="220"
                                                                     :columns="columns"
                                                                     :table-data="tableData"
@@ -1321,6 +1334,23 @@
                                                                 </div>
                                                             </td>
                                                             <td class="css_td padding-top width-50">
+
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div title="促銷設定" class="padding-tabs">
+                                        <div class="col-xs-12 col-sm-12">
+                                            <div class="row">
+                                                <table class="css_table">
+                                                    <tbody class="css_tbody">
+                                                        <!--1-->
+                                                        <tr class="css_tr">
+                                                            <td class="css_td padding-top width-100">
                                                                 <div class="grid">
                                                                     <div class="grid-item popCheckbox">
                                                                 <span class="checkbox">
@@ -1469,15 +1499,7 @@
                                             </td>
                                             <td class="css_td">2017/01/01</td>
                                             <td class="css_td">2017/12/31</td>
-                                            <td class="css_td">平日</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td">
-                                                <i class="fa fa-minus red pointer"></i>
-                                            </td>
-                                            <td class="css_td">2017/01/01</td>
-                                            <td class="css_td">2017/12/31</td>
-                                            <td class="css_td">旺日</td>
+                                            <td class="css_td">平日,假日</td>
                                         </tr>
                                         <tr class="css_tr">
                                             <td class="css_td">
@@ -1485,15 +1507,7 @@
                                             </td>
                                             <td class="css_td">2018/01/01</td>
                                             <td class="css_td">2018/12/31</td>
-                                            <td class="css_td">旺日</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td">
-                                                <i class="fa fa-minus red pointer"></i>
-                                            </td>
-                                            <td class="css_td">2017/01/01</td>
-                                            <td class="css_td">2018/12/31</td>
-                                            <td class="css_td">平日</td>
+                                            <td class="css_td">星期一,星期二,星期三,星期四,星期五</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1504,6 +1518,11 @@
                         <div class="row">
                             <div class="right-menu-co">
                                 <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_timeRule"
+                                                role="button">日期規則
+                                        </button>
+                                    </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button">離開
@@ -1516,6 +1535,155 @@
                                                   <span class="lbl font-btn">過期是否顯示</span>
                                               </label>
                                           </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.rateCode_useTime 彈出視窗 -->
+
+    <!-- rateCode_timeRule 彈出視窗 -->
+    <div id="rateCode_timeRule-msg" class="hide padding-5" style="">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-10 col-sm-10">
+                        <div class="row no-margin-right">
+                            <div class="borderFrame">
+                                <div id="rateCode-timeRule">
+                                    <template>
+                                        <div class="block">
+                                            <span class="demonstration">使用期間</span>
+                                            <el-date-picker v-model="value7" type="daterange" align="right"
+                                                            unlink-panels range-separator="至" start-placeholder="開始日期"
+                                                            end-placeholder="结束日期" :picker-options="pickerOptions2">
+                                            </el-date-picker>
+                                        </div>
+
+                                        <div class="space-6"></div>
+                                        <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
+                                            <el-tab-pane label="每天" name="first">
+                                                <div class="ml-5">
+                                                    <div class="space-6"></div>
+                                                    <span>每</span>
+                                                    <input type="text" class="input-medium resvCard-m"
+                                                           placeholder="1">
+                                                    <span>天</span>
+                                                    <div class="space-6"></div>
+                                                </div>
+                                            </el-tab-pane>
+                                            <el-tab-pane label="依假日類別" name="second">
+                                                <div class="ml-5">
+                                                    <div class="space-6"></div>
+                                                    <select class="input-medium popWindow-s1">
+                                                        <option value="">1.七夕情人節</option>
+                                                        <option value="">2.中秋節</option>
+                                                        <option value="">3.清明節</option>
+                                                        <option value="">4.暑假旺日</option>
+                                                        <option value="">5.暑假</option>
+                                                        <option value="">C.農曆春節</option>
+                                                        <option value="">D.旺日</option>
+                                                        <option value="">H.假日</option>
+                                                        <option value="">N.平日</option>
+                                                    </select>
+                                                    <div class="space-6"></div>
+                                                </div>
+                                            </el-tab-pane>
+                                            <el-tab-pane label="依星期別" name="third">
+                                                <div class="space-6"></div>
+                                                <div class="grid ml-5">
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期一</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期二</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期三</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期四</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期五</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期六</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期日</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                </div>
+                                                <div class="space-6"></div>
+                                            </el-tab-pane>
+                                        </el-tabs>
+                                    </template>
+                                </div>
+
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
@@ -2615,6 +2783,9 @@
                 dialogClass: "test",
                 resizable: true
             });
+            new Ctor().$mount('#roomCodeTable-add');
+
+            new Ctor2().$mount('#roomCodeDetail-add');
         });
 
         // 彈出setRateCode (Type:MR)
@@ -2630,6 +2801,8 @@
                 dialogClass: "test",
                 resizable: true
             });
+            new Ctor().$mount('#roomCodeTable-edit');
+            new Ctor2().$mount('#roomCodeDetail-edit');
         });
 
         // rateCode_useTime
@@ -2640,6 +2813,21 @@
                 title: "使用期間",
                 title_html: true,
                 width: 700,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // rateCode_timeRule
+        $(document).on('click', ".rateCode_timeRule", function (e) {
+            e.preventDefault();
+            var dialog = $("#rateCode_timeRule-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "日期規則",
+                title_html: true,
+                width: 500,
                 maxwidth: 1920,
 //                autoOpen: true,
                 dialogClass: "test",
@@ -2697,7 +2885,7 @@
             e.preventDefault();
             var dialog = $("#resv_rateList-message").removeClass('hide').dialog({
                 modal: true,
-                title: "房價一覽表",
+                title: "期間一覽表",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -2805,19 +2993,19 @@
                     },
                     {
                         "control": "刪除",
-                        "roomCode": "3DW"
+                        "roomCode": "DW"
                     },
                     {
                         "control": "刪除",
-                        "roomCode": "12LD"
+                        "roomCode": "LD"
                     },
                     {
                         "control": "刪除",
-                        "roomCode": "1LD"
+                        "roomCode": "LD"
                     },
                     {
                         "control": "刪除",
-                        "roomCode": "2LD"
+                        "roomCode": "LD"
                     },
                     {
                         "control": "刪除",
@@ -2860,7 +3048,8 @@
         }
     }
     let Ctor = Vue.extend(roomCodeTable)
-    new Ctor().$mount('.roomCodeTable')
+
+    //new Ctor().$mount('#roomCodeTable-edit')
     // 房型代號 明細
     let roomCodeDetail = {
         name: 'frozen-title-columns',
@@ -2870,7 +3059,6 @@
                     {
                         "useRange": "2017/01/01~2017/12/31",
                         "dateRule": "平日",
-                        "oneRoomPrice": "2,000",
                         "twoRoomPrice": "4,000",
                         "adultPlus": "*",
                         "childPlus": "",
@@ -2879,7 +3067,6 @@
                     {
                         "useRange": "2017/01/01~2017/12/31",
                         "dateRule": "平日",
-                        "oneRoomPrice": "2,000",
                         "twoRoomPrice": "4,000",
                         "adultPlus": "*",
                         "childPlus": "",
@@ -2888,70 +3075,6 @@
                     {
                         "useRange": "2017/01/01~2017/12/31",
                         "dateRule": "平日",
-                        "oneRoomPrice": "2,000",
-                        "twoRoomPrice": "4,000",
-                        "adultPlus": "*",
-                        "childPlus": "",
-                        "serviceFee": "180",
-                    },
-                    {
-                        "useRange": "2017/01/01~2017/12/31",
-                        "dateRule": "平日",
-                        "oneRoomPrice": "2,000",
-                        "twoRoomPrice": "4,000",
-                        "adultPlus": "*",
-                        "childPlus": "",
-                        "serviceFee": "180",
-                    },
-                    {
-                        "useRange": "2017/01/01~2017/12/31",
-                        "dateRule": "平日",
-                        "oneRoomPrice": "2,000",
-                        "twoRoomPrice": "4,000",
-                        "adultPlus": "*",
-                        "childPlus": "",
-                        "serviceFee": "180",
-                    },
-                    {
-                        "useRange": "2017/01/01~2017/12/31",
-                        "dateRule": "平日",
-                        "oneRoomPrice": "2,000",
-                        "twoRoomPrice": "4,000",
-                        "adultPlus": "*",
-                        "childPlus": "",
-                        "serviceFee": "180",
-                    },
-                    {
-                        "useRange": "2017/01/01~2017/12/31",
-                        "dateRule": "平日",
-                        "oneRoomPrice": "2,000",
-                        "twoRoomPrice": "4,000",
-                        "adultPlus": "*",
-                        "childPlus": "",
-                        "serviceFee": "180",
-                    },
-                    {
-                        "useRange": "2017/01/01~2017/12/31",
-                        "dateRule": "平日",
-                        "oneRoomPrice": "2,000",
-                        "twoRoomPrice": "4,000",
-                        "adultPlus": "*",
-                        "childPlus": "",
-                        "serviceFee": "180",
-                    },
-                    {
-                        "useRange": "2017/01/01~2017/12/31",
-                        "dateRule": "平日",
-                        "oneRoomPrice": "2,000",
-                        "twoRoomPrice": "4,000",
-                        "adultPlus": "*",
-                        "childPlus": "",
-                        "serviceFee": "180",
-                    },
-                    {
-                        "useRange": "2017/01/01~2017/12/31",
-                        "dateRule": "平日",
-                        "oneRoomPrice": "2,000",
                         "twoRoomPrice": "4,000",
                         "adultPlus": "*",
                         "childPlus": "",
@@ -2962,7 +3085,7 @@
                     {
                         field: 'useRange',
                         title: '使用期間',
-                        width: 150,
+                        width: 220,
                         titleAlign: 'center',
                         columnAlign: 'center',
                         isFrozen: true,
@@ -2971,23 +3094,15 @@
                     {
                         field: 'dateRule',
                         title: '日期規則',
-                        width: 100,
+                        width: 140,
                         titleAlign: 'center',
                         columnAlign: 'center',
                         isResize: true
                     },
                     {
-                        field: 'oneRoomPrice',
-                        title: '一人房價',
-                        width: 100,
-                        titleAlign: 'center',
-                        columnAlign: 'right',
-                        isResize: true
-                    },
-                    {
                         field: 'twoRoomPrice',
-                        title: '兩人房價',
-                        width: 100,
+                        title: '房價',
+                        width: 120,
                         titleAlign: 'center',
                         columnAlign: 'right',
                         isResize: true
@@ -2995,7 +3110,7 @@
                     {
                         field: 'adultPlus',
                         title: '加大人',
-                        width: 90,
+                        width: 120,
                         titleAlign: 'center',
                         columnAlign: 'right',
                         isResize: true
@@ -3003,15 +3118,7 @@
                     {
                         field: 'childPlus',
                         title: '加小孩',
-                        width: 90,
-                        titleAlign: 'center',
-                        columnAlign: 'right',
-                        isResize: true
-                    },
-                    {
-                        field: 'serviceFee',
-                        title: '服務費',
-                        width: 100,
+                        width: 120,
                         titleAlign: 'center',
                         columnAlign: 'right',
                         isResize: true
@@ -3025,7 +3132,53 @@
         }
     }
     let Ctor2 = Vue.extend(roomCodeDetail)
-    new Ctor2().$mount('.roomCodeDetail')
+    //    new Ctor2().$mount('#roomCodeDetail-edit')
+
+    // 日期規則
+    let timeRule = {
+        data() {
+            return {
+                activeName2: 'first',
+                pickerOptions2: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                value6: '',
+                value7: ''
+            };
+        },
+        methods: {
+            handleClick(tab, event) {
+                console.log(tab, event);
+            }
+        }
+    };
+    var Ctor3 = Vue.extend(timeRule)
+    new Ctor3().$mount('#rateCode-timeRule')
+
     // #難解bug_1:"刪除" json value 無法塞icon進去
     // #難解bug_2:table在彈出視窗內不能response
 </script>

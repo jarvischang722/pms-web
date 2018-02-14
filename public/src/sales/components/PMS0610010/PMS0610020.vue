@@ -10,7 +10,8 @@
                                 <div v-for="fields in fieldsData">
                                     <div class="grid">
                                         <div class="grid-item" v-for="field in fields">
-                                            <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
+                                            <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
+                                                   :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                 <span>{{ field.ui_display_name }}</span>
                                             </label>
@@ -233,13 +234,13 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales_statusChg"
-                                                role="button" @click="doSetCompanyStatus">
+                                                role="button" :disabled="isCreateStatus" @click="doSetCompanyStatus">
                                             {{i18nLang.program.PMS0610020.company_status}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales_stateChange"
-                                                role="button" @click="doSetContractStatus">
+                                                role="button" :disabled="isCreateStatus" @click="doSetContractStatus">
                                             {{i18nLang.program.PMS0610020.contract_status}}
                                         </button>
                                     </li>
@@ -292,6 +293,26 @@
             this.$eventHub.$on('getCloseChangeLogData', function (closeChangeLogData) {
                 self.isOpenChangeLog = closeChangeLogData.isOpenChangeLog;
             });
+            //取得相關設定資料
+            this.$eventHub.$on('getRelatedSettingData', function (relatedSettingData) {
+                self.relatedSettingSingleData = relatedSettingData.relatedSettingSingleData;
+                self.relatedSettingOriSingleData = relatedSettingData.relatedSettingOriSingleData;
+            });
+            //業務員指派
+            this.$eventHub.$on('doEditSalesClerk', function (result) {
+                if (result.success) {
+                    self.fetchFieldData();
+                }
+            });
+            //取得商務公司狀態資料
+            this.$eventHub.$on('compStateData', function (compStateData) {
+                self.singleData = _.extend(self.singleData, compStateData.singleData);
+            });
+            //取得合約狀態資料
+            this.$eventHub.$on('contractStateData', function (contractStateData) {
+                self.singleData = _.extend(self.singleData, contractStateData.singleData);
+            });
+
         },
         mounted() {
             this.panelName = ["setPanel", "personnelPanel", "salesPanel", "contractPanel",
@@ -310,6 +331,8 @@
                 isOpenContractStatus: false,
                 singleData: {},
                 oriSingleData: {},
+                relatedSettingSingleData: {},
+                relatedSettingOriSingleData: {},
                 fieldsData: [],
                 oriFieldsData: [],
                 tabPageId: 1,
@@ -334,8 +357,44 @@
             rowData(val) {
                 if (!_.isEmpty(val)) {
                     this.initData();
-                    this.fetchFieldData(val);
+                    this.fetchFieldData();
                 }
+            },
+            singleData: {
+                handler: function (val) {
+                    if (!_.isEmpty(val)) {
+                        var lo_singleData = JSON.parse(JSON.stringify(val));
+                        var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
+
+                        //取得合約狀態說明
+                        if (!_.isNull(lo_singleData.contract_sta)) {
+                            if(lo_singleData.contract_sta.trim() != ""){
+                                var lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'})
+                                var lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: lo_singleData.contract_sta});
+                                var ls_contractStaDesc = lo_contractSta.display.split(":")[1];
+                                lo_singleData = _.extend(lo_singleData, {status_desc: ls_contractStaDesc});
+                                lo_oriSingleData = _.extend(lo_oriSingleData, {status_desc: ls_contractStaDesc});
+                            }
+                        }
+
+                        //自動將郵遞區號對應之地址資料帶至地址欄位
+                        lo_singleData.cust_idx_zip_cod =
+                            _.isUndefined(lo_singleData.cust_idx_zip_cod) || _.isNull(lo_singleData.cust_idx_zip_cod) ? "" : lo_singleData.cust_idx_zip_cod;
+                        if (lo_singleData.cust_idx_zip_cod != "" && (lo_singleData.cust_idx_add_rmk == "" || _.isNull(lo_singleData.cust_idx_add_rmk) )) {
+                            var ln_zipCodIdx = _.findIndex(this.oriFieldsData, {ui_field_name: 'cust_idx_zip_cod'})
+                            var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
+                            this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
+                        }
+                        lo_oriSingleData.cust_idx_zip_cod = "";
+
+                        //將主檔資料放至Vuex
+                        this.$store.dispatch("setMnSingleData", {
+                            go_mnSingleData: lo_singleData,
+                            go_mnOriSingleData: lo_oriSingleData
+                        });
+                    }
+                },
+                deep: true
             }
         },
         methods: {
@@ -352,8 +411,8 @@
                     gb_isEditStatus: this.isEditStatus
                 });
             },
-            setGlobalCustCod(){
-                this.$store.dispatch("setCustCod", this.singleData.cust_mn_cust_cod);
+            setGlobalCustCod() {
+                this.$store.dispatch("setCustCod", this.singleData.cust_cod);
             },
             setTabStatus(tabName) {
                 var self = this;
@@ -376,7 +435,7 @@
 
                 $("#" + ls_showPanelName).show();
             },
-            fetchFieldData(val) {
+            fetchFieldData() {
                 this.isLoadingDialog = true;
                 var self = this;
                 $.post("/api/fetchOnlySinglePageFieldData", {
@@ -391,7 +450,6 @@
                 });
             },
             fetchRowData() {
-                var self = this;
                 if (this.isCreateStatus) {
                     $.post("/api/fetchDefaultSingleRowData", {
                         prg_id: "PMS0610020",
@@ -421,8 +479,65 @@
                     });
                 }
             },
+            dataValidate() {
+                var self = this;
+                var lo_checkResult;
+
+                for (var i = 0; i < this.oriFieldsData.length; i++) {
+                    var lo_field = this.oriFieldsData[i];
+                    //必填
+                    if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
+                        lo_checkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        if (lo_checkResult.success == false) {
+                            break;
+                        }
+                    }
+
+                }
+
+                return lo_checkResult;
+            },
+            //轉換儲存資料的格式
+            doConvertData() {
+                //cust_nam的內容帶入cust_idx_alt_nam
+                this.singleData.cust_idx_alt_nam = this.singleData.cust_nam;
+
+                var lo_singleData = JSON.parse(JSON.stringify(this.singleData));
+                var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
+
+                //將sales_cod從xxx:xxx改為xxx
+                lo_singleData.sales_cod = this.singleData.sales_cod.split(":")[0];
+                lo_oriSingleData.sales_cod = this.oriSingleData.sales_cod.split(":")[0];
+
+                //將主檔資料放至Vuex
+                this.$store.dispatch("setMnSingleData", {
+                    go_mnSingleData: lo_singleData,
+                    go_mnOriSingleData: lo_oriSingleData
+                });
+            },
             doSaveGrid() {
-                console.log(this.singleData);
+                this.isLoadingDialog = true;
+                this.loadingText = "saving";
+                this.doConvertData();
+
+                var lo_chkResult = this.dataValidate();
+
+                if (lo_chkResult.success == false) {
+                    alert(lo_chkResult.msg);
+                    this.isLoadingDialog = false;
+                }
+                else {
+                    this.$store.dispatch("doSaveAllData").then(result => {
+                        if (result.success) {
+                            alert("save success");
+                            $("#PMS0610020").dialog('close');
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+                        this.isLoadingDialog = false;
+                    });
+                }
             },
             doCloseDialog() {
                 this.initData();
@@ -432,20 +547,44 @@
             //ststus chg.(公司狀態)
             doSetCompanyStatus() {
                 var self = this;
-                this.isOpenCompanyStatus = true;
-                this.$eventHub.$emit('getCompanyStatusData', {
-                    openCompanyStatus: self.isOpenCompanyStatus
-                });
+                if (this.isEditStatus) {
+                    this.$store.dispatch("qryAllDataIsChange").then(result => {
+                        if (result.success) {
+                            if (!result.isChange) {
+                                this.isOpenCompanyStatus = true;
+                                this.$eventHub.$emit('getCompanyStatusData', {
+                                    openCompanyStatus: self.isOpenCompanyStatus
+                                });
+                            }
+                            else {
+                                alert("請先儲存主檔資料及相關資料");
+                            }
+                        }
+                    });
+                }
             },
             //合約狀態變更
             doSetContractStatus() {
                 var self = this;
-                this.isOpenContractStatus = true;
-                this.$eventHub.$emit('getContractStatusData', {
-                    openContractStatus: self.isOpenContractStatus,
-                    singleData: JSON.parse(JSON.stringify(self.singleData)),
-                    fieldData:self.oriFieldsData[_.findIndex(self.oriFieldsData, {ui_field_name: "cust_mn_contract_sta"})]
-                });
+                var la_contractStaFieldData = JSON.parse(JSON.stringify(_.findWhere(self.oriFieldsData, {ui_field_name: "contract_sta"})));
+                la_contractStaFieldData.modificable = 'Y';
+                if (this.isEditStatus) {
+                    this.$store.dispatch("qryAllDataIsChange").then(result => {
+                        if (result.success) {
+                            if (!result.isChange) {
+                                this.isOpenContractStatus = true;
+                                this.$eventHub.$emit('getContractStatusData', {
+                                    openContractStatus: self.isOpenContractStatus,
+                                    singleData: JSON.parse(JSON.stringify(self.singleData)),
+                                    fieldData: la_contractStaFieldData
+                                });
+                            }
+                            else {
+                                alert("請先儲存主檔資料及相關資料");
+                            }
+                        }
+                    });
+                }
             },
             //異動紀錄(change log)
             loadChangeLog() {

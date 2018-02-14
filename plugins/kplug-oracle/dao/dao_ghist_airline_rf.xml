@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- PMS0810140取得多筆-->
+    <dao name="QRY_GHIST_AIRLINE_RF">
+        <statement><![CDATA[
+               select athena_id, airline_cod, airline_nam, ins_dat, ins_usr, upd_dat, upd_usr
+               from ghist_airline_rf
+               where athena_id = :athena_id
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+
+    </dao>
+
+    <dao name="CHK_GHIST_AIRLINE_RF_IS_EXIST">
+        <statement><![CDATA[
+               select count(*) as air_count
+               from ghist_airline_rf
+               where athena_id = :athena_id
+               and trim(airline_cod) = trim(:airline_cod)
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">airline_cod</parameter>
+
+    </dao>
+</root>

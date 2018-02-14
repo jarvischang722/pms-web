@@ -1,9 +1,4 @@
 $(function () {
-    // 切換子選單
-    $(document).on('click',".secondMenuClick li",function (e) {
-        $(".secondMenuClick li").removeClass("activeThis");
-        $(this).addClass("activeThis");
-    });
 
     // search toggle
     $(document).on('click', ".show-search-detail", function (e) {

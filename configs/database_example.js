@@ -12,8 +12,14 @@ module.exports = {
         password: "sql",
         months: [1, 2, 3, 4, 5, 6],
         debug: 1,
-        maxRows: 1000  //query db max rows
+        maxRows: 1000  //Query db max rows, The default value is 0, meaning unlimited.
     }],
+    // oracle 參數設定
+    oracle_maxRows: 1000,
+    oracle_poolMin: 5,
+    oracle_poolMax: 20,
+    oracle_poolTimeout: 60,
+    oracle_poolIncrement: 1,
     //mongoDB 設定檔
     mongo: {
         // host: "125.227.154.170",
