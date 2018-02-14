@@ -189,7 +189,8 @@ exports.getSelectGridOption = function (session, selRow, field, callback) {
                         selectData: selData,
                         columns: selectData.columns,
                         display: selectData.display,
-                        value: selectData.value
+                        value: selectData.value,
+                        isQrySrcBefore: "Y"
                     });
                 });
             }
@@ -198,7 +199,8 @@ exports.getSelectGridOption = function (session, selRow, field, callback) {
                     selectData: [],
                     columns: selectData.columns,
                     display: selectData.display,
-                    value: selectData.value
+                    value: selectData.value,
+                    isQrySrcBefore: selRow.is_qry_src_before
                 });
             }
         }
