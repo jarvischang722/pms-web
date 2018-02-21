@@ -5,8 +5,14 @@
 
 const i18n = require("i18n");
 const fs = require("fs");
-const async = require('async');
+const async = require("async");
+const commandRules = require('./CommonRule');
 
+/**
+ * PMS0610020 商務公司資料編輯 欄位公司
+ * @param session
+ * @param callback
+ */
 exports.sel_custMnCustColumn = function (session, callback) {
     getlocaleContent(session, function(err, localContent){
         if(err){
@@ -56,6 +62,11 @@ exports.sel_custMnCustColumn = function (session, callback) {
     });
 };
 
+/**
+ * PMS0610020 商務公司資料編輯 欄位業務
+ * @param session
+ * @param callback
+ */
 exports.sel_salesMnHotelStatusNColumn = function(session, callback){
     getlocaleContent(session, function(err, localContent){
         if(err){
@@ -92,6 +103,35 @@ exports.sel_salesMnHotelStatusNColumn = function(session, callback){
             callback(null, lo_result);
         }
     });
+};
+
+/**
+ * PMS0620020 業務員資料編輯 欄位使用者代號
+ * @param session
+ * @param callback
+ */
+exports.qry_user_nos_column = function(session, callback){
+    let lo_result = {
+        columns: [
+            {
+                field: "user_nos",
+                title: commandRules.getColumnByNam("user_nos", session.locale),
+                width: 80
+            },
+            {
+                field: "user_name",
+                title: commandRules.getColumnByNam("user_name", session.locale),
+                width: 150
+            },
+            {
+                field: "user_display",
+                hidden: true
+            }
+        ],
+        display: "user_display",
+        value: "user_nos"
+    };
+    callback(null, lo_result);
 };
 
 function getlocaleContent(session, callback) {
