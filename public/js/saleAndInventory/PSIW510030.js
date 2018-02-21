@@ -1424,88 +1424,49 @@ var PSIW510030 = new Vue({
                 }
             });
 
-            async.parallel([
-                //撈客戶資料(accunt_sta, accunt_nos, ship_typ, sales_cod)
-                function(cb){
+            //撈客戶資料(accunt_sta, accunt_nos, ship_typ, sales_cod)
+            //撈送貨地點(ship1_Add, ship2_Add)
+            //撈客戶電話(cust_tel)
+            lo_params = {
+                func : "getCustInfo",
+                singleData: self.singleData
+            };
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                self.isLoading = false;
+                if(result.error == null){
+                    self.singleData.accunt_sta = result.data.accunt_sta;
+                    self.singleData.accunt_nos = result.data.accunt_nos;
+                    self.singleData.ship_typ = result.data.ship_typ;
+                    self.singleData.sales_cod = result.data.sales_cod;
 
-                    lo_params = {
-                        func : "getCustInfo",
-                        singleData: self.singleData
-                    };
-                    $.post("/api/getQueryResult", lo_params, function (result) {
-                        if (!_.isUndefined(result.data)) {
-                            self.singleData.accunt_sta = result.data.accunt_sta;
-                            self.singleData.accunt_nos = result.data.accunt_nos;
-                            self.singleData.ship_typ = result.data.ship_typ;
-                            self.singleData.sales_cod = result.data.sales_cod;
-                            cb(null, result.data);
+                    if(result.data.cust_tel == null){
+                        self.singleData.cust_tel = "";
+                    }
+                    else {
+                        self.singleData.cust_tel = result.data.cust_tel;
+                    }
+
+                    if(result.data.address == null){
+                        self.singleData.ship1_add = "";
+                        self.singleData.ship2_add = "";
+                    }
+                    else
+                    {
+                        if(result.data.address.toString().length > 60){
+                            self.singleData.ship1_add = result.data.address.toString().substr(0,60);
+                            self.singleData.ship2_add = result.data.address.toString().substr(60);
                         }
                         else {
-                            alert(result.error.errorMsg);
-                            cb(result.error.errorMsg, "");
+                            self.singleData.ship1_add = result.data.address;
+                            self.singleData.ship2_add = "";
                         }
-                    });
-                },
-                //撈送貨地點(ship1_Add, ship2_Add)
-                function(cb){
-
-                    lo_params = {
-                        func : "getCustAdd",
-                        singleData: self.singleData
-                    };
-                    $.post("/api/getQueryResult", lo_params, function (result) {
-                        if (!_.isUndefined(result.data)) {
-                            if(result.data.address == null){
-                                self.singleData.ship1_add = "";
-                                self.singleData.ship2_add = "";
-                            }
-                            else
-                            {
-                                if(result.data.address.toString().length > 60){
-                                    self.singleData.ship1_add = result.data.address.toString().substr(0,60);
-                                    self.singleData.ship2_add = result.data.address.toString().substr(60);
-                                }
-                                else {
-                                    self.singleData.ship1_add = result.data.address;
-                                    self.singleData.ship2_add = "";
-                                }
-                            }
-
-                            cb(null, result.data);
-                        } else {
-                            alert(result.error.errorMsg);
-                            cb(result.error.errorMsg, "");
-                        }
-                    });
-                },
-                //撈客戶電話(cust_tel)
-                function(cb){
-
-                    lo_params = {
-                        func : "getCustContact",
-                        singleData: self.singleData
                     }
-                    $.post("/api/getQueryResult", lo_params, function (result) {
-                        if (!_.isUndefined(result.data)) {
-                            if(result.data.cust_tel == null){
-                                self.singleData.cust_tel = "";
-                            }
-                            else {
-                                self.singleData.cust_tel = result.data.cust_tel;
-                            }
 
-                            cb(null, result.data);
-                        } else {
-                            alert(result.error.errorMsg);
-                            cb(result.error.errorMsg, "");
-                        }
-                    });
-                }
-            ], function(err, result){
-                if(!err) {
                     self.singleDataTemp = self.singleData;
-                    self.isLoading = false;
                     self.initOrderSelect();
+                }
+                else{
+                    alert(result.error.message);
                 }
             });
         },
