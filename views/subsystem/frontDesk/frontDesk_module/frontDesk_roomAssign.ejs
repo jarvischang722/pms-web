@@ -1,4 +1,4 @@
-<div class="roomAssign">
+<div class="roomAssign" id="testDiv">
 
     <div class="col-xs-11">
         <div class="row no-margin-right">
@@ -8,23 +8,24 @@
                         <div class="pull-left">
                             <label class="spec-title">Assign Rmks/RM Features</label>
                         </div>
-                        <div class="checkbox pull-right open-cardDetail">
-                            <label class="no-padding-left">
-                                <input name="showCardDetail" value="showCardDetail" type="checkbox"
-                                       class="ace showCardDetail"/>
-                                <span class="lbl"> 顯示訂房卡明細 </span>
-                            </label>
-                        </div>
+                        <!--<div class="checkbox pull-right open-cardDetail">-->
+                            <!--<label class="no-padding-left">-->
+                                <!--<input name="showCardDetail" value="showCardDetail" type="checkbox"-->
+                                       <!--class="ace showCardDetail"/>-->
+                                <!--<span class="lbl"> 顯示訂房卡明細 </span>-->
+                            <!--</label>-->
+                        <!--</div>-->
                         <div class="clearfix"></div>
                         <textarea class="width-100 height-auto rzNone" rows="3"></textarea>
                     </div> <!-- /.room-special -->
                 </div>
 
-                <!-- 控制面板(panel)隱藏dataGrid -->
-                <div class="cardDetail-table easyui-panel">
+                <!-- 控制面板(panel)隱藏dataGrid class="cardDetail-table" -->
+                <div class="roomDetail-table2 easyui-panel">
                     <table id="roomDetail-table"></table>
                 </div>
                 <br>
+                <div class="space-4"></div>
                 <div class="jqGridEdit-table roomDetail-table2 cardDetail_margin easyui-panel">
                     <table id="roomDetail-table2" class="roomAssTableHt" style="height: 400px;"></table>
                 </div>
@@ -49,7 +50,7 @@
                                     </span>
 
                                     <!--<input type="checkbox"-->
-                                           <!--class="ace"/>-->
+                                    <!--class="ace"/>-->
                                     <!--<span class="lbl"> </span>-->
                                 </div>
                             </div>
@@ -59,16 +60,17 @@
                                         <button data-toggle="dropdown"
                                                 class="btn btn-primary btn-white btn-defaultWidth dropdown-toggle"
                                                 aria-expanded="false">
-                                            <span class="dpShowValue">特殊</span>
+                                            <span class="dpShowValue">特色</span>
                                             <span class="ace-icon fa fa-angle-down icon-on-right"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-info dropdown-menu-right dpUIList">
-                                            <li><a href="#">面山</a></li>
-                                            <li><a href="#">連通房</a></li>
-                                            <li><a href="#">面公道五路</a></li>
-                                            <li><a href="#">不要四號房</a></li>
+                                            <li><a href="#">G001:面公道五路</a></li>
+                                            <li><a href="#">G002:面華夏新城</a></li>
+                                            <li><a href="#">N003:不要四號房</a></li>
+                                            <li><a href="#">N004:不要角間</a></li>
                                         </ul>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="col-xs-2">
@@ -2988,7 +2990,6 @@
     </div>
 </div><!-- /.roomAssign -->
 
-
 <!-- 彈出 排房明細視窗 -->
 <div id="roomAss_detail_msg" class="hide padding-5" style="">
     <div class="businessCompanyData">
@@ -3037,7 +3038,6 @@
 
 <script type="text/javascript">
     jQuery(function () {
-
         // 彈出 排房明細 option
         $(document).on('click', ".roomAss_detail", function (e) {
             e.preventDefault();
@@ -3053,6 +3053,5 @@
                 resizable: true
             });
         });
-
     });
 </script>

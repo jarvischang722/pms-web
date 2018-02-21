@@ -324,7 +324,7 @@
                             <div class="tabsCon">
                                 <!-------- tabPage -------->
                                 <div class="easyui-tabs easyUi-custom1"
-                                     style="height: 300px; overflow-y: auto;">
+                                     style="height: 230px; overflow-y: auto;">
                                     <div title="房型" class="padding-tabs">
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row">
@@ -334,7 +334,7 @@
                                                             <v-table
                                                                     is-horizontal-resize
                                                                     style="width: 100%;"
-                                                                    :height="220"
+                                                                    :height="150"
                                                                     :columns="columns"
                                                                     :table-data="tableData"
                                                                     :column-cell-class-name="columnCellClass"
@@ -351,7 +351,7 @@
                                                             <v-table
                                                                     is-horizontal-resize
                                                                     style="width: 100%;"
-                                                                    :height="220"
+                                                                    :height="150"
                                                                     :columns="columns"
                                                                     :table-data="tableData"
                                                                     :column-cell-class-name="columnCellClass"
@@ -804,8 +804,194 @@
                                         </button>
                                     </li>
                                     <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_addPpl"
+                                                role="button">加人加價
+                                        </button>
+                                    </li>
+                                    <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button">離開
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-6"></div>
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="horizTable-outer">
+                                <table class="css_table horizTable width-100">
+                                    <thead class="css_thead">
+                                        <tr class="css_tr">
+                                            <th class="css_th width-5">
+                                                <i class="fa fa-plus green pointer"></i>
+                                            </th>
+                                            <th class="css_th width-20">服務項目</th>
+                                            <th class="css_th width-10">單價</th>
+                                            <th class="css_th width-15">計算規則</th>
+                                            <th class="css_th width-15">服務方式</th>
+                                            <th class="css_th width-10">服務規則</th>
+                                            <th class="css_th width-10">收費方式</th>
+                                            <th class="css_th width-15">併入方式</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="css_tbody">
+                                        <tr class="css_tr">
+                                            <td class="css_td">
+                                                <i class="fa fa-minus red pointer"></i>
+                                            </td>
+                                            <td class="css_td">201A-早餐</td>
+                                            <td class="css_td text-right">200</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">依大人數</option>
+                                                    <option value="2">依小孩數</option>
+                                                    <option value="3">依房間</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">D:每天</option>
+                                                    <option value="2">F:第一天</option>
+                                                    <option value="3">C:自訂規則</option>
+                                                    <option value="4">L:最後一天</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">旺日</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="inside">I:內拆</option>
+                                                    <option value="outside">Q:外加</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="addRent">1:加入至房租</option>
+                                                    <option value="addTip">2:加入至服務費</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">
+                                                <i class="fa fa-minus red pointer"></i>
+                                            </td>
+                                            <td class="css_td">218A-迎賓飲料</td>
+                                            <td class="css_td text-right">100</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">依大人數</option>
+                                                    <option value="2">依小孩數</option>
+                                                    <option value="3">依房間</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">D:每天</option>
+                                                    <option value="2">F:第一天</option>
+                                                    <option value="3">C:自訂規則</option>
+                                                    <option value="4">L:最後一天</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">平日</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="outside">Q:外加</option>
+                                                    <option value="inside">I:內拆</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="addRent">1:加入至房租</option>
+                                                    <option value="addTip">2:加入至服務費</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">
+                                                <i class="fa fa-minus red pointer"></i>
+                                            </td>
+                                            <td class="css_td">219A-水果</td>
+                                            <td class="css_td text-right">100</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">依大人數</option>
+                                                    <option value="2">依小孩數</option>
+                                                    <option value="3">依房間</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">D:每天</option>
+                                                    <option value="2">F:第一天</option>
+                                                    <option value="3">C:自訂規則</option>
+                                                    <option value="4">L:最後一天</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">平日</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="outside">Q:外加</option>
+                                                    <option value="inside">I:內拆</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="addRent">1:加入至房租</option>
+                                                    <option value="addTip">2:加入至服務費</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">
+                                                <i class="fa fa-minus red pointer"></i>
+                                            </td>
+                                            <td class="css_td">510C-門票</td>
+                                            <td class="css_td text-right">200</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">依大人數</option>
+                                                    <option value="2">依小孩數</option>
+                                                    <option value="3">依房間</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">D:每天</option>
+                                                    <option value="2">F:第一天</option>
+                                                    <option value="3">C:自訂規則</option>
+                                                    <option value="4">L:最後一天</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">平日</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="outside">Q:外加</option>
+                                                    <option value="inside">I:內拆</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="addRent">1:加入至房租</option>
+                                                    <option value="addTip">2:加入至服務費</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_duplicate"
+                                                role="button">複製
                                         </button>
                                     </li>
                                 </ul>
@@ -818,7 +1004,6 @@
         </div>
     </div>
     <!-- /.rate code(NOR) 彈出視窗 -->
-
 
     <!-- rateCode_useTime 彈出視窗 -->
     <div id="rateCode_useTime-page" class="hide padding-5" style="">
@@ -880,7 +1065,7 @@
                                         <span class="checkbox">
                                               <label class="checkbox-width">
                                                   <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                  <span class="lbl font-btn">過期是否顯示</span>
+                                                  <span class="lbl font-btn">過期顯示</span>
                                               </label>
                                           </span>
                                     </li>
@@ -1054,7 +1239,7 @@
     <!-- /.rateCode_useTime 彈出視窗 -->
 
     <!-- rateCode_dependantDate 彈出視窗 -->
-    <div id="rateCode_dependantRate-page" class="hide padding-5" style="">
+    <div id="rateCode_dependantRate-page" class="hide padding-5" style="top: 50px;">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
@@ -1174,7 +1359,7 @@
     <!-- /.rateCode_dependantRate 彈出視窗 -->
 
     <!-- rateCode_baseDate 彈出視窗 -->
-    <div id="rateCode_baseDate-page" class="hide padding-5" style="">
+    <div id="rateCode_baseDate-page" class="hide padding-5" style="top: 50px;">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
@@ -1248,6 +1433,51 @@
         <div class="clearfix"></div>
     </div>
     <!-- /.rateCode_baseDate 彈出視窗 -->
+
+    <!-- rateCode_addPpl 彈出視窗 -->
+    <div id="rateCode_addPpl-page" class="hide padding-5" style="top: 50px;">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div id="addPpl-choice" class="roomCodeTable pull-left width-15">
+                        <template>
+                            <div>
+                                <v-table
+                                        is-horizontal-resize
+                                        style="width: 100%;"
+                                        :height="150"
+                                        :columns="columns"
+                                        :table-data="tableData"
+                                        :column-cell-class-name="columnCellClass"
+                                        row-hover-color="#eee"
+                                        row-click-color="#edf7ff">
+                                </v-table>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div id="addPpl-detail" class="roomCodeDetail pull-left width-85">
+                        <template>
+                            <div>
+                                <v-table
+                                        is-horizontal-resize
+                                        style="width: 100%;"
+                                        :height="150"
+                                        :columns="columns"
+                                        :table-data="tableData"
+                                        :column-cell-class-name="columnCellClass"
+                                        row-hover-color="#eee"
+                                        row-click-color="#edf7ff">
+                                </v-table>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.rateCode_addPpl 彈出視窗 -->
 
     <!-- rateCode_duplicate 彈出視窗 -->
     <div id="rateCode_duplicate-page" class="hide padding-5" style="">
@@ -1482,11 +1712,10 @@
 
     <!-- resv_rateListTable(房價一覽表) 彈出視窗 -->
     <div id="resv_rateList-message" class="hide padding-5" style="top: 0 !important;">
-        <iframe src="../resv_rateListTable" style="width: 100%; min-height: 310px;" frameborder="0"
-                scrolling="0"></iframe>
+        <!--全頁日曆-->
+        <div class="resv-rateList-cal"></div>
     </div>
     <!-- /.resv_rateListTable(房價一覽表) 彈出視窗 -->
-
 
     <!--TODO  顏色修改 ＆ 內容過長問題-->
     <!-- 房價試算 (resv_priceTrial) 彈出視窗 -->
@@ -1703,43 +1932,6 @@
         </div>
     </div>
     <!-- /.房價試算 (resv_priceTrial) -->
-
-
-    <!-- 房價試算 (resv_priceTrial) 彈出視窗 -->
-    <div id="resv_priceTrial-message" class="hide padding-5">
-        <div class="businessCompanyData">
-            <div class="col-xs-12 col-sm-12">
-                <div class="row">
-                    <div class="col-xs-11 col-sm-11">
-                        <div class="row no-margin-right">
-
-                        </div>
-                    </div>
-                    <div class="col-xs-1 col-sm-1">
-                        <div class="row">
-                            <div class="right-menu-co">
-                                <ul>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">確定
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">取消
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-    <!-- /.房價試算 (resv_priceTrial) -->
-
 
     <!-- rateCode_extraAdult 彈出視窗 -->
     <div id="rateCode_extraAdult-page" class="hide padding-5" style="top: 0 !important;">
@@ -2034,7 +2226,6 @@
     </div>
     <!-- /.rateCode_extraAdult 彈出視窗 -->
 
-
     <!-- 選擇房型 彈出視窗 -->
     <div id="rateCode_csRm-page" class="hide padding-5" style="">
         <div class="businessCompanyData">
@@ -2124,6 +2315,8 @@
 <%- include PMS0100000_module/resv_includeJs.ejs %>
 <!--  /.End 訂房卡共用 initial js  -->
 
+<%- include ../../common/jsFile/groupJs_datePicker %>
+
 <script type="text/javascript">
     $(function () {
         // 彈出setRateCode (Type:NOR)
@@ -2139,6 +2332,172 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // vue easyTable
+            // 房型代號
+            let roomCodeTable = {
+                name: 'frozen-title-columns',
+                data() {
+                    return {
+                        tableData: [
+                            {
+                                "control": "▬",
+                                "roomCode": "DW"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "LD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "FM"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "SD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "DW"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "LD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "LD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "LD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "LD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "LD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "FM"
+                            }
+                        ],
+                        columns: [
+                            {
+                                field: 'control',
+                                title: '<i class="fa fa-plus green pointer">',
+                                width: 40,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                isResize: true
+                            },
+                            {
+                                field: 'roomCode',
+                                title: '房型代號',
+                                width: 90,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                isResize: true
+                            },
+                        ]
+                    }
+                },
+                methods: {
+                    columnCellClass(rowIndex, columnName, rowData){
+                        if (columnName =='control'){
+                        return 'column-cell-class-delete';
+                    }
+                    },
+                }
+            }
+            let Ctor = Vue.extend(roomCodeTable)
+
+            //new Ctor().$mount('#roomCodeTable-edit')
+            // 房型代號 明細
+            let roomCodeDetail = {
+                name: 'frozen-title-columns',
+                data(){
+                    return {
+                        tableData: [
+                            {
+                                "useRange": "2017/01/01~2017/12/31",
+                                "dateRule": "平日",
+                                "twoRoomPrice": "4,000",
+                                "adultPlus": "*",
+                                "childPlus": "",
+                                "serviceFee": "180",
+                            },
+                            {
+                                "useRange": "2017/01/01~2017/12/31",
+                                "dateRule": "假日",
+                                "twoRoomPrice": "4,000",
+                                "adultPlus": "*",
+                                "childPlus": "",
+                                "serviceFee": "180",
+                            },
+                            {
+                                "useRange": "2017/01/01~2017/12/31",
+                                "dateRule": "旺日",
+                                "twoRoomPrice": "4,000",
+                                "adultPlus": "*",
+                                "childPlus": "",
+                                "serviceFee": "180",
+                            }
+                        ],
+                        columns: [
+                            {
+                                field: 'useRange',
+                                title: '使用期間',
+                                width: 220,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                isResize: true
+                            },
+                            {
+                                field: 'dateRule',
+                                title: '日期規則',
+                                width: 140,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                isResize: true
+                            },
+                            {
+                                field: 'twoRoomPrice',
+                                title: '房價',
+                                width: 120,
+                                titleAlign: 'center',
+                                columnAlign: 'right',
+                                isResize: true
+                            },
+                            {
+                                field: 'adultPlus',
+                                title: '加大人',
+                                width: 120,
+                                titleAlign: 'center',
+                                columnAlign: 'right',
+                                isResize: true
+                            },
+                            {
+                                field: 'childPlus',
+                                title: '加小孩',
+                                width: 120,
+                                titleAlign: 'center',
+                                columnAlign: 'right',
+                                isResize: true
+                            },
+                        ]
+                    }
+                },
+                methods: {
+                    columnCellClass(rowIndex, columnName, rowData){
+
+                    },
+                }
+            }
+            let Ctor2 = Vue.extend(roomCodeDetail)
             new Ctor().$mount('#roomCodeTable-add');
             new Ctor2().$mount('#roomCodeDetail-add');
         });
@@ -2171,6 +2530,51 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 日期規則
+            let timeRule = {
+                data() {
+                    return {
+                        activeName2: 'first',
+
+//                tabPosition: 'left',
+                        pickerOptions1: {
+                            disabledDate(time) {
+                                return time.getTime() > Date.now();
+                            },
+                            shortcuts: [{
+                                text: '今天',
+                                onClick(picker) {
+                                    picker.$emit('pick', new Date());
+                                }
+                            }, {
+                                text: '昨天',
+                                onClick(picker) {
+                                    const date = new Date();
+                                    date.setTime(date.getTime() - 3600 * 1000 * 24);
+                                    picker.$emit('pick', date);
+                                }
+                            }, {
+                                text: '一周前',
+                                onClick(picker) {
+                                    const date = new Date();
+                                    date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                                    picker.$emit('pick', date);
+                                }
+                            }]
+                        },
+                        value1: '',
+                        value2: ''
+                    };
+                },
+                methods: {
+                    handleClick(tab, event) {
+                        console.log(tab, event);
+                    }
+                }
+            };
+            var Ctor3 = Vue.extend(timeRule)
+            new Ctor3().$mount('#rateCode-timeRule')
         });
 
         // rateCode_dependantRate
@@ -2232,6 +2636,23 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 日期列表
+
+            let currentYear = new Date().getFullYear();
+            $('.resv-rateList-cal').calendarYear({
+                style: 'border',
+                dataSource: [
+                    {
+                        startDate: new Date(currentYear, 1, 4),
+                        endDate: new Date(currentYear, 1, 15)
+                    },
+                    {
+                        startDate: new Date(currentYear, 3, 5),
+                        endDate: new Date(currentYear, 5, 15)
+                    }
+                ]
+            });
         });
 
         // 房價試算
@@ -2249,6 +2670,7 @@
                 resizable: true
             });
         });
+
         // 選擇房型
         $(document).on('click', ".rateCode_csRm", function (e) {
             e.preventDefault();
@@ -2280,8 +2702,243 @@
             });
         });
 
+        // rateCode_addPpl 加人加價
+        $(document).on('click', ".rateCode_addPpl", function (e) {
+            e.preventDefault();
+            var dialog = $("#rateCode_addPpl-page").removeClass('hide').dialog({
+                modal: true,
+                title: "加人加價",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+
+            // vue easyTable
+            // 加人加價
+            let addPplChoice = {
+                name: 'frozen-title-columns',
+                data() {
+                    return {
+                        tableData: [
+                            {
+                                "control": "▬",
+                                "roomCode": "DW"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "LD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "FM"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "SD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "DW"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "LD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "LD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "LD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "LD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "LD"
+                            },
+                            {
+                                "control": "▬",
+                                "roomCode": "FM"
+                            }
+                        ],
+                        columns: [
+                            {
+                                field: 'control',
+                                title: '<i class="fa fa-plus green pointer"></i>',
+                                width: 40,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                isResize: true
+                            },
+                            {
+                                field: 'roomCode',
+                                title: '房型代號',
+                                width: 90,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                isResize: true
+                            },
+                        ]
+                    }
+                },
+                methods: {
+                    columnCellClass(rowIndex, columnName, rowData){
+                        if (columnName =='control') {
+                            return 'column-cell-class-delete';
+                        }
+                    },
+                }
+            }
+            let CtorChoice = Vue.extend(addPplChoice)
+
+            //new Ctor().$mount('#roomCodeTable-edit')
+            // 加人加價 明細
+            let addPplDetail = {
+                name: 'frozen-title-columns',
+                data(){
+                    return {
+                        tableData: [
+                            {
+                                "useRange": "2017/01/01~2017/12/31",
+                                "dateRule": "平日",
+                                "room1": "500",
+                                "room2": "1,000",
+                                "room3": "1,500",
+                                "room4": "2,000",
+                                "room5": "2,500",
+                                "room6": "3,000",
+                                "room7": "3,500",
+                                "room8": "4,000"
+                            },
+                            {
+                                "useRange": "2017/01/01~2017/12/31",
+                                "dateRule": "假日",
+                                "room1": "500",
+                                "room2": "1,000",
+                                "room3": "1,500",
+                                "room4": "2,000",
+                                "room5": "2,500",
+                                "room6": "3,000",
+                                "room7": "3,500",
+                                "room8": "4,000"
+                            },
+                            {
+                                "useRange": "2017/01/01~2017/12/31",
+                                "dateRule": "旺日",
+                                "room1": "500",
+                                "room2": "1,000",
+                                "room3": "1,500",
+                                "room4": "2,000",
+                                "room5": "2,500",
+                                "room6": "3,000",
+                                "room7": "3,500",
+                                "room8": "4,000"
+                            }
+                        ],
+                        columns: [
+                            {
+                                field: 'useRange',
+                                title: '使用期間',
+                                width: 200,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                isResize: true
+                            },
+                            {
+                                field: 'dateRule',
+                                title: '日期規則',
+                                width: 120,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                isResize: true
+                            },
+                            {
+                                field: 'room1',
+                                title: '1',
+                                width: 60,
+                                titleAlign: 'center',
+                                columnAlign: 'right',
+                                isResize: true
+                            },
+                            {
+                                field: 'room2',
+                                title: '2',
+                                width: 60,
+                                titleAlign: 'center',
+                                columnAlign: 'right',
+                                isResize: true
+                            },
+                            {
+                                field: 'room3',
+                                title: '3',
+                                width: 60,
+                                titleAlign: 'center',
+                                columnAlign: 'right',
+                                isResize: true
+                            },
+                            {
+                                field: 'room4',
+                                title: '4',
+                                width: 60,
+                                titleAlign: 'center',
+                                columnAlign: 'right',
+                                isResize: true
+                            },
+                            {
+                                field: 'room5',
+                                title: '5',
+                                width: 60,
+                                titleAlign: 'center',
+                                columnAlign: 'right',
+                                isResize: true
+                            },
+                            {
+                                field: 'room6',
+                                title: '6',
+                                width: 60,
+                                titleAlign: 'center',
+                                columnAlign: 'right',
+                                isResize: true
+                            },
+                            {
+                                field: 'room7',
+                                title: '7',
+                                width: 60,
+                                titleAlign: 'center',
+                                columnAlign: 'right',
+                                isResize: true
+                            },
+                            {
+                                field: 'room8',
+                                title: '8',
+                                width: 60,
+                                titleAlign: 'center',
+                                columnAlign: 'right',
+                                isResize: true
+                            },
+                        ]
+                    }
+                },
+                methods: {
+                    columnCellClass(rowIndex, columnName, rowData){
+                    },
+                }
+            }
+            let CtorDetail = Vue.extend(addPplDetail)
+
+            new CtorChoice().$mount('#addPpl-choice');
+            new CtorDetail().$mount('#addPpl-detail');
+        });
 
     })
+
 
     // Rate Code -> 複製 -> 多選
     var choiceRmtype = new Vue({
@@ -2306,215 +2963,6 @@
     })
 
 
-    // vue easyTable
-    // 房型代號
-    let roomCodeTable = {
-        name: 'frozen-title-columns',
-        data() {
-            return {
-                tableData: [
-                    {
-                        "control": "刪除",
-                        "roomCode": "DW"
-                    },
-                    {
-                        "control": "刪除",
-                        "roomCode": "LD"
-                    },
-                    {
-                        "control": "刪除",
-                        "roomCode": "FM"
-                    },
-                    {
-                        "control": "刪除",
-                        "roomCode": "SD"
-                    },
-                    {
-                        "control": "刪除",
-                        "roomCode": "DW"
-                    },
-                    {
-                        "control": "刪除",
-                        "roomCode": "LD"
-                    },
-                    {
-                        "control": "刪除",
-                        "roomCode": "LD"
-                    },
-                    {
-                        "control": "刪除",
-                        "roomCode": "LD"
-                    },
-                    {
-                        "control": "刪除",
-                        "roomCode": "LD"
-                    },
-                    {
-                        "control": "刪除",
-                        "roomCode": "LD"
-                    },
-                    {
-                        "control": "刪除",
-                        "roomCode": "FM"
-                    }
-                ],
-                columns: [
-                    {
-                        field: 'control',
-                        title: '<i class="fa fa-plus green pointer">',
-                        width: 40,
-                        titleAlign: 'center',
-                        columnAlign: 'center',
-                        isResize: true
-                    },
-                    {
-                        field: 'roomCode',
-                        title: '房型代號',
-                        width: 90,
-                        titleAlign: 'center',
-                        columnAlign: 'center',
-                        isResize: true
-                    },
-                ]
-
-            }
-        },
-
-        methods: {
-            columnCellClass(rowIndex, columnName, rowData){
-            },
-        }
-    }
-    let Ctor = Vue.extend(roomCodeTable)
-
-    //new Ctor().$mount('#roomCodeTable-edit')
-    // 房型代號 明細
-    let roomCodeDetail = {
-        name: 'frozen-title-columns',
-        data(){
-            return {
-                tableData: [
-                    {
-                        "useRange": "2017/01/01~2017/12/31",
-                        "dateRule": "平日",
-                        "twoRoomPrice": "4,000",
-                        "adultPlus": "*",
-                        "childPlus": "",
-                        "serviceFee": "180",
-                    },
-                    {
-                        "useRange": "2017/01/01~2017/12/31",
-                        "dateRule": "平日",
-                        "twoRoomPrice": "4,000",
-                        "adultPlus": "*",
-                        "childPlus": "",
-                        "serviceFee": "180",
-                    },
-                    {
-                        "useRange": "2017/01/01~2017/12/31",
-                        "dateRule": "平日",
-                        "twoRoomPrice": "4,000",
-                        "adultPlus": "*",
-                        "childPlus": "",
-                        "serviceFee": "180",
-                    }
-                ],
-                columns: [
-                    {
-                        field: 'useRange',
-                        title: '使用期間',
-                        width: 220,
-                        titleAlign: 'center',
-                        columnAlign: 'center',
-                        isResize: true
-                    },
-                    {
-                        field: 'dateRule',
-                        title: '日期規則',
-                        width: 140,
-                        titleAlign: 'center',
-                        columnAlign: 'center',
-                        isResize: true
-                    },
-                    {
-                        field: 'twoRoomPrice',
-                        title: '房價',
-                        width: 120,
-                        titleAlign: 'center',
-                        columnAlign: 'right',
-                        isResize: true
-                    },
-                    {
-                        field: 'adultPlus',
-                        title: '加大人',
-                        width: 120,
-                        titleAlign: 'center',
-                        columnAlign: 'right',
-                        isResize: true
-                    },
-                    {
-                        field: 'childPlus',
-                        title: '加小孩',
-                        width: 120,
-                        titleAlign: 'center',
-                        columnAlign: 'right',
-                        isResize: true
-                    },
-                ]
-            }
-        },
-        methods: {
-            columnCellClass(rowIndex, columnName, rowData){
-            },
-        }
-    }
-    let Ctor2 = Vue.extend(roomCodeDetail)
-
-    // 日期規則
-    let timeRule = {
-        data() {
-            return {
-                activeName2: 'first',
-
-//                tabPosition: 'left',
-                pickerOptions1: {
-                    disabledDate(time) {
-                        return time.getTime() > Date.now();
-                    },
-                    shortcuts: [{
-                        text: '今天',
-                        onClick(picker) {
-                            picker.$emit('pick', new Date());
-                        }
-                    }, {
-                        text: '昨天',
-                        onClick(picker) {
-                            const date = new Date();
-                            date.setTime(date.getTime() - 3600 * 1000 * 24);
-                            picker.$emit('pick', date);
-                        }
-                    }, {
-                        text: '一周前',
-                        onClick(picker) {
-                            const date = new Date();
-                            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-                            picker.$emit('pick', date);
-                        }
-                    }]
-                },
-                value1: '',
-                value2: ''
-            };
-        },
-        methods: {
-            handleClick(tab, event) {
-                console.log(tab, event);
-            }
-        }
-    };
-    var Ctor3 = Vue.extend(timeRule)
-    new Ctor3().$mount('#rateCode-timeRule')
-
     // #難解bug_1:"刪除" json value 無法塞icon進去
     // #難解bug_2:table在彈出視窗內不能response
 </script>
@@ -2524,13 +2972,18 @@
         height: 25px !important;
         line-height: 25px !important;
     }
+
     #rateCode-timeRule .el-date-editor.el-input {
         width: 150px;
     }
+
     #rateCode-timeRule .el-date-editor.el-input input {
         line-height: 25px;
         height: 25px;
         font-size: 13px;
     }
-
+    .column-cell-class-delete {
+        color: #f24;
+        cursor: pointer;
+    }
 </style>
