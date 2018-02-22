@@ -255,11 +255,16 @@ exports.getCustInfo = function (params ,session, callback) {
     );
 
     async.parallel(selectDSFunc, function (err, result) {
+        var errorMsg = null;
         var lo_result = {};
         _.each(result, function (value) {
            lo_result = _.extend(lo_result, value);
         });
-        callback(err, lo_result);
+
+        if(err != null){
+            errorMsg = err.message;
+        }
+        callback(errorMsg, lo_result);
     });
 
 };
