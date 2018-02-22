@@ -103,12 +103,7 @@ module.exports = {
             localeContent = require(localesPath + "en.json");
         }
 
-        if (_.isUndefined(localeContent.ErrorMsg[columnNam])) {
-            return msgCod;
-        }
-        else {
-            return localeContent.ErrorMsg[columnNam];
-        }
+        return msgCod || localeContent.ErrorMsg[columnNam];
     },
 
     /**
@@ -131,11 +126,6 @@ module.exports = {
             localeContent = require(localesPath + "en.json");
         }
 
-        if (_.isUndefined(localeContent.Columns[columnNam])) {
-            return columnNam;
-        }
-        else {
-            return localeContent.Columns[columnNam];
-        }
+        return columnNam || localeContent.Columns[columnNam];
     }
 };
