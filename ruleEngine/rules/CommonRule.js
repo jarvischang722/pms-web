@@ -82,6 +82,12 @@ module.exports = {
         return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
     },
 
+    /**
+     * 錯誤訊息多語系
+     * @param msgCod: 錯誤訊息編號
+     * @param locale: 語系
+     * @returns {String}: 訊息
+     */
     getMsgByCod: function (msgCod, locale) {
 
         var appRootPath = require('app-root-path').path;
@@ -97,7 +103,12 @@ module.exports = {
             localeContent = require(localesPath + "en.json");
         }
 
-        return localeContent.ErrorMsg[msgCod];
+        if (_.isUndefined(localeContent.ErrorMsg[columnNam])) {
+            return msgCod;
+        }
+        else {
+            return localeContent.ErrorMsg[columnNam];
+        }
     },
 
     /**
