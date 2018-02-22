@@ -82,6 +82,12 @@ module.exports = {
         return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
     },
 
+    /**
+     * 錯誤訊息多語系
+     * @param msgCod: 錯誤訊息編號
+     * @param locale: 語系
+     * @returns {String}: 訊息
+     */
     getMsgByCod: function (msgCod, locale) {
 
         var appRootPath = require('app-root-path').path;
@@ -97,10 +103,21 @@ module.exports = {
             localeContent = require(localesPath + "en.json");
         }
 
-        return localeContent.ErrorMsg[msgCod];
+        if (_.isUndefined(localeContent.ErrorMsg[columnNam])) {
+            return msgCod;
+        }
+        else {
+            return localeContent.ErrorMsg[columnNam];
+        }
     },
 
-    getColumnByNam: function(columnNam, locale){
+    /**
+     * 取得select grid 欄位名稱多語系
+     * @param columnNam: 欄位名稱編號
+     * @param locale: 現在語系
+     * @returns {String}: 欄位名稱
+     */
+    getColumnByNam: function (columnNam, locale) {
         var appRootPath = require('app-root-path').path;
         var localeContent = {};
         var localesPath = appRootPath + "/locales/";
@@ -114,6 +131,11 @@ module.exports = {
             localeContent = require(localesPath + "en.json");
         }
 
-        return localeContent.Columns[columnNam];
+        if (_.isUndefined(localeContent.Columns[columnNam])) {
+            return columnNam;
+        }
+        else {
+            return localeContent.Columns[columnNam];
+        }
     }
 };
