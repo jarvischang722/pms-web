@@ -6,6 +6,7 @@ const moment = require("moment");
 const fs = require("fs");
 const tools = require('../utils/CommonTools');
 const sysConf = require("../configs/systemConfig");
+const alasql = require("alasql");
 
 exports.qryPageOneDataByRmTyp = function (postData, session, callback) {
     let ln_date_range = 20;
@@ -178,13 +179,12 @@ function convResvRmTypData(la_resvRmTypData) {
 }
 
 exports.qryRmNosPageOneMap = async (postData, session) => {
-    let ls_error = null;
     let rmNosObj = new rmNosPageOneMap(postData, session);
     try {
         let lb_ps_result = await rmNosObj.callProcedure();
         let lo_rmNosPageOneData = await rmNosObj.qryRmNosPageOneData();
         let lo_convRmNosData = await rmNosObj.convRmNosData(lo_rmNosPageOneData);
-        return lo_rmNosPageOneData;
+        return lo_convRmNosData;
     }
     catch (error) {
         return error.message;
@@ -265,7 +265,14 @@ class rmNosPageOneMap {
                         reject(err);
                     }
                     else {
-                        resolve(JSON.parse(data));
+                        let la_parseJson = JSON.parse(data);
+                        _.each(la_parseJson, function (lo_json) {
+                            lo_json.period_begin_dat = lo_json.begin_dat;
+                            lo_json.period_end_dat = lo_json.end_dat;
+                            delete lo_json.begin_dat;
+                            delete lo_json.end_dat;
+                        });
+                        resolve(la_parseJson);
                     }
                 })
             }),
@@ -275,7 +282,15 @@ class rmNosPageOneMap {
                         reject(err);
                     }
                     else {
-                        resolve(JSON.parse(data));
+                        let la_parseJson = JSON.parse(data);
+                        _.each(la_parseJson, function (lo_json) {
+                            lo_json.use_begin_dat = lo_json.begin_dat;
+                            lo_json.use_end_dat = lo_json.end_dat;
+                            delete lo_json.begin_dat;
+                            delete lo_json.end_dat;
+                        });
+
+                        resolve(la_parseJson);
                     }
                 })
             })
@@ -290,11 +305,54 @@ class rmNosPageOneMap {
             date_range: {
                 begin_dat: ln_begin_dat,
                 end_dat: ln_begin_dat + this.ln_date_range
-            }
-            // roomNosDat
+            },
+            roomNosData: []
         };
 
+        let la_rmNosData = alasql("select * from ? rmList " +
+            "inner join ? rmPeriod on rmList.room_cod = rmPeriod.room_cod and rmList.room_nos = rmPeriod.room_nos", [rmNosPageOneData.roomList, rmNosPageOneData.roomPeriod]);
 
-        return rmNosPageOneData;
+        _.each(la_rmNosData, function (lo_rmNosData) {
+            let ln_date_diff = moment(lo_rmNosData.period_end_dat).diff(moment(lo_rmNosData.period_begin_dat), "d");
+            let ln_period_begin_dat = moment(lo_rmNosData.period_begin_dat).date();
+            let ln_period_end_dat = ln_period_begin_dat + ln_date_diff;
+
+            let la_rmUse = _.where(rmNosPageOneData.roomUse, {room_cod: lo_rmNosData.room_cod, room_nos: lo_rmNosData.room_nos});
+            let la_room_use = [];
+            _.each(la_rmUse, function(lo_rmUse){
+                let ln_use_date_diff = moment(lo_rmUse.use_end_dat).diff(moment(lo_rmUse.use_begin_dat), "d");
+                let ln_use_begin_dat = moment(lo_rmUse.use_begin_dat).date();
+                let ln_use_end_dat = ln_use_begin_dat + ln_use_date_diff;
+
+                let ln_cico_date_diff = moment(lo_rmUse.co_dat).diff(moment(lo_rmUse.ci_dat), "d");
+                let ln_ci_dat = moment(lo_rmUse.ci_dat).date();
+                let ln_co_dat = ln_ci_dat + ln_cico_date_diff;
+
+                la_room_use.push({
+                    use_typ: lo_rmUse.use_typ,
+                    use_rmk: lo_rmUse.use_rmk,
+                    begin_dat: ln_use_begin_dat,
+                    end_dat: ln_use_end_dat,
+                    ci_dat: ln_ci_dat,
+                    co_dat: ln_co_dat,
+                    ikey: lo_rmUse.ikey,
+                    ikey_seq_nos: lo_rmUse.ikey_seq_nos,
+                    ci_ser: lo_rmUse.ci_ser,
+                    tr_key_nos: lo_rmUse.tr_key_nos
+                })
+            });
+
+            lo_convData.roomNosData.push({
+                room_cod: lo_rmNosData.room_cod,
+                room_nos: lo_rmNosData.room_nos,
+                room_sta: lo_rmNosData.room_sta,
+                begin_dat: ln_period_begin_dat,
+                end_dat: ln_period_end_dat,
+                room_use: _.clone(la_room_use)
+            })
+        });
+
+
+        return lo_convData;
     }
 }

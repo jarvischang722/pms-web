@@ -3,20 +3,20 @@
     "athena_id": 1,
     "hotel_cod": "02",
     "usr_id": "a16010",
-    "socket_id": "test",
+    "socket_id": "1",
     "room_cod": "THRE",
     "room_nam": "三人房",
-    "room_nos": "111",
+    "room_nos": "11",
     "clean_sta": "C"
   },
   {
     "athena_id": 1,
     "hotel_cod": "02",
     "usr_id": "a16010",
-    "socket_id": "test",
+    "socket_id": "1",
     "room_cod": "FOUR",
     "room_nam": "四人房",
-    "room_nos": "222",
+    "room_nos": "12",
     "clean_sta": "D"
   }
 ]

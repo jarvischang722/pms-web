@@ -14,25 +14,7 @@
     "co_dat": "2018/02/14",
     "ikey": "20180202",
     "ikey_seq_nos": "1",
-    "ci_user": "a16010",
-    "tr_key_nos": "test"
-  },
-  {
-    "athena_id": 1,
-    "hotel_cod": "02",
-    "usr_id": "a16010",
-    "socket_id": "2",
-    "room_cod": "FOUR",
-    "room_nos": "12",
-    "use_typ": "A",
-    "use_rmk": "test",
-    "begin_dat": "2018/02/12",
-    "end_dat": "2018/02/13",
-    "ci_dat": "2018/02/11",
-    "co_dat": "2018/02/14",
-    "ikey": "20180202",
-    "ikey_seq_nos": "1",
-    "ci_user": "a16010",
+    "ci_ser": "a16010",
     "tr_key_nos": "test"
   }
 ]
