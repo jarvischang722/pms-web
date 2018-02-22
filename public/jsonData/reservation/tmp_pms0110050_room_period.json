@@ -1,0 +1,22 @@
+[
+  {
+    "athena_id": 1,
+    "hotel_cod": "02",
+    "usr_id": "a16010",
+    "socket_id": "1",
+    "room_cod": "THRE",
+    "room_nos": "11",
+    "begin_dat": "2018/02/10",
+    "end_dat": "2018/02/20"
+  },
+  {
+    "athena_id": 1,
+    "hotel_cod": "02",
+    "usr_id": "a16010",
+    "socket_id": "1",
+    "room_cod": "FOUR",
+    "room_nos": "12",
+    "begin_dat": "2018/02/10",
+    "end_dat": "2018/02/20"
+  }
+]

@@ -3,6 +3,10 @@ const async = require("async");
 const ruleAgent = require("../ruleEngine/ruleAgent");
 const queryAgent = require("../plugins/kplug-oracle/QueryAgent");
 const moment = require("moment");
+const fs = require("fs");
+const tools = require('../utils/CommonTools');
+const sysConf = require("../configs/systemConfig");
+const alasql = require("alasql");
 
 exports.qryPageOneDataByRmTyp = function (postData, session, callback) {
     let ln_date_range = 20;
@@ -172,4 +176,183 @@ function convResvRmTypData(la_resvRmTypData) {
     };
 
     return {rmTypData: la_rmTypGroupByRmCod, color: la_color, calcAllRmData: lo_calcAllRmData};
+}
+
+exports.qryRmNosPageOneMap = async (postData, session) => {
+    let rmNosObj = new rmNosPageOneMap(postData, session);
+    try {
+        let lb_ps_result = await rmNosObj.callProcedure();
+        let lo_rmNosPageOneData = await rmNosObj.qryRmNosPageOneData();
+        let lo_convRmNosData = await rmNosObj.convRmNosData(lo_rmNosPageOneData);
+        return lo_convRmNosData;
+    }
+    catch (error) {
+        return error.message;
+    }
+};
+
+class rmNosPageOneMap {
+    constructor(postData, session) {
+        this.postData = postData;
+        this.userInfo = session.user;
+        this.ln_date_range = 14;
+    }
+
+    async callProcedure() {
+        let lo_apiParam = {
+            "REVE-CODE": "PMS0110050",
+            hotel_cod: this.userInfo.hotel_cod,
+            athena_id: this.userInfo.athena_id,
+            "program_id": "PMS0110050",
+            count: 1,
+            "user": this.userInfo.usr_id,
+            "func_id": "0100",
+            exec_data: {
+                "1": {
+                    athena_id: this.userInfo.athena_id,
+                    hotel_cod: this.userInfo.hotel_cod,
+                    usr_id: this.userInfo.usr_id,
+                    socket_id: this.postData.socket_id,
+                    begin_dat: this.postData.begin_dat,
+                    query_days: this.ln_date_range,
+                    room_cod: this.postData.room_cod || "",
+                    room_nos: this.postData.room_nos || "",
+                    character_rmk: this.postData.character_rmk || "",
+                    build_nos: this.postData.build_nos || "",
+                    floor_nos: this.postData.floor_nos || ""
+                }
+            }
+        };
+
+        // return new Promise((resolve, reject) => {
+        //     tools.requestApi(sysConf.api_url, lo_apiParam, function (err, res, data) {
+        //         if (err) {
+        //             reject(err);
+        //         }
+        //         else {
+        //             resolve(data)
+        //         }
+        //     });
+        // });
+
+        return new Promise((resolve, reject) => {
+            fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_list.json', 'utf8', function (err, data) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(JSON.parse(data));
+                }
+            })
+        })
+    }
+
+    async qryRmNosPageOneData() {
+        let [la_roomList, la_roomPeriod, la_roomUse] = await Promise.all([
+            new Promise((resolve, reject) => {
+                fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_list.json', 'utf8', function (err, data) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(JSON.parse(data));
+                    }
+                })
+            }),
+            new Promise((resolve, reject) => {
+                fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_period.json', 'utf8', function (err, data) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        let la_parseJson = JSON.parse(data);
+                        _.each(la_parseJson, function (lo_json) {
+                            lo_json.period_begin_dat = lo_json.begin_dat;
+                            lo_json.period_end_dat = lo_json.end_dat;
+                            delete lo_json.begin_dat;
+                            delete lo_json.end_dat;
+                        });
+                        resolve(la_parseJson);
+                    }
+                })
+            }),
+            new Promise((resolve, reject) => {
+                fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_use.json', 'utf8', function (err, data) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        let la_parseJson = JSON.parse(data);
+                        _.each(la_parseJson, function (lo_json) {
+                            lo_json.use_begin_dat = lo_json.begin_dat;
+                            lo_json.use_end_dat = lo_json.end_dat;
+                            delete lo_json.begin_dat;
+                            delete lo_json.end_dat;
+                        });
+
+                        resolve(la_parseJson);
+                    }
+                })
+            })
+        ]);
+
+        return {roomList: la_roomList, roomPeriod: la_roomPeriod, roomUse: la_roomUse};
+    }
+
+    async convRmNosData(rmNosPageOneData) {
+        let ln_begin_dat = moment(this.postData.begin_dat).date();
+        let lo_convData = {
+            date_range: {
+                begin_dat: ln_begin_dat,
+                end_dat: ln_begin_dat + this.ln_date_range
+            },
+            roomNosData: []
+        };
+
+        let la_rmNosData = alasql("select * from ? rmList " +
+            "inner join ? rmPeriod on rmList.room_cod = rmPeriod.room_cod and rmList.room_nos = rmPeriod.room_nos", [rmNosPageOneData.roomList, rmNosPageOneData.roomPeriod]);
+
+        _.each(la_rmNosData, function (lo_rmNosData) {
+            let ln_date_diff = moment(lo_rmNosData.period_end_dat).diff(moment(lo_rmNosData.period_begin_dat), "d");
+            let ln_period_begin_dat = moment(lo_rmNosData.period_begin_dat).date();
+            let ln_period_end_dat = ln_period_begin_dat + ln_date_diff;
+
+            let la_rmUse = _.where(rmNosPageOneData.roomUse, {room_cod: lo_rmNosData.room_cod, room_nos: lo_rmNosData.room_nos});
+            let la_room_use = [];
+            _.each(la_rmUse, function(lo_rmUse){
+                let ln_use_date_diff = moment(lo_rmUse.use_end_dat).diff(moment(lo_rmUse.use_begin_dat), "d");
+                let ln_use_begin_dat = moment(lo_rmUse.use_begin_dat).date();
+                let ln_use_end_dat = ln_use_begin_dat + ln_use_date_diff;
+
+                let ln_cico_date_diff = moment(lo_rmUse.co_dat).diff(moment(lo_rmUse.ci_dat), "d");
+                let ln_ci_dat = moment(lo_rmUse.ci_dat).date();
+                let ln_co_dat = ln_ci_dat + ln_cico_date_diff;
+
+                la_room_use.push({
+                    use_typ: lo_rmUse.use_typ,
+                    use_rmk: lo_rmUse.use_rmk,
+                    begin_dat: ln_use_begin_dat,
+                    end_dat: ln_use_end_dat,
+                    ci_dat: ln_ci_dat,
+                    co_dat: ln_co_dat,
+                    ikey: lo_rmUse.ikey,
+                    ikey_seq_nos: lo_rmUse.ikey_seq_nos,
+                    ci_ser: lo_rmUse.ci_ser,
+                    tr_key_nos: lo_rmUse.tr_key_nos
+                })
+            });
+
+            lo_convData.roomNosData.push({
+                room_cod: lo_rmNosData.room_cod,
+                room_nos: lo_rmNosData.room_nos,
+                room_sta: lo_rmNosData.room_sta,
+                begin_dat: ln_period_begin_dat,
+                end_dat: ln_period_end_dat,
+                room_use: _.clone(la_room_use)
+            })
+        });
+
+
+        return lo_convData;
+    }
 }

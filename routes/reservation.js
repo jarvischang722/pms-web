@@ -57,8 +57,13 @@ module.exports = function (app) {
     //房價一覽表iframe(靜態)
     app.get('/resv_rateListTable', middles, reservationCrtl.getResv_rateListTable);
 
+    //[PMS0110010依房型訂房] 首頁地圖資料
     app.post("/api/qryPageOneDataByRmTyp", middles, reservationCrtl.qryPageOneDataByRmTyp);
 
+    //[PMS0110050依房號訂房] 首頁地圖資料
+    app.post("/api/qryRmNosPageOneMap", middles, reservationCrtl.qryRmNosPageOneMap);
+
+    //A7滾房租日
     app.post("/api/qryRentCalDat", middles, reservationCrtl.qryRentCalDat);
 
 
