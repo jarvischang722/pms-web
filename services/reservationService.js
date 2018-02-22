@@ -179,10 +179,11 @@ function convResvRmTypData(la_resvRmTypData) {
 
 exports.qryRmNosPageOneMap = async (postData, session) => {
     let ls_error = null;
+    let rmNosObj = new rmNosPageOneMap(postData, session);
     try {
-        let lb_ps_result = await callProcedure(postData, session);
-        let lo_rmNosPageOneData = await qryRmNosPageOneData();
-        let lo_convRmNosData = await convRmNosData(lo_rmNosPageOneData);
+        let lb_ps_result = await rmNosObj.callProcedure();
+        let lo_rmNosPageOneData = await rmNosObj.qryRmNosPageOneData();
+        let lo_convRmNosData = await rmNosObj.convRmNosData(lo_rmNosPageOneData);
         return lo_rmNosPageOneData;
     }
     catch (error) {
@@ -190,59 +191,51 @@ exports.qryRmNosPageOneMap = async (postData, session) => {
     }
 };
 
-let callProcedure = async (postData, session) => {
-    let ln_date_range = 14;
-    let lo_userInfo = session.user;
-    let lo_apiParam = {
-        "REVE-CODE": "PMS0110050",
-        hotel_cod: lo_userInfo.hotel_cod,
-        athena_id: lo_userInfo.athena_id,
-        "program_id": "PMS0110050",
-        count: 1,
-        "user": lo_userInfo.usr_id,
-        "func_id": "0100",
-        exec_data: {
-            "1": {
-                athena_id: lo_userInfo.athena_id,
-                hotel_cod: lo_userInfo.hotel_cod,
-                usr_id: lo_userInfo.usr_id,
-                socket_id: postData.socket_id,
-                begin_dat: postData.begin_dat,
-                query_days: ln_date_range,
-                room_cod: postData.room_cod,
-                room_nos: postData.room_nos,
-                character_rmk: postData.character_rmk,
-                build_nos: postData.build_nos,
-                floor_nos: postData.floor_nos
-            }
-        }
-    };
+class rmNosPageOneMap {
+    constructor(postData, session) {
+        this.postData = postData;
+        this.userInfo = session.user;
+        this.ln_date_range = 14;
+    }
 
-    // return new Promise((resolve, reject) => {
-    //     tools.requestApi(sysConf.api_url, lo_apiParam, function (err, res, data) {
-    //         if (err) {
-    //             reject(err);
-    //         }
-    //         else {
-    //             resolve(data)
-    //         }
-    //     });
-    // });
-    return new Promise((resolve, reject) => {
-        fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_list.json', 'utf8', function (err, data) {
-            if (err) {
-                reject(err);
+    async callProcedure() {
+        let lo_apiParam = {
+            "REVE-CODE": "PMS0110050",
+            hotel_cod: this.userInfo.hotel_cod,
+            athena_id: this.userInfo.athena_id,
+            "program_id": "PMS0110050",
+            count: 1,
+            "user": this.userInfo.usr_id,
+            "func_id": "0100",
+            exec_data: {
+                "1": {
+                    athena_id: this.userInfo.athena_id,
+                    hotel_cod: this.userInfo.hotel_cod,
+                    usr_id: this.userInfo.usr_id,
+                    socket_id: this.postData.socket_id,
+                    begin_dat: this.postData.begin_dat,
+                    query_days: this.ln_date_range,
+                    room_cod: this.postData.room_cod,
+                    room_nos: this.postData.room_nos,
+                    character_rmk: this.postData.character_rmk,
+                    build_nos: this.postData.build_nos,
+                    floor_nos: this.postData.floor_nos
+                }
             }
-            else {
-                resolve(JSON.parse(data));
-            }
-        })
-    })
-};
+        };
 
-let qryRmNosPageOneData = async () => {
-    let [la_roomList, la_roomPeriod, la_roomUse] = await Promise.all([
-        new Promise((resolve, reject) => {
+        // return new Promise((resolve, reject) => {
+        //     tools.requestApi(sysConf.api_url, lo_apiParam, function (err, res, data) {
+        //         if (err) {
+        //             reject(err);
+        //         }
+        //         else {
+        //             resolve(data)
+        //         }
+        //     });
+        // });
+
+        return new Promise((resolve, reject) => {
             fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_list.json', 'utf8', function (err, data) {
                 if (err) {
                     reject(err);
@@ -251,33 +244,57 @@ let qryRmNosPageOneData = async () => {
                     resolve(JSON.parse(data));
                 }
             })
-        }),
-        new Promise((resolve, reject) => {
-            fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_period.json', 'utf8', function (err, data) {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(JSON.parse(data));
-                }
-            })
-        }),
-        new Promise((resolve, reject) => {
-            fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_use.json', 'utf8', function (err, data) {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(JSON.parse(data));
-                }
-            })
         })
-    ]);
+    }
 
-    return {roomList: la_roomList, roomPeriod: la_roomPeriod, roomUse: la_roomUse};
-};
+    async qryRmNosPageOneData() {
+        let [la_roomList, la_roomPeriod, la_roomUse] = await Promise.all([
+            new Promise((resolve, reject) => {
+                fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_list.json', 'utf8', function (err, data) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(JSON.parse(data));
+                    }
+                })
+            }),
+            new Promise((resolve, reject) => {
+                fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_period.json', 'utf8', function (err, data) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(JSON.parse(data));
+                    }
+                })
+            }),
+            new Promise((resolve, reject) => {
+                fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_use.json', 'utf8', function (err, data) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(JSON.parse(data));
+                    }
+                })
+            })
+        ]);
 
-let convRmNosData = async (rmNosPageOneData) => {
-    let lo_convData = {};
-    return lo_convData;
-};
+        return {roomList: la_roomList, roomPeriod: la_roomPeriod, roomUse: la_roomUse};
+    }
+
+    async convRmNosData(rmNosPageOneData) {
+        let ln_begin_dat = moment(this.postData.begin_dat).date();
+        let lo_convData = {
+            date_range: {
+                begin_dat: ln_begin_dat,
+                end_dat: ln_begin_dat + this.ln_date_range
+            }
+            // roomNosDat
+        };
+
+
+        return rmNosPageOneData;
+    }
+}
