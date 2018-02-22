@@ -304,7 +304,7 @@ class rmNosPageOneMap {
         let lo_convData = {
             date_range: {
                 begin_dat: ln_begin_dat,
-                end_dat: ln_begin_dat + this.ln_date_range
+                end_dat: ln_begin_dat + this.ln_date_range - 1
             },
             roomNosData: []
         };
