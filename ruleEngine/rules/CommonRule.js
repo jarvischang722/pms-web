@@ -100,7 +100,13 @@ module.exports = {
         return localeContent.ErrorMsg[msgCod];
     },
 
-    getColumnByNam: function(columnNam, locale){
+    /**
+     * 取得select grid 欄位名稱多語系
+     * @param columnNam: 欄位名稱編號
+     * @param locale: 現在語系
+     * @returns {String}: 欄位名稱
+     */
+    getColumnByNam: function (columnNam, locale) {
         var appRootPath = require('app-root-path').path;
         var localeContent = {};
         var localesPath = appRootPath + "/locales/";
@@ -114,6 +120,11 @@ module.exports = {
             localeContent = require(localesPath + "en.json");
         }
 
-        return localeContent.Columns[columnNam];
+        if (_.isUndefined(localeContent.Columns[columnNam])) {
+            return columnNam;
+        }
+        else {
+            return localeContent.Columns[columnNam];
+        }
     }
 };
