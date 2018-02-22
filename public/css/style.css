@@ -1867,6 +1867,17 @@ a {
 }
 
 /*-- footer -- */
+.dropdown-rz-sm {
+  top: 25% !important;
+  right: 40% !important;
+  transform: translate(-50%, -50%);
+}
+
+@media only screen and (max-width: 767px) {
+  .user-menu.dropdown-close.dropdown-menu-right.dropdown-rz-sm {
+    right: 25% !important;
+  }
+}
 .companyInfo {
   margin: 10px 0 0 7px;
   display: none;

@@ -217,6 +217,17 @@ a
 
 /*-- footer --*/
 
+// navBar 修改高度低於540 帳號下拉問題
+.dropdown-rz-sm
+  top: 25% !important
+  right: 40% !important
+  transform: translate(-50%,-50%)
+  //width: 60%
+@media only screen and (max-width: 767px)
+  .user-menu.dropdown-close.dropdown-menu-right
+    &.dropdown-rz-sm
+      right: 25% !important
+
 // 舊的css 搬過來
 // todo 待刪除
 .companyInfo
