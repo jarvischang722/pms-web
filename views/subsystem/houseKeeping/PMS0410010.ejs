@@ -115,7 +115,8 @@
                                 </div>
                                 <div class="status-btn">
                                     <img src="/images/intCounter/zoom-out.png" class="zoomOut pointer"/>
-                                    <img src="/images/intCounter/zoom-in.png" class="zoomIn pointer" style="display: none;"/>
+                                    <img src="/images/intCounter/zoom-in.png" class="zoomIn pointer"
+                                         style="display: none;"/>
                                     <img src="/images/intCounter/note.png"/>
                                 </div>
                                 <div class="show-intCounterRight">
@@ -149,20 +150,20 @@
                                 <div class="status-view">
                                     <!--<div>-->
                                     <!--<div style="line-height: 30px;">-->
-                                    <div class="status-tip cb-yellow"><label>OC: </label><span>11</span></div>
+                                    <div class="status-tip cb-oc-od"><label>OC: </label><span>11</span></div>
                                     <div class="status-tip cb-purple"><label>OD: </label><span>5</span></div>
 
-                                    <div class="status-tip cb-green"><label>DOC: </label><span>11</span></div>
+                                    <div class="status-tip cb-doc-dod"><label>DOC: </label><span>11</span></div>
                                     <div class="status-tip cb-pink"><label>DOD: </label><span>5</span></div>
                                     <!--</div>-->
                                     <!--<div style="line-height: 30px;">-->
-                                    <div class="status-tip cb-gray"><label>VC: </label><span> 11</span></div>
-                                    <div class="status-tip cb-brown"><label>VD: </label><span>5</span></div>
+                                    <div class="status-tip cb-vc-vd"><label>VC: </label><span> 11</span></div>
+                                    <div class="status-tip cb-all"><label>VD: </label><span>5</span></div>
 
-                                    <div class="status-tip cb-grayGreen"><label>OOO: </label><span>5</span></div>
+                                    <div class="status-tip cb-vc-vdGreen"><label>OOO: </label><span>5</span></div>
                                     <div class="status-tip cb-sexyRed"><label>OOS: </label><span>20</span></div>
-                                    <div class="status-tip cb-default"><label>S: </label><span>5</span></div>
-                                    <div class="status-tip cb-blueGreen"><label>All: </label><span>11</span>
+                                    <div class="status-tip cb-s"><label>S: </label><span>5</span></div>
+                                    <div class="status-tip cb-ooo"><label>All: </label><span>11</span>
                                     </div>
                                     <!--</div>-->
                                     <!--</div>-->
@@ -238,27 +239,27 @@
                             <div class="space-6"></div>
                             <table class="">
                                 <tbody>
-                                <tr>
-                                    <td rowspan="3" style="width: 18%;" class="roomBigTitle">房控狀態</td>
-                                    <td style="width: 13%;">Power</td>
-                                    <td style="width: 13%;"></td>
-                                    <td style="width: 13%;">冷氣</td>
-                                    <td style="width: 13%;"></td>
-                                    <td style="width: 13%;">房門勿擾</td>
-                                    <td style="width: 13%;"></td>
-                                </tr>
-                                <tr>
-                                    <td>房門</td>
-                                    <td></td>
-                                    <td>防盜器</td>
-                                    <td></td>
-                                    <td>房間清潔</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">最後更新</td>
-                                    <td colspan="3"></td>
-                                </tr>
+                                    <tr>
+                                        <td rowspan="3" style="width: 18%;" class="roomBigTitle">房控狀態</td>
+                                        <td style="width: 13%;">Power</td>
+                                        <td style="width: 13%;"></td>
+                                        <td style="width: 13%;">冷氣</td>
+                                        <td style="width: 13%;"></td>
+                                        <td style="width: 13%;">房門勿擾</td>
+                                        <td style="width: 13%;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>房門</td>
+                                        <td></td>
+                                        <td>防盜器</td>
+                                        <td></td>
+                                        <td>房間清潔</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">最後更新</td>
+                                        <td colspan="3"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                             <div class="space-6"></div>
@@ -276,27 +277,33 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth clean-btn"
-                                        role="button">清掃</button>
+                                        role="button">清掃
+                                </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth houseKeep_cleanFloor"
-                                        role="button">清掃樓層</button>
+                                        role="button">清掃樓層
+                                </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth houseKeep_fixVisit"
-                                        role="button">修理/參觀</button>
+                                        role="button">修理/參觀
+                                </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth houseKeep_fixedFloor"
-                                        role="button">修理樓層</button>
+                                        role="button">修理樓層
+                                </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth houseKeep_delFixVisit"
-                                        role="button">刪除修理/參觀</button>
+                                        role="button">刪除修理/參觀
+                                </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth houseKeep_flawedRoom"
-                                        role="button">瑕疵房</button>
+                                        role="button">瑕疵房
+                                </button>
                             </li>
                         </ul>
                     </div>
