@@ -184,10 +184,10 @@ exports.qryRmNosPageOneMap = async (postData, session) => {
         let lb_ps_result = await rmNosObj.callProcedure();
         let lo_rmNosPageOneData = await rmNosObj.qryRmNosPageOneData();
         let lo_convRmNosData = await rmNosObj.convRmNosData(lo_rmNosPageOneData);
-        return lo_convRmNosData;
+        return {success: true, data: lo_convRmNosData};
     }
     catch (error) {
-        return error.message;
+        return {success: false, errMsg: error.message};
     }
 };
 
@@ -203,10 +203,10 @@ class rmNosPageOneMap {
             "REVE-CODE": "PMS0110050",
             hotel_cod: this.userInfo.hotel_cod,
             athena_id: this.userInfo.athena_id,
-            "program_id": "PMS0110050",
+            program_id: "PMS0110050",
             count: 1,
-            "user": this.userInfo.usr_id,
-            "func_id": "0100",
+            user: this.userInfo.usr_id,
+            func_id: "0100",
             exec_data: {
                 "1": {
                     athena_id: this.userInfo.athena_id,
@@ -224,29 +224,34 @@ class rmNosPageOneMap {
             }
         };
 
+        return new Promise((resolve, reject) => {
+            tools.requestApi(sysConf.api_url, lo_apiParam, function (err, res, data) {
+                var errorMsg = "";
+                if (err || !data) {
+                    reject(err);
+                } else if (data["RETN-CODE"] != "0000") {
+                    errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
+                    console.error(errorMsg);
+                    reject({message: errorMsg});
+                } else {
+                    resolve(data);
+                }
+            });
+        });
+
         // return new Promise((resolve, reject) => {
-        //     tools.requestApi(sysConf.api_url, lo_apiParam, function (err, res, data) {
+        //     fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_list.json', 'utf8', function (err, data) {
         //         if (err) {
         //             reject(err);
         //         }
         //         else {
-        //             resolve(data)
+        //             resolve(JSON.parse(data));
         //         }
-        //     });
-        // });
-
-        return new Promise((resolve, reject) => {
-            fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_list.json', 'utf8', function (err, data) {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(JSON.parse(data));
-                }
-            })
-        })
+        //     })
+        // })
     }
 
+    //pre查詢DBroomList, roomPeriod, roomUse
     async qryRmNosPageOneData() {
         let [la_roomList, la_roomPeriod, la_roomUse] = await Promise.all([
             new Promise((resolve, reject) => {
@@ -317,9 +322,12 @@ class rmNosPageOneMap {
             let ln_period_begin_dat = moment(lo_rmNosData.period_begin_dat).date();
             let ln_period_end_dat = ln_period_begin_dat + ln_date_diff;
 
-            let la_rmUse = _.where(rmNosPageOneData.roomUse, {room_cod: lo_rmNosData.room_cod, room_nos: lo_rmNosData.room_nos});
+            let la_rmUse = _.where(rmNosPageOneData.roomUse, {
+                room_cod: lo_rmNosData.room_cod,
+                room_nos: lo_rmNosData.room_nos
+            });
             let la_room_use = [];
-            _.each(la_rmUse, function(lo_rmUse){
+            _.each(la_rmUse, function (lo_rmUse) {
                 let ln_use_date_diff = moment(lo_rmUse.use_end_dat).diff(moment(lo_rmUse.use_begin_dat), "d");
                 let ln_use_begin_dat = moment(lo_rmUse.use_begin_dat).date();
                 let ln_use_end_dat = ln_use_begin_dat + ln_use_date_diff;

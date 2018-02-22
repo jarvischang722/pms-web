@@ -119,14 +119,8 @@ exports.qryPageOneDataByRmTyp = function (req, res) {
 
 //[PMS0110050依房號訂房] 首頁地圖資料
 exports.qryRmNosPageOneMap = async (req, res) => {
-    let lo_result, ls_error = null;
-    try {
-        lo_result = await resvSvc.qryRmNosPageOneMap(req.body, req.session);
-    }
-    catch (err) {
-        ls_error = err;
-    }
-    res.json({success: ls_error == null, data: lo_result, errorMsg: ls_error});
+    let lo_result = await resvSvc.qryRmNosPageOneMap(req.body, req.session);
+    res.json({success: lo_result.success == true, data: lo_result.data, errorMsg: lo_result.errMsg});
 };
 
 exports.qryRentCalDat = function (req, res) {
