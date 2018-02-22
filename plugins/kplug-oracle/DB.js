@@ -375,7 +375,7 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
     }
 
     // where in 用字串取代方式作
-    if (!_.isUndefined(condition.inCond) && !_.isEmpty(condition.inCond)) {
+    if (!_.isUndefined(condition.inCond)) {
         _.each(condition.inCond, function (value, paramKey) {
             sqlstring = sqlstring.replace(":" + paramKey, value);
         });
@@ -404,7 +404,6 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
             return;
         }
         var data = [];
-        this.inCon = {};
         _.each(result.rows, function (row, idx) {
             var dd = {};
             for (var i = 0; i < row.length; i++) {
