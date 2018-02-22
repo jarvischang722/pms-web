@@ -103,7 +103,7 @@ module.exports = {
             localeContent = require(localesPath + "en.json");
         }
 
-        return msgCod || localeContent.ErrorMsg[columnNam];
+        return localeContent.ErrorMsg[columnNam] || msgCod;
     },
 
     /**
@@ -126,6 +126,6 @@ module.exports = {
             localeContent = require(localesPath + "en.json");
         }
 
-        return columnNam || localeContent.Columns[columnNam];
+        return localeContent.Columns[columnNam] || columnNam;
     }
 };
