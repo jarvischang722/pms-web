@@ -98,5 +98,22 @@ module.exports = {
         }
 
         return localeContent.ErrorMsg[msgCod];
+    },
+
+    getColumnByNam: function(columnNam, locale){
+        var appRootPath = require('app-root-path').path;
+        var localeContent = {};
+        var localesPath = appRootPath + "/locales/";
+
+        var isExist = fs.existsSync(localesPath + locale.toLowerCase() + ".json");
+        if (isExist) {
+            localeContent = require(localesPath + locale.toLowerCase() + ".json");
+
+        } else {
+            console.error("找不到多語系對應檔案[" + localesPath + locale.toLowerCase() + ".json]");
+            localeContent = require(localesPath + "en.json");
+        }
+
+        return localeContent.Columns[columnNam];
     }
 };

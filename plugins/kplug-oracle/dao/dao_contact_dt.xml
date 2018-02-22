@@ -27,9 +27,10 @@
     <!-- ['PSIW510030'] 取得客戶電話 -->
     <dao name="QRY_CONTACT_DT_SELECT">
         <statement><![CDATA[
-            select contact_rmk as cust_tel from contact_dt
-            where cust_cod = trim(:cust_cod)
-            and contact_cod = trim(:contact_cod)
+            select contact_rmk as cust_tel
+            from contact_dt
+            where trim(cust_cod) = trim(:cust_cod)
+            and trim(contact_cod) = trim(:contact_cod)
         ]]>
         </statement>
         <parameter type="string" kind="3">cust_cod</parameter>

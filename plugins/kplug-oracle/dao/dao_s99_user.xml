@@ -68,7 +68,9 @@
     -->
     <dao name="QRY_USER_NOS">
         <statement><![CDATA[
-        select distinct usr_id value, usr_cname as display from s99_user where user_athena_id = :athena_id order by usr_id
+        select distinct usr_id as user_nos, usr_cname as user_name, trim(usr_id ||':'|| usr_cname) as user_display
+        from s99_user
+        where user_athena_id = :athena_id order by usr_id
         ]]> </statement>
         <parameter type="number" kind="3">athena_id</parameter>
     </dao>

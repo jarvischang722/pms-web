@@ -1867,6 +1867,17 @@ a {
 }
 
 /*-- footer -- */
+.dropdown-rz-sm {
+  top: 25% !important;
+  right: 40% !important;
+  transform: translate(-50%, -50%);
+}
+
+@media only screen and (max-width: 767px) {
+  .user-menu.dropdown-close.dropdown-menu-right.dropdown-rz-sm {
+    right: 25% !important;
+  }
+}
 .companyInfo {
   margin: 10px 0 0 7px;
   display: none;
@@ -2010,7 +2021,6 @@ a {
 }
 .top-sec-ul .subnav {
   float: left !important;
-  min-width: 80px;
   /*max-width: 100% */
   text-align: center;
   display: inline-block;
@@ -2089,6 +2099,14 @@ a {
 .top-sec-ul .subnav.activeThis .exLinkIcon, .top-sec-ul .subnav.activeThis .subnav-txt {
   background: #888;
   color: #fff;
+}
+.top-sec-ul .subnav.btn-gray .exLinkIcon:hover, .top-sec-ul .subnav.btn-gray .subnav-txt:hover {
+  background: #ebebeb;
+  color: #a2a2a2;
+}
+.top-sec-ul .subnav.btn-skin .exLinkIcon:hover, .top-sec-ul .subnav.btn-skin .subnav-txt:hover {
+  background: #ffece3;
+  color: #a2a2a2;
 }
 
 /*-- authorityNewActor 新增權限 -- */
@@ -2850,7 +2868,7 @@ ul.newVisitOther-btn {
   margin: 5px auto auto 10px;
 }
 .resvCard-data .divideLine {
-  padding: 2px 5px 0 5px;
+  padding: 2px 0 0 0;
 }
 .resvCard-data span {
   padding-right: 5px;
@@ -4249,7 +4267,7 @@ td div.act-box span.act-text {
   display: inline;
 }
 .roomAssign .room-special {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 .roomAssign .room-special .spec-title {
   margin: 5px auto;
@@ -6679,6 +6697,10 @@ td div.triangle-box.colspan-28.only-oneArrow-left {
 
 .defHt {
   height: 25px;
+}
+
+.defLineHt {
+  line-height: 25px;
 }
 
 .selectHt {
