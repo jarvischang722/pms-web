@@ -217,6 +217,17 @@ a
 
 /*-- footer --*/
 
+// navBar 修改高度低於540 帳號下拉問題
+.dropdown-rz-sm
+  top: 25% !important
+  right: 40% !important
+  transform: translate(-50%,-50%)
+  //width: 60%
+@media only screen and (max-width: 767px)
+  .user-menu.dropdown-close.dropdown-menu-right
+    &.dropdown-rz-sm
+      right: 25% !important
+
 // 舊的css 搬過來
 // todo 待刪除
 .companyInfo
@@ -333,7 +344,7 @@ a
 
   .subnav
     float: left !important
-    min-width: 80px
+    //min-width: 80px
     /*max-width: 100%*/
     text-align: center
     display: inline-block
@@ -367,7 +378,16 @@ a
       .exLinkIcon,.subnav-txt
         background: #888
         color: #fff
-
+    &.btn-gray
+      .exLinkIcon,.subnav-txt
+        &:hover
+          background: #ebebeb
+          color: #a2a2a2
+    &.btn-skin
+      .exLinkIcon,.subnav-txt
+        &:hover
+          background: #ffece3
+          color: #a2a2a2
 /*-- authorityNewActor 新增權限 --*/
 .authorityTree
   .tree
@@ -1018,9 +1038,11 @@ ul.newVisitOther-btn
 .resvCard-data
   margin: 5px auto auto 10px
   .divideLine
-    padding: 2px 5px 0 5px
+    padding: 2px 0 0 0
   span
     padding-right: 5px
+    //&:last-child
+    //  padding-right: 0
 
 // 訂房卡 changeLog
 .resv-changeRecord
@@ -2010,7 +2032,7 @@ td
     display: inline
   /* townHouse.html */
   .room-special
-    margin-bottom: 15px
+    margin-bottom: 5px
     .spec-title
       margin: 5px auto
     .checkbox
