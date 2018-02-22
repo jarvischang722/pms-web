@@ -2984,7 +2984,7 @@ ul.newVisitOther-btn {
   cursor: pointer;
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-yellow {
-  background: #fffba1;
+  background: #ffd45a;
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-purple {
   background: #ae8dc3;
@@ -3107,7 +3107,7 @@ ul.newVisitOther-btn {
   cursor: pointer;
 }
 .foCounter .counterPage .counterRow .counterBlock.cb-yellow {
-  background: #fffba1;
+  background: #ffd45a;
 }
 .foCounter .counterPage .counterRow .counterBlock.cb-purple {
   background: #ae8dc3;
@@ -3171,6 +3171,23 @@ ul.newVisitOther-btn {
   font-weight: bold;
   font-size: 18px;
   line-height: 18px;
+}
+.foCounter .counterPage .counterRow .counterBlock .head .txt-lg.cb-dirty {
+  color: #000;
+}
+.foCounter .counterPage .counterRow .counterBlock .head .txt-lg.cb-clean {
+  color: #fff;
+}
+.foCounter .counterPage .counterRow .counterBlock .head .txt-lg.cb-rmAssign-d {
+  color: #000;
+  border-bottom: 1px solid #000;
+}
+.foCounter .counterPage .counterRow .counterBlock .head .txt-lg.cb-rmAssign-c {
+  color: #fff;
+  border-bottom: 1px solid #fff;
+}
+.foCounter .counterPage .counterRow .counterBlock .head .txt-lg.cb-ischeck {
+  color: #7b3ec3;
 }
 .foCounter .counterPage .counterRow .counterBlock .content {
   position: absolute;
@@ -4285,7 +4302,7 @@ td div.act-box span.act-text {
   margin: 5px 0 5px 5px;
 }
 .select-group .status-view div.status-tip.cb-yellow {
-  background: #fffba1;
+  background: #ffd45a;
 }
 .select-group .status-view div.status-tip.cb-purple {
   background: #ae8dc3;
