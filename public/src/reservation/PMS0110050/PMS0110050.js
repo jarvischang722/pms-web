@@ -24,9 +24,9 @@ new Vue({
         rentCalDat: "",
         //搜尋日期
         searchData: {
-            year: moment(new Date()).format("YYYY/MM/DD").toString().split("/")[0],
-            month: "03",
-            date: "24"
+            year: moment().year().toString(),
+            month: moment().month() + 1,
+            date: moment().date().toString()
         },
         nowSearchDate: "",
         searchData4Month: moment(new Date()).format("YYYY/MM/DD").toString(),
@@ -59,102 +59,33 @@ new Vue({
         fetchData() {
             this.initData();
 
-            this.nowSearchDate = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+            this.nowSearchDate = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
 
             var lo_param = {
+                socket_id: this.randomString,
                 begin_dat: this.nowSearchDate
             };
 
-            // $.post('/api/qryPageOneDataByRmTyp', lo_param).then(result => {
-            //     if (result.success) {
-            //         if (!_.isEmpty(result.data)) {
-            //             this.is4fieldAppear = true;
-            //             this.beginNum = result.data.date_range.begin_dat;
-            //             this.endNum = result.data.date_range.end_dat;
-            //             this.color = result.data.date_range.color;
-            //             this.roomTypData = result.data.roomTypData;
-            //             this.convertData();
-            //             this.isLoading = false;
-            //         }
-            //         else {
-            //             this.isLoading = false;
-            //             alert('查無資料');
-            //         }
-            //
-            //     }
-            // });
-            this.beginNum = 24;
-            this.endNum = 37;
-            this.roomNosData = [
-                {
-                    roomTyp: 'DXK',
-                    room_nos: '501',
-                    room_sta: 'Q', 	//清掃狀況
-                    begin_dat: 24, 	//有效開始日期
-                    end_dat: 37, 	//有效結束日期
-                    room_use: [
-                        {
-                            begin_dat: 25,
-                            end_dat: 25,
-                            ci_dat: 30,
-                            co_dat: 31,
-                            ues_rmk: "test",
-                            use_typ: "R"//使用類別，A:排房／O:住人／R:修理／S:參觀
-                        }
-                    ]
-                },
-                {
-                    roomTyp: 'DXK',
-                    room_nos: '502',
-                    room_sta: 'Q', //清掃狀況
-                    begin_dat: 24, //有效開始日期
-                    end_dat: 37,	//有效結束日期
-                    room_use: [
-                        {
-                            begin_dat: 31,
-                            end_dat: 35,
-                            ci_dat: 30,
-                            co_dat: 31,
-                            ues_rmk: "test2",
-                            use_typ: "A"//使用類別，A:排房／O:住人／R:修理／S:參觀
-                        },
-                        {
-                            begin_dat: 36,
-                            end_dat: 39,
-                            ci_dat: 32,
-                            co_dat: 35,
-                            ues_rmk: "test3",
-                            use_typ: "O"//使用類別，A:排房／O:住人／R:修理／S:參觀
-                        }
-                    ]
-                },
-                {
-                    roomTyp: 'DSK',
-                    room_nos: '501',
-                    room_sta: 'K', //清掃狀況
-                    begin_dat: 24, //有效開始日期
-                    end_dat: 37,	//有效結束日期
-                    room_use: [
-                        {
-                            begin_dat: 24,
-                            end_dat: 28,
-                            ci_dat: 30,
-                            co_dat: 31,
-                            ues_rmk: "test4",
-                            use_typ: "A"//使用類別，A:排房／O:住人／R:修理／S:參觀
-                        },
-                        {
-                            begin_dat: 30,
-                            end_dat: 33,
-                            ci_dat: 32,
-                            co_dat: 35,
-                            ues_rmk: "test5",
-                            use_typ: "S"//使用類別，A:排房／O:住人／R:修理／S:參觀
-                        }
-                    ]
+            $.post('/api/qryRmNosPageOneMap', lo_param).then(result => {
+
+                if (result.success) {
+                    if (!_.isEmpty(result.data)) {
+                        this.is4fieldAppear = true;
+                        this.beginNum = result.data.date_range.begin_dat;
+                        this.endNum = result.data.date_range.end_dat;
+                        // this.color = result.data.date_range.color;
+                        this.roomNosData = result.data.roomNosData;
+                        this.convertData(this.roomNosData);
+                        this.isLoading = false;
+                    }
+                    else {
+                        this.isLoading = false;
+                        alert('查無資料');
+                    }
+
                 }
-            ];
-            this.convertData(this.roomNosData);
+            });
+
         },
         convertData(la_roomNosData) {
             var self = this;
@@ -163,7 +94,8 @@ new Vue({
 
             this.roomNosDataDisplay = JSON.parse(JSON.stringify(la_roomNosData));
             //處理日期欄位資料
-            var ls_date = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+            var ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+
             for (let i = this.beginNum; i <= this.endNum; i++) {
                 let lo_date = moment(new Date(ls_date)).add('days', i - this.beginNum);
                 this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2]});
@@ -187,8 +119,9 @@ new Vue({
                 let ln_validBeginDatIdx = _.findIndex(la_tmpRoomUse, {num: lo_roomNosData.begin_dat});
                 let ln_validEndDatIdx = _.findIndex(la_tmpRoomUse, {num: lo_roomNosData.end_dat});
                 ln_validBeginDatIdx = ln_validBeginDatIdx > -1 ? ln_validBeginDatIdx : 0;
-                ln_validEndDatIdx = ln_validEndDatIdx > -1 ? ln_validEndDatIdx + 1 : la_tmpRoomUse.length ;
-                for(let i = ln_validBeginDatIdx;i <= ln_validEndDatIdx;i ++){
+                ln_validEndDatIdx = ln_validEndDatIdx > -1 ? ln_validEndDatIdx + 1 : la_tmpRoomUse.length - 1;
+
+                for (let i = ln_validBeginDatIdx; i <= ln_validEndDatIdx; i++) {
                     la_tmpRoomUse[i].isValidity = true;
                 }
 
@@ -197,37 +130,36 @@ new Vue({
                     let ln_beginDatIdx = _.findIndex(la_tmpRoomUse, {num: lo_roomUse.begin_dat});
                     let ln_endDatIdx = _.findIndex(la_tmpRoomUse, {num: lo_roomUse.end_dat});
 
-                    ln_beginDatIdx = ln_beginDatIdx > -1 ? ln_beginDatIdx + 1 : 0;
-                    ln_endDatIdx = ln_endDatIdx > -1 ? ln_endDatIdx : la_tmpRoomUse.length - 1;
+                    if(ln_beginDatIdx > -1 && ln_endDatIdx > -1){
+                        ln_beginDatIdx = ln_beginDatIdx + 1;
+                        la_tmpRoomUse[ln_beginDatIdx].isUsed = true;
 
-                    la_tmpRoomUse[ln_beginDatIdx].isUsed = true;
+                        let ls_roomUseClass = "";
+                        //轉換房間使用類別代號
+                        lo_roomUse.use_typ = lo_roomUse.use_typ == "R" ? 'OOO' : lo_roomUse.use_typ;
+                        ls_roomUseClass = ls_roomUseClass + 'status_' + lo_roomUse.use_typ.toLocaleLowerCase();
+                        //轉換房間使用期間
+                        ls_roomUseClass = ls_roomUseClass + ' colspan-' + (ln_endDatIdx - ln_beginDatIdx + 1);
+                        if (lo_roomUse.begin_dat < self.beginNum) {
+                            ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-left';
+                        }
+                        else if (lo_roomUse.end_dat > self.endNum) {
+                            ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
+                        }
+                        else if (lo_roomUse.end_dat == lo_roomUse.begin_dat) {
+                            ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
+                        }
 
-                    let ls_roomUseClass = "";
-                    //轉換房間使用類別代號
-                    lo_roomUse.use_typ = lo_roomUse.use_typ == "R" ? 'OOO' : lo_roomUse.use_typ;
-                    ls_roomUseClass = ls_roomUseClass + 'status_' + lo_roomUse.use_typ.toLocaleLowerCase();
-                    //轉換房間使用期間
-                    ls_roomUseClass = ls_roomUseClass + ' colspan-' + (ln_endDatIdx - ln_beginDatIdx + 1);
-                    if (lo_roomUse.begin_dat < self.beginNum) {
-                        ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-left';
+                        la_tmpRoomUse[ln_beginDatIdx].attClass = ls_roomUseClass;
+
+                        //轉換房間使用備註
+                        la_tmpRoomUse[ln_beginDatIdx].text = lo_roomUse.use_rmk;
+
+                        //轉換房間使用title
+                        let ls_ciDat = moment(new Date(ls_date)).add('days', lo_roomUse.ci_dat - self.beginNum).format("YY/MM/DD").toString();
+                        let ls_coDat = moment(new Date(ls_date)).add('days', lo_roomUse.co_dat - self.beginNum).format("YY/MM/DD").toString();
+                        la_tmpRoomUse[ln_beginDatIdx].title = lo_roomUse.use_rmk + "(" + ls_ciDat + "~" + ls_coDat + ")";
                     }
-                    else if (lo_roomUse.end_dat > self.endNum) {
-                        ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
-                    }
-                    else if(lo_roomUse.end_dat == lo_roomUse.begin_dat){
-                        ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
-                    }
-
-                    la_tmpRoomUse[ln_beginDatIdx].attClass = ls_roomUseClass;
-
-                    //轉換房間使用備註
-                    la_tmpRoomUse[ln_beginDatIdx].text = lo_roomUse.ues_rmk;
-
-                    //轉換房間使用title
-                    let ls_ciDat = moment(new Date(ls_date)).add('days', lo_roomUse.ci_dat - self.beginNum).format("YY/MM/DD").toString();
-                    let ls_coDat = moment(new Date(ls_date)).add('days', lo_roomUse.co_dat - self.beginNum).format("YY/MM/DD").toString();
-                    la_tmpRoomUse[ln_beginDatIdx].title = lo_roomUse.ues_rmk + "(" + ls_ciDat + "~" + ls_coDat + ")";
-
                 });
 
                 this.roomNosDataDisplay[idx].room_use_display = la_tmpRoomUse;
@@ -235,26 +167,26 @@ new Vue({
         },
         selectDate() {
             var ls_date = moment(new Date(this.searchData4Month)).format("YYYY/MM/DD").toString();
-            this.searchData.year = ls_date.split("/")[0];
-            this.searchData.month = ls_date.split("/")[1];
-            this.searchData.date = ls_date.split("/")[2];
+            this.searchData.year = moment(new Date(this.searchData4Month)).year();
+            this.searchData.month = moment(new Date(this.searchData4Month)).month() + 1;
+            this.searchData.date = moment(new Date(this.searchData4Month)).date();
         },
         //依房種、房號、清掃狀況排序
-        sortData(dataTyp){
+        sortData(dataTyp) {
             this.convertData(_.sortBy(this.roomNosData, dataTyp));
         },
         //搜尋日轉回滾房租日
         backToRentCalDat() {
-            this.searchData.year = this.rentCalDat.split("/")[0];
-            this.searchData.month = this.rentCalDat.split("/")[1];
-            this.searchData.date = this.rentCalDat.split("/")[2];
+            this.searchData.year = moment(new Date(this.rentCalDat)).year();
+            this.searchData.month = moment(new Date(this.rentCalDat)).month() + 1;
+            this.searchData.date = moment(new Date(this.rentCalDat)).date();
             this.searchData4Month = moment(new Date(this.rentCalDat));
         },
         changDate(num) {
             var ls_date = moment(new Date(this.nowSearchDate)).add('days', num).format("YYYY/MM/DD").toString();
-            this.searchData.year = ls_date.split("/")[0];
-            this.searchData.month = ls_date.split("/")[1];
-            this.searchData.date = ls_date.split("/")[2];
+            this.searchData.year = moment(new Date(ls_date)).year();
+            this.searchData.month = moment(new Date(ls_date)).month() + 1;
+            this.searchData.date = moment(new Date(ls_date)).date();
             this.searchData4Month = moment(new Date(ls_date));
         }
 

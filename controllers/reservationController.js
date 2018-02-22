@@ -126,7 +126,7 @@ exports.qryRmNosPageOneMap = async (req, res) => {
     catch (err) {
         ls_error = err;
     }
-    res.json({err: ls_error == null, data: lo_result, errorMsg: ls_error});
+    res.json({success: ls_error == null, data: lo_result, errorMsg: ls_error});
 };
 
 exports.qryRentCalDat = function (req, res) {
