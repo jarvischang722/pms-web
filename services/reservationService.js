@@ -215,11 +215,11 @@ class rmNosPageOneMap {
                     socket_id: this.postData.socket_id,
                     begin_dat: this.postData.begin_dat,
                     query_days: this.ln_date_range,
-                    room_cod: this.postData.room_cod,
-                    room_nos: this.postData.room_nos,
-                    character_rmk: this.postData.character_rmk,
-                    build_nos: this.postData.build_nos,
-                    floor_nos: this.postData.floor_nos
+                    room_cod: this.postData.room_cod || "",
+                    room_nos: this.postData.room_nos || "",
+                    character_rmk: this.postData.character_rmk || "",
+                    build_nos: this.postData.build_nos || "",
+                    floor_nos: this.postData.floor_nos || ""
                 }
             }
         };
