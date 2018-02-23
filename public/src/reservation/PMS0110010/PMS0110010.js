@@ -101,6 +101,17 @@ var vm = new Vue({
                         this.isLoading = false;
                     }
                     else {
+                        //處理日期欄位資料
+                        var ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+                        for (let i = 0; i <= 20; i++) {
+                            let lo_date = moment(new Date(ls_date)).add('days', i);
+                            this.dateFieldData.push({
+                                data: lo_date.format("YYYY/MM/DD").toString().split("/")[2],
+                                color: '#fff'
+                            });
+                            this.dayFieldData.push({data: lo_date.format("ddd"), color: '#fff'});
+                        }
+
                         this.is4fieldAppear = false;
                         this.isLoading = false;
                         alert('查無資料');
@@ -119,10 +130,13 @@ var vm = new Vue({
             });
 
             //處理日期欄位資料
-            var ls_date = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+            var ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
             for (let i = this.beginNum; i <= this.endNum; i++) {
                 let lo_date = moment(new Date(ls_date)).add('days', i - this.beginNum);
-                this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2],color: this.color[i - this.beginNum]});
+                this.dateFieldData.push({
+                    data: lo_date.format("YYYY/MM/DD").toString().split("/")[2],
+                    color: this.color[i - this.beginNum]
+                });
                 this.dayFieldData.push({data: lo_date.format("ddd"), color: this.color[i - this.beginNum]});
             }
 
@@ -141,11 +155,11 @@ var vm = new Vue({
                     let ln_beginIdx = _.indexOf(la_dateNumData, roomData.begin_dat);
                     let ln_endIdx = _.indexOf(la_dateNumData, roomData.end_dat);
 
-                    let la_emptyRm = new Array(this.endNum -  this.beginNum + 1);
-                    let la_notWrsRm = new Array(this.endNum -  this.beginNum + 1);
-                    let la_overBooking = new Array(this.endNum -  this.beginNum + 1);
-                    let la_useRm = new Array(this.endNum -  this.beginNum + 1);
-                    let la_wrsRm = new Array(this.endNum -  this.beginNum + 1);
+                    let la_emptyRm = new Array(this.endNum - this.beginNum + 1);
+                    let la_notWrsRm = new Array(this.endNum - this.beginNum + 1);
+                    let la_overBooking = new Array(this.endNum - this.beginNum + 1);
+                    let la_useRm = new Array(this.endNum - this.beginNum + 1);
+                    let la_wrsRm = new Array(this.endNum - this.beginNum + 1);
 
                     for (let i = self.beginNum; i <= self.endNum; i++) {
                         la_emptyRm[i - self.beginNum] = {color: self.color[i - self.beginNum], num: ''};
@@ -192,10 +206,10 @@ var vm = new Vue({
             let ln_beginIdx4Field = _.indexOf(la_dataNumData4Field, this.beginNum);
             let ln_endIdx4Field = _.indexOf(la_dataNumData4Field, this.endNum);
 
-            let la_totalAvailable = new Array(this.endNum -  this.beginNum + 1);
-            let la_occupancy = new Array(this.endNum -  this.beginNum + 1);
-            let la_phyAvailable = new Array(this.endNum -  this.beginNum + 1);
-            let la_phyOccupancy = new Array(this.endNum -  this.beginNum + 1);
+            let la_totalAvailable = new Array(this.endNum - this.beginNum + 1);
+            let la_occupancy = new Array(this.endNum - this.beginNum + 1);
+            let la_phyAvailable = new Array(this.endNum - this.beginNum + 1);
+            let la_phyOccupancy = new Array(this.endNum - this.beginNum + 1);
 
             for (let i = this.beginNum; i <= this.endNum; i++) {
                 la_totalAvailable[i - this.beginNum] = {color: self.color[i - this.beginNum], num: ''};
