@@ -227,18 +227,11 @@ exports.GridSingleProc = function (postData, session) {
 
 // 取搜尋欄位資料
 exports.qrySearchFields = function (postData, session, callback) {
-    gs_prg_id = postData.pro_id;
+    gs_prg_id = postData.prg_id;
     gn_page_id = 3;
     go_session = session;
-    async.waterfall([
-        function(cb){
-            getAllUIPageFieldAttr(function(err, la_fields){
-                cb(err, la_fields);
-            });
-        },
-        qrySelectOption //查詢SelectOption
-    ], function(err, result){
-        callback(err, result);
+    getAllUIPageFieldAttr(function(err, la_fields){
+        callback(err, la_fields);
     });
 
 };
