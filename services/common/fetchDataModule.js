@@ -504,7 +504,7 @@ function qrySelectOption(la_dgFieldData, callback) {
                         la_dgFieldData[fIdx].referiable = selRow.referiable || "N";
                         la_dgFieldData[fIdx].defaultVal = selRow.defaultVal || "";
 
-                        if (la_dgFieldData[fIdx].ui_type == "selectgrid") {
+                        if (la_dgFieldData[fIdx].ui_type == "selectgrid" || la_dgFieldData[fIdx].ui_type == "multiselectgrid" ) {
                             dataRuleSvc.getSelectGridOption(go_session, selRow, la_dgFieldData[fIdx], function (err, selectData) {
                                 la_dgFieldData[fIdx].selectData = selectData;
                                 cb(err, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
@@ -571,7 +571,7 @@ function qrySearchFields(la_dgFieldData, callback) {
                 prg_id: gs_prg_id,
                 page_id: 3,
                 locale: go_session.locale
-            }, go_session.user, function (err, fields) {
+            }, go_session, function (err, fields) {
                 cb(err, fields);
             });
         },
