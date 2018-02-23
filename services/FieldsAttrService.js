@@ -16,7 +16,7 @@ let CommonTools = require("../utils/CommonTools");
  * @param callback
  * @returns {*}
  */
-exports.getAllUIPageFieldAttr = function (params, userInfo, callback) {
+exports.getAllUIPageFieldAttr = function (params, session, callback) {
     let ls_locale = params.locale || 'zh_TW';
     if (_.isUndefined(params.prg_id)) {
         return callback([]);
@@ -56,7 +56,7 @@ exports.getAllUIPageFieldAttr = function (params, userInfo, callback) {
             });
         },
         function (fields, callback) {
-            filterSpecField(fields, userInfo, function (err, filteredFields) {
+            filterSpecField(fields, session, function (err, filteredFields) {
                 callback(err, filteredFields);
             });
         }
@@ -67,15 +67,15 @@ exports.getAllUIPageFieldAttr = function (params, userInfo, callback) {
 };
 
 
-function filterSpecField(allFields, userInfo, callback) {
+function filterSpecField(allFields, session, callback) {
     let handleFuncs = [];
     _.each(allFields, function (field, fIdx) {
         //撈取下拉選單資料
         if (_.isEqual(field.ui_type, "select") || _.isEqual(field.ui_type, "multiselect") || _.isEqual(field.ui_type, "checkbox") ||
-            _.isEqual(field.ui_type, "selectgrid") || _.isEqual(field.ui_type, "radio")) {
+            _.isEqual(field.ui_type, "selectgrid") || _.isEqual(field.ui_type, "radio") || _.isEqual(field.ui_type, "multiselectgrid")) {
             handleFuncs.push(
                 function (callback) {
-                    appendFieldSelectData(field, userInfo, function (err, appendedField) {
+                    appendFieldSelectData(field, session, function (err, appendedField) {
                         callback(err, appendedField);
                     });
                 }
@@ -85,7 +85,7 @@ function filterSpecField(allFields, userInfo, callback) {
             handleFuncs.push(
                 function (callback) {
                     allFields[fIdx].selectData = [];
-                    ruleAgent[field.rule_func_name](field, userInfo, function (err, result) {
+                    ruleAgent[field.rule_func_name](field, session.user, function (err, result) {
                         allFields[fIdx].selectData = result.selectOptions;
                         callback(null, allFields[fIdx]);
                     });
@@ -105,7 +105,7 @@ function filterSpecField(allFields, userInfo, callback) {
     });
 }
 
-function appendFieldSelectData(field, userInfo, callback) {
+function appendFieldSelectData(field, session, callback) {
     mongoAgent.UITypeSelect.findOne({
         prg_id: field.prg_id,
         ui_field_name: field.ui_field_name,
@@ -120,10 +120,18 @@ function appendFieldSelectData(field, userInfo, callback) {
     }).exec(function (err, selRow) {
         if (selRow) {
             selRow = selRow.toObject();
-            dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
-                field.selectData = selectData;
-                callback(null, field);
-            });
+            if(field.ui_type == "selectgrid" || field.ui_type == "multiselectgrid"){
+                dataRuleSvc.getSelectGridOption(session, selRow, field, function (err, selectData) {
+                    field.selectData = selectData;
+                    callback(null, field);
+                });
+            }
+            else{
+                dataRuleSvc.getSelectOptions(session.user, selRow, field, function (selectData) {
+                    field.selectData = selectData;
+                    callback(null, field);
+                });
+            }
         } else {
             callback(null, field);
         }
