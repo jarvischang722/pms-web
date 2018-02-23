@@ -225,7 +225,7 @@ exports.GridSingleProc = function (postData, session) {
 
 };
 
-// 取搜尋欄位資料
+// 取搜尋欄位資料(page_id: 3)
 exports.qrySearchFields = function (postData, session, callback) {
     gs_prg_id = postData.prg_id;
     gn_page_id = 3;
@@ -233,12 +233,11 @@ exports.qrySearchFields = function (postData, session, callback) {
     getAllUIPageFieldAttr(function(err, la_fields){
         callback(err, la_fields);
     });
-
 };
 
-/*
+/**
  * 查詢單筆欄位名稱
- */
+ **/
 function qryFieldName(callback) {
     var lo_params = {
         prg_id: gs_prg_id,
@@ -252,9 +251,9 @@ function qryFieldName(callback) {
     });
 }
 
-/*
+/**
  * 查詢單筆下拉欄位資料
- */
+ **/
 function qrySelectData(callback) {
     var lo_params = {
         prg_id: gs_prg_id,
@@ -268,9 +267,9 @@ function qrySelectData(callback) {
     });
 }
 
-/*
+/**
  * 查詢多筆templateRf
- */
+ **/
 function qryDgTemplateRf(callback) {
     var lo_params = {
         prg_id: gs_prg_id,
