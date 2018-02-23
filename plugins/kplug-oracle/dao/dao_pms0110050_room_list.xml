@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!--[PMS0110050] 取得房型資料-->
+    <dao name="QRY_ROOM_LIST">
+        <statement><![CDATA[
+            select * from tmp_pms0110050_room_list
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and usr_id = :usr_id
+            and socket_id = :socket_id
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">usr_id</parameter>
+        <parameter type="string" kind="3">socket_id</parameter>
+    </dao>
+
+    <!--[PMS0110050] 取得房型有效日期資料-->
+    <dao name="QRY_ROOM_PERIOD">
+        <statement><![CDATA[
+            select * from tmp_pms0110050_room_period
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and usr_id = :usr_id
+            and socket_id = :socket_id
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">usr_id</parameter>
+        <parameter type="string" kind="3">socket_id</parameter>
+    </dao>
+
+    <!--[PMS0110050] 取得房型使用資料-->
+    <dao name="QRY_ROOM_USE">
+        <statement><![CDATA[
+            select * from tmp_pms0110050_room_use
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and usr_id = :usr_id
+            and socket_id = :socket_id
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">usr_id</parameter>
+        <parameter type="string" kind="3">socket_id</parameter>
+    </dao>
+</root>
