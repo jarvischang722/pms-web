@@ -95,10 +95,8 @@ new Vue({
 
                 if (result.success) {
                     if (!_.isEmpty(result.data)) {
-                        this.is4fieldAppear = true;
                         this.beginNum = result.data.date_range.begin_dat;
                         this.endNum = result.data.date_range.end_dat;
-                        // this.color = result.data.date_range.color;
                         this.roomNosData = result.data.roomNosData;
                         this.convertData(this.roomNosData);
                         this.isLoading = false;
