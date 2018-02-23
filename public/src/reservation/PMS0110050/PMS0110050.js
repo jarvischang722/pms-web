@@ -1,13 +1,16 @@
 import _s from "underscore.string";
 import _ from "underscore";
 import crypto from "crypto";
+import searchComp from '../../components/common/bacUIComps/search-comp.vue';
 
 new Vue({
     el: '#PMS0110050App',
     mounted() {
         this.fetchRentCalDat();
         this.fetchData();
+        this.fetchSearchFields();
     },
+    components: {searchComp},
     watch: {
         searchData: {
             handler(val) {
@@ -22,6 +25,15 @@ new Vue({
         isLoading: true,
         //滾房租日
         rentCalDat: "",
+        //搜尋欄位資料
+        searchFields: [],
+        searchCond: {
+            room_cod: [],
+            room_nos: "",
+            character_rmk: [],
+            build_nos: [],
+            floor_nos: []
+        },
         //搜尋日期
         searchData: {
             year: moment().year().toString(),
@@ -48,6 +60,14 @@ new Vue({
                 this.rentCalDat = result.rent_cal_dat;
             });
         },
+        //取搜尋欄位資料
+        fetchSearchFields() {
+            $.post('/api/fetchOnlySearchFieldsData', {prg_id: 'PMS0110050'}, (result) => {
+                if (result.success) {
+                    this.searchFields = result.searchFieldsData;
+                }
+            });
+        },
         //資料初始化
         initData() {
             this.dateFieldData = [];
@@ -63,7 +83,12 @@ new Vue({
 
             var lo_param = {
                 socket_id: this.randomString,
-                begin_dat: this.nowSearchDate
+                begin_dat: this.nowSearchDate,
+                room_cod: this.searchCond.room_cod,
+                room_nos: this.searchCond.room_nos,
+                character_rmk: this.searchCond.character_rmk,
+                build_nos: this.searchCond.build_nos,
+                floor_nos: this.searchCond.floor_nos
             };
 
             $.post('/api/qryRmNosPageOneMap', lo_param).then(result => {
@@ -79,6 +104,15 @@ new Vue({
                         this.isLoading = false;
                     }
                     else {
+                        //處理日期欄位資料
+                        var ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+
+                        for (let i = 0; i <= 14; i++) {
+                            let lo_date = moment(new Date(ls_date)).add('days', i - this.beginNum);
+                            this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2]});
+                            this.dayFieldData.push({data: lo_date.format("ddd")});
+                        }
+
                         this.isLoading = false;
                         alert('查無資料');
                     }
@@ -130,7 +164,7 @@ new Vue({
                     let ln_beginDatIdx = _.findIndex(la_tmpRoomUse, {num: lo_roomUse.begin_dat});
                     let ln_endDatIdx = _.findIndex(la_tmpRoomUse, {num: lo_roomUse.end_dat});
 
-                    if(ln_beginDatIdx > -1 && ln_endDatIdx > -1){
+                    if (ln_beginDatIdx > -1 && ln_endDatIdx > -1) {
                         ln_beginDatIdx = ln_beginDatIdx + 1;
                         la_tmpRoomUse[ln_beginDatIdx].isUsed = true;
 
@@ -166,7 +200,6 @@ new Vue({
             });
         },
         selectDate() {
-            var ls_date = moment(new Date(this.searchData4Month)).format("YYYY/MM/DD").toString();
             this.searchData.year = moment(new Date(this.searchData4Month)).year();
             this.searchData.month = moment(new Date(this.searchData4Month)).month() + 1;
             this.searchData.date = moment(new Date(this.searchData4Month)).date();
