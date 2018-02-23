@@ -54,7 +54,6 @@ function DB() {
 }
 
 DB.prototype.debug = 0;
-DB.prototype.inCon = {};
 DB.prototype.clusters = [];
 DB.prototype.options = {};
 DB.prototype.create = function (opt) {
@@ -282,6 +281,7 @@ DB.prototype.queryDao = function (dao, param, cb) {
     });
 
     var con = {};
+    var lo_inCond = {};
     var self = this;
     daoBean.parameters.forEach(function (parameter) {
         if (parameter.kind == 1) {
@@ -302,18 +302,19 @@ DB.prototype.queryDao = function (dao, param, cb) {
                     if (param[parameter.key] instanceof Array) {
                         _.each(param[parameter.key], function (ls_param, index) {
                             if (index == 0) {
-                                self.inCon[parameter.key] = "";
+                                lo_inCond[parameter.key] = "";
                             }
                             index++;
-                            self.inCon[parameter.key] += "'" + ls_param + "'";
+                            lo_inCond[parameter.key] += "'" + ls_param + "'";
                             if (index < param[parameter.key].length) {
-                                self.inCon[parameter.key] += ",";
+                                lo_inCond[parameter.key] += ",";
                             }
                         });
                     }
                     else {
-                        self.inCon[parameter.key] = param[parameter.key];
+                        lo_inCond[parameter.key] = param[parameter.key];
                     }
+                    con.inCond = lo_inCond;
                 }
                 else {
                     con[parameter.key] = self.paramTypeFormat(parameter.type, param, parameter.key);
@@ -374,10 +375,11 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
     }
 
     // where in 用字串取代方式作
-    if (!_.isEmpty(this.inCon)) {
-        _.each(this.inCon, function (value, paramKey) {
+    if (!_.isUndefined(condition.inCond)) {
+        _.each(condition.inCond, function (value, paramKey) {
             sqlstring = sqlstring.replace(":" + paramKey, value);
         });
+        delete condition["inCond"];
     }
 
     if (dbObj.debug == 1) {
@@ -402,7 +404,6 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
             return;
         }
         var data = [];
-        this.inCon = {};
         _.each(result.rows, function (row, idx) {
             var dd = {};
             for (var i = 0; i < row.length; i++) {

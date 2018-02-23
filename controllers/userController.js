@@ -30,10 +30,10 @@ exports.loginPage = function (req, res) {
         async.waterfall([
             function (callback) {
                 if (_.isUndefined(req.params.athena_id)) {
-                    if (!_.isUndefined(req.session.athena_id) && !_.isUndefined(req.session.comp_cod)) {
-                        return res.redirect(`/${req.session.athena_id}/${req.session.comp_cod}/login`);
-                    } else if (!_.isUndefined(req.session.athena_id) && _.isUndefined(req.session.comp_cod)) {
-                        return res.redirect(`/${req.session.athena_id}/login`);
+                    if (!_.isUndefined(req.cookies.athena_id) && !_.isUndefined(req.cookies.comp_cod)) {
+                        return res.redirect(`/${req.cookies.athena_id}/${req.cookies.comp_cod}/login`);
+                    } else if (!_.isUndefined(req.cookies.athena_id) && _.isUndefined(req.cookies.comp_cod)) {
+                        return res.redirect(`/${req.cookies.athena_id}/login`);
                     }
                     queryAgent.query("QRY_SELECT_COMPANY", {}, function (err, company) {
                         if (err) {
@@ -46,8 +46,13 @@ exports.loginPage = function (req, res) {
                         callback(null, 'done');
                     });
                 } else {
-                    req.session.athena_id = req.params.athena_id;
-                    req.session.comp_cod = req.params.comp_cod || "";
+                    res.cookie('athena_id', req.params.athena_id, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
+                    if (req.params.comp_cod || _.isEmpty(req.params.comp_cod)) {
+                        res.clearCookie("comp_cod");
+                    } else {
+                        res.cookie('comp_cod', req.params.comp_cod, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
+                    }
+
                     callback(null, 'done');
                 }
             },
@@ -150,7 +155,8 @@ exports.authLogin = function (req, res) {
         if (!err && userInfo) {
             req.session.user = userInfo;
             req.session.athena_id = userInfo.athena_id;
-            req.session.comp_cod = userInfo.cmp_id.trim();
+            req.cookies.athena_id = userInfo.athena_id;
+            req.cookies.comp_cod = userInfo.cmp_id.trim();
         }
 
         res.json({
@@ -264,8 +270,8 @@ exports.getSubsysQuickMenu = function (req, res) {
 exports.getSelectCompony = function (req, res) {
 
     queryAgent.queryList("QRY_SELECT_COMPANY", {
-        athena_id: req.session.athena_id,
-        comp_cod: req.session.comp_cod
+        athena_id: req.cookies.athena_id,
+        comp_cod: req.cookies.comp_cod
     }, 0, 0, function (err, getData) {
 
         if (err) {

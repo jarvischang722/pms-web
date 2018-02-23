@@ -47,9 +47,9 @@
                     {field: 'NoOfRms', title: 'Qty',align:'right', width: 40},
                     {field: 'UnitPrice', title: 'Unit Price',align:'right', width: 60},
                     {field: 'UnitSevChrg', title: 'Unit Sev. Chrg',align:'right', width: 60},
-                    {field: 'adult', title: '大人', width: 50},
-                    {field: 'child', title: '小孩', width: 50},
-                    {field: 'baby', title: '嬰兒', width: 50}
+                    {field: 'adult', title: '大人', width: 50 ,align:'right'},
+                    {field: 'child', title: '小孩', width: 50 ,align:'right'},
+                    {field: 'baby', title: '嬰兒', width: 50 ,align:'right'}
                 ]]
             });
 
@@ -1445,7 +1445,7 @@
             e.preventDefault();
             var dialog = $("#foCnt_roomAssign-message").removeClass('hide').dialog({
                 modal: true,
-                title: "Room Assign",
+                title: "Room Assign(Rv:11023451) (C/I:2018/02/13)",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -1559,7 +1559,6 @@
             url: '/jsonData/reservation/resv_RateCode.json',
             method: 'get',
             columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'roomCode', title: '房價代號', width: 100},
                 {field: 'roomName', title: '房價名稱', width: 100},
                 {field: 'menu', title: 'MENU選單', width: 100},

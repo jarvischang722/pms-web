@@ -49,7 +49,7 @@
             //datagrid 欄位
             columns: {
                 type: Array,
-                default:function () {
+                default: function () {
                     return [];
                 }
             }
@@ -63,15 +63,22 @@
         },
         watch: {
             //塞入預設值
-            defaultVal: function(val){
+            defaultVal: function (val) {
                 this.$emit('update:v-model', this.defaultVal);
                 $(this.$el).combogrid('setValue', val);
+            },
+            //塞入欄位資料
+            columns: function (val) {
+                this.initComboGrid();
             }
         },
         methods: {
             initComboGrid: function () {
                 let self = this;
+                let ln_panelWidth = this.getPanelWidth();
+
                 $(this.$el).combogrid({
+                    panelWidth: ln_panelWidth,
                     multiple: this.multiple,
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
                     idField: this.idField,
@@ -106,6 +113,21 @@
                     $(self.$el).combogrid("loadData", items);
                 })
 
+            },
+            //取得寬度
+            getPanelWidth: function(){
+                let ln_panelWidth = 0;
+                if (this.columns.length > 0) {
+                    _.each(this.columns, (lo_columns) => {
+                        if (_.isUndefined(lo_columns.hidden)) {
+                            ln_panelWidth = ln_panelWidth + Number(lo_columns.width);
+                        }
+                    });
+                }
+                if(!_.isUndefined(this.field.width)){
+                    ln_panelWidth = ln_panelWidth > this.field.width ? ln_panelWidth : this.field.width;
+                }
+                return ln_panelWidth;
             }
         },
         beforeDestroy: function () {
