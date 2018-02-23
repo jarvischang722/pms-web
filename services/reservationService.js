@@ -199,11 +199,17 @@ class rmNosPageOneMap {
         this.ln_date_range = 14;
     }
 
-    chkSearchData() {
+    /**
+     * 查詢下拉欄位資料格式轉換
+     */
+    convSearchFieldsData() {
     }
 
+    /**
+     * 查詢房號資料
+     */
     async callProcedure() {
-        this.chkSearchData();
+        this.convSearchFieldsData();
         let lo_apiParam = {
             "REVE-CODE": "PMS0110050",
             hotel_cod: this.userInfo.hotel_cod,
@@ -219,7 +225,6 @@ class rmNosPageOneMap {
                     usr_id: this.userInfo.usr_id,
                     socket_id: this.postData.socket_id,
                     begin_dat: this.postData.begin_dat,
-                    // begin_dat: "2013/10/13",
                     query_days: this.ln_date_range,
                     room_cod: this.postData.room_cod || "",
                     room_nos: this.postData.room_nos || "",
@@ -246,7 +251,9 @@ class rmNosPageOneMap {
         });
     }
 
-    //pre查詢DBroomList, roomPeriod, roomUse
+    /**
+     * 查詢DB: roomList, roomPeriod, roomUse
+     */
     async qryRmNosPageOneData() {
         let lo_params = {
             athena_id: this.userInfo.athena_id,
@@ -255,6 +262,7 @@ class rmNosPageOneMap {
             socket_id: this.postData.socket_id
         };
         let [la_roomList, la_roomPeriod, la_roomUse] = await Promise.all([
+            //查房型資料
             new Promise((resolve, reject) => {
                 queryAgent.queryList("QRY_ROOM_LIST", lo_params, 0, 0, function (err, data) {
                     if (err) {
@@ -265,6 +273,7 @@ class rmNosPageOneMap {
                     }
                 });
             }),
+            //查房型有效日
             new Promise((resolve, reject) => {
                 queryAgent.queryList("QRY_ROOM_PERIOD", lo_params, 0, 0, function(err, data){
                     if (err) {
@@ -281,6 +290,7 @@ class rmNosPageOneMap {
                     }
                 });
             }),
+            //查房型使用資料
             new Promise((resolve, reject) => {
                 queryAgent.queryList("QRY_ROOM_USE", lo_params, 0, 0, function(err, data){
                     if (err) {
@@ -302,6 +312,10 @@ class rmNosPageOneMap {
         return {roomList: la_roomList, roomPeriod: la_roomPeriod, roomUse: la_roomUse};
     }
 
+    /**
+     * 資料轉換
+     * @param rmNosPageOneData {object} 房號資料
+     */
     async convRmNosData(rmNosPageOneData) {
         let ln_begin_dat = moment(this.postData.begin_dat).date();
         let lo_convData = {
