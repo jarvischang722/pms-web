@@ -96,71 +96,37 @@ var singlePage = Vue.extend({
 
         vmHub.$on('updateBackSelectData', function (chooseData) {
 
-            if (self.popupFieldName == "alt_nam") {
-                $.post("/reserveBanquet/qry_bqcust_mn", {cust_cod: chooseData["cust_cod"]}, function (result) {
+            //帶入預設值
+            chooseData["bquet_nos"] = "";
+            chooseData["seq_nos"] = "";
 
-                    //帶回前先將舊值清掉
-                    self.singleData.cust_cod = "";
-                    self.singleData.first_nam = "";
-                    self.singleData.last_nam = "";
-                    self.singleData.uni_cod = "";
-                    self.singleData.uni_title = "";
-                    self.singleData.atten_nam = "";
-                    self.singleData.sales_cod = "";
-                    self.singleData.contact1_cod = "";
-                    self.singleData.contact2_cod = "";
-                    self.singleData.contact1_rmk = "";
-                    self.singleData.contact2_rmk = "";
+            chooseData["begin_tim"] = "";
+            chooseData["end_tim"] = "";
+            chooseData["desk_qnt"] = "0";
+            chooseData["order_qnt"] = "0";
 
-                    self.singleData = _.extend(self.singleData, result.data);
-                    self.singleData = _.extend(self.singleData, chooseData);
+            chooseData["place_amt"] = "0";
+            chooseData["special_amt"] = "0";
+            chooseData["disc_amt"] = "0";
 
-                    if (self.singleData.title_nam.toString().trim() == "") {
-                        self.singleData.title_nam = self.singleData.alt_nam;
-                    }
+            chooseData["is_allplace"] = 'N';
+            chooseData["inv_qnt"] = "0";
+            chooseData["createRow"] = "Y";
 
-                    if (self.singleData.atten_nam.toString().trim() == "") {
-                        self.singleData.atten_nam = self.singleData.alt_nam;
-                    }
-                });
-            }
-            else if (self.popupFieldName == "place_cod_button") {
-
-                //帶入預設值
-                chooseData["bquet_nos"] = "";
-                chooseData["seq_nos"] = "";
-
-                chooseData["begin_tim"] = "";
-                chooseData["end_tim"] = "";
-                chooseData["desk_qnt"] = "0";
-                chooseData["order_qnt"] = "0";
-
-                chooseData["place_amt"] = "0";
-                chooseData["special_amt"] = "0";
-                chooseData["disc_amt"] = "0";
-
-                chooseData["is_allplace"] = 'N';
-                chooseData["inv_qnt"] = "0";
-                chooseData["createRow"] = "Y";
-
-                var isSame = false;
-                _.each(self.dataGridRows, function (value) {
-                    if (value.place_cod == chooseData["place_cod"]) {
-                        isSame = true;
-                    }
-                });
-
-                if (!isSame) {
-                    self.dataGridRows.push(chooseData);
-                    self.dgIns.loadDgData(self.dataGridRows);
-
-                    $('#RS0W212010_dt').datagrid('selectRow', self.dataGridRows.length - 1)
-                        .datagrid('beginEdit', self.dataGridRows.length - 1);
-                    go_currentIndex = self.dataGridRows.length - 1;
+            var isSame = false;
+            _.each(self.dataGridRows, function (value) {
+                if (value.place_cod == chooseData["place_cod"]) {
+                    isSame = true;
                 }
-            }
-            else {
-                self.singleData = _.extend(self.singleData, chooseData);
+            });
+
+            if (!isSame) {
+                self.dataGridRows.push(chooseData);
+                self.dgIns.loadDgData(self.dataGridRows);
+
+                $('#RS0W212010_dt').datagrid('selectRow', self.dataGridRows.length - 1)
+                    .datagrid('beginEdit', self.dataGridRows.length - 1);
+                go_currentIndex = self.dataGridRows.length - 1;
             }
 
         });
@@ -332,7 +298,6 @@ var singlePage = Vue.extend({
             selectgridOptions: {alt_nam: {columns: []}},
 
             selectPopUpGridData: [],
-            popupFieldName: "",         //哪一個field觸發popup
 
             createStatus: false,        //新增狀態
 
@@ -550,7 +515,9 @@ var singlePage = Vue.extend({
             });
         },
 
-        //init CUD
+        /**
+         * init CUD
+         */
         initTmpCUD: function () {
             this.tmpCud = {
                 createData: [],
@@ -863,10 +830,11 @@ var singlePage = Vue.extend({
             });
         },
 
-        //跳窗選擇多欄位
-        chkClickPopUpGrid: function (fieldName) {
+        /**
+         * 跳窗選擇多欄位
+         */
+        chkClickPopUpGrid: function () {
             if (this.dgIns.endEditing()) {
-                this.popupFieldName = fieldName;
                 var lo_field;
                 var self = this;
 
@@ -895,14 +863,18 @@ var singlePage = Vue.extend({
             }
         },
 
-        //改成編輯中
+        /**
+         * 改成編輯中
+         */
         changeEditingForFieldRule: function (rule_func_name) {
             if (!_.isUndefined(rule_func_name) && !_.isEmpty(rule_func_name)) {
                 this.isEditingForFieldRule = true;
             }
         },
 
-        //顯示textgrid跳窗訊息
+        /**
+         * 顯示textgrid跳窗訊息
+         */
         showPopUpGridDialog: function () {
             this.dialogVisible = true;
             var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
@@ -940,6 +912,52 @@ var singlePage = Vue.extend({
             });
         },
 
+        /**
+         * 客戶姓名 Change Event
+         */
+        altNamOnChange: function () {
+
+            var self = this;
+
+            var lo_selectItem = _.find(self.selectgridOptions.alt_nam.selectData, {alt_nam: self.singleData.alt_nam});
+
+            $.post("/reserveBanquet/qry_bqcust_mn", {cust_cod: lo_selectItem.cust_cod}, function (result) {
+
+                //帶回前先將舊值清掉
+                self.singleData.cust_cod = "";
+                self.singleData.first_nam = "";
+                self.singleData.last_nam = "";
+                self.singleData.uni_cod = "";
+                self.singleData.uni_title = "";
+                self.singleData.atten_nam = "";
+                self.singleData.sales_cod = "";
+                self.singleData.contact1_cod = "";
+                self.singleData.contact2_cod = "";
+                self.singleData.contact1_rmk = "";
+                self.singleData.contact2_rmk = "";
+
+                self.singleData = _.extend(self.singleData, result.data);
+                self.singleData = _.extend(self.singleData, lo_selectItem);
+
+                if (self.singleData.title_nam.toString().trim() == "") {
+                    self.singleData.title_nam = self.singleData.alt_nam;
+                }
+
+                if (self.singleData.atten_nam.toString().trim() == "") {
+                    self.singleData.atten_nam = self.singleData.alt_nam;
+                }
+            });
+        },
+
+        /**
+         * 聯絡人 Change Event
+         */
+        attenNamOnChange: function () {
+            var self = this;
+            var lo_selectItem = _.find(self.selectgridOptions.atten_nam.selectData, {atten_nam: self.singleData.atten_nam});
+            self.singleData = _.extend(self.singleData, lo_selectItem);
+        },
+        
         /**
          * 將資料塞到tmp_cud
          */
@@ -1300,20 +1318,23 @@ var singlePage = Vue.extend({
         /**
          * 庫存檢查
          */
-        CheckInventory: function () {
+        checkInventory: function () {
             if (this.dataGridRows.length == 0) {
                 alert('場地明細無資料！');
                 return;
             }
             if (this.dgIns.endEditing()) {
                 this.saveToTmpCud();
-                this.callAPI('2030');
+                this.callchkInventoryAPI('2030');
             }
             else {
                 alert('場地明細尚未編輯完成！');
             }
         },
 
+        /**
+         * 更新庫存數
+         */
         updateInventory: function (data, callback) {
             var self = this;
 
@@ -1333,6 +1354,9 @@ var singlePage = Vue.extend({
             callback();
         },
 
+        /**
+         * call儲存前的庫存檢查API
+         */
         callBeforeSaveAPI: function (func_id, callback) {
             var self = this;
 
@@ -1360,7 +1384,10 @@ var singlePage = Vue.extend({
             });
         },
 
-        callAPI: function (func_id) {
+        /**
+         * call庫存檢查API
+         */
+        callchkInventoryAPI: function (func_id) {
             var self = this;
 
             var lo_params = {
@@ -1387,6 +1414,9 @@ var singlePage = Vue.extend({
             });
         },
 
+        /**
+         * call儲存的API
+         */
         callSaveAPI: function (func_id) {
             var self = this;
 
