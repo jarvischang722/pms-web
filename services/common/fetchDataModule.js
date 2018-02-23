@@ -16,6 +16,7 @@ const tools = require("../../utils/CommonTools");
 const dataRuleSvc = require("../../services/DataRuleService");
 const fieldAttrSvc = require("../../services/FieldsAttrService");
 const langSvc = require("../../services/LangService");
+const db = require("../../plugins/kplug-oracle/DB.js");
 
 let go_session;
 let go_searchCond;
@@ -367,7 +368,7 @@ function qryUIPageFields(callback) {
  */
 function qryFormatRule(la_fieldData, callback) {
     let ln_counter = 0;
-    if(la_fieldData.length == 0){
+    if (la_fieldData.length == 0) {
         callback(null, la_fieldData);
     }
     _.each(la_fieldData, function (lo_fieldData) {
@@ -393,23 +394,28 @@ function qryFormatRule(la_fieldData, callback) {
 
         /**
          * 去oracle撈format參數
-         * @param ls_formatName{string} format 的名稱
+         * @param ls_formatName{string}: format 的名稱
          */
         function qryOracleFormat(ls_formatName) {
-            queryAgent.query(ls_formatName.toUpperCase(), {athena_id: go_session.user.athena_id}, function (err, result) {
-                ln_counter++;
-                if (err) {
-                    lo_fieldData["format_func_name"].validate = ls_formatFuncName;
-                }
-                else {
+            ln_counter++;
+            var daoBean = ls_formatName != "" ? db.loadDao({dao: ls_formatName.toUpperCase(), id: 'default'}) : null;
+
+            if (daoBean != null) {
+                queryAgent.query(ls_formatName.toUpperCase(), {athena_id: go_session.user.athena_id}, function (err, result) {
                     lo_fieldData["format_func_name"].rule_name = ls_formatFuncName;
                     lo_fieldData["format_func_name"].rule_val = result.format_val;
-                }
 
+                    if (ln_counter == la_fieldData.length) {
+                        callback(null, la_fieldData);
+                    }
+                });
+            }
+            else {
+                lo_fieldData["format_func_name"].validate = ls_formatFuncName;
                 if (ln_counter == la_fieldData.length) {
                     callback(null, la_fieldData);
                 }
-            });
+            }
         }
     });
 }
