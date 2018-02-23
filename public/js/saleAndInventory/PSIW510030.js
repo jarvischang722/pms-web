@@ -1199,11 +1199,15 @@ var PSIW510030 = new Vue({
             $.post("/api/getQueryResult", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
 
-                    //db撈出來小數超亂, 直接做四捨五入
                     _.each(result.data, function (value) {
+                        //撈出來小數直接做四捨五入
                         value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 2);
                         value.order_qnt = go_MathTool.formatFloat(value.order_qnt, 2);
                         value.thu_qty = go_MathTool.formatFloat(value.thu_qty, 2);
+
+                        //日期格式format
+                        value.ship_dat = moment(value.ship_dat).format('YYYY/MM/DD');
+                        value.nship_dat = moment(value.nship_dat).format('YYYY/MM/DD');
                     });
 
                     self.singleDataGridRows = result.data;
