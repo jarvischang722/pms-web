@@ -178,6 +178,8 @@
 </template>
 <script>
 
+    var gs_prgId = "PMS0210010";
+
     export default {
         name: 'pms0210010',
         mounted() {
@@ -204,6 +206,9 @@
                         self.userInfo = result.userInfo;
                     }
                 });
+            },
+            setSearchCond(){
+                this.searchCond = {};
             },
             loadDataGridByPrgID() {
                 var self = this;
