@@ -71,6 +71,15 @@ exports.fetchGsFieldData = function (req, res) {
 };
 
 /**
+ * 取作業(只有)搜尋欄位資料
+ */
+exports.fetchOnlySearchFieldsData = function (req, res) {
+    operSVC.fetchOnlySearchFieldsData(req.body, req.session, function (err, result) {
+        res.json({success: _.isNull(err), errorMsg: err, searchFieldsData: result});
+    });
+};
+
+/**
  * 取(只有)多筆欄位資料
  */
 exports.fetchOnlyDgFieldData = function (req, res) {

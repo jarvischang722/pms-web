@@ -24,6 +24,10 @@ module.exports = function (app) {
     app.post("/api/fetchSinglePageFieldData", apiMiddles, operCtrl.fetchGsFieldData);
 
     /**
+     * 取作業(只有)搜尋欄位資料
+     */
+    app.post("/api/fetchOnlySearchFieldsData", apiMiddles, operCtrl.fetchOnlySearchFieldsData);
+    /**
      * (作業)查詢(只有)多筆欄位
      */
     app.post("/api/fetchOnlyDataGridFieldData", apiMiddles, operCtrl.fetchOnlyDgFieldData);

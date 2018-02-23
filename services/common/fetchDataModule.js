@@ -225,6 +225,24 @@ exports.GridSingleProc = function (postData, session) {
 
 };
 
+// 取搜尋欄位資料
+exports.qrySearchFields = function (postData, session, callback) {
+    gs_prg_id = postData.pro_id;
+    gn_page_id = 3;
+    go_session = session;
+    async.waterfall([
+        function(cb){
+            getAllUIPageFieldAttr(function(err, la_fields){
+                cb(err, la_fields);
+            });
+        },
+        qrySelectOption //查詢SelectOption
+    ], function(err, result){
+        callback(err, result);
+    });
+
+};
+
 /*
  * 查詢單筆欄位名稱
  */
@@ -367,7 +385,7 @@ function qryUIPageFields(callback) {
  */
 function qryFormatRule(la_fieldData, callback) {
     let ln_counter = 0;
-    if(la_fieldData.length == 0){
+    if (la_fieldData.length == 0) {
         callback(null, la_fieldData);
     }
     _.each(la_fieldData, function (lo_fieldData) {
@@ -560,15 +578,7 @@ function qrySelectOption(la_dgFieldData, callback) {
  */
 function qrySearchFields(la_dgFieldData, callback) {
     async.waterfall([
-        function (cb) {
-            fieldAttrSvc.getAllUIPageFieldAttr({
-                prg_id: gs_prg_id,
-                page_id: 3,
-                locale: go_session.locale
-            }, go_session.user, function (err, fields) {
-                cb(err, fields);
-            });
-        },
+        getAllUIPageFieldAttr,
         qryFormatRule
     ], function (err, result) {
         let lo_rtnData = {
@@ -576,6 +586,16 @@ function qrySearchFields(la_dgFieldData, callback) {
             dgFieldsData: la_dgFieldData
         };
         callback(null, lo_rtnData);
+    });
+}
+
+function getAllUIPageFieldAttr(callback) {
+    fieldAttrSvc.getAllUIPageFieldAttr({
+        prg_id: gs_prg_id,
+        page_id: 3,
+        locale: go_session.locale
+    }, go_session.user, function (err, fields) {
+        callback(err, fields);
     });
 }
 
