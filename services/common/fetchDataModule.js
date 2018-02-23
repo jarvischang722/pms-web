@@ -16,6 +16,7 @@ const tools = require("../../utils/CommonTools");
 const dataRuleSvc = require("../../services/DataRuleService");
 const fieldAttrSvc = require("../../services/FieldsAttrService");
 const langSvc = require("../../services/LangService");
+const db = require("../../plugins/kplug-oracle/DB.js");
 
 let go_session;
 let go_searchCond;
@@ -225,19 +226,9 @@ exports.GridSingleProc = function (postData, session) {
 
 };
 
-// 取搜尋欄位資料(page_id: 3)
-exports.qrySearchFields = function (postData, session, callback) {
-    gs_prg_id = postData.prg_id;
-    gn_page_id = 3;
-    go_session = session;
-    getAllUIPageFieldAttr(function(err, la_fields){
-        callback(err, la_fields);
-    });
-};
-
-/**
+/*
  * 查詢單筆欄位名稱
- **/
+ */
 function qryFieldName(callback) {
     var lo_params = {
         prg_id: gs_prg_id,
@@ -251,9 +242,9 @@ function qryFieldName(callback) {
     });
 }
 
-/**
+/*
  * 查詢單筆下拉欄位資料
- **/
+ */
 function qrySelectData(callback) {
     var lo_params = {
         prg_id: gs_prg_id,
@@ -267,9 +258,9 @@ function qrySelectData(callback) {
     });
 }
 
-/**
+/*
  * 查詢多筆templateRf
- **/
+ */
 function qryDgTemplateRf(callback) {
     var lo_params = {
         prg_id: gs_prg_id,
@@ -403,23 +394,28 @@ function qryFormatRule(la_fieldData, callback) {
 
         /**
          * 去oracle撈format參數
-         * @param ls_formatName{string} format 的名稱
+         * @param ls_formatName{string}: format 的名稱
          */
         function qryOracleFormat(ls_formatName) {
-            queryAgent.query(ls_formatName.toUpperCase(), {athena_id: go_session.user.athena_id}, function (err, result) {
-                ln_counter++;
-                if (err) {
-                    lo_fieldData["format_func_name"].validate = ls_formatFuncName;
-                }
-                else {
+            ln_counter++;
+            var daoBean = ls_formatName != "" ? db.loadDao({dao: ls_formatName.toUpperCase(), id: 'default'}) : null;
+
+            if (daoBean != null) {
+                queryAgent.query(ls_formatName.toUpperCase(), {athena_id: go_session.user.athena_id}, function (err, result) {
                     lo_fieldData["format_func_name"].rule_name = ls_formatFuncName;
                     lo_fieldData["format_func_name"].rule_val = result.format_val;
-                }
 
+                    if (ln_counter == la_fieldData.length) {
+                        callback(null, la_fieldData);
+                    }
+                });
+            }
+            else {
+                lo_fieldData["format_func_name"].validate = ls_formatFuncName;
                 if (ln_counter == la_fieldData.length) {
                     callback(null, la_fieldData);
                 }
-            });
+            }
         }
     });
 }
@@ -508,7 +504,7 @@ function qrySelectOption(la_dgFieldData, callback) {
                         la_dgFieldData[fIdx].referiable = selRow.referiable || "N";
                         la_dgFieldData[fIdx].defaultVal = selRow.defaultVal || "";
 
-                        if (la_dgFieldData[fIdx].ui_type == "selectgrid") {
+                        if (la_dgFieldData[fIdx].ui_type == "selectgrid" || la_dgFieldData[fIdx].ui_type == "multiselectgrid" ) {
                             dataRuleSvc.getSelectGridOption(go_session, selRow, la_dgFieldData[fIdx], function (err, selectData) {
                                 la_dgFieldData[fIdx].selectData = selectData;
                                 cb(err, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
@@ -570,7 +566,15 @@ function qrySelectOption(la_dgFieldData, callback) {
  */
 function qrySearchFields(la_dgFieldData, callback) {
     async.waterfall([
-        getAllUIPageFieldAttr,
+        function (cb) {
+            fieldAttrSvc.getAllUIPageFieldAttr({
+                prg_id: gs_prg_id,
+                page_id: 3,
+                locale: go_session.locale
+            }, go_session, function (err, fields) {
+                cb(err, fields);
+            });
+        },
         qryFormatRule
     ], function (err, result) {
         let lo_rtnData = {
@@ -578,16 +582,6 @@ function qrySearchFields(la_dgFieldData, callback) {
             dgFieldsData: la_dgFieldData
         };
         callback(null, lo_rtnData);
-    });
-}
-
-function getAllUIPageFieldAttr(callback) {
-    fieldAttrSvc.getAllUIPageFieldAttr({
-        prg_id: gs_prg_id,
-        page_id: 3,
-        locale: go_session.locale
-    }, go_session.user, function (err, fields) {
-        callback(err, fields);
     });
 }
 
