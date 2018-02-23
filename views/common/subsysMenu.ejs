@@ -5,11 +5,9 @@
             <li v-for="subsysItem in subsysMenu"
                 :class="{active_01: usingSubsysID == subsysItem.subsys_id}"
                 @click.prevent="changeSubsys(subsysItem.subsys_id)">
-                {{
-                subsysItem["subsys_nam_" + locale] != ""
-                ? subsysItem["subsys_nam_" + locale]
-                :subsysItem.subsys_nam
-                }}
+                <span v-text="subsysItem['subsys_nam_' + locale] != ''
+                ? subsysItem['subsys_nam_' + locale]
+                :subsysItem.subsys_nam"/>
             </li>
 
         </ul>
@@ -28,7 +26,7 @@
                     </a>
                 </div>
                 <div class="pull-left subnav-txt" @click="loadMainProcess(quick.pro_id)">
-                    {{ quick["pro_name_" + locale] }}
+                    <span v-text="quick['pro_name_'+locale]"/>
                 </div>
                 <div class="clearfix"></div>
             </div>
