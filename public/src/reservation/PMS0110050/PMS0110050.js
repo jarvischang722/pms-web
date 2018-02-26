@@ -94,7 +94,7 @@ new Vue({
             $.post('/api/qryRmNosPageOneMap', lo_param).then(result => {
 
                 if (result.success) {
-                    if (!_.isEmpty(result.data)) {
+                    if (result.data.roomNosData.length != 0) {
                         this.beginNum = result.data.date_range.begin_dat;
                         this.endNum = result.data.date_range.end_dat;
                         this.roomNosData = result.data.roomNosData;

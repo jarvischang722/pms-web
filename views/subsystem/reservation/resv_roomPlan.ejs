@@ -2,7 +2,7 @@
     <div class="page-header"></div><!-- /.page-header -->
     <!-- 依房號訂房(Room Plan) Page-->
     <div id="PMS0110050App">
-        <div class="pageMain">
+        <div class="pageMain" v-loading="isLoading">
             <div class="col-xs-12">
                 <search-comp
                         :search-fields="searchFields"

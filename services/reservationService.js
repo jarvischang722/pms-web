@@ -184,6 +184,7 @@ exports.qryRmNosPageOneMap = async (postData, session) => {
         let lb_ps_result = await rmNosObj.callProcedure();
         let lo_rmNosPageOneData = await rmNosObj.qryRmNosPageOneData();
         let lo_convRmNosData = await rmNosObj.convRmNosData(lo_rmNosPageOneData);
+
         return {success: true, data: lo_convRmNosData};
     }
     catch (error) {
@@ -198,7 +199,17 @@ class rmNosPageOneMap {
         this.ln_date_range = 14;
     }
 
+    /**
+     * 查詢下拉欄位資料格式轉換
+     */
+    convSearchFieldsData() {
+    }
+
+    /**
+     * 查詢房號資料
+     */
     async callProcedure() {
+        this.convSearchFieldsData();
         let lo_apiParam = {
             "REVE-CODE": "PMS0110050",
             hotel_cod: this.userInfo.hotel_cod,
@@ -234,76 +245,77 @@ class rmNosPageOneMap {
                     console.error(errorMsg);
                     reject({message: errorMsg});
                 } else {
-                    resolve(data);
+                    resolve(true);
                 }
             });
         });
-
-        // return new Promise((resolve, reject) => {
-        //     fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_list.json', 'utf8', function (err, data) {
-        //         if (err) {
-        //             reject(err);
-        //         }
-        //         else {
-        //             resolve(JSON.parse(data));
-        //         }
-        //     })
-        // })
     }
 
-    //pre查詢DBroomList, roomPeriod, roomUse
+    /**
+     * 查詢DB: roomList, roomPeriod, roomUse
+     */
     async qryRmNosPageOneData() {
+        let lo_params = {
+            athena_id: this.userInfo.athena_id,
+            hotel_cod: this.userInfo.hotel_cod,
+            usr_id: this.userInfo.usr_id,
+            socket_id: this.postData.socket_id
+        };
         let [la_roomList, la_roomPeriod, la_roomUse] = await Promise.all([
+            //查房型資料
             new Promise((resolve, reject) => {
-                fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_list.json', 'utf8', function (err, data) {
+                queryAgent.queryList("QRY_ROOM_LIST", lo_params, 0, 0, function (err, data) {
                     if (err) {
-                        reject(err);
+                        reject({message: err});
                     }
                     else {
-                        resolve(JSON.parse(data));
+                        resolve(data);
                     }
-                })
+                });
             }),
+            //查房型有效日
             new Promise((resolve, reject) => {
-                fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_period.json', 'utf8', function (err, data) {
+                queryAgent.queryList("QRY_ROOM_PERIOD", lo_params, 0, 0, function(err, data){
                     if (err) {
-                        reject(err);
+                        reject({message: err});
                     }
                     else {
-                        let la_parseJson = JSON.parse(data);
-                        _.each(la_parseJson, function (lo_json) {
-                            lo_json.period_begin_dat = lo_json.begin_dat;
-                            lo_json.period_end_dat = lo_json.end_dat;
-                            delete lo_json.begin_dat;
-                            delete lo_json.end_dat;
+                        _.each(data, function(lo_data){
+                            lo_data.period_begin_dat = lo_data.begin_dat;
+                            lo_data.period_end_dat = lo_data.end_dat;
+                            delete lo_data.begin_dat;
+                            delete lo_data.end_dat;
                         });
-                        resolve(la_parseJson);
+                        resolve(data);
                     }
-                })
+                });
             }),
+            //查房型使用資料
             new Promise((resolve, reject) => {
-                fs.readFile('./public/jsonData/reservation/tmp_pms0110050_room_use.json', 'utf8', function (err, data) {
+                queryAgent.queryList("QRY_ROOM_USE", lo_params, 0, 0, function(err, data){
                     if (err) {
-                        reject(err);
+                        reject({message: err});
                     }
                     else {
-                        let la_parseJson = JSON.parse(data);
-                        _.each(la_parseJson, function (lo_json) {
-                            lo_json.use_begin_dat = lo_json.begin_dat;
-                            lo_json.use_end_dat = lo_json.end_dat;
-                            delete lo_json.begin_dat;
-                            delete lo_json.end_dat;
+                        _.each(data, function(lo_data){
+                            lo_data.use_begin_dat = lo_data.begin_dat;
+                            lo_data.use_end_dat = lo_data.end_dat;
+                            delete lo_data.begin_dat;
+                            delete lo_data.end_dat;
                         });
-
-                        resolve(la_parseJson);
+                        resolve(data);
                     }
-                })
+                });
             })
         ]);
 
         return {roomList: la_roomList, roomPeriod: la_roomPeriod, roomUse: la_roomUse};
     }
 
+    /**
+     * 資料轉換
+     * @param rmNosPageOneData {object} 房號資料
+     */
     async convRmNosData(rmNosPageOneData) {
         let ln_begin_dat = moment(this.postData.begin_dat).date();
         let lo_convData = {
@@ -353,7 +365,7 @@ class rmNosPageOneMap {
             lo_convData.roomNosData.push({
                 room_cod: lo_rmNosData.room_cod,
                 room_nos: lo_rmNosData.room_nos,
-                room_sta: lo_rmNosData.room_sta,
+                room_sta: lo_rmNosData.clean_sta == "D" ? "Dirty" : "Clean",
                 begin_dat: ln_period_begin_dat,
                 end_dat: ln_period_end_dat,
                 room_use: _.clone(la_room_use)
