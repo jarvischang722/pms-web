@@ -207,13 +207,13 @@ class rmNosPageOneMap {
         if (!_.isUndefined(this.postData.room_cod)) {
             this.postData.room_cod = "'" + this.postData.room_cod.join("','") + "'";
         }
-        if(!_.isUndefined(this.postData.character_rmk)){
+        if (!_.isUndefined(this.postData.character_rmk)) {
             this.postData.character_rmk = "'" + this.postData.character_rmk.join("','") + "'";
         }
-        if(!_.isUndefined(this.postData.build_nos)){
+        if (!_.isUndefined(this.postData.build_nos)) {
             this.postData.build_nos = "'" + this.postData.build_nos.join("','") + "'";
         }
-        if(!_.isUndefined(this.postData.floor_nos)){
+        if (!_.isUndefined(this.postData.floor_nos)) {
             this.postData.floor_nos = "'" + this.postData.floor_nos.join("','") + "'";
         }
     }
@@ -331,10 +331,11 @@ class rmNosPageOneMap {
      */
     async convRmNosData(rmNosPageOneData) {
         let ln_begin_dat = moment(this.postData.begin_dat).date();
+        let ln_date_range = this.ln_date_range;
         let lo_convData = {
             date_range: {
                 begin_dat: ln_begin_dat,
-                end_dat: ln_begin_dat + this.ln_date_range - 1
+                end_dat: ln_begin_dat + ln_date_range - 1
             },
             roomNosData: []
         };
@@ -343,9 +344,19 @@ class rmNosPageOneMap {
             "left join ? rmPeriod on rmList.room_cod = rmPeriod.room_cod and rmList.room_nos = rmPeriod.room_nos", [rmNosPageOneData.roomList, rmNosPageOneData.roomPeriod]);
 
         _.each(la_rmNosData, function (lo_rmNosData) {
-            let ln_date_diff = moment(lo_rmNosData.period_end_dat).diff(moment(lo_rmNosData.period_begin_dat), "d");
-            let ln_period_begin_dat = moment(lo_rmNosData.period_begin_dat).date();
-            let ln_period_end_dat = ln_period_begin_dat + ln_date_diff;
+
+            let ln_period_begin_dat, ln_period_end_dat;
+            if (_.isUndefined(lo_rmNosData.period_begin_dat)) {
+                ln_period_begin_dat = ln_begin_dat;
+                ln_period_end_dat = ln_period_begin_dat + ln_date_range -1;
+            }
+            else{
+                let ln_date_diff = moment(lo_rmNosData.period_end_dat).diff(moment(lo_rmNosData.period_begin_dat), "d");
+                ln_period_begin_dat = moment(lo_rmNosData.period_begin_dat).date();
+                ln_period_end_dat = ln_period_begin_dat + ln_date_diff;
+            }
+
+
 
             let la_rmUse = _.where(rmNosPageOneData.roomUse, {
                 room_cod: lo_rmNosData.room_cod,
