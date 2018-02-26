@@ -1,3 +1,4 @@
+
 import _s from "underscore.string";
 import _ from "underscore";
 import crypto from "crypto";
@@ -9,6 +10,9 @@ new Vue({
         this.fetchRentCalDat();
         this.fetchData();
         this.fetchSearchFields();
+    },
+    updated(){
+        $("#resRoomPlan-table").tableHeadFixer({"left" : 1});
     },
     components: {searchComp},
     watch: {
@@ -81,7 +85,7 @@ new Vue({
         fetchData() {
             this.initData();
 
-            this.nowSearchDate = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+            this.nowSearchDate = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
 
             let lo_param = {
                 socket_id: this.randomString,
@@ -103,10 +107,10 @@ new Vue({
                     }
                     else {
                         //處理日期欄位資料
-                        let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+                        let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
 
                         for (let i = 0; i < 14; i++) {
-                            let lo_date = moment(new Date(ls_date)).add('days', i - this.beginNum);
+                            let lo_date = moment(new Date(ls_date)).add('days', i);
                             this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2]});
                             this.dayFieldData.push({data: lo_date.format("ddd")});
                         }
@@ -119,10 +123,10 @@ new Vue({
                 else{
                     alert(result.errorMsg);
                     //處理日期欄位資料
-                    let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+                    let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
 
                     for (let i = 0; i < 14; i++) {
-                        let lo_date = moment(new Date(ls_date)).add('days', i - this.beginNum);
+                        let lo_date = moment(new Date(ls_date)).add('days', i);
                         this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2]});
                         this.dayFieldData.push({data: lo_date.format("ddd")});
                     }
@@ -141,7 +145,7 @@ new Vue({
 
             this.roomNosDataDisplay = JSON.parse(JSON.stringify(la_roomNosData));
             //處理日期欄位資料
-            var ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+            var ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
 
             for (let i = this.beginNum; i <= this.endNum; i++) {
                 let lo_date = moment(new Date(ls_date)).add('days', i - this.beginNum);

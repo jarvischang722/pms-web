@@ -2,6 +2,7 @@
     .table-hidden .table-hidden td {
         }
 </style>
+
 <div class="container_12 divider fix-table">
     <div class="grid_12">
         <div class="fht-table-wrapper fht-default fixed-table-container cus-roomPlan-table">
@@ -57,7 +58,7 @@
                 </thead>
 
                 <!--房號資料-->
-                <tbody class="clearfix">
+                <tbody class="clearfix" style="height: 300px;">
                 <template v-if="roomNosDataDisplay.length == 0" >
                     <tr style="overflow: hidden; background-color: #ffffff;border: none;">
                         <td style="overflow: hidden; background-color: #ffffff; border: none;">
@@ -107,3 +108,4 @@
     </div>
     <div class="clear"></div>
 </div> <!-- table -->
+
