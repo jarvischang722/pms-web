@@ -112,7 +112,6 @@ var vm = new Vue({
                         }
 
                         this.is4fieldAppear = false;
-                        this.isLoading = false;
                         alert('查無資料');
                     }
 
