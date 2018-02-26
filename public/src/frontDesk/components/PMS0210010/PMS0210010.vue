@@ -183,6 +183,7 @@
     export default {
         name: 'pms0210010',
         mounted() {
+            this.loadDataGridByPrgID();
         },
         components: {},
         data() {
@@ -228,7 +229,7 @@
                 });
             },
             showDataGrid() {
-
+                console.log(this.pageOneFieldData);
             }
         }
     }
