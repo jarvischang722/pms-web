@@ -283,16 +283,24 @@ var PSIW510030 = new Vue({
                 var li_page_num = 0;
                 var temp = [];
 
-                for(let i = 0; i < self.singleDataGridRows.length; i++){
-                    //30 = 一頁幾筆明細
+                var lo_temp_singleDataGridRows = [];
+                for(let i = 0; i < self.singleDataGridRows.length; i++) {
+                    if(self.singleDataGridRows[i].item_qnt != 0){
+                        lo_temp_singleDataGridRows.push(self.singleDataGridRows[i]);
+                    }
+                }
+
+                for(let i = 0; i < lo_temp_singleDataGridRows.length; i++){
+                    //50 = 一頁幾筆明細
                     if(i % 50 == 0){
                         self.print_order_data.push(temp);
                         li_page_num += 1;
                         temp = [];
                     }
-                    temp.push(self.singleDataGridRows[i]);
 
-                    if(i == self.singleDataGridRows.length - 1){
+                    temp.push(lo_temp_singleDataGridRows[i]);
+
+                    if(i == lo_temp_singleDataGridRows.length - 1){
                         self.print_order_data.push(temp);
                     }
                 }
@@ -303,11 +311,6 @@ var PSIW510030 = new Vue({
                         //找單位名稱
                         var unit = _.find(self.unitSelectData, {value: item.unit_typ});
                         item.goods_unit = unit.display;
-
-                        //如果訂貨數量為0，顯示空白
-                        if(item.item_qnt == 0){
-                            item.item_qnt = "";
-                        }
                     });
                 });
 
