@@ -1,3 +1,7 @@
+<style>
+    .table-hidden .table-hidden td {
+        }
+</style>
 <div class="container_12 divider fix-table">
     <div class="grid_12">
         <div class="fht-table-wrapper fht-default fixed-table-container cus-roomPlan-table">
@@ -54,37 +58,49 @@
 
                 <!--房號資料-->
                 <tbody class="clearfix">
-                <tr class="" v-for="data in roomNosDataDisplay">
-                    <td class="middle td-first dateColor">
-                        <span class="th-width-s roomPlan-Num1">{{data.room_cod}}</span>
-                        <span class="th-width-s roomPlan-Num2">{{data.room_nos}}</span>
-                        <template v-if="data.room_sta == 'Dirty'">
-                            <span class="th-width-l roomPlan-Num2 red">{{data.room_sta}}</span>
-                        </template>
-                        <template v-else>
-                            <span class="th-width-l roomPlan-Num2">{{data.room_sta}}</span>
-                        </template>
+                <template v-if="roomNosDataDisplay.length == 0" >
+                    <tr style="overflow: hidden; background-color: #ffffff;border: none;">
+                        <td style="overflow: hidden; background-color: #ffffff; border: none;">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </td>
+                        <td v-for="data in roomNosDataBlankDisplay" style="overflow: hidden;background-color: #ffffff;border: none;"></td>
+                    </tr>
+                </template>
+                <template v-else>
+                    <tr v-for="data in roomNosDataDisplay">
+                        <td class="middle td-first dateColor">
+                            <span class="th-width-s roomPlan-Num1">{{data.room_cod}}</span>
+                            <span class="th-width-s roomPlan-Num2">{{data.room_nos}}</span>
+                            <template v-if="data.room_sta == 'Dirty'">
+                                <span class="th-width-l roomPlan-Num2 red">{{data.room_sta}}</span>
+                            </template>
+                            <template v-else>
+                                <span class="th-width-l roomPlan-Num2">{{data.room_sta}}</span>
+                            </template>
 
-                    </td>
-                    <template v-for="roomUse in data.room_use_display">
-                        <template v-if="roomUse.isValidity">
-                            <td v-if="roomUse.isUsed" class="name-color">
-                                <div class="triangle-box" :class="roomUse.attClass">
-                                    <span class="triangle-text" data-rel="tooltip" data-placement="bottom" :title="roomUse.title">{{roomUse.text}}</span>
-                                </div>
-                            </td>
-                            <td v-else class="empty-color"></td>
+                        </td>
+                        <template v-for="roomUse in data.room_use_display">
+                            <template v-if="roomUse.isValidity">
+                                <td v-if="roomUse.isUsed" class="name-color">
+                                    <div class="triangle-box" :class="roomUse.attClass">
+                                        <span class="triangle-text" data-rel="tooltip" data-placement="bottom" :title="roomUse.title">{{roomUse.text}}</span>
+                                    </div>
+                                </td>
+                                <td v-else class="empty-color"></td>
+                            </template>
+                            <template v-else>
+                                <td v-if="roomUse.isUsed" class="name-color td-bg-gray">
+                                    <div class="triangle-box" :class="roomUse.attClass">
+                                        <span class="triangle-text" data-rel="tooltip" data-placement="bottom" :title="roomUse.title">{{roomUse.text}}</span>
+                                    </div>
+                                </td>
+                                <td v-else class="empty-color td-bg-gray"></td>
+                            </template>
                         </template>
-                        <template v-else>
-                            <td v-if="roomUse.isUsed" class="name-color td-bg-gray">
-                                <div class="triangle-box" :class="roomUse.attClass">
-                                    <span class="triangle-text" data-rel="tooltip" data-placement="bottom" :title="roomUse.title">{{roomUse.text}}</span>
-                                </div>
-                            </td>
-                            <td v-else class="empty-color td-bg-gray"></td>
-                        </template>
-                    </template>
-                </tr>
+                    </tr>
+                </template>
                 </tbody>
             </table>
         </div>

@@ -51,7 +51,8 @@ new Vue({
         numFieldData: [],
         //房型資料
         roomNosData: [],
-        roomNosDataDisplay: []
+        roomNosDataDisplay: [],
+        roomNosDataBlankDisplay: []
     },
     methods: {
         //取滾房租日
@@ -73,6 +74,7 @@ new Vue({
             this.dateFieldData = [];
             this.dayFieldData = [];
             this.roomNosData = [];
+            this.roomNosDataBlankDisplay = [];
             this.beginNum = "";
             this.endNum = "";
         },
@@ -105,16 +107,18 @@ new Vue({
                         //處理日期欄位資料
                         var ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
 
-                        for (let i = 0; i <= 14; i++) {
+                        for (let i = 0; i < 14; i++) {
                             let lo_date = moment(new Date(ls_date)).add('days', i - this.beginNum);
                             this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2]});
                             this.dayFieldData.push({data: lo_date.format("ddd")});
+                        }
+                        for(let i = 0;i <28; i++){
+                            this.roomNosDataBlankDisplay.push(i);
                         }
 
                         this.isLoading = false;
                         alert('查無資料');
                     }
-
                 }
             });
 
@@ -204,7 +208,9 @@ new Vue({
         },
         //依房種、房號、清掃狀況排序
         sortData(dataTyp) {
-            this.convertData(_.sortBy(this.roomNosData, dataTyp));
+            if(this.roomNosDataDisplay.length != 0){
+                this.convertData(_.sortBy(this.roomNosData, dataTyp));
+            }
         },
         //搜尋日轉回滾房租日
         backToRentCalDat() {
