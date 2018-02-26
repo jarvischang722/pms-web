@@ -83,7 +83,7 @@ new Vue({
 
             this.nowSearchDate = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
 
-            var lo_param = {
+            let lo_param = {
                 socket_id: this.randomString,
                 begin_dat: this.nowSearchDate,
                 room_cod: this.searchCond.room_cod,
@@ -94,18 +94,16 @@ new Vue({
             };
 
             $.post('/api/qryRmNosPageOneMap', lo_param).then(result => {
-
                 if (result.success) {
                     if (result.data.roomNosData.length != 0) {
                         this.beginNum = result.data.date_range.begin_dat;
                         this.endNum = result.data.date_range.end_dat;
                         this.roomNosData = result.data.roomNosData;
                         this.convertData(this.roomNosData);
-                        this.isLoading = false;
                     }
                     else {
                         //處理日期欄位資料
-                        var ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+                        let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
 
                         for (let i = 0; i < 14; i++) {
                             let lo_date = moment(new Date(ls_date)).add('days', i - this.beginNum);
@@ -115,11 +113,24 @@ new Vue({
                         for(let i = 0;i <28; i++){
                             this.roomNosDataBlankDisplay.push(i);
                         }
-
-                        this.isLoading = false;
                         alert('查無資料');
                     }
                 }
+                else{
+                    alert(result.errorMsg);
+                    //處理日期欄位資料
+                    let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+
+                    for (let i = 0; i < 14; i++) {
+                        let lo_date = moment(new Date(ls_date)).add('days', i - this.beginNum);
+                        this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2]});
+                        this.dayFieldData.push({data: lo_date.format("ddd")});
+                    }
+                    for(let i = 0;i <28; i++){
+                        this.roomNosDataBlankDisplay.push(i);
+                    }
+                }
+                this.isLoading = false;
             });
 
         },

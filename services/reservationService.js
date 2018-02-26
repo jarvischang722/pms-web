@@ -203,6 +203,19 @@ class rmNosPageOneMap {
      * 查詢下拉欄位資料格式轉換
      */
     convSearchFieldsData() {
+
+        if (!_.isUndefined(this.postData.room_cod)) {
+            this.postData.room_cod = "'" + this.postData.room_cod.join("','") + "'";
+        }
+        if(!_.isUndefined(this.postData.character_rmk)){
+            this.postData.character_rmk = "'" + this.postData.character_rmk.join("','") + "'";
+        }
+        if(!_.isUndefined(this.postData.build_nos)){
+            this.postData.build_nos = "'" + this.postData.build_nos.join("','") + "'";
+        }
+        if(!_.isUndefined(this.postData.floor_nos)){
+            this.postData.floor_nos = "'" + this.postData.floor_nos.join("','") + "'";
+        }
     }
 
     /**
@@ -275,12 +288,12 @@ class rmNosPageOneMap {
             }),
             //查房型有效日
             new Promise((resolve, reject) => {
-                queryAgent.queryList("QRY_ROOM_PERIOD", lo_params, 0, 0, function(err, data){
+                queryAgent.queryList("QRY_ROOM_PERIOD", lo_params, 0, 0, function (err, data) {
                     if (err) {
                         reject({message: err});
                     }
                     else {
-                        _.each(data, function(lo_data){
+                        _.each(data, function (lo_data) {
                             lo_data.period_begin_dat = lo_data.begin_dat;
                             lo_data.period_end_dat = lo_data.end_dat;
                             delete lo_data.begin_dat;
@@ -292,12 +305,12 @@ class rmNosPageOneMap {
             }),
             //查房型使用資料
             new Promise((resolve, reject) => {
-                queryAgent.queryList("QRY_ROOM_USE", lo_params, 0, 0, function(err, data){
+                queryAgent.queryList("QRY_ROOM_USE", lo_params, 0, 0, function (err, data) {
                     if (err) {
                         reject({message: err});
                     }
                     else {
-                        _.each(data, function(lo_data){
+                        _.each(data, function (lo_data) {
                             lo_data.use_begin_dat = lo_data.begin_dat;
                             lo_data.use_end_dat = lo_data.end_dat;
                             delete lo_data.begin_dat;
@@ -327,7 +340,7 @@ class rmNosPageOneMap {
         };
 
         let la_rmNosData = alasql("select * from ? rmList " +
-            "inner join ? rmPeriod on rmList.room_cod = rmPeriod.room_cod and rmList.room_nos = rmPeriod.room_nos", [rmNosPageOneData.roomList, rmNosPageOneData.roomPeriod]);
+            "left join ? rmPeriod on rmList.room_cod = rmPeriod.room_cod and rmList.room_nos = rmPeriod.room_nos", [rmNosPageOneData.roomList, rmNosPageOneData.roomPeriod]);
 
         _.each(la_rmNosData, function (lo_rmNosData) {
             let ln_date_diff = moment(lo_rmNosData.period_end_dat).diff(moment(lo_rmNosData.period_begin_dat), "d");
