@@ -10,7 +10,7 @@ function FuncPurview(prg_id) {
         throw new Error('prg_id is require');
     }
 
-    var _this = this;
+    let _this = this;
     this._funcPurvs = [];
     $.ajax({
         url: '/api/getUserFuncPurviewByProID',
@@ -22,9 +22,9 @@ function FuncPurview(prg_id) {
 
             //判斷按鈕是否有權限使用
             $(".purview_btn").each(function () {
-                var purview_func_id = $(this).data("purview_func_id");
+                let purview_func_id = $(this).data("purview_func_id");
 
-                var purIdx = _.findIndex(result.funcPurvs, function (func) {
+                let purIdx = _.findIndex(result.funcPurvs, function (func) {
                     return prg_id + "-" + func.func_id == purview_func_id;
                 });
 
