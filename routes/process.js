@@ -11,5 +11,5 @@ var middles = [i18nMW, authMW, sysMW];
 module.exports = function (app) {
 
     //前台流程設定(靜態)
-    app.get('/PMS0700010', middles, processCrtl.getPMS0700010);
+    app.get('/PMS0710010', middles, processCrtl.getPMS0710010);
 };

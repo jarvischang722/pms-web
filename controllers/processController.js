@@ -13,6 +13,6 @@ var roleSvc = require("../services/RoleFuncService");
 /**
  * 前台流程設定(靜態)
  */
-exports.getPMS0700010 = function (req, res) {
-    res.render("subsystem/process/PMS0700010");
+exports.getPMS0710010 = function (req, res) {
+    res.render("subsystem/process/PMS0710010");
 }
