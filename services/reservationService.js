@@ -195,8 +195,10 @@ exports.qryRmNosPageOneMap = async (postData, session) => {
 class rmNosPageOneMap {
     constructor(postData, session) {
         this.postData = postData;
-        this.userInfo = session.user;
         this.ln_date_range = 14;
+        this.qry_beg_dat = postData.begin_dat;
+        this.qry_end_dat = moment(postData.begin_dat).add(this.ln_date_range - 1, "d").format("YYYY/MM/DD");
+        this.userInfo = session.user;
     }
 
     /**
@@ -330,6 +332,7 @@ class rmNosPageOneMap {
      * @param rmNosPageOneData {object} 房號資料
      */
     async convRmNosData(rmNosPageOneData) {
+        let self = this;
         let ln_daysInMonth = moment(this.postData.begin_dat).daysInMonth();
         let ln_begin_dat = moment(this.postData.begin_dat).date();
         let ln_date_range = this.ln_date_range;
@@ -350,13 +353,13 @@ class rmNosPageOneMap {
             let ln_period_begin_dat, ln_period_end_dat;
             if (_.isUndefined(lo_rmNosData.period_begin_dat)) {
                 ln_period_begin_dat = ln_begin_dat;
-                ln_period_end_dat = ln_period_begin_dat + ln_date_range -1;
+                ln_period_end_dat = ln_period_begin_dat + ln_date_range - 1;
             }
-            else{
+            else {
                 let ln_date_diff = moment(lo_rmNosData.period_end_dat).diff(moment(lo_rmNosData.period_begin_dat), "d");
                 ln_period_begin_dat = moment(lo_rmNosData.period_begin_dat).date();
                 ln_period_end_dat = ln_period_begin_dat + ln_date_diff;
-                if(ln_period_begin_dat < ln_begin_dat){
+                if (ln_period_begin_dat < ln_begin_dat) {
                     ln_period_begin_dat += ln_daysInMonth;
                     ln_period_end_dat += ln_daysInMonth;
                 }
@@ -368,13 +371,43 @@ class rmNosPageOneMap {
             });
             let la_room_use = [];
             _.each(la_rmUse, function (lo_rmUse) {
-                let ln_use_date_diff = moment(lo_rmUse.use_end_dat).diff(moment(lo_rmUse.use_begin_dat), "d");
-                let ln_use_begin_dat = moment(lo_rmUse.use_begin_dat).date();
-                let ln_use_end_dat = ln_use_begin_dat + ln_use_date_diff;
+                let ln_use_begin_dat, ln_use_end_dat, ln_ci_dat, ln_co_dat;
+                //檢查use_begin_dat區間
+                if (moment(lo_rmUse.use_begin_dat).isBefore(self.qry_beg_dat)) {
+                    ln_use_begin_dat = ln_begin_dat - 1;
+                }
+                else if (moment(lo_rmUse.use_begin_dat).isAfter(self.qry_end_dat)) {
+                    ln_use_begin_dat = ln_begin_dat + ln_date_range;
+                }
+                else {
+                    ln_use_begin_dat = moment(lo_rmUse.use_begin_dat).date();
+                }
 
-                let ln_cico_date_diff = moment(lo_rmUse.co_dat).diff(moment(lo_rmUse.ci_dat), "d");
-                let ln_ci_dat = moment(lo_rmUse.ci_dat).date();
-                let ln_co_dat = ln_ci_dat + ln_cico_date_diff;
+                //檢查use_end_dat區間
+                if (moment(lo_rmUse.use_end_dat).isBefore(self.qry_beg_dat)) {
+                    ln_use_end_dat = ln_begin_dat - 1;
+                }
+                else if (moment(lo_rmUse.use_end_dat).isAfter(self.qry_end_dat)) {
+                    ln_use_end_dat = ln_begin_dat + ln_date_range;
+                }
+                else {
+                    let ln_use_date_diff = moment(lo_rmUse.use_end_dat).diff(moment(lo_rmUse.use_begin_dat), "d");
+                    ln_use_end_dat = moment(lo_rmUse.use_begin_dat).date() + ln_use_date_diff;
+                }
+
+                ln_ci_dat = moment(lo_rmUse.ci_dat).date();
+
+                //檢查co_dat區間
+                if (moment(lo_rmUse.co_dat).isAfter(self.qry_end_dat)) {
+                    ln_co_dat = ln_begin_dat + ln_date_range;
+                }
+                else if (moment(lo_rmUse.co_dat).isBefore(self.qry_beg_dat)) {
+                    ln_co_dat = ln_begin_dat - 1;
+                }
+                else{
+                    let ln_cico_date_diff = moment(lo_rmUse.co_dat).diff(moment(lo_rmUse.ci_dat), "d");
+                    ln_co_dat = moment(lo_rmUse.ci_dat).date() + ln_cico_date_diff;
+                }
 
                 la_room_use.push({
                     use_typ: lo_rmUse.use_typ,
@@ -386,7 +419,9 @@ class rmNosPageOneMap {
                     ikey: lo_rmUse.ikey,
                     ikey_seq_nos: lo_rmUse.ikey_seq_nos,
                     ci_ser: lo_rmUse.ci_ser,
-                    tr_key_nos: lo_rmUse.tr_key_nos
+                    tr_key_nos: lo_rmUse.tr_key_nos,
+                    dis_ci_dat: moment(lo_rmUse.ci_dat).format("YYYY/MM/DD"),
+                    dis_co_dat: moment(lo_rmUse.co_dat).format("YYYY/MM/DD")
                 })
             });
 
