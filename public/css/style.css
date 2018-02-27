@@ -3765,6 +3765,9 @@ td div.triangle-box.colspan-1 {
 td div.triangle-box.colspan-2 {
   width: 200%;
 }
+td div.triangle-box span {
+  height: 19px;
+}
 td div.triangle-box span:before, td div.triangle-box span:after {
   content: "";
   border-style: solid;
@@ -4809,6 +4812,17 @@ td div.act-box span.act-text {
   left: 0;
   border-width: 0;
 }
+.triangle-box.both-arrow-none {
+  width: 100%;
+  right: 0px;
+}
+.triangle-box.both-arrow-none .triangle-text {
+  border-left: 0 !important;
+  border-right: 0 !important;
+}
+.triangle-box.both-arrow-none .triangle-text:before, .triangle-box.both-arrow-none .triangle-text:after {
+  border-width: 0;
+}
 
 .fixed-table-container table thead tr td, .fixed-table-container table thead tr th {
   background-clip: padding-box !important;
@@ -4896,6 +4910,21 @@ td div.act-box span.act-text {
   width: 321px;
   min-width: 321px;
 }
+.cus-roomPlan-table table thead tr .rp-first-th .caSelect {
+  margin: 10px 0 12px 0;
+}
+.cus-roomPlan-table table thead tr .rp-first-th .caSelect .el-icon-date:before {
+  content: none;
+}
+.cus-roomPlan-table table thead tr .rp-first-th .caSelect .el-input__icon + .el-input__inner {
+  padding: 0;
+}
+.cus-roomPlan-table table thead tr .rp-first-th .caSelect .el-input__inner {
+  text-align: center;
+}
+.cus-roomPlan-table table thead tr .rp-first-th .caSelect i {
+  padding-top: 10px;
+}
 .cus-roomPlan-table table tbody tr td {
   height: 22px;
   min-width: 30px;
@@ -4906,6 +4935,9 @@ td div.act-box span.act-text {
 }
 .cus-roomPlan-table table tbody tr td:nth-child(even) {
   border-right: 0;
+}
+.cus-roomPlan-table table tbody tr td div.triangle-box.colspan-0 {
+  width: 29px;
 }
 
 .th-width-s {
@@ -5037,6 +5069,9 @@ td div.triangle-box.colspan-28 {
     min-width: 33px;
     max-width: 33px;
   }
+  .cus-roomPlan-table table tbody tr td div.triangle-box.colspan-0 {
+    width: 32px;
+  }
 
   td div.triangle-box.colspan-1 {
     width: 32px;
@@ -5154,6 +5189,9 @@ td div.triangle-box.colspan-28 {
   .cus-roomPlan-table table tbody tr td {
     min-width: 36px;
     max-width: 36px;
+  }
+  .cus-roomPlan-table table tbody tr td div.triangle-box.colspan-0 {
+    width: 35px;
   }
 
   td div.triangle-box.colspan-1 {
@@ -5273,6 +5311,9 @@ td div.triangle-box.colspan-28 {
     min-width: 39px;
     max-width: 39px;
   }
+  .cus-roomPlan-table table tbody tr td div.triangle-box.colspan-0 {
+    width: 38px;
+  }
 
   td div.triangle-box.colspan-1 {
     width: 38px;
@@ -5390,6 +5431,9 @@ td div.triangle-box.colspan-28 {
   .cus-roomPlan-table table tbody tr td {
     min-width: 43px;
     max-width: 43px;
+  }
+  .cus-roomPlan-table table tbody tr td div.triangle-box.colspan-0 {
+    width: 42px;
   }
 
   td div.triangle-box.colspan-1 {

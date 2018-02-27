@@ -226,9 +226,19 @@ exports.GridSingleProc = function (postData, session) {
 
 };
 
-/*
+// 取搜尋欄位資料(page_id: 3)
+exports.qrySearchFields = function (postData, session, callback) {
+    gs_prg_id = postData.prg_id;
+    gn_page_id = 3;
+    go_session = session;
+    getAllUIPageFieldAttr(function(err, la_fields){
+        callback(err, la_fields);
+    });
+};
+
+/**
  * 查詢單筆欄位名稱
- */
+ **/
 function qryFieldName(callback) {
     var lo_params = {
         prg_id: gs_prg_id,
@@ -242,9 +252,9 @@ function qryFieldName(callback) {
     });
 }
 
-/*
+/**
  * 查詢單筆下拉欄位資料
- */
+ **/
 function qrySelectData(callback) {
     var lo_params = {
         prg_id: gs_prg_id,
@@ -258,9 +268,9 @@ function qrySelectData(callback) {
     });
 }
 
-/*
+/**
  * 查詢多筆templateRf
- */
+ **/
 function qryDgTemplateRf(callback) {
     var lo_params = {
         prg_id: gs_prg_id,
@@ -394,7 +404,7 @@ function qryFormatRule(la_fieldData, callback) {
 
         /**
          * 去oracle撈format參數
-         * @param ls_formatName{string}: format 的名稱
+         * @param ls_formatName{string} format 的名稱
          */
         function qryOracleFormat(ls_formatName) {
             ln_counter++;
@@ -566,15 +576,7 @@ function qrySelectOption(la_dgFieldData, callback) {
  */
 function qrySearchFields(la_dgFieldData, callback) {
     async.waterfall([
-        function (cb) {
-            fieldAttrSvc.getAllUIPageFieldAttr({
-                prg_id: gs_prg_id,
-                page_id: 3,
-                locale: go_session.locale
-            }, go_session, function (err, fields) {
-                cb(err, fields);
-            });
-        },
+        getAllUIPageFieldAttr,
         qryFormatRule
     ], function (err, result) {
         let lo_rtnData = {
@@ -582,6 +584,16 @@ function qrySearchFields(la_dgFieldData, callback) {
             dgFieldsData: la_dgFieldData
         };
         callback(null, lo_rtnData);
+    });
+}
+
+function getAllUIPageFieldAttr(callback) {
+    fieldAttrSvc.getAllUIPageFieldAttr({
+        prg_id: gs_prg_id,
+        page_id: 3,
+        locale: go_session.locale
+    }, go_session, function (err, fields) {
+        callback(err, fields);
     });
 }
 
