@@ -2589,6 +2589,17 @@ td
         .rp-first-th
           width: 321px
           min-width: 321px
+          .caSelect
+            margin: 10px 0 12px 0
+            .el-icon-date
+              &:before
+                content: none
+            .el-input__icon + .el-input__inner
+              padding: 0
+            .el-input__inner
+              text-align: center
+            i
+              padding-top: 10px
     tbody
       tr
         td
@@ -2599,6 +2610,10 @@ td
             border-left: 0
           &:nth-child(even)
             border-right: 0
+          div
+            &.triangle-box
+              &.colspan-0
+                width: 30 - 1 + px
 
 .th-width-s
   width: 100px
@@ -2628,6 +2643,10 @@ td
           td
             min-width: 33px
             max-width: 33px
+            div
+              &.triangle-box
+                &.colspan-0
+                  width: 33 - 1 + px
   @for $i from 1 through 28
     $width: 33 * $i
     $error-value: 1
@@ -2645,6 +2664,10 @@ td
           td
             min-width: 36px
             max-width: 36px
+            div
+              &.triangle-box
+                &.colspan-0
+                  width: 36 - 1 + px
   @for $i from 1 through 28
     $width: 36 * $i
     $error-value: 1
@@ -2653,7 +2676,6 @@ td
         &.triangle-box
           &.colspan-#{$i}
             width: $width - $error-value + px
-
 @media screen and (min-width: 1670px)
   .cus-roomPlan-table
     table
@@ -2662,6 +2684,10 @@ td
           td
             min-width: 39px
             max-width: 39px
+            div
+              &.triangle-box
+                &.colspan-0
+                  width: 39 - 1 + px
   @for $i from 1 through 28
     $width: 39 * $i
     $error-value: 1
@@ -2670,7 +2696,6 @@ td
         &.triangle-box
           &.colspan-#{$i}
             width: $width - $error-value + px
-
 @media screen and (min-width: 1770px)
   .cus-roomPlan-table
     table
@@ -2679,6 +2704,10 @@ td
           td
             min-width: 43px
             max-width: 43px
+            div
+              &.triangle-box
+                &.colspan-0
+                  width: 43 - 1 + px
   @for $i from 1 through 28
     $width: 43 * $i
     $error-value: 1
