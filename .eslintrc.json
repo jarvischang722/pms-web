@@ -11,13 +11,14 @@
   "rules": {
     "semi": 2,
     // "quotes": [1, "single"], //建議使用單引號
-    // "no-inner-declarations": [1, "both"], //不建議在{}代碼塊內部聲明變量或函數
     "no-extra-boolean-cast": 1, //多餘的感嘆號轉布爾型
     "no-extra-semi": 1, //多餘的分號
     "no-extra-parens": 1, //多餘的括號
     "no-empty": 1, //空代碼塊
+    "no-var": 2, //只能用let or const
     "no-use-before-define": [1, "nofunc"], //使用前未定義
     "complexity": [1, 10], //圈複雜度大於10 警告
+
     //常見錯誤
     "no-console": 1,
     "comma-dangle": [2, "never"], //定義數組或對象最後多餘的逗號
@@ -40,7 +41,6 @@
     "no-native-reassign": 2, //禁止覆蓋原生對象
 
     //代碼風格優化
-    "no-else-return": 1,  //在else代碼塊中return，else是多餘的
     "no-multi-spaces": 1, //不允許多個空格
     "key-spacing": [1, {"beforeColon": false, "afterColon": true}],//object直接量建議寫法 : 後一個空格簽名不留空格
     "block-scoped-var": 2,  //變量定義後未使用
