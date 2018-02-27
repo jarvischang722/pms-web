@@ -239,6 +239,7 @@
     "Modify": "修改",
     "Delete": "刪除",
     "Search": "查詢",
+    "Clear": "清除",
     "Save": "儲存",
     "business": "業務",
     "Next": "下一筆",
@@ -416,7 +417,15 @@
     "pms61msg10": "結束日與開始日重複"
   },
   "Columns":{
-    "user_nos": "使用者代號",
-    "user_name": "使用者名稱"
+    "PMS0610020_show_cod": "公司編號",
+    "PMS0610020_cust_nam": "公司名稱",
+    "PMS0610020_uni_cod": "統一編號",
+    "PMS0610020_uni_title": "發票抬頭",
+    "PMS0610020_cust_cod": "公司代號",
+    "PMS0610020_sales_cod": "業務員代號",
+    "PMS0610020_sales_nam": "業務員姓名",
+    "PMS0610020_class_nam": "組別",
+    "PMS0620020_user_nos": "使用者代號",
+    "PMS0620020_user_name": "使用者名稱"
   }
 }
