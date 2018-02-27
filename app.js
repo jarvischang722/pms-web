@@ -72,8 +72,8 @@ app.use(favicon(path.join(__dirname, 'public/images/icon', 'athena_lg.ico')));
 app.use(express.static(__dirname + '/public'));
 
 //為了post擴充可傳的資料量
-app.use(bodyParser.json({limit: "10mb"}));
-app.use(bodyParser.urlencoded({limit: "10mb", extended: true, parameterLimit: 10000}));
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit: 50000}));
 
 //app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({extended: true}));  //url編碼處理
