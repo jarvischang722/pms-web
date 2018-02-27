@@ -11,7 +11,7 @@ const langSvc = require("../services/LangService");
 const fs = require("fs");
 const ip = require("ip");
 const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
-var go_sysConf = require("../configs/systemConfig");
+const go_sysConf = require("../configs/systemConfig");
 /**
  * 登入頁面
  */
@@ -46,11 +46,18 @@ exports.loginPage = function (req, res) {
                         callback(null, 'done');
                     });
                 } else {
-                    res.cookie('athena_id', req.params.athena_id, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
-                    if (req.params.comp_cod || _.isEmpty(req.params.comp_cod)) {
+                    if (!req.params.athena_id || _.isEmpty(req.params.athena_id)) {
+                        res.clearCookie("athena_id");
+                    }
+                    else {
+                        res.cookie("athena_id", req.params.athena_id, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
+                    }
+
+                    if (!req.params.comp_cod || _.isEmpty(req.params.comp_cod)) {
                         res.clearCookie("comp_cod");
-                    } else {
-                        res.cookie('comp_cod', req.params.comp_cod, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
+                    }
+                    else {
+                        res.cookie("comp_cod", req.params.comp_cod, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
                     }
 
                     callback(null, 'done');

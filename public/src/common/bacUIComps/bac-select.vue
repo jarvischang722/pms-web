@@ -40,7 +40,7 @@
             //欄位屬性
             field: {
                 type: Object,
-                default: function(){
+                default: function () {
                     return {};
                 }
             }
@@ -56,7 +56,7 @@
         },
         watch: {
             //塞入預設值
-            defaultVal: function(val){
+            defaultVal: function (val) {
                 this.$emit('update:v-model', this.defaultVal);
                 $(this.$el).combobox('setValue', val);
             }
