@@ -1,7 +1,6 @@
 import _s from "underscore.string";
 import _ from "underscore";
 import crypto from "crypto";
-import searchComp from '../../components/common/bacUIComps/search-comp.vue';
 
 new Vue({
     el: '#PMS0110050App',
@@ -13,7 +12,6 @@ new Vue({
     updated() {
         $("#resRoomPlan-table").tableHeadFixer({"left": 1});
     },
-    components: {searchComp},
     watch: {
         searchData: {
             handler(val) {
@@ -143,13 +141,13 @@ new Vue({
 
         },
         convertData(la_roomNosData) {
-            var self = this;
+            let self = this;
             this.dateFieldData = [];
             this.dayFieldData = [];
             console.log(this.endNum);
             this.roomNosDataDisplay = JSON.parse(JSON.stringify(la_roomNosData));
             //處理日期欄位資料
-            var ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
+            let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
 
             for (let i = this.beginNum; i <= this.endNum; i++) {
                 let lo_date = moment(new Date(ls_date)).add('days', i - this.beginNum);
@@ -159,8 +157,8 @@ new Vue({
             //處理房號資料
             _.each(this.roomNosDataDisplay, (lo_roomNosData, idx) => {
                 //處理房間有效日期
-                var ln_numFieldLen = 2 * (this.endNum - this.beginNum + 1);
-                var la_tmpRoomUse = new Array(ln_numFieldLen);
+                let ln_numFieldLen = 2 * (this.endNum - this.beginNum + 1);
+                let la_tmpRoomUse = new Array(ln_numFieldLen);
                 let ln_count = 0;
                 let ln_pushNum = 0;
                 while (ln_count < ln_numFieldLen) {
@@ -275,7 +273,7 @@ new Vue({
             this.searchData4Month = moment(new Date(this.rentCalDat));
         },
         changDate(num) {
-            var ls_date = moment(new Date(this.nowSearchDate)).add('days', num).format("YYYY/MM/DD").toString();
+            let ls_date = moment(new Date(this.nowSearchDate)).add('days', num).format("YYYY/MM/DD").toString();
             this.searchData.year = moment(new Date(ls_date)).year();
             this.searchData.month = moment(new Date(ls_date)).month() + 1;
             this.searchData.date = moment(new Date(ls_date)).date();
