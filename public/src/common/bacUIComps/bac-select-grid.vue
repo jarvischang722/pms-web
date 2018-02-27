@@ -49,7 +49,7 @@
             //datagrid 欄位
             columns: {
                 type: Array,
-                default:function () {
+                default: function () {
                     return [];
                 }
             }
@@ -63,15 +63,20 @@
         },
         watch: {
             //塞入預設值
-            defaultVal: function(val){
+            defaultVal: function (val) {
                 this.$emit('update:v-model', this.defaultVal);
                 $(this.$el).combogrid('setValue', val);
+            },
+            //塞入欄位資料
+            columns: function (val) {
+                this.initComboGrid();
             }
         },
         methods: {
             initComboGrid: function () {
                 let self = this;
                 $(this.$el).combogrid({
+                    panelWidth: self.getPanelWidth(),
                     multiple: this.multiple,
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
                     idField: this.idField,
@@ -101,11 +106,30 @@
                 if (ls_keyword == "") {
                     return false;
                 }
-                console.log(ls_keyword);
                 $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
                     $(self.$el).combogrid("loadData", items);
                 })
 
+            },
+            //取得SelectGrid寬度
+            getPanelWidth: function () {
+                let ln_panelWidth = 0;
+                if (this.columns.length > 0) {
+                    ln_panelWidth = _.reduce(this.columns, function (sum, lo_column) {
+                        if (lo_column && _.isUndefined(lo_column.hidden) && !_.isUndefined(lo_column.width)) {
+                            return sum + Number(lo_column.width);
+                        }
+                        else {
+                            return sum;
+                        }
+                    }, 0)
+                }
+
+                if (!_.isUndefined(this.field.width)) {
+                    ln_panelWidth = ln_panelWidth > this.field.width ? ln_panelWidth : this.field.width;
+                }
+
+                return ln_panelWidth;
             }
         },
         beforeDestroy: function () {

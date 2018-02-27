@@ -33,13 +33,13 @@ module.exports = function (req, res, next) {
         }
         else {
             if (req.cookies.athena_id && !req.cookies.comp_cod) {
-                res.redirect(`/login`);
+                res.redirect(`/${req.cookies.athena_id}/login`);
             }
             else if (req.cookies.comp_cod && req.cookies.comp_cod != "") {
                 res.redirect(`/${req.cookies.athena_id}/${req.cookies.comp_cod}/login`);
             }
             else {
-                res.redirect(`/${req.cookies.athena_id}/login`);
+                res.redirect(`/login`);
             }
         }
 
