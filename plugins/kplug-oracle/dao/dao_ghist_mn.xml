@@ -38,4 +38,22 @@
         <parameter type="int" kind="1">athena_id</parameter>
         <parameter type="string" kind="3">airline_cod</parameter>
     </dao>
+
+    <dao name="QRY_GHIST_MN">
+        <statement><![CDATA[
+        select ghist_mn.athena_id,ghist_mn.gcust_cod,ghist_mn.show_cod,ghist_mn.alt_nam,ghist_mn.first_nam,ghist_mn.last_nam,status_cod,vip_sta,salute_cod,contry_cod,live_cod,lang_cod,role_cod,car_nos,acust_cod,ccust_nam,credit_nos,expira_dat,airmb_nos,airline_cod,dm_flag,requst_rmk,co_del_sta,
+        cust_idx.athena_id,cust_idx.cust_cod,cust_idx.show_cod,cust_idx.alt_nam,cust_idx.first_nam,cust_idx.last_nam,cust_idx.cust_sta,cust_idx.from_table,cust_idx.cust_typ,cust_idx.sex_typ,cust_idx.id_cod,cust_idx.birth_dat,cust_idx.mobile_nos,cust_idx.office_tel,cust_idx.home_tel,cust_idx.fax_nos,cust_idx.e_mail,cust_idx.zip_cod,cust_idx.add_rmk,cust_idx.uni_cod,cust_idx.uni_title,cust_idx.comp_nam,
+        ghist_visit_dt.athena_id,ghist_visit_dt.gcust_cod,ghist_visit_dt.hotel_cod,ghist_visit_dt.pref_room,ghist_visit_dt.last_room,ghist_visit_dt.character_rmk,ghist_visit_dt.visit_nos,ghist_visit_dt.visit_days,ghist_visit_dt.first_dat,ghist_visit_dt.last_dat,ghist_visit_dt.rent_amt,ghist_visit_dt.rs_amt,ghist_visit_dt.other_amt,ghist_visit_dt.trans_tot
+        from  ghist_mn, cust_idx, ghist_visit_dt
+        where  ghist_mn.athena_id = cust_idx.athena_id
+        and  ghist_mn.gcust_cod = cust_idx.cust_cod
+        and  ghist_mn.athena_id = ghist_visit_dt.athena_id(+)
+        and  ghist_mn.gcust_cod = ghist_visit_dt.gcust_cod(+)
+        and  ghist_visit_dt.hotel_cod(+) = trim(:hotel_cod)
+        and  ghist_mn.athena_id = :athena_id
+        ]]></statement>
+
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>
