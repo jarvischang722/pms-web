@@ -3761,6 +3761,9 @@ td div.triangle-box.colspan-1 {
 td div.triangle-box.colspan-2 {
   width: 200%;
 }
+td div.triangle-box span {
+  height: 19px;
+}
 td div.triangle-box span:before, td div.triangle-box span:after {
   content: "";
   border-style: solid;
