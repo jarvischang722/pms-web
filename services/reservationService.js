@@ -389,12 +389,10 @@ class rmNosPageOneMap {
                 }
                 else if (moment(lo_rmUse.use_end_dat).isAfter(self.qry_end_dat)) {
                     ln_use_end_dat = ln_begin_dat + ln_date_range;
-                    console.log(ln_use_end_dat);
                 }
                 else {
                     let ln_use_date_diff = moment(lo_rmUse.use_end_dat).diff(moment(self.qry_beg_dat), "d");
                     ln_use_end_dat = moment(self.qry_beg_dat).date() + ln_use_date_diff;
-                    // console.log(ln_use_end_dat);
                 }
 
                 ln_ci_dat = moment(lo_rmUse.ci_dat).date();
@@ -407,8 +405,8 @@ class rmNosPageOneMap {
                     ln_co_dat = ln_begin_dat - 1;
                 }
                 else{
-                    let ln_cico_date_diff = moment(lo_rmUse.co_dat).diff(moment(lo_rmUse.ci_dat), "d");
-                    ln_co_dat = moment(lo_rmUse.ci_dat).date() + ln_cico_date_diff;
+                    let ln_cico_date_diff = moment(lo_rmUse.co_dat).diff(moment(self.qry_beg_dat), "d");
+                    ln_co_dat = moment(self.qry_beg_dat).date() + ln_cico_date_diff;
                 }
 
                 la_room_use.push({
