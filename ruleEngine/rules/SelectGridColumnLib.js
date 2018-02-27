@@ -56,7 +56,7 @@ exports.sel_custMnCustColumn = function (session, callback) {
  * @param session
  * @param callback
  */
-exports.sel_salesMnHotelStatusNColumn = function(session, callback){
+exports.sel_salesMnHotelStatusNColumn = function (session, callback) {
     let lo_result = {
         columns: [
             {
@@ -90,7 +90,7 @@ exports.sel_salesMnHotelStatusNColumn = function(session, callback){
  * @param session
  * @param callback
  */
-exports.qry_user_nos_column = function(session, callback){
+exports.qry_user_nos_column = function (session, callback) {
     let lo_result = {
         columns: [
             {
@@ -114,11 +114,88 @@ exports.qry_user_nos_column = function(session, callback){
     callback(null, lo_result);
 };
 
+/**
+ * PMS0210010 住客歷史 欄位國籍
+ * @param session
+ * @param callback
+ */
+exports.sel_GhistMnContrycodColumn = function (session, callback) {
+    let lo_result = {
+        columns: [
+            {
+                field: "contry_cod",
+                title: commandRules.getColumnByNam("PMS0210010_contry_cod", session.locale),
+                width: 80
+            },
+            {
+                field: "contry_nam",
+                title: commandRules.getColumnByNam("PMS0210010_contry_nam", session.locale),
+                width: 150
+            },
+            {
+                field: "contry_sna",
+                title: commandRules.getColumnByNam("PMS0210010_contry_sna", session.locale),
+                width: 150
+            },
+            {
+                field: "contry_display",
+                hidden: true
+            }
+        ],
+        display: "contry_display",
+        value: "contry_cod"
+    };
+    callback(null, lo_result);
+};
+
+/**
+ * PMS0210010 住客歷史 欄位國籍
+ * @param session
+ * @param callback
+ */
+exports.sel_AgentIdxShowcodColumn = function (session, callback) {
+    let lo_result = {
+        columns: [
+            {
+                field: "show_cod",
+                title: commandRules.getColumnByNam("PMS0610020_show_cod", session.locale),
+                width: 100
+            },
+            {
+                field: "cust_nam",
+                title: commandRules.getColumnByNam("PMS0610020_cust_nam", session.locale),
+                width: 300
+            },
+            {
+                field: "uni_cod",
+                title: commandRules.getColumnByNam("PMS0610020_uni_cod", session.locale),
+                width: 100
+            },
+            {
+                field: "uni_title",
+                title: commandRules.getColumnByNam("PMS0610020_uni_title", session.locale),
+                width: 180
+            },
+            {
+                field: "cust_cod",
+                hidden: true
+            },
+            {
+                field: "cust_dispalay",
+                hidden: true
+            }
+        ],
+        display: "cust_display",
+        value: "cust_cod"
+    };
+    callback(null, lo_result);
+};
+
 function getlocaleContent(session, callback) {
-    var localeContent = {};
-    var appRootPath = require('app-root-path').path;
-    var localesPath = appRootPath + "/locales/";
-    var err = null;
+    let localeContent = {};
+    let appRootPath = require('app-root-path').path;
+    let localesPath = appRootPath + "/locales/";
+    let err = null;
 
     try {
         fs.exists(localesPath + session.locale.toLowerCase() + ".json", function (isExist) {

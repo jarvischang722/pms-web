@@ -28,7 +28,7 @@ var params = {
 test1();
 
 function test1() {
-    queryAgent.query("QRY_MAX_CONTRACT_LOG_SEQ_NOS", {athena_id: 2, cust_cod: 'CS 000000000036302  '}, function (err, data) {
+    queryAgent.queryList("SEL_GHISTMNCONTRYCOD", {athena_id: 1}, 0, 0, function (err, data) {
         console.error(err);
         console.log(data);
     });

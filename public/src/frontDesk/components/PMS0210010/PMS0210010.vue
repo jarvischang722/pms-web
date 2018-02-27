@@ -1,137 +1,11 @@
 <template>
     <div class="pageMain">
         <div class="col-xs-12">
-            <div class="search-content">
-                <div class="search-co">
-                    <div class="row">
-                        <div class="col-xs-12 search-co-content search-S2">
-                            <div class="width-95 searchMain-S2">
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>姓名</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label classs="">國籍</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row search-footer-btn">
-                                <div class="footer-btn-menu-co">
-                                    <ul>
-                                        <li>
-                                            <div class="" data-rel="tooltip" data-placement="bottom"
-                                                 title="查詢">
-                                                <div class="icon-reStyle icon-co-14"></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="" data-rel="tooltip" data-placement="bottom"
-                                                 title="清除">
-                                                <div class="icon-reStyle icon-co-11"></div>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="icon-moreSearch show-search-detail">
-                                                <i class="fa fa-chevron-down"></i>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>  <!-- /.footer-btn-menu-co -->
-                            </div> <!-- /.search-footer-btn -->
-                        </div>
-
-                        <div class="search-co-content col-xs-12 search-S2-con rece-search-detail"
-                             style="display: none;">
-
-                            <div class="width-95">
-
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>歷史編號</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>狀態</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">VIP</option>
-                                            <option value="2">黑名單</option>
-                                            <option value="3">一般</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>身分證字號</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Mobile</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>出生月份</label>
-                                        <input type="month" class="input-medium medium-c1" placeholder="">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>C/I日期</label>
-                                        <input type="date" class="input-medium medium-c1" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>來訪次數</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>來訪天數</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>消費總額</label>
-                                        <input type="text" class="input-medium medium-c1 text-right" placeholder="">
-                                    </div>
-
-                                    <div class="grid-item">
-                                        <label>是否收取DM</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="y">Y</option>
-                                            <option value="n">N</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>訂房公司</label>
-                                        <input type="text" class="input-medium medium-c1-col2v2" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>公司名稱</label>
-                                        <input type="text" class="input-medium medium-c1-col2v2" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                    </div> <!-- row-->
-
-                </div> <!-- /.search-co -->
-            </div> <!-- /.row  search-content-->
+            <search-comp
+                    :search-fields="searchFields"
+                    :search-cond.sync="searchCond"
+                    :fetch-data="loadDataGridByPrgID"
+            ></search-comp>
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
         <div class="col-xs-12">
@@ -139,8 +13,9 @@
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div>
+                        <table id="PMS0210010_dg" class=""></table>
                         <!-- gProfile 多筆 dataGrid -->
-                        <table id="resv_gProfile-table" class="gridTableHt"></table>
+                        <!--<table id="resv_gProfile-table" class="gridTableHt"></table>-->
                     </div>
                 </div>
             </div>
@@ -177,7 +52,6 @@
     </div>
 </template>
 <script>
-
     var gs_prgId = "PMS0210010";
 
     export default {
@@ -185,9 +59,9 @@
         mounted() {
             this.loadDataGridByPrgID();
         },
-        components: {},
+
         data() {
-            return{
+            return {
                 i18nLang: go_i18nLang,//多語系資料
                 go_funcPurview: [],//按鈕權限
                 userInfo: {},//使用者資訊
@@ -208,7 +82,7 @@
                     }
                 });
             },
-            setSearchCond(){
+            setSearchCond() {
                 this.searchCond = {};
             },
             loadDataGridByPrgID() {
@@ -230,7 +104,41 @@
                 });
             },
             showDataGrid() {
+                var self = this;
 
+                //一開始只載入10筆資料
+                var la_showDataRows = this.pageOneDataGridRows.slice(0, 10);
+
+                $('#PMS0210010_dg').datagrid({
+                    fitColumns: "true",
+                    columns: [DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0210010_dg')],
+                    pagination: true,
+                    rownumbers: true,
+                    pageSize: 10,
+                    data: la_showDataRows,
+                    singleSelect: true
+                });
+
+                var pager = $('#PMS0210010_dg').datagrid('getPager');
+                pager.pagination({
+                    total: self.pageOneDataGridRows.length,
+                    onSelectPage: function (pageNo, pageSize) {
+                        var start = (pageNo - 1) * pageSize;
+                        var end = start + pageSize;
+                        $("#PMS0210010_dg").datagrid("loadData", self.pageOneDataGridRows.slice(start, end));
+                        pager.pagination('refresh', {
+                            total: self.pageOneDataGridRows.length,
+                            pageNumber: pageNo
+                        });
+                    },
+                    pageNumber: 1,
+                    pageList: [10, 20, 50],
+                    showPageList: true,
+                    beforePageText: go_i18nLang.SystemCommon.dataGridBeforePageText,
+                    afterPageText: go_i18nLang.SystemCommon.dataGridAfterPageText,
+                    displayMsg: go_i18nLang.SystemCommon.dataGridDisplayMsg
+                });
+                this.isLoading = false;
             }
         }
     }
