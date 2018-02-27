@@ -341,6 +341,7 @@ class rmNosPageOneMap {
             roomNosData: []
         };
 
+        //組合房型和有效日期資料
         let la_rmNosData = alasql("select * from ? rmList " +
             "left join ? rmPeriod on rmList.room_cod = rmPeriod.room_cod and rmList.room_nos = rmPeriod.room_nos", [rmNosPageOneData.roomList, rmNosPageOneData.roomPeriod]);
 
@@ -389,16 +390,19 @@ class rmNosPageOneMap {
                 })
             });
 
+            // 不同房型有相同房號，房號顯示方式須改為: 房號+房型
+            let la_chkRoomNosRepeat = _.where(la_rmNosData, {room_nos: lo_rmNosData.room_nos});
+            let ls_room_nos = la_chkRoomNosRepeat.length > 1 ? lo_rmNosData.room_nos + lo_rmNosData.room_cod : lo_rmNosData.room_nos;
+
             lo_convData.roomNosData.push({
                 room_cod: lo_rmNosData.room_cod,
-                room_nos: lo_rmNosData.room_nos,
+                room_nos: ls_room_nos,
                 room_sta: lo_rmNosData.clean_sta == "D" ? "Dirty" : "Clean",
                 begin_dat: ln_period_begin_dat,
                 end_dat: ln_period_end_dat,
                 room_use: _.clone(la_room_use)
             })
         });
-
 
         return lo_convData;
     }
