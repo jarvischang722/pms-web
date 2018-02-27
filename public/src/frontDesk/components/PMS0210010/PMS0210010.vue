@@ -25,12 +25,12 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-2"
-                                        role="button">Add
+                                        role="button">{{i18nLang.SystemCommon.Add}}
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-2"
-                                        role="button">Edit
+                                        role="button">{{i18nLang.SystemCommon.Modify}}
                                 </button>
                             </li>
                             <li>
@@ -39,8 +39,8 @@
                                 </button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">Save As
+                                <button class="btn btn-primary btn-white btn-defaultWidth btn-skin"
+                                        role="button">{{i18nLang.program.PMS0610010.save_as}}
                                 </button>
                             </li>
                         </ul>
