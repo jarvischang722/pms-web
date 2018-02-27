@@ -35,13 +35,13 @@
                         <!--房種,房號,清掃狀況標題-->
                         <div class="roomNum-wrap room-color">
                             <div class="room-Num-Left th-width-s roomPlan-Num1">
-                                房種<i class="fa fa-caret-down" @click="sortData('roomTyp')"></i>
+                                房種<i class="fa fa-caret-down" :class="typArrowClass" style="cursor: pointer;" @click="sortData('roomTyp')"></i>
                             </div>
                             <div class="room-Num-Right th-width-s roomPlan-Num1">
-                                房號<i class="fa fa-caret-down" @click="sortData('room_nos')"></i>
+                                房號<i class="fa fa-caret-down" :class="nosArrowClass" style="cursor: pointer;" @click="sortData('room_nos')"></i>
                             </div>
                             <div class="room-Num-Right th-width-l roomPlan-Num1">
-                                清掃狀況<i class="fa fa-caret-down" @click="sortData('room_sta')"></i>
+                                清掃狀況<i class="fa fa-caret-down" :class="staArrowClass" style="cursor: pointer;" @click="sortData('room_sta')"></i>
                             </div>
                         </div>
                         <div class="clearfix"></div>

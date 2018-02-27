@@ -56,7 +56,11 @@ new Vue({
         //房型資料
         roomNosData: [],
         roomNosDataDisplay: [],
-        roomNosDataBlankDisplay: []
+        roomNosDataBlankDisplay: [],
+        //排序的箭頭方向顯示
+        typArrowClass: "fa-caret-down",
+        nosArrowClass: "fa-caret-down",
+        staArrowClass: "fa-caret-down"
     },
     methods: {
         //取滾房租日
@@ -225,6 +229,21 @@ new Vue({
         sortData(dataTyp) {
             if(this.roomNosDataDisplay.length != 0){
                 this.convertData(_.sortBy(this.roomNosData, dataTyp));
+                if(dataTyp == "roomTyp"){
+                    this.typArrowClass = "fa-caret-up";
+                    this.nosArrowClass = "fa-caret-down";
+                    this.staArrowClass = "fa-caret-down";
+                }
+                else if(dataTyp == "room_nos"){
+                    this.typArrowClass = "fa-caret-down";
+                    this.nosArrowClass = "fa-caret-up";
+                    this.staArrowClass = "fa-caret-down";
+                }
+                else if(dataTyp == "room_sta"){
+                    this.typArrowClass = "fa-caret-down";
+                    this.nosArrowClass = "fa-caret-down";
+                    this.staArrowClass = "fa-caret-up";
+                }
             }
         },
         //搜尋日轉回滾房租日
