@@ -3098,7 +3098,7 @@ ul.newVisitOther-btn {
   position: relative;
   padding: 5px;
   width: 124px;
-  height: 74px;
+  height: 86px;
   line-height: 23px;
   box-sizing: border-box;
   background: #c0d6ee;
@@ -3194,15 +3194,19 @@ ul.newVisitOther-btn {
   top: 25px;
   left: 5px;
 }
-.foCounter .counterPage .counterRow .counterBlock .content .foCnt_icon {
-  width: 12px;
-  height: 12px;
-  margin: 4px 1px auto 1px;
-}
 .foCounter .counterPage .counterRow .counterBlock .content-sub .left {
   position: absolute;
   top: 45px;
   left: 5px;
+}
+.foCounter .counterPage .counterRow .counterBlock .content-ico {
+  position: absolute;
+  top: 61px;
+}
+.foCounter .counterPage .counterRow .counterBlock .content-ico .foCnt_icon {
+  width: 12px;
+  height: 12px;
+  margin: 4px 1px auto 1px;
 }
 .foCounter .counterPage .counterRow .counterBlock .foot {
   position: absolute;
@@ -4300,9 +4304,6 @@ td div.act-box span.act-text {
   float: left;
   text-align: center;
   margin: 5px 0 5px 5px;
-}
-.select-group .status-view div.relationship {
-  margin: 5px 0 5px 1px;
 }
 .select-group .status-view div.status-tip.cb-oc-od {
   background: #ffd45a;
