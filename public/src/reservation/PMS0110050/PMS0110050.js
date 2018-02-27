@@ -146,7 +146,7 @@ new Vue({
             var self = this;
             this.dateFieldData = [];
             this.dayFieldData = [];
-
+            console.log(this.endNum);
             this.roomNosDataDisplay = JSON.parse(JSON.stringify(la_roomNosData));
             //處理日期欄位資料
             var ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
@@ -197,7 +197,7 @@ new Vue({
                     ls_roomUseClass = ls_roomUseClass + 'status_' + lo_roomUse.use_typ.toLocaleLowerCase();
 
                     //轉換房間使用期間
-                    ln_endDatIdx = ln_coDatIdx != ln_endDatIdx ? ln_endDatIdx + 2 : ln_endDatIdx;
+                    ln_endDatIdx = ln_coDatIdx != ln_endDatIdx ? ln_endDatIdx + 2 : ln_endDatIdx + 1;
                     ln_endDatIdx = lo_roomUse.end_dat < self.beginNum ? 0 : ln_endDatIdx;
                     ln_endDatIdx = lo_roomUse.end_dat > self.endNum ? la_tmpRoomUse.length - 1 : ln_endDatIdx;
                     ln_endDatIdx = ln_coDatIdx <= -1 && lo_roomUse.co_dat > self.endNum ? la_tmpRoomUse.length - 1 : ln_endDatIdx;
@@ -209,7 +209,10 @@ new Vue({
                         ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-left';
                         ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
                     }
-                    else if(lo_roomUse.begin_dat < self.beginNum){
+                    else if (lo_roomUse.begin_dat < self.beginNum) {
+                        ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-left';
+                    }
+                    else if (lo_roomUse.begin_dat < self.beginNum) {
                         ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-left';
                     }
                     else if (lo_roomUse.end_dat > self.endNum) {
@@ -222,6 +225,10 @@ new Vue({
                         ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
                     }
 
+                    if(lo_roomUse.end_dat == lo_roomUse.co_dat ){
+                        ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
+                    }
+
                     la_tmpRoomUse[ln_beginDatIdx].attClass = ls_roomUseClass;
 
                     //轉換房間使用備註
@@ -229,7 +236,6 @@ new Vue({
 
                     //轉換房間使用title
                     la_tmpRoomUse[ln_beginDatIdx].title = lo_roomUse.use_rmk + "(" + lo_roomUse.dis_ci_dat + "~" + lo_roomUse.dis_co_dat + ")";
-                    la_tmpRoomUse[ln_beginDatIdx].title = la_tmpRoomUse[ln_beginDatIdx].title + "begin dat "+ lo_roomUse.begin_dat + " end dat " + lo_roomUse.end_dat;
                 });
 
                 this.roomNosDataDisplay[idx].room_use_display = la_tmpRoomUse;
