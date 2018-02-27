@@ -3761,25 +3761,25 @@ td div.triangle-box.colspan-1 {
 td div.triangle-box.colspan-2 {
   width: 200%;
 }
+td div.triangle-box span {
+  height: 19px;
+}
 td div.triangle-box span:before, td div.triangle-box span:after {
   content: "";
+  border-style: solid;
+  border-width: 0;
+  height: 19px;
   position: absolute;
+  width: 0;
+  border-color: transparent #f8cbac;
 }
 td div.triangle-box span:before {
-  left: -10px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 9.5px 10px 9.5px 0;
-  border-color: transparent #f8cbac transparent transparent;
+  left: 0px;
+  border-width: 9px 10px 9px 0px;
 }
 td div.triangle-box span:after {
-  right: -10px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 9.5px 0 9.5px 10px;
-  border-color: transparent transparent transparent #f8cbac;
+  right: 0px;
+  border-width: 9px 0 9px 10px;
 }
 td div.triangle-box span.triangle-text {
   width: 100%;
@@ -3788,30 +3788,28 @@ td div.triangle-box span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #555;
-  cursor: default;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
 td div.triangle-box.status_a span {
   background: #8AC926;
 }
 td div.triangle-box.status_a span:before, td div.triangle-box.status_a span:after {
   content: "";
+  border-style: solid;
+  border-width: 0;
+  height: 19px;
   position: absolute;
+  width: 0;
+  border-color: transparent #8AC926;
 }
 td div.triangle-box.status_a span:before {
-  left: -10px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 9.5px 10px 9.5px 0;
-  border-color: transparent #8AC926 transparent transparent;
+  left: 0px;
+  border-width: 9px 10px 9px 0px;
 }
 td div.triangle-box.status_a span:after {
-  right: -10px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 9.5px 0 9.5px 10px;
-  border-color: transparent transparent transparent #8AC926;
+  right: 0px;
+  border-width: 9px 0 9px 10px;
 }
 td div.triangle-box.status_a span.triangle-text {
   width: 100%;
@@ -3820,30 +3818,28 @@ td div.triangle-box.status_a span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
-  cursor: default;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
 td div.triangle-box.status_o span {
   background: #FF595E;
 }
 td div.triangle-box.status_o span:before, td div.triangle-box.status_o span:after {
   content: "";
+  border-style: solid;
+  border-width: 0;
+  height: 19px;
   position: absolute;
+  width: 0;
+  border-color: transparent #FF595E;
 }
 td div.triangle-box.status_o span:before {
-  left: -10px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 9.5px 10px 9.5px 0;
-  border-color: transparent #FF595E transparent transparent;
+  left: 0px;
+  border-width: 9px 10px 9px 0px;
 }
 td div.triangle-box.status_o span:after {
-  right: -10px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 9.5px 0 9.5px 10px;
-  border-color: transparent transparent transparent #FF595E;
+  right: 0px;
+  border-width: 9px 0 9px 10px;
 }
 td div.triangle-box.status_o span.triangle-text {
   width: 100%;
@@ -3852,30 +3848,28 @@ td div.triangle-box.status_o span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
-  cursor: default;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
 td div.triangle-box.status_s span {
   background: #FFCA3A;
 }
 td div.triangle-box.status_s span:before, td div.triangle-box.status_s span:after {
   content: "";
+  border-style: solid;
+  border-width: 0;
+  height: 19px;
   position: absolute;
+  width: 0;
+  border-color: transparent #FFCA3A;
 }
 td div.triangle-box.status_s span:before {
-  left: -10px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 9.5px 10px 9.5px 0;
-  border-color: transparent #FFCA3A transparent transparent;
+  left: 0px;
+  border-width: 9px 10px 9px 0px;
 }
 td div.triangle-box.status_s span:after {
-  right: -10px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 9.5px 0 9.5px 10px;
-  border-color: transparent transparent transparent #FFCA3A;
+  right: 0px;
+  border-width: 9px 0 9px 10px;
 }
 td div.triangle-box.status_s span.triangle-text {
   width: 100%;
@@ -3884,30 +3878,28 @@ td div.triangle-box.status_s span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
-  cursor: default;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
 td div.triangle-box.status_ooo span {
   background: #1982C4;
 }
 td div.triangle-box.status_ooo span:before, td div.triangle-box.status_ooo span:after {
   content: "";
+  border-style: solid;
+  border-width: 0;
+  height: 19px;
   position: absolute;
+  width: 0;
+  border-color: transparent #1982C4;
 }
 td div.triangle-box.status_ooo span:before {
-  left: -10px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 9.5px 10px 9.5px 0;
-  border-color: transparent #1982C4 transparent transparent;
+  left: 0px;
+  border-width: 9px 10px 9px 0px;
 }
 td div.triangle-box.status_ooo span:after {
-  right: -10px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 9.5px 0 9.5px 10px;
-  border-color: transparent transparent transparent #1982C4;
+  right: 0px;
+  border-width: 9px 0 9px 10px;
 }
 td div.triangle-box.status_ooo span.triangle-text {
   width: 100%;
@@ -3916,7 +3908,8 @@ td div.triangle-box.status_ooo span.triangle-text {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #fff;
-  cursor: default;
+  border-right: 10px solid #fff;
+  border-left: 10px solid #fff;
 }
 td div.act-box {
   margin: 0px auto;
@@ -4807,13 +4800,23 @@ td div.act-box span.act-text {
 .triangle-box.only-oneArrow-left {
   width: 100%;
   right: 0px;
-  left: 0 !important;
 }
 .triangle-box.only-oneArrow-left .triangle-text {
   border-left: 0 !important;
 }
 .triangle-box.only-oneArrow-left .triangle-text:before {
   left: 0;
+  border-width: 0;
+}
+.triangle-box.both-arrow-none {
+  width: 100%;
+  right: 0px;
+}
+.triangle-box.both-arrow-none .triangle-text {
+  border-left: 0 !important;
+  border-right: 0 !important;
+}
+.triangle-box.both-arrow-none .triangle-text:before, .triangle-box.both-arrow-none .triangle-text:after {
   border-width: 0;
 }
 
@@ -4872,7 +4875,6 @@ td div.act-box span.act-text {
 }
 .cus-roomType-table table thead tr .rp-first-th .caSelect .el-input__icon + .el-input__inner {
   padding: 0;
-  cursor: pointer;
 }
 .cus-roomType-table table thead tr .rp-first-th .caSelect .el-input__inner {
   text-align: center;
@@ -4905,20 +4907,19 @@ td div.act-box span.act-text {
   min-width: 321px;
 }
 .cus-roomPlan-table table thead tr .rp-first-th .caSelect {
-  margin: 12px 0 10px 0;
+  margin: 10px 0 12px 0;
 }
 .cus-roomPlan-table table thead tr .rp-first-th .caSelect .el-icon-date:before {
   content: none;
 }
 .cus-roomPlan-table table thead tr .rp-first-th .caSelect .el-input__icon + .el-input__inner {
   padding: 0;
-  cursor: pointer;
 }
 .cus-roomPlan-table table thead tr .rp-first-th .caSelect .el-input__inner {
   text-align: center;
 }
-.cus-roomPlan-table table thead tr .rp-first-th .caIcon {
-  margin-top: 6px;
+.cus-roomPlan-table table thead tr .rp-first-th .caSelect i {
+  padding-top: 10px;
 }
 .cus-roomPlan-table table tbody tr td {
   height: 22px;
@@ -4930,6 +4931,9 @@ td div.act-box span.act-text {
 }
 .cus-roomPlan-table table tbody tr td:nth-child(even) {
   border-right: 0;
+}
+.cus-roomPlan-table table tbody tr td div.triangle-box.colspan-0 {
+  width: 29px;
 }
 
 .th-width-s {
@@ -4944,316 +4948,116 @@ td div.act-box span.act-text {
   padding: 0 7px;
 }
 
-td.td-bg-gray {
-  background: #888888 !important;
-}
-
 td div.triangle-box.colspan-1 {
-  width: 10px;
-  left: 10px;
-}
-td div.triangle-box.colspan-1.only-oneArrow-right {
-  width: 20px;
-}
-td div.triangle-box.colspan-1.only-oneArrow-left {
-  width: 20px;
+  width: 29px;
 }
 
 td div.triangle-box.colspan-2 {
-  width: 40px;
-  left: 10px;
-}
-td div.triangle-box.colspan-2.only-oneArrow-right {
-  width: 50px;
-}
-td div.triangle-box.colspan-2.only-oneArrow-left {
-  width: 50px;
+  width: 59px;
 }
 
 td div.triangle-box.colspan-3 {
-  width: 70px;
-  left: 10px;
-}
-td div.triangle-box.colspan-3.only-oneArrow-right {
-  width: 80px;
-}
-td div.triangle-box.colspan-3.only-oneArrow-left {
-  width: 80px;
+  width: 89px;
 }
 
 td div.triangle-box.colspan-4 {
-  width: 100px;
-  left: 10px;
-}
-td div.triangle-box.colspan-4.only-oneArrow-right {
-  width: 110px;
-}
-td div.triangle-box.colspan-4.only-oneArrow-left {
-  width: 110px;
+  width: 119px;
 }
 
 td div.triangle-box.colspan-5 {
-  width: 130px;
-  left: 10px;
-}
-td div.triangle-box.colspan-5.only-oneArrow-right {
-  width: 140px;
-}
-td div.triangle-box.colspan-5.only-oneArrow-left {
-  width: 140px;
+  width: 149px;
 }
 
 td div.triangle-box.colspan-6 {
-  width: 160px;
-  left: 10px;
-}
-td div.triangle-box.colspan-6.only-oneArrow-right {
-  width: 170px;
-}
-td div.triangle-box.colspan-6.only-oneArrow-left {
-  width: 170px;
+  width: 179px;
 }
 
 td div.triangle-box.colspan-7 {
-  width: 190px;
-  left: 10px;
-}
-td div.triangle-box.colspan-7.only-oneArrow-right {
-  width: 200px;
-}
-td div.triangle-box.colspan-7.only-oneArrow-left {
-  width: 200px;
+  width: 209px;
 }
 
 td div.triangle-box.colspan-8 {
-  width: 220px;
-  left: 10px;
-}
-td div.triangle-box.colspan-8.only-oneArrow-right {
-  width: 230px;
-}
-td div.triangle-box.colspan-8.only-oneArrow-left {
-  width: 230px;
+  width: 239px;
 }
 
 td div.triangle-box.colspan-9 {
-  width: 250px;
-  left: 10px;
-}
-td div.triangle-box.colspan-9.only-oneArrow-right {
-  width: 260px;
-}
-td div.triangle-box.colspan-9.only-oneArrow-left {
-  width: 260px;
+  width: 269px;
 }
 
 td div.triangle-box.colspan-10 {
-  width: 280px;
-  left: 10px;
-}
-td div.triangle-box.colspan-10.only-oneArrow-right {
-  width: 290px;
-}
-td div.triangle-box.colspan-10.only-oneArrow-left {
-  width: 290px;
+  width: 299px;
 }
 
 td div.triangle-box.colspan-11 {
-  width: 310px;
-  left: 10px;
-}
-td div.triangle-box.colspan-11.only-oneArrow-right {
-  width: 320px;
-}
-td div.triangle-box.colspan-11.only-oneArrow-left {
-  width: 320px;
+  width: 329px;
 }
 
 td div.triangle-box.colspan-12 {
-  width: 340px;
-  left: 10px;
-}
-td div.triangle-box.colspan-12.only-oneArrow-right {
-  width: 350px;
-}
-td div.triangle-box.colspan-12.only-oneArrow-left {
-  width: 350px;
+  width: 359px;
 }
 
 td div.triangle-box.colspan-13 {
-  width: 370px;
-  left: 10px;
-}
-td div.triangle-box.colspan-13.only-oneArrow-right {
-  width: 380px;
-}
-td div.triangle-box.colspan-13.only-oneArrow-left {
-  width: 380px;
+  width: 389px;
 }
 
 td div.triangle-box.colspan-14 {
-  width: 400px;
-  left: 10px;
-}
-td div.triangle-box.colspan-14.only-oneArrow-right {
-  width: 410px;
-}
-td div.triangle-box.colspan-14.only-oneArrow-left {
-  width: 410px;
+  width: 419px;
 }
 
 td div.triangle-box.colspan-15 {
-  width: 430px;
-  left: 10px;
-}
-td div.triangle-box.colspan-15.only-oneArrow-right {
-  width: 440px;
-}
-td div.triangle-box.colspan-15.only-oneArrow-left {
-  width: 440px;
+  width: 449px;
 }
 
 td div.triangle-box.colspan-16 {
-  width: 460px;
-  left: 10px;
-}
-td div.triangle-box.colspan-16.only-oneArrow-right {
-  width: 470px;
-}
-td div.triangle-box.colspan-16.only-oneArrow-left {
-  width: 470px;
+  width: 479px;
 }
 
 td div.triangle-box.colspan-17 {
-  width: 490px;
-  left: 10px;
-}
-td div.triangle-box.colspan-17.only-oneArrow-right {
-  width: 500px;
-}
-td div.triangle-box.colspan-17.only-oneArrow-left {
-  width: 500px;
+  width: 509px;
 }
 
 td div.triangle-box.colspan-18 {
-  width: 520px;
-  left: 10px;
-}
-td div.triangle-box.colspan-18.only-oneArrow-right {
-  width: 530px;
-}
-td div.triangle-box.colspan-18.only-oneArrow-left {
-  width: 530px;
+  width: 539px;
 }
 
 td div.triangle-box.colspan-19 {
-  width: 550px;
-  left: 10px;
-}
-td div.triangle-box.colspan-19.only-oneArrow-right {
-  width: 560px;
-}
-td div.triangle-box.colspan-19.only-oneArrow-left {
-  width: 560px;
+  width: 569px;
 }
 
 td div.triangle-box.colspan-20 {
-  width: 580px;
-  left: 10px;
-}
-td div.triangle-box.colspan-20.only-oneArrow-right {
-  width: 590px;
-}
-td div.triangle-box.colspan-20.only-oneArrow-left {
-  width: 590px;
+  width: 599px;
 }
 
 td div.triangle-box.colspan-21 {
-  width: 610px;
-  left: 10px;
-}
-td div.triangle-box.colspan-21.only-oneArrow-right {
-  width: 620px;
-}
-td div.triangle-box.colspan-21.only-oneArrow-left {
-  width: 620px;
+  width: 629px;
 }
 
 td div.triangle-box.colspan-22 {
-  width: 640px;
-  left: 10px;
-}
-td div.triangle-box.colspan-22.only-oneArrow-right {
-  width: 650px;
-}
-td div.triangle-box.colspan-22.only-oneArrow-left {
-  width: 650px;
+  width: 659px;
 }
 
 td div.triangle-box.colspan-23 {
-  width: 670px;
-  left: 10px;
-}
-td div.triangle-box.colspan-23.only-oneArrow-right {
-  width: 680px;
-}
-td div.triangle-box.colspan-23.only-oneArrow-left {
-  width: 680px;
+  width: 689px;
 }
 
 td div.triangle-box.colspan-24 {
-  width: 700px;
-  left: 10px;
-}
-td div.triangle-box.colspan-24.only-oneArrow-right {
-  width: 710px;
-}
-td div.triangle-box.colspan-24.only-oneArrow-left {
-  width: 710px;
+  width: 719px;
 }
 
 td div.triangle-box.colspan-25 {
-  width: 730px;
-  left: 10px;
-}
-td div.triangle-box.colspan-25.only-oneArrow-right {
-  width: 740px;
-}
-td div.triangle-box.colspan-25.only-oneArrow-left {
-  width: 740px;
+  width: 749px;
 }
 
 td div.triangle-box.colspan-26 {
-  width: 760px;
-  left: 10px;
-}
-td div.triangle-box.colspan-26.only-oneArrow-right {
-  width: 770px;
-}
-td div.triangle-box.colspan-26.only-oneArrow-left {
-  width: 770px;
+  width: 779px;
 }
 
 td div.triangle-box.colspan-27 {
-  width: 790px;
-  left: 10px;
-}
-td div.triangle-box.colspan-27.only-oneArrow-right {
-  width: 800px;
-}
-td div.triangle-box.colspan-27.only-oneArrow-left {
-  width: 800px;
+  width: 809px;
 }
 
 td div.triangle-box.colspan-28 {
-  width: 820px;
-  left: 10px;
-}
-td div.triangle-box.colspan-28.only-oneArrow-right {
-  width: 830px;
-}
-td div.triangle-box.colspan-28.only-oneArrow-left {
-  width: 830px;
+  width: 839px;
 }
 
 @media screen and (min-width: 1470px) {
@@ -5261,313 +5065,120 @@ td div.triangle-box.colspan-28.only-oneArrow-left {
     min-width: 33px;
     max-width: 33px;
   }
+  .cus-roomPlan-table table tbody tr td div.triangle-box.colspan-0 {
+    width: 32px;
+  }
 
   td div.triangle-box.colspan-1 {
-    width: 13px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-1.only-oneArrow-right {
-    width: 23px;
-  }
-  td div.triangle-box.colspan-1.only-oneArrow-left {
-    width: 23px;
+    width: 32px;
   }
 
   td div.triangle-box.colspan-2 {
-    width: 46px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-2.only-oneArrow-right {
-    width: 56px;
-  }
-  td div.triangle-box.colspan-2.only-oneArrow-left {
-    width: 56px;
+    width: 65px;
   }
 
   td div.triangle-box.colspan-3 {
-    width: 79px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-3.only-oneArrow-right {
-    width: 89px;
-  }
-  td div.triangle-box.colspan-3.only-oneArrow-left {
-    width: 89px;
+    width: 98px;
   }
 
   td div.triangle-box.colspan-4 {
-    width: 112px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-4.only-oneArrow-right {
-    width: 122px;
-  }
-  td div.triangle-box.colspan-4.only-oneArrow-left {
-    width: 122px;
+    width: 131px;
   }
 
   td div.triangle-box.colspan-5 {
-    width: 145px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-5.only-oneArrow-right {
-    width: 155px;
-  }
-  td div.triangle-box.colspan-5.only-oneArrow-left {
-    width: 155px;
+    width: 164px;
   }
 
   td div.triangle-box.colspan-6 {
-    width: 178px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-6.only-oneArrow-right {
-    width: 188px;
-  }
-  td div.triangle-box.colspan-6.only-oneArrow-left {
-    width: 188px;
+    width: 197px;
   }
 
   td div.triangle-box.colspan-7 {
-    width: 211px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-7.only-oneArrow-right {
-    width: 221px;
-  }
-  td div.triangle-box.colspan-7.only-oneArrow-left {
-    width: 221px;
+    width: 230px;
   }
 
   td div.triangle-box.colspan-8 {
-    width: 244px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-8.only-oneArrow-right {
-    width: 254px;
-  }
-  td div.triangle-box.colspan-8.only-oneArrow-left {
-    width: 254px;
+    width: 263px;
   }
 
   td div.triangle-box.colspan-9 {
-    width: 277px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-9.only-oneArrow-right {
-    width: 287px;
-  }
-  td div.triangle-box.colspan-9.only-oneArrow-left {
-    width: 287px;
+    width: 296px;
   }
 
   td div.triangle-box.colspan-10 {
-    width: 310px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-10.only-oneArrow-right {
-    width: 320px;
-  }
-  td div.triangle-box.colspan-10.only-oneArrow-left {
-    width: 320px;
+    width: 329px;
   }
 
   td div.triangle-box.colspan-11 {
-    width: 343px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-11.only-oneArrow-right {
-    width: 353px;
-  }
-  td div.triangle-box.colspan-11.only-oneArrow-left {
-    width: 353px;
+    width: 362px;
   }
 
   td div.triangle-box.colspan-12 {
-    width: 376px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-12.only-oneArrow-right {
-    width: 386px;
-  }
-  td div.triangle-box.colspan-12.only-oneArrow-left {
-    width: 386px;
+    width: 395px;
   }
 
   td div.triangle-box.colspan-13 {
-    width: 409px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-13.only-oneArrow-right {
-    width: 419px;
-  }
-  td div.triangle-box.colspan-13.only-oneArrow-left {
-    width: 419px;
+    width: 428px;
   }
 
   td div.triangle-box.colspan-14 {
-    width: 442px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-14.only-oneArrow-right {
-    width: 452px;
-  }
-  td div.triangle-box.colspan-14.only-oneArrow-left {
-    width: 452px;
+    width: 461px;
   }
 
   td div.triangle-box.colspan-15 {
-    width: 475px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-15.only-oneArrow-right {
-    width: 485px;
-  }
-  td div.triangle-box.colspan-15.only-oneArrow-left {
-    width: 485px;
+    width: 494px;
   }
 
   td div.triangle-box.colspan-16 {
-    width: 508px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-16.only-oneArrow-right {
-    width: 518px;
-  }
-  td div.triangle-box.colspan-16.only-oneArrow-left {
-    width: 518px;
+    width: 527px;
   }
 
   td div.triangle-box.colspan-17 {
-    width: 541px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-17.only-oneArrow-right {
-    width: 551px;
-  }
-  td div.triangle-box.colspan-17.only-oneArrow-left {
-    width: 551px;
+    width: 560px;
   }
 
   td div.triangle-box.colspan-18 {
-    width: 574px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-18.only-oneArrow-right {
-    width: 584px;
-  }
-  td div.triangle-box.colspan-18.only-oneArrow-left {
-    width: 584px;
+    width: 593px;
   }
 
   td div.triangle-box.colspan-19 {
-    width: 607px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-19.only-oneArrow-right {
-    width: 617px;
-  }
-  td div.triangle-box.colspan-19.only-oneArrow-left {
-    width: 617px;
+    width: 626px;
   }
 
   td div.triangle-box.colspan-20 {
-    width: 640px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-20.only-oneArrow-right {
-    width: 650px;
-  }
-  td div.triangle-box.colspan-20.only-oneArrow-left {
-    width: 650px;
+    width: 659px;
   }
 
   td div.triangle-box.colspan-21 {
-    width: 673px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-21.only-oneArrow-right {
-    width: 683px;
-  }
-  td div.triangle-box.colspan-21.only-oneArrow-left {
-    width: 683px;
+    width: 692px;
   }
 
   td div.triangle-box.colspan-22 {
-    width: 706px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-22.only-oneArrow-right {
-    width: 716px;
-  }
-  td div.triangle-box.colspan-22.only-oneArrow-left {
-    width: 716px;
+    width: 725px;
   }
 
   td div.triangle-box.colspan-23 {
-    width: 739px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-23.only-oneArrow-right {
-    width: 749px;
-  }
-  td div.triangle-box.colspan-23.only-oneArrow-left {
-    width: 749px;
+    width: 758px;
   }
 
   td div.triangle-box.colspan-24 {
-    width: 772px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-24.only-oneArrow-right {
-    width: 782px;
-  }
-  td div.triangle-box.colspan-24.only-oneArrow-left {
-    width: 782px;
+    width: 791px;
   }
 
   td div.triangle-box.colspan-25 {
-    width: 805px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-25.only-oneArrow-right {
-    width: 815px;
-  }
-  td div.triangle-box.colspan-25.only-oneArrow-left {
-    width: 815px;
+    width: 824px;
   }
 
   td div.triangle-box.colspan-26 {
-    width: 838px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-26.only-oneArrow-right {
-    width: 848px;
-  }
-  td div.triangle-box.colspan-26.only-oneArrow-left {
-    width: 848px;
+    width: 857px;
   }
 
   td div.triangle-box.colspan-27 {
-    width: 871px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-27.only-oneArrow-right {
-    width: 881px;
-  }
-  td div.triangle-box.colspan-27.only-oneArrow-left {
-    width: 881px;
+    width: 890px;
   }
 
   td div.triangle-box.colspan-28 {
-    width: 904px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-28.only-oneArrow-right {
-    width: 914px;
-  }
-  td div.triangle-box.colspan-28.only-oneArrow-left {
-    width: 914px;
+    width: 923px;
   }
 }
 @media screen and (min-width: 1570px) {
@@ -5575,313 +5186,120 @@ td div.triangle-box.colspan-28.only-oneArrow-left {
     min-width: 36px;
     max-width: 36px;
   }
+  .cus-roomPlan-table table tbody tr td div.triangle-box.colspan-0 {
+    width: 35px;
+  }
 
   td div.triangle-box.colspan-1 {
-    width: 16px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-1.only-oneArrow-right {
-    width: 26px;
-  }
-  td div.triangle-box.colspan-1.only-oneArrow-left {
-    width: 26px;
+    width: 35px;
   }
 
   td div.triangle-box.colspan-2 {
-    width: 52px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-2.only-oneArrow-right {
-    width: 62px;
-  }
-  td div.triangle-box.colspan-2.only-oneArrow-left {
-    width: 62px;
+    width: 71px;
   }
 
   td div.triangle-box.colspan-3 {
-    width: 88px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-3.only-oneArrow-right {
-    width: 98px;
-  }
-  td div.triangle-box.colspan-3.only-oneArrow-left {
-    width: 98px;
+    width: 107px;
   }
 
   td div.triangle-box.colspan-4 {
-    width: 124px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-4.only-oneArrow-right {
-    width: 134px;
-  }
-  td div.triangle-box.colspan-4.only-oneArrow-left {
-    width: 134px;
+    width: 143px;
   }
 
   td div.triangle-box.colspan-5 {
-    width: 160px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-5.only-oneArrow-right {
-    width: 170px;
-  }
-  td div.triangle-box.colspan-5.only-oneArrow-left {
-    width: 170px;
+    width: 179px;
   }
 
   td div.triangle-box.colspan-6 {
-    width: 196px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-6.only-oneArrow-right {
-    width: 206px;
-  }
-  td div.triangle-box.colspan-6.only-oneArrow-left {
-    width: 206px;
+    width: 215px;
   }
 
   td div.triangle-box.colspan-7 {
-    width: 232px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-7.only-oneArrow-right {
-    width: 242px;
-  }
-  td div.triangle-box.colspan-7.only-oneArrow-left {
-    width: 242px;
+    width: 251px;
   }
 
   td div.triangle-box.colspan-8 {
-    width: 268px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-8.only-oneArrow-right {
-    width: 278px;
-  }
-  td div.triangle-box.colspan-8.only-oneArrow-left {
-    width: 278px;
+    width: 287px;
   }
 
   td div.triangle-box.colspan-9 {
-    width: 304px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-9.only-oneArrow-right {
-    width: 314px;
-  }
-  td div.triangle-box.colspan-9.only-oneArrow-left {
-    width: 314px;
+    width: 323px;
   }
 
   td div.triangle-box.colspan-10 {
-    width: 340px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-10.only-oneArrow-right {
-    width: 350px;
-  }
-  td div.triangle-box.colspan-10.only-oneArrow-left {
-    width: 350px;
+    width: 359px;
   }
 
   td div.triangle-box.colspan-11 {
-    width: 376px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-11.only-oneArrow-right {
-    width: 386px;
-  }
-  td div.triangle-box.colspan-11.only-oneArrow-left {
-    width: 386px;
+    width: 395px;
   }
 
   td div.triangle-box.colspan-12 {
-    width: 412px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-12.only-oneArrow-right {
-    width: 422px;
-  }
-  td div.triangle-box.colspan-12.only-oneArrow-left {
-    width: 422px;
+    width: 431px;
   }
 
   td div.triangle-box.colspan-13 {
-    width: 448px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-13.only-oneArrow-right {
-    width: 458px;
-  }
-  td div.triangle-box.colspan-13.only-oneArrow-left {
-    width: 458px;
+    width: 467px;
   }
 
   td div.triangle-box.colspan-14 {
-    width: 484px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-14.only-oneArrow-right {
-    width: 494px;
-  }
-  td div.triangle-box.colspan-14.only-oneArrow-left {
-    width: 494px;
+    width: 503px;
   }
 
   td div.triangle-box.colspan-15 {
-    width: 520px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-15.only-oneArrow-right {
-    width: 530px;
-  }
-  td div.triangle-box.colspan-15.only-oneArrow-left {
-    width: 530px;
+    width: 539px;
   }
 
   td div.triangle-box.colspan-16 {
-    width: 556px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-16.only-oneArrow-right {
-    width: 566px;
-  }
-  td div.triangle-box.colspan-16.only-oneArrow-left {
-    width: 566px;
+    width: 575px;
   }
 
   td div.triangle-box.colspan-17 {
-    width: 592px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-17.only-oneArrow-right {
-    width: 602px;
-  }
-  td div.triangle-box.colspan-17.only-oneArrow-left {
-    width: 602px;
+    width: 611px;
   }
 
   td div.triangle-box.colspan-18 {
-    width: 628px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-18.only-oneArrow-right {
-    width: 638px;
-  }
-  td div.triangle-box.colspan-18.only-oneArrow-left {
-    width: 638px;
+    width: 647px;
   }
 
   td div.triangle-box.colspan-19 {
-    width: 664px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-19.only-oneArrow-right {
-    width: 674px;
-  }
-  td div.triangle-box.colspan-19.only-oneArrow-left {
-    width: 674px;
+    width: 683px;
   }
 
   td div.triangle-box.colspan-20 {
-    width: 700px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-20.only-oneArrow-right {
-    width: 710px;
-  }
-  td div.triangle-box.colspan-20.only-oneArrow-left {
-    width: 710px;
+    width: 719px;
   }
 
   td div.triangle-box.colspan-21 {
-    width: 736px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-21.only-oneArrow-right {
-    width: 746px;
-  }
-  td div.triangle-box.colspan-21.only-oneArrow-left {
-    width: 746px;
+    width: 755px;
   }
 
   td div.triangle-box.colspan-22 {
-    width: 772px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-22.only-oneArrow-right {
-    width: 782px;
-  }
-  td div.triangle-box.colspan-22.only-oneArrow-left {
-    width: 782px;
+    width: 791px;
   }
 
   td div.triangle-box.colspan-23 {
-    width: 808px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-23.only-oneArrow-right {
-    width: 818px;
-  }
-  td div.triangle-box.colspan-23.only-oneArrow-left {
-    width: 818px;
+    width: 827px;
   }
 
   td div.triangle-box.colspan-24 {
-    width: 844px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-24.only-oneArrow-right {
-    width: 854px;
-  }
-  td div.triangle-box.colspan-24.only-oneArrow-left {
-    width: 854px;
+    width: 863px;
   }
 
   td div.triangle-box.colspan-25 {
-    width: 880px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-25.only-oneArrow-right {
-    width: 890px;
-  }
-  td div.triangle-box.colspan-25.only-oneArrow-left {
-    width: 890px;
+    width: 899px;
   }
 
   td div.triangle-box.colspan-26 {
-    width: 916px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-26.only-oneArrow-right {
-    width: 926px;
-  }
-  td div.triangle-box.colspan-26.only-oneArrow-left {
-    width: 926px;
+    width: 935px;
   }
 
   td div.triangle-box.colspan-27 {
-    width: 952px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-27.only-oneArrow-right {
-    width: 962px;
-  }
-  td div.triangle-box.colspan-27.only-oneArrow-left {
-    width: 962px;
+    width: 971px;
   }
 
   td div.triangle-box.colspan-28 {
-    width: 988px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-28.only-oneArrow-right {
-    width: 998px;
-  }
-  td div.triangle-box.colspan-28.only-oneArrow-left {
-    width: 998px;
+    width: 1007px;
   }
 }
 @media screen and (min-width: 1670px) {
@@ -5889,313 +5307,120 @@ td div.triangle-box.colspan-28.only-oneArrow-left {
     min-width: 39px;
     max-width: 39px;
   }
+  .cus-roomPlan-table table tbody tr td div.triangle-box.colspan-0 {
+    width: 38px;
+  }
 
   td div.triangle-box.colspan-1 {
-    width: 19px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-1.only-oneArrow-right {
-    width: 29px;
-  }
-  td div.triangle-box.colspan-1.only-oneArrow-left {
-    width: 29px;
+    width: 38px;
   }
 
   td div.triangle-box.colspan-2 {
-    width: 58px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-2.only-oneArrow-right {
-    width: 68px;
-  }
-  td div.triangle-box.colspan-2.only-oneArrow-left {
-    width: 68px;
+    width: 77px;
   }
 
   td div.triangle-box.colspan-3 {
-    width: 97px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-3.only-oneArrow-right {
-    width: 107px;
-  }
-  td div.triangle-box.colspan-3.only-oneArrow-left {
-    width: 107px;
+    width: 116px;
   }
 
   td div.triangle-box.colspan-4 {
-    width: 136px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-4.only-oneArrow-right {
-    width: 146px;
-  }
-  td div.triangle-box.colspan-4.only-oneArrow-left {
-    width: 146px;
+    width: 155px;
   }
 
   td div.triangle-box.colspan-5 {
-    width: 175px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-5.only-oneArrow-right {
-    width: 185px;
-  }
-  td div.triangle-box.colspan-5.only-oneArrow-left {
-    width: 185px;
+    width: 194px;
   }
 
   td div.triangle-box.colspan-6 {
-    width: 214px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-6.only-oneArrow-right {
-    width: 224px;
-  }
-  td div.triangle-box.colspan-6.only-oneArrow-left {
-    width: 224px;
+    width: 233px;
   }
 
   td div.triangle-box.colspan-7 {
-    width: 253px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-7.only-oneArrow-right {
-    width: 263px;
-  }
-  td div.triangle-box.colspan-7.only-oneArrow-left {
-    width: 263px;
+    width: 272px;
   }
 
   td div.triangle-box.colspan-8 {
-    width: 292px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-8.only-oneArrow-right {
-    width: 302px;
-  }
-  td div.triangle-box.colspan-8.only-oneArrow-left {
-    width: 302px;
+    width: 311px;
   }
 
   td div.triangle-box.colspan-9 {
-    width: 331px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-9.only-oneArrow-right {
-    width: 341px;
-  }
-  td div.triangle-box.colspan-9.only-oneArrow-left {
-    width: 341px;
+    width: 350px;
   }
 
   td div.triangle-box.colspan-10 {
-    width: 370px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-10.only-oneArrow-right {
-    width: 380px;
-  }
-  td div.triangle-box.colspan-10.only-oneArrow-left {
-    width: 380px;
+    width: 389px;
   }
 
   td div.triangle-box.colspan-11 {
-    width: 409px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-11.only-oneArrow-right {
-    width: 419px;
-  }
-  td div.triangle-box.colspan-11.only-oneArrow-left {
-    width: 419px;
+    width: 428px;
   }
 
   td div.triangle-box.colspan-12 {
-    width: 448px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-12.only-oneArrow-right {
-    width: 458px;
-  }
-  td div.triangle-box.colspan-12.only-oneArrow-left {
-    width: 458px;
+    width: 467px;
   }
 
   td div.triangle-box.colspan-13 {
-    width: 487px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-13.only-oneArrow-right {
-    width: 497px;
-  }
-  td div.triangle-box.colspan-13.only-oneArrow-left {
-    width: 497px;
+    width: 506px;
   }
 
   td div.triangle-box.colspan-14 {
-    width: 526px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-14.only-oneArrow-right {
-    width: 536px;
-  }
-  td div.triangle-box.colspan-14.only-oneArrow-left {
-    width: 536px;
+    width: 545px;
   }
 
   td div.triangle-box.colspan-15 {
-    width: 565px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-15.only-oneArrow-right {
-    width: 575px;
-  }
-  td div.triangle-box.colspan-15.only-oneArrow-left {
-    width: 575px;
+    width: 584px;
   }
 
   td div.triangle-box.colspan-16 {
-    width: 604px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-16.only-oneArrow-right {
-    width: 614px;
-  }
-  td div.triangle-box.colspan-16.only-oneArrow-left {
-    width: 614px;
+    width: 623px;
   }
 
   td div.triangle-box.colspan-17 {
-    width: 643px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-17.only-oneArrow-right {
-    width: 653px;
-  }
-  td div.triangle-box.colspan-17.only-oneArrow-left {
-    width: 653px;
+    width: 662px;
   }
 
   td div.triangle-box.colspan-18 {
-    width: 682px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-18.only-oneArrow-right {
-    width: 692px;
-  }
-  td div.triangle-box.colspan-18.only-oneArrow-left {
-    width: 692px;
+    width: 701px;
   }
 
   td div.triangle-box.colspan-19 {
-    width: 721px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-19.only-oneArrow-right {
-    width: 731px;
-  }
-  td div.triangle-box.colspan-19.only-oneArrow-left {
-    width: 731px;
+    width: 740px;
   }
 
   td div.triangle-box.colspan-20 {
-    width: 760px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-20.only-oneArrow-right {
-    width: 770px;
-  }
-  td div.triangle-box.colspan-20.only-oneArrow-left {
-    width: 770px;
+    width: 779px;
   }
 
   td div.triangle-box.colspan-21 {
-    width: 799px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-21.only-oneArrow-right {
-    width: 809px;
-  }
-  td div.triangle-box.colspan-21.only-oneArrow-left {
-    width: 809px;
+    width: 818px;
   }
 
   td div.triangle-box.colspan-22 {
-    width: 838px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-22.only-oneArrow-right {
-    width: 848px;
-  }
-  td div.triangle-box.colspan-22.only-oneArrow-left {
-    width: 848px;
+    width: 857px;
   }
 
   td div.triangle-box.colspan-23 {
-    width: 877px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-23.only-oneArrow-right {
-    width: 887px;
-  }
-  td div.triangle-box.colspan-23.only-oneArrow-left {
-    width: 887px;
+    width: 896px;
   }
 
   td div.triangle-box.colspan-24 {
-    width: 916px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-24.only-oneArrow-right {
-    width: 926px;
-  }
-  td div.triangle-box.colspan-24.only-oneArrow-left {
-    width: 926px;
+    width: 935px;
   }
 
   td div.triangle-box.colspan-25 {
-    width: 955px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-25.only-oneArrow-right {
-    width: 965px;
-  }
-  td div.triangle-box.colspan-25.only-oneArrow-left {
-    width: 965px;
+    width: 974px;
   }
 
   td div.triangle-box.colspan-26 {
-    width: 994px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-26.only-oneArrow-right {
-    width: 1004px;
-  }
-  td div.triangle-box.colspan-26.only-oneArrow-left {
-    width: 1004px;
+    width: 1013px;
   }
 
   td div.triangle-box.colspan-27 {
-    width: 1033px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-27.only-oneArrow-right {
-    width: 1043px;
-  }
-  td div.triangle-box.colspan-27.only-oneArrow-left {
-    width: 1043px;
+    width: 1052px;
   }
 
   td div.triangle-box.colspan-28 {
-    width: 1072px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-28.only-oneArrow-right {
-    width: 1082px;
-  }
-  td div.triangle-box.colspan-28.only-oneArrow-left {
-    width: 1082px;
+    width: 1091px;
   }
 }
 @media screen and (min-width: 1770px) {
@@ -6203,313 +5428,120 @@ td div.triangle-box.colspan-28.only-oneArrow-left {
     min-width: 43px;
     max-width: 43px;
   }
+  .cus-roomPlan-table table tbody tr td div.triangle-box.colspan-0 {
+    width: 42px;
+  }
 
   td div.triangle-box.colspan-1 {
-    width: 23px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-1.only-oneArrow-right {
-    width: 33px;
-  }
-  td div.triangle-box.colspan-1.only-oneArrow-left {
-    width: 33px;
+    width: 42px;
   }
 
   td div.triangle-box.colspan-2 {
-    width: 66px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-2.only-oneArrow-right {
-    width: 76px;
-  }
-  td div.triangle-box.colspan-2.only-oneArrow-left {
-    width: 76px;
+    width: 85px;
   }
 
   td div.triangle-box.colspan-3 {
-    width: 109px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-3.only-oneArrow-right {
-    width: 119px;
-  }
-  td div.triangle-box.colspan-3.only-oneArrow-left {
-    width: 119px;
+    width: 128px;
   }
 
   td div.triangle-box.colspan-4 {
-    width: 152px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-4.only-oneArrow-right {
-    width: 162px;
-  }
-  td div.triangle-box.colspan-4.only-oneArrow-left {
-    width: 162px;
+    width: 171px;
   }
 
   td div.triangle-box.colspan-5 {
-    width: 195px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-5.only-oneArrow-right {
-    width: 205px;
-  }
-  td div.triangle-box.colspan-5.only-oneArrow-left {
-    width: 205px;
+    width: 214px;
   }
 
   td div.triangle-box.colspan-6 {
-    width: 238px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-6.only-oneArrow-right {
-    width: 248px;
-  }
-  td div.triangle-box.colspan-6.only-oneArrow-left {
-    width: 248px;
+    width: 257px;
   }
 
   td div.triangle-box.colspan-7 {
-    width: 281px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-7.only-oneArrow-right {
-    width: 291px;
-  }
-  td div.triangle-box.colspan-7.only-oneArrow-left {
-    width: 291px;
+    width: 300px;
   }
 
   td div.triangle-box.colspan-8 {
-    width: 324px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-8.only-oneArrow-right {
-    width: 334px;
-  }
-  td div.triangle-box.colspan-8.only-oneArrow-left {
-    width: 334px;
+    width: 343px;
   }
 
   td div.triangle-box.colspan-9 {
-    width: 367px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-9.only-oneArrow-right {
-    width: 377px;
-  }
-  td div.triangle-box.colspan-9.only-oneArrow-left {
-    width: 377px;
+    width: 386px;
   }
 
   td div.triangle-box.colspan-10 {
-    width: 410px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-10.only-oneArrow-right {
-    width: 420px;
-  }
-  td div.triangle-box.colspan-10.only-oneArrow-left {
-    width: 420px;
+    width: 429px;
   }
 
   td div.triangle-box.colspan-11 {
-    width: 453px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-11.only-oneArrow-right {
-    width: 463px;
-  }
-  td div.triangle-box.colspan-11.only-oneArrow-left {
-    width: 463px;
+    width: 472px;
   }
 
   td div.triangle-box.colspan-12 {
-    width: 496px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-12.only-oneArrow-right {
-    width: 506px;
-  }
-  td div.triangle-box.colspan-12.only-oneArrow-left {
-    width: 506px;
+    width: 515px;
   }
 
   td div.triangle-box.colspan-13 {
-    width: 539px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-13.only-oneArrow-right {
-    width: 549px;
-  }
-  td div.triangle-box.colspan-13.only-oneArrow-left {
-    width: 549px;
+    width: 558px;
   }
 
   td div.triangle-box.colspan-14 {
-    width: 582px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-14.only-oneArrow-right {
-    width: 592px;
-  }
-  td div.triangle-box.colspan-14.only-oneArrow-left {
-    width: 592px;
+    width: 601px;
   }
 
   td div.triangle-box.colspan-15 {
-    width: 625px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-15.only-oneArrow-right {
-    width: 635px;
-  }
-  td div.triangle-box.colspan-15.only-oneArrow-left {
-    width: 635px;
+    width: 644px;
   }
 
   td div.triangle-box.colspan-16 {
-    width: 668px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-16.only-oneArrow-right {
-    width: 678px;
-  }
-  td div.triangle-box.colspan-16.only-oneArrow-left {
-    width: 678px;
+    width: 687px;
   }
 
   td div.triangle-box.colspan-17 {
-    width: 711px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-17.only-oneArrow-right {
-    width: 721px;
-  }
-  td div.triangle-box.colspan-17.only-oneArrow-left {
-    width: 721px;
+    width: 730px;
   }
 
   td div.triangle-box.colspan-18 {
-    width: 754px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-18.only-oneArrow-right {
-    width: 764px;
-  }
-  td div.triangle-box.colspan-18.only-oneArrow-left {
-    width: 764px;
+    width: 773px;
   }
 
   td div.triangle-box.colspan-19 {
-    width: 797px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-19.only-oneArrow-right {
-    width: 807px;
-  }
-  td div.triangle-box.colspan-19.only-oneArrow-left {
-    width: 807px;
+    width: 816px;
   }
 
   td div.triangle-box.colspan-20 {
-    width: 840px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-20.only-oneArrow-right {
-    width: 850px;
-  }
-  td div.triangle-box.colspan-20.only-oneArrow-left {
-    width: 850px;
+    width: 859px;
   }
 
   td div.triangle-box.colspan-21 {
-    width: 883px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-21.only-oneArrow-right {
-    width: 893px;
-  }
-  td div.triangle-box.colspan-21.only-oneArrow-left {
-    width: 893px;
+    width: 902px;
   }
 
   td div.triangle-box.colspan-22 {
-    width: 926px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-22.only-oneArrow-right {
-    width: 936px;
-  }
-  td div.triangle-box.colspan-22.only-oneArrow-left {
-    width: 936px;
+    width: 945px;
   }
 
   td div.triangle-box.colspan-23 {
-    width: 969px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-23.only-oneArrow-right {
-    width: 979px;
-  }
-  td div.triangle-box.colspan-23.only-oneArrow-left {
-    width: 979px;
+    width: 988px;
   }
 
   td div.triangle-box.colspan-24 {
-    width: 1012px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-24.only-oneArrow-right {
-    width: 1022px;
-  }
-  td div.triangle-box.colspan-24.only-oneArrow-left {
-    width: 1022px;
+    width: 1031px;
   }
 
   td div.triangle-box.colspan-25 {
-    width: 1055px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-25.only-oneArrow-right {
-    width: 1065px;
-  }
-  td div.triangle-box.colspan-25.only-oneArrow-left {
-    width: 1065px;
+    width: 1074px;
   }
 
   td div.triangle-box.colspan-26 {
-    width: 1098px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-26.only-oneArrow-right {
-    width: 1108px;
-  }
-  td div.triangle-box.colspan-26.only-oneArrow-left {
-    width: 1108px;
+    width: 1117px;
   }
 
   td div.triangle-box.colspan-27 {
-    width: 1141px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-27.only-oneArrow-right {
-    width: 1151px;
-  }
-  td div.triangle-box.colspan-27.only-oneArrow-left {
-    width: 1151px;
+    width: 1160px;
   }
 
   td div.triangle-box.colspan-28 {
-    width: 1184px;
-    left: 10px;
-  }
-  td div.triangle-box.colspan-28.only-oneArrow-right {
-    width: 1194px;
-  }
-  td div.triangle-box.colspan-28.only-oneArrow-left {
-    width: 1194px;
+    width: 1203px;
   }
 }
 /*---- 達美樂介面 ---- */
