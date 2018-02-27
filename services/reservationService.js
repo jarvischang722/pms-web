@@ -330,6 +330,7 @@ class rmNosPageOneMap {
      * @param rmNosPageOneData {object} 房號資料
      */
     async convRmNosData(rmNosPageOneData) {
+        let ln_daysInMonth = moment(this.postData.begin_dat).daysInMonth();
         let ln_begin_dat = moment(this.postData.begin_dat).date();
         let ln_date_range = this.ln_date_range;
         let lo_convData = {
@@ -354,9 +355,11 @@ class rmNosPageOneMap {
                 let ln_date_diff = moment(lo_rmNosData.period_end_dat).diff(moment(lo_rmNosData.period_begin_dat), "d");
                 ln_period_begin_dat = moment(lo_rmNosData.period_begin_dat).date();
                 ln_period_end_dat = ln_period_begin_dat + ln_date_diff;
+                if(ln_period_begin_dat < ln_begin_dat){
+                    ln_period_begin_dat += ln_daysInMonth;
+                    ln_period_end_dat += ln_daysInMonth;
+                }
             }
-
-
 
             let la_rmUse = _.where(rmNosPageOneData.roomUse, {
                 room_cod: lo_rmNosData.room_cod,
