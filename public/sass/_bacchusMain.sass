@@ -2499,6 +2499,16 @@ td
       &:before
         left: 0
         border-width: 0
+  //兩邊頭無頭
+  &.both-arrow-none
+    width: 100%
+    right: 0px
+    .triangle-text
+      border-left: 0 !important
+      border-right: 0 !important
+      span
+      &:before,&:after
+        border-width: 0
 //fixtable套件bug修正
 .fixed-table-container
   table

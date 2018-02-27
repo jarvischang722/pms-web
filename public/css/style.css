@@ -4808,6 +4808,17 @@ td div.act-box span.act-text {
   left: 0;
   border-width: 0;
 }
+.triangle-box.both-arrow-none {
+  width: 100%;
+  right: 0px;
+}
+.triangle-box.both-arrow-none .triangle-text {
+  border-left: 0 !important;
+  border-right: 0 !important;
+}
+.triangle-box.both-arrow-none .triangle-text:before, .triangle-box.both-arrow-none .triangle-text:after {
+  border-width: 0;
+}
 
 .fixed-table-container table thead tr td, .fixed-table-container table thead tr th {
   background-clip: padding-box !important;
