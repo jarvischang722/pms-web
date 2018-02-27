@@ -4301,6 +4301,9 @@ td div.act-box span.act-text {
   text-align: center;
   margin: 5px 0 5px 5px;
 }
+.select-group .status-view div.relationship {
+  margin: 5px 0 5px 1px;
+}
 .select-group .status-view div.status-tip.cb-oc-od {
   background: #ffd45a;
 }
@@ -6469,6 +6472,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.resvCard-col2Spec2 {
+  width: 214px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.resvCard-col2Rm2 {
   width: 278px;
   max-width: 100%;
@@ -6506,6 +6514,11 @@ a {
 }
 .input-medium.resvCard-sm {
   width: 84px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCard-sm-col2Rm {
+  width: 249px;
   max-width: 100%;
   height: 25px;
 }
