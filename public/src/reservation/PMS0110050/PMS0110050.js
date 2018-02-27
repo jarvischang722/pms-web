@@ -225,7 +225,7 @@ new Vue({
                     la_tmpRoomUse[ln_beginDatIdx].attClass = ls_roomUseClass;
 
                     //轉換房間使用備註
-                    la_tmpRoomUse[ln_beginDatIdx].text = "begin dat "+ lo_roomUse.begin_dat + " end dat " + lo_roomUse.end_dat;
+                    la_tmpRoomUse[ln_beginDatIdx].text = lo_roomUse.use_rmk;
 
                     //轉換房間使用title
                     la_tmpRoomUse[ln_beginDatIdx].title = lo_roomUse.use_rmk + "(" + lo_roomUse.dis_ci_dat + "~" + lo_roomUse.dis_co_dat + ")";
