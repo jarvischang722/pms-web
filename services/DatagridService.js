@@ -258,7 +258,7 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
                 prg_id: prg_id,
                 page_id: 3,
                 locale: session.locale
-            }, userInfo, function (err, fields) {
+            }, session, function (err, fields) {
                 la_searchFields = fields;
                 callback(null, fields);
             });

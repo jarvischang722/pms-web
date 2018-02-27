@@ -24,7 +24,7 @@ exports.monitor = function (req, res) {
             });
         },
         function (callback) {
-            request.get({url: "http://localhost:8888/login", timeout: 20000}, function (err, response, body) {
+            request.get({url: "http://localhost:8888/checkServerSta", timeout: 20000}, function (err, response, body) {
                 callback(err, body);
             });
 
@@ -125,7 +125,7 @@ exports.checkServerSta = function (req, res) {
                     } else {
                         gas_outputMsg.push(`<br><b>API 回應</b>: OK`);
                     }
-                    gas_outputMsg.push(`<b>API 回應內容</b>: ${body.replace(/#/g,'<br>')}`);
+                    gas_outputMsg.push(`<b>API 回應內容</b>: ${body.replace(/#/g, '<br>')}`);
                     cb(null);
                 });
             }

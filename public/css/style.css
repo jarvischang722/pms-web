@@ -1867,6 +1867,17 @@ a {
 }
 
 /*-- footer -- */
+.dropdown-rz-sm {
+  top: 25% !important;
+  right: 40% !important;
+  transform: translate(-50%, -50%);
+}
+
+@media only screen and (max-width: 767px) {
+  .user-menu.dropdown-close.dropdown-menu-right.dropdown-rz-sm {
+    right: 25% !important;
+  }
+}
 .companyInfo {
   margin: 10px 0 0 7px;
   display: none;
@@ -2972,28 +2983,28 @@ ul.newVisitOther-btn {
   color: #000;
   cursor: pointer;
 }
-.rulesOfSeparation .counterRow .counterBlock.cb-yellow {
-  background: #fffba1;
+.rulesOfSeparation .counterRow .counterBlock.cb-oc-od {
+  background: #ffd45a;
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-purple {
   background: #ae8dc3;
 }
-.rulesOfSeparation .counterRow .counterBlock.cb-green {
+.rulesOfSeparation .counterRow .counterBlock.cb-doc-dod {
   background: #7cbd64;
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-pink {
   background: #ffddb3;
 }
-.rulesOfSeparation .counterRow .counterBlock.cb-gray {
+.rulesOfSeparation .counterRow .counterBlock.cb-vc-vd {
   background: #bfbfbf;
 }
-.rulesOfSeparation .counterRow .counterBlock.cb-brown {
+.rulesOfSeparation .counterRow .counterBlock.cb-all {
   background: #dcbe88;
 }
-.rulesOfSeparation .counterRow .counterBlock.cb-blueGreen {
+.rulesOfSeparation .counterRow .counterBlock.cb-ooo {
   background: #06eed5;
 }
-.rulesOfSeparation .counterRow .counterBlock.cb-grayGreen {
+.rulesOfSeparation .counterRow .counterBlock.cb-vc-vdGreen {
   background: #008148;
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-sexyBlue {
@@ -3011,7 +3022,7 @@ ul.newVisitOther-btn {
 .rulesOfSeparation .counterRow .counterBlock.cb-sexyRed {
   background: rgba(255, 33, 95, 0.77);
 }
-.rulesOfSeparation .counterRow .counterBlock.cb-default {
+.rulesOfSeparation .counterRow .counterBlock.cb-s {
   background: #c0d6ee;
 }
 .rulesOfSeparation .counterRow .counterBlock.cd-sexyPurple {
@@ -3095,28 +3106,28 @@ ul.newVisitOther-btn {
   font-size: 11px;
   cursor: pointer;
 }
-.foCounter .counterPage .counterRow .counterBlock.cb-yellow {
-  background: #fffba1;
+.foCounter .counterPage .counterRow .counterBlock.cb-oc-od {
+  background: #ffd45a;
 }
 .foCounter .counterPage .counterRow .counterBlock.cb-purple {
   background: #ae8dc3;
 }
-.foCounter .counterPage .counterRow .counterBlock.cb-green {
+.foCounter .counterPage .counterRow .counterBlock.cb-doc-dod {
   background: #7cbd64;
 }
 .foCounter .counterPage .counterRow .counterBlock.cb-pink {
   background: #ffddb3;
 }
-.foCounter .counterPage .counterRow .counterBlock.cb-gray {
+.foCounter .counterPage .counterRow .counterBlock.cb-vc-vd {
   background: #bfbfbf;
 }
-.foCounter .counterPage .counterRow .counterBlock.cb-brown {
+.foCounter .counterPage .counterRow .counterBlock.cb-all {
   background: #dcbe88;
 }
-.foCounter .counterPage .counterRow .counterBlock.cb-blueGreen {
+.foCounter .counterPage .counterRow .counterBlock.cb-ooo {
   background: #06eed5;
 }
-.foCounter .counterPage .counterRow .counterBlock.cb-grayGreen {
+.foCounter .counterPage .counterRow .counterBlock.cb-vc-vdGreen {
   background: #008148;
 }
 .foCounter .counterPage .counterRow .counterBlock.cb-sexyBlue {
@@ -3134,7 +3145,7 @@ ul.newVisitOther-btn {
 .foCounter .counterPage .counterRow .counterBlock.cb-sexyRed {
   background: rgba(255, 33, 95, 0.77);
 }
-.foCounter .counterPage .counterRow .counterBlock.cb-default {
+.foCounter .counterPage .counterRow .counterBlock.cb-s {
   background: #c0d6ee;
 }
 .foCounter .counterPage .counterRow .counterBlock.cd-sexyPurple {
@@ -3160,6 +3171,23 @@ ul.newVisitOther-btn {
   font-weight: bold;
   font-size: 18px;
   line-height: 18px;
+}
+.foCounter .counterPage .counterRow .counterBlock .head .txt-lg.cb-dirty {
+  color: #000;
+}
+.foCounter .counterPage .counterRow .counterBlock .head .txt-lg.cb-clean {
+  color: #fff;
+}
+.foCounter .counterPage .counterRow .counterBlock .head .txt-lg.cb-rmAssign-d {
+  color: #000;
+  border-bottom: 1px solid #000;
+}
+.foCounter .counterPage .counterRow .counterBlock .head .txt-lg.cb-rmAssign-c {
+  color: #fff;
+  border-bottom: 1px solid #fff;
+}
+.foCounter .counterPage .counterRow .counterBlock .head .txt-lg.cb-ischeck {
+  color: #7b3ec3;
 }
 .foCounter .counterPage .counterRow .counterBlock .content {
   position: absolute;
@@ -4273,28 +4301,28 @@ td div.act-box span.act-text {
   text-align: center;
   margin: 5px 0 5px 5px;
 }
-.select-group .status-view div.status-tip.cb-yellow {
-  background: #fffba1;
+.select-group .status-view div.status-tip.cb-oc-od {
+  background: #ffd45a;
 }
 .select-group .status-view div.status-tip.cb-purple {
   background: #ae8dc3;
 }
-.select-group .status-view div.status-tip.cb-green {
+.select-group .status-view div.status-tip.cb-doc-dod {
   background: #7cbd64;
 }
 .select-group .status-view div.status-tip.cb-pink {
   background: #ffddb3;
 }
-.select-group .status-view div.status-tip.cb-gray {
+.select-group .status-view div.status-tip.cb-vc-vd {
   background: #bfbfbf;
 }
-.select-group .status-view div.status-tip.cb-brown {
+.select-group .status-view div.status-tip.cb-all {
   background: #dcbe88;
 }
-.select-group .status-view div.status-tip.cb-blueGreen {
+.select-group .status-view div.status-tip.cb-ooo {
   background: #06eed5;
 }
-.select-group .status-view div.status-tip.cb-grayGreen {
+.select-group .status-view div.status-tip.cb-vc-vdGreen {
   background: #008148;
 }
 .select-group .status-view div.status-tip.cb-sexyBlue {
@@ -4312,7 +4340,7 @@ td div.act-box span.act-text {
 .select-group .status-view div.status-tip.cb-sexyRed {
   background: rgba(255, 33, 95, 0.77);
 }
-.select-group .status-view div.status-tip.cb-default {
+.select-group .status-view div.status-tip.cb-s {
   background: #c0d6ee;
 }
 .select-group .status-view div.status-tip.cd-sexyPurple {

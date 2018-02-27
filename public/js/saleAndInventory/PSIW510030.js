@@ -10,7 +10,7 @@ var prg_id = "PSIW510030";
 
 var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
 
-//rowLocK
+//rowLock
 g_socket.on('checkTableLock', function (result) {
     if(!result.success){
         alert(result.errorMsg);
@@ -38,6 +38,7 @@ DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
         PSIW510030.cancelEnable = true;
         PSIW510030.saveEnable = false;
         PSIW510030.dropEnable = false;
+        PSIW510030.printEnable = true;
 
         PSIW510030.isModificable = false;
         PSIW510030.isModificableFormat = false;
@@ -220,6 +221,7 @@ var PSIW510030 = new Vue({
         dropEnable: false,
         orderDownloadEnable: true,
         changeLogEnable: true,
+        printEnable: false,
 
         buttonCase: "",
 
@@ -257,6 +259,11 @@ var PSIW510030 = new Vue({
         pageNum: "",
         order_data: [],
 
+        //表單列印用
+        print_quote_rmk: "",
+        print_pageNum: "",
+        print_order_data: [],
+
         ship_mn_round_nos: "",       //(系統參數)單據主檔金額小數位數
         ship_dt_round_nos: "",       //(系統參數)單據明細小計小數位數
         order_dat_change_time: "",   //(系統參數)訂貨日期切換的時間參數
@@ -266,6 +273,59 @@ var PSIW510030 = new Vue({
         allChangeLogList: []
     },
     watch: {
+
+        singleData: {
+            handler: function (after, before) {
+
+                var self = this;
+
+                self.print_order_data = [];
+                var li_page_num = 0;
+                var temp = [];
+
+                var lo_temp_singleDataGridRows = [];
+                for(let i = 0; i < self.singleDataGridRows.length; i++) {
+                    if(self.singleDataGridRows[i].item_qnt != 0){
+                        lo_temp_singleDataGridRows.push(self.singleDataGridRows[i]);
+                    }
+                }
+
+                for(let i = 0; i < lo_temp_singleDataGridRows.length; i++){
+                    //50 = 一頁幾筆明細
+                    if(i % 50 == 0){
+                        self.print_order_data.push(temp);
+                        li_page_num += 1;
+                        temp = [];
+                    }
+
+                    temp.push(lo_temp_singleDataGridRows[i]);
+
+                    if(i == lo_temp_singleDataGridRows.length - 1){
+                        self.print_order_data.push(temp);
+                    }
+                }
+                self.print_pageNum = li_page_num;
+
+                _.each(self.print_order_data, function (array) {
+                    _.each(array, function (item) {
+                        //找單位名稱
+                        var unit = _.find(self.unitSelectData, {value: item.unit_typ});
+                        item.goods_unit = unit.display;
+                    });
+                });
+
+                //取quote_rmk, order_time
+                _.each(self.allOrderSelectData, function (value) {
+                    if(value.format_sta == self.singleData.format_sta){
+
+                        self.print_quote_rmk = value.quote_rmk.trim() || '';
+                    }
+                });
+
+            },
+            deep: true
+        },
+
         //region//按鈕如沒權限, 則不能Enable
         addEnable: function () {
             var purview = _.findIndex(go_funcPurview, function (value) {
@@ -1199,11 +1259,15 @@ var PSIW510030 = new Vue({
             $.post("/api/getQueryResult", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
 
-                    //db撈出來小數超亂, 直接做四捨五入
                     _.each(result.data, function (value) {
+                        //撈出來小數直接做四捨五入
                         value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 2);
                         value.order_qnt = go_MathTool.formatFloat(value.order_qnt, 2);
                         value.thu_qty = go_MathTool.formatFloat(value.thu_qty, 2);
+
+                        //日期格式format
+                        value.ship_dat = moment(value.ship_dat).format('YYYY/MM/DD');
+                        value.nship_dat = moment(value.nship_dat).format('YYYY/MM/DD');
                     });
 
                     self.singleDataGridRows = result.data;
@@ -1237,6 +1301,7 @@ var PSIW510030 = new Vue({
             this.cancelEnable = false;
             this.saveEnable = true;
             this.dropEnable = true;
+            this.printEnable = false;
 
             //endregion
         },
@@ -1424,88 +1489,49 @@ var PSIW510030 = new Vue({
                 }
             });
 
-            async.parallel([
-                //撈客戶資料(accunt_sta, accunt_nos, ship_typ, sales_cod)
-                function(cb){
+            //撈客戶資料(accunt_sta, accunt_nos, ship_typ, sales_cod)
+            //撈送貨地點(ship1_Add, ship2_Add)
+            //撈客戶電話(cust_tel)
+            lo_params = {
+                func : "getCustInfo",
+                singleData: self.singleData
+            };
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                self.isLoading = false;
+                if(result.errorMsg == null){
+                    self.singleData.accunt_sta = result.data.accunt_sta;
+                    self.singleData.accunt_nos = result.data.accunt_nos;
+                    self.singleData.ship_typ = result.data.ship_typ;
+                    self.singleData.sales_cod = result.data.sales_cod;
 
-                    lo_params = {
-                        func : "getCustInfo",
-                        singleData: self.singleData
-                    };
-                    $.post("/api/getQueryResult", lo_params, function (result) {
-                        if (!_.isUndefined(result.data)) {
-                            self.singleData.accunt_sta = result.data.accunt_sta;
-                            self.singleData.accunt_nos = result.data.accunt_nos;
-                            self.singleData.ship_typ = result.data.ship_typ;
-                            self.singleData.sales_cod = result.data.sales_cod;
-                            cb(null, result.data);
+                    if(result.data.cust_tel == null){
+                        self.singleData.cust_tel = "";
+                    }
+                    else {
+                        self.singleData.cust_tel = result.data.cust_tel;
+                    }
+
+                    if(result.data.address == null){
+                        self.singleData.ship1_add = "";
+                        self.singleData.ship2_add = "";
+                    }
+                    else
+                    {
+                        if(result.data.address.toString().length > 60){
+                            self.singleData.ship1_add = result.data.address.toString().substr(0,60);
+                            self.singleData.ship2_add = result.data.address.toString().substr(60);
                         }
                         else {
-                            alert(result.error.errorMsg);
-                            cb(result.error.errorMsg, "");
+                            self.singleData.ship1_add = result.data.address;
+                            self.singleData.ship2_add = "";
                         }
-                    });
-                },
-                //撈送貨地點(ship1_Add, ship2_Add)
-                function(cb){
-
-                    lo_params = {
-                        func : "getCustAdd",
-                        singleData: self.singleData
-                    };
-                    $.post("/api/getQueryResult", lo_params, function (result) {
-                        if (!_.isUndefined(result.data)) {
-                            if(result.data.address == null){
-                                self.singleData.ship1_add = "";
-                                self.singleData.ship2_add = "";
-                            }
-                            else
-                            {
-                                if(result.data.address.toString().length > 60){
-                                    self.singleData.ship1_add = result.data.address.toString().substr(0,60);
-                                    self.singleData.ship2_add = result.data.address.toString().substr(60);
-                                }
-                                else {
-                                    self.singleData.ship1_add = result.data.address;
-                                    self.singleData.ship2_add = "";
-                                }
-                            }
-
-                            cb(null, result.data);
-                        } else {
-                            alert(result.error.errorMsg);
-                            cb(result.error.errorMsg, "");
-                        }
-                    });
-                },
-                //撈客戶電話(cust_tel)
-                function(cb){
-
-                    lo_params = {
-                        func : "getCustContact",
-                        singleData: self.singleData
                     }
-                    $.post("/api/getQueryResult", lo_params, function (result) {
-                        if (!_.isUndefined(result.data)) {
-                            if(result.data.cust_tel == null){
-                                self.singleData.cust_tel = "";
-                            }
-                            else {
-                                self.singleData.cust_tel = result.data.cust_tel;
-                            }
 
-                            cb(null, result.data);
-                        } else {
-                            alert(result.error.errorMsg);
-                            cb(result.error.errorMsg, "");
-                        }
-                    });
-                }
-            ], function(err, result){
-                if(!err) {
                     self.singleDataTemp = self.singleData;
-                    self.isLoading = false;
                     self.initOrderSelect();
+                }
+                else{
+                    alert(result.errorMsg);
                 }
             });
         },
@@ -1696,6 +1722,7 @@ var PSIW510030 = new Vue({
                 self.cancelEnable = true;
                 self.saveEnable = false;
                 self.dropEnable = false;
+                self.printEnable = true;
                 //endregion
             });
         },
@@ -1723,6 +1750,7 @@ var PSIW510030 = new Vue({
                 self.cancelEnable = false;
                 self.saveEnable = false;
                 self.dropEnable = false;
+                self.printEnable = false;
 
                 //endregion
 
@@ -1760,6 +1788,7 @@ var PSIW510030 = new Vue({
                 self.cancelEnable = true;
                 self.saveEnable = false;
                 self.dropEnable = false;
+                self.printEnable = true;
 
                 //endregion
 
@@ -1791,6 +1820,7 @@ var PSIW510030 = new Vue({
                         self.cancelEnable = false;
                         self.saveEnable = true;
                         self.dropEnable = true;
+                        self.printEnable = false;
 
                         //endregion
                     });
@@ -1861,7 +1891,7 @@ var PSIW510030 = new Vue({
 
                     for(let i = 0; i < result.data.length; i++){
                         //30 = 一頁幾筆明細
-                        if(i % 33 == 0){
+                        if(i % 50 == 0){
                             self.order_data.push(temp);
                             li_page_num += 1;
                             temp = [];
@@ -1893,7 +1923,6 @@ var PSIW510030 = new Vue({
          * @param callback {Function}
          */
         callSaveAPI: function (trans_cod, callback) {
-
             var self = this;
 
             self.isLoading = true;
@@ -1901,7 +1930,7 @@ var PSIW510030 = new Vue({
                 REVE_CODE : trans_cod,
                 prg_id: prg_id,
                 singleData : self.singleData,
-                singleDataGridRows : self.singleDataGridRows,
+                singleDataGridRows : self.singleDataGridRows
             };
 
             $.post("/api/callSaveAPI", lo_params, function (result) {
