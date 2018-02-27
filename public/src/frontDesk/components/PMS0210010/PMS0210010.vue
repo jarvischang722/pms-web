@@ -201,7 +201,7 @@
         },
         methods: {
             fetchUserInfo() {
-                var self = this;
+                let self = this;
                 $.post('/api/getUserInfo', function (result) {
                     if (result.success) {
                         self.userInfo = result.userInfo;
@@ -212,16 +212,17 @@
                 this.searchCond = {};
             },
             loadDataGridByPrgID() {
-                var self = this;
-                var lo_searchCond = _.clone(this.searchCond);
+                let self = this;
+                let lo_searchCond = _.clone(this.searchCond);
 
-                var lo_params = {
+                let lo_params = {
                     prg_id: gs_prgId,
                     page_id: 1,
                     searchCond: lo_searchCond
                 };
 
                 $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
+                    console.log(result);
                     self.searchFields = result.searchFields;
                     self.pageOneFieldData = result.dgFieldsData;
                     self.pageOneDataGridRows = result.dgRowData;
@@ -229,7 +230,7 @@
                 });
             },
             showDataGrid() {
-                console.log(this.pageOneFieldData);
+
             }
         }
     }
