@@ -1,4 +1,3 @@
-
 import _s from "underscore.string";
 import _ from "underscore";
 import crypto from "crypto";
@@ -11,8 +10,8 @@ new Vue({
         this.fetchData();
         this.fetchSearchFields();
     },
-    updated(){
-        $("#resRoomPlan-table").tableHeadFixer({"left" : 1});
+    updated() {
+        $("#resRoomPlan-table").tableHeadFixer({"left": 1});
     },
     components: {searchComp},
     watch: {
@@ -104,6 +103,7 @@ new Vue({
             $.post('/api/qryRmNosPageOneMap', lo_param).then(result => {
                 if (result.success) {
                     if (result.data.roomNosData.length != 0) {
+                        console.log(result.data.roomNosData);
                         this.beginNum = result.data.date_range.begin_dat;
                         this.endNum = result.data.date_range.end_dat;
                         this.roomNosData = result.data.roomNosData;
@@ -118,13 +118,13 @@ new Vue({
                             this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2]});
                             this.dayFieldData.push({data: lo_date.format("ddd")});
                         }
-                        for(let i = 0;i <28; i++){
+                        for (let i = 0; i < 28; i++) {
                             this.roomNosDataBlankDisplay.push(i);
                         }
                         alert('查無資料');
                     }
                 }
-                else{
+                else {
                     alert(result.errorMsg);
                     //處理日期欄位資料
                     let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
@@ -134,7 +134,7 @@ new Vue({
                         this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2]});
                         this.dayFieldData.push({data: lo_date.format("ddd")});
                     }
-                    for(let i = 0;i <28; i++){
+                    for (let i = 0; i < 28; i++) {
                         this.roomNosDataBlankDisplay.push(i);
                     }
                 }
@@ -184,37 +184,52 @@ new Vue({
                 _.each(lo_roomNosData.room_use, function (lo_roomUse) {
                     let ln_beginDatIdx = _.findIndex(la_tmpRoomUse, {num: lo_roomUse.begin_dat});
                     let ln_endDatIdx = _.findIndex(la_tmpRoomUse, {num: lo_roomUse.end_dat});
+                    let ln_coDatIdx = _.findIndex(la_tmpRoomUse, {num: lo_roomUse.co_dat});
 
-                    if (ln_beginDatIdx > -1 && ln_endDatIdx > -1) {
-                        ln_beginDatIdx = ln_beginDatIdx + 1;
-                        la_tmpRoomUse[ln_beginDatIdx].isUsed = true;
+                    ln_beginDatIdx = lo_roomUse.begin_dat < self.beginNum ? 0 : ln_beginDatIdx + 1;
+                    ln_beginDatIdx = lo_roomUse.begin_dat > self.endNum ? la_tmpRoomUse.length - 1 : ln_beginDatIdx;
+                    la_tmpRoomUse[ln_beginDatIdx].isUsed = true;
 
-                        let ls_roomUseClass = "";
-                        //轉換房間使用類別代號
-                        lo_roomUse.use_typ = lo_roomUse.use_typ == "R" ? 'OOO' : lo_roomUse.use_typ;
-                        ls_roomUseClass = ls_roomUseClass + 'status_' + lo_roomUse.use_typ.toLocaleLowerCase();
-                        //轉換房間使用期間
-                        ls_roomUseClass = ls_roomUseClass + ' colspan-' + (ln_endDatIdx - ln_beginDatIdx + 1);
-                        if (lo_roomUse.begin_dat < self.beginNum) {
-                            ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-left';
-                        }
-                        else if (lo_roomUse.end_dat > self.endNum) {
-                            ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
-                        }
-                        else if (lo_roomUse.end_dat == lo_roomUse.begin_dat) {
-                            ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
-                        }
+                    let ls_roomUseClass = "";
 
-                        la_tmpRoomUse[ln_beginDatIdx].attClass = ls_roomUseClass;
+                    //轉換房間使用類別代號
+                    lo_roomUse.use_typ = lo_roomUse.use_typ == "R" ? 'OOO' : lo_roomUse.use_typ;
+                    ls_roomUseClass = ls_roomUseClass + 'status_' + lo_roomUse.use_typ.toLocaleLowerCase();
 
-                        //轉換房間使用備註
-                        la_tmpRoomUse[ln_beginDatIdx].text = lo_roomUse.use_rmk;
+                    //轉換房間使用期間
+                    ln_endDatIdx = ln_coDatIdx != ln_endDatIdx ? ln_endDatIdx + 2 : ln_endDatIdx;
+                    ln_endDatIdx = lo_roomUse.end_dat < self.beginNum ? 0 : ln_endDatIdx;
+                    ln_endDatIdx = lo_roomUse.end_dat > self.endNum ? la_tmpRoomUse.length - 1 : ln_endDatIdx;
+                    ln_endDatIdx = ln_coDatIdx <= -1 && lo_roomUse.co_dat > self.endNum ? la_tmpRoomUse.length - 1 : ln_endDatIdx;
 
-                        //轉換房間使用title
-                        let ls_ciDat = moment(new Date(ls_date)).add('days', lo_roomUse.ci_dat - self.beginNum).format("YY/MM/DD").toString();
-                        let ls_coDat = moment(new Date(ls_date)).add('days', lo_roomUse.co_dat - self.beginNum).format("YY/MM/DD").toString();
-                        la_tmpRoomUse[ln_beginDatIdx].title = lo_roomUse.use_rmk + "(" + ls_ciDat + "~" + ls_coDat + ")";
+                    ls_roomUseClass = ls_roomUseClass + ' colspan-' + (ln_endDatIdx - ln_beginDatIdx + 1);
+
+                    //轉換房間使用箭頭
+                    if (lo_roomUse.begin_dat < self.beginNum && lo_roomUse.end_dat > self.endNum) {
+                        ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-left';
+                        ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
                     }
+                    else if(lo_roomUse.begin_dat < self.beginNum){
+                        ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-left';
+                    }
+                    else if (lo_roomUse.end_dat > self.endNum) {
+                        ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
+                    }
+                    else if (ln_endDatIdx == ln_beginDatIdx) {
+                        ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
+                    }
+                    else if (lo_roomUse.co_dat > self.endNum) {
+                        ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
+                    }
+
+                    la_tmpRoomUse[ln_beginDatIdx].attClass = ls_roomUseClass;
+
+                    //轉換房間使用備註
+                    la_tmpRoomUse[ln_beginDatIdx].text = "begin dat "+ lo_roomUse.begin_dat + " end dat " + lo_roomUse.end_dat;
+
+                    //轉換房間使用title
+                    la_tmpRoomUse[ln_beginDatIdx].title = lo_roomUse.use_rmk + "(" + lo_roomUse.dis_ci_dat + "~" + lo_roomUse.dis_co_dat + ")";
+                    la_tmpRoomUse[ln_beginDatIdx].title = la_tmpRoomUse[ln_beginDatIdx].title + "begin dat "+ lo_roomUse.begin_dat + " end dat " + lo_roomUse.end_dat;
                 });
 
                 this.roomNosDataDisplay[idx].room_use_display = la_tmpRoomUse;
@@ -227,19 +242,19 @@ new Vue({
         },
         //依房種、房號、清掃狀況排序
         sortData(dataTyp) {
-            if(this.roomNosDataDisplay.length != 0){
+            if (this.roomNosDataDisplay.length != 0) {
                 this.convertData(_.sortBy(this.roomNosData, dataTyp));
-                if(dataTyp == "roomTyp"){
+                if (dataTyp == "roomTyp") {
                     this.typArrowClass = "fa-caret-up";
                     this.nosArrowClass = "fa-caret-down";
                     this.staArrowClass = "fa-caret-down";
                 }
-                else if(dataTyp == "room_nos"){
+                else if (dataTyp == "room_nos") {
                     this.typArrowClass = "fa-caret-down";
                     this.nosArrowClass = "fa-caret-up";
                     this.staArrowClass = "fa-caret-down";
                 }
-                else if(dataTyp == "room_sta"){
+                else if (dataTyp == "room_sta") {
                     this.typArrowClass = "fa-caret-down";
                     this.nosArrowClass = "fa-caret-down";
                     this.staArrowClass = "fa-caret-up";
