@@ -14,4 +14,39 @@
         <parameter type="string" kind="3">add_cod</parameter>
     </dao>
 
+    <!-- ['PMS0210011'] 取得『其他聯絡方式－電子郵件』-->
+    <dao name="QRY_EMAIL">
+        <statement><![CDATA[
+              SELECT  address_dt.athena_id, address_dt.cust_cod, ADDRESS_RF.ADD_NAM,         ADDRESS_DT.ADD_RMK
+              FROM  ADDRESS_DT, ADDRESS_RF
+              WHERE  ADDRESS_RF.ATHENA_ID = ADDRESS_DT.ATHENA_ID(+)
+              AND  ADDRESS_RF.ADD_COD = ADDRESS_DT.ADD_COD(+)
+              AND  ADDRESS_RF.GHIST_USE = 'Y'
+              AND  ADDRESS_RF.ADD_TYP = 'E'
+              AND  ADDRESS_RF.ATHENA_ID = :athena_id
+              AND  ADDRESS_DT.CUST_COD(+) = :cust_cod
+              ORDER BY ADDRESS_RF.SEQ_NOS,          ADDRESS_RF.ADD_COD
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0210011'] 住客歷史資料編輯 取得『其他聯絡方式－地址』-->
+    <dao name="QRY_ADDRESS_DT">
+        <statement><![CDATA[
+                SELECT  address_dt.athena_id, address_dt.cust_cod, ADDRESS_RF.ADD_NAM,         ADDRESS_DT.ZIP_COD,         ADDRESS_DT.ADD_RMK
+                FROM  ADDRESS_DT, ADDRESS_RF
+                WHERE  ADDRESS_RF.ATHENA_ID = ADDRESS_DT.ATHENA_ID(+)
+                AND  ADDRESS_RF.ADD_COD = ADDRESS_DT.ADD_COD(+)
+                AND  ADDRESS_RF.GHIST_USE = 'Y'
+                AND  ADDRESS_RF.ADD_TYP = 'A'
+                AND  ADDRESS_RF.ATHENA_ID = :athena_id
+                AND  ADDRESS_DT.CUST_COD(+) = :cust_cod
+                ORDER BY ADDRESS_RF.SEQ_NOS, ADDRESS_RF.ADD_COD
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
 </root>
