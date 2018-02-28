@@ -65,19 +65,46 @@ exports.loginPage = function (req, res) {
             },
             //公司館別可用語系判斷
             function (data, callback) {
-                //TODO 判別每間公司館別可以用的語系，
-                let options = {
-                    maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3 // would expire after 15 minutes
-                    //httpOnly: true, // The cookie only accessible by the web server
-                    //signed: true // Indicates if the cookie should be signed
+
+                if (!req.params.athena_id) {
+                    res.clearCookie("sys_locales");
+                    return callback(null, "done");
+                }
+                let lo_langRf = require("../configs/LangNameRf.json");
+                let lo_cond = {
+                    athena_id: req.params.athena_id
                 };
-                let localeInfo = [
-                    {lang: 'en', sort: 1, name: 'English'},
-                    {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')},
-                    {lang: 'ja', sort: 3, name: encodeURIComponent('日本語')}
-                ];
-                res.cookie('sys_locales', localeInfo, options);
-                callback(null, 'done');
+                if (req.params.comp_cod) {
+                    lo_cond.comp_cod = req.params.comp_cod;
+                }
+                queryAgent.queryList("QRY_UI_LANG_BY_ATHENA_ID", lo_cond, 0, 0, function (err, langs) {
+
+                    let lao_localeInfo = _.uniq(_.map(langs, function (lang) {
+                        return {
+                            lang: lang.locale,
+                            name: lo_langRf[lang.locale]
+                                ? encodeURIComponent(lo_langRf[lang.locale])
+                                : lang.locale,
+                        }
+                    }), function (lao_localeInfo) {
+                        return lao_localeInfo.lang;
+                    });
+
+                    //檢查使用者可選語系裡，有無透過中繼器塞入session的語系
+                    if (req.session.locale && lao_localeInfo.length > 0 && _.findIndex(lao_localeInfo, {lang: req.session.locale}) == -1) {
+                        req.session.locale = lao_localeInfo[0].lang;
+                        res.cookie('locale', lao_localeInfo[0].lang);
+                        return res.redirect(req.originalUrl);
+                    }
+
+
+                    res.cookie("sys_locales", lao_localeInfo, {
+                        maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3,
+                        // signed: true // Indicates if the cookie should be signed
+                    });
+                    callback(null, "done");
+                });
+
             }
         ], function (err) {
             res.render('user/loginPage');
