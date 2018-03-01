@@ -974,7 +974,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         _.each(obj.tenKDosage, function (item) {
             if(item.taxcomp_cod.length != 5){
-                ls_error_Msg += "tenKDosage[" + count + "]的格式有誤。(欄位長度不符)\r\n";
+                ls_error_Msg += "tenKDosage[" + count + "]的欄位taxcomp_cod長度須為5\r\n";
                 lb_check = false;
             }
             count += 1;
@@ -984,11 +984,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         _.each(obj.transferDt, function (item) {
             if(item.otaxcomp_cod.length != 5){
-                ls_error_Msg += "transferDt[" + count + "]的格式有誤。(欄位長度不符)\r\n";
-                lb_check = false;
-            }
-            if(item.itaxcomp_cod.length != 5){
-                ls_error_Msg += "transferDt[" + count + "]的格式有誤。(欄位長度不符)\r\n";
+                ls_error_Msg += "transferDt[" + count + "]的欄位otaxcomp_cod長度須為5\r\n";
                 lb_check = false;
             }
             count += 1;
@@ -1015,8 +1011,9 @@ exports.PSI0000001 = function (params ,session, callback) {
             });
         }
         else{
+            console.log(ls_error_Msg);
             var RESPONSE = {
-                "RETN-CODE": "0822",
+                "RETN-CODE": "9999",
                 "RETN-CODE-DESC": ls_error_Msg
             };
             callback(RESPONSE);
@@ -1024,9 +1021,10 @@ exports.PSI0000001 = function (params ,session, callback) {
     }
     catch (ex)
     {
+        console.log(ex.message);
         var RESPONSE = {
-            "RETN-CODE": "0822",
-            "RETN-CODE-DESC": "資料有誤"
+            "RETN-CODE": "9999",
+            "RETN-CODE-DESC": ex.message
         };
         callback(RESPONSE);
     }
@@ -1086,7 +1084,7 @@ exports.PSI0000002 = function (params ,session, callback) {
 
         _.each(obj.salseRevenue, function (item) {
             if(item.taxcomp_cod.length != 5){
-                ls_error_Msg += "salseRevenue[" + count + "]的格式有誤。(欄位長度不符)\r\n";
+                ls_error_Msg += "salseRevenue[" + count + "]的欄位taxcomp_cod長度須為5\r\n";
                 lb_check = false;
             }
             count += 1;
@@ -1113,8 +1111,9 @@ exports.PSI0000002 = function (params ,session, callback) {
             });
         }
         else{
+            console.log(ls_error_Msg);
             var RESPONSE = {
-                "RETN-CODE": "0822",
+                "RETN-CODE": "9999",
                 "RETN-CODE-DESC": ls_error_Msg
             };
             callback(RESPONSE);
@@ -1122,9 +1121,10 @@ exports.PSI0000002 = function (params ,session, callback) {
     }
     catch (ex)
     {
+        console.log(ex.message);
         var RESPONSE = {
-            "RETN-CODE": "0822",
-            "RETN-CODE-DESC": "資料有誤"
+            "RETN-CODE": "9999",
+            "RETN-CODE-DESC": ex.message
         };
         callback(RESPONSE);
     }
@@ -1230,8 +1230,9 @@ exports.PSI0000003 = function (params ,session, callback) {
             });
         }
         else{
+            console.log(ls_error_Msg);
             var RESPONSE = {
-                "RETN-CODE": "0822",
+                "RETN-CODE": "9999",
                 "RETN-CODE-DESC": ls_error_Msg
             };
             callback(RESPONSE);
@@ -1239,9 +1240,10 @@ exports.PSI0000003 = function (params ,session, callback) {
     }
     catch (ex)
     {
+        console.log(ex.message);
         var RESPONSE = {
-            "RETN-CODE": "0822",
-            "RETN-CODE-DESC": "資料有誤"
+            "RETN-CODE": "9999",
+            "RETN-CODE-DESC": ex.message
         };
         callback(RESPONSE);
     }
