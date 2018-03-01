@@ -1,5 +1,5 @@
 <template>
-    <div id="resvLostFound-message" class="hide padding-5" style="top: 0 !important;">
+    <div id="lostFoundDialog" class="hide padding-5" style="top: 0 !important;">
 
         <div class="businessCompanyData">
             <!--標題-->

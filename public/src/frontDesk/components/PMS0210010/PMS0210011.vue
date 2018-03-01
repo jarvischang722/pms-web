@@ -12,11 +12,10 @@
                                 </el-tab-pane>
                                 <el-tab-pane :label="i18nLang.program.PMS0210011.Visits" name="visits">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0210011.Reference" name="reference">
+                                <el-tab-pane :label="i18nLang.program.PMS0210011.Reference" name="reference" disabled>
                                 </el-tab-pane>
                             </el-tabs>
-                            <div class="easyui-tabs borderFrame"
-                                 style="min-height: 0;">
+                            <div class="easyui-tabs borderFrame" style="min-height: 0;">
                                 <div id="profilePanel" v-show="tabName=='profile'" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
@@ -372,7 +371,7 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div id="referencePanel" v-show="tabName=='reference'" class="padding-tabs">
+                                <div id="referencePanel" v-show="tabName=='reference'" class="padding-tabs" >
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
                                             <div class="css_table">
@@ -583,19 +582,19 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Add
+                                                role="button" :disabled="isOtherContact">Add
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">save
+                                                role="button" :disabled="isOtherContact">save
                                         </button>
                                     </li>
                                     <!--btn 有間距class:segement-->
 
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button">Delete
+                                                role="button" :disabled="isOtherContact">Delete
                                         </button>
                                     </li>
                                     <li>
@@ -615,7 +614,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="otherContact">Other contact
+                                                role="button" @click="otherContact" >Other contact
                                         </button>
                                     </li>
                                     <li>
@@ -625,7 +624,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="lostFound">Lost & Found
+                                                role="button" @click="lostFound" :disabled="isOtherContact">Lost & Found
                                         </button>
                                     </li>
                                     <li>
@@ -640,7 +639,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Quit
+                                                role="button" :disabled="isOtherContact">Quit
                                         </button>
                                     </li>
                                 </ul>
@@ -686,7 +685,7 @@
                 tabName: "", //頁籤名稱
                 panelName: ["profilePanel", "visitsPanel", "referencePanel"], //頁籤內容名稱
                 tabStatus: {isProfile: false, isVisits: false, isReference: false}, //現在頁籤狀況
-                isOtherConnection: false, //是否開啟other contact
+                isOtherContact: false, //是否開啟other contact
                 isLostAndFound: false //是否開啟lost&found
             }
         },
@@ -697,7 +696,7 @@
             rowData(val) {
                 if (!_.isEmpty(val)) {
                     this.initData();
-                    this.fetchFieldData();
+                    this.fetchTabPageOneFieldData();
                 }
             },
         },
@@ -736,7 +735,7 @@
 
                 $("#" + ls_showPanelName).show();
             },
-            fetchFieldData() {
+            fetchTabPageOneFieldData() {
                 this.isLoadingDialog = true;
                 var self = this;
                 $.post("/api/fetchOnlySinglePageFieldData", {
@@ -747,10 +746,10 @@
                 }, function (result) {
                     self.oriFieldsData = result.gsFieldsData;
                     self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
-                    self.fetchRowData();
+                    self.fetchTabPageOneRowData();
                 });
             },
-            fetchRowData() {
+            fetchTabPageOneRowData() {
                 if (this.isCreateStatus) {
                     $.post("/api/fetchDefaultSingleRowData", {
                         prg_id: "PMS0610020",
@@ -759,8 +758,7 @@
                     }).then(result => {
                         this.singleData = result.gsDefaultData;
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
-                        this.isLoadingDialog = false;
-                        this.tabName = "profile";
+                        this.fetchTabPageTwoFieldData();
                     });
                 }
                 else if (this.isEditStatus) {
@@ -773,15 +771,56 @@
                     }).then(result => {
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.isLoadingDialog = false;
+                        this.fetchTabPageTwoFieldData();
+                    });
+                }
+            },
+            fetchTabPageTwoFieldData(){
+                var self = this;
+                $.post("/api/fetchOnlySinglePageFieldData", {
+                    prg_id: "PMS0610020",
+                    page_id: 1,
+                    tab_page_id: 1,
+                    template_id: 'gridsingle'
+                }, function (result) {
+                    self.oriFieldsData = result.gsFieldsData;
+                    self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
+                    self.fetchTabPageTwoRowData();
+                });
+            },
+            fetchTabPageTwoRowData(){
+                if (this.isCreateStatus) {
+                    $.post("/api/fetchDefaultSingleRowData", {
+                        prg_id: "PMS0610020",
+                        page_id: 1,
+                        tab_page_id: 1
+                    }).then(result => {
+                        this.singleData = result.gsDefaultData;
+                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
                         this.tabName = "profile";
+                        this.isLoadingDialog = false;
+                    });
+                }
+                else if (this.isEditStatus) {
+                    $.post("/api/fetchSinglePageFieldData", {
+                        prg_id: "PMS0610020",
+                        page_id: 1,
+                        tab_page_id: 1,
+                        template_id: "gridsingle",
+                        searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
+                    }).then(result => {
+                        this.singleData = result.gsMnData.rowData[0];
+                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        this.tabName = "profile";
+                        this.isLoadingDialog = false;
                     });
                 }
             },
             //開啟other contact 跳窗
-            otherContact(){
-                this.isOtherConnection = true;
-                console.log("open other contact");
+            otherContact() {
+                let self = this;
+                this.isOtherContact = true;
+
                 var dialog = $("#otherContactDialog").removeClass('hide').dialog({
                     modal: true,
                     title: "其他聯絡方式",
@@ -789,26 +828,30 @@
                     width: 800,
                     maxwidth: 1920,
                     height: 500,
-//                height: $(window).height(),
-//                autoOpen: true,
                     dialogClass: "test",
-                    resizable: true
+                    resizable: true,
+                    onBeforeClose(){
+                        self.isOtherContact = false;
+                    }
                 });
             },
-            //開起lost&found 跳窗
-            lostFound(){
+            //開啟lost&found 跳窗
+            lostFound() {
+                let self = this;
                 this.isLostAndFound = true;
 
-                var dialog = $("#resvLostFound-message").removeClass('hide').dialog({
+                var dialog = $("#lostFoundDialog").removeClass('hide').dialog({
                     modal: true,
                     title: "Lost&Found",
                     title_html: true,
                     width: 1000,
                     maxwidth: 1920,
                     height: $(window).height(),
-//                autoOpen: true,
                     dialogClass: "test",
-                    resizable: true
+                    resizable: true,
+                    onBeforeClose(){
+                        self.isLostAndFound = false;
+                    }
                 });
             }
         }
