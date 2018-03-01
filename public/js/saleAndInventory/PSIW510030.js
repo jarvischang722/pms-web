@@ -292,7 +292,7 @@ var PSIW510030 = new Vue({
 
                 for(let i = 0; i < lo_temp_singleDataGridRows.length; i++){
                     //50 = 一頁幾筆明細
-                    if(i % 50 == 0){
+                    if(i % 60 == 0){
                         self.print_order_data.push(temp);
                         li_page_num += 1;
                         temp = [];
@@ -1268,6 +1268,10 @@ var PSIW510030 = new Vue({
                         //日期格式format
                         value.ship_dat = moment(value.ship_dat).format('YYYY/MM/DD');
                         value.nship_dat = moment(value.nship_dat).format('YYYY/MM/DD');
+
+                        value.stock_unit = value.stock_unit.trim();
+                        value.unit_typ = value.unit_typ.trim();
+
                     });
 
                     self.singleDataGridRows = result.data;
@@ -1891,7 +1895,7 @@ var PSIW510030 = new Vue({
 
                     for(let i = 0; i < result.data.length; i++){
                         //30 = 一頁幾筆明細
-                        if(i % 50 == 0){
+                        if(i % 60 == 0){
                             self.order_data.push(temp);
                             li_page_num += 1;
                             temp = [];
@@ -2000,6 +2004,9 @@ var PSIW510030 = new Vue({
                         else {
                             value.nship_dat = moment(value.nship_dat).format('YYYY/MM/DD');
                         }
+
+                        value.stock_unit = value.stock_unit.trim();
+                        value.unit_typ = value.unit_typ.trim();
                     });
 
                     self.dgInsDT.loadDgData(self.singleDataGridRows);
