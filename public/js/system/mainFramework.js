@@ -197,6 +197,9 @@ var BacchusMainVM = new Vue({
             }
 
         },
+        loadQuickMenuProcess: function (prg_id) {
+            location.href = location.pathname + "?prg_id=" + prg_id;
+        },
         /**
          * 做Table unlock
          */
