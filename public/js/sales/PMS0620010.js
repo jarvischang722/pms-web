@@ -80,13 +80,10 @@ var PMS0620020App = Vue.extend({
             this.showDtDataGrid();
         },
         singleData: function (val) {
-            if(!_.isEmpty(val)){
-                this.isLoadingDialog = true;
-                this.BTN_action = false;
-                this.initData();
-                this.fetchFieldData();
-                this.go_funcPurview = (new FuncPurview("PMS0620020")).getFuncPurvs();
-            }
+            this.isLoadingDialog = true;
+            this.BTN_action = false;
+            this.initData();
+            this.fetchFieldData();
         },
         rowData: {
             handler: function (val) {
@@ -95,6 +92,16 @@ var PMS0620020App = Vue.extend({
                 this.dgHoatelDt.updateTmpDtOfMnData(val);
             },
             deep: true
+        },
+        editStatus: function(val){
+            if(val){
+                this.go_funcPurview = (new FuncPurview("PMS0620020")).getFuncPurvs();
+            }
+        },
+        createStatus: function(val){
+            if(val){
+                this.go_funcPurview = (new FuncPurview("PMS0620020")).getFuncPurvs();
+            }
         }
     },
     methods: {
@@ -199,7 +206,6 @@ var PMS0620020App = Vue.extend({
             $.post("/api/sales/qrySingleGridFieldData_PM0620020", {prg_id: "PMS0620020"}, function (result) {
                 self.originFieldData = result.salesMnField;
                 self.fieldData = _.values(_.groupBy(_.sortBy(self.originFieldData, "row_seq"), "row_seq"));
-                console.log(self.fieldData);
                 self.hotelDtFieldData = result.hotelDtField;
                 self.classHsFieldData = result.classHsField;
                 self.classCodSelectData = _.findWhere(self.originFieldData, {ui_field_name: "class_cod"}).selectData;
@@ -611,6 +617,7 @@ var vm = new Vue({
     },
     mounted: function () {
         this.go_funcPurview = (new FuncPurview("PMS0620010")).getFuncPurvs();
+        console.log(this.go_funcPurview);
         this.initTmpCUD();
         this.fetchUserInfo();
         this.loadDataGridByPrgID();
@@ -665,6 +672,7 @@ var vm = new Vue({
         editingRow:function(val){
             if(_.isEmpty(val)){
                 this.go_funcPurview = (new FuncPurview("PMS0620010")).getFuncPurvs();
+                console.log(this.go_funcPurview);
             }
         }
     },
