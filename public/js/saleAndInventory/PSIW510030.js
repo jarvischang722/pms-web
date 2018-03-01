@@ -1771,36 +1771,42 @@ var PSIW510030 = new Vue({
          * 放棄修改
          */
         ModifyDrop: function () {
-            //無order_nos就跳出
-            if(_.isUndefined(this.singleData.order_nos)){
-                return;
+
+            //修改狀態才需要打API
+            if(this.editStatus){
+
+                //無order_nos不做
+                if(_.isUndefined(this.singleData.order_nos) || this.singleData.order_nos === null || this.singleData.order_nos === ""){
+                    return;
+                }
+
+                var self = this;
+                self.callAPI('PSIW5100302010',function () {
+                    self.singleData = self.oriSingleData;
+                    self.dgInsDT.loadDgData(self.oriSingleDataGridRows);
+
+                    //region//修改UI狀態
+
+                    self.isModificable = false;
+                    self.isModificableFormat = false;
+
+                    self.addEnable = true;
+                    self.editEnable = true;
+                    self.deleteEnable = true;
+                    self.cnfirmEnable = true;
+                    self.cancelEnable = true;
+                    self.saveEnable = false;
+                    self.dropEnable = false;
+                    self.printEnable = true;
+
+                    //endregion
+
+                    self.createStatus = false;
+                    self.editStatus = false;
+
+                    self.doRowUnLock();
+                });
             }
-
-            var self = this;
-            self.callAPI('PSIW5100302010',function () {
-                self.singleData = self.oriSingleData;
-                self.dgInsDT.loadDgData(self.oriSingleDataGridRows);
-
-                //region//修改UI狀態
-                self.isModificable = false;
-                self.isModificableFormat = false;
-
-                self.addEnable = true;
-                self.editEnable = true;
-                self.deleteEnable = true;
-                self.cnfirmEnable = true;
-                self.cancelEnable = true;
-                self.saveEnable = false;
-                self.dropEnable = false;
-                self.printEnable = true;
-
-                //endregion
-
-                self.createStatus = false;
-                self.editStatus = false;
-
-                self.doRowUnLock();
-            });
         },
 
         /**
@@ -1968,7 +1974,9 @@ var PSIW510030 = new Vue({
                 if (result.success) {
                     callback();
                 }
-                if(result.errorMsg != "") alert(result.errorMsg);
+                if(result.errorMsg != ""){
+                    alert(result.errorMsg);
+                }
             });
         },
 
@@ -2065,28 +2073,6 @@ var PSIW510030 = new Vue({
 
 BacchusMainVM.setPrgVueIns(PSIW510030);
 BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop"]);
-
-var go_isExit = true;
-
-$(window).on('beforeunload', function () {
-    PSIW510030.doRowUnLock();
-});
-
-//使用一個flag判斷是否是離開網頁，才登出。
-$(function(){
-    $('#breadcrumbs').click(function(){
-        go_isExit = false;
-    });
-
-    $(document).on('click','#subsysUl li',function(){
-        go_isExit = false;
-    });
-
-    $(document).on('click','#quickMenuUl li',function(){
-        go_isExit = false;
-    });
-
-});
 
 var adpterDg = new DatagridAdapter(PSIW510030);
 
