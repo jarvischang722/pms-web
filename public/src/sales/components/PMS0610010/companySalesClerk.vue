@@ -15,8 +15,9 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button" @click="doEditSalesClerk">{{i18nLang.program.PMS0610010.edit_sales}}
+                                <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                        role="button" @click="doEditSalesClerk" data-purview_func_id="PMS0610020-1060">
+                                    {{i18nLang.program.PMS0610010.edit_sales}}
                                 </button>
                             </li>
                         </ul>
@@ -55,6 +56,7 @@
         },
         data() {
             return {
+                go_funcPurview: [],
                 i18nLang: go_i18nLang,
                 isLoading: false,
                 BTN_action: false,
@@ -70,6 +72,7 @@
         watch: {
             isSalesClerk(val) {
                 if (val) {
+                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                     this.initData();
                     this.fetchFieldData();
                 }

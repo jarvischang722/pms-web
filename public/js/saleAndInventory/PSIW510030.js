@@ -292,7 +292,7 @@ var PSIW510030 = new Vue({
 
                 for(let i = 0; i < lo_temp_singleDataGridRows.length; i++){
                     //50 = 一頁幾筆明細
-                    if(i % 50 == 0){
+                    if(i % 60 == 0){
                         self.print_order_data.push(temp);
                         li_page_num += 1;
                         temp = [];
@@ -1268,6 +1268,10 @@ var PSIW510030 = new Vue({
                         //日期格式format
                         value.ship_dat = moment(value.ship_dat).format('YYYY/MM/DD');
                         value.nship_dat = moment(value.nship_dat).format('YYYY/MM/DD');
+
+                        value.stock_unit = value.stock_unit.trim();
+                        value.unit_typ = value.unit_typ.trim();
+
                     });
 
                     self.singleDataGridRows = result.data;
@@ -1767,36 +1771,42 @@ var PSIW510030 = new Vue({
          * 放棄修改
          */
         ModifyDrop: function () {
-            //無order_nos就跳出
-            if(_.isUndefined(this.singleData.order_nos)){
-                return;
+
+            //修改狀態才需要打API
+            if(this.editStatus){
+
+                //無order_nos不做
+                if(_.isUndefined(this.singleData.order_nos) || this.singleData.order_nos === null || this.singleData.order_nos === ""){
+                    return;
+                }
+
+                var self = this;
+                self.callAPI('PSIW5100302010',function () {
+                    self.singleData = self.oriSingleData;
+                    self.dgInsDT.loadDgData(self.oriSingleDataGridRows);
+
+                    //region//修改UI狀態
+
+                    self.isModificable = false;
+                    self.isModificableFormat = false;
+
+                    self.addEnable = true;
+                    self.editEnable = true;
+                    self.deleteEnable = true;
+                    self.cnfirmEnable = true;
+                    self.cancelEnable = true;
+                    self.saveEnable = false;
+                    self.dropEnable = false;
+                    self.printEnable = true;
+
+                    //endregion
+
+                    self.createStatus = false;
+                    self.editStatus = false;
+
+                    self.doRowUnLock();
+                });
             }
-
-            var self = this;
-            self.callAPI('PSIW5100302010',function () {
-                self.singleData = self.oriSingleData;
-                self.dgInsDT.loadDgData(self.oriSingleDataGridRows);
-
-                //region//修改UI狀態
-                self.isModificable = false;
-                self.isModificableFormat = false;
-
-                self.addEnable = true;
-                self.editEnable = true;
-                self.deleteEnable = true;
-                self.cnfirmEnable = true;
-                self.cancelEnable = true;
-                self.saveEnable = false;
-                self.dropEnable = false;
-                self.printEnable = true;
-
-                //endregion
-
-                self.createStatus = false;
-                self.editStatus = false;
-
-                self.doRowUnLock();
-            });
         },
 
         /**
@@ -1891,7 +1901,7 @@ var PSIW510030 = new Vue({
 
                     for(let i = 0; i < result.data.length; i++){
                         //30 = 一頁幾筆明細
-                        if(i % 50 == 0){
+                        if(i % 60 == 0){
                             self.order_data.push(temp);
                             li_page_num += 1;
                             temp = [];
@@ -1964,7 +1974,9 @@ var PSIW510030 = new Vue({
                 if (result.success) {
                     callback();
                 }
-                if(result.errorMsg != "") alert(result.errorMsg);
+                if(result.errorMsg != ""){
+                    alert(result.errorMsg);
+                }
             });
         },
 
@@ -2000,6 +2012,9 @@ var PSIW510030 = new Vue({
                         else {
                             value.nship_dat = moment(value.nship_dat).format('YYYY/MM/DD');
                         }
+
+                        value.stock_unit = value.stock_unit.trim();
+                        value.unit_typ = value.unit_typ.trim();
                     });
 
                     self.dgInsDT.loadDgData(self.singleDataGridRows);
@@ -2058,28 +2073,6 @@ var PSIW510030 = new Vue({
 
 BacchusMainVM.setPrgVueIns(PSIW510030);
 BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop"]);
-
-var go_isExit = true;
-
-$(window).on('beforeunload', function () {
-    PSIW510030.doRowUnLock();
-});
-
-//使用一個flag判斷是否是離開網頁，才登出。
-$(function(){
-    $('#breadcrumbs').click(function(){
-        go_isExit = false;
-    });
-
-    $(document).on('click','#subsysUl li',function(){
-        go_isExit = false;
-    });
-
-    $(document).on('click','#quickMenuUl li',function(){
-        go_isExit = false;
-    });
-
-});
 
 var adpterDg = new DatagridAdapter(PSIW510030);
 

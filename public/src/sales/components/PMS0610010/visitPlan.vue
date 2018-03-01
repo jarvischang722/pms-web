@@ -194,7 +194,7 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
-                                            data-purview_func_id="PMS0620050-0500" :disabled="isSaveEnable" @click="doSaveRow">
+                                            data-purview_func_id="PMS0620050-0500" @click="doSaveRow">
                                         {{i18nLang.SystemCommon.Save}}
                                     </button>
                                 </li>
@@ -294,12 +294,6 @@
             }
         },
         methods: {
-            initAllAuthBtn(){
-                $(".purview_btn").each(function () {
-                    var purview_func_id = $(this).data("purview_func_id");
-                    $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", false);
-                });
-            },
             initPurview() {
                 var purview = _.findIndex(this.go_funcPurview, function (value) {
                     return value.func_id == "0500";
