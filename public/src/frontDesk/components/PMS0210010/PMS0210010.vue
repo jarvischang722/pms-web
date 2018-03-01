@@ -1,65 +1,80 @@
 <template>
-    <div class="pageMain">
-        <div class="col-xs-12">
-            <search-comp
-                    :search-fields="searchFields"
-                    :search-cond.sync="searchCond"
-                    :fetch-data="loadDataGridByPrgID"
-            ></search-comp>
-        </div> <!-- /.col-sm-12 -->
-        <div class="clearfix"></div>
-        <div class="col-xs-12">
-            <!--<div class="blockSetting-heading">查詢結果</div>-->
-            <div class="col-sm-11 col-xs-11">
-                <div class="row no-margin-right">
-                    <div>
-                        <table id="PMS0210010_dg" class=""></table>
-                        <!-- gProfile 多筆 dataGrid -->
-                        <!--<table id="resv_gProfile-table" class="gridTableHt"></table>-->
+    <div>
+        <div class="pageMain">
+            <div class="col-xs-12">
+                <search-comp
+                        :search-fields="searchFields"
+                        :search-cond.sync="searchCond"
+                        :fetch-data="loadDataGridByPrgID"
+                ></search-comp>
+            </div> <!-- /.col-sm-12 -->
+            <div class="clearfix"></div>
+            <div class="col-xs-12">
+                <!--單筆-->
+                <div class="col-sm-11 col-xs-11">
+                    <div class="row no-margin-right">
+                        <div>
+                            <table id="PMS0210010_dg" class=""></table>
+                            <!-- gProfile 多筆 dataGrid -->
+                            <!--<table id="resv_gProfile-table" class="gridTableHt"></table>-->
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xs-1 col-sm-1">
-                <div class="row">
-                    <div class="right-menu-co">
-                        <ul>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-2"
-                                        role="button">{{i18nLang.SystemCommon.Add}}
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-2"
-                                        role="button">{{i18nLang.SystemCommon.Modify}}
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-gray btn-defaultWidth resv_merge"
-                                        role="button">Merge
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth btn-skin"
-                                        role="button">{{i18nLang.program.PMS0610010.save_as}}
-                                </button>
-                            </li>
-                        </ul>
+                <!--/.單筆-->
+                <!--按鈕-->
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" @click="appendRow">{{i18nLang.SystemCommon.Add}}
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-2"
+                                            role="button">{{i18nLang.SystemCommon.Modify}}
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-gray btn-defaultWidth resv_merge"
+                                            role="button">Merge
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth btn-skin"
+                                            role="button">{{i18nLang.program.PMS0610010.save_as}}
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div> <!-- /.col-sm-12 -->
-        <div class="clearfix"></div>
+                <!--/.按鈕-->
+            </div> <!-- /.col-sm-12 -->
+            <div class="clearfix"></div>
+        </div>
+        <pms0210011
+                :row-data="editingRow"
+                :is-modifiable="isModifiable"
+                :is-create-status="isCreateStatus"
+                :is-edit-status="isEditStatus"
+        ></pms0210011>
     </div>
 </template>
 <script>
+    import pms0210011 from './PMS0210011.vue';
+
     var gs_prgId = "PMS0210010";
 
     export default {
         name: 'pms0210010',
+        components: {pms0210011},
         mounted() {
+            this.fetchUserInfo();
+            this.setSearchCond();
             this.loadDataGridByPrgID();
         },
-
         data() {
             return {
                 i18nLang: go_i18nLang,//多語系資料
@@ -68,9 +83,12 @@
                 pageOneDataGridRows: [],//多筆資料
                 pageOneFieldData: [],//多筆欄位資料
                 searchFields: [],//搜尋欄位資料
-                searchCond: {},//搜巡資料
+                searchCond: {},//搜尋資料
                 dgIns: {},//dataGrid 實體
                 isLoading: false,//是否載入成功
+                isCreateStatus: false,//是否為新增狀態
+                isEditStatus: false, //是否為編輯狀態
+                isModifiable: true
             }
         },
         methods: {
@@ -83,7 +101,22 @@
                 });
             },
             setSearchCond() {
-                this.searchCond = {};
+                this.searchCond = {
+                    Agent_idx_Show_cod:[],
+                    Ccust_nam:"",
+                    Contry_cod:[],
+                    Dm_flag:[],
+                    Id_cod:"",
+                    Mobile_nos:"",
+                    Show_cod:[],
+                    Status_cod:"",
+                    Trans_tot:"",
+                    Visit_days:"",
+                    Visit_nos:"",
+                    birth_dat:[],
+                    ci_dat:"",
+                    name: ""
+                };
             },
             loadDataGridByPrgID() {
                 let self = this;
@@ -96,7 +129,6 @@
                 };
 
                 $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
-                    console.log(result);
                     self.searchFields = result.searchFields;
                     self.pageOneFieldData = result.dgFieldsData;
                     self.pageOneDataGridRows = result.dgRowData;
@@ -139,7 +171,54 @@
                     displayMsg: go_i18nLang.SystemCommon.dataGridDisplayMsg
                 });
                 this.isLoading = false;
-            }
+            },
+            appendRow() {
+                this.isLoading = true;
+                this.isCreateStatus = true;
+                this.isEditStatus = false;
+                this.editingRow = {cust_mn_cust_cod: ""};
+
+                this.showSingleGridDialog();
+                this.isLoading = false;
+            },
+            editRow() {
+                var self = this;
+
+                this.isLoading = true;
+                this.isCreateStatus = false;
+                this.isEditStatus = true;
+                this.editingRow = {};
+
+                var lo_editRow = $('#PMS0210010_dg').datagrid('getSelected');
+
+                if (!lo_editRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectOneData);
+                }
+                else {
+                    this.editingRow = lo_editRow;
+                    this.showSingleGridDialog();
+                }
+                this.isLoading = false;
+            },
+            showSingleGridDialog() {
+                var self = this;
+
+                var dialog = $('#PMS0210011').removeClass('hide').dialog({
+                    autoOpen: false,
+                    modal: true,
+                    title: "住客歷史",
+                    width: 1000,
+                    maxwidth: 1920,
+                    height: $(window).height(),
+                    dialogClass: "test",
+                    resizable: true,
+                    onBeforeClose() {
+                        self.editingRow = {};
+                        self.isEditStatus = false;
+                        self.isCreateStatus = false;
+                    }
+                }).dialog('open');
+            },
         }
     }
 </script>

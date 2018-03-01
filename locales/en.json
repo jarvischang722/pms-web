@@ -218,18 +218,23 @@
       "selectQuit": "Quite",
       "selectEmp": "Employee",
       "hotel_cod_repeat": "館別代號重複，請刪除(英文)",
-      "Property": "Property(英)",
-      "group_change_record": "組別異動紀錄(英)",
+      "Property": "Property(英文)",
+      "group_change_record": "組別異動紀錄(英文)",
       "saveSuccess": "Save Success",
       "delSuccess": "Delete Success"
     },
     "PMS0620030":{
-      "edit_sales_clerk": "修改業務員(英)"
+      "edit_sales_clerk": "修改業務員(英文)"
     },
     "PMS0620050": {
-      "add_visit_mn": "新增拜訪紀錄(英)",
-      "edit_vist_mn": "修改拜訪紀錄(英)",
-      "remove_visit_mn": "刪除拜訪紀錄(英)"
+      "add_visit_mn": "新增拜訪紀錄(英文)",
+      "edit_vist_mn": "修改拜訪紀錄(英文)",
+      "remove_visit_mn": "刪除拜訪紀錄(英文)"
+    },
+    "PMS0210011": {
+      "Profile": "基本資料(英文)",
+      "Visits": "來館資料(英文)",
+      "Reference": "喜好(英文)"
     }
   },
   "table_in_use": "Table in use (%s)",

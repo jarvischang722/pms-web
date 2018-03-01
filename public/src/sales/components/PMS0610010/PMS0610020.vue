@@ -368,7 +368,7 @@
 
                         //取得合約狀態說明
                         if (!_.isNull(lo_singleData.contract_sta)) {
-                            if(lo_singleData.contract_sta.trim() != ""){
+                            if (lo_singleData.contract_sta.trim() != "") {
                                 var lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'})
                                 var lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: lo_singleData.contract_sta});
                                 var ls_contractStaDesc = lo_contractSta.display.split(":")[1];

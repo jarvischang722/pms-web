@@ -229,6 +229,11 @@
       "add_visit_mn": "新增拜訪紀錄(日)",
       "edit_vist_mn": "修改拜訪紀錄(日)",
       "remove_visit_mn": "刪除拜訪紀錄(日)"
+    },
+    "PMS0210011": {
+      "Profile": "基本資料(日)",
+      "Visits": "來館資料(日)",
+      "Reference": "喜好(日)"
     }
   },
   "table_in_use": "%s 使用中",

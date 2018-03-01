@@ -222,13 +222,18 @@
       "saveSuccess": "儲存成功",
       "delSuccess": "刪除成功"
     },
-    "PMS0620030":{
+    "PMS0620030": {
       "edit_sales_clerk": "修改業務員"
     },
     "PMS0620050": {
       "add_visit_mn": "新增拜訪紀錄",
       "edit_vist_mn": "修改拜訪紀錄",
       "remove_visit_mn": "刪除拜訪紀錄"
+    },
+    "PMS0210011": {
+      "Profile": "基本資料",
+      "Visits": "來館資料",
+      "Reference": "喜好"
     }
   },
   "table_in_use": "%s 使用中",
@@ -416,7 +421,7 @@
     "pms61msg9": "指定公司編號『%s』已使用於財務系統，請重新輸入",
     "pms61msg10": "結束日與開始日重複"
   },
-  "Columns":{
+  "Columns": {
     "PMS0610020_show_cod": "公司編號",
     "PMS0610020_cust_nam": "公司名稱",
     "PMS0610020_uni_cod": "統一編號",
