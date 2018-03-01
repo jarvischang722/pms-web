@@ -39,6 +39,7 @@
         <parameter type="string" kind="3">airline_cod</parameter>
     </dao>
 
+    <!-- PMS0210011 住客歷史資料編輯 取得主檔-->
     <dao name="QRY_GHIST_MN">
         <statement><![CDATA[
         select ghist_mn.athena_id,ghist_mn.gcust_cod,ghist_mn.show_cod,ghist_mn.alt_nam,ghist_mn.first_nam,ghist_mn.last_nam,status_cod,vip_sta,salute_cod,contry_cod,live_cod,lang_cod,role_cod,car_nos,acust_cod,ccust_nam,credit_nos,expira_dat,airmb_nos,airline_cod,dm_flag,requst_rmk,co_del_sta,

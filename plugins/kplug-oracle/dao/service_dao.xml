@@ -34,6 +34,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_foc_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_foc_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ghist_airline_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ghist_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ghist_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_guest_grp_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_guest_mn.xml"/>
