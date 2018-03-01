@@ -62,22 +62,6 @@ exports.loginPage = function (req, res) {
 
                     callback(null, 'done');
                 }
-            },
-            //公司館別可用語系判斷
-            function (data, callback) {
-                //TODO 判別每間公司館別可以用的語系，
-                let options = {
-                    maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3 // would expire after 15 minutes
-                    //httpOnly: true, // The cookie only accessible by the web server
-                    //signed: true // Indicates if the cookie should be signed
-                };
-                let localeInfo = [
-                    {lang: 'en', sort: 1, name: 'English'},
-                    {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')},
-                    {lang: 'ja', sort: 3, name: encodeURIComponent('日本語')}
-                ];
-                res.cookie('sys_locales', localeInfo, options);
-                callback(null, 'done');
             }
         ], function (err) {
             res.render('user/loginPage');
