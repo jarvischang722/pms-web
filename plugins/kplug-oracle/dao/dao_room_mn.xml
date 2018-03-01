@@ -153,4 +153,33 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
+    <!-- [PMS0110050] 查詢所有房型-->
+    <dao name="QRY_ROOM_COD">
+        <statement><![CDATA[
+             select room_cod as value, room_cod as display from room_mn where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) group by room_cod order by room_cod
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- [PMS0110050] 查詢所有棟別-->
+    <dao name="QRY_ROOM_BUILD">
+        <statement><![CDATA[
+             select build_nos as value, build_nos as display from room_mn where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) group by build_nos order by build_nos
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- [PMS0110050] 查詢所有棟別-->
+    <dao name="QRY_ROOM_FLOOR">
+        <statement><![CDATA[
+             select floor_nos as value, floor_nos as display from room_mn where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) group by floor_nos order by floor_nos
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>

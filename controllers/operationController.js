@@ -22,9 +22,10 @@ exports.doOperationSave = function (req, res) {
 
 function doOperationProc(req, res) {
     //TODO 沒給交易代碼要拋出錯誤
+    // 商務公司、業務員API小良還沒做，拋錯會有問題
     req.body.trans_cod = req.body.trans_cod || "BAC03009010000";
 
-    dbSVC.execNormalSQL(req.body, req.session, function (err, result) {
+    dbSVC.execProcSQL(req.body, req.session, function (err, result) {
         res.json(tools.mergeRtnErrResultJson(err, result));
         // res.json({success: err == null, errorMsg: result.msg});
     });
@@ -66,6 +67,15 @@ exports.fetchGsFieldData = function (req, res) {
             gsMnData: result.gsMnData
         };
         res.json(lo_rtnData);
+    });
+};
+
+/**
+ * 取作業(只有)搜尋欄位資料
+ */
+exports.fetchOnlySearchFieldsData = function (req, res) {
+    operSVC.fetchOnlySearchFieldsData(req.body, req.session, function (err, result) {
+        res.json({success: _.isNull(err), errorMsg: err, searchFieldsData: result});
     });
 };
 

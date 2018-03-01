@@ -1,8 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = {
-    // entry: "./public/src/reservation/PMS0110010/PMS0110010.js",
-    entry: "./public/src/sales/PMS0610010/PMS0610010.js",
+    entry: "./public/src/reservation/PMS0110050/PMS0110050.js",
+    // entry: "./public/src/sales/PMS0610010.js",
     // // entry: [
     // //     'webpack/hot/dev-server',
     // //     path.join(__dirname, 'public', 'src')
@@ -16,10 +16,10 @@ const config = {
     // },
     output: {
         publicPath: '/dist',
-        // path: path.join(__dirname, 'public', 'js/reservation/'),
-        path: path.join(__dirname, 'public', 'js/sales/'),
+        path: path.join(__dirname, 'public', 'js/reservation/'),
+        // path: path.join(__dirname, 'public', 'js/sales/'),
         // filename: 'permissionSetup.js'
-        filename: 'PMS0610010.main.js'
+        filename: 'PMS0110050.js'
 
     },
     module: {
