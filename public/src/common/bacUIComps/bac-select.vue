@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        name: "bac-select-grid",
+        name: "bac-select",
         props: {
             //綁定的model
             vModel: {
@@ -16,7 +16,7 @@
                 default: false
             },
             //作為存入資料庫值的欄位
-            idField: {
+            valueField: {
                 type: String,
                 default: 'value'
             },
@@ -30,12 +30,10 @@
                 type: String,
                 default: 'N'
             },
-            //combogrid 資料
+            //下拉選擇
             data: {
                 type: Array,
-                default: function () {
-                    return [];
-                }
+                default: []
             },
             //預設值
             defaultVal: ['String', 'Number'],
@@ -45,48 +43,37 @@
                 default: function () {
                     return {};
                 }
-            },
-            //datagrid 欄位
-            columns: {
-                type: Array,
-                default: function () {
-                    return [];
-                }
             }
 
         },
-        data: function () {
-            return {}
-        },
         mounted: function () {
-            this.initComboGrid();
+            this.initCombobox();
+        },
+        data: function () {
+            return {
+                isLoading: false
+            }
         },
         watch: {
             //塞入預設值
             defaultVal: function (val) {
                 this.$emit('update:v-model', this.defaultVal);
-                $(this.$el).combogrid('setValue', val);
-            },
-            //塞入欄位資料
-            columns: function (val) {
-                this.initComboGrid();
+                $(this.$el).combobox('setValue', val);
             }
         },
         methods: {
-            initComboGrid: function () {
+            initCombobox: function () {
                 let self = this;
-                let ln_panelWidth = this.getPanelWidth();
-
-                $(this.$el).combogrid({
-                    panelWidth: ln_panelWidth,
+                $(this.$el).combobox({
                     multiple: this.multiple,
-                    value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
-                    idField: this.idField,
+                    valueField: this.valueField,
                     textField: this.textField,
-                    columns: [this.columns],
+                    value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
                     data: this.data,
                     onChange: function (newValue, oldValue) {
                         self.$emit('update:v-model', newValue);
+                    },
+                    onLoadSuccess: function () {
                     }
                 });
 
@@ -94,9 +81,8 @@
                 if (this.defaultVal && this.defaultVal != "") {
                     this.$emit('update:v-model', this.defaultVal);
                 }
-
                 //Remote search
-                $(this.$el).combogrid('textbox').bind('keyup', function (e) {
+                $(this.$el).combobox('textbox').bind('keyup', function (e) {
                     if (self.isQrySrcBefore) {
                         self.searchRemoteSrc($(this).val());
                     }
@@ -110,30 +96,15 @@
                 }
                 console.log(ls_keyword);
                 $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
-                    $(self.$el).combogrid("loadData", items);
+                    $(self.$el).combobox("loadData", items);
                 })
 
-            },
-            //取得寬度
-            getPanelWidth: function(){
-                let ln_panelWidth = 0;
-                if (this.columns.length > 0) {
-                    _.each(this.columns, (lo_columns) => {
-                        if (_.isUndefined(lo_columns.hidden)) {
-                            ln_panelWidth = ln_panelWidth + Number(lo_columns.width);
-                        }
-                    });
-                }
-                if(!_.isUndefined(this.field.width)){
-                    ln_panelWidth = ln_panelWidth > this.field.width ? ln_panelWidth : this.field.width;
-                }
-                return ln_panelWidth;
             }
         },
         beforeDestroy: function () {
-            $(this.$el).combogrid('destroy');
+            $(this.$el).combobox('destroy');
             $(this.$el).combobox('textbox').unbind('keyup')
-        }
+        },
     }
 </script>
 

@@ -34,7 +34,7 @@ let daoPath = path.join(__dirname, './dao/', 'service_dao.xml');
 let daoDoc = XMLUtil.createDocument(daoPath);
 let list = XMLUtil.getNodeList(daoDoc, "*//sql-source");
 list.forEach(function (source) {
-    var daoPath2 = path.join(__dirname, './dao/', XMLUtil.getAttr(source, "path"));
+    let daoPath2 = path.join(__dirname, './dao/', XMLUtil.getAttr(source, "path"));
     daoList[daoList.length] = XMLUtil.createDocument(daoPath2);
 });
 console.log("Finished loading DAOs.");
@@ -107,8 +107,8 @@ DB.prototype.isOk = function (id) {
 };
 
 function getConnection(arg1, arg2) {
-    var cb = arg1;
-    var id = 'default';
+    let cb = arg1;
+    let id = 'default';
     if (_.isFunction(arg1) == false) {
         cb = arg2;
         if (_.isUndefined(arg1) == false) {
@@ -161,17 +161,17 @@ DB.prototype.loadDao = function (dao) {
     if (_.isUndefined(dao.xml) == true && daoPool[dao.dao] != null) {
         return daoPool[dao.dao];
     }
-    var dNode;
+    let dNode;
     if (_.isUndefined(dao.xml) == false) {
         var doc = XMLUtil.createDocumentFromString('<?xml version="1.0" encoding="UTF-8"?>\r\n' + dao.xml);
         dNode = XMLUtil.getNode(doc, "dao");
     } else {
         //console.log('-----------------------------------------------------');
         //console.log(dao.dao + ',daoList:' + daoList.length);
-        for (var idx = 0; idx < daoList.length; idx++) {
+        for (let idx = 0; idx < daoList.length; idx++) {
             //console.log('idx:' + idx);
             var doc = daoList[idx];
-            var daoNode = XMLUtil.getNode(doc, "*//dao[@name='" + dao.dao + "']");
+            let daoNode = XMLUtil.getNode(doc, "*//dao[@name='" + dao.dao + "']");
             if (daoNode != null) {
                 dNode = daoNode;
                 break;
@@ -181,20 +181,20 @@ DB.prototype.loadDao = function (dao) {
     if (dNode == null) {
         return null;
     }
-    var statementsNode = XMLUtil.getNodeList(dNode, "statement");
-    var statements = [];
+    let statementsNode = XMLUtil.getNodeList(dNode, "statement");
+    let statements = [];
     statementsNode.forEach(function (node, idx) {
-        var sql = XMLUtil.getNodeValue(node);
-        var test = XMLUtil.getAttr(node, "test");
+        let sql = XMLUtil.getNodeValue(node);
+        let test = XMLUtil.getAttr(node, "test");
         statements.push({sql: sql, test: test});
     });
-    var parametersNode = XMLUtil.getNodeList(dNode, "parameter");
-    var parameters = [];
+    let parametersNode = XMLUtil.getNodeList(dNode, "parameter");
+    let parameters = [];
     parametersNode.forEach(function (node, idx) {
-        var key = XMLUtil.getNodeValue(node);
+        let key = XMLUtil.getNodeValue(node);
         key = key.toLowerCase();
-        var kind = XMLUtil.getAttr(node, "kind");
-        var type = XMLUtil.getAttr(node, "type");
+        let kind = XMLUtil.getAttr(node, "kind");
+        let type = XMLUtil.getAttr(node, "type");
         type = type.toLowerCase();
         if (kind == "" || kind == "1") {
             parameters.push({kind: 1, key: key, i: idx, type: type});
@@ -213,19 +213,19 @@ DB.prototype.loadDao = function (dao) {
         return a.i > b.i ? 1 : -1;
     });
 
-    var groupbysNode = XMLUtil.getNodeList(dNode, "groupby");
-    var groupbys = [];
+    let groupbysNode = XMLUtil.getNodeList(dNode, "groupby");
+    let groupbys = [];
     groupbysNode.forEach(function (node, idx) {
-        var sql = XMLUtil.getNodeValue(node);
-        var test = XMLUtil.getAttr(node, "test");
+        let sql = XMLUtil.getNodeValue(node);
+        let test = XMLUtil.getAttr(node, "test");
         groupbys.push({sql: sql, test: test});
     });
 
-    var orderbysNode = XMLUtil.getNodeList(dNode, "orderby");
-    var orderbys = [];
+    let orderbysNode = XMLUtil.getNodeList(dNode, "orderby");
+    let orderbys = [];
     orderbysNode.forEach(function (node, idx) {
-        var sql = XMLUtil.getNodeValue(node);
-        var test = XMLUtil.getAttr(node, "test");
+        let sql = XMLUtil.getNodeValue(node);
+        let test = XMLUtil.getAttr(node, "test");
         orderbys.push({sql: sql, test: test});
     });
 
@@ -233,12 +233,12 @@ DB.prototype.loadDao = function (dao) {
 };
 
 DB.prototype.paramTypeFormat = function (ls_paramType, lo_param, ls_paramKey) {
-    var ls_cond = "";
+    let ls_cond = "";
     if (ls_paramType.toLowerCase() == 'likestring') {
         ls_cond = '%' + lo_param[ls_paramKey] + '%';
     }
     else if (ls_paramType.toLowerCase() == "number") {
-        var strToNum = Number(lo_param[ls_paramKey]);
+        let strToNum = Number(lo_param[ls_paramKey]);
         ls_cond = _.isNaN(strToNum) ? "" : strToNum;
     }
     else if (ls_paramType.toLowerCase() == 'date') {
@@ -256,103 +256,107 @@ DB.prototype.paramTypeFormat = function (ls_paramType, lo_param, ls_paramKey) {
 };
 
 DB.prototype.queryDao = function (dao, param, cb) {
-    var daoBean = this.loadDao(dao);
-    if (daoBean == null) {
-        cb({message: 'no dao:' + dao.dao}, null, null);
-        return;
-    }
-    var sql = "";
-    daoBean.statements.forEach(function (statement) {
-        if (statement.test != '') {
-            var r;
-            var test = parser.parse(statement.test);
-            r = parser.run(test, kplugFun, {
-                param: param
-            });
-            test = null;
+    try {
+        let daoBean = this.loadDao(dao);
+        if (daoBean == null) {
+            cb({message: 'no dao:' + dao.dao}, null, null);
+            return;
+        }
+        let sql = "";
+        daoBean.statements.forEach(function (statement) {
+            if (statement.test != '') {
+                let r;
+                let test = parser.parse(statement.test);
+                r = parser.run(test, kplugFun, {
+                    param: param
+                });
+                test = null;
 
-            if (r) {
+                if (r) {
+                    sql += ' ' + statement.sql;
+                }
+            }
+            else {
                 sql += ' ' + statement.sql;
             }
-        }
-        else {
-            sql += ' ' + statement.sql;
-        }
-    });
+        });
 
-    var con = {};
-    var lo_inCond = {};
-    var self = this;
-    daoBean.parameters.forEach(function (parameter) {
-        if (parameter.kind == 1) {
-            sql = sql.replace('?', prefix + parameter.key);
-            con[parameter.key] = self.paramTypeFormat(parameter.type, param, parameter.key);
-
-        }
-        else if (parameter.kind == 2) {
-            if (_.isUndefined(param[parameter.key]) == false || _.isEmpty(param[parameter.key]) == false) {
-                sql += " and " + parameter.condition;
+        let con = {};
+        let lo_inCond = {};
+        let self = this;
+        daoBean.parameters.forEach(function (parameter) {
+            if (parameter.kind == 1) {
                 sql = sql.replace('?', prefix + parameter.key);
                 con[parameter.key] = self.paramTypeFormat(parameter.type, param, parameter.key);
+
             }
-        }
-        else if (parameter.kind == 3) {
-            if (sql.indexOf(prefix + parameter.key) >= 0) {
-                if (parameter.type.toLowerCase() == 'instring') {
-                    if (param[parameter.key] instanceof Array) {
-                        _.each(param[parameter.key], function (ls_param, index) {
-                            if (index == 0) {
-                                lo_inCond[parameter.key] = "";
-                            }
-                            index++;
-                            lo_inCond[parameter.key] += "'" + ls_param + "'";
-                            if (index < param[parameter.key].length) {
-                                lo_inCond[parameter.key] += ",";
-                            }
-                        });
-                    }
-                    else {
-                        lo_inCond[parameter.key] = param[parameter.key];
-                    }
-                    con.inCond = lo_inCond;
-                }
-                else {
+            else if (parameter.kind == 2) {
+                if (_.isUndefined(param[parameter.key]) == false || _.isEmpty(param[parameter.key]) == false) {
+                    sql += " and " + parameter.condition;
+                    sql = sql.replace('?', prefix + parameter.key);
                     con[parameter.key] = self.paramTypeFormat(parameter.type, param, parameter.key);
                 }
             }
-        }
-    });
+            else if (parameter.kind == 3) {
+                if (sql.indexOf(prefix + parameter.key) >= 0) {
+                    if (parameter.type.toLowerCase() == 'instring') {
+                        if (param[parameter.key] instanceof Array) {
+                            _.each(param[parameter.key], function (ls_param, index) {
+                                if (index == 0) {
+                                    lo_inCond[parameter.key] = "";
+                                }
+                                index++;
+                                lo_inCond[parameter.key] += "'" + ls_param + "'";
+                                if (index < param[parameter.key].length) {
+                                    lo_inCond[parameter.key] += ",";
+                                }
+                            });
+                        }
+                        else {
+                            lo_inCond[parameter.key] = param[parameter.key];
+                        }
+                        con.inCond = lo_inCond;
+                    }
+                    else {
+                        con[parameter.key] = self.paramTypeFormat(parameter.type, param, parameter.key);
+                    }
+                }
+            }
+        });
 
-    daoBean.groupbys.forEach(function (statement) {
-        if (statement.test != '') {
-            var test = parser.parse(statement.test);
-            var r = parser.run(test, kplugFun, {
-                param: param
-            });
-            test = null;
-            if (r) {
+        daoBean.groupbys.forEach(function (statement) {
+            if (statement.test != '') {
+                let test = parser.parse(statement.test);
+                let r = parser.run(test, kplugFun, {
+                    param: param
+                });
+                test = null;
+                if (r) {
+                    sql += ' ' + statement.sql;
+                }
+            } else {
                 sql += ' ' + statement.sql;
             }
-        } else {
-            sql += ' ' + statement.sql;
-        }
-    });
+        });
 
-    daoBean.orderbys.forEach(function (statement) {
-        if (statement.test != '') {
-            var test = parser.parse(statement.test);
-            var r = parser.run(test, kplugFun, {
-                param: param
-            });
-            test = null;
-            if (r) {
+        daoBean.orderbys.forEach(function (statement) {
+            if (statement.test != '') {
+                let test = parser.parse(statement.test);
+                let r = parser.run(test, kplugFun, {
+                    param: param
+                });
+                test = null;
+                if (r) {
+                    sql += ' ' + statement.sql;
+                }
+            } else {
                 sql += ' ' + statement.sql;
             }
-        } else {
-            sql += ' ' + statement.sql;
-        }
-    });
-    cb(null, sql, con);
+        });
+        cb(null, sql, con);
+    } catch (ex) {
+        console.log(ex);
+    }
 };
 
 DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, size, cb) {
@@ -388,6 +392,7 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
     }
 
     connection.execute(sqlstring, condition, function (err, result) {
+
         if (err) {
             if (mode == 1) {
                 cb(err, []);
@@ -403,10 +408,10 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
                 });
             return;
         }
-        var data = [];
+        let data = [];
         _.each(result.rows, function (row, idx) {
-            var dd = {};
-            for (var i = 0; i < row.length; i++) {
+            let dd = {};
+            for (let i = 0; i < row.length; i++) {
                 dd[result.metaData[i].name.toLowerCase()] = row[i];
             }
             data.push(dd);
