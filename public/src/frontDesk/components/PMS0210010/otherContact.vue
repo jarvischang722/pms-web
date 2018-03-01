@@ -144,13 +144,13 @@
 <script>
     export default {
         name: 'otherConnection',
-        props: ["isOtherConnection"],
+        props: ["isOtherContact"],
         mounted(){},
         data(){
             return{}
         },
         watch: {
-            isOtherConnection(val){
+            isOtherContact(val){
                 if(val){
 
                 }

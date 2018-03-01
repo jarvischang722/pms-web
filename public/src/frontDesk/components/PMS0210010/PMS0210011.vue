@@ -357,13 +357,11 @@
                                             <div class="reserveShopInfo">
                                                 <p class="title">預約來館資料</p>
                                                 <!--預約來館資料table-->
-                                                <table id="reservation_reserveShopInfo-table"
-                                                       style="height: 200px; width: 100%;"></table>
+                                                <table id="reserveShopInfo_dg" style="height: 200px; width: 100%;"></table>
 
                                                 <p class="title">住客來訪歷史</p>
                                                 <!--住客歷史來訪table-->
-                                                <table id="reservation_guestVisitHistory-table"
-                                                       style="height: 200px; width: 100%;"></table>
+                                                <table id="guestVisitHistory_dg" style="height: 200px; width: 100%;"></table>
                                             </div>
                                             <div class="clearfix"></div>
 
@@ -371,7 +369,7 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div id="referencePanel" v-show="tabName=='reference'" class="padding-tabs" >
+                                <div id="referencePanel" v-show="tabName=='reference'" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
                                             <div class="css_table">
@@ -407,17 +405,17 @@
                                                         <div class="css_td">Drink</div>
                                                         <div class="css_td center">
                                                             <div class="popCheckbox">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace"
-                                                                                                     checked>
-                                                                                              <span class="lbl">
-                                                                                                <span class="txt"></span>
-                                                                                              </span>
-                                                                                          </label>
-                                                                                    </span>
+                                                                <span class="checkbox">
+                                                                      <label class="checkbox-width">
+                                                                          <input name="form-field-checkbox"
+                                                                                 type="checkbox"
+                                                                                 class="ace"
+                                                                                 checked>
+                                                                          <span class="lbl">
+                                                                            <span class="txt"></span>
+                                                                          </span>
+                                                                      </label>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div class="css_td">
@@ -428,16 +426,16 @@
                                                         <div class="css_td">Hobby</div>
                                                         <div class="css_td center">
                                                             <div class="popCheckbox">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl">
-                                                                                                <span class="txt"></span>
-                                                                                              </span>
-                                                                                          </label>
-                                                                                    </span>
+                                                                <span class="checkbox">
+                                                                      <label class="checkbox-width">
+                                                                          <input name="form-field-checkbox"
+                                                                                 type="checkbox"
+                                                                                 class="ace">
+                                                                          <span class="lbl">
+                                                                            <span class="txt"></span>
+                                                                          </span>
+                                                                      </label>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div class="css_td">
@@ -448,16 +446,16 @@
                                                         <div class="css_td">Smoke</div>
                                                         <div class="css_td center">
                                                             <div class="popCheckbox">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl">
-                                                                                                <span class="txt"></span>
-                                                                                              </span>
-                                                                                          </label>
-                                                                                    </span>
+                                                                <span class="checkbox">
+                                                                      <label class="checkbox-width">
+                                                                          <input name="form-field-checkbox"
+                                                                                 type="checkbox"
+                                                                                 class="ace">
+                                                                          <span class="lbl">
+                                                                            <span class="txt"></span>
+                                                                          </span>
+                                                                      </label>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div class="css_td">
@@ -468,16 +466,16 @@
                                                         <div class="css_td">SPA</div>
                                                         <div class="css_td center">
                                                             <div class="popCheckbox">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl">
-                                                                                                <span class="txt"></span>
-                                                                                              </span>
-                                                                                          </label>
-                                                                                    </span>
+                                                                <span class="checkbox">
+                                                                      <label class="checkbox-width">
+                                                                          <input name="form-field-checkbox"
+                                                                                 type="checkbox"
+                                                                                 class="ace">
+                                                                          <span class="lbl">
+                                                                            <span class="txt"></span>
+                                                                          </span>
+                                                                      </label>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div class="css_td">
@@ -488,17 +486,17 @@
                                                         <div class="css_td">Newspaper</div>
                                                         <div class="css_td center">
                                                             <div class="popCheckbox">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace"
-                                                                                                     checked>
-                                                                                              <span class="lbl">
-                                                                                                <span class="txt"></span>
-                                                                                              </span>
-                                                                                          </label>
-                                                                                    </span>
+                                                                <span class="checkbox">
+                                                                      <label class="checkbox-width">
+                                                                          <input name="form-field-checkbox"
+                                                                                 type="checkbox"
+                                                                                 class="ace"
+                                                                                 checked>
+                                                                          <span class="lbl">
+                                                                            <span class="txt"></span>
+                                                                          </span>
+                                                                      </label>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div class="css_td">
@@ -509,16 +507,16 @@
                                                         <div class="css_td">RM Amenities</div>
                                                         <div class="css_td center">
                                                             <div class="popCheckbox">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl">
-                                                                                                <span class="txt"></span>
-                                                                                              </span>
-                                                                                          </label>
-                                                                                    </span>
+                                                                <span class="checkbox">
+                                                                      <label class="checkbox-width">
+                                                                          <input name="form-field-checkbox"
+                                                                                 type="checkbox"
+                                                                                 class="ace">
+                                                                          <span class="lbl">
+                                                                            <span class="txt"></span>
+                                                                          </span>
+                                                                      </label>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div class="css_td">
@@ -529,16 +527,16 @@
                                                         <div class="css_td">Medical history</div>
                                                         <div class="css_td center">
                                                             <div class="popCheckbox">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl">
-                                                                                                <span class="txt"></span>
-                                                                                              </span>
-                                                                                          </label>
-                                                                                    </span>
+                                                                <span class="checkbox">
+                                                                      <label class="checkbox-width">
+                                                                          <input name="form-field-checkbox"
+                                                                                 type="checkbox"
+                                                                                 class="ace">
+                                                                          <span class="lbl">
+                                                                            <span class="txt"></span>
+                                                                          </span>
+                                                                      </label>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div class="css_td">
@@ -549,16 +547,16 @@
                                                         <div class="css_td">Others</div>
                                                         <div class="css_td center">
                                                             <div class="popCheckbox">
-                                                                                    <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl">
-                                                                                                <span class="txt"></span>
-                                                                                              </span>
-                                                                                          </label>
-                                                                                    </span>
+                                                                <span class="checkbox">
+                                                                      <label class="checkbox-width">
+                                                                          <input name="form-field-checkbox"
+                                                                                 type="checkbox"
+                                                                                 class="ace">
+                                                                          <span class="lbl">
+                                                                            <span class="txt"></span>
+                                                                          </span>
+                                                                      </label>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div class="css_td">
@@ -614,7 +612,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="otherContact" >Other contact
+                                                role="button" @click="otherContact">Other contact
                                         </button>
                                     </li>
                                     <li>
@@ -624,7 +622,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="lostFound" :disabled="isOtherContact">Lost & Found
+                                                role="button" @click="lostFound" disabled>Lost & Found
                                         </button>
                                     </li>
                                     <li>
@@ -677,10 +675,14 @@
                 i18nLang: go_i18nLang,//多語系資料
                 isLoadingDialog: false,//是否載入成功
                 loadingText: "",//載入的提示文字
-                singleData: {}, //單筆資料
-                oriSingleData: {}, //原始單筆資料
-                fieldData: [], //欄位資料
-                oriFieldsData: [], //原始欄位資料
+                tabPageOneSingleData: {}, //基本資料 單筆資料
+                tabPageOneOriSingleData: {}, //基本資料 原始單筆資料
+                tabPageOneFieldData: [], //基本資料 欄位資料
+                tabPageOneOriFieldsData: [], //基本資料 原始欄位資料
+                tabPageTwoDataGridOneRows: [], //來館資料 預約來館資料
+                tabPageTwoDataGridOneFieldsData: [], //來館資料 預約來館欄位資料
+                tabPageTwoDataGridTwoRows: [], //來館資料 住客來訪歷史資料
+                tabPageTwoDataGridTwoFieldsData: [], //來館資料 住客來訪歷史欄位資料
                 tabPageId: 1,
                 tabName: "", //頁籤名稱
                 panelName: ["profilePanel", "visitsPanel", "referencePanel"], //頁籤內容名稱
@@ -696,16 +698,20 @@
             rowData(val) {
                 if (!_.isEmpty(val)) {
                     this.initData();
-                    this.fetchTabPageOneFieldData();
+                    this.tabName = "profile";
                 }
             },
         },
         methods: {
             initData() {
-                this.singleData = {};
-                this.oriSingleData = {};
-                this.fieldsData = [];
-                this.oriFieldsData = [];
+                this.tabPageOneSingleData = {};
+                this.tabPageOneOriSingleData = {};
+                this.tabPageOneFieldData = [];
+                this.tabPageOneOriFieldsData = [];
+                this.tabPageTwoDataGridOneRows = [];
+                this.tabPageTwoDataGridOneFieldsData = [];
+                this.tabPageTwoDataGridTwoRows = [];
+                this.tabPageTwoDataGridTwoFieldsData = [];
                 this.setGlobalStatus();
             },
             setGlobalStatus() {
@@ -726,6 +732,9 @@
 
                 this.showTabContent(tabName);
             },
+            setGlobalGcustCod() {
+                this.$store.dispatch("setGcustCod", this.singleData.gcust_cod);
+            },
             showTabContent(tabName) {
                 var la_panelName = this.panelName;
                 var ls_showPanelName = tabName + "Panel";
@@ -739,82 +748,78 @@
                 this.isLoadingDialog = true;
                 var self = this;
                 $.post("/api/fetchOnlySinglePageFieldData", {
-                    prg_id: "PMS0610020",
+                    prg_id: "PMS0210011",
                     page_id: 1,
                     tab_page_id: 1,
                     template_id: 'gridsingle'
                 }, function (result) {
-                    self.oriFieldsData = result.gsFieldsData;
-                    self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
+                    self.tabPageOneFieldData = result.gsFieldsData;
+                    self.tabPageOneOriFieldsData = _.values(_.groupBy(_.sortBy(self.tabPageOneFieldData, "col_seq"), "row_seq"));
                     self.fetchTabPageOneRowData();
                 });
             },
             fetchTabPageOneRowData() {
                 if (this.isCreateStatus) {
                     $.post("/api/fetchDefaultSingleRowData", {
-                        prg_id: "PMS0610020",
+                        prg_id: "PMS0210011",
                         page_id: 1,
                         tab_page_id: 1
                     }).then(result => {
                         this.singleData = result.gsDefaultData;
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
-                        this.fetchTabPageTwoFieldData();
+                        this.setGlobalGcustCod();
+                        this.fetchTabPageTwoDataGridOneFieldData();
                     });
                 }
                 else if (this.isEditStatus) {
+                    this.setGlobalGcustCod();
                     $.post("/api/fetchSinglePageFieldData", {
-                        prg_id: "PMS0610020",
+                        prg_id: "PMS0210011",
                         page_id: 1,
                         tab_page_id: 1,
                         template_id: "gridsingle",
-                        searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
+                        searchCond: {gcust_cod: this.rowData.cust_mn_cust_cod}
                     }).then(result => {
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.fetchTabPageTwoFieldData();
+                        this.fetchTabPageTwoDataGridOneFieldData();
                     });
                 }
             },
-            fetchTabPageTwoFieldData(){
-                var self = this;
-                $.post("/api/fetchOnlySinglePageFieldData", {
-                    prg_id: "PMS0610020",
-                    page_id: 1,
-                    tab_page_id: 1,
-                    template_id: 'gridsingle'
-                }, function (result) {
-                    self.oriFieldsData = result.gsFieldsData;
-                    self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
-                    self.fetchTabPageTwoRowData();
+            fetchTabPageTwoDataGridOneFieldData() {
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0210011",
+                    tab_page_id: 21,
+                    searchCond: {gcust_cod: this.$store.state.gs_custCod}
+                }).then(result => {
+                    this.tabPageTwoDataGridOneFieldsData = result.dgFieldsData;
+                    this.tabPageTwoDataGridOneRows = result.dgRowData;
+                    this.showDataGridOne();
+                    this.fetchTabPageTwoDataGridTwoFieldData();
                 });
             },
-            fetchTabPageTwoRowData(){
-                if (this.isCreateStatus) {
-                    $.post("/api/fetchDefaultSingleRowData", {
-                        prg_id: "PMS0610020",
-                        page_id: 1,
-                        tab_page_id: 1
-                    }).then(result => {
-                        this.singleData = result.gsDefaultData;
-                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
-                        this.tabName = "profile";
-                        this.isLoadingDialog = false;
-                    });
-                }
-                else if (this.isEditStatus) {
-                    $.post("/api/fetchSinglePageFieldData", {
-                        prg_id: "PMS0610020",
-                        page_id: 1,
-                        tab_page_id: 1,
-                        template_id: "gridsingle",
-                        searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
-                    }).then(result => {
-                        this.singleData = result.gsMnData.rowData[0];
-                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.tabName = "profile";
-                        this.isLoadingDialog = false;
-                    });
-                }
+            fetchTabPageTwoDataGridTwoFieldData() {
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0210011",
+                    tab_page_id: 22,
+                    searchCond: {gcust_cod: this.$store.state.gs_custCod}
+                }).then(result => {
+                    this.tabPageTwoDataGridTwoFieldsData = result.dgFieldsData;
+                    this.tabPageTwoDataGridTwoRows = result.dgRowData;
+                    this.showDataGridTwo();
+                    this.tabName = "profile";
+                });
+            },
+            showDataGridOne() {
+                this.dgOneIns = new DatagridSingleGridClass();
+                this.dgOneIns.init("PMS0210011", "reserveShopInfo_dg", DatagridFieldAdapter.combineFieldOption(this.tabPageTwoDataGridOneFieldsData, "reserveShopInfo_dg"), this.tabPageTwoDataGridOneFieldsData);
+                this.dgOneIns.loadDgData(this.tabPageTwoDataGridOneRows);
+            },
+            showDataGridTwo() {
+                this.dgTwoIns = new DatagridSingleGridClass();
+                this.dgTwoIns.init("PMS0210011", "guestVisitHistory_dg", DatagridFieldAdapter.combineFieldOption(this.tabPageTwoDataGridTwoFieldsData, "guestVisitHistory_dg"), this.tabPageTwoDataGridTwoFieldsData);
+                this.dgTwoIns.loadDgData(this.tabPageTwoDataGridTwoRows);
+                this.isLoading = false;
             },
             //開啟other contact 跳窗
             otherContact() {
@@ -830,7 +835,7 @@
                     height: 500,
                     dialogClass: "test",
                     resizable: true,
-                    onBeforeClose(){
+                    onBeforeClose() {
                         self.isOtherContact = false;
                     }
                 });
@@ -849,7 +854,7 @@
                     height: $(window).height(),
                     dialogClass: "test",
                     resizable: true,
-                    onBeforeClose(){
+                    onBeforeClose() {
                         self.isLostAndFound = false;
                     }
                 });
