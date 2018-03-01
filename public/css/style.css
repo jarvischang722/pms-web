@@ -5547,6 +5547,10 @@ td div.triangle-box.colspan-28 {
     width: 1203px;
   }
 }
+.pagination-page-list {
+  padding-right: 15px;
+}
+
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;
