@@ -4,7 +4,7 @@
     <!-- ['PSIW510030'] 取得單位種類 -->
     <dao name="QRY_UNIT_TYP_SELECT">
         <statement><![CDATA[
-            Select unit_typ as value, unit_nam as display
+            Select trim(unit_typ) as value, trim(unit_nam) as display
             from unit_rf
             where trim(comp_cod)= trim(:comp_cod)
         ]]>

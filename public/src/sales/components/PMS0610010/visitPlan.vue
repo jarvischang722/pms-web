@@ -194,7 +194,7 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
-                                            data-purview_func_id="PMS0620050-0500" :disabled="isSaveEnable" @click="doSaveRow">
+                                            data-purview_func_id="PMS0620050-0500" @click="doSaveRow">
                                         {{i18nLang.SystemCommon.Save}}
                                     </button>
                                 </li>
