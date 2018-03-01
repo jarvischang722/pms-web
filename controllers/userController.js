@@ -62,49 +62,6 @@ exports.loginPage = function (req, res) {
 
                     callback(null, 'done');
                 }
-            },
-            //公司館別可用語系判斷
-            function (data, callback) {
-
-                if (!req.params.athena_id) {
-                    res.clearCookie("sys_locales");
-                    return callback(null, "done");
-                }
-                let lo_langRf = require("../configs/LangNameRf.json");
-                let lo_cond = {
-                    athena_id: req.params.athena_id
-                };
-                if (req.params.comp_cod) {
-                    lo_cond.comp_cod = req.params.comp_cod;
-                }
-                queryAgent.queryList("QRY_UI_LANG_BY_ATHENA_ID", lo_cond, 0, 0, function (err, langs) {
-
-                    let lao_localeInfo = _.uniq(_.map(langs, function (lang) {
-                        return {
-                            lang: lang.locale,
-                            name: lo_langRf[lang.locale]
-                                ? encodeURIComponent(lo_langRf[lang.locale])
-                                : lang.locale,
-                        }
-                    }), function (lao_localeInfo) {
-                        return lao_localeInfo.lang;
-                    });
-
-                    //檢查使用者可選語系裡，有無透過中繼器塞入session的語系
-                    if (req.session.locale && lao_localeInfo.length > 0 && _.findIndex(lao_localeInfo, {lang: req.session.locale}) == -1) {
-                        req.session.locale = lao_localeInfo[0].lang;
-                        res.cookie('locale', lao_localeInfo[0].lang);
-                        return res.redirect(req.originalUrl);
-                    }
-
-
-                    res.cookie("sys_locales", lao_localeInfo, {
-                        maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3,
-                        // signed: true // Indicates if the cookie should be signed
-                    });
-                    callback(null, "done");
-                });
-
             }
         ], function (err) {
             res.render('user/loginPage');
