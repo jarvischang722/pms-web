@@ -44,12 +44,20 @@
         watch: {
             isVisitsPanel(val) {
                 if (val) {
+                    this.initData();
                     this.fetchShopInfoFieldData();
-                    console.log("enter this");
                 }
             }
         },
         methods: {
+            initData(){
+                this.shopInfoRows = [];
+                this.shopInfoFieldsData = [];
+                this.visitHistoryRows = [];
+                this.visitHistoryFieldsData = [];
+                this.shopInfoDgIns = [];
+                this.visitHistoryDgIns = [];
+            },
             fetchRentCalDat() {
                 $.post('/api/qryRentCalDat', {}, (result) => {
                     this.rentCalDat = moment(result.rent_cal_dat).format("YYYY/MM/DD");
