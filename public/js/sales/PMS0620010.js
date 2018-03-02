@@ -21,7 +21,7 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 /*** Class End  ***/
 
 
-var PMS0620020App = Vue.extend({
+let PMS0620020App = Vue.extend({
     template: '#singleGridPMS0620020Tmp',
     props: ["singleData", "isModifiable", "editStatus", "createStatus"],
     data: function () {
@@ -53,7 +53,7 @@ var PMS0620020App = Vue.extend({
         };
     },
     created: function () {
-        var self = this;
+        let self = this;
         vmHub.$on('updateBackSelectData', function (chooseData) {
             if (chooseData["user_nos"] != "" && chooseData["user_cname"] != "") {
                 chooseData["user_nos"] = chooseData["user_nos"] + ": " + chooseData["user_cname"];
@@ -269,16 +269,16 @@ var PMS0620020App = Vue.extend({
                     findByValue(self.classCodSelectData, self.rowData.class_cod);
 
                     //攤平資料(陣列扁平化)
-                    var list = [];
+                    let list = [];
                     flattenArray(go_rtnResult, list);
 
                     self.classCodSelectedOption = [];
-                    var groupList = _.groupBy(list, "parent_cod");
+                    let groupList = _.groupBy(list, "parent_cod");
                     groupList = _.toArray(groupList).reverse();
-                    var ls_parent_cod = "";
+                    let ls_parent_cod = "";
 
                     _.each(groupList, function (la_list) {
-                        var lo_data;
+                        let lo_data;
                         if (ls_parent_cod == "") {
                             lo_data = _.findWhere(la_list, {value: self.rowData.class_cod});
                         }
@@ -318,7 +318,7 @@ var PMS0620020App = Vue.extend({
 
         },
         appendDtRow: function (event) {
-            var self = this;
+            let self = this;
             //壤使用者操作紀錄可執行
             setTimeout(function(){
                 self.BTN_action = true;
@@ -343,7 +343,7 @@ var PMS0620020App = Vue.extend({
                     vm.openChangeLogDialog = true;
                     vm.allChangeLogList = result.allChangeLogList;
                 }
-            });
+            });let
         },
         closeSingleGridDialog: function () {
             vm.editingRow = {};
@@ -356,12 +356,12 @@ var PMS0620020App = Vue.extend({
         },
         //mn資料檢查
         mnDataValidate: function () {
-            var self = this;
-            var lo_checkResult;
+            let self = this;
+            let lo_checkResult;
 
             // 欄位驗證
-            for (var i = 0; i < this.originFieldData.length; i++) {
-                var lo_field = this.originFieldData[i];
+            for (let i = 0; i < this.originFieldData.length; i++) {
+                let lo_field = this.originFieldData[i];
                 //必填
                 if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
                     lo_checkResult = go_validateClass.required(self.rowData[lo_field.ui_field_name], lo_field.ui_display_name);
@@ -610,14 +610,13 @@ Vue.component('text-select-grid-dialog-tmp', {
 });
 
 
-var vm = new Vue({
+let vm = new Vue({
     el: "#PMS0620010App",
     components: {
         "single-grid-pms0620020-tmp": PMS0620020App
     },
     mounted: function () {
         this.go_funcPurview = (new FuncPurview("PMS0620010")).getFuncPurvs();
-        console.log(this.go_funcPurview);
         this.initTmpCUD();
         this.fetchUserInfo();
         this.loadDataGridByPrgID();
@@ -672,7 +671,6 @@ var vm = new Vue({
         editingRow:function(val){
             if(_.isEmpty(val)){
                 this.go_funcPurview = (new FuncPurview("PMS0620010")).getFuncPurvs();
-                console.log(this.go_funcPurview);
             }
         }
     },
@@ -813,13 +811,13 @@ var vm = new Vue({
             }
         },
         showSingleGridDialog: function () {
-            var self = this;
+            let self = this;
             this.dialogVisible = true;
-            var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+            let maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
             gridWt = $('.grid-item label').width() + $('.grid-item input').width() + 14; // 抓不到width
-            var dialogWt = gridWt * 2 + 250;
-            var height = 10 * 50; // 預設一個row 高度
-            var dialog = $("#singleGridPMS0620020").removeClass('hide').dialog({
+            let dialogWt = gridWt * 2 + 250;
+            let height = 10 * 50; // 預設一個row 高度
+            let dialog = $("#singleGridPMS0620020").removeClass('hide').dialog({
                 autoOpen: true,
                 modal: true,
                 height: _.min([maxHeight, height]),
@@ -831,6 +829,8 @@ var vm = new Vue({
                 buttons: "#dialogBtns",
                 onBeforeClose: function () {
                     self.editingRow = {};
+                    self.isEditStatus = false;
+                    self.isCreateStatus = false;
                 }
             });
             dialog.dialog("open");
@@ -839,10 +839,10 @@ var vm = new Vue({
         },
         showPopUpGridDialog: function () {
             this.dialogVisible = true;
-            var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
-            var width = document.documentElement.clientWidth / 2; //browser 寬度 - 200功能列
+            let height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
+            let width = document.documentElement.clientWidth / 2; //browser 寬度 - 200功能列
 
-            var dialog = $("#dataPopUpGridDialog").dialog({
+            let dialog = $("#dataPopUpGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
                 height: height,
@@ -853,8 +853,8 @@ var vm = new Vue({
             dialog.dialog("open");
         },
         doSaveCud: function (prg_id, page_id, callback) {
-            var self = this;
-            var lo_params = {
+            let self = this;
+            let lo_params = {
                 prg_id: prg_id,
                 page_id: page_id,
                 tmpCUD: this.tmpCud
