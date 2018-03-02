@@ -32,8 +32,8 @@
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-2"
-                                            role="button">{{i18nLang.SystemCommon.Modify}}
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" @click="editRow">{{i18nLang.SystemCommon.Modify}}
                                     </button>
                                 </li>
                                 <li>

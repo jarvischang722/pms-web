@@ -662,6 +662,18 @@
     import lostAndFound from './lostAndFound';
     import _s from 'underscore.string';
 
+    /** DatagridRmSingleGridClass **/
+    function DataGridSingleGridClass() {
+    }
+    DataGridSingleGridClass.prototype = new DatagridBaseClass();
+    DataGridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    };
+    DataGridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    };
+    DataGridSingleGridClass.prototype.doSaveColumnFields = function () {
+    };
+    /*** Class End  ***/
+
     export default {
         name: 'pms0210011',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
@@ -675,14 +687,17 @@
                 i18nLang: go_i18nLang,//多語系資料
                 isLoadingDialog: false,//是否載入成功
                 loadingText: "",//載入的提示文字
-                tabPageOneSingleData: {}, //基本資料 單筆資料
-                tabPageOneOriSingleData: {}, //基本資料 原始單筆資料
-                tabPageOneFieldData: [], //基本資料 欄位資料
-                tabPageOneOriFieldsData: [], //基本資料 原始欄位資料
-                tabPageTwoDataGridOneRows: [], //來館資料 預約來館資料
-                tabPageTwoDataGridOneFieldsData: [], //來館資料 預約來館欄位資料
-                tabPageTwoDataGridTwoRows: [], //來館資料 住客來訪歷史資料
-                tabPageTwoDataGridTwoFieldsData: [], //來館資料 住客來訪歷史欄位資料
+                rentCalDat: "",//滾房租日
+                profileSingleData: {}, //基本資料 單筆資料
+                profileOriSingleData: {}, //基本資料 原始單筆資料
+                profileFieldData: [], //基本資料 欄位資料
+                profileOriFieldsData: [], //基本資料 原始欄位資料
+                shopInfoRows: [], //來館資料 預約來館資料
+                shopInfoFieldsData: [], //來館資料 預約來館欄位資料
+                visitHistoryRows: [], //來館資料 住客來訪歷史資料
+                visitHistoryFieldsData: [], //來館資料 住客來訪歷史欄位資料
+                shopInfoDgIns: {},
+                visitHistoryDgIns: {},
                 tabPageId: 1,
                 tabName: "", //頁籤名稱
                 panelName: ["profilePanel", "visitsPanel", "referencePanel"], //頁籤內容名稱
@@ -698,11 +713,17 @@
             rowData(val) {
                 if (!_.isEmpty(val)) {
                     this.initData();
+                    this.fetchProfileFieldData();
                     this.tabName = "profile";
                 }
             },
         },
         methods: {
+            fetchRentCalDat() {
+                $.post('/api/qryRentCalDat', {}, (result) => {
+                    this.rentCalDat = result.rent_cal_dat;
+                });
+            },
             initData() {
                 this.tabPageOneSingleData = {};
                 this.tabPageOneOriSingleData = {};
@@ -733,7 +754,7 @@
                 this.showTabContent(tabName);
             },
             setGlobalGcustCod() {
-                this.$store.dispatch("setGcustCod", this.singleData.gcust_cod);
+                this.$store.dispatch("setGcustCod", this.profileSingleData.gcust_cod);
             },
             showTabContent(tabName) {
                 var la_panelName = this.panelName;
@@ -744,7 +765,7 @@
 
                 $("#" + ls_showPanelName).show();
             },
-            fetchTabPageOneFieldData() {
+            fetchProfileFieldData() {
                 this.isLoadingDialog = true;
                 var self = this;
                 $.post("/api/fetchOnlySinglePageFieldData", {
@@ -753,72 +774,74 @@
                     tab_page_id: 1,
                     template_id: 'gridsingle'
                 }, function (result) {
-                    self.tabPageOneFieldData = result.gsFieldsData;
-                    self.tabPageOneOriFieldsData = _.values(_.groupBy(_.sortBy(self.tabPageOneFieldData, "col_seq"), "row_seq"));
-                    self.fetchTabPageOneRowData();
+                    self.profileFieldData = result.gsFieldsData;
+                    self.profileOriFieldsData = _.values(_.groupBy(_.sortBy(self.profileFieldData, "col_seq"), "row_seq"));
+                    self.fetchProfileRowData();
+                    console.log(self.profileOriFieldsData);
+
                 });
             },
-            fetchTabPageOneRowData() {
+            fetchProfileRowData() {
                 if (this.isCreateStatus) {
                     $.post("/api/fetchDefaultSingleRowData", {
                         prg_id: "PMS0210011",
                         page_id: 1,
                         tab_page_id: 1
                     }).then(result => {
-                        this.singleData = result.gsDefaultData;
-                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
+                        this.profileSingleData = result.gsDefaultData;
+                        this.profileOriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
                         this.setGlobalGcustCod();
-                        this.fetchTabPageTwoDataGridOneFieldData();
+                        this.fetchShopInfoFieldData();
                     });
                 }
                 else if (this.isEditStatus) {
-                    this.setGlobalGcustCod();
                     $.post("/api/fetchSinglePageFieldData", {
                         prg_id: "PMS0210011",
                         page_id: 1,
                         tab_page_id: 1,
                         template_id: "gridsingle",
-                        searchCond: {gcust_cod: this.rowData.cust_mn_cust_cod}
+                        searchCond: {gcust_cod: this.rowData.gcust_cod}
                     }).then(result => {
-                        this.singleData = result.gsMnData.rowData[0];
-                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.fetchTabPageTwoDataGridOneFieldData();
+                        this.profileSingleData = result.gsMnData.rowData[0];
+                        this.profileOriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        this.setGlobalGcustCod();
+                        this.fetchShopInfoFieldData();
                     });
                 }
             },
-            fetchTabPageTwoDataGridOneFieldData() {
+            fetchShopInfoFieldData() {
                 $.post("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0210011",
                     tab_page_id: 21,
-                    searchCond: {gcust_cod: this.$store.state.gs_custCod}
+                    searchCond: {gcust_cod: this.$store.state.gs_gcustCod, rent_cal_dat: this.rentCalDat}
                 }).then(result => {
-                    this.tabPageTwoDataGridOneFieldsData = result.dgFieldsData;
-                    this.tabPageTwoDataGridOneRows = result.dgRowData;
-                    this.showDataGridOne();
-                    this.fetchTabPageTwoDataGridTwoFieldData();
+                    this.shopInfoFieldsData = result.dgFieldsData;
+                    this.shopInfoRows = result.dgRowData;
+                    this.showShopInfoDataGrid();
+                    this.fetchVisitHistoryFieldData();
                 });
             },
-            fetchTabPageTwoDataGridTwoFieldData() {
+            fetchVisitHistoryFieldData() {
                 $.post("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0210011",
                     tab_page_id: 22,
-                    searchCond: {gcust_cod: this.$store.state.gs_custCod}
+                    searchCond: {gcust_cod: this.$store.state.gs_gcustCod}
                 }).then(result => {
-                    this.tabPageTwoDataGridTwoFieldsData = result.dgFieldsData;
-                    this.tabPageTwoDataGridTwoRows = result.dgRowData;
-                    this.showDataGridTwo();
+                    this.visitHistoryFieldsData = result.dgFieldsData;
+                    this.visitHistoryRows = result.dgRowData;
+                    this.showVisitHistoryDataGrid();
                     this.tabName = "profile";
                 });
             },
-            showDataGridOne() {
-                this.dgOneIns = new DatagridSingleGridClass();
-                this.dgOneIns.init("PMS0210011", "reserveShopInfo_dg", DatagridFieldAdapter.combineFieldOption(this.tabPageTwoDataGridOneFieldsData, "reserveShopInfo_dg"), this.tabPageTwoDataGridOneFieldsData);
-                this.dgOneIns.loadDgData(this.tabPageTwoDataGridOneRows);
+            showShopInfoDataGrid() {
+                this.shopInfoDgIns = new DataGridSingleGridClass();
+                this.shopInfoDgIns.init("PMS0210011", "reserveShopInfo_dg", DatagridFieldAdapter.combineFieldOption(this.shopInfoFieldsData, "reserveShopInfo_dg"), this.shopInfoFieldsData);
+                this.shopInfoDgIns.loadDgData(this.shopInfoRows);
             },
-            showDataGridTwo() {
-                this.dgTwoIns = new DatagridSingleGridClass();
-                this.dgTwoIns.init("PMS0210011", "guestVisitHistory_dg", DatagridFieldAdapter.combineFieldOption(this.tabPageTwoDataGridTwoFieldsData, "guestVisitHistory_dg"), this.tabPageTwoDataGridTwoFieldsData);
-                this.dgTwoIns.loadDgData(this.tabPageTwoDataGridTwoRows);
+            showVisitHistoryDataGrid() {
+                this.visitHistoryDgIns = new DataGridSingleGridClass();
+                this.visitHistoryDgIns.init("PMS0210011", "guestVisitHistory_dg", DatagridFieldAdapter.combineFieldOption(this.visitHistoryFieldsData, "guestVisitHistory_dg"), this.visitHistoryFieldsData);
+                this.visitHistoryDgIns.loadDgData(this.visitHistoryRows);
                 this.isLoading = false;
             },
             //開啟other contact 跳窗

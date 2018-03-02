@@ -61,10 +61,12 @@
         and  ghist_mn.gcust_cod = ghist_visit_dt.gcust_cod(+)
         and  trim(ghist_visit_dt.hotel_cod(+)) = trim(:hotel_cod)
         and  ghist_mn.athena_id = :athena_id
+        and  ghist_mn.gcust_cod = :gcust_cod
         ]]></statement>
 
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">gcust_cod</parameter>
     </dao>
 
     <dao name="CHK_GHIST_MN_IS_EXIST">
@@ -81,9 +83,10 @@
         <parameter type="date" kind="3">birth_dat</parameter>
     </dao>
 
-    <dao name="QRY_GHIST_MN">
+    <!--PMS0210010 住客歷史 取得多筆資料-->
+    <dao name="QRY_GHIST_MN_DG">
         <statement><![CDATA[
-        SELECT GHIST_MN.ATHENA_ID, CUST_IDX.SHOW_COD, GHIST_MN.STATUS_COD, CUST_IDX.ALT_NAM, CUST_IDX.SEX_TYP, CUST_IDX.ID_COD,
+        SELECT GHIST_MN.ATHENA_ID, CUST_IDX.SHOW_COD, GHIST_MN.STATUS_COD, CUST_IDX.ALT_NAM, CUST_IDX.SEX_TYP, CUST_IDX.ID_COD, GHIST_MN.GCUST_COD,
         CNTRY_RF.CONTRY_NAM, GHIST_VISIT_DT.VISIT_NOS, GHIST_VISIT_DT.VISIT_DAYS, GHIST_VISIT_DT.TRANS_TOT, CUST_IDX.MOBILE_NOS,CUST_IDX.E_MAIL
         FROM  GHIST_VISIT_DT, CUST_IDX, CUST_IDX AGENT_IDX, GHIST_MN, CNTRY_RF
         WHERE  GHIST_MN.ATHENA_ID = CUST_IDX.ATHENA_ID

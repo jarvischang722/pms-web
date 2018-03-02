@@ -68,7 +68,7 @@
             AND  ORDER_DT.ATHENA_ID = GUEST_MN.ATHENA_ID
             AND  ORDER_DT.IKEY = GUEST_MN.IKEY
             AND  ORDER_DT.IKEY_SEQ_NOS = GUEST_MN.IKEY_SEQ_NOS
-            AND  ORDER_DT.CI_DAT >= :rent_cal_dat
+            AND  ORDER_DT.CI_DAT >= to_date(:rent_cal_dat, 'YYYY/MM/DD') :rent_cal_dat
             AND  ORDER_DT.ORDER_STA <> 'D'
             AND  GUEST_MN.ATHENA_ID = :athena_id
             AND  GUEST_MN.GCUST_COD = :gcust_cod
