@@ -408,7 +408,7 @@ function qryFormatRule(la_fieldData, callback) {
          */
         function qryOracleFormat(ls_formatName) {
             ln_counter++;
-            var daoBean = ls_formatName != "" ? db.loadDao({dao: ls_formatName.toUpperCase(), id: 'default'}) : null;
+            let daoBean = ls_formatName != "" ? db.loadDao({dao: ls_formatName.toUpperCase(), id: 'default'}) : null;
 
             if (daoBean != null) {
                 queryAgent.query(ls_formatName.toUpperCase(), {athena_id: go_session.user.athena_id}, function (err, result) {

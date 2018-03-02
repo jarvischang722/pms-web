@@ -351,17 +351,14 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div id="visitsPanel" v-show="tabName=='visits'" class="padding-tabs">
+                                <div id="visitsPanel" v-show="tabName=='visits'" class="">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
                                             <div class="reserveShopInfo">
-                                                <p class="title">預約來館資料</p>
-                                                <!--預約來館資料table-->
-                                                <table id="reserveShopInfo_dg" style="height: 200px; width: 100%;"></table>
-
-                                                <p class="title">住客來訪歷史</p>
-                                                <!--住客歷史來訪table-->
-                                                <table id="guestVisitHistory_dg" style="height: 200px; width: 100%;"></table>
+                                                <visits-panel
+                                                        :row-data="rowData"
+                                                        :is-visits-panel="tabName=='visits'"
+                                                ></visits-panel>
                                             </div>
                                             <div class="clearfix"></div>
 
@@ -660,7 +657,9 @@
 <script>
     import otherConnect from './otherContact';
     import lostAndFound from './lostAndFound';
+    import visitsPanel from './visitsPanel';
     import _s from 'underscore.string';
+    import moment from 'moment';
 
     /** DatagridRmSingleGridClass **/
     function DataGridSingleGridClass() {
@@ -677,10 +676,11 @@
     export default {
         name: 'pms0210011',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
-        components: {otherConnect, lostAndFound},
+        components: {otherConnect, lostAndFound, visitsPanel},
         mounted() {
             this.isLoadingDialog = true;
             this.loadingText = "Loading...";
+            this.fetchRentCalDat();
         },
         data() {
             return {
@@ -703,7 +703,8 @@
                 panelName: ["profilePanel", "visitsPanel", "referencePanel"], //頁籤內容名稱
                 tabStatus: {isProfile: false, isVisits: false, isReference: false}, //現在頁籤狀況
                 isOtherContact: false, //是否開啟other contact
-                isLostAndFound: false //是否開啟lost&found
+                isLostAndFound: false, //是否開啟lost&found
+                dgIns: {}
             }
         },
         watch: {
@@ -721,7 +722,7 @@
         methods: {
             fetchRentCalDat() {
                 $.post('/api/qryRentCalDat', {}, (result) => {
-                    this.rentCalDat = result.rent_cal_dat;
+                    this.rentCalDat = moment(result.rent_cal_dat).format("YYYY/MM/DD");
                 });
             },
             initData() {
@@ -777,7 +778,6 @@
                     self.profileFieldData = result.gsFieldsData;
                     self.profileOriFieldsData = _.values(_.groupBy(_.sortBy(self.profileFieldData, "col_seq"), "row_seq"));
                     self.fetchProfileRowData();
-                    console.log(self.profileOriFieldsData);
 
                 });
             },
@@ -791,7 +791,7 @@
                         this.profileSingleData = result.gsDefaultData;
                         this.profileOriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
                         this.setGlobalGcustCod();
-                        this.fetchShopInfoFieldData();
+//                        this.fetchShopInfoFieldData();
                     });
                 }
                 else if (this.isEditStatus) {
@@ -805,7 +805,7 @@
                         this.profileSingleData = result.gsMnData.rowData[0];
                         this.profileOriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.setGlobalGcustCod();
-                        this.fetchShopInfoFieldData();
+//                        this.fetchShopInfoFieldData();
                     });
                 }
             },
@@ -818,7 +818,7 @@
                     this.shopInfoFieldsData = result.dgFieldsData;
                     this.shopInfoRows = result.dgRowData;
                     this.showShopInfoDataGrid();
-                    this.fetchVisitHistoryFieldData();
+//                    this.fetchVisitHistoryFieldData();
                 });
             },
             fetchVisitHistoryFieldData() {
@@ -829,14 +829,14 @@
                 }).then(result => {
                     this.visitHistoryFieldsData = result.dgFieldsData;
                     this.visitHistoryRows = result.dgRowData;
-                    this.showVisitHistoryDataGrid();
+//                    this.showVisitHistoryDataGrid();
                     this.tabName = "profile";
                 });
             },
             showShopInfoDataGrid() {
-                this.shopInfoDgIns = new DataGridSingleGridClass();
-                this.shopInfoDgIns.init("PMS0210011", "reserveShopInfo_dg", DatagridFieldAdapter.combineFieldOption(this.shopInfoFieldsData, "reserveShopInfo_dg"), this.shopInfoFieldsData);
-                this.shopInfoDgIns.loadDgData(this.shopInfoRows);
+                this.dgIns = new DataGridSingleGridClass();
+                this.dgIns.init("PMS0210011", "reserveShopInfo_dg", DatagridFieldAdapter.combineFieldOption(this.shopInfoFieldsData, "reserveShopInfo_dg"), this.shopInfoFieldsData);
+                this.dgIns.loadDgData(this.shopInfoRows);
             },
             showVisitHistoryDataGrid() {
                 this.visitHistoryDgIns = new DataGridSingleGridClass();
