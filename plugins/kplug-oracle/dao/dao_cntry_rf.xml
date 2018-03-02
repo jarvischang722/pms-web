@@ -4,7 +4,8 @@
     <dao name="QRY_CNTRY_RF">
         <statement><![CDATA[
                 select rf.*,fmt.remark1
-                from cntry_rf rf left join ais_mail_fmt_mn fmt on fmt.mail_fmt = rf.mail_fmt and fmt.athena_id = rf.athena_id
+                from
+                cntry_rf rf left join ais_mail_fmt_mn fmt on fmt.mail_fmt = rf.mail_fmt and fmt.athena_id = rf.athena_id
                 where rf.athena_id = ?
                 order by contry_cod
         ]]>
@@ -25,5 +26,17 @@
             CNTRY_RF.CONTRY_COD
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+    <!-- ['PMS0810060'] 取得國籍-->
+    <dao name="QRY_HFD_LIVE_COD_RF_CONTRY_COD">
+        <statement><![CDATA[
+            select contry_cod  as value, contry_nam as display
+            from cntry_rf
+            where athena_id = ?
+            order by contry_nam
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
     </dao>
 </root>

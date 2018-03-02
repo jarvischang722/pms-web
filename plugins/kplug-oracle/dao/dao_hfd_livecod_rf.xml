@@ -10,4 +10,23 @@
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
     </dao>
+
+    <!-- [PMS0210011 住客歷史資料編輯] 居住地選單 -->
+    <dao name="QRY_SEL_HFD_LIVE_COD_RF">
+        <statement><![CDATA[
+            SELECT  HFD_LIVECOD_RF.LIVE_COD,
+            HFD_LIVECOD_RF.LIVE_NAM,
+            HFD_LIVECOD_RF.LIVE_SNA,
+            CNTRY_RF.CONTRY_NAM
+            HFD_LIVECOD_RF.LIVE_COD || ':' || HFD_LIVECOD_RF.LIVE_NAM LIVECOD_DISPLAY
+            FROM  HFD_LIVECOD_RF, CNTRY_RF
+            WHERE  HFD_LIVECOD_RF.ATHENA_ID = CNTRY_RF.ATHENA_ID
+            AND  HFD_LIVECOD_RF.CONTRY_COD = CNTRY_RF.CONTRY_COD
+            AND  HFD_LIVECOD_RF.ATHENA_ID = :athena_id
+            ORDER  BY  HFD_LIVECOD_RF.VIEW_SEQ,
+            HFD_LIVECOD_RF.LIVE_COD
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
 </root>

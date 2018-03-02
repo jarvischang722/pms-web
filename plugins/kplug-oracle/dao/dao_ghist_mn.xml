@@ -69,18 +69,19 @@
         <parameter type="string" kind="3">gcust_cod</parameter>
     </dao>
 
-    <dao name="CHK_GHIST_MN_IS_EXIST">
+    <!-- [PMS0210011住客歷史資料] 輸入姓名或生日時，且姓名及生日皆有資料，系統檢查是否已存在相同住客歷史資料 -->
+    <dao name="CHK_ALT_NAM_IS_EXIST">
         <statement><![CDATA[
-            SELECT  COUNT(*) as ghist_mn_count  FROM  GHIST_MN
+            SELECT  COUNT(*) as alt_nam_count  FROM  GHIST_MN
             WHERE  ATHENA_ID = :athena_id
             AND  ALT_NAM = :alt_nam
-            AND  BIRTH_DAT = :birth_dat
+            AND  BIRTH_DAT = to_date(:birth_dat, 'YYYY/MM/DD')
             AND  ROWNUM <= 1
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">alt_nam</parameter>
-        <parameter type="date" kind="3">birth_dat</parameter>
+        <parameter type="string" kind="3">birth_dat</parameter>
     </dao>
 
     <!--PMS0210010 住客歷史 取得多筆資料-->

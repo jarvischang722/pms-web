@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0210011] 稱謂設定選單-->
+    <dao name="QRY_SEL_SALUTE_COD">
+        <statement><![CDATA[
+               SELECT  SALUTE_COD, SALUTE_NAM, MAN_FLAG, WOMAN_FLAG,
+               SALUTE_COD ||':'|| SALUTE_NAM SALUTE_DISPLAY
+               FROM  SALUTE_RF
+               WHERE  ATHENA_ID = :athena_id
+               ORDER  BY  SALUTE_COD
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+</root>

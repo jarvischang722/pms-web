@@ -215,3 +215,8 @@ function getlocaleContent(session, callback) {
     }
 }
 
+
+
+
+
+

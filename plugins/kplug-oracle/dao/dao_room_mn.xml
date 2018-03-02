@@ -182,4 +182,18 @@
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <!-- [PMS0210011] 房號選單-->
+    <dao name="QRY_SEL_ROOM_NOS">
+        <statement><![CDATA[
+            SELECT  ROOM_NOS value, ROOM_NOS display
+            FROM  ROOM_MN
+            WHERE  ATHENA_ID = :athena_id
+            AND trim(HOTEL_COD) = trim(:hotel_cod)
+            ORDER  BY  VIEW_SEQ, ROOM_NOS
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>
