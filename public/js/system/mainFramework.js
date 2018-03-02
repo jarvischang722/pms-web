@@ -190,12 +190,15 @@ var BacchusMainVM = new Vue({
                     ls_pro_url = tmpQuick.pro_url;
                 }
             }
-            // ls_pro_url = "/editPassword";
+            // ls_pro_url = "/PMS0700010";
             if (!_.isEmpty(ls_pro_url)) {
                 this.usingPrgID = prg_id;
                 $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
             }
 
+        },
+        loadQuickMenuProcess: function (prg_id) {
+            location.href = location.pathname + "?prg_id=" + prg_id;
         },
         /**
          * 做Table unlock

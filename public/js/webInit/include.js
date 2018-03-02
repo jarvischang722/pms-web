@@ -103,6 +103,21 @@ $(function () {
     // Run on window load in case images or other scripts affect element widths
 
 
+    // 修改高度低於540 帳號下拉問題
+    function password_down_Ht(){
+        let win_Ht = $(window).height();
+        if (win_Ht < 540) {
+            $('.dropdown-rz').addClass('dropdown-rz-sm');
+        }
+        else {
+            $('.dropdown-rz').removeClass('dropdown-rz-sm');
+        }
+    }
+    password_down_Ht();
+    $(window).resize(function() {
+        password_down_Ht();
+    });
+
 });
 
 

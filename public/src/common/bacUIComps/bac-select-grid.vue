@@ -1,5 +1,5 @@
 <template>
-    <input/>
+    <input v-bind='$attrs' v-on='$listeners'/>
 </template>
 
 <script>
@@ -75,17 +75,18 @@
         methods: {
             initComboGrid: function () {
                 let self = this;
-                let ln_panelWidth = this.getPanelWidth();
-
                 $(this.$el).combogrid({
-                    panelWidth: ln_panelWidth,
+                    panelWidth: self.getPanelWidth(),
                     multiple: this.multiple,
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
                     idField: this.idField,
                     textField: this.textField,
                     columns: [this.columns],
                     data: this.data,
-                    onChange: function (newValue, oldValue) {
+                    onChange: function (newValue) {
+                        if (self.$listeners.change != undefined) {
+                            self.$listeners.change();
+                        }
                         self.$emit('update:v-model', newValue);
                     }
                 });
@@ -108,25 +109,29 @@
                 if (ls_keyword == "") {
                     return false;
                 }
-                console.log(ls_keyword);
                 $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
                     $(self.$el).combogrid("loadData", items);
                 })
 
             },
-            //取得寬度
-            getPanelWidth: function(){
+            //取得SelectGrid寬度
+            getPanelWidth: function () {
                 let ln_panelWidth = 0;
                 if (this.columns.length > 0) {
-                    _.each(this.columns, (lo_columns) => {
-                        if (_.isUndefined(lo_columns.hidden)) {
-                            ln_panelWidth = ln_panelWidth + Number(lo_columns.width);
+                    ln_panelWidth = _.reduce(this.columns, function (sum, lo_column) {
+                        if (lo_column && _.isUndefined(lo_column.hidden) && !_.isUndefined(lo_column.width)) {
+                            return sum + Number(lo_column.width);
                         }
-                    });
+                        else {
+                            return sum;
+                        }
+                    }, 0)
                 }
-                if(!_.isUndefined(this.field.width)){
+
+                if (!_.isUndefined(this.field.width)) {
                     ln_panelWidth = ln_panelWidth > this.field.width ? ln_panelWidth : this.field.width;
                 }
+
                 return ln_panelWidth;
             }
         },

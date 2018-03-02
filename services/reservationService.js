@@ -3,6 +3,10 @@ const async = require("async");
 const ruleAgent = require("../ruleEngine/ruleAgent");
 const queryAgent = require("../plugins/kplug-oracle/QueryAgent");
 const moment = require("moment");
+const fs = require("fs");
+const tools = require('../utils/CommonTools');
+const sysConf = require("../configs/systemConfig");
+const alasql = require("alasql");
 
 exports.qryPageOneDataByRmTyp = function (postData, session, callback) {
     let ln_date_range = 20;
@@ -172,4 +176,269 @@ function convResvRmTypData(la_resvRmTypData) {
     };
 
     return {rmTypData: la_rmTypGroupByRmCod, color: la_color, calcAllRmData: lo_calcAllRmData};
+}
+
+exports.qryRmNosPageOneMap = async (postData, session) => {
+    let rmNosObj = new rmNosPageOneMap(postData, session);
+    try {
+        let lb_ps_result = await rmNosObj.callProcedure();
+        let lo_rmNosPageOneData = await rmNosObj.qryRmNosPageOneData();
+        let lo_convRmNosData = await rmNosObj.convRmNosData(lo_rmNosPageOneData);
+
+        return {success: true, data: lo_convRmNosData};
+    }
+    catch (error) {
+        return {success: false, errMsg: error.message};
+    }
+};
+
+class rmNosPageOneMap {
+    constructor(postData, session) {
+        this.postData = postData;
+        this.ln_date_range = 14;
+        this.qry_beg_dat = postData.begin_dat;
+        this.qry_end_dat = moment(postData.begin_dat).add(this.ln_date_range - 1, "d").format("YYYY/MM/DD");
+        this.userInfo = session.user;
+    }
+
+    /**
+     * 查詢下拉欄位資料格式轉換
+     */
+    convSearchFieldsData() {
+
+        if (!_.isUndefined(this.postData.room_cod)) {
+            this.postData.room_cod = "'" + this.postData.room_cod.join("','") + "'";
+        }
+        if (!_.isUndefined(this.postData.character_rmk)) {
+            this.postData.character_rmk = "'" + this.postData.character_rmk.join("','") + "'";
+        }
+        if (!_.isUndefined(this.postData.build_nos)) {
+            this.postData.build_nos = "'" + this.postData.build_nos.join("','") + "'";
+        }
+        if (!_.isUndefined(this.postData.floor_nos)) {
+            this.postData.floor_nos = "'" + this.postData.floor_nos.join("','") + "'";
+        }
+    }
+
+    /**
+     * 查詢房號資料
+     */
+    async callProcedure() {
+        this.convSearchFieldsData();
+        let lo_apiParam = {
+            "REVE-CODE": "PMS0110050",
+            hotel_cod: this.userInfo.hotel_cod,
+            athena_id: this.userInfo.athena_id,
+            program_id: "PMS0110050",
+            count: 1,
+            user: this.userInfo.usr_id,
+            func_id: "0100",
+            exec_data: {
+                "1": {
+                    athena_id: this.userInfo.athena_id,
+                    hotel_cod: this.userInfo.hotel_cod,
+                    usr_id: this.userInfo.usr_id,
+                    socket_id: this.postData.socket_id,
+                    begin_dat: this.postData.begin_dat,
+                    query_days: this.ln_date_range,
+                    room_cod: this.postData.room_cod || "",
+                    room_nos: this.postData.room_nos || "",
+                    character_rmk: this.postData.character_rmk || "",
+                    build_nos: this.postData.build_nos || "",
+                    floor_nos: this.postData.floor_nos || ""
+                }
+            }
+        };
+
+        return new Promise((resolve, reject) => {
+            tools.requestApi(sysConf.api_url, lo_apiParam, function (err, res, data) {
+                var errorMsg = "";
+                if (err || !data) {
+                    reject(err);
+                } else if (data["RETN-CODE"] != "0000") {
+                    errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
+                    console.error(errorMsg);
+                    reject({message: errorMsg});
+                } else {
+                    resolve(true);
+                }
+            });
+        });
+    }
+
+    /**
+     * 查詢DB: roomList, roomPeriod, roomUse
+     */
+    async qryRmNosPageOneData() {
+        let lo_params = {
+            athena_id: this.userInfo.athena_id,
+            hotel_cod: this.userInfo.hotel_cod,
+            usr_id: this.userInfo.usr_id,
+            socket_id: this.postData.socket_id
+        };
+        let [la_roomList, la_roomPeriod, la_roomUse] = await Promise.all([
+            //查房型資料
+            new Promise((resolve, reject) => {
+                queryAgent.queryList("QRY_ROOM_LIST", lo_params, 0, 0, function (err, data) {
+                    if (err) {
+                        reject({message: err});
+                    }
+                    else {
+                        resolve(data);
+                    }
+                });
+            }),
+            //查房型有效日
+            new Promise((resolve, reject) => {
+                queryAgent.queryList("QRY_ROOM_PERIOD", lo_params, 0, 0, function (err, data) {
+                    if (err) {
+                        reject({message: err});
+                    }
+                    else {
+                        _.each(data, function (lo_data) {
+                            lo_data.period_begin_dat = lo_data.begin_dat;
+                            lo_data.period_end_dat = lo_data.end_dat;
+                            delete lo_data.begin_dat;
+                            delete lo_data.end_dat;
+                        });
+                        resolve(data);
+                    }
+                });
+            }),
+            //查房型使用資料
+            new Promise((resolve, reject) => {
+                queryAgent.queryList("QRY_ROOM_USE", lo_params, 0, 0, function (err, data) {
+                    if (err) {
+                        reject({message: err});
+                    }
+                    else {
+                        _.each(data, function (lo_data) {
+                            lo_data.use_begin_dat = lo_data.begin_dat;
+                            lo_data.use_end_dat = lo_data.end_dat;
+                            delete lo_data.begin_dat;
+                            delete lo_data.end_dat;
+                        });
+                        resolve(data);
+                    }
+                });
+            })
+        ]);
+
+        return {roomList: la_roomList, roomPeriod: la_roomPeriod, roomUse: la_roomUse};
+    }
+
+    /**
+     * 資料轉換
+     * @param rmNosPageOneData {object} 房號資料
+     */
+    async convRmNosData(rmNosPageOneData) {
+        let self = this;
+        let ln_daysInMonth = moment(this.postData.begin_dat).daysInMonth();
+        let ln_begin_dat = moment(this.postData.begin_dat).date();
+        let ln_date_range = this.ln_date_range;
+        let lo_convData = {
+            date_range: {
+                begin_dat: ln_begin_dat,
+                end_dat: ln_begin_dat + ln_date_range - 1
+            },
+            roomNosData: []
+        };
+
+        //組合房型和有效日期資料
+        let la_rmNosData = alasql("select * from ? rmList " +
+            "left join ? rmPeriod on rmList.room_cod = rmPeriod.room_cod and rmList.room_nos = rmPeriod.room_nos", [rmNosPageOneData.roomList, rmNosPageOneData.roomPeriod]);
+
+        _.each(la_rmNosData, function (lo_rmNosData) {
+
+            let ln_period_begin_dat, ln_period_end_dat;
+            if (_.isUndefined(lo_rmNosData.period_begin_dat)) {
+                ln_period_begin_dat = ln_begin_dat;
+                ln_period_end_dat = ln_period_begin_dat + ln_date_range - 1;
+            }
+            else {
+                let ln_date_diff = moment(lo_rmNosData.period_end_dat).diff(moment(lo_rmNosData.period_begin_dat), "d");
+                ln_period_begin_dat = moment(lo_rmNosData.period_begin_dat).date();
+                ln_period_end_dat = ln_period_begin_dat + ln_date_diff;
+                if (ln_period_begin_dat < ln_begin_dat) {
+                    ln_period_begin_dat += ln_daysInMonth;
+                    ln_period_end_dat += ln_daysInMonth;
+                }
+            }
+
+            let la_rmUse = _.where(rmNosPageOneData.roomUse, {
+                room_cod: lo_rmNosData.room_cod,
+                room_nos: lo_rmNosData.room_nos
+            });
+            let la_room_use = [];
+            _.each(la_rmUse, function (lo_rmUse) {
+                let ln_use_begin_dat, ln_use_end_dat, ln_ci_dat, ln_co_dat;
+                //檢查use_begin_dat區間
+                if (moment(lo_rmUse.use_begin_dat).isBefore(self.qry_beg_dat)) {
+                    ln_use_begin_dat = ln_begin_dat - 1;
+                }
+                else if (moment(lo_rmUse.use_begin_dat).isAfter(self.qry_end_dat)) {
+                    ln_use_begin_dat = ln_begin_dat + ln_date_range;
+                }
+                else {
+                    ln_use_begin_dat = moment(lo_rmUse.use_begin_dat).date();
+                }
+
+                //檢查use_end_dat區間
+                if (moment(lo_rmUse.use_end_dat).isBefore(self.qry_beg_dat)) {
+                    ln_use_end_dat = ln_begin_dat - 1;
+                }
+                else if (moment(lo_rmUse.use_end_dat).isAfter(self.qry_end_dat)) {
+                    ln_use_end_dat = ln_begin_dat + ln_date_range;
+                }
+                else {
+                    let ln_use_date_diff = moment(lo_rmUse.use_end_dat).diff(moment(self.qry_beg_dat), "d");
+                    ln_use_end_dat = moment(self.qry_beg_dat).date() + ln_use_date_diff;
+                }
+
+                ln_ci_dat = moment(lo_rmUse.ci_dat).date();
+
+                //檢查co_dat區間
+                if (moment(lo_rmUse.co_dat).isAfter(self.qry_end_dat)) {
+                    ln_co_dat = ln_begin_dat + ln_date_range;
+                }
+                else if (moment(lo_rmUse.co_dat).isBefore(self.qry_beg_dat)) {
+                    ln_co_dat = ln_begin_dat - 1;
+                }
+                else{
+                    let ln_cico_date_diff = moment(lo_rmUse.co_dat).diff(moment(self.qry_beg_dat), "d");
+                    ln_co_dat = moment(self.qry_beg_dat).date() + ln_cico_date_diff;
+                }
+
+                la_room_use.push({
+                    use_typ: lo_rmUse.use_typ,
+                    use_rmk: lo_rmUse.use_rmk,
+                    begin_dat: ln_use_begin_dat,
+                    end_dat: ln_use_end_dat,
+                    ci_dat: ln_ci_dat,
+                    co_dat: ln_co_dat,
+                    ikey: lo_rmUse.ikey,
+                    ikey_seq_nos: lo_rmUse.ikey_seq_nos,
+                    ci_ser: lo_rmUse.ci_ser,
+                    tr_key_nos: lo_rmUse.tr_key_nos,
+                    dis_ci_dat: moment(lo_rmUse.ci_dat).format("YYYY/MM/DD"),
+                    dis_co_dat: moment(lo_rmUse.co_dat).format("YYYY/MM/DD")
+                })
+            });
+
+            // 不同房型有相同房號，房號顯示方式須改為: 房號+房型
+            let la_chkRoomNosRepeat = _.where(la_rmNosData, {room_nos: lo_rmNosData.room_nos});
+            let ls_room_nos = la_chkRoomNosRepeat.length > 1 ? lo_rmNosData.room_nos + lo_rmNosData.room_cod : lo_rmNosData.room_nos;
+
+            lo_convData.roomNosData.push({
+                room_cod: lo_rmNosData.room_cod,
+                room_nos: ls_room_nos,
+                room_sta: lo_rmNosData.clean_sta == "D" ? "Dirty" : "Clean",
+                begin_dat: ln_period_begin_dat,
+                end_dat: ln_period_end_dat,
+                room_use: _.clone(la_room_use)
+            })
+        });
+
+        return lo_convData;
+    }
 }

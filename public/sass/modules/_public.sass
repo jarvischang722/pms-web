@@ -70,6 +70,8 @@
   height: 60px
 .defHt
   height: $defHt
+.defLineHt
+  line-height: $defHt
 .selectHt
   height: $defHt - 1px
   padding: 0 3px
@@ -490,6 +492,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(736px)
   &.resvCard-col2Spec1
     +input-s1(258px)
+  &.resvCard-col2Spec2
+    +input-s1(214px)
   &.resvCard-col2Rm2
     +input-s1(278px)
   &.resvCard-full
@@ -506,6 +510,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(140px)
   &.resvCard-sm
     +input-s1(84px)
+  &.resvCard-sm-col2Rm
+    +input-s1(84px + 84px + $labelw -$rmW)
   &.resvCard-2sm
     +input-s1(102.5px)
   &.ca-select

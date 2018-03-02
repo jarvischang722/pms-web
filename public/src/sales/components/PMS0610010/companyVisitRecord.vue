@@ -16,20 +16,23 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth "
-                                            role="button" :disabled="BTN_action" @click="appendRow">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                            role="button" :disabled="BTN_action" @click="appendRow"
+                                            data-purview_func_id="PMS0610020-1090">
                                         {{i18nLang.program.PMS0620050.add_visit_mn}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth "
-                                            role="button" :disabled="BTN_action" @click="editRow">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                            role="button" :disabled="BTN_action" @click="editRow"
+                                            data-purview_func_id="PMS0610020-1100">
                                         {{i18nLang.program.PMS0620050.edit_vist_mn}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth"
-                                            role="button" :disabled="BTN_action" @click="removeRow">
+                                    <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
+                                            role="button" :disabled="BTN_action" @click="removeRow"
+                                            data-purview_func_id="PMS0610020-1110">
                                         {{i18nLang.program.PMS0620050.remove_visit_mn}}
                                     </button>
                                 </li>
@@ -84,6 +87,7 @@
         },
         data() {
             return {
+                go_funcPurview: [],
                 i18nLang: go_i18nLang,
                 isLoading: false,
                 BTN_action: false,
@@ -112,6 +116,7 @@
                 if (val) {
                     this.initData();
                     this.fetchFieldData();
+                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                 }
             },
             dataGridRowsData: {

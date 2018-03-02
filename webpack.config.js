@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const config = {
     entry: "./public/src/reservation/PMS0110010/PMS0110010.js",
-    // entry: "./public/src/sales/PMS0610010.js",
+    // entry: "./public/src/sales/PMS0610010/PMS0610010.js",
     // // entry: [
     // //     'webpack/hot/dev-server',
     // //     path.join(__dirname, 'public', 'src')

@@ -206,118 +206,65 @@ exports.getUnitSelect = function (params ,session, callback) {
  */
 exports.getCustInfo = function (params ,session, callback) {
 
-    var lo_error = null;
+    var selectDSFunc = [];
 
-    var lo_params = {
-        comp_cod: session.user.cmp_id,
-        cust_cod: params.singleData.cust_cod
-    };
-
-    queryAgent.query("QRY_CUST_INFO", lo_params, function (err, Result) {
-        if (!err) {
-            if(Result)
-                callback(lo_error, Result);
-            else
-                callback(lo_error, "");
+    //取得客戶資料
+    selectDSFunc.push(
+        function (cb) {
+            queryAgent.query("QRY_CUST_INFO", {comp_cod: session.user.cmp_id, cust_cod: params.singleData.cust_cod}, function (err, Result) {
+                cb(err, Result || "");
+            });
         }
-        else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
-        }
-    });
-};
+    );
 
-/**
- * 取得客戶住址
- * @param params
- * @param session
- * @param callback
- */
-exports.getCustAdd = function (params ,session, callback) {
-
-    var lo_error = null;
-
-    var lo_params = {
-        comp_cod: session.user.cmp_id
-    };
-
-    queryAgent.query("QRY_SHIP_ADD_COD", lo_params, function (err, Result) {
-        if (Result) {
-            var lo_params2 = {
-                cust_cod: params.singleData.cust_cod,
-                add_cod: Result.ship_add_cod
-            };
-
-            queryAgent.query("QRY_ADDRESS_DT_SELECT", lo_params2, function (err, Result) {
-                if (!err) {
-                    if(Result)
-                        callback(lo_error, Result);
-                    else
-                        callback(lo_error, "");
+    //取得客戶住址
+    selectDSFunc.push(
+        function (cb) {
+            queryAgent.query("QRY_SHIP_ADD_COD", {comp_cod: session.user.cmp_id}, function (err, Result) {
+                if(err){
+                    cb(err, Result || "");
                 }
                 else {
-                    lo_error = new ErrorClass();
-                    lo_error.errorMsg = err || "error";
-                    lo_error.errorCod = "1111";
-                    callback(lo_error, Result);
+                    queryAgent.query("QRY_ADDRESS_DT_SELECT", {cust_cod: params.singleData.cust_cod, add_cod: Result.ship_add_cod}, function (err, Result) {
+                        cb(err, Result || "");
+                    });
                 }
             });
         }
-        else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
-        }
-    });
+    );
 
-};
-
-/**
- * 取得客戶電話
- * @param params
- * @param session
- * @param callback
- */
-exports.getCustContact = function (params ,session, callback) {
-
-    var lo_error = null;
-
-    var lo_params = {
-        comp_cod: session.user.cmp_id
-    };
-
-    queryAgent.query("QRY_CONTACT_COD", lo_params, function (err, Result) {
-        if (Result) {
-
-            var lo_params2 = {
-                cust_cod: params.singleData.cust_cod,
-                contact_cod: Result.contact_cod
-            };
-
-            queryAgent.query("QRY_CONTACT_DT_SELECT", lo_params2, function (err, Result) {
-                if (!err) {
-                    if(Result)
-                        callback(lo_error, Result);
-                    else
-                        callback(lo_error, "");
+    selectDSFunc.push(
+        //取得客戶電話
+        function (cb) {
+            queryAgent.query("QRY_CONTACT_COD", {comp_cod: session.user.cmp_id}, function (err, Result) {
+                if (err) {
+                    cb(err, Result || "");
                 }
                 else {
-                    lo_error = new ErrorClass();
-                    lo_error.errorMsg = err || "error";
-                    lo_error.errorCod = "1111";
-                    callback(lo_error, Result);
+                    queryAgent.query("QRY_CONTACT_DT_SELECT", { cust_cod: params.singleData.cust_cod, contact_cod: Result.contact_cod}, function (err, Result) {
+                        if(Result == null){
+                            cb(err, {cust_tel: null});
+                        }
+                        else {
+                            cb(err, Result || "");
+                        }
+                    });
                 }
             });
         }
-        else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+    );
+
+    async.parallel(selectDSFunc, function (err, result) {
+        var errorMsg = null;
+        var lo_result = {};
+        _.each(result, function (value) {
+           lo_result = _.extend(lo_result, value);
+        });
+
+        if(err != null){
+            errorMsg = err.message;
         }
+        callback(errorMsg, lo_result);
     });
 
 };
@@ -1027,7 +974,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         _.each(obj.tenKDosage, function (item) {
             if(item.taxcomp_cod.length != 5){
-                ls_error_Msg += "tenKDosage[" + count + "]的格式有誤。(欄位長度不符)\r\n";
+                ls_error_Msg += "tenKDosage[" + count + "]的欄位taxcomp_cod長度須為5\r\n";
                 lb_check = false;
             }
             count += 1;
@@ -1037,11 +984,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         _.each(obj.transferDt, function (item) {
             if(item.otaxcomp_cod.length != 5){
-                ls_error_Msg += "transferDt[" + count + "]的格式有誤。(欄位長度不符)\r\n";
-                lb_check = false;
-            }
-            if(item.itaxcomp_cod.length != 5){
-                ls_error_Msg += "transferDt[" + count + "]的格式有誤。(欄位長度不符)\r\n";
+                ls_error_Msg += "transferDt[" + count + "]的欄位otaxcomp_cod長度須為5\r\n";
                 lb_check = false;
             }
             count += 1;
@@ -1068,8 +1011,9 @@ exports.PSI0000001 = function (params ,session, callback) {
             });
         }
         else{
+            console.log(ls_error_Msg);
             var RESPONSE = {
-                "RETN-CODE": "0822",
+                "RETN-CODE": "9999",
                 "RETN-CODE-DESC": ls_error_Msg
             };
             callback(RESPONSE);
@@ -1077,9 +1021,10 @@ exports.PSI0000001 = function (params ,session, callback) {
     }
     catch (ex)
     {
+        console.log(ex.message);
         var RESPONSE = {
-            "RETN-CODE": "0822",
-            "RETN-CODE-DESC": "資料有誤"
+            "RETN-CODE": "9999",
+            "RETN-CODE-DESC": ex.message
         };
         callback(RESPONSE);
     }
@@ -1139,7 +1084,7 @@ exports.PSI0000002 = function (params ,session, callback) {
 
         _.each(obj.salseRevenue, function (item) {
             if(item.taxcomp_cod.length != 5){
-                ls_error_Msg += "salseRevenue[" + count + "]的格式有誤。(欄位長度不符)\r\n";
+                ls_error_Msg += "salseRevenue[" + count + "]的欄位taxcomp_cod長度須為5\r\n";
                 lb_check = false;
             }
             count += 1;
@@ -1166,8 +1111,9 @@ exports.PSI0000002 = function (params ,session, callback) {
             });
         }
         else{
+            console.log(ls_error_Msg);
             var RESPONSE = {
-                "RETN-CODE": "0822",
+                "RETN-CODE": "9999",
                 "RETN-CODE-DESC": ls_error_Msg
             };
             callback(RESPONSE);
@@ -1175,9 +1121,10 @@ exports.PSI0000002 = function (params ,session, callback) {
     }
     catch (ex)
     {
+        console.log(ex.message);
         var RESPONSE = {
-            "RETN-CODE": "0822",
-            "RETN-CODE-DESC": "資料有誤"
+            "RETN-CODE": "9999",
+            "RETN-CODE-DESC": ex.message
         };
         callback(RESPONSE);
     }
@@ -1283,8 +1230,9 @@ exports.PSI0000003 = function (params ,session, callback) {
             });
         }
         else{
+            console.log(ls_error_Msg);
             var RESPONSE = {
-                "RETN-CODE": "0822",
+                "RETN-CODE": "9999",
                 "RETN-CODE-DESC": ls_error_Msg
             };
             callback(RESPONSE);
@@ -1292,9 +1240,10 @@ exports.PSI0000003 = function (params ,session, callback) {
     }
     catch (ex)
     {
+        console.log(ex.message);
         var RESPONSE = {
-            "RETN-CODE": "0822",
-            "RETN-CODE-DESC": "資料有誤"
+            "RETN-CODE": "9999",
+            "RETN-CODE-DESC": ex.message
         };
         callback(RESPONSE);
     }

@@ -1,5 +1,5 @@
 <template>
-    <input/>
+    <input v-bind='$attrs' v-on='$listeners'/>
 </template>
 
 <script>
@@ -40,7 +40,7 @@
             //欄位屬性
             field: {
                 type: Object,
-                default: function(){
+                default: function () {
                     return {};
                 }
             }
@@ -56,7 +56,7 @@
         },
         watch: {
             //塞入預設值
-            defaultVal: function(val){
+            defaultVal: function (val) {
                 this.$emit('update:v-model', this.defaultVal);
                 $(this.$el).combobox('setValue', val);
             }
@@ -70,7 +70,10 @@
                     textField: this.textField,
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
                     data: this.data,
-                    onChange: function (newValue, oldValue) {
+                    onChange: function (newValue) {
+                        if (self.$listeners.change != undefined) {
+                            self.$listeners.change();
+                        }
                         self.$emit('update:v-model', newValue);
                     },
                     onLoadSuccess: function () {
@@ -89,12 +92,11 @@
                 });
             },
             searchRemoteSrc: function (keyword) {
-                var ls_keyword = keyword || '';
-                var self = this;
+                let ls_keyword = keyword || '';
+                let self = this;
                 if (ls_keyword == "") {
                     return false;
                 }
-                console.log(ls_keyword);
                 $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
                     $(self.$el).combobox("loadData", items);
                 })

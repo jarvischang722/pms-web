@@ -51,17 +51,7 @@ exports.getQueryResult = function (req, res) {
             break;
         case "getCustInfo":
             PSIWService.getCustInfo(req.body, req.session, function (err, result) {
-                res.json({data: result, error: err});
-            });
-            break;
-        case "getCustAdd":
-            PSIWService.getCustAdd(req.body, req.session, function (err, result) {
-                res.json({data: result, error: err});
-            });
-            break;
-        case "getCustContact":
-            PSIWService.getCustContact(req.body, req.session, function (err, result) {
-                res.json({data: result, error: err});
+                res.json({data: result, errorMsg: err});
             });
             break;
         case "getPeriod":
@@ -134,6 +124,8 @@ exports.dominosWebService = function (req, res) {
     req.session.ip = ip.substr(ip.lastIndexOf(':') + 1);
 
     var trans_cod = req.params.trans_cod;
+
+    console.log("transCod :" + trans_cod + ", sendData : " + req.body.data);
 
     switch (trans_cod)
     {
