@@ -5,8 +5,6 @@
  */
 var vmHub = new Vue();
 
-var go_funcPurview = (new FuncPurview("PMS0620010")).getFuncPurvs();
-
 /** DatagridRmSingleGridClass **/
 function DatagridSingleGridClass() {
 }
@@ -28,6 +26,7 @@ var PMS0620020App = Vue.extend({
     props: ["singleData", "isModifiable", "editStatus", "createStatus"],
     data: function () {
         return {
+            go_funcPurview: [],
             dgHoatelDt: {},
             dgClassHs: {},
             gs_active: "", //正在使用 hotelDt(館別)| classHs(組別異動紀錄),
@@ -49,8 +48,8 @@ var PMS0620020App = Vue.extend({
             loadingText: "",
             isLoadingDialog: "",
             BTN_action: false,
-            hotelDtRow: 0,
-            isSaveEnable: false
+            isAction: false,
+            hotelDtRow: 0
         };
     },
     created: function () {
@@ -62,7 +61,6 @@ var PMS0620020App = Vue.extend({
 
             self.rowData = _.extend(self.rowData, chooseData);
         });
-        this.initPurview();
     },
     mounted: function () {
         this.gs_active = "hotelDt";
@@ -95,25 +93,18 @@ var PMS0620020App = Vue.extend({
             },
             deep: true
         },
-        isSaveEnable: function (val) {
-            var purview = _.findIndex(go_funcPurview, function (value) {
-                return value.func_id == "0500";
-            });
-            if (purview == -1) {
-                this.isSaveEnable = true;
+        editStatus: function(val){
+            if(val){
+                this.go_funcPurview = (new FuncPurview("PMS0620020")).getFuncPurvs();
+            }
+        },
+        createStatus: function(val){
+            if(val){
+                this.go_funcPurview = (new FuncPurview("PMS0620020")).getFuncPurvs();
             }
         }
     },
     methods: {
-        initPurview: function () {
-            var purview;
-            purview = _.findIndex(go_funcPurview, function (value) {
-                return value.func_id == "0500";
-            });
-            if (purview == -1) {
-                this.isSaveEnable = true;
-            }
-        },
         showDropdownDisplayName: function (val, selectData) {
             if (_.findIndex(selectData, {value: val}) > -1) {
                 return _.findWhere(selectData, {value: val}).display;
@@ -215,7 +206,6 @@ var PMS0620020App = Vue.extend({
             $.post("/api/sales/qrySingleGridFieldData_PM0620020", {prg_id: "PMS0620020"}, function (result) {
                 self.originFieldData = result.salesMnField;
                 self.fieldData = _.values(_.groupBy(_.sortBy(self.originFieldData, "row_seq"), "row_seq"));
-                console.log(self.fieldData);
                 self.hotelDtFieldData = result.hotelDtField;
                 self.classHsFieldData = result.classHsField;
                 self.classCodSelectData = _.findWhere(self.originFieldData, {ui_field_name: "class_cod"}).selectData;
@@ -327,14 +317,17 @@ var PMS0620020App = Vue.extend({
             this.dgClassHs.loadDgData(this.classHsRowData);
 
         },
-        appendDtRow: function () {
+        appendDtRow: function (event) {
             var self = this;
-            this.BTN_action = true;
-            this.dgHoatelDt.appendRow(function (result) {
-                if (result) {
-                    self.BTN_action = false;
-                }
-            });
+            //壤使用者操作紀錄可執行
+            setTimeout(function(){
+                self.BTN_action = true;
+                self.dgHoatelDt.appendRow(function (result) {
+                    if (result) {
+                        self.BTN_action = false;
+                    }
+                });
+            }, 100);
 
         },
         removeDtRow: function () {
@@ -623,11 +616,14 @@ var vm = new Vue({
         "single-grid-pms0620020-tmp": PMS0620020App
     },
     mounted: function () {
+        this.go_funcPurview = (new FuncPurview("PMS0620010")).getFuncPurvs();
+        console.log(this.go_funcPurview);
         this.initTmpCUD();
         this.fetchUserInfo();
         this.loadDataGridByPrgID();
     },
     data: {
+        go_funcPurview: [],
         userInfo: {},
         tmpCud: {
             createData: [],
@@ -672,6 +668,14 @@ var vm = new Vue({
         BTN_action: false
 
     },
+    watch: {
+        editingRow:function(val){
+            if(_.isEmpty(val)){
+                this.go_funcPurview = (new FuncPurview("PMS0620010")).getFuncPurvs();
+                console.log(this.go_funcPurview);
+            }
+        }
+    },
     methods: {
         fetchUserInfo: function () {
             $.post('/api/getUserInfo', function (result) {
@@ -699,7 +703,6 @@ var vm = new Vue({
                 vm.pageOneDataGridRows = result.dgRowData;
                 vm.pageOneFieldData = JSON.parse(JSON.stringify(result.dgFieldsData));
                 vm.showDataGrid();
-                console.log(result.dgFieldsData);
             });
         },
         showDataGrid: function () {

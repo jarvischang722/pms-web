@@ -117,7 +117,6 @@
         watch: {
             isEditSalesClerk(val) {
                 if (val) {
-                    this.initAllAuthBtn();
                     this.initData();
                     this.fetchSingleGridFieldData();
                     this.go_funcPurview = (new FuncPurview("PMS0620030")).getFuncPurvs();
@@ -126,12 +125,6 @@
             }
         },
         methods: {
-            initAllAuthBtn() {
-                $(".purview_btn").each(function () {
-                    var purview_func_id = $(this).data("purview_func_id");
-                    $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", false);
-                });
-            },
             initPurview() {
                 var purview = _.findIndex(this.go_funcPurview, function (value) {
                     return value.func_id == "0500";

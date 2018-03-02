@@ -182,8 +182,8 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-white btn-defaultWidth "
-                                            role="button" @click="doChangeCreditLimit">
+                                    <button class="btn btn-primary btn-white btn-white btn-defaultWidth purview_btn"
+                                            role="button" @click="doChangeCreditLimit" data-purview_func_id="PMS0610020-1030">
                                         {{i18nLang.program.PMS0610020.change_credit_limit}}
                                     </button>
                                 </li>
@@ -206,6 +206,7 @@
         components: {Treeselect},
         data() {
             return {
+                go_funcPurview: [],
                 i18nLang: go_i18nLang,
                 userInfo: {},
                 isLoading: false,
@@ -228,6 +229,7 @@
         watch: {
             isRelatedSetting(val) {
                 if (val) {
+                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                     this.initData();
                     this.fetchFieldData();
                 }
