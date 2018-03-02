@@ -124,7 +124,8 @@ exports.sel_alt_nam = function(session, callback){
                 columns: [
                     {
                         field: "show_cod",
-                        title: localContent.program.RS0W212010.show_cod,
+                        title: commandRules.getColumnByNam("PMS0620020_user_nos", session.locale),
+                        //title: localContent.program.RS0W212010.show_cod,
                         width: 100
                     },
                     {

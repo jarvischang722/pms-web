@@ -914,9 +914,9 @@ let singlePage = Vue.extend({
          * 客戶姓名 Change Event
          */
         altNamOnChange: function () {
-            var self = this;
+            let self = this;
 
-            var lo_selectItem = _.find(self.selectgridOptions.alt_nam.selectData, {alt_nam: self.singleData.alt_nam});
+            let lo_selectItem = _.find(self.selectgridOptions.alt_nam.selectData, {alt_nam: self.singleData.alt_nam});
             $.post("/reserveBanquet/qry_bqcust_mn", {cust_cod: lo_selectItem.cust_cod}, function (result) {
 
                 //帶回前先將舊值清掉
@@ -949,8 +949,8 @@ let singlePage = Vue.extend({
          * 聯絡人 Change Event
          */
         attenNamOnChange: function () {
-            var self = this;
-            var lo_selectItem = _.find(self.selectgridOptions.atten_nam.selectData, {atten_nam: self.singleData.atten_nam});
+            let self = this;
+            let lo_selectItem = _.find(self.selectgridOptions.atten_nam.selectData, {atten_nam: self.singleData.atten_nam});
             self.singleData = _.extend(self.singleData, lo_selectItem);
         },
 
@@ -1504,7 +1504,7 @@ Vue.component('text-select-grid-dialog-tmp', {
             let textDataGridArray = Object.keys(textDataGrid).map(function (key) {
                 return textDataGrid[key];
             });
-            for (var col in textDataGrid[0]) {
+            for (let col in textDataGrid[0]) {
                 _.each(fieldNameChangeLanguage, function (name, field) {
                     if (col == field) {
                         columnsData.push({
