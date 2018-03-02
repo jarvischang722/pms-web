@@ -71,10 +71,10 @@
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
                     data: this.data,
                     onChange: function (newValue) {
+                        self.$emit('update:v-model', newValue);
                         if (self.$listeners.change != undefined) {
                             self.$listeners.change();
                         }
-                        self.$emit('update:v-model', newValue);
                     },
                     onLoadSuccess: function () {
                     }
