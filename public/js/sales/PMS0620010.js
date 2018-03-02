@@ -343,7 +343,7 @@ let PMS0620020App = Vue.extend({
                     vm.openChangeLogDialog = true;
                     vm.allChangeLogList = result.allChangeLogList;
                 }
-            });let
+            });
         },
         closeSingleGridDialog: function () {
             vm.editingRow = {};
