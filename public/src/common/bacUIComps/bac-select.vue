@@ -72,9 +72,11 @@
                     data: this.data,
                     onChange: function (newValue) {
                         self.$emit('update:v-model', newValue);
-                        if (self.$listeners.change != undefined) {
-                            self.$listeners.change();
-                        }
+                        setTimeout(function () {
+                            if (self.$listeners.change != undefined) {
+                                self.$listeners.change();
+                            }
+                        }, 200);
                     },
                     onLoadSuccess: function () {
                     }
