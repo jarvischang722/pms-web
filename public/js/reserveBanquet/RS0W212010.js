@@ -916,11 +916,9 @@ var singlePage = Vue.extend({
          * 客戶姓名 Change Event
          */
         altNamOnChange: function () {
-
             var self = this;
 
             var lo_selectItem = _.find(self.selectgridOptions.alt_nam.selectData, {alt_nam: self.singleData.alt_nam});
-
             $.post("/reserveBanquet/qry_bqcust_mn", {cust_cod: lo_selectItem.cust_cod}, function (result) {
 
                 //帶回前先將舊值清掉
