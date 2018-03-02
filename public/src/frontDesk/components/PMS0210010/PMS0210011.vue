@@ -21,6 +21,55 @@
                                         <div class="row">
                                             <!--content-col-4-->
                                             <div class="main-content-data">
+                                                <div class="grid" v-for="fields in profileFieldData">
+                                                    <div class="grid-item" v-for="field in fields">
+                                                        <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
+                                                               :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
+                                                            <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                            <span>{{ field.ui_display_name }}</span>
+                                                        </label>
+
+                                                        <input type="text" v-model="singleData[field.ui_field_name]"
+                                                               v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
+                                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                               :required="field.requirable == 'Y'" min="0"
+                                                               :maxlength="field.ui_field_length"
+                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                               :disabled="field.modificable == 'N'||
+                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+
+                                                        <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                    v-model="singleData[field.ui_field_name]" :data="field.selectData"
+                                                                    is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                    :default-val="singleData[field.ui_field_name] || field.defaultVal"
+                                                                    :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                        </bac-select>
+
+                                                        <input type="text" v-model="singleData[field.ui_field_name]"
+                                                               v-if="field.visiable == 'Y' && field.ui_type == 'number'"
+                                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                               :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                                               :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+
+                                                        <!-- 日期時間選擇器 -->
+                                                        <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
+                                                                        v-model="singleData[field.ui_field_name]" type="datetime"
+                                                                        change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                        :disabled="field.modificable == 'N'||
+                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                                        size="small" format="yyyy/MM/dd HH:mm:ss"
+                                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                        </el-date-picker>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="main-content-data">
                                                 <!--1-->
                                                 <div class="grid">
                                                     <div class="grid-item">
@@ -351,17 +400,14 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div id="visitsPanel" v-show="tabName=='visits'" class="padding-tabs">
+                                <div id="visitsPanel" v-show="tabName=='visits'" class="">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
                                             <div class="reserveShopInfo">
-                                                <p class="title">預約來館資料</p>
-                                                <!--預約來館資料table-->
-                                                <table id="reserveShopInfo_dg" style="height: 200px; width: 100%;"></table>
-
-                                                <p class="title">住客來訪歷史</p>
-                                                <!--住客歷史來訪table-->
-                                                <table id="guestVisitHistory_dg" style="height: 200px; width: 100%;"></table>
+                                                <visits-panel
+                                                        :row-data="rowData"
+                                                        :is-visits-panel="tabName=='visits'"
+                                                ></visits-panel>
                                             </div>
                                             <div class="clearfix"></div>
 
@@ -660,7 +706,9 @@
 <script>
     import otherConnect from './otherContact';
     import lostAndFound from './lostAndFound';
+    import visitsPanel from './visitsPanel';
     import _s from 'underscore.string';
+    import moment from 'moment';
 
     /** DatagridRmSingleGridClass **/
     function DataGridSingleGridClass() {
@@ -677,7 +725,7 @@
     export default {
         name: 'pms0210011',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
-        components: {otherConnect, lostAndFound},
+        components: {otherConnect, lostAndFound, visitsPanel},
         mounted() {
             this.isLoadingDialog = true;
             this.loadingText = "Loading...";
@@ -687,23 +735,16 @@
                 i18nLang: go_i18nLang,//多語系資料
                 isLoadingDialog: false,//是否載入成功
                 loadingText: "",//載入的提示文字
-                rentCalDat: "",//滾房租日
-                profileSingleData: {}, //基本資料 單筆資料
-                profileOriSingleData: {}, //基本資料 原始單筆資料
+                singleData: {}, //基本資料 單筆資料
+                oriSingleData: {}, //基本資料 原始單筆資料
                 profileFieldData: [], //基本資料 欄位資料
                 profileOriFieldsData: [], //基本資料 原始欄位資料
-                shopInfoRows: [], //來館資料 預約來館資料
-                shopInfoFieldsData: [], //來館資料 預約來館欄位資料
-                visitHistoryRows: [], //來館資料 住客來訪歷史資料
-                visitHistoryFieldsData: [], //來館資料 住客來訪歷史欄位資料
-                shopInfoDgIns: {},
-                visitHistoryDgIns: {},
                 tabPageId: 1,
                 tabName: "", //頁籤名稱
                 panelName: ["profilePanel", "visitsPanel", "referencePanel"], //頁籤內容名稱
                 tabStatus: {isProfile: false, isVisits: false, isReference: false}, //現在頁籤狀況
                 isOtherContact: false, //是否開啟other contact
-                isLostAndFound: false //是否開啟lost&found
+                isLostAndFound: false  //是否開啟lost&found
             }
         },
         watch: {
@@ -719,11 +760,6 @@
             },
         },
         methods: {
-            fetchRentCalDat() {
-                $.post('/api/qryRentCalDat', {}, (result) => {
-                    this.rentCalDat = result.rent_cal_dat;
-                });
-            },
             initData() {
                 this.tabPageOneSingleData = {};
                 this.tabPageOneOriSingleData = {};
@@ -774,11 +810,10 @@
                     tab_page_id: 1,
                     template_id: 'gridsingle'
                 }, function (result) {
-                    self.profileFieldData = result.gsFieldsData;
-                    self.profileOriFieldsData = _.values(_.groupBy(_.sortBy(self.profileFieldData, "col_seq"), "row_seq"));
+                    self.profileOriFieldsData =  result.gsFieldsData;
+                    self.profileFieldData = _.values(_.groupBy(_.sortBy(self.profileOriFieldsData, "col_seq"), "row_seq"));
+                    console.log(self.profileFieldData);
                     self.fetchProfileRowData();
-                    console.log(self.profileOriFieldsData);
-
                 });
             },
             fetchProfileRowData() {
@@ -788,10 +823,9 @@
                         page_id: 1,
                         tab_page_id: 1
                     }).then(result => {
-                        this.profileSingleData = result.gsDefaultData;
-                        this.profileOriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
+                        this.singleData = result.gsDefaultData;
+                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
                         this.setGlobalGcustCod();
-                        this.fetchShopInfoFieldData();
                     });
                 }
                 else if (this.isEditStatus) {
@@ -802,47 +836,11 @@
                         template_id: "gridsingle",
                         searchCond: {gcust_cod: this.rowData.gcust_cod}
                     }).then(result => {
-                        this.profileSingleData = result.gsMnData.rowData[0];
-                        this.profileOriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        this.singleData = result.gsMnData.rowData[0];
+                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.setGlobalGcustCod();
-                        this.fetchShopInfoFieldData();
                     });
                 }
-            },
-            fetchShopInfoFieldData() {
-                $.post("/api/fetchDataGridFieldData", {
-                    prg_id: "PMS0210011",
-                    tab_page_id: 21,
-                    searchCond: {gcust_cod: this.$store.state.gs_gcustCod, rent_cal_dat: this.rentCalDat}
-                }).then(result => {
-                    this.shopInfoFieldsData = result.dgFieldsData;
-                    this.shopInfoRows = result.dgRowData;
-                    this.showShopInfoDataGrid();
-                    this.fetchVisitHistoryFieldData();
-                });
-            },
-            fetchVisitHistoryFieldData() {
-                $.post("/api/fetchDataGridFieldData", {
-                    prg_id: "PMS0210011",
-                    tab_page_id: 22,
-                    searchCond: {gcust_cod: this.$store.state.gs_gcustCod}
-                }).then(result => {
-                    this.visitHistoryFieldsData = result.dgFieldsData;
-                    this.visitHistoryRows = result.dgRowData;
-                    this.showVisitHistoryDataGrid();
-                    this.tabName = "profile";
-                });
-            },
-            showShopInfoDataGrid() {
-                this.shopInfoDgIns = new DataGridSingleGridClass();
-                this.shopInfoDgIns.init("PMS0210011", "reserveShopInfo_dg", DatagridFieldAdapter.combineFieldOption(this.shopInfoFieldsData, "reserveShopInfo_dg"), this.shopInfoFieldsData);
-                this.shopInfoDgIns.loadDgData(this.shopInfoRows);
-            },
-            showVisitHistoryDataGrid() {
-                this.visitHistoryDgIns = new DataGridSingleGridClass();
-                this.visitHistoryDgIns.init("PMS0210011", "guestVisitHistory_dg", DatagridFieldAdapter.combineFieldOption(this.visitHistoryFieldsData, "guestVisitHistory_dg"), this.visitHistoryFieldsData);
-                this.visitHistoryDgIns.loadDgData(this.visitHistoryRows);
-                this.isLoading = false;
             },
             //開啟other contact 跳窗
             otherContact() {
