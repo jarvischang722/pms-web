@@ -35,22 +35,22 @@ exports.multiLangFieldContentByKey = function (req, res) {
  * 取得目前語系對應檔內容
  */
 exports.getLocaleContent = function (req, res) {
-    var appRootPath = require('app-root-path').path;
-    var localeContent = {};
-    var localesPath = appRootPath + "/locales/";
-
-    try{
-        fs.exists(localesPath + req.session.locale.toLowerCase() + ".json", function (isExist) {
+    let appRootPath = require('app-root-path').path;
+    let localeContent = {};
+    let ls_localesPath = appRootPath + "/locales/";
+    let ls_locale = req.cookies.locale.toLowerCase();
+    try {
+        fs.exists(ls_localesPath + ls_locale + ".json", function (isExist) {
             if (isExist) {
-                localeContent = require(localesPath + req.session.locale.toLowerCase() + ".json");
+                localeContent = require(ls_localesPath + ls_locale + ".json");
             } else {
-                console.error("找不到多語系對應檔案[" + localesPath + req.session.locale.toLowerCase() + ".json" + "]");
-                localeContent = require(localesPath + "en.json");
+                console.error("找不到多語系對應檔案[" + ls_localesPath + ls_locale + ".json" + "]");
+                localeContent = require(ls_localesPath + "en.json");
             }
             res.json({success: true, localeContent: localeContent});
         });
     }
-    catch(ex) {
+    catch (ex) {
         console.error(ex);
     }
 

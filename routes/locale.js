@@ -20,6 +20,6 @@ module.exports = function (app) {
     app.post('/api/multiLangFieldContentByKey', apiMiddles, langCrtl.multiLangFieldContentByKey);
 
     //取得i18n 語系對應檔內容
-    app.post('/api/getLocaleContent', apiMiddles, langCrtl.getLocaleContent);
+    app.post('/api/getLocaleContent', langCrtl.getLocaleContent);
 
 };

@@ -54,7 +54,7 @@
                                     <ul>
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                                    role="button" @click="doEditSales" :disabled="isSaveEnable"
+                                                    role="button" @click="doEditSales"
                                                     data-purview_func_id="PMS0620030-0500">
                                                 {{i18nLang.SystemCommon.OK}}
                                             </button>
