@@ -28,6 +28,13 @@ dist:   /path/to/bacchus4web/public/js/common/BacUIComps.js
 | field             | Object  | {}      | Y     | 欄位屬性               |
 | default-val       | String  | Number  | Array | 預設值                |
 | data              | Array   | []      | N     | 下拉選單資料             |
+
+#### Events: 
+
+|   事件    |  參數  |   說明   |
+| :-----: | :--: | :----: |
+| @change | none | 選到值後觸發 |
+
 #### Usage: 
 
 ```
@@ -53,7 +60,11 @@ is-qry-src-before="Y" value-field="id" text-field="text"
 | data              | Array   | []      | N     | 下拉選單資料                                   |
 | columns           | Array   | []      | N     | 下拉Datagrid 欄位屬性 [{**field**, **title**, **width**},...,{}] |
 
+#### Events: 
 
+|   事件    |  參數  |   說明   |
+| :-----: | :--: | :----: |
+| @change | none | 選到值後觸發 |
 
 #### Usage: 
 ```
