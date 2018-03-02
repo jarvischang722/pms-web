@@ -114,6 +114,97 @@ exports.qry_user_nos_column = function(session, callback){
     callback(null, lo_result);
 };
 
+exports.sel_alt_nam = function(session, callback){
+    getlocaleContent(session, function(err, localContent){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let lo_result = {
+                columns: [
+                    {
+                        field: "show_cod",
+                        title: localContent.program.RS0W212010.show_cod,
+                        width: 100
+                    },
+                    {
+                        field: "alt_nam",
+                        title: localContent.program.RS0W212010.alt_nam,
+                        width: 100
+                    },
+                    {
+                        field: "contact_rmk",
+                        title: localContent.program.RS0W212010.contact_rmk,
+                        width: 100
+                    },
+                    {
+                        field: "first_nam",
+                        title: localContent.program.RS0W212010.first_nam,
+                        width: 100
+                    },
+                    {
+                        field: "last_nam",
+                        title: localContent.program.RS0W212010.last_nam,
+                        width: 100
+                    },
+                    {
+                        field: "cust_typ",
+                        title: localContent.program.RS0W212010.cust_typ,
+                        width: 100
+                    },
+                    {
+                        field: "cust_sta",
+                        title: localContent.program.RS0W212010.cust_sta,
+                        width: 100
+                    },
+                    {
+                        field: "cust_cod",
+                        title: localContent.program.RS0W212010.cust_cod,
+                        width: 0,
+                        hidden: true
+                    }
+                ],
+                display: "alt_nam",
+                value: "alt_nam"
+            };
+            callback(null, lo_result);
+        }
+    });
+};
+
+exports.sel_atten_nam = function(session, callback){
+    getlocaleContent(session, function(err, localContent){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let lo_result = {
+                columns: [
+                    {
+                        field: "atten_nam",
+                        title: localContent.program.RS0W212010.atten_nam,
+                        width: 100
+                    },
+                    {
+                        field: "role_rmk",
+                        title: localContent.program.RS0W212010.role_rmk,
+                        width: 100
+                    },
+                    {
+                        field: "tel_nos",
+                        title: localContent.program.RS0W212010.tel_nos,
+                        width: 100
+                    }
+                ],
+                display: "atten_nam",
+                value: "atten_nam"
+            };
+            callback(null, lo_result);
+        }
+    });
+};
+
+
 function getlocaleContent(session, callback) {
     var localeContent = {};
     var appRootPath = require('app-root-path').path;

@@ -229,6 +229,20 @@
       "add_visit_mn": "新增拜訪紀錄",
       "edit_vist_mn": "修改拜訪紀錄",
       "remove_visit_mn": "刪除拜訪紀錄"
+    },
+    "RS0W212010": {
+      "show_cod": "客戶代號",
+      "alt_nam": "客戶姓名",
+      "contact_rmk": "聯絡電話",
+      "first_nam": "First Name",
+      "last_nam": "Last Name",
+      "cust_typ": "客戶類別",
+      "cust_sta": "客戶狀態",
+      "cust_cod": "客戶代號",
+      "atten_nam": "名稱",
+      "role_rmk": "職稱",
+      "tel_nos": "電話"
+
     }
   },
   "table_in_use": "%s 使用中",
