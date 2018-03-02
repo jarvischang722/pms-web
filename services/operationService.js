@@ -21,11 +21,15 @@ exports.fetchDgFieldData = function (postData, session, callback) {
         fetchFieldsResult: lo_dgProc.fetchDgFieldsData,   //取多筆欄位資料
         fetchRowsResult: lo_dgProc.fetchDgRowData      //取多筆資料
     }, function (err, result) {
-        let lo_rtnData = {
-            searchFields: result.fetchFieldsResult.searchFields,
-            dgFieldsData: result.fetchFieldsResult.dgFieldsData,
-            dgRowData: result.fetchRowsResult
-        };
+        let lo_rtnData = {};
+        if (!err) {
+            lo_rtnData = {
+                searchFields: result.fetchFieldsResult.searchFields,
+                dgFieldsData: result.fetchFieldsResult.dgFieldsData,
+                dgRowData: result.fetchRowsResult
+            };
+        }
+
         callback(err, lo_rtnData);
     });
 };
@@ -41,10 +45,14 @@ exports.fetchGsFieldData = function (postData, session, callback) {
         gsMnData: lo_gsProc.fetchGsMnData,
         gsDtData: lo_dgProc.fetchDgData
     }, function (err, result) {
-        let lo_rtnData = {
-            gsMnData: result.gsMnData,
-            gsDtData: result.gsDtData
-        };
+        let lo_rtnData = {};
+        if(!err){
+            lo_rtnData = {
+                gsMnData: result.gsMnData,
+                gsDtData: result.gsDtData
+            };
+        }
+
         callback(err, lo_rtnData);
     });
 };
