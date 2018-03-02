@@ -1,5 +1,5 @@
 <template>
-    <input/>
+    <input v-bind='$attrs' v-on='$listeners'/>
 </template>
 
 <script>
@@ -70,8 +70,13 @@
                     textField: this.textField,
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
                     data: this.data,
-                    onChange: function (newValue, oldValue) {
+                    onChange: function (newValue) {
                         self.$emit('update:v-model', newValue);
+                        setTimeout(function () {
+                            if (self.$listeners.change != undefined) {
+                                self.$listeners.change();
+                            }
+                        }, 200);
                     },
                     onLoadSuccess: function () {
                     }
@@ -89,12 +94,11 @@
                 });
             },
             searchRemoteSrc: function (keyword) {
-                var ls_keyword = keyword || '';
-                var self = this;
+                let ls_keyword = keyword || '';
+                let self = this;
                 if (ls_keyword == "") {
                     return false;
                 }
-                console.log(ls_keyword);
                 $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
                     $(self.$el).combobox("loadData", items);
                 })
