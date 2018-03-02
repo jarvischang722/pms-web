@@ -13,13 +13,13 @@
     <!-- PMS0210011 住客歷史資料編輯 取得『喜好(Reference)』-->
     <dao name="QRY_GHIST_PREFER_DT">
         <statement><![CDATA[
-            SELECT  GHIST_PREFER_RF.PREFER_NAM,         NVL( GHIST_PREFER_DT.ALERT_STA, 'N' ) ALERT_STA,         GHIST_PREFER_DT.PREFER_RMK
+            SELECT  GHIST_PREFER_RF.PREFER_NAM "GHIST_PREFER_RF.PREFER_NAM", NVL( GHIST_PREFER_DT.ALERT_STA, 'N' ) "ghist_prefer_dt.alert_sta", GHIST_PREFER_DT.PREFER_RMK "GHIST_PREFER_DT.PREFER_RMK"
             FROM  GHIST_PREFER_DT, GHIST_PREFER_RF
             WHERE  GHIST_PREFER_RF.ATHENA_ID = GHIST_PREFER_DT.ATHENA_ID(+)
             AND GHIST_PREFER_RF.PREFER_COD = GHIST_PREFER_DT.PREFER_COD(+)
             AND GHIST_PREFER_DT.ATHENA_ID(+) = :athena_id
             AND GHIST_PREFER_DT.GCUST_COD(+) = :gcust_cod
-            ORDER BY GHIST_PREFER_RF.VIEW_SEQ,         GHIST_PREFER_RF.PREFER_COD"
+            ORDER BY GHIST_PREFER_RF.VIEW_SEQ, GHIST_PREFER_RF.PREFER_COD
         ]]></statement>
 
         <parameter type="number" kind="3">athena_id</parameter>

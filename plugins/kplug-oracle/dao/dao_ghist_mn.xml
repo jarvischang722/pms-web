@@ -35,7 +35,7 @@
 
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="3">airline_cod</parameter>
     </dao>
 
@@ -65,5 +65,19 @@
 
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <dao name="CHK_GHIST_MN_IS_EXIST">
+        <statement><![CDATA[
+            SELECT  COUNT(*) as ghist_mn_count  FROM  GHIST_MN
+            WHERE  ATHENA_ID = :athena_id
+            AND  ALT_NAM = :alt_nam
+            AND  BIRTH_DAT = :birth_dat
+            AND  ROWNUM <= 1
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">alt_nam</parameter>
+        <parameter type="date" kind="3">birth_dat</parameter>
     </dao>
 </root>
