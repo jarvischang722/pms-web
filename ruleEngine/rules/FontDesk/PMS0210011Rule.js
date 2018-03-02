@@ -2,6 +2,7 @@
  * Created by a16010 on 2018/03/01.
  */
 const _ = require("underscore");
+const _s = require("underscore.string");
 const moment = require("moment");
 const async = require("async");
 const path = require('path');
@@ -15,6 +16,56 @@ const tools = require(appRootDir + "/utils/CommonTools");
 const sysConf = require("../../../configs/systemConfig");
 
 module.exports = {
+
+
+    /**
+     * 單筆主檔各欄位預設值 (取得gcust_cod)
+     */
+    defaultGhistMn: function(postData, session, callback){
+        let lo_result = new ReturnClass;
+        let lo_error = null;
+        let lo_params = postData.params;
+
+        let ls_ghistMnGcustCod = "";
+        let ls_ghistMnShowCod = "";
+
+        let apiParams = {
+            "REVE-CODE": "BAC0900805",
+            "func_id": "0000",
+            "athena_id": session.user.athena_id,
+            "comp_cod": session.user.cmp_id,
+            "hotel_cod": session.user.hotel_cod,
+            "sys_cod": "HFD",
+            "nos_nam": "CUST_COD",
+            "link_dat": "2000/01/01"
+        };
+        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+            if (apiErr || !data) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                console.error(data["RETN-CODE-DESC"]);
+                lo_error.errorMsg = "save error!";
+            }
+            else {
+                let ls_cod = data["SERIES_NOS"].toString();
+                ls_ghistMnGcustCod = "HFD" + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
+                ls_ghistMnShowCod = ls_ghistMnGcustCod.substring(8, 20);
+
+                lo_result.defaultValues = {
+                    gcust_cod: ls_ghistMnGcustCod,
+                    show_cod: ls_ghistMnShowCod
+                };
+            }
+
+            callback(lo_error, lo_result);
+        });
+    },
+
     /**
      * 1.共用系統下拉選單－zipcod_rf
      * 2.若使用者有選擇郵遞區號，則自動將郵遞區號對應之地址資料帶至地址欄位【地址有值不蓋掉，地址無值時才帶入】(SA 7.7.3.4)
