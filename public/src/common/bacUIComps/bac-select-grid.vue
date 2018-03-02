@@ -84,10 +84,10 @@
                     columns: [this.columns],
                     data: this.data,
                     onChange: function (newValue) {
+                        self.$emit('update:v-model', newValue);
                         if (self.$listeners.change != undefined) {
                             self.$listeners.change();
                         }
-                        self.$emit('update:v-model', newValue);
                     }
                 });
 
