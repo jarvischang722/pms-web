@@ -1,6 +1,6 @@
 <template>
     <div id="PMS0210011" class="hide padding-5" style="top: 0 !important;">
-        <div class="businessCompanyData">
+        <div class="businessCompanyData" v-loading="isLoadingDialog" :element-loading-text="loadingText">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <!--tab pages-->
@@ -25,7 +25,8 @@
                                                     <div class="grid-item" v-for="field in fields">
                                                         <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
                                                                :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
-                                                            <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                            <span v-if=" field.requirable == 'Y' "
+                                                                  style="color: red;">*</span>
                                                             <span>{{ field.ui_display_name }}</span>
                                                         </label>
 
@@ -38,13 +39,16 @@
                                                                :disabled="field.modificable == 'N'||
                                             (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
-                                                        <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
-                                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                                    v-model="singleData[field.ui_field_name]" :data="field.selectData"
-                                                                    is-qry-src-before="Y" value-field="value" text-field="display"
-                                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                                    :default-val="singleData[field.ui_field_name] || field.defaultVal"
-                                                                    :disabled="field.modificable == 'N'||
+                                                        <bac-select
+                                                                v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                v-model="singleData[field.ui_field_name]"
+                                                                :data="field.selectData"
+                                                                is-qry-src-before="Y" value-field="value"
+                                                                text-field="display"
+                                                                @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                :default-val="singleData[field.ui_field_name] || field.defaultVal"
+                                                                :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                         </bac-select>
 
@@ -56,346 +60,35 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
                                                         <!-- 日期時間選擇器 -->
-                                                        <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
-                                                                        v-model="singleData[field.ui_field_name]" type="datetime"
-                                                                        change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                                                        :disabled="field.modificable == 'N'||
+                                                        <el-date-picker
+                                                                v-if="field.visiable == 'Y' && field.ui_type == 'date'"
+                                                                v-model="singleData[field.ui_field_name]"
+                                                                type="datetime"
+                                                                change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                :disabled="field.modificable == 'N'||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                                        size="small" format="yyyy/MM/dd HH:mm:ss"
-                                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                                size="small" format="yyyy/MM/dd HH:mm:ss"
+                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                         </el-date-picker>
+
+                                                        <!-- 日期時間選擇器 -->
+
+                                                        <el-date-picker
+                                                                v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
+                                                                v-model="singleData[field.ui_field_name]"
+                                                                type="date"
+                                                                size="small"
+                                                                :disabled="field.modificable == 'N'||
+                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                                format="yyyy/MM/dd"
+                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                        </el-date-picker>
+
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="main-content-data">
-                                                <!--1-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Full Name</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder="Peter Chen"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>title</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="E1:Mr"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Profile No</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="1234567801"
-                                                               disabled/>
-                                                    </div>
-                                                </div>
-                                                <!--2-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>First Name</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="Chen"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Last Name</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="Peter"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Gender</label>
-                                                        <select class="input-medium resvCard">
-                                                            <option value="male">男</option>
-                                                            <option value="female">女</option>
-                                                        </select>
-                                                        <!--<label style="width:auto;"><input type="radio" name="gender" value="male"/>男</label>-->
-                                                        <!--<label style="width:auto;"><input type="radio" name="gender" value="female"/>女</label>-->
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Status</label>
-                                                        <select class="input-medium resvCardHalf-1">
-                                                            <option value="1">VIP</option>
-                                                            <option value="2">黑名單</option>
-                                                            <option value="2">一般</option>
-                                                        </select>
-                                                        <select class="input-medium resvCardHalf-2">
-                                                            <option value="yes">1</option>
-                                                            <option value="no">2</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <!--3-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>I.D No.</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="a123456789"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Nationality</label>
-                                                        <select class="input-medium resvCard">
-                                                            <option value="TW">台灣</option>
-                                                            <option value="USA">美國</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Language</label>
-                                                        <select class="input-medium resvCard">
-                                                            <option value="ch_tw">CHI:中文</option>
-                                                            <option value="en">英文</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Job Title</label>
-                                                        <select class="input-medium resvCard">
-                                                            <option value="0">業務</option>
-                                                            <option value="1">客服</option>
-                                                            <option value="2">工程師</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <!--4-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Birth date</label>
-                                                        <input type="date" class="input-medium resvCard"
-                                                               placeholder="1977/01/11"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Live</label>
-                                                        <select class="input-medium resvCard">
-                                                            <option value="0">台北</option>
-                                                            <option value="1">台中</option>
-                                                            <option value="2">台南</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="grid-item">
-                                                        <label>Sky No.</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="1234567890123456"/>
-                                                        <!--&lt;!&ndash;<i class="moreClick fa fa-ellipsis-h aviationMile-btn"></i>-->
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Skymiles</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="Asia Miles"/>
-                                                    </div>
-                                                </div>
-                                                <!--5-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Mobile</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="0923654561"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Co.Tel.</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="02-98765432"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>G.U.I NO.</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder=""/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>G.U.I Title</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="發票抬頭"/>
-                                                    </div>
-                                                </div>
-                                                <!--6-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Tel</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="02-98765432"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Fax</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="(02)98765432"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>C.C.No.</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="1234567890123456"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Expire Date</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="12/19"/>
-                                                    </div>
-                                                </div>
-                                                <!--7-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>E-mail</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder="abc123456@gmail.com"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Vehicle No.</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="123"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>DM</label>
-                                                        <select class="input-medium resvCard">
-                                                            <option value="0">Y</option>
-                                                            <option value="1">N</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <!--8-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Address</label>
-                                                        <input type="text" class="input-medium postalCode"
-                                                               placeholder="10411"/>
-                                                        <input type="text" class="input-medium postaladdress2 ml-2"
-                                                               placeholder="台北市松江路309號8樓"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>C/O Delete</label>
-                                                        <select class="input-medium resvCard">
-                                                            <option value="y">Y</option>
-                                                            <option value="N">N</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <!--9-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Remarks</label>
-                                                        <input type="text" class="input-medium resvCard-fullRm"
-                                                               placeholder=""/>
-                                                        <i class="moreClick fa fa-ellipsis-h"></i>
-                                                    </div>
-                                                </div>
-                                                <!--10-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Agent</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder="agoda"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Company</label>
-                                                        <input type="text" class="input-medium resvCard-col2">
-                                                    </div>
-                                                </div>
-                                                <!--11-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Collector</label>
-                                                        <select class="input-medium resvCard">
-                                                            <option value="1">01</option>
-                                                            <option value="2">02</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>MB Name</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="林志玲"
-                                                               disabled/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>MB Type</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder="積點會員" disabled/>
-                                                    </div>
-                                                </div>
-                                                <!--12-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Pre.RM</label>
-                                                        <input type="text" class="input-medium resvCard"
-                                                               placeholder=""/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Last RM No.</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Pre. Features</label>
-                                                        <input type="text" class="input-medium resvCard-col2Rm"
-                                                               placeholder="" disabled="disabled"/>
-                                                        <i class="moreClick fa fa-ellipsis-h"></i>
-                                                    </div>
-                                                </div>
-                                                <!--13-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Visit No.</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>First visit Date</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>RM Amt.</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Others Amt.</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                </div>
-                                                <!--14-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Visit days</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Last Visit Date</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>F&B Amt.</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Total Amt.</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                </div>
-                                                <!--15-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Add date</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Add by</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Upd date</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>Upd by</label>
-                                                        <input type="text" class="input-medium resvCard" placeholder=""
-                                                               disabled="disabled"/>
-                                                    </div>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </div><!--main-content-data-->
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
@@ -626,64 +319,65 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" :disabled="isOtherContact">Add
+                                                role="button" :disabled="isOtherContact">{{i18nLang.SystemCommon.Add}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" :disabled="isOtherContact">save
+                                                role="button" :disabled="isOtherContact">{{i18nLang.SystemCommon.Save}}
                                         </button>
                                     </li>
                                     <!--btn 有間距class:segement-->
 
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button" :disabled="isOtherContact">Delete
+                                                role="button" :disabled="isOtherContact">{{i18nLang.SystemCommon.Delete}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-gray btn-defaultWidth classified-btn"
-                                                role="button" disabled>Classified
+                                                role="button" disabled>{{i18nLang.program.PMS0210011.Classified}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-skin btn-defaultWidth ghist-sign-pic-btn"
-                                                role="button" disabled>Gst pic
+                                                role="button" disabled>{{i18nLang.program.PMS0210011.Gst_pic}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-gray btn-defaultWidth"
-                                                role="button" disabled>I.D.Scanning
+                                                role="button" disabled> {{i18nLang.program.PMS0210011.ID_Scanning}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="otherContact">Other contact
+                                                role="button" @click="doOpenOtherContact">{{i18nLang.program.PMS0210011.Other_contact}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-gray btn-defaultWidth message-btn"
-                                                role="button" disabled>Message
+                                                role="button" disabled>{{i18nLang.program.PMS0210011.Message}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="lostFound" disabled>Lost & Found
+                                                role="button" @click="doOpenLostFound" disabled>{{i18nLang.program.PMS0210011.LostAndFound}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-gray btn-defaultWidth suggestion-btn"
-                                                role="button" disabled>Suggestion
+                                                role="button" disabled>{{i18nLang.program.PMS0210011.Suggestion}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-gray btn-defaultWidth resvAnniversary"
-                                                role="button" disabled>Anniversary
+                                                role="button" disabled>{{i18nLang.program.PMS0210011.Anniversary}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" :disabled="isOtherContact">Quit
+                                                role="button" @click="doCloseDialog" :disabled="isOtherContact">
+                                            {{i18nLang.SystemCommon.Leave}}
                                         </button>
                                     </li>
                                 </ul>
@@ -692,11 +386,11 @@
                     </div>
                     <!--/按鈕-->
                 </div>
-                <other-connect
-                        is-other-contact="isOtherContact"
-                ></other-connect>
+                <other-contact
+                        :is-other-contact="isOtherContact"
+                ></other-contact>
                 <lost-and-found
-                        is-lost-and-found="isLostAndFound"
+                        :is-lost-and-found="isLostAndFound"
                 ></lost-and-found>
             </div>
             <div class="clearfix"></div>
@@ -704,7 +398,7 @@
     </div>
 </template>
 <script>
-    import otherConnect from './otherContact';
+    import otherContact from './otherContact';
     import lostAndFound from './lostAndFound';
     import visitsPanel from './visitsPanel';
     import _s from 'underscore.string';
@@ -713,6 +407,7 @@
     /** DatagridRmSingleGridClass **/
     function DataGridSingleGridClass() {
     }
+
     DataGridSingleGridClass.prototype = new DatagridBaseClass();
     DataGridSingleGridClass.prototype.onClickRow = function (idx, row) {
     };
@@ -725,7 +420,7 @@
     export default {
         name: 'pms0210011',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
-        components: {otherConnect, lostAndFound, visitsPanel},
+        components: {otherContact, lostAndFound, visitsPanel},
         mounted() {
             this.isLoadingDialog = true;
             this.loadingText = "Loading...";
@@ -752,6 +447,7 @@
                 this.setTabStatus(val);
             },
             rowData(val) {
+                this.isLoadingDialog = true;
                 if (!_.isEmpty(val)) {
                     this.initData();
                     this.fetchProfileFieldData();
@@ -761,14 +457,10 @@
         },
         methods: {
             initData() {
-                this.tabPageOneSingleData = {};
-                this.tabPageOneOriSingleData = {};
-                this.tabPageOneFieldData = [];
-                this.tabPageOneOriFieldsData = [];
-                this.tabPageTwoDataGridOneRows = [];
-                this.tabPageTwoDataGridOneFieldsData = [];
-                this.tabPageTwoDataGridTwoRows = [];
-                this.tabPageTwoDataGridTwoFieldsData = [];
+                this.singleData = {};
+                this.oriSingleData = {};
+                this.profileFieldData = [];
+                this.profileOriFieldsData = [];
                 this.setGlobalStatus();
             },
             setGlobalStatus() {
@@ -790,7 +482,7 @@
                 this.showTabContent(tabName);
             },
             setGlobalGcustCod() {
-                this.$store.dispatch("setGcustCod", this.profileSingleData.gcust_cod);
+                this.$store.dispatch("setGcustCod", this.singleData.gcust_cod);
             },
             showTabContent(tabName) {
                 var la_panelName = this.panelName;
@@ -810,9 +502,8 @@
                     tab_page_id: 1,
                     template_id: 'gridsingle'
                 }, function (result) {
-                    self.profileOriFieldsData =  result.gsFieldsData;
+                    self.profileOriFieldsData = result.gsFieldsData;
                     self.profileFieldData = _.values(_.groupBy(_.sortBy(self.profileOriFieldsData, "col_seq"), "row_seq"));
-                    console.log(self.profileFieldData);
                     self.fetchProfileRowData();
                 });
             },
@@ -826,6 +517,7 @@
                         this.singleData = result.gsDefaultData;
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
                         this.setGlobalGcustCod();
+                        this.isLoadingDialog = false;
                     });
                 }
                 else if (this.isEditStatus) {
@@ -839,30 +531,33 @@
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.setGlobalGcustCod();
+                        this.isLoadingDialog = false;
                     });
                 }
             },
             //開啟other contact 跳窗
-            otherContact() {
+            doOpenOtherContact() {
                 let self = this;
                 this.isOtherContact = true;
 
-                var dialog = $("#otherContactDialog").removeClass('hide').dialog({
-                    modal: true,
-                    title: "其他聯絡方式",
-                    title_html: true,
-                    width: 800,
-                    maxwidth: 1920,
-                    height: 500,
-                    dialogClass: "test",
-                    resizable: true,
-                    onBeforeClose() {
-                        self.isOtherContact = false;
-                    }
-                });
+                if(this.isOtherContact){
+                    var dialog = $("#otherContact").removeClass('hide').dialog({
+                        modal: true,
+                        title: "其他聯絡方式",
+                        title_html: true,
+                        width: 800,
+                        maxwidth: 1920,
+                        height: 500,
+                        dialogClass: "test",
+                        resizable: true,
+                        onBeforeClose() {
+                            self.isOtherContact = false;
+                        }
+                    });
+                }
             },
             //開啟lost&found 跳窗
-            lostFound() {
+            doOpenLostFound() {
                 let self = this;
                 this.isLostAndFound = true;
 
@@ -879,7 +574,12 @@
                         self.isLostAndFound = false;
                     }
                 });
-            }
+            },
+            doCloseDialog() {
+                this.initData();
+                this.rowData = {};
+                $("#PMS0210011").dialog('close');
+            },
         }
     }
 </script>

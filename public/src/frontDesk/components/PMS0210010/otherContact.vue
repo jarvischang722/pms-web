@@ -1,7 +1,7 @@
 <template>
-    <div id="otherContactDialog" class="hide padding-5" style="top: 0 !important;">
-        <div class="businessCompanyData">
-            <div class="col-xs-12 col-sm-12">
+    <div id="otherContact" class="hide padding-5" style="top: 0 !important;">
+        <div class="businessCompanyData" >
+            <div class="col-xs-12 col-sm-12" v-loading="isLoadingDialog" :element-loading-text="loadingText">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
                         <div class="main-content-data">
@@ -11,7 +11,7 @@
                                     <div class="billInfo grid">
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row billInfo-head">
-                                                <p class="billInfo-title">電子郵件</p>
+                                                <p class="billInfo-title">{{i18nLang.program.PMS0210011.email}}</p>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12">
@@ -20,8 +20,11 @@
                                                     <table class="css_table">
                                                         <tbody class="css_tbody">
                                                         <tr class="css_tr">
-                                                            <th class="css_th width-15">電子郵件</th>
-                                                            <td class="css_td width-70">s569789465@gmail.com</td>
+                                                            <th class="css_th width-15">{{emailFieldTitle}}</th>
+                                                            <td class="css_td width-70" >
+                                                                <input type="text" class="input-medium medium-c1 width-100"
+                                                                       v-model="emailFieldContent">
+                                                            </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -38,7 +41,7 @@
                                     <div class="billInfo grid">
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row billInfo-head">
-                                                <p class="billInfo-title">連絡方式</p>
+                                                <p class="billInfo-title">{{i18nLang.program.PMS0210011.contact_method}}</p>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12">
@@ -47,18 +50,25 @@
                                                     <table class="css_table">
                                                         <thead class="css_thead">
                                                         <tr class="css_tr">
-                                                            <th class="css_th width-15">連絡類別</th>
-                                                            <th class="css_th width-70">連絡內容</th>
+                                                            <template v-for="field in contactFieldsData">
+                                                                <th v-if="field.ui_field_name=='contact_dt.contact_nam'"
+                                                                    class="css_th width-15">
+                                                                    {{field.ui_display_name}}
+                                                                </th>
+                                                                <th v-else-if="field.ui_field_name=='contact_dt.contact_rmk'"
+                                                                    class="css_th width-70">
+                                                                    {{field.ui_display_name}}
+                                                                </th>
+                                                            </template>
                                                         </tr>
                                                         </thead>
                                                         <tbody class="css_tbody">
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">行動電話</td>
-                                                            <td class="css_td">0910556677</td>
-                                                        </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">公司電話</td>
-                                                            <td class="css_td">0256789876</td>
+                                                        <tr v-for="data in contactDataGridRows" class="css_tr">
+                                                            <td class="css_td">{{ data["contact_rf.contact_nam"]}}</td>
+                                                            <td class="css_td">
+                                                                <input type="text" class="input-medium medium-c1 width-100"
+                                                                       v-model="data['contact_dt.contact_rmk']">
+                                                            </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -75,7 +85,7 @@
                                     <div class="billInfo grid">
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row billInfo-head">
-                                                <p class="billInfo-title">地址</p>
+                                                <p class="billInfo-title">{{i18nLang.program.PMS0210011.address}}</p>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12">
@@ -83,30 +93,37 @@
                                                 <div class="content">
                                                     <table class="css_table">
                                                         <thead class="css_thead">
-                                                        <tr class="css_tr">
-                                                            <th class="css_th width-15">地址類別</th>
-                                                            <th class="css_th width-15">郵遞區號</th>
-                                                            <th class="css_th width-70">地址</th>
-                                                        </tr>
+                                                        <template v-for="field in addressFieldsData">
+                                                            <th v-if="field.ui_field_name=='address_dt.add_nam'"
+                                                                class="css_th width-15">
+                                                                {{field.ui_display_name}}
+                                                            </th>
+                                                            <th v-else-if="field.ui_field_name=='address_dt.zip_cod'"
+                                                                class="css_th width-15">
+                                                                {{field.ui_display_name}}
+                                                            </th>
+                                                            <th v-else-if="field.ui_field_name=='address_dt.add_rmk'"
+                                                                class="css_th width-70">
+                                                                {{field.ui_display_name}}
+                                                            </th>
+                                                        </template>
                                                         </thead>
                                                         <tbody class="css_tbody">
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">公司地址</td>
-                                                            <td class="css_td">104</td>
-                                                            <td class="css_td">台北市中山區松江路309號8樓
-                                                                <i class="moreClick fa fa-ellipsis-h"></i></td>
-                                                        </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">戶籍地址</td>
-                                                            <td class="css_td">106</td>
-                                                            <td class="css_td">台北市大安區仁愛路5號20樓
-                                                                <i class="moreClick fa fa-ellipsis-h"></i></td>
-                                                        </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">住家地址</td>
-                                                            <td class="css_td"></td>
-                                                            <td class="css_td"><i
-                                                                    class="moreClick fa fa-ellipsis-h"></i></td>
+                                                        <tr v-for="data in addressDataGridRows" class="css_tr">
+                                                            <td class="css_td">{{ data["address_rf.add_nam"]}}</td>
+                                                            <td class="css_td">
+
+                                                                <bac-select v-model="data['address_dt.zip_cod']" :data="zipCodSelectData"
+                                                                            is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                            @update:v-model="val => data['address_dt.zip_cod'] = val"
+                                                                            :default-val="data['address_dt.zip_cod']">
+                                                                </bac-select>
+
+                                                            </td>
+                                                            <td class="css_td">
+                                                                <input type="text" class="input-medium medium-c1 width-100"
+                                                                       v-model="data['address_dt.add_rmk']">
+                                                            </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -126,7 +143,7 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth otherContact-insideBtn"
-                                                role="button">離開
+                                                role="button" @click="doCloseDialog">{{i18nLang.SystemCommon.Leave}}
                                         </button>
                                     </li>
                                 </ul>
@@ -143,21 +160,93 @@
 
 <script>
     export default {
-        name: 'otherConnection',
+        name: 'otherContact',
         props: ["isOtherContact"],
-        mounted(){},
-        data(){
-            return{}
+        mounted() {
+            this.isLoadingDialog = true;
+            this.loadingText = "Loading...";
+        },
+        data() {
+            return {
+                i18nLang: go_i18nLang,
+                isLoadingDialog: false,
+                loadingText: "",
+                emailFieldsData: [],
+                emailDataGridRows: [],
+                contactFieldsData: [],
+                contactDataGridRows: [],
+                addressFieldsData: [],
+                addressDataGridRows: [],
+                emailFieldTitle: "",//email表頭
+                emailFieldContent: "", //email內容
+                zipCodSelectData: [] //郵遞區號下拉資料
+            }
         },
         watch: {
-            isOtherContact(val){
-                if(val){
-
+            isOtherContact(val) {
+                if (val) {
+                    this.isLoadingDialog = true;
+                    this.initData();
+                    this.fetchEmailData();
                 }
             }
         },
         methods: {
-
+            initData() {
+                this.emailFieldsData = [];
+                this.emailDataGridRows = [];
+                this.contactFieldsData = [];
+                this.contactDataGridRows = [];
+                this.addressFieldsData = [];
+                this.addressDataGridRows = [];
+            },
+            fetchEmailData() {
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0210011",
+                    page_id: 1040,
+                    tab_page_id: 1,
+                    searchCond: {cust_cod: this.$store.state.gs_gcustCod}
+                }).then(result => {
+                    this.emailFieldsData = result.dgFieldsData;
+                    this.emailDataGridRows = result.dgRowData;
+                    this.emailFieldTitle = this.emailDataGridRows[0]['add_nam'];
+                    this.emailFieldContent = this.emailDataGridRows[0]['add_rmk'];
+                    this.fetchContactData()
+                });
+            },
+            fetchContactData() {
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0210011",
+                    page_id: 1040,
+                    tab_page_id: 2,
+                    searchCond: {cust_cod: 'HFD000000000140202'}
+                }).then(result => {
+                    this.contactFieldsData = result.dgFieldsData;
+                    this.contactDataGridRows = result.dgRowData;
+                    this.fetchAddressData();
+                });
+            },
+            fetchAddressData() {
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0210011",
+                    page_id: 1040,
+                    tab_page_id: 3,
+                    searchCond: {cust_cod: this.$store.state.gs_gcustCod}
+                }).then(result => {
+                    this.addressFieldsData = result.dgFieldsData;
+                    this.addressDataGridRows = result.dgRowData;
+                    _.each(this.addressFieldsData, (lo_addressFieldData)=>{
+                        if(lo_addressFieldData.ui_field_name == 'address_dt.zip_cod'){
+                            this.zipCodSelectData = lo_addressFieldData.selectData;
+                        }
+                    })
+                    this.isLoadingDialog = false;
+                });
+            },
+            doCloseDialog(){
+                this.initData();
+                $("#otherContact").dialog('close');
+            }
         }
     }
 </script>

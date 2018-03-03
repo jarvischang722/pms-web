@@ -1,10 +1,10 @@
 <template>
-    <div>
-        <p class="title">預約來館資料</p>
+    <div v-loading="isLoadingDialog" :element-loading-text="loadingText">
+        <p class="title">{{i18nLang.program.PMS0210011.reserveShopInfo}}</p>
         <!--預約來館資料table-->
         <table id="reserveShopInfo_dg" style="height: 200px; width: 100%;"></table>
 
-        <p class="title">住客來訪歷史</p>
+        <p class="title">{{i18nLang.program.PMS0210011.guestVisitHistory}}</p>
         <!--住客歷史來訪table-->
         <table id="guestVisitHistory_dg" style="height: 200px; width: 100%;"></table>
     </div>
@@ -29,21 +29,27 @@
         props: ["isVisitsPanel", "rowData"],
         mounted() {
             this.fetchRentCalDat();
+            this.isLoadingDialog = true;
+            this.loadingText = "Loading...";
         },
         data() {
             return {
-                rentCalDat: "",
+                i18nLang: go_i18nLang,
+                rentCalDat: "",//滾房租日
+                isLoadingDialog: false,
+                loadingText: "",
                 shopInfoRows: [], //來館資料 預約來館資料
                 shopInfoFieldsData: [], //來館資料 預約來館欄位資料
                 shopInfoDgIns: {},
                 visitHistoryRows: [], //來館資料 住客來訪歷史資料
                 visitHistoryFieldsData: [], //來館資料 住客來訪歷史欄位資料
-                visitHistoryDgIns: {},
+                visitHistoryDgIns: {}
             }
         },
         watch: {
             isVisitsPanel(val) {
                 if (val) {
+                    this.isLoadingDialog = true;
                     this.initData();
                     this.fetchShopInfoFieldData();
                 }
@@ -96,7 +102,7 @@
                 this.visitHistoryDgIns = new DataGridSingleGridClass();
                 this.visitHistoryDgIns.init("PMS0210011", "guestVisitHistory_dg", DatagridFieldAdapter.combineFieldOption(this.visitHistoryFieldsData, "guestVisitHistory_dg"), this.visitHistoryFieldsData);
                 this.visitHistoryDgIns.loadDgData(this.visitHistoryRows);
-                this.isLoading = false;
+                this.isLoadingDialog = false;
             },
         }
 
