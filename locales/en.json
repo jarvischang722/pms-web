@@ -231,10 +231,26 @@
       "edit_vist_mn": "修改拜訪紀錄(英文)",
       "remove_visit_mn": "刪除拜訪紀錄(英文)"
     },
+    "PMS0210010": {
+      "merge": "merge"
+    },
     "PMS0210011": {
       "Profile": "基本資料(英文)",
       "Visits": "來館資料(英文)",
-      "Reference": "喜好(英文)"
+      "Reference": "喜好(英文)",
+      "Classified": "Classified",
+      "Gst_pic": "Gst pic",
+      "ID_Scanning": "I.D.Scanning",
+      "Other_contact": "Other contact",
+      "Message": "Message",
+      "LostAndFound": "Lost & Found",
+      "Suggestion": "Suggestion",
+      "Anniversary": "Anniversary",
+      "reserveShopInfo": "預約來館資料",
+      "guestVisitHistory": "住客來訪歷史",
+      "email": "E-mail",
+      "contact_method": "連絡方式(英文)",
+      "address": "Address"
     }
   },
   "table_in_use": "Table in use (%s)",

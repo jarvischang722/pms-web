@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="pageMain">
+        <div class="pageMain" v-loading="isLoading" element-loading-text="Loading...">
             <div class="col-xs-12">
                 <search-comp
                         :search-fields="searchFields"
@@ -38,7 +38,7 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-gray btn-defaultWidth resv_merge"
-                                            role="button">Merge
+                                            role="button">{{i18nLang.program.PMS0210010.merge}}
                                     </button>
                                 </li>
                                 <li>
@@ -93,6 +93,7 @@
         },
         methods: {
             fetchUserInfo() {
+                this.isLoading = true;
                 let self = this;
                 $.post('/api/getUserInfo', function (result) {
                     if (result.success) {
