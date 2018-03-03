@@ -20,10 +20,11 @@
                                                     <table class="css_table">
                                                         <tbody class="css_tbody">
                                                         <tr class="css_tr">
-                                                            <th class="css_th width-15">{{emailFieldTitle}}</th>
+                                                        <tr v-for="data in emailDataGridRows" class="css_tr">
+                                                            <th class="css_th width-15">{{data['add_nam']}}</th>
                                                             <td class="css_td width-70" >
                                                                 <input type="text" class="input-medium medium-c1 width-100"
-                                                                       v-model="emailFieldContent">
+                                                                       v-model="data['add_rmk']">
                                                             </td>
                                                         </tr>
                                                         </tbody>
@@ -173,12 +174,13 @@
                 loadingText: "",
                 emailFieldsData: [],
                 emailDataGridRows: [],
+                oriEmailDataGridRows: [],
                 contactFieldsData: [],
                 contactDataGridRows: [],
+                oriContactDataGridRows: [],
                 addressFieldsData: [],
                 addressDataGridRows: [],
-                emailFieldTitle: "",//email表頭
-                emailFieldContent: "", //email內容
+                oriAddressDataGridRows: [],
                 zipCodSelectData: [] //郵遞區號下拉資料
             }
         },
@@ -189,16 +191,43 @@
                     this.initData();
                     this.fetchEmailData();
                 }
+            },
+            emailDataGridRows: {
+                handler(val){
+                    if(!_.isEmpty(val)){
+
+                    }
+                },
+                deep: true
+            },
+            contactDataGridRows: {
+                handler(val){
+                    if(!_.isEmpty(val)){
+
+                    }
+                },
+                deep: true
+            },
+            addressDataGridRows: {
+                handler(val){
+                    if(!_.isEmpty(val)){
+
+                    }
+                },
+                deep: true
             }
         },
         methods: {
             initData() {
                 this.emailFieldsData = [];
                 this.emailDataGridRows = [];
+                this.oriEmailDataGridRows = [];
                 this.contactFieldsData = [];
                 this.contactDataGridRows = [];
+                this.oriContactDataGridRows = [];
                 this.addressFieldsData = [];
                 this.addressDataGridRows = [];
+                this.oriAddressDataGridRows = [];
             },
             fetchEmailData() {
                 $.post("/api/fetchDataGridFieldData", {
@@ -209,8 +238,7 @@
                 }).then(result => {
                     this.emailFieldsData = result.dgFieldsData;
                     this.emailDataGridRows = result.dgRowData;
-                    this.emailFieldTitle = this.emailDataGridRows[0]['add_nam'];
-                    this.emailFieldContent = this.emailDataGridRows[0]['add_rmk'];
+                    this.oriEmailDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
                     this.fetchContactData()
                 });
             },
@@ -223,6 +251,7 @@
                 }).then(result => {
                     this.contactFieldsData = result.dgFieldsData;
                     this.contactDataGridRows = result.dgRowData;
+                    this.oriContactDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
                     this.fetchAddressData();
                 });
             },
@@ -235,6 +264,7 @@
                 }).then(result => {
                     this.addressFieldsData = result.dgFieldsData;
                     this.addressDataGridRows = result.dgRowData;
+                    this.oriAddressDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
                     _.each(this.addressFieldsData, (lo_addressFieldData)=>{
                         if(lo_addressFieldData.ui_field_name == 'address_dt.zip_cod'){
                             this.zipCodSelectData = lo_addressFieldData.selectData;

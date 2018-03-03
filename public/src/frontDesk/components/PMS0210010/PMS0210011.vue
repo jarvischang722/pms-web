@@ -519,7 +519,6 @@
                     self.profileOriFieldsData = result.gsFieldsData;
                     self.profileFieldData = _.values(_.groupBy(_.sortBy(self.profileOriFieldsData, "col_seq"), "row_seq"));
                     self.fetchProfileRowData();
-                    console.log(self.profileFieldData)
                 });
             },
             fetchProfileRowData() {
