@@ -52,6 +52,20 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                         </bac-select>
 
+                                                        <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                         :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                         v-model="singleData[field.ui_field_name]"
+                                                                         :columns="field.selectData.columns"
+                                                                         :data="field.selectData.selectData"
+                                                                         :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                                         :id-field="field.selectData.value" :text-field="field.selectData.display"
+                                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                         :default-val="singleData[field.ui_field_name]"
+                                                                         :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                        </bac-select-grid>
+
                                                         <input type="text" v-model="singleData[field.ui_field_name]"
                                                                v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
@@ -505,6 +519,7 @@
                     self.profileOriFieldsData = result.gsFieldsData;
                     self.profileFieldData = _.values(_.groupBy(_.sortBy(self.profileOriFieldsData, "col_seq"), "row_seq"));
                     self.fetchProfileRowData();
+                    console.log(self.profileFieldData)
                 });
             },
             fetchProfileRowData() {

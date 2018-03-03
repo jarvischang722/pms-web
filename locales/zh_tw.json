@@ -449,6 +449,16 @@
     "PMS0610020_sales_nam": "業務員姓名",
     "PMS0610020_class_nam": "組別",
     "PMS0620020_user_nos": "使用者代號",
-    "PMS0620020_user_name": "使用者名稱"
+    "PMS0620020_user_name": "使用者名稱",
+    "salute_cod": "salute cod(中文)",
+    "salute_nam": "salute nam(中文)",
+    "man_flag": "man flag(中文)",
+    "woman_flag": "woman flag(中文)",
+    "contry_cod": "contry cod(中文)",
+    "contry_nam": "contry nam(中文)",
+    "contry_sna": "contry sna(中文)",
+    "live_cod" : "live cod(中文)",
+    "live_nam" : "live nam(中文)",
+    "live_sna" : "live sna(中文)"
   }
 }

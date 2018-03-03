@@ -219,7 +219,7 @@
                     prg_id: "PMS0210011",
                     page_id: 1040,
                     tab_page_id: 2,
-                    searchCond: {cust_cod: 'HFD000000000140202'}
+                    searchCond: {cust_cod: this.$store.state.gs_gcustCod}
                 }).then(result => {
                     this.contactFieldsData = result.dgFieldsData;
                     this.contactDataGridRows = result.dgRowData;

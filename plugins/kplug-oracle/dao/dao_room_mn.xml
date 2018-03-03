@@ -193,7 +193,7 @@
             ORDER  BY  VIEW_SEQ, ROOM_NOS
         ]]>
         </statement>
-        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 </root>

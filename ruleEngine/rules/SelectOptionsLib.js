@@ -505,6 +505,96 @@ exports.getCustIdxBirthDat = function () {
     return lo_optionList;
 };
 
+exports.getVIPSta = function () {
+    let lo_optionList = [
+        {
+            display: "0",
+            value: "0"
+        },
+        {
+            display: "1",
+            value: "1"
+        },
+        {
+            display: "2",
+            value: "2"
+        },
+        {
+            display: "3",
+            value: "3"
+        },
+        {
+            display: "4",
+            value: "4"
+        },
+        {
+            display: "5",
+            value: "5"
+        },
+        {
+            display: "6",
+            value: "6"
+        },
+        {
+            display: "7",
+            value: "7"
+        },
+        {
+            display: "8",
+            value: "8"
+        },
+        {
+            display: "9",
+            value: "9"
+        },
+        {
+            display: "10",
+            value: "10"
+        },
+        {
+            display: "11",
+            value: "11"
+        },
+        {
+            display: "12",
+            value: "12"
+        },
+        {
+            display: "13",
+            value: "13"
+        },
+        {
+            display: "14",
+            value: "14"
+        },
+        {
+            display: "15",
+            value: "15"
+        },
+        {
+            display: "16",
+            value: "16"
+        },
+        {
+            display: "17",
+            value: "17"
+        },
+        {
+            display: "18",
+            value: "18"
+        },
+        {
+            display: "19",
+            value: "19"
+        },
+        {
+            display: "20",
+            value: "20"
+        }
+    ];
+    return lo_optionList;
+};
+
 /**
  * [PMS0610010_商務公司]
  * credit_sta 下拉資料
@@ -1350,6 +1440,15 @@ exports.lang_GhistMnDmFlag = function (params, callback) {
 exports.lang_CustIdxBirthDat = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustIdxBirthDat();
+    callback(null, lo_result);
+};
+
+/**
+ * 住客歷史(PMS0210011) 取得VIP狀況下拉資料
+ */
+exports.lang_vip_sta = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getVIPSta();
     callback(null, lo_result);
 };
 
