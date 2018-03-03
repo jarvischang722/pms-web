@@ -39,4 +39,14 @@
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
     </dao>
+
+    <!-- [PMS0210011] 國籍設定中使用語言-->
+    <dao name="QRY_LANG_BY_CONTRY_COD">
+        <statement><![CDATA[
+            select lang_cod from cntry_rf where athena_id = :athena_id and contry_cod = :contry_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">contry_cod</parameter>
+    </dao>
 </root>

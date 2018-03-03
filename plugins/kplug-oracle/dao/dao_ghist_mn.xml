@@ -75,7 +75,6 @@
             SELECT  COUNT(*) as alt_nam_count  FROM  GHIST_MN
             WHERE  ATHENA_ID = :athena_id
             AND  ALT_NAM = :alt_nam
-            AND  BIRTH_DAT = to_date(:birth_dat, 'YYYY/MM/DD')
             AND  ROWNUM <= 1
         ]]>
         </statement>

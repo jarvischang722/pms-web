@@ -15,7 +15,7 @@
     </dao>
 
     <!-- ['PMS0210011'] 取得『其他聯絡方式－電子郵件』-->
-    <dao name="QRY_EMAIL">
+    <dao name="QRY_ADDRESS_DT_EMAIL_BY_CUST_COD">
         <statement><![CDATA[
               SELECT  address_dt.athena_id, address_dt.cust_cod, ADDRESS_RF.ADD_NAM,         ADDRESS_DT.ADD_RMK
               FROM  ADDRESS_DT, ADDRESS_RF
@@ -32,8 +32,26 @@
         <parameter type="string" kind="3">cust_cod</parameter>
     </dao>
 
+    <!-- ['PMS0210011'] 住客歷史資料編輯 取得『其他聯絡方式－聯絡方式』-->
+    <dao name="QRY_ADDRESS_DT_CONTACT_BY_CUST_COD">
+        <statement><![CDATA[
+            SELECT  CONTACT_RF.CONTACT_NAM,
+            CONTACT_DT.CONTACT_RMK
+            FROM  CONTACT_DT, CONTACT_RF
+            WHERE  CONTACT_RF.ATHENA_ID = CONTACT_DT.ATHENA_ID(+)
+            AND  CONTACT_RF.CONTACT_COD = CONTACT_DT.CONTACT_COD(+)
+            AND  CONTACT_RF.ATHENA_ID = :athena_id
+            AND  CONTACT_DT.CUST_COD(+) = :cust_cod
+            ORDER BY CONTACT_RF.SEQ_NOS,
+            CONTACT_RF.CONTACT_COD
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
+
     <!-- ['PMS0210011'] 住客歷史資料編輯 取得『其他聯絡方式－地址』-->
-    <dao name="QRY_ADDRESS_DT">
+    <dao name="QRY_ADDRESS_DT_ADDRESS_BY_CUST_COD">
         <statement><![CDATA[
             SELECT  address_dt.athena_id "address_dt.athena_id", address_dt.cust_cod "address_dt.cust_cod",
             ADDRESS_RF.ADD_NAM "ADDRESS_RF.ADD_NAM", ADDRESS_DT.ZIP_COD "ADDRESS_DT.ZIP_COD", ADDRESS_DT.ADD_RMK "ADDRESS_DT.ADD_RMK"
@@ -50,4 +68,5 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">cust_cod</parameter>
     </dao>
+
 </root>

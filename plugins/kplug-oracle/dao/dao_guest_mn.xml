@@ -81,4 +81,29 @@
         <parameter type="string" kind="3">gcust_cod</parameter>
         <parameter type="string" kind="3">rent_cal_dat</parameter>
     </dao>
+
+    <!-- PMS0210011 住客歷史資料編輯 『檢查是否為在館住客及未來訂房卡住客資料』-->
+    <dao name="CHK_GUEST_MN_IS_EXIST">
+        <statement><![CDATA[
+            SELECT  GUEST_MN.ALT_NAM, GHIST_MN.SHOW_COD, GUEST_MN.HOTEL_COD, HOTEL_RF.HOTEL_NAM
+            FROM  GUEST_MN, GHIST_MN, ORDER_DT, HOTEL_RF
+            WHERE  GUEST_MN.ATHENA_ID = GHIST_MN.ATHENA_ID
+            AND  GUEST_MN.GCUST_COD = GHIST_MN.GCUST_COD
+            AND  GUEST_MN.ATHENA_ID = ORDER_DT.ATHENA_ID
+            AND  GUEST_MN.IKEY = ORDER_DT.IKEY
+            AND  GUEST_MN.IKEY_SEQ_NOS = ORDER_DT.IKEY_SEQ_NOS
+            AND  GUEST_MN.ATHENA_ID = HOTEL_RF.ATHENA_ID
+            AND  GUEST_MN.HOTEL_COD = HOTEL_RF.HOTEL_COD
+            AND  ( GUEST_MN.GUEST_STA IN ( 'K', 'O' ) OR
+                   ORDER_DT.CI_DAT >= TO_DATE( PG_AIS2.SF_GET_HOTEL_SVAL( ORDER_DT.HOTEL_COD, 'HFD', 'rent_cal_dat', :athena_id ), 'YYYY/MM/DD' ) )
+            AND  GUEST_MN.ATHENA_ID = :athena_id
+            AND  GUEST_MN.GCUST_COD = :gcust_cod
+            AND  GUEST_MN.SYSTEM_TYP = 'HFD'
+            AND  ROWNUM <= 1
+
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">gcust_cod</parameter>
+    </dao>
 </root>

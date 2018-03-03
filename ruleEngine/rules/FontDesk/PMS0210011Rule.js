@@ -5,19 +5,14 @@ const _ = require("underscore");
 const _s = require("underscore.string");
 const moment = require("moment");
 const async = require("async");
-const path = require('path');
-const appRootDir = path.dirname(require.main.filename);
-const ruleRootPath = appRootDir + "/ruleEngine/";
-const queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
-const commandRules = require("./../CommonRule");
-const ReturnClass = require(ruleRootPath + "/returnClass");
-const ErrorClass = require(ruleRootPath + "/errorClass");
-const tools = require(appRootDir + "/utils/CommonTools");
+const queryAgent = require("../../../plugins/kplug-oracle/QueryAgent");
+const commonRule = require("./../CommonRule");
+const ReturnClass = require("../../returnClass");
+const ErrorClass = require("../../errorClass");
+const tools = require("../../../utils/CommonTools");
 const sysConf = require("../../../configs/systemConfig");
 
 module.exports = {
-
-
     /**
      * 單筆主檔各欄位預設值
      * @param postData {object}
@@ -180,11 +175,390 @@ module.exports = {
      * WHERE  ATHENA_ID = '德安代號'
      * AND  ALT_NAM = '姓名'
      * AND  BIRTH_DAT = '生日'
-     * AND  ROWNUM <= 1"
+     * AND  ROWNUM <= 1
+     * @param postData
+     * @param session
+     * @param callback
      */
     r_alt_nam(postData, session, callback) {
-        queryAgent.query("CHK_ALT_NAM_IS_EXIST", lo_params, function (err, result) {
-            // result.alt_nam_count;
-        })
+        let lo_return = new ReturnClass();
+        let ls_alt_nam = postData.alt_nam;
+        let ls_ch_str = "";
+        let ls_en_str = "";
+        let ls_first_name = "";
+        let ls_last_name = "";
+        //1. 拆分出中文姓名及英文姓名
+        let la_str = ls_alt_nam.split(",");
+        //若姓名中有兩個以上逗點「,」，則將第一個逗點前的資料列為中文姓名，其餘為英文姓名
+        if (la_str.length >= 3) {
+            ls_ch_str = la_str[0];
+            _.each(la_str, function (lo_str, index) {
+                if (index != 0) {
+                    ls_en_str += lo_str;
+                    if (index != la_str.length - 1) {
+                        ls_en_str += ",";
+                    }
+                }
+            });
+            console.log(ls_ch_str, ls_en_str);
+        }
+        //若姓名中僅有一個或無逗點，則檢查姓名中是否有中文
+        else {
+            //若其中有中文資料，則將姓名列為中文姓名，無英文姓名
+            if (this.chkStrHasChinese(ls_alt_nam)) {
+                ls_ch_str = ls_alt_nam;
+                le_en_str = "";
+            }
+            //若無中文資料，則將姓名列為英文姓名，無中文姓名
+            else {
+                ls_en_str = ls_alt_nam;
+                ls_ch_str = "";
+            }
+        }
+
+        //處理中文姓名
+        if (ls_ch_str != "" && ls_en_str == "") {
+            if (ls_ch_str.length == 2) {
+                ls_first_name = ls_ch_str[1];
+                ls_last_name = ls_ch_str[0];
+            }
+            else if (ls_ch_str.length == 3) {
+                ls_last_name = ls_ch_str[0];
+                ls_first_name = ls_ch_str[1] + ls_ch_str[2];
+            }
+            else if (ls_ch_str.length == 4) {
+                ls_last_name = ls_ch_str[0];
+                ls_first_name = ls_ch_str[1] + ls_ch_str[2] + ls_ch_str[3];
+            }
+            else {
+                ls_last_name = ls_ch_str;
+                ls_first_name = ls_ch_str;
+            }
+        }
+
+        //處理英文姓名
+        if (ls_en_str != "" && ls_ch_str == "") {
+            let la_en_str_by_comma = ls_en_str.split(",");
+            if (la_en_str_by_comma.length > 1) {
+                ls_last_name = la_en_str_by_comma[0];
+                ls_first_name = la_en_str_by_comma[1];
+            }
+            else {
+                let la_en_str_by_space = ls_en_str.split(" ");
+                if (la_en_str_by_space.length > 1) {
+                    _.each(la_en_str_by_space, function (lo_en_str_by_space, index) {
+                        if (la_en_str_by_space.length - 1 > index) {
+                            ls_first_name += lo_en_str_by_space;
+                            if (la_en_str_by_space.length - 2 > index) {
+                                ls_first_name += " ";
+                            }
+                        }
+                        else {
+                            ls_last_name = lo_en_str_by_space;
+                        }
+                    })
+                }
+                else {
+                    ls_first_name = ls_en_str;
+                    ls_last_name = ls_en_str;
+                }
+            }
+        }
+
+        /**
+         * 組合中文姓與英文姓、中文名與英文名
+         * 若同時有中文姓名及英文姓名，則組合中文姓與英文姓、中文名與英文名，並使用逗點分隔
+         * 如中文姓為「王」，英文姓為「Wang」，則組合成「王,Wang」
+         */
+        if (ls_en_str != "" && ls_ch_str != "") {
+            let la_en_str = ls_en_str.split(",");
+            _.each(ls_ch_str, function (ch_str, index) {
+                if (index == 0) {
+                    ls_last_name = ch_str + "," + la_en_str[0];
+                }
+                else {
+                    ls_first_name += ch_str;
+                }
+            });
+            ls_first_name += "," + la_en_str[1];
+        }
+
+        lo_return.effectValues = {
+            first_nam: ls_first_name,
+            last_nam: ls_last_name,
+            "cust_idx.alt_nam": ls_alt_nam,
+            "cust_idx.first_nam": ls_first_name,
+            "cust_idx.last_nam": ls_last_name
+        };
+
+        this.r_cust_idx_birth_dat(postData, session, function (err, result) {
+            if (err) {
+                callback(err, result);
+            }
+            else {
+                lo_return.showAlert = result.showAlert;
+                lo_return.alertMsg = result.alertMsg;
+                callback(err, lo_return);
+            }
+        });
+        // callback(null, lo_return);
+        // console.log("中文:" + ls_ch_str, "英文：" + ls_en_str, "姓：" + ls_last_name, "名：" + ls_first_name);
+        // console.log("test");
+        // queryAgent.query("CHK_ALT_NAM_IS_EXIST", lo_params, function (err, result) {
+        // })
+    },
+
+    /**
+     * 用姓名及生日,檢查是否已存在相同住客歷史資料
+     * @param postData  {object}
+     * @param session {object}
+     * @param callback
+     */
+    r_cust_idx_birth_dat(postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let ls_alt_nam = postData.alt_nam || "";
+        let ls_birth_dat = postData.birth_dat || "";
+
+        if (ls_alt_nam != "" && ls_birth_dat != "") {
+            let lo_param = {
+                athena_id: session.user.athena_id,
+                alt_nam: ls_alt_nam,
+                birth_dat: ls_birth_dat
+            };
+            queryAgent.query("CHK_ALT_NAM_IS_EXIST", lo_param, function (err, result) {
+                if (err) {
+                    lo_error = new ErrorClass();
+                    lo_return.success = false;
+                    lo_error.errorMsg = err;
+                }
+                else {
+                    if (result.alt_nam_count > 0) {
+                        lo_return.showAlert = true;
+                        lo_return.alertMsg = commonRule.getMsgByCod("pms21msg01", session.locale);
+                    }
+                }
+                callback(lo_error, lo_return);
+            });
+        }
+        else {
+            callback(lo_error, lo_return);
+        }
+    },
+
+    /**
+     * 稱謂改變要改性別
+     * 1.到稱謂設定查是男是女,設定cust_idx.sex_typ
+     * 2.由於這2個欄位有可能是空白,或是男女都可使用,或是不分,所以
+     * (1)man_flag=Y && woman_flag <> Y 則 sex_typ = M
+     * (2)man_flag<>Y && woman_flag = Y 則 sex_typ = F
+     * @param postData {object}
+     * @param session {object}
+     * @param callback
+     */
+    r_salute_cod(postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let lb_sex_typ;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            salute_cod: postData.salute_cod
+        };
+        queryAgent.query("QRY_GENDER_BY_SALUTE_COD", lo_params, function (err, result) {
+            if (err) {
+                lo_error = new ErrorClass();
+                lo_return.success = false;
+                lo_error.errorMsg = err;
+            }
+            else {
+                let lb_man = result.man_flag;
+                let lb_woman = result.woman_flag;
+                if (lb_man == "Y" && lb_woman != "Y") {
+                    lb_sex_typ = "M";
+                }
+                else if (lb_man != "Y" && lb_woman == "Y") {
+                    lb_sex_typ = "F";
+                }
+                else {
+                    lb_sex_typ = "M";
+                }
+                lo_return.effectValues = {"cust_idx.sex_typ": lb_sex_typ};
+            }
+            callback(lo_error, lo_return);
+        });
+    },
+
+    /**
+     * 國籍改變要改『居住地、使用語言』
+     * @param postData {object}
+     * @param session {object}
+     * @param callback
+     */
+    r_contry_cod(postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            contry_cod: postData.contry_cod
+        };
+        queryAgent.query("QRY_LANG_BY_CONTRY_COD", lo_params, function (err, result) {
+            if (err) {
+                lo_error = new ErrorClass();
+                lo_return.success = false;
+                lo_error.errorMsg = err;
+            }
+            else {
+                lo_return.effectValues = {
+                    live_cod: postData.contry_cod,
+                    lang_cod: result.lang_cod
+                };
+            }
+            callback(lo_error, lo_return);
+        });
+    },
+
+    /**
+     * 1.改不為零時，將欄位status_cod改為V:VIP
+     * 2.改為零時，將欄位status_cod改為N:一般
+     * 3.若客戶索引檔來源資料表為住客歷史,才同步異動cust_idx.cust_sta
+     * 作法:
+     * if 檢查cust_idx.from_table == 'GHIST_MN'  then
+     * cust_idx.cust_sta = status_cod
+     * end if
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    r_vip_sta(postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let ln_old_vip_sta = postData.oldValue;
+        let ln_new_vip_sta = postData.newValue;
+
+        // 1.改不為零時，將欄位status_cod改為V:VIP
+        if (ln_new_vip_sta != 0) {
+            lo_return.effectValues = {status_cod: "V"};
+        }
+        //2.改為零時，將欄位status_cod改為N:一般
+        else {
+            lo_return.effectValues = {status_cod: "N"};
+        }
+
+        //3.若客戶索引檔來源資料表為住客歷史,才同步異動cust_idx.cust_sta
+        if (postData["cust_idx.from_table"] == 'GHIST_MN') {
+            lo_return.effectValues["cust_idx.cust_sta"] = ln_new_vip_sta;
+        }
+    },
+
+    /**
+     * 訂房公司改變要改『統一編號、發票抬頭』
+     * 1.若欄位cust_idx.uni_cod統一編號無資料，則帶入訂房公司統一編號(下拉選單欄位cust_idx.uni_cod)
+     * 2.若欄位cust_idx.uni_title發票抬頭無資料，則帶入訂房公司發票抬頭(下拉選單欄位cust_idx.uni_title)
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    // r_acust_cod(postData, session, callback) {
+    //     let ls_uni_cod = postData["cust_idx.uni_cod"];
+    // },
+
+    /**
+     * 刪除資料表
+     * 若已為訂房使用(含在館住客)則不允許刪除
+     * 訊息「姓名(歷史編號)此筆資料已為訂房使用(館別代號:館別名稱)，不可刪除」
+     * 如「王大明(HFD0000101)此筆資料已為訂房使用(館別01:台北館)，不可刪除」
+     * */
+    r_0300(postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            gcust_cod: postData.gcust_cod
+        };
+        queryAgent.query("CHK_GUEST_MN_IS_EXIST", lo_params, function (err, result) {
+            if (err) {
+                lo_error = new ErrorClass();
+                lo_return.success = false;
+                lo_error.errorMsg = err;
+            }
+            else {
+                if (result) {
+                    lo_error = new ErrorClass();
+                    lo_return.success = false;
+                    let ls_multiErrorMsg = commonRule.getMsgByCod("pms21msg2", session.locale);
+                    lo_error.errorMsg = _s.sprintf(ls_multiErrorMsg, result.alt_nam, result.show_cod, result.hotel_cod, result.hotel_nam);
+                    console.log(result)
+                }
+            }
+            callback(lo_error, lo_return);
+        });
+
+    },
+
+    /**
+     * 其他聯絡方式
+     * 電子郵件、聯絡方式、地址
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    async r_1040(postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            cust_cod: postData.cust_cod
+        };
+
+        try {
+            let [lo_email, lo_contact, lo_address] = await Promise.all([
+                this.getElseContact("QRY_ADDRESS_DT_EMAIL_BY_CUST_COD", lo_params),
+                this.getElseContact("QRY_ADDRESS_DT_CONTACT_BY_CUST_COD", lo_params),
+                this.getElseContact("QRY_ADDRESS_DT_ADDRESS_BY_CUST_COD", lo_params)
+            ]);
+
+            lo_return.defaultValues = {
+                emailData: lo_email,
+                contactData: lo_contact,
+                addressData: lo_address
+            };
+            callback(lo_error, lo_return);
+        }
+        catch(err){
+            lo_error = new ErrorClass();
+            lo_return.success = false;
+            lo_error.errorMsg = err;
+        }
+    },
+
+    /**
+     * 其他聯絡方式
+     * @param dao_name {string} dao sql 名稱
+     * @param params    {object} sql 條件
+     * @returns {Promise<any>}
+     */
+    async getElseContact(dao_name, params){
+        return new Promise((resolve, reject) => {
+            queryAgent.query(dao_name, params, function(err, result){
+                if(err){
+                    reject(err);
+                }
+                else{
+                    resolve(result);
+                }
+            })
+        });
+    },
+
+    /**
+     * 判段字串是否有中文
+     * @param str {string} 字串
+     */
+    chkStrHasChinese(str) {
+        if (/.*[\u4e00-\u9fa5]+.*/.test(str)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 };

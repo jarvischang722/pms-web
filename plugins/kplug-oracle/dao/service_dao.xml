@@ -98,6 +98,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_sales_class_hs.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_sales_class_kvrf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_sales_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_salute_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_sell_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_sales_hotel_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_service_rf.xml"/>

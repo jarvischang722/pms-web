@@ -12,4 +12,14 @@
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
     </dao>
+
+    <!-- [PMS0210011] 稱謂設定查是男是女-->
+    <dao name="QRY_GENDER_BY_SALUTE_COD">
+        <statement><![CDATA[
+               select man_flag, woman_flag from salute_rf where athena_id = :athena_id and salute_cod = :salute_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">salute_cod</parameter>
+    </dao>
 </root>
