@@ -27,42 +27,59 @@ let gs_template_id;
 
 // 多筆流程
 exports.DataGridProc = function (postData, session) {
-    gn_page_id = postData.page_id || 1;
-    gn_tab_page_id = postData.tab_page_id || 1;
-    go_session = session;
-    gs_prg_id = postData.prg_id;
-    go_searchCond = postData.searchCond || {}; //搜尋條件
-
     let self = this;
+    let ls_prg_id = postData.prg_id;
+    let ln_page_id = postData.page_id || 1;
+    let ln_tab_page_id = postData.tab_page_id || 1;
+    let lo_searchCond = postData.searchCond || {}; //搜尋條件
+
+    let lo_params = {
+        prg_id: ls_prg_id,
+        page_id: ln_page_id,
+        tab_page_id: ln_tab_page_id,
+        searchCond: lo_searchCond
+    };
     /**
      * 查詢欄位資料
      * @param callback
      */
-    this.fetchDgFieldsData = function (callback) {
-        async.waterfall([
-            qryUIDatagridFields, //取多筆欄位資料
-            qryFormatRule, //format_func_name轉換
-            qryLangUIFields, //欄位多語系
-            qrySelectOption, //查詢SelectOption
-            qrySearchFields //取搜尋欄位
-        ], function (err, result) {
-            callback(err, result);
-        });
+    this.fetchDgFieldsData = async function () {
+        try {
+            let la_dgFieldData = await qryUIDatagridFields(lo_params, session);
+            la_dgFieldData = await qryFormatRule(la_dgFieldData, lo_params, session);
+            la_dgFieldData = await qryLangUIFields(la_dgFieldData, lo_params, session);
+            la_dgFieldData = await qrySelectOption(la_dgFieldData, lo_params, session);
+            return la_dgFieldData;
+        }
+        catch (err) {
+            return (err);
+        }
+
+        // async.waterfall([
+        //     qryUIDatagridFields, //取多筆欄位資料
+        //     qryFormatRule, //format_func_name轉換
+        //     qryLangUIFields, //欄位多語系
+        //     qrySelectOption, //查詢SelectOption
+        //     qrySearchFields //取搜尋欄位
+        // ], function (err, result) {
+        //     callback(err, result);
+        // });
     };
 
     /**
      * 查詢oracle資料
      * @param callback
      */
-    this.fetchDgRowData = function (callback) {
-        async.waterfall([
-            qryDgTemplateRf, //查詢templateRf
-            qryRowData, //查詢多筆資料
-            filterRowData, //依條件過濾多筆資料
-            rowDataMultiLang //內容多語系
-        ], function (err, result) {
-            callback(err, result);
-        });
+    this.fetchDgRowData = async function () {
+        return {};
+        // async.waterfall([
+        //     qryDgTemplateRf, //查詢templateRf
+        //     qryRowData, //查詢多筆資料
+        //     filterRowData, //依條件過濾多筆資料
+        //     rowDataMultiLang //內容多語系
+        // ], function (err, result) {
+        //     callback(err, result);
+        // });
     };
 
     /**
@@ -231,7 +248,7 @@ exports.qrySearchFields = function (postData, session, callback) {
     gs_prg_id = postData.prg_id;
     gn_page_id = 3;
     go_session = session;
-    getAllUIPageFieldAttr(function(err, la_fields){
+    getAllUIPageFieldAttr(function (err, la_fields) {
         callback(err, la_fields);
     });
 };
@@ -322,34 +339,42 @@ function qryRowData(lo_rfData, callback) {
  * @param lo_params {object} 查詢條件
  * @param callback
  */
-function qryUIDatagridFields(callback) {
+async function qryUIDatagridFields(params, session) {
     //抓使用者及預設欄位
     let lo_params = {
         $or: [
             {user_id: ""},
-            {user_id: go_session.user.user_id}
+            {user_id: session.user.user_id}
         ],
-        prg_id: gs_prg_id,
-        page_id: Number(gn_page_id),
-        tab_page_id: Number(gn_tab_page_id)
+        prg_id: params.prg_id,
+        page_id: Number(params.page_id),
+        tab_page_id: Number(params.tab_page_id)
     };
     let la_fieldData = [];
-    mongoAgent.UIDatagridField.find(lo_params).sort({col_seq: 1}).select({_id: 0}).exec(function (err, dgFieldData) {
-        if (!dgFieldData) {
-            err = "uiDatagridFields is null";
-            return callback(err, dgFieldData);
-        }
-        la_fieldData = tools.mongoDocToObject(dgFieldData);
-        //過濾使用者欄位
-        let la_userFieldData = _.filter(la_fieldData, function (lo_fieldData) {
-            return lo_fieldData.user_id != "";
-        });
+    return new Promise((resolve, reject) => {
+        mongoAgent.UIDatagridField.find(lo_params).sort({col_seq: 1}).select({_id: 0}).exec(function (err, dgFieldData) {
+            if (err) {
+                reject(err);
+            }
+            else if (!dgFieldData) {
+                err = "uiDatagridFields is null";
+                reject(err);
+            }
+            else {
+                la_fieldData = tools.mongoDocToObject(dgFieldData);
+                //過濾使用者欄位
+                let la_userFieldData = _.filter(la_fieldData, function (lo_fieldData) {
+                    return lo_fieldData.user_id != "";
+                });
 
-        if (la_userFieldData.length != 0) {
-            la_fieldData = la_userFieldData;
-        }
-        callback(err, la_fieldData);
+                if (la_userFieldData.length != 0) {
+                    la_fieldData = la_userFieldData;
+                }
+                resolve(la_fieldData);
+            }
+        });
     });
+
 }
 
 /**
@@ -376,58 +401,72 @@ function qryUIPageFields(callback) {
  * @param la_fieldData{array}所有欄位資料
  * @param callback
  */
-function qryFormatRule(la_fieldData, callback) {
+async function qryFormatRule(la_fieldData, params, session) {
     let ln_counter = 0;
     if (la_fieldData.length == 0) {
-        callback(null, la_fieldData);
+        return la_fieldData;
     }
-    _.each(la_fieldData, function (lo_fieldData) {
-        var lo_format = {
+    return await _.each(la_fieldData, async function (lo_fieldData) {
+        let lo_format = {
             rule_name: "",
             rule_val: "",
             validate: ""
         };
 
-        var ls_formatFuncName = _.clone(lo_fieldData["format_func_name"]);
+        let ls_formatFuncName = _.clone(lo_fieldData["format_func_name"]);
         lo_fieldData["format_func_name"] = lo_format;
 
-        if (ls_formatFuncName.indexOf(",") > -1) {
-            var la_formatFuncName = ls_formatFuncName.split(",");
-            for (var i = 1; i < la_formatFuncName.length; i++) {
-                lo_fieldData["format_func_name"].validate = lo_format.validate + "," + la_formatFuncName[i];
+        try {
+            if (ls_formatFuncName.indexOf(",") > -1) {
+                let la_formatFuncName = ls_formatFuncName.split(",");
+                for (let i = 1; i < la_formatFuncName.length; i++) {
+                    lo_fieldData["format_func_name"].validate = lo_format.validate + "," + la_formatFuncName[i];
+                }
+                await qryOracleFormat(la_formatFuncName[0]);
             }
-            qryOracleFormat(la_formatFuncName[0]);
+            else {
+                await qryOracleFormat(ls_formatFuncName);
+            }
+            ln_counter++;
+            if(ln_counter == la_fieldData.length){
+                return la_fieldData;
+            }
         }
-        else {
-            qryOracleFormat(ls_formatFuncName);
+        catch (err) {
+            return err;
         }
+
 
         /**
          * 去oracle撈format參數
          * @param ls_formatName{string} format 的名稱
          */
-        function qryOracleFormat(ls_formatName) {
-            ln_counter++;
-            var daoBean = ls_formatName != "" ? db.loadDao({dao: ls_formatName.toUpperCase(), id: 'default'}) : null;
+        async function qryOracleFormat(ls_formatName) {
 
-            if (daoBean != null) {
-                queryAgent.query(ls_formatName.toUpperCase(), {athena_id: go_session.user.athena_id}, function (err, result) {
-                    lo_fieldData["format_func_name"].rule_name = ls_formatFuncName;
-                    lo_fieldData["format_func_name"].rule_val = result.format_val;
-
-                    if (ln_counter == la_fieldData.length) {
-                        callback(null, la_fieldData);
-                    }
-                });
-            }
-            else {
-                lo_fieldData["format_func_name"].validate = ls_formatFuncName;
-                if (ln_counter == la_fieldData.length) {
-                    callback(null, la_fieldData);
+            let daoBean = ls_formatName != "" ? db.loadDao({dao: ls_formatName.toUpperCase(), id: 'default'}) : null;
+            return new Promise((resolve, reject) => {
+                if (daoBean != null) {
+                    queryAgent.query(ls_formatName.toUpperCase(), {athena_id: session.user.athena_id}, function (err, result) {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            lo_fieldData["format_func_name"].rule_name = ls_formatFuncName;
+                            lo_fieldData["format_func_name"].rule_val = result.format_val;
+                            resolve(lo_fieldData);
+                        }
+                    });
                 }
-            }
+                else {
+                    lo_fieldData["format_func_name"].validate = ls_formatFuncName;
+                    resolve(lo_fieldData);
+                }
+            });
+
         }
     });
+
+
 }
 
 /**
@@ -436,26 +475,25 @@ function qryFormatRule(la_fieldData, callback) {
  * @param la_dgFieldData {array} 所有多筆欄位資料
  * @param callback
  */
-function qryLangUIFields(la_dgFieldData, callback) {
+async function qryLangUIFields(la_dgFieldData, params, session) {
     let lo_params = {
-        prg_id: gs_prg_id,
-        page_id: Number(gn_page_id)
+        prg_id: params.prg_id,
+        page_id: Number(params.page_id)
     };
-    mongoAgent.LangUIField.find(lo_params).exec(function (err, fieldLang) {
+    await mongoAgent.LangUIField.find(lo_params).exec(function (err, fieldLang) {
         fieldLang = tools.mongoDocToObject(fieldLang);
         _.each(la_dgFieldData, function (lo_dgFieldData, fIdx) {
             let tmpLang = _.findWhere(fieldLang, {ui_field_name: lo_dgFieldData["ui_field_name"].toLowerCase()});
             if (tmpLang) {
-                la_dgFieldData[fIdx]["ui_display_name"] = tmpLang["ui_display_name_" + go_session.locale] != ""
-                    ? tmpLang["ui_display_name_" + go_session.locale]
-                    : tmpLang["ui_display_name_zh_TW"] ? tmpLang["ui_display_name_zh_TW"] + '(' + go_session.locale + ')' : '';
+                la_dgFieldData[fIdx]["ui_display_name"] = tmpLang["ui_display_name_" + session.locale] != ""
+                    ? tmpLang["ui_display_name_" + session.locale]
+                    : tmpLang["ui_display_name_zh_TW"] ? tmpLang["ui_display_name_zh_TW"] + '(' + session.locale + ')' : '';
 
-                la_dgFieldData[fIdx]["ui_hint"] = tmpLang["ui_display_name_" + go_session.locale] || "";
-
+                la_dgFieldData[fIdx]["ui_hint"] = tmpLang["ui_display_name_" + session.locale] || "";
             }
         });
-        callback(err, la_dgFieldData);
     });
+    return la_dgFieldData;
 }
 
 /**
@@ -463,8 +501,8 @@ function qryLangUIFields(la_dgFieldData, callback) {
  * @param la_dgFieldData {array} 所有多筆欄位資料
  * @param callback
  */
-function qrySelectOption(la_dgFieldData, callback) {
-    var la_asyncParaFunc = [];
+async function qrySelectOption(la_dgFieldData, params, session) {
+    let la_asyncParaFunc = [];
     _.each(la_dgFieldData, function (lo_dgField, fIdx) {
         if (lo_dgField.ui_type == 'select' || lo_dgField.ui_type == 'multiselect' || lo_dgField.ui_type == 'checkbox' || lo_dgField.ui_type == 'selectgrid') {
 
@@ -479,7 +517,7 @@ function qrySelectOption(la_dgFieldData, callback) {
             la_asyncParaFunc.push(
                 function (cb) {
                     la_dgFieldData[fIdx].selectData = [];
-                    ruleAgent[lo_dgField.rule_func_name](lo_dgField, go_session.user, function (err, result) {
+                    ruleAgent[lo_dgField.rule_func_name](lo_dgField, session.user, function (err, result) {
                         la_dgFieldData[fIdx].selectData = result.selectOptions;
                         cb(null, la_dgFieldData[fIdx]);
                     });
@@ -490,8 +528,10 @@ function qrySelectOption(la_dgFieldData, callback) {
     });
 
     async.parallel(la_asyncParaFunc, function (err, result) {
-        callback(err, la_dgFieldData);
+        return la_dgFieldData;
     });
+
+
 
     /**
      * 產生執行async parallel function
@@ -503,8 +543,8 @@ function qrySelectOption(la_dgFieldData, callback) {
         la_asyncParaFunc.push(
             function (cb) {
                 mongoAgent.UITypeSelect.findOne({
-                    prg_id: gs_prg_id,
-                    page_id: Number(gn_page_id),
+                    prg_id: params.prg_id,
+                    page_id: Number(params.page_id),
                     ui_field_name: lo_dgField.ui_field_name
                 }).exec(function (err, selRow) {
                     la_dgFieldData[fIdx].selectData = [];
@@ -514,14 +554,14 @@ function qrySelectOption(la_dgFieldData, callback) {
                         la_dgFieldData[fIdx].referiable = selRow.referiable || "N";
                         la_dgFieldData[fIdx].defaultVal = selRow.defaultVal || "";
 
-                        if (la_dgFieldData[fIdx].ui_type == "selectgrid" || la_dgFieldData[fIdx].ui_type == "multiselectgrid" ) {
-                            dataRuleSvc.getSelectGridOption(go_session, selRow, la_dgFieldData[fIdx], function (err, selectData) {
+                        if (la_dgFieldData[fIdx].ui_type == "selectgrid" || la_dgFieldData[fIdx].ui_type == "multiselectgrid") {
+                            dataRuleSvc.getSelectGridOption(session, selRow, la_dgFieldData[fIdx], function (err, selectData) {
                                 la_dgFieldData[fIdx].selectData = selectData;
                                 cb(err, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
                             });
                         }
                         else {
-                            dataRuleSvc.getSelectOptions(go_session.user, selRow, la_dgFieldData[fIdx], function (selectData) {
+                            dataRuleSvc.getSelectOptions(session.user, selRow, la_dgFieldData[fIdx], function (selectData) {
                                 la_dgFieldData[fIdx].selectData = selectData;
                                 cb(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
                             });
@@ -548,7 +588,7 @@ function qrySelectOption(la_dgFieldData, callback) {
                 function (cb) {
                     if (lo_dgField.visiable == "C" || lo_dgField.modificable == "C" || lo_dgField.requirable == "C") {
                         if (!_.isEmpty(ls_attrName) && !_.isUndefined(ruleAgent[ls_attrName])) {
-                            ruleAgent[ls_attrName](lo_dgField, go_session.user, function (err, result) {
+                            ruleAgent[ls_attrName](lo_dgField, session.user, function (err, result) {
                                 if (result) {
                                     la_dgFieldData[fIdx] = result[0];
                                     cb(err, {ui_field_idx: fIdx, field: result});

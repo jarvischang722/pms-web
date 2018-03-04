@@ -14,20 +14,38 @@ const tools = require("../utils/CommonTools");
 const fetechDataModule = require("./common/fetchDataModule");
 
 // 取作業多筆欄位資料
-exports.fetchDgFieldData = function (postData, session, callback) {
+exports.fetchDgFieldData = async function (postData, session, callback) {
     let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
 
-    async.parallel({
-        fetchFieldsResult: lo_dgProc.fetchDgFieldsData,   //取多筆欄位資料
-        fetchRowsResult: lo_dgProc.fetchDgRowData      //取多筆資料
-    }, function (err, result) {
+    try {
+        let [fetchFieldsResult, fetchRowsResult] = await Promise.all([
+            lo_dgProc.fetchDgFieldsData(),
+            lo_dgProc.fetchDgFieldsData(),
+            lo_dgProc.fetchDgRowData()
+        ]);
         let lo_rtnData = {
-            searchFields: result.fetchFieldsResult.searchFields,
-            dgFieldsData: result.fetchFieldsResult.dgFieldsData,
-            dgRowData: result.fetchRowsResult
+            searchFields: fetchFieldsResult.searchFields,
+            dgFieldsData: fetchFieldsResult.dgFieldsData,
+            dgRowData: fetchRowsResult
         };
-        callback(err, lo_rtnData);
-    });
+        callback(null, lo_rtnData);
+    }
+    catch (err) {
+        callback(err, {})
+    }
+
+
+    // async.parallel({
+    //     fetchFieldsResult: lo_dgProc.fetchDgFieldsData,   //取多筆欄位資料
+    //     fetchRowsResult: lo_dgProc.fetchDgRowData      //取多筆資料
+    // }, function (err, result) {
+    //     let lo_rtnData = {
+    //         searchFields: result.fetchFieldsResult.searchFields,
+    //         dgFieldsData: result.fetchFieldsResult.dgFieldsData,
+    //         dgRowData: result.fetchRowsResult
+    //     };
+    //     callback(err, lo_rtnData);
+    // });
 };
 
 /**
