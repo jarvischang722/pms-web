@@ -139,8 +139,8 @@ const actions = {
     },
     //儲存基本資料
     async doSaveProfileData({commit, dispatch, state}) {
-        var err = null;
-        var lo_tmpCUD = {
+        let err = null;
+        let lo_tmpCUD = {
             createData: [],
             updateData: [],
             deleteData: [],
@@ -148,11 +148,11 @@ const actions = {
         };
 
         if (state.gb_isCreateStatus) {
-            lo_tmpCUD.createData = state.go_profileSingleData;
+            lo_tmpCUD.createData.push(state.go_profileSingleData);
         }
         else if (state.gb_isEditStatus) {
-            lo_tmpCUD.updateData = state.go_profileSingleData;
-            lo_tmpCUD.oriData = state.go_oriProfileSingleData;
+            lo_tmpCUD.updateData.push(state.go_profileSingleData);
+            lo_tmpCUD.oriData.push(state.go_oriProfileSingleData);
         }
 
         // console.log(lo_tmpCUD);
@@ -169,8 +169,8 @@ const actions = {
     },
     //儲存其他聯絡資料
     async doSaveOtherContactData({commit, dispatch, state}) {
-        var err = null;
-        var lo_tmpCUD = {
+        let err = null;
+        let lo_tmpCUD = {
             dt_updateData: [],
             dt_oriData: []
         };

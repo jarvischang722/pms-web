@@ -46,7 +46,7 @@ exports.fetchGsFieldData = function (postData, session, callback) {
         gsDtData: lo_dgProc.fetchDgData
     }, function (err, result) {
         let lo_rtnData = {};
-        if(!err){
+        if (!err) {
             lo_rtnData = {
                 gsMnData: result.gsMnData,
                 gsDtData: result.gsDtData

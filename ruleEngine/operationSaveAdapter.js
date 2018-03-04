@@ -113,6 +113,7 @@ function chkTmpType(rfData, callback) {
         gs_template_id = "mn-dt";
     }
     else if (ln_isDataGridExist != -1 && ln_isGridSingleExist == -1) {
+        gs_mainTableName = rfData[ln_isDataGridExist].table_name;
         gs_dgTableName = rfData[ln_isDataGridExist].table_name;
         gs_template_id = "datagrid";
     }
