@@ -182,7 +182,7 @@ module.exports = {
      */
     r_alt_nam(postData, session, callback) {
         let lo_return = new ReturnClass();
-        let ls_alt_nam = postData.alt_nam;
+        let ls_alt_nam = postData.singleRowData[0].alt_nam;
         let ls_ch_str = "";
         let ls_en_str = "";
         let ls_first_name = "";
@@ -539,7 +539,7 @@ module.exports = {
      */
     async getElseContact(dao_name, params){
         return new Promise((resolve, reject) => {
-            queryAgent.query(dao_name, params, function(err, result){
+            queryAgent.queryList(dao_name, params,0, 0, function(err, result){
                 if(err){
                     reject(err);
                 }

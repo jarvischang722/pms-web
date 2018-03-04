@@ -217,6 +217,7 @@
                         self.editingRow = {};
                         self.isEditStatus = false;
                         self.isCreateStatus = false;
+                        self.$store.dispatch("setAllDataClear");
                     }
                 }).dialog('open');
             },

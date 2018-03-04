@@ -36,8 +36,8 @@
                                                                :required="field.requirable == 'Y'" min="0"
                                                                :maxlength="field.ui_field_length"
                                                                :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                               :disabled="field.modificable == 'N'||
-                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                               :disabled="field.modificable == 'N'||(field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                               @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
 
                                                         <bac-select
                                                                 v-if="field.visiable == 'Y' && field.ui_type == 'select'"
@@ -52,17 +52,19 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                         </bac-select>
 
-                                                        <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
-                                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                                         :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                         v-model="singleData[field.ui_field_name]"
-                                                                         :columns="field.selectData.columns"
-                                                                         :data="field.selectData.selectData"
-                                                                         :is-qry-src-before="field.selectData.isQrySrcBefore"
-                                                                         :id-field="field.selectData.value" :text-field="field.selectData.display"
-                                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                                         :default-val="singleData[field.ui_field_name]"
-                                                                         :disabled="field.modificable == 'N'||
+                                                        <bac-select-grid
+                                                                v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                v-model="singleData[field.ui_field_name]"
+                                                                :columns="field.selectData.columns"
+                                                                :data="field.selectData.selectData"
+                                                                :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                                :id-field="field.selectData.value"
+                                                                :text-field="field.selectData.display"
+                                                                @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                :default-val="singleData[field.ui_field_name]"
+                                                                :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                         </bac-select-grid>
 
@@ -338,14 +340,16 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" :disabled="isOtherContact">{{i18nLang.SystemCommon.Save}}
+                                                role="button" :disabled="isOtherContact" @click="doSaveData">
+                                            {{i18nLang.SystemCommon.Save}}
                                         </button>
                                     </li>
                                     <!--btn 有間距class:segement-->
 
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button" :disabled="isOtherContact">{{i18nLang.SystemCommon.Delete}}
+                                                role="button" :disabled="isOtherContact">
+                                            {{i18nLang.SystemCommon.Delete}}
                                         </button>
                                     </li>
                                     <li>
@@ -365,7 +369,8 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="doOpenOtherContact">{{i18nLang.program.PMS0210011.Other_contact}}
+                                                role="button" @click="doOpenOtherContact">
+                                            {{i18nLang.program.PMS0210011.Other_contact}}
                                         </button>
                                     </li>
                                     <li>
@@ -375,7 +380,8 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="doOpenLostFound" disabled>{{i18nLang.program.PMS0210011.LostAndFound}}
+                                                role="button" @click="doOpenLostFound" disabled>
+                                            {{i18nLang.program.PMS0210011.LostAndFound}}
                                         </button>
                                     </li>
                                     <li>
@@ -468,6 +474,15 @@
                     this.tabName = "profile";
                 }
             },
+            singleData: {
+                handler(val) {
+                    this.$store.dispatch("setProfileData", {
+                        go_profileSingleData: val,
+                        go_oriProfileSingleData: this.oriSingleData
+                    });
+                },
+                deep: true
+            }
         },
         methods: {
             initData() {
@@ -549,12 +564,84 @@
                     });
                 }
             },
+            chkFieldRule: function (ui_field_name, rule_func_name) {
+                if (rule_func_name === "" || !this.$parent.isModifiable) {
+                    return;
+                }
+                var self = this;
+                var la_oriSingleData = [this.oriSingleData];
+                var la_singleData = [this.singleData];
+                var la_diff = _.difference(la_oriSingleData, la_singleData);
+
+                // 判斷資料是否有異動
+                if (la_diff.length != 0) {
+                    this.isUpdate = true;
+                }
+
+                if (!_.isEmpty(rule_func_name.trim())) {
+                    var postData = {
+                        prg_id: "PMS0210011",
+                        rule_func_name: rule_func_name,
+                        validateField: ui_field_name,
+                        singleRowData: la_singleData,
+                        oriSingleData: la_oriSingleData
+                    };
+                    $.post('/api/chkFieldRule', postData, function (result) {
+
+                        if (result.success) {
+                            //是否要show出訊息
+                            if (result.showAlert) {
+                                alert(result.alertMsg);
+                            }
+
+                            //是否要show出詢問視窗
+                            if (result.showConfirm) {
+                                if (confirm(result.confirmMsg)) {
+
+                                } else {
+                                    //有沒有要再打一次ajax到後端
+                                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
+                                        $.post(result.ajaxURL, postData, function (result) {
+
+                                            if (!result.success) {
+                                                alert(result.errorMsg);
+                                            } else {
+
+                                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                    self.singleData = _.extend(self.singleData, result.effectValues);
+                                                }
+
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+
+                        //連動帶回的值
+                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                            self.singleData = _.extend(self.singleData, result.effectValues);
+                        }
+
+                    });
+                }
+            },
+            //儲存資料
+            async doSaveData() {
+                let a = await this.$store.dispatch("doSaveProfileData");
+                let b = await this.$store.dispatch("doSaveOtherContactData");
+                console.log(a, b);
+            },
             //開啟other contact 跳窗
             doOpenOtherContact() {
                 let self = this;
                 this.isOtherContact = true;
 
-                if(this.isOtherContact){
+                if (this.isOtherContact) {
                     var dialog = $("#otherContact").removeClass('hide').dialog({
                         modal: true,
                         title: "其他聯絡方式",

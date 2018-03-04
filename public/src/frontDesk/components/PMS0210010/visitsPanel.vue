@@ -49,9 +49,17 @@
         watch: {
             isVisitsPanel(val) {
                 if (val) {
-                    this.isLoadingDialog = true;
-                    this.initData();
-                    this.fetchShopInfoFieldData();
+                    if(this.$store.state.ga_shopInfoFieldsData.length != 0){
+                        this.shopInfoFieldsData = this.$store.state.ga_shopInfoFieldsData;
+                        this.shopInfoRows = this.$store.state.ga_shopInfoRows;
+                        this.visitHistoryFieldsData = this.$store.state.ga_visitHistoryFieldsData;
+                        this.visitHistoryRows = this.$store.state.ga_visitHistoryRows;
+                    }
+                    else{
+                        this.isLoadingDialog = true;
+                        this.initData();
+                        this.fetchShopInfoFieldData();
+                    }
                 }
             }
         },
@@ -77,15 +85,9 @@
                 }).then(result => {
                     this.shopInfoFieldsData = result.dgFieldsData;
                     this.shopInfoRows = result.dgRowData;
-                    this.showShopInfoDataGrid();
+                    this.fetchVisitHistoryFieldData();
 
                 });
-            },
-            showShopInfoDataGrid() {
-                this.shopInfoDgIns = new DataGridSingleGridClass();
-                this.shopInfoDgIns.init("PMS0210011", "reserveShopInfo_dg", DatagridFieldAdapter.combineFieldOption(this.shopInfoFieldsData, "reserveShopInfo_dg"), this.shopInfoFieldsData);
-                this.shopInfoDgIns.loadDgData(this.shopInfoRows);
-                this.fetchVisitHistoryFieldData();
             },
             fetchVisitHistoryFieldData() {
                 $.post("/api/fetchDataGridFieldData", {
@@ -95,8 +97,24 @@
                 }).then(result => {
                     this.visitHistoryFieldsData = result.dgFieldsData;
                     this.visitHistoryRows = result.dgRowData;
-                    this.showVisitHistoryDataGrid();
+                    this.showShopInfoDataGrid();
+                    this.setVisitsData();
                 });
+            },
+            //將來管資料放進vuex
+            setVisitsData(){
+                this.$store.dispatch("setVisitsData", {
+                    ga_shopInfoFieldsData: this.shopInfoFieldsData,
+                    ga_shopInfoRows: this.shopInfoRows,
+                    ga_visitHistoryFieldsData: this.visitHistoryFieldsData,
+                    ga_visitHistoryRows: this.visitHistoryRows
+                });
+            },
+            showShopInfoDataGrid() {
+                this.shopInfoDgIns = new DataGridSingleGridClass();
+                this.shopInfoDgIns.init("PMS0210011", "reserveShopInfo_dg", DatagridFieldAdapter.combineFieldOption(this.shopInfoFieldsData, "reserveShopInfo_dg"), this.shopInfoFieldsData);
+                this.shopInfoDgIns.loadDgData(this.shopInfoRows);
+                this.showVisitHistoryDataGrid();
             },
             showVisitHistoryDataGrid() {
                 this.visitHistoryDgIns = new DataGridSingleGridClass();

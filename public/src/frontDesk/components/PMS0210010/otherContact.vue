@@ -187,31 +187,81 @@
         watch: {
             isOtherContact(val) {
                 if (val) {
-                    this.isLoadingDialog = true;
-                    this.initData();
-                    this.fetchEmailData();
+                    if(this.$store.state.ga_emailFieldsData.length != 0) {
+                        this.emailFieldsData = this.$store.state.ga_emailFieldsData;
+                        this.contactFieldsData = this.$store.state.ga_contactFieldsData;
+                        this.addressFieldsData = this.$store.state.ga_addressFieldsData;
+                        this.emailDataGridRows = this.$store.state.ga_emailDataGridRowsData;
+                        this.oriEmailDataGridRows = this.$store.state.ga_oriEmailDataGridRowsData;
+                        this.contactDataGridRows = this.$store.state.ga_contactDataGridRowsData;
+                        this.oriContactDataGridRows = this.$store.state.ga_oriContactDataGridRowsData;
+                        this.addressDataGridRows = this.$store.state.ga_addressDataGridRowsData;
+                        this.oriAddressDataGridRows = this.$store.state.ga_oriAddressDataGridRowsData;
+                    }
+                    else{
+                        this.isLoadingDialog = true;
+                        this.initData();
+                        this.fetchDefaultValue();
+                        this.fetchEmailData();
+                    }
                 }
             },
             emailDataGridRows: {
-                handler(val){
+                handler: function (val) {
                     if(!_.isEmpty(val)){
-
+                        //將email資料放至Vuex
+                        this.$store.dispatch("setEmailDataGridRowsData", {
+                            ga_emailDataGridRowsData: val,
+                            ga_oriEmailDataGridRowsData: this.oriEmailDataGridRows,
+                            go_emailTmpCUD: {
+                                updateData: val,
+                                oriData: this.oriEmailDataGridRows
+                            }
+                        });
                     }
                 },
                 deep: true
             },
             contactDataGridRows: {
-                handler(val){
+                handler: function (val) {
                     if(!_.isEmpty(val)){
-
+                        //將聯絡資料放至Vuex
+                        this.$store.dispatch("setContactDataGridRowsData", {
+                            ga_contactDataGridRowsData: val,
+                            ga_oriContactDataGridRowsData: this.oriContactDataGridRows,
+                            go_contactTmpCUD: {
+                                updateData: val,
+                                oriData: this.oriContactDataGridRows
+                            }
+                        });
                     }
                 },
                 deep: true
             },
             addressDataGridRows: {
-                handler(val){
+                handler: function (val) {
                     if(!_.isEmpty(val)){
-
+                        _.each(val,(lo_addressDataGridRows, idx)=>{
+                            if(lo_addressDataGridRows["address_dt.zip_cod"]!= null){
+                                if(lo_addressDataGridRows["address_dt.add_rmk"]== null){
+                                    let ls_zipCod = _.findWhere(this.zipCodSelectData, {value: lo_addressDataGridRows["address_dt.zip_cod"]})["display"];
+                                    val[idx]["address_dt.add_rmk"] = ls_zipCod.split(":")[1]
+                                }
+                                else if(lo_addressDataGridRows["address_dt.add_rmk"].trim() == ""){
+                                    let ls_zipCod = _.findWhere(this.zipCodSelectData, {value: lo_addressDataGridRows["address_dt.zip_cod"]});
+                                    val[idx]["address_dt.add_rmk"] = ls_zipCod.split(":")[1]
+                                }
+                            }
+                        });
+                        //將聯絡資料放至Vuex
+                        this.$store.dispatch("setAddressDataGridRowsData", {
+                            ga_addressDataGridRowsData: val,
+                            ga_oriAddressDataGridRowsData: this.oriAddressDataGridRows,
+                            go_addressTmpCUD: {
+                                updateData: val,
+                                oriData: this.oriAddressDataGridRows
+                            }
+                        });
                     }
                 },
                 deep: true
@@ -229,6 +279,16 @@
                 this.addressDataGridRows = [];
                 this.oriAddressDataGridRows = [];
             },
+            fetchDefaultValue(){
+                $.post("/api/fetchDefaultSingleRowData", {
+                    prg_id: "PMS0210011",
+                    page_id: 1040,
+                    tab_page_id: 1,
+                    cust_cod: this.$store.state.gcust_cod
+                }).then(result => {
+                    console.log(result);
+                });
+            },
             fetchEmailData() {
                 $.post("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0210011",
@@ -239,6 +299,13 @@
                     this.emailFieldsData = result.dgFieldsData;
                     this.emailDataGridRows = result.dgRowData;
                     this.oriEmailDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
+                    _.each(this.emailDataGridRows, (lo_emailDataGridRows,idx)=>{
+                        this.emailDataGridRows[idx]["cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.emailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1, });
+                    });
+                    _.each(this.oriEmailDataGridRows, (lo_emailDataGridRows,idx)=>{
+                        this.oriEmailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1});
+                    });
                     this.fetchContactData()
                 });
             },
@@ -252,6 +319,13 @@
                     this.contactFieldsData = result.dgFieldsData;
                     this.contactDataGridRows = result.dgRowData;
                     this.oriContactDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
+                    _.each(this.contactDataGridRows, (lo_contactDataGridRows,idx)=>{
+                        this.contactDataGridRows[idx]["contact_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.contactDataGridRows[idx] = _.extend(lo_contactDataGridRows, {tab_page_id: 2});
+                    });
+                    _.each(this.oriContactDataGridRows, (lo_contactDataGridRows,idx)=>{
+                        this.oriContactDataGridRows[idx] = _.extend(lo_contactDataGridRows, {tab_page_id: 2});
+                    });
                     this.fetchAddressData();
                 });
             },
@@ -265,12 +339,32 @@
                     this.addressFieldsData = result.dgFieldsData;
                     this.addressDataGridRows = result.dgRowData;
                     this.oriAddressDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
+
+                    //取得郵遞區號下拉資料
                     _.each(this.addressFieldsData, (lo_addressFieldData)=>{
                         if(lo_addressFieldData.ui_field_name == 'address_dt.zip_cod'){
                             this.zipCodSelectData = lo_addressFieldData.selectData;
                         }
-                    })
+                    });
+
+                    _.each(this.addressDataGridRows, (lo_addressDataGridRows,idx)=>{
+                        this.addressDataGridRows[idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.addressDataGridRows[idx] = _.extend(lo_addressDataGridRows, {tab_page_id: 3});
+                    });
+                    _.each(this.oriAddressDataGridRows, (lo_addressDataGridRows,idx)=>{
+                        this.oriAddressDataGridRows[idx] = _.extend(lo_addressDataGridRows, {tab_page_id: 3});
+                    });
+
                     this.isLoadingDialog = false;
+                    this.setFieldsData();//把欄位資料放進vuex中
+                });
+            },
+            setFieldsData(){
+                //將業務備註資料放至Vuex
+                this.$store.dispatch("setOtherContactFieldsData", {
+                    ga_emailFieldsData: this.emailFieldsData,
+                    ga_contactFieldsData: this.contactFieldsData,
+                    ga_addressFieldsData: this.addressFieldsData
                 });
             },
             doCloseDialog(){
