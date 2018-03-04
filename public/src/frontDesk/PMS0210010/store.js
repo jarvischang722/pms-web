@@ -156,17 +156,16 @@ const actions = {
         }
 
         // console.log(lo_tmpCUD);
-        return lo_tmpCUD;
 
-        // return await $.post('/api/doOperationSave', {
-        //     prg_id: 'PMS0210011',
-        //     page_id: 1,
-        //     func_id: lo_tmpCUD.createData.length > 0 ? "0200" : "0400",
-        //     trans_cod: 'PMS0210011',
-        //     tmpCUD: lo_tmpCUD
-        // }).then(result => {
-        //     return (result);
-        // });
+        return await $.post('/api/doOperationSave', {
+            prg_id: 'PMS0210011',
+            page_id: 1,
+            func_id: lo_tmpCUD.createData.length > 0 ? "0200" : "0400",
+            // trans_cod: 'PMS0210011',
+            tmpCUD: lo_tmpCUD
+        }).then(result => {
+            return (result);
+        });
     },
     //儲存其他聯絡資料
     async doSaveOtherContactData({commit, dispatch, state}) {
@@ -195,16 +194,15 @@ const actions = {
             lo_tmpCUD.dt_oriData.push(lo_oriData);
         });
 
-        return lo_tmpCUD;
-        // return await $.post('/api/doOperationSave', {
-        //     prg_id: 'PMS0210011',
-        //     page_id: 1040,
-        //     func_id: '0400',
-        //     trans_cod: 'PMS0210011',
-        //     tmpCUD: lo_tmpCUD
-        // }).then(result => {
-        //     return (result);
-        // });
+        return await $.post('/api/doOperationSave', {
+            prg_id: 'PMS0210011',
+            page_id: 1040,
+            func_id: '0400',
+            // trans_cod: 'PMS0210011',
+            tmpCUD: lo_tmpCUD
+        }).then(result => {
+            return (result);
+        });
     },
     //清除所有資料
     setAllDataClear({commit}) {
