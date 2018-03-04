@@ -65,11 +65,21 @@
 <script>
     import pms0210011 from './PMS0210011.vue';
 
+    Vue.prototype.$eventHub = new Vue();
+
     var gs_prgId = "PMS0210010";
 
     export default {
         name: 'pms0210010',
         components: {pms0210011},
+        created(){
+            var self = this;
+            this.$eventHub.$on('addNewData', function () {
+                setTimeout(()=>{
+                    self.appendRow();
+                }, 100);
+            });
+        },
         mounted() {
             this.fetchUserInfo();
             this.setSearchCond();
@@ -177,7 +187,7 @@
                 this.isLoading = true;
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
-                this.editingRow = {cust_mn_cust_cod: ""};
+                this.editingRow = {gcust_cod: ""};
 
                 this.showSingleGridDialog();
                 this.isLoading = false;

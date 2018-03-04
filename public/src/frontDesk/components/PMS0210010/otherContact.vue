@@ -201,7 +201,6 @@
                     else{
                         this.isLoadingDialog = true;
                         this.initData();
-                        this.fetchDefaultValue();
                         this.fetchEmailData();
                     }
                 }
@@ -278,16 +277,6 @@
                 this.addressFieldsData = [];
                 this.addressDataGridRows = [];
                 this.oriAddressDataGridRows = [];
-            },
-            fetchDefaultValue(){
-                $.post("/api/fetchDefaultSingleRowData", {
-                    prg_id: "PMS0210011",
-                    page_id: 1040,
-                    tab_page_id: 1,
-                    cust_cod: this.$store.state.gcust_cod
-                }).then(result => {
-                    console.log(result);
-                });
             },
             fetchEmailData() {
                 $.post("/api/fetchDataGridFieldData", {

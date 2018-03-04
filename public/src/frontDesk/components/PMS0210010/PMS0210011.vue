@@ -335,7 +335,8 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" :disabled="isOtherContact">{{i18nLang.SystemCommon.Add}}
+                                                role="button" :disabled="isOtherContact" @click="doaAddData">
+                                            {{i18nLang.SystemCommon.Add}}
                                         </button>
                                     </li>
                                     <li>
@@ -476,6 +477,23 @@
             },
             singleData: {
                 handler(val) {
+                    //姓名
+                    val.first_nam = val["cust_idx.first_nam"];
+                    val.last_nam = val["cust_idx.last_nam"];
+
+                    //公司名稱
+                    val.ccust_nam = val["cust_idx.comp_nam"];
+
+                    //訂房公司影響統一編號,發票抬頭
+                    if(val.acust_cod != null){
+                        let lo_compCodSelectData = _.findWhere(this.profileOriFieldsData, {ui_field_name: "acust_cod"}).selectData.selectData;
+                        let ls_uniCod = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_cod;
+                        let ls_uniTitle = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_title;
+
+                        val["cust_idx.uni_cod"] = ls_uniCod;
+                        val["cust_idx.uni_title"] = ls_uniTitle;
+                    }
+
                     this.$store.dispatch("setProfileData", {
                         go_profileSingleData: val,
                         go_oriProfileSingleData: this.oriSingleData
@@ -629,6 +647,11 @@
 
                     });
                 }
+            },
+            //增加資料
+            doaAddData() {
+                this.doCloseDialog();
+                this.$eventHub.$emit('addNewData', {});
             },
             //儲存資料
             async doSaveData() {
