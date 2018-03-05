@@ -3871,7 +3871,7 @@
     "ui_field_name" : "role_cod", 
     "ui_type" : "select", 
     "ui_display_name" : "", 
-    "rule_func_name" : "QRY_LANG_BY_CONTRY_COD", 
+    "rule_func_name" : "SEL_CUST_MN_PERS_DT_ROLE_COD", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
