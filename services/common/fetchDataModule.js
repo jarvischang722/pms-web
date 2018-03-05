@@ -72,17 +72,16 @@ exports.DataGridProc = function (postData, session) {
      * @param callback
      */
     this.fetchDgRowData = async function () {
-        let lo_rfData = qryDgTemplateRf(lo_params, session);
-        let lo_rowDaa = qryRowData(lo_rfData, lo_params, session);
-        return [];
-        // async.waterfall([
-        //     qryDgTemplateRf, //查詢templateRf
-        //     qryRowData, //查詢多筆資料
-        //     filterRowData, //依條件過濾多筆資料
-        //     rowDataMultiLang //內容多語系
-        // ], function (err, result) {
-        //     callback(err, result);
-        // });
+        try{
+            let lo_rfData = await qryDgTemplateRf(lo_params, session);                  //查詢templateRf
+            let la_dgRowData = await qryRowData(lo_rfData, lo_params, session);         //查詢多筆資料
+            la_dgRowData = await filterRowData(la_dgRowData, lo_params, session);       //依條件過濾多筆資料
+            la_dgRowData = await rowDataMultiLang(la_dgRowData, lo_params, session);    //內容多語系
+            return la_dgRowData;
+        }
+        catch(err){
+            return err;
+        }
     };
 
     /**
@@ -338,14 +337,22 @@ function qryGsTemplateRf(callback) {
 /**
  * 查詢多筆資料
  */
-function qryRowData(lo_rfData, params, session) {
-    let lo_params = filterSearchCond();
+async function qryRowData(lo_rfData, params, session) {
+    let lo_params = filterSearchCond(params, session);
     let ls_rule_func_name = lo_rfData.rule_func_name;
-    queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {
-        callback(err, result);
-    });
-}
 
+    return new Promise((resolve, reject) => {
+        queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {
+            if(err){
+                reject(err);
+            }
+            else{
+                resolve(result);
+            }
+        });
+    });
+
+}
 /**
  * 取多筆欄位資料
  * @param lo_params {object} 查詢條件
@@ -697,13 +704,13 @@ function chkParam(args) {
  * 過濾掉無效條件
  * @returns {{user_id: (string|*), athena_id, hotel_cod: (*|string|string)}}
  */
-function filterSearchCond() {
+function filterSearchCond(params, session) {
     let lo_params = {
-        user_id: go_session.user.usr_id,
-        athena_id: go_session.user.athena_id,
-        hotel_cod: go_session.user.fun_hotel_cod
+        user_id: session.user.usr_id,
+        athena_id: session.user.athena_id,
+        hotel_cod: session.user.fun_hotel_cod
     };
-    _.each(go_searchCond, function (condVal, condKey) {
+    _.each(params.searchCond, function (condVal, condKey) {
         if (_.isArray(condVal) && condVal.length > 0) {
             lo_params[condKey] = condVal;
         } else if (!_.isUndefined(condVal) && !_.isEmpty(condVal)) {
@@ -719,20 +726,23 @@ function filterSearchCond() {
  * @param la_dgRowData {array} 多筆資料
  * @param callback
  */
-function filterRowData(la_dgRowData, callback) {
+async function filterRowData(la_dgRowData, params, session) {
     let lo_params = {
-        user_id: go_session.user.usr_id,
-        athena_id: go_session.user.athena_id,
-        hotel_cod: go_session.user.fun_hotel_cod
+        user_id: session.user.usr_id,
+        athena_id: session.user.athena_id,
+        hotel_cod: session.user.fun_hotel_cod
     };
-    let ls_ruleFilterName = gs_prg_id + "Filter";
-    if (!_.isUndefined(ruleAgent[ls_ruleFilterName])) {
-        ruleAgent[ls_ruleFilterName](la_dgRowData, go_session, lo_params, function (dataRow) {
-            callback(null, dataRow);
-        });
-    } else {
-        callback(null, la_dgRowData);
-    }
+    let ls_ruleFilterName = params.prg_id + "Filter";
+    return new Promise((resolve, reject) => {
+        if (!_.isUndefined(ruleAgent[ls_ruleFilterName])) {
+            ruleAgent[ls_ruleFilterName](la_dgRowData, session, lo_params, function (dataRow) {
+                resolve(dataRow);
+            });
+        } else {
+            resolve(la_dgRowData);
+        }
+    });
+
 }
 
 /**
@@ -740,10 +750,18 @@ function filterRowData(la_dgRowData, callback) {
  * @param la_dgRowData {array} 多筆資料
  * @param callback
  */
-function rowDataMultiLang(la_dgRowData, callback) {
-    langSvc.handleMultiDataLangConv(la_dgRowData, gs_prg_id, gn_page_id, go_session.locale, function (err, Rows) {
-        callback(null, Rows);
+async function rowDataMultiLang(la_dgRowData, params, session) {
+    return new Promise((resolve, reject) => {
+        langSvc.handleMultiDataLangConv(la_dgRowData, params.prg_id, params.page_id, session.locale, function (err, Rows) {
+            if(err){
+                reject(err);
+            }
+            else{
+                resolve(Rows);
+            }
+        });
     });
+
 }
 
 /**
