@@ -18,16 +18,15 @@ const fieldAttrSvc = require("../../services/FieldsAttrService");
 const langSvc = require("../../services/LangService");
 const db = require("../../plugins/kplug-oracle/DB.js");
 
-let go_session;
-let go_searchCond;
-let gs_prg_id;
-let gn_page_id;
-let gn_tab_page_id;
-let gs_template_id;
+// let go_session;
+// let go_searchCond;
+// let gs_prg_id;
+// let gn_page_id;
+// let gn_tab_page_id;
+// let gs_template_id;
 
 // 多筆流程
 exports.DataGridProc = function (postData, session) {
-    let self = this;
     let ls_prg_id = postData.prg_id;
     let ln_page_id = postData.page_id || 1;
     let ln_tab_page_id = postData.tab_page_id || 1;
@@ -53,7 +52,7 @@ exports.DataGridProc = function (postData, session) {
             return la_dgFieldData;
         }
         catch (err) {
-            return (err);
+            throw new Error(err);
         }
 
         // async.waterfall([
@@ -72,15 +71,15 @@ exports.DataGridProc = function (postData, session) {
      * @param callback
      */
     this.fetchDgRowData = async function () {
-        try{
+        try {
             let lo_rfData = await qryDgTemplateRf(lo_params, session);                  //查詢templateRf
             let la_dgRowData = await qryRowData(lo_rfData, lo_params, session);         //查詢多筆資料
             la_dgRowData = await filterRowData(la_dgRowData, lo_params, session);       //依條件過濾多筆資料
             la_dgRowData = await rowDataMultiLang(la_dgRowData, lo_params, session);    //內容多語系
             return la_dgRowData;
         }
-        catch(err){
-            return err;
+        catch (err) {
+            throw new Error(err);
         }
     };
 
@@ -88,49 +87,85 @@ exports.DataGridProc = function (postData, session) {
      * 取多筆 資料
      * @param callback
      */
-    this.fetchDgData = function (callback) {
-        async.parallel({
-            fetchFieldsResult: self.fetchDgFieldsData, //取多筆欄位資料
-            fetchRowsResult: self.fetchDgRowData //取多筆資料
-        }, function (err, result) {
+    this.fetchDgData = async function () {
+        let fetchFieldsResult, fetchRowsResult;
+        try {
+            [fetchFieldsResult, fetchRowsResult] = await Promise.all([
+                this.fetchDgFieldsData(),     //取多筆欄位資料
+                this.fetchDgRowData(),        //取多筆欄位資料
+            ]);
+            let lo_rtnData = {
+                searchFields: fetchFieldsResult.searchFields,
+                dgFieldsData: fetchFieldsResult.dgFieldsData,
+                dgRowData: fetchRowsResult
+            };
+            return lo_rtnData;
+        }
+        catch (err) {
             if (err == "templateRf is null") {
                 err = null;
-                return callback(err, result);
+                return {
+                    searchFields: fetchFieldsResult.searchFields,
+                    dgFieldsData: fetchFieldsResult.dgFieldsData,
+                    dgRowData: []
+                }
             }
-            let lo_rtnData = {
-                searchFields: result.fetchFieldsResult.searchFields,
-                dgFieldsData: result.fetchFieldsResult.dgFieldsData,
-                dgRowData: result.fetchRowsResult
-            };
-            callback(err, lo_rtnData);
-        });
+        }
+
+        // async.parallel({
+        //     fetchFieldsResult: self.fetchDgFieldsData, //取多筆欄位資料
+        //     fetchRowsResult: self.fetchDgRowData //取多筆資料
+        // }, function (err, result) {
+        //     if (err == "templateRf is null") {
+        //         err = null;
+        //         return callback(err, result);
+        //     }
+        //     let lo_rtnData = {
+        //         searchFields: result.fetchFieldsResult.searchFields,
+        //         dgFieldsData: result.fetchFieldsResult.dgFieldsData,
+        //         dgRowData: result.fetchRowsResult
+        //     };
+        //     callback(err, lo_rtnData);
+        // });
     };
 };
 
 // 單筆流程
 exports.GridSingleProc = function (postData, session) {
-    gn_page_id = postData.page_id || 2;
-    gn_tab_page_id = postData.tab_page_id || 1;
-    go_session = session;
-    gs_prg_id = postData.prg_id;
-    go_searchCond = postData.searchCond || {}; //搜尋條件
-    gs_template_id = postData.template_id || "";
-
-    let self = this;
+    let lo_params = {
+        prg_id: postData.prg_id,
+        page_id: postData.page_id || 2,
+        tab_page_id: postData.tab_page_id || 1,
+        searchCond: postData.searchCond || {},
+        template_id: postData.template_id || ""
+    };
 
     /**
      * 查詢單筆mn欄位資料
      * @param callback
      */
-    this.fetchGsMnFieldsData = function (callback) {
-        async.waterfall([
-            qryUIPageFields, //取單筆欄位資料
-            qrySelectOption, //查詢selectOption
-            qryFormatRule, //format_func_name轉換
-            qryLangUIFields //處理欄位多語系
-        ], function (err, result) {
-            callback(err, result);
-        });
+    this.fetchGsMnFieldsData = async function () {
+
+        try {
+            let la_gsFieldsData = await qryUIPageFields(lo_params, session);
+            la_gsFieldsData = await qrySelectOption(la_gsFieldsData, lo_params, session);
+            la_gsFieldsData = await qryFormatRule(la_gsFieldsData, lo_params, session);
+            la_gsFieldsData = await qryLangUIFields(la_gsFieldsData, lo_params, session);
+            return la_gsFieldsData;
+        }
+        catch (err) {
+            throw new Error(err);
+        }
+
+
+        // async.waterfall([
+        //     qryUIPageFields, //取單筆欄位資料
+        //     qrySelectOption, //查詢selectOption
+        //     qryFormatRule, //format_func_name轉換
+        //     qryLangUIFields //處理欄位多語系
+        // ], function (err, result) {
+        //     callback(err, result);
+        // });
     };
 
     /**
@@ -217,7 +252,16 @@ exports.GridSingleProc = function (postData, session) {
      * 取單筆mn 資料
      * @param callback
      */
-    this.fetchGsMnData = function (callback) {
+    this.fetchGsMnData = async function (callback) {
+
+        try {
+            let [la_pageField, lo_rowData] = await Promise.all([
+                this.fetchGsMnFieldsData(),
+                this.fetchGsMnData()
+            ]);
+            dataValueChange(la_pageField, lo_rowData);
+
+        }
         async.waterfall([
             function (cb) {
                 async.parallel({
@@ -300,14 +344,14 @@ function qryDgTemplateRf(params, session) {
 
     return new Promise((resolve, reject) => {
         mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
-            if(err){
+            if (err) {
                 reject(err);
             }
             else if (!result) {
                 err = "templateRf is null";
                 reject(err);
             }
-            else{
+            else {
                 resolve(result);
             }
         });
@@ -343,16 +387,17 @@ async function qryRowData(lo_rfData, params, session) {
 
     return new Promise((resolve, reject) => {
         queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {
-            if(err){
+            if (err) {
                 reject(err);
             }
-            else{
+            else {
                 resolve(result);
             }
         });
     });
 
 }
+
 /**
  * 取多筆欄位資料
  * @param lo_params {object} 查詢條件
@@ -399,20 +444,26 @@ async function qryUIDatagridFields(params, session) {
 /**
  * 取單筆欄位資料
  */
-function qryUIPageFields(callback) {
-    mongoAgent.UIPageField.find({
-        prg_id: gs_prg_id,
-        page_id: Number(gn_page_id),
-        tab_page_id: Number(gn_tab_page_id),
-        template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
-    }, function (err, result) {
-        if (!result) {
-            err = "uiPageFields is null";
-            return callback(err, result);
-        }
-        let la_gsFieldsData = tools.mongoDocToObject(result);
-        callback(err, la_gsFieldsData);
+async function qryUIPageFields(params, session) {
+
+    return new Promise((resolve, reject) => {
+        mongoAgent.UIPageField.find({
+            prg_id: params.prg_id,
+            page_id: Number(params.page_id),
+            tab_page_id: Number(params.tab_page_id),
+            template_id: params.template_id == "" ? "gridsingle" : params.template_id
+        }, function (err, result) {
+            if (err) {
+                err = "uiPageFields is null";
+                reject(err);
+            }
+            else {
+                let la_gsFieldsData = tools.mongoDocToObject(result);
+                resolve(la_gsFieldsData);
+            }
+        });
     });
+
 }
 
 /**
@@ -447,7 +498,7 @@ async function qryFormatRule(la_fieldData, params, session) {
                 await qryOracleFormat(ls_formatFuncName);
             }
             ln_counter++;
-            if(ln_counter == la_fieldData.length){
+            if (ln_counter == la_fieldData.length) {
                 return la_fieldData;
             }
         }
@@ -546,12 +597,12 @@ async function qrySelectOption(la_dgFieldData, params, session) {
         chkDgFieldIsC(la_dgFieldData, fIdx);
     });
 
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
         async.parallel(la_asyncParaFunc, function (err, result) {
-            if(err){
+            if (err) {
                 reject(err);
             }
-            else{
+            else {
                 resolve(la_dgFieldData);
             }
         });
@@ -640,7 +691,7 @@ async function qrySelectOption(la_dgFieldData, params, session) {
  */
 async function qrySearchFields(la_dgFieldData, params, session) {
 
-    try{
+    try {
         let la_allPageFields = await getAllUIPageFieldAttr(params, session);
         let la_fieldData = await qryFormatRule(la_allPageFields, params, session);
 
@@ -649,7 +700,7 @@ async function qrySearchFields(la_dgFieldData, params, session) {
             dgFieldsData: la_dgFieldData
         };
     }
-    catch(err){
+    catch (err) {
         return err;
     }
     // async.waterfall([
@@ -671,10 +722,10 @@ async function getAllUIPageFieldAttr(params, session) {
             page_id: 3,
             locale: session.locale
         }, session, function (err, fields) {
-            if(err){
+            if (err) {
                 reject(err);
             }
-            else{
+            else {
                 resolve(fields);
             }
         });
@@ -753,10 +804,10 @@ async function filterRowData(la_dgRowData, params, session) {
 async function rowDataMultiLang(la_dgRowData, params, session) {
     return new Promise((resolve, reject) => {
         langSvc.handleMultiDataLangConv(la_dgRowData, params.prg_id, params.page_id, session.locale, function (err, Rows) {
-            if(err){
+            if (err) {
                 reject(err);
             }
-            else{
+            else {
                 resolve(Rows);
             }
         });
