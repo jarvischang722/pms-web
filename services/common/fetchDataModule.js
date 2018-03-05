@@ -72,7 +72,9 @@ exports.DataGridProc = function (postData, session) {
      * @param callback
      */
     this.fetchDgRowData = async function () {
-        return {};
+        let lo_rfData = qryDgTemplateRf(lo_params, session);
+        let lo_rowDaa = qryRowData(lo_rfData, lo_params, session);
+        return [];
         // async.waterfall([
         //     qryDgTemplateRf, //查詢templateRf
         //     qryRowData, //查詢多筆資料
@@ -289,20 +291,29 @@ function qrySelectData(callback) {
 /**
  * 查詢多筆templateRf
  **/
-function qryDgTemplateRf(callback) {
-    var lo_params = {
-        prg_id: gs_prg_id,
-        page_id: Number(gn_page_id),
-        tab_page_id: Number(gn_tab_page_id),
+function qryDgTemplateRf(params, session) {
+    let lo_params = {
+        prg_id: params.prg_id,
+        page_id: Number(params.page_id),
+        tab_page_id: Number(params.tab_page_id),
         template_id: 'datagrid'
     };
 
-    mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
-        if (!result) {
-            err = "templateRf is null";
-        }
-        callback(err, result);
+    return new Promise((resolve, reject) => {
+        mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
+            if(err){
+                reject(err);
+            }
+            else if (!result) {
+                err = "templateRf is null";
+                reject(err);
+            }
+            else{
+                resolve(result);
+            }
+        });
     });
+
 }
 
 /**
@@ -327,7 +338,7 @@ function qryGsTemplateRf(callback) {
 /**
  * 查詢多筆資料
  */
-function qryRowData(lo_rfData, callback) {
+function qryRowData(lo_rfData, params, session) {
     let lo_params = filterSearchCond();
     let ls_rule_func_name = lo_rfData.rule_func_name;
     queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {
@@ -538,9 +549,6 @@ async function qrySelectOption(la_dgFieldData, params, session) {
             }
         });
     });
-
-
-
 
     /**
      * 產生執行async parallel function

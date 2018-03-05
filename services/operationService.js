@@ -20,7 +20,6 @@ exports.fetchDgFieldData = async function (postData, session, callback) {
     try {
         let [fetchFieldsResult, fetchRowsResult] = await Promise.all([
             lo_dgProc.fetchDgFieldsData(),
-            lo_dgProc.fetchDgFieldsData(),
             lo_dgProc.fetchDgRowData()
         ]);
         let lo_rtnData = {
