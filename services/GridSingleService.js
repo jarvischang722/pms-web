@@ -48,8 +48,11 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
 
                     //讀取selectgrid的設定參數
                     if (field.ui_type == 'selectgrid') {
-                        var func_name = prg_id + '_' + field.ui_field_name;
-                        la_fields[fIdx].selectGridOptions = ruleAgent[func_name]();
+                        if (!_.isUndefined(ruleAgent[field.rule_func_name])) {
+                            ruleAgent[field.rule_func_name](session, function (err, result) {
+                                la_fields[fIdx].selectGridOptions = result;
+                            });
+                        }
                     }
 
                     selectDSFunc.push(

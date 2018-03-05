@@ -1,13 +1,15 @@
 /**
- * Created by Mike on 2017/10/11.
+ * Created by a16009 on 2017/10/11.
+ * 程式編號: PSIW510030
+ * 程式名稱: 門市WEB訂單作業
  */
 
-var saleAndInventoryCrtl = require("../controllers/saleAndInventoryController");
-var authMW = require("../middlewares/authMiddleware");
-var sysMW = require("../middlewares/systemMiddleware");
-var i18nMW = require("../middlewares/i18nMiddleware");
-var middles = [i18nMW,authMW,sysMW];
-var middles2 = [authMW];
+const saleAndInventoryCrtl = require("../controllers/saleAndInventoryController");
+const authMW = require("../middlewares/authMiddleware");
+const sysMW = require("../middlewares/systemMiddleware");
+const i18nMW = require("../middlewares/i18nMiddleware");
+const middles = [i18nMW,authMW,sysMW];
+const middles2 = [authMW];
 
 /* GET  page. */
 module.exports = function(app) {

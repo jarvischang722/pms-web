@@ -6,9 +6,9 @@
 
 //ps. Row Lock 要傳的參數其中 table_name跟key_code寫反了(參照ERP的寫法)
 
-var prg_id = "PSIW510030";
+let prg_id = "PSIW510030";
 
-var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
+let go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
 
 //rowLock
 g_socket.on('checkTableLock', function (result) {
@@ -52,9 +52,8 @@ function DatagridRmSingleDTGridClass() {}
 
 DatagridRmSingleDTGridClass.prototype = new DatagridBaseClass();
 
-var isbind = false;
-var go_currentField;
-var go_currentIndex;
+let go_currentField;
+let go_currentIndex;
 
 DatagridRmSingleDTGridClass.prototype.endEditing = function () {
     if (go_currentIndex == undefined) {
@@ -73,7 +72,7 @@ DatagridRmSingleDTGridClass.prototype.onClickCell = function (index, field) {
         if (DatagridRmSingleDTGridClass.prototype.endEditing()) {
             if (go_currentIndex != index) {
                 $('#PSIW510030_dt').datagrid('selectRow', index).datagrid('beginEdit', index);
-                var ed = $('#PSIW510030_dt').datagrid('getEditor', {index: index, field: field});
+                let ed = $('#PSIW510030_dt').datagrid('getEditor', {index: index, field: field});
                 if (ed) {
                     ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).select();
                 }
@@ -86,12 +85,13 @@ DatagridRmSingleDTGridClass.prototype.onClickCell = function (index, field) {
     }
 };
 
+let gb_isbind = false;
 //擴充上下左右操控
 $.extend($('#PSIW510030_dt').datagrid.methods, {
-    keyCtr : function (jq) {
+    keyCtr: function (jq) {
         return jq.each(function () {
-            var grid = $(this);
-            if(!isbind)
+            let grid = $(this);
+            if(!gb_isbind)
             {
                 grid.datagrid('getPanel').panel('panel').attr('tabindex', 1).bind('keydown', function (e) {
 
@@ -110,7 +110,7 @@ $.extend($('#PSIW510030_dt').datagrid.methods, {
                                         var field = 'item_qnt';
 
                                         if(!_.isUndefined(go_currentField))
-                                            field = go_currentField.field;
+                                            {field = go_currentField.field;}
 
                                         var ed = grid.datagrid('getEditor', {index: index - 1, field: field});
                                         if (ed) {
@@ -138,7 +138,7 @@ $.extend($('#PSIW510030_dt').datagrid.methods, {
                                         var field = 'order_rmk';
 
                                         if(!_.isUndefined(go_currentField))
-                                            field = go_currentField.field;
+                                            {field = go_currentField.field;}
 
                                         var ed = grid.datagrid('getEditor', {index: index + 1, field: field});
 
@@ -177,7 +177,7 @@ $.extend($('#PSIW510030_dt').datagrid.methods, {
                         }
                     }
                 });
-                isbind = true;
+                gb_isbind = true;
             }
         });
     }
@@ -185,7 +185,7 @@ $.extend($('#PSIW510030_dt').datagrid.methods, {
 
 /*** Class End  ***/
 
-var PSIW510030 = new Vue({
+let PSIW510030 = new Vue({
     el: '#MainApp2',
     mounted: function () {
         this.initSelect();
@@ -198,19 +198,19 @@ var PSIW510030 = new Vue({
         "search-comp": go_searchComp
     },
     data: {
-        userid: "",                 //員工編號
+        userid: "", //員工編號
 
-        isVerify: false,            //驗證畫面切換
-        isLoading: false,          //Loading畫面切換
+        isVerify: false, //驗證畫面切換
+        isLoading: false, //Loading畫面切換
 
-        userInfo: {},               //登入的使用者資料
+        userInfo: {}, //登入的使用者資料
 
-        createStatus: false,        //新增狀態
-        editStatus: false,          //編輯狀態
-        deleteStatus: false,        //刪除狀態
+        createStatus: false, //新增狀態
+        editStatus: false, //編輯狀態
+        deleteStatus: false, //刪除狀態
 
-        isModificable: false,       //決定是否可以修改資料
-        isModificableFormat: false,  //決定是否可以修改訂單格式
+        isModificable: false, //決定是否可以修改資料
+        isModificableFormat: false, //決定是否可以修改訂單格式
 
         addEnable: true,
         editEnable: false,
@@ -230,29 +230,29 @@ var PSIW510030 = new Vue({
         dgIns: {},
         dgInsDT: {},
 
-        DataGridRows: [],           //多筆資料
+        DataGridRows: [], //多筆資料
 
-        originData: {},             //原始單筆資料
-        singleData: {},             //單筆資料
-        singleDataTemp: {},         //單筆資料暫存
+        originData: {}, //原始單筆資料
+        singleData: {}, //單筆資料
+        singleDataTemp: {}, //單筆資料暫存
 
-        singleDataGridRows: [],     //單筆 DT 資料
-        oriSingleDataGridRows: [],  //單筆 DT 原始資料
+        singleDataGridRows: [], //單筆 DT 資料
+        oriSingleDataGridRows: [], //單筆 DT 原始資料
 
-        custSelectData: [],          //客戶代號下拉
-        orderSelectData: [],         //訂單格式下拉
-        unitSelectData: [],         //單位下拉
+        custSelectData: [], //客戶代號下拉
+        orderSelectData: [], //訂單格式下拉
+        unitSelectData: [], //單位下拉
 
-        searchOrderSelectData: [],  //訂單格式(查詢用)
-        searchCustSelectData: [],  //客戶代號(查詢用)
+        searchOrderSelectData: [], //訂單格式(查詢用)
+        searchCustSelectData: [], //客戶代號(查詢用)
 
-        statusSelectData: [{value: 'N', display: 'N:待核'}, {value: 'C', display: 'C:核准'}, {value: 'O', display: 'O:出貨中'}, {value: 'S', display: 'S:結清'}, {value: 'H', display: 'H:保留'}, {value: 'X', display: 'X:出貨完畢'}],    //狀態下拉
+        statusSelectData: [{value: 'N', display: 'N:待核'}, {value: 'C', display: 'C:核准'}, {value: 'O', display: 'O:出貨中'}, {value: 'S', display: 'S:結清'}, {value: 'H', display: 'H:保留'}, {value: 'X', display: 'X:出貨完畢'}], //狀態下拉
 
         searchFields: [], //搜尋的欄位
-        searchCond: {},   //搜尋條件
+        searchCond: {}, //搜尋條件
 
         //空白表單下載用
-        allOrderSelectData: [],         //全部訂單格式下拉
+        allOrderSelectData: [], //全部訂單格式下拉
         select_format_sta: "",
         select_quote_rmk: "",
         select_order_time: "",
@@ -264,9 +264,9 @@ var PSIW510030 = new Vue({
         print_pageNum: "",
         print_order_data: [],
 
-        ship_mn_round_nos: "",       //(系統參數)單據主檔金額小數位數
-        ship_dt_round_nos: "",       //(系統參數)單據明細小計小數位數
-        order_dat_change_time: "",   //(系統參數)訂貨日期切換的時間參數
+        ship_mn_round_nos: "", //(系統參數)單據主檔金額小數位數
+        ship_dt_round_nos: "", //(系統參數)單據明細小計小數位數
+        order_dat_change_time: "", //(系統參數)訂貨日期切換的時間參數
 
         //異動Log
         openChangeLogDialog: false,
@@ -277,13 +277,13 @@ var PSIW510030 = new Vue({
         singleData: {
             handler: function (after, before) {
 
-                var self = this;
+                let self = this;
 
                 self.print_order_data = [];
-                var li_page_num = 0;
-                var temp = [];
+                let li_page_num = 0;
+                let temp = [];
 
-                var lo_temp_singleDataGridRows = [];
+                let lo_temp_singleDataGridRows = [];
                 for(let i = 0; i < self.singleDataGridRows.length; i++) {
                     if(self.singleDataGridRows[i].item_qnt != 0){
                         lo_temp_singleDataGridRows.push(self.singleDataGridRows[i]);
@@ -309,7 +309,7 @@ var PSIW510030 = new Vue({
                 _.each(self.print_order_data, function (array) {
                     _.each(array, function (item) {
                         //找單位名稱
-                        var unit = _.find(self.unitSelectData, {value: item.unit_typ});
+                        let unit = _.find(self.unitSelectData, {value: item.unit_typ});
                         item.goods_unit = unit.display;
                     });
                 });
@@ -328,7 +328,7 @@ var PSIW510030 = new Vue({
 
         //region//按鈕如沒權限, 則不能Enable
         addEnable: function () {
-            var purview = _.findIndex(go_funcPurview, function (value) {
+            let purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "0200";
             });
             if(purview == -1){
@@ -336,7 +336,7 @@ var PSIW510030 = new Vue({
             }
         },
         editEnable: function () {
-            var purview = _.findIndex(go_funcPurview, function (value) {
+            let purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "0400";
             });
             if(purview == -1){
@@ -344,7 +344,7 @@ var PSIW510030 = new Vue({
             }
         },
         deleteEnable: function () {
-            var purview = _.findIndex(go_funcPurview, function (value) {
+            let purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "0300";
             });
             if(purview == -1){
@@ -352,7 +352,7 @@ var PSIW510030 = new Vue({
             }
         },
         cnfirmEnable: function () {
-            var purview = _.findIndex(go_funcPurview, function (value) {
+            let purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1010";
             });
             if(purview == -1){
@@ -360,7 +360,7 @@ var PSIW510030 = new Vue({
             }
         },
         cancelEnable: function () {
-            var purview = _.findIndex(go_funcPurview, function (value) {
+            let purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1020";
             });
             if(purview == -1){
@@ -368,7 +368,7 @@ var PSIW510030 = new Vue({
             }
         },
         changeLogEnable: function () {
-            var purview = _.findIndex(go_funcPurview, function (value) {
+            let purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "0800";
             });
             if(purview == -1){
@@ -384,9 +384,9 @@ var PSIW510030 = new Vue({
          */
         initSelect: function () {
 
-            var self = this;
+            let self = this;
             //客戶代號
-            var lo_params = {
+            let lo_params = {
                 func: "getShowCodSelect"
             };
             this.isLoading = true;
@@ -420,7 +420,7 @@ var PSIW510030 = new Vue({
          * 初始化Search
          */
         initSearchComp: function () {
-            var self = this;
+            let self = this;
 
             self.isLoading = true;
             async.parallel([
@@ -508,7 +508,7 @@ var PSIW510030 = new Vue({
                             row_seq: 1,
                             col_seq: 1,
                             width: 200,
-                            selectData: [{"value":"N", "display":"N:待准"}, {"value":"C", "display":"C:核准"}, {"value":"O", "display":"O:出貨中"}, {"value":"S", "display":"S:結清"}, {"value":"H", "display":"H:保留"}, {"value":"X", "display":"X:出貨完畢"}],
+                            selectData: [{"value": "N", "display": "N:待准"}, {"value": "C", "display": "C:核准"}, {"value": "O", "display": "O:出貨中"}, {"value": "S", "display": "S:結清"}, {"value": "H", "display": "H:保留"}, {"value": "X", "display": "X:出貨完畢"}],
                             ui_display_name: "訂單狀態"
                         }
                     ];
@@ -522,10 +522,10 @@ var PSIW510030 = new Vue({
          * 取系統參數
          */
         getSystemParam: function () {
-            var self = this;
+            let self = this;
 
             //訂貨日期切換的時間
-            var lo_params = {
+            let lo_params = {
                 func: "getSystemParam",
                 paramName: "ship_mn_round_nos"
             };
@@ -582,7 +582,7 @@ var PSIW510030 = new Vue({
          * 初始化DataGrid
          */
         initDataGridField: function () {
-            var self = this;
+            let self = this;
 
             self.dgIns = new DatagridRmSingleGridClass();
             self.dgIns.init(prg_id, 'PSIW510030_dg', DatagridFieldAdapter.combineFieldOption(self.bindingFieldData(), 'PSIW510030_dg'));
@@ -609,7 +609,7 @@ var PSIW510030 = new Vue({
          * 取得使用者資料
          */
         fetchUserInfo: function () {
-            var self = this;
+            let self = this;
             $.post('/api/getUserInfo', function (result) {
                 if (result.success) {
                     self.userInfo = result.userInfo;
@@ -621,7 +621,7 @@ var PSIW510030 = new Vue({
          * 組多筆的欄位(未來可能改用Mongo)
          */
         bindingFieldData: function () {
-            var lo_fieldData = [
+            let lo_fieldData = [
                 {
                     athena_id: "",
                     user_id: "",
@@ -674,195 +674,195 @@ var PSIW510030 = new Vue({
                     ui_type: "text",
                     ui_field_length: 1,
                     ui_field_num_point: 0,
-                    col_seq : 4,
-                    width : 50,
-                    visiable : "Y",
-                    modificable : "N",
-                    requirable : "N",
-                    grid_field_name : "psi_quote_mn",
-                    keyable : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    user_athena_id : "",
-                    multi_lang_table : "",
-                    page_id : 1,
-                    ui_display_name:"狀態"
+                    col_seq: 4,
+                    width: 50,
+                    visiable: "Y",
+                    modificable: "N",
+                    requirable: "N",
+                    grid_field_name: "psi_quote_mn",
+                    keyable: "",
+                    format_func_name: "",
+                    rule_func_name: "",
+                    user_athena_id: "",
+                    multi_lang_table: "",
+                    page_id: 1,
+                    ui_display_name: "狀態"
                 },
                 {
-                    athena_id : "",
-                    user_id : "",
-                    prg_id : "PSIW510030",
-                    ui_field_name : "format_sta",
-                    ui_type : "text",
-                    ui_field_length : 4,
-                    ui_field_num_point : 0,
-                    col_seq : 5,
-                    width : 80,
-                    visiable : "Y",
-                    modificable : "N",
-                    requirable : "N",
-                    grid_field_name : "psi_quote_mn",
-                    keyable : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    user_athena_id : "",
-                    multi_lang_table : "",
-                    page_id : 1,
-                    ui_display_name:"訂單格式"
+                    athena_id: "",
+                    user_id: "",
+                    prg_id: "PSIW510030",
+                    ui_field_name: "format_sta",
+                    ui_type: "text",
+                    ui_field_length: 4,
+                    ui_field_num_point: 0,
+                    col_seq: 5,
+                    width: 80,
+                    visiable: "Y",
+                    modificable: "N",
+                    requirable: "N",
+                    grid_field_name: "psi_quote_mn",
+                    keyable: "",
+                    format_func_name: "",
+                    rule_func_name: "",
+                    user_athena_id: "",
+                    multi_lang_table: "",
+                    page_id: 1,
+                    ui_display_name: "訂單格式"
                 },
                 {
-                    athena_id : "",
-                    user_id : "",
-                    prg_id : "PSIW510030",
-                    ui_field_name : "show_cod",
-                    ui_type : "text",
-                    ui_field_length : 20,
-                    ui_field_num_point : 0,
-                    col_seq : 6,
-                    width : 80,
-                    visiable : "Y",
-                    modificable : "N",
-                    requirable : "N",
-                    grid_field_name : "psi_quote_mn",
-                    keyable : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    user_athena_id : "",
-                    multi_lang_table : "",
-                    page_id : 1,
-                    ui_display_name:"客戶代號"
+                    athena_id: "",
+                    user_id: "",
+                    prg_id: "PSIW510030",
+                    ui_field_name: "show_cod",
+                    ui_type: "text",
+                    ui_field_length: 20,
+                    ui_field_num_point: 0,
+                    col_seq: 6,
+                    width: 80,
+                    visiable: "Y",
+                    modificable: "N",
+                    requirable: "N",
+                    grid_field_name: "psi_quote_mn",
+                    keyable: "",
+                    format_func_name: "",
+                    rule_func_name: "",
+                    user_athena_id: "",
+                    multi_lang_table: "",
+                    page_id: 1,
+                    ui_display_name: "客戶代號"
                 },
                 {
-                    athena_id : "",
-                    user_id : "",
-                    prg_id : "PSIW510030",
-                    ui_field_name : "cust_nam",
-                    ui_type : "text",
-                    ui_field_length : 20,
-                    ui_field_num_point : 0,
-                    col_seq : 7,
-                    width : 100,
-                    visiable : "Y",
-                    modificable : "N",
-                    requirable : "N",
-                    grid_field_name : "psi_quote_mn",
-                    keyable : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    user_athena_id : "",
-                    multi_lang_table : "",
-                    page_id : 1,
-                    ui_display_name:"客戶名稱"
+                    athena_id: "",
+                    user_id: "",
+                    prg_id: "PSIW510030",
+                    ui_field_name: "cust_nam",
+                    ui_type: "text",
+                    ui_field_length: 20,
+                    ui_field_num_point: 0,
+                    col_seq: 7,
+                    width: 100,
+                    visiable: "Y",
+                    modificable: "N",
+                    requirable: "N",
+                    grid_field_name: "psi_quote_mn",
+                    keyable: "",
+                    format_func_name: "",
+                    rule_func_name: "",
+                    user_athena_id: "",
+                    multi_lang_table: "",
+                    page_id: 1,
+                    ui_display_name: "客戶名稱"
                 },
                 {
-                    athena_id : "",
-                    user_id : "",
-                    prg_id : "PSIW510030",
-                    ui_field_name : "atten_nam",
-                    ui_type : "text",
-                    ui_field_length : 20,
-                    ui_field_num_point : 0,
-                    col_seq : 7,
-                    width : 100,
-                    visiable : "Y",
-                    modificable : "N",
-                    requirable : "N",
-                    grid_field_name : "psi_quote_mn",
-                    keyable : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    user_athena_id : "",
-                    multi_lang_table : "",
-                    page_id : 1,
-                    ui_display_name:"訂貨人姓名"
+                    athena_id: "",
+                    user_id: "",
+                    prg_id: "PSIW510030",
+                    ui_field_name: "atten_nam",
+                    ui_type: "text",
+                    ui_field_length: 20,
+                    ui_field_num_point: 0,
+                    col_seq: 7,
+                    width: 100,
+                    visiable: "Y",
+                    modificable: "N",
+                    requirable: "N",
+                    grid_field_name: "psi_quote_mn",
+                    keyable: "",
+                    format_func_name: "",
+                    rule_func_name: "",
+                    user_athena_id: "",
+                    multi_lang_table: "",
+                    page_id: 1,
+                    ui_display_name: "訂貨人姓名"
                 },
                 {
-                    athena_id : "",
-                    user_id : "",
-                    prg_id : "PSIW510030",
-                    ui_field_name : "order_rmk",
-                    ui_type : "text",
-                    ui_field_length : 20,
-                    ui_field_num_point : 0,
-                    col_seq : 8,
-                    width : 80,
-                    visiable : "Y",
-                    modificable : "N",
-                    requirable : "N",
-                    grid_field_name : "psi_quote_mn",
-                    keyable : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    user_athena_id : "",
-                    multi_lang_table : "",
-                    page_id : 1,
-                    ui_display_name:"訂單備註"
+                    athena_id: "",
+                    user_id: "",
+                    prg_id: "PSIW510030",
+                    ui_field_name: "order_rmk",
+                    ui_type: "text",
+                    ui_field_length: 20,
+                    ui_field_num_point: 0,
+                    col_seq: 8,
+                    width: 80,
+                    visiable: "Y",
+                    modificable: "N",
+                    requirable: "N",
+                    grid_field_name: "psi_quote_mn",
+                    keyable: "",
+                    format_func_name: "",
+                    rule_func_name: "",
+                    user_athena_id: "",
+                    multi_lang_table: "",
+                    page_id: 1,
+                    ui_display_name: "訂單備註"
                 },
                 {
-                    athena_id : "",
-                    user_id : "",
-                    prg_id : "PSIW510030",
-                    ui_field_name : "ins_usr",
-                    ui_type : "text",
-                    ui_field_length : 10,
-                    ui_field_num_point : 0,
-                    col_seq : 9,
-                    width : 80,
-                    visiable : "Y",
-                    modificable : "N",
-                    requirable : "N",
-                    grid_field_name : "psi_quote_mn",
-                    keyable : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    user_athena_id : "",
-                    multi_lang_table : "",
-                    page_id : 1,
-                    ui_display_name:"輸入者"
+                    athena_id: "",
+                    user_id: "",
+                    prg_id: "PSIW510030",
+                    ui_field_name: "ins_usr",
+                    ui_type: "text",
+                    ui_field_length: 10,
+                    ui_field_num_point: 0,
+                    col_seq: 9,
+                    width: 80,
+                    visiable: "Y",
+                    modificable: "N",
+                    requirable: "N",
+                    grid_field_name: "psi_quote_mn",
+                    keyable: "",
+                    format_func_name: "",
+                    rule_func_name: "",
+                    user_athena_id: "",
+                    multi_lang_table: "",
+                    page_id: 1,
+                    ui_display_name: "輸入者"
                 },
                 {
-                    athena_id : "",
-                    user_id : "",
-                    prg_id : "PSIW510030",
-                    ui_field_name : "upd_usr",
-                    ui_type : "text",
-                    ui_field_length : 10,
-                    ui_field_num_point : 0,
-                    col_seq : 10,
-                    width : 100,
-                    visiable : "Y",
-                    modificable : "N",
-                    requirable : "N",
-                    grid_field_name : "psi_quote_mn",
-                    keyable : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    user_athena_id : "",
-                    multi_lang_table : "",
-                    page_id : 1,
-                    ui_display_name:"最後異動者"
+                    athena_id: "",
+                    user_id: "",
+                    prg_id: "PSIW510030",
+                    ui_field_name: "upd_usr",
+                    ui_type: "text",
+                    ui_field_length: 10,
+                    ui_field_num_point: 0,
+                    col_seq: 10,
+                    width: 100,
+                    visiable: "Y",
+                    modificable: "N",
+                    requirable: "N",
+                    grid_field_name: "psi_quote_mn",
+                    keyable: "",
+                    format_func_name: "",
+                    rule_func_name: "",
+                    user_athena_id: "",
+                    multi_lang_table: "",
+                    page_id: 1,
+                    ui_display_name: "最後異動者"
                 },
                 {
-                    athena_id : "",
-                    user_id : "",
-                    prg_id : "PSIW510030",
-                    ui_field_name : "cnfirm_cod",
-                    ui_type : "text",
-                    ui_field_length : 10,
-                    ui_field_num_point : 0,
-                    col_seq : 11,
-                    width : 80,
-                    visiable : "Y",
-                    modificable : "N",
-                    requirable : "N",
-                    grid_field_name : "psi_quote_mn",
-                    keyable : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    user_athena_id : "",
-                    multi_lang_table : "",
-                    page_id : 1,
-                    ui_display_name:"核准者"
+                    athena_id: "",
+                    user_id: "",
+                    prg_id: "PSIW510030",
+                    ui_field_name: "cnfirm_cod",
+                    ui_type: "text",
+                    ui_field_length: 10,
+                    ui_field_num_point: 0,
+                    col_seq: 11,
+                    width: 80,
+                    visiable: "Y",
+                    modificable: "N",
+                    requirable: "N",
+                    grid_field_name: "psi_quote_mn",
+                    keyable: "",
+                    format_func_name: "",
+                    rule_func_name: "",
+                    user_athena_id: "",
+                    multi_lang_table: "",
+                    page_id: 1,
+                    ui_display_name: "核准者"
                 }
             ];
             return lo_fieldData;
@@ -873,7 +873,7 @@ var PSIW510030 = new Vue({
          */
         bindingDTFieldData: function () {
 
-            var lo_fieldData = [
+            let lo_fieldData = [
                 {
                     athena_id: "",
                     user_id: "",
@@ -1181,11 +1181,11 @@ var PSIW510030 = new Vue({
          * 取得多筆資料
          */
         loadDataGrid: function () {
-            var self = this;
+            let self = this;
 
-            var lo_params = {
+            let lo_params = {
                 prg_id: prg_id,
-                func : "getDataGridRows",
+                func: "getDataGridRows",
                 searchCond: this.searchCond
             };
 
@@ -1207,11 +1207,11 @@ var PSIW510030 = new Vue({
          */
         fetchSingleData: function (order_nos) {
 
-            var self = this;
+            let self = this;
 
             //撈單筆MN
-            var lo_params = {
-                func : "getSingleDataMN",
+            let lo_params = {
+                func: "getSingleDataMN",
                 order_nos: order_nos
             };
             this.isLoading = true;
@@ -1228,7 +1228,7 @@ var PSIW510030 = new Vue({
                     self.singleDataTemp.upd_dat = moment(new Date(self.singleDataTemp.upd_dat)).format("YYYY/MM/DD HH:mm:ss");
 
                     if(self.singleDataTemp.cnfirm_dat != null)
-                        self.singleDataTemp.cnfirm_dat = moment(new Date(self.singleDataTemp.cnfirm_dat)).format("YYYY/MM/DD HH:mm:ss");
+                        {self.singleDataTemp.cnfirm_dat = moment(new Date(self.singleDataTemp.cnfirm_dat)).format("YYYY/MM/DD HH:mm:ss");}
 
 
                     if(self.singleDataTemp.ship1_add != null && self.singleDataTemp.ship1_add.toString().length > 60){
@@ -1253,7 +1253,7 @@ var PSIW510030 = new Vue({
 
             //撈單筆DT
             lo_params = {
-                func : "getSingleDataDT",
+                func: "getSingleDataDT",
                 order_nos: order_nos
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
@@ -1368,7 +1368,7 @@ var PSIW510030 = new Vue({
             this.orderSelectData = [];
 
             //Week 格式代號用
-            var day;
+            let day;
             switch (new Date(this.singleData.order_dat).getDay()){
                 case 0:
                     day = 'D7';
@@ -1415,9 +1415,9 @@ var PSIW510030 = new Vue({
          */
         initOrderSelect: function () {
 
-            var self = this;
+            let self = this;
             //期別
-            var lo_params = {
+            let lo_params = {
                 func: "getPeriod",
                 singleData: self.singleDataTemp
             };
@@ -1428,7 +1428,7 @@ var PSIW510030 = new Vue({
                 self.singleDataTemp.period_cod = result.data.period_cod;
 
                 //Week 格式代號用
-                var day;
+                let day;
                 switch (new Date(self.singleDataTemp.order_dat).getDay()){
                     case 0:
                         day = 'D7';
@@ -1456,7 +1456,7 @@ var PSIW510030 = new Vue({
                 self.singleDataTemp.week = day;
 
                 //訂單格式
-                var lo_params2 = {
+                let lo_params2 = {
                     func: "getFormatSta",
                     singleData: self.singleDataTemp
                 };
@@ -1479,9 +1479,9 @@ var PSIW510030 = new Vue({
          */
         custSelectChange: function () {
 
-            if(_.isUndefined(this.singleData.cust_cod)) return;
+            if(_.isUndefined(this.singleData.cust_cod)) {return;}
 
-            var self = this;
+            let self = this;
 
             self.isLoading = true;
 
@@ -1497,7 +1497,7 @@ var PSIW510030 = new Vue({
             //撈送貨地點(ship1_Add, ship2_Add)
             //撈客戶電話(cust_tel)
             lo_params = {
-                func : "getCustInfo",
+                func: "getCustInfo",
                 singleData: self.singleData
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
@@ -1544,11 +1544,11 @@ var PSIW510030 = new Vue({
          * 訂單格式 Select Change Event
          */
         orderFormatVerify: function() {
-            if(!this.createStatus) return;
-            if(_.isUndefined(this.singleData.format_sta) || this.singleData.format_sta == "") return;
-            if(_.isUndefined(this.singleData.cust_cod) || this.singleData.cust_cod == "") return;
+            if(!this.createStatus) {return;}
+            if(_.isUndefined(this.singleData.format_sta) || this.singleData.format_sta == "") {return;}
+            if(_.isUndefined(this.singleData.cust_cod) || this.singleData.cust_cod == "") {return;}
 
-            var self = this;
+            let self = this;
 
             //取order_time
             _.each(self.orderSelectData, function (value, index) {
@@ -1558,9 +1558,9 @@ var PSIW510030 = new Vue({
             });
 
             //檢查可否選用訂單格式，看『可否選用訂單格式sql』
-            var lo_params = {
-                func : "chkFormatSta",
-                singleData : self.singleData
+            let lo_params = {
+                func: "chkFormatSta",
+                singleData: self.singleData
             };
 
             $.post("/api/getQueryResult", lo_params, function (result) {
@@ -1628,7 +1628,7 @@ var PSIW510030 = new Vue({
          * 儲存按鈕 Event
          */
         save: function() {
-            var self = this;
+            let self = this;
 
             if(!self.dgInsDT.endEditing()) {
                 alert("貨品明細尚未完成");
@@ -1657,26 +1657,26 @@ var PSIW510030 = new Vue({
                 value.trans_nos = '';
                 value.trans_typ = '';
 
-                value.sorder_amt = go_MathTool.formatFloat(value.sale_amt * value.item_qnt, self.ship_dt_round_nos) || 0;    // 小計 = 售價 * 數量(訂購量) (取單據明細小計小數位數)
-                value.sorder_tax = go_MathTool.formatFloat(value.sorder_amt * value.tax_rat, 2) || 0;                        // 稅額 = 小計 * 稅率 (取小數第二位)
-                value.remain_qnt = value.item_qnt * value.unit_nos || 0;                                         // 未出貨量 = 數量(訂購量) * 單位轉換率
+                value.sorder_amt = go_MathTool.formatFloat(value.sale_amt * value.item_qnt, self.ship_dt_round_nos) || 0; // 小計 = 售價 * 數量(訂購量) (取單據明細小計小數位數)
+                value.sorder_tax = go_MathTool.formatFloat(value.sorder_amt * value.tax_rat, 2) || 0; // 稅額 = 小計 * 稅率 (取小數第二位)
+                value.remain_qnt = value.item_qnt * value.unit_nos || 0; // 未出貨量 = 數量(訂購量) * 單位轉換率
 
                 self.singleData.order_amt += value.sorder_amt;
                 self.singleData.order_tax += value.sorder_tax;
             });
 
-            var lf_temp_amt = self.singleData.order_amt;
-            var lf_temp_tax = self.singleData.order_tax;
+            let lf_temp_amt = self.singleData.order_amt;
+            let lf_temp_tax = self.singleData.order_tax;
 
             self.singleData.order_amt = go_MathTool.formatFloat(self.singleData.order_amt, self.ship_mn_round_nos) || 0;
             self.singleData.order_tax = go_MathTool.formatFloat(self.singleData.order_tax, self.ship_mn_round_nos) || 0;
             self.singleData.order_tot = self.singleData.order_amt + self.singleData.order_tax;
 
-            var lf_div_amt = self.singleData.order_amt - lf_temp_amt;
-            var lf_div_tax = self.singleData.order_tax - lf_temp_tax;
+            let lf_div_amt = self.singleData.order_amt - lf_temp_amt;
+            let lf_div_tax = self.singleData.order_tax - lf_temp_tax;
 
             //找最後一筆有稅額的明細
-            var index = _.findLastIndex(this.singleDataGridRows, function (value) {
+            let index = _.findLastIndex(this.singleDataGridRows, function (value) {
                 return parseFloat(value.sorder_tax) != 0;
             });
 
@@ -1697,18 +1697,18 @@ var PSIW510030 = new Vue({
             self.singleData.ins_dat = moment().format('YYYY/MM/DD HH:mm:ss');
             self.singleData.upd_dat = moment().format('YYYY/MM/DD HH:mm:ss');
 
-            var prg_id;
-            if(self.createStatus) prg_id = "PSIW5100300520";
-            else prg_id = "PSIW5100300540";
+            let prg_id;
+            if(self.createStatus) {prg_id = "PSIW5100300520";}
+            else {prg_id = "PSIW5100300540";}
 
             this.callSaveAPI(prg_id, function (data) {
 
-                if(self.createStatus) {  //新增狀態，多筆重撈
+                if(self.createStatus) { //新增狀態，多筆重撈
                     self.singleData.order_nos = data.order_nos;
                     self.loadDataGrid();
                     self.fetchSingleData(self.singleData.order_nos);
                 }
-                else{               //修改狀態，單筆重撈
+                else{ //修改狀態，單筆重撈
                     self.fetchSingleData(self.singleData.order_nos);
                     self.doRowUnLock();
                 }
@@ -1735,7 +1735,7 @@ var PSIW510030 = new Vue({
          * 按放棄按鈕 Event
          */
         drop: function() {
-            var self = this;
+            let self = this;
             //新增，清空頁面資料
             if(self.createStatus){
                 self.singleData = {};
@@ -1780,7 +1780,7 @@ var PSIW510030 = new Vue({
                     return;
                 }
 
-                var self = this;
+                let self = this;
                 self.callAPI('PSIW5100302010',function () {
                     self.singleData = self.oriSingleData;
                     self.dgInsDT.loadDgData(self.oriSingleDataGridRows);
@@ -1813,7 +1813,7 @@ var PSIW510030 = new Vue({
          * Event after RowLock
          */
         buttonAfterLockDoFunc: function () {
-            var self = this;
+            let self = this;
             switch (self.buttonCase){
                 case "edit":
                     self.callAPI('PSIW5100300400', function () {
@@ -1866,8 +1866,8 @@ var PSIW510030 = new Vue({
          * 空白訂貨表單下載按鈕
          */
         orderSearch: function() {
-            var self = this;
-            var dialog = $("#PSIW510030-down").removeClass('hide').dialog({
+            let self = this;
+            let dialog = $("#PSIW510030-down").removeClass('hide').dialog({
                 modal: true,
                 title: "空白訂貨表單下載",
                 title_html: true,
@@ -1884,10 +1884,10 @@ var PSIW510030 = new Vue({
          */
         orderSelectOnChange: function(){
 
-            var self = this;
+            let self = this;
 
             //取得貨品資料
-            var lo_params = {
+            let lo_params = {
                 func: "getGoodsData",
                 select_format_sta: self.select_format_sta
             };
@@ -1896,8 +1896,8 @@ var PSIW510030 = new Vue({
                 if (!_.isUndefined(result.data)) {
 
                     self.order_data = [];
-                    var li_page_num = 0;
-                    var temp = [];
+                    let li_page_num = 0;
+                    let temp = [];
 
                     for(let i = 0; i < result.data.length; i++){
                         //30 = 一頁幾筆明細
@@ -1933,14 +1933,14 @@ var PSIW510030 = new Vue({
          * @param callback {Function}
          */
         callSaveAPI: function (trans_cod, callback) {
-            var self = this;
+            let self = this;
 
             self.isLoading = true;
-            var lo_params = {
-                REVE_CODE : trans_cod,
+            let lo_params = {
+                REVE_CODE: trans_cod,
                 prg_id: prg_id,
-                singleData : self.singleData,
-                singleDataGridRows : self.singleDataGridRows
+                singleData: self.singleData,
+                singleDataGridRows: self.singleDataGridRows
             };
 
             $.post("/api/callSaveAPI", lo_params, function (result) {
@@ -1949,7 +1949,7 @@ var PSIW510030 = new Vue({
                     alert('儲存成功!');
                     callback(result.data);
                 }
-                if(result.errorMsg != "") alert(result.errorMsg);
+                if(result.errorMsg != "") {alert(result.errorMsg);}
             });
 
         },
@@ -1960,11 +1960,11 @@ var PSIW510030 = new Vue({
          * @param callback {Function}
          */
         callAPI: function (trans_cod, callback) {
-            var self = this;
+            let self = this;
             self.isLoading = true;
 
-            var lo_params = {
-                REVE_CODE : trans_cod,
+            let lo_params = {
+                REVE_CODE: trans_cod,
                 prg_id: prg_id,
                 order_nos: self.singleData.order_nos
             };
@@ -1985,10 +1985,10 @@ var PSIW510030 = new Vue({
          */
         callOrderAPI: function () {
 
-            var self = this;
+            let self = this;
             self.isLoading = true;
-            var lo_params = {
-                REVE_CODE : "PSIW5100302020",
+            let lo_params = {
+                REVE_CODE: "PSIW5100302020",
                 singleData: self.singleData
             };
 
@@ -2019,7 +2019,7 @@ var PSIW510030 = new Vue({
 
                     self.dgInsDT.loadDgData(self.singleDataGridRows);
                 }
-                if(result.errorMsg != "") alert(result.errorMsg);
+                if(result.errorMsg != "") {alert(result.errorMsg);}
             });
 
         },
@@ -2032,10 +2032,10 @@ var PSIW510030 = new Vue({
          * RowLock
          */
         doRowLock: function () {
-            var lo_param = {
+            let lo_param = {
                 prg_id: prg_id,
                 table_name: this.userInfo.cmp_id + this.singleData.order_nos,
-                lock_type : "R",
+                lock_type: "R",
                 key_cod: "psi_quote_mn"
             };
             g_socket.emit('handleTableLock', lo_param);
@@ -2045,7 +2045,7 @@ var PSIW510030 = new Vue({
          * RowUnLock
          */
         doRowUnLock: function () {
-            var lo_param = {
+            let lo_param = {
                 prg_id: prg_id
             };
             g_socket.emit('handleTableUnlock', lo_param);
@@ -2055,12 +2055,12 @@ var PSIW510030 = new Vue({
          * ChangeLog
          */
         loadChangeLog: function () {
-            var self = this;
+            let self = this;
             self.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
                 self.allChangeLogList = result.allChangeLogList;
                 self.allChangeLogList = _.filter(result.allChangeLogList, function (data) {
-                    var order_nos = _.find(data.desc_mn, function (field) {
+                    let order_nos = _.find(data.desc_mn, function (field) {
                         return field.field_name.trim() == "order_nos";
                     });
                     return _.isEqual(self.singleData.order_nos, order_nos.newVal);
@@ -2074,7 +2074,7 @@ var PSIW510030 = new Vue({
 BacchusMainVM.setPrgVueIns(PSIW510030);
 BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop"]);
 
-var adpterDg = new DatagridAdapter(PSIW510030);
+let adpterDg = new DatagridAdapter(PSIW510030);
 
 //region//套件
 
@@ -2084,7 +2084,7 @@ var adpterDg = new DatagridAdapter(PSIW510030);
 
     // A jQuery object containing all non-window elements to which the resize
     // event is bound.
-    var elems = $([]),
+    let elems = $([]),
 
         // Extend $.resize if it already exists, otherwise create it.
         jq_resize = $.resize = $.extend( $.resize, {} ),
@@ -2169,7 +2169,7 @@ var adpterDg = new DatagridAdapter(PSIW510030);
             // Unless, of course, we're throttling the 'resize' event for window.
             if ( !jq_resize[ str_throttle ] && this[ str_setTimeout ] ) { return false; }
 
-            var elem = $(this);
+            let elem = $(this);
 
             // Add this element to the list of internal elements to monitor.
             elems = elems.add( elem );
@@ -2191,7 +2191,7 @@ var adpterDg = new DatagridAdapter(PSIW510030);
             // Unless, of course, we're throttling the 'resize' event for window.
             if ( !jq_resize[ str_throttle ] && this[ str_setTimeout ] ) { return false; }
 
-            var elem = $(this);
+            let elem = $(this);
 
             // Remove this element from the list of internal elements to monitor.
             elems = elems.not( elem );
@@ -2213,7 +2213,7 @@ var adpterDg = new DatagridAdapter(PSIW510030);
             // throttling the 'resize' event for window.
             if ( !jq_resize[ str_throttle ] && this[ str_setTimeout ] ) { return false; }
 
-            var old_handler;
+            let old_handler;
 
             // The new_handler function is executed every time the event is triggered.
             // This is used to update the internal element data store with the width
@@ -2222,7 +2222,7 @@ var adpterDg = new DatagridAdapter(PSIW510030);
             // comments above for more information.
 
             function new_handler( e, w, h ) {
-                var elem = $(this),
+                let elem = $(this),
                     data = $.data( this, str_data );
 
                 // If called from the polling loop, w and h will be passed in as
@@ -2232,7 +2232,7 @@ var adpterDg = new DatagridAdapter(PSIW510030);
                 data.h = h !== undefined ? h : elem.height();
 
                 old_handler.apply( this, arguments );
-            };
+            }
 
             // This may seem a little complicated, but it normalizes the special event
             // .add method between jQuery 1.4/1.4.1 and 1.4.2+
@@ -2256,7 +2256,7 @@ var adpterDg = new DatagridAdapter(PSIW510030);
 
             // Iterate over all elements to which the 'resize' event is bound.
             elems.each(function(){
-                var elem = $(this),
+                let elem = $(this),
                     width = elem.width(),
                     height = elem.height(),
                     data = $.data( this, str_data );
@@ -2274,7 +2274,7 @@ var adpterDg = new DatagridAdapter(PSIW510030);
 
         }, jq_resize[ str_delay ] );
 
-    };
+    }
 
 })(jQuery,this);
 
@@ -2286,8 +2286,8 @@ $(".dominos-inventory-left").resizable({
 
 //右邊被拉小時，維持右邊欄位版面整齊
 $('.dominos-inventory-right').resize(function(){
-    var elem = $(this);
-    var inventoryRightW = elem.width();
+    let elem = $(this);
+    let inventoryRightW = elem.width();
 
     if(inventoryRightW < 750){
         $(".order-down").css("float","none");

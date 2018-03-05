@@ -467,12 +467,6 @@ function qrySelectOption(la_dgFieldData, callback) {
     var la_asyncParaFunc = [];
     _.each(la_dgFieldData, function (lo_dgField, fIdx) {
         if (lo_dgField.ui_type == 'select' || lo_dgField.ui_type == 'multiselect' || lo_dgField.ui_type == 'checkbox' || lo_dgField.ui_type == 'selectgrid') {
-
-            //讀取selectgrid的設定參數
-            // if (lo_dgField.ui_type == 'selectgrid') {
-            //     var func_name = gs_prg_id + '_' + lo_dgField.ui_field_name;
-            //     la_dgFieldData[fIdx].selectGridOptions = ruleAgent[func_name]();
-            // }
             genAsyncParaFunc(la_dgFieldData, fIdx);
         }
         else if (_.isEqual(lo_dgField.ui_type, "tree") || _.isEqual(lo_dgField.ui_type, "multitree")) {

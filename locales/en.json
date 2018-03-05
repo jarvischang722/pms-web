@@ -251,6 +251,19 @@
       "email": "E-mail",
       "contact_method": "連絡方式(英文)",
       "address": "Address"
+    },
+    "RS0W212010": {
+      "show_cod": "客戶代號(英)",
+      "alt_nam": "客戶姓名(英)",
+      "contact_rmk": "聯絡電話(英)",
+      "first_nam": "First Name",
+      "last_nam": "Last Name",
+      "cust_typ": "客戶類別(英)",
+      "cust_sta": "客戶狀態(英)",
+      "cust_cod": "客戶代號(英)",
+      "atten_nam": "名稱(英)",
+      "role_rmk": "職稱(英)",
+      "tel_nos": "電話(英)"
     }
   },
   "table_in_use": "Table in use (%s)",
