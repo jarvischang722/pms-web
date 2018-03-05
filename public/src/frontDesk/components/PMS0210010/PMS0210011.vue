@@ -584,9 +584,7 @@
 
                             //是否要show出詢問視窗
                             if (result.showConfirm) {
-                                if (confirm(result.confirmMsg)) {
-
-                                } else {
+                                if (confirm(result.confirmMsg)) {} else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
                                         $.post(result.ajaxURL, postData, function (result) {

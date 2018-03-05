@@ -99,10 +99,44 @@
         AND  GHIST_MN.GCUST_COD = GHIST_VISIT_DT.GCUST_COD(+)
         AND  GHIST_VISIT_DT.HOTEL_COD(+) = :hotel_cod
         AND  GHIST_MN.ATHENA_ID = :athena_id
-
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="instring" kind="3">agent_idx_show_cod</parameter>
+        <statement test="_v(param.agent_idx_show_cod)"><![CDATA[and AGENT_IDX.Show_cod in(:agent_idx_show_cod)]]></statement>
+        <parameter type="instring" kind="3">contry_cod</parameter>
+        <statement test="_v(param.contry_cod)"><![CDATA[and GHIST_MN.Contry_cod in(:contry_cod)]]></statement>
+        <parameter type="instring" kind="3">dm_flag</parameter>
+        <statement test="_v(param.dm_flag)"><![CDATA[and ghist_mn.Dm_flag in(:dm_flag)]]></statement>
+        <parameter type="instring" kind="3">show_cod</parameter>
+        <statement test="_v(param.show_cod)"><![CDATA[and ghist_mn.Show_cod in(:show_cod)]]></statement>
+        <parameter type="instring" kind="3">birth_dat</parameter>
+        <statement test="_v(param.birth_dat)"><![CDATA[and to_char( cust_idx.birth_dat, 'mm' ) in(:birth_dat)]]></statement>
+        <parameter type="string" kind="2" condition="trim(GHIST_MN.Ccust_nam) = trim(:ccust_nam) ">ccust_nam</parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_IDX.Id_cod) = trim(:id_cod) ">id_cod</parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_IDX.Mobile_nos) = trim(:mobile_nos) ">mobile_nos</parameter>
+        <parameter type="string" kind="2" condition="trim(GHIST_MN.Status_cod) = trim(:status_cod) ">status_cod</parameter>
+        <parameter type="string" kind="2" condition="trim(GHIST_VISIT_DT.Trans_tot) = trim(:trans_tot) ">trans_tot</parameter>
+        <parameter type="string" kind="2" condition="trim(GHIST_VISIT_DT.Visit_days) = trim(:visit_days) ">visit_days</parameter>
+        <parameter type="string" kind="2" condition="trim(GHIST_VISIT_DT.Visit_nos) = trim(:visit_nos) ">visit_nos</parameter>
+        <parameter type="string" kind="2" condition="trim(cust_idx.first_nam) = trim(:name) ">name</parameter>
+        <parameter type="string" kind="2" condition="trim(cust_idx.last_nam) = trim(:name) ">name</parameter>
+        <parameter type="string" kind="3">ci_dat</parameter>
+        <statement test="_v(param.ci_dat)"><![CDATA[
+        AND GHIST_MN.GCUST_COD IN
+       ( SELECT DISTINCT GUEST_MN.GCUST_COD
+          FROM GUEST_MN, ORDER_DT
+         WHERE GUEST_MN.ATHENA_ID = ORDER_DT.ATHENA_ID
+           AND GUEST_MN.IKEY = ORDER_DT.IKEY
+           AND GUEST_MN.IKEY_SEQ_NOS = ORDER_DT.IKEY_SEQ_NOS
+           AND ORDER_DT.ORDER_STA IN ( 'N', 'W', 'I', 'O')
+           AND GUEST_MN.ACI_DAT = to_date(:ci_dat, 'YYYY/MM/DD')
+           AND GUEST_MN.SYSTEM_TYP = 'HFD'
+           AND GUEST_MN.ATHENA_ID = GHIST_MN.ATHENA_ID )
+
+        ]]></statement>
+
+
     </dao>
 </root>
