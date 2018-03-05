@@ -49,6 +49,7 @@ exports.DataGridProc = function (postData, session) {
             la_dgFieldData = await qryFormatRule(la_dgFieldData, lo_params, session);
             la_dgFieldData = await qryLangUIFields(la_dgFieldData, lo_params, session);
             la_dgFieldData = await qrySelectOption(la_dgFieldData, lo_params, session);
+            la_dgFieldData = await qrySearchFields(la_dgFieldData, lo_params, session);
             return la_dgFieldData;
         }
         catch (err) {
@@ -527,9 +528,17 @@ async function qrySelectOption(la_dgFieldData, params, session) {
         chkDgFieldIsC(la_dgFieldData, fIdx);
     });
 
-    async.parallel(la_asyncParaFunc, function (err, result) {
-        return la_dgFieldData;
+    return new Promise((resolve, reject)=>{
+        async.parallel(la_asyncParaFunc, function (err, result) {
+            if(err){
+                reject(err);
+            }
+            else{
+                resolve(la_dgFieldData);
+            }
+        });
     });
+
 
 
 
@@ -614,27 +623,48 @@ async function qrySelectOption(la_dgFieldData, params, session) {
  * @param la_dgFieldData {array} 所有多筆欄位資料
  * @param callback
  */
-function qrySearchFields(la_dgFieldData, callback) {
-    async.waterfall([
-        getAllUIPageFieldAttr,
-        qryFormatRule
-    ], function (err, result) {
-        let lo_rtnData = {
-            searchFields: result,
+async function qrySearchFields(la_dgFieldData, params, session) {
+
+    try{
+        let la_allPageFields = await getAllUIPageFieldAttr(params, session);
+        let la_fieldData = await qryFormatRule(la_allPageFields, params, session);
+
+        return {
+            searchFields: la_fieldData,
             dgFieldsData: la_dgFieldData
         };
-        callback(null, lo_rtnData);
-    });
+    }
+    catch(err){
+        return err;
+    }
+    // async.waterfall([
+    //     getAllUIPageFieldAttr,
+    //     qryFormatRule
+    // ], function (err, result) {
+    //     let lo_rtnData = {
+    //         searchFields: result,
+    //         dgFieldsData: la_dgFieldData
+    //     };
+    //     callback(null, lo_rtnData);
+    // });
 }
 
-function getAllUIPageFieldAttr(callback) {
-    fieldAttrSvc.getAllUIPageFieldAttr({
-        prg_id: gs_prg_id,
-        page_id: 3,
-        locale: go_session.locale
-    }, go_session, function (err, fields) {
-        callback(err, fields);
-    });
+async function getAllUIPageFieldAttr(params, session) {
+    return new Promise((resolve, reject) => {
+        fieldAttrSvc.getAllUIPageFieldAttr({
+            prg_id: params.prg_id,
+            page_id: 3,
+            locale: session.locale
+        }, session, function (err, fields) {
+            if(err){
+                reject(err);
+            }
+            else{
+                resolve(fields);
+            }
+        });
+    })
+
 }
 
 /**
