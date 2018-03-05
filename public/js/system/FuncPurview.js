@@ -24,11 +24,13 @@ function FuncPurview(prg_id) {
             $(".purview_btn").each(function () {
                 let purview_func_id = $(this).data("purview_func_id");
 
+                $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", false);
+
                 let purIdx = _.findIndex(result.funcPurvs, function (func) {
                     return prg_id + "-" + func.func_id == purview_func_id;
                 });
 
-                if (purIdx == -1) {
+                if (purIdx == -1 && purview_func_id != prg_id + "-0500") {
                     $("[data-purview_func_id='" + purview_func_id + "']").attr("disabled", true);
                 }
             });

@@ -125,6 +125,8 @@ exports.dominosWebService = function (req, res) {
 
     var trans_cod = req.params.trans_cod;
 
+    console.log("transCod :" + trans_cod + ", sendData : " + req.body.data);
+
     switch (trans_cod)
     {
         case 'PSI0000001':
