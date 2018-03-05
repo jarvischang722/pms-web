@@ -1424,6 +1424,12 @@ let PSIW510030 = new Vue({
             self.isLoading = true;
 
             $.post("/api/getQueryResult", lo_params, function (result) {
+                self.isLoading = false;
+
+                if(result.error != null){
+                    alert(result.error.errorMsg);
+                    return;
+                }
 
                 self.singleDataTemp.period_cod = result.data.period_cod;
 
@@ -1460,7 +1466,7 @@ let PSIW510030 = new Vue({
                     func: "getFormatSta",
                     singleData: self.singleDataTemp
                 };
-
+                self.isLoading = true;
                 $.post("/api/getQueryResult", lo_params2, function (result) {
                     self.isLoading = false;
 
@@ -1960,6 +1966,7 @@ let PSIW510030 = new Vue({
          * @param callback {Function}
          */
         callAPI: function (trans_cod, callback) {
+
             let self = this;
             self.isLoading = true;
 
@@ -1974,7 +1981,8 @@ let PSIW510030 = new Vue({
                 if (result.success) {
                     callback();
                 }
-                if(result.errorMsg != ""){
+
+                if(!_.isUndefined(result.errorMsg) && result.errorMsg != ""){
                     alert(result.errorMsg);
                 }
             });

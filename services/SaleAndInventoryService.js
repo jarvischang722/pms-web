@@ -291,7 +291,7 @@ exports.getPeriod = function (params ,session, callback) {
         }
         else {
             lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
+            lo_error.errorMsg = err.message || "error";
             lo_error.errorCod = "1111";
             callback(lo_error, Result);
         }
@@ -686,9 +686,9 @@ exports.callSaveAPI = function (params ,session, callback) {
 exports.callAPI = function (params ,session, callback) {
     let apiParams = {
         "REVE-CODE": params.REVE_CODE,
-        "comp_cod": session.user.cmp_id,
+        "comp_cod": session.req.cookies.comp_cod,
         "program_id": params.prg_id,
-        "user": session.user.usr_id,
+        "user": session.req.cookies.login_username,
         "table_name": 'psi_quote_mn',
         "count": 1,
         "ip": params.ip,
