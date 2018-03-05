@@ -349,7 +349,7 @@
 
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button" :disabled="isOtherContact">
+                                                role="button" :disabled="isOtherContact" @click="doDeleteData">
                                             {{i18nLang.SystemCommon.Delete}}
                                         </button>
                                     </li>
@@ -455,6 +455,15 @@
                 oriSingleData: {}, //基本資料 原始單筆資料
                 profileFieldData: [], //基本資料 欄位資料
                 profileOriFieldsData: [], //基本資料 原始欄位資料
+                emailFieldsData: [],//其他聯絡 email欄位資料
+                emailDataGridRows: [],//其他聯絡 email資料
+                oriEmailDataGridRows: [],//其他聯絡 原始email資料
+                contactFieldsData: [],//其他聯絡 聯絡資料欄位資料
+                contactDataGridRows: [],//其他聯絡 聯絡資料
+                oriContactDataGridRows: [],//其他聯絡 原始欄位資料
+                addressFieldsData: [],//其他聯絡 地址欄位資料
+                addressDataGridRows: [],//其他聯絡 地址資料
+                oriAddressDataGridRows: [],//其他聯絡 原始地址資料
                 tabPageId: 1,
                 tabName: "", //頁籤名稱
                 panelName: ["profilePanel", "visitsPanel", "referencePanel"], //頁籤內容名稱
@@ -473,6 +482,7 @@
                     this.initData();
                     this.fetchProfileFieldData();
                     this.tabName = "profile";
+                    this.loadingText = "Loading...";
                 }
             },
             singleData: {
@@ -485,13 +495,15 @@
                     val.ccust_nam = val["cust_idx.comp_nam"];
 
                     //訂房公司影響統一編號,發票抬頭
-                    if(val.acust_cod != null){
-                        let lo_compCodSelectData = _.findWhere(this.profileOriFieldsData, {ui_field_name: "acust_cod"}).selectData.selectData;
-                        let ls_uniCod = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_cod;
-                        let ls_uniTitle = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_title;
+                    if(val.acust_cod != null || !_.isUndefined(val.acust_cod)){
+                        if(val.acust_cod.trim() != ""){
+                            let lo_compCodSelectData = _.findWhere(this.profileOriFieldsData, {ui_field_name: "acust_cod"}).selectData.selectData;
+                            let ls_uniCod = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_cod;
+                            let ls_uniTitle = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_title;
 
-                        val["cust_idx.uni_cod"] = ls_uniCod;
-                        val["cust_idx.uni_title"] = ls_uniTitle;
+                            val["cust_idx.uni_cod"] = ls_uniCod;
+                            val["cust_idx.uni_title"] = ls_uniTitle;
+                        }
                     }
 
                     this.$store.dispatch("setProfileData", {
@@ -540,49 +552,7 @@
 
                 $("#" + ls_showPanelName).show();
             },
-            fetchProfileFieldData() {
-                this.isLoadingDialog = true;
-                var self = this;
-                $.post("/api/fetchOnlySinglePageFieldData", {
-                    prg_id: "PMS0210011",
-                    page_id: 1,
-                    tab_page_id: 1,
-                    template_id: 'gridsingle'
-                }, function (result) {
-                    self.profileOriFieldsData = result.gsFieldsData;
-                    self.profileFieldData = _.values(_.groupBy(_.sortBy(self.profileOriFieldsData, "col_seq"), "row_seq"));
-                    self.fetchProfileRowData();
-                });
-            },
-            fetchProfileRowData() {
-                if (this.isCreateStatus) {
-                    $.post("/api/fetchDefaultSingleRowData", {
-                        prg_id: "PMS0210011",
-                        page_id: 1,
-                        tab_page_id: 1
-                    }).then(result => {
-                        this.singleData = result.gsDefaultData;
-                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
-                        this.setGlobalGcustCod();
-                        this.isLoadingDialog = false;
-                    });
-                }
-                else if (this.isEditStatus) {
-                    $.post("/api/fetchSinglePageFieldData", {
-                        prg_id: "PMS0210011",
-                        page_id: 1,
-                        tab_page_id: 1,
-                        template_id: "gridsingle",
-                        searchCond: {gcust_cod: this.rowData.gcust_cod}
-                    }).then(result => {
-                        this.singleData = result.gsMnData.rowData[0];
-                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.setGlobalGcustCod();
-                        this.isLoadingDialog = false;
-                    });
-                }
-            },
-            chkFieldRule: function (ui_field_name, rule_func_name) {
+            chkFieldRule(ui_field_name, rule_func_name) {
                 if (rule_func_name === "" || !this.$parent.isModifiable) {
                     return;
                 }
@@ -648,16 +618,206 @@
                     });
                 }
             },
+            fetchProfileFieldData() {
+                this.isLoadingDialog = true;
+                var self = this;
+                $.post("/api/fetchOnlySinglePageFieldData", {
+                    prg_id: "PMS0210011",
+                    page_id: 1,
+                    tab_page_id: 1,
+                    template_id: 'gridsingle'
+                }, function (result) {
+                    self.profileOriFieldsData = result.gsFieldsData;
+                    self.profileFieldData = _.values(_.groupBy(_.sortBy(self.profileOriFieldsData, "col_seq"), "row_seq"));
+                    self.fetchProfileRowData();
+                });
+            },
+            fetchProfileRowData() {
+                if (this.isCreateStatus) {
+                    $.post("/api/fetchDefaultSingleRowData", {
+                        prg_id: "PMS0210011",
+                        page_id: 1,
+                        tab_page_id: 1
+                    }).then(result => {
+                        this.singleData = result.gsDefaultData;
+                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
+                        this.setGlobalGcustCod();
+                        this.fetchEmailData();
+                        this.isLoadingDialog = false;
+                    });
+                }
+                else if (this.isEditStatus) {
+                    $.post("/api/fetchSinglePageFieldData", {
+                        prg_id: "PMS0210011",
+                        page_id: 1,
+                        tab_page_id: 1,
+                        template_id: "gridsingle",
+                        searchCond: {gcust_cod: this.rowData.gcust_cod}
+                    }).then(result => {
+                        this.singleData = result.gsMnData.rowData[0];
+                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        this.setGlobalGcustCod();
+                        this.fetchEmailData();
+                        this.isLoadingDialog = false;
+                    });
+                }
+            },
+            fetchEmailData() {
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0210011",
+                    page_id: 1040,
+                    tab_page_id: 1,
+                    searchCond: {cust_cod: this.$store.state.gs_gcustCod}
+                }).then(result => {
+                    this.emailFieldsData = result.dgFieldsData;
+                    this.emailDataGridRows = result.dgRowData;
+                    this.oriEmailDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
+                    _.each(this.emailDataGridRows, (lo_emailDataGridRows,idx)=>{
+                        this.emailDataGridRows[idx]["cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.emailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1, });
+                    });
+                    _.each(this.oriEmailDataGridRows, (lo_emailDataGridRows,idx)=>{
+                        this.oriEmailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1});
+                    });
+                    this.fetchContactData()
+                });
+            },
+            fetchContactData() {
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0210011",
+                    page_id: 1040,
+                    tab_page_id: 2,
+                    searchCond: {cust_cod: this.$store.state.gs_gcustCod}
+                }).then(result => {
+                    this.contactFieldsData = result.dgFieldsData;
+                    this.contactDataGridRows = result.dgRowData;
+                    this.oriContactDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
+                    _.each(this.contactDataGridRows, (lo_contactDataGridRows,idx)=>{
+                        this.contactDataGridRows[idx]["contact_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.contactDataGridRows[idx] = _.extend(lo_contactDataGridRows, {tab_page_id: 2});
+                    });
+                    _.each(this.oriContactDataGridRows, (lo_contactDataGridRows,idx)=>{
+                        this.oriContactDataGridRows[idx] = _.extend(lo_contactDataGridRows, {tab_page_id: 2});
+                    });
+                    this.fetchAddressData();
+                });
+            },
+            fetchAddressData() {
+                $.post("/api/fetchDataGridFieldData", {
+                    prg_id: "PMS0210011",
+                    page_id: 1040,
+                    tab_page_id: 3,
+                    searchCond: {cust_cod: this.$store.state.gs_gcustCod}
+                }).then(result => {
+                    this.addressFieldsData = result.dgFieldsData;
+                    this.addressDataGridRows = result.dgRowData;
+                    this.oriAddressDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
+
+                    //取得郵遞區號下拉資料
+                    _.each(this.addressFieldsData, (lo_addressFieldData)=>{
+                        if(lo_addressFieldData.ui_field_name == 'address_dt.zip_cod'){
+                            this.zipCodSelectData = lo_addressFieldData.selectData;
+                        }
+                    });
+
+                    _.each(this.addressDataGridRows, (lo_addressDataGridRows,idx)=>{
+                        this.addressDataGridRows[idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.addressDataGridRows[idx] = _.extend(lo_addressDataGridRows, {tab_page_id: 3});
+                    });
+                    _.each(this.oriAddressDataGridRows, (lo_addressDataGridRows,idx)=>{
+                        this.oriAddressDataGridRows[idx] = _.extend(lo_addressDataGridRows, {tab_page_id: 3});
+                    });
+
+                    this.setFieldsData();//把欄位資料放進vuex中
+                });
+            },
+            setFieldsData(){
+                //將業務備註資料放至Vuex
+                this.$store.dispatch("setOtherContactFieldsData", {
+                    ga_emailFieldsData: this.emailFieldsData,
+                    ga_contactFieldsData: this.contactFieldsData,
+                    ga_addressFieldsData: this.addressFieldsData
+                });
+            },
             //增加資料
             doaAddData() {
                 this.doCloseDialog();
                 this.$eventHub.$emit('addNewData', {});
             },
+            dataValidate() {
+                var self = this;
+                var lo_checkResult;
+
+                for (var i = 0; i < this.profileOriFieldsData.length; i++) {
+                    var lo_field = this.profileOriFieldsData[i];
+                    //必填
+                    if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
+                        lo_checkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        if (lo_checkResult.success == false) {
+                            break;
+                        }
+                    }
+
+                }
+
+                return lo_checkResult;
+            },
             //儲存資料
             async doSaveData() {
-                let a = await this.$store.dispatch("doSaveProfileData");
-                let b = await this.$store.dispatch("doSaveOtherContactData");
-                console.log(a, b);
+
+                this.isLoadingDialog = true;
+                this.loadingText = "saving";
+                let lo_chkResult = this.dataValidate();
+
+                if (lo_chkResult.success == false) {
+                    alert(lo_chkResult.msg);
+                    this.isLoadingDialog = false;
+                }
+                else {
+                    let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
+                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
+                }
+
+                let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
+                let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
+
+                this.isLoadingDialog = false;
+                this.doCloseDialog();
+            },
+            async doDeleteData(){
+
+                if(this.$store.state.gb_isEditStatus){
+                    this.$store.dispatch("setDeleteStatus", {
+                        gb_isDeleteStatus: true
+                    });
+
+                    if(this.$store.state.ga_emailDataGridRowsData.length == 0){
+                        //將email資料放至Vuex
+                        this.$store.dispatch("setEmailDataGridRowsData", {
+                            ga_emailDataGridRowsData: this.emailDataGridRows,
+                            ga_oriEmailDataGridRowsData: this.oriEmailDataGridRows
+                        });
+                        //將聯絡資料放至Vuex
+                        this.$store.dispatch("setContactDataGridRowsData", {
+                            ga_contactDataGridRowsData: this.contactDataGridRows,
+                            ga_oriContactDataGridRowsData: this.oriContactDataGridRows
+                        });
+                        //將聯絡資料放至Vuex
+                        this.$store.dispatch("setAddressDataGridRowsData", {
+                            ga_addressDataGridRowsData: this.addressDataGridRows,
+                            ga_oriAddressDataGridRowsData: this.oriAddressDataGridRows
+                        });
+                    }
+
+                    let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
+                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
+
+                    this.isLoadingDialog = false;
+                    this.doCloseDialog();
+                }
+                else{
+                    this.doCloseDialog();
+                }
             },
             //開啟other contact 跳窗
             doOpenOtherContact() {

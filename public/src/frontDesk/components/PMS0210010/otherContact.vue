@@ -187,7 +187,7 @@
         watch: {
             isOtherContact(val) {
                 if (val) {
-                    if(this.$store.state.ga_emailFieldsData.length != 0) {
+                    if(this.$store.state.ga_emailDataGridRowsData.length != 0) {
                         this.emailFieldsData = this.$store.state.ga_emailFieldsData;
                         this.contactFieldsData = this.$store.state.ga_contactFieldsData;
                         this.addressFieldsData = this.$store.state.ga_addressFieldsData;
@@ -349,7 +349,7 @@
                 });
             },
             setFieldsData(){
-                //將業務備註資料放至Vuex
+                //將其他聯絡欄位資料放至Vuex
                 this.$store.dispatch("setOtherContactFieldsData", {
                     ga_emailFieldsData: this.emailFieldsData,
                     ga_contactFieldsData: this.contactFieldsData,

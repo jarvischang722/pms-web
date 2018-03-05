@@ -7,6 +7,7 @@ Vue.use(Vuex);
 const state = {
     gb_isCreateStatus: false,
     gb_isEditStatus: false,
+    gb_isDeleteStatus: false,
 
     gs_gcustCod: "",
 
@@ -37,6 +38,7 @@ const mutations = {
     setAllDataClear(state) {
         state.gb_isCreateStatus = false;
         state.gb_isEditStatus = false;
+        state.gb_isDeleteStatus = false;
         state.gs_gcustCod = "";
         state.go_profileSingleData = {};
         state.go_oriProfileSingleData = {};
@@ -65,6 +67,10 @@ const mutations = {
     //設定住客歷史系統編號
     setGcustCod(state, ls_gcustCod) {
         state.gs_gcustCod = ls_gcustCod;
+    },
+    //設定刪除狀態
+    setDeleteStatus(state, payload){
+        state.gb_isDeleteStatus = payload.gb_isDeleteStatus;
     },
     //設定基本資料
     setProfileData(state, payload) {
@@ -113,6 +119,10 @@ const actions = {
     setGcustCod({commit}, ls_gcustCod) {
         commit("setGcustCod", ls_gcustCod);
     },
+    //設定刪除狀態
+    setDeleteStatus({commit}, payload){
+        commit("setDeleteStatus", payload);
+    },
     //設定基本資料
     setProfileData({commit}, payload) {
         commit("setProfileData", payload);
@@ -146,21 +156,32 @@ const actions = {
             deleteData: [],
             oriData: []
         };
+        let ls_funcId = "";
 
         if (state.gb_isCreateStatus) {
-            lo_tmpCUD.createData = state.go_profileSingleData;
+            lo_tmpCUD.createData.push(state.go_profileSingleData);
+            ls_funcId = "0200";
         }
         else if (state.gb_isEditStatus) {
-            lo_tmpCUD.updateData = state.go_profileSingleData;
-            lo_tmpCUD.oriData = state.go_oriProfileSingleData;
+            if(state.gb_isDeleteStatus){
+                lo_tmpCUD.deleteData.push(state.go_profileSingleData);
+                lo_tmpCUD.oriData.push(state.go_oriProfileSingleData);
+                ls_funcId = "0300";
+            }
+            else{
+                lo_tmpCUD.updateData.push(state.go_profileSingleData);
+                lo_tmpCUD.oriData.push(state.go_oriProfileSingleData);
+                ls_funcId = "0400";
+            }
         }
 
         // console.log(lo_tmpCUD);
+        // return lo_tmpCUD;
 
         return await $.post('/api/doOperationSave', {
             prg_id: 'PMS0210011',
             page_id: 1,
-            func_id: lo_tmpCUD.createData.length > 0 ? "0200" : "0400",
+            func_id: ls_funcId,
             // trans_cod: 'PMS0210011',
             tmpCUD: lo_tmpCUD
         }).then(result => {
@@ -172,27 +193,54 @@ const actions = {
         var err = null;
         var lo_tmpCUD = {
             dt_updateData: [],
+            dt_deleteData: [],
             dt_oriData: []
         };
 
-        _.each(state.go_emailTmpCUD.updateData, function (lo_updateData) {
-            lo_tmpCUD.dt_updateData.push(lo_updateData);
-        });
-        _.each(state.go_contactTmpCUD.updateData, function (lo_updateData) {
-            lo_tmpCUD.dt_updateData.push(lo_updateData);
-        });
-        _.each(state.go_addressTmpCUD.updateData, function (lo_updateData) {
-            lo_tmpCUD.dt_updateData.push(lo_updateData);
-        });
-        _.each(state.go_emailTmpCUD.oriData, function (lo_oriData) {
-            lo_tmpCUD.dt_oriData.push(lo_oriData);
-        });
-        _.each(state.go_contactTmpCUD.oriData, function (lo_oriData) {
-            lo_tmpCUD.dt_oriData.push(lo_oriData);
-        });
-        _.each(state.go_addressTmpCUD.oriData, function (lo_oriData) {
-            lo_tmpCUD.dt_oriData.push(lo_oriData);
-        });
+        if(state.gb_isEditStatus){
+            if(state.gb_isDeleteStatus){
+                _.each(state.ga_emailDataGridRowsData, (lo_emailDataGridRowsData)=>{
+                    lo_tmpCUD.dt_deleteData.push(lo_emailDataGridRowsData);
+                });
+                _.each(state.ga_oriEmailDataGridRowsData, (lo_oriEmailDataGridRowsData)=>{
+                    lo_tmpCUD.dt_oriData.push(lo_oriEmailDataGridRowsData);
+                });
+                _.each(state.ga_contactDataGridRowsData, (lo_contactDataGridRowsData)=>{
+                    lo_tmpCUD.dt_deleteData.push(lo_contactDataGridRowsData);
+                });
+                _.each(state.ga_oriContactDataGridRowsData, (lo_oriContactDataGridRowsData)=>{
+                    lo_tmpCUD.dt_oriData.push(lo_oriContactDataGridRowsData);
+                });
+                _.each(state.ga_addressDataGridRowsData, (lo_addressDataGridRowsData)=>{
+                    lo_tmpCUD.dt_deleteData.push(lo_addressDataGridRowsData);
+                });
+                _.each(state.ga_oriAddressDataGridRowsData, (lo_oriAddressDataGridRowsData)=>{
+                    lo_tmpCUD.dt_oriData.push(lo_oriAddressDataGridRowsData);
+                });
+            }
+            else{
+                _.each(state.go_emailTmpCUD.updateData, function (lo_updateData) {
+                    lo_tmpCUD.dt_updateData.push(lo_updateData);
+                });
+                _.each(state.go_contactTmpCUD.updateData, function (lo_updateData) {
+                    lo_tmpCUD.dt_updateData.push(lo_updateData);
+                });
+                _.each(state.go_addressTmpCUD.updateData, function (lo_updateData) {
+                    lo_tmpCUD.dt_updateData.push(lo_updateData);
+                });
+                _.each(state.go_emailTmpCUD.oriData, function (lo_oriData) {
+                    lo_tmpCUD.dt_oriData.push(lo_oriData);
+                });
+                _.each(state.go_contactTmpCUD.oriData, function (lo_oriData) {
+                    lo_tmpCUD.dt_oriData.push(lo_oriData);
+                });
+                _.each(state.go_addressTmpCUD.oriData, function (lo_oriData) {
+                    lo_tmpCUD.dt_oriData.push(lo_oriData);
+                });
+            }
+        }
+
+        // return lo_tmpCUD;
 
         return await $.post('/api/doOperationSave', {
             prg_id: 'PMS0210011',
