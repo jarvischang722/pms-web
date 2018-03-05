@@ -1,6 +1,6 @@
 <template>
     <div id="otherContact" class="hide padding-5" style="top: 0 !important;">
-        <div class="businessCompanyData" >
+        <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12" v-loading="isLoadingDialog" :element-loading-text="loadingText">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
@@ -22,7 +22,7 @@
                                                         <tr class="css_tr">
                                                         <tr v-for="data in emailDataGridRows" class="css_tr">
                                                             <th class="css_th width-15">{{data['add_nam']}}</th>
-                                                            <td class="css_td width-70" >
+                                                            <td class="css_td width-70">
                                                                 <input type="text" class="input-medium medium-c1 width-100"
                                                                        v-model="data['add_rmk']">
                                                             </td>
@@ -42,7 +42,8 @@
                                     <div class="billInfo grid">
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row billInfo-head">
-                                                <p class="billInfo-title">{{i18nLang.program.PMS0210011.contact_method}}</p>
+                                                <p class="billInfo-title">
+                                                    {{i18nLang.program.PMS0210011.contact_method}}</p>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12">
@@ -187,7 +188,7 @@
         watch: {
             isOtherContact(val) {
                 if (val) {
-                    if(this.$store.state.ga_emailDataGridRowsData.length != 0) {
+                    if (this.$store.state.ga_emailDataGridRowsData.length != 0) {
                         this.emailFieldsData = this.$store.state.ga_emailFieldsData;
                         this.contactFieldsData = this.$store.state.ga_contactFieldsData;
                         this.addressFieldsData = this.$store.state.ga_addressFieldsData;
@@ -198,7 +199,7 @@
                         this.addressDataGridRows = this.$store.state.ga_addressDataGridRowsData;
                         this.oriAddressDataGridRows = this.$store.state.ga_oriAddressDataGridRowsData;
                     }
-                    else{
+                    else {
                         this.isLoadingDialog = true;
                         this.initData();
                         this.fetchEmailData();
@@ -207,7 +208,7 @@
             },
             emailDataGridRows: {
                 handler: function (val) {
-                    if(!_.isEmpty(val)){
+                    if (!_.isEmpty(val)) {
                         //將email資料放至Vuex
                         this.$store.dispatch("setEmailDataGridRowsData", {
                             ga_emailDataGridRowsData: val,
@@ -223,7 +224,7 @@
             },
             contactDataGridRows: {
                 handler: function (val) {
-                    if(!_.isEmpty(val)){
+                    if (!_.isEmpty(val)) {
                         //將聯絡資料放至Vuex
                         this.$store.dispatch("setContactDataGridRowsData", {
                             ga_contactDataGridRowsData: val,
@@ -239,14 +240,14 @@
             },
             addressDataGridRows: {
                 handler: function (val) {
-                    if(!_.isEmpty(val)){
-                        _.each(val,(lo_addressDataGridRows, idx)=>{
-                            if(lo_addressDataGridRows["address_dt.zip_cod"]!= null){
-                                if(lo_addressDataGridRows["address_dt.add_rmk"]== null){
+                    if (!_.isEmpty(val)) {
+                        _.each(val, (lo_addressDataGridRows, idx) => {
+                            if (lo_addressDataGridRows["address_dt.zip_cod"] != null) {
+                                if (lo_addressDataGridRows["address_dt.add_rmk"] == null) {
                                     let ls_zipCod = _.findWhere(this.zipCodSelectData, {value: lo_addressDataGridRows["address_dt.zip_cod"]})["display"];
                                     val[idx]["address_dt.add_rmk"] = ls_zipCod.split(":")[1]
                                 }
-                                else if(lo_addressDataGridRows["address_dt.add_rmk"].trim() == ""){
+                                else if (lo_addressDataGridRows["address_dt.add_rmk"].trim() == "") {
                                     let ls_zipCod = _.findWhere(this.zipCodSelectData, {value: lo_addressDataGridRows["address_dt.zip_cod"]});
                                     val[idx]["address_dt.add_rmk"] = ls_zipCod.split(":")[1]
                                 }
@@ -288,12 +289,12 @@
                     this.emailFieldsData = result.dgFieldsData;
                     this.emailDataGridRows = result.dgRowData;
                     this.oriEmailDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
-                    _.each(this.emailDataGridRows, (lo_emailDataGridRows,idx)=>{
+                    _.each(this.emailDataGridRows, (lo_emailDataGridRows, idx) => {
                         this.emailDataGridRows[idx]["cust_cod"] = this.$store.state.gs_gcustCod;
                         this.emailDataGridRows[idx]["athena_id"] = getCookie("athena_id");
-                        this.emailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1, });
+                        this.emailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1,});
                     });
-                    _.each(this.oriEmailDataGridRows, (lo_emailDataGridRows,idx)=>{
+                    _.each(this.oriEmailDataGridRows, (lo_emailDataGridRows, idx) => {
                         this.oriEmailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1});
                     });
                     this.fetchContactData()
@@ -309,12 +310,12 @@
                     this.contactFieldsData = result.dgFieldsData;
                     this.contactDataGridRows = result.dgRowData;
                     this.oriContactDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
-                    _.each(this.contactDataGridRows, (lo_contactDataGridRows,idx)=>{
-                        this.emailDataGridRows[idx]["contact_dt.athena_id"] = getCookie("athena_id");
+                    _.each(this.contactDataGridRows, (lo_contactDataGridRows, idx) => {
+                        this.contactDataGridRows[idx]["contact_dt.athena_id"] = getCookie("athena_id");
                         this.contactDataGridRows[idx]["contact_dt.cust_cod"] = this.$store.state.gs_gcustCod;
                         this.contactDataGridRows[idx] = _.extend(lo_contactDataGridRows, {tab_page_id: 2});
                     });
-                    _.each(this.oriContactDataGridRows, (lo_contactDataGridRows,idx)=>{
+                    _.each(this.oriContactDataGridRows, (lo_contactDataGridRows, idx) => {
                         this.oriContactDataGridRows[idx] = _.extend(lo_contactDataGridRows, {tab_page_id: 2});
                     });
                     this.fetchAddressData();
@@ -332,18 +333,18 @@
                     this.oriAddressDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
 
                     //取得郵遞區號下拉資料
-                    _.each(this.addressFieldsData, (lo_addressFieldData)=>{
-                        if(lo_addressFieldData.ui_field_name == 'address_dt.zip_cod'){
+                    _.each(this.addressFieldsData, (lo_addressFieldData) => {
+                        if (lo_addressFieldData.ui_field_name == 'address_dt.zip_cod') {
                             this.zipCodSelectData = lo_addressFieldData.selectData;
                         }
                     });
 
-                    _.each(this.addressDataGridRows, (lo_addressDataGridRows,idx)=>{
-                        this.emailDataGridRows[idx]["address_dt.athena_id"] = getCookie("athena_id");
+                    _.each(this.addressDataGridRows, (lo_addressDataGridRows, idx) => {
+                        this.addressDataGridRows[idx]["address_dt.athena_id"] = getCookie("athena_id");
                         this.addressDataGridRows[idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
                         this.addressDataGridRows[idx] = _.extend(lo_addressDataGridRows, {tab_page_id: 3});
                     });
-                    _.each(this.oriAddressDataGridRows, (lo_addressDataGridRows,idx)=>{
+                    _.each(this.oriAddressDataGridRows, (lo_addressDataGridRows, idx) => {
                         this.oriAddressDataGridRows[idx] = _.extend(lo_addressDataGridRows, {tab_page_id: 3});
                     });
 
@@ -351,7 +352,7 @@
                     this.setFieldsData();//把欄位資料放進vuex中
                 });
             },
-            setFieldsData(){
+            setFieldsData() {
                 //將其他聯絡欄位資料放至Vuex
                 this.$store.dispatch("setOtherContactFieldsData", {
                     ga_emailFieldsData: this.emailFieldsData,
@@ -359,7 +360,7 @@
                     ga_addressFieldsData: this.addressFieldsData
                 });
             },
-            doCloseDialog(){
+            doCloseDialog() {
                 this.initData();
                 $("#otherContact").dialog('close');
             }
