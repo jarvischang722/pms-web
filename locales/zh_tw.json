@@ -250,6 +250,14 @@
       "email": "電子郵件",
       "contact_method": "連絡方式",
       "address": "地址"
+    },
+    "PMS0110050": {
+      "roomTyp": "房型",
+      "roomNos": "房號",
+      "clean_sta": "清掃狀況",
+      "reservation": "訂房",
+      "details": "明細",
+      "Amenities_Iny": "Amenities Iny(中文)"
     }
   },
   "table_in_use": "%s 使用中",
@@ -298,7 +306,14 @@
     "oriPwd": "舊密碼",
     "enterNewPwd": "請輸入新密碼",
     "checkNewPwd": "請再輸入新密碼",
-    "newPwd": "新密碼"
+    "newPwd": "新密碼",
+    "selectMonth": "選擇月",
+    "rentCalDat":"滾房租日",
+    "before7days": "前7天",
+    "after7days": "後7天",
+    "before14days": "前14天",
+    "after14days": "後14天",
+    "noData": "查無資料"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",
