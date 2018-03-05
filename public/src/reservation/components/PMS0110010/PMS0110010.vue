@@ -23,14 +23,14 @@
                                                     :editable="false"
                                                     type="month"
                                                     placeholder="選擇月"
-                                                    @change="selectDate()">
+                                                    @blur="selectDate(searchData4Month)">
                                             </el-date-picker>
                                             <div class="space-2"></div>
                                         </div>
                                         <div class="caIcon">
                             <span class="ca-headerIcon">
                                 <i class="fa fa-calendar-check-o orange fa-lg" data-rel="tooltip" data-placement="bottom" title="Today"
-                                   @click="backToRentCalDat"></i>
+                                   @click="selectDate(rentCalDat)"></i>
                             </span>
                                         </div>
                                         <div class="clearfix"></div>
@@ -203,15 +203,7 @@
             });
 
         },
-        watch: {
-            searchData: {
-                handler(val) {
-                    this.isLoading = true;
-                    this.fetchData();
-                },
-                deep: true
-            }
-        },
+        watch: {},
         data(){
             return{
                 isLoading: true,
@@ -268,10 +260,10 @@
 
             },
             fetchData() {
+                this.isLoading = true;
                 this.initData();
 
                 this.nowSearchDate = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
-
                 let lo_param = {
                     begin_dat: this.nowSearchDate
                 };
@@ -329,6 +321,9 @@
             convertData() {
                 let self = this;
 
+                this.dateFieldData = [];
+                this.dayFieldData = [];
+
                 //轉換顏色格式
                 _.each(this.color, (ls_color, idx) => {
                     this.color[idx] = 'rgb(' + colorTool.colorCodToRgb(ls_color).r + ', ' + colorTool.colorCodToRgb(ls_color).g + ', ' + colorTool.colorCodToRgb(ls_color).b + ')';
@@ -344,6 +339,7 @@
                     });
                     this.dayFieldData.push({data: lo_date.format("ddd"), color: this.color[i - this.beginNum]});
                 }
+
 
                 //取房型種類
                 _.each(this.roomTypData, (data, key) => {
@@ -423,7 +419,6 @@
                     la_phyOccupancy[i - this.beginNum] = {color: self.color[i - this.beginNum], num: ''};
                 }
 
-
                 for (let i = ln_beginIdx4Field; i <= ln_endIdx4Field; i++) {
                     if (i - ln_beginIdx4Field < this.totalAvailable.number.length) {
                         la_totalAvailable[i].num = JSON.parse(JSON.stringify(self.totalAvailable.number[i - ln_beginIdx4Field]));
@@ -440,11 +435,11 @@
 
             },
             backToRentCalDat() {
-                this.searchData.year = this.rentCalDat.split("/")[0];
-                this.searchData.month = this.rentCalDat.split("/")[1];
-                this.searchData.date = this.rentCalDat.split("/")[2];
+                this.searchData.year = moment(new Date(this.rentCalDat)).year();
+                this.searchData.month = moment(new Date(this.rentCalDat)).month() + 1;
+                this.searchData.date = moment(new Date(this.rentCalDat)).date();
                 this.searchData4Month = moment(new Date(this.rentCalDat)).format("YYYY/MM/DD").toString();
-
+                this.fetchData();
             },
             changDate(num) {
                 let self = this;
@@ -453,13 +448,14 @@
                 this.searchData.month = ls_date.split("/")[1];
                 this.searchData.date = ls_date.split("/")[2];
                 this.searchData4Month = moment(new Date(ls_date));
-
+                this.fetchData();
             },
-            selectDate() {
-                let ls_date = moment(new Date(this.searchData4Month)).format("YYYY/MM/DD").toString();
-                this.searchData.year = ls_date.split("/")[0];
-                this.searchData.month = ls_date.split("/")[1];
-                this.searchData.date = ls_date.split("/")[2];
+            selectDate(date) {
+                console.log(date);
+                this.searchData.year = moment(new Date(date)).year();
+                this.searchData.month = moment(new Date(date)).month() + 1;
+                this.searchData.date = moment(new Date(date)).date();
+                this.fetchData();
             }
         }
     }
