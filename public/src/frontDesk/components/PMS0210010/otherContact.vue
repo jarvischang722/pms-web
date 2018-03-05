@@ -290,6 +290,7 @@
                     this.oriEmailDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
                     _.each(this.emailDataGridRows, (lo_emailDataGridRows,idx)=>{
                         this.emailDataGridRows[idx]["cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.emailDataGridRows[idx]["athena_id"] = getCookie("athena_id");
                         this.emailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1, });
                     });
                     _.each(this.oriEmailDataGridRows, (lo_emailDataGridRows,idx)=>{
@@ -309,6 +310,7 @@
                     this.contactDataGridRows = result.dgRowData;
                     this.oriContactDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
                     _.each(this.contactDataGridRows, (lo_contactDataGridRows,idx)=>{
+                        this.emailDataGridRows[idx]["contact_dt.athena_id"] = getCookie("athena_id");
                         this.contactDataGridRows[idx]["contact_dt.cust_cod"] = this.$store.state.gs_gcustCod;
                         this.contactDataGridRows[idx] = _.extend(lo_contactDataGridRows, {tab_page_id: 2});
                     });
@@ -337,6 +339,7 @@
                     });
 
                     _.each(this.addressDataGridRows, (lo_addressDataGridRows,idx)=>{
+                        this.emailDataGridRows[idx]["address_dt.athena_id"] = getCookie("athena_id");
                         this.addressDataGridRows[idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
                         this.addressDataGridRows[idx] = _.extend(lo_addressDataGridRows, {tab_page_id: 3});
                     });

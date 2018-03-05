@@ -524,7 +524,7 @@ module.exports = {
             };
             callback(lo_error, lo_return);
         }
-        catch(err){
+        catch (err) {
             lo_error = new ErrorClass();
             lo_return.success = false;
             lo_error.errorMsg = err;
@@ -537,13 +537,13 @@ module.exports = {
      * @param params    {object} sql 條件
      * @returns {Promise<any>}
      */
-    async getElseContact(dao_name, params){
+    async getElseContact(dao_name, params) {
         return new Promise((resolve, reject) => {
-            queryAgent.queryList(dao_name, params,0, 0, function(err, result){
-                if(err){
+            queryAgent.queryList(dao_name, params, 0, 0, function (err, result) {
+                if (err) {
                     reject(err);
                 }
-                else{
+                else {
                     resolve(result);
                 }
             })
@@ -560,5 +560,81 @@ module.exports = {
         } else {
             return false;
         }
+    },
+
+    /**
+     * 儲存資料前的檢查(修改)
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    convertGhistMn(postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+
+        let lo_updateData = postData.tmpCUD.updateData[0];
+        let lo_cust_idx = {};
+        let lo_ghist_visit_dt = {};
+
+        _.each(lo_updateData, (val, key) => {
+            let la_keySplit = key.split(".");
+
+            if (la_keySplit.length > 1) {
+                let ls_table_name = la_keySplit[0];
+                let ls_field_name = la_keySplit[1];
+                if(ls_table_name == "cust_idx"){
+                    lo_cust_idx[ls_field_name] = val;
+                    delete lo_updateData[key];
+                }
+                else if(ls_table_name == "ghist_visit_dt"){
+                    lo_ghist_visit_dt["athena_id"] = lo_updateData.athena_id;
+                    lo_ghist_visit_dt["gcust_cod"] = lo_updateData.gcust_cod;
+                    lo_ghist_visit_dt["hotel_cod"] = session.user.hotel_cod;
+                    lo_ghist_visit_dt[ls_field_name] = val;
+                    delete lo_updateData[key];
+                }
+            }
+        });
+
+        let lo_custIdxData = {
+            function: 2,
+            table_name: 'cust_idx',
+            condition: [{
+                key: 'athena_id',
+                operation: "=",
+                value: session.user.athena_id
+            }, {
+                key: 'cust_cod',
+                operation: "=",
+                value: lo_cust_idx.cust_cod
+            }],
+        }
+        _.extend(lo_custIdxData, lo_cust_idx);
+
+        lo_return.extendExecDataArrSet.push(lo_custIdxData);
+
+        let lo_ghistVisitDtData = {
+            function: 2,
+            table_name: 'ghist_visit_dt',
+            condition: [{
+                key: 'athena_id',
+                operation: "=",
+                value: session.user.athena_id
+            }, {
+                key: 'hotel_cod',
+                operation: "=",
+                value:  session.user.hotel_cod
+            },
+                {
+                key: 'gcust_cod',
+                operation: "=",
+                value: lo_ghist_visit_dt.gcust_cod
+            }],
+        };
+        _.extend(lo_ghistVisitDtData, lo_ghist_visit_dt);
+
+        lo_return.extendExecDataArrSet.push(lo_ghistVisitDtData);
+
+        callback(lo_error, lo_return);
     }
 };

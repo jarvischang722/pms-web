@@ -495,7 +495,7 @@
                     val.ccust_nam = val["cust_idx.comp_nam"];
 
                     //訂房公司影響統一編號,發票抬頭
-                    if(val.acust_cod != null || !_.isUndefined(val.acust_cod)){
+                    if(!_.isNull( val.acust_cod) && !_.isUndefined(val.acust_cod)){
                         if(val.acust_cod.trim() != ""){
                             let lo_compCodSelectData = _.findWhere(this.profileOriFieldsData, {ui_field_name: "acust_cod"}).selectData.selectData;
                             let ls_uniCod = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_cod;
@@ -775,14 +775,19 @@
                 }
                 else {
                     let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
-                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
+                    this.isLoadingDialog = false;
+//                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
+                    if(lo_saveProfileDataRes.success){
+                        alert("save success");
+                        this.doCloseDialog();
+                    }
+                    else{
+                        alert(lo_saveProfileDataRes.errorMsg)
+                    }
+
+
                 }
 
-                let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
-                let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
-
-                this.isLoadingDialog = false;
-                this.doCloseDialog();
             },
             async doDeleteData(){
 

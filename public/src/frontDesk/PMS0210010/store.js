@@ -240,17 +240,18 @@ const actions = {
             }
         }
 
-        // return lo_tmpCUD;
+        // console.log(lo_tmpCUD);
+        return lo_tmpCUD;
 
-        return await $.post('/api/doOperationSave', {
-            prg_id: 'PMS0210011',
-            page_id: 1040,
-            func_id: '0400',
-            // trans_cod: 'PMS0210011',
-            tmpCUD: lo_tmpCUD
-        }).then(result => {
-            return (result);
-        });
+        // return await $.post('/api/doOperationSave', {
+        //     prg_id: 'PMS0210011',
+        //     page_id: 1040,
+        //     func_id: '0400',
+        //     // trans_cod: 'PMS0210011',
+        //     tmpCUD: lo_tmpCUD
+        // }).then(result => {
+        //     return (result);
+        // });
     },
     //清除所有資料
     setAllDataClear({commit}) {
