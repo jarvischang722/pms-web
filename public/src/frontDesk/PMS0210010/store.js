@@ -175,14 +175,11 @@ const actions = {
             }
         }
 
-        // console.log(lo_tmpCUD);
-        // return lo_tmpCUD;
-
         return await $.post('/api/doOperationSave', {
             prg_id: 'PMS0210011',
             page_id: 1,
             func_id: ls_funcId,
-            // trans_cod: 'PMS0210011',
+            trans_cod: 'PMS0210011',
             tmpCUD: lo_tmpCUD
         }).then(result => {
             return (result);

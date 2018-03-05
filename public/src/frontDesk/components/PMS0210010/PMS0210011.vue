@@ -46,6 +46,7 @@
                                                                 :data="field.selectData"
                                                                 is-qry-src-before="Y" value-field="value"
                                                                 text-field="display"
+                                                                @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 @update:v-model="val => singleData[field.ui_field_name] = val"
                                                                 :default-val="singleData[field.ui_field_name] || field.defaultVal"
                                                                 :disabled="field.modificable == 'N'||
@@ -62,6 +63,7 @@
                                                                 :is-qry-src-before="field.selectData.isQrySrcBefore"
                                                                 :id-field="field.selectData.value"
                                                                 :text-field="field.selectData.display"
+                                                                @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 @update:v-model="val => singleData[field.ui_field_name] = val"
                                                                 :default-val="singleData[field.ui_field_name]"
                                                                 :disabled="field.modificable == 'N'||
@@ -448,6 +450,7 @@
         },
         data() {
             return {
+                chgSingleData: {},
                 i18nLang: go_i18nLang,//多語系資料
                 isLoadingDialog: false,//是否載入成功
                 loadingText: "",//載入的提示文字
@@ -557,7 +560,10 @@
                     return;
                 }
                 var self = this;
-                var la_oriSingleData = [this.oriSingleData];
+                if(_.isEmpty(this.chgSingleData)){
+                    this.chgSingleData = this.oriSingleData;
+                }
+                var la_oriSingleData = [this.chgSingleData];
                 var la_singleData = [this.singleData];
                 var la_diff = _.difference(la_oriSingleData, la_singleData);
 
@@ -611,6 +617,7 @@
                         //連動帶回的值
                         if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
                             self.singleData = _.extend(self.singleData, result.effectValues);
+                            self.chgSingleData = JSON.parse(JSON.stringify(self.singleData));
                         }
 
                     });
