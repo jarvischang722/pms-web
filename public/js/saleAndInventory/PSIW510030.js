@@ -406,11 +406,12 @@ let PSIW510030 = new Vue({
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
 
-                self.unitSelectData = result.data;
-                self.initDataGridField();
-
                 if(result.error != null){
                     alert(result.error);
+                }
+                else {
+                    self.unitSelectData = result.data;
+                    self.initDataGridField();
                 }
             });
 
