@@ -4872,6 +4872,7 @@ td div.act-box span.act-text {
 }
 .cus-roomType-table table thead tr .rp-first-th .caSelect {
   margin: 12px 0 10px 0;
+  width: 54px;
 }
 .cus-roomType-table table thead tr .rp-first-th .caSelect .el-icon-date:before {
   content: none;
@@ -6577,6 +6578,11 @@ a {
 }
 .input-medium.ca-select {
   width: 65px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.ca-select-s {
+  width: 54px;
   max-width: 100%;
   height: 25px;
 }
