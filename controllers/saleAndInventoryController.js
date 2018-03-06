@@ -56,7 +56,7 @@ exports.getQueryResult = function (req, res) {
             break;
         case "getCustInfo":
             PSIWService.getCustInfo(req.body, req.session, function (err, result) {
-                res.json({data: result, errorMsg: err});
+                res.json({data: result, error: err});
             });
             break;
         case "getPeriod":

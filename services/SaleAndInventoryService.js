@@ -31,7 +31,6 @@ const ErrorClass = require(ruleRootPath + "/errorClass");
 exports.getDataGridRows = function (params ,session, callback) {
 
     let lo_searchCond = params.searchCond || {}; //搜尋條件
-    let lo_error = null;
 
     let lo_params = {
         comp_cod: session.user.cmp_id,
@@ -49,26 +48,17 @@ exports.getDataGridRows = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_PSI_QUOTE_MN", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
-            {
-                //  ) 條件過濾
-                if (!_.isUndefined(ruleAgent[params.prg_id + "Filter"])) {
-                    ruleAgent[params.prg_id + "Filter"](Result, session, lo_searchCond, function (dataRow) {
-                        callback(lo_error, dataRow);
-                    });
-                } else {
-                    callback(lo_error, Result);
-                }
-            }
-            else {
-                callback(lo_error, "");
+            // 條件過濾(date)
+            if (!_.isUndefined(ruleAgent[params.prg_id + "Filter"])) {
+                ruleAgent[params.prg_id + "Filter"](Result, session, lo_searchCond, function (dataRow) {
+                    callback(null, dataRow);
+                });
+            } else {
+                callback(null, Result);
             }
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -81,8 +71,6 @@ exports.getDataGridRows = function (params ,session, callback) {
  */
 exports.getSingleDataMN = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id,
         order_nos: params.order_nos
@@ -90,16 +78,10 @@ exports.getSingleDataMN = function (params ,session, callback) {
 
     queryAgent.query("QRY_PSI_QUOTE_SINGLE_MN", lo_params, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -112,8 +94,6 @@ exports.getSingleDataMN = function (params ,session, callback) {
  */
 exports.getSingleDataDT = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id,
         order_nos: params.order_nos
@@ -121,18 +101,10 @@ exports.getSingleDataDT = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_PSI_QUOTE_SINGLE_DT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result) {
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -145,8 +117,6 @@ exports.getSingleDataDT = function (params ,session, callback) {
  */
 exports.getShowCodSelect = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id,
         key_cod1: session.user.usr_id
@@ -154,18 +124,10 @@ exports.getShowCodSelect = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_CUST_COD_SELECT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result){
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -178,26 +140,16 @@ exports.getShowCodSelect = function (params ,session, callback) {
  */
 exports.getUnitSelect = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id
     };
 
     queryAgent.queryList("QRY_UNIT_TYP_SELECT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result) {
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -281,26 +233,16 @@ exports.getCustInfo = function (params ,session, callback) {
  */
 exports.getPeriod = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         order_dat: params.singleData.order_dat
     };
 
     queryAgent.query("QRY_PSI_PERIOD_RF", lo_params, function (err, Result) {
         if (!err) {
-            if(Result){
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err.message || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -313,8 +255,6 @@ exports.getPeriod = function (params ,session, callback) {
  */
 exports.getFormatSta = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id,
         cust_cod: params.singleData.cust_cod,
@@ -324,18 +264,10 @@ exports.getFormatSta = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result){
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -348,26 +280,16 @@ exports.getFormatSta = function (params ,session, callback) {
  */
 exports.getAllFormatSta = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id
     };
 
     queryAgent.queryList("QRY_ALL_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result){
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -380,8 +302,6 @@ exports.getAllFormatSta = function (params ,session, callback) {
  */
 exports.getGoodsData = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id,
         format_sta: params.select_format_sta
@@ -389,18 +309,10 @@ exports.getGoodsData = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_GOODS_DATA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result){
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -564,26 +476,16 @@ exports.chkFormatSta = function (params ,session, callback) {
  */
 exports.getSearchFormatSta = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id
     };
 
     queryAgent.queryList("QRY_SEARCH_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result){
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -605,18 +507,10 @@ exports.getSearchShowCod = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_SEARCH_CUST_COD_SELECT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result){
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -802,8 +696,6 @@ exports.callOrderAPI = function (params ,session, callback) {
  */
 exports.getSystemParam = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id
     };
@@ -812,18 +704,10 @@ exports.getSystemParam = function (params ,session, callback) {
 
     queryAgent.query(paramName, lo_params, function (err, Result) {
         if (!err) {
-            if(Result){
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -891,7 +775,7 @@ exports.PSI0000001 = function (params ,session, callback) {
             obj = JSON.parse(new Buffer(params, 'base64').toString());
         }
         catch (ex) {
-            console.log(ex.message);
+            console.error(ex.message);
             let RESPONSE = {
                 "RETN-CODE": "9999",
                 "RETN-CODE-DESC": "JSON base64解碼失敗"
@@ -994,7 +878,7 @@ exports.PSI0000001 = function (params ,session, callback) {
             });
         }
         else{
-            console.log(ls_error_Msg);
+            console.error(ls_error_Msg);
             let RESPONSE = {
                 "RETN-CODE": "9999",
                 "RETN-CODE-DESC": ls_error_Msg
@@ -1004,7 +888,7 @@ exports.PSI0000001 = function (params ,session, callback) {
     }
     catch (ex)
     {
-        console.log(ex.message);
+        console.error(ex.message);
         let RESPONSE = {
             "RETN-CODE": "9999",
             "RETN-CODE-DESC": ex.message
@@ -1034,7 +918,7 @@ exports.PSI0000002 = function (params ,session, callback) {
             obj = JSON.parse(new Buffer(params, 'base64').toString());
         }
         catch (ex) {
-            console.log(ex.message);
+            console.error(ex.message);
             let RESPONSE = {
                 "RETN-CODE": "9999",
                 "RETN-CODE-DESC": "JSON base64解碼失敗"
@@ -1107,7 +991,7 @@ exports.PSI0000002 = function (params ,session, callback) {
             });
         }
         else{
-            console.log(ls_error_Msg);
+            console.error(ls_error_Msg);
             let RESPONSE = {
                 "RETN-CODE": "9999",
                 "RETN-CODE-DESC": ls_error_Msg
@@ -1117,7 +1001,7 @@ exports.PSI0000002 = function (params ,session, callback) {
     }
     catch (ex)
     {
-        console.log(ex.message);
+        console.error(ex.message);
         let RESPONSE = {
             "RETN-CODE": "9999",
             "RETN-CODE-DESC": ex.message
@@ -1151,7 +1035,7 @@ exports.PSI0000003 = function (params ,session, callback) {
             obj = JSON.parse(new Buffer(params, 'base64').toString());
         }
         catch (ex) {
-            console.log(ex.message);
+            console.error(ex.message);
             let RESPONSE = {
                 "RETN-CODE": "9999",
                 "RETN-CODE-DESC": "JSON base64解碼失敗"
@@ -1240,7 +1124,7 @@ exports.PSI0000003 = function (params ,session, callback) {
             });
         }
         else{
-            console.log(ls_error_Msg);
+            console.error(ls_error_Msg);
             let RESPONSE = {
                 "RETN-CODE": "9999",
                 "RETN-CODE-DESC": ls_error_Msg
@@ -1250,7 +1134,7 @@ exports.PSI0000003 = function (params ,session, callback) {
     }
     catch (ex)
     {
-        console.log(ex.message);
+        console.error(ex.message);
         let RESPONSE = {
             "RETN-CODE": "9999",
             "RETN-CODE-DESC": ex.message

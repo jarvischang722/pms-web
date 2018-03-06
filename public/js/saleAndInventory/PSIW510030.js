@@ -392,10 +392,9 @@ let PSIW510030 = new Vue({
             this.isLoading = true;
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
-                if (!_.isUndefined(result.data)) {
-                    self.custSelectData = result.data;
-                } else {
-                    alert(result.error.errorMsg);
+                self.custSelectData = result.data;
+                if(result.error != null){
+                    alert(result.error);
                 }
             });
 
@@ -406,11 +405,12 @@ let PSIW510030 = new Vue({
             this.isLoading = true;
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
-                if (!_.isUndefined(result.data)) {
-                    self.unitSelectData = result.data;
-                    self.initDataGridField();
-                } else {
-                    alert(result.error.errorMsg);
+
+                self.unitSelectData = result.data;
+                self.initDataGridField();
+
+                if(result.error != null){
+                    alert(result.error);
                 }
             });
 
@@ -430,13 +430,14 @@ let PSIW510030 = new Vue({
                         func: "getSearchFormatSta"
                     };
                     $.post("/api/getQueryResult", lo_params, function (result) {
-                        if (!_.isUndefined(result.data)) {
-                            self.searchOrderSelectData = result.data;
-                            cb(null, result.data);
-                        } else {
-                            alert(result.error.errorMsg);
-                            cb(result.error.errorMsg, "");
+
+                        self.searchOrderSelectData = result.data;
+
+                        if(result.error != null){
+                            alert(result.error);
                         }
+
+                        cb(result.error, result.data);
                     });
                 },
                 //客戶代號(查詢用)
@@ -448,13 +449,14 @@ let PSIW510030 = new Vue({
                     self.isLoading = true;
                     $.post("/api/getQueryResult", lo_params, function (result) {
                         self.isLoading = false;
-                        if (!_.isUndefined(result.data)) {
-                            self.searchCustSelectData = result.data;
-                            cb(null, result.data);
-                        } else {
-                            alert(result.error.errorMsg);
-                            cb(result.error.errorMsg, "");
+
+                        self.searchCustSelectData = result.data;
+
+                        if(result.error != null){
+                            alert(result.error);
                         }
+
+                        cb(result.error, result.data);
                     });
                 }
             ], function(err, result){
@@ -530,10 +532,11 @@ let PSIW510030 = new Vue({
                 paramName: "ship_mn_round_nos"
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
-                if (!_.isUndefined(result.data)) {
+                if(result.error != null){
+                    alert(result.error);
+                }
+                else {
                     self.ship_mn_round_nos = result.data.ship_mn_round_nos;
-                } else {
-                    alert(result.error.errorMsg);
                 }
             });
 
@@ -543,10 +546,11 @@ let PSIW510030 = new Vue({
                 paramName: "ship_dt_round_nos"
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
-                if (!_.isUndefined(result.data)) {
+                if(result.error != null){
+                    alert(result.error);
+                }
+                else {
                     self.ship_dt_round_nos = result.data.ship_dt_round_nos;
-                } else {
-                    alert(result.error.errorMsg);
                 }
             });
 
@@ -556,10 +560,11 @@ let PSIW510030 = new Vue({
                 paramName: "order_dat_change_time"
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
-                if (!_.isUndefined(result.data)) {
+                if(result.error != null){
+                    alert(result.error);
+                }
+                else {
                     self.order_dat_change_time = result.data.order_dat_change_time;
-                } else {
-                    alert(result.error.errorMsg);
                 }
             });
 
@@ -569,10 +574,11 @@ let PSIW510030 = new Vue({
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
-                if (!_.isUndefined(result.data)) {
-                    self.allOrderSelectData = result.data;
-                } else {
-                    alert(result.error.errorMsg);
+
+                self.allOrderSelectData = result.data;
+
+                if(result.error != null){
+                    alert(result.error);
                 }
             });
 
@@ -1193,12 +1199,14 @@ let PSIW510030 = new Vue({
             //撈多筆資料
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
-                if (!_.isUndefined(result.data)) {
-                    self.DataGridRows = result.data;
-                    self.dgIns.loadDgData(self.DataGridRows);
-                } else {
-                    alert(result.error.errorMsg);
+
+                self.DataGridRows = result.data;
+                self.dgIns.loadDgData(self.DataGridRows);
+
+                if(result.error != null){
+                    alert(result.error);
                 }
+
             });
         },
 
@@ -1214,10 +1222,15 @@ let PSIW510030 = new Vue({
                 func: "getSingleDataMN",
                 order_nos: order_nos
             };
-            this.isLoading = true;
-            $.post("/api/getQueryResult", lo_params, function (result) {
 
-                if (!_.isUndefined(result.data)) {
+            self.isLoading = true;
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                self.isLoading = false;
+
+                if(result.error != null) {
+                    alert(result.error.errorMsg);
+                }
+                else {
 
                     self.singleDataTemp = result.data;
 
@@ -1246,8 +1259,6 @@ let PSIW510030 = new Vue({
 
                     self.oriSingleData = _.clone(self.singleDataTemp);
                     self.initOrderSelect();
-                } else {
-                    alert(result.error.errorMsg);
                 }
             });
 
@@ -1256,9 +1267,15 @@ let PSIW510030 = new Vue({
                 func: "getSingleDataDT",
                 order_nos: order_nos
             };
-            $.post("/api/getQueryResult", lo_params, function (result) {
-                if (!_.isUndefined(result.data)) {
 
+            self.isLoading = true;
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                self.isLoading = false;
+
+                if(result.error != null){
+                    alert(result.error);
+                }
+                else {
                     _.each(result.data, function (value) {
                         //撈出來小數直接做四捨五入
                         value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 2);
@@ -1279,10 +1296,7 @@ let PSIW510030 = new Vue({
 
                     //保留原始資料, 供放棄使用
                     self.oriSingleDataGridRows = _.clone(self.singleDataGridRows);
-                } else {
-                    alert(result.error.errorMsg);
                 }
-                self.isLoading = false;
             });
         },
 
@@ -1421,62 +1435,64 @@ let PSIW510030 = new Vue({
                 func: "getPeriod",
                 singleData: self.singleDataTemp
             };
+
             self.isLoading = true;
 
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
 
                 if(result.error != null){
-                    alert(result.error.errorMsg);
-                    return;
+                    alert(result.error);
                 }
+                else {
+                    self.singleDataTemp.period_cod = result.data.period_cod;
 
-                self.singleDataTemp.period_cod = result.data.period_cod;
-
-                //Week 格式代號用
-                let day;
-                switch (new Date(self.singleDataTemp.order_dat).getDay()){
-                    case 0:
-                        day = 'D7';
-                        break;
-                    case 1:
-                        day = 'D1';
-                        break;
-                    case 2:
-                        day = 'D2';
-                        break;
-                    case 3:
-                        day = 'D3';
-                        break;
-                    case 4:
-                        day = 'D4';
-                        break;
-                    case 5:
-                        day = 'D5';
-                        break;
-                    case 6:
-                        day = 'D6';
-                        break;
-                }
-
-                self.singleDataTemp.week = day;
-
-                //訂單格式
-                let lo_params2 = {
-                    func: "getFormatSta",
-                    singleData: self.singleDataTemp
-                };
-                self.isLoading = true;
-                $.post("/api/getQueryResult", lo_params2, function (result) {
-                    self.isLoading = false;
-
-                    if (!_.isUndefined(result.data)) {
-                        self.orderSelectData = result.data;
-                    } else {
-                        alert(result.error.errorMsg);
+                    //Week 格式代號用
+                    let day;
+                    switch (new Date(self.singleDataTemp.order_dat).getDay()){
+                        case 0:
+                            day = 'D7';
+                            break;
+                        case 1:
+                            day = 'D1';
+                            break;
+                        case 2:
+                            day = 'D2';
+                            break;
+                        case 3:
+                            day = 'D3';
+                            break;
+                        case 4:
+                            day = 'D4';
+                            break;
+                        case 5:
+                            day = 'D5';
+                            break;
+                        case 6:
+                            day = 'D6';
+                            break;
                     }
-                    self.singleData = self.singleDataTemp;
-                });
+
+                    self.singleDataTemp.week = day;
+
+                    //訂單格式
+                    let lo_params2 = {
+                        func: "getFormatSta",
+                        singleData: self.singleDataTemp
+                    };
+                    self.isLoading = true;
+                    $.post("/api/getQueryResult", lo_params2, function (result) {
+                        self.isLoading = false;
+
+                        self.orderSelectData = result.data;
+                        self.singleData = self.singleDataTemp;
+
+                        if(result.error){
+                            alert(result.error);
+                        }
+                    });
+                }
+
             });
         },
 
@@ -1508,7 +1524,7 @@ let PSIW510030 = new Vue({
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
-                if(result.errorMsg == null){
+                if(result.error == null){
                     self.singleData.accunt_sta = result.data.accunt_sta;
                     self.singleData.accunt_nos = result.data.accunt_nos;
                     self.singleData.ship_typ = result.data.ship_typ;
@@ -1541,7 +1557,7 @@ let PSIW510030 = new Vue({
                     self.initOrderSelect();
                 }
                 else{
-                    alert(result.errorMsg);
+                    alert(result.error);
                 }
             });
         },
@@ -1899,8 +1915,11 @@ let PSIW510030 = new Vue({
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
-                if (!_.isUndefined(result.data)) {
 
+                if(result.error != null){
+                    alert(result.error);
+                }
+                else {
                     self.order_data = [];
                     let li_page_num = 0;
                     let temp = [];
@@ -1927,8 +1946,6 @@ let PSIW510030 = new Vue({
                             self.select_order_time = value.order_time || '';
                         }
                     });
-                } else {
-                    alert(result.error.errorMsg);
                 }
             });
         },
