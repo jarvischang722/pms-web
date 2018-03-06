@@ -60,9 +60,9 @@ exports.getDataGridRows = function (params ,session, callback) {
                     callback(lo_error, Result);
                 }
             }
-
-            else
-                {callback(lo_error, "");}
+            else {
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -121,10 +121,12 @@ exports.getSingleDataDT = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_PSI_QUOTE_SINGLE_DT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            if(Result) {
+                callback(lo_error, Result);
+            }
+            else{
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -152,10 +154,12 @@ exports.getShowCodSelect = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_CUST_COD_SELECT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            if(Result){
+                callback(lo_error, Result);
+            }
+            else{
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -185,8 +189,9 @@ exports.getUnitSelect = function (params ,session, callback) {
             if(Result) {
                 callback(lo_error, Result);
             }
-            else
-                {callback(lo_error, "");}
+            else{
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -284,10 +289,12 @@ exports.getPeriod = function (params ,session, callback) {
 
     queryAgent.query("QRY_PSI_PERIOD_RF", lo_params, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            if(Result){
+                callback(lo_error, Result);
+            }
+            else{
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -565,10 +572,12 @@ exports.getSearchFormatSta = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_SEARCH_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            if(Result){
+                callback(lo_error, Result);
+            }
+            else{
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -596,10 +605,12 @@ exports.getSearchShowCod = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_SEARCH_CUST_COD_SELECT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            if(Result){
+                callback(lo_error, Result);
+            }
+            else{
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -618,7 +629,7 @@ exports.getSearchShowCod = function (params ,session, callback) {
  */
 exports.callSaveAPI = function (params ,session, callback) {
 
-    index = 1;
+    let index = 1;
     let exec_data = {};
     exec_data[index] = params.singleData;
     index++;
@@ -650,8 +661,7 @@ exports.callSaveAPI = function (params ,session, callback) {
             success = false;
             errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
             console.error(data["RETN-CODE-DESC"]);
-        } else
-        {
+        } else {
             errorMsg = data["RETN-CODE-DESC"];
         }
 
@@ -706,8 +716,7 @@ exports.callAPI = function (params ,session, callback) {
             success = false;
             errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
             console.error(data["RETN-CODE-DESC"]);
-        } else
-        {
+        } else {
             errorMsg = data["RETN-CODE-DESC"];
         }
 
@@ -759,8 +768,7 @@ exports.callOrderAPI = function (params ,session, callback) {
             success = false;
             errorMsg = data["RETN-CODE-DESC"];
             console.error(data["RETN-CODE-DESC"]);
-        } else
-        {
+        } else {
             errorMsg = data["RETN-CODE-DESC"];
         }
 
@@ -787,53 +795,6 @@ exports.callOrderAPI = function (params ,session, callback) {
 };
 
 /**
- * 欄位驗證
- * @param prg_id
- * @param ui_field_name
- * @param verifyValue
- * @param callback
- */
-exports.doCheckFieldFormatVerify = function (prg_id, ui_field_name, verifyValue, callback) {
-
-    async.waterfall([
-        //驗證資料格式是否正常
-        function (callback) {
-            mongoAgent.UIFieldFormat.findOne({
-                prg_id: prg_id,
-                ui_field_name: ui_field_name
-            }, function (err, fieldFormat) {
-                if (!err && fieldFormat) {
-
-                    mongoAgent.FormatRF.findOne({format_id: fieldFormat.format_id}, function (err, format) {
-                        console.log(ui_field_name);
-
-                        let regExp = new RegExp(format.reg_exp);
-                        if (!regExp.test(verifyValue)) {
-                            callback("資料格式錯誤", false);
-                        }
-                    });
-                } else {
-                    callback(null, true);
-                }
-            });
-        },
-        //驗證資料內容是否正確
-        function (checkFormat, callback) {
-            callback(null, true);
-        }
-    ], function (err, success) {
-
-        if (err || !success) {
-            callback(err, false);
-        } else {
-            callback(null, true);
-        }
-    });
-
-
-};
-
-/**
  * 取系統參數
  * @param params
  * @param session
@@ -851,10 +812,12 @@ exports.getSystemParam = function (params ,session, callback) {
 
     queryAgent.query(paramName, lo_params, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            if(Result){
+                callback(lo_error, Result);
+            }
+            else{
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -867,7 +830,11 @@ exports.getSystemParam = function (params ,session, callback) {
 
 //WebService
 
-//檢查欄位是否為空值
+/**
+ * 檢查欄位是否為空值
+ * @param object{Object}
+ * @param keyfield 欄位名稱{String}
+ */
 function checkNull(object, keyfield) {
     let lb_check = true;
 
@@ -881,7 +848,11 @@ function checkNull(object, keyfield) {
     return lb_check;
 }
 
-//數字欄位檢查
+/**
+ * 數字欄位檢查(判斷是否為數字)
+ * @param object{Object}
+ * @param numfield 欄位名稱{String}
+ */
 function checkNum(object, numfield) {
     let lb_check = true;
 
@@ -914,7 +885,20 @@ exports.PSI0000001 = function (params ,session, callback) {
         lo_mn_numfield = ['use_qnt', 'init_qty', 'in_qty', 'io_qty', 'ao_qty', 'ai_qty', 'aj_qty', 'last_qty', 'ck_qty', 'act_qty', 'std_qty', 'diff_qty', 'diff_amt', 'cost_amt'];
         lo_dt_numfield = ['ao_qty', 'ai_qty'];
 
-        let obj = JSON.parse(new Buffer(params, 'base64').toString());
+        let obj;
+
+        try{
+            obj = JSON.parse(new Buffer(params, 'base64').toString());
+        }
+        catch (ex) {
+            console.log(ex.message);
+            let RESPONSE = {
+                "RETN-CODE": "9999",
+                "RETN-CODE-DESC": "JSON base64解碼失敗"
+            };
+            callback(RESPONSE);
+            return;
+        }
 
         let lb_check = true;
         let ls_error_Msg = "";
@@ -1044,7 +1028,20 @@ exports.PSI0000002 = function (params ,session, callback) {
         //數字欄位
         lo_numfield = ['use_qnt'];
 
-        let obj = JSON.parse(new Buffer(params, 'base64').toString());
+        let obj;
+
+        try{
+            obj = JSON.parse(new Buffer(params, 'base64').toString());
+        }
+        catch (ex) {
+            console.log(ex.message);
+            let RESPONSE = {
+                "RETN-CODE": "9999",
+                "RETN-CODE-DESC": "JSON base64解碼失敗"
+            };
+            callback(RESPONSE);
+            return;
+        }
 
         let lb_check = true;
         let ls_error_Msg = "";
@@ -1147,7 +1144,21 @@ exports.PSI0000003 = function (params ,session, callback) {
         lo_sale_mn_numfield = ['man1_qnt', 'notax_tot', 'serv_tot', 'fserv_tot2', 'tax_tot', 'ftax_tot2', 'ftax_tot3', 'disc_tot', 'pay_tot'];
         lo_sale_dt_numfield = ['out_qnt', 'disc_amt', 'product_amt', 'unit_amt'];
         lo_receipt_dt_numfield = ['fpay_amt', 'tips'];
-        let obj = JSON.parse(new Buffer(params, 'base64').toString());
+
+        let obj;
+
+        try{
+            obj = JSON.parse(new Buffer(params, 'base64').toString());
+        }
+        catch (ex) {
+            console.log(ex.message);
+            let RESPONSE = {
+                "RETN-CODE": "9999",
+                "RETN-CODE-DESC": "JSON base64解碼失敗"
+            };
+            callback(RESPONSE);
+            return;
+        }
 
         let lb_check = true;
         let ls_error_Msg = "";
