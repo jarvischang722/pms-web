@@ -1,5 +1,5 @@
 <template>
-    <input/>
+    <input v-bind='$attrs' v-on='$listeners'/>
 </template>
 
 <script>
@@ -83,8 +83,14 @@
                     textField: this.textField,
                     columns: [this.columns],
                     data: this.data,
-                    onChange: function (newValue, oldValue) {
-                        self.$emit('update:v-model', newValue);
+                    onChange: function (newValue) {
+                        self.$emit('update:v-model', newValue)
+                        setTimeout(function () {
+                            if (self.$listeners.change != undefined) {
+                                self.$listeners.change();
+                            }
+                        }, 200);
+
                     }
                 });
 

@@ -4,11 +4,49 @@
     <dao name="QRY_CNTRY_RF">
         <statement><![CDATA[
                 select rf.*,fmt.remark1
-                from cntry_rf rf left join ais_mail_fmt_mn fmt on fmt.mail_fmt = rf.mail_fmt and fmt.athena_id = rf.athena_id
+                from
+                cntry_rf rf left join ais_mail_fmt_mn fmt on fmt.mail_fmt = rf.mail_fmt and fmt.athena_id = rf.athena_id
                 where rf.athena_id = ?
                 order by contry_cod
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+
+    <!-- ['PMS0210010'] 取得國籍下拉資料-->
+    <dao name="SEL_GHISTMNCONTRYCOD">
+        <statement>
+            SELECT  CNTRY_RF.CONTRY_COD, CNTRY_RF.CONTRY_NAM, CNTRY_RF.CONTRY_SNA, LANG_RF.LANG_NAM,
+            CNTRY_RF.CONTRY_COD||':'||CNTRY_RF.CONTRY_NAM CONTRY_DISPLAY
+            FROM  CNTRY_RF, LANG_RF
+            WHERE  CNTRY_RF.ATHENA_ID = LANG_RF.ATHENA_ID(+)
+            AND  CNTRY_RF.LANG_COD = LANG_RF.LANG_COD(+)
+            AND  CNTRY_RF.ATHENA_ID = :athena_id
+            ORDER  BY  CNTRY_RF.VIEW_SEQ,
+            CNTRY_RF.CONTRY_COD
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+    <!-- ['PMS0810060'] 取得國籍-->
+    <dao name="QRY_HFD_LIVE_COD_RF_CONTRY_COD">
+        <statement><![CDATA[
+            select contry_cod  as value, contry_nam as display
+            from cntry_rf
+            where athena_id = ?
+            order by contry_nam
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+    </dao>
+
+    <!-- [PMS0210011] 國籍設定中使用語言-->
+    <dao name="QRY_LANG_BY_CONTRY_COD">
+        <statement><![CDATA[
+            select lang_cod from cntry_rf where athena_id = :athena_id and contry_cod = :contry_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">contry_cod</parameter>
     </dao>
 </root>

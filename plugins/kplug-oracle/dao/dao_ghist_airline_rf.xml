@@ -24,4 +24,16 @@
         <parameter type="string" kind="3">airline_cod</parameter>
 
     </dao>
+
+    <dao name="QRY_SEL_AIRLINE_COD">
+        <statement><![CDATA[
+            SELECT  AIRLINE_COD value,
+            AIRLINE_NAM display
+            FROM  GHIST_AIRLINE_RF
+            WHERE  ATHENA_ID = :athena_id
+            ORDER  BY  AIRLINE_COD
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
 </root>

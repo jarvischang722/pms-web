@@ -77,7 +77,7 @@ app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit: 50
 
 //app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({extended: true}));  //url編碼處理
-app.use(cookieParser());
+app.use(cookieParser(sysConfig.secret));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(i18n.init);

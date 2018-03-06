@@ -218,18 +218,52 @@
       "selectQuit": "Quite",
       "selectEmp": "Employee",
       "hotel_cod_repeat": "館別代號重複，請刪除(英文)",
-      "Property": "Property(英)",
-      "group_change_record": "組別異動紀錄(英)",
+      "Property": "Property(英文)",
+      "group_change_record": "組別異動紀錄(英文)",
       "saveSuccess": "Save Success",
       "delSuccess": "Delete Success"
     },
     "PMS0620030":{
-      "edit_sales_clerk": "修改業務員(英)"
+      "edit_sales_clerk": "修改業務員(英文)"
     },
     "PMS0620050": {
-      "add_visit_mn": "新增拜訪紀錄(英)",
-      "edit_vist_mn": "修改拜訪紀錄(英)",
-      "remove_visit_mn": "刪除拜訪紀錄(英)"
+      "add_visit_mn": "新增拜訪紀錄(英文)",
+      "edit_vist_mn": "修改拜訪紀錄(英文)",
+      "remove_visit_mn": "刪除拜訪紀錄(英文)"
+    },
+    "PMS0210010": {
+      "merge": "merge"
+    },
+    "PMS0210011": {
+      "Profile": "基本資料(英文)",
+      "Visits": "來館資料(英文)",
+      "Reference": "喜好(英文)",
+      "Classified": "Classified",
+      "Gst_pic": "Gst pic",
+      "ID_Scanning": "I.D.Scanning",
+      "Other_contact": "Other contact",
+      "Message": "Message",
+      "LostAndFound": "Lost & Found",
+      "Suggestion": "Suggestion",
+      "Anniversary": "Anniversary",
+      "reserveShopInfo": "預約來館資料",
+      "guestVisitHistory": "住客來訪歷史",
+      "email": "E-mail",
+      "contact_method": "連絡方式(英文)",
+      "address": "Address"
+    },
+    "RS0W212010": {
+      "show_cod": "客戶代號(英)",
+      "alt_nam": "客戶姓名(英)",
+      "contact_rmk": "聯絡電話(英)",
+      "first_nam": "First Name",
+      "last_nam": "Last Name",
+      "cust_typ": "客戶類別(英)",
+      "cust_sta": "客戶狀態(英)",
+      "cust_cod": "客戶代號(英)",
+      "atten_nam": "名稱(英)",
+      "role_rmk": "職稱(英)",
+      "tel_nos": "電話(英)"
     }
   },
   "table_in_use": "Table in use (%s)",
@@ -413,7 +447,9 @@
     "pms61msg6": "此筆資料為官網訂房公司代號，不可變更狀態為刪除(英文)",
     "pms61msg7": "此筆資料設為主要聯絡人，不可刪除(英文)",
     "pms61msg8": "指定公司編號『%s』已指定於他筆商務公司，請重新輸入(英文)",
-    "pms61msg9": "指定公司編號『%s』已使用於財務系統，請重新輸入(英文)"
+    "pms61msg9": "指定公司編號『%s』已使用於財務系統，請重新輸入(英文)",
+    "pms21msg1": "此住客資料已存在(英文)",
+    "pms21msg2": "%s(%s)此筆資料已為訂房使用(%s:%s)，不可刪除(英文)"
   },
   "Columns":{
     "PMS0610020_show_cod": "公司編號(英文)",
@@ -425,6 +461,16 @@
     "PMS0610020_sales_nam": "業務員姓名(英文)",
     "PMS0610020_class_nam": "組別(英文)",
     "PMS0620020_user_nos": "使用者代號(英文)",
-    "PMS0620020_user_name": "使用者名稱(英文)"
+    "PMS0620020_user_name": "使用者名稱(英文)",
+    "salute_cod": "salute cod(英文)",
+    "salute_nam": "salute nam(英文)",
+    "man_flag": "man flag(英文)",
+    "woman_flag": "woman flag(英文)",
+    "contry_cod": "contry cod(英文)",
+    "contry_nam": "contry nam(英文)",
+    "contry_sna": "contry sna(英文)",
+    "live_cod" : "live cod(英文)",
+    "live_nam" : "live nam(英文)",
+    "live_sna" : "live sna(英文)"
   }
 }

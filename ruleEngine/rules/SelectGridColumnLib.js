@@ -56,7 +56,7 @@ exports.sel_custMnCustColumn = function (session, callback) {
  * @param session
  * @param callback
  */
-exports.sel_salesMnHotelStatusNColumn = function(session, callback){
+exports.sel_salesMnHotelStatusNColumn = function (session, callback) {
     let lo_result = {
         columns: [
             {
@@ -90,7 +90,7 @@ exports.sel_salesMnHotelStatusNColumn = function(session, callback){
  * @param session
  * @param callback
  */
-exports.qry_user_nos_column = function(session, callback){
+exports.qry_user_nos_column = function (session, callback) {
     let lo_result = {
         columns: [
             {
@@ -114,11 +114,259 @@ exports.qry_user_nos_column = function(session, callback){
     callback(null, lo_result);
 };
 
+/**
+ * PMS0210010 住客歷史 欄位國籍
+ * @param session
+ * @param callback
+ */
+exports.sel_GhistMnContrycodColumn = function (session, callback) {
+    let lo_result = {
+        columns: [
+            {
+                field: "contry_cod",
+                title: commandRules.getColumnByNam("contry_cod", session.locale),
+                width: 80
+            },
+            {
+                field: "contry_nam",
+                title: commandRules.getColumnByNam("contry_nam", session.locale),
+                width: 150
+            },
+            {
+                field: "contry_sna",
+                title: commandRules.getColumnByNam("contry_sna", session.locale),
+                width: 150
+            },
+            {
+                field: "contry_display",
+                hidden: true
+            }
+        ],
+        display: "contry_display",
+        value: "contry_cod"
+    };
+    callback(null, lo_result);
+};
+
+/**
+ * PMS0210010 住客歷史 欄位國籍
+ * @param session
+ * @param callback
+ */
+exports.sel_AgentIdxShowcodColumn = function (session, callback) {
+    let lo_result = {
+        columns: [
+            {
+                field: "show_cod",
+                title: commandRules.getColumnByNam("PMS0610020_show_cod", session.locale),
+                width: 100
+            },
+            {
+                field: "cust_nam",
+                title: commandRules.getColumnByNam("PMS0610020_cust_nam", session.locale),
+                width: 300
+            },
+            {
+                field: "uni_cod",
+                title: commandRules.getColumnByNam("PMS0610020_uni_cod", session.locale),
+                width: 100
+            },
+            {
+                field: "uni_title",
+                title: commandRules.getColumnByNam("PMS0610020_uni_title", session.locale),
+                width: 180
+            },
+            {
+                field: "cust_cod",
+                hidden: true
+            },
+            {
+                field: "cust_dispalay",
+                hidden: true
+            }
+        ],
+        display: "cust_display",
+        value: "cust_cod"
+    };
+    callback(null, lo_result);
+};
+
+/**
+ * PMS0210011 住客歷史資料編輯 欄位稱謂
+ * @param session
+ * @param callback
+ */
+exports.QRY_SEL_SALUTE_COD_column = function(session, callback){
+    let lo_result = {
+        columns: [
+            {
+                field: "salute_cod",
+                title: commandRules.getColumnByNam("salute_cod", session.locale),
+                width: 100
+            },
+            {
+                field: "salute_nam",
+                title: commandRules.getColumnByNam("salute_nam", session.locale),
+                width: 100
+            },
+            {
+                field: "man_flag",
+                title: commandRules.getColumnByNam("man_flag", session.locale),
+                width: 100
+            },
+            {
+                field: "woman_flag",
+                title: commandRules.getColumnByNam("woman_flag", session.locale),
+                width: 100
+            },
+            {
+                field: "salute_display",
+                hidden: true
+            }
+        ],
+        display: "salute_display",
+        value: "salute_cod"
+    };
+    callback(null, lo_result);
+};
+
+/**
+ * PMS0210011 住客歷史資料編輯 欄位居住地
+ * @param session
+ * @param callback
+ */
+exports.QRY_SEL_HFD_LIVE_COD_RF_Column = function(session, callback){
+    let lo_result = {
+        columns: [
+            {
+                field: "live_cod",
+                title: commandRules.getColumnByNam("live_cod", session.locale),
+                width: 100
+            },
+            {
+                field: "live_nam",
+                title: commandRules.getColumnByNam("live_nam", session.locale),
+                width: 100
+            },
+            {
+                field: "live_sna",
+                title: commandRules.getColumnByNam("live_sna", session.locale),
+                width: 100
+            },
+            {
+                field: "contry_nam",
+                title: commandRules.getColumnByNam("contry_nam", session.locale),
+                width: 100
+            },
+            {
+                field: "live_display",
+                hidden: true
+            }
+        ],
+        display: "live_display",
+        value: "live_cod"
+    };
+    callback(null, lo_result);
+};
+
+
+exports.sel_alt_nam = function(session, callback){
+    getlocaleContent(session, function(err, localContent){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let lo_result = {
+                columns: [
+                    {
+                        field: "show_cod",
+                        title: commandRules.getColumnByNam("PMS0620020_user_nos", session.locale),
+                        //title: localContent.program.RS0W212010.show_cod,
+                        width: 100
+                    },
+                    {
+                        field: "alt_nam",
+                        title: localContent.program.RS0W212010.alt_nam,
+                        width: 100
+                    },
+                    {
+                        field: "contact_rmk",
+                        title: localContent.program.RS0W212010.contact_rmk,
+                        width: 100
+                    },
+                    {
+                        field: "first_nam",
+                        title: localContent.program.RS0W212010.first_nam,
+                        width: 100
+                    },
+                    {
+                        field: "last_nam",
+                        title: localContent.program.RS0W212010.last_nam,
+                        width: 100
+                    },
+                    {
+                        field: "cust_typ",
+                        title: localContent.program.RS0W212010.cust_typ,
+                        width: 100
+                    },
+                    {
+                        field: "cust_sta",
+                        title: localContent.program.RS0W212010.cust_sta,
+                        width: 100
+                    },
+                    {
+                        field: "cust_cod",
+                        title: localContent.program.RS0W212010.cust_cod,
+                        width: 0,
+                        hidden: true
+                    }
+                ],
+                display: "alt_nam",
+                value: "alt_nam"
+            };
+            callback(null, lo_result);
+        }
+    });
+};
+
+exports.sel_atten_nam = function(session, callback){
+    getlocaleContent(session, function(err, localContent){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let lo_result = {
+                columns: [
+                    {
+                        field: "atten_nam",
+                        title: localContent.program.RS0W212010.atten_nam,
+                        width: 100
+                    },
+                    {
+                        field: "role_rmk",
+                        title: localContent.program.RS0W212010.role_rmk,
+                        width: 100
+                    },
+                    {
+                        field: "tel_nos",
+                        title: localContent.program.RS0W212010.tel_nos,
+                        width: 100
+                    }
+                ],
+                display: "atten_nam",
+                value: "atten_nam"
+            };
+            callback(null, lo_result);
+        }
+    });
+};
+
+
 function getlocaleContent(session, callback) {
-    var localeContent = {};
-    var appRootPath = require('app-root-path').path;
-    var localesPath = appRootPath + "/locales/";
-    var err = null;
+    let localeContent = {};
+    let appRootPath = require('app-root-path').path;
+    let localesPath = appRootPath + "/locales/";
+    let err = null;
 
     try {
         fs.exists(localesPath + session.locale.toLowerCase() + ".json", function (isExist) {

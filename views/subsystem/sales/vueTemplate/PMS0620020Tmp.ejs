@@ -90,7 +90,8 @@
                                                      :columns="field.selectData.columns"
                                                      :data="field.selectData.selectData"
                                                      :is-qry-src-before="field.selectData.isQrySrcBefore"
-                                                     :id-field="field.selectData.value" :text-field="field.selectData.display"
+                                                     :id-field="field.selectData.value"
+                                                     :text-field="field.selectData.display"
                                                      @update:v-model="val => rowData[field.ui_field_name] = val"
                                                      :default-val="rowData[field.ui_field_name]"
                                                      :disabled="field.modificable == 'N'||
@@ -125,13 +126,15 @@
                                                     <ul>
                                                         <li>
                                                             <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                                                    role="button" :disabled="BTN_action" data-purview_func_id="PMS0620020-1010"
+                                                                    role="button" :disabled="BTN_action"
+                                                                    data-purview_func_id="PMS0620020-1010"
                                                                     @click="appendDtRow"><%= __("SystemCommon")["Add"] %>
                                                             </button>
                                                         </li>
                                                         <li>
                                                             <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
-                                                                    role="button" :disabled="BTN_action" data-purview_func_id="PMS0620020-1020"
+                                                                    role="button" :disabled="BTN_action"
+                                                                    data-purview_func_id="PMS0620020-1020"
                                                                     @click="removeDtRow"><%= __("SystemCommon")["Delete"] %>
                                                             </button>
                                                         </li>
@@ -171,8 +174,9 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" role="button"
-                                                @click="doSave" data-purview_func_id="PMS0620020-0500" :disabled="isSaveEnable">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                                role="button"
+                                                @click="doSave" data-purview_func_id="PMS0620020-0500">
                                             <%= __("SystemCommon")["Save"] %>
                                         </button>
                                     </li>

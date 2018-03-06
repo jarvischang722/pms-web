@@ -757,7 +757,7 @@ function operationSaveProc(postData, session) {
 
         //轉換格式
         lo_optSaveAdapter.formating(function (err, lo_apiParams) {
-            callback(null, lo_optSaveAdapter);
+            callback(err, lo_optSaveAdapter);
         });
     };
 

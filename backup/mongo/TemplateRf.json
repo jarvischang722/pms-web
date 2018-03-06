@@ -1119,3 +1119,146 @@
     "lock_type" : "table", 
     "hotel_cod" : "NULL"
 }
+{ 
+    "_id" : ObjectId("5a8fd4610bf3d908dc91cfd1"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "ghist_mn", 
+    "rule_func_name" : "qry_ghist_mn_dg", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5a97b050ee527c3018af4045"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "table_name" : "ghist_mn", 
+    "rule_func_name" : "qry_ghist_mn", 
+    "lock_table" : "ghist_mn", 
+    "lock_type" : "row", 
+    "hotel_cod" : "NULL", 
+    "lock_key" : "gcust_cod"
+}
+{ 
+    "_id" : ObjectId("5a97b050ee527c3018af4046"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "table_name" : "guest_mn", 
+    "rule_func_name" : "qry_guest_mn", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5a97b050ee527c3018af4047"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "table_name" : "ghist_dt", 
+    "rule_func_name" : "qry_ghist_dt", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5a97b050ee527c3018af4048"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "template_id" : "datagrid", 
+    "table_name" : "ghist_prefer_dt", 
+    "rule_func_name" : "qry_ghist_prefer_dt", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5a97b050ee527c3018af4049"), 
+    "prg_id" : "PMS0610021", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "address_dt", 
+    "rule_func_name" : "qry_email", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5a97b050ee527c3018af404a"), 
+    "prg_id" : "PMS0610022", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "contract_dt", 
+    "rule_func_name" : "qry_contact_dt", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5a97b050ee527c3018af404b"), 
+    "prg_id" : "PMS0610019", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "address_dt", 
+    "rule_func_name" : "qrt_address_dt", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5a9a57f655b5435f998d691d"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1040), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "address_dt", 
+    "rule_func_name" : "QRY_ADDRESS_DT_EMAIL_BY_CUST_COD", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5a9a580955b5435f998d6920"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1040), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "table_name" : "contract_dt", 
+    "rule_func_name" : "QRY_CONTRACT_DT_BY_CUST_COD", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5a9a583955b5435f998d692b"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1040), 
+    "tab_page_id" : NumberInt(3), 
+    "template_id" : "datagrid", 
+    "table_name" : "address_dt", 
+    "rule_func_name" : "QRY_ADDRESS_DT_ADDRESS_BY_CUST_COD", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}

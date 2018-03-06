@@ -407,6 +407,195 @@ exports.getCashierrfUseSta = function () {
 };
 
 /**
+ * [PMS0210010_住客歷史]
+ * status_cod 下拉資料
+ */
+exports.getStatuscod = function(){
+    var lo_optionList = [
+        {
+            display: "VIP",
+            value: "V"
+        },
+        {
+            display: "一般",
+            value: "N"
+        },
+        {
+            display: "黑名單",
+            value: "B"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ * [PMS0210010_住客歷史]
+ * dmFlag 下拉資料
+ */
+exports.getGhistMnDmFlag = function(){
+    var dmFlagList = [
+        {
+            display: '是',
+            value: 'Y'
+        },
+        {
+            display: '否',
+            value: 'N'
+        }
+    ];
+
+    return dmFlagList;
+};
+
+/**
+ * [PMS0210010_住客歷史]
+ * 生日月分 下拉資料
+ */
+exports.getCustIdxBirthDat = function () {
+    var lo_optionList = [
+        {
+            display: "01",
+            value: "01"
+        },
+        {
+            display: "02",
+            value: "02"
+        },
+        {
+            display: "03",
+            value: "03"
+        },
+        {
+            display: "04",
+            value: "04"
+        },
+        {
+            display: "05",
+            value: "05"
+        },
+        {
+            display: "06",
+            value: "06"
+        },
+        {
+            display: "07",
+            value: "07"
+        },
+        {
+            display: "08",
+            value: "08"
+        },
+        {
+            display: "09",
+            value: "09"
+        },
+        {
+            display: "10",
+            value: "10"
+        },
+        {
+            display: "11",
+            value: "11"
+        },
+        {
+            display: "12",
+            value: "12"
+        }
+    ];
+    return lo_optionList;
+};
+
+exports.getVIPSta = function () {
+    let lo_optionList = [
+        {
+            display: "0",
+            value: "0"
+        },
+        {
+            display: "1",
+            value: "1"
+        },
+        {
+            display: "2",
+            value: "2"
+        },
+        {
+            display: "3",
+            value: "3"
+        },
+        {
+            display: "4",
+            value: "4"
+        },
+        {
+            display: "5",
+            value: "5"
+        },
+        {
+            display: "6",
+            value: "6"
+        },
+        {
+            display: "7",
+            value: "7"
+        },
+        {
+            display: "8",
+            value: "8"
+        },
+        {
+            display: "9",
+            value: "9"
+        },
+        {
+            display: "10",
+            value: "10"
+        },
+        {
+            display: "11",
+            value: "11"
+        },
+        {
+            display: "12",
+            value: "12"
+        },
+        {
+            display: "13",
+            value: "13"
+        },
+        {
+            display: "14",
+            value: "14"
+        },
+        {
+            display: "15",
+            value: "15"
+        },
+        {
+            display: "16",
+            value: "16"
+        },
+        {
+            display: "17",
+            value: "17"
+        },
+        {
+            display: "18",
+            value: "18"
+        },
+        {
+            display: "19",
+            value: "19"
+        },
+        {
+            display: "20",
+            value: "20"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
  * [PMS0610010_商務公司]
  * credit_sta 下拉資料
  */
@@ -1224,6 +1413,42 @@ exports.qry_address_rf_cust_use = function (params, callback) {
 exports.qry_address_rf_ghist_use = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUse();
+    callback(null, lo_result);
+};
+
+/**
+ * 住客歷史(PMS0210010) 取得狀況下拉資料
+ */
+exports.lang_GhistMnStatuscod = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getStatuscod();
+    callback(null, lo_result);
+};
+
+/**
+ * 住客歷史(PMS0210010) 取得下拉資料
+ */
+exports.lang_GhistMnDmFlag = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getGhistMnDmFlag();
+    callback(null, lo_result);
+};
+
+/**
+ * 住客歷史(PMS0210010) 取得狀況下拉資料
+ */
+exports.lang_CustIdxBirthDat = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustIdxBirthDat();
+    callback(null, lo_result);
+};
+
+/**
+ * 住客歷史(PMS0210011) 取得VIP狀況下拉資料
+ */
+exports.lang_vip_sta = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getVIPSta();
     callback(null, lo_result);
 };
 
