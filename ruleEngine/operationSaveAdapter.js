@@ -319,9 +319,10 @@ function combineMainData(rfData, callback) {
                 go_saveExecDatas[gn_exec_seq] = tmpDel;
                 gn_exec_seq++;
 
-                if (gs_dgTableName != "") {
-                    combineDelDetailData(gs_dgTableName, lo_fieldsData.mainKeyFields, data);
-                }
+                //TODO 流程有問題再討論
+                // if (gs_dgTableName != "") {
+                //     combineDelDetailData(gs_dgTableName, lo_fieldsData.mainKeyFields, data);
+                // }
             });
             callback(null, '0300');
         },
