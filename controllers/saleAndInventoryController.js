@@ -1,13 +1,18 @@
+/**
+ * Created by a16009 on 2017/10/11.
+ * 程式編號: PSIW510030
+ * 程式名稱: 門市WEB訂單作業
+ */
 
-var _ = require("underscore");
-var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var roleFuncSvc = require("../services/RoleFuncService");
-var fs = require("fs");
-var path = require('path');
-var appRootDir = path.dirname(require.main.filename);
-var roleSvc = require("../services/RoleFuncService");
-var ruleAgent = require("../ruleEngine/ruleAgent");
-var PSIWService = require("../services/SaleAndInventoryService");
+const _ = require("underscore");
+const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const roleFuncSvc = require("../services/RoleFuncService");
+const fs = require("fs");
+const path = require('path');
+const appRootDir = path.dirname(require.main.filename);
+const roleSvc = require("../services/RoleFuncService");
+const ruleAgent = require("../ruleEngine/ruleAgent");
+const PSIWService = require("../services/SaleAndInventoryService");
 
 //門市WEB訂單作業
 exports.getPSIW510030 = function (req, res) {
@@ -94,7 +99,7 @@ exports.getQueryResult = function (req, res) {
 
 //call Save API
 exports.callSaveAPI = function (req, res) {
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     req.body.ip = ip.substr(ip.lastIndexOf(':') + 1);
     PSIWService.callSaveAPI(req.body, req.session, function (errorMsg, success, data) {
         res.json({data: data, success: success, errorMsg: errorMsg});
@@ -103,7 +108,7 @@ exports.callSaveAPI = function (req, res) {
 
 //call API
 exports.callAPI = function (req, res) {
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     req.body.ip = ip.substr(ip.lastIndexOf(':') + 1);
     PSIWService.callAPI(req.body, req.session, function (errorMsg, success) {
         res.json({success: success, errorMsg: errorMsg});
@@ -120,10 +125,10 @@ exports.callOrderAPI = function (req, res) {
 //WebService
 exports.dominosWebService = function (req, res) {
 
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     req.session.ip = ip.substr(ip.lastIndexOf(':') + 1);
 
-    var trans_cod = req.params.trans_cod;
+    let trans_cod = req.params.trans_cod;
 
     console.log("transCod :" + trans_cod + ", sendData : " + req.body.data);
 
