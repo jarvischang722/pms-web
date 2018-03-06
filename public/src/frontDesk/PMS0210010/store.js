@@ -159,18 +159,18 @@ const actions = {
         let ls_funcId = "";
 
         if (state.gb_isCreateStatus) {
-            lo_tmpCUD.createData.push(state.go_profileSingleData);
+            lo_tmpCUD.createData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
             ls_funcId = "0200";
         }
         else if (state.gb_isEditStatus) {
             if(state.gb_isDeleteStatus){
-                lo_tmpCUD.deleteData.push(state.go_profileSingleData);
-                lo_tmpCUD.oriData.push(state.go_oriProfileSingleData);
+                lo_tmpCUD.deleteData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
+                lo_tmpCUD.oriData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
                 ls_funcId = "0300";
             }
             else{
-                lo_tmpCUD.updateData.push(state.go_profileSingleData);
-                lo_tmpCUD.oriData.push(state.go_oriProfileSingleData);
+                lo_tmpCUD.updateData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
+                lo_tmpCUD.oriData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
                 ls_funcId = "0400";
             }
         }
@@ -189,13 +189,47 @@ const actions = {
     async doSaveOtherContactData({commit, dispatch, state}) {
         var err = null;
         var lo_tmpCUD = {
+            dt_createData: [],
             dt_updateData: [],
             dt_deleteData: [],
             dt_oriData: []
         };
+        let ls_funcId = "";
 
-        if(state.gb_isEditStatus){
+        if(state.gb_isCreateStatus){
+            ls_funcId = "0200";
+            _.each(state.go_emailTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
+            _.each(state.go_contactTmpCUD.createData, function (lo_createData) {
+                let lo_saveCreateData = JSON.parse(JSON.stringify(lo_createData));
+                _.each(lo_saveCreateData, (val, key) => {
+                    let la_keySplit = key.split(".");
+                    let ls_field_name = la_keySplit[1];
+                    if(!_.isUndefined(ls_field_name)){
+                        lo_saveCreateData[ls_field_name] = val;
+                        delete lo_saveCreateData[key];
+                    }
+                });
+                lo_tmpCUD.dt_createData.push(lo_saveCreateData);
+            });
+            _.each(state.go_addressTmpCUD.createData, function (lo_createData) {
+                let lo_saveCreateData = JSON.parse(JSON.stringify(lo_createData));
+                _.each(lo_saveCreateData, (val, key) => {
+                    let la_keySplit = key.split(".");
+                    let ls_field_name = la_keySplit[1];
+                    if(!_.isUndefined(ls_field_name)){
+                        lo_saveCreateData[ls_field_name] = val;
+                        delete lo_saveCreateData[key];
+                    }
+                });
+                lo_tmpCUD.dt_createData.push(lo_saveCreateData);
+            });
+        }
+        else if(state.gb_isEditStatus){
             if(state.gb_isDeleteStatus){
+                ls_funcId = "0300";
+
                 _.each(state.ga_emailDataGridRowsData, (lo_emailDataGridRowsData)=>{
                     lo_tmpCUD.dt_deleteData.push(lo_emailDataGridRowsData);
                 });
@@ -203,52 +237,153 @@ const actions = {
                     lo_tmpCUD.dt_oriData.push(lo_oriEmailDataGridRowsData);
                 });
                 _.each(state.ga_contactDataGridRowsData, (lo_contactDataGridRowsData)=>{
-                    lo_tmpCUD.dt_deleteData.push(lo_contactDataGridRowsData);
+                    let lo_saveDelData = JSON.parse(JSON.stringify(lo_contactDataGridRowsData));
+                    _.each(lo_saveDelData, (val, key) => {
+                        let la_keySplit = key.split(".");
+                        let ls_field_name = la_keySplit[1];
+                        if(!_.isUndefined(ls_field_name)){
+                            lo_saveDelData[ls_field_name] = val;
+                            delete lo_saveDelData[key];
+                        }
+                    });
+                    lo_tmpCUD.dt_deleteData.push(lo_saveDelData);
                 });
                 _.each(state.ga_oriContactDataGridRowsData, (lo_oriContactDataGridRowsData)=>{
-                    lo_tmpCUD.dt_oriData.push(lo_oriContactDataGridRowsData);
+                    let lo_saveOriData = JSON.parse(JSON.stringify(lo_oriContactDataGridRowsData));
+                    _.each(lo_saveOriData, (val, key) => {
+                        let la_keySplit = key.split(".");
+                        let ls_field_name = la_keySplit[1];
+                        if(!_.isUndefined(ls_field_name)){
+                            lo_saveOriData[ls_field_name] = val;
+                            delete lo_saveOriData[key];
+                        }
+                    });
+                    lo_tmpCUD.dt_oriData.push(lo_saveOriData);
                 });
                 _.each(state.ga_addressDataGridRowsData, (lo_addressDataGridRowsData)=>{
-                    lo_tmpCUD.dt_deleteData.push(lo_addressDataGridRowsData);
+                    let lo_saveDelData = JSON.parse(JSON.stringify(lo_addressDataGridRowsData));
+                    _.each(lo_saveDelData, (val, key) => {
+                        let la_keySplit = key.split(".");
+                        let ls_field_name = la_keySplit[1];
+                        if(!_.isUndefined(ls_field_name)){
+                            lo_saveDelData[ls_field_name] = val;
+                            delete lo_saveDelData[key];
+                        }
+                    });
+                    lo_tmpCUD.dt_deleteData.push(lo_saveDelData);
                 });
                 _.each(state.ga_oriAddressDataGridRowsData, (lo_oriAddressDataGridRowsData)=>{
-                    lo_tmpCUD.dt_oriData.push(lo_oriAddressDataGridRowsData);
+                    let lo_saveOriData = JSON.parse(JSON.stringify(lo_oriAddressDataGridRowsData));
+                    _.each(lo_saveOriData, (val, key) => {
+                        let la_keySplit = key.split(".");
+                        let ls_field_name = la_keySplit[1];
+                        if(!_.isUndefined(ls_field_name)){
+                            lo_saveOriData[ls_field_name] = val;
+                            delete lo_saveOriData[key];
+                        }
+                    });
+                    lo_tmpCUD.dt_oriData.push(lo_saveOriData);
                 });
             }
             else{
+                ls_funcId = "0400";
+
+                _.each(state.go_emailTmpCUD.createData, function (lo_createData) {
+                    lo_tmpCUD.dt_createData.push(lo_createData);
+                });
+                _.each(state.go_contactTmpCUD.createData, function (lo_createData) {
+                    let lo_saveCreateData = JSON.parse(JSON.stringify(lo_createData));
+                    _.each(lo_saveCreateData, (val, key) => {
+                        let la_keySplit = key.split(".");
+                        let ls_field_name = la_keySplit[1];
+                        if(!_.isUndefined(ls_field_name)){
+                            lo_saveCreateData[ls_field_name] = val;
+                            delete lo_saveCreateData[key];
+                        }
+                    });
+                    lo_tmpCUD.dt_createData.push(lo_saveCreateData);
+                });
+                _.each(state.go_addressTmpCUD.createData, function (lo_createData) {
+                    let lo_saveCreateData = JSON.parse(JSON.stringify(lo_createData));
+                    _.each(lo_saveCreateData, (val, key) => {
+                        let la_keySplit = key.split(".");
+                        let ls_field_name = la_keySplit[1];
+                        if(!_.isUndefined(ls_field_name)){
+                            lo_saveCreateData[ls_field_name] = val;
+                            delete lo_saveCreateData[key];
+                        }
+                    });
+                    lo_tmpCUD.dt_createData.push(lo_saveCreateData);
+                });
                 _.each(state.go_emailTmpCUD.updateData, function (lo_updateData) {
                     lo_tmpCUD.dt_updateData.push(lo_updateData);
                 });
                 _.each(state.go_contactTmpCUD.updateData, function (lo_updateData) {
-                    lo_tmpCUD.dt_updateData.push(lo_updateData);
+                    let lo_saveUpdateData = JSON.parse(JSON.stringify(lo_updateData));
+                    _.each(lo_saveUpdateData, (val, key) => {
+                        let la_keySplit = key.split(".");
+                        let ls_field_name = la_keySplit[1];
+                        if(!_.isUndefined(ls_field_name)){
+                            lo_saveUpdateData[ls_field_name] = val;
+                            delete lo_saveUpdateData[key];
+                        }
+                    });
+                    lo_tmpCUD.dt_updateData.push(lo_saveUpdateData);
                 });
                 _.each(state.go_addressTmpCUD.updateData, function (lo_updateData) {
-                    lo_tmpCUD.dt_updateData.push(lo_updateData);
+                    let lo_saveUpdateData = JSON.parse(JSON.stringify(lo_updateData));
+                    _.each(lo_saveUpdateData, (val, key) => {
+                        let la_keySplit = key.split(".");
+                        let ls_field_name = la_keySplit[1];
+                        if(!_.isUndefined(ls_field_name)){
+                            lo_saveUpdateData[ls_field_name] = val;
+                            delete lo_saveUpdateData[key];
+                        }
+                    });
+                    lo_tmpCUD.dt_updateData.push(lo_saveUpdateData);
                 });
                 _.each(state.go_emailTmpCUD.oriData, function (lo_oriData) {
                     lo_tmpCUD.dt_oriData.push(lo_oriData);
                 });
                 _.each(state.go_contactTmpCUD.oriData, function (lo_oriData) {
-                    lo_tmpCUD.dt_oriData.push(lo_oriData);
+                    let lo_saveOriData = JSON.parse(JSON.stringify(lo_oriData));
+                    _.each(lo_saveOriData, (val, key) => {
+                        let la_keySplit = key.split(".");
+                        let ls_field_name = la_keySplit[1];
+                        if(!_.isUndefined(ls_field_name)){
+                            lo_saveOriData[ls_field_name] = val;
+                            delete lo_saveOriData[key];
+                        }
+                    });
+                    lo_tmpCUD.dt_oriData.push(lo_saveOriData);
                 });
                 _.each(state.go_addressTmpCUD.oriData, function (lo_oriData) {
-                    lo_tmpCUD.dt_oriData.push(lo_oriData);
+                    let lo_saveOriData = JSON.parse(JSON.stringify(lo_oriData));
+                    _.each(lo_saveOriData, (val, key) => {
+                        let la_keySplit = key.split(".");
+                        let ls_field_name = la_keySplit[1];
+                        if(!_.isUndefined(ls_field_name)){
+                            lo_saveOriData[ls_field_name] = val;
+                            delete lo_saveOriData[key];
+                        }
+                    });
+                    lo_tmpCUD.dt_oriData.push(lo_saveOriData);
                 });
             }
         }
 
         // console.log(lo_tmpCUD);
-        return lo_tmpCUD;
+        // return lo_tmpCUD
 
-        // return await $.post('/api/doOperationSave', {
-        //     prg_id: 'PMS0210011',
-        //     page_id: 1040,
-        //     func_id: '0400',
-        //     // trans_cod: 'PMS0210011',
-        //     tmpCUD: lo_tmpCUD
-        // }).then(result => {
-        //     return (result);
-        // });
+        return await $.post('/api/doOperationSave', {
+            prg_id: 'PMS0210011',
+            page_id: 1040,
+            func_id: ls_funcId,
+            trans_cod: 'PMS0210011',
+            tmpCUD: lo_tmpCUD
+        }).then(result => {
+            return (result);
+        });
     },
     //清除所有資料
     setAllDataClear({commit}) {

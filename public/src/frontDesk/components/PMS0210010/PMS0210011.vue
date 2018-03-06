@@ -781,20 +781,20 @@
                 else {
                     let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
                     this.isLoadingDialog = false;
-//                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
-                    if(lo_saveProfileDataRes.success){
-                        alert("save success");
-                        this.doCloseDialog();
-                    }
-                    else{
-                        alert(lo_saveProfileDataRes.errorMsg)
-                    }
+                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
 
-
+//                    if(lo_saveProfileDataRes.success){
+//                        alert("save success");
+//                        this.doCloseDialog();
+//                    }
+//                    else{
+//                        alert(lo_saveProfileDataRes.errorMsg)
+//                    }
                 }
-
             },
             async doDeleteData(){
+
+                this.isLoadingDialog = true;
 
                 if(this.$store.state.gb_isEditStatus){
                     this.$store.dispatch("setDeleteStatus", {
@@ -820,10 +820,15 @@
                     }
 
                     let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
-                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
-
                     this.isLoadingDialog = false;
-                    this.doCloseDialog();
+                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
+//                    if(lo_saveProfileDataRes.success){
+//                        alert("save success");
+//                        this.doCloseDialog();
+//                    }
+//                    else{
+//                        alert(lo_saveProfileDataRes.errorMsg)
+//                    }
                 }
                 else{
                     this.doCloseDialog();
