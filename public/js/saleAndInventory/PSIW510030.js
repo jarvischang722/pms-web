@@ -940,7 +940,7 @@ let PSIW510030 = new Vue({
                     user_athena_id: "",
                     multi_lang_table: "",
                     page_id: 1,
-                    ui_display_name: "貨品描述"
+                    ui_display_name: "貨品簡稱"//2018/03/06, #186419 客戶要求　貨品描述　→　貨品簡稱　
                 },
                 {
                     athena_id: "",
@@ -1955,9 +1955,10 @@ let PSIW510030 = new Vue({
                     alert('儲存成功!');
                     callback(result.data);
                 }
-                if(result.errorMsg != "") {alert(result.errorMsg);}
+                if(result.errorMsg != "") {
+                    alert(result.errorMsg);
+                }
             });
-
         },
 
         /**
