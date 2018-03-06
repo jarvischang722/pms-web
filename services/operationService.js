@@ -50,20 +50,31 @@ exports.fetchDgFieldData = async function (postData, session, callback) {
 /**
  * 取作業單筆欄位資料
  */
-exports.fetchGsFieldData = function (postData, session, callback) {
+exports.fetchGsFieldData = async function (postData, session, callback) {
     let lo_gsProc = new fetechDataModule.GridSingleProc(postData, session);
     let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
 
-    async.parallel({
-        gsMnData: lo_gsProc.fetchGsMnData,
-        gsDtData: lo_dgProc.fetchDgData
-    }, function (err, result) {
-        let lo_rtnData = {
-            gsMnData: result.gsMnData,
-            gsDtData: result.gsDtData
-        };
-        callback(err, lo_rtnData);
-    });
+    try {
+        let [lo_gsMnData, la_gsDtData] = await Promise.all([
+            lo_gsProc.fetchGsMnData(),
+            lo_dgProc.fetchDgData()
+        ]);
+        callback(null, {gsMnData: lo_gsMnData, gsDtData: la_gsDtData});
+    }
+    catch (err) {
+        callback(err, {});
+    }
+
+    // async.parallel({
+    //     gsMnData: lo_gsProc.fetchGsMnData,
+    //     gsDtData: lo_dgProc.fetchDgData
+    // }, function (err, result) {
+    //     let lo_rtnData = {
+    //         gsMnData: result.gsMnData,
+    //         gsDtData: result.gsDtData
+    //     };
+    //     callback(err, lo_rtnData);
+    // });
 };
 
 /**
@@ -94,31 +105,48 @@ exports.fetchOnlyDgFieldData = function (postData, session, callback) {
 /**
  * 取作業(只有)單筆欄位資料
  */
-exports.fetchOnlyGsFieldData = function (postData, session, callback) {
+exports.fetchOnlyGsFieldData = async function (postData, session, callback) {
     let lo_gsProc = new fetechDataModule.GridSingleProc(postData, session);
 
-    async.parallel({
-        gsFieldsData: lo_gsProc.fetchGsMnFieldsData
-    }, function (err, result) {
-        let lo_rtnData = {
-            gsFieldsData: result.gsFieldsData
-        };
-        callback(err, lo_rtnData);
-    });
+    try {
+        let la_gsFieldsData = await lo_gsProc.fetchGsMnFieldsData();
+        callback(null, {gsFieldsData: la_gsFieldsData});
+    }
+    catch (err) {
+        callback(err, []);
+    }
+
+    // async.parallel({
+    //     gsFieldsData: lo_gsProc.fetchGsMnFieldsData
+    // }, function (err, result) {
+    //     let lo_rtnData = {
+    //         gsFieldsData: result.gsFieldsData
+    //     };
+    //     callback(err, lo_rtnData);
+    // });
 };
 
 /**
  * 取作業預設單筆資料
  */
-exports.fetchDefaultGsRowData = function (postData, session, callback) {
+exports.fetchDefaultGsRowData = async function (postData, session) {
     let lo_gsProc = new fetechDataModule.GridSingleProc(postData, session);
 
-    async.parallel({
-        gsDefaultData: lo_gsProc.fetchDefaultMnRowData
-    }, function (err, result) {
-        let lo_rtnData = {
-            gsDefaultData: result.gsDefaultData
-        };
-        callback(err, lo_rtnData);
-    });
+    try {
+        let la_gsDefaultData = await lo_gsProc.fetchDefaultMnRowData();
+        return {gsDefaultData: la_gsDefaultData};
+    }
+    catch (err) {
+        throw new Error(err);
+    }
+
+
+    // async.parallel({
+    //     gsDefaultData: lo_gsProc.fetchDefaultMnRowData
+    // }, function (err, result) {
+    //     let lo_rtnData = {
+    //         gsDefaultData: result.gsDefaultData
+    //     };
+    //     callback(err, lo_rtnData);
+    // });
 };

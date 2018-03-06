@@ -857,11 +857,11 @@ exports.doOperationRuleProcBeforeSave = function (postData, session, rules, call
         async.parallel([
             //新增資料檢查
             function (para_cb) {
-                var createRuleFuncName = _.findIndex(rules, {func_id: '0521'}) > -1
+                let createRuleFuncName = _.findIndex(rules, {func_id: '0521'}) > -1
                     ? _.findWhere(rules, {func_id: '0521'}).rule_func_name
                     : "";
                 if (la_createData.length > 0 && !_.isEmpty(createRuleFuncName)) {
-                    var createSubFunc = [];
+                    let createSubFunc = [];
                     _.each(la_createData, function (c_data, index) {
                         createSubFunc.push(
                             function (cb) {
@@ -896,11 +896,11 @@ exports.doOperationRuleProcBeforeSave = function (postData, session, rules, call
             },
             //修改資料檢查
             function (para_cb) {
-                var updateRuleFuncName = _.findIndex(rules, {func_id: '0541'}) > -1
+                let updateRuleFuncName = _.findIndex(rules, {func_id: '0541'}) > -1
                     ? _.findWhere(rules, {func_id: '0541'}).rule_func_name
                     : "";
                 if (la_updateData.length > 0 && !_.isEmpty(updateRuleFuncName)) {
-                    var updateSubFunc = [];
+                    let updateSubFunc = [];
                     _.each(la_updateData, function (u_data, index) {
                         updateSubFunc.push(
                             function (cb) {
@@ -935,11 +935,11 @@ exports.doOperationRuleProcBeforeSave = function (postData, session, rules, call
             },
             //刪除資料檢查
             function (para_cb) {
-                var deleteRuleFuncName = _.findIndex(rules, {func_id: '0531'}) > -1
+                let deleteRuleFuncName = _.findIndex(rules, {func_id: '0531'}) > -1
                     ? _.findWhere(rules, {func_id: '0531'}).rule_func_name
                     : "";
                 if (la_deleteData.length > 0 && !_.isEmpty(deleteRuleFuncName)) {
-                    var deleteSubFunc = [];
+                    let deleteSubFunc = [];
                     _.each(la_deleteData, function (d_data, index) {
                         deleteSubFunc.push(
                             function (cb) {

@@ -701,8 +701,8 @@ exports.execProcSQL = function (postData, session, callback) {
     let lo_saveProc = new operationSaveProc(postData, session);
     async.waterfall([
         lo_saveProc.doRuleProcBeforeSave,
-        lo_saveProc.doOptSaveAdapter,
-        lo_saveProc.doAPI
+        lo_saveProc.doOptSaveAdapter
+        // lo_saveProc.doAPI
     ], function (err, result) {
         callback(err, result);
     });

@@ -18,13 +18,6 @@ const fieldAttrSvc = require("../../services/FieldsAttrService");
 const langSvc = require("../../services/LangService");
 const db = require("../../plugins/kplug-oracle/DB.js");
 
-// let go_session;
-// let go_searchCond;
-// let gs_prg_id;
-// let gn_page_id;
-// let gn_tab_page_id;
-// let gs_template_id;
-
 // 多筆流程
 exports.DataGridProc = function (postData, session) {
     let ls_prg_id = postData.prg_id;
@@ -172,29 +165,40 @@ exports.GridSingleProc = function (postData, session) {
      * 查詢單筆mn oracle資料
      * @param callback
      */
-    this.fetchGsMnRowData = function (callback) {
-        async.waterfall([
-            qryGsTemplateRf, //查詢templateRf
-            qryRowData, //查詢多筆資料
-            filterRowData, //依條件過濾多筆資料
-            rowDataMultiLang //內容多語系
-        ], function (err, result) {
-            callback(err, result);
-        });
+    this.fetchGsMnRowData = async function () {
+
+        try {
+            let lo_rfData = await qryGsTemplateRf(lo_params, session);
+            let la_gsRowData = await qryRowData(lo_rfData, lo_params, session);
+            la_gsRowData = await filterRowData(la_gsRowData, lo_params, session);
+            la_gsRowData = await rowDataMultiLang(la_gsRowData, lo_params, session);
+            return la_gsRowData;
+        }
+        catch (err) {
+            throw new Error(err);
+        }
+        // async.waterfall([
+        //     qryGsTemplateRf, //查詢templateRf
+        //     qryRowData, //查詢多筆資料
+        //     filterRowData, //依條件過濾多筆資料
+        //     rowDataMultiLang //內容多語系
+        // ], function (err, result) {
+        //     callback(err, result);
+        // });
     };
 
     /**
      * 查詢預設單筆mn oracle資料
      * @param callback
      */
-    this.fetchDefaultMnRowData = function (callback) {
-        async.parallel({
-            qryFieldName,
-            qrySelectData
-        }, function (err, getResult) {
-            var la_fieldNameList = getResult.qryFieldName;
-            var la_selectData = tools.mongoDocToObject(getResult.qrySelectData);
-            var lo_initField = {};
+    this.fetchDefaultMnRowData = async function () {
+
+        try {
+            let lo_initField = {};
+            let [la_fieldNameList, la_selectData] = await Promise.all([
+                qryFieldName(lo_params, session),
+                qrySelectData(lo_params, session)
+            ]);
 
             _.each(la_fieldNameList, function (ls_fieldName) {
                 if (_s.include(ls_fieldName, "athena_id")) {
@@ -208,133 +212,222 @@ exports.GridSingleProc = function (postData, session) {
                 }
             });
 
-            mongoAgent.PrgFunction.findOne({
-                prg_id: gs_prg_id,
-                func_id: '0200',
-                page_id: gn_page_id,
-                tab_page_id: gn_tab_page_id,
-                template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
-            }, function (err, func) {
-                if (func) {
-                    func = func.toObject();
-                }
-                if (!err && func && !_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
-                    ruleAgent[func.rule_func_name](postData, session, function (err, result) {
+            return new Promise((resolve, reject) => {
+                mongoAgent.PrgFunction.findOne({
+                    prg_id: lo_params.prg_id,
+                    func_id: '0200',
+                    page_id: lo_params.page_id,
+                    tab_page_id: lo_params.tab_page_id,
+                    template_id: lo_params.template_id == "" ? "gridsingle" : lo_params.template_id
+                }, function (err, func) {
+                    if(err){
+                        reject(err);
+                    }
+                    if (func) {
+                        func = tools.mongoDocToObject(func);
+                    }
+                    if (!err && func && !_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
+                        ruleAgent[func.rule_func_name](postData, session, function (err, result) {
+                            if(err) reject(err);
+                            //取typeSelect的預設值
+                            _.each(la_selectData, function (value, index) {
+                                if (value.defaultVal != "") {
+                                    result.defaultValues[value.ui_field_name] = value.defaultVal;
+                                }
+                            });
+
+                            result.defaultValues = _.extend(lo_initField, result.defaultValues);
+                            resolve(result);
+                        });
+                    }
+                    else {
                         //取typeSelect的預設值
+                        let result = {};
                         _.each(la_selectData, function (value, index) {
                             if (value.defaultVal != "") {
-                                result.defaultValues[value.ui_field_name] = value.defaultVal;
+                                result[value.ui_field_name] = value.defaultVal;
                             }
                         });
 
-                        result.defaultValues = _.extend(lo_initField, result.defaultValues);
-
-                        callback(err, result);
-                    });
-                }
-                else {
-                    //取typeSelect的預設值
-                    var result = {};
-                    _.each(la_selectData, function (value, index) {
-                        if (value.defaultVal != "") {
-                            result[value.ui_field_name] = value.defaultVal;
-                        }
-                    });
-
-                    result = _.extend(lo_initField, result);
-                    callback(null, {success: true, defaultValues: result});
-                }
+                        result = _.extend(lo_initField, result);
+                        resolve({success: true, defaultValues: result});
+                    }
+                });
             });
-        });
+        }
+        catch (err) {
+            throw new Error(err);
+        }
+
+
+        // async.parallel({
+        //     qryFieldName,
+        //     qrySelectData
+        // }, function (err, getResult) {
+        //     var la_fieldNameList = getResult.qryFieldName;
+        //     // var la_selectData = tools.mongoDocToObject(getResult.qrySelectData);
+        //     var lo_initField = {};
+        //
+        //     _.each(la_fieldNameList, function (ls_fieldName) {
+        //         if (_s.include(ls_fieldName, "athena_id")) {
+        //             lo_initField[ls_fieldName] = session.user.athena_id;
+        //         }
+        //         else if (_s.include(ls_fieldName, "hotel_cod")) {
+        //             lo_initField[ls_fieldName] = session.user.hotel_cod;
+        //         }
+        //         else {
+        //             lo_initField[ls_fieldName] = "";
+        //         }
+        //     });
+        //
+        //     mongoAgent.PrgFunction.findOne({
+        //         prg_id: gs_prg_id,
+        //         func_id: '0200',
+        //         page_id: gn_page_id,
+        //         tab_page_id: gn_tab_page_id,
+        //         template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
+        //     }, function (err, func) {
+        //         if (func) {
+        //             func = func.toObject();
+        //         }
+        //         if (!err && func && !_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
+        //             ruleAgent[func.rule_func_name](postData, session, function (err, result) {
+        //                 //取typeSelect的預設值
+        //                 _.each(la_selectData, function (value, index) {
+        //                     if (value.defaultVal != "") {
+        //                         result.defaultValues[value.ui_field_name] = value.defaultVal;
+        //                     }
+        //                 });
+        //
+        //                 result.defaultValues = _.extend(lo_initField, result.defaultValues);
+        //
+        //                 callback(err, result);
+        //             });
+        //         }
+        //         else {
+        //             //取typeSelect的預設值
+        //             var result = {};
+        //             _.each(la_selectData, function (value, index) {
+        //                 if (value.defaultVal != "") {
+        //                     result[value.ui_field_name] = value.defaultVal;
+        //                 }
+        //             });
+        //
+        //             result = _.extend(lo_initField, result);
+        //             callback(null, {success: true, defaultValues: result});
+        //         }
+        //     });
+        // });
     };
 
     /**
      * 取單筆mn 資料
      * @param callback
      */
-    this.fetchGsMnData = async function (callback) {
+    this.fetchGsMnData = async function () {
 
         try {
-            let [la_pageField, lo_rowData] = await Promise.all([
+            let [la_pageField, la_rowData] = await Promise.all([
                 this.fetchGsMnFieldsData(),
-                this.fetchGsMnData()
+                this.fetchGsMnRowData()
             ]);
-            dataValueChange(la_pageField, lo_rowData);
-
+            dataValueChange(la_pageField, la_rowData);
+            let lo_gsMnData = {
+                fieldsData: la_pageField,
+                rowData: la_rowData
+            };
+            return lo_gsMnData;
         }
-        async.waterfall([
-            function (cb) {
-                async.parallel({
-                    fieldsData: self.fetchGsMnFieldsData,
-                    rowData: self.fetchGsMnRowData
-                }, function (err, resultMnData) {
-                    cb(err, resultMnData);
-                });
-            },
-            function (mnData, cb) {
-                let la_pageField = mnData.fieldsData;
-                let lo_rowData = mnData.rowData;
-                dataValueChange(la_pageField, lo_rowData);
+        catch (err) {
+            throw new Error(err);
+        }
 
-                let gsMnData = {
-                    fieldsData: la_pageField,
-                    rowData: lo_rowData
-                };
-                cb(null, gsMnData);
-            }
-        ], function (err, result) {
-            callback(err, result);
-        });
+        // async.waterfall([
+        //     function (cb) {
+        //         async.parallel({
+        //             fieldsData: self.fetchGsMnFieldsData,
+        //             rowData: self.fetchGsMnRowData
+        //         }, function (err, resultMnData) {
+        //             cb(err, resultMnData);
+        //         });
+        //     },
+        //     function (mnData, cb) {
+        //         let la_pageField = mnData.fieldsData;
+        //         let lo_rowData = mnData.rowData;
+        //         dataValueChange(la_pageField, lo_rowData);
+        //
+        //         let gsMnData = {
+        //             fieldsData: la_pageField,
+        //             rowData: lo_rowData
+        //         };
+        //         cb(null, gsMnData);
+        //     }
+        // ], function (err, result) {
+        //     callback(err, result);
+        // });
     };
 
 };
 
 // 取搜尋欄位資料(page_id: 3)
-exports.qrySearchFields = function (postData, session, callback) {
-    gs_prg_id = postData.prg_id;
-    gn_page_id = 3;
-    go_session = session;
-    getAllUIPageFieldAttr(function (err, la_fields) {
-        callback(err, la_fields);
-    });
+exports.qrySearchFields = async function (postData, session) {
+    let lo_params = {
+        prg_id: postData.prg_id,
+        page_id: 3,
+    };
+
+    try {
+        let la_fields = await getAllUIPageFieldAttr(lo_params, session);
+        return la_fields;
+    }
+    catch (err) {
+        throw new Error(err);
+    }
+    // getAllUIPageFieldAttr(function (err, la_fields) {
+    //     callback(err, la_fields);
+    // });
 };
 
 /**
  * 查詢單筆欄位名稱
  **/
-function qryFieldName(callback) {
-    var lo_params = {
-        prg_id: gs_prg_id,
-        page_id: Number(gn_page_id),
-        tab_page_id: Number(gn_tab_page_id),
-        template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
+async function qryFieldName(params, session) {
+    let lo_params = {
+        prg_id: params.prg_id,
+        page_id: Number(params.page_id),
+        tab_page_id: Number(params.tab_page_id),
+        template_id: params.template_id == "" ? "gridsingle" : params.template_id
     };
 
-    mongoAgent.UIPageField.find(lo_params, function (err, fieldNameList) {
-        callback(err, _.pluck(fieldNameList, "ui_field_name"));
+    return await mongoAgent.UIPageField.find(lo_params).exec().then((fieldNameList) => {
+        return _.pluck(fieldNameList, "ui_field_name");
+    }).catch((err) => {
+        throw new Error(err);
     });
 }
 
 /**
  * 查詢單筆下拉欄位資料
  **/
-function qrySelectData(callback) {
-    var lo_params = {
-        prg_id: gs_prg_id,
-        page_id: Number(gn_page_id),
-        tab_page_id: Number(gn_tab_page_id),
-        template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
+async function qrySelectData(params, session) {
+    let lo_params = {
+        prg_id: params.prg_id,
+        page_id: Number(params.page_id),
+        tab_page_id: Number(params.tab_page_id),
+        template_id: params.template_id == "" ? "gridsingle" : params.template_id
     };
 
-    mongoAgent.UITypeSelect.find(lo_params, function (err, selectData) {
-        callback(err, selectData);
+    return await mongoAgent.UITypeSelect.find(lo_params).exec().then((selectData) => {
+        return tools.mongoDocToObject(selectData);
+    }).catch(err => {
+        throw new Error(err);
     });
 }
 
 /**
  * 查詢多筆templateRf
  **/
-function qryDgTemplateRf(params, session) {
+async function qryDgTemplateRf(params, session) {
     let lo_params = {
         prg_id: params.prg_id,
         page_id: Number(params.page_id),
@@ -342,40 +435,61 @@ function qryDgTemplateRf(params, session) {
         template_id: 'datagrid'
     };
 
-    return new Promise((resolve, reject) => {
-        mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
-            if (err) {
-                reject(err);
-            }
-            else if (!result) {
-                err = "templateRf is null";
-                reject(err);
-            }
-            else {
-                resolve(result);
-            }
-        });
+    // return new Promise((resolve, reject) => {
+    return await mongoAgent.TemplateRf.findOne(lo_params).exec().then((result) => {
+        if (!result) {
+            throw new Error("templateRf is null");
+        }
+        else {
+            return tools.mongoDocToObject(result);
+        }
+    }).catch((err) => {
+        throw new Error(err);
     });
+    // mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
+    //     if (err) {
+    //         reject(err);
+    //     }
+    //     else if (!result) {
+    //         err = "templateRf is null";
+    //         reject(err);
+    //     }
+    //     else {
+    //         resolve(result);
+    //     }
+    // });
+    // });
 
 }
 
 /**
  * 查詢多筆templateRf
  */
-function qryGsTemplateRf(callback) {
-    var lo_params = {
-        prg_id: gs_prg_id,
-        page_id: Number(gn_page_id),
-        tab_page_id: Number(gn_tab_page_id),
-        template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
+async function qryGsTemplateRf(params, session) {
+    let lo_params = {
+        prg_id: params.prg_id,
+        page_id: Number(params.page_id),
+        tab_page_id: Number(params.tab_page_id),
+        template_id: params.template_id == "" ? "gridsingle" : params.template_id
     };
 
-    mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
-        if (!result) {
-            err = "templateRf is null";
-        }
-        callback(err, result);
+    let result = await mongoAgent.TemplateRf.findOne(lo_params).exec().then((result) => {
+        return tools.mongoDocToObject(result);
+    }).catch((err) => {
+        throw new Error(err);
     });
+    return result;
+    // let result = await mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
+    //     if(err){
+    //         throw new Error(err);
+    //     }
+    //     if (!result) {
+    //         err = "templateRf is null";
+    //         throw new Error(err);
+    //     }
+    //     result = tools.mongoDocToObject(result);
+    //     return result;
+    // });
 }
 
 /**
@@ -408,7 +522,7 @@ async function qryUIDatagridFields(params, session) {
     let lo_params = {
         $or: [
             {user_id: ""},
-            {user_id: session.user.user_id}
+            {user_id: session.user.usr_id}
         ],
         prg_id: params.prg_id,
         page_id: Number(params.page_id),
