@@ -1,11 +1,12 @@
 /**
  * Created by kaiyue on 2017/11/08.
  */
-let resvbanquetCtrl = require("../controllers/reserveBanquetController");
-var authMW = require("../middlewares/authMiddleware");
-var sysMW = require("../middlewares/systemMiddleware");
-var i18nMW = require("../middlewares/i18nMiddleware");
-var middles = [i18nMW, authMW, sysMW];
+
+const resvbanquetCtrl = require("../controllers/reserveBanquetController");
+const authMW = require("../middlewares/authMiddleware");
+const sysMW = require("../middlewares/systemMiddleware");
+const i18nMW = require("../middlewares/i18nMiddleware");
+const middles = [i18nMW, authMW, sysMW];
 
 module.exports = function(app, passport){
 
