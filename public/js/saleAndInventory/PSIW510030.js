@@ -392,9 +392,12 @@ let PSIW510030 = new Vue({
             this.isLoading = true;
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
-                self.custSelectData = result.data;
+
                 if(result.error != null){
                     alert(result.error);
+                }
+                else {
+                    self.custSelectData = result.data;
                 }
             });
 
@@ -432,10 +435,11 @@ let PSIW510030 = new Vue({
                     };
                     $.post("/api/getQueryResult", lo_params, function (result) {
 
-                        self.searchOrderSelectData = result.data;
-
                         if(result.error != null){
                             alert(result.error);
+                        }
+                        else {
+                            self.searchOrderSelectData = result.data;
                         }
 
                         cb(result.error, result.data);
@@ -451,10 +455,11 @@ let PSIW510030 = new Vue({
                     $.post("/api/getQueryResult", lo_params, function (result) {
                         self.isLoading = false;
 
-                        self.searchCustSelectData = result.data;
-
                         if(result.error != null){
                             alert(result.error);
+                        }
+                        else {
+                            self.searchCustSelectData = result.data;
                         }
 
                         cb(result.error, result.data);
@@ -576,10 +581,11 @@ let PSIW510030 = new Vue({
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
 
-                self.allOrderSelectData = result.data;
-
                 if(result.error != null){
                     alert(result.error);
+                }
+                else {
+                    self.allOrderSelectData = result.data;
                 }
             });
 
@@ -1201,13 +1207,13 @@ let PSIW510030 = new Vue({
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
 
-                self.DataGridRows = result.data;
-                self.dgIns.loadDgData(self.DataGridRows);
-
                 if(result.error != null){
                     alert(result.error);
                 }
-
+                else {
+                    self.DataGridRows = result.data;
+                    self.dgIns.loadDgData(self.DataGridRows);
+                }
             });
         },
 
