@@ -28,6 +28,7 @@ dist:   /path/to/bacchus4web/public/js/common/BacUIComps.js
 | field             | Object  | {}      | Y     | 欄位屬性               |
 | default-val       | String  | Number  | Array | 預設值                |
 | data              | Array   | []      | N     | 下拉選單資料             |
+| dataDisplay       | Array   | []      | N     | 顯示用下拉選單資料 ，較完整     |
 
 #### Events: 
 
