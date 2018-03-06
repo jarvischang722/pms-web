@@ -251,6 +251,19 @@
       "contact_method": "連絡方式(日)",
       "address": "地址(日)"
     },
+    "PMS0110010": {
+      "useRm": "用房數(日)",
+      "notWrsRm": "非鎖控剩餘數(日)",
+      "wrsRm": "鎖控剩餘數(日)",
+      "overBooking": "庫存可超訂的剩餘數(日)",
+      "Total_available": "Total available(日)",
+      "occupancy": "occupancy(日)",
+      "phyOccupancy": "phyOccupancy(日)",
+      "phyAvailable": "phyAvailable(日)",
+      "Rate_Plan": "Rate Plan(日)",
+      "reservation": "訂房(日)",
+      "Amenities_Iny": "Amenities Iny.(日)"
+    },
     "PMS0110050": {
       "roomTyp": "房型(日)",
       "roomNos": "房號(日)",
@@ -313,7 +326,9 @@
     "after7days": "後7天(日)",
     "before14days": "前14天(日)",
     "after14days": "後14天(日)",
-    "noData": "查無資料(日)"
+    "noData": "查無資料(日)",
+    "print": "列印(日)",
+    "save_as": "另存為(日)"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

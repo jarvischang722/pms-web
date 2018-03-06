@@ -21,22 +21,24 @@
                                                     v-model="searchData4Month"
                                                     :clearable="false"
                                                     :editable="false"
-                                                    type="month"
-                                                    placeholder="選擇月"
-                                                    @blur="selectDate(searchData4Month)">
+                                                    format="yyyy-MM-dd"
+                                                    :placeholder="i18nLang.SystemCommon.selectMonth"
+                                                    @change="selectDate">
                                             </el-date-picker>
                                             <div class="space-2"></div>
                                         </div>
                                         <div class="caIcon">
-                            <span class="ca-headerIcon">
-                                <i class="fa fa-calendar-check-o orange fa-lg" data-rel="tooltip" data-placement="bottom" title="Today"
-                                   @click="selectDate(rentCalDat)"></i>
-                            </span>
+                                            <span class="ca-headerIcon">
+                                                <i class="fa fa-calendar-check-o orange fa-lg" data-rel="tooltip" data-placement="bottom" title="Today"
+                                                   @click="backToRentCalDat"></i>
+                                            </span>
                                         </div>
                                         <div class="clearfix"></div>
                                     </th>
                                     <!--日期-->
-                                    <th class="dateColor" :style="{background: field.color}" v-for="field in dateFieldData">{{field.data}}</th>
+                                    <th class="dateColor" :style="{background: field.color}" v-for="field in dateFieldData">
+                                        {{field.data}}
+                                    </th>
                                 </tr>
                                 <tr>
                                     <!--星期-->
@@ -50,39 +52,49 @@
                                 <template v-for="(field,fieldIdx) in roomFieldData">
                                     <template v-for="(roomTyp, roomIdx) in roomTypData[field]">
                                         <tr :data-tt-id="5*roomTyp.idx + 1">
-                                            <td class="middle td-first">{{field}} <span class="roomNumTip">{{roomTyp.room_qnt}}</span></td>
+                                            <td class="middle td-first">
+                                                {{field}} <span class="roomNumTip">{{roomTyp.room_qnt}}</span></td>
                                             <template v-for="emptyRm in roomTyp.emptyRm">
                                                 <td v-if="emptyRm.num === ''" class="numeric" :style="{background:emptyRm.color}"></td>
-                                                <td v-else class="numeric" :style="{background:emptyRm.color}"> {{ emptyRm.num }}</td>
+                                                <td v-else class="numeric" :style="{background:emptyRm.color}">
+                                                    {{ emptyRm.num }}
+                                                </td>
                                             </template>
                                         </tr>
                                         <tr :data-tt-id="5*roomTyp.idx + 2" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
-                                            <td class="middle td-first subTree-title">用房數</td>
+                                            <td class="middle td-first subTree-title">{{i18nLang.program.PMS0110010.useRm}}</td>
                                             <template v-for="useRm in roomTyp.useRm">
                                                 <td class="numeric" v-if="useRm.num === ''" :style="{background:useRm.color}"></td>
-                                                <td class="numeric" v-else :style="{background:useRm.color}"> {{ useRm.num }}</td>
+                                                <td class="numeric" v-else :style="{background:useRm.color}">
+                                                    {{ useRm.num }}
+                                                </td>
                                             </template>
                                         </tr>
                                         <tr :data-tt-id="5*roomTyp.idx + 3" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
-                                            <td class="middle td-first subTree-title">非鎖控剩餘數</td>
+                                            <td class="middle td-first subTree-title">{{i18nLang.program.PMS0110010.notWrsRm}}</td>
                                             <template v-for="notWrsRm in roomTyp.notWrsRm">
                                                 <td class="numeric" v-if="notWrsRm.num === ''" :style="{background:notWrsRm.color}"></td>
-                                                <td class="numeric" v-else :style="{background:notWrsRm.color}"> {{ notWrsRm.num }}</td>
+                                                <td class="numeric" v-else :style="{background:notWrsRm.color}">
+                                                    {{ notWrsRm.num }}
+                                                </td>
                                             </template>
                                         </tr>
                                         <tr :data-tt-id="5*roomTyp.idx + 4" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
-                                            <td class="middle td-first subTree-title">鎖控剩餘數</td>
+                                            <td class="middle td-first subTree-title">{{i18nLang.program.PMS0110010.wrsRm}}</td>
                                             <template v-for="wrsRm in roomTyp.wrsRm">
                                                 <td class="numeric" v-if="wrsRm.num === ''" :style="{background:wrsRm.color}"></td>
-                                                <td class="numeric" v-else :style="{background:wrsRm.color}"> {{ wrsRm.num }}</td>
+                                                <td class="numeric" v-else :style="{background:wrsRm.color}">
+                                                    {{ wrsRm.num }}
+                                                </td>
                                             </template>
                                         </tr>
                                         <tr :data-tt-id="5*roomTyp.idx + 5" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
-                                            <td class="middle td-first subTree-title">庫存可超訂的剩餘數</td>
+                                            <td class="middle td-first subTree-title">{{i18nLang.program.PMS0110010.overBooking}}</td>
                                             <template v-for="overBooking in roomTyp.overBooking">
                                                 <td class="numeric" v-if="overBooking.num === ''"
                                                     :style="{background:overBooking.color}"></td>
-                                                <td class="numeric" v-else :style="{background:overBooking.color}"> {{ overBooking.num }}
+                                                <td class="numeric" v-else :style="{background:overBooking.color}">
+                                                    {{ overBooking.num }}
                                                 </td>
                                             </template>
                                         </tr>
@@ -91,20 +103,42 @@
 
                                 <template v-if="is4fieldAppear">
                                     <tr>
-                                        <td class="middle td-first"><span class="room-field-text">Total available</span></td>
-                                        <td class="numeric" :style="{background: number.color}" v-for="number in totalAvailable.number">{{number.num}}</td>
+                                        <td class="middle td-first">
+                                            <span class="room-field-text">
+                                                {{i18nLang.program.PMS0110010.Total_available}}
+                                            </span>
+                                        </td>
+                                        <td class="numeric" :style="{background: number.color}" v-for="number in totalAvailable.number">
+                                            {{number.num}}
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td class="middle td-first"><span class="room-field-text">occupancy</span></td>
-                                        <td class="numeric" :style="{background: number.color}" v-for="number in occupancy.number">{{number.num}}</td>
+                                        <td class="middle td-first">
+                                            <span class="room-field-text">
+                                                {{i18nLang.program.PMS0110010.occupancy}}
+                                            </span>
+                                        </td>
+                                        <td class="numeric" :style="{background: number.color}" v-for="number in occupancy.number">
+                                            {{number.num}}
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td class="middle td-first"><span class="room-field-text">phyOccupancy</span></td>
-                                        <td class="numeric" :style="{background: number.color}" v-for="number in phyOccupancy.number">{{number.num}}</td>
+                                        <td class="middle td-first">
+                                            <span class="room-field-text">{{i18nLang.program.PMS0110010.phyOccupancy}}</span>
+                                        </td>
+                                        <td class="numeric" :style="{background: number.color}" v-for="number in phyOccupancy.number">
+                                            {{number.num}}
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td class="middle td-first"><span class="room-field-text">phyAvailable</span></td>
-                                        <td class="numeric" :style="{background: number.color}" v-for="number in phyAvailable.number">{{number.num}}</td>
+                                        <td class="middle td-first">
+                                            <span class="room-field-text">
+                                                {{i18nLang.program.PMS0110010.phyAvailable}}
+                                            </span>
+                                        </td>
+                                        <td class="numeric" :style="{background: number.color}" v-for="number in phyAvailable.number">
+                                            {{number.num}}
+                                        </td>
                                     </tr>
                                 </template>
 
@@ -122,12 +156,12 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                        role="button" data-rel="tooltip" data-placement="bottom" title="前7天"
+                                        role="button" data-rel="tooltip" data-placement="bottom" :title="i18nLang.SystemCommon.before7days"
                                         @click="changDate(-7)">
                                     <i class="fa fa-angle-left fa-lg"></i>
                                 </button>
                                 <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                        role="button" data-rel="tooltip" data-placement="bottom" title="後7天"
+                                        role="button" data-rel="tooltip" data-placement="bottom" :title="i18nLang.SystemCommon.after7days"
                                         @click="changDate(7)">
                                     <i class="fa fa-angle-right fa-lg"></i>
                                 </button>
@@ -135,13 +169,13 @@
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                        role="button" data-rel="tooltip" data-placement="bottom" title="前14天"
+                                        role="button" data-rel="tooltip" data-placement="bottom" :title="i18nLang.SystemCommon.before14days"
                                         @click="changDate(-14)">
                                     <i class="fa fa-angle-double-left fa-lg"></i>
                                 </button>
                                 <button
                                         class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                        role="button" data-rel="tooltip" data-placement="bottom" title="後14天"
+                                        role="button" data-rel="tooltip" data-placement="bottom" :title="i18nLang.SystemCommon.after14days"
                                         @click="changDate(14)">
                                     <i class="fa fa-angle-double-right fa-lg"></i>
                                 </button>
@@ -150,17 +184,17 @@
                             <li>
                                 <!--@click="reservationDialog_1" -->
                                 <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                        role="button">Reservation
+                                        role="button">{{i18nLang.program.PMS0110010.reservation}}
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">Print
+                                        role="button">{{i18nLang.SystemCommon.print}}
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth saveAsBtn"
-                                        role="button">Save As
+                                        role="button">{{i18nLang.SystemCommon.save_as}}
                                 </button>
                             </li>
                             <!--PMS(lite) excample:"
@@ -169,12 +203,12 @@
                                 -->
                             <li>
                                 <button class="btn btn-gray btn-defaultWidth resv_ratePlanBtn"
-                                        role="button">Rate Plan
+                                        role="button">{{i18nLang.program.PMS0110010.Rate_Plan}}
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-skin btn-defaultWidth resv_amenitiesIny"
-                                        role="button">Amenities Iny.
+                                        role="button">{{i18nLang.program.PMS0110010.Amenities_Iny}}
                                 </button>
                             </li>
                         </ul>
@@ -201,11 +235,11 @@
                 persist: false,
                 persistStoreName: "files"
             });
-
         },
         watch: {},
-        data(){
-            return{
+        data() {
+            return {
+                i18nLang: go_i18nLang,
                 isLoading: true,
                 //滾房租日
                 rentCalDat: "",
@@ -295,11 +329,11 @@
                             }
 
                             this.is4fieldAppear = false;
-                            alert('查無資料');
+                            alert(this.i18nLang.SystemCommon.noData);
                         }
 
                     }
-                    else{
+                    else {
                         //處理日期欄位資料
                         let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
                         for (let i = 0; i <= 20; i++) {
@@ -435,11 +469,18 @@
 
             },
             backToRentCalDat() {
-                this.searchData.year = moment(new Date(this.rentCalDat)).year();
-                this.searchData.month = moment(new Date(this.rentCalDat)).month() + 1;
-                this.searchData.date = moment(new Date(this.rentCalDat)).date();
-                this.searchData4Month = moment(new Date(this.rentCalDat)).format("YYYY/MM/DD").toString();
-                this.fetchData();
+                let ls_searchData4Month = moment(JSON.parse(JSON.stringify(this.searchData4Month))).format("YYYY/MM/DD").toString();
+                let ls_rentCalDate = moment(new Date(this.rentCalDat)).format("YYYY/MM/DD").toString();
+
+                if (ls_searchData4Month != ls_rentCalDate) {
+                    this.searchData4Month = this.rentCalDat;
+                }
+                else {
+                    this.searchData.year = moment(new Date(this.rentCalDat)).year();
+                    this.searchData.month = moment(new Date(this.rentCalDat)).month() + 1;
+                    this.searchData.date = moment(new Date(this.rentCalDat)).date();
+                    this.fetchData();
+                }
             },
             changDate(num) {
                 let self = this;
@@ -450,11 +491,11 @@
                 this.searchData4Month = moment(new Date(ls_date));
                 this.fetchData();
             },
-            selectDate(date) {
-                console.log(date);
-                this.searchData.year = moment(new Date(date)).year();
-                this.searchData.month = moment(new Date(date)).month() + 1;
-                this.searchData.date = moment(new Date(date)).date();
+            selectDate() {
+                this.searchData4Month = moment(new Date(this.searchData4Month)).format("YYYY/MM/DD").toString();
+                this.searchData.year = moment(new Date(this.searchData4Month)).year();
+                this.searchData.month = moment(new Date(this.searchData4Month)).month() + 1;
+                this.searchData.date = moment(new Date(this.searchData4Month)).date();
                 this.fetchData();
             }
         }
