@@ -132,28 +132,28 @@ exports.dominosWebService = function (req, res) {
 
     console.log("transCod :" + trans_cod + ", sendData : " + req.body.data);
 
-    switch (trans_cod)
-    {
-        case 'PSI0000001':
-            PSIWService.PSI0000001(req.body.data, req.session, function (RESPONSE) {
-                res.json({RESPONSE: RESPONSE});
-            });
-            break;
-        case 'PSI0000002':
-            PSIWService.PSI0000002(req.body.data, req.session, function (RESPONSE) {
-                res.json({RESPONSE: RESPONSE});
-            });
-            break;
-        case 'PSI0000003':
-            PSIWService.PSI0000003(req.body.data, req.session, function (RESPONSE) {
-                res.json({RESPONSE: RESPONSE});
-            });
-            break;
-        default:
-            break;
+    let lo_postData;
 
+    try{
+        lo_postData = JSON.parse(new Buffer(req.body.data, 'base64').toString());
+    }
+    catch (ex) {
+        console.error(ex.message);
+        let RESPONSE = {
+            "RETN-CODE": "9999",
+            "RETN-CODE-DESC": "JSON base64解碼失敗"
+        };
+        return res.json({RESPONSE});
     }
 
+    if(PSIWService[trans_cod]) {
+        PSIWService[trans_cod](lo_postData, req.session, function (RESPONSE) {
+            res.json({RESPONSE: RESPONSE});
+        });
+    }
+    else {
+        res.json({RESPONSE: { "RETN-CODE": "1111", "RETN-CODE-DESC": "無此交易代碼"}});
+    }
 };
 
 

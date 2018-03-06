@@ -754,11 +754,11 @@ function checkNum(object, numfield) {
 
 /**
  * 萬元用量表轉檔(PSI0000001)
- * @param params
+ * @param lo_postData
  * @param session
  * @param callback
  */
-exports.PSI0000001 = function (params ,session, callback) {
+exports.PSI0000001 = function (lo_postData ,session, callback) {
     try
     {
         //必要欄位
@@ -769,21 +769,6 @@ exports.PSI0000001 = function (params ,session, callback) {
         lo_mn_numfield = ['use_qnt', 'init_qty', 'in_qty', 'io_qty', 'ao_qty', 'ai_qty', 'aj_qty', 'last_qty', 'ck_qty', 'act_qty', 'std_qty', 'diff_qty', 'diff_amt', 'cost_amt'];
         lo_dt_numfield = ['ao_qty', 'ai_qty'];
 
-        let obj;
-
-        try{
-            obj = JSON.parse(new Buffer(params, 'base64').toString());
-        }
-        catch (ex) {
-            console.error(ex.message);
-            let RESPONSE = {
-                "RETN-CODE": "9999",
-                "RETN-CODE-DESC": "JSON base64解碼失敗"
-            };
-            callback(RESPONSE);
-            return;
-        }
-
         let lb_check = true;
         let ls_error_Msg = "";
 
@@ -791,7 +776,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         let count = 0;
 
-        _.each(obj.tenKDosage, function (item) {
+        _.each(lo_postData.tenKDosage, function (item) {
             if(!checkNull(item, lo_mn_keyfield)){
                 ls_error_Msg += "tenKDosag[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
@@ -801,7 +786,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.transferDt, function (item) {
+        _.each(lo_postData.transferDt, function (item) {
             if(!checkNull(item, lo_dt_keyfield)){
                 ls_error_Msg += "transferDt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
@@ -815,7 +800,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.tenKDosage, function (item) {
+        _.each(lo_postData.tenKDosage, function (item) {
             if(!checkNum(item, lo_mn_numfield)){
                 ls_error_Msg += "tenKDosage[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
@@ -825,7 +810,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.transferDt, function (item) {
+        _.each(lo_postData.transferDt, function (item) {
             if(!checkNum(item, lo_dt_numfield)){
                 ls_error_Msg += "transferDt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
@@ -839,7 +824,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.tenKDosage, function (item) {
+        _.each(lo_postData.tenKDosage, function (item) {
             if(item.taxcomp_cod.length != 5){
                 ls_error_Msg += "tenKDosage[" + count + "]的欄位taxcomp_cod長度須為5\r\n";
                 lb_check = false;
@@ -849,7 +834,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.transferDt, function (item) {
+        _.each(lo_postData.transferDt, function (item) {
             if(item.otaxcomp_cod.length != 5){
                 ls_error_Msg += "transferDt[" + count + "]的欄位otaxcomp_cod長度須為5\r\n";
                 lb_check = false;
@@ -866,7 +851,7 @@ exports.PSI0000001 = function (params ,session, callback) {
                 REVE_CODE: 'PSI0000001',
                 prg_id: 'PSIW510030',
                 ip: session.ip,
-                data: obj
+                data: lo_postData
             };
 
             this.callWebServiceAPI(params, session, function (errorMsg, retn_cod) {
@@ -899,11 +884,11 @@ exports.PSI0000001 = function (params ,session, callback) {
 
 /**
  * 預估業績轉檔(PSI0000002)
- * @param params
+ * @param lo_postData
  * @param session
  * @param callback
  */
-exports.PSI0000002 = function (params ,session, callback) {
+exports.PSI0000002 = function (lo_postData ,session, callback) {
     try
     {
         //必要欄位
@@ -912,21 +897,6 @@ exports.PSI0000002 = function (params ,session, callback) {
         //數字欄位
         lo_numfield = ['use_qnt'];
 
-        let obj;
-
-        try{
-            obj = JSON.parse(new Buffer(params, 'base64').toString());
-        }
-        catch (ex) {
-            console.error(ex.message);
-            let RESPONSE = {
-                "RETN-CODE": "9999",
-                "RETN-CODE-DESC": "JSON base64解碼失敗"
-            };
-            callback(RESPONSE);
-            return;
-        }
-
         let lb_check = true;
         let ls_error_Msg = "";
 
@@ -934,7 +904,7 @@ exports.PSI0000002 = function (params ,session, callback) {
 
         let count = 0;
 
-        _.each(obj.salseRevenue, function (item) {
+        _.each(lo_postData.salseRevenue, function (item) {
             if(!checkNull(item, lo_keyfield)){
                 ls_error_Msg += "salseRevenue[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
@@ -948,7 +918,7 @@ exports.PSI0000002 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.salseRevenue, function (item) {
+        _.each(lo_postData.salseRevenue, function (item) {
             if(!checkNum(item, lo_numfield)){
                 ls_error_Msg += "salseRevenue[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
@@ -962,7 +932,7 @@ exports.PSI0000002 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.salseRevenue, function (item) {
+        _.each(lo_postData.salseRevenue, function (item) {
             if(item.taxcomp_cod.length != 5){
                 ls_error_Msg += "salseRevenue[" + count + "]的欄位taxcomp_cod長度須為5\r\n";
                 lb_check = false;
@@ -979,7 +949,7 @@ exports.PSI0000002 = function (params ,session, callback) {
                 REVE_CODE: 'PSI0000002',
                 prg_id: 'PSIW510030',
                 ip: session.ip,
-                data: obj
+                data: lo_postData
             };
 
             this.callWebServiceAPI(params, session, function (errorMsg, retn_cod) {
@@ -1012,11 +982,11 @@ exports.PSI0000002 = function (params ,session, callback) {
 
 /**
  * POS資料轉檔(PSI0000003)
- * @param params
+ * @param lo_postData
  * @param session
  * @param callback
  */
-exports.PSI0000003 = function (params ,session, callback) {
+exports.PSI0000003 = function (lo_postData ,session, callback) {
     try
     {
         //必要欄位
@@ -1029,34 +999,19 @@ exports.PSI0000003 = function (params ,session, callback) {
         lo_sale_dt_numfield = ['out_qnt', 'disc_amt', 'product_amt', 'unit_amt'];
         lo_receipt_dt_numfield = ['fpay_amt', 'tips'];
 
-        let obj;
-
-        try{
-            obj = JSON.parse(new Buffer(params, 'base64').toString());
-        }
-        catch (ex) {
-            console.error(ex.message);
-            let RESPONSE = {
-                "RETN-CODE": "9999",
-                "RETN-CODE-DESC": "JSON base64解碼失敗"
-            };
-            callback(RESPONSE);
-            return;
-        }
-
         let lb_check = true;
         let ls_error_Msg = "";
 
         //region欄位空值檢查
 
-        if(!checkNull(obj.salesMn, lo_sale_mn_keyfield)){
+        if(!checkNull(lo_postData.salesMn, lo_sale_mn_keyfield)){
             ls_error_Msg += "salesMn的格式有誤。(有空值)\r\n";
             lb_check = false;
         }
 
         let count = 0;
 
-        _.each(obj.salesDt, function (item) {
+        _.each(lo_postData.salesDt, function (item) {
             if(!checkNull(item, lo_sale_dt_keyfield)){
                 ls_error_Msg += "salesDt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
@@ -1066,7 +1021,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.salesReceipt, function (item) {
+        _.each(lo_postData.salesReceipt, function (item) {
             if(!checkNull(item, lo_receipt_dt_keyfield)){
                 ls_error_Msg += "salesReceipt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
@@ -1078,14 +1033,14 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         //region欄位數字檢查
 
-        if(!checkNum(obj.salesMn, lo_sale_mn_numfield)){
+        if(!checkNum(lo_postData.salesMn, lo_sale_mn_numfield)){
             ls_error_Msg += "salesMn的格式有誤。(數字欄位非數字)\r\n";
             lb_check = false;
         }
 
         count = 0;
 
-        _.each(obj.salesDt, function (item) {
+        _.each(lo_postData.salesDt, function (item) {
             if(!checkNum(item, lo_sale_dt_numfield)){
                 ls_error_Msg += "salesDt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
@@ -1095,7 +1050,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.salesReceipt, function (item) {
+        _.each(lo_postData.salesReceipt, function (item) {
             if(!checkNum(item, lo_receipt_dt_numfield)){
                 ls_error_Msg += "salesReceipt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
@@ -1112,7 +1067,7 @@ exports.PSI0000003 = function (params ,session, callback) {
                 REVE_CODE: 'PSI0000003',
                 prg_id: 'PSIW510030',
                 ip: session.ip,
-                data: obj
+                data: lo_postData
             };
 
             this.callWebServiceAPI(params, session, function (errorMsg, retn_cod) {
