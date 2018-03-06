@@ -1870,7 +1870,28 @@ let PSIW510030 = new Vue({
                         self.loadDataGrid();
                         self.singleData = {};
                         self.singleDataGridRows = [];
+                        self.orderSelectData = [];
                         self.dgInsDT.loadDgData(self.singleDataGridRows);
+
+                        //region//修改UI狀態
+
+                        self.isModificable = false;
+                        self.isModificableFormat = false;
+
+                        self.addEnable = true;
+                        self.editEnable = false;
+                        self.deleteEnable = false;
+                        self.cnfirmEnable = false;
+                        self.cancelEnable = false;
+                        self.saveEnable = false;
+                        self.dropEnable = false;
+                        self.printEnable = false;
+
+                        //endregion
+
+                        self.createStatus = false;
+                        self.editStatus = false;
+
                         self.doRowUnLock();
                     });
                     break;
