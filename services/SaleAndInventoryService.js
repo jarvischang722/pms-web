@@ -31,7 +31,6 @@ const ErrorClass = require(ruleRootPath + "/errorClass");
 exports.getDataGridRows = function (params ,session, callback) {
 
     let lo_searchCond = params.searchCond || {}; //搜尋條件
-    let lo_error = null;
 
     let lo_params = {
         comp_cod: session.user.cmp_id,
@@ -49,26 +48,17 @@ exports.getDataGridRows = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_PSI_QUOTE_MN", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
-            {
-                //  ) 條件過濾
-                if (!_.isUndefined(ruleAgent[params.prg_id + "Filter"])) {
-                    ruleAgent[params.prg_id + "Filter"](Result, session, lo_searchCond, function (dataRow) {
-                        callback(lo_error, dataRow);
-                    });
-                } else {
-                    callback(lo_error, Result);
-                }
+            // 條件過濾(date)
+            if (!_.isUndefined(ruleAgent[params.prg_id + "Filter"])) {
+                ruleAgent[params.prg_id + "Filter"](Result, session, lo_searchCond, function (dataRow) {
+                    callback(null, dataRow);
+                });
+            } else {
+                callback(null, Result);
             }
-
-            else
-                {callback(lo_error, "");}
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -81,8 +71,6 @@ exports.getDataGridRows = function (params ,session, callback) {
  */
 exports.getSingleDataMN = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id,
         order_nos: params.order_nos
@@ -90,16 +78,10 @@ exports.getSingleDataMN = function (params ,session, callback) {
 
     queryAgent.query("QRY_PSI_QUOTE_SINGLE_MN", lo_params, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -112,8 +94,6 @@ exports.getSingleDataMN = function (params ,session, callback) {
  */
 exports.getSingleDataDT = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id,
         order_nos: params.order_nos
@@ -121,16 +101,10 @@ exports.getSingleDataDT = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_PSI_QUOTE_SINGLE_DT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -143,8 +117,6 @@ exports.getSingleDataDT = function (params ,session, callback) {
  */
 exports.getShowCodSelect = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id,
         key_cod1: session.user.usr_id
@@ -152,16 +124,10 @@ exports.getShowCodSelect = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_CUST_COD_SELECT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -174,25 +140,16 @@ exports.getShowCodSelect = function (params ,session, callback) {
  */
 exports.getUnitSelect = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id
     };
 
     queryAgent.queryList("QRY_UNIT_TYP_SELECT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result) {
-                callback(lo_error, Result);
-            }
-            else
-                {callback(lo_error, "");}
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -276,24 +233,16 @@ exports.getCustInfo = function (params ,session, callback) {
  */
 exports.getPeriod = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         order_dat: params.singleData.order_dat
     };
 
     queryAgent.query("QRY_PSI_PERIOD_RF", lo_params, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err.message || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -306,8 +255,6 @@ exports.getPeriod = function (params ,session, callback) {
  */
 exports.getFormatSta = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id,
         cust_cod: params.singleData.cust_cod,
@@ -317,18 +264,10 @@ exports.getFormatSta = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result){
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -341,26 +280,16 @@ exports.getFormatSta = function (params ,session, callback) {
  */
 exports.getAllFormatSta = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id
     };
 
     queryAgent.queryList("QRY_ALL_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result){
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -373,8 +302,6 @@ exports.getAllFormatSta = function (params ,session, callback) {
  */
 exports.getGoodsData = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id,
         format_sta: params.select_format_sta
@@ -382,18 +309,10 @@ exports.getGoodsData = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_GOODS_DATA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result){
-                callback(lo_error, Result);
-            }
-            else{
-                callback(lo_error, "");
-            }
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -557,24 +476,16 @@ exports.chkFormatSta = function (params ,session, callback) {
  */
 exports.getSearchFormatSta = function (params ,session, callback) {
 
-    let lo_error = null;
-
     let lo_params = {
         comp_cod: session.user.cmp_id
     };
 
     queryAgent.queryList("QRY_SEARCH_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -596,16 +507,10 @@ exports.getSearchShowCod = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_SEARCH_CUST_COD_SELECT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
@@ -618,7 +523,7 @@ exports.getSearchShowCod = function (params ,session, callback) {
  */
 exports.callSaveAPI = function (params ,session, callback) {
 
-    index = 1;
+    let index = 1;
     let exec_data = {};
     exec_data[index] = params.singleData;
     index++;
@@ -650,8 +555,7 @@ exports.callSaveAPI = function (params ,session, callback) {
             success = false;
             errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
             console.error(data["RETN-CODE-DESC"]);
-        } else
-        {
+        } else {
             errorMsg = data["RETN-CODE-DESC"];
         }
 
@@ -686,7 +590,7 @@ exports.callSaveAPI = function (params ,session, callback) {
 exports.callAPI = function (params ,session, callback) {
     let apiParams = {
         "REVE-CODE": params.REVE_CODE,
-        "comp_cod": session.req.cookies.comp_cod,
+        "comp_cod": session.req.cookies.login_comp_id,
         "program_id": params.prg_id,
         "user": session.req.cookies.login_username,
         "table_name": 'psi_quote_mn',
@@ -706,8 +610,7 @@ exports.callAPI = function (params ,session, callback) {
             success = false;
             errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
             console.error(data["RETN-CODE-DESC"]);
-        } else
-        {
+        } else {
             errorMsg = data["RETN-CODE-DESC"];
         }
 
@@ -759,8 +662,7 @@ exports.callOrderAPI = function (params ,session, callback) {
             success = false;
             errorMsg = data["RETN-CODE-DESC"];
             console.error(data["RETN-CODE-DESC"]);
-        } else
-        {
+        } else {
             errorMsg = data["RETN-CODE-DESC"];
         }
 
@@ -787,61 +689,12 @@ exports.callOrderAPI = function (params ,session, callback) {
 };
 
 /**
- * 欄位驗證
- * @param prg_id
- * @param ui_field_name
- * @param verifyValue
- * @param callback
- */
-exports.doCheckFieldFormatVerify = function (prg_id, ui_field_name, verifyValue, callback) {
-
-    async.waterfall([
-        //驗證資料格式是否正常
-        function (callback) {
-            mongoAgent.UIFieldFormat.findOne({
-                prg_id: prg_id,
-                ui_field_name: ui_field_name
-            }, function (err, fieldFormat) {
-                if (!err && fieldFormat) {
-
-                    mongoAgent.FormatRF.findOne({format_id: fieldFormat.format_id}, function (err, format) {
-                        console.log(ui_field_name);
-
-                        let regExp = new RegExp(format.reg_exp);
-                        if (!regExp.test(verifyValue)) {
-                            callback("資料格式錯誤", false);
-                        }
-                    });
-                } else {
-                    callback(null, true);
-                }
-            });
-        },
-        //驗證資料內容是否正確
-        function (checkFormat, callback) {
-            callback(null, true);
-        }
-    ], function (err, success) {
-
-        if (err || !success) {
-            callback(err, false);
-        } else {
-            callback(null, true);
-        }
-    });
-
-
-};
-
-/**
  * 取系統參數
  * @param params
  * @param session
  * @param callback
  */
 exports.getSystemParam = function (params ,session, callback) {
-
-    let lo_error = null;
 
     let lo_params = {
         comp_cod: session.user.cmp_id
@@ -851,23 +704,21 @@ exports.getSystemParam = function (params ,session, callback) {
 
     queryAgent.query(paramName, lo_params, function (err, Result) {
         if (!err) {
-            if(Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            callback(null, Result);
         }
         else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+            callback(err.message, Result);
         }
     });
 };
 
 //WebService
 
-//檢查欄位是否為空值
+/**
+ * 檢查欄位是否為空值
+ * @param object{Object}
+ * @param keyfield 欄位名稱{String}
+ */
 function checkNull(object, keyfield) {
     let lb_check = true;
 
@@ -881,7 +732,11 @@ function checkNull(object, keyfield) {
     return lb_check;
 }
 
-//數字欄位檢查
+/**
+ * 數字欄位檢查(判斷是否為數字)
+ * @param object{Object}
+ * @param numfield 欄位名稱{String}
+ */
 function checkNum(object, numfield) {
     let lb_check = true;
 
@@ -899,11 +754,11 @@ function checkNum(object, numfield) {
 
 /**
  * 萬元用量表轉檔(PSI0000001)
- * @param params
+ * @param lo_postData
  * @param session
  * @param callback
  */
-exports.PSI0000001 = function (params ,session, callback) {
+exports.PSI0000001 = function (lo_postData ,session, callback) {
     try
     {
         //必要欄位
@@ -914,8 +769,6 @@ exports.PSI0000001 = function (params ,session, callback) {
         lo_mn_numfield = ['use_qnt', 'init_qty', 'in_qty', 'io_qty', 'ao_qty', 'ai_qty', 'aj_qty', 'last_qty', 'ck_qty', 'act_qty', 'std_qty', 'diff_qty', 'diff_amt', 'cost_amt'];
         lo_dt_numfield = ['ao_qty', 'ai_qty'];
 
-        let obj = JSON.parse(new Buffer(params, 'base64').toString());
-
         let lb_check = true;
         let ls_error_Msg = "";
 
@@ -923,7 +776,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         let count = 0;
 
-        _.each(obj.tenKDosage, function (item) {
+        _.each(lo_postData.tenKDosage, function (item) {
             if(!checkNull(item, lo_mn_keyfield)){
                 ls_error_Msg += "tenKDosag[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
@@ -933,7 +786,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.transferDt, function (item) {
+        _.each(lo_postData.transferDt, function (item) {
             if(!checkNull(item, lo_dt_keyfield)){
                 ls_error_Msg += "transferDt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
@@ -947,7 +800,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.tenKDosage, function (item) {
+        _.each(lo_postData.tenKDosage, function (item) {
             if(!checkNum(item, lo_mn_numfield)){
                 ls_error_Msg += "tenKDosage[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
@@ -957,7 +810,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.transferDt, function (item) {
+        _.each(lo_postData.transferDt, function (item) {
             if(!checkNum(item, lo_dt_numfield)){
                 ls_error_Msg += "transferDt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
@@ -971,7 +824,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.tenKDosage, function (item) {
+        _.each(lo_postData.tenKDosage, function (item) {
             if(item.taxcomp_cod.length != 5){
                 ls_error_Msg += "tenKDosage[" + count + "]的欄位taxcomp_cod長度須為5\r\n";
                 lb_check = false;
@@ -981,7 +834,7 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.transferDt, function (item) {
+        _.each(lo_postData.transferDt, function (item) {
             if(item.otaxcomp_cod.length != 5){
                 ls_error_Msg += "transferDt[" + count + "]的欄位otaxcomp_cod長度須為5\r\n";
                 lb_check = false;
@@ -998,7 +851,7 @@ exports.PSI0000001 = function (params ,session, callback) {
                 REVE_CODE: 'PSI0000001',
                 prg_id: 'PSIW510030',
                 ip: session.ip,
-                data: obj
+                data: lo_postData
             };
 
             this.callWebServiceAPI(params, session, function (errorMsg, retn_cod) {
@@ -1010,7 +863,7 @@ exports.PSI0000001 = function (params ,session, callback) {
             });
         }
         else{
-            console.log(ls_error_Msg);
+            console.error(ls_error_Msg);
             let RESPONSE = {
                 "RETN-CODE": "9999",
                 "RETN-CODE-DESC": ls_error_Msg
@@ -1020,7 +873,7 @@ exports.PSI0000001 = function (params ,session, callback) {
     }
     catch (ex)
     {
-        console.log(ex.message);
+        console.error(ex.message);
         let RESPONSE = {
             "RETN-CODE": "9999",
             "RETN-CODE-DESC": ex.message
@@ -1031,11 +884,11 @@ exports.PSI0000001 = function (params ,session, callback) {
 
 /**
  * 預估業績轉檔(PSI0000002)
- * @param params
+ * @param lo_postData
  * @param session
  * @param callback
  */
-exports.PSI0000002 = function (params ,session, callback) {
+exports.PSI0000002 = function (lo_postData ,session, callback) {
     try
     {
         //必要欄位
@@ -1044,8 +897,6 @@ exports.PSI0000002 = function (params ,session, callback) {
         //數字欄位
         lo_numfield = ['use_qnt'];
 
-        let obj = JSON.parse(new Buffer(params, 'base64').toString());
-
         let lb_check = true;
         let ls_error_Msg = "";
 
@@ -1053,7 +904,7 @@ exports.PSI0000002 = function (params ,session, callback) {
 
         let count = 0;
 
-        _.each(obj.salseRevenue, function (item) {
+        _.each(lo_postData.salseRevenue, function (item) {
             if(!checkNull(item, lo_keyfield)){
                 ls_error_Msg += "salseRevenue[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
@@ -1067,7 +918,7 @@ exports.PSI0000002 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.salseRevenue, function (item) {
+        _.each(lo_postData.salseRevenue, function (item) {
             if(!checkNum(item, lo_numfield)){
                 ls_error_Msg += "salseRevenue[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
@@ -1081,7 +932,7 @@ exports.PSI0000002 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.salseRevenue, function (item) {
+        _.each(lo_postData.salseRevenue, function (item) {
             if(item.taxcomp_cod.length != 5){
                 ls_error_Msg += "salseRevenue[" + count + "]的欄位taxcomp_cod長度須為5\r\n";
                 lb_check = false;
@@ -1098,7 +949,7 @@ exports.PSI0000002 = function (params ,session, callback) {
                 REVE_CODE: 'PSI0000002',
                 prg_id: 'PSIW510030',
                 ip: session.ip,
-                data: obj
+                data: lo_postData
             };
 
             this.callWebServiceAPI(params, session, function (errorMsg, retn_cod) {
@@ -1110,7 +961,7 @@ exports.PSI0000002 = function (params ,session, callback) {
             });
         }
         else{
-            console.log(ls_error_Msg);
+            console.error(ls_error_Msg);
             let RESPONSE = {
                 "RETN-CODE": "9999",
                 "RETN-CODE-DESC": ls_error_Msg
@@ -1120,7 +971,7 @@ exports.PSI0000002 = function (params ,session, callback) {
     }
     catch (ex)
     {
-        console.log(ex.message);
+        console.error(ex.message);
         let RESPONSE = {
             "RETN-CODE": "9999",
             "RETN-CODE-DESC": ex.message
@@ -1131,11 +982,11 @@ exports.PSI0000002 = function (params ,session, callback) {
 
 /**
  * POS資料轉檔(PSI0000003)
- * @param params
+ * @param lo_postData
  * @param session
  * @param callback
  */
-exports.PSI0000003 = function (params ,session, callback) {
+exports.PSI0000003 = function (lo_postData ,session, callback) {
     try
     {
         //必要欄位
@@ -1147,21 +998,20 @@ exports.PSI0000003 = function (params ,session, callback) {
         lo_sale_mn_numfield = ['man1_qnt', 'notax_tot', 'serv_tot', 'fserv_tot2', 'tax_tot', 'ftax_tot2', 'ftax_tot3', 'disc_tot', 'pay_tot'];
         lo_sale_dt_numfield = ['out_qnt', 'disc_amt', 'product_amt', 'unit_amt'];
         lo_receipt_dt_numfield = ['fpay_amt', 'tips'];
-        let obj = JSON.parse(new Buffer(params, 'base64').toString());
 
         let lb_check = true;
         let ls_error_Msg = "";
 
         //region欄位空值檢查
 
-        if(!checkNull(obj.salesMn, lo_sale_mn_keyfield)){
+        if(!checkNull(lo_postData.salesMn, lo_sale_mn_keyfield)){
             ls_error_Msg += "salesMn的格式有誤。(有空值)\r\n";
             lb_check = false;
         }
 
         let count = 0;
 
-        _.each(obj.salesDt, function (item) {
+        _.each(lo_postData.salesDt, function (item) {
             if(!checkNull(item, lo_sale_dt_keyfield)){
                 ls_error_Msg += "salesDt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
@@ -1171,7 +1021,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.salesReceipt, function (item) {
+        _.each(lo_postData.salesReceipt, function (item) {
             if(!checkNull(item, lo_receipt_dt_keyfield)){
                 ls_error_Msg += "salesReceipt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
@@ -1183,14 +1033,14 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         //region欄位數字檢查
 
-        if(!checkNum(obj.salesMn, lo_sale_mn_numfield)){
+        if(!checkNum(lo_postData.salesMn, lo_sale_mn_numfield)){
             ls_error_Msg += "salesMn的格式有誤。(數字欄位非數字)\r\n";
             lb_check = false;
         }
 
         count = 0;
 
-        _.each(obj.salesDt, function (item) {
+        _.each(lo_postData.salesDt, function (item) {
             if(!checkNum(item, lo_sale_dt_numfield)){
                 ls_error_Msg += "salesDt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
@@ -1200,7 +1050,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.salesReceipt, function (item) {
+        _.each(lo_postData.salesReceipt, function (item) {
             if(!checkNum(item, lo_receipt_dt_numfield)){
                 ls_error_Msg += "salesReceipt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
@@ -1217,7 +1067,7 @@ exports.PSI0000003 = function (params ,session, callback) {
                 REVE_CODE: 'PSI0000003',
                 prg_id: 'PSIW510030',
                 ip: session.ip,
-                data: obj
+                data: lo_postData
             };
 
             this.callWebServiceAPI(params, session, function (errorMsg, retn_cod) {
@@ -1229,7 +1079,7 @@ exports.PSI0000003 = function (params ,session, callback) {
             });
         }
         else{
-            console.log(ls_error_Msg);
+            console.error(ls_error_Msg);
             let RESPONSE = {
                 "RETN-CODE": "9999",
                 "RETN-CODE-DESC": ls_error_Msg
@@ -1239,7 +1089,7 @@ exports.PSI0000003 = function (params ,session, callback) {
     }
     catch (ex)
     {
-        console.log(ex.message);
+        console.error(ex.message);
         let RESPONSE = {
             "RETN-CODE": "9999",
             "RETN-CODE-DESC": ex.message

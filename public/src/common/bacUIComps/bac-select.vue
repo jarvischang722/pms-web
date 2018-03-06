@@ -35,6 +35,11 @@
                 type: Array,
                 default: []
             },
+            //顯示用的下拉選擇
+            dataDisplay: {
+                type: Array,
+                default: []
+            },
             //預設值
             defaultVal: ['String', 'Number'],
             //欄位屬性
@@ -48,6 +53,7 @@
         },
         mounted: function () {
             this.initCombobox();
+            this.dataDisplay = this.dataDisplay.length == 0 ? this.data : [];
         },
         data: function () {
             return {
@@ -69,7 +75,13 @@
                     valueField: this.valueField,
                     textField: this.textField,
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
-                    data: this.data,
+                    data: this.dataDisplay,
+                    onShowPanel: function () {
+                        $(this).combobox("loadData", self.data);
+                    },
+                    onHidePanel: function () {
+                        $(this).combobox("loadData", self.dataDisplay);
+                    },
                     onChange: function (newValue) {
                         self.$emit('update:v-model', newValue);
                         setTimeout(function () {
