@@ -312,6 +312,9 @@ let singlePage = Vue.extend({
 
             isShowReserve: true,
 
+            isFirstChangeAltNam: true,
+            isFirstChangeAttenNam: true,
+
             dgIns: {},
             dtFieldData: [],
             dataGridRows: [],
@@ -581,10 +584,8 @@ let singlePage = Vue.extend({
          */
         fetchSingleData: function (bquet_nos) {
             let self = this;
-            let lo_params = {
-                bquet_nos: bquet_nos
-            };
-            $.post("/reserveBanquet/qryPageTwoData", lo_params, function (result) {
+
+            $.post("/reserveBanquet/qryPageTwoData", {bquet_nos}, function (result) {
                 if (!_.isUndefined(result.data)) {
 
                     //Time format
@@ -917,6 +918,11 @@ let singlePage = Vue.extend({
         altNamOnChange: function () {
             let self = this;
 
+            if(self.isFirstChangeAltNam){
+                self.isFirstChangeAltNam = false;
+                return;
+            }
+
             let lo_selectItem = _.find(self.selectgridOptions.alt_nam.selectData, {alt_nam: self.singleData.alt_nam});
             $.post("/reserveBanquet/qry_bqcust_mn", {cust_cod: lo_selectItem.cust_cod}, function (result) {
 
@@ -951,6 +957,12 @@ let singlePage = Vue.extend({
          */
         attenNamOnChange: function () {
             let self = this;
+
+            if(self.isFirstChangeAttenNam){
+                self.isFirstChangeAttenNam = false;
+                return;
+            }
+
             let lo_selectItem = _.find(self.selectgridOptions.atten_nam.selectData, {atten_nam: self.singleData.atten_nam});
             self.singleData = _.extend(self.singleData, lo_selectItem);
         },
@@ -1402,7 +1414,6 @@ let singlePage = Vue.extend({
                 if (result.success) {
                     alert("檢查通過！");
                     self.updateInventory(result.data, function () {
-
                     });
                 }
                 if (result.errorMsg != "") {
