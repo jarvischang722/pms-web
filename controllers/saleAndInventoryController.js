@@ -22,8 +22,7 @@ exports.getPSIW510030 = function (req, res) {
 //QueryResult
 exports.getQueryResult = function (req, res) {
 
-    switch (req.body.func)
-    {
+    switch (req.body.func) {
         case "getDataGridRows":
             PSIWService.getDataGridRows(req.body, req.session, function (err, result) {
                 res.json({data: result, error: err});
@@ -134,7 +133,7 @@ exports.dominosWebService = function (req, res) {
 
     let lo_postData;
 
-    try{
+    try {
         lo_postData = JSON.parse(new Buffer(req.body.data, 'base64').toString());
     }
     catch (ex) {
@@ -146,13 +145,13 @@ exports.dominosWebService = function (req, res) {
         return res.json({RESPONSE});
     }
 
-    if(PSIWService[trans_cod]) {
+    if (PSIWService[trans_cod]) {
         PSIWService[trans_cod](lo_postData, req.session, function (RESPONSE) {
             res.json({RESPONSE: RESPONSE});
         });
     }
     else {
-        res.json({RESPONSE: { "RETN-CODE": "1111", "RETN-CODE-DESC": "無此交易代碼"}});
+        res.json({RESPONSE: {"RETN-CODE": "1111", "RETN-CODE-DESC": "無此交易代碼"}});
     }
 };
 

@@ -43,7 +43,7 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>客戶姓名</label>
-                                            <bac-select-grid v-model="singleData.alt_nam" :data="selectgridOptions.alt_nam.selectData" :columns="selectgridOptions.alt_nam.columns" :id-field="selectgridOptions.alt_nam.value" :text-field="selectgridOptions.alt_nam.display" @update:v-model="val => singleData.alt_nam = val" @change="altNamOnChange">
+                                            <bac-select-grid v-model="singleData.alt_nam" :default-val="singleData.alt_nam" :data="selectgridOptions.alt_nam.selectData" :columns="selectgridOptions.alt_nam.columns" :id-field="selectgridOptions.alt_nam.value" :text-field="selectgridOptions.alt_nam.display" @update:v-model="val => singleData.alt_nam = val" @change="altNamOnChange">
                                             </bac-select-grid>
                                         </div>
                                         <div class="grid-item">
@@ -56,7 +56,7 @@
                                         </div>
                                         <div class="grid-item">
                                             <label>聯絡人</label>
-                                            <bac-select-grid v-model="singleData.atten_nam" :data="selectgridOptions.atten_nam.selectData" :columns="selectgridOptions.atten_nam.columns" :id-field="selectgridOptions.atten_nam.value" :text-field="selectgridOptions.atten_nam.display" @update:v-model="val => singleData.atten_nam = val" @change="attenNamOnChange">
+                                            <bac-select-grid v-model="singleData.atten_nam" :default-val="singleData.atten_nam" :data="selectgridOptions.atten_nam.selectData" :columns="selectgridOptions.atten_nam.columns" :id-field="selectgridOptions.atten_nam.value" :text-field="selectgridOptions.atten_nam.display" @update:v-model="val => singleData.atten_nam = val" @change="attenNamOnChange">
                                             </bac-select-grid>
                                         </div>
                                     </div>
