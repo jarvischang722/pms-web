@@ -11,36 +11,12 @@ let commonRule = require("../ruleEngine/rules/CommonRule");
 let commonTools = require("../utils/CommonTools");
 let langSvc = require("../services/LangService");
 
-// let go_postData = null;
-// let go_session = null;
-// let gs_template_id = null;
-// let ga_mainFieldsData = [];
-// let ga_gsFieldsData = [];
-// let ga_dgFieldsData = [];
-// let go_saveExecDatas = {};
-// let gn_exec_seq = 1;
-// let go_userInfo = null;
-// let ga_rfData = {}; //
-// let gs_mainTableName = "";    // 主要Table name
-// let gs_dgTableName = "";      // DT Table name
-// let ga_createData = [];
-// let ga_updateData = [];
-// let ga_deleteData = [];
-// let ga_oriData = [];
-// let ga_dtCreateData = [];
-// let ga_dtUpdateData = [];
-// let ga_dtDeleteData = [];
-// let ga_dtOriData = [];
-
-// function initData() {
-//     go_saveExecDatas = {};
-//     gn_exec_seq = 1;
-// }
-
 function operationSaveAdapterClass(postData, session) {
     let lo_params = {
+        trans_cod: postData.trans_cod,
         prg_id: postData.prg_id,
         page_id: postData.page_id,
+        func_id: postData.func_id,
         oriData: postData.tmpCUD.oriData || [],
         createData: postData.tmpCUD.createData || [],
         updateData: postData.tmpCUD.updateData || [],
@@ -54,8 +30,6 @@ function operationSaveAdapterClass(postData, session) {
     };
     let lo_apiFormat = null;
 
-    // initData();
-
     this.set_saveExecDatas = function (exec_seq, saveExecDatas) {
         lo_params.saveExecDatas = saveExecDatas || {};
         exec_seq++;
@@ -63,15 +37,22 @@ function operationSaveAdapterClass(postData, session) {
     };
 
     // 執行程序
-    this.formating = async function () {
+    this.formating = async function (callback) {
 
-        let lo_rfData = await qryTemplateRfData(lo_params, session);
-        let lo_tmpIdType = chkTmpIdType(lo_rfData, lo_params, session);
-        let lo_fieldsData = await qryFieldData(lo_rfData, lo_tmpIdType, lo_params, session);
-        lo_params = combineDtDeleteExecData(lo_rfData, lo_tmpIdType, lo_params);
-        lo_params = await combineMainData(lo_rfData, lo_params, lo_tmpIdType, session);
-        lo_params = await combineDtCreateEditExecData(lo_rfData, lo_params, lo_tmpIdType, session);
-        console.log(lo_rfData);
+        try {
+            let lo_rfData = await qryTemplateRfData(lo_params);
+            let lo_tmpIdType = chkTmpIdType(lo_rfData);
+            lo_tmpIdType = await qryFieldData(lo_rfData, lo_tmpIdType, lo_params, session);
+            lo_params = combineDtDeleteExecData(lo_rfData, lo_tmpIdType, lo_params);
+            lo_params = await combineMainData(lo_rfData, lo_tmpIdType, lo_params, session);
+            lo_params = await combineDtCreateEditExecData(lo_rfData, lo_tmpIdType, lo_params, session);
+            lo_params = sortByEventTime(lo_params);
+            lo_apiFormat = convertToApiFormat(lo_params, lo_tmpIdType, session);
+            callback(null, lo_apiFormat);
+        }
+        catch (err) {
+            callback(err, {});
+        }
 
         // async.waterfall([
         //     qryTemplateRfData,              //查templateRf資料
@@ -99,8 +80,9 @@ function operationSaveAdapterClass(postData, session) {
 
 /**
  * 查詢TemplateRf資料
+ * @param params {object} 相關參數資料
  */
-async function qryTemplateRfData(params, session) {
+async function qryTemplateRfData(params) {
     return await mongoAgent.TemplateRf.find({prg_id: params.prg_id, page_id: params.page_id}).exec().then(rfData => {
         return commonTools.mongoDocToObject(rfData);
     }).catch(err => {
@@ -112,7 +94,7 @@ async function qryTemplateRfData(params, session) {
  * 判斷template_id 為 多筆、單筆、mn-dt或特殊版型
  * @param rfData {Object} TemplateRf 資料
  */
-function chkTmpIdType(rfData, params, session) {
+function chkTmpIdType(rfData) {
     let ln_isDataGridExist = _.findIndex(rfData, {template_id: "datagrid"});
     let ln_isGridSingleExist = _.findIndex(rfData, {template_id: "gridsingle"});
     let ln_isSpecialIsExist = _.findIndex(rfData, {template_id: "special"});
@@ -148,7 +130,11 @@ function chkTmpIdType(rfData, params, session) {
 
 /**
  * 查詢欄位資料
- * @param {Object} rfData: templateRf 欄位資料
+ * @param rfData {object} TemplateRf資料
+ * @param tmpIdType {object} 版型、儲存table相關資訊
+ * @param params {object} 相關參數資料
+ * @param session {object}
+ * @returns {Promise<*>}
  */
 async function qryFieldData(rfData, tmpIdType, params, session) {
 
@@ -159,31 +145,27 @@ async function qryFieldData(rfData, tmpIdType, params, session) {
         ]);
 
         //Mn
-        commonTools.handleOperationProcData(params.createData, tmpIdType.gsFieldsData);
-        commonTools.handleOperationProcData(params.deleteData, tmpIdType.gsFieldsData);
-        commonTools.handleOperationProcData(params.updateData, tmpIdType.gsFieldsData);
+        commonTools.handleOperationProcData(params.createData, la_gsFieldsData);
+        commonTools.handleOperationProcData(params.deleteData, la_gsFieldsData);
+        commonTools.handleOperationProcData(params.updateData, la_gsFieldsData);
         //Dt
-        commonTools.handleOperationProcData(params.dtCreateData, tmpIdType.dgFieldsData);
-        commonTools.handleOperationProcData(params.dtDeleteData, tmpIdType.dgFieldsData);
-        commonTools.handleOperationProcData(params.dtUpdateData, tmpIdType.dgFieldsData);
+        commonTools.handleOperationProcData(params.dtCreateData, la_dgFieldsData);
+        commonTools.handleOperationProcData(params.dtDeleteData, la_dgFieldsData);
+        commonTools.handleOperationProcData(params.dtUpdateData, la_dgFieldsData);
 
         if (tmpIdType.template_id == "datagrid") {
-            tmpIdType.mainFieldsData = tmpIdType.dgFieldsData;
+            tmpIdType.mainFieldsData = la_dgFieldsData;
         }
         else if (tmpIdType.template_id == "gridsingle") {
-            tmpIdType.mainFieldsData = tmpIdType.gsFieldsData;
+            tmpIdType.mainFieldsData = la_gsFieldsData;
         }
         else {
-            tmpIdType.mainFieldsData = tmpIdType.gsFieldsData;
+            tmpIdType.mainFieldsData = la_gsFieldsData;
         }
 
-        let lo_rtnData = {
-            dgFieldsData: la_dgFieldsData,
-            gsFieldsData: la_gsFieldsData,
-        };
-        return lo_rtnData;
+        return tmpIdType;
     }
-    catch(err){
+    catch (err) {
         throw new Error(err);
     }
 
@@ -300,7 +282,6 @@ function combineDtDeleteExecData(rfData, tmpIdType, params) {
                         value: data[keyField.ui_field_name]
                     });
                 }
-
             });
             params.saveExecDatas[params.exec_seq] = tmpDel;
             params.exec_seq++;
@@ -312,256 +293,269 @@ function combineDtDeleteExecData(rfData, tmpIdType, params) {
     }
 }
 
-//組合此筆要新增刪除修改的資料
+/**
+ * 組合此筆要新增刪除修改的資料
+ * @param rfData {object} TemplateRf資料
+ * @param params {object} 相關參數資料
+ * @param tmpIdType {object} 版型、儲存table相關資訊
+ * @param session
+ * @returns {Promise<any>}
+ */
 async function combineMainData(rfData, params, tmpIdType, session) {
     let la_multiLangFields = _.filter(tmpIdType.mainFieldsData, function (field) {
         return field.multi_lang_table != "";
     });  //多語系欄位
-    async.parallel([
-        //新增 0200
-        function (callback) {
-            if (_.isUndefined(params.createData) || params.createData.length == 0) {
-                return callback(null, '0200');
-            }
-            _.each(params.createData, function (data) {
-                let lo_fieldsData = qryFieldsDataByTabPageID(data, tmpIdType);
-                let tmpIns = {"function": "1", "table_name": tmpIdType.mainTableName}; //1  新增
-                _.each(Object.keys(data), function (objKey) {
-                    if (!_.isUndefined(data[objKey])) {
-                        let value = data[objKey];
 
-                        _.each(lo_fieldsData.mainFieldsData, function (row) {
-                            if (row.ui_field_name == objKey) {
-                                let finalValue = changeValueFormat4Save(value, row.ui_type);
-                                value = finalValue ? finalValue : value;
+    return new Promise((resolve, reject) => {
+        async.parallel([
+            //新增 0200
+            function (callback) {
+                if (_.isUndefined(params.createData) || params.createData.length == 0) {
+                    return callback(null, '0200');
+                }
+                _.each(params.createData, function (data) {
+                    let lo_fieldsData = qryFieldsDataByTabPageID(data, tmpIdType);
+                    let tmpIns = {"function": "1", "table_name": tmpIdType.mainTableName}; //1  新增
+                    _.each(Object.keys(data), function (objKey) {
+                        if (!_.isUndefined(data[objKey])) {
+                            let value = data[objKey];
+
+                            _.each(lo_fieldsData.mainFieldsData, function (row) {
+                                if (row.ui_field_name == objKey) {
+                                    let finalValue = changeValueFormat4Save(value, row.ui_type);
+                                    value = finalValue ? finalValue : value;
+                                }
+                            });
+
+                            if (typeof data[objKey] === 'string') {
+                                data[objKey] = data[objKey].trim();
                             }
-                        });
 
-                        if (typeof data[objKey] === 'string') {
-                            data[objKey] = data[objKey].trim();
+                            tmpIns[objKey] = value;
+                        }
+                    });
+
+                    tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+                    params.saveExecDatas[params.exec_seq] = tmpIns;
+                    params.exec_seq++;
+
+                    /** 處理每一筆多語系 handleSaveMultiLang **/
+                    if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
+                        _.each(data.multiLang, function (lo_lang) {
+                            let ls_locale = lo_lang.locale || "";
+                            _.each(lo_lang, function (langVal, fieldName) {
+                                if (fieldName != "locale" && !_.isEmpty(langVal)) {
+                                    let langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
+                                    let lo_langTmp = {
+                                        function: '1',
+                                        table_name: langTable,
+                                        locale: ls_locale,
+                                        field_name: fieldName,
+                                        words: langVal
+                                    };
+                                    _.each(_.pluck(lo_fieldsData.mainKeyFields, "ui_field_name"), function (keyField) {
+                                        if (!_.isUndefined(data[keyField])) {
+                                            lo_langTmp[keyField] = typeof data[keyField] === "string"
+                                                ? data[keyField].trim() : data[keyField];
+                                        }
+                                    });
+                                    params.saveExecDatas[params.exec_seq] = lo_langTmp;
+                                    params.exec_seq++;
+                                }
+                            });
+                        });
+                    }
+
+                });
+
+                callback(null, '0200');
+            },
+            //刪除 0300
+            function (callback) {
+                if (_.isUndefined(params.deleteData) || params.deleteData.length == 0) {
+                    return callback(null, '0300');
+                }
+                _.each(params.deleteData, function (data) {
+                    let lo_fieldsData = qryFieldsDataByTabPageID(data, tmpIdType);
+                    let tmpDel = {"function": "0", "table_name": tmpIdType.mainTableName, event_time: data.event_time}; //0 代表刪除
+                    data = _.extend(data, commonRule.getEditDefaultDataRule(session));
+                    tmpDel.condition = [];
+                    //組合where 條件
+                    _.each(lo_fieldsData.mainKeyFields, function (keyField) {
+                        if (!_.isUndefined(data[keyField.ui_field_name])) {
+                            tmpDel.condition.push({
+                                key: keyField.ui_field_name,
+                                operation: "=",
+                                value: data[keyField.ui_field_name]
+                            });
                         }
 
-                        tmpIns[objKey] = value;
-                    }
-                });
-                //TODO: 暫時給session
-                // go_session.user = {
-                //     athena_id: 1,
-                //     fun_hotel_cod: '02',
-                //     usr_id: "a16010"
-                // };
-                tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
-                params.saveExecDatas[params.exec_seq] = tmpIns;
-                params.exec_seq++;
-
-                /** 處理每一筆多語系 handleSaveMultiLang **/
-                if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
-                    _.each(data.multiLang, function (lo_lang) {
-                        let ls_locale = lo_lang.locale || "";
-                        _.each(lo_lang, function (langVal, fieldName) {
-                            if (fieldName != "locale" && !_.isEmpty(langVal)) {
-                                let langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
-                                let lo_langTmp = {
-                                    function: '1',
-                                    table_name: langTable,
-                                    locale: ls_locale,
-                                    field_name: fieldName,
-                                    words: langVal
-                                };
-                                _.each(_.pluck(lo_fieldsData.mainKeyFields, "ui_field_name"), function (keyField) {
-                                    if (!_.isUndefined(data[keyField])) {
-                                        lo_langTmp[keyField] = typeof data[keyField] === "string"
-                                            ? data[keyField].trim() : data[keyField];
-                                    }
-                                });
-                                params.saveExecDatas[params.exec_seq] = lo_langTmp;
-                                params.exec_seq++;
-                            }
-                        });
                     });
-                }
-
-            });
-
-            callback(null, '0200');
-        },
-        //刪除 0300
-        function (callback) {
-            if (_.isUndefined(params.deleteData) || params.deleteData.length == 0) {
-                return callback(null, '0300');
-            }
-            _.each(params.deleteData, function (data) {
-                let lo_fieldsData = qryFieldsDataByTabPageID(data, tmpIdType);
-                let tmpDel = {"function": "0", "table_name": tmpIdType.mainTableName, event_time: data.event_time}; //0 代表刪除
-                data = _.extend(data, commonRule.getEditDefaultDataRule(session));
-                tmpDel.condition = [];
-                //組合where 條件
-                _.each(lo_fieldsData.mainKeyFields, function (keyField) {
-                    if (!_.isUndefined(data[keyField.ui_field_name])) {
-                        tmpDel.condition.push({
-                            key: keyField.ui_field_name,
-                            operation: "=",
-                            value: data[keyField.ui_field_name]
-                        });
-                    }
-
-                });
-                params.saveExecDatas[params.exec_seq] = tmpDel;
-                params.exec_seq++;
-
-                if (gs_dgTableName != "") {
-                    combineDelDetailData(gs_dgTableName, lo_fieldsData.mainKeyFields, data);
-                }
-            });
-            callback(null, '0300');
-        },
-        //修改 0400
-        function (callback) {
-            if (_.isUndefined(params.updateData) || params.updateData.length == 0) {
-                return callback(null, '0400');
-            }
-
-            let ln_count = 0;//計算資料處理次數
-            _.each(params.updateData, function (data, index) {
-                let lo_fieldsData = qryFieldsDataByTabPageID(data, tmpIdType);
-                let tmpEdit = {"function": "2", "table_name": tmpIdType.mainTableName}; //2  編輯
-                _.each(Object.keys(data), function (objKey) {
-                    if (!_.isUndefined(data[objKey])) {
-                        tmpEdit[objKey] = data[objKey];
-
-                        _.each(lo_fieldsData.mainFieldsData, function (row) {
-                            if (row.ui_field_name == objKey) {
-                                let finalValue = changeValueFormat4Save(tmpEdit[objKey], row.ui_type);
-                                tmpEdit[objKey] = finalValue ? finalValue : tmpEdit[objKey];
-                            }
-                        });
-                    }
-                });
-                let lo_keysData = {};
-
-                data = _.extend(data, commonRule.getEditDefaultDataRule(session));
-                tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(session));
-                params.oriData[index] = _.extend(params.oriData[index], commonRule.getEditDefaultDataRule(session));
-
-                tmpEdit.condition = [];
-                //組合where 條件,判斷是否有舊資料
-                _.each(lo_fieldsData.mainKeyFields, function (keyField) {
-                    if (!_.isUndefined(params.oriData[index][keyField.ui_field_name])) {
-                        tmpEdit.condition.push({
-                            key: keyField.ui_field_name,
-                            operation: "=",
-                            value: params.oriData[index][keyField.ui_field_name]
-                        });
-                        lo_keysData[keyField.ui_field_name] = data[keyField.ui_field_name];
-                    }
-
-                });
-
-                ln_count++;
-                /** 處理每一筆多語系 handleSaveMultiLang **/
-                if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
-                    let langProcessFunc = [];
-                    _.each(data.multiLang, function (lo_lang) {
-                        let ls_locale = lo_lang.locale || "";
-                        langProcessFunc.push(
-                            function (callback) {
-                                let chkFuncs = [];
-                                _.each(lo_lang, function (langVal, fieldName) {
-                                    if (fieldName != "locale" && !_.isEmpty(langVal)) {
-                                        chkFuncs.push(
-                                            function (callback) {
-                                                let langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
-                                                let lo_langTmp = {
-                                                    table_name: langTable,
-                                                    words: langVal
-                                                };
-                                                let lo_condition = [
-                                                    {
-                                                        key: "locale",
-                                                        operation: "=",
-                                                        value: ls_locale
-                                                    },
-                                                    {
-                                                        key: "field_name",
-                                                        operation: "=",
-                                                        value: fieldName
-                                                    }
-                                                ];
-                                                _.each(_.pluck(lo_fieldsData.mainKeyFields, "ui_field_name"), function (keyField) {
-                                                    if (!_.isUndefined(data[keyField])) {
-                                                        lo_condition.push({
-                                                            key: keyField,
-                                                            operation: "=",
-                                                            value: data[keyField]
-                                                        });
-                                                        lo_keysData[keyField] = typeof data[keyField] === "string"
-                                                            ? data[keyField].trim() : data[keyField];
-                                                    }
-                                                });
-
-                                                //檢查key + field 是否在langTable 有資料, 有的話更新, 沒有則新增
-                                                langSvc.handleMultiLangContentByKey(langTable, ls_locale, lo_keysData, fieldName, function (err, rows) {
-                                                    if (rows.length > 0) {
-                                                        lo_langTmp["function"] = "2";  //編輯
-                                                        lo_langTmp["condition"] = lo_condition; //放入條件
-                                                    }
-                                                    else {
-                                                        lo_langTmp["function"] = "1";  //新增;
-                                                        lo_langTmp["locale"] = ls_locale;  //
-                                                        lo_langTmp["field_name"] = fieldName;  //
-                                                        lo_langTmp = _.extend(lo_langTmp, lo_keysData);
-                                                    }
-
-                                                    params.saveExecDatas[params.exec_seq] = lo_langTmp;
-                                                    params.exec_seq++;
-
-                                                    callback(null, rows);
-
-                                                });
-                                            }
-                                        );
-                                    }
-
-
-                                });
-                                async.parallel(chkFuncs, function (err, results) {
-                                    callback(null, results);
-                                });
-                            }
-                        );
-                    });
-
-                    async.parallel(langProcessFunc, function (err, results) {
-                        params.saveExecDatas[params.exec_seq] = tmpEdit;
-                        params.exec_seq++;
-                        callback(null, '0400');
-                    });
-                }
-                else {
-                    params.saveExecDatas[params.exec_seq] = tmpEdit;
+                    params.saveExecDatas[params.exec_seq] = tmpDel;
                     params.exec_seq++;
-                    //資料處理完後再callback
-                    if (ln_count == params.updateData.length) {
-                        callback(null, '0400');
+
+                    if (tmpIdType.dgTableName != "") {
+                        params = combineDelDetailData(tmpIdType.dgTableName, lo_fieldsData.mainKeyFields, params, data);
                     }
+                });
+                callback(null, '0300');
+            },
+            //修改 0400
+            function (callback) {
+                if (_.isUndefined(params.updateData) || params.updateData.length == 0) {
+                    return callback(null, '0400');
                 }
-            });
+
+                let la_updateFunc = [];
+                _.each(params.updateData, function (data, index) {
+                    la_updateFunc.push(
+                        function (cb) {
+                            let lo_fieldsData = qryFieldsDataByTabPageID(data, tmpIdType);
+                            let tmpEdit = {"function": "2", "table_name": tmpIdType.mainTableName}; //2  編輯
+                            _.each(Object.keys(data), function (objKey) {
+                                if (!_.isUndefined(data[objKey])) {
+                                    tmpEdit[objKey] = data[objKey];
+
+                                    _.each(lo_fieldsData.mainFieldsData, function (row) {
+                                        if (row.ui_field_name == objKey) {
+                                            let finalValue = changeValueFormat4Save(tmpEdit[objKey], row.ui_type);
+                                            tmpEdit[objKey] = finalValue ? finalValue : tmpEdit[objKey];
+                                        }
+                                    });
+                                }
+                            });
+                            let lo_keysData = {};
+
+                            data = _.extend(data, commonRule.getEditDefaultDataRule(session));
+                            tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(session));
+                            params.oriData[index] = _.extend(params.oriData[index], commonRule.getEditDefaultDataRule(session));
+
+                            tmpEdit.condition = [];
+                            //組合where 條件,判斷是否有舊資料
+                            _.each(lo_fieldsData.mainKeyFields, function (keyField) {
+                                if (!_.isUndefined(params.oriData[index][keyField.ui_field_name])) {
+                                    tmpEdit.condition.push({
+                                        key: keyField.ui_field_name,
+                                        operation: "=",
+                                        value: params.oriData[index][keyField.ui_field_name]
+                                    });
+                                    lo_keysData[keyField.ui_field_name] = data[keyField.ui_field_name];
+                                }
+
+                            });
+
+                            /** 處理每一筆多語系 handleSaveMultiLang **/
+                            if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
+                                let langProcessFunc = [];
+                                _.each(data.multiLang, function (lo_lang) {
+                                    let ls_locale = lo_lang.locale || "";
+                                    langProcessFunc.push(
+                                        function (callback) {
+                                            let chkFuncs = [];
+                                            _.each(lo_lang, function (langVal, fieldName) {
+                                                if (fieldName != "locale" && !_.isEmpty(langVal)) {
+                                                    chkFuncs.push(
+                                                        function (callback) {
+                                                            let langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
+                                                            let lo_langTmp = {
+                                                                table_name: langTable,
+                                                                words: langVal
+                                                            };
+                                                            let lo_condition = [
+                                                                {
+                                                                    key: "locale",
+                                                                    operation: "=",
+                                                                    value: ls_locale
+                                                                },
+                                                                {
+                                                                    key: "field_name",
+                                                                    operation: "=",
+                                                                    value: fieldName
+                                                                }
+                                                            ];
+                                                            _.each(_.pluck(lo_fieldsData.mainKeyFields, "ui_field_name"), function (keyField) {
+                                                                if (!_.isUndefined(data[keyField])) {
+                                                                    lo_condition.push({
+                                                                        key: keyField,
+                                                                        operation: "=",
+                                                                        value: data[keyField]
+                                                                    });
+                                                                    lo_keysData[keyField] = typeof data[keyField] === "string"
+                                                                        ? data[keyField].trim() : data[keyField];
+                                                                }
+                                                            });
+
+                                                            //檢查key + field 是否在langTable 有資料, 有的話更新, 沒有則新增
+                                                            langSvc.handleMultiLangContentByKey(langTable, ls_locale, lo_keysData, fieldName, function (err, rows) {
+                                                                if (rows.length > 0) {
+                                                                    lo_langTmp["function"] = "2";  //編輯
+                                                                    lo_langTmp["condition"] = lo_condition; //放入條件
+                                                                }
+                                                                else {
+                                                                    lo_langTmp["function"] = "1";  //新增;
+                                                                    lo_langTmp["locale"] = ls_locale;  //
+                                                                    lo_langTmp["field_name"] = fieldName;  //
+                                                                    lo_langTmp = _.extend(lo_langTmp, lo_keysData);
+                                                                }
+
+                                                                params.saveExecDatas[params.exec_seq] = lo_langTmp;
+                                                                params.exec_seq++;
+
+                                                                callback(null, rows);
+
+                                                            });
+                                                        }
+                                                    );
+                                                }
 
 
-        }
-    ], function (err, result) {
-        if(err){
-            throw new Error(err);
-        }
-        else{
-            return params;
-        }
+                                            });
+                                            async.parallel(chkFuncs, function (err, results) {
+                                                callback(null, results);
+                                            });
+                                        }
+                                    );
+                                });
 
+                                async.parallel(langProcessFunc, function (err, results) {
+                                    params.saveExecDatas[params.exec_seq] = tmpEdit;
+                                    params.exec_seq++;
+                                    cb(null, '0400');
+                                });
+                            }
+                            else {
+                                cb(null, '0400');
+                            }
+                        }
+                    );
+                });
+
+                async.parallel(la_updateFunc, function (err, results) {
+                    callback(null, '0400');
+                });
+
+            }
+        ], function (err, result) {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(params);
+            }
+
+        });
     });
 }
 
-//組合DT 新增修改執行資料
-function combineDtCreateEditExecData(rfData, params, tmpIdTyp, session) {
+/**
+ * 組合DT 新增修改執行資料
+ * @param rfData {object} TemplateRf資料
+ * @param params {object} 相關參數資料
+ * @param tmpIdType {object} 版型、儲存table相關資訊
+ * @param session
+ * @returns {*}
+ */
+async function combineDtCreateEditExecData(rfData, params, tmpIdTyp, session) {
     //多語系欄位
     let la_dtMultiLangFields = _.filter(tmpIdTyp.dgFieldsData, function (field) {
         return field.multi_lang_table != "";
@@ -634,139 +628,151 @@ function combineDtCreateEditExecData(rfData, params, tmpIdTyp, session) {
         });
 
         //dt 編輯
+        let la_dtUpdateData = [];
         _.each(params.dtUpdateData, function (data, index) {
-            let ln_tab_page_id = _.isUndefined(data.tab_page_id) ? 1 : data.tab_page_id;
-            let ls_dgTableName = _.findWhere(rfData, {
-                tab_page_id: Number(ln_tab_page_id),
-                template_id: "datagrid"
-            }).table_name;
-            let lo_fieldsData = qryFieldsDataByTabPageID(data, tmpIdTyp);
-            let tmpEdit = {"function": "2", "table_name": ls_dgTableName, "kindOfRel": "dt"}; //2  編輯
-            let mnRowData = data["mnRowData"] || {};
-            delete data["mnRowData"];
+            la_dtUpdateData.push(
+                function (callback) {
+                    let ln_tab_page_id = _.isUndefined(data.tab_page_id) ? 1 : data.tab_page_id;
+                    let ls_dgTableName = _.findWhere(rfData, {
+                        tab_page_id: Number(ln_tab_page_id),
+                        template_id: "datagrid"
+                    }).table_name;
+                    let lo_fieldsData = qryFieldsDataByTabPageID(data, tmpIdTyp);
+                    let tmpEdit = {"function": "2", "table_name": ls_dgTableName, "kindOfRel": "dt"}; //2  編輯
+                    let mnRowData = data["mnRowData"] || {};
+                    delete data["mnRowData"];
 
-            _.each(Object.keys(data), function (objKey) {
-                let objValue = data[objKey];
-                if (!_.isUndefined(data[objKey]) && typeof objValue === "string") {
-                    tmpEdit[objKey] = objValue.trim();
-                }
-                tmpEdit[objKey] = objValue;
-            });
-
-            //塞入mn pk
-            _.each(lo_fieldsData.mainKeyFields, function (keyField) {
-                if (!_.isUndefined(mnRowData[keyField.ui_field_name])) {
-                    tmpEdit[keyField.ui_field_name] = mnRowData[keyField.ui_field_name].trim();
-                }
-            });
-
-            let lo_default = commonRule.getEditDefaultDataRule(session);
-            if (!_.isUndefined(data.hotel_cod) && data.hotel_cod.trim() != "") {
-                delete lo_default["hotel_cod"];
-            }
-            data = _.extend(data, lo_default);
-            tmpEdit = _.extend(tmpEdit, lo_default);
-            params.dtOriData[index] = _.extend(params.dtOriData[index], lo_default);
-
-            tmpEdit.condition = [];
-            //組合where 條件
-            _.each(lo_fieldsData.dgKeyFields, function (keyField) {
-                if (!_.isUndefined(params.dtOriData[index][keyField.ui_field_name])) {
-                    tmpEdit.condition.push({
-                        key: keyField.ui_field_name,
-                        operation: "=",
-                        value: params.dtOriData[index][keyField.ui_field_name]
+                    _.each(Object.keys(data), function (objKey) {
+                        let objValue = data[objKey];
+                        if (!_.isUndefined(data[objKey]) && typeof objValue === "string") {
+                            tmpEdit[objKey] = objValue.trim();
+                        }
+                        tmpEdit[objKey] = objValue;
                     });
-                }
-            });
-            params.saveExecDatas[params.exec_seq] = tmpEdit;
-            params.exec_seq++;
 
-            /** 處理每一筆多語系 handleSaveMultiLang **/
-            if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
-                let langProcessFunc = [];
-                _.each(data.multiLang, function (lo_lang) {
-                    let ls_locale = lo_lang.locale || "";
-                    langProcessFunc.push(
-                        function (cb) {
-                            let chkFuncs = [];
-                            _.each(lo_lang, function (langVal, fieldName) {
-                                if (fieldName != "locale" && fieldName != "display_locale" && !_.isEmpty(langVal)) {
-                                    chkFuncs.push(
-                                        function (callback) {
-                                            let langTable = _.findWhere(la_dtMultiLangFields, {ui_field_name: fieldName}).multi_lang_table;
-                                            let lo_langTmp = {
-                                                table_name: langTable,
-                                                words: langVal
-                                            };
-                                            let lo_condition = [
-                                                {
-                                                    key: "locale",
-                                                    operation: "=",
-                                                    value: ls_locale
-                                                },
-                                                {
-                                                    key: "field_name",
-                                                    operation: "=",
-                                                    value: fieldName
-                                                }
-                                            ];
-                                            let lo_keysData = {};
-                                            _.each(_.pluck(lo_fieldsData.dgKeyFields, "ui_field_name"), function (keyField) {
-                                                if (!_.isUndefined(tmpEdit[keyField])) {
-                                                    lo_condition.push({
-                                                        key: keyField,
-                                                        operation: "=",
-                                                        value: data[keyField]
-                                                    });
-                                                    lo_keysData[keyField] = typeof tmpEdit[keyField] === "string"
-                                                        ? data[keyField].trim() : tmpEdit[keyField];
+                    //塞入mn pk
+                    _.each(lo_fieldsData.mainKeyFields, function (keyField) {
+                        if (!_.isUndefined(mnRowData[keyField.ui_field_name])) {
+                            tmpEdit[keyField.ui_field_name] = mnRowData[keyField.ui_field_name].trim();
+                        }
+                    });
 
-                                                }
-                                            });
+                    let lo_default = commonRule.getEditDefaultDataRule(session);
+                    if (!_.isUndefined(data.hotel_cod) && data.hotel_cod.trim() != "") {
+                        delete lo_default["hotel_cod"];
+                    }
+                    data = _.extend(data, lo_default);
+                    tmpEdit = _.extend(tmpEdit, lo_default);
+                    params.dtOriData[index] = _.extend(params.dtOriData[index], lo_default);
 
-
-                                            //檢查key + field 是否在langTable 有資料, 有的話更新, 沒有則新增
-                                            langSvc.handleMultiLangContentByKey(langTable, ls_locale, lo_keysData, fieldName, function (err, rows) {
-                                                if (rows.length > 0) {
-                                                    lo_langTmp["function"] = "2";  //編輯
-                                                    lo_langTmp["condition"] = lo_condition; //放入條件
-                                                } else {
-                                                    lo_langTmp["function"] = "1";  //新增;
-                                                    lo_langTmp["locale"] = ls_locale;  //
-                                                    lo_langTmp["field_name"] = fieldName;  //
-                                                    lo_langTmp = _.extend(lo_langTmp, lo_keysData);
-                                                }
-
-                                                params.saveExecDatas[params.exec_seq] = lo_langTmp;
-                                                params.exec_seq++;
-
-                                                callback(null, rows);
-
-                                            });
-                                        }
-                                    );
-                                }
-                            });
-                            async.parallel(chkFuncs, function (err, results) {
-                                cb(null, results);
+                    tmpEdit.condition = [];
+                    //組合where 條件
+                    _.each(lo_fieldsData.dgKeyFields, function (keyField) {
+                        if (!_.isUndefined(params.dtOriData[index][keyField.ui_field_name])) {
+                            tmpEdit.condition.push({
+                                key: keyField.ui_field_name,
+                                operation: "=",
+                                value: params.dtOriData[index][keyField.ui_field_name]
                             });
                         }
-                    );
+                    });
+                    params.saveExecDatas[params.exec_seq] = tmpEdit;
+                    params.exec_seq++;
 
-                });
+                    /** 處理每一筆多語系 handleSaveMultiLang **/
+                    if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
+                        let langProcessFunc = [];
+                        _.each(data.multiLang, function (lo_lang) {
+                            let ls_locale = lo_lang.locale || "";
+                            langProcessFunc.push(
+                                function (cb) {
+                                    let chkFuncs = [];
+                                    _.each(lo_lang, function (langVal, fieldName) {
+                                        if (fieldName != "locale" && fieldName != "display_locale" && !_.isEmpty(langVal)) {
+                                            chkFuncs.push(
+                                                function (callback) {
+                                                    let langTable = _.findWhere(la_dtMultiLangFields, {ui_field_name: fieldName}).multi_lang_table;
+                                                    let lo_langTmp = {
+                                                        table_name: langTable,
+                                                        words: langVal
+                                                    };
+                                                    let lo_condition = [
+                                                        {
+                                                            key: "locale",
+                                                            operation: "=",
+                                                            value: ls_locale
+                                                        },
+                                                        {
+                                                            key: "field_name",
+                                                            operation: "=",
+                                                            value: fieldName
+                                                        }
+                                                    ];
+                                                    let lo_keysData = {};
+                                                    _.each(_.pluck(lo_fieldsData.dgKeyFields, "ui_field_name"), function (keyField) {
+                                                        if (!_.isUndefined(tmpEdit[keyField])) {
+                                                            lo_condition.push({
+                                                                key: keyField,
+                                                                operation: "=",
+                                                                value: data[keyField]
+                                                            });
+                                                            lo_keysData[keyField] = typeof tmpEdit[keyField] === "string"
+                                                                ? data[keyField].trim() : tmpEdit[keyField];
 
-                async.parallel(langProcessFunc, function (err, results) {
-                    callback(null, '0400');
+                                                        }
+                                                    });
+
+
+                                                    //檢查key + field 是否在langTable 有資料, 有的話更新, 沒有則新增
+                                                    langSvc.handleMultiLangContentByKey(langTable, ls_locale, lo_keysData, fieldName, function (err, rows) {
+                                                        if (rows.length > 0) {
+                                                            lo_langTmp["function"] = "2";  //編輯
+                                                            lo_langTmp["condition"] = lo_condition; //放入條件
+                                                        } else {
+                                                            lo_langTmp["function"] = "1";  //新增;
+                                                            lo_langTmp["locale"] = ls_locale;  //
+                                                            lo_langTmp["field_name"] = fieldName;  //
+                                                            lo_langTmp = _.extend(lo_langTmp, lo_keysData);
+                                                        }
+
+                                                        params.saveExecDatas[params.exec_seq] = lo_langTmp;
+                                                        params.exec_seq++;
+
+                                                        callback(null, rows);
+
+                                                    });
+                                                }
+                                            );
+                                        }
+                                    });
+                                    async.parallel(chkFuncs, function (err, results) {
+                                        cb(null, results);
+                                    });
+                                }
+                            );
+
+                        });
+
+                        async.parallel(langProcessFunc, function (err, results) {
+                            callback(null, '0400');
+                        });
+                    }
+                    else {
+                        callback(null, '0400');
+                    }
                 });
-            }
-            else {
-                callback(null, go_saveExecDatas);
-            }
         });
 
         if (params.dtUpdateData.length == 0) {
             return params;
+        }
+        else{
+            return new Promise((resolve, reject) => {
+                async.parallel(la_dtUpdateData, function (err, result) {
+                    if(err) reject(err);
+                    else resolve(params);
+                });
+            });
         }
     }
     catch (err) {
@@ -775,10 +781,14 @@ function combineDtCreateEditExecData(rfData, params, tmpIdTyp, session) {
 
 }
 
-//依事件時間(event_time)調整儲存順序
-function sortByEventTime(data, callback) {
-    var lo_reformatExecDatas = {};
-    var lo_saveExecDatasSorted = _.sortBy(_.values(go_saveExecDatas), function (lo_saveExecData) {
+/**
+ * 依事件時間(event_time)調整儲存順序
+ * @param params {object} 相關參數資料
+ * @returns {*}
+ */
+function sortByEventTime(params) {
+    let lo_reformatExecDatas = {};
+    let lo_saveExecDatasSorted = _.sortBy(_.values(params.saveExecDatas), function (lo_saveExecData) {
         return moment(new Date(lo_saveExecData.event_time)).format("YYYY/MM/DD HH:mm:ss");
     });
 
@@ -786,28 +796,39 @@ function sortByEventTime(data, callback) {
         index++;
         lo_reformatExecDatas[index] = lo_data;
     });
-
-    callback(null, lo_reformatExecDatas);
+    params.saveExecDatas = JSON.parse(JSON.stringify(lo_reformatExecDatas));
+    return params;
 }
 
-//轉換為API格式
-function convertToApiFormat(lo_saveExecDatasSorted, callback) {
-    var apiParams = {
-        "REVE-CODE": go_postData.trans_cod,
-        "program_id": go_postData.prg_id,
-        "func_id": go_postData.func_id || "",
-        "athena_id": go_session.user.athena_id,
-        "hotel_cod": go_session.user.hotel_cod,
-        "user": go_session.user.usr_id,
-        "table_name": gs_mainTableName,
-        "count": Object.keys(lo_saveExecDatasSorted).length,
-        "exec_data": lo_saveExecDatasSorted
+/**
+ * 轉換為API格式
+ * @param params {object} 相關參數資料
+ * @param tmpIdType {object} 版型、儲存table相關資訊
+ * @param session
+ * @returns {{"REVE-CODE": string|*|string, program_id: string|string, func_id: string, athena_id: number, hotel_cod: string, user: *|string|usr_id|{type, trim, required}, table_name: *|string|string|string|string|string, count: number, exec_data: any | *}}
+ */
+function convertToApiFormat(params, tmpIdType, session) {
+    let lo_apiParams = {
+        "REVE-CODE": params.trans_cod,
+        "program_id": params.prg_id,
+        "func_id": params.func_id || "",
+        "athena_id": session.user.athena_id,
+        "hotel_cod": session.user.hotel_cod,
+        "user": session.user.usr_id,
+        "table_name": tmpIdType.mainTableName,
+        "count": Object.keys(params.saveExecDatas).length,
+        "exec_data": params.saveExecDatas
     };
-    callback(null, apiParams);
+    return lo_apiParams;
 }
 
 //region //func area
-//將儲存或修改的欄位格式做轉換
+/**
+ * 將儲存或修改的欄位格式做轉換
+ * @param value
+ * @param ui_type
+ * @returns {*}
+ */
 function changeValueFormat4Save(value, ui_type) {
     let valueTemp;
 
@@ -835,9 +856,16 @@ function changeValueFormat4Save(value, ui_type) {
     return valueTemp;
 }
 
-//組要刪除的dt資料
-function combineDelDetailData(dtTableName, la_dtkeyFields, mnData) {
-    var ls_event_time = moment(new Date(mnData.event_time)).subtract("1", "seconds").format("YYYY/MM/DD HH:mm:ss");
+/**
+ * 組要刪除的dt資料
+ * @param dtTableName
+ * @param la_dtkeyFields
+ * @param params
+ * @param mnData
+ * @returns {*}
+ */
+function combineDelDetailData(dtTableName, la_dtkeyFields, params, mnData) {
+    let ls_event_time = moment(new Date(mnData.event_time)).subtract("1", "seconds").format("YYYY/MM/DD HH:mm:ss");
     let tmpDel = {"function": "0", "table_name": dtTableName, "kindOfRel": "dt", event_time: ls_event_time}; //0 代表刪除
     tmpDel.condition = [];
 
@@ -852,12 +880,19 @@ function combineDelDetailData(dtTableName, la_dtkeyFields, mnData) {
         }
 
     });
-    go_saveExecDatas[gn_exec_seq] = tmpDel;
-    gn_exec_seq++;
+    params.saveExecDatas[params.exec_seq] = tmpDel;
+    params.exec_seq++;
+    return params;
 }
 
 //endregion
 
+/**
+ * 由tab_page_id找欄位及欄位為keyable
+ * @param data {object} 新刪修資料
+ * @param tmpIdType {object} 版型、儲存table相關資訊
+ * @returns {{mainFieldsData, mainKeyFields, dgFieldsData, dgKeyFields}}
+ */
 function qryFieldsDataByTabPageID(data, tmpIdType) {
     let ln_tab_page_id = Number(data.tab_page_id) || 1;
     let la_mainFieldsData = _.where(tmpIdType.mainFieldsData, {tab_page_id: ln_tab_page_id}) || tmpIdType.mainFieldsData;
