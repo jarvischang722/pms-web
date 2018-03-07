@@ -595,12 +595,12 @@ exports.callSaveAPI = function (params, session, callback) {
  * @param session
  * @param callback
  */
-exports.callAPI = function (params, session, callback) {
+exports.callAPI = function (params, req, callback) {
     let apiParams = {
         "REVE-CODE": params.REVE_CODE,
-        "comp_cod": session.req.cookies.login_comp_id,
+        "comp_cod": req.cookies.login_comp_id,
         "program_id": params.prg_id,
-        "user": session.req.cookies.login_username,
+        "user": req.cookies.login_username,
         "table_name": 'psi_quote_mn',
         "count": 1,
         "ip": params.ip,

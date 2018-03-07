@@ -109,7 +109,7 @@ exports.callSaveAPI = function (req, res) {
 exports.callAPI = function (req, res) {
     let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     req.body.ip = ip.substr(ip.lastIndexOf(':') + 1);
-    PSIWService.callAPI(req.body, req.session, function (errorMsg, success) {
+    PSIWService.callAPI(req.body, req, function (errorMsg, success) {
         res.json({success: success, errorMsg: errorMsg});
     });
 };
