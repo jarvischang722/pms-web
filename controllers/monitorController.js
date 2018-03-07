@@ -141,5 +141,8 @@ exports.checkServerSta = function (req, res) {
     }
 
 
-}
-;
+};
+
+exports.checkSysAlive = function (req, res) {
+    res.send("success");
+};
