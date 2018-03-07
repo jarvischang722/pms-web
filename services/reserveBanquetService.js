@@ -277,9 +277,9 @@ class ResvBanquetData {
             let lo_groupDataByRowId = _.groupBy(la_newOrderData, "rowId");
             la_newOrderData = [];
             if (Object.keys(lo_groupDataByRowId).length > 0) {
-                _.each(lo_groupDataByRowId, function(la_eachGroupData){
+                _.each(lo_groupDataByRowId, function (la_eachGroupData) {
                     la_eachGroupData = _.sortBy(la_eachGroupData, "begin_tim");
-                    _.each(la_eachGroupData, function(lo_eachData){
+                    _.each(la_eachGroupData, function (lo_eachData) {
                         la_newOrderData.push(lo_eachData);
                     });
                 });

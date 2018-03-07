@@ -182,7 +182,8 @@ let singlePage = Vue.extend({
                     this.singleData.desk_qnt = this.dataGridRows[0].desk_qnt;
                     this.singleData.pmdesk_qnt = this.dataGridRows[0].desk_qnt;
                 }
-                catch (ex) {}
+                catch (ex) {
+                }
 
             },
             deep: true
@@ -548,7 +549,7 @@ let singlePage = Vue.extend({
                     if (value.ui_type == "select") {
                         self.selectOption[value.ui_field_name] = value.selectData;
                     }
-                    if(value.ui_type == "selectgrid"){
+                    if (value.ui_type == "selectgrid") {
                         self.selectgridOptions[value.ui_field_name] = value.selectGridOptions;
                         self.selectgridOptions[value.ui_field_name].selectData = value.selectData;
                     }
@@ -1828,10 +1829,12 @@ function isObjectValueEqual(a, b) {
 }
 
 function padLeft(str, lenght) {
-    if (str.length >= lenght)
-        {return str;}
-    else
-        {return padLeft("0" + str, lenght);}
+    if (str.length >= lenght) {
+        return str;
+    }
+    else {
+        return padLeft("0" + str, lenght);
+    }
 }
 
 $('.easyUi-custom1').tabs({});
