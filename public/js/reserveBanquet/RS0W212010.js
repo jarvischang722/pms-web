@@ -72,6 +72,8 @@ let singlePage = Vue.extend({
             vmHub.$emit("UnReadonly");
 
             if (PostData.bquet_nos != "") {
+                self.isFirstChangeAltNam = true;
+                self.isFirstChangeAttenNam = true;
                 self.doRowLock(PostData.bquet_nos);
                 self.createStatus = false;
                 self.isModificable = false;
@@ -312,8 +314,8 @@ let singlePage = Vue.extend({
 
             isShowReserve: true,
 
-            isFirstChangeAltNam: true,
-            isFirstChangeAttenNam: true,
+            isFirstChangeAltNam: false,
+            isFirstChangeAttenNam: false,
 
             dgIns: {},
             dtFieldData: [],

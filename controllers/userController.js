@@ -148,6 +148,7 @@ exports.authLogin = function (req, res) {
             req.session.athena_id = userInfo.athena_id;
             req.cookies.athena_id = userInfo.athena_id;
             req.cookies.comp_cod = userInfo.cmp_id.trim();
+            res.cookie("login_username", userInfo.usr_id, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
         }
 
         res.json({
