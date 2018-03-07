@@ -197,9 +197,6 @@ let PSIW510030 = new Vue({
         this.fetchUserInfo();
 
     },
-    components: {
-        "search-comp": go_searchComp
-    },
     data: {
         userid: "", //員工編號
 
@@ -255,7 +252,7 @@ let PSIW510030 = new Vue({
         }, {value: 'S', display: 'S:結清'}, {value: 'H', display: 'H:保留'}, {value: 'X', display: 'X:出貨完畢'}], //狀態下拉
 
         searchFields: [], //搜尋的欄位
-        searchCond: {}, //搜尋條件
+        searchCond: {atten_nam: "", cust_cod: "", format_sta: "", order_dat: "", order_nos: "", order_sta: ""}, //搜尋條件
 
         //空白表單下載用
         allOrderSelectData: [], //全部訂單格式下拉
@@ -492,7 +489,7 @@ let PSIW510030 = new Vue({
                         },
                         {
                             ui_field_name: "cust_cod",
-                            ui_type: "select",
+                            ui_type: "multiselect",
                             row_seq: 1,
                             col_seq: 1,
                             width: 200,
@@ -501,7 +498,7 @@ let PSIW510030 = new Vue({
                         },
                         {
                             ui_field_name: "format_sta",
-                            ui_type: "select",
+                            ui_type: "multiselect",
                             row_seq: 1,
                             col_seq: 1,
                             width: 200,
@@ -518,7 +515,7 @@ let PSIW510030 = new Vue({
                         },
                         {
                             ui_field_name: "order_sta",
-                            ui_type: "select",
+                            ui_type: "multiselect",
                             row_seq: 1,
                             col_seq: 1,
                             width: 200,
