@@ -8,10 +8,10 @@ const saleAndInventoryCrtl = require("../controllers/saleAndInventoryController"
 const authMW = require("../middlewares/authMiddleware");
 const sysMW = require("../middlewares/systemMiddleware");
 const i18nMW = require("../middlewares/i18nMiddleware");
-const middles = [i18nMW,authMW,sysMW];
+const middles = [i18nMW, authMW, sysMW];
 
 /* GET  page. */
-module.exports = function(app) {
+module.exports = function (app) {
 
     //門市WEB訂單作業
     app.get('/psi/PSIW510030', middles, saleAndInventoryCrtl.getPSIW510030);

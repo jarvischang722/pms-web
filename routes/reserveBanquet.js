@@ -8,7 +8,7 @@ const sysMW = require("../middlewares/systemMiddleware");
 const i18nMW = require("../middlewares/i18nMiddleware");
 const middles = [i18nMW, authMW, sysMW];
 
-module.exports = function(app, passport){
+module.exports = function (app, passport) {
 
     //reserveBanquet格萊天漾訂席頁
     app.get("/rs/RS0W212010", middles, resvbanquetCtrl.getRS0W212010);
