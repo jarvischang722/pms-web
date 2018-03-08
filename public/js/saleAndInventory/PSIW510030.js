@@ -489,11 +489,27 @@ var PSIW510030 = new Vue({
                         },
                         {
                             ui_field_name: "cust_cod",
-                            ui_type: "multiselect",
+                            ui_type: "multiselectgrid",
                             row_seq: 1,
                             col_seq: 1,
                             width: 200,
-                            selectData: self.searchCustSelectData,
+                            selectData:{
+                                selectData: self.searchCustSelectData,
+                                columns: [
+                                    {
+                                        field: "show_cod",
+                                        title: "客戶代號",
+                                        width: 80
+                                    },
+                                    {
+                                        field: "cust_nam",
+                                        title: "客戶名稱",
+                                        width: 120
+                                    }
+                                ],
+                                display: "cust_nam",
+                                value: "cust_cod"
+                            },
                             ui_display_name: "客戶代號"
                         },
                         {
