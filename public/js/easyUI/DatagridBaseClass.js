@@ -80,6 +80,10 @@ function DatagridBaseClass() {
         $('#' + this.dgName).datagrid("loadData", dgData);
     };
 
+    this.clearSelection = function(){
+        $('#' + this.dgName).datagrid("clearSelections");
+    };
+
     /**
      * 按下一個Row
      * @param index
@@ -200,14 +204,14 @@ function DatagridBaseClass() {
         if (self.endEditing()) {
             //設定搜尋條件
             var lo_param = {};
-            if(this.dtOriRowData.length != 0){
+            if (this.dtOriRowData.length != 0) {
                 lo_param = {
                     prg_id: self.prg_id,
                     page_id: self.fieldsData[0].page_id,
                     tab_page_id: self.fieldsData[0].tab_page_id
                 };
             }
-            else{
+            else {
                 lo_param = {
                     prg_id: self.prg_id
                 };
@@ -261,14 +265,14 @@ function DatagridBaseClass() {
         $("#gridEdit").val(self.tmpCUD);
 
         var lo_param = {};
-        if(this.dtOriRowData.length != 0){
+        if (this.dtOriRowData.length != 0) {
             lo_param = {
                 prg_id: self.prg_id,
                 tab_page_id: self.fieldsData[0].tab_page_id,
                 deleteData: self.tmpCUD.deleteData
             };
         }
-        else{
+        else {
             lo_param = {
                 prg_id: self.prg_id,
                 deleteData: self.tmpCUD.deleteData
