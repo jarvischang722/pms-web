@@ -3190,23 +3190,29 @@ ul.newVisitOther-btn {
   color: #7b3ec3;
 }
 .foCounter .counterPage .counterRow .counterBlock .content {
+  position: relative;
+  top: 20px;
+}
+.foCounter .counterPage .counterRow .counterBlock .content .left {
   position: absolute;
-  top: 25px;
-  left: 5px;
+}
+.foCounter .counterPage .counterRow .counterBlock .content .right {
+  position: absolute;
+  right: 0;
 }
 .foCounter .counterPage .counterRow .counterBlock .content-sub .left {
   position: absolute;
-  top: 45px;
+  top: 40px;
   left: 5px;
 }
 .foCounter .counterPage .counterRow .counterBlock .content-ico {
   position: absolute;
-  top: 61px;
+  top: 60px;
 }
 .foCounter .counterPage .counterRow .counterBlock .content-ico .foCnt_icon {
-  width: 12px;
-  height: 12px;
-  margin: 4px 1px auto 1px;
+  width: 14px;
+  height: 14px;
+  margin: 2px 3px auto 1px;
 }
 .foCounter .counterPage .counterRow .counterBlock .foot {
   position: absolute;

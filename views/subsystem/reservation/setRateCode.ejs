@@ -376,7 +376,7 @@
                                                             <table class="css_table horizTable width-100">
                                                                 <thead class="css_thead">
                                                                     <tr class="css_tr">
-                                                                        <th class="css_th width-3">
+                                                                        <th class="css_th width-5">
                                                                             <i class="fa fa-plus green pointer"></i>
                                                                         </th>
                                                                         <th class="css_th width-20">服務項目</th>
@@ -1460,7 +1460,7 @@
                                 </template>
                             </div>
 
-                            <div id="addPpl-detail" class="roomCodeDetail pull-left width-85">
+                            <div id="addPpl-detail" class="roomCodeDetail  pull-left width-85">
                                 <template>
                                     <div>
                                         <v-table
@@ -1485,7 +1485,7 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_rmPriceTotal"
                                                 role="button">房價總額
                                         </button>
                                     </li>
@@ -1497,209 +1497,724 @@
             </div>
         </div>
         <!-- /.rateCode_addPpl 彈出視窗 -->
+    </div>
+    <!-- rateCode_rmPriceTotal 彈出視窗 -->
+    <div id="rateCode_rmPriceTotal-page" class="hide padding-5" style="top: 100px;">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div id="rmPriceTotal" class="roomCodeDetail ">
+                        <template>
+                            <div>
+                                <v-table
+                                        is-horizontal-resize
+                                        style="width: 100%;"
+                                        :height="150"
+                                        :columns="columns"
+                                        :table-data="tableData"
+                                        :column-cell-class-name="columnCellClass"
+                                        row-hover-color="#eee"
+                                        row-click-color="#edf7ff">
+                                </v-table>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.rateCode_rmPriceTotal 彈出視窗 -->
+    </div>
+    <!-- rateCode_duplicate 彈出視窗 -->
+    <div id="rateCode_duplicate-page" class="hide padding-5" style="">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <div class="pull-left lineHt24">從&nbsp;房價代號&nbsp;</div>
+                                    <div class="pull-left">
+                                        <select class="selectHt" style="width: 60px;">
+                                            <option value="1">RACK</option>
+                                            <option value="2">SD</option>
+                                            <option value="3">LW</option>
+                                        </select>
+                                    </div>
 
-        <!-- rateCode_duplicate 彈出視窗 -->
-        <div id="rateCode_duplicate-page" class="hide padding-5" style="">
-            <div class="businessCompanyData">
-                <div class="col-xs-12 col-sm-12">
-                    <div class="row">
-                        <div class="col-xs-11 col-sm-11">
-                            <div class="row no-margin-right">
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <div class="pull-left lineHt24">從&nbsp;房價代號&nbsp;</div>
-                                        <div class="pull-left">
-                                            <select class="selectHt" style="width: 60px;">
-                                                <option value="1">RACK</option>
-                                                <option value="2">SD</option>
-                                                <option value="3">LW</option>
-                                            </select>
+                                    <div class="pull-left lineHt24">&nbsp;房型&nbsp;</div>
+                                    <div class="pull-left">
+                                        <select class="selectHt" style="width: 60px;">
+                                            <option value="1">DXK</option>
+                                            <option value="2">SD</option>
+                                            <option value="3">LW</option>
+                                        </select>
+                                    </div>
+                                    <div class="pull-left lineHt24">&nbsp;複製到房型&nbsp;</div>
+
+                                    <div class="editVueTpl pull-left" id="choiceRmtype">
+                                        <template>
+                                            <el-select v-model="value5" multiple placeholder="請選擇">
+                                                <el-option v-for="item in options" :key="item.value"
+                                                           :label="item.label"
+                                                           :value="item.value">
+                                                </el-option>
+                                            </el-select>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+
+                            <div class="horizTable-outer">
+                                <table class="css_table horizTable width-100">
+                                    <thead class="css_thead">
+                                        <tr class="css_tr">
+                                            <th class="css_th width-5">
+                                                <i class="fa fa-plus green pointer"></i>
+                                            </th>
+                                            <th class="css_th width-20">服務項目</th>
+                                            <th class="css_th width-10">單價</th>
+                                            <th class="css_th width-15">計算規則</th>
+                                            <th class="css_th width-15">服務方式</th>
+                                            <th class="css_th width-10">服務規則</th>
+                                            <th class="css_th width-10">收費方式</th>
+                                            <th class="css_th width-20">併入方式</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="css_tbody">
+                                        <tr class="css_tr">
+                                            <td class="css_td">
+                                                <i class="fa fa-minus red pointer"></i>
+                                            </td>
+                                            <td class="css_td">201A-早餐</td>
+                                            <td class="css_td text-right">200</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">依大人數</option>
+                                                    <option value="2">依小孩數</option>
+                                                    <option value="3">依房間</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">D:每天</option>
+                                                    <option value="2">F:第一天</option>
+                                                    <option value="3">C:自訂規則</option>
+                                                    <option value="4">L:最後一天</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">旺日</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="inside">I:內拆</option>
+                                                    <option value="outside">Q:外加</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="addRent">1:加入至房租</option>
+                                                    <option value="addTip">2:加入至服務費</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">
+                                                <i class="fa fa-minus red pointer"></i>
+                                            </td>
+                                            <td class="css_td">218A-迎賓飲料</td>
+                                            <td class="css_td text-right">100</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">依大人數</option>
+                                                    <option value="2">依小孩數</option>
+                                                    <option value="3">依房間</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">D:每天</option>
+                                                    <option value="2">F:第一天</option>
+                                                    <option value="3">C:自訂規則</option>
+                                                    <option value="4">L:最後一天</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">平日</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="outside">Q:外加</option>
+                                                    <option value="inside">I:內拆</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="addRent">1:加入至房租</option>
+                                                    <option value="addTip">2:加入至服務費</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">
+                                                <i class="fa fa-minus red pointer"></i>
+                                            </td>
+                                            <td class="css_td">219A-水果</td>
+                                            <td class="css_td text-right">100</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">依大人數</option>
+                                                    <option value="2">依小孩數</option>
+                                                    <option value="3">依房間</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">D:每天</option>
+                                                    <option value="2">F:第一天</option>
+                                                    <option value="3">C:自訂規則</option>
+                                                    <option value="4">L:最後一天</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">平日</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="outside">Q:外加</option>
+                                                    <option value="inside">I:內拆</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="addRent">1:加入至房租</option>
+                                                    <option value="addTip">2:加入至服務費</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">
+                                                <i class="fa fa-minus red pointer"></i>
+                                            </td>
+                                            <td class="css_td">510C-門票</td>
+                                            <td class="css_td text-right">200</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">依大人數</option>
+                                                    <option value="2">依小孩數</option>
+                                                    <option value="3">依房間</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">D:每天</option>
+                                                    <option value="2">F:第一天</option>
+                                                    <option value="3">C:自訂規則</option>
+                                                    <option value="4">L:最後一天</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">平日</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="outside">Q:外加</option>
+                                                    <option value="inside">I:內拆</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="addRent">1:加入至房租</option>
+                                                    <option value="addTip">2:加入至服務費</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /. rateCode_duplicate 彈出視窗 -->
+
+    <!-- resv_rateListTable(房價一覽表) 彈出視窗 -->
+    <div id="resv_rateList-message" class="hide padding-5" style="top: 0 !important;">
+        <!--全頁日曆-->
+        <div class="resv-rateList-cal"></div>
+    </div>
+    <!-- /.resv_rateListTable(房價一覽表) 彈出視窗 -->
+
+    <!--TODO  顏色修改 ＆ 內容過長問題-->
+    <!-- 房價試算 (resv_priceTrial) 彈出視窗 -->
+    <div id="resv_priceTrial-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="main-content-data">
+                        <div class="search-content">
+                            <div class="search-co">
+                                <div class="search-co-h">
+                                    <i class="ace-icon fa fa-search search-icon"></i>
+                                    <span>Search</span>
+                                </div>
+                                <div class="search-co-content col-xs-12 rece-search-detail">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom"
+                                                         title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom"
+                                                         title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>日期</label>
+                                            <input type="date" class="input-medium rateCode-s1" placeholder=""/>
                                         </div>
-
-                                        <div class="pull-left lineHt24">&nbsp;房型&nbsp;</div>
-                                        <div class="pull-left">
-                                            <select class="selectHt" style="width: 60px;">
-                                                <option value="1">DXK</option>
-                                                <option value="2">SD</option>
-                                                <option value="3">LW</option>
-                                            </select>
+                                        <div class="grid-item">
+                                            <label>天數</label>
+                                            <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
                                         </div>
-                                        <div class="pull-left lineHt24">&nbsp;複製到房型&nbsp;</div>
-
-                                        <div class="editVueTpl pull-left" id="choiceRmtype">
-                                            <template>
-                                                <el-select v-model="value5" multiple placeholder="請選擇">
-                                                    <el-option v-for="item in options" :key="item.value"
-                                                               :label="item.label"
-                                                               :value="item.value">
-                                                    </el-option>
-                                                </el-select>
-                                            </template>
+                                        <div class="grid-item">
+                                            <label>房型</label>
+                                            <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
+                                        </div>
+                                    </div>
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>人數</label>
+                                            <input type="date" class="input-medium rateCode-s1" placeholder=""/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>加大人</label>
+                                            <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>加小孩</label>
+                                            <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="space-4"></div>
+                                <div class="clearfix"></div>
 
+                            </div> <!-- /.search-co -->
+                        </div> <!-- /.row  search-content-->
+                    </div><!--main-content-data-->
+                </div>
+                <div class="space-6"></div>
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="horizTable-outer">
+                        <table class="css_table horizTable">
+                            <thead class="css_thead">
+                                <tr class="css_tr">
+                                    <th class="css_th" style="min-width:80px;">日期</th>
+                                    <th class="css_th" style="min-width:80px;">小分類</th>
+                                    <th class="css_th" style="min-width:120px;">項目</th>
+                                    <th class="css_th" style="min-width:100px;">單價</th>
+                                    <th class="css_th" style="min-width:100px;">數量</th>
+                                    <th class="css_th" style="min-width:100px;">小計</th>
+                                    <th class="css_th" style="min-width:100px;">服務日期</th>
+                                    <th class="css_th" style="min-width:100px;">廳別</th>
+                                    <th class="css_th" style="min-width:80px;">服務方式</th>
+                                    <th class="css_th" style="min-width:80px;">收費方式</th>
+                                </tr>
+                            </thead>
+                            <tbody class="css_tbody">
+                                <tr class="css_tr">
+                                    <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">PKG:Package</td>
+                                    <td class="css_td">p022:2016歡樂一夏逍遙遊</td>
+                                    <td class="css_td text-right">3,520</td>
+                                    <td class="css_td text-right">1</td>
+                                    <td class="css_td text-right">3,520</td>
+                                    <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">F02:客務櫃檯</td>
+                                    <td class="css_td">D:每天</td>
+                                    <td class="css_td">C:信用卡</td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">PKG:Package</td>
+                                    <td class="css_td">p022:2017日本遊</td>
+                                    <td class="css_td text-right">3,520</td>
+                                    <td class="css_td text-right">1</td>
+                                    <td class="css_td text-right">3,520</td>
+                                    <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">F02:客務櫃檯</td>
+                                    <td class="css_td">D:每天</td>
+                                    <td class="css_td">C:信用卡</td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">PKG:Package</td>
+                                    <td class="css_td">p022:2017捷克遊</td>
+                                    <td class="css_td text-right">3,520</td>
+                                    <td class="css_td text-right">1</td>
+                                    <td class="css_td text-right">3,520</td>
+                                    <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">F02:客務櫃檯</td>
+                                    <td class="css_td">D:每天</td>
+                                    <td class="css_td">C:信用卡</td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td bgLGreen">Tuesday</td>
+                                    <td class="css_td bgLGreen">06/06</td>
+                                    <td class="css_td text-right bgLGreen">3,920</td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">PKG:Package</td>
+                                    <td class="css_td">p022:2016歡樂一夏逍遙遊</td>
+                                    <td class="css_td text-right">3,520</td>
+                                    <td class="css_td text-right">1</td>
+                                    <td class="css_td text-right">3,520</td>
+                                    <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">F02:客務櫃檯</td>
+                                    <td class="css_td">D:每天</td>
+                                    <td class="css_td">C:信用卡</td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">PKG:Package</td>
+                                    <td class="css_td">p022:2017日本遊</td>
+                                    <td class="css_td text-right">3,520</td>
+                                    <td class="css_td text-right">1</td>
+                                    <td class="css_td text-right">3,520</td>
+                                    <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">F02:客務櫃檯</td>
+                                    <td class="css_td">D:每天</td>
+                                    <td class="css_td">C:信用卡</td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">PKG:Package</td>
+                                    <td class="css_td">p022:2017捷克遊</td>
+                                    <td class="css_td text-right">3,520</td>
+                                    <td class="css_td text-right">1</td>
+                                    <td class="css_td text-right">3,520</td>
+                                    <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">F02:客務櫃檯</td>
+                                    <td class="css_td">D:每天</td>
+                                    <td class="css_td">C:信用卡</td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td bgLGreen">Wednesday</td>
+                                    <td class="css_td bgLGreen">06/06</td>
+                                    <td class="css_td text-right bgLGreen">400</td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td">房租總額：</td>
+                                    <td class="css_td text-right bgLGreen">4,320</td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td">佣金金額：</td>
+                                    <td class="css_td text-right"><b>90</b></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.房價試算 (resv_priceTrial) -->
+
+    <!-- rateCode_extraAdult 彈出視窗 -->
+    <div id="rateCode_extraAdult-page" class="hide padding-5" style="top: 0 !important;">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row no-marign-right">
+                    <div class="main-content-data">
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="row no-marign-right borderFrame" style="  padding: 5px;">
                                 <div class="horizTable-outer">
+
                                     <table class="css_table horizTable width-100">
                                         <thead class="css_thead">
                                             <tr class="css_tr">
-                                                <th class="css_th width-3">
-                                                    <i class="fa fa-plus green pointer"></i>
-                                                </th>
-                                                <th class="css_th width-20">服務項目</th>
-                                                <th class="css_th width-10">單價</th>
-                                                <th class="css_th width-15">計算規則</th>
-                                                <th class="css_th width-15">服務方式</th>
-                                                <th class="css_th width-10">服務規則</th>
-                                                <th class="css_th width-10">收費方式</th>
-                                                <th class="css_th width-20">併入方式</th>
+                                                <th class="css_th" style="min-width:40px;">房種代號</th>
+                                                <th class="css_th" style="min-width:60px;">房種名稱</th>
+                                                <th class="css_th" style="min-width:100px;">加人加價設定</th>
                                             </tr>
                                         </thead>
                                         <tbody class="css_tbody">
                                             <tr class="css_tr">
-                                                <td class="css_td">
-                                                    <i class="fa fa-minus red pointer"></i>
-                                                </td>
-                                                <td class="css_td">201A-早餐</td>
-                                                <td class="css_td text-right">200</td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="1">依大人數</option>
-                                                        <option value="2">依小孩數</option>
-                                                        <option value="3">依房間</option>
-                                                    </select>
-                                                </td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="1">D:每天</option>
-                                                        <option value="2">F:第一天</option>
-                                                        <option value="3">C:自訂規則</option>
-                                                        <option value="4">L:最後一天</option>
-                                                    </select>
-                                                </td>
-                                                <td class="css_td">旺日</td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="inside">I:內拆</option>
-                                                        <option value="outside">Q:外加</option>
-                                                    </select>
-                                                </td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="addRent">1:加入至房租</option>
-                                                        <option value="addTip">2:加入至服務費</option>
-                                                    </select>
-                                                </td>
+                                                <td class="css_td">DDT</td>
+                                                <td class="css_td">精緻客房</td>
+                                                <td class="css_td">有</td>
                                             </tr>
                                             <tr class="css_tr">
-                                                <td class="css_td">
-                                                    <i class="fa fa-minus red pointer"></i>
-                                                </td>
-                                                <td class="css_td">218A-迎賓飲料</td>
-                                                <td class="css_td text-right">100</td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="1">依大人數</option>
-                                                        <option value="2">依小孩數</option>
-                                                        <option value="3">依房間</option>
-                                                    </select>
-                                                </td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="1">D:每天</option>
-                                                        <option value="2">F:第一天</option>
-                                                        <option value="3">C:自訂規則</option>
-                                                        <option value="4">L:最後一天</option>
-                                                    </select>
-                                                </td>
-                                                <td class="css_td">平日</td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="outside">Q:外加</option>
-                                                        <option value="inside">I:內拆</option>
-                                                    </select>
-                                                </td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="addRent">1:加入至房租</option>
-                                                        <option value="addTip">2:加入至服務費</option>
-                                                    </select>
-                                                </td>
+                                                <td class="css_td">STD</td>
+                                                <td class="css_td">標準雙人房</td>
+                                                <td class="css_td">無</td>
                                             </tr>
                                             <tr class="css_tr">
-                                                <td class="css_td">
-                                                    <i class="fa fa-minus red pointer"></i>
-                                                </td>
-                                                <td class="css_td">219A-水果</td>
-                                                <td class="css_td text-right">100</td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="1">依大人數</option>
-                                                        <option value="2">依小孩數</option>
-                                                        <option value="3">依房間</option>
-                                                    </select>
-                                                </td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="1">D:每天</option>
-                                                        <option value="2">F:第一天</option>
-                                                        <option value="3">C:自訂規則</option>
-                                                        <option value="4">L:最後一天</option>
-                                                    </select>
-                                                </td>
-                                                <td class="css_td">平日</td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="outside">Q:外加</option>
-                                                        <option value="inside">I:內拆</option>
-                                                    </select>
-                                                </td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="addRent">1:加入至房租</option>
-                                                        <option value="addTip">2:加入至服務費</option>
-                                                    </select>
-                                                </td>
+                                                <td class="css_td">DXK</td>
+                                                <td class="css_td">豪華雙人房</td>
+                                                <td class="css_td">有</td>
                                             </tr>
                                             <tr class="css_tr">
-                                                <td class="css_td">
-                                                    <i class="fa fa-minus red pointer"></i>
-                                                </td>
-                                                <td class="css_td">510C-門票</td>
-                                                <td class="css_td text-right">200</td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="1">依大人數</option>
-                                                        <option value="2">依小孩數</option>
-                                                        <option value="3">依房間</option>
-                                                    </select>
-                                                </td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="1">D:每天</option>
-                                                        <option value="2">F:第一天</option>
-                                                        <option value="3">C:自訂規則</option>
-                                                        <option value="4">L:最後一天</option>
-                                                    </select>
-                                                </td>
-                                                <td class="css_td">平日</td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="outside">Q:外加</option>
-                                                        <option value="inside">I:內拆</option>
-                                                    </select>
-                                                </td>
-                                                <td class="css_td">
-                                                    <select class="selectHt">
-                                                        <option value="addRent">1:加入至房租</option>
-                                                        <option value="addTip">2:加入至服務費</option>
-                                                    </select>
-                                                </td>
+                                                <td class="css_td">DDT</td>
+                                                <td class="css_td">精緻客房</td>
+                                                <td class="css_td">有</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td">STD</td>
+                                                <td class="css_td">標準雙人房</td>
+                                                <td class="css_td">無</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td">DXK</td>
+                                                <td class="css_td">豪華雙人房</td>
+                                                <td class="css_td">有</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td">DDT</td>
+                                                <td class="css_td">精緻客房</td>
+                                                <td class="css_td">有</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td">STD</td>
+                                                <td class="css_td">標準雙人房</td>
+                                                <td class="css_td">無</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td">DXK</td>
+                                                <td class="css_td">豪華雙人房</td>
+                                                <td class="css_td">有</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td">DDT</td>
+                                                <td class="css_td">精緻客房</td>
+                                                <td class="css_td">有</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td">STD</td>
+                                                <td class="css_td">標準雙人房</td>
+                                                <td class="css_td">無</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td">DXK</td>
+                                                <td class="css_td">豪華雙人房</td>
+                                                <td class="css_td">有</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td">DDT</td>
+                                                <td class="css_td">精緻客房</td>
+                                                <td class="css_td">有</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td">STD</td>
+                                                <td class="css_td">標準雙人房</td>
+                                                <td class="css_td">無</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td">DXK</td>
+                                                <td class="css_td">豪華雙人房</td>
+                                                <td class="css_td">有</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="row borderFrame" style=" padding: 5px;">
+                                <div class="right-menu-co">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">新增設定
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                    role="button">
+
+                                                設定
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">複製設定
+                                            </button>
+                                        </li>
+                                        <!--<li>-->
+                                        <!--<button class="btn btn-primary btn-white btn-defaultWidth div_shadow"-->
+                                        <!--role="button">STD</button>-->
+                                        <!--</li>-->
+                                        <li>
+                                            <div class="div_shadow">STD</div>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">貼上設定
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-7 col-sm-7">
+                            <div class="horizTable-outer">
+                                <table class="css_table horizTable width-100">
+                                    <thead class="css_thead">
+                                        <tr class="css_tr">
+                                            <th class="css_th" style="min-width:60px;">加價名稱</th>
+                                            <th class="css_th" style="min-width:100px;">房租消費代號</th>
+                                            <th class="css_th" style="min-width:100px;">每人房租加價金額</th>
+                                            <th class="css_th" style="min-width:60px;">是否有子帳</th>
+                                            <th class="css_th" style="min-width:100px;">服務費代號</th>
+                                            <th class="css_th" style="min-width:100px;">服務費金額</th>
+                                            <th class="css_th" style="min-width:100px;">新增日</th>
+                                            <th class="css_th" style="min-width:100px;">新增者</th>
+                                            <th class="css_th" style="min-width:100px;">最後異動日</th>
+                                            <th class="css_th" style="min-width:100px;">最後異動者</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="css_tbody">
+                                        <tr class="css_tr">
+                                            <td class="css_td">Adult</td>
+                                            <td class="css_td">1011:加人加價-大人</td>
+                                            <td class="css_td text-right">2000</td>
+                                            <td class="css_td"><input type="checkbox" checked/></td>
+                                            <td class="css_td">1002:房租服務費</td>
+                                            <td class="css_td text-right">200</td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">Child</td>
+                                            <td class="css_td">1013:加人加價-小孩</td>
+                                            <td class="css_td text-right">1500</td>
+                                            <td class="css_td"><input type="checkbox" checked/></td>
+                                            <td class="css_td">1002:房租服務費</td>
+                                            <td class="css_td text-right">150</td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">Baby</td>
+                                            <td class="css_td">1015:加人加價-嬰兒</td>
+                                            <td class="css_td text-right">600</td>
+                                            <td class="css_td"><input type="checkbox"/></td>
+                                            <td class="css_td">1002:房租服務費</td>
+                                            <td class="css_td text-right">60</td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="horizTable-outer">
+                                <table class="css_table horizTable width-100">
+                                    <thead class="css_thead">
+                                        <tr class="css_tr">
+                                            <th class="css_th" style="min-width:40px;">序號</th>
+                                            <th class="css_th" style="min-width:100px;">子帳消費代號</th>
+                                            <th class="css_th" style="min-width:100px;">每人加價金額</th>
+                                            <th class="css_th" style="min-width:100px;">收費方式</th>
+                                            <th class="css_th" style="min-width:100px;">新增日</th>
+                                            <th class="css_th" style="min-width:100px;">新增者</th>
+                                            <th class="css_th" style="min-width:100px;">最後異動日</th>
+                                            <th class="css_th" style="min-width:100px;">最後異動者</th>
+                                            <th class="css_th" style="min-width:100px;">基準房價</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="css_tbody">
+                                        <tr class="css_tr">
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">1011:加人加價-大人</td>
+                                            <td class="css_td text-right">1550</td>
+                                            <td class="css_td">加價</td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td">是</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">2017:早餐-大人</td>
+                                            <td class="css_td text-right">450</td>
+                                            <td class="css_td">內拆</td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
@@ -1709,624 +2224,135 @@
                                     <ul>
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                    role="button">確定
+                                                    role="button">Save
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:137px;">
+                                <div class="right-menu-co">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">新增明細
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                    role="button">刪除明細
                                             </button>
                                         </li>
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                    role="button">取消
+                                                    role="button">離開
                                             </button>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="clearfix"></div>
+
+                    </div><!--main-content-data-->
+
+                    <div class="main-content-data">
+                        <div class="col-xs-offset-4 col-sm-offset-4 col-xs-7 col-sm-7">
+
+                        </div>
+
+                        <div class="col-xs-1 col-sm-1">
+                        </div>
+                    </div><!--main-content-data-->
                 </div>
+
+                <div class="clearfix"></div>
+
             </div>
-            <div class="clearfix"></div>
         </div>
-        <!-- /. rateCode_duplicate 彈出視窗 -->
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.rateCode_extraAdult 彈出視窗 -->
 
-        <!-- resv_rateListTable(房價一覽表) 彈出視窗 -->
-        <div id="resv_rateList-message" class="hide padding-5" style="top: 0 !important;">
-            <!--全頁日曆-->
-            <div class="resv-rateList-cal"></div>
-        </div>
-        <!-- /.resv_rateListTable(房價一覽表) 彈出視窗 -->
-
-        <!--TODO  顏色修改 ＆ 內容過長問題-->
-        <!-- 房價試算 (resv_priceTrial) 彈出視窗 -->
-        <div id="resv_priceTrial-message" class="hide padding-5">
-            <div class="businessCompanyData">
-                <div class="col-xs-12 col-sm-12">
-                    <div class="row">
-                        <div class="main-content-data">
-                            <div class="search-content">
-                                <div class="search-co">
-                                    <div class="search-co-h">
-                                        <i class="ace-icon fa fa-search search-icon"></i>
-                                        <span>Search</span>
-                                    </div>
-                                    <div class="search-co-content col-xs-12 rece-search-detail">
-                                        <div class="row search-footer-btn">
-                                            <div class="footer-btn-menu-co">
-                                                <ul>
-                                                    <li>
-                                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                                             title="查詢">
-                                                            <div class="icon-reStyle icon-co-14"></div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                                             title="清除">
-                                                            <div class="icon-reStyle icon-co-11"></div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>  <!-- /.footer-btn-menu-co -->
-                                        </div> <!-- /.search-footer-btn -->
-
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>日期</label>
-                                                <input type="date" class="input-medium rateCode-s1" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>天數</label>
-                                                <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>房型</label>
-                                                <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
-                                            </div>
-                                        </div>
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>人數</label>
-                                                <input type="date" class="input-medium rateCode-s1" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>加大人</label>
-                                                <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>加小孩</label>
-                                                <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-
-                                </div> <!-- /.search-co -->
-                            </div> <!-- /.row  search-content-->
-                        </div><!--main-content-data-->
-                    </div>
-                    <div class="space-6"></div>
-                    <div class="clearfix"></div>
-                    <div class="row">
-                        <div class="horizTable-outer">
-                            <table class="css_table horizTable">
-                                <thead class="css_thead">
-                                    <tr class="css_tr">
-                                        <th class="css_th" style="min-width:80px;">日期</th>
-                                        <th class="css_th" style="min-width:80px;">小分類</th>
-                                        <th class="css_th" style="min-width:120px;">項目</th>
-                                        <th class="css_th" style="min-width:100px;">單價</th>
-                                        <th class="css_th" style="min-width:100px;">數量</th>
-                                        <th class="css_th" style="min-width:100px;">小計</th>
-                                        <th class="css_th" style="min-width:100px;">服務日期</th>
-                                        <th class="css_th" style="min-width:100px;">廳別</th>
-                                        <th class="css_th" style="min-width:80px;">服務方式</th>
-                                        <th class="css_th" style="min-width:80px;">收費方式</th>
+    <!-- 選擇房型 彈出視窗 -->
+    <div id="rateCode_csRm-page" class="hide padding-5" style="">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="fixHeadTable">
+                        <div class="tbl-header02">
+                            <table class="custab custab-gray">
+                                <thead class="custab-head">
+                                    <tr>
+                                        <th class="center width-10">選擇</th>
+                                        <th class="center width-45">房型代號</th>
+                                        <th class="center width-45">房種名稱</th>
                                     </tr>
                                 </thead>
-                                <tbody class="css_tbody">
-                                    <tr class="css_tr">
-                                        <td class="css_td">2017/06/06</td>
-                                        <td class="css_td">PKG:Package</td>
-                                        <td class="css_td">p022:2016歡樂一夏逍遙遊</td>
-                                        <td class="css_td text-right">3,520</td>
-                                        <td class="css_td text-right">1</td>
-                                        <td class="css_td text-right">3,520</td>
-                                        <td class="css_td">2017/06/06</td>
-                                        <td class="css_td">F02:客務櫃檯</td>
-                                        <td class="css_td">D:每天</td>
-                                        <td class="css_td">C:信用卡</td>
+                            </table>
+                        </div>
+                        <div class="tbl-content02">
+                            <table class="custab custab-gray">
+                                <tbody class="custab-body">
+                                    <tr>
+                                        <td class="center width-20">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="width-40">DDT</td>
+                                        <td class="width-40">家庭客房</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="">JPN</td>
+                                        <td class="">和式客房</td>
                                     </tr>
                                     <tr class="css_tr">
-                                        <td class="css_td">2017/06/06</td>
-                                        <td class="css_td">PKG:Package</td>
-                                        <td class="css_td">p022:2017日本遊</td>
-                                        <td class="css_td text-right">3,520</td>
-                                        <td class="css_td text-right">1</td>
-                                        <td class="css_td text-right">3,520</td>
-                                        <td class="css_td">2017/06/06</td>
-                                        <td class="css_td">F02:客務櫃檯</td>
-                                        <td class="css_td">D:每天</td>
-                                        <td class="css_td">C:信用卡</td>
+                                        <td class="">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="">JWS</td>
+                                        <td class="">和洋房</td>
                                     </tr>
-                                    <tr class="css_tr">
-                                        <td class="css_td">2017/06/06</td>
-                                        <td class="css_td">PKG:Package</td>
-                                        <td class="css_td">p022:2017捷克遊</td>
-                                        <td class="css_td text-right">3,520</td>
-                                        <td class="css_td text-right">1</td>
-                                        <td class="css_td text-right">3,520</td>
-                                        <td class="css_td">2017/06/06</td>
-                                        <td class="css_td">F02:客務櫃檯</td>
-                                        <td class="css_td">D:每天</td>
-                                        <td class="css_td">C:信用卡</td>
+                                    <tr class="">
+                                        <td class="">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="">OSK</td>
+                                        <td class="">大阪套房</td>
                                     </tr>
-                                    <tr class="css_tr">
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td bgLGreen">Tuesday</td>
-                                        <td class="css_td bgLGreen">06/06</td>
-                                        <td class="css_td text-right bgLGreen">3,920</td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
+                                    <tr class="">
+                                        <td class="">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="">RSU</td>
+                                        <td class="">老爺套房</td>
                                     </tr>
-                                    <tr class="css_tr">
-                                        <td class="css_td">2017/06/06</td>
-                                        <td class="css_td">PKG:Package</td>
-                                        <td class="css_td">p022:2016歡樂一夏逍遙遊</td>
-                                        <td class="css_td text-right">3,520</td>
-                                        <td class="css_td text-right">1</td>
-                                        <td class="css_td text-right">3,520</td>
-                                        <td class="css_td">2017/06/06</td>
-                                        <td class="css_td">F02:客務櫃檯</td>
-                                        <td class="css_td">D:每天</td>
-                                        <td class="css_td">C:信用卡</td>
+                                    <tr class="">
+                                        <td class="">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="">SSG</td>
+                                        <td class="">精緻套房</td>
                                     </tr>
-                                    <tr class="css_tr">
-                                        <td class="css_td">2017/06/06</td>
-                                        <td class="css_td">PKG:Package</td>
-                                        <td class="css_td">p022:2017日本遊</td>
-                                        <td class="css_td text-right">3,520</td>
-                                        <td class="css_td text-right">1</td>
-                                        <td class="css_td text-right">3,520</td>
-                                        <td class="css_td">2017/06/06</td>
-                                        <td class="css_td">F02:客務櫃檯</td>
-                                        <td class="css_td">D:每天</td>
-                                        <td class="css_td">C:信用卡</td>
-                                    </tr>
-                                    <tr class="css_tr">
-                                        <td class="css_td">2017/06/06</td>
-                                        <td class="css_td">PKG:Package</td>
-                                        <td class="css_td">p022:2017捷克遊</td>
-                                        <td class="css_td text-right">3,520</td>
-                                        <td class="css_td text-right">1</td>
-                                        <td class="css_td text-right">3,520</td>
-                                        <td class="css_td">2017/06/06</td>
-                                        <td class="css_td">F02:客務櫃檯</td>
-                                        <td class="css_td">D:每天</td>
-                                        <td class="css_td">C:信用卡</td>
-                                    </tr>
-                                    <tr class="css_tr">
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td bgLGreen">Wednesday</td>
-                                        <td class="css_td bgLGreen">06/06</td>
-                                        <td class="css_td text-right bgLGreen">400</td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                    </tr>
-                                    <tr class="css_tr">
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td">房租總額：</td>
-                                        <td class="css_td text-right bgLGreen">4,320</td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                    </tr>
-                                    <tr class="css_tr">
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td">佣金金額：</td>
-                                        <td class="css_td text-right"><b>90</b></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
-                                        <td class="css_td"></td>
+                                    <tr class="">
+                                        <td class="">
+                                            <input type='checkbox'>
+                                        </td>
+                                        <td class="">STW</td>
+                                        <td class="">精緻套房</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-        <!-- /.房價試算 (resv_priceTrial) -->
-
-        <!-- rateCode_extraAdult 彈出視窗 -->
-        <div id="rateCode_extraAdult-page" class="hide padding-5" style="top: 0 !important;">
-            <div class="businessCompanyData">
-                <div class="col-xs-12 col-sm-12">
-                    <div class="row no-marign-right">
-                        <div class="main-content-data">
-                            <div class="col-xs-3 col-sm-3">
-                                <div class="row no-marign-right borderFrame" style="  padding: 5px;">
-                                    <div class="horizTable-outer">
-
-                                        <table class="css_table horizTable width-100">
-                                            <thead class="css_thead">
-                                                <tr class="css_tr">
-                                                    <th class="css_th" style="min-width:40px;">房種代號</th>
-                                                    <th class="css_th" style="min-width:60px;">房種名稱</th>
-                                                    <th class="css_th" style="min-width:100px;">加人加價設定</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="css_tbody">
-                                                <tr class="css_tr">
-                                                    <td class="css_td">DDT</td>
-                                                    <td class="css_td">精緻客房</td>
-                                                    <td class="css_td">有</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">STD</td>
-                                                    <td class="css_td">標準雙人房</td>
-                                                    <td class="css_td">無</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">DXK</td>
-                                                    <td class="css_td">豪華雙人房</td>
-                                                    <td class="css_td">有</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">DDT</td>
-                                                    <td class="css_td">精緻客房</td>
-                                                    <td class="css_td">有</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">STD</td>
-                                                    <td class="css_td">標準雙人房</td>
-                                                    <td class="css_td">無</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">DXK</td>
-                                                    <td class="css_td">豪華雙人房</td>
-                                                    <td class="css_td">有</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">DDT</td>
-                                                    <td class="css_td">精緻客房</td>
-                                                    <td class="css_td">有</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">STD</td>
-                                                    <td class="css_td">標準雙人房</td>
-                                                    <td class="css_td">無</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">DXK</td>
-                                                    <td class="css_td">豪華雙人房</td>
-                                                    <td class="css_td">有</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">DDT</td>
-                                                    <td class="css_td">精緻客房</td>
-                                                    <td class="css_td">有</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">STD</td>
-                                                    <td class="css_td">標準雙人房</td>
-                                                    <td class="css_td">無</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">DXK</td>
-                                                    <td class="css_td">豪華雙人房</td>
-                                                    <td class="css_td">有</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">DDT</td>
-                                                    <td class="css_td">精緻客房</td>
-                                                    <td class="css_td">有</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">STD</td>
-                                                    <td class="css_td">標準雙人房</td>
-                                                    <td class="css_td">無</td>
-                                                </tr>
-                                                <tr class="css_tr">
-                                                    <td class="css_td">DXK</td>
-                                                    <td class="css_td">豪華雙人房</td>
-                                                    <td class="css_td">有</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-1 col-sm-1">
-                                <div class="row borderFrame" style=" padding: 5px;">
-                                    <div class="right-menu-co">
-                                        <ul>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">新增設定
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                        role="button">
-
-                                                    設定
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">複製設定
-                                                </button>
-                                            </li>
-                                            <!--<li>-->
-                                            <!--<button class="btn btn-primary btn-white btn-defaultWidth div_shadow"-->
-                                            <!--role="button">STD</button>-->
-                                            <!--</li>-->
-                                            <li>
-                                                <div class="div_shadow">STD</div>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">貼上設定
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-7 col-sm-7">
-                                <div class="horizTable-outer">
-                                    <table class="css_table horizTable width-100">
-                                        <thead class="css_thead">
-                                            <tr class="css_tr">
-                                                <th class="css_th" style="min-width:60px;">加價名稱</th>
-                                                <th class="css_th" style="min-width:100px;">房租消費代號</th>
-                                                <th class="css_th" style="min-width:100px;">每人房租加價金額</th>
-                                                <th class="css_th" style="min-width:60px;">是否有子帳</th>
-                                                <th class="css_th" style="min-width:100px;">服務費代號</th>
-                                                <th class="css_th" style="min-width:100px;">服務費金額</th>
-                                                <th class="css_th" style="min-width:100px;">新增日</th>
-                                                <th class="css_th" style="min-width:100px;">新增者</th>
-                                                <th class="css_th" style="min-width:100px;">最後異動日</th>
-                                                <th class="css_th" style="min-width:100px;">最後異動者</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="css_tbody">
-                                            <tr class="css_tr">
-                                                <td class="css_td">Adult</td>
-                                                <td class="css_td">1011:加人加價-大人</td>
-                                                <td class="css_td text-right">2000</td>
-                                                <td class="css_td"><input type="checkbox" checked/></td>
-                                                <td class="css_td">1002:房租服務費</td>
-                                                <td class="css_td text-right">200</td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">Child</td>
-                                                <td class="css_td">1013:加人加價-小孩</td>
-                                                <td class="css_td text-right">1500</td>
-                                                <td class="css_td"><input type="checkbox" checked/></td>
-                                                <td class="css_td">1002:房租服務費</td>
-                                                <td class="css_td text-right">150</td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">Baby</td>
-                                                <td class="css_td">1015:加人加價-嬰兒</td>
-                                                <td class="css_td text-right">600</td>
-                                                <td class="css_td"><input type="checkbox"/></td>
-                                                <td class="css_td">1002:房租服務費</td>
-                                                <td class="css_td text-right">60</td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="space-4"></div>
-                                <div class="horizTable-outer">
-                                    <table class="css_table horizTable width-100">
-                                        <thead class="css_thead">
-                                            <tr class="css_tr">
-                                                <th class="css_th" style="min-width:40px;">序號</th>
-                                                <th class="css_th" style="min-width:100px;">子帳消費代號</th>
-                                                <th class="css_th" style="min-width:100px;">每人加價金額</th>
-                                                <th class="css_th" style="min-width:100px;">收費方式</th>
-                                                <th class="css_th" style="min-width:100px;">新增日</th>
-                                                <th class="css_th" style="min-width:100px;">新增者</th>
-                                                <th class="css_th" style="min-width:100px;">最後異動日</th>
-                                                <th class="css_th" style="min-width:100px;">最後異動者</th>
-                                                <th class="css_th" style="min-width:100px;">基準房價</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="css_tbody">
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">1011:加人加價-大人</td>
-                                                <td class="css_td text-right">1550</td>
-                                                <td class="css_td">加價</td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td">是</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">2017:早餐-大人</td>
-                                                <td class="css_td text-right">450</td>
-                                                <td class="css_td">內拆</td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                                <td class="css_td"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-1 col-sm-1">
-                                <div class="row">
-                                    <div class="right-menu-co">
-                                        <ul>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">Save
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="row" style="margin-top:137px;">
-                                    <div class="right-menu-co">
-                                        <ul>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">新增明細
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                        role="button">刪除明細
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">離開
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div><!--main-content-data-->
-
-                        <div class="main-content-data">
-                            <div class="col-xs-offset-4 col-sm-offset-4 col-xs-7 col-sm-7">
-
-                            </div>
-
-                            <div class="col-xs-1 col-sm-1">
-                            </div>
-                        </div><!--main-content-data-->
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                </div>
             </div>
             <div class="clearfix"></div>
         </div>
-        <!-- /.rateCode_extraAdult 彈出視窗 -->
-
-        <!-- 選擇房型 彈出視窗 -->
-        <div id="rateCode_csRm-page" class="hide padding-5" style="">
-            <div class="businessCompanyData">
-                <div class="col-xs-12 col-sm-12">
-                    <div class="row">
-                        <div class="fixHeadTable">
-                            <div class="tbl-header02">
-                                <table class="custab custab-gray">
-                                    <thead class="custab-head">
-                                        <tr>
-                                            <th class="center width-10">選擇</th>
-                                            <th class="center width-45">房型代號</th>
-                                            <th class="center width-45">房種名稱</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="tbl-content02">
-                                <table class="custab custab-gray">
-                                    <tbody class="custab-body">
-                                        <tr>
-                                            <td class="center width-20">
-                                                <input type='checkbox'>
-                                            </td>
-                                            <td class="width-40">DDT</td>
-                                            <td class="width-40">家庭客房</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="">
-                                                <input type='checkbox'>
-                                            </td>
-                                            <td class="">JPN</td>
-                                            <td class="">和式客房</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="">
-                                                <input type='checkbox'>
-                                            </td>
-                                            <td class="">JWS</td>
-                                            <td class="">和洋房</td>
-                                        </tr>
-                                        <tr class="">
-                                            <td class="">
-                                                <input type='checkbox'>
-                                            </td>
-                                            <td class="">OSK</td>
-                                            <td class="">大阪套房</td>
-                                        </tr>
-                                        <tr class="">
-                                            <td class="">
-                                                <input type='checkbox'>
-                                            </td>
-                                            <td class="">RSU</td>
-                                            <td class="">老爺套房</td>
-                                        </tr>
-                                        <tr class="">
-                                            <td class="">
-                                                <input type='checkbox'>
-                                            </td>
-                                            <td class="">SSG</td>
-                                            <td class="">精緻套房</td>
-                                        </tr>
-                                        <tr class="">
-                                            <td class="">
-                                                <input type='checkbox'>
-                                            </td>
-                                            <td class="">STW</td>
-                                            <td class="">精緻套房</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-        <!-- /.選擇房型 彈出視窗 -->
     </div>
+    <!-- /.選擇房型 彈出視窗 -->
+
 
     <!-- subSystem 共用 js -->
     <%- include ../common/viewsComJs.ejs %>
@@ -2735,6 +2761,157 @@
 //                autoOpen: true,
                     dialogClass: "test",
                     resizable: true
+                });
+
+                // rateCode_rmPriceTotal 加人加價--> 房價總額
+                $(document).on('click', ".rateCode_rmPriceTotal", function (e) {
+                    e.preventDefault();
+                    var dialog = $("#rateCode_rmPriceTotal-page").removeClass('hide').dialog({
+                        modal: true,
+                        title: "房價總額",
+                        title_html: true,
+                        width: 830,
+                        maxwidth: 1920,
+//                autoOpen: true,
+                        dialogClass: "test",
+                        resizable: true
+                    });
+
+                    // 房間總額(同加人加價) 明細
+                    let rmPriceTotal = {
+                        name: 'frozen-title-columns',
+                        data(){
+                            return {
+                                tableData: [
+                                    {
+                                        "useRange": "2017/01/01~2017/12/31",
+                                        "dateRule": "平日",
+                                        "room1": "500",
+                                        "room2": "1,000",
+                                        "room3": "1,500",
+                                        "room4": "2,000",
+                                        "room5": "2,500",
+                                        "room6": "3,000",
+                                        "room7": "3,500",
+                                        "room8": "4,000"
+                                    },
+                                    {
+                                        "useRange": "2017/01/01~2017/12/31",
+                                        "dateRule": "假日",
+                                        "room1": "500",
+                                        "room2": "1,000",
+                                        "room3": "1,500",
+                                        "room4": "2,000",
+                                        "room5": "2,500",
+                                        "room6": "3,000",
+                                        "room7": "3,500",
+                                        "room8": "4,000"
+                                    },
+                                    {
+                                        "useRange": "2017/01/01~2017/12/31",
+                                        "dateRule": "旺日",
+                                        "room1": "500",
+                                        "room2": "1,000",
+                                        "room3": "1,500",
+                                        "room4": "2,000",
+                                        "room5": "2,500",
+                                        "room6": "3,000",
+                                        "room7": "3,500",
+                                        "room8": "4,000"
+                                    }
+                                ],
+                                columns: [
+                                    {
+                                        field: 'useRange',
+                                        title: '使用期間',
+                                        width: 200,
+                                        titleAlign: 'center',
+                                        columnAlign: 'center',
+                                        isResize: true
+                                    },
+                                    {
+                                        field: 'dateRule',
+                                        title: '日期規則',
+                                        width: 120,
+                                        titleAlign: 'center',
+                                        columnAlign: 'center',
+                                        isResize: true
+                                    },
+                                    {
+                                        field: 'room1',
+                                        title: '1',
+                                        width: 60,
+                                        titleAlign: 'center',
+                                        columnAlign: 'right',
+                                        isResize: true
+                                    },
+                                    {
+                                        field: 'room2',
+                                        title: '2',
+                                        width: 60,
+                                        titleAlign: 'center',
+                                        columnAlign: 'right',
+                                        isResize: true
+                                    },
+                                    {
+                                        field: 'room3',
+                                        title: '3',
+                                        width: 60,
+                                        titleAlign: 'center',
+                                        columnAlign: 'right',
+                                        isResize: true
+                                    },
+                                    {
+                                        field: 'room4',
+                                        title: '4',
+                                        width: 60,
+                                        titleAlign: 'center',
+                                        columnAlign: 'right',
+                                        isResize: true
+                                    },
+                                    {
+                                        field: 'room5',
+                                        title: '5',
+                                        width: 60,
+                                        titleAlign: 'center',
+                                        columnAlign: 'right',
+                                        isResize: true
+                                    },
+                                    {
+                                        field: 'room6',
+                                        title: '6',
+                                        width: 60,
+                                        titleAlign: 'center',
+                                        columnAlign: 'right',
+                                        isResize: true
+                                    },
+                                    {
+                                        field: 'room7',
+                                        title: '7',
+                                        width: 60,
+                                        titleAlign: 'center',
+                                        columnAlign: 'right',
+                                        isResize: true
+                                    },
+                                    {
+                                        field: 'room8',
+                                        title: '8',
+                                        width: 60,
+                                        titleAlign: 'center',
+                                        columnAlign: 'right',
+                                        isResize: true
+                                    },
+                                ]
+                            }
+                        },
+                        methods: {
+                            columnCellClass(rowIndex, columnName, rowData){
+                            },
+                        }
+                    }
+                    let CtorRmPriceTotal = Vue.extend(rmPriceTotal)
+
+                    new CtorDetail().$mount('#rmPriceTotal');
                 });
 
                 // vue easyTable
