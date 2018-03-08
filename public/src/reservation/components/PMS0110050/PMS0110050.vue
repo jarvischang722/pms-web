@@ -336,7 +336,7 @@
             },
             convertData(la_roomNosData) {
                 let self = this;
-                C
+
                 this.roomNosDataDisplay = JSON.parse(JSON.stringify(la_roomNosData));
                 //處理日期欄位資料
                 let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
