@@ -153,13 +153,13 @@ module.exports = {
     r_status_cod(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
-        if (postData["cust_idx.from_table"] == "GHIST_MN") {
-            lo_return.effectValues["cust_idx.cust_sta"] = postData.status_cod;
+        if (postData.singleRowData[0]["cust_idx.from_table"] == "GHIST_MN") {
+            lo_return.effectValues["cust_idx.cust_sta"] = postData.singleRowData[0].status_cod;
         }
-        if (postData.oldValue != "V" && postData.newValue == "V") {
+        if (postData.oriSingleData[0].status_cod != "V" && postData.singleRowData[0].status_cod == "V") {
             lo_return.effectValues["vip_sta"] = 1;
         }
-        if (postData.oldValue == "V" && (postData.newValue != "V" && postData.newValue != "B")) {
+        if (postData.oriSingleData[0].status_cod == "V" && (postData.singleRowData[0].status_cod != "V" && postData.singleRowData[0].status_cod != "B")) {
             lo_return.effectValues["vip_sta"] = 0;
         }
 
@@ -317,8 +317,8 @@ module.exports = {
     r_cust_idx_birth_dat(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
-        let ls_alt_nam = postData.alt_nam || "";
-        let ls_birth_dat = postData.birth_dat || "";
+        let ls_alt_nam = postData.singleRowData[0].alt_nam || "";
+        let ls_birth_dat = postData.singleRowData[0]["cust_idx.birth_dat"] == "" ? "" : moment(postData.singleRowData[0]["cust_idx.birth_dat"]).format("YYYY/MM/DD");
 
         if (ls_alt_nam != "" && ls_birth_dat != "") {
             let lo_param = {
@@ -335,7 +335,7 @@ module.exports = {
                 else {
                     if (result.alt_nam_count > 0) {
                         lo_return.showAlert = true;
-                        lo_return.alertMsg = commonRule.getMsgByCod("pms21msg01", session.locale);
+                        lo_return.alertMsg = commonRule.getMsgByCod("pms21msg1", session.locale);
                     }
                 }
                 callback(lo_error, lo_return);
@@ -362,7 +362,7 @@ module.exports = {
         let lb_sex_typ;
         let lo_params = {
             athena_id: session.user.athena_id,
-            salute_cod: postData.salute_cod
+            salute_cod: postData.singleRowData[0].salute_cod
         };
         queryAgent.query("QRY_GENDER_BY_SALUTE_COD", lo_params, function (err, result) {
             if (err) {
@@ -399,7 +399,7 @@ module.exports = {
         let lo_error = null;
         let lo_params = {
             athena_id: session.user.athena_id,
-            contry_cod: postData.contry_cod
+            contry_cod: postData.singleRowData[0].contry_cod
         };
         queryAgent.query("QRY_LANG_BY_CONTRY_COD", lo_params, function (err, result) {
             if (err) {
@@ -409,7 +409,7 @@ module.exports = {
             }
             else {
                 lo_return.effectValues = {
-                    live_cod: postData.contry_cod,
+                    live_cod: postData.singleRowData[0].contry_cod,
                     lang_cod: result.lang_cod
                 };
             }
@@ -432,11 +432,11 @@ module.exports = {
     r_vip_sta(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
-        let ln_old_vip_sta = postData.oldValue;
-        let ln_new_vip_sta = postData.newValue;
+        let ln_old_vip_sta = postData.oriSingleData[0].vip_sta;
+        let ln_new_vip_sta = postData.singleRowData[0].vip_sta;
 
         // 1.改不為零時，將欄位status_cod改為V:VIP
-        if (ln_new_vip_sta != 0) {
+        if (ln_new_vip_sta != "0") {
             lo_return.effectValues = {status_cod: "V"};
         }
         //2.改為零時，將欄位status_cod改為N:一般
@@ -445,54 +445,11 @@ module.exports = {
         }
 
         //3.若客戶索引檔來源資料表為住客歷史,才同步異動cust_idx.cust_sta
-        if (postData["cust_idx.from_table"] == 'GHIST_MN') {
+        if (postData.singleRowData[0]["cust_idx.from_table"] == 'GHIST_MN') {
             lo_return.effectValues["cust_idx.cust_sta"] = ln_new_vip_sta;
         }
-    },
 
-    /**
-     * 訂房公司改變要改『統一編號、發票抬頭』
-     * 1.若欄位cust_idx.uni_cod統一編號無資料，則帶入訂房公司統一編號(下拉選單欄位cust_idx.uni_cod)
-     * 2.若欄位cust_idx.uni_title發票抬頭無資料，則帶入訂房公司發票抬頭(下拉選單欄位cust_idx.uni_title)
-     * @param postData
-     * @param session
-     * @param callback
-     */
-    // r_acust_cod(postData, session, callback) {
-    //     let ls_uni_cod = postData["cust_idx.uni_cod"];
-    // },
-
-    /**
-     * 刪除資料表
-     * 若已為訂房使用(含在館住客)則不允許刪除
-     * 訊息「姓名(歷史編號)此筆資料已為訂房使用(館別代號:館別名稱)，不可刪除」
-     * 如「王大明(HFD0000101)此筆資料已為訂房使用(館別01:台北館)，不可刪除」
-     * */
-    r_0300(postData, session, callback) {
-        let lo_return = new ReturnClass();
-        let lo_error = null;
-        let lo_params = {
-            athena_id: session.user.athena_id,
-            gcust_cod: postData.gcust_cod
-        };
-        queryAgent.query("CHK_GUEST_MN_IS_EXIST", lo_params, function (err, result) {
-            if (err) {
-                lo_error = new ErrorClass();
-                lo_return.success = false;
-                lo_error.errorMsg = err;
-            }
-            else {
-                if (result) {
-                    lo_error = new ErrorClass();
-                    lo_return.success = false;
-                    let ls_multiErrorMsg = commonRule.getMsgByCod("pms21msg2", session.locale);
-                    lo_error.errorMsg = _s.sprintf(ls_multiErrorMsg, result.alt_nam, result.show_cod, result.hotel_cod, result.hotel_nam);
-                    console.log(result)
-                }
-            }
-            callback(lo_error, lo_return);
-        });
-
+        callback(lo_error, lo_return);
     },
 
     /**
@@ -563,12 +520,99 @@ module.exports = {
     },
 
     /**
+     * 儲存資料前的檢查(新增)
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    saveAddGhistMn(postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+
+        let lo_createData = postData.tmpCUD.createData[0];
+        let lo_cust_idx = {};
+        let lo_ghist_visit_dt = {};
+
+        _.each(lo_createData, (val, key) => {
+            let la_keySplit = key.split(".");
+
+            if (la_keySplit.length > 1) {
+                let ls_table_name = la_keySplit[0];
+                let ls_field_name = la_keySplit[1];
+                if (ls_table_name == "cust_idx") {
+                    lo_cust_idx["cust_cod"] = lo_createData.gcust_cod;
+                    lo_cust_idx["show_cod"] = lo_createData.show_cod;
+                    lo_cust_idx[ls_field_name] = val;
+                    delete lo_createData[key];
+                }
+                else if (ls_table_name == "ghist_visit_dt") {
+                    lo_ghist_visit_dt["athena_id"] = lo_createData.athena_id;
+                    lo_ghist_visit_dt["gcust_cod"] = lo_createData.gcust_cod;
+                    lo_ghist_visit_dt["hotel_cod"] = session.user.hotel_cod;
+                    lo_ghist_visit_dt[ls_field_name] = val;
+                    delete lo_createData[key];
+                }
+            }
+        });
+
+        let lo_custIdxData = {
+            function: 1,
+            table_name: 'cust_idx',
+        };
+        _.extend(lo_custIdxData, lo_cust_idx);
+        lo_return.extendExecDataArrSet.push(lo_custIdxData);
+
+        let lo_ghistVisitDtData = {
+            function: 1,
+            table_name: 'ghist_visit_dt',
+        };
+        _.extend(lo_ghistVisitDtData, lo_ghist_visit_dt);
+
+        lo_return.extendExecDataArrSet.push(lo_ghistVisitDtData);
+
+        callback(lo_error, lo_return);
+    },
+
+    /**
+     * 儲存資料前的檢查(刪除)
+     * 若已為訂房使用(含在館住客)則不允許刪除
+     * 訊息「姓名(歷史編號)此筆資料已為訂房使用(館別代號:館別名稱)，不可刪除」
+     * 如「王大明(HFD0000101)此筆資料已為訂房使用(館別01:台北館)，不可刪除」
+     * */
+    async saveDelGhistMn(postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            gcust_cod: postData.tmpCUD.deleteData[0].gcust_cod
+        };
+
+        await queryAgent.query("CHK_GUEST_MN_IS_EXIST", lo_params, function (err, result) {
+            if (err) {
+                lo_error = new ErrorClass();
+                lo_return.success = false;
+                lo_error.errorMsg = err;
+            }
+            else {
+                if (result) {
+                    lo_error = new ErrorClass();
+                    lo_return.success = false;
+                    let ls_multiErrorMsg = commonRule.getMsgByCod("pms21msg2", session.locale);
+                    lo_error.errorMsg = _s.sprintf(ls_multiErrorMsg, result.alt_nam, result.show_cod, result.hotel_cod, result.hotel_nam);
+                }
+            }
+        });
+
+        callback(lo_error, lo_return);
+    },
+
+    /**
      * 儲存資料前的檢查(修改)
      * @param postData
      * @param session
      * @param callback
      */
-    convertGhistMn(postData, session, callback) {
+    saveUpdateGhistMn(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
 
@@ -582,11 +626,11 @@ module.exports = {
             if (la_keySplit.length > 1) {
                 let ls_table_name = la_keySplit[0];
                 let ls_field_name = la_keySplit[1];
-                if(ls_table_name == "cust_idx"){
+                if (ls_table_name == "cust_idx") {
                     lo_cust_idx[ls_field_name] = val;
                     delete lo_updateData[key];
                 }
-                else if(ls_table_name == "ghist_visit_dt"){
+                else if (ls_table_name == "ghist_visit_dt") {
                     lo_ghist_visit_dt["athena_id"] = lo_updateData.athena_id;
                     lo_ghist_visit_dt["gcust_cod"] = lo_updateData.gcust_cod;
                     lo_ghist_visit_dt["hotel_cod"] = session.user.hotel_cod;
@@ -610,7 +654,6 @@ module.exports = {
             }],
         }
         _.extend(lo_custIdxData, lo_cust_idx);
-
         lo_return.extendExecDataArrSet.push(lo_custIdxData);
 
         let lo_ghistVisitDtData = {
@@ -623,16 +666,15 @@ module.exports = {
             }, {
                 key: 'hotel_cod',
                 operation: "=",
-                value:  session.user.hotel_cod
+                value: session.user.hotel_cod
             },
                 {
-                key: 'gcust_cod',
-                operation: "=",
-                value: lo_ghist_visit_dt.gcust_cod
-            }],
+                    key: 'gcust_cod',
+                    operation: "=",
+                    value: lo_ghist_visit_dt.gcust_cod
+                }],
         };
         _.extend(lo_ghistVisitDtData, lo_ghist_visit_dt);
-
         lo_return.extendExecDataArrSet.push(lo_ghistVisitDtData);
 
         callback(lo_error, lo_return);

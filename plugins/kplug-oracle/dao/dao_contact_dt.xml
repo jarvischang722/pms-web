@@ -58,7 +58,7 @@
     <!--[PMS0210011] 住客歷史資料編輯 取得『其他聯絡方式－聯絡方式』-->
     <dao name="QRY_CONTRACT_DT_BY_CUST_COD">
         <statement><![CDATA[
-            SELECT  CONTACT_DT.athena_id "CONTACT_DT.athena_id", CONTACT_DT.cust_cod "CONTACT_DT.cust_cod",
+            SELECT  CONTACT_DT.athena_id "CONTACT_DT.athena_id", CONTACT_DT.cust_cod "CONTACT_DT.cust_cod", CONTACT_RF.CONTACT_COD "CONTRACT_DT.CONTACT_COD",
             CONTACT_RF.CONTACT_NAM "CONTACT_RF.CONTACT_NAM", CONTACT_DT.CONTACT_RMK "CONTACT_DT.CONTACT_RMK"
             FROM  CONTACT_DT, CONTACT_RF
             WHERE  CONTACT_RF.ATHENA_ID = CONTACT_DT.ATHENA_ID(+)
