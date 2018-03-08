@@ -481,16 +481,16 @@
     "pms21msg2": "%s(%s)此筆資料已為訂房使用(%s:%s)，不可刪除(日文)"
   },
   "Columns":{
-    "PMS0610020_show_cod": "公司編號(日文)",
-    "PMS0610020_cust_nam": "公司名稱(日文)",
-    "PMS0610020_uni_cod": "統一編號(日文)",
-    "PMS0610020_uni_title": "發票抬頭(日文)",
-    "PMS0610020_cust_cod": "公司代號(日文)",
-    "PMS0610020_sales_cod": "業務員代號(日文)",
-    "PMS0610020_sales_nam": "業務員姓名(日文)",
-    "PMS0610020_class_nam": "組別(日文)",
-    "PMS0620020_user_nos": "使用者代號(日文)",
-    "PMS0620020_user_name": "使用者名稱(日文)",
+    "show_cod": "公司編號(日文)",
+    "cust_nam": "公司名稱(日文)",
+    "uni_cod": "統一編號(日文)",
+    "uni_title": "發票抬頭(日文)",
+    "cust_cod": "公司代號(日文)",
+    "sales_cod": "業務員代號(日文)",
+    "sales_nam": "業務員姓名(日文)",
+    "class_nam": "組別(日文)",
+    "user_nos": "使用者代號(日文)",
+    "user_name": "使用者名稱(日文)",
     "salute_cod": "salute cod(日文)",
     "salute_nam": "salute nam(日文)",
     "man_flag": "man flag(日文)",
@@ -500,6 +500,17 @@
     "contry_sna": "contry sna(日文)",
     "live_cod" : "live cod(日文)",
     "live_nam" : "live nam(日文)",
-    "live_sna" : "live sna(日文)"
+    "live_sna" : "live sna(日文)",
+    "cust_show_cod": "客戶代號(日)",
+    "alt_nam": "客戶姓名(日)",
+    "contact_rmk": "聯絡電話(日)",
+    "first_nam": "First Name",
+    "last_nam": "Last Name",
+    "cust_typ": "客戶類別(日)",
+    "cust_sta": "客戶狀態(日)",
+    "atten_nam": "名稱(日)",
+    "role_rmk": "職稱(日)",
+    "tel_nos": "電話(日)"
+
   }
 }
