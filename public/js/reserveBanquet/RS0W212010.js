@@ -4,10 +4,10 @@
  * 程式名稱: 定席作業
  */
 
-let vmHub = new Vue;
-let prg_id = "RS0W212010";
+var vmHub = new Vue;
+var prg_id = "RS0W212010";
 
-let go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
+var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
 
 //rowLocK
 g_socket.on('checkTableLock', function (result) {
@@ -17,7 +17,7 @@ g_socket.on('checkTableLock', function (result) {
     }
 });
 
-let go_currentIndex = undefined;
+var go_currentIndex = undefined;
 
 //region //DTGridClass
 
@@ -43,7 +43,7 @@ DTGridClass.prototype.onClickCell = function (index, field) {
         if (DTGridClass.prototype.endEditing()) {
             if (go_currentIndex != index) {
                 $('#RS0W212010_dt').datagrid('selectRow', index).datagrid('beginEdit', index);
-                let ed = $('#RS0W212010_dt').datagrid('getEditor', {index: index, field: field});
+                var ed = $('#RS0W212010_dt').datagrid('getEditor', {index: index, field: field});
                 if (ed) {
                     ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
                 }
@@ -57,10 +57,10 @@ DTGridClass.prototype.onClickCell = function (index, field) {
 //endregion
 
 //page.2 單筆跳窗
-let singlePage = Vue.extend({
+var singlePage = Vue.extend({
     template: "#RS0W212010Tmp",
     created: function () {
-        let self = this;
+        var self = this;
         vmHub.$on("showReserve", function (PostData) {
             RS00202010VM.isLoading = true;
 
@@ -72,6 +72,8 @@ let singlePage = Vue.extend({
             vmHub.$emit("UnReadonly");
 
             if (PostData.bquet_nos != "") {
+                self.isFirstChangeAltNam = true;
+                self.isFirstChangeAttenNam = true;
                 self.doRowLock(PostData.bquet_nos);
                 self.createStatus = false;
                 self.isModificable = false;
@@ -113,7 +115,7 @@ let singlePage = Vue.extend({
             chooseData["inv_qnt"] = "0";
             chooseData["createRow"] = "Y";
 
-            let isSame = false;
+            var isSame = false;
             _.each(self.dataGridRows, function (value) {
                 if (value.place_cod == chooseData["place_cod"]) {
                     isSame = true;
@@ -132,7 +134,7 @@ let singlePage = Vue.extend({
         });
     },
     mounted: function () {
-        let self = this;
+        var self = this;
         this.getSystemParam();
         this.loadField();
         this.fetchUserInfo();
@@ -167,7 +169,7 @@ let singlePage = Vue.extend({
     watch: {
         dataGridRows: {
             handler: function (after, before) {
-                let tot_amt = 0;
+                var tot_amt = 0;
 
                 _.each(this.dataGridRows, function (value) {
                     tot_amt += Number(value.special_amt || 0);
@@ -182,14 +184,15 @@ let singlePage = Vue.extend({
                     this.singleData.desk_qnt = this.dataGridRows[0].desk_qnt;
                     this.singleData.pmdesk_qnt = this.dataGridRows[0].desk_qnt;
                 }
-                catch (ex) {}
+                catch (ex) {
+                }
 
             },
             deep: true
         },
         //region//按鈕如沒權限, 則不能Enable
         cancelEnable: function () {
-            let purview = _.findIndex(go_funcPurview, function (value) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1010";
             });
             if (purview == -1) {
@@ -197,7 +200,7 @@ let singlePage = Vue.extend({
             }
         },
         reserveEnable: function () {
-            let purview = _.findIndex(go_funcPurview, function (value) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1020";
             });
             if (purview == -1) {
@@ -205,7 +208,7 @@ let singlePage = Vue.extend({
             }
         },
         waitEnable: function () {
-            let purview = _.findIndex(go_funcPurview, function (value) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1030";
             });
             if (purview == -1) {
@@ -213,7 +216,7 @@ let singlePage = Vue.extend({
             }
         },
         inquiryEnable: function () {
-            let purview = _.findIndex(go_funcPurview, function (value) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1040";
             });
             if (purview == -1) {
@@ -221,7 +224,7 @@ let singlePage = Vue.extend({
             }
         },
         modifyEnable: function () {
-            let purview;
+            var purview;
             if (this.createStatus) {
                 purview = _.findIndex(go_funcPurview, function (value) {
                     return value.func_id == "0200";
@@ -240,7 +243,7 @@ let singlePage = Vue.extend({
             }
         },
         saveEnable: function () {
-            let purview;
+            var purview;
             if (this.createStatus) {
                 purview = _.findIndex(go_funcPurview, function (value) {
                     return value.func_id == "0200";
@@ -311,6 +314,9 @@ let singlePage = Vue.extend({
 
             isShowReserve: true,
 
+            isFirstChangeAltNam: false,
+            isFirstChangeAttenNam: false,
+
             dgIns: {},
             dtFieldData: [],
             dataGridRows: [],
@@ -326,7 +332,7 @@ let singlePage = Vue.extend({
          * 功能權限初始化
          */
         initPurview: function () {
-            let purview;
+            var purview;
             purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1010";
             });
@@ -381,10 +387,10 @@ let singlePage = Vue.extend({
          * 取系統參數 and 預設值
          */
         getSystemParam: function () {
-            let self = this;
+            var self = this;
 
             //前檯金額格式
-            let lo_params = {
+            var lo_params = {
                 paramName: "mask_hfd"
             };
             $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
@@ -505,7 +511,7 @@ let singlePage = Vue.extend({
          * 取得使用者資料
          */
         fetchUserInfo: function () {
-            let self = this;
+            var self = this;
             $.post('/api/getUserInfo', function (result) {
                 if (result.success) {
                     self.userInfo = result.userInfo;
@@ -533,7 +539,7 @@ let singlePage = Vue.extend({
          * 撈取MN和DT的欄位
          */
         loadField: function () {
-            let self = this;
+            var self = this;
             $.post("/api/singleGridPageFieldQuery", {
                 prg_id: prg_id,
                 page_id: 2,
@@ -548,7 +554,7 @@ let singlePage = Vue.extend({
                     if (value.ui_type == "select") {
                         self.selectOption[value.ui_field_name] = value.selectData;
                     }
-                    if(value.ui_type == "selectgrid"){
+                    if (value.ui_type == "selectgrid") {
                         self.selectgridOptions[value.ui_field_name] = value.selectGridOptions;
                         self.selectgridOptions[value.ui_field_name].selectData = value.selectData;
                     }
@@ -579,11 +585,9 @@ let singlePage = Vue.extend({
          * @param bquet_nos {String} : 訂席單號
          */
         fetchSingleData: function (bquet_nos) {
-            let self = this;
-            let lo_params = {
-                bquet_nos: bquet_nos
-            };
-            $.post("/reserveBanquet/qryPageTwoData", lo_params, function (result) {
+            var self = this;
+
+            $.post("/reserveBanquet/qryPageTwoData", {bquet_nos}, function (result) {
                 if (!_.isUndefined(result.data)) {
 
                     //Time format
@@ -652,7 +656,7 @@ let singlePage = Vue.extend({
          * 取DT資料
          */
         fetchDataGridData: function (postData) {
-            let self = this;
+            var self = this;
             $.post("/api/singlePageRowDataQuery", {
                 prg_id: prg_id,
                 page_id: 2,
@@ -663,7 +667,7 @@ let singlePage = Vue.extend({
                 //依參數『前檯金額格式』顯示, 因取欄位資料的方式不是用作業的方式，所以要自己塞format_func_name.rule_val
                 _.each(self.dtFieldData, function (value) {
                     if (value.format_func_name == "QRY_MASK_HFD") {
-                        let object = {
+                        var object = {
                             validate: value.format_func_name,
                             rule_name: value.format_func_name,
                             rule_val: self.mask_hfd
@@ -682,7 +686,7 @@ let singlePage = Vue.extend({
 
                 //新增模式時，如有預設值，直接將預設值帶入明細
                 if (self.createStatus && postData.begin_tim != "") {
-                    let defaultData = {};
+                    var defaultData = {};
                     $.post("/reserveBanquet/getPlaceUnitAmt", {place_cod: postData.place_cod}, function (result) {
                         if (!_.isUndefined(result.data)) {
 
@@ -702,25 +706,25 @@ let singlePage = Vue.extend({
                             defaultData["begin_tim"] = defaultData["begin_tim"].toString().replace(":", "");
                             defaultData["end_tim"] = defaultData["end_tim"].toString().replace(":", "");
 
-                            let begin_hour = Number(defaultData["begin_tim"].toString().substr(0, 2));
-                            let begin_min = Number(defaultData["begin_tim"].toString().substr(2, 2));
-                            let end_hour = Number(defaultData["end_tim"].toString().substr(0, 2));
-                            let end_min = Number(defaultData["end_tim"].toString().substr(2, 2));
+                            var begin_hour = Number(defaultData["begin_tim"].toString().substr(0, 2));
+                            var begin_min = Number(defaultData["begin_tim"].toString().substr(2, 2));
+                            var end_hour = Number(defaultData["end_tim"].toString().substr(0, 2));
+                            var end_min = Number(defaultData["end_tim"].toString().substr(2, 2));
 
                             if (end_hour < begin_hour) {
                                 end_hour += 24;
                             }
 
-                            let div_hour = end_hour - begin_hour;
-                            let div_min = end_min - begin_min;
+                            var div_hour = end_hour - begin_hour;
+                            var div_min = end_min - begin_min;
 
-                            let total_min = div_hour * 60 + div_min;
+                            var total_min = div_hour * 60 + div_min;
 
                             defaultData["order_qnt"] = go_MathTool.formatFloat(total_min / 60, 1);
                             defaultData["place_amt"] = go_MathTool.formatFloat(defaultData["unit_amt"] * defaultData["order_qnt"], self.round_hfd);
                             defaultData["special_amt"] = defaultData["place_amt"];
 
-                            let disc_amt = go_MathTool.formatFloat(defaultData["place_amt"] - defaultData["special_amt"], self.round_hfd);
+                            var disc_amt = go_MathTool.formatFloat(defaultData["place_amt"] - defaultData["special_amt"], self.round_hfd);
 
                             if (disc_amt < 0) {
                                 disc_amt = 0;
@@ -808,9 +812,9 @@ let singlePage = Vue.extend({
          * 開窗
          */
         showReserve: function () {
-            let self = this;
+            var self = this;
             self.isLoading = true;
-            let dialog = $("#gs-order-page").removeClass('hide').dialog({
+            var dialog = $("#gs-order-page").removeClass('hide').dialog({
                 modal: true,
                 title: "查詢訂席",
                 title_html: true,
@@ -833,8 +837,8 @@ let singlePage = Vue.extend({
          */
         chkClickPopUpGrid: function () {
             if (this.dgIns.endEditing()) {
-                let lo_field;
-                let self = this;
+                var lo_field;
+                var self = this;
 
                 _.each(this.singleField, function (value) {
                     if (value.ui_field_name == fieldName) {
@@ -844,7 +848,7 @@ let singlePage = Vue.extend({
 
                 this.changeEditingForFieldRule(lo_field.rule_func_name);
                 if (lo_field.ui_type == "popupgrid") {
-                    let params = {
+                    var params = {
                         prg_id: prg_id,
                         fields: lo_field,
                         singleRowData: JSON.parse(JSON.stringify(this.singleData))
@@ -875,10 +879,10 @@ let singlePage = Vue.extend({
          */
         showPopUpGridDialog: function () {
             this.dialogVisible = true;
-            let height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
-            let width = document.documentElement.clientWidth / 2; //browser 寬度 - 200功能列
+            var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
+            var width = document.documentElement.clientWidth / 2; //browser 寬度 - 200功能列
 
-            let dialog = $("#dataPopUpGridDialog").dialog({
+            var dialog = $("#dataPopUpGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
                 height: height,
@@ -896,8 +900,8 @@ let singlePage = Vue.extend({
             if (_.isUndefined(this.singleData.use_typ)) {
                 return;
             }
-            let self = this;
-            let lo_params = {
+            var self = this;
+            var lo_params = {
                 use_typ: self.singleData.use_typ
             };
             $.post("/reserveBanquet/chk_use_typ", lo_params, function (result) {
@@ -914,9 +918,14 @@ let singlePage = Vue.extend({
          * 客戶姓名 Change Event
          */
         altNamOnChange: function () {
-            let self = this;
+            var self = this;
 
-            let lo_selectItem = _.find(self.selectgridOptions.alt_nam.selectData, {alt_nam: self.singleData.alt_nam});
+            if(self.isFirstChangeAltNam){
+                self.isFirstChangeAltNam = false;
+                return;
+            }
+
+            var lo_selectItem = _.find(self.selectgridOptions.alt_nam.selectData, {alt_nam: self.singleData.alt_nam});
             $.post("/reserveBanquet/qry_bqcust_mn", {cust_cod: lo_selectItem.cust_cod}, function (result) {
 
                 //帶回前先將舊值清掉
@@ -949,8 +958,14 @@ let singlePage = Vue.extend({
          * 聯絡人 Change Event
          */
         attenNamOnChange: function () {
-            let self = this;
-            let lo_selectItem = _.find(self.selectgridOptions.atten_nam.selectData, {atten_nam: self.singleData.atten_nam});
+            var self = this;
+
+            if(self.isFirstChangeAttenNam){
+                self.isFirstChangeAttenNam = false;
+                return;
+            }
+
+            var lo_selectItem = _.find(self.selectgridOptions.atten_nam.selectData, {atten_nam: self.singleData.atten_nam});
             self.singleData = _.extend(self.singleData, lo_selectItem);
         },
 
@@ -958,15 +973,15 @@ let singlePage = Vue.extend({
          * 將資料塞到tmp_cud
          */
         saveToTmpCud: function () {
-            let self = this;
+            var self = this;
 
             //存檔時將宴會開始時間更新為場地明細的時間
-            let earliest = "2359";
-            let latest = "0000";
+            var earliest = "2359";
+            var latest = "0000";
 
             _.each(self.dataGridRows, function (value) {
-                let ls_begin_tim = value.begin_tim;
-                let ls_end_tim = value.end_tim;
+                var ls_begin_tim = value.begin_tim;
+                var ls_end_tim = value.end_tim;
 
                 if (Number(ls_end_tim) < Number(ls_begin_tim)) {
                     ls_end_tim = (Number(ls_end_tim) + 2400).toString();
@@ -997,7 +1012,7 @@ let singlePage = Vue.extend({
                 self.singleData.bquet_rmk = self.singleData.bquet_rmk.replace(/\n/g, "\r\n");
             }
 
-            let tempSingleData = _.clone(self.singleData);
+            var tempSingleData = _.clone(self.singleData);
 
             _.each(Object.keys(tempSingleData), function (objKey) {
                 if (_.isUndefined(tempSingleData[objKey]) || tempSingleData[objKey] == null) {
@@ -1046,14 +1061,14 @@ let singlePage = Vue.extend({
 
             //將update中有delete的清除
             _.each(self.tmpCud.dt_deleteData, function (value) {
-                let keyVals = _.pluck(_.where(self.dtFieldData, {keyable: 'Y'}), "ui_field_name");
-                let condKey = {};
+                var keyVals = _.pluck(_.where(self.dtFieldData, {keyable: 'Y'}), "ui_field_name");
+                var condKey = {};
                 _.each(keyVals, function (field_name) {
                     condKey[field_name] = value[field_name] || "";
                 });
 
                 //判斷資料有無在updateData裡, 如果有先刪掉再新增新的
-                let existIdx = _.findIndex(self.tmpCud.dt_updateData, condKey);
+                var existIdx = _.findIndex(self.tmpCud.dt_updateData, condKey);
 
                 if (existIdx > -1) {
                     self.tmpCud.dt_updateData.splice(existIdx, 1);
@@ -1105,12 +1120,12 @@ let singlePage = Vue.extend({
          * 存檔按鈕
          */
         save: function () {
-            let self = this;
+            var self = this;
 
-            let isPass = self.beforeSave();
+            var isPass = self.beforeSave();
 
             if (isPass) {
-                let func_id = self.createStatus ? '0200' : '0400';
+                var func_id = self.createStatus ? '0200' : '0400';
                 self.saveToTmpCud();
                 self.callBeforeSaveAPI('2030', function (result) {
                     if (result) {
@@ -1124,7 +1139,7 @@ let singlePage = Vue.extend({
          * 儲存前驗證
          */
         beforeSave: function () {
-            let self = this;
+            var self = this;
 
             if (self.dataGridRows.length == 0) {
                 alert('場地明細無資料！');
@@ -1230,7 +1245,7 @@ let singlePage = Vue.extend({
          * 異動訂席單
          */
         ModifyStatus: function (newStatus) {
-            let self = this;
+            var self = this;
 
             if (self.singleData.order_sta == newStatus) {
                 return;
@@ -1249,9 +1264,9 @@ let singlePage = Vue.extend({
 
                 //判斷是否有異動過資料
 
-                let isMNEqual = isObjectValueEqual(self.oriSingleData, self.singleData);
+                var isMNEqual = isObjectValueEqual(self.oriSingleData, self.singleData);
 
-                let isDTEqual = isObjectArrayEqual(self.oriDataGridRows, self.dataGridRows);
+                var isDTEqual = isObjectArrayEqual(self.oriDataGridRows, self.dataGridRows);
 
                 if (!isMNEqual || !isDTEqual) {
 
@@ -1263,7 +1278,7 @@ let singlePage = Vue.extend({
 
                 RS00202010VM.isLoading = true;
 
-                let lo_params = {
+                var lo_params = {
                     REVE_CODE: prg_id,
                     prg_id: prg_id,
                     func_id: "1010",
@@ -1293,14 +1308,14 @@ let singlePage = Vue.extend({
          * 刪除場地
          */
         delPlace: function () {
-            let self = this;
+            var self = this;
 
             if (_.isUndefined(go_currentIndex)) {
                 alert("請選擇要刪除的資料");
                 return;
             }
 
-            let delRow = $("#RS0W212010_dt").datagrid('getSelected');
+            var delRow = $("#RS0W212010_dt").datagrid('getSelected');
             delRow.Upd_dat = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
             delRow.Upd_usr = self.userInfo.usr_id;
 
@@ -1332,11 +1347,11 @@ let singlePage = Vue.extend({
          * 更新庫存數
          */
         updateInventory: function (data, callback) {
-            let self = this;
+            var self = this;
 
             _.each(self.dataGridRows, function (value) {
                 if (value.is_allplace == "Y") {
-                    let item = _.find(data.check_dt, function (field) {
+                    var item = _.find(data.check_dt, function (field) {
                         return field.place_cod == value.place_cod.trim();
                     });
                     value.inv_qnt = item.inv_qnt;
@@ -1354,9 +1369,9 @@ let singlePage = Vue.extend({
          * call儲存前的庫存檢查API
          */
         callBeforeSaveAPI: function (func_id, callback) {
-            let self = this;
+            var self = this;
 
-            let lo_params = {
+            var lo_params = {
                 trans_cod: prg_id,
                 prg_id: prg_id,
                 page_id: 2,
@@ -1384,9 +1399,9 @@ let singlePage = Vue.extend({
          * call庫存檢查API
          */
         callchkInventoryAPI: function (func_id) {
-            let self = this;
+            var self = this;
 
-            let lo_params = {
+            var lo_params = {
                 trans_cod: prg_id,
                 prg_id: prg_id,
                 page_id: 2,
@@ -1401,7 +1416,6 @@ let singlePage = Vue.extend({
                 if (result.success) {
                     alert("檢查通過！");
                     self.updateInventory(result.data, function () {
-
                     });
                 }
                 if (result.errorMsg != "") {
@@ -1414,9 +1428,9 @@ let singlePage = Vue.extend({
          * call儲存的API
          */
         callSaveAPI: function (func_id) {
-            let self = this;
+            var self = this;
 
-            let lo_params = {
+            var lo_params = {
                 trans_cod: prg_id,
                 prg_id: prg_id,
                 page_id: 2,
@@ -1443,7 +1457,7 @@ let singlePage = Vue.extend({
          * RowLock
          */
         doRowLock: function (bquet_nos) {
-            let lo_param = {
+            var lo_param = {
                 prg_id: prg_id,
                 table_name: "NULLbquet_mn",
                 lock_type: "R",
@@ -1456,7 +1470,7 @@ let singlePage = Vue.extend({
          * RowUnLock
          */
         doRowUnLock: function () {
-            let lo_param = {
+            var lo_param = {
                 prg_id: prg_id
             };
             g_socket.emit('handleTableUnlock', lo_param);
@@ -1483,7 +1497,7 @@ Vue.component('text-select-grid-dialog-tmp', {
         };
     },
     created: function () {
-        let self = this;
+        var self = this;
         vmHub.$on('showPopUpDataGrid', function (result) {
             self.showPopUpDataGrid(result);
         });
@@ -1492,19 +1506,19 @@ Vue.component('text-select-grid-dialog-tmp', {
 
         //顯示點選popupgrid跳出來的視窗
         showPopUpDataGrid: function (result) {
-            let self = this;
-            let textDataGrid = result.showDataGrid;
-            let updateFieldName = result.updateFieldNameTmp;
-            let fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
+            var self = this;
+            var textDataGrid = result.showDataGrid;
+            var updateFieldName = result.updateFieldNameTmp;
+            var fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
             this.fieldNameConditionTmp = [];
             this.fieldConditionTmp = [];
             this.gridData = [];
             delete textDataGrid ['errorMsg'];
-            let columnsData = [];
-            let textDataGridArray = Object.keys(textDataGrid).map(function (key) {
+            var columnsData = [];
+            var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
                 return textDataGrid[key];
             });
-            for (let col in textDataGrid[0]) {
+            for (var col in textDataGrid[0]) {
                 _.each(fieldNameChangeLanguage, function (name, field) {
                     if (col == field) {
                         columnsData.push({
@@ -1525,8 +1539,8 @@ Vue.component('text-select-grid-dialog-tmp', {
             }
 
             self.gridData = textDataGridArray;
-            let height = document.documentElement.clientHeight - 160;
-            let width = document.documentElement.clientWidth / 2 - 25; //browser 寬度 - 200功能列
+            var height = document.documentElement.clientHeight - 160;
+            var width = document.documentElement.clientWidth / 2 - 25; //browser 寬度 - 200功能列
             $('#chooseGrid').datagrid({
                 columns: [columnsData],
                 singleSelect: true,
@@ -1539,10 +1553,10 @@ Vue.component('text-select-grid-dialog-tmp', {
 
         //將選擇到的資料帶回Page2
         chooseDataBackGridSingle: function () {
-            let self = this;
-            let selectTable = $('#chooseGrid').datagrid('getSelected');
-            let chooseData = self.updateFieldNameTmp;
-            let updateFieldName = self.updateFieldNameTmp;
+            var self = this;
+            var selectTable = $('#chooseGrid').datagrid('getSelected');
+            var chooseData = self.updateFieldNameTmp;
+            var updateFieldName = self.updateFieldNameTmp;
 
             if (selectTable != null) {
                 _.each(selectTable, function (selectValue, selectField) {
@@ -1561,11 +1575,11 @@ Vue.component('text-select-grid-dialog-tmp', {
             $("#dataPopUpGridDialog").dialog('close');
         },
         txtSearchChangeText: function (keyContent) {
-            let allData = this.gridData;
-            let selectFieldName = $('#cbSelect').val();
-            let selectCondition = $('#txtSelectCondition').val();
+            var allData = this.gridData;
+            var selectFieldName = $('#cbSelect').val();
+            var selectCondition = $('#txtSelectCondition').val();
 
-            let dataGrid = _.filter(allData, function (row) {
+            var dataGrid = _.filter(allData, function (row) {
                 if (row[selectFieldName].includes(selectCondition)) {
                     return row;
                 }
@@ -1577,7 +1591,7 @@ Vue.component('text-select-grid-dialog-tmp', {
 });
 
 //page.1 平面圖
-let RS00202010VM = new Vue({
+var RS00202010VM = new Vue({
     el: "#RS00202010Main",
     components: {
         singlePage
@@ -1594,7 +1608,7 @@ let RS00202010VM = new Vue({
     },
     watch: {
         searchDate: function () {
-            let ls_searchDate = getCookie("searchDate");
+            var ls_searchDate = getCookie("searchDate");
             if (_.isUndefined(ls_searchDate) || _.isNull(ls_searchDate) || ls_searchDate == "") {
                 this.searchDate = moment(new Date()).format("YYYY/MM/DD");
                 setupCookie("searchDate", this.searchDate, "/", 3600000); //預設一小時
@@ -1609,7 +1623,7 @@ let RS00202010VM = new Vue({
     mounted: function () {
         window.onbeforeunload = function () {
         };
-        let ls_searchDate = getCookie("searchDate");
+        var ls_searchDate = getCookie("searchDate");
         if (ls_searchDate == null) {
             ls_searchDate = moment().format("YYYY/MM/DD");
             setupCookie("searchDate", ls_searchDate, "/", 3600000); //預設一小時
@@ -1631,8 +1645,8 @@ let RS00202010VM = new Vue({
     },
     methods: {
         qryPageOneData: function () {
-            let self = this;
-            let lo_params = {use_dat: this.searchDate};
+            var self = this;
+            var lo_params = {use_dat: this.searchDate};
             this.isLoading = true;
             $.post("/reserveBanquet/qryPageOneData", lo_params, function (result) {
                 self.isLoading = false;
@@ -1646,15 +1660,15 @@ let RS00202010VM = new Vue({
         },
 
         addReserve: function () {
-            let self = this;
-            let ln_td;
-            let rspt_cod;
-            let place_cod;
+            var self = this;
+            var ln_td;
+            var rspt_cod;
+            var place_cod;
 
-            let ls_beginTimeByAdd;
+            var ls_beginTimeByAdd;
 
-            let ln_desk_qnt;
-            let lo_mtimeData;
+            var ln_desk_qnt;
+            var lo_mtimeData;
 
             if (arguments.length != 0) {
                 click_beg_tim = arguments[0];
@@ -1674,7 +1688,7 @@ let RS00202010VM = new Vue({
                  * 取新增餐期
                  * @type {{name: string 餐期名稱, mtime_cod: string 餐期代碼}}
                  */
-                let lo_rspt = _.findWhere(this.pageOneData.rowData, {datatype: "RSPT", rspt_cod: rspt_cod});
+                var lo_rspt = _.findWhere(this.pageOneData.rowData, {datatype: "RSPT", rspt_cod: rspt_cod});
                 _.some(lo_rspt.banquet_dt, function (lo_mtime, index) {
                     // 餐期
                     if (lo_mtime.name != "") {
@@ -1686,7 +1700,7 @@ let RS00202010VM = new Vue({
                     }
                     // 空白餐期
                     else {
-                        let ls_index = index + 1;
+                        var ls_index = index + 1;
                         if (ls_index >= lo_rspt.banquet_dt.length) {
                             ls_index = 0;
                         }
@@ -1697,7 +1711,7 @@ let RS00202010VM = new Vue({
                     }
                 });
                 if (_.isEmpty(lo_mtimeData)) {
-                    let la_mtime = _.filter(lo_rspt.banquet_dt, function (lo_dt) {
+                    var la_mtime = _.filter(lo_rspt.banquet_dt, function (lo_dt) {
                         return lo_dt.name.trim() != "";
                     });
                     lo_mtimeData = la_mtime[0];
@@ -1707,8 +1721,8 @@ let RS00202010VM = new Vue({
                 ln_desk_qnt = _.findWhere(this.pageOneData.rowData, {datatype: "PLACE", place_cod: place_cod}).desk_qnt;
             }
 
-            let beg_tim = "";
-            let end_tim = "";
+            var beg_tim = "";
+            var end_tim = "";
             if (!_.isUndefined(lo_mtimeData)) {
                 beg_tim = lo_mtimeData.beg_tim;
                 end_tim = lo_mtimeData.end_tim;
@@ -1725,18 +1739,18 @@ let RS00202010VM = new Vue({
         },
 
         chkMtime: function (lo_mtime, ls_beginTimeByAdd) {
-            let lo_mtimeByAdd = {};
-            let la_mtime_beg_ary = lo_mtime.beg_tim.split(":");
-            let la_mtime_end_ary = lo_mtime.end_tim.split(":");
-            let la_beginTimeByAdd_ary = ls_beginTimeByAdd.split(":");
+            var lo_mtimeByAdd = {};
+            var la_mtime_beg_ary = lo_mtime.beg_tim.split(":");
+            var la_mtime_end_ary = lo_mtime.end_tim.split(":");
+            var la_beginTimeByAdd_ary = ls_beginTimeByAdd.split(":");
 
             //轉換為分鐘數，且小於開始營業時間 + 1天
-            let ln_mtime_beg_min = this.chkTimeAdd24Min(parseInt(la_mtime_beg_ary[0]) * 60 + parseInt(la_mtime_beg_ary[1]));
-            let ln_mtime_end_min = this.chkTimeAdd24Min(parseInt(la_mtime_end_ary[0]) * 60 + parseInt(la_mtime_end_ary[1]));
-            let ln_beginTimeByAdd_min = this.chkTimeAdd24Min(parseInt(la_beginTimeByAdd_ary[0]) * 60 + parseInt(la_beginTimeByAdd_ary[1]));
+            var ln_mtime_beg_min = this.chkTimeAdd24Min(parseInt(la_mtime_beg_ary[0]) * 60 + parseInt(la_mtime_beg_ary[1]));
+            var ln_mtime_end_min = this.chkTimeAdd24Min(parseInt(la_mtime_end_ary[0]) * 60 + parseInt(la_mtime_end_ary[1]));
+            var ln_beginTimeByAdd_min = this.chkTimeAdd24Min(parseInt(la_beginTimeByAdd_ary[0]) * 60 + parseInt(la_beginTimeByAdd_ary[1]));
 
-            let lb_isBetween = false;
-            let lb_isAfter = false;
+            var lb_isBetween = false;
+            var lb_isAfter = false;
             //點在餐期區間內
             if (ln_beginTimeByAdd_min >= ln_mtime_beg_min && ln_beginTimeByAdd_min < ln_mtime_end_min) {
                 lb_isBetween = true;
@@ -1759,9 +1773,9 @@ let RS00202010VM = new Vue({
         },
 
         chkTimeAdd24Min(ln_tim) {
-            let la_day_beg_tim = this.pageOneData.time_range[0].split(":");
-            let ln_day_beg_tim_min = parseInt(la_day_beg_tim[0]) * 60 + parseInt(la_day_beg_tim[1]);
-            let ln_day_min = 24 * 60;
+            var la_day_beg_tim = this.pageOneData.time_range[0].split(":");
+            var ln_day_beg_tim_min = parseInt(la_day_beg_tim[0]) * 60 + parseInt(la_day_beg_tim[1]);
+            var ln_day_min = 24 * 60;
             if (ln_tim < ln_day_beg_tim_min) {
                 ln_tim += ln_day_min;
             }
@@ -1781,7 +1795,7 @@ let RS00202010VM = new Vue({
 
 function isObjectArrayEqual(a, b) {
 
-    let isEqual = true;
+    var isEqual = true;
 
     if (a.length != b.length) {
         return false;
@@ -1798,8 +1812,8 @@ function isObjectArrayEqual(a, b) {
 function isObjectValueEqual(a, b) {
     // Of course, we can do it use for in
     // Create arrays of property names
-    let aProps = Object.getOwnPropertyNames(a);
-    let bProps = Object.getOwnPropertyNames(b);
+    var aProps = Object.getOwnPropertyNames(a);
+    var bProps = Object.getOwnPropertyNames(b);
 
     // If number of properties is different,
     // objects are not equivalent
@@ -1807,8 +1821,8 @@ function isObjectValueEqual(a, b) {
         return false;
     }
 
-    for (let i = 0; i < aProps.length - 1; i++) {
-        let propName = aProps[i];
+    for (var i = 0; i < aProps.length - 1; i++) {
+        var propName = aProps[i];
 
         // If values of same property are not equal,
         // objects are not equivalent
@@ -1828,10 +1842,12 @@ function isObjectValueEqual(a, b) {
 }
 
 function padLeft(str, lenght) {
-    if (str.length >= lenght)
-        {return str;}
-    else
-        {return padLeft("0" + str, lenght);}
+    if (str.length >= lenght) {
+        return str;
+    }
+    else {
+        return padLeft("0" + str, lenght);
+    }
 }
 
 $('.easyUi-custom1').tabs({});
