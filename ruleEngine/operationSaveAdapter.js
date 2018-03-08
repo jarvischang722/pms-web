@@ -189,10 +189,7 @@ function combineDtDeleteExecData(rfData, callback) {
     try {
         _.each(ga_dtDeleteData, function (data) {
             let ln_tab_page_id = _.isUndefined(data.tab_page_id) ? 1 : data.tab_page_id;
-            var ls_dgTableName = _.findWhere(ga_rfData, {
-                tab_page_id: Number(ln_tab_page_id),
-                template_id: "datagrid"
-            }).table_name;
+            var ls_dgTableName = _.findWhere(ga_rfData, {tab_page_id: Number(ln_tab_page_id), template_id: "datagrid"}).table_name;
 
             var lo_fieldsData = qryFieldsDataByTabPageID(data);
             var tmpDel = {
@@ -322,6 +319,7 @@ function combineMainData(rfData, callback) {
                 go_saveExecDatas[gn_exec_seq] = tmpDel;
                 gn_exec_seq++;
 
+                //TODO 流程有問題再討論
                 // if (gs_dgTableName != "") {
                 //     combineDelDetailData(gs_dgTableName, lo_fieldsData.mainKeyFields, data);
                 // }
@@ -480,10 +478,7 @@ function combineDtCreateEditExecData(rfData, callback) {
         //dt 新增
         _.each(ga_dtCreateData, function (data) {
             let ln_tab_page_id = _.isUndefined(data.tab_page_id) ? 1 : data.tab_page_id;
-            var ls_dgTableName = _.findWhere(ga_rfData, {
-                tab_page_id: Number(ln_tab_page_id),
-                template_id: "datagrid"
-            }).table_name;
+            var ls_dgTableName = _.findWhere(ga_rfData, {tab_page_id: Number(ln_tab_page_id), template_id: "datagrid"}).table_name;
             var lo_fieldsData = qryFieldsDataByTabPageID(data);
             var tmpIns = {"function": "1", "table_name": ls_dgTableName, "kindOfRel": "dt"}; //1  新增
             var mnRowData = data["mnRowData"] || {};
@@ -545,10 +540,7 @@ function combineDtCreateEditExecData(rfData, callback) {
         //dt 編輯
         _.each(ga_dtUpdateData, function (data, index) {
             let ln_tab_page_id = _.isUndefined(data.tab_page_id) ? 1 : data.tab_page_id;
-            var ls_dgTableName = _.findWhere(ga_rfData, {
-                tab_page_id: Number(ln_tab_page_id),
-                template_id: "datagrid"
-            }).table_name;
+            var ls_dgTableName = _.findWhere(ga_rfData, {tab_page_id: Number(ln_tab_page_id), template_id: "datagrid"}).table_name;
             var lo_fieldsData = qryFieldsDataByTabPageID(data);
             var tmpEdit = {"function": "2", "table_name": ls_dgTableName, "kindOfRel": "dt"}; //2  編輯
             var mnRowData = data["mnRowData"] || {};
