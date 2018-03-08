@@ -52,7 +52,7 @@
 
         },
         mounted: function () {
-            this.dataDisplay = this.dataDisplay.length == 0 ? this.data : [];
+            this.dataDisplay = this.dataDisplay.length == 0 ? this.data : this.dataDisplay;
             this.initCombobox();
         },
         data: function () {
