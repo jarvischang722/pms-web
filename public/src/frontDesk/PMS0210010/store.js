@@ -69,7 +69,7 @@ const mutations = {
         state.gs_gcustCod = ls_gcustCod;
     },
     //設定刪除狀態
-    setDeleteStatus(state, payload){
+    setDeleteStatus(state, payload) {
         state.gb_isDeleteStatus = payload.gb_isDeleteStatus;
     },
     //設定基本資料
@@ -120,7 +120,7 @@ const actions = {
         commit("setGcustCod", ls_gcustCod);
     },
     //設定刪除狀態
-    setDeleteStatus({commit}, payload){
+    setDeleteStatus({commit}, payload) {
         commit("setDeleteStatus", payload);
     },
     //設定基本資料
@@ -163,17 +163,19 @@ const actions = {
             ls_funcId = "0200";
         }
         else if (state.gb_isEditStatus) {
-            if(state.gb_isDeleteStatus){
+            if (state.gb_isDeleteStatus) {
                 lo_tmpCUD.deleteData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
                 lo_tmpCUD.oriData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
                 ls_funcId = "0300";
             }
-            else{
+            else {
                 lo_tmpCUD.updateData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
                 lo_tmpCUD.oriData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
                 ls_funcId = "0400";
             }
         }
+
+        // return lo_tmpCUD;
 
         return await $.post('/api/doOperationSave', {
             prg_id: 'PMS0210011',
@@ -196,7 +198,7 @@ const actions = {
         };
         let ls_funcId = "";
 
-        if(state.gb_isCreateStatus){
+        if (state.gb_isCreateStatus) {
             ls_funcId = "0200";
             _.each(state.go_emailTmpCUD.createData, function (lo_createData) {
                 lo_tmpCUD.dt_createData.push(lo_createData);
@@ -206,7 +208,7 @@ const actions = {
                 _.each(lo_saveCreateData, (val, key) => {
                     let la_keySplit = key.split(".");
                     let ls_field_name = la_keySplit[1];
-                    if(!_.isUndefined(ls_field_name)){
+                    if (!_.isUndefined(ls_field_name)) {
                         lo_saveCreateData[ls_field_name] = val;
                         delete lo_saveCreateData[key];
                     }
@@ -218,7 +220,7 @@ const actions = {
                 _.each(lo_saveCreateData, (val, key) => {
                     let la_keySplit = key.split(".");
                     let ls_field_name = la_keySplit[1];
-                    if(!_.isUndefined(ls_field_name)){
+                    if (!_.isUndefined(ls_field_name)) {
                         lo_saveCreateData[ls_field_name] = val;
                         delete lo_saveCreateData[key];
                     }
@@ -226,68 +228,9 @@ const actions = {
                 lo_tmpCUD.dt_createData.push(lo_saveCreateData);
             });
         }
-        else if(state.gb_isEditStatus){
-            if(state.gb_isDeleteStatus){
-                ls_funcId = "0300";
-
-                _.each(state.ga_emailDataGridRowsData, (lo_emailDataGridRowsData)=>{
-                    lo_tmpCUD.dt_deleteData.push(lo_emailDataGridRowsData);
-                });
-                _.each(state.ga_oriEmailDataGridRowsData, (lo_oriEmailDataGridRowsData)=>{
-                    lo_tmpCUD.dt_oriData.push(lo_oriEmailDataGridRowsData);
-                });
-                _.each(state.ga_contactDataGridRowsData, (lo_contactDataGridRowsData)=>{
-                    let lo_saveDelData = JSON.parse(JSON.stringify(lo_contactDataGridRowsData));
-                    _.each(lo_saveDelData, (val, key) => {
-                        let la_keySplit = key.split(".");
-                        let ls_field_name = la_keySplit[1];
-                        if(!_.isUndefined(ls_field_name)){
-                            lo_saveDelData[ls_field_name] = val;
-                            delete lo_saveDelData[key];
-                        }
-                    });
-                    lo_tmpCUD.dt_deleteData.push(lo_saveDelData);
-                });
-                _.each(state.ga_oriContactDataGridRowsData, (lo_oriContactDataGridRowsData)=>{
-                    let lo_saveOriData = JSON.parse(JSON.stringify(lo_oriContactDataGridRowsData));
-                    _.each(lo_saveOriData, (val, key) => {
-                        let la_keySplit = key.split(".");
-                        let ls_field_name = la_keySplit[1];
-                        if(!_.isUndefined(ls_field_name)){
-                            lo_saveOriData[ls_field_name] = val;
-                            delete lo_saveOriData[key];
-                        }
-                    });
-                    lo_tmpCUD.dt_oriData.push(lo_saveOriData);
-                });
-                _.each(state.ga_addressDataGridRowsData, (lo_addressDataGridRowsData)=>{
-                    let lo_saveDelData = JSON.parse(JSON.stringify(lo_addressDataGridRowsData));
-                    _.each(lo_saveDelData, (val, key) => {
-                        let la_keySplit = key.split(".");
-                        let ls_field_name = la_keySplit[1];
-                        if(!_.isUndefined(ls_field_name)){
-                            lo_saveDelData[ls_field_name] = val;
-                            delete lo_saveDelData[key];
-                        }
-                    });
-                    lo_tmpCUD.dt_deleteData.push(lo_saveDelData);
-                });
-                _.each(state.ga_oriAddressDataGridRowsData, (lo_oriAddressDataGridRowsData)=>{
-                    let lo_saveOriData = JSON.parse(JSON.stringify(lo_oriAddressDataGridRowsData));
-                    _.each(lo_saveOriData, (val, key) => {
-                        let la_keySplit = key.split(".");
-                        let ls_field_name = la_keySplit[1];
-                        if(!_.isUndefined(ls_field_name)){
-                            lo_saveOriData[ls_field_name] = val;
-                            delete lo_saveOriData[key];
-                        }
-                    });
-                    lo_tmpCUD.dt_oriData.push(lo_saveOriData);
-                });
-            }
-            else{
+        else if (state.gb_isEditStatus) {
+            if(!state.gb_isDeleteStatus){
                 ls_funcId = "0400";
-
                 _.each(state.go_emailTmpCUD.createData, function (lo_createData) {
                     lo_tmpCUD.dt_createData.push(lo_createData);
                 });
@@ -296,7 +239,7 @@ const actions = {
                     _.each(lo_saveCreateData, (val, key) => {
                         let la_keySplit = key.split(".");
                         let ls_field_name = la_keySplit[1];
-                        if(!_.isUndefined(ls_field_name)){
+                        if (!_.isUndefined(ls_field_name)) {
                             lo_saveCreateData[ls_field_name] = val;
                             delete lo_saveCreateData[key];
                         }
@@ -308,7 +251,7 @@ const actions = {
                     _.each(lo_saveCreateData, (val, key) => {
                         let la_keySplit = key.split(".");
                         let ls_field_name = la_keySplit[1];
-                        if(!_.isUndefined(ls_field_name)){
+                        if (!_.isUndefined(ls_field_name)) {
                             lo_saveCreateData[ls_field_name] = val;
                             delete lo_saveCreateData[key];
                         }
@@ -323,7 +266,7 @@ const actions = {
                     _.each(lo_saveUpdateData, (val, key) => {
                         let la_keySplit = key.split(".");
                         let ls_field_name = la_keySplit[1];
-                        if(!_.isUndefined(ls_field_name)){
+                        if (!_.isUndefined(ls_field_name)) {
                             lo_saveUpdateData[ls_field_name] = val;
                             delete lo_saveUpdateData[key];
                         }
@@ -335,7 +278,7 @@ const actions = {
                     _.each(lo_saveUpdateData, (val, key) => {
                         let la_keySplit = key.split(".");
                         let ls_field_name = la_keySplit[1];
-                        if(!_.isUndefined(ls_field_name)){
+                        if (!_.isUndefined(ls_field_name)) {
                             lo_saveUpdateData[ls_field_name] = val;
                             delete lo_saveUpdateData[key];
                         }
@@ -350,7 +293,7 @@ const actions = {
                     _.each(lo_saveOriData, (val, key) => {
                         let la_keySplit = key.split(".");
                         let ls_field_name = la_keySplit[1];
-                        if(!_.isUndefined(ls_field_name)){
+                        if (!_.isUndefined(ls_field_name)) {
                             lo_saveOriData[ls_field_name] = val;
                             delete lo_saveOriData[key];
                         }
@@ -362,7 +305,7 @@ const actions = {
                     _.each(lo_saveOriData, (val, key) => {
                         let la_keySplit = key.split(".");
                         let ls_field_name = la_keySplit[1];
-                        if(!_.isUndefined(ls_field_name)){
+                        if (!_.isUndefined(ls_field_name)) {
                             lo_saveOriData[ls_field_name] = val;
                             delete lo_saveOriData[key];
                         }
@@ -374,7 +317,6 @@ const actions = {
 
         // console.log(lo_tmpCUD);
         // return lo_tmpCUD
-
         return await $.post('/api/doOperationSave', {
             prg_id: 'PMS0210011',
             page_id: 1040,

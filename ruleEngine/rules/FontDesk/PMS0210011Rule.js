@@ -529,26 +529,28 @@ module.exports = {
         let lo_return = new ReturnClass();
         let lo_error = null;
 
-        let lo_updateData = postData.tmpCUD.createData[0];
+        let lo_createData = postData.tmpCUD.createData[0];
         let lo_cust_idx = {};
         let lo_ghist_visit_dt = {};
 
-        _.each(lo_updateData, (val, key) => {
+        _.each(lo_createData, (val, key) => {
             let la_keySplit = key.split(".");
 
             if (la_keySplit.length > 1) {
                 let ls_table_name = la_keySplit[0];
                 let ls_field_name = la_keySplit[1];
                 if (ls_table_name == "cust_idx") {
+                    lo_cust_idx["cust_cod"] = lo_createData.gcust_cod;
+                    lo_cust_idx["show_cod"] = lo_createData.show_cod;
                     lo_cust_idx[ls_field_name] = val;
-                    delete lo_updateData[key];
+                    delete lo_createData[key];
                 }
                 else if (ls_table_name == "ghist_visit_dt") {
-                    lo_ghist_visit_dt["athena_id"] = lo_updateData.athena_id;
-                    lo_ghist_visit_dt["gcust_cod"] = lo_updateData.gcust_cod;
+                    lo_ghist_visit_dt["athena_id"] = lo_createData.athena_id;
+                    lo_ghist_visit_dt["gcust_cod"] = lo_createData.gcust_cod;
                     lo_ghist_visit_dt["hotel_cod"] = session.user.hotel_cod;
                     lo_ghist_visit_dt[ls_field_name] = val;
-                    delete lo_updateData[key];
+                    delete lo_createData[key];
                 }
             }
         });
@@ -585,11 +587,6 @@ module.exports = {
             gcust_cod: postData.tmpCUD.deleteData[0].gcust_cod
         };
 
-        let lo_custIdx = {};
-        let lo_ghist_dt = {};
-        let lo_ghist_visit_dt = {};
-
-
         await queryAgent.query("CHK_GUEST_MN_IS_EXIST", lo_params, function (err, result) {
             if (err) {
                 lo_error = new ErrorClass();
@@ -605,51 +602,6 @@ module.exports = {
                 }
             }
         });
-
-        lo_custIdx = {
-            function: 0,
-            table_name: 'cust_idx',
-            condition: [{
-                key: 'athena_id',
-                operation: "=",
-                value: session.user.athena_id
-            }, {
-                key: 'cust_cod',
-                operation: "=",
-                value: postData.tmpCUD.deleteData[0].gcust_cod
-            }]
-        };
-        lo_return.extendExecDataArrSet.push(lo_custIdx);
-
-        lo_ghist_dt = {
-            function: 0,
-            table_name: 'ghist_dt',
-            condition: [{
-                key: 'hotel_cod',
-                operation: "=",
-                value: session.user.hotel_cod
-            }, {
-                key: 'gcust_cod',
-                operation: "=",
-                value: postData.tmpCUD.deleteData[0].gcust_cod
-            }]
-        };
-        lo_return.extendExecDataArrSet.push(lo_ghist_dt);
-
-        lo_ghist_visit_dt = {
-            function: 0,
-            table_name: 'ghist_visit_dt',
-            condition: [{
-                key: 'gcust_cod',
-                operation: "=",
-                value: postData.tmpCUD.deleteData[0].gcust_cod
-            }, {
-                key: 'hotel_cod',
-                operation: "=",
-                value: session.user.hotel_cod
-            }]
-        };
-        lo_return.extendExecDataArrSet.push(lo_ghist_visit_dt);
 
         callback(lo_error, lo_return);
     },
