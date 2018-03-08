@@ -250,20 +250,6 @@
       "email": "電子郵件",
       "contact_method": "連絡方式",
       "address": "地址"
-    },
-    "RS0W212010": {
-      "show_cod": "客戶代號",
-      "alt_nam": "客戶姓名",
-      "contact_rmk": "聯絡電話",
-      "first_nam": "First Name",
-      "last_nam": "Last Name",
-      "cust_typ": "客戶類別",
-      "cust_sta": "客戶狀態",
-      "cust_cod": "客戶代號",
-      "atten_nam": "名稱",
-      "role_rmk": "職稱",
-      "tel_nos": "電話"
-
     }
   },
   "table_in_use": "%s 使用中",
@@ -454,16 +440,16 @@
     "pms21msg2": "%s(%s)此筆資料已為訂房使用(%s:%s)，不可刪除"
   },
   "Columns": {
-    "PMS0610020_show_cod": "公司編號",
-    "PMS0610020_cust_nam": "公司名稱",
-    "PMS0610020_uni_cod": "統一編號",
-    "PMS0610020_uni_title": "發票抬頭",
-    "PMS0610020_cust_cod": "公司代號",
-    "PMS0610020_sales_cod": "業務員代號",
-    "PMS0610020_sales_nam": "業務員姓名",
-    "PMS0610020_class_nam": "組別",
-    "PMS0620020_user_nos": "使用者代號",
-    "PMS0620020_user_name": "使用者名稱",
+    "show_cod": "公司編號",
+    "cust_nam": "公司名稱",
+    "uni_cod": "統一編號",
+    "uni_title": "發票抬頭",
+    "cust_cod": "公司代號",
+    "sales_cod": "業務員代號",
+    "sales_nam": "業務員姓名",
+    "class_nam": "組別",
+    "user_nos": "使用者代號",
+    "user_name": "使用者名稱",
     "salute_cod": "salute cod(中文)",
     "salute_nam": "salute nam(中文)",
     "man_flag": "man flag(中文)",
@@ -473,6 +459,16 @@
     "contry_sna": "contry sna(中文)",
     "live_cod" : "live cod(中文)",
     "live_nam" : "live nam(中文)",
-    "live_sna" : "live sna(中文)"
+    "live_sna" : "live sna(中文)",
+    "cust_show_cod": "客戶代號",
+    "alt_nam": "客戶姓名",
+    "contact_rmk": "聯絡電話",
+    "first_nam": "First Name",
+    "last_nam": "Last Name",
+    "cust_typ": "客戶類別",
+    "cust_sta": "客戶狀態",
+    "atten_nam": "名稱",
+    "role_rmk": "職稱",
+    "tel_nos": "電話"
   }
 }
