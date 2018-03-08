@@ -6,9 +6,9 @@
 
 //ps. Row Lock 要傳的參數其中 table_name跟key_code寫反了(參照ERP的寫法)
 
-let prg_id = "PSIW510030";
+var prg_id = "PSIW510030";
 
-let go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
+var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
 
 //rowLock
 g_socket.on('checkTableLock', function (result) {
@@ -55,8 +55,8 @@ function DatagridRmSingleDTGridClass() {
 
 DatagridRmSingleDTGridClass.prototype = new DatagridBaseClass();
 
-let go_currentField;
-let go_currentIndex;
+var go_currentField;
+var go_currentIndex;
 
 DatagridRmSingleDTGridClass.prototype.endEditing = function () {
     if (go_currentIndex == undefined) {
@@ -75,7 +75,7 @@ DatagridRmSingleDTGridClass.prototype.onClickCell = function (index, field) {
         if (DatagridRmSingleDTGridClass.prototype.endEditing()) {
             if (go_currentIndex != index) {
                 $('#PSIW510030_dt').datagrid('selectRow', index).datagrid('beginEdit', index);
-                let ed = $('#PSIW510030_dt').datagrid('getEditor', {index: index, field: field});
+                var ed = $('#PSIW510030_dt').datagrid('getEditor', {index: index, field: field});
                 if (ed) {
                     ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).select();
                 }
@@ -88,12 +88,12 @@ DatagridRmSingleDTGridClass.prototype.onClickCell = function (index, field) {
     }
 };
 
-let gb_isbind = false;
+var gb_isbind = false;
 //擴充上下左右操控
 $.extend($('#PSIW510030_dt').datagrid.methods, {
     keyCtr: function (jq) {
         return jq.each(function () {
-            let grid = $(this);
+            var grid = $(this);
             if (!gb_isbind) {
                 grid.datagrid('getPanel').panel('panel').attr('tabindex', 1).bind('keydown', function (e) {
 
@@ -188,7 +188,7 @@ $.extend($('#PSIW510030_dt').datagrid.methods, {
 
 /*** Class End  ***/
 
-let PSIW510030 = new Vue({
+var PSIW510030 = new Vue({
     el: '#MainApp2',
     mounted: function () {
         this.initSelect();
@@ -280,20 +280,20 @@ let PSIW510030 = new Vue({
         singleData: {
             handler: function (after, before) {
 
-                let self = this;
+                var self = this;
 
                 self.print_order_data = [];
-                let li_page_num = 0;
-                let temp = [];
+                var li_page_num = 0;
+                var temp = [];
 
-                let lo_temp_singleDataGridRows = [];
-                for (let i = 0; i < self.singleDataGridRows.length; i++) {
+                var lo_temp_singleDataGridRows = [];
+                for (var i = 0; i < self.singleDataGridRows.length; i++) {
                     if (self.singleDataGridRows[i].item_qnt != 0) {
                         lo_temp_singleDataGridRows.push(self.singleDataGridRows[i]);
                     }
                 }
 
-                for (let i = 0; i < lo_temp_singleDataGridRows.length; i++) {
+                for (var i = 0; i < lo_temp_singleDataGridRows.length; i++) {
                     //50 = 一頁幾筆明細
                     if (i % 60 == 0) {
                         self.print_order_data.push(temp);
@@ -312,7 +312,7 @@ let PSIW510030 = new Vue({
                 _.each(self.print_order_data, function (array) {
                     _.each(array, function (item) {
                         //找單位名稱
-                        let unit = _.find(self.unitSelectData, {value: item.unit_typ});
+                        var unit = _.find(self.unitSelectData, {value: item.unit_typ});
                         item.goods_unit = unit.display;
                     });
                 });
@@ -331,7 +331,7 @@ let PSIW510030 = new Vue({
 
         //region//按鈕如沒權限, 則不能Enable
         addEnable: function () {
-            let purview = _.findIndex(go_funcPurview, function (value) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "0200";
             });
             if (purview == -1) {
@@ -339,7 +339,7 @@ let PSIW510030 = new Vue({
             }
         },
         editEnable: function () {
-            let purview = _.findIndex(go_funcPurview, function (value) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "0400";
             });
             if (purview == -1) {
@@ -347,7 +347,7 @@ let PSIW510030 = new Vue({
             }
         },
         deleteEnable: function () {
-            let purview = _.findIndex(go_funcPurview, function (value) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "0300";
             });
             if (purview == -1) {
@@ -355,7 +355,7 @@ let PSIW510030 = new Vue({
             }
         },
         cnfirmEnable: function () {
-            let purview = _.findIndex(go_funcPurview, function (value) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1010";
             });
             if (purview == -1) {
@@ -363,7 +363,7 @@ let PSIW510030 = new Vue({
             }
         },
         cancelEnable: function () {
-            let purview = _.findIndex(go_funcPurview, function (value) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1020";
             });
             if (purview == -1) {
@@ -371,7 +371,7 @@ let PSIW510030 = new Vue({
             }
         },
         changeLogEnable: function () {
-            let purview = _.findIndex(go_funcPurview, function (value) {
+            var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "0800";
             });
             if (purview == -1) {
@@ -387,9 +387,9 @@ let PSIW510030 = new Vue({
          */
         initSelect: function () {
 
-            let self = this;
+            var self = this;
             //客戶代號
-            let lo_params = {
+            var lo_params = {
                 func: "getShowCodSelect"
             };
             this.isLoading = true;
@@ -427,7 +427,7 @@ let PSIW510030 = new Vue({
          * 初始化Search
          */
         initSearchComp: function () {
-            let self = this;
+            var self = this;
 
             self.isLoading = true;
             async.parallel([
@@ -539,10 +539,10 @@ let PSIW510030 = new Vue({
          * 取系統參數
          */
         getSystemParam: function () {
-            let self = this;
+            var self = this;
 
             //訂貨日期切換的時間
-            let lo_params = {
+            var lo_params = {
                 func: "getSystemParam",
                 paramName: "ship_mn_round_nos"
             };
@@ -604,7 +604,7 @@ let PSIW510030 = new Vue({
          * 初始化DataGrid
          */
         initDataGridField: function () {
-            let self = this;
+            var self = this;
 
             self.dgIns = new DatagridRmSingleGridClass();
             self.dgIns.init(prg_id, 'PSIW510030_dg', DatagridFieldAdapter.combineFieldOption(self.bindingFieldData(), 'PSIW510030_dg'));
@@ -631,7 +631,7 @@ let PSIW510030 = new Vue({
          * 取得使用者資料
          */
         fetchUserInfo: function () {
-            let self = this;
+            var self = this;
             $.post('/api/getUserInfo', function (result) {
                 if (result.success) {
                     self.userInfo = result.userInfo;
@@ -643,7 +643,7 @@ let PSIW510030 = new Vue({
          * 組多筆的欄位(未來可能改用Mongo)
          */
         bindingFieldData: function () {
-            let lo_fieldData = [
+            var lo_fieldData = [
                 {
                     athena_id: "",
                     user_id: "",
@@ -895,7 +895,7 @@ let PSIW510030 = new Vue({
          */
         bindingDTFieldData: function () {
 
-            let lo_fieldData = [
+            var lo_fieldData = [
                 {
                     athena_id: "",
                     user_id: "",
@@ -1203,9 +1203,9 @@ let PSIW510030 = new Vue({
          * 取得多筆資料
          */
         loadDataGrid: function () {
-            let self = this;
+            var self = this;
 
-            let lo_params = {
+            var lo_params = {
                 prg_id: prg_id,
                 func: "getDataGridRows",
                 searchCond: this.searchCond
@@ -1231,10 +1231,10 @@ let PSIW510030 = new Vue({
          */
         fetchSingleData: function (order_nos) {
 
-            let self = this;
+            var self = this;
 
             //撈單筆MN
-            let lo_params = {
+            var lo_params = {
                 func: "getSingleDataMN",
                 order_nos: order_nos
             };
@@ -1298,6 +1298,7 @@ let PSIW510030 = new Vue({
                         value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 2);
                         value.order_qnt = go_MathTool.formatFloat(value.order_qnt, 2);
                         value.thu_qty = go_MathTool.formatFloat(value.thu_qty, 2);
+                        value.stock_qnt = go_MathTool.formatFloat(value.stock_qnt, 2);
 
                         //日期格式format
                         value.ship_dat = moment(value.ship_dat).format('YYYY/MM/DD');
@@ -1305,7 +1306,6 @@ let PSIW510030 = new Vue({
 
                         value.stock_unit = value.stock_unit.trim();
                         value.unit_typ = value.unit_typ.trim();
-
                     });
 
                     self.singleDataGridRows = result.data;
@@ -1399,7 +1399,7 @@ let PSIW510030 = new Vue({
             this.orderSelectData = [];
 
             //Week 格式代號用
-            let day;
+            var day;
             switch (new Date(this.singleData.order_dat).getDay()) {
                 case 0:
                     day = 'D7';
@@ -1446,9 +1446,9 @@ let PSIW510030 = new Vue({
          */
         initOrderSelect: function () {
 
-            let self = this;
+            var self = this;
             //期別
-            let lo_params = {
+            var lo_params = {
                 func: "getPeriod",
                 singleData: self.singleDataTemp
             };
@@ -1465,7 +1465,7 @@ let PSIW510030 = new Vue({
                     self.singleDataTemp.period_cod = result.data.period_cod;
 
                     //Week 格式代號用
-                    let day;
+                    var day;
                     switch (new Date(self.singleDataTemp.order_dat).getDay()) {
                         case 0:
                             day = 'D7';
@@ -1493,7 +1493,7 @@ let PSIW510030 = new Vue({
                     self.singleDataTemp.week = day;
 
                     //訂單格式
-                    let lo_params2 = {
+                    var lo_params2 = {
                         func: "getFormatSta",
                         singleData: self.singleDataTemp
                     };
@@ -1522,7 +1522,7 @@ let PSIW510030 = new Vue({
                 return;
             }
 
-            let self = this;
+            var self = this;
 
             self.isLoading = true;
 
@@ -1594,7 +1594,7 @@ let PSIW510030 = new Vue({
                 return;
             }
 
-            let self = this;
+            var self = this;
 
             //取order_time
             _.each(self.orderSelectData, function (value, index) {
@@ -1604,7 +1604,7 @@ let PSIW510030 = new Vue({
             });
 
             //檢查可否選用訂單格式，看『可否選用訂單格式sql』
-            let lo_params = {
+            var lo_params = {
                 func: "chkFormatSta",
                 singleData: self.singleData
             };
@@ -1674,7 +1674,7 @@ let PSIW510030 = new Vue({
          * 儲存按鈕 Event
          */
         save: function () {
-            let self = this;
+            var self = this;
 
             if (!self.dgInsDT.endEditing()) {
                 alert("貨品明細尚未完成");
@@ -1711,18 +1711,18 @@ let PSIW510030 = new Vue({
                 self.singleData.order_tax += value.sorder_tax;
             });
 
-            let lf_temp_amt = self.singleData.order_amt;
-            let lf_temp_tax = self.singleData.order_tax;
+            var lf_temp_amt = self.singleData.order_amt;
+            var lf_temp_tax = self.singleData.order_tax;
 
             self.singleData.order_amt = go_MathTool.formatFloat(self.singleData.order_amt, self.ship_mn_round_nos) || 0;
             self.singleData.order_tax = go_MathTool.formatFloat(self.singleData.order_tax, self.ship_mn_round_nos) || 0;
             self.singleData.order_tot = self.singleData.order_amt + self.singleData.order_tax;
 
-            let lf_div_amt = self.singleData.order_amt - lf_temp_amt;
-            let lf_div_tax = self.singleData.order_tax - lf_temp_tax;
+            var lf_div_amt = self.singleData.order_amt - lf_temp_amt;
+            var lf_div_tax = self.singleData.order_tax - lf_temp_tax;
 
             //找最後一筆有稅額的明細
-            let index = _.findLastIndex(this.singleDataGridRows, function (value) {
+            var index = _.findLastIndex(this.singleDataGridRows, function (value) {
                 return parseFloat(value.sorder_tax) != 0;
             });
 
@@ -1743,7 +1743,7 @@ let PSIW510030 = new Vue({
             self.singleData.ins_dat = moment().format('YYYY/MM/DD HH:mm:ss');
             self.singleData.upd_dat = moment().format('YYYY/MM/DD HH:mm:ss');
 
-            let prg_id;
+            var prg_id;
             if (self.createStatus) {
                 prg_id = "PSIW5100300520";
             }
@@ -1785,7 +1785,7 @@ let PSIW510030 = new Vue({
          * 按放棄按鈕 Event
          */
         drop: function () {
-            let self = this;
+            var self = this;
             //新增，清空頁面資料
             if (self.createStatus) {
                 self.singleData = {};
@@ -1830,7 +1830,7 @@ let PSIW510030 = new Vue({
                     return;
                 }
 
-                let self = this;
+                var self = this;
                 self.callAPI('PSIW5100302010', function () {
                     self.singleData = self.oriSingleData;
                     self.dgInsDT.loadDgData(self.oriSingleDataGridRows);
@@ -1863,7 +1863,7 @@ let PSIW510030 = new Vue({
          * Event after RowLock
          */
         buttonAfterLockDoFunc: function () {
-            let self = this;
+            var self = this;
             switch (self.buttonCase) {
                 case "edit":
                     self.callAPI('PSIW5100300400', function () {
@@ -1937,8 +1937,8 @@ let PSIW510030 = new Vue({
          * 空白訂貨表單下載按鈕
          */
         orderSearch: function () {
-            let self = this;
-            let dialog = $("#PSIW510030-down").removeClass('hide').dialog({
+            var self = this;
+            var dialog = $("#PSIW510030-down").removeClass('hide').dialog({
                 modal: true,
                 title: "空白訂貨表單下載",
                 title_html: true,
@@ -1955,10 +1955,10 @@ let PSIW510030 = new Vue({
          */
         orderSelectOnChange: function () {
 
-            let self = this;
+            var self = this;
 
             //取得貨品資料
-            let lo_params = {
+            var lo_params = {
                 func: "getGoodsData",
                 select_format_sta: self.select_format_sta
             };
@@ -1970,10 +1970,10 @@ let PSIW510030 = new Vue({
                 }
                 else {
                     self.order_data = [];
-                    let li_page_num = 0;
-                    let temp = [];
+                    var li_page_num = 0;
+                    var temp = [];
 
-                    for (let i = 0; i < result.data.length; i++) {
+                    for (var i = 0; i < result.data.length; i++) {
                         //30 = 一頁幾筆明細
                         if (i % 60 == 0) {
                             self.order_data.push(temp);
@@ -2005,10 +2005,10 @@ let PSIW510030 = new Vue({
          * @param callback {Function}
          */
         callSaveAPI: function (trans_cod, callback) {
-            let self = this;
+            var self = this;
 
             self.isLoading = true;
-            let lo_params = {
+            var lo_params = {
                 REVE_CODE: trans_cod,
                 prg_id: prg_id,
                 singleData: self.singleData,
@@ -2034,10 +2034,10 @@ let PSIW510030 = new Vue({
          */
         callAPI: function (trans_cod, callback) {
 
-            let self = this;
+            var self = this;
             self.isLoading = true;
 
-            let lo_params = {
+            var lo_params = {
                 REVE_CODE: trans_cod,
                 prg_id: prg_id,
                 order_nos: self.singleData.order_nos
@@ -2060,9 +2060,9 @@ let PSIW510030 = new Vue({
          */
         callOrderAPI: function () {
 
-            let self = this;
+            var self = this;
             self.isLoading = true;
-            let lo_params = {
+            var lo_params = {
                 REVE_CODE: "PSIW5100302020",
                 singleData: self.singleData
             };
@@ -2109,7 +2109,7 @@ let PSIW510030 = new Vue({
          * RowLock
          */
         doRowLock: function () {
-            let lo_param = {
+            var lo_param = {
                 prg_id: prg_id,
                 table_name: this.userInfo.cmp_id + this.singleData.order_nos,
                 lock_type: "R",
@@ -2122,7 +2122,7 @@ let PSIW510030 = new Vue({
          * RowUnLock
          */
         doRowUnLock: function () {
-            let lo_param = {
+            var lo_param = {
                 prg_id: prg_id
             };
             g_socket.emit('handleTableUnlock', lo_param);
@@ -2132,12 +2132,12 @@ let PSIW510030 = new Vue({
          * ChangeLog
          */
         loadChangeLog: function () {
-            let self = this;
+            var self = this;
             self.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
                 self.allChangeLogList = result.allChangeLogList;
                 self.allChangeLogList = _.filter(result.allChangeLogList, function (data) {
-                    let order_nos = _.find(data.desc_mn, function (field) {
+                    var order_nos = _.find(data.desc_mn, function (field) {
                         return field.field_name.trim() == "order_nos";
                     });
                     return _.isEqual(self.singleData.order_nos, order_nos.newVal);
@@ -2151,7 +2151,7 @@ let PSIW510030 = new Vue({
 BacchusMainVM.setPrgVueIns(PSIW510030);
 BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop"]);
 
-let adpterDg = new DatagridAdapter(PSIW510030);
+var adpterDg = new DatagridAdapter(PSIW510030);
 
 //region//套件
 
@@ -2161,7 +2161,7 @@ let adpterDg = new DatagridAdapter(PSIW510030);
 
     // A jQuery object containing all non-window elements to which the resize
     // event is bound.
-    let elems = $([]),
+    var elems = $([]),
 
         // Extend $.resize if it already exists, otherwise create it.
         jq_resize = $.resize = $.extend($.resize, {}),
@@ -2248,7 +2248,7 @@ let adpterDg = new DatagridAdapter(PSIW510030);
                 return false;
             }
 
-            let elem = $(this);
+            var elem = $(this);
 
             // Add this element to the list of internal elements to monitor.
             elems = elems.add(elem);
@@ -2272,7 +2272,7 @@ let adpterDg = new DatagridAdapter(PSIW510030);
                 return false;
             }
 
-            let elem = $(this);
+            var elem = $(this);
 
             // Remove this element from the list of internal elements to monitor.
             elems = elems.not(elem);
@@ -2296,7 +2296,7 @@ let adpterDg = new DatagridAdapter(PSIW510030);
                 return false;
             }
 
-            let old_handler;
+            var old_handler;
 
             // The new_handler function is executed every time the event is triggered.
             // This is used to update the internal element data store with the width
@@ -2305,7 +2305,7 @@ let adpterDg = new DatagridAdapter(PSIW510030);
             // comments above for more information.
 
             function new_handler(e, w, h) {
-                let elem = $(this),
+                var elem = $(this),
                     data = $.data(this, str_data);
 
                 // If called from the polling loop, w and h will be passed in as
@@ -2339,7 +2339,7 @@ let adpterDg = new DatagridAdapter(PSIW510030);
 
             // Iterate over all elements to which the 'resize' event is bound.
             elems.each(function () {
-                let elem = $(this),
+                var elem = $(this),
                     width = elem.width(),
                     height = elem.height(),
                     data = $.data(this, str_data);
@@ -2369,8 +2369,8 @@ $(".dominos-inventory-left").resizable({
 
 //右邊被拉小時，維持右邊欄位版面整齊
 $('.dominos-inventory-right').resize(function () {
-    let elem = $(this);
-    let inventoryRightW = elem.width();
+    var elem = $(this);
+    var inventoryRightW = elem.width();
 
     if (inventoryRightW < 750) {
         $(".order-down").css("float", "none");
