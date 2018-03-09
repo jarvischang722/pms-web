@@ -1315,9 +1315,9 @@ var PSIW510030 = new Vue({
                     _.each(result.data, function (value) {
                         //小數欄位format
                         value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 0); //客戶要求訂購量整數
-                        value.order_qnt = go_MathTool.formatFloat(value.order_qnt, self.dataPointRound);
-                        value.thu_qty = go_MathTool.formatFloat(value.thu_qty, self.dataPointRound);
-                        value.stock_qnt = go_MathTool.formatFloat(value.stock_qnt, self.dataPointRound);
+                        value.order_qnt = go_MathTool.formatFloat(value.order_qnt, self.dataPointRound).toFixed(self.dataPointRound);
+                        value.thu_qty = go_MathTool.formatFloat(value.thu_qty, self.dataPointRound).toFixed(self.dataPointRound);
+                        value.stock_qnt = go_MathTool.formatFloat(value.stock_qnt, self.dataPointRound).toFixed(self.dataPointRound);
 
                         //日期格式format
                         value.ship_dat = moment(value.ship_dat).format('YYYY/MM/DD');
@@ -1722,9 +1722,9 @@ var PSIW510030 = new Vue({
                 value.trans_nos = '';
                 value.trans_typ = '';
 
-                value.sorder_amt = go_MathTool.formatFloat(value.sale_amt * value.item_qnt, self.ship_dt_round_nos) || 0; // 小計 = 售價 * 數量(訂購量) (取單據明細小計小數位數)
+                value.sorder_amt = go_MathTool.formatFloat(value.sale_amt * Number(value.item_qnt), self.ship_dt_round_nos) || 0; // 小計 = 售價 * 數量(訂購量) (取單據明細小計小數位數)
                 value.sorder_tax = go_MathTool.formatFloat(value.sorder_amt * value.tax_rat, 2) || 0; // 稅額 = 小計 * 稅率 (取小數第二位)
-                value.remain_qnt = value.item_qnt * value.unit_nos || 0; // 未出貨量 = 數量(訂購量) * 單位轉換率
+                value.remain_qnt = Number(value.item_qnt) * value.unit_nos || 0; // 未出貨量 = 數量(訂購量) * 單位轉換率
 
                 self.singleData.order_amt += value.sorder_amt;
                 self.singleData.order_tax += value.sorder_tax;
@@ -2112,9 +2112,9 @@ var PSIW510030 = new Vue({
 
                         //小數欄位format
                         value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 0); //客戶要求訂購量整數
-                        value.order_qnt = go_MathTool.formatFloat(value.order_qnt, self.dataPointRound);
-                        value.thu_qty = go_MathTool.formatFloat(value.thu_qty, self.dataPointRound);
-                        value.stock_qnt = go_MathTool.formatFloat(value.stock_qnt, self.dataPointRound);
+                        value.order_qnt = go_MathTool.formatFloat(value.order_qnt, self.dataPointRound).toFixed(self.dataPointRound);
+                        value.thu_qty = go_MathTool.formatFloat(value.thu_qty, self.dataPointRound).toFixed(self.dataPointRound);
+                        value.stock_qnt = go_MathTool.formatFloat(value.stock_qnt, self.dataPointRound).toFixed(self.dataPointRound);
                     });
 
                     self.dgInsDT.loadDgData(self.singleDataGridRows);
