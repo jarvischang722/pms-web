@@ -193,9 +193,6 @@ exports.doTableAllUnLock = function (callback) {
 
 };
 
-
-
-
 /**
  *
  * @param callback
@@ -698,39 +695,13 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
 };
 
 /**
- * 執行作業特殊交易
+ * 執行作業儲存
  */
-exports.execTransSQL = function (postData, session, callback) {
-    let lo_saveProc = new operationSaveProc(postData, session);
-    async.waterfall([
-        lo_saveProc.doOptSaveAdapter,
-        lo_saveProc.doAPI
-    ], function (err, result) {
-        callback(err, result);
-    });
-};
-
-/**
- * 執行作業一般儲存
- */
-exports.execNormalSQL = function (postData, session, callback) {
+exports.execProcSQL = function (postData, session, callback) {
     let lo_saveProc = new operationSaveProc(postData, session);
     async.waterfall([
         lo_saveProc.doRuleProcBeforeSave,
         lo_saveProc.doOptSaveAdapter,
-        lo_saveProc.doAPI
-    ], function (err, result) {
-        callback(err, result);
-    });
-};
-
-/**
- * 前端插入資料資料庫api
- */
-exports.doSQLProcess = function (postData, session, callback) {
-    let lo_saveProc = new operationSaveProc(postData, session);
-    async.waterfall([
-        lo_saveProc.doSQLProcess,
         lo_saveProc.doAPI
     ], function (err, result) {
         callback(err, result);
@@ -786,7 +757,7 @@ function operationSaveProc(postData, session) {
 
         //轉換格式
         lo_optSaveAdapter.formating(function (err, lo_apiParams) {
-            callback(null, lo_optSaveAdapter);
+            callback(err, lo_optSaveAdapter);
         });
     };
 

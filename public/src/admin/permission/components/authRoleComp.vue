@@ -7,9 +7,19 @@
             </select>
 
             <template v-for="role in allRoles" v-else>
-                <input type="checkbox" :id="role.role_id" :value="role.role_id" v-model="checkedRole">
-                <label :for="role.role_id">{{role.role_nam}}</label><br>
+                <span class="checkbox">
+                  <label class="checkbox-width">
+                      <input name="form-field-checkbox"
+                             type="checkbox"
+                             :id="role.role_id" :value="role.role_id" v-model="checkedRole"
+                             class="ace">
+                      <span class="lbl" :for="role.role_id">
+                        {{role.role_nam}}
+                      </span>
+                  </label>
+                </span>
             </template>
+
         </div>
 
         <el-dialog title="新增角色" :visible.sync="lb_isRoleDialogShow" size="tiny">
@@ -147,7 +157,11 @@
                 }
                 else if (this.$store.state.gb_isAuthUpdate && this.gs_permissionModel == "authByRole") {
                     this.$store.commit("setIsLoading", true);
-                    $.post("/api/updRole", {role_id: this.role_id, role_name: this.role_name, ori_role_id: this.ori_role_id}).then(
+                    $.post("/api/updRole", {
+                        role_id: this.role_id,
+                        role_name: this.role_name,
+                        ori_role_id: this.ori_role_id
+                    }).then(
                         result => {
                             if (result.success) {
                                 self.qryAllRoles();
@@ -185,12 +199,12 @@
                         err => {
                             console.error(err.responseText);
                         }
-                    ).always(()=>{
+                    ).always(() => {
                         self.$store.commit("setIsLoading", false);
                         self.$store.commit("setIsAuthDelete", false);
                     })
                 }
-                else{
+                else {
                     this.$store.commit("setIsAuthDelete", false);
                 }
 

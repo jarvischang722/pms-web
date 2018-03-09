@@ -7,10 +7,14 @@
             SELECT  ZIP_COD as value, ZIP_RMK as display
             FROM  ZIPCOD_RF
             WHERE  ATHENA_ID = :athena_id
-            ORDER  BY  ZIP_COD
         ]]>
         </statement>
+        <statement test="_v(param.zip_cod)"><![CDATA[and trim(zip_cod) = trim(:zip_cod)]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">zip_cod</parameter>
+        <orderby>
+            ORDER BY ZIP_COD
+        </orderby>
     </dao>
 
 </root>

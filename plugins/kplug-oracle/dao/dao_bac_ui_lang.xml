@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- 取得集團全部的可用語系 -->
+    <dao name="QRY_UI_LANG_BY_ATHENA_ID">
+        <statement><![CDATA[
+            select *
+            from bac_ui_lang
+            where athena_id = :athena_id
+        ]]></statement>
+
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="2" condition="trim(comp_cod)=trim(:comp_cod)">comp_cod</parameter>
+
+    </dao>
+
+
+</root>

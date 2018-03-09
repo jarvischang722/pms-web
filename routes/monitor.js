@@ -3,7 +3,7 @@
  */
 var monitor = require("../controllers/monitorController");
 module.exports = function (app) {
-    //登入頁面
     app.get('/monitor', monitor.monitor);
     app.get('/checkServerSta', monitor.checkServerSta);
+    app.get('/checkSysAlive', monitor.checkSysAlive);
 };

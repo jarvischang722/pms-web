@@ -10,7 +10,7 @@
                 <button class="btn btn-primary btn-white btn-sm" style="height: 30px;" @click="authUpdate">
                     <i class="fa fa-pencil"></i> 修改
                 </button>
-                <button class="btn btn-danger delete btn-sm" style="height: 30px;" @click="authDelete">
+                <button class="btn btn-danger btn-white delete btn-sm" style="height: 30px;" @click="authDelete">
                     <i class="fa fa-minus"></i> 刪除
                 </button>
                 <button class="btn btn-success btn-white btn-sm" style="height: 30px;" @click="authCreate">

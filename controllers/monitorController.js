@@ -24,7 +24,7 @@ exports.monitor = function (req, res) {
             });
         },
         function (callback) {
-            request.get({url: "http://localhost:8888/login", timeout: 20000}, function (err, response, body) {
+            request.get({url: "http://localhost:8888/checkServerSta", timeout: 20000}, function (err, response, body) {
                 callback(err, body);
             });
 
@@ -57,19 +57,15 @@ exports.checkServerSta = function (req, res) {
                     if (exists) {
                         go_dbConf = require(ls_dbPath);
                         let ls_dbConfOutput = [];
-                        ls_dbConfOutput.push("MongoDB 設定  : <br> ======= ");
-                        ls_dbConfOutput.push(`host: ${go_dbConf.mongo.host}`);
-                        ls_dbConfOutput.push(`port: ${go_dbConf.mongo.port}`);
-                        ls_dbConfOutput.push(`dbname: ${go_dbConf.mongo.dbname}`);
-                        ls_dbConfOutput.push(`host: ${go_dbConf.mongo.host}`);
+                        ls_dbConfOutput.push("MongoDB 設定  : <br> ==============");
+                        ls_dbConfOutput.push(`Host: ${go_dbConf.mongo.host}`);
+                        ls_dbConfOutput.push(`Port: ${go_dbConf.mongo.port}`);
+                        ls_dbConfOutput.push(`DB Name: ${go_dbConf.mongo.dbname}`);
 
-                        ls_dbConfOutput.push("OracleDB 設定  : <br> ======= ");
+
+                        ls_dbConfOutput.push(" <br> OracleDB 設定  : <br> ==============");
                         _.each(go_dbConf.oracle, function (dbData, idx) {
-                            ls_dbConfOutput.push(`No: ${idx + 1}`);
-                            ls_dbConfOutput.push(`id: ${dbData.id}`);
-                            ls_dbConfOutput.push(`connectString: ${dbData.connectString}`);
-                            ls_dbConfOutput.push(`user: ${dbData.user}`);
-                            ls_dbConfOutput.push(`months: ${dbData.months}`);
+                            ls_dbConfOutput.push(`No: ${idx + 1} => ID: ${dbData.id}, ConnectString: ${dbData.connectString} , User: ${dbData.user}`);
                         });
 
                         gas_outputMsg.push(`<br><b>資料庫設定檔</b>:<br> ${ls_dbConfOutput.join("<br>")}`);
@@ -129,7 +125,7 @@ exports.checkServerSta = function (req, res) {
                     } else {
                         gas_outputMsg.push(`<br><b>API 回應</b>: OK`);
                     }
-                    gas_outputMsg.push(`<b>API 回應內容</b>: ${body}`);
+                    gas_outputMsg.push(`<b>API 回應內容</b>: ${body.replace(/#/g, '<br>')}`);
                     cb(null);
                 });
             }
@@ -145,5 +141,8 @@ exports.checkServerSta = function (req, res) {
     }
 
 
-}
-;
+};
+
+exports.checkSysAlive = function (req, res) {
+    res.send("success");
+};

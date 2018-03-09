@@ -15,14 +15,16 @@
         <statement test="_v(param.cust_cod)"><![CDATA[and cust.cust_cod in(:cust_cod)]]></statement>
         <statement test="_v(param.order_sta)"><![CDATA[and order_sta in(:order_sta)]]></statement>
 
-        <parameter type="string" kind="3">comp_cod</parameter>
-        <parameter type="string" kind="3">key_cod1</parameter>
-
-        <parameter type="likestring" kind="2" condition="order_nos like ?">order_nos</parameter>
-        <parameter type="likestring" kind="2" condition="atten_nam like ?">atten_nam</parameter>
         <parameter type="instring" kind="3">format_sta</parameter>
         <parameter type="instring" kind="3">cust_cod</parameter>
         <parameter type="instring" kind="3">order_sta</parameter>
+
+        <parameter type="likestring" kind="2" condition="mn.order_nos like ?">order_nos</parameter>
+        <parameter type="likestring" kind="2" condition="mn.atten_nam like ?">atten_nam</parameter>
+
+        <parameter type="string" kind="3">comp_cod</parameter>
+        <parameter type="string" kind="3">key_cod1</parameter>
+
         <orderby>order by mn.order_nos</orderby>
     </dao>
 
@@ -42,10 +44,10 @@
     <dao name="CHK_PSI_FORMAT_STA">
         <statement><![CDATA[
             select count(*) as count from psi_quote_mn
-            where comp_cod = :comp_cod
-            and cust_cod = :cust_cod
+            where trim(comp_cod) = trim(:comp_cod)
+            and trim(cust_cod) = trim(:cust_cod)
             and order_dat = to_date(:order_dat, 'YYYY/MM/DD')
-            and format_sta = :format_sta
+            and trim(format_sta) = trim(:format_sta)
         ]]>
         </statement>
         <parameter type="string" kind="3">comp_cod</parameter>

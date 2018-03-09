@@ -1,7 +1,8 @@
 var loginVM = new Vue({
     el: "#loginAPP",
     data: {
-        isLoading: false,
+        loadingText:'',
+        isLoading: true,
         sysConfig: "",
         companyData: [],
         rememberMeCheck: false,
@@ -59,7 +60,9 @@ var loginVM = new Vue({
             }
         },
         getCompaonyData: function () {
+            this.loadingText = 'Loading...';
             $.post("/api/getSelectCompany", function (result) {
+                loginVM.isLoading = false;
                 if (result.success) {
                     loginVM.companyData = result.selectCompany;
                     loginVM.comp_id = result.selectCompany.length > 0 ? result.selectCompany[0].cmp_id.trim() : "";
@@ -78,6 +81,7 @@ var loginVM = new Vue({
         },
         doLogin: function () {
             var self = this;
+            this.loadingText = 'Logging in...';
             self.isLoading = true;
             setupCookie("login_isRememberMe", this.rememberMeCheck ? "Y" : "N", "/", 2592000000);
             var params = {

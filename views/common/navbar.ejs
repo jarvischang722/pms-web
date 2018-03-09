@@ -1,6 +1,7 @@
 <div class="navbar-container avbar-default  ace-save-state navbar-fixed-top nav-header" id="navbar-container">
     <!-- #section:basics/sidebar.mobile.toggle -->
-    <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+    <!--mobile 漢堡-->
+    <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar"  style="display:none;">
         <span class="sr-only">Toggle sidebar</span>
 
         <span class="icon-bar"></span>
@@ -29,7 +30,7 @@
                 </ul>
             </div>
         </div><!-- /.nav-header-inline -->
-        <div class="breadcrumbs pull-left" id="breadcrumbs">
+        <div class="breadcrumbs pull-left" id="breadcrumbs" v-cloak>
             <ul class="breadcrumb">
                 <li>
                     <a href="/systemOption">
@@ -58,7 +59,7 @@
                     <img class="nav-user-photo" src="/images/user-icon.png" width="35" alt=""/>
                     <i class="ace-icon fa fa-caret-down"></i>
                 </a>
-                <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close dropdown-rz">
                     <li class="divider"></li>
                     <li>
                         <a @click="doEditPassword">

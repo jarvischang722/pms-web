@@ -110,10 +110,17 @@ exports.getResv_rateListTable = function (req, res) {
     res.render("subsystem/reservation/PMS0100000_module/resv_rateListTable");
 };
 
+//[PMS0110010依房型訂房] 首頁地圖資料
 exports.qryPageOneDataByRmTyp = function (req, res) {
     resvSvc.qryPageOneDataByRmTyp(req.body, req.session, function (err, result) {
         res.json({success: err == null, data: result, errorMsg: err});
     });
+};
+
+//[PMS0110050依房號訂房] 首頁地圖資料
+exports.qryRmNosPageOneMap = async (req, res) => {
+    let lo_result = await resvSvc.qryRmNosPageOneMap(req.body, req.session);
+    res.json({success: lo_result.success == true, data: lo_result.data, errorMsg: lo_result.errMsg});
 };
 
 exports.qryRentCalDat = function (req, res) {
@@ -122,7 +129,7 @@ exports.qryRentCalDat = function (req, res) {
         athena_id: lo_userInfo.athena_id,
         hotel_cod: lo_userInfo.hotel_cod
     };
-    queryAgent.query("QRY_RENT_CAL_DAT", lo_params, function(err, result){
+    queryAgent.query("QRY_RENT_CAL_DAT", lo_params, function (err, result) {
         res.json({success: err == null, rent_cal_dat: result.rent_cal_dat});
     });
 };

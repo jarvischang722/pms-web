@@ -11384,3 +11384,2079 @@
     "ui_display_name_en" : "", 
     "hint_en" : ""
 }
+{ 
+    "_id" : ObjectId("5a8f836aee527c2a0c1dfe8f"), 
+    "prg_id" : "PMS0110050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "room_cod", 
+    "ui_display_name_zh_TW" : "房型", 
+    "hint_zh_TW" : "房型", 
+    "ui_display_name_en" : "room_cod", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8f8402ee527c2a0c1dfe90"), 
+    "prg_id" : "PMS0110050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "room_nos", 
+    "ui_display_name_zh_TW" : "房號", 
+    "hint_zh_TW" : "房號", 
+    "ui_display_name_en" : "room_nos", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8f842dee527c2a0c1dfe91"), 
+    "prg_id" : "PMS0110050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "character_rmk", 
+    "ui_display_name_zh_TW" : "房間特色", 
+    "hint_zh_TW" : "房間特色", 
+    "ui_display_name_en" : "character_rmk", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8f8444ee527c2a0c1dfe92"), 
+    "prg_id" : "PMS0110050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "build_nos", 
+    "ui_display_name_zh_TW" : "棟別", 
+    "hint_zh_TW" : "棟別", 
+    "ui_display_name_en" : "build_nos", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8f8456ee527c2a0c1dfe93"), 
+    "prg_id" : "PMS0110050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "floor_nos", 
+    "ui_display_name_zh_TW" : "樓層", 
+    "hint_zh_TW" : "樓層", 
+    "ui_display_name_en" : "floor_nos", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cf98"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "status_cod", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cf99"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "contry_cod", 
+    "ui_display_name_zh_TW" : "國籍", 
+    "hint_zh_TW" : "國籍", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cf9a"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "show_cod", 
+    "ui_display_name_zh_TW" : "歷史編號", 
+    "hint_zh_TW" : "歷史編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cf9b"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "alt_nam", 
+    "ui_display_name_zh_TW" : "姓名", 
+    "hint_zh_TW" : "姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cf9c"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sex_typ", 
+    "ui_display_name_zh_TW" : "性別", 
+    "hint_zh_TW" : "性別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cf9d"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "id_cod", 
+    "ui_display_name_zh_TW" : "身分證字號", 
+    "hint_zh_TW" : "身分證字號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cf9e"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "mobile_nos", 
+    "ui_display_name_zh_TW" : "行動電話", 
+    "hint_zh_TW" : "行動電話", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cf9f"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "e_mail", 
+    "ui_display_name_zh_TW" : "電子郵件", 
+    "hint_zh_TW" : "電子郵件", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfa0"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "visit_nos", 
+    "ui_display_name_zh_TW" : "來訪次數", 
+    "hint_zh_TW" : "來訪次數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfa1"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "visit_days", 
+    "ui_display_name_zh_TW" : "來訪天數", 
+    "hint_zh_TW" : "來訪天數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfa2"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "contry_nam", 
+    "ui_display_name_zh_TW" : "國籍", 
+    "hint_zh_TW" : "國籍", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfa3"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "trans_tot", 
+    "ui_display_name_zh_TW" : "消費總額", 
+    "hint_zh_TW" : "消費總額", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfa4"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "name", 
+    "ui_display_name_zh_TW" : "姓名", 
+    "hint_zh_TW" : "姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfa5"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "Contry_cod", 
+    "ui_display_name_zh_TW" : "國籍", 
+    "hint_zh_TW" : "國籍", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfa6"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "Show_cod", 
+    "ui_display_name_zh_TW" : "歷史編號", 
+    "hint_zh_TW" : "歷史編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfa7"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "Status_cod", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfa8"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "Id_cod", 
+    "ui_display_name_zh_TW" : "身分證字號", 
+    "hint_zh_TW" : "身分證字號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfa9"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "Mobile_nos", 
+    "ui_display_name_zh_TW" : "Mobile ", 
+    "hint_zh_TW" : "Mobile ", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfaa"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "birth_dat", 
+    "ui_display_name_zh_TW" : "出生月份", 
+    "hint_zh_TW" : "出生月份", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfab"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "Visit_nos", 
+    "ui_display_name_zh_TW" : "來訪次數", 
+    "hint_zh_TW" : "來訪次數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfac"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "Visit_days", 
+    "ui_display_name_zh_TW" : "來訪天數", 
+    "hint_zh_TW" : "來訪天數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfad"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "Trans_tot", 
+    "ui_display_name_zh_TW" : "消費總額", 
+    "hint_zh_TW" : "消費總額", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfae"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "dm_flag", 
+    "ui_display_name_zh_TW" : "是否收DM", 
+    "hint_zh_TW" : "是否收DM", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfaf"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "agent_idx_show_cod", 
+    "ui_display_name_zh_TW" : "訂房公司", 
+    "hint_zh_TW" : "訂房公司", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd3930bf3d908dc91cfb0"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ccust_nam", 
+    "ui_display_name_zh_TW" : "公司名稱", 
+    "hint_zh_TW" : "公司名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a93ce1f0bf3d908dc91d056"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ci_dat", 
+    "ui_display_name_zh_TW" : "C/I日期", 
+    "hint_zh_TW" : "C/I日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4100"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4122"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4123"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4124"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4125"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4126"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4127"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4128"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4129"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af412a"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af412b"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af412c"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af412d"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af412e"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af412f"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4130"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4131"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4132"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4133"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4134"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4135"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4136"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4137"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4138"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4139"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af413a"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af413b"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af413c"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af413d"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af413e"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af413f"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4140"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4141"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4142"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4143"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4144"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4145"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4146"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4147"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4148"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4149"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af414a"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af414b"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af414c"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af414d"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af414e"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af414f"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4150"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4151"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4152"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af4153"), 
+    "prg_id" : "prg_id", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "func_id(按鈕編號)", 
+    "ui_display_name_zh_TW" : "ui_display_name_zh_TW", 
+    "hint_zh_TW" : "ui_display_name_en", 
+    "ui_display_name_en" : "hint_zh_TW", 
+    "hint_en" : "hint_en"
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af415a"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af415b"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af415c"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af415d"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af415e"), 
+    "prg_id" : "prg_id\n(作業代號)", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "select(下拉清單)", 
+    "ui_field_name" : "value(值)", 
+    "ui_display_name_zh_TW" : "ui_display_name_zh_TW", 
+    "hint_zh_TW" : "ui_display_name_en", 
+    "ui_display_name_en" : "hint_zh_TW", 
+    "hint_en" : "hint_en"
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af416a"), 
+    "prg_id" : "PMS0210012", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "lang_order_sta", 
+    "ui_field_name" : "W", 
+    "ui_display_name_zh_TW" : "等待", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af416b"), 
+    "prg_id" : "PMS0210013", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "lang_order_sta", 
+    "ui_field_name" : "I", 
+    "ui_display_name_zh_TW" : "今日到達", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af416c"), 
+    "prg_id" : "PMS0210014", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "lang_order_sta", 
+    "ui_field_name" : "O", 
+    "ui_display_name_zh_TW" : "已到", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dcf7ee527c3018af416d"), 
+    "prg_id" : "PMS0210015", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "lang_order_sta", 
+    "ui_field_name" : "S", 
+    "ui_display_name_zh_TW" : "No-Show", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af416e"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "show_cod", 
+    "ui_display_name_zh_TW" : "歷史編號", 
+    "hint_zh_TW" : "歷史編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af416f"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "alt_nam", 
+    "ui_display_name_zh_TW" : "姓名", 
+    "hint_zh_TW" : "姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4170"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "first_nam", 
+    "ui_display_name_zh_TW" : "名", 
+    "hint_zh_TW" : "名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4171"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "last_nam", 
+    "ui_display_name_zh_TW" : "姓", 
+    "hint_zh_TW" : "姓", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4172"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "status_cod", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4173"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "salute_cod", 
+    "ui_display_name_zh_TW" : "稱謂", 
+    "hint_zh_TW" : "稱謂", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4174"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "contry_cod", 
+    "ui_display_name_zh_TW" : "國籍", 
+    "hint_zh_TW" : "國籍", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4175"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "live_cod", 
+    "ui_display_name_zh_TW" : "居住地", 
+    "hint_zh_TW" : "居住地", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4176"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "lang_cod", 
+    "ui_display_name_zh_TW" : "使用語言", 
+    "hint_zh_TW" : "使用語言", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4177"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "role_cod", 
+    "ui_display_name_zh_TW" : "職稱", 
+    "hint_zh_TW" : "職稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4178"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "car_nos", 
+    "ui_display_name_zh_TW" : "車號", 
+    "hint_zh_TW" : "車號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4179"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "acust_cod", 
+    "ui_display_name_zh_TW" : "訂房公司", 
+    "hint_zh_TW" : "訂房公司", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af417a"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ccust_nam", 
+    "ui_display_name_zh_TW" : "公司名稱", 
+    "hint_zh_TW" : "公司名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af417b"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "credit_nos", 
+    "ui_display_name_zh_TW" : "信用卡號", 
+    "hint_zh_TW" : "信用卡號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af417c"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "expira_dat", 
+    "ui_display_name_zh_TW" : "有效期限", 
+    "hint_zh_TW" : "有效期限", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af417d"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "airmb_nos", 
+    "ui_display_name_zh_TW" : "航空會員", 
+    "hint_zh_TW" : "航空會員", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af417e"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "airline_cod", 
+    "ui_display_name_zh_TW" : "航空公司", 
+    "hint_zh_TW" : "航空公司", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af417f"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "dm_flag", 
+    "ui_display_name_zh_TW" : "收取DM", 
+    "hint_zh_TW" : "收取DM", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4180"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "requst_rmk", 
+    "ui_display_name_zh_TW" : "備註", 
+    "hint_zh_TW" : "備註", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4181"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "co_del_sta", 
+    "ui_display_name_zh_TW" : "離店後刪除", 
+    "hint_zh_TW" : "離店後刪除", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4182"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.sex_typ", 
+    "ui_display_name_zh_TW" : "性別", 
+    "hint_zh_TW" : "性別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4183"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.id_cod", 
+    "ui_display_name_zh_TW" : "身分證字號", 
+    "hint_zh_TW" : "身分證字號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4184"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.birth_dat", 
+    "ui_display_name_zh_TW" : "生日", 
+    "hint_zh_TW" : "生日", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4185"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.mobile_nos", 
+    "ui_display_name_zh_TW" : "行動電話", 
+    "hint_zh_TW" : "行動電話", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4186"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.office_tel", 
+    "ui_display_name_zh_TW" : "公司電話", 
+    "hint_zh_TW" : "公司電話", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4187"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.home_tel", 
+    "ui_display_name_zh_TW" : "住家電話", 
+    "hint_zh_TW" : "住家電話", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4188"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.fax_nos", 
+    "ui_display_name_zh_TW" : "傳真電話", 
+    "hint_zh_TW" : "傳真電話", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4189"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.e_mail", 
+    "ui_display_name_zh_TW" : "電子郵件", 
+    "hint_zh_TW" : "電子郵件", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af418a"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.zip_cod", 
+    "ui_display_name_zh_TW" : "郵遞區號", 
+    "hint_zh_TW" : "郵遞區號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af418b"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.add_rmk", 
+    "ui_display_name_zh_TW" : "地址", 
+    "hint_zh_TW" : "地址", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af418c"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.uni_cod", 
+    "ui_display_name_zh_TW" : "統一編號", 
+    "hint_zh_TW" : "統一編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af418d"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.uni_title", 
+    "ui_display_name_zh_TW" : "發票抬頭", 
+    "hint_zh_TW" : "發票抬頭", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af418e"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ghist_visit_dt.pref_room", 
+    "ui_display_name_zh_TW" : "喜好房號", 
+    "hint_zh_TW" : "喜好房號", 
+    "ui_display_name_en" : "Pre.RM", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af418f"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ghist_visit_dt.last_room", 
+    "ui_display_name_zh_TW" : "上次住宿房號", 
+    "hint_zh_TW" : "上次住宿房號", 
+    "ui_display_name_en" : "Last RM No.", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4190"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ghist_visit_dt.character_rmk", 
+    "ui_display_name_zh_TW" : "房間喜好特色", 
+    "hint_zh_TW" : "房間喜好特色", 
+    "ui_display_name_en" : "Pre. Features", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4191"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ghist_visit_dt.visit_nos", 
+    "ui_display_name_zh_TW" : "來訪次數", 
+    "hint_zh_TW" : "來訪次數", 
+    "ui_display_name_en" : "Visit No.", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4192"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ghist_visit_dt.visit_days", 
+    "ui_display_name_zh_TW" : "來訪天數", 
+    "hint_zh_TW" : "來訪天數", 
+    "ui_display_name_en" : "Visit days", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4193"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ghist_visit_dt.first_dat", 
+    "ui_display_name_zh_TW" : "首次來訪日", 
+    "hint_zh_TW" : "首次來訪日", 
+    "ui_display_name_en" : "First visit Date", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4194"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ghist_visit_dt.last_dat", 
+    "ui_display_name_zh_TW" : "最近來訪日", 
+    "hint_zh_TW" : "最近來訪日", 
+    "ui_display_name_en" : "Last Visit Date", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4195"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ghist_visit_dt.rent_amt", 
+    "ui_display_name_zh_TW" : "房租消費金額", 
+    "hint_zh_TW" : "房租消費金額", 
+    "ui_display_name_en" : "RM Amt.", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4196"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ghist_visit_dt.rs_amt", 
+    "ui_display_name_zh_TW" : "餐飲消費金額", 
+    "hint_zh_TW" : "餐飲消費金額", 
+    "ui_display_name_en" : "F&B Amt.", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4197"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ghist_visit_dt.other_amt", 
+    "ui_display_name_zh_TW" : "其他消費金額", 
+    "hint_zh_TW" : "其他消費金額", 
+    "ui_display_name_en" : "Others Amt.", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4198"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ghist_visit_dt.trans_amt", 
+    "ui_display_name_zh_TW" : "消費總額", 
+    "hint_zh_TW" : "消費總額", 
+    "ui_display_name_en" : "Total Amt.", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af4199"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af419a"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_prefer_dt.prefer_nam", 
+    "ui_display_name_zh_TW" : "類別", 
+    "hint_zh_TW" : "類別", 
+    "ui_display_name_en" : "Group", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af419b"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_prefer_dt.alert_sta", 
+    "ui_display_name_zh_TW" : "提醒", 
+    "hint_zh_TW" : "提醒", 
+    "ui_display_name_en" : "Alert", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af419c"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_prefer_dt.prefer_rmk", 
+    "ui_display_name_zh_TW" : "內容", 
+    "hint_zh_TW" : "內容", 
+    "ui_display_name_en" : "Description", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af419d"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1040), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "contact_dt.contact_nam", 
+    "ui_display_name_zh_TW" : "連絡類別", 
+    "hint_zh_TW" : "連絡類別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af419e"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1040), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "contact_dt.contact_rmk", 
+    "ui_display_name_zh_TW" : "連絡內容", 
+    "hint_zh_TW" : "連絡內容", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af419f"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1040), 
+    "tab_page_id" : NumberInt(3), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "address_dt.add_nam", 
+    "ui_display_name_zh_TW" : "地址類別", 
+    "hint_zh_TW" : "地址類別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41a0"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1040), 
+    "tab_page_id" : NumberInt(3), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "address_dt.zip_cod", 
+    "ui_display_name_zh_TW" : "郵遞區號", 
+    "hint_zh_TW" : "郵遞區號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41a1"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1040), 
+    "tab_page_id" : NumberInt(3), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "address_dt.add_rmk", 
+    "ui_display_name_zh_TW" : "地址", 
+    "hint_zh_TW" : "地址", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41a2"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.order_sta", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41a3"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.ci_dat", 
+    "ui_display_name_zh_TW" : "入住日期", 
+    "hint_zh_TW" : "入住日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41a4"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.co_dat", 
+    "ui_display_name_zh_TW" : "退房日期", 
+    "hint_zh_TW" : "退房日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41a5"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_mn.acust_nam", 
+    "ui_display_name_zh_TW" : "訂房公司", 
+    "hint_zh_TW" : "訂房公司", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41a6"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_mn.cust_nam", 
+    "ui_display_name_zh_TW" : "公司名稱", 
+    "hint_zh_TW" : "公司名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41a7"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_mn.galt_nam", 
+    "ui_display_name_zh_TW" : "團號", 
+    "hint_zh_TW" : "團號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41a8"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_mn.atten_nam", 
+    "ui_display_name_zh_TW" : "聯絡人", 
+    "hint_zh_TW" : "聯絡人", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41a9"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.rate_cod", 
+    "ui_display_name_zh_TW" : "房價代號", 
+    "hint_zh_TW" : "房價代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41aa"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.use_cod", 
+    "ui_display_name_zh_TW" : "計價房種", 
+    "hint_zh_TW" : "計價房種", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41ab"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.order_qnt", 
+    "ui_display_name_zh_TW" : "間數", 
+    "hint_zh_TW" : "間數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41ac"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.rent_amt", 
+    "ui_display_name_zh_TW" : "單日房價", 
+    "hint_zh_TW" : "單日房價", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41ad"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(21), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.guest_qnt", 
+    "ui_display_name_zh_TW" : "人數", 
+    "hint_zh_TW" : "人數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41ae"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_dt.rspt_nam", 
+    "ui_display_name_zh_TW" : "廳別", 
+    "hint_zh_TW" : "廳別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41af"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_dt.ci_dat", 
+    "ui_display_name_zh_TW" : "入住日期", 
+    "hint_zh_TW" : "入住日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41b0"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_dt.co_dat", 
+    "ui_display_name_zh_TW" : "退房日期", 
+    "hint_zh_TW" : "退房日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41b1"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_dt.room_nos", 
+    "ui_display_name_zh_TW" : "房號", 
+    "hint_zh_TW" : "房號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41b2"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_dt.ratecod_cod", 
+    "ui_display_name_zh_TW" : "房價代號", 
+    "hint_zh_TW" : "房價代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41b3"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_dt.room_amt", 
+    "ui_display_name_zh_TW" : "房價", 
+    "hint_zh_TW" : "房價", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41b4"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_dt.total_amt", 
+    "ui_display_name_zh_TW" : "總消費額", 
+    "hint_zh_TW" : "總消費額", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41b5"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_dt.rent_amt", 
+    "ui_display_name_zh_TW" : "房租消費", 
+    "hint_zh_TW" : "房租消費", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41b6"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_dt.rs_amt", 
+    "ui_display_name_zh_TW" : "餐飲消費", 
+    "hint_zh_TW" : "餐飲消費", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41b7"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_dt.other_amt", 
+    "ui_display_name_zh_TW" : "其他消費", 
+    "hint_zh_TW" : "其他消費", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41b8"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_dt.tips_amt", 
+    "ui_display_name_zh_TW" : "小費", 
+    "hint_zh_TW" : "小費", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41b9"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ghist_dt.payout_amt", 
+    "ui_display_name_zh_TW" : "代支金額", 
+    "hint_zh_TW" : "代支金額", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a97ddfbee527c3018af41ba"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(22), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "cust_idx.alt_nam", 
+    "ui_display_name_zh_TW" : "訂房公司", 
+    "hint_zh_TW" : "訂房公司", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5a992c3dee527c2e94ff2bd5"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ins_dat", 
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date", 
+    "tab_page_id" : NumberInt(1)
+}
+{ 
+    "_id" : ObjectId("5a992c67ee527c2e94ff2bd6"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ins_usr", 
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By", 
+    "tab_page_id" : NumberInt(1)
+}
+{ 
+    "_id" : ObjectId("5a992c80ee527c2e94ff2bd7"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "upd_dat", 
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date", 
+    "tab_page_id" : NumberInt(1)
+}
+{ 
+    "_id" : ObjectId("5a992ca4ee527c2e94ff2bd8"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "upd_usr", 
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By", 
+    "tab_page_id" : NumberInt(1)
+}
+{ 
+    "_id" : ObjectId("5a9bcc4955b5435f998d6a9d"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "vip_sta", 
+    "ui_display_name_zh_TW" : "等級", 
+    "hint_zh_TW" : "等級", 
+    "ui_display_name_en" : "", 
+    "hint_en" : "", 
+    "tab_page_id" : NumberInt(1)
+}

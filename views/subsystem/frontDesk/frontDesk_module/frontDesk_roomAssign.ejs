@@ -8,23 +8,36 @@
                         <div class="pull-left">
                             <label class="spec-title">Assign Rmks/RM Features</label>
                         </div>
-                        <div class="checkbox pull-right open-cardDetail">
-                            <label class="no-padding-left">
-                                <input name="showCardDetail" value="showCardDetail" type="checkbox"
-                                       class="ace showCardDetail"/>
-                                <span class="lbl"> 顯示訂房卡明細 </span>
-                            </label>
+                        <div class="pull-right">
+                            <span class="checkbox">
+                                  <label class="checkbox-width">
+                                      <input name="form-field-checkbox"
+                                             type="checkbox"
+                                             class="ace">
+                                      <span class="lbl">
+                                          <span class="subtxt">顯示全部</span>
+                                      </span>
+                                  </label>
+                            </span>
                         </div>
+                        <!--<div class="checkbox pull-right open-cardDetail">-->
+                        <!--<label class="no-padding-left">-->
+                        <!--<input name="showCardDetail" value="showCardDetail" type="checkbox"-->
+                        <!--class="ace showCardDetail"/>-->
+                        <!--<span class="lbl"> 顯示訂房卡明細 </span>-->
+                        <!--</label>-->
+                        <!--</div>-->
                         <div class="clearfix"></div>
                         <textarea class="width-100 height-auto rzNone" rows="3"></textarea>
                     </div> <!-- /.room-special -->
                 </div>
 
-                <!-- 控制面板(panel)隱藏dataGrid -->
-                <div class="cardDetail-table easyui-panel">
+                <!-- 控制面板(panel)隱藏dataGrid class="cardDetail-table" -->
+                <div class="roomDetail-table2 easyui-panel">
                     <table id="roomDetail-table"></table>
                 </div>
                 <br>
+                <div class="space-4"></div>
                 <div class="jqGridEdit-table roomDetail-table2 cardDetail_margin easyui-panel">
                     <table id="roomDetail-table2" class="roomAssTableHt" style="height: 400px;"></table>
                 </div>
@@ -35,25 +48,38 @@
                     <!-- #section:elements.tab.position -->
                     <div class="col-xs-12">
                         <div class="row">
-                            <div class="col-xs-2">
-                                <div class="row no-padding">
-                                    <div class="select-group">
-                                        <button class="btn btn-primary btn-white btn-defaultWidth town-list-btn">
-                                            List
-                                        </button>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth town-graphics-btn">
-                                            Graphics
-                                        </button>
-                                    </div>
+                            <div class="col-xs-4">
+                                <div class="row no-padding searchCheckbox">
+                                    <span class="checkbox">
+                                          <label class="checkbox-width">
+                                              <input name="form-field-checkbox"
+                                                     type="checkbox" checked
+                                                     class="ace">
+                                              <span class="lbl">
+                                                  <span class="subtxt">可排房</span>
+                                              </span>
+                                          </label>
+                                    </span>
                                 </div>
                             </div>
-                            <div class="col-xs-4">
-                                <div class="row no-padding">
-                                    <label class="margin-5">
-                                        <input type="checkbox"
-                                               class="ace"/>
-                                        <span class="lbl"> W/O Ocuppied/OOO </span>
-                                    </label>
+                            <div class="col-xs-2">
+                                <div class="row ml--13">
+                                    <div class="select-group">
+                                        <button data-toggle="dropdown"
+                                                class="btn btn-primary btn-white btn-defaultWidth dropdown-toggle"
+                                                aria-expanded="false">
+                                            <span class="dpShowValue">特色</span>
+                                            <span class="ace-icon fa fa-angle-down icon-on-right"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-info dropdown-menu-right dpUIList">
+                                            <li><a href="#">G001:面公道五路</a></li>
+                                            <li><a href="#">G002:面華夏新城</a></li>
+                                            <li><a href="#">N003:不要四號房</a></li>
+                                            <li><a href="#">N004:不要角間</a></li>
+                                            <li><a href="#">ALL</a></li>
+                                        </ul>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="col-xs-2">
@@ -71,6 +97,7 @@
                                             <li><a href="#">C棟</a></li>
                                             <!--<li class="divider"></li>-->
                                             <li><a href="#">D棟</a></li>
+                                            <li><a href="#">ALL</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -91,6 +118,7 @@
                                             <li><a href="#">2F</a></li>
 
                                             <li><a href="#">3F</a></li>
+                                            <li><a href="#">ALL</a></li>
 
                                             <!--<li class="divider"></li>-->
 
@@ -118,6 +146,8 @@
                             <div class="clearfix"></div>
                         </div>
                     </div>
+                    <div class="clearfix"></div>
+                    <div class="space-2"></div>
                     <div class="tabbable tabs-left">
                         <div class="horizTable-outer pull-left chooseCount"
                              style="min-width: 39px; max-width:5%;">
@@ -2929,6 +2959,11 @@
                 <ul>
                     <li>
                         <button class="btn btn-primary btn-white btn-defaultWidth"
+                                role="button">執行
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                 role="button">Assign
                         </button>
                     </li>
@@ -2943,6 +2978,11 @@
                         </button>
                     </li>
                     <li>
+                        <button class="btn btn-danger btn-white btn-defaultWidth"
+                                role="button">Unassign All
+                        </button>
+                    </li>
+                    <li>
                         <button class="btn btn-gray btn-defaultWidth foCnt_autoAssign"
                                 role="button">Auto Assign
                         </button>
@@ -2950,6 +2990,14 @@
                     <li>
                         <button class="btn btn-primary btn-white btn-defaultWidth resv_guestDetail"
                                 role="button">Pax List
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth town-list-btn">
+                            List
+                        </button>
+                        <button class="btn btn-primary btn-white btn-defaultWidth town-graphics-btn">
+                            Graphics
                         </button>
                     </li>
                     <li>
@@ -2962,7 +3010,6 @@
         </div>
     </div>
 </div><!-- /.roomAssign -->
-
 
 <!-- 彈出 排房明細視窗 -->
 <div id="roomAss_detail_msg" class="hide padding-5" style="">
@@ -3012,7 +3059,6 @@
 
 <script type="text/javascript">
     jQuery(function () {
-
         // 彈出 排房明細 option
         $(document).on('click', ".roomAss_detail", function (e) {
             e.preventDefault();
@@ -3028,6 +3074,5 @@
                 resizable: true
             });
         });
-
     });
 </script>
