@@ -273,7 +273,10 @@ var PSIW510030 = new Vue({
 
         //異動Log
         openChangeLogDialog: false,
-        allChangeLogList: []
+        allChangeLogList: [],
+
+        //參數
+        dataPointRound: 3
     },
     watch: {
 
@@ -987,7 +990,7 @@ var PSIW510030 = new Vue({
                     ui_field_name: "stock_qnt",
                     ui_type: "number",
                     ui_field_length: 15,
-                    ui_field_num_point: 2,
+                    ui_field_num_point: this.dataPointRound,
                     col_seq: 4,
                     width: 50,
                     visiable: "Y",
@@ -1010,7 +1013,7 @@ var PSIW510030 = new Vue({
                     ui_field_name: "thu_qty",
                     ui_type: "number",
                     ui_field_length: 15,
-                    ui_field_num_point: 2,
+                    ui_field_num_point: this.dataPointRound,
                     col_seq: 4,
                     width: 60,
                     visiable: "Y",
@@ -1057,7 +1060,7 @@ var PSIW510030 = new Vue({
                     ui_field_name: "order_qnt",
                     ui_type: "number",
                     ui_field_length: 15,
-                    ui_field_num_point: 2,
+                    ui_field_num_point: this.dataPointRound,
                     col_seq: 5,
                     width: 75,
                     visiable: "Y",
@@ -1078,9 +1081,9 @@ var PSIW510030 = new Vue({
                     user_id: "",
                     prg_id: "PSIW510030",
                     ui_field_name: "item_qnt",
-                    ui_type: "number",
+                    ui_type: "text",
                     ui_field_length: 15,
-                    ui_field_num_point: 2,
+                    ui_field_num_point: 0,
                     col_seq: 6,
                     width: 50,
                     visiable: "Y",
@@ -1310,11 +1313,11 @@ var PSIW510030 = new Vue({
                 }
                 else {
                     _.each(result.data, function (value) {
-                        //撈出來小數直接做四捨五入
-                        value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 2);
-                        value.order_qnt = go_MathTool.formatFloat(value.order_qnt, 2);
-                        value.thu_qty = go_MathTool.formatFloat(value.thu_qty, 2);
-                        value.stock_qnt = go_MathTool.formatFloat(value.stock_qnt, 2);
+                        //小數欄位format
+                        value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 0); //客戶要求訂購量整數
+                        value.order_qnt = go_MathTool.formatFloat(value.order_qnt, self.dataPointRound);
+                        value.thu_qty = go_MathTool.formatFloat(value.thu_qty, self.dataPointRound);
+                        value.stock_qnt = go_MathTool.formatFloat(value.stock_qnt, self.dataPointRound);
 
                         //日期格式format
                         value.ship_dat = moment(value.ship_dat).format('YYYY/MM/DD');
@@ -2106,6 +2109,12 @@ var PSIW510030 = new Vue({
 
                         value.stock_unit = value.stock_unit.trim();
                         value.unit_typ = value.unit_typ.trim();
+
+                        //小數欄位format
+                        value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 0); //客戶要求訂購量整數
+                        value.order_qnt = go_MathTool.formatFloat(value.order_qnt, self.dataPointRound);
+                        value.thu_qty = go_MathTool.formatFloat(value.thu_qty, self.dataPointRound);
+                        value.stock_qnt = go_MathTool.formatFloat(value.stock_qnt, self.dataPointRound);
                     });
 
                     self.dgInsDT.loadDgData(self.singleDataGridRows);

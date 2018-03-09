@@ -33,6 +33,6 @@ function MathTool(){
     this.formatFloat = function(num, pos)
     {
         var size = Math.pow(10, pos);
-        return Math.round(num * size) / size;
+        return (Math.round(num * size) / size).toFixed(pos);
     };
 }
