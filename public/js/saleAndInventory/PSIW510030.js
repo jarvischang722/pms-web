@@ -500,14 +500,9 @@ var PSIW510030 = new Vue({
                                 selectData: self.searchCustSelectData,
                                 columns: [
                                     {
-                                        field: "show_cod",
-                                        title: "客戶代號",
-                                        width: 80
-                                    },
-                                    {
                                         field: "cust_nam",
-                                        title: "客戶名稱",
-                                        width: 120
+                                        title: "客戶代號/名稱",
+                                        width: 200
                                     }
                                 ],
                                 display: "cust_nam",
@@ -992,7 +987,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 15,
                     ui_field_num_point: this.dataPointRound,
                     col_seq: 4,
-                    width: 50,
+                    width: 60,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -1085,7 +1080,7 @@ var PSIW510030 = new Vue({
                     ui_field_length: 15,
                     ui_field_num_point: 0,
                     col_seq: 6,
-                    width: 50,
+                    width: 60,
                     visiable: "Y",
                     modificable: "Y",
                     requirable: "Y",
