@@ -1203,7 +1203,7 @@
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
-    "table_name" : "contract_dt", 
+    "table_name" : "contact_dt", 
     "rule_func_name" : "qry_contact_dt", 
     "lock_table" : "", 
     "lock_type" : "", 

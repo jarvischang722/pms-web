@@ -161,6 +161,8 @@
 </template>
 
 <script>
+    import _ from 'underscore';
+
     export default {
         name: 'otherContact',
         props: ["isOtherContact"],
@@ -209,14 +211,27 @@
             emailDataGridRows: {
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
+                        let lo_emailTmpCUD = {
+                            createData: [],
+                            updateData: [],
+                            oriData: []
+                        };
+
+                        _.each(this.oriEmailDataGridRows, (lo_oriEmailDataGridRows) => {
+                            if (_.isNull(lo_oriEmailDataGridRows.cust_cod)) {
+                                lo_emailTmpCUD.createData = val;
+                            }
+                            else {
+                                lo_emailTmpCUD.updateData = val;
+                                lo_emailTmpCUD.oriData = this.oriEmailDataGridRows;
+                            }
+                        });
+
                         //將email資料放至Vuex
                         this.$store.dispatch("setEmailDataGridRowsData", {
                             ga_emailDataGridRowsData: val,
                             ga_oriEmailDataGridRowsData: this.oriEmailDataGridRows,
-                            go_emailTmpCUD: {
-                                updateData: val,
-                                oriData: this.oriEmailDataGridRows
-                            }
+                            go_emailTmpCUD: lo_emailTmpCUD
                         });
                     }
                 },
@@ -225,14 +240,27 @@
             contactDataGridRows: {
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
+                        let lo_contactTmpCUD = {
+                            createData: [],
+                            updateData: [],
+                            oriData: []
+                        };
+
+                        _.each(this.oriContactDataGridRows, (lo_oriContactDataGridRows, idx) => {
+                            if (_.isNull(lo_oriContactDataGridRows["contact_dt.cust_cod"])) {
+                                lo_contactTmpCUD.createData.push(val[idx]);
+                            }
+                            else {
+                                lo_contactTmpCUD.updateData.push(val[idx]);
+                                lo_contactTmpCUD.oriData.push(lo_oriContactDataGridRows);
+                            }
+                        });
+
                         //將聯絡資料放至Vuex
                         this.$store.dispatch("setContactDataGridRowsData", {
                             ga_contactDataGridRowsData: val,
                             ga_oriContactDataGridRowsData: this.oriContactDataGridRows,
-                            go_contactTmpCUD: {
-                                updateData: val,
-                                oriData: this.oriContactDataGridRows
-                            }
+                            go_contactTmpCUD: lo_contactTmpCUD
                         });
                     }
                 },
@@ -253,14 +281,27 @@
                                 }
                             }
                         });
+
+                        let lo_addressTmpCUD = {
+                            createData: [],
+                            updateData: [],
+                            oriData: []
+                        };
+
+                        _.each(this.oriAddressDataGridRows, (lo_oriAddressDataGridRows, idx) => {
+                            if(_.isNull(lo_oriAddressDataGridRows["address_dt.cust_cod"])){
+                                lo_addressTmpCUD.createData.push(val[idx])
+                            }
+                            else{
+                                lo_addressTmpCUD.updateData.push(val[idx]);
+                                lo_addressTmpCUD.oriData.push(lo_oriAddressDataGridRows);
+                            }
+                        });
                         //將聯絡資料放至Vuex
                         this.$store.dispatch("setAddressDataGridRowsData", {
                             ga_addressDataGridRowsData: val,
                             ga_oriAddressDataGridRowsData: this.oriAddressDataGridRows,
-                            go_addressTmpCUD: {
-                                updateData: val,
-                                oriData: this.oriAddressDataGridRows
-                            }
+                            go_addressTmpCUD: lo_addressTmpCUD
                         });
                     }
                 },

@@ -42,7 +42,8 @@
     <!-- PMS0210011 住客歷史資料編輯 取得主檔-->
     <dao name="QRY_GHIST_MN">
         <statement><![CDATA[
-        select ghist_mn.athena_id, ghist_mn.gcust_cod ,ghist_mn.show_cod,ghist_mn.alt_nam,ghist_mn.first_nam,ghist_mn.last_nam,status_cod,vip_sta,salute_cod,contry_cod,
+        select ghist_mn.athena_id, ghist_mn.gcust_cod ,ghist_mn.show_cod,ghist_mn.alt_nam,ghist_mn.first_nam,ghist_mn.last_nam,status_cod,vip_sta,
+        salute_cod,contry_cod, ghist_mn.sex_typ, ghist_mn.ins_dat,ghist_mn.upd_dat,ghist_mn.ins_usr,ghist_mn.upd_usr,
         live_cod,lang_cod,role_cod,car_nos,acust_cod,ccust_nam,credit_nos,expira_dat,airmb_nos,airline_cod,dm_flag,requst_rmk,co_del_sta,
         cust_idx.athena_id "cust_idx.athena_id",cust_idx.cust_cod "cust_idx.cust_cod",cust_idx.show_cod "cust_idx.show_cod",cust_idx.alt_nam "cust_idx.alt_nam",
         cust_idx.first_nam "cust_idx.first_nam",cust_idx.last_nam "cust_idx.last_nam",cust_idx.cust_sta "cust_idx.cust_sta",cust_idx.from_table "cust_idx.from_table",
@@ -99,10 +100,45 @@
         AND  GHIST_MN.GCUST_COD = GHIST_VISIT_DT.GCUST_COD(+)
         AND  GHIST_VISIT_DT.HOTEL_COD(+) = :hotel_cod
         AND  GHIST_MN.ATHENA_ID = :athena_id
-
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="instring" kind="3">agent_idx_show_cod</parameter>
+        <statement test="_v(param.agent_idx_show_cod)"><![CDATA[and AGENT_IDX.Show_cod in(:agent_idx_show_cod)]]></statement>
+        <parameter type="instring" kind="3">contry_cod</parameter>
+        <statement test="_v(param.contry_cod)"><![CDATA[and GHIST_MN.Contry_cod in(:contry_cod)]]></statement>
+        <parameter type="instring" kind="3">dm_flag</parameter>
+        <statement test="_v(param.dm_flag)"><![CDATA[and ghist_mn.Dm_flag in(:dm_flag)]]></statement>
+        <parameter type="instring" kind="3">birth_dat</parameter>
+        <statement test="_v(param.birth_dat)"><![CDATA[and to_char( cust_idx.birth_dat, 'mm' ) in(:birth_dat)]]></statement>
+        <parameter type="string" kind="2" condition="ghist_mn.Show_cod like ?">show_cod</parameter>
+        <parameter type="string" kind="2" condition="GHIST_MN.Ccust_nam like ?">ccust_nam</parameter>
+        <parameter type="string" kind="2" condition="CUST_IDX.Id_cod like ?">id_cod</parameter>
+        <parameter type="string" kind="2" condition="CUST_IDX.Mobile_nos like ?">mobile_nos</parameter>
+        <parameter type="string" kind="2" condition="GHIST_MN.Status_cod like ?">status_cod</parameter>
+        <parameter type="string" kind="2" condition="GHIST_VISIT_DT.Trans_tot like ?">trans_tot</parameter>
+        <parameter type="string" kind="2" condition="GHIST_VISIT_DT.Visit_days like ?">visit_days</parameter>
+        <parameter type="string" kind="2" condition="GHIST_VISIT_DT.Visit_nos like ?">visit_nos</parameter>
+        <parameter type="string" kind="3" >name</parameter>
+        <statement test="_v(param.name)"><![CDATA[
+        AND (cust_idx.last_nam like :name or cust_idx.first_nam like :name)
+        ]]></statement>
+        <parameter type="string" kind="3">ci_dat</parameter>
+        <statement test="_v(param.ci_dat)"><![CDATA[
+        AND GHIST_MN.GCUST_COD IN
+       ( SELECT DISTINCT GUEST_MN.GCUST_COD
+          FROM GUEST_MN, ORDER_DT
+         WHERE GUEST_MN.ATHENA_ID = ORDER_DT.ATHENA_ID
+           AND GUEST_MN.IKEY = ORDER_DT.IKEY
+           AND GUEST_MN.IKEY_SEQ_NOS = ORDER_DT.IKEY_SEQ_NOS
+           AND ORDER_DT.ORDER_STA IN ( 'N', 'W', 'I', 'O')
+           AND GUEST_MN.ACI_DAT = to_date(:ci_dat, 'YYYY/MM/DD')
+           AND GUEST_MN.SYSTEM_TYP = 'HFD'
+           AND GUEST_MN.ATHENA_ID = GHIST_MN.ATHENA_ID )
+
+        ]]></statement>
+
+
     </dao>
 </root>
