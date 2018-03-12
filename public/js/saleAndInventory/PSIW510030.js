@@ -273,7 +273,10 @@ var PSIW510030 = new Vue({
 
         //異動Log
         openChangeLogDialog: false,
-        allChangeLogList: []
+        allChangeLogList: [],
+
+        //參數
+        dataPointRound: 3
     },
     watch: {
 
@@ -489,11 +492,22 @@ var PSIW510030 = new Vue({
                         },
                         {
                             ui_field_name: "cust_cod",
-                            ui_type: "multiselect",
+                            ui_type: "multiselectgrid",
                             row_seq: 1,
                             col_seq: 1,
                             width: 200,
-                            selectData: self.searchCustSelectData,
+                            selectData:{
+                                selectData: self.searchCustSelectData,
+                                columns: [
+                                    {
+                                        field: "cust_nam",
+                                        title: "客戶代號/名稱",
+                                        width: 200
+                                    }
+                                ],
+                                display: "cust_nam",
+                                value: "cust_cod"
+                            },
                             ui_display_name: "客戶代號"
                         },
                         {
@@ -971,9 +985,9 @@ var PSIW510030 = new Vue({
                     ui_field_name: "stock_qnt",
                     ui_type: "number",
                     ui_field_length: 15,
-                    ui_field_num_point: 2,
+                    ui_field_num_point: this.dataPointRound,
                     col_seq: 4,
-                    width: 50,
+                    width: 60,
                     visiable: "Y",
                     modificable: "N",
                     requirable: "N",
@@ -994,7 +1008,7 @@ var PSIW510030 = new Vue({
                     ui_field_name: "thu_qty",
                     ui_type: "number",
                     ui_field_length: 15,
-                    ui_field_num_point: 2,
+                    ui_field_num_point: this.dataPointRound,
                     col_seq: 4,
                     width: 60,
                     visiable: "Y",
@@ -1041,7 +1055,7 @@ var PSIW510030 = new Vue({
                     ui_field_name: "order_qnt",
                     ui_type: "number",
                     ui_field_length: 15,
-                    ui_field_num_point: 2,
+                    ui_field_num_point: this.dataPointRound,
                     col_seq: 5,
                     width: 75,
                     visiable: "Y",
@@ -1062,11 +1076,11 @@ var PSIW510030 = new Vue({
                     user_id: "",
                     prg_id: "PSIW510030",
                     ui_field_name: "item_qnt",
-                    ui_type: "number",
+                    ui_type: "text",
                     ui_field_length: 15,
-                    ui_field_num_point: 2,
+                    ui_field_num_point: 0,
                     col_seq: 6,
-                    width: 50,
+                    width: 60,
                     visiable: "Y",
                     modificable: "Y",
                     requirable: "Y",
@@ -1294,11 +1308,11 @@ var PSIW510030 = new Vue({
                 }
                 else {
                     _.each(result.data, function (value) {
-                        //撈出來小數直接做四捨五入
-                        value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 2);
-                        value.order_qnt = go_MathTool.formatFloat(value.order_qnt, 2);
-                        value.thu_qty = go_MathTool.formatFloat(value.thu_qty, 2);
-                        value.stock_qnt = go_MathTool.formatFloat(value.stock_qnt, 2);
+                        //小數欄位format
+                        value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 0); //客戶要求訂購量整數
+                        value.order_qnt = go_MathTool.formatFloat(value.order_qnt, self.dataPointRound).toFixed(self.dataPointRound);
+                        value.thu_qty = go_MathTool.formatFloat(value.thu_qty, self.dataPointRound).toFixed(self.dataPointRound);
+                        value.stock_qnt = go_MathTool.formatFloat(value.stock_qnt, self.dataPointRound).toFixed(self.dataPointRound);
 
                         //日期格式format
                         value.ship_dat = moment(value.ship_dat).format('YYYY/MM/DD');
@@ -1703,9 +1717,9 @@ var PSIW510030 = new Vue({
                 value.trans_nos = '';
                 value.trans_typ = '';
 
-                value.sorder_amt = go_MathTool.formatFloat(value.sale_amt * value.item_qnt, self.ship_dt_round_nos) || 0; // 小計 = 售價 * 數量(訂購量) (取單據明細小計小數位數)
+                value.sorder_amt = go_MathTool.formatFloat(value.sale_amt * Number(value.item_qnt), self.ship_dt_round_nos) || 0; // 小計 = 售價 * 數量(訂購量) (取單據明細小計小數位數)
                 value.sorder_tax = go_MathTool.formatFloat(value.sorder_amt * value.tax_rat, 2) || 0; // 稅額 = 小計 * 稅率 (取小數第二位)
-                value.remain_qnt = value.item_qnt * value.unit_nos || 0; // 未出貨量 = 數量(訂購量) * 單位轉換率
+                value.remain_qnt = Number(value.item_qnt) * value.unit_nos || 0; // 未出貨量 = 數量(訂購量) * 單位轉換率
 
                 self.singleData.order_amt += value.sorder_amt;
                 self.singleData.order_tax += value.sorder_tax;
@@ -2090,6 +2104,12 @@ var PSIW510030 = new Vue({
 
                         value.stock_unit = value.stock_unit.trim();
                         value.unit_typ = value.unit_typ.trim();
+
+                        //小數欄位format
+                        value.item_qnt = go_MathTool.formatFloat(value.item_qnt, 0); //客戶要求訂購量整數
+                        value.order_qnt = go_MathTool.formatFloat(value.order_qnt, self.dataPointRound).toFixed(self.dataPointRound);
+                        value.thu_qty = go_MathTool.formatFloat(value.thu_qty, self.dataPointRound).toFixed(self.dataPointRound);
+                        value.stock_qnt = go_MathTool.formatFloat(value.stock_qnt, self.dataPointRound).toFixed(self.dataPointRound);
                     });
 
                     self.dgInsDT.loadDgData(self.singleDataGridRows);
