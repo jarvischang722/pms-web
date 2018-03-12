@@ -412,8 +412,8 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "func_id" : "0300", 
-    "rule_func_name" : "r_0300", 
+    "func_id" : "0531", 
+    "rule_func_name" : "saveDelGhistMn", 
     "link_prg_id" : ""
 }
 { 
@@ -453,6 +453,16 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "func_id" : "0541", 
-    "rule_func_name" : "convertGhistMn", 
+    "rule_func_name" : "saveUpdateGhistMn", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a9e23556d2afd2c24c71d55"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0521", 
+    "rule_func_name" : "saveAddGhistMn", 
     "link_prg_id" : ""
 }
