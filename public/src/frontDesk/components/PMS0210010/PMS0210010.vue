@@ -82,7 +82,7 @@
         },
         mounted() {
             this.fetchUserInfo();
-            this.setSearchCond();
+//            this.setSearchCond();
             this.loadDataGridByPrgID();
         },
         data() {
