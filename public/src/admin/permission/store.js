@@ -161,8 +161,10 @@ const actions = {
     async changeRoleEvent({dispatch, commit}, role_id) {
         commit("setSelRole", role_id);
         commit("setIsLoading", true);
-        await dispatch("qryRoleOfAccounts", role_id);
-        await dispatch("qryRoleOfFuncs", role_id);
+        await Promise.all([
+            dispatch("qryRoleOfAccounts", role_id),
+            dispatch("qryRoleOfFuncs", role_id)
+        ]);
         commit("setIsLoading", false);
     },
 
@@ -285,20 +287,34 @@ const actions = {
     },
 
     doSaveByRole({state, commit, dispatch}) {
-        let la_staffAllChecked = state.go_staffTreeIns.get_checked();
-        $("#permissionAccountTree").find(".jstree-undetermined").each(
-            function (i, element) {
-                let ls_nodeId = $(element).closest('.jstree-node').attr("id");
-                la_staffAllChecked.push(ls_nodeId);
+        let la_OriStaffAllChecked = _.clone(state.go_staffTreeIns.get_checked());
+        let la_staffAllChecked = [];
+        _.each(la_OriStaffAllChecked, function (lo_OriStaffAllChecked) {
+            let lo_node = state.go_staffTreeIns.get_node(lo_OriStaffAllChecked);
+            if (lo_node.children_d.length == 0) {
+                la_staffAllChecked.push(lo_OriStaffAllChecked);
             }
-        );
-        let la_funcAllChecked = state.go_funcTreeIns.get_checked();
-        $("#permissionFuncTree").find(".jstree-undetermined").each(
-            function (i, element) {
-                let ls_nodeId = $(element).closest('.jstree-node').attr("id");
-                la_funcAllChecked.push(ls_nodeId);
+        });
+
+        let la_OrifuncAllChecked = _.clone(state.go_funcTreeIns.get_checked());
+        let la_funcAllChecked = _.clone(state.go_funcTreeIns.get_checked());
+        _.each(la_OrifuncAllChecked, function (lo_funcChecked) {
+            let lo_node = state.go_funcTreeIns.get_node(lo_funcChecked);
+            if (lo_node.parents.length > 0) {
+                _.each(lo_node.parents, function (ls_parent_id) {
+                    if (ls_parent_id != "#") {
+                        let ln_parent_node_isExist = _.findIndex(la_funcAllChecked, function (lo_oriFuncAllChecked) {
+                            return lo_oriFuncAllChecked == ls_parent_id;
+                        });
+                        if (ln_parent_node_isExist == -1) {
+                            la_funcAllChecked.push(ls_parent_id);
+                        }
+                    }
+
+                })
             }
-        );
+        });
+
         let la_funcChecked = [];
         let la_funcUnChecked = [];
         let la_staffChecked = [];
@@ -390,6 +406,8 @@ const actions = {
             selRole: state.gs_selRole
         };
 
+        // console.log(la_funcChecked, la_funcUnChecked);
+        // return;
         commit("setIsLoading", true);
         $.post("/api/saveAuthByRole", lo_params).then(
             result => {
@@ -418,11 +436,11 @@ const actions = {
         };
         $.post("/api/saveAuthByStaff", lo_params).then(
             result => {
-                if(result.success){
+                if (result.success) {
                     state.ga_oriCheckedRoleList = state.ga_checkedRoleList;
                     alert("save success");
                 }
-                else{
+                else {
                     alert(result.errMsg);
                 }
             },
@@ -443,11 +461,11 @@ const actions = {
 
         $.post("/api/saveAuthByFunc", lo_params).then(
             result => {
-                if(result.success){
+                if (result.success) {
                     state.ga_oriCheckedRoleList = _.clone(state.ga_checkedRoleList);
                     alert("save success");
                 }
-                else{
+                else {
                     alert(result.errMsg);
                 }
             },
@@ -462,7 +480,7 @@ function treeDataObj(id, parent, text) {
     let lo_treeData = {
         id: id,
         parent: parent,
-        text: text
+        text: `${text}(${id})`
     };
     return lo_treeData;
 }
