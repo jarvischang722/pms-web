@@ -513,6 +513,9 @@
     "cust_sta": "客戶狀態",
     "atten_nam": "名稱",
     "role_rmk": "職稱",
-    "tel_nos": "電話"
+    "tel_nos": "電話",
+    "guest_typ": "市場類別",
+    "guest_sna": "簡稱",
+    "guest_nam": "名稱"
   }
 }

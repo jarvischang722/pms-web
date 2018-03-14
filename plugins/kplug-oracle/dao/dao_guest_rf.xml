@@ -31,4 +31,17 @@
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
     </dao>
+
+    <!--取得預設顯示下拉資料-->
+    <dao name="SEL_GUEST_TYP">
+        <statement><![CDATA[
+              select guest_typ ,guest_sna ,guest_nam, (trim(guest_typ) ||':'|| guest_nam) as guest_display
+              from guest_rf
+              where athena_id = :athena_id
+              order by guest_typ
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+
 </root>

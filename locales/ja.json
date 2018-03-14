@@ -510,7 +510,10 @@
     "cust_sta": "客戶狀態(日)",
     "atten_nam": "名稱(日)",
     "role_rmk": "職稱(日)",
-    "tel_nos": "電話(日)"
+    "tel_nos": "電話(日)",
+    "guest_typ": "市場類別(日)",
+    "guest_sna": "簡稱(日)",
+    "guest_nam": "名稱(日)"
 
   }
 }

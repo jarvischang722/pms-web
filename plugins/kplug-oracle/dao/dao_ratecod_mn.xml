@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+    <!--[PMS0810230 rateCode] rate code 取多筆資料-->
+    <dao name="QRY_RATECOD_MN_DG">
+        <statement><![CDATA[
+            SELECT T.RATE_COD,T.RATECOD_NAM,T.MENU_NAM,T.RATE_PROP,T.RATE_GRP,T.SOURCE_TYP,T.GUEST_TYP
+            FROM RATECOD_MN T
+            WHERE ATHENA_ID = :athena_id
+            AND trim(HOTEL_COD) = trim(:hotel_cod)
+            ORDER BY VIEW_SEQ
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
     <!-- [PMS0610020 商務公司資料編輯] 合約內容 參考房價代號下拉資料  -->
     <dao name="QRY_CONTRACT_DT_RATE_COD">
         <statement><![CDATA[
