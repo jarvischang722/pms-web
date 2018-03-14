@@ -513,6 +513,8 @@
     "cust_sta": "客戶狀態",
     "atten_nam": "名稱",
     "role_rmk": "職稱",
-    "tel_nos": "電話"
+    "tel_nos": "電話",
+    "business_cod": "行業代號",
+    "business_rmk": "行業名稱"
   }
 }

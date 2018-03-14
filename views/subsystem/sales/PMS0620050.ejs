@@ -4,11 +4,13 @@
     <!-- 拜訪紀錄(Visit Record) Page-->
     <div class="pageMain" v-loading="isLoading" element-loading-text="loading...">
         <!-- 查詢 -->
-        <search-comp
-                :search-fields="searchFields"
-                :search-cond.sync="searchCond"
-                :fetch-data="loadDataGridByPrgID">
-        </search-comp>
+        <div class="col-xs-12">
+            <search-comp
+                    :search-fields="searchFields"
+                    :search-cond.sync="searchCond"
+                    :fetch-data="loadDataGridByPrgID">
+            </search-comp>
+        </div>
         <div class="clearfix"></div>
         <div class="col-xs-12">
             <div class="col-sm-11 col-xs-11">

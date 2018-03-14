@@ -8,6 +8,30 @@ const fs = require("fs");
 const async = require("async");
 const commandRules = require('./CommonRule');
 
+exports.sel_business_rf_column = function (session, callback) {
+    let lo_result = {
+        columns: [
+            {
+                field: "business_cod",
+                title: commandRules.getColumnByNam("business_cod", session.locale),
+                width: 100
+            },
+            {
+                field: "business_rmk",
+                title: commandRules.getColumnByNam("business_rmk", session.locale),
+                width: 380
+            },
+            {
+                field: "business_display",
+                hidden: true
+            }
+        ],
+        display: "business_display",
+        value: "business_cod"
+    };
+    callback(null, lo_result);
+};
+
 /**
  * PMS0610020 商務公司資料編輯 欄位公司
  * @param session
@@ -196,7 +220,7 @@ exports.sel_AgentIdxShowcodColumn = function (session, callback) {
  * @param session
  * @param callback
  */
-exports.QRY_SEL_SALUTE_COD_column = function(session, callback){
+exports.QRY_SEL_SALUTE_COD_column = function (session, callback) {
     let lo_result = {
         columns: [
             {
@@ -235,7 +259,7 @@ exports.QRY_SEL_SALUTE_COD_column = function(session, callback){
  * @param session
  * @param callback
  */
-exports.QRY_SEL_HFD_LIVE_COD_RF_Column = function(session, callback){
+exports.QRY_SEL_HFD_LIVE_COD_RF_Column = function (session, callback) {
     let lo_result = {
         columns: [
             {
@@ -270,7 +294,7 @@ exports.QRY_SEL_HFD_LIVE_COD_RF_Column = function(session, callback){
 };
 
 
-exports.sel_alt_nam = function(session, callback){
+exports.sel_alt_nam = function (session, callback) {
     let lo_result = {
         columns: [
             {
@@ -320,7 +344,7 @@ exports.sel_alt_nam = function(session, callback){
     callback(null, lo_result);
 };
 
-exports.sel_atten_nam = function(session, callback){
+exports.sel_atten_nam = function (session, callback) {
     let lo_result = {
         columns: [
             {

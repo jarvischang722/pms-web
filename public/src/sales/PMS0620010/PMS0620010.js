@@ -178,23 +178,6 @@ let PMS0620020App = Vue.extend({
                 });
             }
         },
-        chkClickPopUpGrid: function (field) {
-            if (field.ui_type == "popupgrid") {
-                let params = {
-                    prg_id: "PMS0620020",
-                    fields: field,
-                    singleRowData: JSON.parse(JSON.stringify(this.rowData))
-                };
-
-                $.post("/api/popUpGridData", params, function (result) {
-                    if (result != null) {
-                        vm.selectPopUpGridData = result.showDataGrid;
-                        vmHub.$emit('showPopUpDataGrid', result);
-                        vm.showPopUpGridDialog();
-                    }
-                });
-            }
-        },
         initData: function () {
             this.rowData = {};
             this.originRowData = {};
@@ -505,111 +488,6 @@ let PMS0620020App = Vue.extend({
     }
 });
 
-Vue.component('text-select-grid-dialog-tmp', {
-    template: "#chooseDataDialogTmp",
-    data: function () {
-        return {
-            fieldNameConditionTmp: [],
-            gridColumns: [],
-            updateFieldNameTmp: [],
-            gridData: [],
-            isFistData: false,
-            isLastData: false,
-            dtEditIndex: undefined
-        };
-    },
-    created: function () {
-        let self = this;
-        vmHub.$on('showPopUpDataGrid', function (result) {
-            self.showPopUpDataGrid(result);
-        });
-    },
-    methods: {
-        //顯示點選popupgrid跳出來的視窗
-        showPopUpDataGrid: function (result) {
-            let self = this;
-            let textDataGrid = result.showDataGrid;
-            let updateFieldName = result.updateFieldNameTmp;
-            let fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
-            this.fieldNameConditionTmp = [];
-            this.fieldConditionTmp = [];
-            this.gridData = [];
-            delete textDataGrid ['errorMsg'];
-            let columnsData = [];
-            let textDataGridArray = Object.keys(textDataGrid).map(function (key) {
-                return textDataGrid[key];
-            });
-            for (var col in textDataGrid[0]) {
-                _.each(fieldNameChangeLanguage, function (name, field) {
-                    if (col == field) {
-                        columnsData.push({
-                            type: 'textbox',
-                            field: col,
-                            title: name,
-                            width: 150,
-                            align: "left"
-                        });
-                        self.fieldNameConditionTmp.push({value: field, display: name});
-                        self.fieldConditionTmp.push({value: field});
-                    }
-                });
-            }
-
-            self.gridData = textDataGridArray;
-            let height = document.documentElement.clientHeight - 160;
-            let width = document.documentElement.clientWidth / 2 - 25; //browser 寬度 - 200功能列
-            $('#chooseGrid').datagrid({
-                columns: [columnsData],
-                singleSelect: true,
-                data: textDataGridArray,
-                height: height,
-                width: width
-            }).datagrid('columnMoving');
-            self.updateFieldNameTmp = updateFieldName;
-        },
-        //將選擇到的資料帶回Page2
-        chooseDataBackGridSingle: function () {
-            let self = this;
-            let selectTable = $('#chooseGrid').datagrid('getSelected');
-            let chooseData = self.updateFieldNameTmp;
-            let updateFieldName = self.updateFieldNameTmp;
-
-            if (selectTable != null) {
-
-                _.each(selectTable, function (selectValue, selectField) {
-
-                    _.each(updateFieldName, function (updateValue, updateField) {
-                        if (selectField == updateValue) {
-                            chooseData[updateField] = selectValue;
-                        }
-                    });
-                });
-            } else {
-                _.each(chooseData, function (chooseValue, chooseField) {
-                    chooseData[chooseField] = ""; //SAM20170930
-                });
-            }
-
-            vmHub.$emit('updateBackSelectData', chooseData);
-            $("#dataPopUpGridDialog").dialog('close');
-        },
-        txtSearchChangeText: function (keyContent) {
-            let allData = this.gridData;
-            let selectFieldName = $('#cbSelect').val();
-            let selectCondition = $('#txtSelectCondition').val();
-
-            let dataGrid = _.filter(allData, function (row) {
-                if (row[selectFieldName].includes(selectCondition)) {
-                    return row;
-                }
-            });
-            $('#chooseGrid').datagrid('loadData', dataGrid);
-
-        }
-    }
-});
-
-
 let vm = new Vue({
     el: "#PMS0620010App",
     components: {
@@ -645,15 +523,7 @@ let vm = new Vue({
         classHSDataGridRows: [], // PMS0620020 組別異動紀錄(多筆)欄位
         classHSFieldData: [], // PMS0620020 組別異動紀錄(多筆)資料
         searchFields: [],
-        searchCond: {
-            sales_cod: "",
-            sales_nam: "",
-            class_cod: "",
-            hotel_sales: "all",
-            bq_sales: "all",
-            member_sales: "all",
-            status_cod: "N"
-        },
+        searchCond: {},
         dialogVisible: false,
         dgIns: {},
         editingRow: {},
@@ -695,9 +565,19 @@ let vm = new Vue({
             };
         },
         loadDataGridByPrgID: function () {
+            let self = this;
+            let lo_searchCond = _.clone(this.searchCond);
 
-            $.post("/api/fetchDataGridFieldData", {prg_id: "PMS0620010", page_id: 1}, function (result) {
-                vm.searchFields = result.searchFields;
+            let lo_params = {
+                prg_id: "PMS0620010",
+                page_id: 1,
+                searchCond: lo_searchCond
+            };
+
+            $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
+                if(self.searchFields.length <= 0){
+                    vm.searchFields = result.searchFields;
+                }
                 vm.pageOneDataGridRows = result.dgRowData;
                 vm.pageOneFieldData = JSON.parse(JSON.stringify(result.dgFieldsData));
                 vm.showDataGrid();
@@ -708,36 +588,6 @@ let vm = new Vue({
             vm.dgIns = new DatagridSingleGridClass();
             vm.dgIns.init("PMS0620010", "PMS0620010_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0620010_dg'));
             vm.dgIns.loadDgData(this.pageOneDataGridRows);
-        },
-        doSearch: function () {
-            let lo_searcgCond = _.clone(this.searchCond);
-
-            lo_searcgCond = _.pick(lo_searcgCond, function (val) {
-                return val != "all";
-            });
-
-            lo_searcgCond = _.pick(lo_searcgCond, function (val) {
-                return val != "";
-            });
-
-            $.post("/api/prgDataGridDataQuery", {prg_id: "PMS0620010", searchCond: lo_searcgCond}, function (result) {
-                vm.searchFields = result.searchFields;
-                vm.pageOneDataGridRows = result.dataGridRows;
-                vm.pageOneFieldData = result.fieldData;
-                vm.showDataGrid();
-            });
-
-        },
-        doClear: function () {
-            this.searchCond = {
-                sales_cod: "",
-                sales_nam: "",
-                class_cod: "",
-                hotel_sales: "all",
-                bq_sales: "all",
-                member_sales: "all",
-                status_cod: "all"
-            };
         },
         appendRow: function () {
             this.initTmpCUD();
