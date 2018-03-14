@@ -514,6 +514,9 @@
     "atten_nam": "名稱",
     "role_rmk": "職稱",
     "tel_nos": "電話",
+    "business_cod": "行業代號",
+    "business_rmk": "行業名稱",
+    "tel_nos": "電話",
     "guest_typ": "市場類別",
     "guest_sna": "簡稱",
     "guest_nam": "名稱"
