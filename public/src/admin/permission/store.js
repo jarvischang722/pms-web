@@ -255,33 +255,39 @@ const actions = {
 
         //system
         let la_sys = _.where(la_funcList, {id_typ: "SYSTEM"});
+        la_sys = _.sortBy(la_sys, "current_id");
         _.each(la_sys, function (lo_sys) {
             la_funcList4Tree.push(treeDataObj(lo_sys.current_id, "#", lo_sys["sys_name_" + gs_locale]));
         });
 
         //subSystem
         let la_subSys = _.where(la_funcList, {id_typ: "SUBSYS"});
+        la_subSys = _.sortBy(la_subSys, "current_id");
         _.each(la_subSys, function (lo_subSys) {
             la_funcList4Tree.push(treeDataObj(lo_subSys.current_id, lo_subSys.pre_id, lo_subSys["subsys_nam_" + gs_locale]));
         });
 
         //model
         let la_model = _.where(la_funcList, {id_typ: "MODEL"});
+        la_model = _.sortBy(la_model, "current_id");
         _.each(la_model, function (lo_model) {
             la_funcList4Tree.push(treeDataObj(lo_model.current_id, lo_model.pre_id, lo_model["mdl_nam_" + gs_locale]));
         });
 
         //process
         let la_process = _.where(la_funcList, {id_typ: "PROCESS"});
+        la_process = _.sortBy(la_process, "current_id");
         _.each(la_process, function (lo_process) {
             la_funcList4Tree.push(treeDataObj(lo_process.current_id, lo_process.pre_id, lo_process["pro_nam_" + gs_locale]));
         });
 
         //function
         let la_func = _.where(la_funcList, {id_typ: "FUNCTION"});
+        la_func = _.sortBy(la_func, "current_id");
         _.each(la_func, function (lo_func) {
             let ls_id = lo_func.pre_id + "_" + lo_func.current_id;
-            la_funcList4Tree.push(treeDataObj(ls_id, lo_func.pre_id, lo_func["func_nam_" + gs_locale]));
+            let ls_treeTxt = go_i18nLang["SystemCommon"][lo_func.current_id] || lo_func.current_id;
+            la_funcList4Tree.push(treeDataObj(ls_id, lo_func.pre_id, ls_treeTxt));
         });
         commit("setFuncList4Tree", la_funcList4Tree);
     },
