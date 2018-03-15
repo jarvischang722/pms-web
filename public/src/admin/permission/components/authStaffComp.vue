@@ -199,7 +199,7 @@
                     }
 
                     cb(null, "");
-                }, 200);
+                }, 100);
 
             },
 
@@ -212,14 +212,15 @@
                 if (this.$store.state.gs_permissionModel == "authByStaff" || la_allRoles.length <= 0 || this.treeIns == null) {
                     return;
                 }
-                if(la_staffOfRole.length == 0){
-                    this.treeIns.uncheck_all();
-                    return;
-                }
+                // if(la_staffOfRole.length == 0){
+                //     this.treeIns.uncheck_all();
+                //     return;
+                // }
 
                 this.isLoading = true;
                 this.isInitChecked = true;
                 setTimeout(function () {
+                    self.treeIns.uncheck_all();
                     _.each(la_staffOfRole, function (account) {
                         let lo_node = self.treeIns.get_node(account.user_id);
                         if (lo_node != null && !_.isUndefined(lo_node.children) && lo_node.children.length == 0) {
@@ -228,7 +229,7 @@
                     });
                     self.isLoading = false;
                     self.isInitChecked = false;
-                }, 100);
+                }, 300);
             },
 
             //勾選有此人員的角色
