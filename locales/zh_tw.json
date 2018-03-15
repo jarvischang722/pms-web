@@ -250,6 +250,41 @@
       "email": "電子郵件",
       "contact_method": "連絡方式",
       "address": "地址"
+    },
+    "PMS0110010": {
+      "useRm": "用房數",
+      "notWrsRm": "非鎖控剩餘數",
+      "wrsRm": "鎖控剩餘數",
+      "overBooking": "庫存可超訂的剩餘數",
+      "Total_available": "Total available(中文)",
+      "occupancy": "occupancy(中文)",
+      "reservation": "訂房",
+      "phyOccupancy": "phyOccupancy(中文)",
+      "phyAvailable": "phyAvailable(中文)",
+      "Rate_Plan": "Rate Plan(中文)",
+      "Amenities_Iny": "Amenities Iny.(中文)"
+    },
+    "PMS0110050": {
+      "roomTyp": "房型",
+      "roomNos": "房號",
+      "clean_sta": "清掃狀況",
+      "reservation": "訂房",
+      "details": "明細",
+      "Amenities_Iny": "Amenities Iny(中文)"
+    },
+    "RS0W212010": {
+      "show_cod": "客戶代號",
+      "alt_nam": "客戶姓名",
+      "contact_rmk": "聯絡電話",
+      "first_nam": "First Name",
+      "last_nam": "Last Name",
+      "cust_typ": "客戶類別",
+      "cust_sta": "客戶狀態",
+      "cust_cod": "客戶代號",
+      "atten_nam": "名稱",
+      "role_rmk": "職稱",
+      "tel_nos": "電話"
+
     }
   },
   "table_in_use": "%s 使用中",
@@ -298,7 +333,16 @@
     "oriPwd": "舊密碼",
     "enterNewPwd": "請輸入新密碼",
     "checkNewPwd": "請再輸入新密碼",
-    "newPwd": "新密碼"
+    "newPwd": "新密碼",
+    "selectMonth": "選擇月",
+    "rentCalDat":"滾房租日",
+    "before7days": "前7天",
+    "after7days": "後7天",
+    "before14days": "前14天",
+    "after14days": "後14天",
+    "noData": "查無資料",
+    "print": "列印",
+    "save_as": "另存為"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

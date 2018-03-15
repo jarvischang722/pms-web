@@ -113,19 +113,19 @@
             },
             setSearchCond() {
                 this.searchCond = {
-                    agent_idx_show_cod:[],
-                    ccust_nam:"",
-                    contry_cod:[],
-                    dm_flag:[],
-                    id_cod:"",
-                    mobile_nos:"",
-                    show_cod:[],
-                    status_cod:"",
-                    trans_tot:"",
-                    visit_days:"",
-                    visit_nos:"",
-                    birth_dat:[],
-                    ci_dat:'',
+                    agent_idx_show_cod: [],
+                    ccust_nam: "",
+                    contry_cod: [],
+                    dm_flag: [],
+                    id_cod: "",
+                    mobile_nos: "",
+                    show_cod: [],
+                    status_cod: "",
+                    trans_tot: "",
+                    visit_days: "",
+                    visit_nos: "",
+                    birth_dat: [],
+                    ci_dat: '',
                     name: ""
                 };
             },
@@ -133,7 +133,7 @@
                 let self = this;
                 let lo_searchCond = _.clone(this.searchCond);
 
-                lo_searchCond.ci_dat = lo_searchCond.ci_dat!=""? moment(lo_searchCond.ci_dat).format("YYYY/MM/DD"): lo_searchCond.ci_dat;
+                lo_searchCond.ci_dat = lo_searchCond.ci_dat != "" ? moment(lo_searchCond.ci_dat).format("YYYY/MM/DD") : lo_searchCond.ci_dat;
 
                 let lo_params = {
                     prg_id: gs_prgId,
@@ -232,6 +232,7 @@
                         self.isEditStatus = false;
                         self.isCreateStatus = false;
                         self.$store.dispatch("setAllDataClear");
+                        self.loadDataGridByPrgID();
                     }
                 }).dialog('open');
             },

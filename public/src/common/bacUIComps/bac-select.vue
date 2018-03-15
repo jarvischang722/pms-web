@@ -52,8 +52,8 @@
 
         },
         mounted: function () {
+            this.dataDisplay = this.dataDisplay.length == 0 ? this.data : this.dataDisplay;
             this.initCombobox();
-            this.dataDisplay = this.dataDisplay.length == 0 ? this.data : [];
         },
         data: function () {
             return {
