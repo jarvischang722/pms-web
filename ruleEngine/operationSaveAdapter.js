@@ -237,7 +237,7 @@ function combineDtDeleteExecData(rfData, tmpIdType, params) {
  * @param session
  * @returns {Promise<any>}
  */
-async function combineMainData(rfData, params, tmpIdType, session) {
+async function combineMainData(rfData, tmpIdType, params, session) {
     let la_multiLangFields = _.filter(tmpIdType.mainFieldsData, function (field) {
         return field.multi_lang_table != "";
     });  //多語系欄位
@@ -491,7 +491,7 @@ async function combineMainData(rfData, params, tmpIdType, session) {
  * @param session
  * @returns {*}
  */
-async function combineDtCreateEditExecData(rfData, params, tmpIdTyp, session) {
+async function combineDtCreateEditExecData(rfData, tmpIdTyp, params, session) {
     //多語系欄位
     let la_dtMultiLangFields = _.filter(tmpIdTyp.dgFieldsData, function (field) {
         return field.multi_lang_table != "";
