@@ -76,11 +76,13 @@
                                             <div class="clearfix"></div>
                                         </th>
                                         <!--日期-->
-                                        <th class="datecolor" colspan="2" v-for="field in dateFieldData">{{field.data}}</th>
+                                        <th class="datecolor" colspan="2" v-for="field in dateFieldData">
+                                            {{field.data}}
+                                        </th>
                                     </tr>
                                     <tr>
                                         <!--星期-->
-                                        <th  class="dateColor" colspan="2" v-for="field in dayFieldData">
+                                        <th class="dateColor" colspan="2" v-for="field in dayFieldData">
                                             <span class="">{{field.data}}</span>
                                         </th>
                                     </tr>
@@ -88,7 +90,7 @@
 
                                     <!--房號資料-->
                                     <tbody class="clearfix">
-                                    <template v-if="roomNosDataDisplay.length == 0" >
+                                    <template v-if="roomNosDataDisplay.length == 0">
                                         <tr style="overflow: hidden; background-color: #ffffff;border: none;">
                                             <td style="overflow: hidden; background-color: #ffffff; border: none;">
                                                 <span></span>
@@ -209,8 +211,8 @@
             $("#resRoomPlan-table").tableHeadFixer({"left": 1});
         },
         watch: {},
-        data(){
-            return{
+        data() {
+            return {
                 i18nLang: go_i18nLang,
                 randomString: crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, ""),
                 isLoading: true,
@@ -218,13 +220,7 @@
                 rentCalDat: "",
                 //搜尋欄位資料
                 searchFields: [],
-                searchCond: {
-                    room_cod: [],
-                    room_nos: "",
-                    character_rmk: [],
-                    build_nos: [],
-                    floor_nos: []
-                },
+                searchCond: {},
                 //搜尋日期
                 searchData: {
                     year: moment().year().toString(),
@@ -283,11 +279,11 @@
                 let lo_param = {
                     socket_id: this.randomString,
                     begin_dat: this.nowSearchDate,
-                    room_cod: this.searchCond.room_cod,
-                    room_nos: this.searchCond.room_nos,
-                    character_rmk: this.searchCond.character_rmk,
-                    build_nos: this.searchCond.build_nos,
-                    floor_nos: this.searchCond.floor_nos
+                    room_cod: _.isUndefined(this.searchCond.room_cod) ? [] : this.searchCond.room_cod,
+                    room_nos: _.isUndefined(this.searchCond.room_nos) ? "" : this.searchCond.room_nos,
+                    character_rmk: _.isUndefined(this.searchCond.character_rmk) ? [] : this.searchCond.character_rmk,
+                    build_nos: _.isUndefined(this.searchCond.build_nos) ? [] : this.searchCond.build_nos,
+                    floor_nos: _.isUndefined(this.searchCond.floor_nos) ? [] : this.searchCond.floor_nos
                 };
 
                 $.post('/api/qryRmNosPageOneMap', lo_param).then(result => {
@@ -355,7 +351,11 @@
                     let ln_pushNum = 0;
                     while (ln_count < ln_numFieldLen) {
                         la_tmpRoomUse[ln_count] = {num: this.beginNum + ln_pushNum, isUsed: false, isValidity: false};
-                        la_tmpRoomUse[ln_count + 1] = {num: this.beginNum + ln_pushNum, isUsed: false, isValidity: false};
+                        la_tmpRoomUse[ln_count + 1] = {
+                            num: this.beginNum + ln_pushNum,
+                            isUsed: false,
+                            isValidity: false
+                        };
                         ln_count = ln_count + 2;
                         ln_pushNum = ln_pushNum + 1;
                     }
@@ -415,7 +415,7 @@
                             ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
                         }
 
-                        if(lo_roomUse.end_dat == lo_roomUse.co_dat ){
+                        if (lo_roomUse.end_dat == lo_roomUse.co_dat) {
                             ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
                         }
 

@@ -4,11 +4,13 @@
             <div class="page-header"></div><!-- /.page-header -->
             <!-- 商務公司(Accounts) Page-->
             <div class="pageMain">
-                <search-comp
-                        :search-fields="searchFields"
-                        :search-cond.sync="searchCond"
-                        :fetch-data="loadDataGridByPrgID"
-                ></search-comp>
+                <div class="col-xs-12">
+                    <search-comp
+                            :search-fields="searchFields"
+                            :search-cond.sync="searchCond"
+                            :fetch-data="loadDataGridByPrgID"
+                    ></search-comp>
+                </div>
                 <div class="clearfix"></div>
                 <div class="col-xs-12 col-sm-12 businessCompanyData">
                     <!--多筆 商務公司 dataGrid -->
@@ -342,7 +344,7 @@
             this.setSearchCond();
             this.loadDataGridByPrgID();
         },
-        components: {visitPlan, searchComp, editSalesClerk, pms0610020},
+        components: {visitPlan, editSalesClerk, pms0610020},
         data() {
             return {
                 i18nLang: go_i18nLang,
@@ -467,9 +469,11 @@
                     page_id: 1,
                     searchCond: lo_searchCond
                 };
-
+console.log(lo_searchCond);
                 $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
-                    self.searchFields = result.searchFields;
+                    if(self.searchFields.length <= 0){
+                        self.searchFields = result.searchFields;
+                    }
                     self.pageOneFieldData = result.dgFieldsData;
                     self.pageOneDataGridRows = result.dgRowData;
                     self.showDataGrid();

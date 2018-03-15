@@ -511,6 +511,8 @@
     "cust_sta": "客戶狀態(英)",
     "atten_nam": "名稱(英)",
     "role_rmk": "職稱(英)",
-    "tel_nos": "電話(英)"
+    "tel_nos": "電話(英)",
+    "business_cod": "行業代號(英)",
+    "business_rmk": "行業名稱(英)"
   }
 }
