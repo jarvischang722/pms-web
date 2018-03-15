@@ -39,8 +39,6 @@
     DataGridSingleGridClass.prototype = new DatagridBaseClass();
     DataGridSingleGridClass.prototype.onClickCell = function (idx, row) {
     };
-    DataGridSingleGridClass.prototype.doSaveColumnFields = function () {
-    };
     /*** Class End  ***/
 
     export default {

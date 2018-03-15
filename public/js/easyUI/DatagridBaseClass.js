@@ -36,6 +36,7 @@ function DatagridBaseClass() {
         self.dgName = dgName;
         self.columns = columns;
         self.fieldsData = fieldsData;
+        self.page_id = fieldsData[0].page_id;
 
         if (!options) {
             options = {};

@@ -155,35 +155,6 @@
                 this.dgIns.loadDgData(la_showDataRows);
                 this.dgIns.setPager(this.pageOneDataGridRows);
 
-//                $('#PMS0210010_dg').datagrid({
-//                    fitColumns: "true",
-//                    columns: [DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0210010_dg')],
-//                    pagination: true,
-//                    rownumbers: true,
-//                    pageSize: 10,
-//                    data: la_showDataRows,
-//                    singleSelect: true
-//                });
-//
-//                let pager = $('#PMS0210010_dg').datagrid('getPager');
-//                pager.pagination({
-//                    total: self.pageOneDataGridRows.length,
-//                    onSelectPage: function (pageNo, pageSize) {
-//                        var start = (pageNo - 1) * pageSize;
-//                        var end = start + pageSize;
-//                        $("#PMS0210010_dg").datagrid("loadData", self.pageOneDataGridRows.slice(start, end));
-//                        pager.pagination('refresh', {
-//                            total: self.pageOneDataGridRows.length,
-//                            pageNumber: pageNo
-//                        });
-//                    },
-//                    pageNumber: 1,
-//                    pageList: [10, 20, 50],
-//                    showPageList: true,
-//                    beforePageText: go_i18nLang.SystemCommon.dataGridBeforePageText,
-//                    afterPageText: go_i18nLang.SystemCommon.dataGridAfterPageText,
-//                    displayMsg: go_i18nLang.SystemCommon.dataGridDisplayMsg
-//                });
                 this.isLoading = false;
             },
             appendRow() {

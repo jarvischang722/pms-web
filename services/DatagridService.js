@@ -153,13 +153,13 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
         // 5)尋找ui_type有select的話，取得combobox的資料；看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位
         function (fields, callback) {
 
-            var selectDSFunc = [];
+            let selectDSFunc = [];
             _.each(fieldData, function (field, fIdx) {
                 if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
 
                     //讀取selectgrid的設定參數
                     if (field.ui_type == 'selectgrid') {
-                        var func_name = prg_id + '_' + field.ui_field_name;
+                        let func_name = prg_id + '_' + field.ui_field_name;
                         fieldData[fIdx].selectGridOptions = ruleAgent[func_name]();
                     }
 
@@ -190,7 +190,7 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
                 }
 
                 //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
-                var attrName = field.attr_func_name;
+                let attrName = field.attr_func_name;
                 if (!_.isEmpty(attrName)) {
                     selectDSFunc.push(
                         function (callback) {
@@ -286,12 +286,12 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
  */
 exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, callback) {
 
-    var lo_fieldGrp = _.groupBy(fieldOptions, "grid_field_name");
-    var la_oriFieldData = [];  //程式原始欄位資料
-    var la_userFieldData = [];  //For 使用者程式原始欄位資料
+    let lo_fieldGrp = _.groupBy(fieldOptions, "grid_field_name");
+    let la_oriFieldData = []; //程式原始欄位資料
+    let la_userFieldData = []; //For 使用者程式原始欄位資料
     async.waterfall([
         function (cb) {
-            var lo_key = {
+            let lo_key = {
                 prg_id: prg_id,
                 page_id: Number(page_id),
                 user_id: {$in: ['', userInfo.usr_id.trim()]},
@@ -312,14 +312,35 @@ exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, c
             });
         },
         function (allFieldData, cb) {
-            var laf_saveFuncs = []; //要執行的function
+            let laf_saveFuncs = []; //要執行的function
             _.each(lo_fieldGrp, function (fields, grid_field_name) {
+                //區分是作業還是設定
+                let lo_params = {};
+                if (grid_field_name == "undefined") {
+                    lo_params = {
+                        prg_id: fields[0].prg_id,
+                        page_id: Number(fields[0].page_id),
+                        tab_page_id: Number(fields[0].tab_page_id)
+                    };
+                }
+                else {
+                    lo_params = {
+                        grid_field_name: grid_field_name
+                    };
+                }
+
                 // 與原始欄位資料比較 ，補上user 沒有存到的欄位
-                _.each(_.where(la_oriFieldData, {grid_field_name: grid_field_name}), function (field) {
+                _.each(_.where(la_oriFieldData, lo_params), function (field) {
+                    if (_.findIndex(fields, lo_params) == -1) {
+                        fields.push(field);
+                    }
+                });
+                _.each(_.where(la_oriFieldData, lo_params), function (field) {
                     if (_.findIndex(fields, {ui_field_name: field.ui_field_name}) == -1) {
                         fields.push(field);
                     }
                 });
+
                 //將format_func_name從obj改為string(作業)
                 _.each(fields, function (field) {
                     if (typeof field.format_func_name === "object") {
@@ -336,22 +357,40 @@ exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, c
                         field.format_func_name = ls_formatFuncName;
                     }
                 });
+
+                //將欄位資料存進mongo
                 _.each(fields, function (field) {
                     laf_saveFuncs.push(
                         function (callback) {
-                            let lo_cond = {
-                                "user_id": userInfo.usr_id.trim(),
-                                "athena_id": userInfo.athena_id,
-                                "prg_id": prg_id.trim(),
-                                "ui_field_name": field.ui_field_name,
-                                "grid_field_name": field.grid_field_name
-                            };
+                            //區分是作業還是設定
+                            let lo_cond = {};
+                            if (grid_field_name == "undefined") {
+                                lo_cond = {
+                                    athena_id: userInfo.athena_id,
+                                    prg_id: prg_id.trim(),
+                                    page_id: field.page_id,
+                                    tab_page_id: field.tab_page_id,
+                                    ui_field_name: field.ui_field_name,
+                                    user_id: userInfo.usr_id.trim()
+                                };
+                            }
+                            else {
+                                lo_cond = {
+                                    athena_id: userInfo.athena_id,
+                                    prg_id: prg_id.trim(),
+                                    ui_field_name: field.ui_field_name,
+                                    user_id: userInfo.usr_id.trim(),
+                                    grid_field_name: field.grid_field_name
+                                };
+                            }
+
                             let oriSingleField = _.findWhere(la_oriFieldData, {ui_field_name: field.ui_field_name}) || {};
 
-                            let userField = _.findIndex(la_userFieldData, {
-                                "ui_field_name": field.ui_field_name,
-                                "grid_field_name": field.grid_field_name
-                            });
+                            //區分是作業還是設定
+                            if (grid_field_name != "undefined") {
+                                lo_params.ui_field_name = field.ui_field_name;
+                            }
+                            let userField = _.findIndex(la_userFieldData, lo_params);
 
                             field.user_id = userInfo.usr_id.trim();
                             field.athena_id = Number(userInfo.athena_id);
@@ -409,7 +448,7 @@ exports.doCheckFieldFormatVerify = function (prg_id, ui_field_name, verifyValue,
                     mongoAgent.FormatRF.findOne({format_id: fieldFormat.format_id}, function (err, format) {
                         console.log(ui_field_name);
 
-                        var regExp = new RegExp(format.reg_exp);
+                        let regExp = new RegExp(format.reg_exp);
                         if (!regExp.test(verifyValue)) {
                             callback("資料格式錯誤", false);
                         }
@@ -443,18 +482,18 @@ exports.doCheckFieldFormatVerify = function (prg_id, ui_field_name, verifyValue,
  * @param callback
  */
 exports.doSaveDataGrid = function (postData, session, callback) {
-    var mainTableName = "";
-    var savaExecDatas = {};
-    var exec_seq = 1;
-    var userInfo = session.user;
-    var athena_id = userInfo.athena_id;
-    var hotel_cod = userInfo["fun_hotel_cod"];
-    var prg_id = postData["prg_id"] || "";
-    var prgFields = []; //prg 所屬的欄位
+    let mainTableName = "";
+    let savaExecDatas = {};
+    let exec_seq = 1;
+    let userInfo = session.user;
+    let athena_id = userInfo.athena_id;
+    let hotel_cod = userInfo["fun_hotel_cod"];
+    let prg_id = postData["prg_id"] || "";
+    let prgFields = []; //prg 所屬的欄位
 
     async.waterfall([
         getTableName, //抓取TABLE NAME
-        getPrgField,  //取得此程式的欄位
+        getPrgField, //取得此程式的欄位
         doChkSaveRule,//先驗證資料是否規則正確
         doSaveDataByAPI //實作儲存
     ], function (err, result) {
@@ -516,13 +555,13 @@ exports.doSaveDataGrid = function (postData, session, callback) {
 
     //實作儲存
     function doSaveDataByAPI(chkResult, callback) {
-        var deleteData = postData["deleteData"] || [];
-        var createData = postData["createData"] || [];
-        var updateData = postData["updateData"] || [];
-        var keyFields = _.pluck(_.where(prgFields, {keyable: 'Y'}), "ui_field_name") || []; //屬於key 的欄位
-        var la_multiLangFields = _.filter(prgFields, function (field) {
+        let deleteData = postData["deleteData"] || [];
+        let createData = postData["createData"] || [];
+        let updateData = postData["updateData"] || [];
+        let keyFields = _.pluck(_.where(prgFields, {keyable: 'Y'}), "ui_field_name") || []; //屬於key 的欄位
+        let la_multiLangFields = _.filter(prgFields, function (field) {
             return field.multi_lang_table != "";
-        });  //多語系欄位
+        }); //多語系欄位
         async.parallel([
             //新增 0200
             function (callback) {
@@ -530,7 +569,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     return callback(null, '0200');
                 }
                 _.each(createData, function (data) {
-                    var tmpIns = {"function": "1"}; //1  新增
+                    let tmpIns = {"function": "1"}; //1  新增
                     tmpIns["table_name"] = mainTableName;
 
                     data = handleDateFormat(prgFields, data);
@@ -547,11 +586,11 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     /** 處理每一筆多語系 handleSaveMultiLang **/
                     if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
                         _.each(data.multiLang, function (lo_lang) {
-                            var ls_locale = lo_lang.locale || "";
+                            let ls_locale = lo_lang.locale || "";
                             _.each(lo_lang, function (langVal, fieldName) {
                                 if (fieldName != "locale" && fieldName != "display_locale" && !_.isEmpty(langVal)) {
-                                    var langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
-                                    var lo_langTmp = {
+                                    let langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
+                                    let lo_langTmp = {
                                         function: '1',
                                         table_name: langTable,
                                         locale: ls_locale,
@@ -576,7 +615,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
             //刪除 0300
             function (callback) {
                 _.each(deleteData, function (data) {
-                    var tmpDel = {"function": "0"}; //0 代表刪除
+                    let tmpDel = {"function": "0"}; //0 代表刪除
                     tmpDel["table_name"] = mainTableName;
                     tmpDel.condition = [];
                     //組合where 條件
@@ -595,8 +634,8 @@ exports.doSaveDataGrid = function (postData, session, callback) {
 
                     /** 刪除多語系 **/
                     if (la_multiLangFields.length > 0) {
-                        var ls_langTable = la_multiLangFields[0].multi_lang_table;
-                        var langDel = {"function": "0"};
+                        let ls_langTable = la_multiLangFields[0].multi_lang_table;
+                        let langDel = {"function": "0"};
                         langDel["table_name"] = ls_langTable;
                         langDel.condition = [];
                         _.each(keyFields, function (keyField, keyIdx) {
@@ -620,11 +659,11 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                 if (updateData.length == 0) {
                     return callback(null, '0400');
                 }
-                var updateFuncs = [];
+                let updateFuncs = [];
                 _.each(updateData, function (data) {
                     updateFuncs.push(
                         function (callback) {
-                            var tmpEdit = {"function": "2"}; //2  編輯
+                            let tmpEdit = {"function": "2"}; //2  編輯
                             tmpEdit["table_name"] = mainTableName;
                             tmpEdit["athena_id"] = userInfo.athena_id;
                             tmpEdit["hotel_cod"] = userInfo.fun_hotel_cod;
@@ -641,7 +680,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                             delete tmpEdit["ins_usr"];
 
                             tmpEdit.condition = [];
-                            var lo_keysData = {};
+                            let lo_keysData = {};
                             //組合where 條件
                             _.each(keyFields, function (keyField, keyIdx) {
                                 if (!_.isUndefined(data[keyField])) {
@@ -659,22 +698,22 @@ exports.doSaveDataGrid = function (postData, session, callback) {
 
                             /** 處理每一筆多語系 handleSaveMultiLang **/
                             if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
-                                var langProcessFunc = [];
+                                let langProcessFunc = [];
                                 _.each(data.multiLang, function (lo_lang) {
-                                    var ls_locale = lo_lang.locale || "";
+                                    let ls_locale = lo_lang.locale || "";
                                     langProcessFunc.push(
                                         function (callback) {
-                                            var chkFuncs = [];
+                                            let chkFuncs = [];
                                             _.each(lo_lang, function (langVal, fieldName) {
                                                 if (fieldName != "locale" && fieldName != "display_locale" && !_.isEmpty(langVal)) {
                                                     chkFuncs.push(
                                                         function (callback) {
-                                                            var langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
-                                                            var lo_langTmp = {
+                                                            let langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
+                                                            let lo_langTmp = {
                                                                 table_name: langTable,
                                                                 words: langVal
                                                             };
-                                                            var lo_condition = [
+                                                            let lo_condition = [
                                                                 {
                                                                     key: "locale",
                                                                     operation: "=",
@@ -703,12 +742,12 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                                                             //檢查key + field 是否在langTable 有資料, 有的話更新, 沒有則新增
                                                             langSvc.handleMultiLangContentByKey(langTable, ls_locale, lo_keysData, fieldName, function (err, rows) {
                                                                 if (rows.length > 0) {
-                                                                    lo_langTmp["function"] = "2";  //編輯
+                                                                    lo_langTmp["function"] = "2"; //編輯
                                                                     lo_langTmp["condition"] = lo_condition; //放入條件
                                                                 } else {
-                                                                    lo_langTmp["function"] = "1";  //新增;
-                                                                    lo_langTmp["locale"] = ls_locale;  //
-                                                                    lo_langTmp["field_name"] = fieldName;  //
+                                                                    lo_langTmp["function"] = "1"; //新增;
+                                                                    lo_langTmp["locale"] = ls_locale; //
+                                                                    lo_langTmp["field_name"] = fieldName; //
                                                                     lo_langTmp = _.extend(lo_langTmp, lo_keysData);
                                                                 }
 
@@ -762,7 +801,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     return callback(errTrans, false);
                 }
 
-                var apiParams = {
+                let apiParams = {
                     "REVE-CODE": transData ? transData.trans_code || "BAC03009010000" : "BAC03009010000",
                     "program_id": prg_id,
                     "user": userInfo.usr_id,
@@ -771,9 +810,9 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                 };
 
                 tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
-                    var success = true;
-                    var errMsg = null;
-                    var log_id = moment().format("YYYYMMDDHHmmss");
+                    let success = true;
+                    let errMsg = null;
+                    let log_id = moment().format("YYYYMMDDHHmmss");
                     if (apiErr || !data) {
                         chkResult.success = false;
                         errMsg = apiErr;
@@ -817,16 +856,16 @@ exports.doSaveDataGrid = function (postData, session, callback) {
  * @param callback
  */
 exports.getPrgRowDefaultObject = function (postData, session, callback) {
-    var lo_result = {
+    let lo_result = {
         defaultValues: {
             createRow: "Y"
         }
     };
-    var addRuleFunc = "";  //按下新增按鈕的規則
-    var addTypeSelect = "";  //帶預設值
-    var prg_id = postData["prg_id"];
-    var page_id = Number(postData["page_id"]) || 1;
-    var tab_page_id = Number(postData["tab_page_id"]) || 1;
+    let addRuleFunc = ""; //按下新增按鈕的規則
+    let addTypeSelect = ""; //帶預設值
+    let prg_id = postData["prg_id"];
+    let page_id = Number(postData["page_id"]) || 1;
+    let tab_page_id = Number(postData["tab_page_id"]) || 1;
     let lo_mongoCollection = prg_id.substring(0, 5) == "PMS08" ? "SetupDatagridFunction" : "PrgFunction";//設定的collection 為SetupDatagridFunction、作業為PrgFunction
     let lo_paramsFunc = {};//mongo 搜尋function條件
     let lo_paramUItype = {};//mongo 搜尋UITypeSelect條件
@@ -899,10 +938,10 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
             _.each(addTypeSelect, function (funRow) {
                 funRow = funRow.toObject();
                 if (funRow["defaultVal"] != "") {
-                    var columnName = funRow["ui_field_name"];
+                    let columnName = funRow["ui_field_name"];
                     lo_result.defaultValues[columnName] = funRow["defaultVal"];
                 }
-            })
+            });
             callback(null, lo_result);
         }
     ], function (err, result) {
@@ -923,7 +962,7 @@ function handleDateFormat(prgFields, rowData) {
     });
 
     _.each(rowData, function (val, field_name) {
-        var la_tmpField = _.findWhere(prgFields, {ui_field_name: field_name});
+        let la_tmpField = _.findWhere(prgFields, {ui_field_name: field_name});
         if (!_.isUndefined(la_tmpField)) {
             if (la_tmpField.ui_type == 'date') {
                 rowData[field_name] = moment(new Date(val)).format("YYYY/MM/DD");
