@@ -52,21 +52,17 @@
                                                     <table class="css_table">
                                                         <thead class="css_thead">
                                                         <tr class="css_tr">
-                                                            <template v-for="field in contactFieldsData">
-                                                                <th v-if="field.ui_field_name=='contact_dt.contact_nam'"
-                                                                    class="css_th width-15">
-                                                                    {{field.ui_display_name}}
-                                                                </th>
-                                                                <th v-else-if="field.ui_field_name=='contact_dt.contact_rmk'"
-                                                                    class="css_th width-70">
-                                                                    {{field.ui_display_name}}
-                                                                </th>
-                                                            </template>
+                                                            <th class="css_th width-15">
+                                                                {{contactFieldOneData.ui_display_name}}
+                                                            </th>
+                                                            <th class="css_th width-70">
+                                                                {{contactFieldTwoData.ui_display_name}}
+                                                            </th>
                                                         </tr>
                                                         </thead>
                                                         <tbody class="css_tbody">
                                                         <tr v-for="data in contactDataGridRows" class="css_tr">
-                                                            <td class="css_td">{{ data["contact_rf.contact_nam"]}}</td>
+                                                            <td class="css_td">{{ data['contact_rf.contact_nam']}}</td>
                                                             <td class="css_td">
                                                                 <input type="text" class="input-medium medium-c1 width-100"
                                                                        v-model="data['contact_dt.contact_rmk']">
@@ -179,6 +175,8 @@
                 emailDataGridRows: [],
                 oriEmailDataGridRows: [],
                 contactFieldsData: [],
+                contactFieldOneData: {}, //聯絡類別
+                contactFieldTwoData: {}, //聯絡內容
                 contactDataGridRows: [],
                 oriContactDataGridRows: [],
                 addressFieldsData: [],
@@ -193,6 +191,8 @@
                     if (this.$store.state.ga_emailDataGridRowsData.length != 0) {
                         this.emailFieldsData = this.$store.state.ga_emailFieldsData;
                         this.contactFieldsData = this.$store.state.ga_contactFieldsData;
+                        this.contactFieldOneData = _.findWhere(this.contactFieldsData, {ui_field_name: 'contact_dt.contact_nam'});
+                        this.contactFieldTwoData = _.findWhere(this.contactFieldsData, {ui_field_name: 'contact_dt.contact_rmk'});
                         this.addressFieldsData = this.$store.state.ga_addressFieldsData;
                         this.emailDataGridRows = this.$store.state.ga_emailDataGridRowsData;
                         this.oriEmailDataGridRows = this.$store.state.ga_oriEmailDataGridRowsData;
@@ -289,10 +289,10 @@
                         };
 
                         _.each(this.oriAddressDataGridRows, (lo_oriAddressDataGridRows, idx) => {
-                            if(_.isNull(lo_oriAddressDataGridRows["address_dt.cust_cod"])){
+                            if (_.isNull(lo_oriAddressDataGridRows["address_dt.cust_cod"])) {
                                 lo_addressTmpCUD.createData.push(val[idx])
                             }
-                            else{
+                            else {
                                 lo_addressTmpCUD.updateData.push(val[idx]);
                                 lo_addressTmpCUD.oriData.push(lo_oriAddressDataGridRows);
                             }
@@ -314,6 +314,8 @@
                 this.emailDataGridRows = [];
                 this.oriEmailDataGridRows = [];
                 this.contactFieldsData = [];
+                this.contactFieldOneData = {};
+                this.contactFieldTwoData = {};
                 this.contactDataGridRows = [];
                 this.oriContactDataGridRows = [];
                 this.addressFieldsData = [];
@@ -349,6 +351,8 @@
                     searchCond: {cust_cod: this.$store.state.gs_gcustCod}
                 }).then(result => {
                     this.contactFieldsData = result.dgFieldsData;
+                    this.contactFieldOneData = _.findWhere(this.contactFieldsData, {ui_field_name: 'contact_dt.contact_nam'});
+                    this.contactFieldTwoData = _.findWhere(this.contactFieldsData, {ui_field_name: 'contact_dt.contact_rmk'});
                     this.contactDataGridRows = result.dgRowData;
                     this.oriContactDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
                     _.each(this.contactDataGridRows, (lo_contactDataGridRows, idx) => {
