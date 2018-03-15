@@ -6,7 +6,6 @@
                     :search-cond.sync="searchCond"
                     :fetch-data="loadDataGridByPrgID"
             ></search-comp>
-
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
         <div class="col-xs-12">
@@ -54,14 +53,10 @@
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
-
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
-
     DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
-        //
     };
     DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
-
     };
     /*** Class End  ***/
 
@@ -126,14 +121,12 @@
                 this.isLoading = true;
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
-                this.editingRow = {gcust_cod: ""};
+                this.editingRow = {};
 
                 this.showSingleGridDialog();
                 this.isLoading = false;
             },
             editRow() {
-                var self = this;
-
                 this.isLoading = true;
                 this.isCreateStatus = false;
                 this.isEditStatus = true;
@@ -153,20 +146,19 @@
             showSingleGridDialog() {
                 let self = this;
 
-                let dialog = $('#PMS0210011').removeClass('hide').dialog({
-                    autoOpen: false,
+                let dialog = $('#PMS0210011_dialog').removeClass('hide').dialog({
                     modal: true,
-                    title: "住客歷史",
+                    title: "Rate code",
+                    title_html: true,
                     width: 1000,
                     maxwidth: 1920,
-                    minheight: 800,
+//                autoOpen: true,
                     dialogClass: "test",
                     resizable: true,
                     onBeforeClose() {
                         self.editingRow = {};
                         self.isEditStatus = false;
                         self.isCreateStatus = false;
-                        self.$store.dispatch("setAllDataClear");
                         self.loadDataGridByPrgID();
                     }
                 }).dialog('open');
