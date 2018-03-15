@@ -146,10 +146,6 @@ exports.authLogin = function (req, res) {
         if (!err && userInfo) {
             req.session.user = userInfo;
             req.session.athena_id = userInfo.athena_id;
-            //TODO: 預設02館
-            req.session.user["hotel_cod"] = "02";
-            req.session.user["fun_hotel_cod"] = "02";
-            req.session.user["fun_hotel_name"] = _.findWhere(userInfo.hotels, {hotel_cod: "02"}).hotel_nam;
             req.cookies.athena_id = userInfo.athena_id;
             req.cookies.comp_cod = userInfo.cmp_id.trim();
             res.cookie("login_username", userInfo.usr_id, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
