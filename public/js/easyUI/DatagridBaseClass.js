@@ -84,6 +84,10 @@ function DatagridBaseClass() {
         $('#' + this.dgName).datagrid("loadData", dgData);
     };
 
+    this.clearSelection = function(){
+        $('#' + this.dgName).datagrid("clearSelections");
+    };
+
     /**
      * dataGrid 的分頁功能
      * @param dataGridRows{Array} : 資料集

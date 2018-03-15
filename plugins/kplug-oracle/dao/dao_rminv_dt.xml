@@ -6,14 +6,14 @@
         <statement><![CDATA[
              SELECT  MIN(BATCH_DAT) as batchDat
              FROM  RMINV_DT
-             WHERE  ATHENA_ID = ?  AND  trim(HOTEL_COD) = trim(?)  AND  BATCH_DAT >= ?
-             AND  trim(ROOM_NOS) = trim(?) AND  ASSIGN_STA = 'Y'
+             WHERE  ATHENA_ID = :athena_id  AND  trim(HOTEL_COD) = trim(:hotel_cod)  AND  BATCH_DAT >= to_date(:batch_dat, 'YYYY/MM/DD')
+             AND  trim(ROOM_NOS) = trim(:room_nos) AND  ASSIGN_STA = 'Y'
         ]]>
         </statement>
-        <parameter type="number" kind="1">athena_id</parameter>
-        <parameter type="string" kind="1">hotel_cod</parameter>
-        <parameter type="date" kind="1">batch_dat</parameter>
-        <parameter type="string" kind="1">room_nos</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">batch_dat</parameter>
+        <parameter type="string" kind="3">room_nos</parameter>
     </dao>
 
     <!-- 檢查指定房號於滾房租日(含)以後尚有修理設定者不可刪除-->

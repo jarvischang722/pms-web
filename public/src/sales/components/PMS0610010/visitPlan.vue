@@ -236,7 +236,7 @@
         created() {
             var self = this;
             vmHub.$on("selectDataGridRow", function (data) {
-                self.dgVisitPlanIns.onSelect(data.index, data.row);
+                // self.dgVisitPlanIns.onSelect(data.index, data.row);
                 self.rowData = data.row;
             });
         },
@@ -416,7 +416,6 @@
                     this.tmpRowsData.splice(existIdx, 1);
                 }
                 this.tmpRowsData.splice(existIdx, 0, changedSingleData);
-
             },
             showDataGrid(editingRow) {
                 var colOption = [{field: 'ck', checkbox: true}];
