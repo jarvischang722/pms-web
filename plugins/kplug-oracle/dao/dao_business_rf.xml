@@ -23,7 +23,8 @@
     <!--[PMS0620050] 業務員拜訪記錄 行業別選單-->
     <dao name="SEL_BUSINESS_RF">
         <statement><![CDATA[
-              select business_cod, business_rmk from business_rf where athena_id = :athena_id
+              select business_cod, business_rmk, (trim(business_cod)||':'||business_rmk) as business_display
+              from business_rf where athena_id = :athena_id
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
