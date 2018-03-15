@@ -76,11 +76,13 @@
                                             <div class="clearfix"></div>
                                         </th>
                                         <!--日期-->
-                                        <th class="datecolor" colspan="2" v-for="field in dateFieldData">{{field.data}}</th>
+                                        <th class="datecolor" colspan="2" v-for="field in dateFieldData">
+                                            {{field.data}}
+                                        </th>
                                     </tr>
                                     <tr>
                                         <!--星期-->
-                                        <th  class="dateColor" colspan="2" v-for="field in dayFieldData">
+                                        <th class="dateColor" colspan="2" v-for="field in dayFieldData">
                                             <span class="">{{field.data}}</span>
                                         </th>
                                     </tr>
@@ -88,7 +90,7 @@
 
                                     <!--房號資料-->
                                     <tbody class="clearfix">
-                                    <template v-if="roomNosDataDisplay.length == 0" >
+                                    <template v-if="roomNosDataDisplay.length == 0">
                                         <tr style="overflow: hidden; background-color: #ffffff;border: none;">
                                             <td style="overflow: hidden; background-color: #ffffff; border: none;">
                                                 <span></span>
@@ -209,8 +211,8 @@
             $("#resRoomPlan-table").tableHeadFixer({"left": 1});
         },
         watch: {},
-        data(){
-            return{
+        data() {
+            return {
                 i18nLang: go_i18nLang,
                 randomString: crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, ""),
                 isLoading: true,
@@ -218,13 +220,7 @@
                 rentCalDat: "",
                 //搜尋欄位資料
                 searchFields: [],
-                searchCond: {
-                    room_cod: [],
-                    room_nos: "",
-                    character_rmk: [],
-                    build_nos: [],
-                    floor_nos: []
-                },
+                searchCond: {},
                 //搜尋日期
                 searchData: {
                     year: moment().year().toString(),
@@ -283,11 +279,11 @@
                 let lo_param = {
                     socket_id: this.randomString,
                     begin_dat: this.nowSearchDate,
-                    room_cod: this.searchCond.room_cod,
-                    room_nos: this.searchCond.room_nos,
-                    character_rmk: this.searchCond.character_rmk,
-                    build_nos: this.searchCond.build_nos,
-                    floor_nos: this.searchCond.floor_nos
+                    room_cod: _.isUndefined(this.searchCond.room_cod) ? [] : this.searchCond.room_cod,
+                    room_nos: _.isUndefined(this.searchCond.room_nos) ? "" : this.searchCond.room_nos,
+                    character_rmk: _.isUndefined(this.searchCond.character_rmk) ? [] : this.searchCond.character_rmk,
+                    build_nos: _.isUndefined(this.searchCond.build_nos) ? [] : this.searchCond.build_nos,
+                    floor_nos: _.isUndefined(this.searchCond.floor_nos) ? [] : this.searchCond.floor_nos
                 };
 
                 $.post('/api/qryRmNosPageOneMap', lo_param).then(result => {
@@ -318,6 +314,9 @@
                         //處理日期欄位資料
                         let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
 
+                        this.dateFieldData = [];
+                        this.dayFieldData = [];
+
                         for (let i = 0; i < 14; i++) {
                             let lo_date = moment(new Date(ls_date)).add('days', i);
                             this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2]});
@@ -333,8 +332,7 @@
             },
             convertData(la_roomNosData) {
                 let self = this;
-                this.dateFieldData = [];
-                this.dayFieldData = [];
+
                 this.roomNosDataDisplay = JSON.parse(JSON.stringify(la_roomNosData));
                 //處理日期欄位資料
                 let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
@@ -353,7 +351,11 @@
                     let ln_pushNum = 0;
                     while (ln_count < ln_numFieldLen) {
                         la_tmpRoomUse[ln_count] = {num: this.beginNum + ln_pushNum, isUsed: false, isValidity: false};
-                        la_tmpRoomUse[ln_count + 1] = {num: this.beginNum + ln_pushNum, isUsed: false, isValidity: false};
+                        la_tmpRoomUse[ln_count + 1] = {
+                            num: this.beginNum + ln_pushNum,
+                            isUsed: false,
+                            isValidity: false
+                        };
                         ln_count = ln_count + 2;
                         ln_pushNum = ln_pushNum + 1;
                     }
@@ -413,7 +415,7 @@
                             ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
                         }
 
-                        if(lo_roomUse.end_dat == lo_roomUse.co_dat ){
+                        if (lo_roomUse.end_dat == lo_roomUse.co_dat) {
                             ls_roomUseClass = ls_roomUseClass + ' only-oneArrow-right';
                         }
 
@@ -458,11 +460,18 @@
             },
             //搜尋日轉回滾房租日
             backToRentCalDat() {
-                this.searchData.year = moment(new Date(this.rentCalDat)).year();
-                this.searchData.month = moment(new Date(this.rentCalDat)).month() + 1;
-                this.searchData.date = moment(new Date(this.rentCalDat)).date();
-                this.searchData4Month = moment(new Date(this.rentCalDat));
-                this.fetchData();
+                let ls_searchData4Month = moment(JSON.parse(JSON.stringify(this.searchData4Month))).format("YYYY/MM/DD").toString();
+                let ls_rentCalDate = moment(new Date(this.rentCalDat)).format("YYYY/MM/DD").toString();
+
+                if (ls_searchData4Month != ls_rentCalDate) {
+                    this.searchData4Month = this.rentCalDat;
+                }
+                else {
+                    this.searchData.year = moment(new Date(this.rentCalDat)).year();
+                    this.searchData.month = moment(new Date(this.rentCalDat)).month() + 1;
+                    this.searchData.date = moment(new Date(this.rentCalDat)).date();
+                    this.fetchData();
+                }
             },
             changDate(num) {
                 let ls_date = moment(new Date(this.nowSearchDate)).add('days', num).format("YYYY/MM/DD").toString();

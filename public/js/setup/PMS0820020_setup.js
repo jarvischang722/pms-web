@@ -17,6 +17,7 @@ DatagridRmSingleGridClass.prototype = new DatagridBaseClass();
 DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
     PMS0820020VM.editingRow = row;
     PMS0820020VM.editStatus = true;
+
     PMS0820020VM.fetchSingleData(row, function (success) {
         PMS0820020VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(go_Field_Data_Tmp, "row_seq"), "row_seq"));
         PMS0820020VM.oriPageTwoFieldData = go_Field_Data_Tmp;
@@ -303,15 +304,7 @@ Vue.component('single-grid-pms0820020-tmp', {
 
         doSaveModifyData(callback) {
             var self = this;
-            var lb_isDataChang = false;
-
-            for (var propertyName in PMS0820020VM.singleData) {
-
-                if (PMS0820020VM.singleData[propertyName] != PMS0820020VM.originData[propertyName]) {
-                    lb_isDataChang = true;
-                    break;
-                }
-            }
+            var lb_isDataChang = !_.isEqual(PMS0820020VM.singleData, PMS0820020VM.originData);
 
             if (lb_isDataChang) {
                 var q = confirm(go_i18nLang["SystemCommon"].Save_changed_data);
@@ -363,15 +356,23 @@ Vue.component('single-grid-pms0820020-tmp', {
         },
 
         //關閉
-        emitCloseGridDialog: function () {
+        emitCloseGridDialog: function (isDataUpdate) {
             var self = this;
-            this.doSaveModifyData(function (result) {
-                if (result) {
-                    self.dtEditIndex = undefined;
-                    self.ln_editingIndex = -1;
-                    self.$emit('close-single-grid-dialog');
-                }
-            });
+            if (isDataUpdate) {
+                this.doSaveModifyData(function (result) {
+                    if (result) {
+                        self.dtEditIndex = undefined;
+                        self.ln_editingIndex = -1;
+                        self.$emit('close-single-grid-dialog');
+                    }
+                });
+            }
+            else {
+                this.dtEditIndex = undefined;
+                this.ln_editingIndex = -1;
+                this.$emit('close-single-grid-dialog');
+            }
+
         },
 
         //抓取單筆資料
@@ -403,6 +404,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                 callback = function () {
                 };
             }
+            console.log("doSaveGrid");
             var self = this;
             if (this.isRuleComplete == false) {
                 if (this.timer == null) {
@@ -410,11 +412,13 @@ Vue.component('single-grid-pms0820020-tmp', {
                         self.doSaveGrid(saveAfterAction);
                     }, 1000);
                 }
+                console.log(this.isRuleComplete);
                 return;
             }
             else {
                 clearInterval(this.timer);
                 this.timer = null;
+                console.log(this.isRuleComplete);
                 if (this.isVerified == false) {
                     return;
                 }
@@ -486,7 +490,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                     //儲存後離開
                     if (saveAfterAction == "closeDialog") {
                         self.singleData = {};
-                        self.emitCloseGridDialog();
+                        self.emitCloseGridDialog(false);
                     }
                     //新增完再新增另一筆
                     else if (saveAfterAction == "addOther") {
@@ -498,6 +502,9 @@ Vue.component('single-grid-pms0820020-tmp', {
                             self.emitAppendRow();
                         }
 
+                    }
+                    else{
+                        PMS0820020VM.originData = JSON.parse(JSON.stringify(PMS0820020VM.singleData));
                     }
 
                     if (self.deleteStatus) {
@@ -512,7 +519,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                             self.emitFetchSingleData();
                         } else {
                             //連一筆都沒有就關掉視窗
-                            self.emitCloseGridDialog();
+                            self.emitCloseGridDialog(false);
                         }
 
                     }
@@ -520,6 +527,8 @@ Vue.component('single-grid-pms0820020-tmp', {
                     callback(true);
                 }
                 else {
+                    clearInterval(this.timer);
+                    this.timer = null;
                     callback(false);
                 }
             });
@@ -642,6 +651,7 @@ var rmList = Vue.extend({
 var PMS0820020VM = new Vue({
     el: '#GSApp',
     mounted: function () {
+        this.isLoading = true;
         this.initTmpCUD();
         this.fetchUserInfo();
         this.loadDataGridByPrgID(function (success) {
@@ -689,7 +699,13 @@ var PMS0820020VM = new Vue({
         roomListDialogVisiable: false,
         isRuleComplete: true,
         timer: null,
-        maxWidth: 0
+        maxWidth: 0,
+        isLoading: true
+    },
+    watch: {
+        editingRow: function(val){
+            this.dgIns.clearSelection();
+        }
     },
     methods: {
         //Init CUD
@@ -709,6 +725,7 @@ var PMS0820020VM = new Vue({
             }
 
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
+                console.log(result);
                 PMS0820020VM.searchFields = result.searchFields;
                 PMS0820020VM.pageOneDataGridRows = result.dataGridRows;
                 PMS0820020VM.pageOneFieldData = result.fieldData;
@@ -724,8 +741,11 @@ var PMS0820020VM = new Vue({
             colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0820020_dg'));
             this.dgIns = new DatagridRmSingleGridClass();
             this.dgIns.init(prg_id, 'PMS0820020_dg', colOption, this.pageOneFieldData, {singleSelect: false});
-            this.dgIns.loadDgData(this.pageOneDataGridRows);
+            this.loadDgData();
             // PMS0820020VM.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
+        },
+        loadDgData: function(){
+            this.dgIns.loadDgData(this.pageOneDataGridRows);
         },
 
         //取得使用者資料
@@ -979,7 +999,7 @@ var PMS0820020VM = new Vue({
                         self.showRoomSortDialog('');
                         self.loadDataGridByPrgID(function () {
                         });
-                        alert('save success!');
+                        alert(go_i18nLang.SystemCommon.saveSuccess);
                         self.isAction = false;
                     }
                     else {
@@ -1121,6 +1141,7 @@ var PMS0820020VM = new Vue({
             var lo_chkResult = this.dataValidate();
             if (!_.isUndefined(lo_chkResult) && lo_chkResult.success == false && PMS0820020VM.tmpCud.deleteData.length == 0) {
                 alert(lo_chkResult.msg);
+                callback(false);
                 return;
             }
 
@@ -1131,12 +1152,13 @@ var PMS0820020VM = new Vue({
                     PMS0820020VM.loadDataGridByPrgID(function (success) {
                         callback(success);
                     });
-                    alert('save success!');
+                    alert(go_i18nLang.SystemCommon.saveSuccess);
                     waitingDialog.hide();
 
                 } else {
                     waitingDialog.hide();
                     alert(result.errorMsg);
+                    callback(false);
                 }
 
             });
@@ -1168,7 +1190,7 @@ var PMS0820020VM = new Vue({
                     //todo 此單筆最後一排有超過五個以上的grid-item 會錯誤
                     // if(index >= 2) return true;
                 });
-
+                self.isLoading = false;
             });
         },
 
@@ -1186,7 +1208,7 @@ var PMS0820020VM = new Vue({
                         result.rowData.character_rmk = [];
                     }
                     PMS0820020VM.singleData = result.rowData;
-                    PMS0820020VM.originData = _.clone(result.rowData);
+                    PMS0820020VM.originData = JSON.parse(JSON.stringify(result.rowData));
                     PMS0820020VM.isModifiable = result.isModifiable || true;
                     callback(true);
 

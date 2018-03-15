@@ -13,10 +13,6 @@ DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     //
 };
 
-DatagridSingleGridClass.prototype.doSaveColumnFields = function () {
-
-};
-
 /*** Class End  ***/
 
 Vue.component('single-grid-pms0620050-tmp', {
@@ -547,9 +543,6 @@ Vue.component('single-grid-pms0620050-tmp', {
 
 var vm = new Vue({
     el: "#PMS0620050App",
-    components: {
-        "search-comp": go_searchComp
-    },
     mounted: function () {
         this.fetchUserInfo();
         this.initTmpCUD();
@@ -659,7 +652,9 @@ var vm = new Vue({
             };
 
             $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
-                vm.searchFields = result.searchFields;
+                if(vm.searchFields.length <= 0){
+                    vm.searchFields = result.searchFields;
+                }
                 vm.pageOneDataGridRows = result.dgRowData;
                 vm.pageOneFieldData = result.dgFieldsData;
                 vm.showDataGrid();

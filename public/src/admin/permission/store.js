@@ -161,8 +161,10 @@ const actions = {
     async changeRoleEvent({dispatch, commit}, role_id) {
         commit("setSelRole", role_id);
         commit("setIsLoading", true);
-        await dispatch("qryRoleOfAccounts", role_id);
-        await dispatch("qryRoleOfFuncs", role_id);
+        await Promise.all([
+            dispatch("qryRoleOfAccounts", role_id),
+            dispatch("qryRoleOfFuncs", role_id)
+        ]);
         commit("setIsLoading", false);
     },
 
@@ -253,52 +255,72 @@ const actions = {
 
         //system
         let la_sys = _.where(la_funcList, {id_typ: "SYSTEM"});
+        la_sys = _.sortBy(la_sys, "current_id");
         _.each(la_sys, function (lo_sys) {
             la_funcList4Tree.push(treeDataObj(lo_sys.current_id, "#", lo_sys["sys_name_" + gs_locale]));
         });
 
         //subSystem
         let la_subSys = _.where(la_funcList, {id_typ: "SUBSYS"});
+        la_subSys = _.sortBy(la_subSys, "current_id");
         _.each(la_subSys, function (lo_subSys) {
             la_funcList4Tree.push(treeDataObj(lo_subSys.current_id, lo_subSys.pre_id, lo_subSys["subsys_nam_" + gs_locale]));
         });
 
         //model
         let la_model = _.where(la_funcList, {id_typ: "MODEL"});
+        la_model = _.sortBy(la_model, "current_id");
         _.each(la_model, function (lo_model) {
             la_funcList4Tree.push(treeDataObj(lo_model.current_id, lo_model.pre_id, lo_model["mdl_nam_" + gs_locale]));
         });
 
         //process
         let la_process = _.where(la_funcList, {id_typ: "PROCESS"});
+        la_process = _.sortBy(la_process, "current_id");
         _.each(la_process, function (lo_process) {
             la_funcList4Tree.push(treeDataObj(lo_process.current_id, lo_process.pre_id, lo_process["pro_nam_" + gs_locale]));
         });
 
         //function
         let la_func = _.where(la_funcList, {id_typ: "FUNCTION"});
+        la_func = _.sortBy(la_func, "current_id");
         _.each(la_func, function (lo_func) {
             let ls_id = lo_func.pre_id + "_" + lo_func.current_id;
-            la_funcList4Tree.push(treeDataObj(ls_id, lo_func.pre_id, lo_func["func_nam_" + gs_locale]));
+            let ls_treeTxt = go_i18nLang["SystemCommon"][lo_func.current_id] || lo_func.current_id;
+            la_funcList4Tree.push(treeDataObj(ls_id, lo_func.pre_id, ls_treeTxt));
         });
         commit("setFuncList4Tree", la_funcList4Tree);
     },
 
     doSaveByRole({state, commit, dispatch}) {
-        let la_staffAllChecked = state.go_staffTreeIns.get_checked();
-        $("#permissionAccountTree").find(".jstree-undetermined").each(
-            function (i, element) {
-                let ls_nodeId = $(element).closest('.jstree-node').attr("id");
-                la_staffAllChecked.push(ls_nodeId);
+        let la_OriStaffAllChecked = _.clone(state.go_staffTreeIns.get_checked());
+        let la_staffAllChecked = [];
+        _.each(la_OriStaffAllChecked, function (lo_OriStaffAllChecked) {
+            let lo_node = state.go_staffTreeIns.get_node(lo_OriStaffAllChecked);
+            if (lo_node.children_d.length == 0) {
+                la_staffAllChecked.push(lo_OriStaffAllChecked);
             }
-        );
-        let la_funcAllChecked = state.go_funcTreeIns.get_checked();
-        $("#permissionFuncTree").find(".jstree-undetermined").each(
-            function (i, element) {
-                let ls_nodeId = $(element).closest('.jstree-node').attr("id");
-                la_funcAllChecked.push(ls_nodeId);
+        });
+
+        let la_OrifuncAllChecked = _.clone(state.go_funcTreeIns.get_checked());
+        let la_funcAllChecked = _.clone(state.go_funcTreeIns.get_checked());
+        _.each(la_OrifuncAllChecked, function (lo_funcChecked) {
+            let lo_node = state.go_funcTreeIns.get_node(lo_funcChecked);
+            if (lo_node.parents.length > 0) {
+                _.each(lo_node.parents, function (ls_parent_id) {
+                    if (ls_parent_id != "#") {
+                        let ln_parent_node_isExist = _.findIndex(la_funcAllChecked, function (lo_oriFuncAllChecked) {
+                            return lo_oriFuncAllChecked == ls_parent_id;
+                        });
+                        if (ln_parent_node_isExist == -1) {
+                            la_funcAllChecked.push(ls_parent_id);
+                        }
+                    }
+
+                })
             }
-        );
+        });
+
         let la_funcChecked = [];
         let la_funcUnChecked = [];
         let la_staffChecked = [];
@@ -390,6 +412,8 @@ const actions = {
             selRole: state.gs_selRole
         };
 
+        // console.log(la_funcChecked, la_funcUnChecked);
+        // return;
         commit("setIsLoading", true);
         $.post("/api/saveAuthByRole", lo_params).then(
             result => {
@@ -418,11 +442,11 @@ const actions = {
         };
         $.post("/api/saveAuthByStaff", lo_params).then(
             result => {
-                if(result.success){
+                if (result.success) {
                     state.ga_oriCheckedRoleList = state.ga_checkedRoleList;
                     alert("save success");
                 }
-                else{
+                else {
                     alert(result.errMsg);
                 }
             },
@@ -443,11 +467,11 @@ const actions = {
 
         $.post("/api/saveAuthByFunc", lo_params).then(
             result => {
-                if(result.success){
+                if (result.success) {
                     state.ga_oriCheckedRoleList = _.clone(state.ga_checkedRoleList);
                     alert("save success");
                 }
-                else{
+                else {
                     alert(result.errMsg);
                 }
             },

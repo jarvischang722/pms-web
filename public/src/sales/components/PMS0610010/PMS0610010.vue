@@ -4,11 +4,13 @@
             <div class="page-header"></div><!-- /.page-header -->
             <!-- 商務公司(Accounts) Page-->
             <div class="pageMain">
-                <search-comp
-                        :search-fields="searchFields"
-                        :search-cond.sync="searchCond"
-                        :fetch-data="loadDataGridByPrgID"
-                ></search-comp>
+                <div class="col-xs-12">
+                    <search-comp
+                            :search-fields="searchFields"
+                            :search-cond.sync="searchCond"
+                            :fetch-data="loadDataGridByPrgID"
+                    ></search-comp>
+                </div>
                 <div class="clearfix"></div>
                 <div class="col-xs-12 col-sm-12 businessCompanyData">
                     <!--多筆 商務公司 dataGrid -->
@@ -294,6 +296,17 @@
     var gs_prgId = "PMS0610010";
     var vmHub = new Vue();
 
+    /** DatagridRmSingleGridClass **/
+    function DatagridSingleGridClass() {
+    }
+
+    DatagridSingleGridClass.prototype = new DatagridBaseClass();
+    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    };
+    DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    };
+    /*** Class End  ***/
+
     export default {
         name: 'pms0610010',
         el: "#PMS0610010App",
@@ -342,7 +355,7 @@
             this.setSearchCond();
             this.loadDataGridByPrgID();
         },
-        components: {visitPlan, searchComp, editSalesClerk, pms0610020},
+        components: {visitPlan, editSalesClerk, pms0610020},
         data() {
             return {
                 i18nLang: go_i18nLang,
@@ -422,7 +435,7 @@
             contractStaDtRowsData: {
                 handler(val) {
                     if (val.length > 0) {
-                        _.each(val, function (lo_val, idx){
+                        _.each(val, function (lo_val, idx) {
                             val[idx].ins_dat = moment(new Date(lo_val.ins_dat)).format("YYYY/MM/DD");
                         });
                     }
@@ -467,51 +480,33 @@
                     page_id: 1,
                     searchCond: lo_searchCond
                 };
-
                 $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
-                    self.searchFields = result.searchFields;
+                    if (self.searchFields.length <= 0) {
+                        self.searchFields = result.searchFields;
+                    }
                     self.pageOneFieldData = result.dgFieldsData;
                     self.pageOneDataGridRows = result.dgRowData;
                     self.showDataGrid();
                 });
             },
             showDataGrid() {
-                var self = this;
-
                 var colOption = [{field: 'ck', checkbox: true}];
                 colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0610010_dg'));
 
                 //一開始只載入10筆資料
-                var la_showDataRows = this.pageOneDataGridRows.slice(0, 10);
+                let ln_pageSize = 10;
+                let la_showDataRows = this.pageOneDataGridRows.slice(0, ln_pageSize);
 
-                $('#PMS0610010_dg').datagrid({
-                    fitColumns: "true",
-                    columns: [colOption],
+                this.dgIns = new DatagridSingleGridClass();
+                this.dgIns.init(gs_prgId, "PMS0610010_dg", colOption, this.pageOneFieldData, {
+                    singleSelect: false,
                     pagination: true,
                     rownumbers: true,
-                    pageSize: 10,
-                    data: la_showDataRows
+                    pageSize: ln_pageSize
                 });
+                this.dgIns.loadDgData(la_showDataRows);
+                this.dgIns.setPager(this.pageOneDataGridRows);
 
-                var pager = $('#PMS0610010_dg').datagrid('getPager');
-                pager.pagination({
-                    total: self.pageOneDataGridRows.length,
-                    onSelectPage: function (pageNo, pageSize) {
-                        var start = (pageNo - 1) * pageSize;
-                        var end = start + pageSize;
-                        $("#PMS0610010_dg").datagrid("loadData", self.pageOneDataGridRows.slice(start, end));
-                        pager.pagination('refresh', {
-                            total: self.pageOneDataGridRows.length,
-                            pageNumber: pageNo
-                        });
-                    },
-                    pageNumber: 1,
-                    pageList: [10, 20, 50],
-                    showPageList: true,
-                    beforePageText: go_i18nLang.SystemCommon.dataGridBeforePageText,
-                    afterPageText: go_i18nLang.SystemCommon.dataGridAfterPageText,
-                    displayMsg: go_i18nLang.SystemCommon.dataGridDisplayMsg
-                });
                 this.isLoading = false;
             },
             appendRow() {

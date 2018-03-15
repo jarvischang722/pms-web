@@ -189,7 +189,7 @@ module.exports = {
             //滾房租日
             function qryHotelSval(cb) {
                 queryAgent.query("QRY_RENT_CAL_DAT", params, function (err, getResult) {
-                    params4BatchDat.batch_dat = getResult.rent_cal_dat;
+                    params4BatchDat.batch_dat = moment(getResult.rent_cal_dat).format("YYYY/MM/DD");
                     params4BatchDat.room_nos = postData.singleRowData.room_nos;
                     cb(null, params4BatchDat);
                 });
