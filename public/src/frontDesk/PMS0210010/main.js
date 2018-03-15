@@ -1,4 +1,4 @@
-import PMS0210010 from '../components/PMS0210010/PMS0210010.vue';
+import PMS0210010 from './components/PMS0210010.vue';
 import store from './store';
 
 new Vue({
