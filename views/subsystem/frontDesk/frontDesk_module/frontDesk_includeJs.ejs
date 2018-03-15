@@ -1410,6 +1410,18 @@
             $('.town-list-btn').show();
         });
 
+        // PMS0210020 綜合櫃檯 相關設定 & 全部設定切換
+        $(document).on('click','.related-set1',function (e) {
+            $(this).parents('.pageMain').find('.counterBlock').fadeOut('800');
+            $(this).parents('.pageMain').find('.resultCount').css('min-width','95%');
+            $(this).parents('.pageMain').find('.related-set-block').fadeIn('800');
+            $(this).html("全部房號").addClass('related-set2').removeClass('related-set1');
+        })
+        $(document).on('click','.related-set2',function (e) {
+            $(this).parents('.pageMain').find('.counterBlock').fadeIn('800');
+            $(this).parents('.pageMain').find('.resultCount').css('min-width','');
+            $(this).html("相關房號").addClass('related-set1').removeClass('related-set2');
+        })
     });
 
 </script>
