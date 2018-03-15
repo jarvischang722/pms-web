@@ -67,7 +67,7 @@
 
     Vue.prototype.$eventHub = new Vue();
 
-    var gs_prgId = "PMS0210010";
+    let gs_prgId = "PMS0210010";
 
     export default {
         name: 'pms0210010',
@@ -113,25 +113,27 @@
             },
             setSearchCond() {
                 this.searchCond = {
-                    Agent_idx_Show_cod:[],
-                    Ccust_nam:"",
-                    Contry_cod:[],
-                    Dm_flag:[],
-                    Id_cod:"",
-                    Mobile_nos:"",
-                    Show_cod:[],
-                    Status_cod:"",
-                    Trans_tot:"",
-                    Visit_days:"",
-                    Visit_nos:"",
-                    birth_dat:[],
-                    ci_dat:"",
+                    agent_idx_show_cod: [],
+                    ccust_nam: "",
+                    contry_cod: [],
+                    dm_flag: [],
+                    id_cod: "",
+                    mobile_nos: "",
+                    show_cod: [],
+                    status_cod: "",
+                    trans_tot: "",
+                    visit_days: "",
+                    visit_nos: "",
+                    birth_dat: [],
+                    ci_dat: '',
                     name: ""
                 };
             },
             loadDataGridByPrgID() {
                 let self = this;
                 let lo_searchCond = _.clone(this.searchCond);
+
+                lo_searchCond.ci_dat = lo_searchCond.ci_dat != "" ? moment(lo_searchCond.ci_dat).format("YYYY/MM/DD") : lo_searchCond.ci_dat;
 
                 let lo_params = {
                     prg_id: gs_prgId,
@@ -145,12 +147,14 @@
                     self.pageOneDataGridRows = result.dgRowData;
                     self.showDataGrid();
                 });
+
+
             },
             showDataGrid() {
-                var self = this;
+                let self = this;
 
                 //一開始只載入10筆資料
-                var la_showDataRows = this.pageOneDataGridRows.slice(0, 10);
+                let la_showDataRows = this.pageOneDataGridRows.slice(0, 10);
 
                 $('#PMS0210010_dg').datagrid({
                     fitColumns: "true",
@@ -162,7 +166,7 @@
                     singleSelect: true
                 });
 
-                var pager = $('#PMS0210010_dg').datagrid('getPager');
+                let pager = $('#PMS0210010_dg').datagrid('getPager');
                 pager.pagination({
                     total: self.pageOneDataGridRows.length,
                     onSelectPage: function (pageNo, pageSize) {
@@ -212,15 +216,15 @@
                 this.isLoading = false;
             },
             showSingleGridDialog() {
-                var self = this;
+                let self = this;
 
-                var dialog = $('#PMS0210011').removeClass('hide').dialog({
+                let dialog = $('#PMS0210011').removeClass('hide').dialog({
                     autoOpen: false,
                     modal: true,
                     title: "住客歷史",
                     width: 1000,
                     maxwidth: 1920,
-                    height: $(window).height(),
+                    minheight: 800,
                     dialogClass: "test",
                     resizable: true,
                     onBeforeClose() {
@@ -228,6 +232,7 @@
                         self.isEditStatus = false;
                         self.isCreateStatus = false;
                         self.$store.dispatch("setAllDataClear");
+                        self.loadDataGridByPrgID();
                     }
                 }).dialog('open');
             },

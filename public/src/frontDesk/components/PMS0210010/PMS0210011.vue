@@ -44,8 +44,8 @@
                                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                 v-model="singleData[field.ui_field_name]"
                                                                 :data="field.selectData"
-                                                                is-qry-src-before="Y" value-field="value"
-                                                                text-field="display"
+                                                                is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 @update:v-model="val => singleData[field.ui_field_name] = val"
                                                                 :default-val="singleData[field.ui_field_name] || field.defaultVal"
                                                                 :disabled="field.modificable == 'N'||
@@ -62,6 +62,7 @@
                                                                 :is-qry-src-before="field.selectData.isQrySrcBefore"
                                                                 :id-field="field.selectData.value"
                                                                 :text-field="field.selectData.display"
+                                                                @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 @update:v-model="val => singleData[field.ui_field_name] = val"
                                                                 :default-val="singleData[field.ui_field_name]"
                                                                 :disabled="field.modificable == 'N'||
@@ -448,6 +449,7 @@
         },
         data() {
             return {
+                chgSingleData: {},
                 i18nLang: go_i18nLang,//多語系資料
                 isLoadingDialog: false,//是否載入成功
                 loadingText: "",//載入的提示文字
@@ -455,15 +457,6 @@
                 oriSingleData: {}, //基本資料 原始單筆資料
                 profileFieldData: [], //基本資料 欄位資料
                 profileOriFieldsData: [], //基本資料 原始欄位資料
-                emailFieldsData: [],//其他聯絡 email欄位資料
-                emailDataGridRows: [],//其他聯絡 email資料
-                oriEmailDataGridRows: [],//其他聯絡 原始email資料
-                contactFieldsData: [],//其他聯絡 聯絡資料欄位資料
-                contactDataGridRows: [],//其他聯絡 聯絡資料
-                oriContactDataGridRows: [],//其他聯絡 原始欄位資料
-                addressFieldsData: [],//其他聯絡 地址欄位資料
-                addressDataGridRows: [],//其他聯絡 地址資料
-                oriAddressDataGridRows: [],//其他聯絡 原始地址資料
                 tabPageId: 1,
                 tabName: "", //頁籤名稱
                 panelName: ["profilePanel", "visitsPanel", "referencePanel"], //頁籤內容名稱
@@ -480,8 +473,8 @@
                 this.isLoadingDialog = true;
                 if (!_.isEmpty(val)) {
                     this.initData();
-                    this.fetchProfileFieldData();
                     this.tabName = "profile";
+                    this.fetchProfileFieldData();
                     this.loadingText = "Loading...";
                 }
             },
@@ -494,9 +487,12 @@
                     //公司名稱
                     val.ccust_nam = val["cust_idx.comp_nam"];
 
+                    //性別
+                    val.sex_typ = val["cust_idx.sex_typ"];
+
                     //訂房公司影響統一編號,發票抬頭
-                    if(!_.isNull( val.acust_cod) && !_.isUndefined(val.acust_cod)){
-                        if(val.acust_cod.trim() != ""){
+                    if (!_.isNull(val.acust_cod) && !_.isUndefined(val.acust_cod)) {
+                        if (val.acust_cod.trim() != "") {
                             let lo_compCodSelectData = _.findWhere(this.profileOriFieldsData, {ui_field_name: "acust_cod"}).selectData.selectData;
                             let ls_uniCod = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_cod;
                             let ls_uniTitle = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_title;
@@ -529,13 +525,13 @@
                 });
             },
             setTabStatus(tabName) {
-                var self = this;
+                let self = this;
 
                 _.each(this.tabStatus, function (val, key) {
                     self.tabStatus[key] = false;
                 });
 
-                var ls_tabNae = _s.capitalize(tabName);
+                let ls_tabNae = _s.capitalize(tabName);
                 this.tabStatus["is" + ls_tabNae] = true;
 
                 this.showTabContent(tabName);
@@ -557,9 +553,12 @@
                     return;
                 }
                 var self = this;
-                var la_oriSingleData = [this.oriSingleData];
-                var la_singleData = [this.singleData];
-                var la_diff = _.difference(la_oriSingleData, la_singleData);
+                if (_.isEmpty(this.chgSingleData)) {
+                    this.chgSingleData = this.oriSingleData;
+                }
+                let la_oriSingleData = [this.chgSingleData];
+                let la_singleData = [this.singleData];
+                let la_diff = _.difference(la_oriSingleData, la_singleData);
 
                 // 判斷資料是否有異動
                 if (la_diff.length != 0) {
@@ -567,7 +566,7 @@
                 }
 
                 if (!_.isEmpty(rule_func_name.trim())) {
-                    var postData = {
+                    let postData = {
                         prg_id: "PMS0210011",
                         rule_func_name: rule_func_name,
                         validateField: ui_field_name,
@@ -585,7 +584,6 @@
                             //是否要show出詢問視窗
                             if (result.showConfirm) {
                                 if (confirm(result.confirmMsg)) {
-
                                 } else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
@@ -613,6 +611,7 @@
                         //連動帶回的值
                         if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
                             self.singleData = _.extend(self.singleData, result.effectValues);
+                            self.chgSingleData = JSON.parse(JSON.stringify(self.singleData));
                         }
 
                     });
@@ -620,7 +619,7 @@
             },
             fetchProfileFieldData() {
                 this.isLoadingDialog = true;
-                var self = this;
+                let self = this;
                 $.post("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0210011",
                     page_id: 1,
@@ -642,7 +641,6 @@
                         this.singleData = result.gsDefaultData;
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
                         this.setGlobalGcustCod();
-                        this.fetchEmailData();
                         this.isLoadingDialog = false;
                     });
                 }
@@ -657,81 +655,11 @@
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.setGlobalGcustCod();
-                        this.fetchEmailData();
                         this.isLoadingDialog = false;
                     });
                 }
             },
-            fetchEmailData() {
-                $.post("/api/fetchDataGridFieldData", {
-                    prg_id: "PMS0210011",
-                    page_id: 1040,
-                    tab_page_id: 1,
-                    searchCond: {cust_cod: this.$store.state.gs_gcustCod}
-                }).then(result => {
-                    this.emailFieldsData = result.dgFieldsData;
-                    this.emailDataGridRows = result.dgRowData;
-                    this.oriEmailDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
-                    _.each(this.emailDataGridRows, (lo_emailDataGridRows,idx)=>{
-                        this.emailDataGridRows[idx]["cust_cod"] = this.$store.state.gs_gcustCod;
-                        this.emailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1, });
-                    });
-                    _.each(this.oriEmailDataGridRows, (lo_emailDataGridRows,idx)=>{
-                        this.oriEmailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1});
-                    });
-                    this.fetchContactData()
-                });
-            },
-            fetchContactData() {
-                $.post("/api/fetchDataGridFieldData", {
-                    prg_id: "PMS0210011",
-                    page_id: 1040,
-                    tab_page_id: 2,
-                    searchCond: {cust_cod: this.$store.state.gs_gcustCod}
-                }).then(result => {
-                    this.contactFieldsData = result.dgFieldsData;
-                    this.contactDataGridRows = result.dgRowData;
-                    this.oriContactDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
-                    _.each(this.contactDataGridRows, (lo_contactDataGridRows,idx)=>{
-                        this.contactDataGridRows[idx]["contact_dt.cust_cod"] = this.$store.state.gs_gcustCod;
-                        this.contactDataGridRows[idx] = _.extend(lo_contactDataGridRows, {tab_page_id: 2});
-                    });
-                    _.each(this.oriContactDataGridRows, (lo_contactDataGridRows,idx)=>{
-                        this.oriContactDataGridRows[idx] = _.extend(lo_contactDataGridRows, {tab_page_id: 2});
-                    });
-                    this.fetchAddressData();
-                });
-            },
-            fetchAddressData() {
-                $.post("/api/fetchDataGridFieldData", {
-                    prg_id: "PMS0210011",
-                    page_id: 1040,
-                    tab_page_id: 3,
-                    searchCond: {cust_cod: this.$store.state.gs_gcustCod}
-                }).then(result => {
-                    this.addressFieldsData = result.dgFieldsData;
-                    this.addressDataGridRows = result.dgRowData;
-                    this.oriAddressDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
-
-                    //取得郵遞區號下拉資料
-                    _.each(this.addressFieldsData, (lo_addressFieldData)=>{
-                        if(lo_addressFieldData.ui_field_name == 'address_dt.zip_cod'){
-                            this.zipCodSelectData = lo_addressFieldData.selectData;
-                        }
-                    });
-
-                    _.each(this.addressDataGridRows, (lo_addressDataGridRows,idx)=>{
-                        this.addressDataGridRows[idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
-                        this.addressDataGridRows[idx] = _.extend(lo_addressDataGridRows, {tab_page_id: 3});
-                    });
-                    _.each(this.oriAddressDataGridRows, (lo_addressDataGridRows,idx)=>{
-                        this.oriAddressDataGridRows[idx] = _.extend(lo_addressDataGridRows, {tab_page_id: 3});
-                    });
-
-                    this.setFieldsData();//把欄位資料放進vuex中
-                });
-            },
-            setFieldsData(){
+            setFieldsData() {
                 //將業務備註資料放至Vuex
                 this.$store.dispatch("setOtherContactFieldsData", {
                     ga_emailFieldsData: this.emailFieldsData,
@@ -745,11 +673,11 @@
                 this.$eventHub.$emit('addNewData', {});
             },
             dataValidate() {
-                var self = this;
-                var lo_checkResult;
+                let self = this;
+                let lo_checkResult;
 
-                for (var i = 0; i < this.profileOriFieldsData.length; i++) {
-                    var lo_field = this.profileOriFieldsData[i];
+                for (let i = 0; i < this.profileOriFieldsData.length; i++) {
+                    let lo_field = this.profileOriFieldsData[i];
                     //必填
                     if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
                         lo_checkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
@@ -775,52 +703,38 @@
                 }
                 else {
                     let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
-                    this.isLoadingDialog = false;
-//                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
-                    if(lo_saveProfileDataRes.success){
-                        alert("save success");
+                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
+
+                    if (lo_saveProfileDataRes.success && lo_saveOtherContactDataRes.success) {
+                        alert(go_i18nLang.SystemCommon.saveSuccess);
                         this.doCloseDialog();
                     }
-                    else{
+                    else {
                         alert(lo_saveProfileDataRes.errorMsg)
                     }
-
-
+                    this.isLoadingDialog = false;
                 }
-
             },
-            async doDeleteData(){
+            async doDeleteData() {
 
-                if(this.$store.state.gb_isEditStatus){
+                this.isLoadingDialog = true;
+
+                if (this.$store.state.gb_isEditStatus) {
                     this.$store.dispatch("setDeleteStatus", {
                         gb_isDeleteStatus: true
                     });
 
-                    if(this.$store.state.ga_emailDataGridRowsData.length == 0){
-                        //將email資料放至Vuex
-                        this.$store.dispatch("setEmailDataGridRowsData", {
-                            ga_emailDataGridRowsData: this.emailDataGridRows,
-                            ga_oriEmailDataGridRowsData: this.oriEmailDataGridRows
-                        });
-                        //將聯絡資料放至Vuex
-                        this.$store.dispatch("setContactDataGridRowsData", {
-                            ga_contactDataGridRowsData: this.contactDataGridRows,
-                            ga_oriContactDataGridRowsData: this.oriContactDataGridRows
-                        });
-                        //將聯絡資料放至Vuex
-                        this.$store.dispatch("setAddressDataGridRowsData", {
-                            ga_addressDataGridRowsData: this.addressDataGridRows,
-                            ga_oriAddressDataGridRowsData: this.oriAddressDataGridRows
-                        });
-                    }
-
                     let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
-                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
-
+                    if (lo_saveProfileDataRes.success) {
+                        alert(go_i18nLang.SystemCommon.delSuccess);
+                        this.doCloseDialog();
+                    }
+                    else {
+                        alert(lo_saveProfileDataRes.errorMsg)
+                    }
                     this.isLoadingDialog = false;
-                    this.doCloseDialog();
                 }
-                else{
+                else {
                     this.doCloseDialog();
                 }
             },

@@ -1,17 +1,17 @@
 /**
  * Created by a17017 on 2017/10/20.
  */
-var _ = require("underscore");
-var _s = require("underscore.string");
-var moment = require("moment");
-var async = require("async");
-var path = require('path');
-var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir + "/ruleEngine/";
-var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
-var commandRules = require("./../CommonRule");
-var ReturnClass = require(ruleRootPath + "/returnClass");
-var ErrorClass = require(ruleRootPath + "/errorClass");
+let _ = require("underscore");
+let _s = require("underscore.string");
+let moment = require("moment");
+let async = require("async");
+let path = require('path');
+let appRootDir = path.dirname(require.main.filename);
+let ruleRootPath = appRootDir + "/ruleEngine/";
+let queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
+let commandRules = require("./../CommonRule");
+let ReturnClass = require(ruleRootPath + "/returnClass");
+let ErrorClass = require(ruleRootPath + "/errorClass");
 
 module.exports = {
 
@@ -34,13 +34,13 @@ module.exports = {
      * 館別編號檢查，若已使用此編號則無法使用
      */
     chkHotelCod: function (postData, session, callback) {
-        var la_allRowData = postData["allRowData"];
-        var newValue = postData["newValue"];
-        var oldValue = postData["oldValue"];
+        let la_allRowData = postData["allRowData"];
+        let newValue = postData["newValue"];
+        let oldValue = postData["oldValue"];
 
-        var lo_result = new ReturnClass();
-        var lo_error = null;
-        for (var i = 0; i < la_allRowData.length - 1; i++) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+        for (let i = 0; i < la_allRowData.length - 1; i++) {
             if (la_allRowData[i]["hotel_cod"] == newValue) {
                 lo_result.success = false;
                 lo_result.effectValues = {hotel_cod: oldValue};
@@ -95,10 +95,10 @@ module.exports = {
      *訊息「請輸入停用年月」pms62msg5
      */
     chkNousedat: function (postData, session, callback) {
-        var nouse_dat = postData.newValue;
-        var status_cod = postData.rowData.status_cod1;
-        var lo_result = new ReturnClass();
-        var lo_error = null;
+        let nouse_dat = postData.newValue;
+        let status_cod = postData.rowData.status_cod1;
+        let lo_result = new ReturnClass();
+        let lo_error = null;
 
         if (nouse_dat == '') {
             if (status_cod == 'X') {
@@ -127,9 +127,9 @@ module.exports = {
      *status_cod值=N  ->清空nouse_dat欄位
      */
     chkSaleshoteldtStatuscod: function (postData, session, callback) {
-        var status_cod = postData.newValue;
-        var lo_result = new ReturnClass();
-        var lo_error = null;
+        let status_cod = postData.newValue;
+        let lo_result = new ReturnClass();
+        let lo_error = null;
 
         if (status_cod == 'N') {
             lo_result.effectValues = {nouse_dat: ''};
@@ -144,11 +144,11 @@ module.exports = {
      * use_nos欄位(多筆搜尋) popupgrid顯示內容
      */
     qry_user_nos: function (postData, session, callback) {
-        var lo_params = {
+        let lo_params = {
             athena_id: session.user.user_athena_id
         };
-        var lo_result = new ReturnClass();
-        var lo_error = null;
+        let lo_result = new ReturnClass();
+        let lo_error = null;
 
         let ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
         let updateFieldName = {
@@ -186,10 +186,10 @@ module.exports = {
      */
 
     r_SalesmnAdd: function (postData, session, callback) {
-        var lo_createData = postData["tmpCUD"]["createData"][0] || {};
-        var la_dt_createData = postData["tmpCUD"]["dt_createData"] || [];
-        var userInfo = session.user;
-        var params = {
+        let lo_createData = postData["tmpCUD"]["createData"][0] || {};
+        let la_dt_createData = postData["tmpCUD"]["dt_createData"] || [];
+        let userInfo = session.user;
+        let params = {
             athena_id: userInfo.athena_id,
             hotel_cod: userInfo.hotel_cod
         };
@@ -206,7 +206,7 @@ module.exports = {
         });
 
         function chkNouseDat(cb) {
-            for (var i = 0; i < la_dt_createData.length; i++) {
+            for (let i = 0; i < la_dt_createData.length; i++) {
                 if (la_dt_createData[i]["nouse_dat"] == '') {
                     if (la_dt_createData[i]["status_cod"] == 'X') {
                         lo_result.success = false;
@@ -232,7 +232,7 @@ module.exports = {
         }
 
         function chkUserNos(result, cb) {
-            var params = {
+            let params = {
                 athena_id: userInfo.athena_id,
                 sales_cod: lo_createData.sales_cod,
                 user_nos: lo_createData.user_nos
@@ -258,7 +258,7 @@ module.exports = {
 
         function addClassHs(result, cb) {
             queryAgent.query("QRY_RENT_DAT_HQ".toUpperCase(), params, function (err, getResult) {
-                var lo_rentDatHq = getResult;
+                let lo_rentDatHq = getResult;
                 if (err) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
@@ -292,16 +292,16 @@ module.exports = {
     },
 
     r_SalesmnUpdate: function (postData, session, callback) {
-        var lo_updateData = postData["tmpCUD"]["updateData"][0] || {};
-        var la_dt_createData = postData["tmpCUD"]["dt_createData"] || [];
-        var la_dt_updateData = postData["tmpCUD"]["dt_updateData"] || [];
-        var userInfo = session.user;
+        let lo_updateData = postData["tmpCUD"]["updateData"][0] || {};
+        let la_dt_createData = postData["tmpCUD"]["dt_createData"] || [];
+        let la_dt_updateData = postData["tmpCUD"]["dt_updateData"] || [];
+        let userInfo = session.user;
 
-        var salesParsms = {
+        let salesParsms = {
             athena_id: userInfo.athena_id,
             sales_cod: lo_updateData.sales_cod
         };
-        var rentDatParams = {
+        let rentDatParams = {
             athena_id: userInfo.athena_id,
             hotel_cod: userInfo.hotel_cod
         };
@@ -318,7 +318,7 @@ module.exports = {
         });
 
         function chkNouseDat(cb) {
-            for (var i = 0; i < la_dt_createData.length; i++) {
+            for (let i = 0; i < la_dt_createData.length; i++) {
                 if (la_dt_createData[i]["nouse_dat"] == '') {
                     if (la_dt_createData[i]["status_cod"] == 'X') {
                         lo_result.success = false;
@@ -340,7 +340,7 @@ module.exports = {
                 }
 
             }
-            for (var j = 0; j < la_dt_updateData.length; j++) {
+            for (let j = 0; j < la_dt_updateData.length; j++) {
                 if (la_dt_updateData[j]["nouse_dat"] == '') {
                     if (la_dt_updateData[j]["status_cod"] == 'X') {
                         lo_result.success = false;
@@ -365,7 +365,7 @@ module.exports = {
         }
 
         function chkUserNos(result, cb) {
-            var params = {
+            let params = {
                 athena_id: userInfo.athena_id,
                 sales_cod: lo_updateData.sales_cod,
                 user_nos: lo_updateData.user_nos
@@ -393,7 +393,7 @@ module.exports = {
             async.waterfall([
                 //取舊資料
                 function (part_cb) {
-                    var ls_userNos = postData.singleRowData.user_nos;
+                    let ls_userNos = postData.singleRowData.user_nos;
 
                     if (ls_userNos == "") {
                         queryAgent.query("QRY_SALES_MN_ALL_FIELDS_USER_NOS_BLANK".toUpperCase(), salesParsms, function (err, getSalesResult) {
@@ -411,8 +411,8 @@ module.exports = {
                         part_cb(lo_error, lo_result);
                     }
                     else {
-                        var ls_oldClassCod = salesData.class_cod;
-                        var ls_newClassCod = lo_updateData.class_cod;
+                        let ls_oldClassCod = salesData.class_cod;
+                        let ls_newClassCod = lo_updateData.class_cod;
                         //若class_cod改變
                         if (ls_newClassCod != ls_oldClassCod) {
                             //取sales_class_hs最後一筆資料
@@ -425,7 +425,7 @@ module.exports = {
                                     part_cb(lo_error, lo_result);
                                 }
                                 else {
-                                    var ls_beginDat = classHsData.begin_dat;
+                                    let ls_beginDat = classHsData.begin_dat;
                                     // 取訂房中心滾房租日
                                     queryAgent.query("QRY_RENT_DAT_HQ".toUpperCase(), rentDatParams, function (err, getResult) {
                                         if (err) {
