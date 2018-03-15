@@ -486,7 +486,7 @@ function treeDataObj(id, parent, text) {
     let lo_treeData = {
         id: id,
         parent: parent,
-        text: `${text}(${id})`
+        text: text
     };
     return lo_treeData;
 }
