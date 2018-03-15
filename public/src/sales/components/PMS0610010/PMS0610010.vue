@@ -480,7 +480,6 @@
                     page_id: 1,
                     searchCond: lo_searchCond
                 };
-                console.log(lo_searchCond);
                 $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
                     if (self.searchFields.length <= 0) {
                         self.searchFields = result.searchFields;
@@ -495,15 +494,15 @@
                 colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0610010_dg'));
 
                 //一開始只載入10筆資料
-                let ln_pagNum = 10;
-                let la_showDataRows = this.pageOneDataGridRows.slice(0, ln_pagNum);
+                let ln_pageSize = 10;
+                let la_showDataRows = this.pageOneDataGridRows.slice(0, ln_pageSize);
 
                 this.dgIns = new DatagridSingleGridClass();
                 this.dgIns.init(gs_prgId, "PMS0610010_dg", colOption, this.pageOneFieldData, {
                     singleSelect: false,
                     pagination: true,
                     rownumbers: true,
-                    pageSize: ln_pagNum
+                    pageSize: ln_pageSize
                 });
                 this.dgIns.loadDgData(la_showDataRows);
                 this.dgIns.setPager(this.pageOneDataGridRows);
