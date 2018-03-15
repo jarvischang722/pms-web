@@ -46,6 +46,9 @@ function DatagridBaseClass() {
             singleSelect: !_.isUndefined(options.singleSelect) ? options.singleSelect : true,
             selectOnCheck: !_.isUndefined(options.selectOnCheck) ? options.singleSelect : true,
             checkOnSelect: !_.isUndefined(options.checkOnSelect) ? options.singleSelect : true,
+            pagination: !_.isUndefined(options.pagination) ? options.pagination : false,//分頁參數
+            rownumbers: !_.isUndefined(options.rownumbers) ? options.rownumbers : false,//分頁參數
+            pageSize: 10,
             //width: "100%", // error:左側打開後table會擠壓到右側欄位
             onClickCell: this.onClickCell,
             onClickRow: this.onClickRow,
@@ -78,6 +81,32 @@ function DatagridBaseClass() {
     this.loadDgData = function (dataGridRows) {
         var dgData = {total: dataGridRows.length, rows: dataGridRows};
         $('#' + this.dgName).datagrid("loadData", dgData);
+    };
+
+    /**
+     * 設定分頁功能
+     * @param dataGridRows{Array} : 資料集
+     */
+    this.setPager = function(dataGridRows){
+        var pager = $('#' + self.dgName).datagrid('getPager');
+        pager.pagination({
+            total: dataGridRows.length,
+            onSelectPage: function (pageNo, pageSize) {
+                var start = (pageNo - 1) * pageSize;
+                var end = start + pageSize;
+                $('#' + self.dgName).datagrid("loadData", dataGridRows.slice(start, end));
+                pager.pagination('refresh', {
+                    total: dataGridRows.length,
+                    pageNumber: pageNo
+                });
+            },
+            pageNumber: 1,
+            pageList: [10, 20, 50],
+            showPageList: true,
+            beforePageText: go_i18nLang.SystemCommon.dataGridBeforePageText,
+            afterPageText: go_i18nLang.SystemCommon.dataGridAfterPageText,
+            displayMsg: go_i18nLang.SystemCommon.dataGridDisplayMsg
+        });
     };
 
     /**

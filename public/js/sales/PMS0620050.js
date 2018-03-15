@@ -13,10 +13,6 @@ DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     //
 };
 
-DatagridSingleGridClass.prototype.doSaveColumnFields = function () {
-
-};
-
 /*** Class End  ***/
 
 Vue.component('single-grid-pms0620050-tmp', {

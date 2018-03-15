@@ -320,6 +320,22 @@ exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, c
                         fields.push(field);
                     }
                 });
+                //將format_func_name從obj改為string(作業)
+                _.each(fields, function (field) {
+                    if (typeof field.format_func_name === "object") {
+                        let ls_formatFuncName = "";
+                        if (field.format_func_name.rule_name == "" && field.format_func_name.validate != "") {
+                            ls_formatFuncName = field.format_func_name.validate;
+                        }
+                        else if (field.format_func_name.rule_name != "" && field.format_func_name.validate == "") {
+                            ls_formatFuncName = field.format_func_name.rule_name;
+                        }
+                        else if (field.format_func_name.rule_name != "" && field.format_func_name.validate != "") {
+                            ls_formatFuncName = field.format_func_name.rule_name + "," + field.format_func_name.validate;
+                        }
+                        field.format_func_name = ls_formatFuncName;
+                    }
+                });
                 _.each(fields, function (field) {
                     laf_saveFuncs.push(
                         function (callback) {
@@ -331,6 +347,7 @@ exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, c
                                 "grid_field_name": field.grid_field_name
                             };
                             let oriSingleField = _.findWhere(la_oriFieldData, {ui_field_name: field.ui_field_name}) || {};
+
                             let userField = _.findIndex(la_userFieldData, {
                                 "ui_field_name": field.ui_field_name,
                                 "grid_field_name": field.grid_field_name
@@ -359,7 +376,6 @@ exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, c
 
             cb(null, laf_saveFuncs);
         }
-
     ], function (err, laf_saveFuncs) {
         async.parallel(laf_saveFuncs, function (err) {
             if (err) {
@@ -811,12 +827,12 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
     var prg_id = postData["prg_id"];
     var page_id = Number(postData["page_id"]) || 1;
     var tab_page_id = Number(postData["tab_page_id"]) || 1;
-    let lo_mongoCollection = prg_id.substring(0, 5) == "PMS08"?"SetupDatagridFunction" : "PrgFunction";//設定的collection 為SetupDatagridFunction、作業為PrgFunction
+    let lo_mongoCollection = prg_id.substring(0, 5) == "PMS08" ? "SetupDatagridFunction" : "PrgFunction";//設定的collection 為SetupDatagridFunction、作業為PrgFunction
     let lo_paramsFunc = {};//mongo 搜尋function條件
     let lo_paramUItype = {};//mongo 搜尋UITypeSelect條件
 
     //設定搜尋條件
-    if(lo_mongoCollection == "SetupDatagridFunction"){
+    if (lo_mongoCollection == "SetupDatagridFunction") {
         lo_paramsFunc = {
             prg_id: prg_id,
             page_id: Number(page_id),
@@ -827,7 +843,7 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
             prg_id: prg_id
         };
     }
-    else{
+    else {
         lo_paramsFunc = {
             prg_id: prg_id,
             page_id: Number(page_id),
