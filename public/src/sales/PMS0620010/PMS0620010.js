@@ -586,7 +586,7 @@ let vm = new Vue({
         showDataGrid: function () {
             this.isLoading = false;
             vm.dgIns = new DatagridSingleGridClass();
-            vm.dgIns.init("PMS0620010", "PMS0620010_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0620010_dg'));
+            vm.dgIns.init("PMS0620010", "PMS0620010_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0620010_dg'), this.pageOneFieldData);
             vm.dgIns.loadDgData(this.pageOneDataGridRows);
         },
         appendRow: function () {
