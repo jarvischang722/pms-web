@@ -36,7 +36,7 @@ function DatagridBaseClass() {
         self.dgName = dgName;
         self.columns = columns;
         self.fieldsData = fieldsData;
-        self.page_id = fieldsData[0].page_id;
+        self.page_id = (!_.isUndefined(fieldsData) && fieldsData.length > 0) ? fieldsData[0].page_id : 1;
 
         if (!options) {
             options = {};
@@ -49,7 +49,7 @@ function DatagridBaseClass() {
             checkOnSelect: !_.isUndefined(options.checkOnSelect) ? options.singleSelect : true,
             pagination: !_.isUndefined(options.pagination) ? options.pagination : false,//分頁參數
             rownumbers: !_.isUndefined(options.rownumbers) ? options.rownumbers : false,//分頁參數
-            pageSize: 10,
+            pageSize: !_.isUndefined(options.pageSize) ? options.pageSize : 10,
             //width: "100%", // error:左側打開後table會擠壓到右側欄位
             onClickCell: this.onClickCell,
             onClickRow: this.onClickRow,
@@ -85,10 +85,11 @@ function DatagridBaseClass() {
     };
 
     /**
-     * 設定分頁功能
+     * dataGrid 的分頁功能
      * @param dataGridRows{Array} : 資料集
+     * @param pageList{Array} : 一頁顯示多少筆資料的清單
      */
-    this.setPager = function(dataGridRows){
+    this.setPager = function (dataGridRows, pageList) {
         var pager = $('#' + self.dgName).datagrid('getPager');
         pager.pagination({
             total: dataGridRows.length,
@@ -102,7 +103,7 @@ function DatagridBaseClass() {
                 });
             },
             pageNumber: 1,
-            pageList: [10, 20, 50],
+            pageList: pageList || [10, 20, 50],
             showPageList: true,
             beforePageText: go_i18nLang.SystemCommon.dataGridBeforePageText,
             afterPageText: go_i18nLang.SystemCommon.dataGridAfterPageText,
@@ -230,14 +231,14 @@ function DatagridBaseClass() {
         if (self.endEditing()) {
             //設定搜尋條件
             var lo_param = {};
-            if(this.dtOriRowData.length != 0){
+            if (this.dtOriRowData.length != 0) {
                 lo_param = {
                     prg_id: self.prg_id,
                     page_id: self.fieldsData[0].page_id,
                     tab_page_id: self.fieldsData[0].tab_page_id
                 };
             }
-            else{
+            else {
                 lo_param = {
                     prg_id: self.prg_id
                 };
@@ -291,14 +292,14 @@ function DatagridBaseClass() {
         $("#gridEdit").val(self.tmpCUD);
 
         var lo_param = {};
-        if(this.dtOriRowData.length != 0){
+        if (this.dtOriRowData.length != 0) {
             lo_param = {
                 prg_id: self.prg_id,
                 tab_page_id: self.fieldsData[0].tab_page_id,
                 deleteData: self.tmpCUD.deleteData
             };
         }
-        else{
+        else {
             lo_param = {
                 prg_id: self.prg_id,
                 deleteData: self.tmpCUD.deleteData

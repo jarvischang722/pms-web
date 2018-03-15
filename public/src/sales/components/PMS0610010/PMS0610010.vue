@@ -495,13 +495,15 @@
                 colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0610010_dg'));
 
                 //一開始只載入10筆資料
-                var la_showDataRows = this.pageOneDataGridRows.slice(0, 10);
+                let ln_pagNum = 10;
+                let la_showDataRows = this.pageOneDataGridRows.slice(0, ln_pagNum);
 
                 this.dgIns = new DatagridSingleGridClass();
                 this.dgIns.init(gs_prgId, "PMS0610010_dg", colOption, this.pageOneFieldData, {
                     singleSelect: false,
                     pagination: true,
-                    rownumbers: true
+                    rownumbers: true,
+                    pageSize: ln_pagNum
                 });
                 this.dgIns.loadDgData(la_showDataRows);
                 this.dgIns.setPager(this.pageOneDataGridRows);
