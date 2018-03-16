@@ -102,6 +102,11 @@
       "sat_nam": "六",
       "allDay_nam": "全部"
     },
+    "PMS0810230": {
+      "roomTyp": "房型",
+      "limitSet": "限制設定",
+      "promoteSet": "促銷設定"
+    },
     "PMS0820030": {
       "load_default_color": "讀取預設顏色",
       "copy_color": "複製顏色",

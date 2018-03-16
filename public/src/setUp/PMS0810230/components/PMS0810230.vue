@@ -14,17 +14,18 @@
                     <div class="tableHt">
                         <!-- rateCode-查詢結果 dataGrid -->
                         <!--<table id="setRateCode-table" class="gridTableHt" style="width: 100%;max-width: 100%;"></table>-->
-                        <table id="PMS0810230_dg" class="gridTableHt" style="width: 100%;max-width: 100%;"></table>
+                        <table id="PMS0810230_dg" class=""></table>
                     </div>
                 </div>
             </div>
+            <!--按鈕-->
             <div class="col-xs-1 col-sm-1">
                 <div class="row">
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth setRateCode-add"
-                                        role="button">Add
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" @click="appendRow">Add
                                 </button>
                             </li>
 
@@ -42,12 +43,21 @@
                     </div>
                 </div>
             </div>
+            <!--/. 按鈕-->
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
+        <pms0810230-single-grid
+                :row-data="editingRow"
+                :is-modifiable="isModifiable"
+                :is-create-status="isCreateStatus"
+                :is-edit-status="isEditStatus"
+        ></pms0810230-single-grid>
     </div>
 </template>
 
 <script>
+    import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
+
     let gs_prgId = "PMS0810230";
 
     /** DatagridRmSingleGridClass **/
@@ -66,6 +76,7 @@
             this.fetchUserInfo();
             this.loadDataGridByPrgID();
         },
+        components: {pms0810230SingleGrid},
         data(){
             return{
                 i18nLang: go_i18nLang,//多語系資料
@@ -132,7 +143,7 @@
                 this.isEditStatus = true;
                 this.editingRow = {};
 
-                var lo_editRow = $('#PMS0210010_dg').datagrid('getSelected');
+                var lo_editRow = $('#PMS0810230_dg').datagrid('getSelected');
 
                 if (!lo_editRow) {
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
@@ -146,7 +157,7 @@
             showSingleGridDialog() {
                 let self = this;
 
-                let dialog = $('#PMS0210011_dialog').removeClass('hide').dialog({
+                let dialog = $('#PMS0810230SingleGrid').removeClass('hide').dialog({
                     modal: true,
                     title: "Rate code",
                     title_html: true,
@@ -154,13 +165,7 @@
                     maxwidth: 1920,
 //                autoOpen: true,
                     dialogClass: "test",
-                    resizable: true,
-                    onBeforeClose() {
-                        self.editingRow = {};
-                        self.isEditStatus = false;
-                        self.isCreateStatus = false;
-                        self.loadDataGridByPrgID();
-                    }
+                    resizable: true
                 }).dialog('open');
             },
         }
