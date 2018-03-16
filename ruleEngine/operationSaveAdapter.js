@@ -349,6 +349,9 @@ async function combineMainData(rfData, tmpIdType, params, session) {
                             let lo_fieldsData = qryFieldsDataByTabPageID(data, tmpIdType);
                             let tmpEdit = {"function": "2", "table_name": tmpIdType.mainTableName}; //2  編輯
                             _.each(Object.keys(data), function (objKey) {
+                                if(objKey == "route_cod"){
+                                    console.log(objKey);
+                                }
                                 if (!_.isUndefined(data[objKey])) {
                                     tmpEdit[objKey] = data[objKey];
 
@@ -379,6 +382,8 @@ async function combineMainData(rfData, tmpIdType, params, session) {
                                 }
 
                             });
+                            params.saveExecDatas[params.exec_seq] = tmpEdit;
+                            params.exec_seq++;
 
                             /** 處理每一筆多語系 handleSaveMultiLang **/
                             if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
