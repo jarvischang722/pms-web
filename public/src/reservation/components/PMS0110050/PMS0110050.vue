@@ -314,6 +314,9 @@
                         //處理日期欄位資料
                         let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
 
+                        this.dateFieldData = [];
+                        this.dayFieldData = [];
+
                         for (let i = 0; i < 14; i++) {
                             let lo_date = moment(new Date(ls_date)).add('days', i);
                             this.dateFieldData.push({data: lo_date.format("YYYY/MM/DD").toString().split("/")[2]});
@@ -329,8 +332,7 @@
             },
             convertData(la_roomNosData) {
                 let self = this;
-                this.dateFieldData = [];
-                this.dayFieldData = [];
+
                 this.roomNosDataDisplay = JSON.parse(JSON.stringify(la_roomNosData));
                 //處理日期欄位資料
                 let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
@@ -458,11 +460,18 @@
             },
             //搜尋日轉回滾房租日
             backToRentCalDat() {
-                this.searchData.year = moment(new Date(this.rentCalDat)).year();
-                this.searchData.month = moment(new Date(this.rentCalDat)).month() + 1;
-                this.searchData.date = moment(new Date(this.rentCalDat)).date();
-                this.searchData4Month = moment(new Date(this.rentCalDat));
-                this.fetchData();
+                let ls_searchData4Month = moment(JSON.parse(JSON.stringify(this.searchData4Month))).format("YYYY/MM/DD").toString();
+                let ls_rentCalDate = moment(new Date(this.rentCalDat)).format("YYYY/MM/DD").toString();
+
+                if (ls_searchData4Month != ls_rentCalDate) {
+                    this.searchData4Month = this.rentCalDat;
+                }
+                else {
+                    this.searchData.year = moment(new Date(this.rentCalDat)).year();
+                    this.searchData.month = moment(new Date(this.rentCalDat)).month() + 1;
+                    this.searchData.date = moment(new Date(this.rentCalDat)).date();
+                    this.fetchData();
+                }
             },
             changDate(num) {
                 let ls_date = moment(new Date(this.nowSearchDate)).add('days', num).format("YYYY/MM/DD").toString();

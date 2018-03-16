@@ -38,8 +38,6 @@
     };
     DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     };
-    DatagridSingleGridClass.prototype.doSaveColumnFields = function () {
-    };
     /*** Class End  ***/
 
     export default {

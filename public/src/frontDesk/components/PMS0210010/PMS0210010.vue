@@ -69,13 +69,25 @@
 
     let gs_prgId = "PMS0210010";
 
+    /** DatagridRmSingleGridClass **/
+    function DatagridSingleGridClass() {
+    }
+
+    DatagridSingleGridClass.prototype = new DatagridBaseClass();
+    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    };
+    DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    };
+
+    /*** Class End  ***/
+
     export default {
         name: 'pms0210010',
         components: {pms0210011},
-        created(){
+        created() {
             var self = this;
             this.$eventHub.$on('addNewData', function () {
-                setTimeout(()=>{
+                setTimeout(() => {
                     self.appendRow();
                 }, 100);
             });
@@ -128,8 +140,6 @@
                     self.pageOneDataGridRows = result.dgRowData;
                     self.showDataGrid();
                 });
-
-
             },
             showDataGrid() {
                 let self = this;
@@ -137,35 +147,14 @@
                 //一開始只載入10筆資料
                 let la_showDataRows = this.pageOneDataGridRows.slice(0, 10);
 
-                $('#PMS0210010_dg').datagrid({
-                    fitColumns: "true",
-                    columns: [DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0210010_dg')],
+                this.dgIns = new DatagridSingleGridClass();
+                this.dgIns.init(gs_prgId, "PMS0210010_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0210010_dg'), this.pageOneFieldData, {
                     pagination: true,
-                    rownumbers: true,
-                    pageSize: 10,
-                    data: la_showDataRows,
-                    singleSelect: true
+                    rownumbers: true
                 });
+                this.dgIns.loadDgData(la_showDataRows);
+                this.dgIns.setPager(this.pageOneDataGridRows);
 
-                let pager = $('#PMS0210010_dg').datagrid('getPager');
-                pager.pagination({
-                    total: self.pageOneDataGridRows.length,
-                    onSelectPage: function (pageNo, pageSize) {
-                        var start = (pageNo - 1) * pageSize;
-                        var end = start + pageSize;
-                        $("#PMS0210010_dg").datagrid("loadData", self.pageOneDataGridRows.slice(start, end));
-                        pager.pagination('refresh', {
-                            total: self.pageOneDataGridRows.length,
-                            pageNumber: pageNo
-                        });
-                    },
-                    pageNumber: 1,
-                    pageList: [10, 20, 50],
-                    showPageList: true,
-                    beforePageText: go_i18nLang.SystemCommon.dataGridBeforePageText,
-                    afterPageText: go_i18nLang.SystemCommon.dataGridAfterPageText,
-                    displayMsg: go_i18nLang.SystemCommon.dataGridDisplayMsg
-                });
                 this.isLoading = false;
             },
             appendRow() {

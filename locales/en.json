@@ -342,7 +342,12 @@
     "after14days": "後14天(英)",
     "noData": "查無資料(英)",
     "print": "列印(英)",
-    "save_as": "另存為(英)"
+    "save_as": "另存為(英)",
+    "0100": "查詢(英)",
+    "0200": "新增(英)",
+    "0300": "刪除(英)",
+    "0400": "修改(英)",
+    "0800": "異動紀錄(英)"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",

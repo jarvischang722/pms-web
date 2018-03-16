@@ -3210,9 +3210,9 @@ ul.newVisitOther-btn {
   top: 60px;
 }
 .foCounter .counterPage .counterRow .counterBlock .content-ico .foCnt_icon {
-  width: 14px;
-  height: 14px;
-  margin: 2px 3px auto 1px;
+  width: 15px;
+  height: 15px;
+  margin: 2px 3px auto 2px;
 }
 .foCounter .counterPage .counterRow .counterBlock .foot {
   position: absolute;
@@ -6188,6 +6188,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.medium-c1-sc3 {
+  width: 703px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.medium-c1-sc2-col2 {
   width: 703px;
   max-width: 100%;
@@ -6585,11 +6590,6 @@ a {
 }
 .input-medium.ca-select {
   width: 65px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.ca-select-s {
-  width: 54px;
   max-width: 100%;
   height: 25px;
 }
