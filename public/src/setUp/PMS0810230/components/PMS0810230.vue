@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-loading="isLoading" element-loading-text="Loading...">
         <div class="col-xs-12">
             <search-comp
                     :search-fields="searchFields"
@@ -25,18 +25,18 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button" @click="appendRow">Add
+                                        role="button" @click="appendRow">{{i18nLang.program.PMS0810230.add}}
                                 </button>
                             </li>
 
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth rateCode_timeRule"
-                                        role="button">Delete
+                                        role="button">{{i18nLang.program.PMS0810230.delete}}
                                 </button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth setRateCode-add"
-                                        role="button">Edit
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" @click="editRow">{{i18nLang.program.PMS0810230.edit}}
                                 </button>
                             </li>
                         </ul>
@@ -132,7 +132,7 @@
                 this.isLoading = true;
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
-                this.editingRow = {};
+                this.editingRow = {rate_cod: "", rate_prop: ""};
 
                 this.showSingleGridDialog();
                 this.isLoading = false;

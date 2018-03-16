@@ -39,6 +39,19 @@
         <orderby>ORDER BY VIEW_SEQ</orderby>
     </dao>
 
+    <!--[PMS0810230 rateCode] rate code 取單筆資料-->
+    <dao name="QRY_RATECOD_MN">
+        <statement><![CDATA[
+            select * from ratecod_mn
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and rate_cod = :rate_cod
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+    </dao>
+
     <!-- [PMS0610020 商務公司資料編輯] 合約內容 參考房價代號下拉資料  -->
     <dao name="QRY_CONTRACT_DT_RATE_COD">
         <statement><![CDATA[

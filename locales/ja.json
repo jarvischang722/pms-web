@@ -105,7 +105,18 @@
     "PMS0810230": {
       "roomTyp": "房型(日)",
       "limitSet": "限制設定(日)",
-      "promoteSet": "促銷設定(日)"
+      "promoteSet": "促銷設定(日)",
+      "save": "儲存(日)",
+      "add": "新增(日)",
+      "delete": "刪除(日)",
+      "edit": "編輯(日)",
+      "useTime": "使用期間(日)",
+      "priceTrial": "房價試算(日)",
+      "rateList": "期間一覽表(日)",
+      "depRate": "Dep. Rate(日)",
+      "baseRate": "Base Rate(日)",
+      "addPol": "加人加價(日)",
+      "leave": "離開(日)"
     },
     "PMS0820030": {
       "load_default_color": "讀取預設顏色(日)",
