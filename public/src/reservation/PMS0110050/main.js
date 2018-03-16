@@ -1,4 +1,4 @@
-import PMS0110050 from '../components/PMS0110050/PMS0110050.vue';
+import PMS0110050 from './components/PMS0110050.vue';
 
 new Vue({
     el: "#PMS0110050App",
