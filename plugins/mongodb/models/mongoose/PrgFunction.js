@@ -12,6 +12,6 @@ var PrgFunctionSchema = new Schema({
     rule_func_name: String
 }, {collection: "PrgFunction"});
 
-PrgFunctionSchema.index({prg_id: 1, page_id: 1, func_id: 1}, {unique: true});
+PrgFunctionSchema.index({prg_id: 1, page_id: 1, tab_page_id: 1, func_id: 1}, {unique: true});
 
 mongoose.model("PrgFunction", PrgFunctionSchema);
