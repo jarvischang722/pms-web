@@ -9,10 +9,10 @@ let UIPageFieldSchema = new Schema({
     prg_id: {type: String, trim: true, index: true, required: true},      　 　　        //程式編號
     page_id: {type: Number, index: true, required: true},      　　　        //頁面編號
     tab_page_id: {type: Number, index: true, required: true},      　　　    //頁面編號
-    template_id: String,             　//版型代碼
+    template_id: {type: String, index: true, required: true},             　//版型代碼
     user_athena_id: String,        　  //認證athena_id
     athena_id: String,        　       //athena_id
-    user_id: String, 　                //登入使用者代碼
+    user_id: {type: String}, 　                //登入使用者代碼
     ui_field_name: {type: String, trim: true, index: true, required: true},  　        //頁面欄位名稱
     ui_type: String,   　              //頁面欄位型別：Grid, Select, Text...
     row_seq: Number,   　              //第幾列，由0開始
@@ -28,6 +28,12 @@ let UIPageFieldSchema = new Schema({
 
 }, {collection: "UIPageField"});
 
-UIPageFieldSchema.index({prg_id: 1, page_id: 1, tab_page_id: 1, ui_field_name: 1}, {unique: true});
+UIPageFieldSchema.index({
+    prg_id: 1,
+    page_id: 1,
+    tab_page_id: 1,
+    ui_field_name: 1,
+    template_id: 1
+}, {unique: true});
 
 mongoose.model("UIPageField", UIPageFieldSchema);
