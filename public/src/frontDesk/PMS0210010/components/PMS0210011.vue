@@ -429,13 +429,10 @@
     /** DatagridRmSingleGridClass **/
     function DataGridSingleGridClass() {
     }
-
     DataGridSingleGridClass.prototype = new DatagridBaseClass();
     DataGridSingleGridClass.prototype.onClickRow = function (idx, row) {
     };
     DataGridSingleGridClass.prototype.onClickCell = function (idx, row) {
-    };
-    DataGridSingleGridClass.prototype.doSaveColumnFields = function () {
     };
     /*** Class End  ***/
 

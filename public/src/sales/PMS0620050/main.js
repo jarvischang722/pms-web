@@ -6,15 +6,11 @@ let go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
 /** DatagridRmSingleGridClass **/
 function DatagridSingleGridClass() {
 }
-
 DatagridSingleGridClass.prototype = new DatagridBaseClass();
-
 DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     //
 };
-
-DatagridSingleGridClass.prototype.doSaveColumnFields = function () {
-
+DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 };
 
 /*** Class End  ***/
