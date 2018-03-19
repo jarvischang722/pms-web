@@ -820,12 +820,7 @@
                 }
             },
             formatAmt(value, field) {
-            },
-            columnCellClass(rowIndex, columnName, rowData) {
-                if (columnName == 'control') {
-                    return 'column-cell-class-delete';
-                }
-            },
+            }
         }
     }
 </script>
