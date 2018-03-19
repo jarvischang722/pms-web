@@ -621,7 +621,11 @@ var PSIW510030 = new Vue({
             var self = this;
 
             self.dgIns = new DatagridRmSingleGridClass();
-            self.dgIns.init(prg_id, 'PSIW510030_dg', DatagridFieldAdapter.combineFieldOption(self.bindingFieldData(), 'PSIW510030_dg'));
+            self.dgIns.init(prg_id, 'PSIW510030_dg', DatagridFieldAdapter.combineFieldOption(self.bindingFieldData(), 'PSIW510030_dg'), self.bindingFieldData(), {
+                pagination: true,
+                rownumbers: true,
+                pageSize: 20
+            });
 
             self.dgInsDT = new DatagridRmSingleDTGridClass();
             self.dgInsDT.init(prg_id, 'PSIW510030_dt', DatagridFieldAdapter.combineFieldOption(self.bindingDTFieldData(), 'PSIW510030_dt'));
@@ -1235,7 +1239,17 @@ var PSIW510030 = new Vue({
                 }
                 else {
                     self.DataGridRows = result.data;
-                    self.dgIns.loadDgData(self.DataGridRows);
+
+                    //一開始顯示前20筆
+                    var lo_tempDatas = [];
+                    var li_page_num = self.DataGridRows.length < 20 ? self.DataGridRows.length : 20;
+
+                    for (var i = 0; i < li_page_num; i++) {
+                        lo_tempDatas.push(self.DataGridRows[i]);
+                    }
+                    self.dgIns.loadDgData(lo_tempDatas);
+
+                    self.dgIns.setPager(self.DataGridRows);
                 }
             });
         },
