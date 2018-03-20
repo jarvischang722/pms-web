@@ -116,7 +116,8 @@
       "depRate": "Dep. Rate(日)",
       "baseRate": "Base Rate(日)",
       "addPol": "加人加價(日)",
-      "leave": "離開(日)"
+      "leave": "離開(日)",
+      "timeRule": "日期規則(日)"
     },
     "PMS0820030": {
       "load_default_color": "讀取預設顏色(日)",

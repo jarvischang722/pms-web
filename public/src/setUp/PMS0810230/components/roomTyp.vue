@@ -12,7 +12,7 @@
                         :error-content="errorContent"
                         :column-cell-class-name="roomTypColumnCellClass"
                         :title-click="appendRow"
-                        :cell-edit-done="cellEditDone"
+                        :cell-edit-done="roomTypCellEditDone"
                         @on-custom-comp="customCompFunc">
                 </v-table>
             </div>
@@ -25,6 +25,7 @@
                         :table-data="roomTypDetailData"
                         :error-content="errorContent"
                         :column-cell-class-name="columnCellClass"
+                        :cell-edit-done="roomTypDetailCellEditDone"
                         row-hover-color="#eee"
                         row-click-color="#edf7ff">
                 </v-table>
@@ -61,7 +62,7 @@
 
             }
         }
-    })
+    });
 
     export default {
         name: 'roomTyp',
@@ -256,8 +257,11 @@
             customCompFunc(params) {
                 this.$delete(this.roomTypData, params.index);
             },
-            cellEditDone(newValue,oldValue,rowIndex,rowData,field){
+            roomTypCellEditDone(newValue,oldValue,rowIndex,rowData,field){
                 this.roomTypData[rowIndex][field] = newValue;
+            },
+            roomTypDetailCellEditDone(newValue,oldValue,rowIndex,rowData,field){
+                this.roomTypDetailData[rowIndex][field] = newValue;
             }
         }
     }

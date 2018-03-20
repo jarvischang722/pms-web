@@ -52,17 +52,175 @@
                 :is-create-status="isCreateStatus"
                 :is-edit-status="isEditStatus"
         ></pms0810230-single-grid>
+        <!--房型使用的日期規則-->
+        <el-dialog
+                :close-on-click-modal="true" :show-close="false" :title="i18nLang.program.PMS0810230.company_status"
+                :visible.sync="isOpenTimeRule" :before-close="doCloseTimeRuleDialog">
+            <div>
+                <div class="businessCompanyData">
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-xs-10 col-sm-10">
+                                <div class="row no-margin-right">
+                                    <div class="borderFrame">
+                                        <!--開始結束日期設定-->
+                                        <div class="block">
+                                            <span class="demonstration">從</span>
+                                            <el-date-picker
+                                                    v-model="value1"
+                                                    type="date"
+                                                    placeholder="選擇日期">
+                                            </el-date-picker>
+                                            <!--<br>-->
+                                            <span class="demonstration">到</span>
+                                            <el-date-picker
+                                                    v-model="value2"
+                                                    type="date"
+                                                    placeholder="選擇日期">
+                                            </el-date-picker>
+                                        </div>
+                                        <!--/.開始結束日期設定-->
+                                        <div class="space-6"></div>
+                                        <!--tabPage-->
+                                        <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
+                                            <el-tab-pane label="每天" name="first">
+                                                <div class="ml-5">
+                                                    <div class="space-6"></div>
+                                                    <span>每一天</span>
+                                                    <div class="space-6"></div>
+                                                </div>
+                                            </el-tab-pane>
+                                            <el-tab-pane label="依假日類別" name="second">
+                                                <div class="ml-5">
+                                                    <div class="space-6"></div>
+                                                    <select class="input-medium popWindow-s1">
+                                                        <option value="">1.七夕情人節</option>
+                                                        <option value="">2.中秋節</option>
+                                                        <option value="">3.清明節</option>
+                                                        <option value="">4.暑假旺日</option>
+                                                        <option value="">5.暑假</option>
+                                                        <option value="">C.農曆春節</option>
+                                                        <option value="">D.旺日</option>
+                                                        <option value="">H.假日</option>
+                                                        <option value="">N.平日</option>
+                                                    </select>
+                                                    <div class="space-6"></div>
+                                                </div>
+                                            </el-tab-pane>
+                                            <el-tab-pane label="依星期別" name="third">
+                                                <div class="space-6"></div>
+                                                <div class="grid ml-5">
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期一</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期二</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期三</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期四</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期五</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期六</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                            <span class="checkbox no-margin">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox" type="checkbox"
+                                                                         class="ace">
+                                                                  <span class="lbl">星期日</span>
+                                                              </label>
+                                                            </span>
+                                                    </div>
+                                                </div>
+                                                <div class="space-6"></div>
+                                            </el-tab-pane>
+                                        </el-tabs>
+                                        <!--/.tabPage-->
+                                    </div><!--main-content-data-->
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2">
+                                <div class="row">
+                                    <div class="right-menu-co">
+                                        <ul>
+                                            <li>
+                                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                        role="button" @click="chkTimeRule">確定
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                        role="button" @click="doCloseTimeRuleDialog">取消
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
 <script>
     import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
+    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
     let gs_prgId = "PMS0810230";
+
+    Vue.prototype.$eventHub = new Vue();
 
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
+
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
     DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     };
@@ -72,13 +230,21 @@
 
     export default {
         name: 'pms0810230',
-        mounted(){
+        created() {
+            this.$eventHub.$on('getTimeRuleData', (timeRuleData) => {
+                this.isOpenTimeRule = timeRuleData.openTimeRule;
+            });
+        },
+        mounted() {
             this.fetchUserInfo();
             this.loadDataGridByPrgID();
         },
-        components: {pms0810230SingleGrid},
-        data(){
-            return{
+        components: {
+            ElDialog,
+            pms0810230SingleGrid
+        },
+        data() {
+            return {
                 i18nLang: go_i18nLang,//多語系資料
                 go_funcPurview: [],//按鈕權限
                 userInfo: {},//使用者資訊
@@ -90,7 +256,8 @@
                 isLoading: false,//是否載入成功
                 isCreateStatus: false,//是否為新增狀態
                 isEditStatus: false, //是否為編輯狀態
-                isModifiable: true
+                isModifiable: true,
+                isOpenTimeRule: false //是否開起日期規則
             }
         },
         methods: {
@@ -112,7 +279,7 @@
                 };
 
                 $.post("/api/prgDataGridDataQuery", lo_params, function (result) {
-                    if(self.searchFields.length <= 0){
+                    if (self.searchFields.length <= 0) {
                         self.searchFields = result.searchFields;
                     }
                     self.pageOneDataGridRows = result.dataGridRows;
@@ -163,11 +330,23 @@
                     title_html: true,
                     width: 1000,
                     maxwidth: 1920,
-//                autoOpen: true,
                     dialogClass: "test",
-                    resizable: true
+                    resizable: true,
+                    onBeforeClose() {
+                        self.editingRow = {};
+                        self.isEditStatus = false;
+                        self.isCreateStatus = false;
+                        self.$eventHub.$emit('setTabName', {tabName: ""});
+                    }
                 }).dialog('open');
             },
+            //房型使用期間 日期規則
+            chkTimeRule(){
+                this.isOpenTimeRule = false;
+            },
+            doCloseTimeRuleDialog() {
+                this.isOpenTimeRule = false;
+            }
         }
     }
 </script>

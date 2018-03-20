@@ -328,12 +328,13 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">{{i18nLang.program.PMS0810230.save}}
+                                                role="button" @click="doSaveGrid">{{i18nLang.program.PMS0810230.save}}
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_useTime"
-                                                role="button">{{i18nLang.program.PMS0810230.useTime}}
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" @click="doOpenUseTime">
+                                            {{i18nLang.program.PMS0810230.useTime}}
                                         </button>
                                     </li>
                                     <li>
@@ -364,7 +365,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">{{i18nLang.program.PMS0810230.leave}}
+                                                role="button" @click="doCloseDialog">{{i18nLang.program.PMS0810230.leave}}
                                         </button>
                                     </li>
                                 </ul>
@@ -559,18 +560,26 @@
             </div>
             <div class="clearfix"></div>
         </div>
+        <use-time
+                :row-data="rowData"
+                :is-use-time="isUseTime"
+        ></use-time>
     </div>
 </template>
 
 <script>
     import _s from 'underscore.string';
     import roomTyp from './roomTyp';
+    import useTime from './useTime';
 
     export default {
         name: 'pms0810230SingleGrid',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
-        components: {roomTyp},
+        components: {roomTyp, useTime},
         created() {
+            this.$eventHub.$on('setTabName', (tabNameData) => {
+                this.tabName = tabNameData.tabName;
+            });
         },
         mounted() {
             this.isLoadingDialog = true;
@@ -590,70 +599,7 @@
                 tabName: "", //頁籤名稱
                 panelName: ["roomTypPanel", "limitSetPanel", "limitSetPanel"], //頁籤內容名稱
                 tabStatus: {isRoomTyp: false}, //現在頁籤狀況
-                columns: [
-                    {
-                        field: 'control',
-                        title: '<i class="fa fa-plus green pointer">',
-                        width: 40,
-                        titleAlign: 'center',
-                        columnAlign: 'center',
-                        isResize: true
-                    },
-                    {
-                        field: 'roomCode',
-                        title: '房型代號',
-                        width: 90,
-                        titleAlign: 'center',
-                        columnAlign: 'center',
-                        isResize: true
-                    },
-                ],
-                tableData: [
-                    {
-                        "control": "▬",
-                        "roomCode": "DW"
-                    },
-                    {
-                        "control": "▬",
-                        "roomCode": "LD"
-                    },
-                    {
-                        "control": "▬",
-                        "roomCode": "FM"
-                    },
-                    {
-                        "control": "▬",
-                        "roomCode": "SD"
-                    },
-                    {
-                        "control": "▬",
-                        "roomCode": "DW"
-                    },
-                    {
-                        "control": "▬",
-                        "roomCode": "LD"
-                    },
-                    {
-                        "control": "▬",
-                        "roomCode": "LD"
-                    },
-                    {
-                        "control": "▬",
-                        "roomCode": "LD"
-                    },
-                    {
-                        "control": "▬",
-                        "roomCode": "LD"
-                    },
-                    {
-                        "control": "▬",
-                        "roomCode": "LD"
-                    },
-                    {
-                        "control": "▬",
-                        "roomCode": "FM"
-                    }
-                ]
+                isUseTime: false //是否開啟使用期間
             }
         },
         watch: {
@@ -663,6 +609,7 @@
             rowData(val) {
                 this.isLoadingDialog = true;
                 if (!_.isEmpty(val)) {
+                    this.setGlobalStatus();
                     this.initData();
                     this.fetchFieldData();
                     this.loadingText = "Loading...";
@@ -680,7 +627,6 @@
                 this.oriSingleData = {};
                 this.fieldsData = [];
                 this.oriFieldsData = [];
-                this.setGlobalStatus();
             },
             setGlobalStatus() {
                 this.$store.dispatch("setStatus", {
@@ -698,10 +644,12 @@
                     self.tabStatus[key] = false;
                 });
 
-                let ls_tabNae = _s.capitalize(tabName);
-                this.tabStatus["is" + ls_tabNae] = true;
+                if (tabName != "") {
+                    let ls_tabNae = _s.capitalize(tabName);
+                    this.tabStatus["is" + ls_tabNae] = true;
 
-                this.showTabContent(tabName);
+                    this.showTabContent(tabName);
+                }
             },
             showTabContent(tabName) {
                 var la_panelName = this.panelName;
@@ -723,7 +671,6 @@
                 }, function (result) {
                     self.oriFieldsData = result.gsFieldsData;
                     self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
-//                    console.log(result);
                     self.fetchRowData();
                 });
             },
@@ -820,6 +767,28 @@
                 }
             },
             formatAmt(value, field) {
+            },
+            dataValidate() {
+            },
+            doSaveGrid() {
+            },
+            doOpenUseTime() {
+                this.isUseTime = true;
+                var dialog = $("#useTimeDialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: go_i18nLang.program.PMS0810230.useTime,
+                    title_html: true,
+                    width: 700,
+                    maxwidth: 1920,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            doCloseDialog() {
+                this.initData();
+                this.rowData = {};
+                this.tabName = "";
+                $("#PMS0810230SingleGrid").dialog('close');
             }
         }
     }

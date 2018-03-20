@@ -116,7 +116,8 @@
       "depRate": "Dep. Rate(中文)",
       "baseRate": "Base Rate(中文)",
       "addPol": "加人加價",
-      "leave": "離開"
+      "leave": "離開",
+      "timeRule": "日期規則"
     },
     "PMS0820030": {
       "load_default_color": "讀取預設顏色",
