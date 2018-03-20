@@ -698,28 +698,27 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
 /**
  * 執行作業儲存
  */
-exports.execProcSQL = async function (postData, session, callback) {
-    // let lo_saveProc = saveDataModule.factory("oldSaveFormat");
+exports.execProcSQL = async function (postData, session) {
+    let lo_saveProc = saveDataModule.factory("oldSaveFormat");
+    lo_saveProc.setParams(postData, session);
+    try {
+        let lo_result = await lo_saveProc.execSaveProc();
+        return lo_result;
+    }
+    catch (err) {
+        return {success: false, errorMsg: err.message};
+    }
+};
+
+exports.execNewFormatSQL = async function (postData, session) {
     let lo_saveProc = saveDataModule.factory("newSaveFormat");
     lo_saveProc.setParams(postData, session);
     try {
-        let la_rule = await lo_saveProc.chkRuleBeforeSave();
-        return {success: true, data: la_rule};
+        let lo_result = await lo_saveProc.execSaveProc();
+        return lo_result;
     }
     catch (err) {
-        return {success: false, errorMsg: err};
+        return {success: false, errorMsg: err.message};
     }
-
-    // async.waterfall([
-    //     lo_saveProc.doRuleProcBeforeSave,
-    //     lo_saveProc.doOptSaveAdapter,
-    //     lo_saveProc.doAPI
-    // ], function (err, result) {
-    //     callback(err, result);
-    // });
-};
-
-exports.execNewFormatSQL = function (postData, session, callback) {
-    let lo_doSave = saveDataModule.factory("newFormat");
 };
 

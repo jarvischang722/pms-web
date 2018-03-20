@@ -1,48 +1,168 @@
 /**
  * Created by kaiyue on 2017/11/13.
  */
-const path = require('path');
 const moment = require("moment");
 const _ = require("underscore");
-const async = require("async");
 
 const dataRuleSvc = require("../../services/DataRuleService");
-const queryAgent = require("../../plugins/kplug-oracle/QueryAgent");
 const mongoAgent = require("../../plugins/mongodb");
 const tools = require("../../utils/CommonTools");
 const optSaveAdapter = require("../../ruleEngine/operationSaveAdapter");
+const saveDataAdapter = require("./saveDataAdapter");
 const go_sysConf = require("../../configs/systemConfig");
 const logSvc = require("../../services/LogService");
 
-
+/**
+ * 儲存樣板
+ */
 class saveTemplate {
 
     constructor() {
-        this.lo_saveExecDatas = {};
-        this.ln_exec_seq = 1;
+        this.lo_saveExecDatas = {};     //要打API 所有exec data
+        this.ln_exec_seq = 1;           //執行順序 從1開始
+        this.lo_apiFormater = {};       //API格式
     }
 
+    /**
+     * 設定參數
+     * @param postData {object} 前端資料
+     * @param session {object}
+     */
     setParams(postData, session) {
-        this.postData = postData;
-        this.session = session;
+        this.lo_postData = postData;
+        this.lo_session = session;
     }
 
+    /**
+     * 儲存前規則檢查
+     * @returns {Promise<*>}
+     */
     async chkRuleBeforeSave() {
-        throw new Error("error");
+        let la_rules = await this.chkRuleIsExist();
+        if (la_rules.length > 0) {
+            return new Promise((resolve, reject) => {
+                dataRuleSvc.doOperationRuleProcBeforeSave(this.lo_postData, this.lo_session, la_rules, (err, chkResult) => {
+                    if (err) {
+                        reject(err);
+                    }
+
+                    if (chkResult.extendExecDataArrSet.length > 0) {
+                        _.each(chkResult.extendExecDataArrSet, function (execData) {
+                            this.lo_saveExecDatas[this.ln_exec_seq] = execData;
+                            this.ln_exec_seq++;
+                        });
+                    }
+
+                    if (!_.isUndefined(chkResult.effectValues)) {
+                        this.lo_postData = _.extend(this.lo_postData, chkResult.effectValues);
+                    }
+                    resolve(this.lo_postData);
+                });
+            })
+        }
+        else {
+            return this.lo_postData;
+        }
     }
 
-    saveFormatAdapter() {
-        throw new Error("error");
+    /**
+     * 作業儲存轉接器 tmpCUD 轉 API格式
+     * @returns {Promise<void>}
+     */
+    async saveFormatAdapter() {
+        throw new Error("must implement saveFormatAdapter");
     }
 
-    callApi() {
-        throw new Error("error");
+    /**
+     * 檢查API格式
+     * @returns {Promise<void>}
+     */
+    async chkApiFormater() {
+        throw new Error("must implement chkApiFormater");
     }
 
+    /**
+     * 呼叫API
+     * @returns {Promise<void>}
+     */
+    async callApi() {
+        await this.chkApiFormater();
+        return new Promise((resolve, reject) => {
+            tools.requestApi(go_sysConf.api_url, this.lo_apiFormater, (apiErr, apiRes, data) => {
+                let log_id = moment().format("YYYYMMDDHHmmss");
+                let ls_msg = null;
+                let lb_success = true;
+                if (apiErr || !data) {
+                    lb_success = false;
+                    ls_msg = apiErr;
+
+                }
+                else if (data["RETN-CODE"] != "0000") { //回傳有誤
+                    lb_success = false;
+                    console.error(data["RETN-CODE-DESC"]);
+                    ls_msg = data["RETN-CODE-DESC"] || "error!!";
+                }
+                else { //成功
+                    lb_success = true;
+                    console.info(data["RETN-CODE-DESC"]);
+                    ls_msg = data["RETN-CODE-DESC"] || "";
+                }
+
+                //log 紀錄
+                logSvc.recordLogAPI({
+                    log_id: log_id,
+                    success: lb_success,
+                    prg_id: this.lo_postData.prg_id,
+                    api_prg_code: this.lo_postData.trans_cod,
+                    req_content: this.lo_apiFormater,
+                    res_content: data
+                });
+
+                //寄出exceptionMail
+                if (lb_success == false) {
+                    mailSvc.sendExceptionMail({
+                        log_id: log_id,
+                        exceptionType: "execSQL",
+                        errorMsg: ls_msg
+                    });
+                    reject(ls_msg);
+                }
+                else {
+                    resolve({
+                        success: lb_success,
+                        errorMsg: ls_msg,
+                        data: data["RETN-DATA"] || {}
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * 儲存流程
+     * @returns {Promise<void>}
+     */
+    async execSaveProc() {
+        try {
+            await this.chkRuleIsExist();
+            await this.saveFormatAdapter();
+            let lo_result = await this.callApi();
+            return lo_result;
+        }
+        catch (err) {
+            throw err;
+        }
+
+    }
+
+    /**
+     * 檢查規則是否存在
+     * @returns {Promise<*>}
+     */
     async chkRuleIsExist() {
         return await mongoAgent.PrgFunction.find({
-            prg_id: this.postData.prg_id,
-            page_id: _.isNaN(Number(this.postData.page_id)) ? 1 : Number(this.postData.page_id)
+            prg_id: this.lo_postData.prg_id,
+            page_id: _.isNaN(Number(this.lo_postData.page_id)) ? 1 : Number(this.lo_postData.page_id)
         }).exec().then(data => {
             return data;
         }).catch(err => {
@@ -51,214 +171,94 @@ class saveTemplate {
     }
 }
 
-// 新作業儲存流程
-class saveDataModule extends saveTemplate {
+/**
+ * 作業新儲存流程格式
+ */
+class newSaveDataProc extends saveTemplate {
 
-    async chkRuleBeforeSave() {
-        let self = this;
-        let la_rules = await this.chkRuleIsExist();
-        if (la_rules.length > 0) {
-            return new Promise((resolve, reject) => {
-                dataRuleSvc.doOperationRuleProcBeforeSave(self.postData, self.session, la_rules, function (err, chkResult) {
-                    if (err) {
-                        return reject(err);
-                    }
+    /**
+     * 作業儲存轉接器 tmpCUD 轉 API格式
+     * @returns {Promise<void>}
+     */
+    async saveFormatAdapter() {
+        let lo_saveAdapter = new saveDataAdapter(this.lo_postData, this.lo_session);
 
-                    if (chkResult.extendExecDataArrSet.length > 0) {
-                        _.each(chkResult.extendExecDataArrSet, function (execData) {
-                            self.lo_saveExecDatas[self.ln_exec_seq] = execData;
-                            self.ln_exec_seq++;
-                        });
-                    }
-
-                    if (!_.isUndefined(chkResult.effectValues)) {
-                        self.postData = _.extend(self.postData, chkResult.effectValues);
-                    }
-                    resolve(self.postData);
-                });
-            })
-        }
-        else {
-            return self.postData;
-        }
-    }
-
-    saveFormatAdapter() {
-
-    }
-
-    show() {
-        return {postData: this.postData, session: this.session};
-    }
-
-
-}
-
-// 作業儲存流程
-function operationSaveProc() {
-    let lo_saveExecDatas = {}; //要打API 所有exec data
-    let ln_exec_seq = 1; // 執行順序 從1開始
-    let postData, session;
-
-    this.setParams = function (lo_postData, lo_session) {
-        postData = lo_postData;
-        session = lo_session;
-    };
-
-    // 儲存前規則檢查
-    this.doRuleProcBeforeSave = function (callback) {
-        chkRuleIsExist(function (err, la_rules) {
-            if (la_rules.length != 0) {
-                dataRuleSvc.doOperationRuleProcBeforeSave(postData, session, la_rules, function (err, chkResult) {
-                    if (!err && chkResult.extendExecDataArrSet.length > 0) {
-                        _.each(chkResult.extendExecDataArrSet, function (execData) {
-                            lo_saveExecDatas[ln_exec_seq] = execData;
-                            ln_exec_seq++;
-                        });
-                    }
-
-                    if (!err && !_.isUndefined(chkResult.effectValues)) {
-                        postData = _.extend(postData, chkResult.effectValues);
-                    }
-                    callback(err, postData);
-                });
-            }
-            else {
-                callback(err, postData);
-            }
-        });
-    };
-
-    // 作業儲存轉接器 tmpCUD 轉 API格式
-    this.doOptSaveAdapter = function () {
-        let lo_saveData = null;
-        let callback = null;
-        if (arguments.length == 2) {
-            lo_saveData = arguments[0];
-            callback = arguments[1];
-        }
-        else {
-            lo_saveData = postData;
-            callback = arguments[0];
-        }
-
-        let lo_optSaveAdapter = new optSaveAdapter(lo_saveData, session);
-        if (ln_exec_seq != 1) {
-            lo_optSaveAdapter.set_saveExecDatas(ln_exec_seq, lo_saveExecDatas);
+        if (this.ln_exec_seq > 1) {
+            lo_saveAdapter.set_saveExecDatas(this.ln_exec_seq, this.lo_saveExecDatas);
         }
 
         //轉換格式
-        lo_optSaveAdapter.formating(function (err, lo_apiParams) {
-            callback(err, lo_optSaveAdapter);
-        });
-    };
-
-    // 打API
-    this.doAPI = function (optSaveAdapter, callback) {
-        let rtnData;
-        if (_.isUndefined(optSaveAdapter)) {
-            rtnData = {
-                success: false,
-                errorMsg: "optAdapter is undefined"
-            };
-            return callback({}, rtnData);
+        try {
+            this.lo_apiFormater = await lo_saveAdapter.formating();
+        }
+        catch (err) {
+            throw new Error(err);
         }
 
-        // 一定樣經過轉接器才能打API
-        let lb_isOptSaveAdpt = optSaveAdapter.constructor.name == "operationSaveAdapterClass" ? true : false;
-        if (lb_isOptSaveAdpt == false) {
-            rtnData = {
-                success: false,
-                errorMsg: "Data format is not from operationSaveAdapter"
-            };
-            console.error(rtnData);
-            return callback({}, rtnData);
-        }
-
-        //取API格式
-        let lb_isApiError = false;
-        let lo_apiParams = optSaveAdapter.getApiFormat();
-        let la_apiField = ["REVE-CODE", "program_id", "func_id", "athena_id", "hotel_cod", "user", "table_name", "count", "exec_data"];
-        _.every(la_apiField, function (ls_apiField) {
-            if (_.isUndefined(lo_apiParams[ls_apiField]) || lo_apiParams[ls_apiField].trim() == "") {
-                rtnData = {
-                    success: false,
-                    errorMsg: "api format error"
-                };
-                lb_isApiError = true;
-                return false;
-            }
-        });
-
-        if (lb_isApiError) {
-            return callback({}, rtnData);
-        }
-        //打A
-        tools.requestApi(go_sysConf.api_url, lo_apiParams, function (apiErr, apiRes, data) {
-            let log_id = moment().format("YYYYMMDDHHmmss");
-            let ls_msg = null;
-            let lb_success = true;
-            if (apiErr || !data) {
-                lb_success = false;
-                ls_msg = apiErr;
-            }
-            else if (data["RETN-CODE"] != "0000") { //回傳有誤
-                lb_success = false;
-                console.error(data["RETN-CODE-DESC"]);
-                ls_msg = data["RETN-CODE-DESC"] || "error!!";
-            }
-            else { //成功
-                lb_success = true;
-                console.info(data["RETN-CODE-DESC"]);
-                ls_msg = data["RETN-CODE-DESC"] || "";
-            }
-
-            //寄出exceptionMail
-            if (lb_success == false) {
-                mailSvc.sendExceptionMail({
-                    log_id: log_id,
-                    exceptionType: "execSQL",
-                    errorMsg: ls_msg
-                });
-            }
-            //log 紀錄
-            logSvc.recordLogAPI({
-                log_id: log_id,
-                success: lb_success,
-                prg_id: postData.prg_id,
-                api_prg_code: postData.trans_cod,
-                req_content: lo_apiParams,
-                res_content: data
-            });
-
-            let rtnData = {
-                success: lb_success,
-                errorMsg: ls_msg,
-                data: data["RETN-DATA"] || {}
-            };
-            callback(null, rtnData);
-        });
-    };
-
-    //檢查是否有rule
-    function chkRuleIsExist(callback) {
-        mongoAgent.PrgFunction.find({
-            prg_id: postData.prg_id,
-            page_id: _.isNaN(Number(postData.page_id)) ? 1 : Number(postData.page_id)
-        }, function (err, getResult) {
-            callback(err, tools.mongoDocToObject(getResult));
-        });
     }
 
+    /**
+     * 驗證(新)API格式
+     */
+    async chkApiFormater() {
+        let la_apiField = ["locale", "reve_code", "prg_id", "func_id", "client_ip", "server_ip", "event_time", "mac", "page_data"];
+        _.every(la_apiField, ls_apiField => {
+            if (_.isUndefined(this.lo_apiFormater[ls_apiField]) || this.lo_apiFormater[ls_apiField].trim() == "") {
+                throw new Error("api format error");
+            }
+        });
+    }
 }
 
+/**
+ * 作業舊儲存流程、格式
+ */
+class oldSaveDataProc extends saveTemplate {
+
+    /**
+     * 作業儲存轉接器 tmpCUD 轉 API格式
+     * @returns {Promise<void>}
+     */
+    async saveFormatAdapter() {
+        let lo_optSaveAdapter = new optSaveAdapter(this.lo_postData, this.lo_session);
+        if (this.ln_exec_seq > 1) {
+            lo_optSaveAdapter.set_saveExecDatas(this.ln_exec_seq, this.lo_saveExecDatas);
+        }
+
+        //轉換格式
+        try {
+            this.lo_apiFormater = await lo_optSaveAdapter.formating();
+        }
+        catch (err) {
+            throw new Error(err);
+        }
+    }
+
+    /**
+     * 驗證(舊)API格式
+     */
+    async chkApiFormater() {
+        let la_apiField = ["REVE-CODE", "program_id", "func_id", "athena_id", "hotel_cod", "user", "table_name", "count", "exec_data"];
+        _.every(la_apiField, ls_apiField => {
+            if (_.isUndefined(this.lo_apiFormater[ls_apiField]) || this.lo_apiFormater[ls_apiField].trim() == "") {
+                throw new Error("api format error");
+            }
+        });
+    }
+}
+
+/**
+ * 儲存工廠
+ * @param type {string} 新舊格式
+ * @returns {*}
+ */
 function factory(type) {
     let lo_saveDataModule;
     if (type == "newSaveFormat") {
-        lo_saveDataModule = new saveDataModule();
+        lo_saveDataModule = new newSaveDataProc();
     }
     else if (type == "oldSaveFormat") {
-        lo_saveDataModule = new operationSaveProc();
+        lo_saveDataModule = new oldSaveDataProc();
     }
     return lo_saveDataModule;
 }

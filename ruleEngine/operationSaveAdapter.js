@@ -37,7 +37,7 @@ function operationSaveAdapterClass(postData, session) {
     };
 
     // 執行程序
-    this.formating = async function (callback) {
+    this.formating = async function () {
 
         try {
             let lo_rfData = await qryTemplateRfData(lo_params);
@@ -48,10 +48,10 @@ function operationSaveAdapterClass(postData, session) {
             lo_params = await combineDtCreateEditExecData(lo_rfData, lo_tmpIdType, lo_params, session);
             lo_params = sortByEventTime(lo_params);
             lo_apiFormat = convertToApiFormat(lo_params, lo_tmpIdType, session);
-            callback(null, lo_apiFormat);
+            return lo_apiFormat;
         }
         catch (err) {
-            callback(err, {});
+            throw new Error(err);
         }
     };
 

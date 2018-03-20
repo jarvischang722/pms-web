@@ -22,9 +22,14 @@ exports.doOperationSave = async function (req, res) {
     //TODO 沒給交易代碼要拋出錯誤
     // 商務公司、業務員API小良還沒做，拋錯會有問題
     req.body.trans_cod = req.body.trans_cod || "BAC03009010000";
-
-    let lo_result = await dbSVC.execProcSQL(req.body, req.session);
-    res.json(tools.mergeRtnErrResultJson(err, result));
+    let lo_result = null;
+    try{
+        lo_result = await dbSVC.execProcSQL(req.body, req.session);
+    }
+    catch(err){
+        lo_result = err;
+    }
+    res.json(lo_result);
 };
 
 /**
