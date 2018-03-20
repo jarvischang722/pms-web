@@ -102,8 +102,8 @@ function DatagridBaseClass() {
 
         var lo_tempDatas = [];
         var pageSize = $('#' + self.dgName).datagrid('options').pageSize;
-
-        for (var i = 0; i < pageSize; i++) {
+        var ln_count = self.dgData.length < pageSize ? self.dgData.length : pageSize;
+        for (var i = 0; i < ln_count; i++) {
             lo_tempDatas.push(dataGridRows[i]);
         }
 
