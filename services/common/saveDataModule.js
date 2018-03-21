@@ -183,10 +183,6 @@ class newSaveDataProc extends saveTemplate {
     async saveFormatAdapter() {
         let lo_saveAdapter = new saveDataAdapter(this.lo_postData, this.lo_session);
 
-        if (this.ln_exec_seq > 1) {
-            lo_saveAdapter.set_saveExecDatas(this.ln_exec_seq, this.lo_saveExecDatas);
-        }
-
         //轉換格式
         try {
             this.lo_apiFormater = await lo_saveAdapter.formating();
