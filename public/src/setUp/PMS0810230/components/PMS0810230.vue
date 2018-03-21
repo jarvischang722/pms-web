@@ -65,16 +65,16 @@
                                     <div class="borderFrame">
                                         <!--開始結束日期設定-->
                                         <div class="block">
-                                            <span class="demonstration">從</span>
+                                            <span class="demonstration">{{i18nLang.program.PMS0810230.from}}</span>
                                             <el-date-picker
-                                                    v-model="value1"
+                                                    v-model="timeRuleSingleData['begin_dat']"
                                                     type="date"
                                                     placeholder="選擇日期">
                                             </el-date-picker>
                                             <!--<br>-->
-                                            <span class="demonstration">到</span>
+                                            <span class="demonstration">{{i18nLang.program.PMS0810230.to}}</span>
                                             <el-date-picker
-                                                    v-model="value2"
+                                                    v-model="timeRuleSingleData['end_dat']"
                                                     type="date"
                                                     placeholder="選擇日期">
                                             </el-date-picker>
@@ -82,40 +82,35 @@
                                         <!--/.開始結束日期設定-->
                                         <div class="space-6"></div>
                                         <!--tabPage-->
-                                        <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
-                                            <el-tab-pane label="每天" name="first">
+                                        <el-tabs v-model="timeRuleSingleData['command_cod']" type="card">
+                                            <el-tab-pane :label="i18nLang.program.PMS0810230.evertDay" name="D">
                                                 <div class="ml-5">
                                                     <div class="space-6"></div>
                                                     <span>每一天</span>
                                                     <div class="space-6"></div>
                                                 </div>
                                             </el-tab-pane>
-                                            <el-tab-pane label="依假日類別" name="second">
+                                            <el-tab-pane :label="i18nLang.program.PMS0810230.holiday" name="H">
                                                 <div class="ml-5">
                                                     <div class="space-6"></div>
-                                                    <select class="input-medium popWindow-s1">
-                                                        <option value="">1.七夕情人節</option>
-                                                        <option value="">2.中秋節</option>
-                                                        <option value="">3.清明節</option>
-                                                        <option value="">4.暑假旺日</option>
-                                                        <option value="">5.暑假</option>
-                                                        <option value="">C.農曆春節</option>
-                                                        <option value="">D.旺日</option>
-                                                        <option value="">H.假日</option>
-                                                        <option value="">N.平日</option>
-                                                    </select>
+                                                    <bac-select
+                                                            v-model="commandHVal" :default-val="commandHVal"
+                                                            @update:v-model="val => commandHVal = val"
+                                                            :data="commandOptionSelectOption.selectData" multiple="true"
+                                                            is-qry-src-before="Y" value-field="value" text-field="display">
+                                                    </bac-select>
                                                     <div class="space-6"></div>
                                                 </div>
                                             </el-tab-pane>
-                                            <el-tab-pane label="依星期別" name="third">
+                                            <el-tab-pane :label="i18nLang.program.PMS0810230.week" name="W">
                                                 <div class="space-6"></div>
                                                 <div class="grid ml-5">
                                                     <div class="grid-item">
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace">
-                                                                  <span class="lbl">星期一</span>
+                                                                         class="ace" v-model="commandVal" value="W2">
+                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.monday}}</span>
                                                               </label>
                                                             </span>
                                                     </div>
@@ -123,8 +118,8 @@
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace">
-                                                                  <span class="lbl">星期二</span>
+                                                                         class="ace" v-model="commandVal" value="W3">
+                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.tuesday}}</span>
                                                               </label>
                                                             </span>
                                                     </div>
@@ -132,8 +127,8 @@
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace">
-                                                                  <span class="lbl">星期三</span>
+                                                                         class="ace" v-model="commandVal" value="W4">
+                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.wednesday}}</span>
                                                               </label>
                                                             </span>
                                                     </div>
@@ -141,8 +136,8 @@
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace">
-                                                                  <span class="lbl">星期四</span>
+                                                                         class="ace" v-model="commandVal" value="W5">
+                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.thursday}}</span>
                                                               </label>
                                                             </span>
                                                     </div>
@@ -150,8 +145,8 @@
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace">
-                                                                  <span class="lbl">星期五</span>
+                                                                         class="ace" v-model="commandVal" value="W6">
+                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.friday}}</span>
                                                               </label>
                                                             </span>
                                                     </div>
@@ -159,8 +154,8 @@
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace">
-                                                                  <span class="lbl">星期六</span>
+                                                                         class="ace" v-model="commandVal" value="W7">
+                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.saturday}}</span>
                                                               </label>
                                                             </span>
                                                     </div>
@@ -168,8 +163,8 @@
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace">
-                                                                  <span class="lbl">星期日</span>
+                                                                         class="ace" v-model="commandVal" value="W1">
+                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.sunday}}</span>
                                                               </label>
                                                             </span>
                                                     </div>
@@ -187,12 +182,14 @@
                                         <ul>
                                             <li>
                                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button" @click="chkTimeRule">確定
+                                                        role="button" @click="chkTimeRule">
+                                                    {{i18nLang.program.PMS0810230.OK}}
                                                 </button>
                                             </li>
                                             <li>
                                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button" @click="doCloseTimeRuleDialog">取消
+                                                        role="button" @click="doCloseTimeRuleDialog">
+                                                    {{i18nLang.program.PMS0810230.cancel}}
                                                 </button>
                                             </li>
                                         </ul>
@@ -211,7 +208,6 @@
 
 <script>
     import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
-    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
     let gs_prgId = "PMS0810230";
 
@@ -231,8 +227,41 @@
     export default {
         name: 'pms0810230',
         created() {
+            var self = this;
             this.$eventHub.$on('getTimeRuleData', (timeRuleData) => {
                 this.isOpenTimeRule = timeRuleData.openTimeRule;
+                this.commandOptionSelectOption = JSON.parse(JSON.stringify(timeRuleData.commandOptionSelectOption));
+                _.each(this.commandOptionSelectOption.selectData, (lo_select, idx) => {
+                    this.commandOptionSelectOption.selectData[idx].value = 'H' + lo_select.value;
+                });
+                if (!_.isEmpty(timeRuleData.singleData)) {
+                    this.timeRuleSingleData = _.extend(this.timeRuleSingleData, timeRuleData.singleData);
+                    this.timeRuleSingleData.begin_dat = timeRuleData.singleData.startDat;
+                    this.timeRuleSingleData.end_dat = timeRuleData.singleData.endDat;
+                    this.timeRuleSingleData.command_cod = timeRuleData.singleData.command_cod;
+                    if (this.timeRuleSingleData.command_cod == 'H') {
+                        let la_commandOption = timeRuleData.singleData.command_option.split(',');
+                        if (la_commandOption.length > 1) {
+                            _.each(la_commandOption, (ls_commandOption) => {
+                                self.commandHVal.push(ls_commandOption)
+                            });
+                        }
+                        else {
+                            this.commandHVal.push(timeRuleData.singleData.command_option)
+                        }
+                    }
+                    else if (this.timeRuleSingleData.command_cod == 'W') {
+                        let la_commandOption = timeRuleData.singleData.command_option.split(',');
+                        if (la_commandOption.length > 1) {
+                            _.each(la_commandOption, (ls_commandOption) => {
+                                self.commandVal.push(ls_commandOption)
+                            });
+                        }
+                        else {
+                            this.commandVal.push(timeRuleData.singleData.command_option)
+                        }
+                    }
+                }
             });
         },
         mounted() {
@@ -240,7 +269,6 @@
             this.loadDataGridByPrgID();
         },
         components: {
-            ElDialog,
             pms0810230SingleGrid
         },
         data() {
@@ -257,7 +285,32 @@
                 isCreateStatus: false,//是否為新增狀態
                 isEditStatus: false, //是否為編輯狀態
                 isModifiable: true,
-                isOpenTimeRule: false //是否開起日期規則
+                //日期規則
+                isOpenTimeRule: false, //是否開起日期規則
+                timeRuleTabName: "D",
+                commandOptionSelectOption: [], //依假日類別下拉選單
+                commandVal: [],//依星期別
+                commandHVal: [],//依假日類別
+                timeRuleSingleData: {
+                    command_cod: 'D',
+                    command_option: '',
+                    begin_dat: '',
+                    end_dat: ''
+                }
+            }
+        },
+        watch: {
+            isOpenTimeRule(val) {
+                if (!val) {
+                    this.timeRuleSingleData = {
+                        command_cod: 'D',
+                        command_option: '',
+                        begin_dat: '',
+                        end_dat: ''
+                    };
+                    this.commandHVal = [];
+                    this.commandVal = [];
+                }
             }
         },
         methods: {
@@ -341,7 +394,27 @@
                 }).dialog('open');
             },
             //房型使用期間 日期規則
-            chkTimeRule(){
+            chkTimeRule() {
+                let ls_commandCod = this.timeRuleSingleData.command_cod;
+                if (ls_commandCod == 'D') {
+                    this.timeRuleSingleData.command_option = 'D1'
+                }
+                else if (ls_commandCod == 'H') {
+                    _.each(this.commandHVal, (ls_val) => {
+                        this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
+                    });
+                }
+                else if (ls_commandCod == 'W') {
+                    _.each(this.commandVal, (ls_val) => {
+                        this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
+                    });
+                }
+                this.timeRuleSingleData.command_option =
+                    this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1);
+
+                this.$eventHub.$emit('setTimeRule', {
+                    singleData: this.timeRuleSingleData
+                });
                 this.isOpenTimeRule = false;
             },
             doCloseTimeRuleDialog() {

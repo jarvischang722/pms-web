@@ -32,7 +32,7 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="showTimeRuleDialog">日期規則
+                                                role="button" @click="editRow">日期規則
                                         </button>
                                     </li>
                                     <li>
@@ -90,6 +90,17 @@
     export default {
         name: 'useTime',
         props: ["rowData", "isUseTime"],
+        created() {
+            this.$eventHub.$on('setTimeRule', (timeRuleData) => {
+                console.log(timeRuleData.singleData);
+                this.dataGridRowsData.push({});
+//                this.useTimeData.push({
+//                    "startDat": moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD"),
+//                    "endDat": moment(timeRuleData.singleData.end_dat).format("YYYY/MM/DD"),
+//                    "datRule": this.convertCommandOption(timeRuleData.singleData)
+//                });
+            });
+        },
         mounted() {
         },
         data() {
@@ -102,7 +113,8 @@
                 useTimeData: [],
                 errorContent: "",
                 //是否開啟日期規則
-                isOpenTimeRule: false
+                isOpenTimeRule: false,
+                timeRuleData: {}
             }
         },
         watch: {
@@ -180,10 +192,12 @@
                 ];
                 if (this.dataGridRowsData.length > 0) {
                     _.each(this.dataGridRowsData, (lo_dataGridRowsData) => {
+                        let ls_commandOptionDisplay = this.convertCommandOption(lo_dataGridRowsData);
+
                         this.useTimeData.push({
-                            "startDat": moment( lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
-                            "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD") ,
-                            "datRule": lo_dataGridRowsData.command_option
+                            "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
+                            "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
+                            "datRule": ls_commandOptionDisplay
                         });
                     });
                 }
@@ -195,31 +209,91 @@
                 }
 
             },
+            convertCommandOption(data){
+                let la_commandOptionHSelect =
+                    JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectData));
+                _.each(la_commandOptionHSelect, (lo_select, idx) => {
+                    la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
+                });
+
+                let la_commandOptionWSelect = [
+                    {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
+                    {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
+                    {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
+                    {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
+                    {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
+                    {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
+                    {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
+                ];
+
+                let ls_commandOptionDisplay = '';
+                if (data.command_cod == 'H') {
+                    let la_commandOption = data.command_option.split(',');
+                    if (la_commandOption.length > 1) {
+                        _.each(la_commandOption, (ls_commandOption) => {
+                            ls_commandOptionDisplay =
+                                ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
+                        });
+                        ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
+                    }
+                    else {
+                        ls_commandOptionDisplay = _.findWhere(la_commandOptionHSelect, {value: data.command_option}).display
+                    }
+                }
+                else if (data.command_cod == 'W') {
+                    let la_commandOption = data.command_option.split(',');
+                    if (la_commandOption.length > 1) {
+                        _.each(la_commandOption, (ls_commandOption) => {
+                            ls_commandOptionDisplay =
+                                ls_commandOptionDisplay + _.findWhere(la_commandOptionWSelect, {value: ls_commandOption}).display + ', ';
+                        });
+                        ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
+                    }
+                    else {
+                        ls_commandOptionDisplay = _.findWhere(la_commandOptionWSelect, {value: data.command_option}).display
+                    }
+                }
+                return ls_commandOptionDisplay;
+            },
             //v-table function
             useTimeColumnCellClass(rowIndex, columnName, rowData) {
                 if (columnName == 'control') {
                     return 'column-cell-class-delete';
                 }
             },
-            getRowData(rowIndex, rowData, column){
-
-            },
-            appendRow(title, field) {
-                if (field == "control") {
-                    this.showTimeRuleDialog();
-                }
+            getRowData(rowIndex, rowData, column) {
+                this.timeRuleData = _.extend(rowData, this.dataGridRowsData[rowIndex]);
+                console.log( this.dataGridRowsData[rowIndex])
             },
             customCompFunc(params) {
                 this.$delete(this.useTimeData, params.index);
             },
+            appendRow(title, field) {
+                if (field == "control") {
+                    this.timeRuleData = {};
+                    this.showTimeRuleDialog();
+                }
+            },
+            editRow() {
+                if (_.isEmpty(this.timeRuleData)) {
+                    alert(go_i18nLang["SystemCommon"].SelectData);
+                }
+                else {
+                    this.showTimeRuleDialog();
+                }
+            },
             //日期規則
-            showTimeRuleDialog(){
+            showTimeRuleDialog() {
                 this.isOpenTimeRule = true;
+console.log(this.timeRuleData);
                 this.$eventHub.$emit('getTimeRuleData', {
-                    openTimeRule: this.isOpenTimeRule
+                    openTimeRule: this.isOpenTimeRule,
+                    commandOptionSelectOption: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}),
+                    singleData: this.timeRuleData
                 });
             },
-            closeDialog(){}
+            closeDialog() {
+            }
         }
     }
 </script>
