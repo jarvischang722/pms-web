@@ -684,8 +684,8 @@
                     }
 
                     //有format
-                    if (lo_field.format_func_name != "") {
-                        lo_checkResult = go_validateClass[lo_field.format_func_name](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_field.format_func_name.validate != "") {
+                        lo_checkResult = go_validateClass[lo_field.format_func_name.validate](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                         if (lo_checkResult.success == false) {
                             break;
                         }
