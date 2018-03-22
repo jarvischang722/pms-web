@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!--rateCode 取得房型的房型(左邊)-->
+    <dao name="QRY_RATECOD_DT_LEFT">
+        <statement><![CDATA[
+        select unique room_cod,
+        (select view_seq
+            from room_cod_order
+            where room_cod_order.athena_id = d.athena_id
+            and hotel_cod = d.hotel_cod
+            and room_cod = d.room_cod)view_seq
+        from ratecod_dt d
+        where athena_id = :athena_id
+        and trim(hotel_cod) = trim(:hotel_cod)
+        and rate_cod = :rate_cod
+        order by view_seq, room_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+    </dao>
+
+    <!--rateCode 取得房型的房型(右邊)-->
+    <dao name="QRY_RATECOD_DT_RIGHT">
+        <statement><![CDATA[
+        select (s.begin_dat || '~'||s.end_dat) "ratesupply_dt.between_dat", s.command_option "ratesupply_dt.command_option",
+        d.rent_amt,d.add_adult,d.add_child, d.room_cod, d.supply_nos, d.rate_cod
+        from ratecod_dt  d, ratesupply_dt s
+        WHERE d.athena_id = s.athena_id
+        and d.hotel_cod = s.hotel_cod
+        and d.rate_cod = s.rate_cod
+        and d.supply_nos = s.supply_nos
+        and d.athena_id = :athena_id
+        and trim(d.hotel_cod) = trim(:hotel_cod)
+        and d.rate_cod =  :rate_cod
+        order by  s.begin_dat
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+    </dao>
+</root>

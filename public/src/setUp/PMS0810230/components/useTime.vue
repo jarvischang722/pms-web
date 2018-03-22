@@ -92,13 +92,54 @@
         props: ["rowData", "isUseTime"],
         created() {
             this.$eventHub.$on('setTimeRule', (timeRuleData) => {
-                console.log(timeRuleData.singleData);
-                this.dataGridRowsData.push({});
-//                this.useTimeData.push({
-//                    "startDat": moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD"),
-//                    "endDat": moment(timeRuleData.singleData.end_dat).format("YYYY/MM/DD"),
-//                    "datRule": this.convertCommandOption(timeRuleData.singleData)
-//                });
+                //新增的試用期限
+                if (_.isUndefined(timeRuleData.singleData.supply_nos)) {
+                    let ln_maxSupplyNos = this.dataGridRowsData.length > 0 ? _.max(this.dataGridRowsData, (lo_dataGridRowsData) => {
+                        return lo_dataGridRowsData.supply_nos
+                    }).supply_nos : 0;
+                    let lo_createData = {
+                        rate_cod: this.$store.state.gs_rateCod,
+                        supply_nos: Number(ln_maxSupplyNos) + 1,
+                        begin_dat: moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD"),
+                        end_dat: moment(timeRuleData.singleData.end_dat).format("YYYY/MM/DD"),
+                        command_cod: timeRuleData.singleData.command_cod,
+                        command_option: timeRuleData.singleData.command_option
+                    };
+                    this.tmpCUD.createData.push(lo_createData);
+                    this.dataGridRowsData.push(lo_createData);
+                    this.useTimeData.push({
+                        "startDat": moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD"),
+                        "endDat": moment(timeRuleData.singleData.end_dat).format("YYYY/MM/DD"),
+                        "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(timeRuleData.singleData)))
+                    });
+                }
+                //編輯的使用期限
+                else {
+                    let ln_editIndex = _.findIndex(this.dataGridRowsData, {supply_nos: timeRuleData.singleData.supply_nos});
+                    this.dataGridRowsData[ln_editIndex].begin_dat = moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD");
+                    this.dataGridRowsData[ln_editIndex].end_dat = moment(timeRuleData.singleData.end_dat).format("YYYY/MM/DD");
+                    this.dataGridRowsData[ln_editIndex].command_cod = timeRuleData.singleData.command_cod;
+                    this.dataGridRowsData[ln_editIndex].command_option = timeRuleData.singleData.command_option;
+                    this.useTimeData[ln_editIndex].startDat = moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD");
+                    this.useTimeData[ln_editIndex].endDat = moment(timeRuleData.singleData.end_dat).format("YYYY/MM/DD");
+                    this.useTimeData[ln_editIndex].datRule = this.convertCommandOption(JSON.parse(JSON.stringify(timeRuleData.singleData)));
+                    let ln_createIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: timeRuleData.singleData.supply_nos});
+                    if(ln_createIndex > -1){
+                        this.tmpCUD.createData.splice(ln_createIndex, 1);
+                        this.tmpCUD.createData.push(this.dataGridRowsData[ln_editIndex]);
+                    }
+                    else{
+                        this.tmpCUD.updateData.push(this.dataGridRowsData[ln_editIndex]);
+                        this.tmpCUD.oriData.push(this.oriDataGridRowsData[ln_editIndex]);
+                    }
+                }
+                //將資料放入Vuex
+                this.$store.dispatch("setUseTimeData", {
+                    ga_utFieldsData: this.fieldsData,
+                    ga_utDataGridRowsData: this.dataGridRowsData,
+                    ga_utOriDataGridRowsData: this.oriDataGridRowsData,
+                    go_utTmpCUD: this.tmpCUD
+                });
             });
         },
         mounted() {
@@ -114,14 +155,28 @@
                 errorContent: "",
                 //是否開啟日期規則
                 isOpenTimeRule: false,
-                timeRuleData: {}
+                timeRuleData: {},
+                tmpCUD: {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                }
             }
         },
         watch: {
             isUseTime(val) {
                 if (val) {
                     this.initData();
-                    this.fetchData();
+                    if (this.$store.state.ga_utFieldsData.length <= 0) {
+                        this.fetchData();
+                    }
+                    else {
+                        this.fieldsData = this.$store.state.ga_utFieldsData;
+                        this.dataGridRowsData = this.$store.state.go_allData.ga_utDataGridRowsData;
+                        this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_utDataGridRowsData;
+                        this.showTable();
+                    }
                 }
             }
         },
@@ -132,6 +187,12 @@
                 this.oriDataGridRowsData = [];
                 this.useTimeColumns = [];
                 this.useTimeData = [];
+                this.tmpCUD = {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                }
             },
             //取使用期間欄位、多筆資料
             fetchData() {
@@ -144,10 +205,21 @@
 
                 $.post("/api/fetchDataGridFieldData", lo_params, (result) => {
                     if (result.success) {
+                        _.each(result.dgRowData, (lo_dgRowData, idx) => {
+                            result.dgRowData[idx]["begin_dat"] = moment(lo_dgRowData["begin_dat"]).format("YYYY/MM/DD");
+                            result.dgRowData[idx]["end_dat"] = moment(lo_dgRowData["end_dat"]).format("YYYY/MM/DD");
+                        });
                         this.fieldsData = result.dgFieldsData;
                         this.dataGridRowsData = result.dgRowData;
                         this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                         this.showTable();
+                        //將資料放入Vuex
+                        this.$store.dispatch("setUseTimeData", {
+                            ga_utFieldsData: this.fieldsData,
+                            ga_utDataGridRowsData: this.dataGridRowsData,
+                            ga_utOriDataGridRowsData: this.oriDataGridRowsData,
+                            go_utTmpCUD: this.tmpCUD
+                        });
                     }
                     else {
                         alert(result.errorMsg);
@@ -192,24 +264,21 @@
                 ];
                 if (this.dataGridRowsData.length > 0) {
                     _.each(this.dataGridRowsData, (lo_dataGridRowsData) => {
-                        let ls_commandOptionDisplay = this.convertCommandOption(lo_dataGridRowsData);
-
                         this.useTimeData.push({
                             "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
                             "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
-                            "datRule": ls_commandOptionDisplay
+                            "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(lo_dataGridRowsData)))
                         });
                     });
                 }
                 else {
                     this.useTimeData = [{}];
                     setTimeout(() => {
-                        this.customCompFunc({type: "delete", index: 0});
+                        this.$delete(this.useTimeData, 0);
                     }, 0.1);
                 }
-
             },
-            convertCommandOption(data){
+            convertCommandOption(data) {
                 let la_commandOptionHSelect =
                     JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectData));
                 _.each(la_commandOptionHSelect, (lo_select, idx) => {
@@ -253,6 +322,9 @@
                         ls_commandOptionDisplay = _.findWhere(la_commandOptionWSelect, {value: data.command_option}).display
                     }
                 }
+                else {
+                    ls_commandOptionDisplay = "每一天";
+                }
                 return ls_commandOptionDisplay;
             },
             //v-table function
@@ -263,10 +335,26 @@
             },
             getRowData(rowIndex, rowData, column) {
                 this.timeRuleData = _.extend(rowData, this.dataGridRowsData[rowIndex]);
-                console.log( this.dataGridRowsData[rowIndex])
             },
             customCompFunc(params) {
+                //此筆為剛新增的
+                let ln_createIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: this.dataGridRowsData[params.index].supply_nos});
+                let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: this.dataGridRowsData[params.index].supply_nos});
+                if(ln_createIndex > -1){
+                    this.tmpCUD.createData.splice(ln_createIndex, 1);
+                }
+                //此筆為剛編輯的
+                else if(ln_editIndex > -1){
+                    this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                    this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                    this.tmpCUD.deleteData.push(this.dataGridRowsData[ln_editIndex]);
+                }
+                else{
+                    this.tmpCUD.deleteData.push(this.dataGridRowsData[params.index]);
+                }
+                //此筆為直接刪除的
                 this.$delete(this.useTimeData, params.index);
+                this.dataGridRowsData.splice(params.index, 1);
             },
             appendRow(title, field) {
                 if (field == "control") {
@@ -285,7 +373,6 @@
             //日期規則
             showTimeRuleDialog() {
                 this.isOpenTimeRule = true;
-console.log(this.timeRuleData);
                 this.$eventHub.$emit('getTimeRuleData', {
                     openTimeRule: this.isOpenTimeRule,
                     commandOptionSelectOption: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}),
@@ -293,6 +380,7 @@ console.log(this.timeRuleData);
                 });
             },
             closeDialog() {
+                $("#useTimeDialog").dialog('close');
             }
         }
     }

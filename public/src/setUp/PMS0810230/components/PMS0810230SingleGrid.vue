@@ -615,8 +615,16 @@
                     this.loadingText = "Loading...";
                 }
             },
+            isUseTime(val){
+                if(!val){
+                    this.$eventHub.$emit("getUseTimeData", {
+                        useTimeData: this.$store.state.go_allData.ga_utDataGridRowsData
+                    });
+                }
+            },
             singleData: {
                 handler(val) {
+                    this.setGlobalRateCod();
                 },
                 deep: true
             }
@@ -773,6 +781,7 @@
             doSaveGrid() {
             },
             doOpenUseTime() {
+                let self = this;
                 this.isUseTime = true;
                 var dialog = $("#useTimeDialog").removeClass('hide').dialog({
                     modal: true,
@@ -781,7 +790,10 @@
                     width: 700,
                     maxwidth: 1920,
                     dialogClass: "test",
-                    resizable: true
+                    resizable: true,
+                    onBeforeClose(){
+                        self.isUseTime = false;
+                    }
                 });
             },
             doCloseDialog() {

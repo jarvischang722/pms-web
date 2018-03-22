@@ -390,27 +390,32 @@
                         self.isEditStatus = false;
                         self.isCreateStatus = false;
                         self.$eventHub.$emit('setTabName', {tabName: ""});
+                        self.$store.dispatch("setAllDataClear");
                     }
                 }).dialog('open');
             },
             //房型使用期間 日期規則
             chkTimeRule() {
                 let ls_commandCod = this.timeRuleSingleData.command_cod;
+                this.timeRuleSingleData.command_option = [];
+
                 if (ls_commandCod == 'D') {
                     this.timeRuleSingleData.command_option = 'D1'
                 }
                 else if (ls_commandCod == 'H') {
+
                     _.each(this.commandHVal, (ls_val) => {
                         this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
                     });
                 }
                 else if (ls_commandCod == 'W') {
+
                     _.each(this.commandVal, (ls_val) => {
                         this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
                     });
                 }
-                this.timeRuleSingleData.command_option =
-                    this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1);
+                this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option !='D1'?
+                    this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1):this.timeRuleSingleData.command_option;
 
                 this.$eventHub.$emit('setTimeRule', {
                     singleData: this.timeRuleSingleData
