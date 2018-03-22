@@ -25,9 +25,58 @@ class saveDataAdapter {
     }
 
 
-
     async formating() {
+        let lo_apiFormat = this.apiFormat();
+        await this.convertData();
+    }
 
+    async convertData() {
+        _.each(this.params.createData, function(lo_createData, index){
+            this.params.createData[index] = lo_createData.action = "C";
+        });
+        _.each(this.params.updateData, function(lo_updateData, index){
+            this.params.updateData[index] = lo_updateData.action = "U";
+        });
+        _.each(this.params.deleteData, function(lo_deleteData, index){
+            this.params.deleteData[index] = lo_deleteData.action = "D";
+        });
+
+        console.log(this.params.createData);
+
+        // let lo_createData = _.groupBy(this.params.createData, "page_id");
+        // let lo_updateData = _.groupBy(this.params.updateData, "page_id");
+        // let lo_deleteData = _.groupBy(this.params.deleteData, "page_id");
+
+        // let [lo_delData, lo_updData, lo_creData] = await Promise.all([
+        //     this.convDeleteData(),
+        //     this.convUpdateData(),
+        //     this.convCreateData()
+        // ]);
+    }
+
+    async convDeleteData() {
+    }
+
+    async convUpdateData() {
+
+    }
+
+    async convCreateData() {
+
+    }
+
+    apiFormat() {
+        return {
+            locale: this.session.locale,
+            reve_code: this.params.prg_id,
+            prg_id: this.params.prg_id,
+            func_id: this.params.func_id,
+            client_ip: "",
+            server_ip: "",
+            event_time: "",
+            mac: "",
+            page_data: {}
+        }
     }
 }
 

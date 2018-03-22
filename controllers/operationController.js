@@ -33,6 +33,26 @@ exports.doOperationSave = async function (req, res) {
 };
 
 /**
+ * 作業新儲存格式
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+exports.execNewFormatSQL = async function(req, res){
+    req.body.page_id = req.body.page_id || 1;
+    req.body.tmpCUD = req.body.tmpCUD || {};
+
+    let lo_result = null;
+    try{
+        lo_result = await dbSVC.execNewFormatSQL(req.body, req.session);
+    }
+    catch(err){
+        lo_result = err;
+    }
+    res.json(lo_result);
+};
+
+/**
  * 取多筆欄位資料
  */
 exports.fetchDgFieldData = function (req, res) {
