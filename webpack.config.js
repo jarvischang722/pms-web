@@ -1,8 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = {
-    // entry: "./public/src/reservation/PMS0110010/PMS0110010.js",
-    entry: "./public/src/setup/PMS0810230/main.js",
+    entry: "./public/src/common/bacUIComps/main",
+    // entry: "./public/src/frontDesk/PMS0210010/main.js",
     // // entry: [
     // //     'webpack/hot/dev-server',
     // //     path.join(__dirname, 'public', 'src')
@@ -16,10 +16,10 @@ const config = {
     // },
     output: {
         publicPath: '/dist',
-        // path: path.join(__dirname, 'public', 'js/reservation/'),
-        path: path.join(__dirname, 'public', 'js/setup/'),
+        path: path.join(__dirname, 'public', 'js/common/'),
+        // path: path.join(__dirname, 'public', 'js/sales/'),
         // filename: 'permissionSetup.js'
-        filename: 'PMS0810230_setup.js'
+        filename: 'BacUIComps.js'
 
     },
     module: {
