@@ -44,7 +44,6 @@
                                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                 v-model="singleData[field.ui_field_name]"
                                                                 :data="field.selectData"
-                                                                :field="field"
                                                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                                                 @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 @update:v-model="val => singleData[field.ui_field_name] = val"
@@ -60,7 +59,6 @@
                                                                 v-model="singleData[field.ui_field_name]"
                                                                 :columns="field.selectData.columns"
                                                                 :data="field.selectData.selectData"
-                                                                :field="field"
                                                                 :is-qry-src-before="field.selectData.isQrySrcBefore"
                                                                 :id-field="field.selectData.value"
                                                                 :text-field="field.selectData.display"
@@ -686,9 +684,8 @@
                     }
 
                     //有format
-                    if (lo_field.format_func_name != "") {
-                        console.log(lo_field);
-                        lo_checkResult = go_validateClass[lo_field.format_func_name](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_field.format_func_name.validate != "") {
+                        lo_checkResult = go_validateClass[lo_field.format_func_name.validate](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                         if (lo_checkResult.success == false) {
                             break;
                         }
