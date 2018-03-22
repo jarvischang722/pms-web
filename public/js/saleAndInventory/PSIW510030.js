@@ -1240,16 +1240,7 @@ var PSIW510030 = new Vue({
                 else {
                     self.DataGridRows = result.data;
 
-                    //一開始顯示前20筆
-                    var lo_tempDatas = [];
-                    var li_page_num = self.DataGridRows.length < 20 ? self.DataGridRows.length : 20;
-
-                    for (var i = 0; i < li_page_num; i++) {
-                        lo_tempDatas.push(self.DataGridRows[i]);
-                    }
-                    self.dgIns.loadDgData(lo_tempDatas);
-
-                    self.dgIns.setPager(self.DataGridRows);
+                    self.dgIns.loadPageDgData(self.DataGridRows);
                 }
             });
         },
