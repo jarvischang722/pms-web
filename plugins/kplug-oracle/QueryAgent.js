@@ -38,6 +38,7 @@ function queryData(agent, mode, cb, ddObj, param, start, size) {
                 let end = new Date().getTime();
                 if ((end - start) / 1000 > 1) {
                     console.error(`Oracle DB 連線異常: ${(end - start) / 1000} sec`);
+                    console.error(`異常SQL: ${ddObj.dao || ""}`);
                     console.error(`異常params : ${JSON.stringify(param)}`);
                 }
                 DB.doQuery(connection, sql, con, mode, start, size, function (err, result) {

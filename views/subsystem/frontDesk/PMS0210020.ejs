@@ -97,7 +97,8 @@
                             <div class="select-group">
                                 <div class="status-btn">
                                     <img src="/images/intCounter/zoom-out.png" class="zoomOut pointer"/>
-                                    <img src="/images/intCounter/zoom-in.png" class="zoomIn pointer" style="display: none;"/>
+                                    <img src="/images/intCounter/zoom-in.png" class="zoomIn pointer"
+                                         style="display: none;"/>
                                     <img src="/images/intCounter/unlink.png" style="display: none;"/>
                                     <img src="/images/intCounter/alarm.png" style="display: none;"/>
                                     <img src="/images/intCounter/note.png" style="display: none;"/>
@@ -159,22 +160,30 @@
                         <div class="row no-margin-left floorPlan-table">
                             <table>
                                 <tr>
-                                    <td class="roomNum text-center" rowspan="2" colspan="2" style="width: 20%;">
+                                    <td class="roomNum text-center" rowspan="3" colspan="2" style="width: 20%;">
                                         317
                                     </td>
-                                    <th style="width: 16%;">Rm Type</th>
-                                    <th style="width: 16%;">Rm Status</th>
-                                    <th style="width: 16%;">HK Status</th>
-                                    <th style="width: 16%;">Assign</th>
-                                    <th style="width: 16%;">DND</th>
+                                    <td style="width: 15%;"><img src="/images/intCounter/alarm.svg" class=""
+                                                                 style="width: 15px;height: 15px;"/></td>
+                                    <td style="width: 25%;">勿擾</td>
+                                    <td style="width: 20%;">留</td>
+                                    <td style="width: 20%;"><i class="fa fa-check green"></i></td>
                                 </tr>
                                 <tr>
-                                    <td>STD</td>
-                                    <td>O/OOS</td>
-                                    <td>C</td>
-                                    <td>Y</td>
-                                    <td>Y</td>
+                                    <td><img src="/images/intCounter/dirty.svg" class=""
+                                             style="width: 15px;height: 15px;"/></td>
+                                    <td>髒房</td>
+                                    <td>失</td>
+                                    <td><i class="fa fa-check green"></i></td>
                                 </tr>
+                                <tr>
+                                    <td><img src="/images/intCounter//key-2.svg" class=""
+                                             style="width: 15px;height: 15px;"/></td>
+                                    <td>排房</td>
+                                    <td>辦</td>
+                                    <td></td>
+                                </tr>
+
                                 <tr>
                                     <th colspan="2">RM Features</th>
                                     <td colspan="5">Inside view</td>
@@ -187,47 +196,38 @@
                                     <th colspan="2">OS Reason</th>
                                     <td colspan="5"></td>
                                 </tr>
-                                <tr>
-                                    <th colspan="2">Full Name</th>
-                                    <td colspan="2">RICK CHEN
-                                        <button class="moreInfo reservationDialog-2">
-                                            <i class="fa fa-icon fa-ellipsis-h"></i>
-                                        </button>
-                                    </td>
-                                    <th>RV. No.</th>
-                                    <td colspan="2">
-                                        002251401
-                                        <button class="moreInfo reservationDialog-1">
-                                            <i class="fa fa-icon fa-ellipsis-h"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">CI Date</th>
-                                    <td colspan="2">2017/2/1</td>
-                                    <th>CO Date</th>
-                                    <td colspan="2">2017/2/2</td>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">C/O Alert</th>
-                                    <td colspan="5">GUI:23598233</td>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">RV Rmk.</th>
-                                    <td colspan="5">separate bill</td>
-                                </tr>
+                                <!--<tr>-->
+                                <!--<th colspan="2">Full Name</th>-->
+                                <!--<td colspan="2">RICK CHEN-->
+                                <!--<button class="moreInfo reservationDialog-2">-->
+                                <!--<i class="fa fa-icon fa-ellipsis-h"></i>-->
+                                <!--</button>-->
+                                <!--</td>-->
+                                <!--<th>RV. No.</th>-->
+                                <!--<td colspan="2">-->
+                                <!--002251401-->
+                                <!--<button class="moreInfo reservationDialog-1">-->
+                                <!--<i class="fa fa-icon fa-ellipsis-h"></i>-->
+                                <!--</button>-->
+                                <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                <!--<th colspan="2">CI Date</th>-->
+                                <!--<td colspan="2">2017/2/1</td>-->
+                                <!--<th>CO Date</th>-->
+                                <!--<td colspan="2">2017/2/2</td>-->
+                                <!--</tr>-->
                             </table>
-                            <div class="space-6"></div>
-
+                            <div class="space-4"></div>
                             <table>
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>GUEST</th>
-                                        <th>Folio Stas.</th>
-                                        <th>Sex</th>
-                                        <th>BALANCE</th>
-                                        <th></th>
+                                        <th style="width: 5%;"></th>
+                                        <th style="width: 30%;">GUEST</th>
+                                        <th style="width: 20%;">Folio Stas.</th>
+                                        <th style="width: 10%;">Sex</th>
+                                        <th style="width: 20%;">BALANCE</th>
+                                        <th style="width: 15%;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -262,43 +262,53 @@
                                 </tbody>
                             </table>
                             <div class="space-4"></div>
+                            <table>
+                                <tr>
+                                    <th style="width: 20%;">C/O Alert</th>
+                                    <td style="width: 80%;">GUI:23598233</td>
+                                </tr>
+                                <tr>
+                                    <th>RV Rmk.</th>
+                                    <td>separate bill</td>
+                                </tr>
+                            </table>
 
                             <!--<div>-->
                             <!--<span class="orangeBlock1">Traces</span>-->
                             <!--<span class="orangeBlock1">pick up</span>-->
                             <!--</div>-->
-                            <div class="space-6"></div>
+                            <!--<div class="space-6"></div>-->
 
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th style="width: 20%;">房號</th>
-                                        <th style="width: 80%;">住客姓名</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>101</td>
-                                        <td>王大明</td>
-                                    </tr>
-                                    <tr>
-                                        <td>102</td>
-                                        <td>李大同</td>
-                                    </tr>
-                                    <tr>
-                                        <td>103</td>
-                                        <td>陳小華</td>
-                                    </tr>
-                                    <tr>
-                                        <td>104</td>
-                                        <td>張三</td>
-                                    </tr>
-                                    <tr>
-                                        <td>105</td>
-                                        <td>李四</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <!--<table>-->
+                            <!--<thead>-->
+                            <!--<tr>-->
+                            <!--<th style="width: 20%;">房號</th>-->
+                            <!--<th style="width: 80%;">住客姓名</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody>-->
+                            <!--<tr>-->
+                            <!--<td>101</td>-->
+                            <!--<td>王大明</td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                            <!--<td>102</td>-->
+                            <!--<td>李大同</td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                            <!--<td>103</td>-->
+                            <!--<td>陳小華</td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                            <!--<td>104</td>-->
+                            <!--<td>張三</td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                            <!--<td>105</td>-->
+                            <!--<td>李四</td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                            <!--</table>-->
                         </div>
                     </div><!-- /.intCounterRight -->
                     <div class="clearfix"></div>
@@ -373,6 +383,11 @@
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth PMS0120010Option"
                                         role="button">Option
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth related-set1"
+                                        role="button">相關房號
                                 </button>
                             </li>
                         </ul>

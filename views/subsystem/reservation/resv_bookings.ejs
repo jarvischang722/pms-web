@@ -4,69 +4,51 @@
     <!-- 訂房卡(Bookings) Page-->
     <div class="pageMain">
         <div class="col-xs-12">
-            <!--<div class="col-sm-11 col-xs-11">-->
-            <!--<div class="row no-margin-right">-->
             <div class="search-content">
                 <div class="search-co">
-                    <div class="search-co-h">
-                        <i class="ace-icon fa fa-search search-icon"></i>
-                        <span>Search</span>
-                        <div class="row search-right-btn">
-                            <div class="right-btn-menu-co">
-                                <ul>
-                                    <li>
-                                        <i class="fa fa-chevron-down show-search-detail"></i>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row">
-                        <div class="search-co-content col-xs-12">
-                            <div class="col-sm-4">
-
+                        <div class="search-co-content col-xs-12 search-S2">
+                            <div class="width-95 searchMain-S2">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>Full Name</label>
+                                        <input type="text" class="input-medium medium-c1-sc2" placeholder="">
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>速查</label>
+                                        <input type="text" class="input-medium medium-c1-sc2" placeholder="">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-sm-4">
-
-                            </div>
-                            <div class="col-sm-4">
-
-                            </div>
-                        </div>
-                        <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
                             <div class="row search-footer-btn">
                                 <div class="footer-btn-menu-co">
                                     <ul>
                                         <li>
-                                            <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                            <div class="" data-rel="tooltip" data-placement="bottom"
+                                                 title="查詢">
                                                 <div class="icon-reStyle icon-co-14"></div>
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                            <div class="" data-rel="tooltip" data-placement="bottom"
+                                                 title="清除">
                                                 <div class="icon-reStyle icon-co-11"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="icon-moreSearch show-search-detail">
+                                                <i class="fa fa-chevron-down"></i>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>  <!-- /.footer-btn-menu-co -->
                             </div> <!-- /.search-footer-btn -->
+                        </div>
+
+                        <div class="search-co-content col-xs-12 search-S2-con rece-search-detail"
+                             style="display: none;">
                             <div class="width-95">
                                 <!--1-->
-                                <div class="grid">
-                                    <div class="grid-item pull-left">
-                                        <label>速查</label>
-                                        <input type="text" class="input-medium medium-c1-sc3Key" placeholder="">
-                                    </div>
-                                    <div class="searchCheckbox pull-left">
-                                                <span class="checkbox">
-                                                  <label class="checkbox-width">
-                                                      <input name="form-field-checkbox" type="checkbox" class="ace"
-                                                             checked>
-                                                      <span class="lbl">Keyword</span>
-                                                  </label>
-                                                </span>
-                                    </div>
-                                </div>
                                 <!--2-->
                                 <div class="grid">
                                     <div class="grid-item">
@@ -152,10 +134,9 @@
                                 <!--9-->
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>Full Name</label>
-                                        <input type="text" class="input-medium medium-c1-sc2 text-right" placeholder="">
+                                        <label>聯絡電話</label>
+                                        <input type="text" class="input-medium medium-c1-sc2" placeholder="">
                                     </div>
-
                                     <div class="grid-item">
                                         <label>團號</label>
                                         <input type="text" class="input-medium medium-c1-sc2 text-right" placeholder="">
@@ -176,11 +157,7 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>訂房備註</label>
-                                        <input type="text" class="input-medium medium-c1-sc2" placeholder="">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>聯絡電話</label>
-                                        <input type="text" class="input-medium medium-c1-sc2" placeholder="">
+                                        <input type="text" class="input-medium medium-c1-sc3" placeholder="">
                                     </div>
                                 </div>
                                 <!--12-->
@@ -234,15 +211,12 @@
                     </div> <!-- row-->
                 </div> <!-- /.search-co -->
             </div> <!-- /.row  search-content-->
-            <!--</div>-->
-            <!--</div>-->
-        </div> <!-- /.col-sm-12 -->
+        </div>
         <div class="clearfix"></div>
         <div class="col-xs-12">
             <!--<div class="blockSetting-heading">查詢結果</div>-->
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
-
                     <div>
                         <!-- 訂房卡多筆 resv_bookings-table dataGrid -->
                         <table id="resv_bookings-table" class="gridTableHt"></table>
@@ -255,7 +229,17 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                        role="button">Edit
+                                        role="button">新增
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                        role="button">修改
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1 resv-view"
+                                        role="button">瀏覽
                                 </button>
                             </li>
                         </ul>

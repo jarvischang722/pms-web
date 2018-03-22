@@ -621,7 +621,11 @@ var PSIW510030 = new Vue({
             var self = this;
 
             self.dgIns = new DatagridRmSingleGridClass();
-            self.dgIns.init(prg_id, 'PSIW510030_dg', DatagridFieldAdapter.combineFieldOption(self.bindingFieldData(), 'PSIW510030_dg'));
+            self.dgIns.init(prg_id, 'PSIW510030_dg', DatagridFieldAdapter.combineFieldOption(self.bindingFieldData(), 'PSIW510030_dg'), self.bindingFieldData(), {
+                pagination: true,
+                rownumbers: true,
+                pageSize: 20
+            });
 
             self.dgInsDT = new DatagridRmSingleDTGridClass();
             self.dgInsDT.init(prg_id, 'PSIW510030_dt', DatagridFieldAdapter.combineFieldOption(self.bindingDTFieldData(), 'PSIW510030_dt'));
@@ -1235,7 +1239,8 @@ var PSIW510030 = new Vue({
                 }
                 else {
                     self.DataGridRows = result.data;
-                    self.dgIns.loadDgData(self.DataGridRows);
+
+                    self.dgIns.loadPageDgData(self.DataGridRows);
                 }
             });
         },

@@ -1,3 +1,6 @@
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
 <div>
     <div class="page-header"></div><!-- /.page-header -->
     <!-- (Rate Code) Page-->
@@ -327,7 +330,7 @@
                             <div class="tabsCon">
                                 <!-------- tabPage -------->
                                 <div class="easyui-tabs easyUi-custom1"
-                                     style="height: 230px; overflow-y: auto;">
+                                     style="height: 200px; overflow-y: auto;">
                                     <div title="房型" class="padding-tabs">
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row">
@@ -1111,7 +1114,8 @@
                                         </div>
 
                                         <div class="space-6"></div>
-                                        <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
+                                        <el-tabs v-model="activeName2" @tab-click="handleClick"
+                                                 :tab-position="tabPosition">
                                             <el-tab-pane label="每天" name="first">
                                                 <div class="ml-5">
                                                     <div class="space-6"></div>
@@ -1438,9 +1442,7 @@
     <div id="rateCode_addPpl-page" class="hide padding-5" style="top: 50px;">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
-
                 <div class="row">
-
                     <div class="col-xs-11 col-sm-11">
                         <div class="row no-margin-right">
                             <div id="addPpl-choice" class="roomCodeTable pull-left width-15">
@@ -1478,7 +1480,6 @@
                             </div>
                             <div class="clearfix"></div>
                         </div>
-
                     </div>
                     <div class="col-xs-1 col-sm-1">
                         <div class="row">
@@ -2584,7 +2585,7 @@
                         return {
                             activeName2: 'first',
 
-//                tabPosition: 'left',
+                            tabPosition: 'left',
                             pickerOptions1: {
                                 disabledDate(time) {
                                     return time.getTime() > Date.now();
@@ -2616,7 +2617,6 @@
                     },
                     methods: {
                         handleClick(tab, event) {
-                            console.log(tab, event);
                         }
                     }
                 };
@@ -2784,7 +2784,6 @@
                             return {
                                 tableData: [
                                     {
-                                        "useRange": "2017/01/01~2017/12/31",
                                         "dateRule": "平日",
                                         "room1": "500",
                                         "room2": "1,000",
@@ -2796,7 +2795,6 @@
                                         "room8": "4,000"
                                     },
                                     {
-                                        "useRange": "2017/01/01~2017/12/31",
                                         "dateRule": "假日",
                                         "room1": "500",
                                         "room2": "1,000",
@@ -2808,7 +2806,6 @@
                                         "room8": "4,000"
                                     },
                                     {
-                                        "useRange": "2017/01/01~2017/12/31",
                                         "dateRule": "旺日",
                                         "room1": "500",
                                         "room2": "1,000",
@@ -2822,14 +2819,6 @@
                                 ],
                                 columns: [
                                     {
-                                        field: 'useRange',
-                                        title: '使用期間',
-                                        width: 200,
-                                        titleAlign: 'center',
-                                        columnAlign: 'center',
-                                        isResize: true
-                                    },
-                                    {
                                         field: 'dateRule',
                                         title: '日期規則',
                                         width: 120,
@@ -2839,7 +2828,7 @@
                                     },
                                     {
                                         field: 'room1',
-                                        title: '1',
+                                        title: '1人房價',
                                         width: 60,
                                         titleAlign: 'center',
                                         columnAlign: 'right',
@@ -2847,7 +2836,7 @@
                                     },
                                     {
                                         field: 'room2',
-                                        title: '2',
+                                        title: '2人房價',
                                         width: 60,
                                         titleAlign: 'center',
                                         columnAlign: 'right',
@@ -2855,7 +2844,7 @@
                                     },
                                     {
                                         field: 'room3',
-                                        title: '3',
+                                        title: '3人房價',
                                         width: 60,
                                         titleAlign: 'center',
                                         columnAlign: 'right',
@@ -2863,7 +2852,7 @@
                                     },
                                     {
                                         field: 'room4',
-                                        title: '4',
+                                        title: '4人房價',
                                         width: 60,
                                         titleAlign: 'center',
                                         columnAlign: 'right',
@@ -2871,7 +2860,7 @@
                                     },
                                     {
                                         field: 'room5',
-                                        title: '5',
+                                        title: '5人房價',
                                         width: 60,
                                         titleAlign: 'center',
                                         columnAlign: 'right',
@@ -2879,7 +2868,7 @@
                                     },
                                     {
                                         field: 'room6',
-                                        title: '6',
+                                        title: '6人房價',
                                         width: 60,
                                         titleAlign: 'center',
                                         columnAlign: 'right',
@@ -2887,7 +2876,7 @@
                                     },
                                     {
                                         field: 'room7',
-                                        title: '7',
+                                        title: '7人房價',
                                         width: 60,
                                         titleAlign: 'center',
                                         columnAlign: 'right',
@@ -2895,7 +2884,7 @@
                                     },
                                     {
                                         field: 'room8',
-                                        title: '8',
+                                        title: '8人房價',
                                         width: 60,
                                         titleAlign: 'center',
                                         columnAlign: 'right',
@@ -2911,7 +2900,7 @@
                     }
                     let CtorRmPriceTotal = Vue.extend(rmPriceTotal)
 
-                    new CtorDetail().$mount('#rmPriceTotal');
+                    new CtorRmPriceTotal().$mount('#rmPriceTotal');
                 });
 
                 // vue easyTable
@@ -3059,7 +3048,7 @@
                                 },
                                 {
                                     field: 'room1',
-                                    title: '1',
+                                    title: '1人房價',
                                     width: 60,
                                     titleAlign: 'center',
                                     columnAlign: 'right',
@@ -3067,7 +3056,7 @@
                                 },
                                 {
                                     field: 'room2',
-                                    title: '2',
+                                    title: '2人房價',
                                     width: 60,
                                     titleAlign: 'center',
                                     columnAlign: 'right',
@@ -3075,7 +3064,7 @@
                                 },
                                 {
                                     field: 'room3',
-                                    title: '3',
+                                    title: '3人房價',
                                     width: 60,
                                     titleAlign: 'center',
                                     columnAlign: 'right',
@@ -3083,7 +3072,7 @@
                                 },
                                 {
                                     field: 'room4',
-                                    title: '4',
+                                    title: '4人房價',
                                     width: 60,
                                     titleAlign: 'center',
                                     columnAlign: 'right',
@@ -3091,7 +3080,7 @@
                                 },
                                 {
                                     field: 'room5',
-                                    title: '5',
+                                    title: '5人房價',
                                     width: 60,
                                     titleAlign: 'center',
                                     columnAlign: 'right',
@@ -3099,7 +3088,7 @@
                                 },
                                 {
                                     field: 'room6',
-                                    title: '6',
+                                    title: '6人房價',
                                     width: 60,
                                     titleAlign: 'center',
                                     columnAlign: 'right',
@@ -3107,7 +3096,7 @@
                                 },
                                 {
                                     field: 'room7',
-                                    title: '7',
+                                    title: '7人房價',
                                     width: 60,
                                     titleAlign: 'center',
                                     columnAlign: 'right',
@@ -3115,7 +3104,7 @@
                                 },
                                 {
                                     field: 'room8',
-                                    title: '8',
+                                    title: '8人房價',
                                     width: 60,
                                     titleAlign: 'center',
                                     columnAlign: 'right',
@@ -3185,4 +3174,21 @@
             color: #f24;
             cursor: pointer;
         }
+
+        /*0322 暫時新增 等待Element 更新 */
+        #rateCode-timeRule .el-input__icon {
+            top: -7px;
+            right: -22px;
+        }
+        #rateCode-timeRule .el-tabs__item {
+            height: 30px;
+            padding: 0 10px;
+            line-height: 30px;
+        }
+
+
     </style>
+
+</div>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
