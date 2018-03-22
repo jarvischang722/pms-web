@@ -31,11 +31,16 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="likestring" kind="2" condition="SALES_COD like ?">sales_cod</parameter>
         <parameter type="likestring" kind="2" condition="SALES_NAM like ?">sales_nam</parameter>
-        <parameter type="likestring" kind="2" condition="CLASS_COD like ?">class_cod</parameter>
-        <parameter type="string" kind="2" condition="trim(STATUS_COD) = trim(:STATUS_COD) ">status_cod</parameter>
-        <parameter type="string" kind="2" condition="trim(HOTEL_SALES) = trim(:HOTEL_SALES) ">hotel_sales</parameter>
-        <parameter type="string" kind="2" condition="trim(BQ_SALES) = trim(:BQ_SALES) ">bq_sales</parameter>
-        <parameter type="string" kind="2" condition="trim(MEMBER_SALES) = trim(:MEMBER_SALES) ">member_sales</parameter>
+        <parameter type="instring" kind="3">class_cod</parameter>
+        <statement test="_v(param.class_cod)"><![CDATA[and class_cod in(:class_cod)]]></statement>
+        <parameter type="instring" kind="3">status_cod</parameter>
+        <statement test="_v(param.status_cod)"><![CDATA[and status_cod in(:status_cod)]]></statement>
+        <parameter type="instring" kind="3">hotel_sales</parameter>
+        <statement test="_v(param.hotel_sales)"><![CDATA[and hotel_sales in(:hotel_sales)]]></statement>
+        <parameter type="instring" kind="3">bq_sales</parameter>
+        <statement test="_v(param.bq_sales)"><![CDATA[and bq_sales in(:bq_sales)]]></statement>
+        <parameter type="instring" kind="3">member_sales</parameter>
+        <statement test="_v(param.member_sales)"><![CDATA[and member_sales in(:member_sales)]]></statement>
         <orderby>ORDER  BY  DECODE( STATUS_COD, 'N', 1, 2 ), SALES_COD</orderby>
     </dao>
 

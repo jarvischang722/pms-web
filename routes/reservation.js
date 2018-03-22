@@ -12,7 +12,7 @@ module.exports = function (app) {
     //依房型訂房(靜態)
     app.get('/reservationRoomType', middles, reservationCrtl.getReservationRoomType);
 
-    //setUp 房價設定(靜態)
+    //setup 房價設定(靜態)
     app.get('/setRateCode', middles, reservationCrtl.getSetRateCode);
 
     //交通接駁設定(靜態)

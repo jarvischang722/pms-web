@@ -2,84 +2,7 @@
 <div >
     <div class="page-header"></div><!-- /.page-header -->
     <!-- 依房型訂房(Room Type Plan) Page-->
-    <div id="PMS0110010App">
-        <div class="pageMain" v-loading="isLoading" element-loading-text="Loading...">
-            <div class="col-xs-12">
-                <div class="col-sm-11 col-xs-11">
-                    <div class="row no-margin-right">
-                        <!--  依房型訂房 -->
-                        <%- include PMS0100000_module/resvRoomTypeTable_1 %>
-                        <!--  /.End 依房型訂房 -->
-                    </div>
-                </div>
-                <div class="col-xs-1 col-sm-1">
-                    <div class="row">
-                        <div class="right-menu-co">
-                            <ul>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                            role="button" data-rel="tooltip" data-placement="bottom" title="前7天"
-                                            @click="changDate(-7)">
-                                        <i class="fa fa-angle-left fa-lg"></i>
-                                    </button>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                            role="button" data-rel="tooltip" data-placement="bottom" title="後7天"
-                                            @click="changDate(7)">
-                                        <i class="fa fa-angle-right fa-lg"></i>
-                                    </button>
-                                    <div class="clearfix"></div>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                            role="button" data-rel="tooltip" data-placement="bottom" title="前14天"
-                                            @click="changDate(-14)">
-                                        <i class="fa fa-angle-double-left fa-lg"></i>
-                                    </button>
-                                    <button
-                                            class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                            role="button" data-rel="tooltip" data-placement="bottom" title="後14天"
-                                            @click="changDate(14)">
-                                        <i class="fa fa-angle-double-right fa-lg"></i>
-                                    </button>
-                                    <div class="clearfix"></div>
-                                </li>
-                                <li>
-                                    <!--@click="reservationDialog_1" -->
-                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                            role="button">Reservation
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Print
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth saveAsBtn"
-                                            role="button">Save As
-                                    </button>
-                                </li>
-                                <!--PMS(lite) excample:"
-                                    加：btn-gray disabled" "
-                                    減:btn-white 原本的(ex.btn-primary)"
-                                    -->
-                                <li>
-                                    <button class="btn btn-gray btn-defaultWidth resv_ratePlanBtn"
-                                            role="button">Rate Plan
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-skin btn-defaultWidth resv_amenitiesIny"
-                                            role="button">Amenities Iny.
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- /.col-sm-12 -->
-            <div class="clearfix"></div>
-        </div>
+    <div id="PMS0110010App" v-cloak>
     </div>
 
     <!--  依房型訂房 彈出視窗內容-->
@@ -294,5 +217,5 @@
 <%- include ../sales/sales_module/sales_includeJs.ejs %>
 <!--  /.End 業務 -->
 
-<script src="/js/reservation/PMS0110010.main.js"></script>
+<script src="/js/reservation/PMS0110010.js"></script>
 

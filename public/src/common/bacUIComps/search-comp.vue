@@ -242,6 +242,13 @@
         },
         watch: {
             searchFields: function (newFields) {
+                let lo_searchCond = {};
+                _.each(newFields, (lo_newField)=>{
+                    lo_searchCond[lo_newField.ui_field_name] =
+                        lo_newField.ui_type == 'multiselect' || lo_newField.ui_type == 'multiselectgrid' || lo_newField.ui_type == 'multitree' ? []:"";
+                });
+                this.$parent.searchCond = lo_searchCond;
+
                 this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(newFields, "row_seq"), "row_seq"));
             }
         },
@@ -289,7 +296,7 @@
                     }
                 });
 
-                this.$parent.searchCond = this.searchCond;
+                this.$parent.searchCond = lo_searchCond;
                 this.fetchData();
             },
             doClear() {

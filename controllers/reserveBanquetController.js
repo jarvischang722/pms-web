@@ -2,12 +2,12 @@
  * Created by kaiyue on 2017/11/08.
  */
 
-var _ = require("underscore");
-var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var resvBanquetSvc = require("../services/reserveBanquetService");
-var fs = require("fs");
-var path = require('path');
-var appRootDir = path.dirname(require.main.filename);
+const _ = require("underscore");
+const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const resvBanquetSvc = require("../services/reserveBanquetService");
+const fs = require("fs");
+const path = require('path');
+const appRootDir = path.dirname(require.main.filename);
 
 //[RS0W212010] 格萊天漾訂席頁
 exports.getRS0W212010 = function (req, res) {

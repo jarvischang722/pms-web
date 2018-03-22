@@ -103,7 +103,7 @@ module.exports = {
             localeContent = require(localesPath + "en.json");
         }
 
-        return localeContent.ErrorMsg[columnNam] || msgCod;
+        return localeContent.ErrorMsg[msgCod] || msgCod;
     },
 
     /**

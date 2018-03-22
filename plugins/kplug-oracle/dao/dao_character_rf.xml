@@ -23,4 +23,21 @@
         <parameter type="string" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
     </dao>
+
+    <!-- ['PMS0820020'] 房間特色選單-->
+    <dao name="QRY_SEL_CHARACTER_RF">
+        <statement><![CDATA[
+              SELECT  CHARACTER_COD value,
+              CHARACTER_NAM display,
+              SYS_DEFAULT
+              FROM  CHARACTER_RF
+              WHERE  ATHENA_ID = :athena_id
+              AND  trim(HOTEL_COD) = trim(:hotel_cod)
+              AND  SYS_DEFAULT = 'N'
+              ORDER  BY  CHARACTER_COD
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>

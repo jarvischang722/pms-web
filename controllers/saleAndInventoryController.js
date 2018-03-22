@@ -1,13 +1,18 @@
+/**
+ * Created by a16009 on 2017/10/11.
+ * 程式編號: PSIW510030
+ * 程式名稱: 門市WEB訂單作業
+ */
 
-var _ = require("underscore");
-var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var roleFuncSvc = require("../services/RoleFuncService");
-var fs = require("fs");
-var path = require('path');
-var appRootDir = path.dirname(require.main.filename);
-var roleSvc = require("../services/RoleFuncService");
-var ruleAgent = require("../ruleEngine/ruleAgent");
-var PSIWService = require("../services/SaleAndInventoryService");
+const _ = require("underscore");
+const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const roleFuncSvc = require("../services/RoleFuncService");
+const fs = require("fs");
+const path = require('path');
+const appRootDir = path.dirname(require.main.filename);
+const roleSvc = require("../services/RoleFuncService");
+const ruleAgent = require("../ruleEngine/ruleAgent");
+const PSIWService = require("../services/SaleAndInventoryService");
 
 //門市WEB訂單作業
 exports.getPSIW510030 = function (req, res) {
@@ -17,8 +22,7 @@ exports.getPSIW510030 = function (req, res) {
 //QueryResult
 exports.getQueryResult = function (req, res) {
 
-    switch (req.body.func)
-    {
+    switch (req.body.func) {
         case "getDataGridRows":
             PSIWService.getDataGridRows(req.body, req.session, function (err, result) {
                 res.json({data: result, error: err});
@@ -51,7 +55,7 @@ exports.getQueryResult = function (req, res) {
             break;
         case "getCustInfo":
             PSIWService.getCustInfo(req.body, req.session, function (err, result) {
-                res.json({data: result, errorMsg: err});
+                res.json({data: result, error: err});
             });
             break;
         case "getPeriod":
@@ -94,7 +98,7 @@ exports.getQueryResult = function (req, res) {
 
 //call Save API
 exports.callSaveAPI = function (req, res) {
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     req.body.ip = ip.substr(ip.lastIndexOf(':') + 1);
     PSIWService.callSaveAPI(req.body, req.session, function (errorMsg, success, data) {
         res.json({data: data, success: success, errorMsg: errorMsg});
@@ -103,9 +107,9 @@ exports.callSaveAPI = function (req, res) {
 
 //call API
 exports.callAPI = function (req, res) {
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     req.body.ip = ip.substr(ip.lastIndexOf(':') + 1);
-    PSIWService.callAPI(req.body, req.session, function (errorMsg, success) {
+    PSIWService.callAPI(req.body, req, function (errorMsg, success) {
         res.json({success: success, errorMsg: errorMsg});
     });
 };
@@ -120,35 +124,35 @@ exports.callOrderAPI = function (req, res) {
 //WebService
 exports.dominosWebService = function (req, res) {
 
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     req.session.ip = ip.substr(ip.lastIndexOf(':') + 1);
 
-    var trans_cod = req.params.trans_cod;
+    let trans_cod = req.params.trans_cod;
 
     console.log("transCod :" + trans_cod + ", sendData : " + req.body.data);
 
-    switch (trans_cod)
-    {
-        case 'PSI0000001':
-            PSIWService.PSI0000001(req.body.data, req.session, function (RESPONSE) {
-                res.json({RESPONSE: RESPONSE});
-            });
-            break;
-        case 'PSI0000002':
-            PSIWService.PSI0000002(req.body.data, req.session, function (RESPONSE) {
-                res.json({RESPONSE: RESPONSE});
-            });
-            break;
-        case 'PSI0000003':
-            PSIWService.PSI0000003(req.body.data, req.session, function (RESPONSE) {
-                res.json({RESPONSE: RESPONSE});
-            });
-            break;
-        default:
-            break;
+    let lo_postData;
 
+    try {
+        lo_postData = JSON.parse(new Buffer(req.body.data, 'base64').toString());
+    }
+    catch (ex) {
+        console.error(ex.message);
+        let RESPONSE = {
+            "RETN-CODE": "9999",
+            "RETN-CODE-DESC": "JSON base64解碼失敗"
+        };
+        return res.json({RESPONSE});
     }
 
+    if (PSIWService[trans_cod]) {
+        PSIWService[trans_cod](lo_postData, req.session, function (RESPONSE) {
+            res.json({RESPONSE: RESPONSE});
+        });
+    }
+    else {
+        res.json({RESPONSE: {"RETN-CODE": "1111", "RETN-CODE-DESC": "無此交易代碼"}});
+    }
 };
 
 

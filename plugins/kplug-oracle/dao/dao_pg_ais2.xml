@@ -29,17 +29,7 @@
         <parameter type="string" kind="3">athena_id</parameter>
     </dao>
 
-    <!-- ['PMS0820020'] 參數:參數滾房租日 -->
-    <dao name="QRY_HOTEL_SVAL">
-        <statement><![CDATA[
-               select pg_ais2.sf_get_hotel_sval(trim(:hotel_cod), 'HFD', 'rent_cal_dat',  :athena_id ) as hotel_sval from dual
-        ]]>
-        </statement>
-        <parameter type="string" kind="3">hotel_cod</parameter>
-        <parameter type="number" kind="3">athena_id</parameter>
-    </dao>
-
-    <!-- ['PMS0820050', 'PMS0830010'] 參數:滾房租日-->
+    <!-- [PMS0820050, PMS0830010, PMS0820020] 參數:滾房租日-->
     <dao name="QRY_RENT_CAL_DAT">
         <statement><![CDATA[
                select pg_ais2.sf_get_hotel_sval(:hotel_cod, 'HFD', 'rent_cal_dat', :athena_id) as rent_cal_dat from dual
@@ -58,6 +48,56 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="int" kind="3">athena_id</parameter>
     </dao>
+
+    <!-- [PMS0210011] 參數:前台金額格式 -->
+    <dao name="QRY_PRICE_FORAMT">
+        <statement><![CDATA[
+               select pg_ais2.sf_get_hotel_sval('NULL', 'CM', 'mask_hfd', :athena_id) as format_val from dual
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+    <!-- [PMS0210011] 參數:預設稱謂 -->
+    <dao name="QRY_DEFAULT_SALUTE_COD">
+        <statement><![CDATA[
+               select pg_ais2.sf_get_hotel_sval(:hotel_cod, 'HFD', 'ghist_mn_salute_cod', :athena_id) as default_salute_cod from dual
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- [PMS0210011] 參數:預設國籍 -->
+    <dao name="QRY_DEFAULT_CONTRY_COD">
+        <statement><![CDATA[
+               select pg_ais2.sf_get_hotel_sval(:hotel_cod, 'HFD', 'ghist_mn_contry_cod', :athena_id) as default_contry_cod from dual
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- [PMS0210011] 參數:預設語言 -->
+    <dao name="QRY_DEFAULT_LANG_COD">
+        <statement><![CDATA[
+               select pg_ais2.sf_get_hotel_sval(:hotel_cod, 'HFD', 'ghist_mn_lang_cod', :athena_id) as default_lang_cod from dual
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- [PMS0210011] 參數:預設信用卡號遮罩 -->
+    <dao name="QRY_DEFAULT_DMASK_CREDIT_NOS">
+        <statement><![CDATA[
+               select pg_ais2.sf_get_hotel_sval(:hotel_cod, 'CM', 'dmask_credit_nos', :athena_id) as default_dmask_credit_nos from dual
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
 
 
     <!--參數: 取訂房中心滾租日-->

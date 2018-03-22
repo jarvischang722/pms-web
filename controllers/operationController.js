@@ -17,6 +17,7 @@ const tools = require(appRootDir + "/utils/CommonTools");
  */
 exports.doOperationSave = function (req, res) {
     req.body.page_id = req.body.page_id || 1;
+    req.body.tmpCUD = req.body.tmpCUD || {};
     doOperationProc(req, res);
 };
 
@@ -27,7 +28,6 @@ function doOperationProc(req, res) {
 
     dbSVC.execProcSQL(req.body, req.session, function (err, result) {
         res.json(tools.mergeRtnErrResultJson(err, result));
-        // res.json({success: err == null, errorMsg: result.msg});
     });
 }
 

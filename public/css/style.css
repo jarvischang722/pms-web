@@ -3098,7 +3098,7 @@ ul.newVisitOther-btn {
   position: relative;
   padding: 5px;
   width: 124px;
-  height: 74px;
+  height: 86px;
   line-height: 23px;
   box-sizing: border-box;
   background: #c0d6ee;
@@ -3190,19 +3190,29 @@ ul.newVisitOther-btn {
   color: #7b3ec3;
 }
 .foCounter .counterPage .counterRow .counterBlock .content {
-  position: absolute;
-  top: 25px;
-  left: 5px;
+  position: relative;
+  top: 20px;
 }
-.foCounter .counterPage .counterRow .counterBlock .content .foCnt_icon {
-  width: 12px;
-  height: 12px;
-  margin: 4px 1px auto 1px;
+.foCounter .counterPage .counterRow .counterBlock .content .left {
+  position: absolute;
+}
+.foCounter .counterPage .counterRow .counterBlock .content .right {
+  position: absolute;
+  right: 0;
 }
 .foCounter .counterPage .counterRow .counterBlock .content-sub .left {
   position: absolute;
-  top: 45px;
+  top: 40px;
   left: 5px;
+}
+.foCounter .counterPage .counterRow .counterBlock .content-ico {
+  position: absolute;
+  top: 60px;
+}
+.foCounter .counterPage .counterRow .counterBlock .content-ico .foCnt_icon {
+  width: 15px;
+  height: 15px;
+  margin: 2px 3px auto 2px;
 }
 .foCounter .counterPage .counterRow .counterBlock .foot {
   position: absolute;
@@ -4304,9 +4314,6 @@ td div.act-box span.act-text {
   text-align: center;
   margin: 5px 0 5px 5px;
 }
-.select-group .status-view div.relationship {
-  margin: 5px 0 5px 1px;
-}
 .select-group .status-view div.status-tip.cb-oc-od {
   background: #ffd45a;
 }
@@ -4872,6 +4879,7 @@ td div.act-box span.act-text {
 }
 .cus-roomType-table table thead tr .rp-first-th .caSelect {
   margin: 12px 0 10px 0;
+  width: 54px;
 }
 .cus-roomType-table table thead tr .rp-first-th .caSelect .el-icon-date:before {
   content: none;
@@ -5547,6 +5555,10 @@ td div.triangle-box.colspan-28 {
     width: 1203px;
   }
 }
+.pagination-page-list {
+  padding-right: 15px;
+}
+
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;
@@ -6173,6 +6185,11 @@ a {
 }
 .input-medium.medium-c1-sc2 {
   width: 299.5px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c1-sc3 {
+  width: 703px;
   max-width: 100%;
   height: 25px;
 }

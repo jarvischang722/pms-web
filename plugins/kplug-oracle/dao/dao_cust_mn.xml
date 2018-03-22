@@ -150,25 +150,20 @@
         <statement test="_v(param.sales_cod)"><![CDATA[and CUST_MN.sales_cod in(:sales_cod)]]></statement>
         <parameter type="instring" kind="3">type_cod</parameter>
         <statement test="_v(param.type_cod)"><![CDATA[and CUST_MN.type_cod in(:type_cod)]]></statement>
+        <parameter type="instring" kind="3">cust_nam</parameter>
+        <statement test="_v(param.cust_nam)"><![CDATA[and CUST_MN.cust_nam in(:cust_nam)]]></statement>
+        <parameter type="instring" kind="3">pcust_idx_show_cod</parameter>
+        <statement test="_v(param.pcust_idx_show_cod)"><![CDATA[and CUST_MN.pcust_cod in(:pcust_idx_show_cod)]]></statement>
+        <parameter type="instring" kind="3">hoffice_cust_idx_show_cod</parameter>
+        <statement test="_v(param.hoffice_cust_idx_show_cod)"><![CDATA[and CUST_MN.hoffice_cod in(:hoffice_cust_idx_show_cod)]]></statement>
         <parameter type="string" kind="2" condition="trim(CUST_IDX.credit_amt) = trim(:credit_amt) ">credit_amt
         </parameter>
         <parameter type="string" kind="2" condition="trim(CUST_IDX.ar_amt) = trim(:ar_amt) ">ar_amt</parameter>
-        <parameter type="likestring" kind="2" condition="CUST_MN.show_cod like ? ">cust_mn_show_cod</parameter>
-        <parameter type="string" kind="2" condition="trim(CUST_MN.cust_nam) = trim(:cust_nam) ">cust_nam</parameter>
-        <parameter type="string" kind="2" condition="trim(CUST_MN.hoffice_cod) = trim(:hoffice_cust_idx_cust_cod) ">
-            hoffice_cust_idx_cust_cod
-        </parameter>
-        <parameter type="string" kind="2" condition="trim(CUST_MN.pcust_cod) = trim(:pcust_idx_cust_cod) ">
-            pcust_idx_cust_cod
-        </parameter>
-        <parameter type="string" kind="2" condition="trim(CUST_IDX.credit_sta) = trim(:credit_sta) ">credit_sta
-        </parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_IDX.credit_sta) = trim(:credit_sta) ">credit_sta</parameter>
         <parameter type="string" kind="2" condition="trim(CUST_MN.rank_nos) = trim(:rank_nos) ">rank_nos</parameter>
-        <parameter type="string" kind="2" condition="trim(CUST_MN.status_cod) = trim(:status_cod) ">status_cod
-        </parameter>
-        <parameter type="string" kind="2" condition="trunc(CUST_MN.ins_dat) = to_date(:ins_dat, 'YYYY/MM/DD') ">
-            ins_dat
-        </parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_MN.status_cod) = trim(:status_cod) ">status_cod</parameter>
+        <parameter type="string" kind="2" condition="trunc(CUST_MN.ins_dat) = to_date(:ins_dat, 'YYYY/MM/DD') ">ins_dat</parameter>
+        <parameter type="likestring" kind="2" condition="CUST_MN.show_cod like ? ">cust_mn_show_cod</parameter>
     </dao>
 
     <!--[PMS0610010] 商務公司 總公司選單-->
@@ -305,6 +300,22 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">show_cod</parameter>
         <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
+
+    <!--[PMS0210010] 訂房公司下拉選單-->
+    <dao name="SEL_AGENTIDXSHOWCOD">
+        <statement><![CDATA[
+            SELECT CUST_MN.SHOW_COD, CUST_MN.CUST_NAM, CUST_IDX.UNI_COD, CUST_IDX.UNI_TITLE, CUST_MN.CUST_COD,
+            (trim(CUST_MN.SHOW_COD)||':'||CUST_MN.CUST_NAM) as cust_display
+            FROM  CUST_IDX, CUST_MN
+            WHERE  CUST_MN.ATHENA_ID = CUST_IDX.ATHENA_ID
+            AND  CUST_MN.CUST_COD = CUST_IDX.CUST_COD
+            AND  CUST_MN.ATHENA_ID = :athena_id
+            AND  CUST_MN.STATUS_COD <> 'D'
+            ORDER  BY  CUST_MN.SHOW_COD
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 
 </root>

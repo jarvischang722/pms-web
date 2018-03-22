@@ -407,6 +407,195 @@ exports.getCashierrfUseSta = function () {
 };
 
 /**
+ * [PMS0210010_住客歷史]
+ * status_cod 下拉資料
+ */
+exports.getStatuscod = function(){
+    var lo_optionList = [
+        {
+            display: "VIP",
+            value: "V"
+        },
+        {
+            display: "一般",
+            value: "N"
+        },
+        {
+            display: "黑名單",
+            value: "B"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ * [PMS0210010_住客歷史]
+ * dmFlag 下拉資料
+ */
+exports.getGhistMnDmFlag = function(){
+    var dmFlagList = [
+        {
+            display: '是',
+            value: 'Y'
+        },
+        {
+            display: '否',
+            value: 'N'
+        }
+    ];
+
+    return dmFlagList;
+};
+
+/**
+ * [PMS0210010_住客歷史]
+ * 生日月分 下拉資料
+ */
+exports.getCustIdxBirthDat = function () {
+    var lo_optionList = [
+        {
+            display: "01",
+            value: "01"
+        },
+        {
+            display: "02",
+            value: "02"
+        },
+        {
+            display: "03",
+            value: "03"
+        },
+        {
+            display: "04",
+            value: "04"
+        },
+        {
+            display: "05",
+            value: "05"
+        },
+        {
+            display: "06",
+            value: "06"
+        },
+        {
+            display: "07",
+            value: "07"
+        },
+        {
+            display: "08",
+            value: "08"
+        },
+        {
+            display: "09",
+            value: "09"
+        },
+        {
+            display: "10",
+            value: "10"
+        },
+        {
+            display: "11",
+            value: "11"
+        },
+        {
+            display: "12",
+            value: "12"
+        }
+    ];
+    return lo_optionList;
+};
+
+exports.getVIPSta = function () {
+    let lo_optionList = [
+        {
+            display: "0",
+            value: "0"
+        },
+        {
+            display: "1",
+            value: "1"
+        },
+        {
+            display: "2",
+            value: "2"
+        },
+        {
+            display: "3",
+            value: "3"
+        },
+        {
+            display: "4",
+            value: "4"
+        },
+        {
+            display: "5",
+            value: "5"
+        },
+        {
+            display: "6",
+            value: "6"
+        },
+        {
+            display: "7",
+            value: "7"
+        },
+        {
+            display: "8",
+            value: "8"
+        },
+        {
+            display: "9",
+            value: "9"
+        },
+        {
+            display: "10",
+            value: "10"
+        },
+        {
+            display: "11",
+            value: "11"
+        },
+        {
+            display: "12",
+            value: "12"
+        },
+        {
+            display: "13",
+            value: "13"
+        },
+        {
+            display: "14",
+            value: "14"
+        },
+        {
+            display: "15",
+            value: "15"
+        },
+        {
+            display: "16",
+            value: "16"
+        },
+        {
+            display: "17",
+            value: "17"
+        },
+        {
+            display: "18",
+            value: "18"
+        },
+        {
+            display: "19",
+            value: "19"
+        },
+        {
+            display: "20",
+            value: "20"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
  * [PMS0610010_商務公司]
  * credit_sta 下拉資料
  */
@@ -833,6 +1022,52 @@ exports.getHfdarriverfday = function () {
 };
 
 /**
+ * PMS0810230 設定類別下拉資料
+ * @returns {[null,null,null]}
+ */
+exports.getRateProp = function(){
+    let la_optionList = [
+        {
+            display: "一般",
+            value: "GR"
+        },
+        {
+            display: "HOUSE USE",
+            value: "HU"
+        },
+        {
+            display: "COMPLIMENT",
+            value: "CMP"
+        }
+
+    ];
+    return la_optionList;
+};
+
+/**
+ * PMS0810230 屬性下拉資料
+ * @returns {[null,null,null]}
+ */
+exports.getBaserateFlag = function(){
+    let la_optionList = [
+        {
+            display: "ID",
+            value: "INDEPEND"
+        },
+        {
+            display: "BS",
+            value: "BASE"
+        },
+        {
+            display: "DP",
+            value: "DEPEND"
+        }
+
+    ];
+    return la_optionList;
+};
+
+/**
  * PMS0830110 平板作業區域設定
  * 搜尋AreapntSta下拉資料
  * @returns {[*,*]}
@@ -1228,6 +1463,42 @@ exports.qry_address_rf_ghist_use = function (params, callback) {
 };
 
 /**
+ * 住客歷史(PMS0210010) 取得狀況下拉資料
+ */
+exports.lang_GhistMnStatuscod = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getStatuscod();
+    callback(null, lo_result);
+};
+
+/**
+ * 住客歷史(PMS0210010) 取得下拉資料
+ */
+exports.lang_GhistMnDmFlag = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getGhistMnDmFlag();
+    callback(null, lo_result);
+};
+
+/**
+ * 住客歷史(PMS0210010) 取得狀況下拉資料
+ */
+exports.lang_CustIdxBirthDat = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustIdxBirthDat();
+    callback(null, lo_result);
+};
+
+/**
+ * 住客歷史(PMS0210011) 取得VIP狀況下拉資料
+ */
+exports.lang_vip_sta = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getVIPSta();
+    callback(null, lo_result);
+};
+
+/**
  * 商務公司(PMS0610010) 取得是否可簽帳
  */
 exports.lang_CustidxCreditsta = function (params, callback) {
@@ -1365,6 +1636,27 @@ exports.lang_PsvisitdtVisitsta = function (params, callback) {
     callback(null, lo_result);
 };
 
+/**
+ * rate cod(PMS0810230)取得設定分類下拉資料
+ * @param params
+ * @param callback
+ */
+exports.lang_rate_prop = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getRateProp();
+    callback(null, lo_result);
+};
+
+/**
+ * rate cod(PMS0810230)取得屬性下拉資料
+ * @param params
+ * @param callback
+ */
+exports.lang_baserate_flag = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getBaserateFlag();
+    callback(null, lo_result);
+};
 
 /**
  * 房間特色設定(PMS0820010)取得系統預設下拉選項
@@ -1411,6 +1703,7 @@ exports.chkHfdorderconfirmrfContent = function (params, callback) {
     lo_result.selectOptions = optionsLib.getOrderConfirmRf();
     callback(null, lo_result);
 };
+
 
 /**
  * [PMS0820050_櫃檯備品庫存設定] 退房提醒

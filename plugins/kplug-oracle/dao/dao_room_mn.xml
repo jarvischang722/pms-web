@@ -38,7 +38,7 @@
     <!-- ['PMS0820020'] 房間設定(單筆) -->
     <dao name="QRY_SINGLE_ROOM_MN">
         <statement><![CDATA[
-               select athena_id, hotel_cod, build_nos, floor_nos, room_nos, room_cod, room_sta, assign_sta, clean_sta, trim(clean_cod) as clean_cod, conn_room, character_rmk, oos_sta, osreson_rmk, level_nos, bed_sta, user_rmk, ci_dat, co_dat, adult_qnt, child_qnt, baby_qnt, alarm_dat, pre_alarm_dat, view_seq, ins_dat, ins_usr, upd_dat, upd_usr
+               select athena_id, hotel_cod, build_nos, floor_nos, room_nos, room_cod, room_sta, assign_sta, clean_sta, trim(clean_cod) as clean_cod, trim(conn_room) conn_room, character_rmk, oos_sta, osreson_rmk, level_nos, bed_sta, user_rmk, ci_dat, co_dat, adult_qnt, child_qnt, baby_qnt, alarm_dat, pre_alarm_dat, view_seq, ins_dat, ins_usr, upd_dat, upd_usr
                from room_mn
                where athena_id = ? and trim(hotel_cod) = trim(?) and trim(room_nos) = trim(?)
         ]]>
@@ -180,6 +180,20 @@
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- [PMS0210011] 房號選單-->
+    <dao name="QRY_SEL_ROOM_NOS">
+        <statement><![CDATA[
+            SELECT  ROOM_NOS value, ROOM_NOS display
+            FROM  ROOM_MN
+            WHERE  ATHENA_ID = :athena_id
+            AND trim(HOTEL_COD) = trim(:hotel_cod)
+            ORDER  BY  VIEW_SEQ, ROOM_NOS
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 </root>

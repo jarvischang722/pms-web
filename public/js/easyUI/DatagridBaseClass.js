@@ -23,6 +23,7 @@ function DatagridBaseClass() {
     this.mnRowData = {};
     this.dtOriRowData = [];
 
+    this.dgData = [];
     /**
      * datagrid 初始化
      * @param prg_id {String} : 程式編號
@@ -36,6 +37,7 @@ function DatagridBaseClass() {
         self.dgName = dgName;
         self.columns = columns;
         self.fieldsData = fieldsData;
+        self.page_id = (!_.isUndefined(fieldsData) && fieldsData.length > 0) ? fieldsData[0].page_id : 1;
 
         if (!options) {
             options = {};
@@ -46,16 +48,21 @@ function DatagridBaseClass() {
             singleSelect: !_.isUndefined(options.singleSelect) ? options.singleSelect : true,
             selectOnCheck: !_.isUndefined(options.selectOnCheck) ? options.singleSelect : true,
             checkOnSelect: !_.isUndefined(options.checkOnSelect) ? options.singleSelect : true,
+            pagination: !_.isUndefined(options.pagination) ? options.pagination : false,//分頁參數
+            rownumbers: !_.isUndefined(options.rownumbers) ? options.rownumbers : false,//分頁參數
+            pageSize: !_.isUndefined(options.pageSize) ? options.pageSize : 10,
             //width: "100%", // error:左側打開後table會擠壓到右側欄位
             onClickCell: this.onClickCell,
             onClickRow: this.onClickRow,
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
             onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
+            onBeforeSortColumn: function(sort, order){
+                $('#' + dgName).datagrid("loadData", self.dgData);
+            },
             onSortColumn: this.doSortColumn,
             onSelect: this.onSelect
         }).datagrid('columnMoving');
-
     };
 
 
@@ -76,8 +83,55 @@ function DatagridBaseClass() {
      * @param dataGridRows{Array} : 資料集
      */
     this.loadDgData = function (dataGridRows) {
-        var dgData = {total: dataGridRows.length, rows: dataGridRows};
-        $('#' + this.dgName).datagrid("loadData", dgData);
+        self.dgData = {total: dataGridRows.length, rows: dataGridRows};
+        $('#' + this.dgName).datagrid("loadData", self.dgData);
+    };
+
+    this.clearSelection = function(){
+        $('#' + this.dgName).datagrid("clearSelections");
+    };
+
+    /**
+     * 有分頁功能的dataGrid 讀資料
+     * @param dataGridRows{Array} : 資料集
+     * @param pageList{Array} : 一頁顯示多少筆資料的清單
+     */
+    this.loadPageDgData = function (dataGridRows, pageList) {
+
+        self.dgData = dataGridRows;
+
+        var lo_tempDatas = [];
+        var pageSize = $('#' + self.dgName).datagrid('options').pageSize;
+        var ln_count = self.dgData.length < pageSize ? self.dgData.length : pageSize;
+        for (var i = 0; i < ln_count; i++) {
+            lo_tempDatas.push(dataGridRows[i]);
+        }
+
+        $('#' + this.dgName).datagrid("loadData", lo_tempDatas);
+
+        var pager = $('#' + self.dgName).datagrid('getPager');
+        pager.pagination({
+            total: dataGridRows.length,
+            onSelectPage: self.setpage,
+            pageNumber: 1,
+            pageList: pageList || [10, 20, 50],
+            showPageList: true,
+            beforePageText: go_i18nLang.SystemCommon.dataGridBeforePageText,
+            afterPageText: go_i18nLang.SystemCommon.dataGridAfterPageText,
+            displayMsg: go_i18nLang.SystemCommon.dataGridDisplayMsg
+        });
+    };
+
+    this.setpage = function (pageNo) {
+        var pager = $('#' + self.dgName).datagrid("getPager");
+        var pageSize = $('#' + self.dgName).datagrid('options').pageSize;
+        var start = (pageNo - 1) * pageSize;
+        var end = start + pageSize;
+        $('#' + self.dgName).datagrid("loadData", self.dgData.slice(start, end));
+        pager.pagination('refresh', {
+            total: self.dgData.length,
+            pageNumber: pageNo
+        });
     };
 
     /**
@@ -158,6 +212,7 @@ function DatagridBaseClass() {
      * 排序觸發事件
      */
     this.doSortColumn = function () {
+        self.setpage(1);
     };
 
     /**
@@ -200,14 +255,14 @@ function DatagridBaseClass() {
         if (self.endEditing()) {
             //設定搜尋條件
             var lo_param = {};
-            if(this.dtOriRowData.length != 0){
+            if (this.dtOriRowData.length != 0) {
                 lo_param = {
                     prg_id: self.prg_id,
                     page_id: self.fieldsData[0].page_id,
                     tab_page_id: self.fieldsData[0].tab_page_id
                 };
             }
-            else{
+            else {
                 lo_param = {
                     prg_id: self.prg_id
                 };
@@ -261,14 +316,14 @@ function DatagridBaseClass() {
         $("#gridEdit").val(self.tmpCUD);
 
         var lo_param = {};
-        if(this.dtOriRowData.length != 0){
+        if (this.dtOriRowData.length != 0) {
             lo_param = {
                 prg_id: self.prg_id,
                 tab_page_id: self.fieldsData[0].tab_page_id,
                 deleteData: self.tmpCUD.deleteData
             };
         }
-        else{
+        else {
             lo_param = {
                 prg_id: self.prg_id,
                 deleteData: self.tmpCUD.deleteData

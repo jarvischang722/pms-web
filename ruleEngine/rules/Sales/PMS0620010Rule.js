@@ -1,16 +1,16 @@
 /**
  * Created by a17010 on 2017/10/13.
  */
-var _ = require("underscore");
-var moment = require("moment");
-var async = require("async");
-var path = require('path');
-var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir + "/ruleEngine/";
-var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
-var commandRules = require("./../CommonRule");
-var ReturnClass = require(ruleRootPath + "/returnClass");
-var ErrorClass = require(ruleRootPath + "/errorClass");
+let _ = require("underscore");
+let moment = require("moment");
+let async = require("async");
+let path = require('path');
+let appRootDir = path.dirname(require.main.filename);
+let ruleRootPath = appRootDir + "/ruleEngine/";
+let queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
+let commandRules = require("./../CommonRule");
+let ReturnClass = require(ruleRootPath + "/returnClass");
+let ErrorClass = require(ruleRootPath + "/errorClass");
 
 module.exports = {
     /**
@@ -29,7 +29,8 @@ module.exports = {
         async.waterfall([
             chkCustMn,
             chkOrderMn,
-            delClassHs
+            delClassHs,
+            delHotelDt
         ], function (errMsg, result) {
             callback(lo_error, lo_result);
         });
@@ -53,6 +54,7 @@ module.exports = {
                 cb(lo_error, lo_result);
             });
         }
+
         //2.
         function chkOrderMn(data, cb) {
             queryAgent.query("CHK_SALES_COD_IS_EXIST_IN_ORDER_MN".toUpperCase(), lo_params, function (err, salesData) {
@@ -73,12 +75,14 @@ module.exports = {
                 cb(lo_error, lo_result);
             });
         }
+
         //3.未於營業目標設定者可刪除業務員(暫不處理)
-        function chkSaleGoal(data, cb){
+        function chkSaleGoal(data, cb) {
             //未於營業目標設定者可刪除業務員(暫不處理)
         }
+
         //4.刪除組別異動紀錄
-        function delClassHs(data, cb){
+        function delClassHs(data, cb) {
             lo_result.extendExecDataArrSet.push({
                 function: '0',
                 table_name: 'sales_class_hs',
@@ -86,7 +90,27 @@ module.exports = {
                     key: 'athena_id',
                     operation: "=",
                     value: lo_params.athena_id
-                },{
+                }, {
+                    key: 'sales_cod',
+                    operation: "=",
+                    value: lo_params.sales_cod
+                }],
+                event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+                kindOfRel: 'dt'
+            });
+            cb(lo_error, lo_result);
+        }
+
+        //5.刪除hotel dt資料
+        function delHotelDt(data, cb) {
+            lo_result.extendExecDataArrSet.push({
+                function: '0',
+                table_name: 'sales_hotel_dt',
+                condition: [{
+                    key: 'athena_id',
+                    operation: "=",
+                    value: lo_params.athena_id
+                }, {
                     key: 'sales_cod',
                     operation: "=",
                     value: lo_params.sales_cod

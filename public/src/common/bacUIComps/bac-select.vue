@@ -1,5 +1,5 @@
 <template>
-    <input/>
+    <input v-bind='$attrs' v-on='$listeners'/>
 </template>
 
 <script>
@@ -35,6 +35,11 @@
                 type: Array,
                 default: []
             },
+            //顯示用的下拉選擇
+            dataDisplay: {
+                type: Array,
+                default: []
+            },
             //預設值
             defaultVal: ['String', 'Number'],
             //欄位屬性
@@ -47,6 +52,7 @@
 
         },
         mounted: function () {
+            this.dataDisplay = this.dataDisplay.length == 0 ? this.data : this.dataDisplay;
             this.initCombobox();
         },
         data: function () {
@@ -69,9 +75,20 @@
                     valueField: this.valueField,
                     textField: this.textField,
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
-                    data: this.data,
-                    onChange: function (newValue, oldValue) {
+                    data: this.dataDisplay,
+                    onShowPanel: function () {
+                        $(this).combobox("loadData", self.data);
+                    },
+                    onHidePanel: function () {
+                        $(this).combobox("loadData", self.dataDisplay);
+                    },
+                    onChange: function (newValue) {
                         self.$emit('update:v-model', newValue);
+                        setTimeout(function () {
+                            if (self.$listeners.change != undefined) {
+                                self.$listeners.change();
+                            }
+                        }, 200);
                     },
                     onLoadSuccess: function () {
                     }
@@ -89,12 +106,11 @@
                 });
             },
             searchRemoteSrc: function (keyword) {
-                var ls_keyword = keyword || '';
-                var self = this;
+                let ls_keyword = keyword || '';
+                let self = this;
                 if (ls_keyword == "") {
                     return false;
                 }
-                console.log(ls_keyword);
                 $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
                     $(self.$el).combobox("loadData", items);
                 })

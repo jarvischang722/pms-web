@@ -21,7 +21,7 @@
     <!-- ['PSIW510030'] 取客戶代號下拉 (查詢用)-->
     <dao name="QRY_SEARCH_CUST_COD_SELECT">
         <statement><![CDATA[
-            Select cust_cod as value, (trim(show_cod) || ' : ' || trim(cust_nam)) as display
+            Select cust_cod, (trim(show_cod) || ' : ' || trim(cust_nam)) as cust_nam
             From psi_cust_mn
             Where trim(comp_cod) = trim(:comp_cod) and cust_cod in (Select key_cod2 from sec_typ_ctrl
             Where trim(comp_cod) = trim(:comp_cod)

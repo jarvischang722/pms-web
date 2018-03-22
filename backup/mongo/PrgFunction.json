@@ -366,3 +366,183 @@
     "rule_func_name" : "r_compMnUpdate", 
     "link_prg_id" : ""
 }
+{ 
+    "_id" : ObjectId("5a8fd4a50bf3d908dc91cfdc"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "0100", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a8fd4a50bf3d908dc91cfdd"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "0200", 
+    "rule_func_name" : "", 
+    "link_prg_id" : "PMS0210011"
+}
+{ 
+    "_id" : ObjectId("5a8fd4a50bf3d908dc91cfde"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "0400", 
+    "rule_func_name" : "", 
+    "link_prg_id" : "PMS0210011"
+}
+{ 
+    "_id" : ObjectId("5a97e062ee527c3018af41bb"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0200", 
+    "rule_func_name" : "defaultGhistMn", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a97e062ee527c3018af41bc"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0531", 
+    "rule_func_name" : "saveDelGhistMn", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a97e062ee527c3018af41bd"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0400", 
+    "rule_func_name" : "r_0400", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a97e062ee527c3018af41be"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0800", 
+    "rule_func_name" : "r_0800", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a97e062ee527c3018af41bf"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1040), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0200", 
+    "rule_func_name" : "r_1040", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a9cb14955b5435f998d6ab7"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0541", 
+    "rule_func_name" : "saveUpdateGhistMn", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5a9e23556d2afd2c24c71d55"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0521", 
+    "rule_func_name" : "saveAddGhistMn", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5aa8b4eb3617376398d8ce13"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0200", 
+    "rule_func_name" : "r_0200", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5aa8b4eb3617376398d8ce14"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0500", 
+    "rule_func_name" : "r_0500", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5aa8b4eb3617376398d8ce15"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1010", 
+    "rule_func_name" : "r_1010", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5aa8b4eb3617376398d8ce16"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1011", 
+    "rule_func_name" : "r_1011", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5aa8b4eb3617376398d8ce17"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1012", 
+    "rule_func_name" : "r_1012", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5aa8b4eb3617376398d8ce18"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(4), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1013", 
+    "rule_func_name" : "r_1013", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5aa8b4eb3617376398d8ce19"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1070", 
+    "rule_func_name" : "r_1070", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5aa8b4eb3617376398d8ce1a"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1080", 
+    "rule_func_name" : "r_1080", 
+    "link_prg_id" : ""
+}

@@ -113,6 +113,7 @@ function chkTmpType(rfData, callback) {
         gs_template_id = "mn-dt";
     }
     else if (ln_isDataGridExist != -1 && ln_isGridSingleExist == -1) {
+        gs_mainTableName = rfData[ln_isDataGridExist].table_name;
         gs_dgTableName = rfData[ln_isDataGridExist].table_name;
         gs_template_id = "datagrid";
     }
@@ -318,9 +319,10 @@ function combineMainData(rfData, callback) {
                 go_saveExecDatas[gn_exec_seq] = tmpDel;
                 gn_exec_seq++;
 
-                if (gs_dgTableName != "") {
-                    combineDelDetailData(gs_dgTableName, lo_fieldsData.mainKeyFields, data);
-                }
+                //TODO 流程有問題再討論
+                // if (gs_dgTableName != "") {
+                //     combineDelDetailData(gs_dgTableName, lo_fieldsData.mainKeyFields, data);
+                // }
             });
             callback(null, '0300');
         },
@@ -762,6 +764,17 @@ function qryFieldsDataByTabPageID(lo_data) {
     let la_mainKeyFields = _.where(la_mainFieldsData, {keyable: "Y"}) || [];
     let la_dgFieldsData = _.where(ga_dgFieldsData, {tab_page_id: ln_tab_page_id}) || ga_dgFieldsData;
     let la_dgKeyFields = _.where(la_dgFieldsData, {keyable: "Y"}) || [];
+    _.each(la_dgKeyFields, (lo_dgKeyFields, index) => {
+        _.each(lo_dgKeyFields, (val, key) => {
+            if (key == 'ui_field_name') {
+                let la_keySplit = val.split(".");
+                let ls_field_name = la_keySplit[1];
+                if (!_.isUndefined(ls_field_name)) {
+                    la_dgKeyFields[index][key] = ls_field_name;
+                }
+            }
+        });
+    });
     let rtnData = {
         mainFieldsData: _.clone(la_mainFieldsData),
         mainKeyFields: _.clone(la_mainKeyFields),
