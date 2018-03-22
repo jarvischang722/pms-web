@@ -144,16 +144,13 @@
             showDataGrid() {
                 let self = this;
 
-                //一開始只載入10筆資料
-                let la_showDataRows = this.pageOneDataGridRows.slice(0, 10);
-
                 this.dgIns = new DatagridSingleGridClass();
                 this.dgIns.init(gs_prgId, "PMS0210010_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0210010_dg'), this.pageOneFieldData, {
                     pagination: true,
                     rownumbers: true
                 });
-                this.dgIns.loadDgData(la_showDataRows);
-                this.dgIns.setPager(this.pageOneDataGridRows);
+
+                this.dgIns.loadPageDgData(this.pageOneDataGridRows);
 
                 this.isLoading = false;
             },
