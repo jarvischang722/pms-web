@@ -32,6 +32,7 @@
                 </v-table>
             </div>
         </div>
+        <button @click="test">TEST</button>
         <div class="clearfix"></div>
     </div>
 </template>
@@ -94,7 +95,13 @@
                 roomTypDetailColumns: [],
                 roomTypDetailData: [],
                 errorContent: "",
-                useTimeData: [] //使用期間資料
+                useTimeData: [], //使用期間資料
+                tmpCUD: {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                }
             }
         },
         watch: {
@@ -103,6 +110,47 @@
                     this.fetchRoomTypLeftData();//取房型資料
                 }
             },
+            roomTypDetailRowsData: {
+                handler(val) {
+                    _.each(val, (lo_val, idx) => {
+                        let ln_oriDgCreateIdx = _.findIndex(this.oriRoomTypDetailRowsData, {
+                            supply_nos: lo_val.supply_nos,
+                            room_cod: lo_val.room_cod
+                        });
+                        let ln_tmpCUDCreateIdx = _.findIndex(this.tmpCUD.createData, {
+                            supply_nos: lo_val.supply_nos,
+                            room_cod: lo_val.room_cod
+                        });
+                        let ln_tnpCUDUpdateIdx = _.findIndex(this.tmpCUD.updateData, {
+                            supply_nos: lo_val.supply_nos,
+                            room_cod: lo_val.room_cod
+                        });
+                        //新增房型資料
+                        //刪除暫存重複的資料,再新增新資料
+                        if (ln_tmpCUDCreateIdx > -1) {
+                            this.tmpCUD.createData.splice(ln_tmpCUDCreateIdx, 1);
+                        }
+                        if (ln_oriDgCreateIdx == -1) {
+                            this.tmpCUD.createData.push(lo_val);
+                        }
+                        //修改房型資料
+                        else {
+                            //刪除暫存重複的資料,再新增新資料
+                            if(ln_tnpCUDUpdateIdx > -1){
+                                this.tmpCUD.updateData.splice(ln_tnpCUDUpdateIdx, 1);
+                                this.tmpCUD.oriData.splice(ln_tnpCUDUpdateIdx, 1);
+                            }
+                            if (JSON.stringify(lo_val) != JSON.stringify(this.oriRoomTypDetailRowsData[idx])) {
+                                this.tmpCUD.updateData.push(lo_val);
+                                this.tmpCUD.oriData.push(this.oriRoomTypDetailRowsData[idx]);
+                            }
+                        }
+                    });
+
+                    //刪除房型資料
+                },
+                deep: true
+            }
         },
         methods: {
             initData() {
@@ -173,7 +221,7 @@
                 let la_useTimeData = [];
                 _.each(roomTypDetailData, (lo_data) => {
                     la_useTimeData.push({
-                        begin_dat: moment( lo_data["ratesupply_dt.between_dat"].split("~")[0]).format("YYYY/MM/DD"),
+                        begin_dat: moment(lo_data["ratesupply_dt.between_dat"].split("~")[0]).format("YYYY/MM/DD"),
                         end_dat: moment(lo_data["ratesupply_dt.between_dat"].split("~")[1]).format("YYYY/MM/DD"),
                         command_cod: lo_data["ratesupply_dt.command_option"].substring(0, 1),
                         command_option: lo_data["ratesupply_dt.command_option"],
@@ -219,39 +267,6 @@
                 }
             },
             showRoomTypDetailTable(room_cod) {
-                if (this.useTimeData.length > 0) {
-                    _.each(this.useTimeData, (lo_useTimeData) => {
-                        let ls_betweenDat =
-                            JSON.parse(JSON.stringify(lo_useTimeData.begin_dat)) + "~" + JSON.parse(JSON.stringify(lo_useTimeData.end_dat));
-                        let ls_commandOption = JSON.parse(JSON.stringify(lo_useTimeData.command_option));
-
-                        let ln_changedIndex = _.findIndex(this.roomTypDetailRowsData, {supply_nos: lo_useTimeData.supply_nos, room_cod: room_cod});
-                        //使用期間被修改
-                        if (ln_changedIndex > -1) {
-                            this.roomTypDetailRowsData[ln_changedIndex]["ratesupply_dt.between_dat"] = ls_betweenDat;
-                            this.roomTypDetailRowsData[ln_changedIndex]["ratesupply_dt.command_option"] = ls_commandOption;
-                        }
-                        //新增使用期間
-                        else {
-                            this.roomTypDetailRowsData.push({
-                                "add_adult": 0,
-                                "add_child": 0,
-                                "rent_amt": 0,
-                                "room_cod": room_cod,
-                                "supply_nos": lo_useTimeData.supply_nos,
-                                "ratesupply_dt.between_dat": ls_betweenDat,
-                                "ratesupply_dt.command_option": ls_commandOption
-                            });
-                        }
-                    });
-                    //使用期間被刪除
-                    _.each(this.roomTypDetailRowsData, (lo_dataGridRowsData, idx) => {
-                        let ln_delIndex = _.findIndex(this.useTimeData, {supply_nos: lo_dataGridRowsData.supply_nos});
-                        if(ln_delIndex == -1){
-                            this.roomTypDetailRowsData.splice(idx, 1);
-                        }
-                    });
-                }
                 this.roomTypDetailData = [];
                 this.roomTypDetailColumns = [
                     {
@@ -271,7 +286,7 @@
                         isResize: true
                     },
                     {
-                        field: 'twoRoomPrice',
+                        field: 'rent_amt',
                         title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'rent_amt'}).ui_display_name,
                         width: 120,
                         titleAlign: 'center',
@@ -280,7 +295,7 @@
                         isEdit: true
                     },
                     {
-                        field: 'adultPlus',
+                        field: 'add_adult',
                         title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'add_adult'}).ui_display_name,
                         width: 120,
                         titleAlign: 'center',
@@ -289,23 +304,65 @@
                         isEdit: true
                     },
                     {
-                        field: 'childPlus',
+                        field: 'add_child',
                         title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'add_child'}).ui_display_name,
                         width: 120,
                         titleAlign: 'center',
                         columnAlign: 'right',
                         isResize: true,
                         isEdit: true
-                    },
+                    }
                 ];
+                if (this.useTimeData.length > 0) {
+                    _.each(this.useTimeData, (lo_useTimeData) => {
+                        let ls_betweenDat =
+                            JSON.parse(JSON.stringify(lo_useTimeData.begin_dat)) + "~" + JSON.parse(JSON.stringify(lo_useTimeData.end_dat));
+
+                        let ln_changedIndex = _.findIndex(this.roomTypDetailRowsData, {
+                            supply_nos: lo_useTimeData.supply_nos,
+                            room_cod: room_cod
+                        });
+                        //使用期間被修改
+                        if (ln_changedIndex > -1) {
+                            this.roomTypDetailRowsData[ln_changedIndex]["ratesupply_dt.between_dat"] = ls_betweenDat;
+                            this.roomTypDetailRowsData[ln_changedIndex]["ratesupply_dt.command_option"] = lo_useTimeData.command_option;
+                        }
+                        //新增使用期間
+                        else {
+                            this.roomTypDetailRowsData.push({
+                                "add_adult": 0,
+                                "add_child": 0,
+                                "rent_amt": 0,
+                                "room_cod": room_cod,
+                                "supply_nos": lo_useTimeData.supply_nos,
+                                "ratesupply_dt.between_dat": ls_betweenDat,
+                                "ratesupply_dt.command_option": lo_useTimeData.command_option
+                            });
+                        }
+                    });
+                    //使用期間被刪除
+                    _.each(this.roomTypDetailRowsData, (lo_dataGridRowsData, idx) => {
+                        if (!_.isUndefined(lo_dataGridRowsData)) {
+                            let ln_delIndex = _.findIndex(this.useTimeData, {supply_nos: lo_dataGridRowsData.supply_nos});
+                            if (ln_delIndex == -1) {
+                                this.roomTypDetailRowsData.splice(idx, 1);
+                            }
+                        }
+                    });
+                }
+                else {
+                    this.roomTypDetailRowsData = [];
+                }
                 if (this.roomTypDetailRowsData.length > 0) {
                     _.each(_.where(this.roomTypDetailRowsData, {room_cod: room_cod}), (lo_roomTypDetailRowsData) => {
                         this.roomTypDetailData.push({
                             "useRange": lo_roomTypDetailRowsData["ratesupply_dt.between_dat"],
-                            "dateRule": lo_roomTypDetailRowsData["ratesupply_dt.command_option"],
-                            "twoRoomPrice": lo_roomTypDetailRowsData["rent_amt"],
-                            "adultPlus": lo_roomTypDetailRowsData["add_adult"],
-                            "childPlus": lo_roomTypDetailRowsData["add_child"]
+                            "dateRule": this.convertCommandOption(lo_roomTypDetailRowsData["ratesupply_dt.command_option"]),
+                            "rent_amt": lo_roomTypDetailRowsData["rent_amt"],
+                            "add_adult": lo_roomTypDetailRowsData["add_adult"],
+                            "add_child": lo_roomTypDetailRowsData["add_child"],
+                            "room_cod": lo_roomTypDetailRowsData["room_cod"],
+                            "supply_nos": lo_roomTypDetailRowsData["supply_nos"]
                         });
                     });
                 }
@@ -316,6 +373,52 @@
                     }, 0.1);
                 }
             },
+            //轉換command_option資料
+            convertCommandOption(command_option) {
+                let la_commandOptionHSelect =
+                    JSON.parse(JSON.stringify(_.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.command_option'}).selectData));
+                _.each(la_commandOptionHSelect, (lo_select, idx) => {
+                    la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
+                });
+
+                let la_commandOptionWSelect = [
+                    {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
+                    {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
+                    {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
+                    {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
+                    {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
+                    {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
+                    {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
+                ];
+
+                let ls_commandOptionDisplay = '';
+                if (command_option.substring(0, 1) == 'H') {
+                    let la_commandOption = command_option.split(',');
+                    _.each(la_commandOption, (ls_commandOption) => {
+                        ls_commandOptionDisplay =
+                            ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
+                    });
+                    ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
+                }
+                else if (command_option.substring(0, 1) == 'W') {
+                    let la_commandOption = command_option.split(',');
+                    if (la_commandOption.length > 1) {
+                        _.each(la_commandOption, (ls_commandOption) => {
+                            ls_commandOptionDisplay =
+                                ls_commandOptionDisplay + _.findWhere(la_commandOptionWSelect, {value: ls_commandOption}).display + ', ';
+                        });
+                        ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
+                    }
+                    else {
+                        ls_commandOptionDisplay = _.findWhere(la_commandOptionWSelect, {value: command_option}).display
+                    }
+                }
+                else {
+                    ls_commandOptionDisplay = "每一天";
+                }
+
+                return ls_commandOptionDisplay;
+            },
             roomTypColumnCellClass(rowIndex, columnName, rowData) {
                 if (columnName == 'control') {
                     return 'column-cell-class-delete';
@@ -324,7 +427,7 @@
             appendRow(title, field) {
                 if (field == "control") {
                     this.roomTypRowsData.push({room_cod: ""});
-                    this.roomTypData.push({"roomCode": ""});
+                    this.roomTypData.push({"roomCode": "dte"});
                 }
             },
             customCompFunc(params) {
@@ -342,6 +445,11 @@
                 this.showRoomTypDetailTable(newValue);
             },
             roomTypDetailCellEditDone(newValue, oldValue, rowIndex, rowData, field) {
+                let ln_editIndex = _.findIndex(this.roomTypDetailRowsData, {
+                    supply_nos: rowData.supply_nos,
+                    room_cod: rowData.room_cod
+                });
+                this.roomTypDetailRowsData[ln_editIndex][field] = newValue;
                 this.roomTypDetailData[rowIndex][field] = newValue;
             },
             roomTypRowClick(rowIndex, rowData, column) {
@@ -349,6 +457,9 @@
                     rowData = rowData.roomCode;
                 }
                 this.showRoomTypDetailTable(rowData);
+            },
+            test() {
+                console.log(this.tmpCUD);
             }
         }
     }

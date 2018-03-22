@@ -24,8 +24,8 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button" @click="appendRow">{{i18nLang.program.PMS0810230.add}}
+                                <button class="btn btn-primary btn-white btn-defaultWidth setRateCode-add"
+                                        role="button" >{{i18nLang.program.PMS0810230.add}}
                                 </button>
                             </li>
 
@@ -35,8 +35,8 @@
                                 </button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button" @click="editRow">{{i18nLang.program.PMS0810230.edit}}
+                                <button class="btn btn-primary btn-white btn-defaultWidth setRateCode-add"
+                                        role="button" >{{i18nLang.program.PMS0810230.edit}}
                                 </button>
                             </li>
                         </ul>
@@ -54,7 +54,7 @@
         ></pms0810230-single-grid>
         <!--房型使用的日期規則-->
         <el-dialog
-                :close-on-click-modal="true" :show-close="false" :title="i18nLang.program.PMS0810230.company_status"
+                :close-on-click-modal="true" :show-close="false"
                 :visible.sync="isOpenTimeRule" :before-close="doCloseTimeRuleDialog">
             <div>
                 <div class="businessCompanyData">
@@ -203,11 +203,13 @@
                 <div class="clearfix"></div>
             </div>
         </el-dialog>
+        <!--/.房型使用的日期規則-->
     </div>
 </template>
 
 <script>
     import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
+    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
     let gs_prgId = "PMS0810230";
 
@@ -269,6 +271,7 @@
             this.loadDataGridByPrgID();
         },
         components: {
+            ElDialog,
             pms0810230SingleGrid
         },
         data() {
@@ -403,19 +406,17 @@
                     this.timeRuleSingleData.command_option = 'D1'
                 }
                 else if (ls_commandCod == 'H') {
-
                     _.each(this.commandHVal, (ls_val) => {
                         this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
                     });
                 }
                 else if (ls_commandCod == 'W') {
-
                     _.each(this.commandVal, (ls_val) => {
                         this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
                     });
                 }
-                this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option !='D1'?
-                    this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1):this.timeRuleSingleData.command_option;
+
+                this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option !='D1'? this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1):this.timeRuleSingleData.command_option;
 
                 this.$eventHub.$emit('setTimeRule', {
                     singleData: this.timeRuleSingleData
