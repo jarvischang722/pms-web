@@ -20,6 +20,7 @@
                                     <template v-if="field.ui_type == 'multiselect' || field.ui_type == 'select'">
                                         <bac-select :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     v-model="searchCond[field.ui_field_name]" :data="field.selectData"
+                                                    :field="field"
                                                     is-qry-src-before="Y" value-field="value" text-field="display"
                                                     @update:v-model="val => searchCond[field.ui_field_name] = val"
                                                     :default-val="searchCond[field.ui_field_name]" :multiple="field.ui_type == 'multiselect'"
@@ -32,7 +33,7 @@
                                         <bac-select-grid :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                          v-model="searchCond[field.ui_field_name]"
                                                          :columns="field.selectData.columns" :multiple="field.ui_type == 'multiselectgrid'"
-                                                         :data="field.selectData.selectData"
+                                                         :data="field.selectData.selectData"   :field="field"
                                                          :is-qry-src-before="field.selectData.isQrySrcBefore"
                                                          :id-field="field.selectData.value" :text-field="field.selectData.display"
                                                          @update:v-model="val => searchCond[field.ui_field_name] = val"
@@ -134,6 +135,7 @@
                                         <template v-if="field.ui_type == 'multiselect' || field.ui_type == 'select'">
                                             <bac-select :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         v-model="searchCond[field.ui_field_name]" :data="field.selectData"
+                                                        :field="field"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => searchCond[field.ui_field_name] = val"
                                                         :default-val="searchCond[field.ui_field_name]" :multiple="field.ui_type == 'multiselect'"
@@ -144,7 +146,7 @@
 
                                         <template v-if="field.ui_type == 'selectgrid' || field.ui_type == 'multiselectgrid'">
                                             <bac-select-grid :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                             v-model="searchCond[field.ui_field_name]"
+                                                             v-model="searchCond[field.ui_field_name]"   :field="field"
                                                              :columns="field.selectData.columns" :multiple="field.ui_type == 'multiselectgrid'"
                                                              :data="field.selectData.selectData"
                                                              :is-qry-src-before="field.selectData.isQrySrcBefore"
