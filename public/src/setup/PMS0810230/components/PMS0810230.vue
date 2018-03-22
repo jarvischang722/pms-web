@@ -24,8 +24,8 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth setRateCode-add"
-                                        role="button" >{{i18nLang.program.PMS0810230.add}}
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" @click="appendRow">{{i18nLang.program.PMS0810230.add}}
                                 </button>
                             </li>
 
@@ -35,8 +35,8 @@
                                 </button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth setRateCode-add"
-                                        role="button" >{{i18nLang.program.PMS0810230.edit}}
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" @click="editRow">{{i18nLang.program.PMS0810230.edit}}
                                 </button>
                             </li>
                         </ul>
