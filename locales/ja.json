@@ -102,6 +102,37 @@
       "sat_nam": "六",
       "allDay_nam": "全部"
     },
+    "PMS0810230": {
+      "roomTyp": "房型(日)",
+      "limitSet": "限制設定(日)",
+      "promoteSet": "促銷設定(日)",
+      "save": "儲存(日)",
+      "add": "新增(日)",
+      "delete": "刪除(日)",
+      "edit": "編輯(日)",
+      "useTime": "使用期間(日)",
+      "priceTrial": "房價試算(日)",
+      "rateList": "期間一覽表(日)",
+      "depRate": "Dep. Rate(日)",
+      "baseRate": "Base Rate(日)",
+      "addPol": "加人加價(日)",
+      "leave": "離開(日)",
+      "timeRule": "日期規則(日)",
+      "evertDay": "每一天(日)",
+      "holiday": "依假日類別(日)",
+      "week": "依星期別(日)",
+      "from": "從(日)",
+      "to": "到(日)",
+      "OK": "確定(日)",
+      "cancel": "取消(日)",
+      "sunday": "星期日(日)",
+      "monday": "星期一(日)",
+      "tuesday": "星期二(日)",
+      "wednesday": "星期三(日)",
+      "thursday": "星期四(日)",
+      "friday": "星期五(日)",
+      "saturday": "星期六(日)"
+    },
     "PMS0820030": {
       "load_default_color": "讀取預設顏色(日)",
       "copy_color": "複製顏色(日)",
@@ -517,6 +548,10 @@
     "role_rmk": "職稱(日)",
     "tel_nos": "電話(日)",
     "business_cod": "行業代號(日)",
-    "business_rmk": "行業名稱(日)"
+    "business_rmk": "行業名稱(日)",
+    "guest_typ": "市場類別(日)",
+    "guest_sna": "簡稱(日)",
+    "guest_nam": "名稱(日)"
+
   }
 }

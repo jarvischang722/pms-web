@@ -21,4 +21,15 @@
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
     </dao>
+
+    <!--[PMS0810230 rateCode] 訂房來源 下拉資料-->
+    <dao name="SEL_SOURCE_TYP">
+        <statement><![CDATA[
+            select source_typ value,source_nam display
+            from source_rf
+            where athena_id = :athena_id
+            order by source_typ
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
 </root>

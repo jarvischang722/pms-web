@@ -1022,6 +1022,52 @@ exports.getHfdarriverfday = function () {
 };
 
 /**
+ * PMS0810230 設定類別下拉資料
+ * @returns {[null,null,null]}
+ */
+exports.getRateProp = function(){
+    let la_optionList = [
+        {
+            display: "一般",
+            value: "GR"
+        },
+        {
+            display: "HOUSE USE",
+            value: "HU"
+        },
+        {
+            display: "COMPLIMENT",
+            value: "CMP"
+        }
+
+    ];
+    return la_optionList;
+};
+
+/**
+ * PMS0810230 屬性下拉資料
+ * @returns {[null,null,null]}
+ */
+exports.getBaserateFlag = function(){
+    let la_optionList = [
+        {
+            display: "ID",
+            value: "INDEPEND"
+        },
+        {
+            display: "BS",
+            value: "BASE"
+        },
+        {
+            display: "DP",
+            value: "DEPEND"
+        }
+
+    ];
+    return la_optionList;
+};
+
+/**
  * PMS0830110 平板作業區域設定
  * 搜尋AreapntSta下拉資料
  * @returns {[*,*]}
@@ -1590,6 +1636,27 @@ exports.lang_PsvisitdtVisitsta = function (params, callback) {
     callback(null, lo_result);
 };
 
+/**
+ * rate cod(PMS0810230)取得設定分類下拉資料
+ * @param params
+ * @param callback
+ */
+exports.lang_rate_prop = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getRateProp();
+    callback(null, lo_result);
+};
+
+/**
+ * rate cod(PMS0810230)取得屬性下拉資料
+ * @param params
+ * @param callback
+ */
+exports.lang_baserate_flag = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getBaserateFlag();
+    callback(null, lo_result);
+};
 
 /**
  * 房間特色設定(PMS0820010)取得系統預設下拉選項
@@ -1636,6 +1703,7 @@ exports.chkHfdorderconfirmrfContent = function (params, callback) {
     lo_result.selectOptions = optionsLib.getOrderConfirmRf();
     callback(null, lo_result);
 };
+
 
 /**
  * [PMS0820050_櫃檯備品庫存設定] 退房提醒

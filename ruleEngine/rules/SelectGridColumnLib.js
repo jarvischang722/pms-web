@@ -368,3 +368,37 @@ exports.sel_atten_nam = function (session, callback) {
     };
     callback(null, lo_result);
 };
+
+/**
+ * 欄位市場類別
+ * @param session
+ * @param callback
+ */
+exports.sel_guest_typ_column = function (session, callback) {
+    let lo_result = {
+        columns: [
+            {
+                field: "guest_typ",
+                title: commandRules.getColumnByNam("guest_typ", session.locale),
+                width: 100
+            },
+            {
+                field: "guest_sna",
+                title: commandRules.getColumnByNam("guest_sna", session.locale),
+                width: 100
+            },
+            {
+                field: "guest_nam",
+                title: commandRules.getColumnByNam("guest_nam", session.locale),
+                width: 100
+            },
+            {
+                field: "guest_display",
+                hidden: true
+            }
+        ],
+        display: "guest_display",
+        value: "guest_typ"
+    };
+    callback(null, lo_result);
+};

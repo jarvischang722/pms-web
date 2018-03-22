@@ -14,10 +14,10 @@ exports.getReservationRoomType = function (req, res) {
 };
 
 /**
- * setUp 房價設定(靜態)
+ * setup 房價設定(靜態)
  */
 exports.getSetRateCode = function (req, res) {
-    res.render("subsystem/reservation//setRateCode");
+    res.render("subsystem/setup/specialTmp/PMS0810230", {prg_id: "PMS0810230"});
 };
 
 /**

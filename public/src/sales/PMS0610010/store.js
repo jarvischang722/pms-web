@@ -54,13 +54,13 @@ const mutations = {
     setRsSingleData(state, payload) {
         state.go_allData.go_rsSingleData = payload.go_rsSingleData;
         state.go_allOriData.go_rsSingleData = payload.go_rsOriSingleData;
-    },
-    //設定相關人員資料
+    },//設定相關人員資料
     setRpDataGridRowsData(state, payload) {
         state.go_allData.ga_rpDataGridRowsData = payload.ga_rpDataGridRowsData;
         state.go_allOriData.ga_rpDataGridRowsData = payload.ga_rpOriDataGridRowsData;
         state.go_rpTmpCUD = payload.go_rpTmpCUD;
     },
+
     //設定合約內容資料
     setCcDataGridRowsData(state, payload) {
         state.go_allData.ga_ccDataGridRowsData = payload.ga_ccDataGridRowsData;
