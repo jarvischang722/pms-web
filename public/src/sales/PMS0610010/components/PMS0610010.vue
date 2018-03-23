@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div v-loading="isLoading" element-loading-text="Loading...">
+    <div v-loading="isLoading" element-loading-text="Loading...">
+        <div>
             <div class="page-header"></div><!-- /.page-header -->
             <!-- 商務公司(Accounts) Page-->
             <div class="pageMain">
@@ -300,6 +300,7 @@
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
+
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
     DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     };

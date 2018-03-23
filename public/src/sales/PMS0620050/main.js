@@ -64,6 +64,7 @@ Vue.component('single-grid-pms0620050-tmp', {
     watch: {
         rowData: function (val) {
             if (!_.isEmpty(val)) {
+                this.loadingText = "Loading...";
                 this.initData();
                 this.fetchFieldData();
 
@@ -168,10 +169,10 @@ Vue.component('single-grid-pms0620050-tmp', {
 
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 if (result.success) {
+                    result.rowData["avisit_dat"] = _.isNull(self.singleData["avisit_dat"]) ? "" : moment(new Date(self.singleData["avisit_dat"])).format("YYYY/MM/DD");
+                    result.rowData["remark"] = _.isNull(result.rowData["remark"])? "": result.rowData["remark"];
                     self.singleData = result.rowData;
                     self.oriSingleData = _.clone(result.rowData);
-                    self.singleData["avisit_dat"] = _.isNull(self.singleData["avisit_dat"]) ? "" : moment(new Date(self.singleData["avisit_dat"])).format("YYYY/MM/DD");
-                    self.oriSingleData["avisit_dat"] = _.isNull(self.oriSingleData["avisit_dat"]) ? "" : moment(new Date(self.oriSingleData["avisit_dat"])).format("YYYY/MM/DD");
                 } else {
                     console.error(result.errorMsg);
                 }
