@@ -114,7 +114,7 @@
                                                                 <bac-select v-model="data['address_dt.zip_cod']" :data="zipCodSelectData"
                                                                             is-qry-src-before="Y" value-field="value" text-field="display"
                                                                             @update:v-model="val => data['address_dt.zip_cod'] = val"
-                                                                            :default-val="data['address_dt.zip_cod']">
+                                                                            :default-val="data['address_dt.zip_cod']" field="{}">
                                                                 </bac-select>
 
                                                             </td>
