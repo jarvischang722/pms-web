@@ -31,17 +31,19 @@ class saveDataAdapter {
     }
 
     async convertData() {
-        _.each(this.params.createData, function(lo_createData, index){
-            this.params.createData[index] = lo_createData.action = "C";
+        _.each(this.params.createData, (lo_createData, index) => {
+            this.params.createData[index].action = "C";
         });
-        _.each(this.params.updateData, function(lo_updateData, index){
-            this.params.updateData[index] = lo_updateData.action = "U";
+        _.each(this.params.updateData, (lo_updateData, index) => {
+            this.params.updateData[index].action = "U";
         });
-        _.each(this.params.deleteData, function(lo_deleteData, index){
-            this.params.deleteData[index] = lo_deleteData.action = "D";
+        _.each(this.params.deleteData, (lo_deleteData, index) => {
+            this.params.deleteData[index].action = "D";
         });
 
-        console.log(this.params.createData);
+        let la_tmpCud = _.union(this.params.createData, this.params.updateData, this.params.deleteData);
+        let lo_groupByPageId = _.groupBy(la_tmpCud, "page_id");
+        console.log(lo_groupByPageId);
 
         // let lo_createData = _.groupBy(this.params.createData, "page_id");
         // let lo_updateData = _.groupBy(this.params.updateData, "page_id");
