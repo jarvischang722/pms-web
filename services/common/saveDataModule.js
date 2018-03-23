@@ -38,31 +38,7 @@ class saveTemplate {
      * @returns {Promise<*>}
      */
     async chkRuleBeforeSave() {
-        let la_rules = await this.chkRuleIsExist();
-        if (la_rules.length > 0) {
-            return new Promise((resolve, reject) => {
-                dataRuleSvc.doOperationRuleProcBeforeSave(this.lo_postData, this.lo_session, la_rules, (err, chkResult) => {
-                    if (err) {
-                        reject(err);
-                    }
-
-                    if (chkResult.extendExecDataArrSet.length > 0) {
-                        _.each(chkResult.extendExecDataArrSet, function (execData) {
-                            this.lo_saveExecDatas[this.ln_exec_seq] = execData;
-                            this.ln_exec_seq++;
-                        });
-                    }
-
-                    if (!_.isUndefined(chkResult.effectValues)) {
-                        this.lo_postData = _.extend(this.lo_postData, chkResult.effectValues);
-                    }
-                    resolve(this.lo_postData);
-                });
-            })
-        }
-        else {
-            return this.lo_postData;
-        }
+        throw new Error("must implement chkRuleBeforeSave");
     }
 
     /**
@@ -144,7 +120,7 @@ class saveTemplate {
      */
     async execSaveProc() {
         try {
-            await this.chkRuleIsExist();
+            await this.chkRuleBeforeSave();
             await this.saveFormatAdapter();
             let lo_result = await this.callApi();
             return lo_result;
@@ -152,7 +128,6 @@ class saveTemplate {
         catch (err) {
             throw err;
         }
-
     }
 
     /**
@@ -172,9 +147,38 @@ class saveTemplate {
 }
 
 /**
- * 作業新儲存流程格式
+ * 作業(新)儲存流程格式
  */
 class newSaveDataProc extends saveTemplate {
+
+    /**
+     * 儲存前規則檢查
+     * @returns {Promise<*>}
+     */
+    async chkRuleBeforeSave() {
+        let la_rules = await this.chkRuleIsExist();
+        if (la_rules.length > 0) {
+            return new Promise((resolve, reject) => {
+                dataRuleSvc.doOperationRuleProcBeforeSave(this.lo_postData, this.lo_session, la_rules, (err, chkResult) => {
+                    if (err) {
+                        reject(err);
+                    }
+
+                    if (chkResult.extendExecDataArrSet.length > 0) {
+                        this.lo_postData = _.extend(this.lo_postData, chkResult.extendExecDataArrSet[0]);
+                    }
+
+                    if (!_.isUndefined(chkResult.effectValues)) {
+                        this.lo_postData = _.extend(this.lo_postData, chkResult.effectValues);
+                    }
+                    resolve(this.lo_postData);
+                });
+            })
+        }
+        else {
+            return this.lo_postData;
+        }
+    }
 
     /**
      * 作業儲存轉接器 tmpCUD 轉 API格式
@@ -207,9 +211,41 @@ class newSaveDataProc extends saveTemplate {
 }
 
 /**
- * 作業舊儲存流程、格式
+ * 作業(舊)儲存流程、格式
  */
 class oldSaveDataProc extends saveTemplate {
+
+    /**
+     * 儲存前規則檢查
+     * @returns {Promise<*>}
+     */
+    async chkRuleBeforeSave() {
+        let la_rules = await this.chkRuleIsExist();
+        if (la_rules.length > 0) {
+            return new Promise((resolve, reject) => {
+                dataRuleSvc.doOperationRuleProcBeforeSave(this.lo_postData, this.lo_session, la_rules, (err, chkResult) => {
+                    if (err) {
+                        reject(err);
+                    }
+
+                    if (chkResult.extendExecDataArrSet.length > 0) {
+                        _.each(chkResult.extendExecDataArrSet, function (execData) {
+                            this.lo_saveExecDatas[this.ln_exec_seq] = execData;
+                            this.ln_exec_seq++;
+                        });
+                    }
+
+                    if (!_.isUndefined(chkResult.effectValues)) {
+                        this.lo_postData = _.extend(this.lo_postData, chkResult.effectValues);
+                    }
+                    resolve(this.lo_postData);
+                });
+            })
+        }
+        else {
+            return this.lo_postData;
+        }
+    }
 
     /**
      * 作業儲存轉接器 tmpCUD 轉 API格式

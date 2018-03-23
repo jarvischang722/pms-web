@@ -159,8 +159,7 @@ async function qryFieldData(rfData, tmpIdType, params, session) {
         if (tmpIdType.template_id == "datagrid" || tmpIdType.template_id == "mn-dt" || tmpIdType.template_id == "special") {
             return await mongoAgent.UIDatagridField.find({
                 prg_id: params.prg_id,
-                page_id: params.page_id,
-                user_id: session.user.usr_id
+                page_id: params.page_id
             }).exec().then(la_dgFieldsData => {
                 return commonTools.mongoDocToObject(la_dgFieldsData);
             }).catch(err => {
