@@ -2370,7 +2370,7 @@
                         <div id="csRmCode-table" class="vue-easytb-ht" style="width: 100%;">
                             <template>
                                 <v-table is-horizontal-resize
-                                         style="width: 100%" :height="200"
+                                         style="width: 100%" :height="290"
                                          :columns="columns" :table-data="tableData"
                                          row-hover-color="#eee" row-click-color="#edf7ff"
                                          :select-all="selectALL"
@@ -2783,6 +2783,7 @@
                     resizable: true
                 });
 
+
                 // 房型代號-表格
                 let csRmCode_table = new Vue({
                     el: "#csRmCode-table",
@@ -2846,37 +2847,36 @@
                         ],
                         columns: [
                             {
-                                width: 60,
+                                width: 30,
                                 titleAlign: 'center',
                                 columnAlign: 'center',
                                 type: 'selection',
-                                isResize: true,
-                                titleCellClassName: 'easytb-ht-title'
+                                isResize: true
                             },
                             {
                                 field: 'rmCode',
-                                title: '房型代號',
-                                width: 90,
-                                titleAlign: 'center',
-                                columnAlign: 'center',
+                                title: '房型',
+                                width: 150,
+                                titleAlign: 'left',
+                                columnAlign: 'left',
                                 isResize: true,
                                 titleCellClassName: 'easytb-ht-title'
                             },
                             {
                                 field: 'rmName',
-                                title: '房型名稱',
-                                width: 90,
-                                titleAlign: 'center',
-                                columnAlign: 'center',
+                                title: '簡稱',
+                                width: 150,
+                                titleAlign: 'left',
+                                columnAlign: 'left',
                                 isResize: true,
                                 titleCellClassName: 'easytb-ht-title'
                             },
                             {
                                 field: 'rmAnother',
-                                title: '房型別名',
-                                width: 90,
-                                titleAlign: 'center',
-                                columnAlign: 'center',
+                                title: '別名',
+                                width: 150,
+                                titleAlign: 'left',
+                                columnAlign: 'left',
                                 isResize: true,
                                 titleCellClassName: 'easytb-ht-title'
                             },
