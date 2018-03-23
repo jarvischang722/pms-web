@@ -64,29 +64,6 @@
 <script>
     import moment from 'moment';
 
-    // 自定义列组件
-    Vue.component('table-operation', {
-        template: '<span class="column-cell-class-delete" @click.stop.prevent="deleteRow(rowData,index)">▬</span>',
-        props: {
-            rowData: {
-                type: Object
-            },
-            field: {
-                type: String
-            },
-            index: {
-                type: Number
-            }
-        },
-        methods: {
-            deleteRow() {
-                // 参数根据业务场景随意构造
-                let params = {type: 'delete', index: this.index};
-                this.$emit('on-custom-comp', params);
-            }
-        }
-    });
-
     export default {
         name: 'useTime',
         props: ["rowData", "isUseTime"],
@@ -172,6 +149,7 @@
                         this.fetchData();
                     }
                     else {
+                        this.tmpCUD = this.$store.state.go_utTmpCUD;
                         this.fieldsData = this.$store.state.ga_utFieldsData;
                         this.dataGridRowsData = this.$store.state.go_allData.ga_utDataGridRowsData;
                         this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_utDataGridRowsData;
@@ -187,12 +165,6 @@
                 this.oriDataGridRowsData = [];
                 this.useTimeColumns = [];
                 this.useTimeData = [];
-                this.tmpCUD = {
-                    createData: [],
-                    updateData: [],
-                    deleteData: [],
-                    oriData: []
-                }
             },
             //取使用期間欄位、多筆資料
             fetchData() {
@@ -337,6 +309,11 @@
                 this.timeRuleData = _.extend(rowData, this.dataGridRowsData[rowIndex]);
             },
             customCompFunc(params) {
+                //將此筆被刪除的使用期間資料傳給房型資料
+                this.$eventHub.$emit('getDeleteUseTimeData', {
+                    delUseTimeData: JSON.parse(JSON.stringify(this.dataGridRowsData[params.index]))
+                });
+
                 //此筆為剛新增的
                 let ln_createIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: this.dataGridRowsData[params.index].supply_nos});
                 let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: this.dataGridRowsData[params.index].supply_nos});
@@ -355,6 +332,14 @@
                 //此筆為直接刪除的
                 this.$delete(this.useTimeData, params.index);
                 this.dataGridRowsData.splice(params.index, 1);
+
+                //將資料放入Vuex
+                this.$store.dispatch("setUseTimeData", {
+                    ga_utFieldsData: this.fieldsData,
+                    ga_utDataGridRowsData: this.dataGridRowsData,
+                    ga_utOriDataGridRowsData: this.oriDataGridRowsData,
+                    go_utTmpCUD: this.tmpCUD
+                });
             },
             appendRow(title, field) {
                 if (field == "control") {

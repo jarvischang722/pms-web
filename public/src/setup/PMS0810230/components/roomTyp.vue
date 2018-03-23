@@ -32,7 +32,6 @@
                 </v-table>
             </div>
         </div>
-        <button @click="test">TEST</button>
         <div class="clearfix"></div>
     </div>
 </template>
@@ -41,30 +40,6 @@
     import {VTable} from 'vue-easytable';
     import 'vue-easytable/libs/themes-base/index.css';
     import moment from 'moment';
-
-    Vue.component('table-operation', {
-        template: '<span class="column-cell-class-delete" @click.stop.prevent="deleteRow(rowData,index)">▬</span>',
-        props: {
-            rowData: {
-                type: Object
-            },
-            field: {
-                type: String
-            },
-            index: {
-                type: Number
-            }
-        },
-        methods: {
-            deleteRow() {
-
-                // 参数根据业务场景随意构造
-                let params = {type: 'delete', index: this.index};
-                this.$emit('on-custom-comp', params);
-
-            }
-        }
-    });
 
     export default {
         name: 'roomTyp',
@@ -76,6 +51,9 @@
                 if (this.roomTypRowsData.length > 0) {
                     this.roomTypRowClick(0, this.roomTypRowsData[0].room_cod, this.roomTypColumns);
                 }
+            });
+            this.$eventHub.$on("getDeleteUseTimeData", (data) => {
+                this.deleteUseTimeData(data.delUseTimeData);
             });
         },
         mounted() {
@@ -89,19 +67,21 @@
                 roomTypDetailFieldsData: [],
                 roomTypDetailRowsData: [],
                 oriRoomTypDetailRowsData: [],
+                tmpCUD: {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                },
                 //v-table 顯示時所需資料(轉換過)
                 roomTypColumns: [],
                 roomTypData: [],
                 roomTypDetailColumns: [],
                 roomTypDetailData: [],
                 errorContent: "",
+                //使用期間資料
                 useTimeData: [], //使用期間資料
-                tmpCUD: {
-                    createData: [],
-                    updateData: [],
-                    deleteData: [],
-                    oriData: []
-                }
+                delUseTimeData: {} //被刪除的使用期間
             }
         },
         watch: {
@@ -137,7 +117,7 @@
                         //修改房型資料
                         else {
                             //刪除暫存重複的資料,再新增新資料
-                            if(ln_tmpCUDUpdateIdx > -1){
+                            if (ln_tmpCUDUpdateIdx > -1) {
                                 this.tmpCUD.updateData.splice(ln_tmpCUDUpdateIdx, 1);
                                 this.tmpCUD.oriData.splice(ln_tmpCUDUpdateIdx, 1);
                             }
@@ -147,17 +127,12 @@
                             }
                         }
                     });
-
-                    //刪除房型資料(原本在oracle的資料)
-                    _.each(this.oriRoomTypDetailRowsData, (lo_dataGridRowsData, idx) => {
-                        if (!_.isUndefined(lo_dataGridRowsData)) {
-                            let ln_delIndex = _.findIndex(val, {supply_nos: lo_dataGridRowsData.supply_nos});
-                            if (ln_delIndex == -1) {
-                                this.tmpCUD.deleteData.push(val);
-                            }
-                        }
-                    });
-                    console.log(val, oldVal);
+                },
+                deep: true
+            },
+            tmpCUD: {
+                handler(val){
+                    console.log(val);
                 },
                 deep: true
             }
@@ -276,6 +251,41 @@
                     this.showRoomTypDetailTable("");
                 }
             },
+            //使用期間資料被刪除
+            deleteUseTimeData(deleteUseTime) {
+                let self = this;
+                let ln_delIndex = -1;
+                //刪除房型資料(原本在oracle的資料)
+                ln_delIndex = _.findIndex(this.oriRoomTypDetailRowsData, {supply_nos: deleteUseTime.supply_nos});
+                if (ln_delIndex > -1) {
+                    this.tmpCUD.deleteData.push(this.oriRoomTypDetailRowsData[ln_delIndex]);
+                }
+                //刪除房型資料(頁面上顯示)
+                let la_delete = _.where(this.roomTypDetailRowsData, {supply_nos: deleteUseTime.supply_nos});
+                _.each(la_delete, lo_delete => {
+                    ln_delIndex = _.findIndex(this.roomTypDetailRowsData, {supply_nos: lo_delete.supply_nos});
+                    if (ln_delIndex  > -1) {
+                        this.roomTypDetailRowsData.splice(ln_delIndex, 1);
+                    }
+                });
+
+                //刪除在暫存的資料
+                la_delete = _.where(this.tmpCUD.createData, {supply_nos: deleteUseTime.supply_nos});
+                _.each(la_delete, (lo_delete) => {
+                    ln_delIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: lo_delete.supply_nos});
+                    if (ln_delIndex  > -1) {
+                        this.tmpCUD.createData.splice(ln_delIndex, 1);
+                    }
+                });
+                la_delete = _.where(this.tmpCUD.updateData, {supply_nos: deleteUseTime.supply_nos});
+                _.each(la_delete, (lo_delete) => {
+                    ln_delIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_delete.supply_nos});
+                    if (ln_delIndex  > -1) {
+                        this.tmpCUD.updateData.splice(ln_delIndex, 1);
+                        this.tmpCUD.oriData.splice(ln_delIndex, 1);
+                    }
+                });
+            },
             showRoomTypDetailTable(room_cod) {
                 this.roomTypDetailData = [];
                 this.roomTypDetailColumns = [
@@ -348,15 +358,6 @@
                                 "ratesupply_dt.between_dat": ls_betweenDat,
                                 "ratesupply_dt.command_option": lo_useTimeData.command_option
                             });
-                        }
-                    });
-                    //使用期間被刪除
-                    _.each(this.roomTypDetailRowsData, (lo_dataGridRowsData, idx) => {
-                        if (!_.isUndefined(lo_dataGridRowsData)) {
-                            let ln_delIndex = _.findIndex(this.useTimeData, {supply_nos: lo_dataGridRowsData.supply_nos});
-                            if (ln_delIndex == -1) {
-                                this.roomTypDetailRowsData.splice(idx, 1);
-                            }
                         }
                     });
                 }
@@ -441,7 +442,11 @@
                 }
             },
             customCompFunc(params) {
+                console.log(params);
                 this.$delete(this.roomTypData, params.index);
+                if(this.roomTypData.length == 0){
+                    this.roomTypDetailData = [];
+                }
             },
             roomTypCellEditDone(newValue, oldValue, rowIndex, rowData, field) {
                 this.roomTypData[rowIndex][field] = newValue;
@@ -467,9 +472,6 @@
                     rowData = rowData.roomCode;
                 }
                 this.showRoomTypDetailTable(rowData);
-            },
-            test() {
-                console.log(this.tmpCUD);
             }
         }
     }
