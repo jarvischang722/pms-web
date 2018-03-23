@@ -111,7 +111,8 @@
                 }
             },
             roomTypDetailRowsData: {
-                handler(val) {
+                handler(val, oldVal) {
+                    //新增、修改房型資料
                     _.each(val, (lo_val, idx) => {
                         let ln_oriDgCreateIdx = _.findIndex(this.oriRoomTypDetailRowsData, {
                             supply_nos: lo_val.supply_nos,
@@ -121,7 +122,7 @@
                             supply_nos: lo_val.supply_nos,
                             room_cod: lo_val.room_cod
                         });
-                        let ln_tnpCUDUpdateIdx = _.findIndex(this.tmpCUD.updateData, {
+                        let ln_tmpCUDUpdateIdx = _.findIndex(this.tmpCUD.updateData, {
                             supply_nos: lo_val.supply_nos,
                             room_cod: lo_val.room_cod
                         });
@@ -136,9 +137,9 @@
                         //修改房型資料
                         else {
                             //刪除暫存重複的資料,再新增新資料
-                            if(ln_tnpCUDUpdateIdx > -1){
-                                this.tmpCUD.updateData.splice(ln_tnpCUDUpdateIdx, 1);
-                                this.tmpCUD.oriData.splice(ln_tnpCUDUpdateIdx, 1);
+                            if(ln_tmpCUDUpdateIdx > -1){
+                                this.tmpCUD.updateData.splice(ln_tmpCUDUpdateIdx, 1);
+                                this.tmpCUD.oriData.splice(ln_tmpCUDUpdateIdx, 1);
                             }
                             if (JSON.stringify(lo_val) != JSON.stringify(this.oriRoomTypDetailRowsData[idx])) {
                                 this.tmpCUD.updateData.push(lo_val);
@@ -147,7 +148,16 @@
                         }
                     });
 
-                    //刪除房型資料
+                    //刪除房型資料(原本在oracle的資料)
+                    _.each(this.oriRoomTypDetailRowsData, (lo_dataGridRowsData, idx) => {
+                        if (!_.isUndefined(lo_dataGridRowsData)) {
+                            let ln_delIndex = _.findIndex(val, {supply_nos: lo_dataGridRowsData.supply_nos});
+                            if (ln_delIndex == -1) {
+                                this.tmpCUD.deleteData.push(val);
+                            }
+                        }
+                    });
+                    console.log(val, oldVal);
                 },
                 deep: true
             }

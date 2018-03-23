@@ -57,7 +57,7 @@
                                                         v-model="singleData[field.ui_field_name]" :data="field.selectData"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                        :default-val="singleData[field.ui_field_name]"
+                                                        :default-val="singleData[field.ui_field_name]" :field="field"
                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                         @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">

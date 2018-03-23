@@ -209,7 +209,7 @@
 
 <script>
     import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
-    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
+//    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
     let gs_prgId = "PMS0810230";
 
@@ -271,7 +271,6 @@
             this.loadDataGridByPrgID();
         },
         components: {
-            ElDialog,
             pms0810230SingleGrid
         },
         data() {
