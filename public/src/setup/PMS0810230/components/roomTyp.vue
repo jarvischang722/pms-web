@@ -1,5 +1,6 @@
 <template>
     <div class="row">
+        <!--房型-->
         <div class="roomCodeTable pull-left width-15">
             <div>
                 <v-table
@@ -18,6 +19,8 @@
                 </v-table>
             </div>
         </div>
+        <!--房型-->
+        <!--房型明細-->
         <div class="roomCodeDetail  pull-left width-85">
             <div>
                 <v-table
@@ -32,6 +35,35 @@
                 </v-table>
             </div>
         </div>
+        <!--房型明細-->
+        <!-- 選擇房型代號 彈出視窗 -->
+        <div id="rateCode_csRmCode-page" class="hide padding-5" style="top: 20px;">
+            <div class="businessCompanyData">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row">
+                        <div class="easyui-panel">
+                            <!--TODO 移動dialog大小 跑版-->
+                            <div id="csRmCode-table" class="vue-easytb-ht" style="width: 100%;">
+                                <template>
+                                    <v-table is-horizontal-resize
+                                             style="width: 100%" :height="200"
+                                             :columns="roomTypSelectColumns" :table-data="roomTypSelectData"
+                                             row-hover-color="#eee" row-click-color="#edf7ff"
+                                             :select-all="selectALL"
+                                             :column-cell-class-name="columnCellClass"
+                                             :select-change="selectChange"
+                                             :select-group-change="selectGroupChange">
+                                    </v-table>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- /.選擇房型 彈出視窗 -->
         <div class="clearfix"></div>
     </div>
 </template>
@@ -57,6 +89,7 @@
             });
         },
         mounted() {
+            this.fetchRoomTypSelectData();
         },
         data() {
             return {
@@ -78,6 +111,8 @@
                 roomTypData: [],
                 roomTypDetailColumns: [],
                 roomTypDetailData: [],
+                roomTypSelectColumns: [],
+                roomTypSelectData: [],
                 errorContent: "",
                 //使用期間資料
                 useTimeData: [], //使用期間資料
@@ -131,7 +166,7 @@
                 deep: true
             },
             tmpCUD: {
-                handler(val){
+                handler(val) {
                     console.log(val);
                 },
                 deep: true
@@ -149,6 +184,47 @@
                 this.roomTypData = [];
                 this.roomTypDetailColumns = [];
                 this.roomTypDetailData = [];
+            },
+            fetchRoomTypSelectData() {
+                $.post('/api/chkFieldRule', {rule_func_name: 'get_room_typ_select'}, (result) => {
+                    this.roomTypSelectColumns = [
+                        {
+                            width: 60,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            type: 'selection',
+                            isResize: true,
+                            titleCellClassName: 'easytb-ht-title'
+                        },
+                        {
+                            field: 'rmCode',
+                            title: '房型代號',
+                            width: 90,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                            titleCellClassName: 'easytb-ht-title'
+                        },
+                        {
+                            field: 'rmName',
+                            title: '房型名稱',
+                            width: 90,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                            titleCellClassName: 'easytb-ht-title'
+                        },
+                        {
+                            field: 'rmAnother',
+                            title: '房型別名',
+                            width: 90,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                            titleCellClassName: 'easytb-ht-title'
+                        }
+                        ]
+                });
             },
             fetchRoomTypLeftData() {
                 this.initData();
@@ -264,7 +340,7 @@
                 let la_delete = _.where(this.roomTypDetailRowsData, {supply_nos: deleteUseTime.supply_nos});
                 _.each(la_delete, lo_delete => {
                     ln_delIndex = _.findIndex(this.roomTypDetailRowsData, {supply_nos: lo_delete.supply_nos});
-                    if (ln_delIndex  > -1) {
+                    if (ln_delIndex > -1) {
                         this.roomTypDetailRowsData.splice(ln_delIndex, 1);
                     }
                 });
@@ -273,14 +349,14 @@
                 la_delete = _.where(this.tmpCUD.createData, {supply_nos: deleteUseTime.supply_nos});
                 _.each(la_delete, (lo_delete) => {
                     ln_delIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: lo_delete.supply_nos});
-                    if (ln_delIndex  > -1) {
+                    if (ln_delIndex > -1) {
                         this.tmpCUD.createData.splice(ln_delIndex, 1);
                     }
                 });
                 la_delete = _.where(this.tmpCUD.updateData, {supply_nos: deleteUseTime.supply_nos});
                 _.each(la_delete, (lo_delete) => {
                     ln_delIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_delete.supply_nos});
-                    if (ln_delIndex  > -1) {
+                    if (ln_delIndex > -1) {
                         this.tmpCUD.updateData.splice(ln_delIndex, 1);
                         this.tmpCUD.oriData.splice(ln_delIndex, 1);
                     }
@@ -437,14 +513,26 @@
             },
             appendRow(title, field) {
                 if (field == "control") {
-                    this.roomTypRowsData.push({room_cod: ""});
-                    this.roomTypData.push({"roomCode": "dte"});
+                    var dialog = $("#rateCode_csRmCode-page").removeClass('hide').dialog({
+                        modal: true,
+                        title: "選擇房型代號",
+                        title_html: true,
+                        width: 600,
+                        maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                        dialogClass: "test",
+                        resizable: true
+                    });
+//                    this.roomTypRowsData.push({room_cod: ""});
+//                    this.roomTypData.push({"roomCode": "dte"});
                 }
             },
+            //刪除房型
             customCompFunc(params) {
                 console.log(params);
                 this.$delete(this.roomTypData, params.index);
-                if(this.roomTypData.length == 0){
+                if (this.roomTypData.length == 0) {
                     this.roomTypDetailData = [];
                 }
             },
