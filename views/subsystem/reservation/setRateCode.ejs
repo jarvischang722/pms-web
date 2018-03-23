@@ -1,3 +1,6 @@
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
 <div>
     <div class="page-header"></div><!-- /.page-header -->
     <!-- (Rate Code) Page-->
@@ -327,7 +330,7 @@
                             <div class="tabsCon">
                                 <!-------- tabPage -------->
                                 <div class="easyui-tabs easyUi-custom1"
-                                     style="height: 230px; overflow-y: auto;">
+                                     style="height: 200px; overflow-y: auto;">
                                     <div title="房型" class="padding-tabs">
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row">
@@ -1111,7 +1114,8 @@
                                         </div>
 
                                         <div class="space-6"></div>
-                                        <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
+                                        <el-tabs v-model="activeName2" @tab-click="handleClick"
+                                                 :tab-position="tabPosition">
                                             <el-tab-pane label="每天" name="first">
                                                 <div class="ml-5">
                                                     <div class="space-6"></div>
@@ -2581,7 +2585,7 @@
                         return {
                             activeName2: 'first',
 
-//                tabPosition: 'left',
+                            tabPosition: 'left',
                             pickerOptions1: {
                                 disabledDate(time) {
                                     return time.getTime() > Date.now();
@@ -2613,7 +2617,6 @@
                     },
                     methods: {
                         handleClick(tab, event) {
-                            console.log(tab, event);
                         }
                     }
                 };
@@ -3171,4 +3174,21 @@
             color: #f24;
             cursor: pointer;
         }
+
+        /*0322 暫時新增 等待Element 更新 */
+        #rateCode-timeRule .el-input__icon {
+            top: -7px;
+            right: -22px;
+        }
+        #rateCode-timeRule .el-tabs__item {
+            height: 30px;
+            padding: 0 10px;
+            line-height: 30px;
+        }
+
+
     </style>
+
+</div>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>

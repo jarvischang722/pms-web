@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!--TODO 下拉無資料-->
+    <!--[PMS0810230 rateCode] 房價分類 下拉資料-->
+    <dao name="SEL_RATE_GRP">
+        <statement><![CDATA[
+            select rate_grp value,rategrp_nam display
+            from RATEGRP_RF
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and use_sta = 'Y'
+            order by view_seq
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+</root>
