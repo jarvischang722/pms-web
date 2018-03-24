@@ -38,7 +38,11 @@
     "company_introduction": "Company Introduction",
     "enterprise_mission": "Enterprise Mission",
     "international_certification": "International Certification",
-    "copyright": "copyright"
+    "copyright": "copyright",
+    "from": "from",
+    "to": "to",
+    "OK": "OK",
+    "cancel": "cancel"
   },
   "program": {
     "PMS0810020": {
@@ -101,6 +105,33 @@
       "fri_nam": "Fri",
       "sat_nam": "Sat",
       "allDay_nam": "All"
+    },
+    "PMS0810230": {
+      "roomTyp": "房型(英文)",
+      "limitSet": "限制設定(英文)",
+      "promoteSet": "促銷設定(英文)",
+      "save": "Save",
+      "add": "Add",
+      "delete": "Delete",
+      "edit": "Edit",
+      "useTime": "使用期間(英文)",
+      "priceTrial": "房價試算(英文)",
+      "rateList": "期間一覽表(英文)",
+      "depRate": "Dep. Rate",
+      "baseRate": "Base Rate",
+      "addPol": "加人加價(英文)",
+      "leave": "離開(英文)",
+      "timeRule": "日期規則(英文)",
+      "evertDay": "每一天(英文)",
+      "holiday": "依假日類別(英文)",
+      "week": "依星期別(英文)",
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday"
     },
     "PMS0820030": {
       "load_default_color": "Load default color",

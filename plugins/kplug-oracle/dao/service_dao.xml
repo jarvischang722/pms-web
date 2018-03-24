@@ -81,8 +81,10 @@
         <sql-source base="true" comment="test" key="test" path="dao_psi_quote_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_psi_quote_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_psi_quote_rf_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ratecod_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ratecod_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rategrp_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ratesupply_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_typ_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_room_cod_order.xml"/>

@@ -1,8 +1,10 @@
 <div>
-    <div class="page-header"></div><!-- /.page-header -->
+    <div class="page-header"></div>
+    <!-- /.page-header -->
     <!-- (Rate Code) Page-->
-    <div class="pageMain" id="PMS0810230App"></div>
-    <script src="/js/setUp/PMS0810230_setup.js"></script>
+    <div class="pageMain" id="PMS0810230App">
+    </div>
+    <script src="/js/setup/PMS0810230_setup.js"></script>
 
     <!-- rate code(NOR) 彈出視窗 -->
     <div id="setRateCode-add-page" class="hide padding-5" style="top: 0 !important;">
@@ -653,6 +655,11 @@
                                                 role="button">離開
                                         </button>
                                     </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_csRmCode"
+                                                role="button">房型代號
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -1271,70 +1278,6 @@
     </div>
     <!-- /.rateCode_baseDate 彈出視窗 -->
 
-    <!-- rateCode_addPpl 彈出視窗 -->
-    <div id="rateCode_addPpl-page" class="hide padding-5" style="top: 50px;">
-        <div class="businessCompanyData">
-            <div class="col-xs-12 col-sm-12">
-
-                <div class="row">
-
-                    <div class="col-xs-11 col-sm-11">
-                        <div class="row no-margin-right">
-                            <div id="addPpl-choice" class="roomCodeTable pull-left width-15">
-                                <template>
-                                    <div>
-                                        <v-table
-                                                is-horizontal-resize
-                                                style="width: 100%;"
-                                                :height="150"
-                                                :columns="columns"
-                                                :table-data="tableData"
-                                                :column-cell-class-name="columnCellClass"
-                                                row-hover-color="#eee"
-                                                row-click-color="#edf7ff">
-                                        </v-table>
-                                    </div>
-                                </template>
-                            </div>
-
-                            <div id="addPpl-detail" class="roomCodeDetail  pull-left width-85">
-                                <template>
-                                    <div>
-                                        <v-table
-                                                is-horizontal-resize
-                                                style="width: 100%;"
-                                                :height="150"
-                                                :columns="columns"
-                                                :table-data="tableData"
-                                                :column-cell-class-name="columnCellClass"
-                                                row-hover-color="#eee"
-                                                row-click-color="#edf7ff">
-                                        </v-table>
-                                    </div>
-                                </template>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-
-                    </div>
-                    <div class="col-xs-1 col-sm-1">
-                        <div class="row">
-                            <div class="right-menu-co">
-                                <ul>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_rmPriceTotal"
-                                                role="button">房價總額
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.rateCode_addPpl 彈出視窗 -->
-    </div>
     <!-- rateCode_rmPriceTotal 彈出視窗 -->
     <div id="rateCode_rmPriceTotal-page" class="hide padding-5" style="top: 100px;">
         <div class="businessCompanyData">
@@ -1361,6 +1304,7 @@
         </div>
         <!-- /.rateCode_rmPriceTotal 彈出視窗 -->
     </div>
+
     <!-- rateCode_duplicate 彈出視窗 -->
     <div id="rateCode_duplicate-page" class="hide padding-5" style="">
         <div class="businessCompanyData">
@@ -1599,7 +1543,6 @@
     </div>
     <!-- /.resv_rateListTable(房價一覽表) 彈出視窗 -->
 
-    <!--TODO  顏色修改 ＆ 內容過長問題-->
     <!-- 房價試算 (resv_priceTrial) 彈出視窗 -->
     <div id="resv_priceTrial-message" class="hide padding-5">
         <div class="businessCompanyData">
@@ -2190,6 +2133,34 @@
     </div>
     <!-- /.選擇房型 彈出視窗 -->
 
+    <!-- 選擇房型代號 彈出視窗 -->
+    <div id="rateCode_csRmCode-page" class="hide padding-5" style="top: 20px;">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="easyui-panel">
+                        <!--TODO 移動dialog大小 跑版-->
+                        <div id="csRmCode-table" class="vue-easytb-ht" style="width: 100%;">
+                            <template>
+                                <v-table is-horizontal-resize
+                                         style="width: 100%" :height="290"
+                                         :columns="columns" :table-data="tableData"
+                                         row-hover-color="#eee" row-click-color="#edf7ff"
+                                         :select-all="selectALL"
+                                         :column-cell-class-name="columnCellClass"
+                                         :select-change="selectChange"
+                                         :select-group-change="selectGroupChange">
+                                </v-table>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.選擇房型 彈出視窗 -->
 
     <!-- subSystem 共用 js -->
     <%- include ../../common/viewsComJs.ejs %>
@@ -2382,6 +2353,7 @@
                     }
                 }
                 let Ctor2 = Vue.extend(roomCodeDetail)
+
                 new Ctor().$mount('#roomCodeTable-add');
                 new Ctor2().$mount('#roomCodeDetail-add');
             });
@@ -2569,6 +2541,137 @@
                     dialogClass: "test",
                     resizable: true
                 });
+            });
+
+            // 選擇房型代號
+            $(document).on('click', ".rateCode_csRmCode", function (e) {
+                e.preventDefault();
+                var dialog = $("#rateCode_csRmCode-page").removeClass('hide').dialog({
+                    modal: true,
+                    title: "選擇房型代號",
+                    title_html: true,
+                    width: 600,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+
+                // 房型代號-表格
+                let csRmCode_table = new Vue({
+                    el: "#csRmCode-table",
+                    data: {
+                        tableData: [
+                            {
+                                "rmCode": "EXT",
+                                "rmName": "豪華行政房",
+                                "rmAnother": "EXECUTIVE D"
+                            },
+                            {
+                                "rmCode": "EXT",
+                                "rmName": "豪華行政雙",
+                                "rmAnother": "EXECUTIVE T"
+                            },
+                            {
+                                "rmCode": "DXK",
+                                "rmName": "豪華客房",
+                                "rmAnother": "DELUXE KING"
+                            },
+                            {
+                                "rmCode": "DXT",
+                                "rmName": "豪華雙人房",
+                                "rmAnother": "DELUXE TWIN"
+                            },
+                            {
+                                "rmCode": "SPR",
+                                "rmName": "精緻客房",
+                                "rmAnother": "SUPERIOR"
+                            },
+                            {
+                                "rmCode": "STD",
+                                "rmName": "標準客房",
+                                "rmAnother": "STANDARD"
+                            },
+                            {
+                                "rmCode": "SSPR",
+                                "rmName": "無敵海景房",
+                                "rmAnother": "無敵海景房"
+                            },
+                            {
+                                "rmCode": "DFQ",
+                                "rmName": "豪華家庭房",
+                                "rmAnother": ""
+                            },
+                            {
+                                "rmCode": "DXR",
+                                "rmName": "豪華雙人房",
+                                "rmAnother": ""
+                            },
+                            {
+                                "rmCode": "DXU",
+                                "rmName": "豪華客房",
+                                "rmAnother": ""
+                            },
+                            {
+                                "rmCode": "vill",
+                                "rmName": "villa觀月",
+                                "rmAnother": ""
+                            }
+                        ],
+                        columns: [
+                            {
+                                width: 30,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                type: 'selection',
+                                isResize: true
+                            },
+                            {
+                                field: 'rmCode',
+                                title: '房型',
+                                width: 150,
+                                titleAlign: 'left',
+                                columnAlign: 'left',
+                                isResize: true,
+                                titleCellClassName: 'easytb-ht-title'
+                            },
+                            {
+                                field: 'rmName',
+                                title: '簡稱',
+                                width: 150,
+                                titleAlign: 'left',
+                                columnAlign: 'left',
+                                isResize: true,
+                                titleCellClassName: 'easytb-ht-title'
+                            },
+                            {
+                                field: 'rmAnother',
+                                title: '別名',
+                                width: 150,
+                                titleAlign: 'left',
+                                columnAlign: 'left',
+                                isResize: true,
+                                titleCellClassName: 'easytb-ht-title'
+                            },
+                        ],
+                    },
+                    methods: {
+                        selectALL(selection){
+                        },
+                        selectChange(selection, rowData){
+                        },
+                        selectGroupChange(selection){
+                        },
+                        columnCellClass(rowIndex, columnName, rowData){
+                            // 给第二行设置className
+                            if (rowIndex != -1) {
+                                return 'easytb-ht';
+                            }
+                        }
+                    }
+                })
+
             });
 
             // rateCode_extraAdult

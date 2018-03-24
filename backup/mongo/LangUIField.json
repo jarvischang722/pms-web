@@ -11689,8 +11689,8 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "contract_use", 
-    "ui_display_name_zh_TW" : "客戶使用", 
-    "hint_zh_TW" : "客戶使用", 
+    "ui_display_name_zh_TW" : "合約價 ", 
+    "hint_zh_TW" : "合約價 ", 
     "ui_display_name_en" : "", 
     "hint_en" : ""
 }
@@ -11902,7 +11902,7 @@
     "_id" : ObjectId("5aa8b39a3617376398d8cde1"), 
     "prg_id" : "PMS0810230", 
     "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(11), 
+    "tab_page_id" : NumberInt(12), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ratesupply_dt.between_dat", 
     "ui_display_name_zh_TW" : "使用期間", 
@@ -11914,7 +11914,7 @@
     "_id" : ObjectId("5aa8b39a3617376398d8cde2"), 
     "prg_id" : "PMS0810230", 
     "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(11), 
+    "tab_page_id" : NumberInt(12), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ratesupply_dt.command_option", 
     "ui_display_name_zh_TW" : "日期規則", 
@@ -11926,7 +11926,7 @@
     "_id" : ObjectId("5aa8b39a3617376398d8cde3"), 
     "prg_id" : "PMS0810230", 
     "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(11), 
+    "tab_page_id" : NumberInt(12), 
     "template_id" : "datagrid", 
     "ui_field_name" : "rent_amt", 
     "ui_display_name_zh_TW" : "房價", 
@@ -11938,7 +11938,7 @@
     "_id" : ObjectId("5aa8b39a3617376398d8cde4"), 
     "prg_id" : "PMS0810230", 
     "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(11), 
+    "tab_page_id" : NumberInt(12), 
     "template_id" : "datagrid", 
     "ui_field_name" : "add_adult", 
     "ui_display_name_zh_TW" : "加大人", 
@@ -11950,7 +11950,7 @@
     "_id" : ObjectId("5aa8b39a3617376398d8cde5"), 
     "prg_id" : "PMS0810230", 
     "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(11), 
+    "tab_page_id" : NumberInt(12), 
     "template_id" : "datagrid", 
     "ui_field_name" : "add_child", 
     "ui_display_name_zh_TW" : "加小孩", 
@@ -12131,7 +12131,7 @@
     "prg_id" : "FLW0120010", 
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
-    "ui_field_name" : "suser", 
+    "ui_field_name" : "susername", 
     "ui_display_name_zh_TW" : "申請人", 
     "hint_zh_TW" : "", 
     "ui_display_name_en" : "Applicant", 
@@ -12335,5 +12335,335 @@
     "ui_display_name_zh_TW" : "房價代號", 
     "hint_zh_TW" : "房價代號", 
     "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f37c127b8cd32acc6388"), 
+    "prg_id" : "FLW0120030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sdatetime", 
+    "ui_display_name_zh_TW" : "申請時間", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Date of request", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f393127b8cd32acc6389"), 
+    "prg_id" : "FLW0120030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "susername", 
+    "ui_display_name_zh_TW" : "申請人", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Applicant", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f39e127b8cd32acc638a"), 
+    "prg_id" : "FLW0120030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "formviewid", 
+    "ui_display_name_zh_TW" : "表單編號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Document Number", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f3aa127b8cd32acc638b"), 
+    "prg_id" : "FLW0120030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "header", 
+    "ui_display_name_zh_TW" : "標題", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Title", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f411127b8cd32acc638c"), 
+    "prg_id" : "FLW0120030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ownername", 
+    "ui_display_name_zh_TW" : "待簽核人", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Owner", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f41d127b8cd32acc638d"), 
+    "prg_id" : "FLW0120030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "stage", 
+    "ui_display_name_zh_TW" : "關卡", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Stage", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f427127b8cd32acc638e"), 
+    "prg_id" : "FLW0120030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "stagetime", 
+    "ui_display_name_zh_TW" : "關卡時間", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Stage Time", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f433127b8cd32acc638f"), 
+    "prg_id" : "FLW0120030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "priorityname", 
+    "ui_display_name_zh_TW" : "優先順序", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Priorities", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f442127b8cd32acc6390"), 
+    "prg_id" : "FLW0120030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "formtype", 
+    "ui_display_name_zh_TW" : "表單類別", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Document Type", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f44c127b8cd32acc6391"), 
+    "prg_id" : "FLW0120030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "search", 
+    "ui_display_name_zh_TW" : "關鍵字", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Keyword", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f46e127b8cd32acc6392"), 
+    "prg_id" : "FLW0120030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "comp_cod", 
+    "ui_display_name_zh_TW" : "公司別", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Company", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f482127b8cd32acc6393"), 
+    "prg_id" : "FLW0120040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sdatetime", 
+    "ui_display_name_zh_TW" : "申請時間", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Date of request", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f48c127b8cd32acc6394"), 
+    "prg_id" : "FLW0120040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "formviewid", 
+    "ui_display_name_zh_TW" : "表單編號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Document Number", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f496127b8cd32acc6395"), 
+    "prg_id" : "FLW0120040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "header", 
+    "ui_display_name_zh_TW" : "標題", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Title", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f49f127b8cd32acc6396"), 
+    "prg_id" : "FLW0120040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "stagetime", 
+    "ui_display_name_zh_TW" : "關卡時間", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Stage Time", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f4bf127b8cd32acc6397"), 
+    "prg_id" : "FLW0120040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "action", 
+    "ui_display_name_zh_TW" : "簽核狀態", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Action", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f4ce127b8cd32acc6398"), 
+    "prg_id" : "FLW0120040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "comp_cod", 
+    "ui_display_name_zh_TW" : "公司別", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Company", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f4da127b8cd32acc6399"), 
+    "prg_id" : "FLW0120040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "formtype", 
+    "ui_display_name_zh_TW" : "表單類別", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Document Type", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f4e2127b8cd32acc639a"), 
+    "prg_id" : "FLW0120040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "search", 
+    "ui_display_name_zh_TW" : "關鍵字", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Keyword", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f4fc127b8cd32acc639b"), 
+    "prg_id" : "FLW0120050", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "susername", 
+    "ui_display_name_zh_TW" : "申請人", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Applicant", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f518127b8cd32acc639c"), 
+    "prg_id" : "FLW0120050", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "agentname", 
+    "ui_display_name_zh_TW" : "代理人", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Agent", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f524127b8cd32acc639d"), 
+    "prg_id" : "FLW0120050", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "formviewid", 
+    "ui_display_name_zh_TW" : "表單編號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Document Number", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f52d127b8cd32acc639e"), 
+    "prg_id" : "FLW0120050", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "header", 
+    "ui_display_name_zh_TW" : "標題", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Title", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f538127b8cd32acc639f"), 
+    "prg_id" : "FLW0120050", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "stage", 
+    "ui_display_name_zh_TW" : "關卡", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Stage", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f543127b8cd32acc63a0"), 
+    "prg_id" : "FLW0120050", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "priorityname", 
+    "ui_display_name_zh_TW" : "優先順序", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Priorities", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f54b127b8cd32acc63a1"), 
+    "prg_id" : "FLW0120050", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "comp_cod", 
+    "ui_display_name_zh_TW" : "公司別", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Company", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f555127b8cd32acc63a2"), 
+    "prg_id" : "FLW0120050", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "formtype", 
+    "ui_display_name_zh_TW" : "表單類別", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Document Type", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f55c127b8cd32acc63a3"), 
+    "prg_id" : "FLW0120050", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "search", 
+    "ui_display_name_zh_TW" : "關鍵字", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Keyword", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab1f57d127b8cd32acc63a4"), 
+    "prg_id" : "FLW0120050", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sdatetime", 
+    "ui_display_name_zh_TW" : "申請時間", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Date of request", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ab2006d127b8cd32acc63a6"), 
+    "prg_id" : "FLW0120020", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ownername", 
+    "ui_display_name_zh_TW" : "待簽核人", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Owner", 
     "hint_en" : ""
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+    <!--TODO 下拉無資料-->
     <!--[PMS0810230 rateCode] 房價分類 下拉資料-->
     <dao name="SEL_RATE_GRP">
         <statement><![CDATA[

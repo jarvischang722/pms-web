@@ -23,6 +23,7 @@ function DatagridBaseClass() {
     this.mnRowData = {};
     this.dtOriRowData = [];
 
+    this.dgData = [];
     /**
      * datagrid 初始化
      * @param prg_id {String} : 程式編號
@@ -56,10 +57,12 @@ function DatagridBaseClass() {
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
             onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
+            onBeforeSortColumn: function(sort, order){
+                $('#' + dgName).datagrid("loadData", self.dgData);
+            },
             onSortColumn: this.doSortColumn,
             onSelect: this.onSelect
         }).datagrid('columnMoving');
-
     };
 
 
@@ -80,8 +83,8 @@ function DatagridBaseClass() {
      * @param dataGridRows{Array} : 資料集
      */
     this.loadDgData = function (dataGridRows) {
-        var dgData = {total: dataGridRows.length, rows: dataGridRows};
-        $('#' + this.dgName).datagrid("loadData", dgData);
+        self.dgData = {total: dataGridRows.length, rows: dataGridRows};
+        $('#' + this.dgName).datagrid("loadData", self.dgData);
     };
 
     this.clearSelection = function(){
@@ -89,29 +92,45 @@ function DatagridBaseClass() {
     };
 
     /**
-     * dataGrid 的分頁功能
+     * 有分頁功能的dataGrid 讀資料
      * @param dataGridRows{Array} : 資料集
      * @param pageList{Array} : 一頁顯示多少筆資料的清單
      */
-    this.setPager = function (dataGridRows, pageList) {
+    this.loadPageDgData = function (dataGridRows, pageList) {
+
+        self.dgData = dataGridRows;
+
+        var lo_tempDatas = [];
+        var pageSize = $('#' + self.dgName).datagrid('options').pageSize;
+        var ln_count = self.dgData.length < pageSize ? self.dgData.length : pageSize;
+        for (var i = 0; i < ln_count; i++) {
+            lo_tempDatas.push(dataGridRows[i]);
+        }
+
+        $('#' + this.dgName).datagrid("loadData", lo_tempDatas);
+
         var pager = $('#' + self.dgName).datagrid('getPager');
         pager.pagination({
             total: dataGridRows.length,
-            onSelectPage: function (pageNo, pageSize) {
-                var start = (pageNo - 1) * pageSize;
-                var end = start + pageSize;
-                $('#' + self.dgName).datagrid("loadData", dataGridRows.slice(start, end));
-                pager.pagination('refresh', {
-                    total: dataGridRows.length,
-                    pageNumber: pageNo
-                });
-            },
+            onSelectPage: self.setpage,
             pageNumber: 1,
             pageList: pageList || [10, 20, 50],
             showPageList: true,
             beforePageText: go_i18nLang.SystemCommon.dataGridBeforePageText,
             afterPageText: go_i18nLang.SystemCommon.dataGridAfterPageText,
             displayMsg: go_i18nLang.SystemCommon.dataGridDisplayMsg
+        });
+    };
+
+    this.setpage = function (pageNo) {
+        var pager = $('#' + self.dgName).datagrid("getPager");
+        var pageSize = $('#' + self.dgName).datagrid('options').pageSize;
+        var start = (pageNo - 1) * pageSize;
+        var end = start + pageSize;
+        $('#' + self.dgName).datagrid("loadData", self.dgData.slice(start, end));
+        pager.pagination('refresh', {
+            total: self.dgData.length,
+            pageNumber: pageNo
         });
     };
 
@@ -193,6 +212,7 @@ function DatagridBaseClass() {
      * 排序觸發事件
      */
     this.doSortColumn = function () {
+        self.setpage(1);
     };
 
     /**
