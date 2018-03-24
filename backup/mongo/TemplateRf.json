@@ -1203,7 +1203,7 @@
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
-    "table_name" : "contact_dt", 
+    "table_name" : "contract_dt", 
     "rule_func_name" : "qry_contact_dt", 
     "lock_table" : "", 
     "lock_type" : "", 
@@ -1242,7 +1242,7 @@
     "page_id" : NumberInt(1040), 
     "tab_page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
-    "table_name" : "contract_dt", 
+    "table_name" : "contact_dt", 
     "rule_func_name" : "QRY_CONTRACT_DT_BY_CUST_COD", 
     "lock_table" : "", 
     "lock_type" : "", 
@@ -1257,6 +1257,70 @@
     "template_id" : "datagrid", 
     "table_name" : "address_dt", 
     "rule_func_name" : "QRY_ADDRESS_DT_ADDRESS_BY_CUST_COD", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5aa76a7e3617376398d8cca8"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "special", 
+    "table_name" : "ratecod_mn", 
+    "rule_func_name" : "qry_ratecod_mn_dg", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("5aa8b4903617376398d8ce04"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "table_name" : "ratecod_mn", 
+    "rule_func_name" : "qry_ratecod_mn", 
+    "lock_table" : "ratecod_mn", 
+    "lock_type" : "row", 
+    "hotel_cod" : "hotel_cod", 
+    "lock_key" : "athena_id+hotel_cod+rate_cod"
+}
+{ 
+    "_id" : ObjectId("5aa8b4903617376398d8ce05"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(11), 
+    "template_id" : "datagrid", 
+    "table_name" : "ratecod_dt", 
+    "rule_func_name" : "qry_ratecod_dt_left", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : "從訂房卡開啟【訂房卡開啟不lock 】"
+}
+{ 
+    "_id" : ObjectId("5aa8b4903617376398d8ce06"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(12), 
+    "template_id" : "datagrid", 
+    "table_name" : "ratecod_dt", 
+    "rule_func_name" : "qry_ratecod_dt_right", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5aa8b4903617376398d8ce07"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "ratesupply_dt", 
+    "rule_func_name" : "qry_ratesupply_dt", 
     "lock_table" : "", 
     "lock_type" : "", 
     "hotel_cod" : "", 
