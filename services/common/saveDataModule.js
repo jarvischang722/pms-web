@@ -122,8 +122,8 @@ class saveTemplate {
         try {
             await this.chkRuleBeforeSave();
             await this.saveFormatAdapter();
-            let lo_result = await this.callApi();
-            return lo_result;
+            // let lo_result = await this.callApi();
+            return this.lo_apiFormater;
         }
         catch (err) {
             throw err;
@@ -204,7 +204,7 @@ class newSaveDataProc extends saveTemplate {
         let la_apiField = ["locale", "reve_code", "prg_id", "func_id", "client_ip", "server_ip", "event_time", "mac", "page_data"];
         _.every(la_apiField, ls_apiField => {
             if (_.isUndefined(this.lo_apiFormater[ls_apiField]) || this.lo_apiFormater[ls_apiField].trim() == "") {
-                throw new Error("api format error");
+                throw new Error(`api format error, ${ls_apiField} is not exist`);
             }
         });
     }

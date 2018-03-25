@@ -3,13 +3,13 @@
  * 作業儲存轉接器
  */
 
-let _ = require("underscore");
-let async = require("async");
-let moment = require("moment");
-let mongoAgent = require("../../plugins/mongodb");
-let commonRule = require("../../ruleEngine/rules/CommonRule");
-let commonTools = require("../../utils/CommonTools");
-let langSvc = require("../../services/LangService");
+const _ = require("underscore");
+const moment = require("moment");
+const mongoAgent = require("../../plugins/mongodb");
+const commonRule = require("../../ruleEngine/rules/CommonRule");
+const commonTools = require("../../utils/CommonTools");
+const langSvc = require("../../services/LangService");
+const ruleAgent = require("../../ruleEngine/ruleAgent");
 
 class saveDataAdapter {
     constructor(postData, session) {
@@ -27,17 +27,29 @@ class saveDataAdapter {
     async formating() {
         // let lo_apiFormat = this.apiFormat();
         try {
-            let [la_dgFields, la_gsFields] = await Promise.all([
+            let [la_tmpRf, la_dgFields, la_gsFields] = await Promise.all([
+                this.qryTemplateRf(),
                 this.qryUIDataGridFields(),
                 this.qryUIPageFields()
             ]);
             let {la_dgKeyFields, la_gsKeyFields} = await this.findFieldsCondition(la_dgFields, la_gsFields);
-            this.insertCondIntoTmpCUD(la_dgKeyFields, la_gsKeyFields);
-            await this.formatData();
+            await this.insertCondIntoTmpCUD(la_tmpRf, la_dgKeyFields, la_gsKeyFields);
+            let lo_page_data = await this.formatData();
+            let lo_apiFormat = this.apiFormat();
+            lo_apiFormat.page_data = lo_page_data;
+            return lo_apiFormat;
         }
         catch (err) {
             throw err;
         }
+    }
+
+    async qryTemplateRf() {
+        return await mongoAgent.TemplateRf.find({prg_id: this.params.prg_id}).exec().then(data => {
+            return commonTools.mongoDocToObject(data);
+        }).catch(err => {
+            throw new Error(err);
+        });
     }
 
     async qryUIDataGridFields() {
@@ -62,24 +74,50 @@ class saveDataAdapter {
         return {la_dgKeyFields: la_dgKeyFields, la_gsKeyFields: la_gsKeyFields};
     }
 
-    async insertCondIntoTmpCUD(dgFields, gsFields) {
-        return Promise.all([
-            new Promise((resolve, reject) => {
-                _.each(this.params.createData, lo_createData => {
-                    let la_filterKeyFieldsByPageIdTabPageId = _.where(dgFields, {
-                        page_id: lo_createData.page_id,
-                        tab_page_id: lo_createData.tab_page_id
+    async insertCondIntoTmpCUD(tmpRf, dgKeyFields, gsKeyFields) {
+        return await Promise.all([
+            this.execInsertCond(tmpRf, dgKeyFields, gsKeyFields, "createData"),
+            this.execInsertCond(tmpRf, dgKeyFields, gsKeyFields, "updateData"),
+            this.execInsertCond(tmpRf, dgKeyFields, gsKeyFields, "deleteData")
+        ])
+    }
+
+    async execInsertCond(tmpRf, dgKeyFields, gsKeyFields, dataType) {
+        let la_tmpCudData = this.params[dataType];
+        if (la_tmpCudData.length > 0) {
+            try {
+                _.each(la_tmpCudData, lo_tmpCudData => {
+                    let ls_template_id = _.findWhere(tmpRf, {
+                        page_id: lo_tmpCudData.page_id,
+                        tab_page_id: lo_tmpCudData.tab_page_id
+                    }).template_id;
+
+                    if (ls_template_id.toLocaleLowerCase() == "special") {
+                        let ls_rule_func_name = `${this.params.prg_id}_templateRf`;
+                        ls_template_id = ruleAgent[ls_rule_func_name](lo_tmpCudData.page_id, lo_tmpCudData.tab_page_id);
+                    }
+                    let la_fields = ls_template_id.toLocaleLowerCase() == "datagrid" ? dgKeyFields : gsKeyFields;
+
+                    let la_filterKeyFieldsByPageIdTabPageId = _.where(la_fields, {
+                        page_id: lo_tmpCudData.page_id,
+                        tab_page_id: lo_tmpCudData.tab_page_id
                     });
-                    lo_createData.condition = {};
+                    lo_tmpCudData.condition = {};
                     _.each(la_filterKeyFieldsByPageIdTabPageId, lo_keyField => {
-                        if (!_.isUndefined(lo_createData[lo_keyField.ui_field_name])) {
-                            lo_createData.condition[lo_keyField.ui_field_name] = lo_createData[lo_keyField.ui_field_name];
+                        if (!_.isUndefined(lo_tmpCudData[lo_keyField.ui_field_name])) {
+                            lo_tmpCudData.condition[lo_keyField.ui_field_name] = lo_tmpCudData[lo_keyField.ui_field_name];
                         }
                     });
-                    console.log(lo_createData);
-                })
-            })
-        ])
+                });
+                return {};
+            }
+            catch (err) {
+                throw new Error(err);
+            }
+        }
+        else{
+            return {};
+        }
     }
 
     async formatData() {
