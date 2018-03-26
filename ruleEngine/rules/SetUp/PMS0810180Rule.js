@@ -50,7 +50,7 @@ module.exports = {
                     }).exec(function (err, selRow) {
                         selRow = selRow.toObject();
                         dataRuleSvc.getSelectOptions(params, selRow, field, function (selectData) {
-                            result.effectValues.showDataGrid = selectData;
+                            result.effectValues.showDataGrid = selectData.selectDataDisplay;
                             result.effectValues.updateFieldNameTmp = updateFieldName;
                             result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
                             callback(null, result);
@@ -100,7 +100,7 @@ module.exports = {
                     }).exec(function (err, selRow) {
                         selRow = selRow.toObject();
                         dataRuleSvc.getSelectOptions(params, selRow, field, function (selectData) {
-                            result.effectValues.showDataGrid = selectData;
+                            result.effectValues.showDataGrid = selectData.selectDataDisplay;
                             result.effectValues.updateFieldNameTmp = updateFieldName;
                             result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
                             callback(null, result);

@@ -59,13 +59,5 @@ module.exports = {
             lo_error.errorMsg = err;
         }
         callback(lo_error, lo_result);
-    },
-
-    async getOracleData(rule_func_name, params) {
-        return new Promise((resolve, reject) => {
-            queryAgent.query(rule_func_name, params, function (err, result) {
-
-            });
-        });
     }
 };

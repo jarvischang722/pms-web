@@ -25,7 +25,7 @@
     <!--[PMS0810230 rateCode] 訂房來源 下拉資料-->
     <dao name="SEL_SOURCE_TYP">
         <statement><![CDATA[
-            select source_typ value,source_nam display
+            select source_typ value,source_nam display, use_sta
             from source_rf
             where athena_id = :athena_id
             order by source_typ
