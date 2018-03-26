@@ -95,7 +95,7 @@
                                                     <div class="space-6"></div>
                                                     <bac-select
                                                             v-model="commandHVal" :default-val="commandHVal"
-                                                            @update:v-model="val => commandHVal = val"
+                                                            @update:v-model="val => commandHVal = val" field="{}"
                                                             :data="commandOptionSelectOption.selectData" multiple="true"
                                                             is-qry-src-before="Y" value-field="value" text-field="display">
                                                     </bac-select>

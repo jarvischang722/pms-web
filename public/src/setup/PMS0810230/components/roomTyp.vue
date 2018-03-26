@@ -37,24 +37,44 @@
         </div>
         <!--房型明細-->
         <!-- 選擇房型代號 彈出視窗 -->
-        <div id="rateCode_csRmCode-page" class="hide padding-5" style="top: 20px;">
+        <div id="roomTypSelect_dialog" class="hide padding-5" style="">
             <div class="businessCompanyData">
                 <div class="col-xs-12 col-sm-12">
                     <div class="row">
-                        <div class="easyui-panel">
-                            <!--TODO 移動dialog大小 跑版-->
-                            <div id="csRmCode-table" class="vue-easytb-ht" style="width: 100%;">
-                                <template>
-                                    <v-table is-horizontal-resize
-                                             style="width: 100%" :height="200"
-                                             :columns="roomTypSelectColumns" :table-data="roomTypSelectData"
-                                             row-hover-color="#eee" row-click-color="#edf7ff"
+                        <div class="col-xs-11 col-sm-11">
+                            <div class="row no-margin-right">
+                                <div class="easyui-panel">
+                                    <v-table row-hover-color="#eee"
+                                             row-click-color="#edf7ff"
+                                             :columns="roomTypSelectColumns"
+                                             :table-data="roomTypSelectData"
                                              :select-all="selectALL"
                                              :column-cell-class-name="columnCellClass"
                                              :select-change="selectChange"
-                                             :select-group-change="selectGroupChange">
+                                             :select-group-change="selectGroupChange"
+                                    >
                                     </v-table>
-                                </template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="row">
+                                <div class="right-menu-co">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button" @click="chkRoomTypSelect">
+                                                {{i18nLang.program.PMS0810230.OK}}
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button" @click="closeDialog()">
+                                                {{i18nLang.program.PMS0810230.leave}}
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -93,6 +113,7 @@
         },
         data() {
             return {
+                i18nLang: go_i18nLang,
                 //房型原始資料
                 roomTypFieldsData: [],
                 roomTypRowsData: [],
@@ -113,6 +134,9 @@
                 roomTypDetailData: [],
                 roomTypSelectColumns: [],
                 roomTypSelectData: [],
+                oriRoomTypSelectData: [],
+                selectedRoomTypSelect: [],
+                isSelectedAll: false,
                 errorContent: "",
                 //使用期間資料
                 useTimeData: [], //使用期間資料
@@ -189,41 +213,42 @@
                 $.post('/api/chkFieldRule', {rule_func_name: 'get_room_typ_select'}, (result) => {
                     this.roomTypSelectColumns = [
                         {
-                            width: 60,
+                            width: 30,
                             titleAlign: 'center',
                             columnAlign: 'center',
                             type: 'selection',
+                            isResize: true
+                        },
+                        {
+                            field: 'room_cod',
+                            title: '房型',
+                            width: 150,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
                             isResize: true,
                             titleCellClassName: 'easytb-ht-title'
                         },
                         {
-                            field: 'rmCode',
-                            title: '房型代號',
-                            width: 90,
-                            titleAlign: 'center',
-                            columnAlign: 'center',
+                            field: 'room_nam',
+                            title: '簡稱',
+                            width: 150,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
                             isResize: true,
                             titleCellClassName: 'easytb-ht-title'
                         },
                         {
-                            field: 'rmName',
-                            title: '房型名稱',
-                            width: 90,
-                            titleAlign: 'center',
-                            columnAlign: 'center',
-                            isResize: true,
-                            titleCellClassName: 'easytb-ht-title'
-                        },
-                        {
-                            field: 'rmAnother',
-                            title: '房型別名',
-                            width: 90,
-                            titleAlign: 'center',
-                            columnAlign: 'center',
+                            field: 'room_sna',
+                            title: '別名',
+                            width: 150,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
                             isResize: true,
                             titleCellClassName: 'easytb-ht-title'
                         }
-                        ]
+                    ];
+                    this.roomTypSelectData = result.multiSelectOptions;
+                    this.oriRoomTypSelectData = JSON.parse(JSON.stringify(result.multiSelectOptions));
                 });
             },
             fetchRoomTypLeftData() {
@@ -309,8 +334,7 @@
                         width: 90,
                         titleAlign: 'center',
                         columnAlign: 'center',
-                        isResize: true,
-                        isEdit: true
+                        isResize: true
                     }
                 ];
                 if (this.roomTypRowsData.length > 0) {
@@ -511,31 +535,7 @@
                     return 'column-cell-class-delete';
                 }
             },
-            appendRow(title, field) {
-                if (field == "control") {
-                    var dialog = $("#rateCode_csRmCode-page").removeClass('hide').dialog({
-                        modal: true,
-                        title: "選擇房型代號",
-                        title_html: true,
-                        width: 600,
-                        maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-                        dialogClass: "test",
-                        resizable: true
-                    });
-//                    this.roomTypRowsData.push({room_cod: ""});
-//                    this.roomTypData.push({"roomCode": "dte"});
-                }
-            },
-            //刪除房型
-            customCompFunc(params) {
-                console.log(params);
-                this.$delete(this.roomTypData, params.index);
-                if (this.roomTypData.length == 0) {
-                    this.roomTypDetailData = [];
-                }
-            },
+            //房型VTable
             roomTypCellEditDone(newValue, oldValue, rowIndex, rowData, field) {
                 this.roomTypData[rowIndex][field] = newValue;
                 this.roomTypRowsData[rowIndex].room_cod = newValue;
@@ -560,6 +560,61 @@
                     rowData = rowData.roomCode;
                 }
                 this.showRoomTypDetailTable(rowData);
+            },
+            appendRow(title, field) {
+                if (field == "control") {
+                    var dialog = $("#roomTypSelect_dialog").removeClass('hide').dialog({
+                        modal: true,
+                        title: "選擇房型代號",
+                        title_html: true,
+                        width: 560,
+                        maxwidth: 1920,
+                        dialogClass: "test",
+                        resizable: true
+                    });
+
+                    //過濾可選的房型
+                    this.roomTypSelectData = this.oriRoomTypSelectData;
+                    _.each(this.roomTypRowsData, (lo_roomTypData) => {
+                        let lo_filterIndex = _.findIndex(this.roomTypSelectData, {room_cod: lo_roomTypData.room_cod});
+                        if (lo_filterIndex > -1) {
+                            this.roomTypSelectData.splice(lo_filterIndex, 1);
+                        }
+                    });
+                }
+            },
+            //刪除房型
+            customCompFunc(params) {
+                console.log(params);
+                this.$delete(this.roomTypData, params.index);
+                if (this.roomTypData.length == 0) {
+                    this.roomTypDetailData = [];
+                }
+            },
+            //房型選擇VTable
+            selectALL(selection) {
+                this.selectedRoomTypSelect = selection;
+            },
+            selectChange(selection, rowData) {
+                this.selectedRoomTypSelect = selection;
+            },
+            columnCellClass(rowIndex, columnName, rowData) {
+                // 给第二行设置className
+                if (rowIndex != -1) {
+                    return 'easytb-ht';
+                }
+            },
+            chkRoomTypSelect() {
+                _.each(this.selectedRoomTypSelect, (lo_data) => {
+                    this.roomTypData.push({"roomCode": lo_data.room_cod})
+                    this.roomTypRowsData.push({room_cod: lo_data.room_cod});
+                });
+
+                $("#roomTypSelect_dialog").dialog('close');
+            },
+            closeDialog() {
+                this.selectedRoomTypSelect = [];
+                $("#roomTypSelect_dialog").dialog('close');
             }
         }
     }
