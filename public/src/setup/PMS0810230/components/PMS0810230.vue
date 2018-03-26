@@ -215,10 +215,9 @@
 
     Vue.prototype.$eventHub = new Vue();
 
-    /** DatagridRmSingleGridClass **/
+    /** DataGridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
-
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
     DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     };

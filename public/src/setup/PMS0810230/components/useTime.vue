@@ -80,7 +80,8 @@
                         begin_dat: moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD"),
                         end_dat: moment(timeRuleData.singleData.end_dat).format("YYYY/MM/DD"),
                         command_cod: timeRuleData.singleData.command_cod,
-                        command_option: timeRuleData.singleData.command_option
+                        command_option: timeRuleData.singleData.command_option,
+                        event_time: moment().format()
                     };
                     this.tmpCUD.createData.push(lo_createData);
                     this.dataGridRowsData.push(lo_createData);
@@ -103,13 +104,27 @@
                     let ln_createIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: timeRuleData.singleData.supply_nos});
                     if(ln_createIndex > -1){
                         this.tmpCUD.createData.splice(ln_createIndex, 1);
-                        this.tmpCUD.createData.push(this.dataGridRowsData[ln_editIndex]);
+                        this.tmpCUD.createData.push(_.extend(this.dataGridRowsData[ln_editIndex], {event_time: moment().format()}));
                     }
                     else{
-                        this.tmpCUD.updateData.push(this.dataGridRowsData[ln_editIndex]);
-                        this.tmpCUD.oriData.push(this.oriDataGridRowsData[ln_editIndex]);
+                        this.tmpCUD.updateData.push(_.extend(this.dataGridRowsData[ln_editIndex], {event_time: moment().format()}));
+                        this.tmpCUD.oriData.push(_.extend(this.oriDataGridRowsData[ln_editIndex], {event_time: moment().format()}));
                     }
                 }
+
+                _.each(this.tmpCUD.createData, (lo_createData) => {
+                    _.extend(lo_createData, {page_id: 1010, tab_page_id: 1});
+                });
+                _.each(this.tmpCUD.updateData, (lo_updateData) => {
+                    _.extend(lo_updateData, {page_id: 1010, tab_page_id: 1});
+                });
+                _.each(this.tmpCUD.deleteData, (lo_deleteData) => {
+                    _.extend(lo_deleteData, {page_id: 1010, tab_page_id: 1});
+                });
+                _.each(this.tmpCUD.oriData, (lo_oriData) => {
+                    _.extend(lo_oriData, {page_id: 1010, tab_page_id: 1});
+                });
+
                 //將資料放入Vuex
                 this.$store.dispatch("setUseTimeData", {
                     ga_utFieldsData: this.fieldsData,
@@ -324,14 +339,27 @@
                 else if(ln_editIndex > -1){
                     this.tmpCUD.updateData.splice(ln_editIndex, 1);
                     this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                    this.tmpCUD.deleteData.push(this.dataGridRowsData[ln_editIndex]);
+                    this.tmpCUD.deleteData.push(_.extend(this.dataGridRowsData[ln_editIndex], {event_time: moment().format()}));
                 }
                 else{
-                    this.tmpCUD.deleteData.push(this.dataGridRowsData[params.index]);
+                    this.tmpCUD.deleteData.push(_.extend(this.dataGridRowsData[params.index], {event_time: moment().format()}));
                 }
                 //此筆為直接刪除的
                 this.$delete(this.useTimeData, params.index);
                 this.dataGridRowsData.splice(params.index, 1);
+
+                _.each(this.tmpCUD.createData, (lo_createData) => {
+                    _.extend(lo_createData, {page_id: 1010, tab_page_id: 1});
+                });
+                _.each(this.tmpCUD.updateData, (lo_updateData) => {
+                    _.extend(lo_updateData, {page_id: 1010, tab_page_id: 1});
+                });
+                _.each(this.tmpCUD.deleteData, (lo_deleteData) => {
+                    _.extend(lo_deleteData, {page_id: 1010, tab_page_id: 1});
+                });
+                _.each(this.tmpCUD.oriData, (lo_oriData) => {
+                    _.extend(lo_oriData, {page_id: 1010, tab_page_id: 1});
+                });
 
                 //將資料放入Vuex
                 this.$store.dispatch("setUseTimeData", {

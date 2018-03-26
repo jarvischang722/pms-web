@@ -41,33 +41,37 @@
             <div class="businessCompanyData">
                 <div class="col-xs-12 col-sm-12">
                     <div class="row">
-                        <v-table
-                                :columns="roomTypSelectColumns"
-                                :table-data="roomTypSelectData"
-                                row-hover-color="#eee" row-click-color="#edf7ff"
-                                :select-all="selectRoomTypSelectALL"
-                                :column-cell-class-name="columnCellClass"
-                                :select-change="selectRoomTypSelectChange">
-                        </v-table>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="col-xs-1 col-sm-1">
-                    <div class="row">
-                        <div class="right-menu-co">
-                            <ul>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button" @click="chkRoomTypSelect">{{i18nLang.program.PMS0810230.OK}}
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button" @click="closeRoomTypSelect">
-                                        {{i18nLang.program.PMS0810230.cancel}}
-                                    </button>
-                                </li>
-                            </ul>
+                        <div class="col-xs-11 col-sm-11">
+                            <div class="row no-margin-right">
+                                <v-table
+                                        :columns="roomTypSelectColumns"
+                                        :table-data="roomTypSelectData"
+                                        row-hover-color="#eee" row-click-color="#edf7ff"
+                                        :select-all="selectRoomTypSelectALL"
+                                        :column-cell-class-name="columnCellClass"
+                                        :select-change="selectRoomTypSelectChange">
+                                </v-table>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="row">
+                                <div class="right-menu-co">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button" @click="chkRoomTypSelect">{{i18nLang.program.PMS0810230.OK}}
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button" @click="closeRoomTypSelect">
+                                                {{i18nLang.program.PMS0810230.cancel}}
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -197,7 +201,11 @@
                     _.each(val.oriData, (lo_oriData) => {
                         _.extend(lo_oriData, {page_id: 1, tab_page_id: 12});
                     });
-                    console.log(val);
+
+                    //將資料放入Vuex
+                    this.$store.dispatch("setRoomTypData", {
+                        go_rtTmpCUD: this.tmpCUD
+                    });
                 },
                 deep: true
             }
@@ -539,12 +547,15 @@
 
                 return ls_commandOptionDisplay;
             },
+            //房型
             roomTypColumnCellClass(rowIndex, columnName, rowData) {
                 if (columnName == 'control') {
                     return 'column-cell-class-delete';
                 }
+                if (rowIndex == this.editingIndex) {
+                    return 'row-actice-c';
+                }
             },
-            //房型
             removeRow(params) {//刪除房型
                 let la_roomTypData = JSON.parse(JSON.stringify(this.roomTypData));
                 this.deleteRoomTypData("roomTyp", this.roomTypData[params.index]);
@@ -554,7 +565,7 @@
                 }
                 else if (this.roomTypData.length > 0) {
                     this.editingIndex = params.index;
-                    if(params.index >= la_roomTypData.length - 1){
+                    if (params.index >= la_roomTypData.length - 1) {
                         this.editingIndex = params.index - 1;
                     }
                     this.roomTypRowClick(this.editingIndex, this.roomTypData[this.editingIndex], this.roomTypColumns[1])
@@ -567,7 +578,7 @@
                         modal: true,
                         title: "選擇房型代號",
                         title_html: true,
-                        width: 600,
+                        width: 560,
                         maxwidth: 1920,
                         dialogClass: "test",
                         resizable: true,
@@ -621,6 +632,7 @@
                 });
                 this.roomTypRowClick(0, this.roomTypData[ln_selectIndex], this.roomTypColumns[1]);
                 this.roomTypColumnCellClass(ln_selectIndex, "roomCode", this.roomTypData[ln_selectIndex]);
+                this.editingIndex = ln_selectIndex;
                 $("#roomTypSelect_dialog").dialog('close');
             },
             closeRoomTypSelect() {
@@ -640,3 +652,9 @@
 
 
 </script>
+
+<style>
+    .row-actice-c {
+        background-color: #edf7ff;
+    }
+</style>
