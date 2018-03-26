@@ -1,6 +1,6 @@
 <template>
     <div id="PMS0810230SingleGrid" class="hide padding-5" style="top: 0 !important;">
-        <div class="businessCompanyData">
+        <div class="businessCompanyData" v-loading="isLoadingDialog" :element-loading-text="loadingText">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
@@ -57,7 +57,7 @@
                                                         v-model="singleData[field.ui_field_name]" :data="field.selectData"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                        :default-val="singleData[field.ui_field_name]"
+                                                        :default-val="singleData[field.ui_field_name]" :field="field"
                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                         @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
@@ -569,6 +569,7 @@
 
 <script>
     import _s from 'underscore.string';
+    import moment from 'moment';
     import roomTyp from './roomTyp';
     import useTime from './useTime';
 
@@ -615,8 +616,8 @@
                     this.loadingText = "Loading...";
                 }
             },
-            isUseTime(val){
-                if(!val){
+            isUseTime(val) {
+                if (!val) {
                     this.$eventHub.$emit("getUseTimeData", {
                         useTimeData: this.$store.state.go_allData.ga_utDataGridRowsData
                     });
@@ -776,9 +777,53 @@
             },
             formatAmt(value, field) {
             },
+            doConvertData() {
+                this.singleData = _.extend(this.singleData, {
+                    page_id: 1,
+                    tab_page_id: 1,
+                    event_time: moment().format()
+                });
+                //將主檔資料放至Vuex
+                this.$store.dispatch("setMnSingleData", {
+                    go_mnSingleData: this.singleData,
+                    go_mnOriSingleData: this.oriSingleData
+                });
+            },
             dataValidate() {
+                var self = this;
+                var lo_checkResult = true;
+                return lo_checkResult;
             },
             doSaveGrid() {
+                this.isLoadingDialog = true;
+                this.loadingText = "saving";
+                this.doConvertData();
+
+                var lo_chkResult = this.dataValidate();
+
+                if (lo_chkResult.success == false) {
+                    alert(lo_chkResult.msg);
+                    this.isLoadingDialog = false;
+                }
+                else {
+                    try {
+                        this.$store.dispatch("doSaveAllData").then(result => {
+                            if (result.success) {
+                                alert("save success");
+                                $("#PMS0810230SingleGrid").dialog('close');
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                            this.isLoadingDialog = false;
+                        }).catch(err => {
+                            alert(err);
+                        });
+                    }
+                    catch (err) {
+                        alert(err.message);
+                    }
+                }
             },
             doOpenUseTime() {
                 let self = this;
@@ -791,7 +836,7 @@
                     maxwidth: 1920,
                     dialogClass: "test",
                     resizable: true,
-                    onBeforeClose(){
+                    onBeforeClose() {
                         self.isUseTime = false;
                     }
                 });

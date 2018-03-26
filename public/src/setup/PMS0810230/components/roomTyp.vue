@@ -1,5 +1,6 @@
 <template>
     <div class="row">
+        <!--房型-->
         <div class="roomCodeTable pull-left width-15">
             <div>
                 <v-table
@@ -14,10 +15,12 @@
                         :title-click="appendRow"
                         :cell-edit-done="roomTypCellEditDone"
                         :row-click="roomTypRowClick"
-                        @on-custom-comp="customCompFunc">
+                        @on-custom-comp="removeRow">
                 </v-table>
             </div>
         </div>
+        <!--房型-->
+        <!--房型明細-->
         <div class="roomCodeDetail  pull-left width-85">
             <div>
                 <v-table
@@ -32,7 +35,50 @@
                 </v-table>
             </div>
         </div>
-        <button @click="test">TEST</button>
+        <!--房型明細-->
+        <!-- 選擇房型代號 彈出視窗 -->
+        <div id="roomTypSelect_dialog" class="hide padding-5" style="top: 20px;">
+            <div class="businessCompanyData">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-xs-11 col-sm-11">
+                            <div class="row no-margin-right">
+                                <v-table
+                                        :columns="roomTypSelectColumns"
+                                        :table-data="roomTypSelectData"
+                                        row-hover-color="#eee" row-click-color="#edf7ff"
+                                        :select-all="selectRoomTypSelectALL"
+                                        :column-cell-class-name="columnCellClass"
+                                        :select-change="selectRoomTypSelectChange">
+                                </v-table>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="row">
+                                <div class="right-menu-co">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button" @click="chkRoomTypSelect">{{i18nLang.program.PMS0810230.OK}}
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button" @click="closeRoomTypSelect">
+                                                {{i18nLang.program.PMS0810230.cancel}}
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- /.選擇房型 彈出視窗 -->
         <div class="clearfix"></div>
     </div>
 </template>
@@ -41,30 +87,6 @@
     import {VTable} from 'vue-easytable';
     import 'vue-easytable/libs/themes-base/index.css';
     import moment from 'moment';
-
-    Vue.component('table-operation', {
-        template: '<span class="column-cell-class-delete" @click.stop.prevent="deleteRow(rowData,index)">▬</span>',
-        props: {
-            rowData: {
-                type: Object
-            },
-            field: {
-                type: String
-            },
-            index: {
-                type: Number
-            }
-        },
-        methods: {
-            deleteRow() {
-
-                // 参数根据业务场景随意构造
-                let params = {type: 'delete', index: this.index};
-                this.$emit('on-custom-comp', params);
-
-            }
-        }
-    });
 
     export default {
         name: 'roomTyp',
@@ -77,11 +99,17 @@
                     this.roomTypRowClick(0, this.roomTypRowsData[0].room_cod, this.roomTypColumns);
                 }
             });
+            this.$eventHub.$on("getDeleteUseTimeData", (data) => {
+                this.deleteRoomTypData("useTime", data.delUseTimeData);
+            });
         },
         mounted() {
+            this.fetchRoomTypSelectData();
         },
         data() {
             return {
+                i18nLang: go_i18nLang,
+                editingIndex: -1, //正在編輯的index
                 //房型原始資料
                 roomTypFieldsData: [],
                 roomTypRowsData: [],
@@ -89,19 +117,28 @@
                 roomTypDetailFieldsData: [],
                 roomTypDetailRowsData: [],
                 oriRoomTypDetailRowsData: [],
-                //v-table 顯示時所需資料(轉換過)
-                roomTypColumns: [],
-                roomTypData: [],
-                roomTypDetailColumns: [],
-                roomTypDetailData: [],
-                errorContent: "",
-                useTimeData: [], //使用期間資料
+                roomTypSelectRowsData: [],
+                oriRoomTypSelectRowsData: [],
                 tmpCUD: {
                     createData: [],
                     updateData: [],
                     deleteData: [],
                     oriData: []
-                }
+                },
+                //v-table(房型) 顯示時所需資料(轉換過)
+                roomTypColumns: [],
+                roomTypData: [],
+                roomTypDetailColumns: [],
+                roomTypDetailData: [],
+                errorContent: "",
+                //v-table(選擇房型) 顯示時所需資料(轉換過)
+                roomTypSelectColumns: [],
+                roomTypSelectData: [],
+                oriRoomTypSelectData: [],
+                selectedRoomTypSelect: [],
+                //使用期間資料
+                useTimeData: [], //使用期間資料
+                delUseTimeData: {} //被刪除的使用期間
             }
         },
         watch: {
@@ -111,7 +148,8 @@
                 }
             },
             roomTypDetailRowsData: {
-                handler(val) {
+                handler(val, oldVal) {
+                    //新增、修改房型資料
                     _.each(val, (lo_val, idx) => {
                         let ln_oriDgCreateIdx = _.findIndex(this.oriRoomTypDetailRowsData, {
                             supply_nos: lo_val.supply_nos,
@@ -121,7 +159,7 @@
                             supply_nos: lo_val.supply_nos,
                             room_cod: lo_val.room_cod
                         });
-                        let ln_tnpCUDUpdateIdx = _.findIndex(this.tmpCUD.updateData, {
+                        let ln_tmpCUDUpdateIdx = _.findIndex(this.tmpCUD.updateData, {
                             supply_nos: lo_val.supply_nos,
                             room_cod: lo_val.room_cod
                         });
@@ -131,23 +169,43 @@
                             this.tmpCUD.createData.splice(ln_tmpCUDCreateIdx, 1);
                         }
                         if (ln_oriDgCreateIdx == -1) {
-                            this.tmpCUD.createData.push(lo_val);
+                            this.tmpCUD.createData.push(_.extend(lo_val, {event_time: moment().format()}));
                         }
                         //修改房型資料
                         else {
                             //刪除暫存重複的資料,再新增新資料
-                            if(ln_tnpCUDUpdateIdx > -1){
-                                this.tmpCUD.updateData.splice(ln_tnpCUDUpdateIdx, 1);
-                                this.tmpCUD.oriData.splice(ln_tnpCUDUpdateIdx, 1);
+                            if (ln_tmpCUDUpdateIdx > -1) {
+                                this.tmpCUD.updateData.splice(ln_tmpCUDUpdateIdx, 1);
+                                this.tmpCUD.oriData.splice(ln_tmpCUDUpdateIdx, 1);
                             }
                             if (JSON.stringify(lo_val) != JSON.stringify(this.oriRoomTypDetailRowsData[idx])) {
-                                this.tmpCUD.updateData.push(lo_val);
-                                this.tmpCUD.oriData.push(this.oriRoomTypDetailRowsData[idx]);
+                                this.tmpCUD.updateData.push(_.extend(lo_val, {event_time: moment().format()}));
+                                this.tmpCUD.oriData.push(_.extend(this.oriRoomTypDetailRowsData[idx], {event_time: moment().format()}));
                             }
                         }
                     });
+                },
+                deep: true
+            },
+            tmpCUD: {
+                handler(val) {
+                    _.each(val.createData, (lo_createData) => {
+                        _.extend(lo_createData, {page_id: 1, tab_page_id: 12});
+                    });
+                    _.each(val.updateData, (lo_updateData) => {
+                        _.extend(lo_updateData, {page_id: 1, tab_page_id: 12});
+                    });
+                    _.each(val.deleteData, (lo_deleteData) => {
+                        _.extend(lo_deleteData, {page_id: 1, tab_page_id: 12});
+                    });
+                    _.each(val.oriData, (lo_oriData) => {
+                        _.extend(lo_oriData, {page_id: 1, tab_page_id: 12});
+                    });
 
-                    //刪除房型資料
+                    //將資料放入Vuex
+                    this.$store.dispatch("setRoomTypData", {
+                        go_rtTmpCUD: this.tmpCUD
+                    });
                 },
                 deep: true
             }
@@ -164,6 +222,50 @@
                 this.roomTypData = [];
                 this.roomTypDetailColumns = [];
                 this.roomTypDetailData = [];
+            },
+            fetchRoomTypSelectData() {
+                $.post('/api/chkFieldRule', {rule_func_name: 'get_room_typ_select'}, (result) => {
+                    this.roomTypSelectColumns = [
+                        {
+                            width: 60,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            type: 'selection',
+                            isResize: true,
+                            titleCellClassName: 'easytb-ht-title'
+                        },
+                        {
+                            field: 'room_cod',
+                            title: '房型代號',
+                            width: 90,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                            titleCellClassName: 'easytb-ht-title'
+                        },
+                        {
+                            field: 'room_nam',
+                            title: '房型名稱',
+                            width: 90,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                            titleCellClassName: 'easytb-ht-title'
+                        },
+                        {
+                            field: 'room_sna',
+                            title: '房型別名',
+                            width: 90,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                            titleCellClassName: 'easytb-ht-title'
+                        }
+                    ];
+                    this.oriRoomTypSelectRowsData = JSON.parse(JSON.stringify(result.multiSelectOptions));
+                    this.roomTypSelectRowsData = result.multiSelectOptions;
+                    this.roomTypSelectData = JSON.parse(JSON.stringify(this.roomTypSelectRowsData));
+                });
             },
             fetchRoomTypLeftData() {
                 this.initData();
@@ -231,6 +333,42 @@
                 });
                 this.useTimeData = la_useTimeData;
             },
+            //使用期間資料被刪除
+            deleteRoomTypData(field, deleteData) {
+                let self = this;
+                let lo_condition = field == 'useTime' ? {supply_nos: deleteData.supply_nos} : {room_cod: deleteData.roomCode};
+                let ln_delIndex = -1;
+                //刪除房型資料(原本在oracle的資料)
+                ln_delIndex = _.findIndex(this.oriRoomTypDetailRowsData, lo_condition);
+                if (ln_delIndex > -1) {
+                    this.tmpCUD.deleteData.push(_.extend(this.oriRoomTypDetailRowsData[ln_delIndex], {event_time: moment().format()}));
+                }
+                //刪除房型資料(頁面上顯示)
+                let la_delete = _.where(this.roomTypDetailRowsData, lo_condition);
+                _.each(la_delete, lo_delete => {
+                    ln_delIndex = _.findIndex(this.roomTypDetailRowsData, lo_condition);
+                    if (ln_delIndex > -1) {
+                        this.roomTypDetailRowsData.splice(ln_delIndex, 1);
+                    }
+                });
+
+                //刪除在暫存的資料
+                la_delete = _.where(this.tmpCUD.createData, lo_condition);
+                _.each(la_delete, (lo_delete) => {
+                    ln_delIndex = _.findIndex(this.tmpCUD.createData, lo_condition);
+                    if (ln_delIndex > -1) {
+                        this.tmpCUD.createData.splice(ln_delIndex, 1);
+                    }
+                });
+                la_delete = _.where(this.tmpCUD.updateData, lo_condition);
+                _.each(la_delete, (lo_delete) => {
+                    ln_delIndex = _.findIndex(this.tmpCUD.updateData, lo_condition);
+                    if (ln_delIndex > -1) {
+                        this.tmpCUD.updateData.splice(ln_delIndex, 1);
+                        this.tmpCUD.oriData.splice(ln_delIndex, 1);
+                    }
+                });
+            },
             showRoomTypTable() {
                 this.roomTypColumns = [
                     {
@@ -248,8 +386,7 @@
                         width: 90,
                         titleAlign: 'center',
                         columnAlign: 'center',
-                        isResize: true,
-                        isEdit: true
+                        isResize: true
                     }
                 ];
                 if (this.roomTypRowsData.length > 0) {
@@ -261,7 +398,7 @@
                 else {
                     this.roomTypData = [{}];
                     setTimeout(() => {
-                        this.customCompFunc({type: "delete", index: 0});
+                        this.removeRow({type: "delete", index: 0});
                     }, 0.1);
                     this.showRoomTypDetailTable("");
                 }
@@ -340,15 +477,6 @@
                             });
                         }
                     });
-                    //使用期間被刪除
-                    _.each(this.roomTypDetailRowsData, (lo_dataGridRowsData, idx) => {
-                        if (!_.isUndefined(lo_dataGridRowsData)) {
-                            let ln_delIndex = _.findIndex(this.useTimeData, {supply_nos: lo_dataGridRowsData.supply_nos});
-                            if (ln_delIndex == -1) {
-                                this.roomTypDetailRowsData.splice(idx, 1);
-                            }
-                        }
-                    });
                 }
                 else {
                     this.roomTypDetailRowsData = [];
@@ -419,19 +547,51 @@
 
                 return ls_commandOptionDisplay;
             },
+            //房型
             roomTypColumnCellClass(rowIndex, columnName, rowData) {
                 if (columnName == 'control') {
                     return 'column-cell-class-delete';
                 }
-            },
-            appendRow(title, field) {
-                if (field == "control") {
-                    this.roomTypRowsData.push({room_cod: ""});
-                    this.roomTypData.push({"roomCode": "dte"});
+                if (rowIndex == this.editingIndex) {
+                    return 'row-actice-c';
                 }
             },
-            customCompFunc(params) {
+            removeRow(params) {//刪除房型
+                let la_roomTypData = JSON.parse(JSON.stringify(this.roomTypData));
+                this.deleteRoomTypData("roomTyp", this.roomTypData[params.index]);
                 this.$delete(this.roomTypData, params.index);
+                if (this.roomTypData.length == 0) {
+                    this.roomTypDetailData = [];
+                }
+                else if (this.roomTypData.length > 0) {
+                    this.editingIndex = params.index;
+                    if (params.index >= la_roomTypData.length - 1) {
+                        this.editingIndex = params.index - 1;
+                    }
+                    this.roomTypRowClick(this.editingIndex, this.roomTypData[this.editingIndex], this.roomTypColumns[1])
+                }
+            },
+            appendRow(title, field) {//新增房型
+                let self = this;
+                if (field == "control") {
+                    var dialog = $("#roomTypSelect_dialog").removeClass('hide').dialog({
+                        modal: true,
+                        title: "選擇房型代號",
+                        title_html: true,
+                        width: 560,
+                        maxwidth: 1920,
+                        dialogClass: "test",
+                        resizable: true,
+                        onBeforeClose() {
+                            self.roomTypSelectData = JSON.parse(JSON.stringify(self.oriRoomTypSelectRowsData));
+                            self.selectedRoomTypSelect = [];
+                        }
+                    });
+                    _.each(this.roomTypData, (lo_roomTyp) => {
+                        let ln_deleteIndex = _.findIndex(this.roomTypSelectData, {room_cod: lo_roomTyp.roomCode});
+                        this.roomTypSelectData.splice(ln_deleteIndex, 1);
+                    });
+                }
             },
             roomTypCellEditDone(newValue, oldValue, rowIndex, rowData, field) {
                 this.roomTypData[rowIndex][field] = newValue;
@@ -444,6 +604,41 @@
 
                 this.showRoomTypDetailTable(newValue);
             },
+            roomTypRowClick(rowIndex, rowData, column) {
+                this.editingIndex = rowIndex;
+                if (typeof rowData === "object") {
+                    rowData = rowData.roomCode;
+                }
+                this.showRoomTypDetailTable(rowData);
+            },
+            //選擇房型
+            columnCellClass(rowIndex, columnName, rowData) {
+                // 给第二行设置className
+                if (rowIndex != -1) {
+                    return 'easytb-ht';
+                }
+            },
+            selectRoomTypSelectALL(selection) {
+                this.selectedRoomTypSelect = selection;
+            },
+            selectRoomTypSelectChange(selection, rowData) {
+                this.selectedRoomTypSelect = selection;
+            },
+            chkRoomTypSelect() {
+                let la_oriRoomTypData = JSON.parse(JSON.stringify(this.roomTypData));
+                let ln_selectIndex = this.selectedRoomTypSelect.length > 0 ? la_oriRoomTypData.length : this.editingIndex;
+                _.each(this.selectedRoomTypSelect, (lo_selectedRoomTyp) => {
+                    this.roomTypData.push({"roomCode": lo_selectedRoomTyp.room_cod})
+                });
+                this.roomTypRowClick(0, this.roomTypData[ln_selectIndex], this.roomTypColumns[1]);
+                this.roomTypColumnCellClass(ln_selectIndex, "roomCode", this.roomTypData[ln_selectIndex]);
+                this.editingIndex = ln_selectIndex;
+                $("#roomTypSelect_dialog").dialog('close');
+            },
+            closeRoomTypSelect() {
+                $("#roomTypSelect_dialog").dialog('close');
+            },
+            //房型明細
             roomTypDetailCellEditDone(newValue, oldValue, rowIndex, rowData, field) {
                 let ln_editIndex = _.findIndex(this.roomTypDetailRowsData, {
                     supply_nos: rowData.supply_nos,
@@ -452,17 +647,14 @@
                 this.roomTypDetailRowsData[ln_editIndex][field] = newValue;
                 this.roomTypDetailData[rowIndex][field] = newValue;
             },
-            roomTypRowClick(rowIndex, rowData, column) {
-                if (typeof rowData === "object") {
-                    rowData = rowData.roomCode;
-                }
-                this.showRoomTypDetailTable(rowData);
-            },
-            test() {
-                console.log(this.tmpCUD);
-            }
         }
     }
 
 
 </script>
+
+<style>
+    .row-actice-c {
+        background-color: #edf7ff;
+    }
+</style>

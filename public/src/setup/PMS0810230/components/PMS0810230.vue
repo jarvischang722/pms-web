@@ -24,8 +24,8 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth setRateCode-add"
-                                        role="button" >{{i18nLang.program.PMS0810230.add}}
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" @click="appendRow">{{i18nLang.program.PMS0810230.add}}
                                 </button>
                             </li>
 
@@ -35,8 +35,8 @@
                                 </button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth setRateCode-add"
-                                        role="button" >{{i18nLang.program.PMS0810230.edit}}
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" @click="editRow">{{i18nLang.program.PMS0810230.edit}}
                                 </button>
                             </li>
                         </ul>
@@ -95,7 +95,7 @@
                                                     <div class="space-6"></div>
                                                     <bac-select
                                                             v-model="commandHVal" :default-val="commandHVal"
-                                                            @update:v-model="val => commandHVal = val"
+                                                            @update:v-model="val => commandHVal = val" field="{}"
                                                             :data="commandOptionSelectOption.selectData" multiple="true"
                                                             is-qry-src-before="Y" value-field="value" text-field="display">
                                                     </bac-select>
@@ -209,16 +209,15 @@
 
 <script>
     import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
-    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
+//    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
     let gs_prgId = "PMS0810230";
 
     Vue.prototype.$eventHub = new Vue();
 
-    /** DatagridRmSingleGridClass **/
+    /** DataGridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
-
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
     DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     };
@@ -271,7 +270,6 @@
             this.loadDataGridByPrgID();
         },
         components: {
-            ElDialog,
             pms0810230SingleGrid
         },
         data() {

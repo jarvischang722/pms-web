@@ -21,7 +21,8 @@ const state = {
         ga_utDataGridRowsData: []
     },
 
-    go_utTmpCUD: {}
+    go_utTmpCUD: {},
+    go_rtTmpCUD: {}
 };
 
 const mutations = {
@@ -34,12 +35,21 @@ const mutations = {
     setRateCod(state, ls_rateCod) {
         state.gs_rateCod = ls_rateCod;
     },
+    //設定主檔資料
+    setMnSingleData(state, payload){
+        state.go_allData.go_mnSingleData = payload.go_mnSingleData;
+        state.go_allOriData.go_mnSingleData = payload.go_mnOriSingleData;
+    },
     //設定使用期間資料
     setUseTimeData(state, payload) {
         state.ga_utFieldsData = payload.ga_utFieldsData;
         state.go_allData.ga_utDataGridRowsData = payload.ga_utDataGridRowsData;
         state.go_allOriData.ga_utDataGridRowsData = payload.ga_utOriDataGridRowsData;
         state.go_utTmpCUD = payload.go_utTmpCUD;
+    },
+    //設定房型資料
+    setRoomTypData(state, payload){
+        state.go_rtTmpCUD = payload.go_rtTmpCUD;
     }
 };
 
@@ -52,9 +62,17 @@ const actions = {
     setRateCod({commit}, ls_rateCod) {
         commit("setRateCod", ls_rateCod);
     },
+    //設定主檔資料
+    setMnSingleData({commit}, payload){
+        commit("setMnSingleData", payload);
+    },
     //設定使用期間資料
     setUseTimeData({commit}, payload) {
         commit("setUseTimeData", payload);
+    },
+    //設定房型資料
+    setRoomTypData({commit}, payload){
+        commit("setRoomTypData", payload);
     },
     //清除所有資料
     setAllDataClear({dispatch}) {
@@ -63,6 +81,75 @@ const actions = {
             ga_utDataGridRowsData: [],
             ga_utOriDataGridRowsData: [],
             go_utTmpCUD: {}
+        });
+        dispatch("setRoomTypData", {
+            go_rtTmpCUD: {}
+        });
+    },
+    //儲存所有資料
+    async doSaveAllData({commit, dispatch, state}){
+        let err = null;
+        let lo_tmpCUD = {
+            createData: [],
+            updateData: [],
+            deleteData: [],
+            oriData: [],
+            dt_createData: [],
+            dt_updateData: [],
+            dt_deleteData: [],
+            dt_oriData: []
+        };
+
+        if(state.gb_isCreateStatus){
+            lo_tmpCUD.createData = [state.go_allData.go_mnSingleData];
+            _.each(state.go_rtTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
+            _.each(state.go_utTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
+        }
+        else if(state.gb_isEditStatus){
+            lo_tmpCUD.updateData = [state.go_allData.go_mnSingleData];
+            lo_tmpCUD.oriData = [state.go_allOriData.go_mnSingleData];
+
+            _.each(state.go_rtTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
+            _.each(state.go_utTmpCUD.createData, function (lo_createData) {
+                lo_tmpCUD.dt_createData.push(lo_createData);
+            });
+
+            _.each(state.go_rtTmpCUD.updateData, function (lo_updateData) {
+                lo_tmpCUD.dt_updateData.push(lo_updateData);
+            });
+            _.each(state.go_utTmpCUD.updateData, function (lo_updateData) {
+                lo_tmpCUD.dt_updateData.push(lo_updateData);
+            });
+
+            _.each(state.go_rtTmpCUD.oriData, function (lo_oriData) {
+                lo_tmpCUD.dt_oriData.push(lo_oriData);
+            });
+            _.each(state.go_utTmpCUD.oriData, function (lo_oriData) {
+                lo_tmpCUD.dt_oriData.push(lo_oriData);
+            });
+
+            _.each(state.go_rtTmpCUD.deleteData, function (lo_deleteData) {
+                lo_tmpCUD.dt_deleteData.push(lo_deleteData);
+            });
+            _.each(state.go_utTmpCUD.deleteData, function (lo_deleteData) {
+                lo_tmpCUD.dt_deleteData.push(lo_deleteData);
+            });
+        }
+        console.log(lo_tmpCUD);
+        return await $.post('/api/execNewFormatSQL', {
+            prg_id: 'PMS0810230',
+            func_id: lo_tmpCUD.createData.length > 0 ? "0520" : "0540",
+            tmpCUD: lo_tmpCUD
+        }).then(result => {
+            return (result);
+        }).catch(err=>{
+            throw new Error(err);
         });
     }
 };

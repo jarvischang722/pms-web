@@ -4770,6 +4770,19 @@ td div.act-box span.act-text {
   font-size: 13px;
 }
 
+.easytb-ht .v-table-body-cell {
+  height: 25px !important;
+  line-height: 25px !important;
+  font-size: 13px;
+}
+
+.easytb-ht-title {
+  background-color: #549bdb;
+}
+.easytb-ht-title .v-table-title-cell .table-title {
+  color: #fff;
+}
+
 #prgPropsSetupVM .title {
   font-size: 1.2em;
   color: #555;
