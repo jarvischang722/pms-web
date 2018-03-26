@@ -88,7 +88,6 @@ const actions = {
     },
     //儲存所有資料
     async doSaveAllData({commit, dispatch, state}){
-        let err = null;
         let lo_tmpCUD = {
             createData: [],
             updateData: [],

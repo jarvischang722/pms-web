@@ -4,7 +4,6 @@
         <div class="roomCodeTable pull-left width-15">
             <div>
                 <v-table
-                        style="width: 100%;"
                         :height="150"
                         row-hover-color="#eee"
                         row-click-color="#edf7ff"
