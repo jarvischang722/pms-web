@@ -11,6 +11,7 @@ const optSaveAdapter = require("../../ruleEngine/operationSaveAdapter");
 const saveDataAdapter = require("./saveDataAdapter");
 const go_sysConf = require("../../configs/systemConfig");
 const logSvc = require("../../services/LogService");
+const mailSvc = require("../../services/MailService");
 
 /**
  * 儲存樣板

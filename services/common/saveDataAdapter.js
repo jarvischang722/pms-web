@@ -24,6 +24,10 @@ class saveDataAdapter {
         };
     }
 
+    /**
+     * 組API格式流程
+     * @returns {Promise<{locale, reve_code, prg_id, func_id, client_ip, server_ip, event_time, mac, page_data}|*>}
+     */
     async formating() {
         // let lo_apiFormat = this.apiFormat();
         try {
@@ -44,6 +48,10 @@ class saveDataAdapter {
         }
     }
 
+    /**
+     * 查詢templateRf
+     * @returns {Promise<*>}
+     */
     async qryTemplateRf() {
         return await mongoAgent.TemplateRf.find({prg_id: this.params.prg_id}).exec().then(data => {
             return commonTools.mongoDocToObject(data);
@@ -52,6 +60,10 @@ class saveDataAdapter {
         });
     }
 
+    /**
+     * 查詢datagrid欄位
+     * @returns {Promise<*>}
+     */
     async qryUIDataGridFields() {
         return await mongoAgent.UIDatagridField.find({prg_id: this.params.prg_id}).exec().then(data => {
             return commonTools.mongoDocToObject(data);
@@ -60,6 +72,10 @@ class saveDataAdapter {
         })
     }
 
+    /**
+     * 查詢gridsingle欄位
+     * @returns {Promise<*>}
+     */
     async qryUIPageFields() {
         return await mongoAgent.UIPageField.find({prg_id: this.params.prg_id}).exec().then(data => {
             return commonTools.mongoDocToObject(data);
@@ -68,12 +84,25 @@ class saveDataAdapter {
         })
     }
 
+    /**
+     * 查詢欄位key值
+     * @param dgFields {array} datagrid欄位資料
+     * @param gsFields {array} gridsingle欄位資料
+     * @returns {Promise<{la_dgKeyFields: *, la_gsKeyFields: *}>}
+     */
     async findFieldsCondition(dgFields, gsFields) {
         let la_dgKeyFields = _.where(dgFields, {keyable: "Y"});
         let la_gsKeyFields = _.where(gsFields, {keyable: "Y"});
         return {la_dgKeyFields: la_dgKeyFields, la_gsKeyFields: la_gsKeyFields};
     }
 
+    /**
+     * tmpCUD組condition流程
+     * @param tmpRf {array} templateRf資料
+     * @param dgKeyFields {array} datagrid欄位為key值資料
+     * @param gsKeyFields {array} gridsingle欄位為key值資料
+     * @returns {Promise<[any , any , any]>}
+     */
     async insertCondIntoTmpCUD(tmpRf, dgKeyFields, gsKeyFields) {
         return await Promise.all([
             this.execInsertCond(tmpRf, dgKeyFields, gsKeyFields, "createData"),
@@ -82,6 +111,14 @@ class saveDataAdapter {
         ])
     }
 
+    /**
+     * 將tmpCUD每筆資料組condition
+     * @param tmpRf {array} templateRf資料
+     * @param dgKeyFields {array} datagrid欄位為key值資料
+     * @param gsKeyFields {array} gridsingle欄位為key值資料
+     * @param dataType {string} 新刪修資料判斷
+     * @returns {Promise<{}>}
+     */
     async execInsertCond(tmpRf, dgKeyFields, gsKeyFields, dataType) {
         let la_tmpCudData = this.params[dataType];
         if (la_tmpCudData.length > 0) {
@@ -120,6 +157,10 @@ class saveDataAdapter {
         }
     }
 
+    /**
+     * 組API格式
+     * @returns {Promise<{}>}
+     */
     async formatData() {
         await Promise.all([
             this.convCreateData(),
