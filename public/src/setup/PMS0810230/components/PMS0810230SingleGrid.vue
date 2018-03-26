@@ -779,7 +779,7 @@
             },
             doConvertData() {
                 this.singleData = _.extend(this.singleData, {
-                    page_id: 1,
+                    page_id: 2,
                     tab_page_id: 1,
                     event_time: moment().format()
                 });
