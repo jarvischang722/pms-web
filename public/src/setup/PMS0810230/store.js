@@ -148,6 +148,8 @@ const actions = {
             tmpCUD: lo_tmpCUD
         }).then(result => {
             return (result);
+        }).catch(err=>{
+            throw new Error(err);
         });
     }
 };

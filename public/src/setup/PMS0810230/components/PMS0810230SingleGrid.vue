@@ -616,8 +616,8 @@
                     this.loadingText = "Loading...";
                 }
             },
-            isUseTime(val){
-                if(!val){
+            isUseTime(val) {
+                if (!val) {
                     this.$eventHub.$emit("getUseTimeData", {
                         useTimeData: this.$store.state.go_allData.ga_utDataGridRowsData
                     });
@@ -777,8 +777,12 @@
             },
             formatAmt(value, field) {
             },
-            doConvertData(){
-                this.singleData =  _.extend(this.singleData, {page_id: 1, tab_page_id: 1, event_time: moment().format()});
+            doConvertData() {
+                this.singleData = _.extend(this.singleData, {
+                    page_id: 1,
+                    tab_page_id: 1,
+                    event_time: moment().format()
+                });
                 //將主檔資料放至Vuex
                 this.$store.dispatch("setMnSingleData", {
                     go_mnSingleData: this.singleData,
@@ -802,16 +806,23 @@
                     this.isLoadingDialog = false;
                 }
                 else {
-                    this.$store.dispatch("doSaveAllData").then(result => {
-                        if (result.success) {
-                            alert("save success");
-                            $("#PMS0810230SingleGrid").dialog('close');
-                        }
-                        else {
-                            alert(result.errorMsg);
-                        }
-                        this.isLoadingDialog = false;
-                    });
+                    try {
+                        this.$store.dispatch("doSaveAllData").then(result => {
+                            if (result.success) {
+                                alert("save success");
+                                $("#PMS0810230SingleGrid").dialog('close');
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                            this.isLoadingDialog = false;
+                        }).catch(err => {
+                            alert(err);
+                        });
+                    }
+                    catch (err) {
+                        alert(err.message);
+                    }
                 }
             },
             doOpenUseTime() {
@@ -825,7 +836,7 @@
                     maxwidth: 1920,
                     dialogClass: "test",
                     resizable: true,
-                    onBeforeClose(){
+                    onBeforeClose() {
                         self.isUseTime = false;
                     }
                 });
