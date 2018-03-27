@@ -75,6 +75,8 @@
                         return lo_dataGridRowsData.supply_nos
                     }).supply_nos : 0;
                     let lo_createData = {
+                        athena_id: this.$store.state.go_userInfo.athena_id,
+                        hotel_cod: this.$store.state.go_userInfo.hotel_cod,
                         rate_cod: this.$store.state.gs_rateCod,
                         supply_nos: Number(ln_maxSupplyNos) + 1,
                         begin_dat: moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD"),

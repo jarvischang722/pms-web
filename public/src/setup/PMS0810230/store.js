@@ -4,6 +4,8 @@ import _ from 'underscore';
 Vue.use(Vuex);
 
 const state = {
+    go_userInfo: {},
+
     gb_isCreateStatus: false,
     gb_isEditStatus: false,
 
@@ -28,6 +30,10 @@ const state = {
 };
 
 const mutations = {
+    //設定使用者資訊
+    setUserInfo(state, payload){
+        state.go_userInfo = payload.go_userInfo;
+    },
     //設定狀態(新增或編輯)
     setStatus(state, payload) {
         state.gb_isCreateStatus = payload.gb_isCreateStatus;
@@ -56,6 +62,10 @@ const mutations = {
 };
 
 const actions = {
+    //設定使用者資訊
+    setUserInfo({commit}, payload){
+        commit("setUserInfo", payload);
+    },
     //設定狀態(新增或編輯)
     setStatus({commit}, payload) {
         commit("setStatus", payload);
@@ -138,17 +148,17 @@ const actions = {
                 lo_tmpCUD.deleteData.push(lo_deleteData);
             });
         }
-        // console.log(lo_tmpCUD);
-        // return {success: true};
-        return await $.post('/api/execNewFormatSQL', {
-            prg_id: 'PMS0810230',
-            func_id: state.gb_isCreateStatus ? "0520" : "0540",
-            tmpCUD: lo_tmpCUD
-        }).then(result => {
-            return (result);
-        }).catch(err=>{
-            throw new Error(err);
-        });
+        console.log(lo_tmpCUD);
+        return {success: true};
+        // return await $.post('/api/execNewFormatSQL', {
+        //     prg_id: 'PMS0810230',
+        //     func_id: state.gb_isCreateStatus ? "0520" : "0540",
+        //     tmpCUD: lo_tmpCUD
+        // }).then(result => {
+        //     return (result);
+        // }).catch(err=>{
+        //     throw new Error(err);
+        // });
     }
 };
 

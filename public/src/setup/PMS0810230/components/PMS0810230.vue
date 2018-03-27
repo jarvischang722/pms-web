@@ -321,6 +321,9 @@
                 $.post('/api/getUserInfo', function (result) {
                     if (result.success) {
                         self.userInfo = result.userInfo;
+                        self.$store.dispatch("setUserInfo", {
+                            go_userInfo: result.userInfo,
+                        });
                     }
                 });
             },
