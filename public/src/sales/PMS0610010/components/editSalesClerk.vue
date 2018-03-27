@@ -35,6 +35,7 @@
                                                          v-model="singleData[field.ui_field_name]"
                                                          :columns="field.selectData.columns"
                                                          :data="field.selectData.selectData"
+                                                         :field="field"
                                                          :is-qry-src-before="field.selectData.isQrySrcBefore"
                                                          :id-field="field.selectData.value" :text-field="field.selectData.display"
                                                          @update:v-model="val => singleData[field.ui_field_name] = val"
