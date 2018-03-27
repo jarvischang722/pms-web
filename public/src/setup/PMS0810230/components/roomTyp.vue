@@ -29,6 +29,7 @@
                         :error-content="errorContent"
                         :column-cell-class-name="columnCellClass"
                         :cell-edit-done="roomTypDetailCellEditDone"
+                        :row-mouse-enter="roomTypDetailRowMouseEnter"
                         row-hover-color="#eee"
                         row-click-color="#edf7ff">
                 </v-table>
@@ -50,6 +51,7 @@
                                         :column-cell-class-name="columnCellClass"
                                         :select-change="selectRoomTypSelectChange">
                                 </v-table>
+                                <table></table>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -59,7 +61,8 @@
                                     <ul>
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                    role="button" @click="chkRoomTypSelect">{{i18nLang.program.PMS0810230.OK}}
+                                                    role="button" @click="chkRoomTypSelect">
+                                                {{i18nLang.program.PMS0810230.OK}}
                                             </button>
                                         </li>
                                         <li>
@@ -103,12 +106,14 @@
             });
         },
         mounted() {
+            this.fetchRentCalDat();
             this.fetchRoomTypSelectData();
         },
         data() {
             return {
                 i18nLang: go_i18nLang,
                 editingIndex: -1, //正在編輯的index
+                rentCalDat: '',
                 //房型原始資料
                 roomTypFieldsData: [],
                 roomTypRowsData: [],
@@ -188,17 +193,21 @@
             },
             tmpCUD: {
                 handler(val) {
+                    let lo_params = {
+                        page_id: this.roomTypDetailFieldsData[0].page_id,
+                        tab_page_id: this.roomTypDetailFieldsData[0].tab_page_id,
+                    }
                     _.each(val.createData, (lo_createData) => {
-                        _.extend(lo_createData, {page_id: 1, tab_page_id: 12});
+                        _.extend(lo_createData, lo_params);
                     });
                     _.each(val.updateData, (lo_updateData) => {
-                        _.extend(lo_updateData, {page_id: 1, tab_page_id: 12});
+                        _.extend(lo_updateData, lo_params);
                     });
                     _.each(val.deleteData, (lo_deleteData) => {
-                        _.extend(lo_deleteData, {page_id: 1, tab_page_id: 12});
+                        _.extend(lo_deleteData, lo_params);
                     });
                     _.each(val.oriData, (lo_oriData) => {
-                        _.extend(lo_oriData, {page_id: 1, tab_page_id: 12});
+                        _.extend(lo_oriData, lo_params);
                     });
 
                     //將資料放入Vuex
@@ -210,6 +219,12 @@
             }
         },
         methods: {
+            //取滾房租日
+            fetchRentCalDat() {
+                $.post('/api/qryRentCalDat', {}, (result) => {
+                    this.rentCalDat = result.rent_cal_dat;
+                });
+            },
             initData() {
                 this.roomTypFieldsData = [];
                 this.roomTypRowsData = [];
@@ -451,6 +466,9 @@
                 ];
                 if (this.useTimeData.length > 0) {
                     _.each(this.useTimeData, (lo_useTimeData) => {
+                        let lo_endDat = moment(lo_useTimeData.end_dat);
+                        let lo_rentCalDat = moment(this.rentCalDat);
+                        let ln_dayDiff = lo_endDat.diff(lo_rentCalDat, 'days')
                         let ls_betweenDat =
                             JSON.parse(JSON.stringify(lo_useTimeData.begin_dat)) + "~" + JSON.parse(JSON.stringify(lo_useTimeData.end_dat));
 
@@ -465,15 +483,17 @@
                         }
                         //新增使用期間
                         else {
-                            this.roomTypDetailRowsData.push({
-                                "add_adult": 0,
-                                "add_child": 0,
-                                "rent_amt": 0,
-                                "room_cod": room_cod,
-                                "supply_nos": lo_useTimeData.supply_nos,
-                                "ratesupply_dt.between_dat": ls_betweenDat,
-                                "ratesupply_dt.command_option": lo_useTimeData.command_option
-                            });
+                            if (ln_dayDiff >= 1) {
+                                this.roomTypDetailRowsData.push({
+                                    "add_adult": 0,
+                                    "add_child": 0,
+                                    "rent_amt": 0,
+                                    "room_cod": room_cod,
+                                    "supply_nos": lo_useTimeData.supply_nos,
+                                    "ratesupply_dt.between_dat": ls_betweenDat,
+                                    "ratesupply_dt.command_option": lo_useTimeData.command_option
+                                });
+                            }
                         }
                     });
                 }
@@ -639,6 +659,7 @@
             },
             //房型明細
             roomTypDetailCellEditDone(newValue, oldValue, rowIndex, rowData, field) {
+                console.log("TEST");
                 let ln_editIndex = _.findIndex(this.roomTypDetailRowsData, {
                     supply_nos: rowData.supply_nos,
                     room_cod: rowData.room_cod
@@ -646,6 +667,103 @@
                 this.roomTypDetailRowsData[ln_editIndex][field] = newValue;
                 this.roomTypDetailData[rowIndex][field] = newValue;
             },
+            roomTypDetailRowMouseEnter(rowIndex){
+                let lo_rowData = this.roomTypDetailData[rowIndex];
+                let lo_endDat = moment(lo_rowData.useRange.split("~")[1]);
+                let lo_rentCalDat = moment(this.rentCalDat);
+                let ln_dayDiff = lo_endDat.diff(lo_rentCalDat, 'days');
+                if(ln_dayDiff < -1){
+                    this.roomTypDetailColumns = [
+                        {
+                            field: 'useRange',
+                            title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.between_dat'}).ui_display_name,
+                            width: 220,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true
+                        },
+                        {
+                            field: 'dateRule',
+                            title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.command_option'}).ui_display_name,
+                            width: 140,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true
+                        },
+                        {
+                            field: 'rent_amt',
+                            title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'rent_amt'}).ui_display_name,
+                            width: 120,
+                            titleAlign: 'center',
+                            columnAlign: 'right',
+                            isResize: true
+                        },
+                        {
+                            field: 'add_adult',
+                            title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'add_adult'}).ui_display_name,
+                            width: 120,
+                            titleAlign: 'center',
+                            columnAlign: 'right',
+                            isResize: true
+                        },
+                        {
+                            field: 'add_child',
+                            title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'add_child'}).ui_display_name,
+                            width: 120,
+                            titleAlign: 'center',
+                            columnAlign: 'right',
+                            isResize: true
+                        }
+                    ];
+                }
+                else{
+                    this.roomTypDetailColumns = [
+                        {
+                            field: 'useRange',
+                            title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.between_dat'}).ui_display_name,
+                            width: 220,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true
+                        },
+                        {
+                            field: 'dateRule',
+                            title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.command_option'}).ui_display_name,
+                            width: 140,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true
+                        },
+                        {
+                            field: 'rent_amt',
+                            title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'rent_amt'}).ui_display_name,
+                            width: 120,
+                            titleAlign: 'center',
+                            columnAlign: 'right',
+                            isResize: true,
+                            isEdit: true
+                        },
+                        {
+                            field: 'add_adult',
+                            title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'add_adult'}).ui_display_name,
+                            width: 120,
+                            titleAlign: 'center',
+                            columnAlign: 'right',
+                            isResize: true,
+                            isEdit: true
+                        },
+                        {
+                            field: 'add_child',
+                            title: _.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'add_child'}).ui_display_name,
+                            width: 120,
+                            titleAlign: 'center',
+                            columnAlign: 'right',
+                            isResize: true,
+                            isEdit: true
+                        }
+                    ];
+                }
+            }
         }
     }
 

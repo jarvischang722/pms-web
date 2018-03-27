@@ -131,7 +131,9 @@
       "wednesday": "Wednesday",
       "thursday": "Thursday",
       "friday": "Friday",
-      "saturday": "Saturday"
+      "saturday": "Saturday",
+      "dateRule": "日期規則(英文)",
+      "showExpire": "過期顯示(英文)"
     },
     "PMS0820030": {
       "load_default_color": "Load default color",
