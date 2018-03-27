@@ -122,9 +122,9 @@ function DatagridBaseClass() {
         });
     };
 
-    this.setpage = function (pageNo) {
+    this.setpage = function (pageNo, pageSize) {
+        $('#' + self.dgName).datagrid('options').pageSize = pageSize;
         var pager = $('#' + self.dgName).datagrid("getPager");
-        var pageSize = $('#' + self.dgName).datagrid('options').pageSize;
         var start = (pageNo - 1) * pageSize;
         var end = start + pageSize;
         $('#' + self.dgName).datagrid("loadData", self.dgData.slice(start, end));
@@ -212,7 +212,8 @@ function DatagridBaseClass() {
      * 排序觸發事件
      */
     this.doSortColumn = function () {
-        self.setpage(1);
+        var pageSize = $('#' + self.dgName).datagrid('options').pageSize;
+        self.setpage(1, pageSize);
     };
 
     /**
