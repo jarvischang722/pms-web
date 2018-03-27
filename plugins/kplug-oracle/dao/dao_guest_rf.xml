@@ -35,7 +35,7 @@
     <!--取得市場類別下拉資料(select)-->
     <dao name="SEL_GUEST_TYP_FOR_SELECT">
         <statement><![CDATA[
-              select guest_typ value, guest_nam display
+              select guest_typ value, guest_nam display, use_sta
               from guest_rf
               where athena_id = :athena_id
               order by guest_typ

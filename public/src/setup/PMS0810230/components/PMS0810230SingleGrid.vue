@@ -784,6 +784,7 @@
                     tab_page_id: 1,
                     event_time: moment().format()
                 });
+                console.log(this.singleData);
                 //將主檔資料放至Vuex
                 this.$store.dispatch("setMnSingleData", {
                     go_mnSingleData: this.singleData,
@@ -801,7 +802,6 @@
                 this.doConvertData();
 
                 var lo_chkResult = this.dataValidate();
-
                 if (lo_chkResult.success == false) {
                     alert(lo_chkResult.msg);
                     this.isLoadingDialog = false;

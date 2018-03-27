@@ -14,10 +14,12 @@ const state = {
 
     //所有資料
     go_allData: {
+        go_mnSingleData: {},
         ga_utDataGridRowsData: []
     },
     //所有原始資料
     go_allOriData: {
+        go_mnSingleData: {},
         ga_utDataGridRowsData: []
     },
 
@@ -92,55 +94,52 @@ const actions = {
             createData: [],
             updateData: [],
             deleteData: [],
-            oriData: [],
-            dt_createData: [],
-            dt_updateData: [],
-            dt_deleteData: [],
-            dt_oriData: []
+            oriData: []
         };
 
         if(state.gb_isCreateStatus){
-            lo_tmpCUD.createData = [state.go_allData.go_mnSingleData];
+            lo_tmpCUD.createData.push(state.go_allData.go_mnSingleData);
             _.each(state.go_rtTmpCUD.createData, function (lo_createData) {
-                lo_tmpCUD.dt_createData.push(lo_createData);
+                lo_tmpCUD.createData.push(lo_createData);
             });
             _.each(state.go_utTmpCUD.createData, function (lo_createData) {
-                lo_tmpCUD.dt_createData.push(lo_createData);
+                lo_tmpCUD.createData.push(lo_createData);
             });
         }
         else if(state.gb_isEditStatus){
-            lo_tmpCUD.updateData = [state.go_allData.go_mnSingleData];
-            lo_tmpCUD.oriData = [state.go_allOriData.go_mnSingleData];
+            lo_tmpCUD.updateData.push(state.go_allData.go_mnSingleData);
+            lo_tmpCUD.oriData.push(state.go_allOriData.go_mnSingleData);
 
             _.each(state.go_rtTmpCUD.createData, function (lo_createData) {
-                lo_tmpCUD.dt_createData.push(lo_createData);
+                lo_tmpCUD.createData.push(lo_createData);
             });
             _.each(state.go_utTmpCUD.createData, function (lo_createData) {
-                lo_tmpCUD.dt_createData.push(lo_createData);
+                lo_tmpCUD.createData.push(lo_createData);
             });
 
             _.each(state.go_rtTmpCUD.updateData, function (lo_updateData) {
-                lo_tmpCUD.dt_updateData.push(lo_updateData);
+                lo_tmpCUD.updateData.push(lo_updateData);
             });
             _.each(state.go_utTmpCUD.updateData, function (lo_updateData) {
-                lo_tmpCUD.dt_updateData.push(lo_updateData);
+                lo_tmpCUD.updateData.push(lo_updateData);
             });
 
             _.each(state.go_rtTmpCUD.oriData, function (lo_oriData) {
-                lo_tmpCUD.dt_oriData.push(lo_oriData);
+                lo_tmpCUD.oriData.push(lo_oriData);
             });
             _.each(state.go_utTmpCUD.oriData, function (lo_oriData) {
-                lo_tmpCUD.dt_oriData.push(lo_oriData);
+                lo_tmpCUD.oriData.push(lo_oriData);
             });
 
             _.each(state.go_rtTmpCUD.deleteData, function (lo_deleteData) {
-                lo_tmpCUD.dt_deleteData.push(lo_deleteData);
+                lo_tmpCUD.deleteData.push(lo_deleteData);
             });
             _.each(state.go_utTmpCUD.deleteData, function (lo_deleteData) {
-                lo_tmpCUD.dt_deleteData.push(lo_deleteData);
+                lo_tmpCUD.deleteData.push(lo_deleteData);
             });
         }
         console.log(lo_tmpCUD);
+        // return {success: true};
         return await $.post('/api/execNewFormatSQL', {
             prg_id: 'PMS0810230',
             func_id: lo_tmpCUD.createData.length > 0 ? "0520" : "0540",
