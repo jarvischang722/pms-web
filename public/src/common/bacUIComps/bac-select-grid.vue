@@ -8,7 +8,8 @@
         props: {
             //綁定的model
             vModel: {
-                type: String
+                type: String,
+                required: true
             },
             //是否多選
             multiple: {
@@ -42,9 +43,7 @@
             //欄位屬性
             field: {
                 type: Object,
-                default: function () {
-                    return {};
-                }
+                required: true
             },
             //datagrid 欄位
             columns: {
@@ -60,6 +59,9 @@
         },
         mounted: function () {
             this.initComboGrid();
+            if(this.field.requirable == "Y"){
+                $(this.$el).combogrid("textbox").css("background","#c6f2d9");
+            }
         },
         watch: {
             //塞入預設值

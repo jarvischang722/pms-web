@@ -22,6 +22,7 @@
                                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                                 @update:v-model="val => settingGridRowData[field.ui_field_name] = val"
                                                 :default-val="settingGridRowData[field.ui_field_name]"
+                                                :field="field"
                                                 :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                     </bac-select>
