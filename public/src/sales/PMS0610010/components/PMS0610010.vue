@@ -95,6 +95,7 @@
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     v-model="compStaSingleData[field.ui_field_name]" :data="field.selectData"
                                                     is-qry-src-before="Y" value-field="value" text-field="display"
+                                                    :field="field"
                                                     @update:v-model="val => compStaSingleData[field.ui_field_name] = val"
                                                     :default-val="field.defaultVal"
                                                     :disabled="field.modificable == 'N'">
@@ -149,6 +150,7 @@
                                         <bac-select :style="{width:contractStaMnFieldData.width + 'px' , height:contractStaMnFieldData.height + 'px'}"
                                                     v-model="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
                                                     :data="contractStaMnFieldData.selectData"
+                                                    :field="field"
                                                     is-qry-src-before="Y" value-field="value" text-field="display"
                                                     @update:v-model="val => contractStaMnSingleData[contractStaMnFieldData.ui_field_name] = val"
                                                     :default-val="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"

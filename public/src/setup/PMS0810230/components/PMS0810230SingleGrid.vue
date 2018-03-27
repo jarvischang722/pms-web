@@ -30,7 +30,7 @@
                                                    v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                    :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
-                                                   @keyup="formatAmt(singleData[field.ui_field_name], field)">
+                                                   >
 
                                             <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'date'"
                                                             v-model="singleData[field.ui_field_name]"
@@ -54,7 +54,8 @@
                                             <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                         :class="{'input_sta_required' : field.requirable == 'Y' }"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                        v-model="singleData[field.ui_field_name]" :data="field.selectData"
+                                                        v-model="singleData[field.ui_field_name]"
+                                                        :data-display="field.selectDataDisplay " :data="field.selectData"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
                                                         :default-val="singleData[field.ui_field_name]" :field="field"
@@ -783,6 +784,7 @@
                     tab_page_id: 1,
                     event_time: moment().format()
                 });
+                console.log(this.singleData);
                 //將主檔資料放至Vuex
                 this.$store.dispatch("setMnSingleData", {
                     go_mnSingleData: this.singleData,
@@ -800,7 +802,6 @@
                 this.doConvertData();
 
                 var lo_chkResult = this.dataValidate();
-
                 if (lo_chkResult.success == false) {
                     alert(lo_chkResult.msg);
                     this.isLoadingDialog = false;

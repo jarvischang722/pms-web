@@ -300,7 +300,9 @@ exports.handleSinglePageRowData_PM0620020 = function (session, postData, callbac
                                         fieldData[fIdx].defaultVal = selRow.defaultVal || "";
 
                                         dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
-                                            fieldData[fIdx].selectData = selectData;
+                                            fieldData[fIdx].selectDataDisplay = selectData.selectDataDisplay;
+                                            fieldData[fIdx].selectData =
+                                                selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
                                             cb(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                         });
 
@@ -519,7 +521,9 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                             }
                                             else{
                                                 dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
-                                                    la_saleMnfields[fIdx].selectData = selectData;
+                                                    la_saleMnfields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
+                                                    la_saleMnfields[fIdx].selectData =
+                                                        selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
                                                     cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                                 });
                                             }
@@ -667,7 +671,9 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                         la_hotelDtFields[fIdx].defaultVal = selRow.defaultVal || "";
 
                                         dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
-                                            la_hotelDtFields[fIdx].selectData = selectData;
+                                            la_hotelDtFields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
+                                            la_hotelDtFields[fIdx].selectData =
+                                                selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
                                             cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                         });
 
@@ -774,7 +780,9 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                         la_classHsFields[fIdx].defaultVal = selRow.defaultVal || "";
 
                                         dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
-                                            la_classHsFields[fIdx].selectData = selectData;
+                                            la_classHsFields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
+                                            la_classHsFields[fIdx].selectData =
+                                                selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
                                             cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                         });
 
