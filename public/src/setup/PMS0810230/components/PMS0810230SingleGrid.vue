@@ -816,11 +816,14 @@
                                 alert(result.errorMsg);
                             }
                             this.isLoadingDialog = false;
-                        }).catch(err => {
-                            alert(err);
+                        },
+                        err => {
+                            this.isLoadingDialog = false;
+                            throw new Error(err);
                         });
                     }
                     catch (err) {
+                        this.isLoadingDialog = false;
                         alert(err.message);
                     }
                 }

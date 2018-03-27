@@ -703,7 +703,7 @@ exports.execProcSQL = async function (postData, session) {
     lo_saveProc.setParams(postData, session);
     try {
         let lo_result = await lo_saveProc.execSaveProc();
-        return lo_result;
+        return {success: true, errorMsg: ""};
     }
     catch (err) {
         return {success: false, errorMsg: err.message};
@@ -715,10 +715,10 @@ exports.execNewFormatSQL = async function (postData, session) {
     lo_saveProc.setParams(postData, session);
     try {
         let lo_result = await lo_saveProc.execSaveProc();
-        return lo_result;
+        return {success: true, errorMsg: ""};
     }
     catch (err) {
-        return {success: false, errorMsg: err.message};
+        return {success: false, errorMsg: err};
     }
 };
 

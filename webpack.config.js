@@ -19,7 +19,7 @@ const config = {
         // path: path.join(__dirname, 'public', 'js/reservation/'),
         path: path.join(__dirname, 'public', 'js/setup/'),
         // filename: 'permissionSetup.js'
-        filename: 'PMS0810230.js'
+        filename: 'PMS0810230_setup.js'
 
     },
     module: {

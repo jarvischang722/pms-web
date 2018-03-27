@@ -97,7 +97,7 @@ class saveDataAdapter {
     }
 
     /**
-     * tmpCUD組condition流程
+     * tmpCUD組conditions流程
      * @param tmpRf {array} templateRf資料
      * @param dgKeyFields {array} datagrid欄位為key值資料
      * @param gsKeyFields {array} gridsingle欄位為key值資料
@@ -112,7 +112,7 @@ class saveDataAdapter {
     }
 
     /**
-     * 將tmpCUD每筆資料組condition
+     * 將tmpCUD每筆資料組conditions
      * @param tmpRf {array} templateRf資料
      * @param dgKeyFields {array} datagrid欄位為key值資料
      * @param gsKeyFields {array} gridsingle欄位為key值資料
@@ -125,8 +125,8 @@ class saveDataAdapter {
             try {
                 _.each(la_tmpCudData, lo_tmpCudData => {
                     let ls_template_id = _.findWhere(tmpRf, {
-                        page_id: lo_tmpCudData.page_id,
-                        tab_page_id: lo_tmpCudData.tab_page_id
+                        page_id: Number(lo_tmpCudData.page_id),
+                        tab_page_id: Number(lo_tmpCudData.tab_page_id)
                     }).template_id;
 
                     if (ls_template_id.toLocaleLowerCase() == "special") {
@@ -136,13 +136,13 @@ class saveDataAdapter {
                     let la_fields = ls_template_id.toLocaleLowerCase() == "datagrid" ? dgKeyFields : gsKeyFields;
 
                     let la_filterKeyFieldsByPageIdTabPageId = _.where(la_fields, {
-                        page_id: lo_tmpCudData.page_id,
-                        tab_page_id: lo_tmpCudData.tab_page_id
+                        page_id: Number(lo_tmpCudData.page_id),
+                        tab_page_id: Number(lo_tmpCudData.tab_page_id)
                     });
-                    lo_tmpCudData.condition = {};
+                    lo_tmpCudData.conditions = {};
                     _.each(la_filterKeyFieldsByPageIdTabPageId, lo_keyField => {
                         if (!_.isUndefined(lo_tmpCudData[lo_keyField.ui_field_name])) {
-                            lo_tmpCudData.condition[lo_keyField.ui_field_name] = lo_tmpCudData[lo_keyField.ui_field_name];
+                            lo_tmpCudData.conditions[lo_keyField.ui_field_name] = lo_tmpCudData[lo_keyField.ui_field_name];
                         }
                     });
                 });
@@ -152,7 +152,7 @@ class saveDataAdapter {
                 throw new Error(err);
             }
         }
-        else{
+        else {
             return {};
         }
     }
@@ -163,9 +163,9 @@ class saveDataAdapter {
      */
     async formatData() {
         await Promise.all([
-            this.convCreateData(),
-            this.convDeleteData(),
-            this.convUpdateData()
+            this.insertAction("createData"),
+            this.insertAction("updateData"),
+            this.insertAction("deleteData")
         ]);
         let la_tmpCud = _.union(this.params.createData, this.params.updateData, this.params.deleteData);
         //group page_id
@@ -200,21 +200,26 @@ class saveDataAdapter {
         return lo_page_data;
     }
 
-    async convCreateData() {
-        _.each(this.params.createData, (lo_createData, index) => {
-            this.params.createData[index].action = "C";
-        });
-    }
-
-    async convDeleteData() {
-        _.each(this.params.deleteData, (lo_deleteData, index) => {
-            this.params.deleteData[index].action = "D";
-        });
-    }
-
-    async convUpdateData() {
-        _.each(this.params.updateData, (lo_updateData, index) => {
-            this.params.updateData[index].action = "U";
+    /**
+     * 新增action代碼: C, U, D
+     * @returns {Promise<void>}
+     */
+    async insertAction(dataType) {
+        let ls_action = "";
+        if (dataType == "createData") {
+            ls_action = "C";
+        }
+        else if (dataType == "updateData") {
+            ls_action = "U";
+        }
+        else if (dataType == "deleteData") {
+            ls_action = "D";
+        }
+        else {
+            throw new Error("dataType not found");
+        }
+        _.each(this.params[dataType], (lo_Data, index) => {
+            this.params[dataType][index].action = ls_action;
         });
     }
 
@@ -233,6 +238,8 @@ class saveDataAdapter {
             };
         }
         else {
+            delete saveData["ins_dat"];
+            delete saveData["ins_usr"];
             return {
                 athena_id: this.session.user.athena_id,
                 hotel_cod: this.session.user.fun_hotel_cod,
@@ -250,7 +257,7 @@ class saveDataAdapter {
             func_id: this.params.func_id,
             client_ip: "",
             server_ip: "",
-            event_time: "",
+            event_time: moment().format(),
             mac: "",
             page_data: {}
         }
