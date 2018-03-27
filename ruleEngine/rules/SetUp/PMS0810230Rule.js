@@ -106,5 +106,46 @@ module.exports = {
             baserate_cod: postData.singleRowData[0].rate_cod
         };
         callback(lo_error, lo_result);
+    },
+
+    /**
+     * 欄位 屬性: 有其他DP的房價代號有使用到，不許修改
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    async r_baserate_flag(postData, session, callback){
+        let lo_result = new ReturnClass;
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            rate_cod: postData.singleRowData[0].rate_cod
+        };
+
+        try {
+            let lo_chkNum = await new Promise((resolve, reject) => {
+                queryAgent.query("CHK_BASERATE_FLAG", lo_params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result.chk_num);
+                    }
+                });
+            });
+            if(lo_chkNum > 0){
+                lo_result.effectValues = {
+                    baserate_flag: postData.oriSingleData[0].baserate_flag
+                }
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
     }
 };
