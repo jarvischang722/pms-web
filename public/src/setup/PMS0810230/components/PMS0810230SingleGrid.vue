@@ -779,12 +779,12 @@
             formatAmt(value, field) {
             },
             doConvertData() {
-                this.singleData = _.extend(this.singleData, {
-                    page_id: 2,
-                    tab_page_id: 1,
+                let lo_params = {
+                    page_id: this.fieldsData[0].page_id,
+                    tab_page_id: this.fieldsData[0].tab_page_id,
                     event_time: moment().format()
-                });
-                console.log(this.singleData);
+                }
+                this.singleData = _.extend(this.singleData, lo_params);
                 //將主檔資料放至Vuex
                 this.$store.dispatch("setMnSingleData", {
                     go_mnSingleData: this.singleData,

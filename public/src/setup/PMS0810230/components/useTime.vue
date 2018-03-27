@@ -32,19 +32,19 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="editRow">日期規則
+                                                role="button" @click="editRow">{{i18nLang.program.PMS0810230.dateRule}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="closeDialog">離開
+                                                role="button" @click="closeDialog">{{i18nLang.program.PMS0810230.leave}}
                                         </button>
                                     </li>
                                     <li>
                                         <span class="checkbox">
                                               <label class="checkbox-width">
-                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                  <span class="lbl font-btn">過期顯示</span>
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace" v-model="isShowExpire" @change="showTable">
+                                                  <span class="lbl font-btn">{{i18nLang.program.PMS0810230.showExpire}}</span>
                                               </label>
                                           </span>
                                     </li>
@@ -75,6 +75,8 @@
                         return lo_dataGridRowsData.supply_nos
                     }).supply_nos : 0;
                     let lo_createData = {
+                        athena_id: this.$store.state.go_userInfo.athena_id,
+                        hotel_cod: this.$store.state.go_userInfo.hotel_cod,
                         rate_cod: this.$store.state.gs_rateCod,
                         supply_nos: Number(ln_maxSupplyNos) + 1,
                         begin_dat: moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD"),
@@ -85,11 +87,6 @@
                     };
                     this.tmpCUD.createData.push(lo_createData);
                     this.dataGridRowsData.push(lo_createData);
-                    this.useTimeData.push({
-                        "startDat": moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD"),
-                        "endDat": moment(timeRuleData.singleData.end_dat).format("YYYY/MM/DD"),
-                        "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(timeRuleData.singleData)))
-                    });
                 }
                 //編輯的使用期限
                 else {
@@ -98,9 +95,7 @@
                     this.dataGridRowsData[ln_editIndex].end_dat = moment(timeRuleData.singleData.end_dat).format("YYYY/MM/DD");
                     this.dataGridRowsData[ln_editIndex].command_cod = timeRuleData.singleData.command_cod;
                     this.dataGridRowsData[ln_editIndex].command_option = timeRuleData.singleData.command_option;
-                    this.useTimeData[ln_editIndex].startDat = moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD");
-                    this.useTimeData[ln_editIndex].endDat = moment(timeRuleData.singleData.end_dat).format("YYYY/MM/DD");
-                    this.useTimeData[ln_editIndex].datRule = this.convertCommandOption(JSON.parse(JSON.stringify(timeRuleData.singleData)));
+
                     let ln_createIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: timeRuleData.singleData.supply_nos});
                     if(ln_createIndex > -1){
                         this.tmpCUD.createData.splice(ln_createIndex, 1);
@@ -112,17 +107,22 @@
                     }
                 }
 
+                let lo_params = {
+                    page_id: this.fieldsData[0].page_id,
+                    tab_page_id: this.fieldsData[0].tab_page_id
+                };
+
                 _.each(this.tmpCUD.createData, (lo_createData) => {
-                    _.extend(lo_createData, {page_id: 1010, tab_page_id: 1});
+                    _.extend(lo_createData, lo_params);
                 });
                 _.each(this.tmpCUD.updateData, (lo_updateData) => {
-                    _.extend(lo_updateData, {page_id: 1010, tab_page_id: 1});
+                    _.extend(lo_updateData, lo_params);
                 });
                 _.each(this.tmpCUD.deleteData, (lo_deleteData) => {
-                    _.extend(lo_deleteData, {page_id: 1010, tab_page_id: 1});
+                    _.extend(lo_deleteData, lo_params);
                 });
                 _.each(this.tmpCUD.oriData, (lo_oriData) => {
-                    _.extend(lo_oriData, {page_id: 1010, tab_page_id: 1});
+                    _.extend(lo_oriData, lo_params);
                 });
 
                 //將資料放入Vuex
@@ -132,12 +132,16 @@
                     ga_utOriDataGridRowsData: this.oriDataGridRowsData,
                     go_utTmpCUD: this.tmpCUD
                 });
+                this.showTable();
             });
         },
         mounted() {
+            this.fetchRentCalDat();
         },
         data() {
             return {
+                i18nLang: go_i18nLang,
+                rentCalDat: "",//滾房租日
                 fieldsData: [],
                 dataGridRowsData: [],
                 oriDataGridRowsData: [],
@@ -147,6 +151,8 @@
                 errorContent: "",
                 //是否開啟日期規則
                 isOpenTimeRule: false,
+                //是否過期顯示
+                isShowExpire: false,
                 timeRuleData: {},
                 tmpCUD: {
                     createData: [],
@@ -174,6 +180,12 @@
             }
         },
         methods: {
+            //取滾房租日
+            fetchRentCalDat(){
+                $.post('/api/qryRentCalDat', {}, (result) => {
+                    this.rentCalDat = result.rent_cal_dat;
+                });
+            },
             initData() {
                 this.fieldsData = [];
                 this.dataGridRowsData = [];
@@ -214,6 +226,7 @@
                 });
             },
             showTable() {
+                this.useTimeData = [];
                 this.useTimeColumns = [
                     {
                         field: 'control',
@@ -249,20 +262,44 @@
                         isResize: true,
                     }
                 ];
-                if (this.dataGridRowsData.length > 0) {
-                    _.each(this.dataGridRowsData, (lo_dataGridRowsData) => {
-                        this.useTimeData.push({
-                            "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
-                            "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
-                            "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(lo_dataGridRowsData)))
+                let la_displayDataGridRowsData = _.filter(this.dataGridRowsData, (lo_dataGridRowsData)=>{
+                    let lo_endDat = moment(lo_dataGridRowsData.end_dat);
+                    let lo_rentCalDat = moment(this.rentCalDat);
+                    return lo_endDat.diff(lo_rentCalDat, 'days') >= 1
+                });
+                if(this.isShowExpire){
+                    if (this.dataGridRowsData.length > 0) {
+                        _.each(this.dataGridRowsData, (lo_dataGridRowsData) => {
+                            this.useTimeData.push({
+                                "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
+                                "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
+                                "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(lo_dataGridRowsData)))
+                            });
                         });
-                    });
+                    }
+                    else {
+                        this.useTimeData = [{}];
+                        setTimeout(() => {
+                            this.$delete(this.useTimeData, 0);
+                        }, 0.1);
+                    }
                 }
-                else {
-                    this.useTimeData = [{}];
-                    setTimeout(() => {
-                        this.$delete(this.useTimeData, 0);
-                    }, 0.1);
+                else{
+                    if (la_displayDataGridRowsData.length > 0) {
+                        _.each(la_displayDataGridRowsData, (lo_dataGridRowsData) => {
+                            this.useTimeData.push({
+                                "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
+                                "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
+                                "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(lo_dataGridRowsData)))
+                            });
+                        });
+                    }
+                    else {
+                        this.useTimeData = [{}];
+                        setTimeout(() => {
+                            this.$delete(this.useTimeData, 0);
+                        }, 0.1);
+                    }
                 }
             },
             convertCommandOption(data) {
