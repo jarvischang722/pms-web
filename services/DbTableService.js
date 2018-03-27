@@ -718,7 +718,7 @@ exports.execNewFormatSQL = async function (postData, session) {
         return {success: true, errorMsg: ""};
     }
     catch (err) {
-        return {success: false, errorMsg: err};
+        return {success: false, errorMsg: err.message};
     }
 };
 

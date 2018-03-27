@@ -38,7 +38,7 @@ const mutations = {
         state.gs_rateCod = ls_rateCod;
     },
     //設定主檔資料
-    setMnSingleData(state, payload){
+    setMnSingleData(state, payload) {
         state.go_allData.go_mnSingleData = payload.go_mnSingleData;
         state.go_allOriData.go_mnSingleData = payload.go_mnOriSingleData;
     },
@@ -50,7 +50,7 @@ const mutations = {
         state.go_utTmpCUD = payload.go_utTmpCUD;
     },
     //設定房型資料
-    setRoomTypData(state, payload){
+    setRoomTypData(state, payload) {
         state.go_rtTmpCUD = payload.go_rtTmpCUD;
     }
 };
@@ -65,7 +65,7 @@ const actions = {
         commit("setRateCod", ls_rateCod);
     },
     //設定主檔資料
-    setMnSingleData({commit}, payload){
+    setMnSingleData({commit}, payload) {
         commit("setMnSingleData", payload);
     },
     //設定使用期間資料
@@ -73,7 +73,7 @@ const actions = {
         commit("setUseTimeData", payload);
     },
     //設定房型資料
-    setRoomTypData({commit}, payload){
+    setRoomTypData({commit}, payload) {
         commit("setRoomTypData", payload);
     },
     //清除所有資料
@@ -89,7 +89,7 @@ const actions = {
         });
     },
     //儲存所有資料
-    async doSaveAllData({commit, dispatch, state}){
+    async doSaveAllData({commit, dispatch, state}) {
         let lo_tmpCUD = {
             createData: [],
             updateData: [],
@@ -97,7 +97,7 @@ const actions = {
             oriData: []
         };
 
-        if(state.gb_isCreateStatus){
+        if (state.gb_isCreateStatus) {
             lo_tmpCUD.createData.push(state.go_allData.go_mnSingleData);
             _.each(state.go_rtTmpCUD.createData, function (lo_createData) {
                 lo_tmpCUD.createData.push(lo_createData);
@@ -106,7 +106,7 @@ const actions = {
                 lo_tmpCUD.createData.push(lo_createData);
             });
         }
-        else if(state.gb_isEditStatus){
+        else if (state.gb_isEditStatus) {
             lo_tmpCUD.updateData.push(state.go_allData.go_mnSingleData);
             lo_tmpCUD.oriData.push(state.go_allOriData.go_mnSingleData);
 
@@ -144,11 +144,14 @@ const actions = {
             prg_id: 'PMS0810230',
             func_id: state.gb_isCreateStatus ? "0520" : "0540",
             tmpCUD: lo_tmpCUD
-        }).then(result => {
-            return (result);
-        }).catch(err=>{
-            throw new Error(err);
-        });
+        }).then(
+            result => {
+                return result;
+            },
+            err => {
+                throw err;
+            }
+        );
     }
 };
 

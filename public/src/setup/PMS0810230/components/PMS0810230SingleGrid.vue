@@ -820,7 +820,7 @@
                         },
                         err => {
                             this.isLoadingDialog = false;
-                            throw new Error(err);
+                            alert(err);
                         });
                     }
                     catch (err) {

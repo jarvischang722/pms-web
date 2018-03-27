@@ -121,7 +121,8 @@ class saveDataAdapter {
      */
     async execInsertCond(tmpRf, dgKeyFields, gsKeyFields, dataType) {
         let la_tmpCudData = this.params[dataType];
-        if (la_tmpCudData.length > 0) {
+        // if (la_tmpCudData.length > 0) {
+        if (this.params.deleteData.length > 0) {
             try {
                 _.each(la_tmpCudData, lo_tmpCudData => {
                     let ls_template_id = _.findWhere(tmpRf, {
@@ -133,9 +134,9 @@ class saveDataAdapter {
                         let ls_rule_func_name = `${this.params.prg_id}_templateRf`;
                         ls_template_id = ruleAgent[ls_rule_func_name](lo_tmpCudData.page_id, lo_tmpCudData.tab_page_id);
                     }
-                    let la_fields = ls_template_id.toLocaleLowerCase() == "datagrid" ? dgKeyFields : gsKeyFields;
+                    let la_keyFields = ls_template_id.toLocaleLowerCase() == "datagrid" ? dgKeyFields : gsKeyFields;
 
-                    let la_filterKeyFieldsByPageIdTabPageId = _.where(la_fields, {
+                    let la_filterKeyFieldsByPageIdTabPageId = _.where(la_keyFields, {
                         page_id: Number(lo_tmpCudData.page_id),
                         tab_page_id: Number(lo_tmpCudData.tab_page_id)
                     });

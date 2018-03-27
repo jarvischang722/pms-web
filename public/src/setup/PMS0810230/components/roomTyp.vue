@@ -189,16 +189,16 @@
             tmpCUD: {
                 handler(val) {
                     _.each(val.createData, (lo_createData) => {
-                        _.extend(lo_createData, {page_id: 1, tab_page_id: 12});
+                        _.extend(lo_createData, {page_id: 2, tab_page_id: 12});
                     });
                     _.each(val.updateData, (lo_updateData) => {
-                        _.extend(lo_updateData, {page_id: 1, tab_page_id: 12});
+                        _.extend(lo_updateData, {page_id: 2, tab_page_id: 12});
                     });
                     _.each(val.deleteData, (lo_deleteData) => {
-                        _.extend(lo_deleteData, {page_id: 1, tab_page_id: 12});
+                        _.extend(lo_deleteData, {page_id: 2, tab_page_id: 12});
                     });
                     _.each(val.oriData, (lo_oriData) => {
-                        _.extend(lo_oriData, {page_id: 1, tab_page_id: 12});
+                        _.extend(lo_oriData, {page_id: 2, tab_page_id: 12});
                     });
 
                     //將資料放入Vuex
