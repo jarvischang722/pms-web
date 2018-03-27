@@ -122,9 +122,8 @@ function DatagridBaseClass() {
         });
     };
 
-    this.setpage = function (pageNo) {
+    this.setpage = function (pageNo, pageSize) {
         var pager = $('#' + self.dgName).datagrid("getPager");
-        var pageSize = $('#' + self.dgName).datagrid('options').pageSize;
         var start = (pageNo - 1) * pageSize;
         var end = start + pageSize;
         $('#' + self.dgName).datagrid("loadData", self.dgData.slice(start, end));
