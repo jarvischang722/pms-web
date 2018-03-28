@@ -363,7 +363,9 @@
             },
             getRowData(rowIndex, rowData, column) {
                 let lb_editIndex = _.findIndex(this.dataGridRowsData, {supply_nos: rowData.supply_nos});
-                this.timeRuleData = _.extend(rowData, this.dataGridRowsData[lb_editIndex]);
+                if(lb_editIndex> -1){
+                    this.timeRuleData = _.extend(rowData, this.dataGridRowsData[lb_editIndex]);
+                }
             },
             customCompFunc(params) {
                 let self = this;
