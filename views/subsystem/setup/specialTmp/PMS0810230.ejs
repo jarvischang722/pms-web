@@ -1537,10 +1537,7 @@
     <!-- /. rateCode_duplicate 彈出視窗 -->
 
     <!-- resv_rateListTable(房價一覽表) 彈出視窗 -->
-    <div id="resv_rateList-message" class="hide padding-5" style="top: 0 !important;">
-        <!--全頁日曆-->
-        <div class="resv-rateList-cal"></div>
-    </div>
+
     <!-- /.resv_rateListTable(房價一覽表) 彈出視窗 -->
 
     <!-- 房價試算 (resv_priceTrial) 彈出視窗 -->
@@ -2501,11 +2498,23 @@
                     dataSource: [
                         {
                             startDate: new Date(currentYear, 1, 4),
-                            endDate: new Date(currentYear, 1, 15)
+                            endDate: new Date(currentYear, 1, 15),
+                            color:'#2c8fc9'
+                        },
+                        {
+                            startDate: new Date(currentYear, 11, 4),
+                            endDate: new Date(currentYear, 11, 15),
+                            color:'#2c8fc9'
                         },
                         {
                             startDate: new Date(currentYear, 3, 5),
-                            endDate: new Date(currentYear, 5, 15)
+                            endDate: new Date(currentYear, 5, 15),
+                            color:'#2c8fc9'
+                        },
+                        {
+                            startDate: new Date(currentYear, 6, 5),
+                            endDate: new Date(currentYear, 6, 15),
+                            color:'#2c8fc9'
                         }
                     ]
                 });

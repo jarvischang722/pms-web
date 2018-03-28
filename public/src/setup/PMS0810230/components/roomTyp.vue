@@ -229,24 +229,26 @@
             },
             tmpCUD: {
                 handler(val) {
-                    let la_examFields = ['rent_amt', 'add_adult', 'add_child'];
-                    let lo_params = {
-                        page_id: this.roomTypDetailFieldsData[0].page_id,
-                        tab_page_id: this.roomTypDetailFieldsData[0].tab_page_id,
-                    };
                     //轉換tmpCUD資料
-                    _.each(val, (val, key) => {
-                        _.each(val, (lo_val) => {
-                            //轉換金格格式
-                            _.each(lo_val, (lo_valVal, lo_key) => {
-                                if (la_examFields.indexOf(key) > -1) {
-                                    lo_val[lo_key] = go_formatDisplayClass.removeAmtFormat(lo_valVal.toString());
-                                }
-                            });
-                            //增加page_id、tab_page_id
-                            _.extend(lo_val, lo_params);
-                        })
-                    });
+                    let la_examFields = ['rent_amt', 'add_adult', 'add_child'];
+                    if(this.roomTypDetailFieldsData.length > 0){
+                        let lo_params = {
+                            page_id: this.roomTypDetailFieldsData[0].page_id,
+                            tab_page_id: this.roomTypDetailFieldsData[0].tab_page_id,
+                        };
+                        _.each(val, (val, key) => {
+                            _.each(val, (lo_val) => {
+                                //轉換金格格式
+                                _.each(lo_val, (lo_valVal, lo_key) => {
+                                    if (la_examFields.indexOf(key) > -1) {
+                                        lo_val[lo_key] = go_formatDisplayClass.removeAmtFormat(lo_valVal.toString());
+                                    }
+                                });
+                                //增加page_id、tab_page_id
+                                _.extend(lo_val, lo_params);
+                            })
+                        });
+                    }
                     //將資料放入Vuex
                     this.$store.dispatch("setRoomTypData", {
                         go_rtTmpCUD: val
