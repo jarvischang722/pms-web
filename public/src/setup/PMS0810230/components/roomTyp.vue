@@ -109,6 +109,30 @@
             this.$eventHub.$on("getDeleteUseTimeData", (data) => {
                 this.deleteRoomTypData("useTime", data.delUseTimeData);
             });
+            this.$eventHub.$on("setRoomTypRateCod", (data) => {
+                let self = this;
+                this.rateCod = data.rateCod;
+                //修改原始資料的 rate_cod
+                _.each(this.roomTypDetailRowsData, (lo_roomTypDetailRowsData, idx) => {
+                    lo_roomTypDetailRowsData.rate_cod = data.rateCod;
+                    let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_roomTypDetailRowsData.supply_nos});
+                    if (ln_editIndex > -1) {
+                        this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                        this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                    }
+                    this.tmpCUD.updateData.push(lo_roomTypDetailRowsData);
+                    this.tmpCUD.oriData.push(this.oriRoomTypDetailRowsData[idx]);
+                });
+
+                //修改 tmpCUD 的 rate_cod
+                _.each(this.tmpCUD, (tmpCUDVal, tmpCUDKey) => {
+                    if (tmpCUDVal != 'oriData') {
+                        _.each(tmpCUDVal, (lo_tmpCUDVal, idx) => {
+                            self.tmpCUD[tmpCUDKey][idx].rate_cod = data.rateCod
+                        });
+                    }
+                });
+            });
         },
         mounted() {
             this.fetchRentCalDat();
@@ -120,6 +144,7 @@
                 editingIndex: -1, //正在編輯的index
                 rentCalDat: '', //滾房租日
                 isLoading: true,
+                rateCod: "",
                 //房型原始資料
                 roomTypFieldsData: [],
                 roomTypRowsData: [],
@@ -173,13 +198,15 @@
                             supply_nos: lo_val.supply_nos,
                             room_cod: lo_val.room_cod
                         });
-                        //新增房型資料
-                        //刪除暫存重複的資料,再新增新資料
+                        //新增房型資料，刪除暫存重複的資料,再新增新資料
                         if (ln_tmpCUDCreateIdx > -1) {
                             this.tmpCUD.createData.splice(ln_tmpCUDCreateIdx, 1);
                         }
                         if (ln_oriDgCreateIdx == -1) {
-                            this.tmpCUD.createData.push(_.extend(lo_val, {event_time: moment().format()}));
+                            this.tmpCUD.createData.push(_.extend(lo_val, {
+                                event_time: moment().format(),
+                                rate_cod: this.rateCod
+                            }));
                         }
                         //修改房型資料
                         else {
@@ -189,7 +216,10 @@
                                 this.tmpCUD.oriData.splice(ln_tmpCUDUpdateIdx, 1);
                             }
                             if (JSON.stringify(lo_val) != JSON.stringify(this.oriRoomTypDetailRowsData[idx])) {
-                                this.tmpCUD.updateData.push(_.extend(lo_val, {event_time: moment().format()}));
+                                this.tmpCUD.updateData.push(_.extend(lo_val, {
+                                    event_time: moment().format(),
+                                    rate_cod: this.rateCod
+                                }));
                                 this.tmpCUD.oriData.push(_.extend(this.oriRoomTypDetailRowsData[idx], {event_time: moment().format()}));
                             }
                         }
@@ -296,7 +326,7 @@
                     prg_id: 'PMS0810230',
                     page_id: 2,
                     tab_page_id: 11,
-                    searchCond: {rate_cod: this.$store.state.gs_rateCod}
+                    searchCond: {rate_cod: this.$store.state.gs_oriRateCod}
                 };
 
                 $.post("/api/fetchDataGridFieldData", lo_params, (result) => {
@@ -316,7 +346,7 @@
                     prg_id: 'PMS0810230',
                     page_id: 2,
                     tab_page_id: 12,
-                    searchCond: {rate_cod: this.$store.state.gs_rateCod}
+                    searchCond: {rate_cod: this.$store.state.gs_oriRateCod}
                 };
 
                 $.post("/api/fetchDataGridFieldData", lo_params, (result) => {
@@ -454,6 +484,7 @@
                                     "add_child": 0,
                                     "rent_amt": 0,
                                     "room_cod": room_cod,
+                                    "rate_cod": this.rateCod,
                                     "supply_nos": lo_useTimeData.supply_nos,
                                     "ratesupply_dt.between_dat": ls_betweenDat,
                                     "ratesupply_dt.command_option": lo_useTimeData.command_option
@@ -508,7 +539,7 @@
                         prg_id: 'PMS0810230',
                         page_id: 1010,
                         tab_page_id: 1,
-                        searchCond: {rate_cod: this.$store.state.gs_rateCod}
+                        searchCond: {rate_cod: this.$store.state.gs_oriRateCod}
                     };
                     $.post("/api/fetchDataGridFieldData", lo_params, (result) => {
                         if (result.success) {
