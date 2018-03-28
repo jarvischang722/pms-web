@@ -627,6 +627,12 @@
             singleData: {
                 handler(val) {
                     this.setGlobalRateCod();
+                    this.$eventHub.$emit("setRoomTypRateCod", {
+                        rateCod: val.rate_cod
+                    });
+                    this.$eventHub.$emit("setUseTimeRateCod", {
+                        rateCod: val.rate_cod
+                    })
                 },
                 deep: true
             }
@@ -645,7 +651,10 @@
                 });
             },
             setGlobalRateCod() {
-                this.$store.dispatch("setRateCod", this.singleData.rate_cod);
+                this.$store.dispatch("setRateCod",{
+                    gs_rateCod: this.singleData.rate_cod,
+                    gs_oriRateCod: this.oriSingleData.rate_cod
+                });
             },
             setTabStatus(tabName) {
                 let self = this;
@@ -696,6 +705,7 @@
                         this.isLoadingDialog = false;
                         this.setGlobalRateCod();
                         this.tabName = "roomTyp";
+                        this.isUseTime = true;
                     });
                 }
                 else if (this.isEditStatus) {
@@ -711,6 +721,7 @@
                         this.isLoadingDialog = false;
                         this.setGlobalRateCod();
                         this.tabName = "roomTyp";
+                        this.isUseTime = true;
                     });
                 }
             },
@@ -780,11 +791,12 @@
             },
             doConvertData() {
                 let lo_params = {
-                    page_id: this.fieldsData[0].page_id,
-                    tab_page_id: this.fieldsData[0].tab_page_id,
+                    page_id: this.oriFieldsData[0].page_id,
+                    tab_page_id: this.oriFieldsData[0].tab_page_id,
                     event_time: moment().format()
                 }
                 this.singleData = _.extend(this.singleData, lo_params);
+                this.oriSingleData = _.extend(this.oriSingleData, lo_params);
                 //將主檔資料放至Vuex
                 this.$store.dispatch("setMnSingleData", {
                     go_mnSingleData: this.singleData,
@@ -794,6 +806,27 @@
             dataValidate() {
                 var self = this;
                 var lo_checkResult = true;
+
+                // 單筆資料檢查
+                for (let i = 0; i < this.oriFieldsData.length; i++) {
+                    let lo_field = this.oriFieldsData[i];
+                    //必填
+                    if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
+                        lo_checkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        if (lo_checkResult.success == false) {
+                            break;
+                        }
+                    }
+                    //有format
+                    if (lo_field.format_func_name.validate != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name.validate])) {
+                        lo_checkResult = go_validateClass[lo_field.format_func_name.validate](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        if (lo_checkResult.success == false) {
+                            break;
+                        }
+                    }
+
+                }
+
                 return lo_checkResult;
             },
             doSaveGrid() {

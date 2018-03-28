@@ -78,7 +78,7 @@
                     let lo_createData = {
                         athena_id: this.$store.state.go_userInfo.athena_id,
                         hotel_cod: this.$store.state.go_userInfo.hotel_cod,
-                        rate_cod: this.$store.state.gs_rateCod,
+                        rate_cod: this.$store.state.gs_oriRateCod,
                         supply_nos: Number(ln_maxSupplyNos) + 1,
                         begin_dat: moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD"),
                         end_dat: moment(timeRuleData.singleData.end_dat).format("YYYY/MM/DD"),
@@ -129,6 +129,31 @@
                 });
                 this.showTable();
             });
+            this.$eventHub.$on("setUseTimeRateCod", (data) => {
+                let self = this;
+                this.rateCod = data.rateCod;
+                //修改原始資料的 rate_cod
+                _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
+                    lo_dataGridRowsData.rate_cod = data.rateCod;
+                    let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_dataGridRowsData.supply_nos});
+                    if(ln_editIndex> -1){
+                        this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                        this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                    }
+                    this.tmpCUD.updateData.push(lo_dataGridRowsData);
+                    this.tmpCUD.oriData.push(this.oriDataGridRowsData[idx]);
+                });
+
+                //修改 tmpCUD 的 rate_cod
+                _.each(this.tmpCUD, (tmpCUDVal, tmpCUDKey) => {
+                    if (tmpCUDVal != 'oriData') {
+                        _.each(tmpCUDVal, (lo_tmpCUDVal, idx) => {
+                            self.tmpCUD[tmpCUDKey][idx].rate_cod = data.rateCod
+                        });
+                    }
+                });
+
+            });
         },
         mounted() {
             this.fetchRentCalDat();
@@ -137,6 +162,7 @@
             return {
                 i18nLang: go_i18nLang,
                 rentCalDat: "",//滾房租日
+                rateCod: "",
                 fieldsData: [],
                 dataGridRowsData: [],
                 oriDataGridRowsData: [],
@@ -194,7 +220,7 @@
                     prg_id: 'PMS0810230',
                     page_id: 1010,
                     tab_page_id: 1,
-                    searchCond: {rate_cod: this.$store.state.gs_rateCod}
+                    searchCond: {rate_cod: this.$store.state.gs_oriRateCod}
                 };
 
                 $.post("/api/fetchDataGridFieldData", lo_params, (result) => {

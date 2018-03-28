@@ -9,6 +9,7 @@ const state = {
     gb_isCreateStatus: false,
     gb_isEditStatus: false,
 
+    gs_oriRateCod: "",
     gs_rateCod: "",
 
     //欄位資料
@@ -40,8 +41,9 @@ const mutations = {
         state.gb_isEditStatus = payload.gb_isEditStatus;
     },
     //設定房價編號
-    setRateCod(state, ls_rateCod) {
-        state.gs_rateCod = ls_rateCod;
+    setRateCod(state, payload) {
+        state.gs_rateCod = payload.gs_rateCod;
+        state.gs_oriRateCod = payload.gs_oriRateCod;
     },
     //設定主檔資料
     setMnSingleData(state, payload) {
@@ -71,8 +73,8 @@ const actions = {
         commit("setStatus", payload);
     },
     //設定房價編號
-    setRateCod({commit}, ls_rateCod) {
-        commit("setRateCod", ls_rateCod);
+    setRateCod({commit}, payload) {
+        commit("setRateCod", payload);
     },
     //設定主檔資料
     setMnSingleData({commit}, payload) {
@@ -120,32 +122,15 @@ const actions = {
             lo_tmpCUD.updateData.push(state.go_allData.go_mnSingleData);
             lo_tmpCUD.oriData.push(state.go_allOriData.go_mnSingleData);
 
-            _.each(state.go_rtTmpCUD.createData, function (lo_createData) {
-                lo_tmpCUD.createData.push(lo_createData);
+            _.each(state.go_rtTmpCUD, (value, key)=>{
+                _.each(value, (lo_val) =>{
+                    lo_tmpCUD[key].push(lo_val);
+                })
             });
-            _.each(state.go_utTmpCUD.createData, function (lo_createData) {
-                lo_tmpCUD.createData.push(lo_createData);
-            });
-
-            _.each(state.go_rtTmpCUD.updateData, function (lo_updateData) {
-                lo_tmpCUD.updateData.push(lo_updateData);
-            });
-            _.each(state.go_utTmpCUD.updateData, function (lo_updateData) {
-                lo_tmpCUD.updateData.push(lo_updateData);
-            });
-
-            _.each(state.go_rtTmpCUD.oriData, function (lo_oriData) {
-                lo_tmpCUD.oriData.push(lo_oriData);
-            });
-            _.each(state.go_utTmpCUD.oriData, function (lo_oriData) {
-                lo_tmpCUD.oriData.push(lo_oriData);
-            });
-
-            _.each(state.go_rtTmpCUD.deleteData, function (lo_deleteData) {
-                lo_tmpCUD.deleteData.push(lo_deleteData);
-            });
-            _.each(state.go_utTmpCUD.deleteData, function (lo_deleteData) {
-                lo_tmpCUD.deleteData.push(lo_deleteData);
+            _.each(state.go_utTmpCUD, (value, key)=>{
+                _.each(value, (lo_val) =>{
+                    lo_tmpCUD[key].push(lo_val);
+                })
             });
         }
         console.log(lo_tmpCUD);
