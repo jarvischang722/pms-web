@@ -283,44 +283,27 @@
                         isResize: true,
                     }
                 ];
-                let la_displayDataGridRowsData = _.filter(this.dataGridRowsData, (lo_dataGridRowsData) => {
+                let la_displayDataGridRowsData = this.isShowExpire ?
+                    this.dataGridRowsData : _.filter(this.dataGridRowsData, (lo_dataGridRowsData) => {
                     let lo_endDat = moment(lo_dataGridRowsData.end_dat);
                     let lo_rentCalDat = moment(this.rentCalDat);
                     return lo_endDat.diff(lo_rentCalDat, 'days') >= 1
                 });
-                if (this.isShowExpire) {
-                    if (this.dataGridRowsData.length > 0) {
-                        _.each(this.dataGridRowsData, (lo_dataGridRowsData) => {
-                            this.useTimeData.push({
-                                "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
-                                "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
-                                "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(lo_dataGridRowsData)))
-                            });
+                if (la_displayDataGridRowsData.length > 0) {
+                    _.each(la_displayDataGridRowsData, (lo_dataGridRowsData) => {
+                        this.useTimeData.push({
+                            "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
+                            "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
+                            "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(lo_dataGridRowsData))),
+                            "supply_nos":lo_dataGridRowsData.supply_nos
                         });
-                    }
-                    else {
-                        this.useTimeData = [{}];
-                        setTimeout(() => {
-                            this.$delete(this.useTimeData, 0);
-                        }, 0.1);
-                    }
+                    });
                 }
                 else {
-                    if (la_displayDataGridRowsData.length > 0) {
-                        _.each(la_displayDataGridRowsData, (lo_dataGridRowsData) => {
-                            this.useTimeData.push({
-                                "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
-                                "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
-                                "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(lo_dataGridRowsData)))
-                            });
-                        });
-                    }
-                    else {
-                        this.useTimeData = [{}];
-                        setTimeout(() => {
-                            this.$delete(this.useTimeData, 0);
-                        }, 0.1);
-                    }
+                    this.useTimeData = [{}];
+                    setTimeout(() => {
+                        this.$delete(this.useTimeData, 0);
+                    }, 0.1);
                 }
             },
             convertCommandOption(data) {
@@ -379,7 +362,8 @@
                 }
             },
             getRowData(rowIndex, rowData, column) {
-                this.timeRuleData = _.extend(rowData, this.dataGridRowsData[rowIndex]);
+                let lb_editIndex = _.findIndex(this.dataGridRowsData, {supply_nos: rowData.supply_nos});
+                this.timeRuleData = _.extend(rowData, this.dataGridRowsData[lb_editIndex]);
             },
             customCompFunc(params) {
                 let self = this;
