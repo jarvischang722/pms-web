@@ -321,7 +321,6 @@
 
                 $.post("/api/fetchDataGridFieldData", lo_params, (result) => {
                     if (result.success) {
-                        this.setUseTimeData(JSON.parse(JSON.stringify(result.dgRowData)));
                         _.each(result.dgRowData, (lo_dgRowData, idx) => {
                             let ls_beginDat = lo_dgRowData["ratesupply_dt.between_dat"].split("~")[0];
                             let ls_endDat = lo_dgRowData["ratesupply_dt.between_dat"].split("~")[1];
@@ -331,8 +330,7 @@
                         this.roomTypDetailFieldsData = result.dgFieldsData;
                         this.roomTypDetailRowsData = result.dgRowData;
                         this.oriRoomTypDetailRowsData = JSON.parse(JSON.stringify(result.dgRowData));
-                        this.showRoomTypTable();
-
+                        this.setUseTimeData(JSON.parse(JSON.stringify(result.dgRowData)));
                     }
                     else {
                         alert(result.errorMsg);
@@ -448,7 +446,7 @@
                         }
                         //新增使用期間
                         else {
-                            if (ln_dayDiff >= 1) {
+                            if (ln_dayDiff >= 1 && room_cod != "") {
                                 this.roomTypDetailRowsData.push({
                                     "athena_id": this.$store.state.go_userInfo.athena_id,
                                     "hotel_cod": this.$store.state.go_userInfo.hotel_cod,
@@ -491,28 +489,53 @@
             //設定使用期間(未開啟使用日期dialog)
             setUseTimeData(roomTypDetailData) {
                 let la_useTimeData = [];
-                _.each(roomTypDetailData, (lo_data) => {
-                    la_useTimeData.push({
-                        begin_dat: moment(lo_data["ratesupply_dt.between_dat"].split("~")[0]).format("YYYY/MM/DD"),
-                        end_dat: moment(lo_data["ratesupply_dt.between_dat"].split("~")[1]).format("YYYY/MM/DD"),
-                        command_cod: lo_data["ratesupply_dt.command_option"].substring(0, 1),
-                        command_option: lo_data["ratesupply_dt.command_option"],
-                        rate_cod: lo_data["rate_cod"],
-                        supply_nos: lo_data["supply_nos"]
+                if (roomTypDetailData.length > 0) {
+                    _.each(roomTypDetailData, (lo_data) => {
+                        la_useTimeData.push({
+                            begin_dat: moment(lo_data["ratesupply_dt.between_dat"].split("~")[0]).format("YYYY/MM/DD"),
+                            end_dat: moment(lo_data["ratesupply_dt.between_dat"].split("~")[1]).format("YYYY/MM/DD"),
+                            command_cod: lo_data["ratesupply_dt.command_option"].substring(0, 1),
+                            command_option: lo_data["ratesupply_dt.command_option"],
+                            rate_cod: lo_data["rate_cod"],
+                            supply_nos: lo_data["supply_nos"]
+                        });
                     });
-                });
-                this.useTimeData = la_useTimeData;
+                    this.useTimeData = la_useTimeData;
+                    this.showRoomTypTable();
+                }
+                else {
+                    let lo_params = {
+                        prg_id: 'PMS0810230',
+                        page_id: 1010,
+                        tab_page_id: 1,
+                        searchCond: {rate_cod: this.$store.state.gs_rateCod}
+                    };
+                    $.post("/api/fetchDataGridFieldData", lo_params, (result) => {
+                        if (result.success) {
+                            _.each(result.dgRowData, (lo_dgRowData, idx) => {
+                                result.dgRowData[idx]["begin_dat"] = moment(lo_dgRowData["begin_dat"]).format("YYYY/MM/DD");
+                                result.dgRowData[idx]["end_dat"] = moment(lo_dgRowData["end_dat"]).format("YYYY/MM/DD");
+                            });
+                            this.useTimeData = result.dgRowData;
+                            this.showRoomTypTable();
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+                    });
+                }
             },
             //使用期間資料被刪除
             deleteRoomTypData(field, deleteData) {
                 let self = this;
                 let lo_condition = field == 'useTime' ? {supply_nos: deleteData.supply_nos} : {room_cod: deleteData.roomCode};
-                let ln_delIndex = -1;
                 //刪除房型資料(原本在oracle的資料)
-                ln_delIndex = _.findIndex(this.oriRoomTypDetailRowsData, lo_condition);
-                if (ln_delIndex > -1) {
-                    this.tmpCUD.deleteData.push(_.extend(this.oriRoomTypDetailRowsData[ln_delIndex], {event_time: moment().format()}));
-                }
+                let la_oriDelData = _.where(this.oriRoomTypDetailRowsData, {room_cod: deleteData.roomCode});
+                _.each(la_oriDelData, (lo_oriDelData) => {
+                    this.tmpCUD.deleteData.push(_.extend(lo_oriDelData, {event_time: moment().format()}));
+                });
+
+                let ln_delIndex = -1;
                 //刪除房型資料(頁面上顯示)
                 let la_delete = _.where(this.roomTypDetailRowsData, lo_condition);
                 _.each(la_delete, lo_delete => {
@@ -586,13 +609,16 @@
                 return ls_commandOptionDisplay;
             },
             computeAmt(value, field) {
+                let ls_value = "";
                 let ls_ruleVal = field.format_func_name.rule_val;
-                let ls_value = go_formatDisplayClass.removeAmtFormat(value.toString()).toString();
-                if (_.isNaN(Number(ls_value))) {
-                    ls_value = 0;
-                }
-                else {
-                    ls_value = go_formatDisplayClass.amtFormat(ls_value, ls_ruleVal);
+                if (!_.isUndefined(value)) {
+                    ls_value = go_formatDisplayClass.removeAmtFormat(value.toString()).toString();
+                    if (_.isNaN(Number(ls_value))) {
+                        ls_value = 0;
+                    }
+                    else {
+                        ls_value = go_formatDisplayClass.amtFormat(ls_value, ls_ruleVal);
+                    }
                 }
                 return ls_value;
             },
