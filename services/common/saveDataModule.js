@@ -119,9 +119,9 @@ class saveTemplate {
         try {
             await this.chkRuleBeforeSave();
             await this.saveFormatAdapter();
-            // let lo_result = await this.callApi();
-            // return lo_result;
-            return this.lo_apiFormater;
+            let lo_result = await this.callApi();
+            return lo_result;
+            // return this.lo_apiFormater;
         }
         catch (err) {
             throw err;

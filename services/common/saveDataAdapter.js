@@ -31,11 +31,19 @@ class saveDataAdapter {
     async formating() {
         // let lo_apiFormat = this.apiFormat();
         try {
+            // 為tmpCUD給action_cod
+            await Promise.all([
+                this.insertAction("createData"),
+                this.insertAction("updateData"),
+                this.insertAction("deleteData")
+            ]);
+            // 查詢templateRf, UIDatagridField, UIPageField
             let [la_tmpRf, la_dgFields, la_gsFields] = await Promise.all([
                 this.qryTemplateRf(),
                 this.qryUIDataGridFields(),
                 this.qryUIPageFields()
             ]);
+            // 查詢key值
             let {la_dgKeyFields, la_gsKeyFields} = await this.findFieldsCondition(la_dgFields, la_gsFields);
             await this.insertCondIntoTmpCUD(la_tmpRf, la_dgKeyFields, la_gsKeyFields);
             let lo_page_data = await this.formatData();
@@ -121,10 +129,9 @@ class saveDataAdapter {
      */
     async execInsertCond(tmpRf, dgKeyFields, gsKeyFields, dataType) {
         let la_tmpCudData = this.params[dataType];
-        // if (la_tmpCudData.length > 0) {
-        if (this.params.deleteData.length > 0) {
+        if (la_tmpCudData.length > 0) {
             try {
-                _.each(la_tmpCudData, lo_tmpCudData => {
+                _.each(la_tmpCudData, (lo_tmpCudData, index) => {
                     let ls_template_id = _.findWhere(tmpRf, {
                         page_id: Number(lo_tmpCudData.page_id),
                         tab_page_id: Number(lo_tmpCudData.tab_page_id)
@@ -142,8 +149,12 @@ class saveDataAdapter {
                     });
                     lo_tmpCudData.conditions = {};
                     _.each(la_filterKeyFieldsByPageIdTabPageId, lo_keyField => {
-                        if (!_.isUndefined(lo_tmpCudData[lo_keyField.ui_field_name])) {
-                            lo_tmpCudData.conditions[lo_keyField.ui_field_name] = lo_tmpCudData[lo_keyField.ui_field_name];
+                        let la_condData = lo_tmpCudData.action == "U" ? this.params.oriData[index] : lo_tmpCudData;
+                        if (!_.isUndefined(lo_tmpCudData[lo_keyField.ui_field_name]) && !_.isUndefined(la_condData[lo_keyField.ui_field_name])) {
+                            lo_tmpCudData.conditions[lo_keyField.ui_field_name] = la_condData[lo_keyField.ui_field_name];
+                        }
+                        else {
+                            throw (`${dataType} ${lo_keyField.ui_field_name} is key, not found`);
                         }
                     });
                 });
@@ -163,11 +174,6 @@ class saveDataAdapter {
      * @returns {Promise<{}>}
      */
     async formatData() {
-        await Promise.all([
-            this.insertAction("createData"),
-            this.insertAction("updateData"),
-            this.insertAction("deleteData")
-        ]);
         let la_tmpCud = _.union(this.params.createData, this.params.updateData, this.params.deleteData);
         //group page_id
         let lo_groupByPageId = _.groupBy(la_tmpCud, "page_id");
