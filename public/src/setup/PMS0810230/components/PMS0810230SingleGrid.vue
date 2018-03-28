@@ -651,7 +651,7 @@
                 });
             },
             setGlobalRateCod() {
-                this.$store.dispatch("setRateCod",{
+                this.$store.dispatch("setRateCod", {
                     gs_rateCod: this.singleData.rate_cod,
                     gs_oriRateCod: this.oriSingleData.rate_cod
                 });

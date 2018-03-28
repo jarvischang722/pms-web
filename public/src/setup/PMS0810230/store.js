@@ -122,13 +122,13 @@ const actions = {
             lo_tmpCUD.updateData.push(state.go_allData.go_mnSingleData);
             lo_tmpCUD.oriData.push(state.go_allOriData.go_mnSingleData);
 
-            _.each(state.go_rtTmpCUD, (value, key)=>{
-                _.each(value, (lo_val) =>{
+            _.each(state.go_rtTmpCUD, (value, key) => {
+                _.each(value, (lo_val) => {
                     lo_tmpCUD[key].push(lo_val);
                 })
             });
-            _.each(state.go_utTmpCUD, (value, key)=>{
-                _.each(value, (lo_val) =>{
+            _.each(state.go_utTmpCUD, (value, key) => {
+                _.each(value, (lo_val) => {
                     lo_tmpCUD[key].push(lo_val);
                 })
             });

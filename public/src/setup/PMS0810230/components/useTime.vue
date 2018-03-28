@@ -136,7 +136,7 @@
                 _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
                     lo_dataGridRowsData.rate_cod = data.rateCod;
                     let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_dataGridRowsData.supply_nos});
-                    if(ln_editIndex> -1){
+                    if (ln_editIndex > -1) {
                         this.tmpCUD.updateData.splice(ln_editIndex, 1);
                         this.tmpCUD.oriData.splice(ln_editIndex, 1);
                     }
