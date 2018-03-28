@@ -209,7 +209,7 @@
 
 <script>
     import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
-//    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
+    //    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
     let gs_prgId = "PMS0810230";
 
@@ -218,6 +218,7 @@
     /** DataGridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
+
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
     DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     };
@@ -395,6 +396,7 @@
                         self.isCreateStatus = false;
                         self.$eventHub.$emit('setTabName', {tabName: ""});
                         self.$store.dispatch("setAllDataClear");
+                        self.loadDataGridByPrgID()
                     }
                 }).dialog('open');
             },
@@ -417,7 +419,7 @@
                     });
                 }
 
-                this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option !='D1'? this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1):this.timeRuleSingleData.command_option;
+                this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option != 'D1' ? this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1) : this.timeRuleSingleData.command_option;
 
                 this.$eventHub.$emit('setTimeRule', {
                     singleData: this.timeRuleSingleData

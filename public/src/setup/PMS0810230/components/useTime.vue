@@ -68,6 +68,7 @@
         name: 'useTime',
         props: ["rowData", "isUseTime"],
         created() {
+            let self = this;
             this.$eventHub.$on('setTimeRule', (timeRuleData) => {
                 //新增的試用期限
                 if (_.isUndefined(timeRuleData.singleData.supply_nos)) {
@@ -97,32 +98,26 @@
                     this.dataGridRowsData[ln_editIndex].command_option = timeRuleData.singleData.command_option;
 
                     let ln_createIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: timeRuleData.singleData.supply_nos});
-                    if(ln_createIndex > -1){
+                    if (ln_createIndex > -1) {
                         this.tmpCUD.createData.splice(ln_createIndex, 1);
                         this.tmpCUD.createData.push(_.extend(this.dataGridRowsData[ln_editIndex], {event_time: moment().format()}));
                     }
-                    else{
+                    else {
                         this.tmpCUD.updateData.push(_.extend(this.dataGridRowsData[ln_editIndex], {event_time: moment().format()}));
                         this.tmpCUD.oriData.push(_.extend(this.oriDataGridRowsData[ln_editIndex], {event_time: moment().format()}));
                     }
                 }
 
-                let lo_params = {
+                //轉換tmpCUD資料
+                let lo_param = {
                     page_id: this.fieldsData[0].page_id,
                     tab_page_id: this.fieldsData[0].tab_page_id
                 };
-
-                _.each(this.tmpCUD.createData, (lo_createData) => {
-                    _.extend(lo_createData, lo_params);
-                });
-                _.each(this.tmpCUD.updateData, (lo_updateData) => {
-                    _.extend(lo_updateData, lo_params);
-                });
-                _.each(this.tmpCUD.deleteData, (lo_deleteData) => {
-                    _.extend(lo_deleteData, lo_params);
-                });
-                _.each(this.tmpCUD.oriData, (lo_oriData) => {
-                    _.extend(lo_oriData, lo_params);
+                _.each(this.tmpCUD, (val, key) => {
+                    _.each(val, (lo_val, idx) => {
+                        //增加page_id、tab_page_id
+                        _.extend(self.tmpCUD[key][idx], lo_param);
+                    })
                 });
 
                 //將資料放入Vuex
@@ -181,7 +176,7 @@
         },
         methods: {
             //取滾房租日
-            fetchRentCalDat(){
+            fetchRentCalDat() {
                 $.post('/api/qryRentCalDat', {}, (result) => {
                     this.rentCalDat = result.rent_cal_dat;
                 });
@@ -262,12 +257,12 @@
                         isResize: true,
                     }
                 ];
-                let la_displayDataGridRowsData = _.filter(this.dataGridRowsData, (lo_dataGridRowsData)=>{
+                let la_displayDataGridRowsData = _.filter(this.dataGridRowsData, (lo_dataGridRowsData) => {
                     let lo_endDat = moment(lo_dataGridRowsData.end_dat);
                     let lo_rentCalDat = moment(this.rentCalDat);
                     return lo_endDat.diff(lo_rentCalDat, 'days') >= 1
                 });
-                if(this.isShowExpire){
+                if (this.isShowExpire) {
                     if (this.dataGridRowsData.length > 0) {
                         _.each(this.dataGridRowsData, (lo_dataGridRowsData) => {
                             this.useTimeData.push({
@@ -284,7 +279,7 @@
                         }, 0.1);
                     }
                 }
-                else{
+                else {
                     if (la_displayDataGridRowsData.length > 0) {
                         _.each(la_displayDataGridRowsData, (lo_dataGridRowsData) => {
                             this.useTimeData.push({
@@ -361,6 +356,7 @@
                 this.timeRuleData = _.extend(rowData, this.dataGridRowsData[rowIndex]);
             },
             customCompFunc(params) {
+                let self = this;
                 //將此筆被刪除的使用期間資料傳給房型資料
                 this.$eventHub.$emit('getDeleteUseTimeData', {
                     delUseTimeData: JSON.parse(JSON.stringify(this.dataGridRowsData[params.index]))
@@ -369,33 +365,32 @@
                 //此筆為剛新增的
                 let ln_createIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: this.dataGridRowsData[params.index].supply_nos});
                 let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: this.dataGridRowsData[params.index].supply_nos});
-                if(ln_createIndex > -1){
+                if (ln_createIndex > -1) {
                     this.tmpCUD.createData.splice(ln_createIndex, 1);
                 }
                 //此筆為剛編輯的
-                else if(ln_editIndex > -1){
+                else if (ln_editIndex > -1) {
                     this.tmpCUD.updateData.splice(ln_editIndex, 1);
                     this.tmpCUD.oriData.splice(ln_editIndex, 1);
                     this.tmpCUD.deleteData.push(_.extend(this.dataGridRowsData[ln_editIndex], {event_time: moment().format()}));
                 }
-                else{
+                else {
                     this.tmpCUD.deleteData.push(_.extend(this.dataGridRowsData[params.index], {event_time: moment().format()}));
                 }
                 //此筆為直接刪除的
                 this.$delete(this.useTimeData, params.index);
                 this.dataGridRowsData.splice(params.index, 1);
 
-                _.each(this.tmpCUD.createData, (lo_createData) => {
-                    _.extend(lo_createData, {page_id: 1010, tab_page_id: 1});
-                });
-                _.each(this.tmpCUD.updateData, (lo_updateData) => {
-                    _.extend(lo_updateData, {page_id: 1010, tab_page_id: 1});
-                });
-                _.each(this.tmpCUD.deleteData, (lo_deleteData) => {
-                    _.extend(lo_deleteData, {page_id: 1010, tab_page_id: 1});
-                });
-                _.each(this.tmpCUD.oriData, (lo_oriData) => {
-                    _.extend(lo_oriData, {page_id: 1010, tab_page_id: 1});
+                //轉換tmpCUD資料
+                let lo_param = {
+                    page_id: this.fieldsData[0].page_id,
+                    tab_page_id: this.fieldsData[0].tab_page_id
+                };
+                _.each(this.tmpCUD, (val, key) => {
+                    _.each(val, (lo_val, idx) => {
+                        //增加page_id、tab_page_id
+                        _.extend(self.tmpCUD[key][idx], lo_param);
+                    })
                 });
 
                 //將資料放入Vuex

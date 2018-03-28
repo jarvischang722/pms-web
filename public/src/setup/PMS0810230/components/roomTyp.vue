@@ -4,9 +4,10 @@
         <div class="roomCodeTable pull-left width-15">
             <div>
                 <v-table
-                        :height="150"
                         row-hover-color="#eee"
                         row-click-color="#edf7ff"
+                        :height="150"
+                        :is-loading="isLoading"
                         :columns="roomTypColumns"
                         :table-data="roomTypData"
                         :error-content="errorContent"
@@ -24,6 +25,7 @@
             <div>
                 <v-table
                         :height="150"
+                        :is-loading="isLoading"
                         :columns="roomTypDetailColumns"
                         :table-data="roomTypDetailData"
                         :error-content="errorContent"
@@ -44,9 +46,12 @@
                         <div class="col-xs-11 col-sm-11">
                             <div class="row no-margin-right">
                                 <v-table
+                                        row-hover-color="#eee"
+                                        row-click-color="#edf7ff"
+                                        :is-loading="isLoading"
+                                        :error-content="errorContent"
                                         :columns="roomTypSelectColumns"
                                         :table-data="roomTypSelectData"
-                                        row-hover-color="#eee" row-click-color="#edf7ff"
                                         :select-all="selectRoomTypSelectALL"
                                         :column-cell-class-name="columnCellClass"
                                         :select-change="selectRoomTypSelectChange">
@@ -113,7 +118,8 @@
             return {
                 i18nLang: go_i18nLang,
                 editingIndex: -1, //正在編輯的index
-                rentCalDat: '',
+                rentCalDat: '', //滾房租日
+                isLoading: true,
                 //房型原始資料
                 roomTypFieldsData: [],
                 roomTypRowsData: [],
@@ -197,43 +203,23 @@
                     let lo_params = {
                         page_id: this.roomTypDetailFieldsData[0].page_id,
                         tab_page_id: this.roomTypDetailFieldsData[0].tab_page_id,
-                    }
-                    _.each(val.createData, (lo_createData) => {
-                        _.each(lo_createData, (val, key) => {
-                            if(la_examFields.indexOf(key) > -1){
-                                lo_createData[key] = go_formatDisplayClass.removeAmtFormat(val.toString());
-                            }
-                        });
-                        _.extend(lo_createData, lo_params);
+                    };
+                    //轉換tmpCUD資料
+                    _.each(val, (val, key) => {
+                        _.each(val, (lo_val) => {
+                            //轉換金格格式
+                            _.each(lo_val, (lo_valVal, lo_key) => {
+                                if (la_examFields.indexOf(key) > -1) {
+                                    lo_val[lo_key] = go_formatDisplayClass.removeAmtFormat(lo_valVal.toString());
+                                }
+                            });
+                            //增加page_id、tab_page_id
+                            _.extend(lo_val, lo_params);
+                        })
                     });
-                    _.each(val.updateData, (lo_updateData) => {
-                        _.each(lo_updateData, (val, key) => {
-                            if(la_examFields.indexOf(key) > -1){
-                                lo_createData[key] = go_formatDisplayClass.removeAmtFormat(val.toString());
-                            }
-                        });
-                        _.extend(lo_updateData, lo_params);
-                    });
-                    _.each(val.deleteData, (lo_deleteData) => {
-                        _.each(lo_deleteData, (val, key) => {
-                            if(la_examFields.indexOf(key) > -1){
-                                lo_createData[key] = go_formatDisplayClass.removeAmtFormat(val.toString());
-                            }
-                        });
-                        _.extend(lo_deleteData, lo_params);
-                    });
-                    _.each(val.oriData, (lo_oriData) => {
-                        _.each(lo_oriData, (val, key) => {
-                            if(la_examFields.indexOf(key) > -1){
-                                lo_createData[key] = go_formatDisplayClass.removeAmtFormat(val.toString());
-                            }
-                        });
-                        _.extend(lo_oriData, lo_params);
-                    });
-
                     //將資料放入Vuex
                     this.$store.dispatch("setRoomTypData", {
-                        go_rtTmpCUD: this.tmpCUD
+                        go_rtTmpCUD: val
                     });
                 },
                 deep: true
@@ -500,6 +486,7 @@
                         this.$delete(this.roomTypDetailData, 0);
                     }, 0.1);
                 }
+                this.isLoading = false;
             },
             //設定使用期間(未開啟使用日期dialog)
             setUseTimeData(roomTypDetailData) {
