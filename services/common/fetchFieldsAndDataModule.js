@@ -19,12 +19,14 @@ exports.DataGridProc = function (postData, session) {
     let ls_prg_id = postData.prg_id;
     let ln_page_id = postData.page_id || 1;
     let ln_tab_page_id = postData.tab_page_id || 1;
+    let ls_template_id = postData.template_id || "";
     let lo_searchCond = postData.searchCond || {}; //搜尋條件
 
     let lo_params = {
         prg_id: ls_prg_id,
         page_id: ln_page_id,
         tab_page_id: ln_tab_page_id,
+        template_id: ls_template_id == "" ? "datagrid" : ls_template_id,
         searchCond: lo_searchCond
     };
     /**
@@ -724,30 +726,34 @@ async function filterRowData(la_dgRowData, params, session) {
  * @param la_dgRowData {array} 多筆資料
  * @param callback
  */
-function rowDataMultiLang(la_dgRowData, callback) {
-    if (la_dgRowData.length > 0) {
-        if (gs_template_id == "datagrid") {
-            langSvc["handleMultiDataLangConv"](la_dgRowData, gs_prg_id, gn_page_id, go_session.locale, function (err, Rows) {
-                callback(null, Rows);
-            });
-        }
-        else {
-            langSvc["handleSingleDataLangConv"](la_dgRowData[0], gs_prg_id, gn_page_id, go_session.locale, function (err, Rows) {
-                callback(null, [Rows]);
-            });
-        }
-    }
-    callback(null, la_dgRowData);
 async function rowDataMultiLang(la_dgRowData, params, session) {
     return new Promise((resolve, reject) => {
-        langSvc.handleMultiDataLangConv(la_dgRowData, params.prg_id, params.page_id, session.locale, function (err, Rows) {
-            if (err) {
-                reject(err);
+        if(la_dgRowData.length>0){
+            if(params.template_id == "datagrid"){
+                langSvc.handleMultiDataLangConv(la_dgRowData, params.prg_id, params.page_id, session.locale, function (err, Rows) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(Rows);
+                    }
+                });
             }
-            else {
-                resolve(Rows);
+            else{
+                langSvc["handleSingleDataLangConv"](la_dgRowData[0], params.prg_id, params.page_id, session.locale, function (err, Rows) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve([Rows]);
+                    }
+                });
             }
-        });
+        }
+        else{
+            resolve(la_dgRowData)
+        }
+
     });
 
 }

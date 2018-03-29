@@ -12,8 +12,6 @@
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div class="tableHt">
-                        <!-- rateCode-查詢結果 dataGrid -->
-                        <!--<table id="setRateCode-table" class="gridTableHt" style="width: 100%;max-width: 100%;"></table>-->
                         <table id="PMS0810230_dg" class=""></table>
                     </div>
                 </div>
@@ -30,8 +28,8 @@
                             </li>
 
                             <li>
-                                <button class="btn btn-danger btn-white btn-defaultWidth rateCode_timeRule"
-                                        role="button">{{i18nLang.program.PMS0810230.delete}}
+                                <button class="btn btn-danger btn-white btn-defaultWidth"
+                                        role="button" @click="removeRow">{{i18nLang.program.PMS0810230.delete}}
                                 </button>
                             </li>
                             <li>
@@ -391,6 +389,16 @@
                     this.showSingleGridDialog();
                 }
                 this.isLoading = false;
+            },
+            removeRow(){
+                var lo_delRow = $('#PMS0810230_dg').datagrid('getSelected');
+
+                if (!lo_delRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectOneData);
+                }
+                else {
+                    console.log(lo_delRow);
+                }
             },
             showSingleGridDialog() {
                 let self = this;

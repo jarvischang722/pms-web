@@ -595,7 +595,6 @@
             this.$eventHub.$on("setMultiLangSingleData", (data) => {
                 let ls_noeLocale = getCookie('locale');
                 let lo_edit = _.findWhere(this.singleData.multilang, {locale: ls_noeLocale});
-                console.log(lo_edit);
                 this.singleData[lo_edit.field] = lo_edit.val;
                 this.singleData = _.extend(this.singleData, data);
             });
