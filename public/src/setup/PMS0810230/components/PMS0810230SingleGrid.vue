@@ -345,8 +345,9 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth resv_rateList"
-                                                role="button">{{i18nLang.program.PMS0810230.rateList}}
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" @click="doOpenRateList">
+                                            {{i18nLang.program.PMS0810230.rateList}}
                                         </button>
                                     </li>
                                     <li class="depDateLi">
@@ -565,6 +566,9 @@
                 :row-data="rowData"
                 :is-use-time="isUseTime"
         ></use-time>
+        <rate-list
+                :row-data="rowData"
+        ></rate-list>
     </div>
 </template>
 
@@ -573,11 +577,12 @@
     import moment from 'moment';
     import roomTyp from './roomTyp';
     import useTime from './useTime';
+    import rateList from './rateList';
 
     export default {
         name: 'pms0810230SingleGrid',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
-        components: {roomTyp, useTime},
+        components: {roomTyp, useTime, rateList},
         created() {
             this.$eventHub.$on('setTabName', (tabNameData) => {
                 this.tabName = tabNameData.tabName;
@@ -694,36 +699,35 @@
                 });
             },
             fetchRowData() {
+                let ls_apiUrl = "";
+                let lo_params = {};
                 if (this.isCreateStatus) {
-                    $.post("/api/fetchDefaultSingleRowData", {
+                    ls_apiUrl = "/api/fetchDefaultSingleRowData";
+                    lo_params = {
                         prg_id: "PMS0810230",
                         page_id: 2,
                         tab_page_id: 1
-                    }).then(result => {
-                        this.singleData = result.gsDefaultData;
-                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
-                        this.isLoadingDialog = false;
-                        this.setGlobalRateCod();
-                        this.tabName = "roomTyp";
-                        this.isUseTime = true;
-                    });
+                    };
                 }
                 else if (this.isEditStatus) {
-                    $.post("/api/fetchSinglePageFieldData", {
+                    ls_apiUrl = "/api/fetchSinglePageFieldData";
+                    lo_params = {
                         prg_id: "PMS0810230",
                         page_id: 2,
                         tab_page_id: 1,
                         template_id: "gridsingle",
                         searchCond: {rate_cod: this.rowData.rate_cod}
-                    }).then(result => {
-                        this.singleData = result.gsMnData.rowData[0];
-                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.isLoadingDialog = false;
-                        this.setGlobalRateCod();
-                        this.tabName = "roomTyp";
-                        this.isUseTime = true;
-                    });
+                    };
                 }
+                $.post(ls_apiUrl, lo_params).then(result => {
+                    this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
+                    this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                    this.isLoadingDialog = false;
+                    this.setGlobalRateCod();
+                    this.tabName = "roomTyp";
+                    this.isUseTime = true;
+                    this.isUseTime = false;
+                });
             },
             chkFieldRule(ui_field_name, rule_func_name) {
                 if (rule_func_name === "" || !this.$parent.isModifiable) {
@@ -876,6 +880,19 @@
                     onBeforeClose() {
                         self.isUseTime = false;
                     }
+                });
+            },
+            doOpenRateList() {
+                var dialog = $("#rateListDialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "期間一覽表",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+//                height: 400,
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
                 });
             },
             doCloseDialog() {

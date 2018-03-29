@@ -20,7 +20,7 @@ module.exports = {
      * @param session
      * @param callback
      */
-    defaultratecod_mn(postData, session, callback){
+    defaultratecod_mn(postData, session, callback) {
         let lo_result = new ReturnClass;
         let lo_error = null;
 
@@ -98,7 +98,7 @@ module.exports = {
      * @param session
      * @param callback
      */
-    r_rate_cod(postData, session, callback){
+    r_rate_cod(postData, session, callback) {
         let lo_result = new ReturnClass;
         let lo_error = null;
 
@@ -114,7 +114,7 @@ module.exports = {
      * @param session
      * @param callback
      */
-    async r_baserate_flag(postData, session, callback){
+    async r_baserate_flag(postData, session, callback) {
         let lo_result = new ReturnClass;
         let lo_error = null;
         let lo_params = {
@@ -134,13 +134,54 @@ module.exports = {
                     }
                 });
             });
-            if(lo_chkNum > 0){
+            if (lo_chkNum > 0) {
                 lo_result.effectValues = {
                     baserate_flag: postData.oriSingleData[0].baserate_flag
                 }
             }
         }
         catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 得得使用期間一覽表資料
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    async query_rate_list(postData, session, callback) {
+        let lo_result = new ReturnClass;
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            rate_cod: postData.rate_cod,
+            begin_dat: postData.year + "/01/01",
+            end_dat: postData.year + "/12/31"
+        };
+
+        try {
+            let la_rateList = await new Promise((resolve, reject) => {
+                queryAgent.queryList("QRY_RENT_DT", lo_params, 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            lo_result.effectValues = la_rateList;
+        }
+        catch
+            (err) {
             console.log(err);
             lo_error = new ErrorClass();
             lo_result.success = false;
