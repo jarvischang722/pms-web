@@ -227,7 +227,7 @@ class oldSaveDataProc extends saveTemplate {
                     }
 
                     if (chkResult.extendExecDataArrSet.length > 0) {
-                        _.each(chkResult.extendExecDataArrSet, function (execData) {
+                        _.each(chkResult.extendExecDataArrSet, (execData) => {
                             this.lo_saveExecDatas[this.ln_exec_seq] = execData;
                             this.ln_exec_seq++;
                         });
