@@ -13,11 +13,11 @@
                                             <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
                                                    :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
-                                                <!--<a @click="editFieldMultiLang(field)"-->
-                                                   <!--v-if="field.multi_lang_table != ''">-->
-                                                    <!--{{field.ui_display_name}}-->
-                                                <!--</a>-->
-                                                <span>{{ field.ui_display_name }}</span>
+                                                <a @click="editFieldMultiLang(field)"
+                                                   v-if="field.multi_lang_table != ''">
+                                                    {{field.ui_display_name}}
+                                                </a>
+                                                <span v-else>{{ field.ui_display_name }}</span>
 
                                             </label>
 
@@ -31,7 +31,7 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                    @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
 
-                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                            <input type="number" v-model="singleData[field.ui_field_name]"
                                                    v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                    :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
@@ -594,8 +594,9 @@
             });
             this.$eventHub.$on("setMultiLangSingleData", (data) => {
                 let ls_noeLocale = getCookie('locale');
-                let lo_edit = _.findWhere(this.singleData.multiLang, {locale: ls_noeLocale});
-                this.singleData[lo_edit.field] = lo_edit.value;
+                let lo_edit = _.findWhere(this.singleData.multilang, {locale: ls_noeLocale});
+                console.log(lo_edit);
+                this.singleData[lo_edit.field] = lo_edit.val;
                 this.singleData = _.extend(this.singleData, data);
             });
         },

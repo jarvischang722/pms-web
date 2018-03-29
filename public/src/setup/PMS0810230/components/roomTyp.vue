@@ -605,49 +605,54 @@
             },
             //轉換command_option資料
             convertCommandOption(command_option) {
-                let la_commandOptionHSelect =
-                    JSON.parse(JSON.stringify(_.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.command_option'}).selectData));
-                _.each(la_commandOptionHSelect, (lo_select, idx) => {
-                    la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
-                });
-
-                let la_commandOptionWSelect = [
-                    {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
-                    {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
-                    {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
-                    {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
-                    {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
-                    {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
-                    {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
-                ];
-
-                let ls_commandOptionDisplay = '';
-                if (command_option.substring(0, 1) == 'H') {
-                    let la_commandOption = command_option.split(',');
-                    _.each(la_commandOption, (ls_commandOption) => {
-                        ls_commandOptionDisplay =
-                            ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
+                try{
+                    let la_commandOptionHSelect =
+                        JSON.parse(JSON.stringify(_.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.command_option'}).selectDataDisplay));
+                    _.each(la_commandOptionHSelect, (lo_select, idx) => {
+                        la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
                     });
-                    ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
-                }
-                else if (command_option.substring(0, 1) == 'W') {
-                    let la_commandOption = command_option.split(',');
-                    if (la_commandOption.length > 1) {
+
+                    let la_commandOptionWSelect = [
+                        {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
+                        {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
+                        {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
+                        {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
+                        {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
+                        {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
+                        {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
+                    ];
+
+                    let ls_commandOptionDisplay = '';
+                    if (command_option.substring(0, 1) == 'H') {
+                        let la_commandOption = command_option.split(',');
                         _.each(la_commandOption, (ls_commandOption) => {
                             ls_commandOptionDisplay =
-                                ls_commandOptionDisplay + _.findWhere(la_commandOptionWSelect, {value: ls_commandOption}).display + ', ';
+                                ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
                         });
                         ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
                     }
-                    else {
-                        ls_commandOptionDisplay = _.findWhere(la_commandOptionWSelect, {value: command_option}).display
+                    else if (command_option.substring(0, 1) == 'W') {
+                        let la_commandOption = command_option.split(',');
+                        if (la_commandOption.length > 1) {
+                            _.each(la_commandOption, (ls_commandOption) => {
+                                ls_commandOptionDisplay =
+                                    ls_commandOptionDisplay + _.findWhere(la_commandOptionWSelect, {value: ls_commandOption}).display + ', ';
+                            });
+                            ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
+                        }
+                        else {
+                            ls_commandOptionDisplay = _.findWhere(la_commandOptionWSelect, {value: command_option}).display
+                        }
                     }
-                }
-                else {
-                    ls_commandOptionDisplay = "每一天";
-                }
+                    else {
+                        ls_commandOptionDisplay = "每一天";
+                    }
 
-                return ls_commandOptionDisplay;
+                    return ls_commandOptionDisplay;
+                }
+                catch(err){
+                    alert(err);
+                }
             },
             computeAmt(value, field) {
                 let ls_value = "";

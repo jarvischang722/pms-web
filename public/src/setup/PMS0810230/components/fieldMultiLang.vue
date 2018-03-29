@@ -43,19 +43,35 @@
         methods: {
             getFieldMultiLangContent: function (fieldInfo) {
                 this.editingLangField = fieldInfo.ui_field_name;
-                var self = this;
-                var params = {
-                    dataType: 'gridsingle',
-                    rowData: this.singleData,
-                    prg_id: fieldInfo.prg_id,
-                    page_id: fieldInfo.page_id,
-                    ui_field_name: fieldInfo.ui_field_name
-                };
-                $.post("/api/fieldAllLocaleContent", params, function (result) {
-                    self.multiLangContentList = result.multiLangContentList;
-                    self.editingMultiLangFieldName = fieldInfo.ui_display_name;
-                    self.openFieldMultiLangDialog();
-                });
+                if(_.isUndefined(this.singleData["multilang"])){
+                    var self = this;
+                    var params = {
+                        dataType: 'gridsingle',
+                        rowData: this.singleData,
+                        prg_id: fieldInfo.prg_id,
+                        page_id: fieldInfo.page_id,
+                        ui_field_name: fieldInfo.ui_field_name
+                    };
+                    $.post("/api/fieldAllLocaleContent", params, function (result) {
+                        self.multiLangContentList = result.multiLangContentList;
+                        self.editingMultiLangFieldName = fieldInfo.ui_display_name;
+                        self.openFieldMultiLangDialog();
+                    });
+                }
+                else{
+                    let la_multiLangContentList = [];
+                    _.each(this.singleData["multilang"], (lo_multiLang, idx)=>{
+                        let lo_editField = {
+                            display_locale: lo_multiLang.locale=='en'? "English": "繁體中文",
+                            locale: lo_multiLang.locale
+                        };
+                        lo_editField[lo_multiLang.field] = lo_multiLang.value;
+                        la_multiLangContentList.push(lo_editField);
+                    });
+                    this.multiLangContentList = la_multiLangContentList;
+                    this.editingMultiLangFieldName = fieldInfo.ui_display_name;
+                    this.openFieldMultiLangDialog();
+                }
             },
             openFieldMultiLangDialog: function () {
                 this.showMultiLangDialog = true;
@@ -64,7 +80,7 @@
                 this.showMultiLangDialog = false;
             },
             saveFieldMultiLang: function () {
-                this.singleData["multiLang"] = [];
+                this.singleData["multilang"] = [];
                 let la_multiLang = [];
                 let la_saveData = [];
                 //TODO 暫時用jquery 取資料
@@ -82,14 +98,14 @@
                     la_saveData.push({
                         locale: lo_multiLang.locale,
                         field: ls_field,
-                        value: lo_multiLang[ls_field]
+                        val: lo_multiLang[ls_field]
                     });
                 });
 
                 _.each(la_saveData, (lo_saveData) => {
-                    let lo_edit = _.findWhere(this.singleData["multiLang"], {field: lo_saveData.field, locale: lo_saveData.locale});
+                    let lo_edit = _.findWhere(this.singleData["multilang"], {field: lo_saveData.field, locale: lo_saveData.locale});
                     if(_.isUndefined(lo_edit)){
-                        this.singleData["multiLang"].push(lo_saveData);
+                        this.singleData["multilang"].push(lo_saveData);
                     }
                     else{
                         _.extend(lo_edit, lo_saveData);
