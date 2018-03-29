@@ -1,9 +1,6 @@
 /**
  * Created by kaiyue on 2017/11/15.
  */
-
-const path = require('path');
-const moment = require("moment");
 const _ = require("underscore");
 const _s = require("underscore.string");
 const async = require("async");
@@ -11,7 +8,6 @@ const async = require("async");
 const ruleAgent = require("../../ruleEngine/ruleAgent");
 const queryAgent = require("../../plugins/kplug-oracle/QueryAgent");
 const mongoAgent = require("../../plugins/mongodb");
-const sysConfig = require("../../configs/systemConfig");
 const tools = require("../../utils/CommonTools");
 const dataRuleSvc = require("../../services/DataRuleService");
 const fieldAttrSvc = require("../../services/FieldsAttrService");

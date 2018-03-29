@@ -6,9 +6,7 @@
 const _ = require("underscore");
 const moment = require("moment");
 const mongoAgent = require("../../plugins/mongodb");
-const commonRule = require("../../ruleEngine/rules/CommonRule");
 const commonTools = require("../../utils/CommonTools");
-const langSvc = require("../../services/LangService");
 const ruleAgent = require("../../ruleEngine/ruleAgent");
 
 class saveDataAdapter {
