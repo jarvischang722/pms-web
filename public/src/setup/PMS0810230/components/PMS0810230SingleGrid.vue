@@ -846,6 +846,7 @@
                 else {
                     try {
                         this.$store.dispatch("doSaveAllData").then(result => {
+                            console.log(result);
                             if (result.success) {
                                 alert("save success");
                                 $("#PMS0810230SingleGrid").dialog('close');
@@ -856,6 +857,7 @@
                             this.isLoadingDialog = false;
                         },
                         err => {
+                            console.log(err);
                             this.isLoadingDialog = false;
                             alert(err);
                         });
