@@ -11,7 +11,7 @@ const queryAgent = require("../plugins/kplug-oracle/QueryAgent");
 const mongoAgent = require("../plugins/mongodb");
 const sysConfig = require("../configs/systemConfig");
 const tools = require("../utils/CommonTools");
-const fetechDataModule = require("./common/fetchDataModule");
+const fetechDataModule = require("./common/fetchFieldsAndDataModule");
 
 // 取作業多筆欄位資料
 exports.fetchDgFieldData = async function (postData, session, callback) {

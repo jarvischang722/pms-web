@@ -15,21 +15,17 @@ const tools = require(appRootDir + "/utils/CommonTools");
 /**
  * 執行作業sql 程序
  */
-exports.doOperationSave = function (req, res) {
+exports.doOperationSave = async function (req, res) {
     req.body.page_id = req.body.page_id || 1;
     req.body.tmpCUD = req.body.tmpCUD || {};
-    doOperationProc(req, res);
-};
 
-function doOperationProc(req, res) {
     //TODO 沒給交易代碼要拋出錯誤
     // 商務公司、業務員API小良還沒做，拋錯會有問題
     req.body.trans_cod = req.body.trans_cod || "BAC03009010000";
 
-    dbSVC.execProcSQL(req.body, req.session, function (err, result) {
-        res.json(tools.mergeRtnErrResultJson(err, result));
-    });
-}
+    let lo_result = await dbSVC.execProcSQL(req.body, req.session);
+    res.json(tools.mergeRtnErrResultJson(err, result));
+};
 
 /**
  * 取多筆欄位資料
