@@ -32,19 +32,6 @@ exports.fetchDgFieldData = async function (postData, session, callback) {
     catch (err) {
         callback(err, {})
     }
-
-
-    // async.parallel({
-    //     fetchFieldsResult: lo_dgProc.fetchDgFieldsData,   //取多筆欄位資料
-    //     fetchRowsResult: lo_dgProc.fetchDgRowData      //取多筆資料
-    // }, function (err, result) {
-    //     let lo_rtnData = {
-    //         searchFields: result.fetchFieldsResult.searchFields,
-    //         dgFieldsData: result.fetchFieldsResult.dgFieldsData,
-    //         dgRowData: result.fetchRowsResult
-    //     };
-    //     callback(err, lo_rtnData);
-    // });
 };
 
 /**
@@ -64,17 +51,6 @@ exports.fetchGsFieldData = async function (postData, session, callback) {
     catch (err) {
         callback(err, {});
     }
-
-    // async.parallel({
-    //     gsMnData: lo_gsProc.fetchGsMnData,
-    //     gsDtData: lo_dgProc.fetchDgData
-    // }, function (err, result) {
-    //     let lo_rtnData = {
-    //         gsMnData: result.gsMnData,
-    //         gsDtData: result.gsDtData
-    //     };
-    //     callback(err, lo_rtnData);
-    // });
 };
 
 /**
@@ -115,15 +91,6 @@ exports.fetchOnlyGsFieldData = async function (postData, session, callback) {
     catch (err) {
         callback(err, []);
     }
-
-    // async.parallel({
-    //     gsFieldsData: lo_gsProc.fetchGsMnFieldsData
-    // }, function (err, result) {
-    //     let lo_rtnData = {
-    //         gsFieldsData: result.gsFieldsData
-    //     };
-    //     callback(err, lo_rtnData);
-    // });
 };
 
 /**
@@ -139,14 +106,4 @@ exports.fetchDefaultGsRowData = async function (postData, session) {
     catch (err) {
         throw new Error(err);
     }
-
-
-    // async.parallel({
-    //     gsDefaultData: lo_gsProc.fetchDefaultMnRowData
-    // }, function (err, result) {
-    //     let lo_rtnData = {
-    //         gsDefaultData: result.gsDefaultData
-    //     };
-    //     callback(err, lo_rtnData);
-    // });
 };

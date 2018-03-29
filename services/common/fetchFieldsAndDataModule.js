@@ -47,16 +47,6 @@ exports.DataGridProc = function (postData, session) {
         catch (err) {
             throw new Error(err);
         }
-
-        // async.waterfall([
-        //     qryUIDatagridFields, //取多筆欄位資料
-        //     qryFormatRule, //format_func_name轉換
-        //     qryLangUIFields, //欄位多語系
-        //     qrySelectOption, //查詢SelectOption
-        //     qrySearchFields //取搜尋欄位
-        // ], function (err, result) {
-        //     callback(err, result);
-        // });
     };
 
     /**
@@ -104,22 +94,6 @@ exports.DataGridProc = function (postData, session) {
                 }
             }
         }
-
-        // async.parallel({
-        //     fetchFieldsResult: self.fetchDgFieldsData, //取多筆欄位資料
-        //     fetchRowsResult: self.fetchDgRowData //取多筆資料
-        // }, function (err, result) {
-        //     if (err == "templateRf is null") {
-        //         err = null;
-        //         return callback(err, result);
-        //     }
-        //     let lo_rtnData = {
-        //         searchFields: result.fetchFieldsResult.searchFields,
-        //         dgFieldsData: result.fetchFieldsResult.dgFieldsData,
-        //         dgRowData: result.fetchRowsResult
-        //     };
-        //     callback(err, lo_rtnData);
-        // });
     };
 };
 
@@ -149,16 +123,6 @@ exports.GridSingleProc = function (postData, session) {
         catch (err) {
             throw new Error(err);
         }
-
-
-        // async.waterfall([
-        //     qryUIPageFields, //取單筆欄位資料
-        //     qrySelectOption, //查詢selectOption
-        //     qryFormatRule, //format_func_name轉換
-        //     qryLangUIFields //處理欄位多語系
-        // ], function (err, result) {
-        //     callback(err, result);
-        // });
     };
 
     /**
@@ -177,14 +141,6 @@ exports.GridSingleProc = function (postData, session) {
         catch (err) {
             throw new Error(err);
         }
-        // async.waterfall([
-        //     qryGsTemplateRf, //查詢templateRf
-        //     qryRowData, //查詢多筆資料
-        //     filterRowData, //依條件過濾多筆資料
-        //     rowDataMultiLang //內容多語系
-        // ], function (err, result) {
-        //     callback(err, result);
-        // });
     };
 
     /**
@@ -220,7 +176,7 @@ exports.GridSingleProc = function (postData, session) {
                     tab_page_id: lo_params.tab_page_id,
                     template_id: lo_params.template_id == "" ? "gridsingle" : lo_params.template_id
                 }, function (err, func) {
-                    if(err){
+                    if (err) {
                         reject(err);
                     }
                     if (func) {
@@ -228,7 +184,7 @@ exports.GridSingleProc = function (postData, session) {
                     }
                     if (!err && func && !_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
                         ruleAgent[func.rule_func_name](postData, session, function (err, result) {
-                            if(err) reject(err);
+                            if (err) reject(err);
                             //取typeSelect的預設值
                             _.each(la_selectData, function (value, index) {
                                 if (value.defaultVal != "") {
@@ -258,66 +214,6 @@ exports.GridSingleProc = function (postData, session) {
         catch (err) {
             throw new Error(err);
         }
-
-
-        // async.parallel({
-        //     qryFieldName,
-        //     qrySelectData
-        // }, function (err, getResult) {
-        //     var la_fieldNameList = getResult.qryFieldName;
-        //     // var la_selectData = tools.mongoDocToObject(getResult.qrySelectData);
-        //     var lo_initField = {};
-        //
-        //     _.each(la_fieldNameList, function (ls_fieldName) {
-        //         if (_s.include(ls_fieldName, "athena_id")) {
-        //             lo_initField[ls_fieldName] = session.user.athena_id;
-        //         }
-        //         else if (_s.include(ls_fieldName, "hotel_cod")) {
-        //             lo_initField[ls_fieldName] = session.user.hotel_cod;
-        //         }
-        //         else {
-        //             lo_initField[ls_fieldName] = "";
-        //         }
-        //     });
-        //
-        //     mongoAgent.PrgFunction.findOne({
-        //         prg_id: gs_prg_id,
-        //         func_id: '0200',
-        //         page_id: gn_page_id,
-        //         tab_page_id: gn_tab_page_id,
-        //         template_id: gs_template_id == "" ? "gridsingle" : gs_template_id
-        //     }, function (err, func) {
-        //         if (func) {
-        //             func = func.toObject();
-        //         }
-        //         if (!err && func && !_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
-        //             ruleAgent[func.rule_func_name](postData, session, function (err, result) {
-        //                 //取typeSelect的預設值
-        //                 _.each(la_selectData, function (value, index) {
-        //                     if (value.defaultVal != "") {
-        //                         result.defaultValues[value.ui_field_name] = value.defaultVal;
-        //                     }
-        //                 });
-        //
-        //                 result.defaultValues = _.extend(lo_initField, result.defaultValues);
-        //
-        //                 callback(err, result);
-        //             });
-        //         }
-        //         else {
-        //             //取typeSelect的預設值
-        //             var result = {};
-        //             _.each(la_selectData, function (value, index) {
-        //                 if (value.defaultVal != "") {
-        //                     result[value.ui_field_name] = value.defaultVal;
-        //                 }
-        //             });
-        //
-        //             result = _.extend(lo_initField, result);
-        //             callback(null, {success: true, defaultValues: result});
-        //         }
-        //     });
-        // });
     };
 
     /**
@@ -341,30 +237,6 @@ exports.GridSingleProc = function (postData, session) {
         catch (err) {
             throw new Error(err);
         }
-
-        // async.waterfall([
-        //     function (cb) {
-        //         async.parallel({
-        //             fieldsData: self.fetchGsMnFieldsData,
-        //             rowData: self.fetchGsMnRowData
-        //         }, function (err, resultMnData) {
-        //             cb(err, resultMnData);
-        //         });
-        //     },
-        //     function (mnData, cb) {
-        //         let la_pageField = mnData.fieldsData;
-        //         let lo_rowData = mnData.rowData;
-        //         dataValueChange(la_pageField, lo_rowData);
-        //
-        //         let gsMnData = {
-        //             fieldsData: la_pageField,
-        //             rowData: lo_rowData
-        //         };
-        //         cb(null, gsMnData);
-        //     }
-        // ], function (err, result) {
-        //     callback(err, result);
-        // });
     };
 
 };
@@ -383,9 +255,6 @@ exports.qrySearchFields = async function (postData, session) {
     catch (err) {
         throw new Error(err);
     }
-    // getAllUIPageFieldAttr(function (err, la_fields) {
-    //     callback(err, la_fields);
-    // });
 };
 
 /**
@@ -446,20 +315,6 @@ async function qryDgTemplateRf(params, session) {
     }).catch((err) => {
         throw new Error(err);
     });
-    // mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
-    //     if (err) {
-    //         reject(err);
-    //     }
-    //     else if (!result) {
-    //         err = "templateRf is null";
-    //         reject(err);
-    //     }
-    //     else {
-    //         resolve(result);
-    //     }
-    // });
-    // });
-
 }
 
 /**
@@ -479,17 +334,6 @@ async function qryGsTemplateRf(params, session) {
         throw new Error(err);
     });
     return result;
-    // let result = await mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
-    //     if(err){
-    //         throw new Error(err);
-    //     }
-    //     if (!result) {
-    //         err = "templateRf is null";
-    //         throw new Error(err);
-    //     }
-    //     result = tools.mongoDocToObject(result);
-    //     return result;
-    // });
 }
 
 /**
@@ -817,16 +661,6 @@ async function qrySearchFields(la_dgFieldData, params, session) {
     catch (err) {
         return err;
     }
-    // async.waterfall([
-    //     getAllUIPageFieldAttr,
-    //     qryFormatRule
-    // ], function (err, result) {
-    //     let lo_rtnData = {
-    //         searchFields: result,
-    //         dgFieldsData: la_dgFieldData
-    //     };
-    //     callback(null, lo_rtnData);
-    // });
 }
 
 async function getAllUIPageFieldAttr(params, session) {
@@ -845,24 +679,6 @@ async function getAllUIPageFieldAttr(params, session) {
         });
     })
 
-}
-
-/**
- * 判斷傳入參數數量(實作多型功能)
- * @param args {array} function傳入參數
- * @returns {{callback: *, data: *}}
- */
-function chkParam(args) {
-    let lo_callback;
-    let lo_data;
-    if (args.length == 1) {
-        lo_callback = args[0];
-    }
-    else {
-        lo_data = args[0];
-        lo_callback = args[1];
-    }
-    return {callback: lo_callback, data: lo_data};
 }
 
 /**
