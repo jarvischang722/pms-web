@@ -846,20 +846,26 @@
                     this.isLoadingDialog = false;
                 }
                 else {
-                    this.$store.dispatch("doSaveAllData").then(result => {
-                        if (result.success) {
+                    try {
+                        this.$store.dispatch("doSaveAllData").then(result => {
+                            if (result.success) {
+                                this.isLoadingDialog = false;
+                                alert("save success");
+                                $("#PMS0810230SingleGrid").dialog('close');
+                            }
+                            else {
+                                this.isLoadingDialog = false;
+                                alert(result.errorMsg);
+                            }
+                        }, err => {
                             this.isLoadingDialog = false;
-                            alert("save success");
-                            $("#PMS0810230SingleGrid").dialog('close');
-                        }
-                        else {
-                            this.isLoadingDialog = false;
-                            alert(result.errorMsg);
-                        }
-                    }, err => {
+                            alert(err)
+                        });
+                    }
+                    catch (err) {
+                        alert(err);
                         this.isLoadingDialog = false;
-                        alert(err)
-                    });
+                    }
                 }
             },
             doOpenUseTime() {
@@ -885,7 +891,7 @@
                     title_html: true,
                     width: 1000,
                     maxwidth: 1920,
-//                height: 400,
+                    height: 750,
 //                autoOpen: true,
                     dialogClass: "test",
                     resizable: true

@@ -35,7 +35,7 @@
                     style: 'Border',
                     yearChanged: function (e) {
                         self.calendarYear = e.currentYear;
-//                        self.fetchData();
+                        self.fetchData();
                     }
                 });
             },

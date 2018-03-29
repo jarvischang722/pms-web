@@ -128,7 +128,6 @@
                 _.each(this.tmpCUD, (tmpCUDVal, tmpCUDKey) => {
                     if (tmpCUDKey != 'oriData') {
                         _.each(tmpCUDVal, (lo_tmpCUDVal, idx) => {
-                            console.log(tmpCUDKey);
                             self.tmpCUD[tmpCUDKey][idx]['rate_cod'] = data.rateCod
                         });
                     }
