@@ -606,7 +606,7 @@
             //轉換command_option資料
             convertCommandOption(command_option) {
                 let la_commandOptionHSelect =
-                    JSON.parse(JSON.stringify(_.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.command_option'}).selectData));
+                    JSON.parse(JSON.stringify(_.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.command_option'}).selectDataDisplay));
                 _.each(la_commandOptionHSelect, (lo_select, idx) => {
                     la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
                 });
