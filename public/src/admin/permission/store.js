@@ -286,7 +286,13 @@ const actions = {
         la_func = _.sortBy(la_func, "current_id");
         _.each(la_func, function (lo_func) {
             let ls_id = lo_func.pre_id + "_" + lo_func.current_id;
-            let ls_treeTxt = go_i18nLang["SystemCommon"][lo_func.current_id] || lo_func.current_id;
+            let ls_treeTxt;
+            if(!_.isUndefined(go_i18nLang["program"][lo_func.pre_id]) && !_.isUndefined(go_i18nLang["program"][lo_func.pre_id][lo_func.current_id])){
+                ls_treeTxt = go_i18nLang["program"][lo_func.pre_id][lo_func.current_id];
+            }
+            else{
+                ls_treeTxt = go_i18nLang["SystemCommon"][lo_func.current_id] || lo_func.current_id;
+            }
             la_funcList4Tree.push(treeDataObj(ls_id, lo_func.pre_id, ls_treeTxt));
         });
         commit("setFuncList4Tree", la_funcList4Tree);
