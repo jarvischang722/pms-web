@@ -315,53 +315,58 @@
                 }
             },
             convertCommandOption(data) {
-                let la_commandOptionHSelect =
-                    JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectData));
-                _.each(la_commandOptionHSelect, (lo_select, idx) => {
-                    la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
-                });
+                try{
+                    let la_commandOptionHSelect =
+                        JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay));
+                    _.each(la_commandOptionHSelect, (lo_select, idx) => {
+                        la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
+                    });
 
-                let la_commandOptionWSelect = [
-                    {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
-                    {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
-                    {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
-                    {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
-                    {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
-                    {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
-                    {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
-                ];
+                    let la_commandOptionWSelect = [
+                        {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
+                        {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
+                        {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
+                        {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
+                        {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
+                        {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
+                        {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
+                    ];
 
-                let ls_commandOptionDisplay = '';
-                if (data.command_cod == 'H') {
-                    let la_commandOption = data.command_option.split(',');
-                    if (la_commandOption.length > 1) {
-                        _.each(la_commandOption, (ls_commandOption) => {
-                            ls_commandOptionDisplay =
-                                ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
-                        });
-                        ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
+                    let ls_commandOptionDisplay = '';
+                    if (data.command_cod == 'H') {
+                        let la_commandOption = data.command_option.split(',');
+                        if (la_commandOption.length > 1) {
+                            _.each(la_commandOption, (ls_commandOption) => {
+                                ls_commandOptionDisplay =
+                                    ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
+                            });
+                            ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
+                        }
+                        else {
+                            ls_commandOptionDisplay = _.findWhere(la_commandOptionHSelect, {value: data.command_option}).display
+                        }
+                    }
+                    else if (data.command_cod == 'W') {
+                        let la_commandOption = data.command_option.split(',');
+                        if (la_commandOption.length > 1) {
+                            _.each(la_commandOption, (ls_commandOption) => {
+                                ls_commandOptionDisplay =
+                                    ls_commandOptionDisplay + _.findWhere(la_commandOptionWSelect, {value: ls_commandOption}).display + ', ';
+                            });
+                            ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
+                        }
+                        else {
+                            ls_commandOptionDisplay = _.findWhere(la_commandOptionWSelect, {value: data.command_option}).display
+                        }
                     }
                     else {
-                        ls_commandOptionDisplay = _.findWhere(la_commandOptionHSelect, {value: data.command_option}).display
+                        ls_commandOptionDisplay = "每一天";
                     }
+                    return ls_commandOptionDisplay;
                 }
-                else if (data.command_cod == 'W') {
-                    let la_commandOption = data.command_option.split(',');
-                    if (la_commandOption.length > 1) {
-                        _.each(la_commandOption, (ls_commandOption) => {
-                            ls_commandOptionDisplay =
-                                ls_commandOptionDisplay + _.findWhere(la_commandOptionWSelect, {value: ls_commandOption}).display + ', ';
-                        });
-                        ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
-                    }
-                    else {
-                        ls_commandOptionDisplay = _.findWhere(la_commandOptionWSelect, {value: data.command_option}).display
-                    }
+                catch(err){
+                    alert(err);
                 }
-                else {
-                    ls_commandOptionDisplay = "每一天";
-                }
-                return ls_commandOptionDisplay;
             },
             //v-table function
             useTimeColumnCellClass(rowIndex, columnName, rowData) {

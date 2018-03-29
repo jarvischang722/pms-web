@@ -102,8 +102,8 @@
         created() {
             this.$eventHub.$on("getUseTimeData", (data) => {
                 this.useTimeData = data.useTimeData;
-                if (this.roomTypRowsData.length > 0) {
-                    this.roomTypRowClick(0, this.roomTypRowsData[0].room_cod, this.roomTypColumns);
+                if (this.roomTypData.length > 0) {
+                    this.roomTypRowClick(0, this.roomTypData[0].roomCode, this.roomTypColumns);
                 }
             });
             this.$eventHub.$on("getDeleteUseTimeData", (data) => {
@@ -749,7 +749,7 @@
                 let la_oriRoomTypData = JSON.parse(JSON.stringify(this.roomTypData));
                 let ln_selectIndex = this.selectedRoomTypSelect.length > 0 ? la_oriRoomTypData.length : this.editingIndex;
                 _.each(this.selectedRoomTypSelect, (lo_selectedRoomTyp) => {
-                    this.roomTypData.push({"roomCode": lo_selectedRoomTyp.room_cod})
+                    this.roomTypData.push({"roomCode": lo_selectedRoomTyp.room_cod});
                 });
                 _.each(this.roomTypData, (lo_roomTypData, idx) => {
                     this.roomTypRowClick(idx, this.roomTypData[idx], this.roomTypColumns[1]);
