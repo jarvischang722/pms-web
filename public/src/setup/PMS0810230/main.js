@@ -22,6 +22,7 @@ Vue.component('table-operation', {
     }
 });
 
+
 new Vue({
     el: "#PMS0810230App",
     store,

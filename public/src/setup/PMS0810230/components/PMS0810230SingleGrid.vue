@@ -13,7 +13,12 @@
                                             <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
                                                    :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                <!--<a @click="editFieldMultiLang(field)"-->
+                                                   <!--v-if="field.multi_lang_table != ''">-->
+                                                    <!--{{field.ui_display_name}}-->
+                                                <!--</a>-->
                                                 <span>{{ field.ui_display_name }}</span>
+
                                             </label>
 
                                             <input type="text" v-model="singleData[field.ui_field_name]"
@@ -578,6 +583,7 @@
     import useTime from './useTime';
     import rateList from './rateList';
 
+
     export default {
         name: 'pms0810230SingleGrid',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
@@ -585,6 +591,12 @@
         created() {
             this.$eventHub.$on('setTabName', (tabNameData) => {
                 this.tabName = tabNameData.tabName;
+            });
+            this.$eventHub.$on("setMultiLangSingleData", (data) => {
+                let ls_noeLocale = getCookie('locale');
+                let lo_edit = _.findWhere(this.singleData.multiLang, {locale: ls_noeLocale});
+                this.singleData[lo_edit.field] = lo_edit.value;
+                this.singleData = _.extend(this.singleData, data);
             });
         },
         mounted() {
@@ -605,7 +617,7 @@
                 tabName: "", //頁籤名稱
                 panelName: ["roomTypPanel", "limitSetPanel", "limitSetPanel"], //頁籤內容名稱
                 tabStatus: {isRoomTyp: false}, //現在頁籤狀況
-                isUseTime: false //是否開啟使用期間
+                isUseTime: false, //是否開啟使用期間
             }
         },
         watch: {
@@ -644,6 +656,14 @@
             }
         },
         methods: {
+            //打開單欄多語編輯
+            editFieldMultiLang(fieldInfo) {
+                this.$eventHub.$emit('openMultiLang', {
+                    isOpenFieldMultiLang: true,
+                    fieldInfo: fieldInfo,
+                    singleData: this.singleData
+                });
+            },
             initData() {
                 this.singleData = {};
                 this.oriSingleData = {};
@@ -791,8 +811,6 @@
                         }
                     });
                 }
-            },
-            formatAmt(value, field) {
             },
             doConvertData() {
                 let lo_params = {

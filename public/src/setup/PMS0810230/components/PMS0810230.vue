@@ -204,11 +204,17 @@
             </div>
         </el-dialog>
         <!--/.房型使用的日期規則-->
+        <!--欄位內容多語系-->
+        <field-multi-lang
+                :sys_locales="sys_locales"
+        ></field-multi-lang>
+        <!--/.欄位內容多語系-->
     </div>
 </template>
 
 <script>
     import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
+    import fieldMultiLang from './fieldMultiLang';
     //    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
     let gs_prgId = "PMS0810230";
@@ -265,16 +271,22 @@
                     }
                 }
             });
+            this.$eventHub.$on('openMultiLang', (data) => {
+                this.singleData = data.singleData;
+                this.$eventHub.$emit('editFieldMultiLang', {
+                    singleData: data.singleData,
+                    fieldInfo: data.fieldInfo
+                });
+            });
         },
         mounted() {
             this.fetchUserInfo();
             this.loadDataGridByPrgID();
         },
-        components: {
-            pms0810230SingleGrid
-        },
+        components: {pms0810230SingleGrid, fieldMultiLang},
         data() {
             return {
+                sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),//語系
                 i18nLang: go_i18nLang,//多語系資料
                 go_funcPurview: [],//按鈕權限
                 userInfo: {},//使用者資訊
@@ -298,7 +310,8 @@
                     command_option: '',
                     begin_dat: '',
                     end_dat: ''
-                }
+                },
+                singleData: {} //單筆資料
             }
         },
         watch: {

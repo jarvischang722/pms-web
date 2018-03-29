@@ -659,9 +659,16 @@ function filterRowData(la_dgRowData, callback) {
  * @param callback
  */
 function rowDataMultiLang(la_dgRowData, callback) {
-    langSvc.handleMultiDataLangConv(la_dgRowData, gs_prg_id, gn_page_id, go_session.locale, function (err, Rows) {
-        callback(null, Rows);
-    });
+    if(gs_template_id == "datagrid"){
+        langSvc["handleMultiDataLangConv"](la_dgRowData, gs_prg_id, gn_page_id, go_session.locale, function (err, Rows) {
+            callback(null, Rows);
+        });
+    }
+    else{
+        langSvc["handleSingleDataLangConv"](la_dgRowData[0], gs_prg_id, gn_page_id, go_session.locale, function (err, Rows) {
+            callback(null, [Rows]);
+        });
+    }
 }
 
 /**
