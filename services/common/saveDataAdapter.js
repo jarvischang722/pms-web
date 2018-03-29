@@ -135,7 +135,7 @@ class saveDataAdapter {
                     let ls_template_id = _.findWhere(tmpRf, {
                         page_id: Number(lo_tmpCudData.page_id),
                         tab_page_id: Number(lo_tmpCudData.tab_page_id)
-                    });
+                    }).template_id;
                     // let ls_template_id = "";
                     // if(_.isUndefined(lo_template_id)){
                     //     ls_template_id = lo_template_id.template_id;
