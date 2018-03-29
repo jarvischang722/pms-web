@@ -69,7 +69,7 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                         </bac-select-grid>
 
-                                                        <input type="text" v-model="singleData[field.ui_field_name]"
+                                                        <input type="number" v-model="singleData[field.ui_field_name]"
                                                                v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
@@ -80,7 +80,7 @@
                                                         <el-date-picker
                                                                 v-if="field.visiable == 'Y' && field.ui_type == 'date'"
                                                                 v-model="singleData[field.ui_field_name]"
-                                                                type="datetime"
+                                                                type="date"
                                                                 change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 :disabled="field.modificable == 'N'||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
@@ -94,7 +94,7 @@
                                                         <el-date-picker
                                                                 v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
                                                                 v-model="singleData[field.ui_field_name]"
-                                                                type="date"
+                                                                type="datetime"
                                                                 size="small"
                                                                 :disabled="field.modificable == 'N'||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
@@ -477,12 +477,13 @@
             },
             singleData: {
                 handler(val) {
+                    console.log("test");
                     //姓名
                     val.first_nam = val["cust_idx.first_nam"];
                     val.last_nam = val["cust_idx.last_nam"];
 
                     //公司名稱
-                    val.ccust_nam = val["cust_idx.comp_nam"];
+                    val["cust_idx.comp_nam"] = val.ccust_nam;
 
                     //性別
                     val.sex_typ = val["cust_idx.sex_typ"];
