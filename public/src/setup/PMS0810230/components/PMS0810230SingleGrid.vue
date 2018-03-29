@@ -376,7 +376,6 @@
                     </div>
                     <!--/.按鈕-->
                 </div>
-
                 <div class="space-6"></div>
                 <!--複製部分-->
                 <div class="row hide">
@@ -630,14 +629,16 @@
                 }
             },
             singleData: {
-                handler(val) {
+                handler(val, oldVal) {
                     this.setGlobalRateCod();
-                    this.$eventHub.$emit("setRoomTypRateCod", {
-                        rateCod: val.rate_cod
-                    });
-                    this.$eventHub.$emit("setUseTimeRateCod", {
-                        rateCod: val.rate_cod
-                    })
+                    if (!_.isUndefined(val.rate_cod) && val.rate_cod != oldVal.rate_cod) {
+                        this.$eventHub.$emit("setRoomTypRateCod", {
+                            rateCod: val.rate_cod
+                        });
+                        this.$eventHub.$emit("setUseTimeRateCod", {
+                            rateCod: val.rate_cod
+                        });
+                    }
                 },
                 deep: true
             }
@@ -834,6 +835,7 @@
                 return lo_checkResult;
             },
             doSaveGrid() {
+                let self = this;
                 this.isLoadingDialog = true;
                 this.loadingText = "saving";
                 this.doConvertData();
@@ -844,23 +846,20 @@
                     this.isLoadingDialog = false;
                 }
                 else {
-                    try {
-                        this.$store.dispatch("doSaveAllData").then(result => {
-                            if (result.success) {
-                                alert("save success");
-                                $("#PMS0810230SingleGrid").dialog('close');
-                            }
-                            else {
-                                alert(result.errorMsg);
-                            }
+                    this.$store.dispatch("doSaveAllData").then(result => {
+                        if (result.success) {
                             this.isLoadingDialog = false;
-                        }).catch(err => {
-                            alert(err);
-                        });
-                    }
-                    catch (err) {
-                        alert(err.message);
-                    }
+                            alert("save success");
+                            $("#PMS0810230SingleGrid").dialog('close');
+                        }
+                        else {
+                            this.isLoadingDialog = false;
+                            alert(result.errorMsg);
+                        }
+                    }, err => {
+                        this.isLoadingDialog = false;
+                        alert(err)
+                    });
                 }
             },
             doOpenUseTime() {

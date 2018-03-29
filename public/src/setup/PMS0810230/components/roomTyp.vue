@@ -126,12 +126,21 @@
 
                 //修改 tmpCUD 的 rate_cod
                 _.each(this.tmpCUD, (tmpCUDVal, tmpCUDKey) => {
-                    if (tmpCUDVal != 'oriData') {
+                    if (tmpCUDKey != 'oriData') {
                         _.each(tmpCUDVal, (lo_tmpCUDVal, idx) => {
-                            self.tmpCUD[tmpCUDKey][idx].rate_cod = data.rateCod
+                            console.log(tmpCUDKey);
+                            self.tmpCUD[tmpCUDKey][idx]['rate_cod'] = data.rateCod
                         });
                     }
                 });
+            });
+            this.$eventHub.$on('setClearData', ()=>{
+                this.tmpCUD = {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                }
             });
         },
         mounted() {

@@ -16,11 +16,8 @@ Vue.component('table-operation', {
     },
     methods: {
         deleteRow() {
-
-            // 参数根据业务场景随意构造
             let params = {type: 'delete', index: this.index, rowData: this.rowData};
                this.$emit('on-custom-comp', params);
-
         }
     }
 });

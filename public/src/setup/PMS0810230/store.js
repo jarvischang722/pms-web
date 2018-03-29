@@ -134,7 +134,7 @@ const actions = {
             });
         }
         console.log(lo_tmpCUD);
-        return {success: true};
+        return {success: true, errorMsg: 'TEST'};
         // return await $.post('/api/execNewFormatSQL', {
         //     prg_id: 'PMS0810230',
         //     func_id: state.gb_isCreateStatus ? "0520" : "0540",

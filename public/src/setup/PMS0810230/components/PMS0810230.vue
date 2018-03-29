@@ -395,7 +395,8 @@
                         self.isEditStatus = false;
                         self.isCreateStatus = false;
                         self.$eventHub.$emit('setTabName', {tabName: ""});
-                        self.$store.dispatch("setAllDataClear");
+                        self.$eventHub.$emit('setClearData');
+                        self.$store.dispatch('setAllDataClear');
                         self.loadDataGridByPrgID()
                     }
                 }).dialog('open');
