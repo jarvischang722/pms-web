@@ -13,6 +13,6 @@ var roleSvc = require("../services/RoleFuncService");
 /**
  * 客戶維護(靜態)
  */
-exports.getSER0110010 = function (req, res) {
-    res.render("subsystem/customerService/SER0110010");
+exports.getSER0140010 = function (req, res) {
+    res.render("subsystem/customerService/SER0140010");
 }

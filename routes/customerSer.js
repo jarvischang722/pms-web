@@ -11,5 +11,5 @@ var middles = [i18nMW, authMW, sysMW];
 module.exports = function (app) {
 
     //客戶維護設定(靜態)
-    app.get('/SER0110010', middles, customerSerCrtl.getSER0110010);
+    app.get('/SER0140010', middles, customerSerCrtl.getSER0140010);
 };
