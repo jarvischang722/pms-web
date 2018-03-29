@@ -133,17 +133,20 @@ const actions = {
                 })
             });
         }
-        console.log(lo_tmpCUD);
-        return {success: true, errorMsg: 'TEST'};
-        // return await $.post('/api/execNewFormatSQL', {
-        //     prg_id: 'PMS0810230',
-        //     func_id: state.gb_isCreateStatus ? "0520" : "0540",
-        //     tmpCUD: lo_tmpCUD
-        // }).then(result => {
-        //     return (result);
-        // }).catch(err=>{
-        //     throw new Error(err);
-        // });
+        // console.log(lo_tmpCUD);
+        // return {success: true};
+        return await $.post('/api/execNewFormatSQL', {
+            prg_id: 'PMS0810230',
+            func_id: state.gb_isCreateStatus ? "0520" : "0540",
+            tmpCUD: lo_tmpCUD
+        }).then(
+            result => {
+                return (result);
+            },
+            err => {
+                throw Error(err);
+            }
+        );
     }
 };
 

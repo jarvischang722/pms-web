@@ -15,21 +15,42 @@ const tools = require(appRootDir + "/utils/CommonTools");
 /**
  * 執行作業sql 程序
  */
-exports.doOperationSave = function (req, res) {
+exports.doOperationSave = async function (req, res) {
     req.body.page_id = req.body.page_id || 1;
     req.body.tmpCUD = req.body.tmpCUD || {};
-    doOperationProc(req, res);
-};
 
-function doOperationProc(req, res) {
     //TODO 沒給交易代碼要拋出錯誤
     // 商務公司、業務員API小良還沒做，拋錯會有問題
     req.body.trans_cod = req.body.trans_cod || "BAC03009010000";
+    let lo_result = null;
+    try{
+        lo_result = await dbSVC.execProcSQL(req.body, req.session);
+    }
+    catch(err){
+        lo_result = err;
+    }
+    res.json(lo_result);
+};
 
-    dbSVC.execProcSQL(req.body, req.session, function (err, result) {
-        res.json(tools.mergeRtnErrResultJson(err, result));
-    });
-}
+/**
+ * 作業新儲存格式
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+exports.execNewFormatSQL = async function(req, res){
+    req.body.page_id = req.body.page_id || 1;
+    req.body.tmpCUD = req.body.tmpCUD || {};
+
+    let lo_result = null;
+    try{
+        lo_result = await dbSVC.execNewFormatSQL(req.body, req.session);
+    }
+    catch(err){
+        lo_result = err;
+    }
+    res.json(lo_result);
+};
 
 /**
  * 取多筆欄位資料
