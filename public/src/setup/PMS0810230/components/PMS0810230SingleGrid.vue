@@ -31,7 +31,7 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                    @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
 
-                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                            <input type="number" v-model="singleData[field.ui_field_name]"
                                                    v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                    :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
