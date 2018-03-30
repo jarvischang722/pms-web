@@ -68,24 +68,16 @@ exports.fetchOnlySearchFieldsData = function (postData, session, callback) {
 exports.fetchOnlyDgFieldData = async function (postData, session, callback) {
     let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
 
-    try{
+    try {
         let lo_dgFieldsData = await lo_dgProc.fetchDgFieldsData();
         let lo_rtnData = {
             dgFieldsData: lo_dgFieldsData.dgFieldsData
         };
         callback(null, lo_rtnData);
     }
-    catch(err){
+    catch (err) {
         callback(null, {dgFieldsData: []});
     }
-
-
-    // async.parallel({
-    //     dgFieldsData: lo_dgProc.fetchDgFieldsData
-    // }, function (err, result) {
-    //
-    //     callback(err, lo_rtnData);
-    // });
 };
 
 /**
