@@ -115,13 +115,22 @@
                 //修改原始資料的 rate_cod
                 _.each(this.roomTypDetailRowsData, (lo_roomTypDetailRowsData, idx) => {
                     lo_roomTypDetailRowsData.rate_cod = data.rateCod;
-                    let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_roomTypDetailRowsData.supply_nos});
-                    if (ln_editIndex > -1) {
-                        this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                        this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                    if (lo_roomTypDetailRowsData.isCreate) {
+                        let ln_editIndex = _.findIndex(this.tmpCUD.createData, {room_cod: lo_roomTypDetailRowsData.room_cod});
+                        if (ln_editIndex > -1) {
+                            this.tmpCUD.createData.splice(ln_editIndex, 1);
+                            this.tmpCUD.createData.push(lo_roomTypDetailRowsData);
+                        }
                     }
-                    this.tmpCUD.updateData.push(lo_roomTypDetailRowsData);
-                    this.tmpCUD.oriData.push(this.oriRoomTypDetailRowsData[idx]);
+                    else {
+                        let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_roomTypDetailRowsData.supply_nos});
+                        if (ln_editIndex > -1) {
+                            this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                            this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                        }
+                        this.tmpCUD.updateData.push(lo_roomTypDetailRowsData);
+                        this.tmpCUD.oriData.push(this.oriRoomTypDetailRowsData[idx]);
+                    }
                 });
 
                 //修改 tmpCUD 的 rate_cod
@@ -133,7 +142,7 @@
                     }
                 });
             });
-            this.$eventHub.$on('setClearData', ()=>{
+            this.$eventHub.$on('setClearData', () => {
                 this.tmpCUD = {
                     createData: [],
                     updateData: [],
@@ -152,7 +161,7 @@
                 editingIndex: -1, //正在編輯的index
                 rentCalDat: '', //滾房租日
                 isLoading: true,
-                rateCod: "",
+                rateCod: '',
                 //房型原始資料
                 roomTypFieldsData: [],
                 roomTypRowsData: [],
@@ -213,7 +222,6 @@
                         if (ln_oriDgCreateIdx == -1) {
                             this.tmpCUD.createData.push(_.extend(lo_val, {
                                 event_time: moment().format(),
-                                rate_cod: this.rateCod
                             }));
                         }
                         //修改房型資料
@@ -226,7 +234,6 @@
                             if (JSON.stringify(lo_val) != JSON.stringify(this.oriRoomTypDetailRowsData[idx])) {
                                 this.tmpCUD.updateData.push(_.extend(lo_val, {
                                     event_time: moment().format(),
-                                    rate_cod: this.rateCod
                                 }));
                                 this.tmpCUD.oriData.push(_.extend(this.oriRoomTypDetailRowsData[idx], {event_time: moment().format()}));
                             }
@@ -239,7 +246,7 @@
                 handler(val) {
                     //轉換tmpCUD資料
                     let la_examFields = ['rent_amt', 'add_adult', 'add_child'];
-                    if(this.roomTypDetailFieldsData.length > 0){
+                    if (this.roomTypDetailFieldsData.length > 0) {
                         let lo_params = {
                             page_id: this.roomTypDetailFieldsData[0].page_id,
                             tab_page_id: this.roomTypDetailFieldsData[0].tab_page_id,
@@ -494,10 +501,11 @@
                                     "add_child": 0,
                                     "rent_amt": 0,
                                     "room_cod": room_cod,
-                                    "rate_cod": this.rateCod,
+                                    "rate_cod": this.$store.state.gs_rateCod,
                                     "supply_nos": lo_useTimeData.supply_nos,
                                     "ratesupply_dt.between_dat": ls_betweenDat,
-                                    "ratesupply_dt.command_option": lo_useTimeData.command_option
+                                    "ratesupply_dt.command_option": lo_useTimeData.command_option,
+                                    "isCreate": true
                                 });
                             }
                         }
@@ -605,7 +613,7 @@
             },
             //轉換command_option資料
             convertCommandOption(command_option) {
-                try{
+                try {
                     let la_commandOptionHSelect =
                         JSON.parse(JSON.stringify(_.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.command_option'}).selectDataDisplay));
                     _.each(la_commandOptionHSelect, (lo_select, idx) => {
@@ -650,7 +658,7 @@
 
                     return ls_commandOptionDisplay;
                 }
-                catch(err){
+                catch (err) {
                     alert(err);
                 }
             },

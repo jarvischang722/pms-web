@@ -641,9 +641,9 @@
                 }
             },
             singleData: {
-                handler(val, oldVal) {
+                handler(val) {
                     this.setGlobalRateCod();
-                    if (!_.isUndefined(val.rate_cod) && val.rate_cod != oldVal.rate_cod) {
+                    if (!_.isUndefined(val.rate_cod) && val.rate_cod != this.oriSingleData.rate_cod) {
                         this.$eventHub.$emit("setRoomTypRateCod", {
                             rateCod: val.rate_cod
                         });
@@ -747,7 +747,9 @@
                         this.setGlobalRateCod();
                         this.tabName = "roomTyp";
                         this.isUseTime = true;
-                        this.isUseTime = false;
+                        setTimeout(()=>{
+                            this.isUseTime = false;
+                        }, 500);
                     }
                     else {
                         alert(result.errorMsg);
@@ -874,17 +876,20 @@
                 else {
                     try {
                         this.$store.dispatch("doSaveAllData").then(result => {
-                            if (result.success) {
+                            setTimeout(() => {
                                 this.isLoadingDialog = false;
+                            }, 200);
+                            if (result.success) {
                                 alert("save success");
                                 $("#PMS0810230SingleGrid").dialog('close');
                             }
                             else {
-                                this.isLoadingDialog = false;
                                 alert(result.errorMsg);
                             }
                         }, err => {
-                            this.isLoadingDialog = false;
+                            setTimeout(() => {
+                                this.isLoadingDialog = false;
+                            }, 200);
                             alert(err)
                         });
                     }

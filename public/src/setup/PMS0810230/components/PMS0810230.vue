@@ -63,25 +63,12 @@
                                     <div class="borderFrame">
                                         <!--開始結束日期設定-->
                                         <div class="block">
-                                            <span class="demonstration">{{i18nLang.program.PMS0810230.from}}</span>
-                                            <!--<el-date-picker-->
-                                                    <!--v-model="allDatData"-->
-                                                    <!--type="daterange"-->
-                                                    <!--:range-separator="i18nLang.program.PMS0810230.to"-->
-                                                    <!--:start-placeholder="i18nLang.program.PMS0810230.start_placeholder"-->
-                                                    <!--:end-placeholder="i18nLang.program.PMS0810230.end_placeholder">-->
-                                            <!--</el-date-picker>-->
                                             <el-date-picker
-                                                    v-model="timeRuleSingleData['begin_dat']"
-                                                    type="date"
-                                                    placeholder="選擇日期">
-                                            </el-date-picker>
-                                            <!--<br>-->
-                                            <span class="demonstration">{{i18nLang.program.PMS0810230.to}}</span>
-                                            <el-date-picker
-                                                    v-model="timeRuleSingleData['end_dat']"
-                                                    type="date"
-                                                    placeholder="選擇日期">
+                                                    v-model="allDatData"
+                                                    type="daterange"
+                                                    :placeholder="i18nLang.program.PMS0810230.selectDate"
+                                                    format="yyyy/MM/dd"
+                                                    @onChange="chkFieldRule('useTimeDate','chkUseTime')">
                                             </el-date-picker>
                                         </div>
                                         <!--/.開始結束日期設定-->
@@ -461,33 +448,90 @@
                 }).dialog('open');
             },
             //房型使用期間 日期規則
+            chkFieldRule(ui_field_name, rule_func_name) {
+                // 判斷資料是否有異動
+                if (la_diff.length != 0) {
+                    this.isUpdate = true;
+                }
+
+                if (!_.isEmpty(rule_func_name.trim())) {
+                    let postData = {
+                        prg_id: "PMS0810230",
+                        rule_func_name: rule_func_name,
+                        validateField: ui_field_name,
+                        singleRowData: this.allDatData
+                    };
+                    $.post('/api/chkFieldRule', postData, function (result) {
+                        if (result.success) {
+                            //是否要show出訊息
+                            if (result.showAlert) {
+                                alert(result.alertMsg);
+                            }
+                            //是否要show出詢問視窗
+                            if (result.showConfirm) {
+                                if (confirm(result.confirmMsg)) {
+                                } else {
+                                    //有沒有要再打一次ajax到後端
+                                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
+                                        $.post(result.ajaxURL, postData, function (result) {
+                                            if (!result.success) {
+                                                alert(result.errorMsg);
+                                            }
+                                            else {
+                                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                    self.singleData = _.extend(self.singleData, result.effectValues);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+                        //連動帶回的值
+                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                            self.singleData = _.extend(self.singleData, result.effectValues);
+                            self.chgSingleData = JSON.parse(JSON.stringify(self.singleData));
+                        }
+                    });
+                }
+            },
             chkTimeRule() {
-                let ls_commandCod = this.timeRuleSingleData.command_cod;
-                this.timeRuleSingleData.command_option = [];
+                if (this.allDatData.length > 0) {
+                    this.timeRuleSingleData.begin_dat = moment(this.allDatData[0]).format("YYYY/MM/DD");
+                    this.timeRuleSingleData.end_dat = moment(this.allDatData[1]).format("YYYY/MM/DD");
+                    let ls_commandCod = this.timeRuleSingleData.command_cod;
+                    this.timeRuleSingleData.command_option = [];
 
-                if (ls_commandCod == 'D') {
-                    this.timeRuleSingleData.command_option = 'D1'
-                }
-                else if (ls_commandCod == 'H') {
-                    _.each(this.commandHVal, (ls_val) => {
-                        this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
+                    if (ls_commandCod == 'D') {
+                        this.timeRuleSingleData.command_option = 'D1'
+                    }
+                    else if (ls_commandCod == 'H') {
+                        _.each(this.commandHVal, (ls_val) => {
+                            this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
+                        });
+                    }
+                    else if (ls_commandCod == 'W') {
+                        _.each(this.commandVal, (ls_val) => {
+                            this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
+                        });
+                    }
+
+                    this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option != 'D1' ? this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1) : this.timeRuleSingleData.command_option;
+
+                    this.$eventHub.$emit('setTimeRule', {
+                        singleData: this.timeRuleSingleData
                     });
+                    this.isOpenTimeRule = false;
                 }
-                else if (ls_commandCod == 'W') {
-                    _.each(this.commandVal, (ls_val) => {
-                        this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
-                    });
+                else {
+                    alert("請輸入日期")
                 }
 
-                this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option != 'D1' ? this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1) : this.timeRuleSingleData.command_option;
-
-                this.$eventHub.$emit('setTimeRule', {
-                    singleData: this.timeRuleSingleData
-                });
-                this.isOpenTimeRule = false;
             },
             doCloseTimeRuleDialog() {
-//                console.log(this.timeRuleSingleData);
                 this.isOpenTimeRule = false;
             }
         }
