@@ -282,7 +282,7 @@
                     },
                     {
                         field: 'startDat',
-                        title: 'Start date',
+                        title: _.findWhere(this.fieldsData, {ui_field_name: 'begin_dat'}).ui_display_name,
                         width: 135,
                         titleAlign: 'center',
                         columnAlign: 'center',
@@ -290,7 +290,7 @@
                     },
                     {
                         field: 'endDat',
-                        title: 'End date',
+                        title: _.findWhere(this.fieldsData, {ui_field_name: 'end_dat'}).ui_display_name,
                         width: 135,
                         titleAlign: 'center',
                         columnAlign: 'center',
@@ -298,7 +298,7 @@
                     },
                     {
                         field: 'datRule',
-                        title: 'Date rule',
+                        title: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).ui_display_name,
                         width: 135,
                         titleAlign: 'center',
                         columnAlign: 'center',
