@@ -193,7 +193,8 @@
                 selectedRoomTypSelect: [],
                 //使用期間資料
                 useTimeData: [], //使用期間資料
-                delUseTimeData: {} //被刪除的使用期間
+                delUseTimeData: {}, //被刪除的使用期間
+                isRoomTypDelete: false
             }
         },
         watch: {
@@ -204,44 +205,43 @@
             },
             roomTypDetailRowsData: {
                 handler(val, oldVal) {
-                    //新增、修改房型資料
-                    _.each(val, (lo_val, idx) => {
-                        let ln_oriDgCreateIdx = _.findIndex(this.oriRoomTypDetailRowsData, {
-                            supply_nos: lo_val.supply_nos,
-                            room_cod: lo_val.room_cod
-                        });
-                        let ln_tmpCUDCreateIdx = _.findIndex(this.tmpCUD.createData, {
-                            supply_nos: lo_val.supply_nos,
-                            room_cod: lo_val.room_cod
-                        });
-                        let ln_tmpCUDUpdateIdx = _.findIndex(this.tmpCUD.updateData, {
-                            supply_nos: lo_val.supply_nos,
-                            room_cod: lo_val.room_cod
-                        });
-                        //新增房型資料，刪除暫存重複的資料,再新增新資料
-                        if (ln_tmpCUDCreateIdx > -1) {
-                            this.tmpCUD.createData.splice(ln_tmpCUDCreateIdx, 1);
-                        }
-                        if (ln_oriDgCreateIdx == -1) {
-                            this.tmpCUD.createData.push(_.extend(lo_val, {
-                                event_time: moment().format(),
-                            }));
-                        }
-                        //修改房型資料
-                        else {
-                            //刪除暫存重複的資料,再新增新資料
-                            if (ln_tmpCUDUpdateIdx > -1) {
-                                this.tmpCUD.updateData.splice(ln_tmpCUDUpdateIdx, 1);
-                                this.tmpCUD.oriData.splice(ln_tmpCUDUpdateIdx, 1);
+                    if(this.isRoomTypDelete){
+                        this.isRoomTypDelete = false;
+                    }
+                    else{
+                        //新增、修改房型資料
+                        _.each(val, (lo_val, idx) => {
+                            let ln_oriDgCreateIdx = _.findIndex(this.oriRoomTypDetailRowsData, {
+                                supply_nos: lo_val.supply_nos,
+                                room_cod: lo_val.room_cod
+                            });
+                            let ln_tmpCUDCreateIdx = _.findIndex(this.tmpCUD.createData, {
+                                supply_nos: lo_val.supply_nos,
+                                room_cod: lo_val.room_cod
+                            });
+                            let ln_tmpCUDUpdateIdx = _.findIndex(this.tmpCUD.updateData, {
+                                supply_nos: lo_val.supply_nos,
+                                room_cod: lo_val.room_cod
+                            });
+                            //新增房型資料，刪除暫存重複的資料,再新增新資料
+                            if (ln_tmpCUDCreateIdx > -1) {
+                                this.tmpCUD.createData.splice(ln_tmpCUDCreateIdx, 1);
                             }
-                            if (JSON.stringify(lo_val) != JSON.stringify(this.oriRoomTypDetailRowsData[idx])) {
-                                this.tmpCUD.updateData.push(_.extend(lo_val, {
-                                    event_time: moment().format(),
-                                }));
-                                this.tmpCUD.oriData.push(_.extend(this.oriRoomTypDetailRowsData[idx], {event_time: moment().format()}));
+                            if (ln_oriDgCreateIdx == -1) {
+                                this.tmpCUD.createData.push(_.extend(lo_val, {event_time: moment().format()}));
                             }
-                        }
-                    });
+                            //修改房型資料
+                            else {
+                                //刪除暫存重複的資料,再新增新資料
+                                if (ln_tmpCUDUpdateIdx > -1) {
+                                    this.tmpCUD.updateData.splice(ln_tmpCUDUpdateIdx, 1);
+                                    this.tmpCUD.oriData.splice(ln_tmpCUDUpdateIdx, 1);
+                                }
+                                this.tmpCUD.updateData.push(_.extend(lo_val, {event_time: moment().format()}));
+                                this.tmpCUD.oriData.push(this.oriRoomTypDetailRowsData[ln_oriDgCreateIdx]);
+                            }
+                        });
+                    }
                 },
                 deep: true
             },
@@ -593,6 +593,7 @@
                 _.each(la_delete, lo_delete => {
                     ln_delIndex = _.findIndex(this.roomTypDetailRowsData, lo_condition);
                     if (ln_delIndex > -1) {
+                        this.isRoomTypDelete = true;
                         this.roomTypDetailRowsData.splice(ln_delIndex, 1);
                     }
                 });
