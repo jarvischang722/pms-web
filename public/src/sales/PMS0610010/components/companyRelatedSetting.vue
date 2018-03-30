@@ -130,7 +130,7 @@
                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
                                                             <!--number 金額顯示format-->
-                                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                                            <input type="number" v-model="singleData[field.ui_field_name]"
                                                                    v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                    :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
