@@ -125,6 +125,10 @@
       "evertDay": "每一天(英文)",
       "holiday": "依假日類別(英文)",
       "week": "依星期別(英文)",
+      "from": "from",
+      "to": "to",
+      "OK": "OK",
+      "cancel": "Cancel",
       "sunday": "Sunday",
       "monday": "Monday",
       "tuesday": "Tuesday",
@@ -137,7 +141,8 @@
       "save_success": "Save Success",
       "delete_success": "Delete Success",
       "start_placeholder": "開始日期(英文)",
-      "end_placeholder": "结束日期(英文)"
+      "end_placeholder": "结束日期(英文)",
+      "selectDate": "請選擇日期(英文)"
     },
     "PMS0820030": {
       "load_default_color": "Load default color",
@@ -209,7 +214,6 @@
       "company_status": "Status chg.",
       "company_maintain": "商務公司維護(英)",
       "company_related_diagram": "公司關聯圖(英)",
-      "company_status": "Status chg.",
       "contract_status": "合約狀態變更(英)",
       "related_set": "相關設定(英)",
       "related_personnel": "相關人員(英)",
