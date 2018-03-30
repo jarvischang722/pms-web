@@ -66,9 +66,10 @@
                                             <el-date-picker
                                                     v-model="allDatData"
                                                     type="daterange"
+                                                    :editable="false"
                                                     :placeholder="i18nLang.program.PMS0810230.selectDate"
                                                     format="yyyy/MM/dd"
-                                                    @onChange="chkFieldRule('useTimeDate','chkUseTime')">
+                                                    :picker-options="pickerOptions">
                                             </el-date-picker>
                                         </div>
                                         <!--/.開始結束日期設定-->
@@ -239,6 +240,8 @@
                     this.timeRuleSingleData = _.extend(this.timeRuleSingleData, timeRuleData.singleData);
                     this.timeRuleSingleData.begin_dat = timeRuleData.singleData.startDat;
                     this.timeRuleSingleData.end_dat = timeRuleData.singleData.endDat;
+                    this.allDatData[0] = timeRuleData.singleData.startDat;
+                    this.allDatData[1] = timeRuleData.singleData.endDat;
                     this.timeRuleSingleData.command_cod = timeRuleData.singleData.command_cod;
                     if (this.timeRuleSingleData.command_cod == 'H') {
                         let la_commandOption = timeRuleData.singleData.command_option.split(',');
@@ -273,6 +276,7 @@
             });
         },
         mounted() {
+            this.fetchRentCalDat();//過濾使用期間日期
             this.fetchUserInfo();
             this.loadDataGridByPrgID();
         },
@@ -293,6 +297,7 @@
                 isCreateStatus: false,//是否為新增狀態
                 isEditStatus: false, //是否為編輯狀態
                 isModifiable: true,
+                singleData: {}, //單筆資料
                 //日期規則
                 isOpenTimeRule: false, //是否開起日期規則
                 timeRuleTabName: "D",
@@ -306,7 +311,7 @@
                     end_dat: ''
                 },
                 allDatData: [],
-                singleData: {} //單筆資料
+                pickerOptions: {}
             }
         },
         watch: {
@@ -318,12 +323,24 @@
                         begin_dat: '',
                         end_dat: ''
                     };
+                    this.allDatData = [];
                     this.commandHVal = [];
                     this.commandVal = [];
                 }
             }
         },
         methods: {
+            fetchRentCalDat() {
+                $.post('/api/qryRentCalDat', {}, (result) => {
+                    this.pickerOptions = {
+                        disabledDate(time){
+                            let lo_date = moment(time);
+                            let lo_rentCalDat = moment(result.rent_cal_dat);
+                            return lo_date.diff(lo_rentCalDat, 'days') < 1;
+                        }
+                    };
+                });
+            },
             fetchUserInfo() {
                 this.isLoading = true;
                 let self = this;
@@ -448,60 +465,12 @@
                 }).dialog('open');
             },
             //房型使用期間 日期規則
-            chkFieldRule(ui_field_name, rule_func_name) {
-                // 判斷資料是否有異動
-                if (la_diff.length != 0) {
-                    this.isUpdate = true;
-                }
-
-                if (!_.isEmpty(rule_func_name.trim())) {
-                    let postData = {
-                        prg_id: "PMS0810230",
-                        rule_func_name: rule_func_name,
-                        validateField: ui_field_name,
-                        singleRowData: this.allDatData
-                    };
-                    $.post('/api/chkFieldRule', postData, function (result) {
-                        if (result.success) {
-                            //是否要show出訊息
-                            if (result.showAlert) {
-                                alert(result.alertMsg);
-                            }
-                            //是否要show出詢問視窗
-                            if (result.showConfirm) {
-                                if (confirm(result.confirmMsg)) {
-                                } else {
-                                    //有沒有要再打一次ajax到後端
-                                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
-                                            if (!result.success) {
-                                                alert(result.errorMsg);
-                                            }
-                                            else {
-                                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
-                                                    self.singleData = _.extend(self.singleData, result.effectValues);
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            alert(result.errorMsg);
-                        }
-                        //連動帶回的值
-                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
-                            self.singleData = _.extend(self.singleData, result.effectValues);
-                            self.chgSingleData = JSON.parse(JSON.stringify(self.singleData));
-                        }
-                    });
-                }
-            },
             chkTimeRule() {
-                if (this.allDatData.length > 0) {
+
+                if (this.allDatData.length > 0 && _.isNull(this.allDatData[0])) {
                     this.timeRuleSingleData.begin_dat = moment(this.allDatData[0]).format("YYYY/MM/DD");
                     this.timeRuleSingleData.end_dat = moment(this.allDatData[1]).format("YYYY/MM/DD");
+
                     let ls_commandCod = this.timeRuleSingleData.command_cod;
                     this.timeRuleSingleData.command_option = [];
 
@@ -527,7 +496,7 @@
                     this.isOpenTimeRule = false;
                 }
                 else {
-                    alert("請輸入日期")
+                    alert(go_i18nLang.program.PMS0810230.selectDate)
                 }
 
             },
