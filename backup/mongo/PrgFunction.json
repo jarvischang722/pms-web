@@ -472,7 +472,7 @@
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "func_id" : "0200", 
+    "func_id" : "0521", 
     "rule_func_name" : "r_0200", 
     "link_prg_id" : ""
 }
@@ -482,7 +482,7 @@
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "func_id" : "0500", 
+    "func_id" : "0541", 
     "rule_func_name" : "r_0500", 
     "link_prg_id" : ""
 }
@@ -544,5 +544,65 @@
     "template_id" : "datagrid", 
     "func_id" : "1080", 
     "rule_func_name" : "r_1080", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ab9b336f8bd392bd46950ce"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0200", 
+    "rule_func_name" : "defaultratecod_mn", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5abc7d05ee527c346cc515db"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "0100", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5abc7d05ee527c346cc515dc"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "0200", 
+    "rule_func_name" : "", 
+    "link_prg_id" : "PMS0610011"
+}
+{ 
+    "_id" : ObjectId("5abc7d05ee527c346cc515dd"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "0400", 
+    "rule_func_name" : "", 
+    "link_prg_id" : "PMS0610011"
+}
+{ 
+    "_id" : ObjectId("5abc7d05ee527c346cc515de"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1010", 
+    "rule_func_name" : "", 
+    "link_prg_id" : "PMS0610011"
+}
+{ 
+    "_id" : ObjectId("5abc7d05ee527c346cc515df"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1020", 
+    "rule_func_name" : "", 
     "link_prg_id" : ""
 }

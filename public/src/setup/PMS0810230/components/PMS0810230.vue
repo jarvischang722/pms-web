@@ -1,5 +1,5 @@
 <template>
-    <div v-loading="isLoading" element-loading-text="Loading...">
+    <div v-loading="isLoading" :element-loading-text="loadingText">
         <div class="col-xs-12">
             <search-comp
                     :search-fields="searchFields"
@@ -12,8 +12,6 @@
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div class="tableHt">
-                        <!-- rateCode-查詢結果 dataGrid -->
-                        <!--<table id="setRateCode-table" class="gridTableHt" style="width: 100%;max-width: 100%;"></table>-->
                         <table id="PMS0810230_dg" class=""></table>
                     </div>
                 </div>
@@ -30,8 +28,8 @@
                             </li>
 
                             <li>
-                                <button class="btn btn-danger btn-white btn-defaultWidth rateCode_timeRule"
-                                        role="button">{{i18nLang.program.PMS0810230.delete}}
+                                <button class="btn btn-danger btn-white btn-defaultWidth"
+                                        role="button" @click="removeRow">{{i18nLang.program.PMS0810230.delete}}
                                 </button>
                             </li>
                             <li>
@@ -65,18 +63,12 @@
                                     <div class="borderFrame">
                                         <!--開始結束日期設定-->
                                         <div class="block">
-                                            <span class="demonstration">{{i18nLang.program.PMS0810230.from}}</span>
                                             <el-date-picker
-                                                    v-model="timeRuleSingleData['begin_dat']"
-                                                    type="date"
-                                                    placeholder="選擇日期">
-                                            </el-date-picker>
-                                            <!--<br>-->
-                                            <span class="demonstration">{{i18nLang.program.PMS0810230.to}}</span>
-                                            <el-date-picker
-                                                    v-model="timeRuleSingleData['end_dat']"
-                                                    type="date"
-                                                    placeholder="選擇日期">
+                                                    v-model="allDatData"
+                                                    type="daterange"
+                                                    :placeholder="i18nLang.program.PMS0810230.selectDate"
+                                                    format="yyyy/MM/dd"
+                                                    @onChange="chkFieldRule('useTimeDate','chkUseTime')">
                                             </el-date-picker>
                                         </div>
                                         <!--/.開始結束日期設定-->
@@ -215,6 +207,7 @@
 <script>
     import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
     import fieldMultiLang from './fieldMultiLang';
+
     //    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
     let gs_prgId = "PMS0810230";
@@ -296,6 +289,7 @@
                 searchCond: {},//搜尋資料
                 dgIns: {},//dataGrid 實體
                 isLoading: false,//是否載入成功
+                loadingText: "Loading...",
                 isCreateStatus: false,//是否為新增狀態
                 isEditStatus: false, //是否為編輯狀態
                 isModifiable: true,
@@ -311,6 +305,7 @@
                     begin_dat: '',
                     end_dat: ''
                 },
+                allDatData: [],
                 singleData: {} //單筆資料
             }
         },
@@ -392,6 +387,44 @@
                 }
                 this.isLoading = false;
             },
+            async removeRow() {
+                this.isLoading = true;
+                this.loadingText = "Deleting...";
+                let lo_delRow = $('#PMS0810230_dg').datagrid('getSelected');
+
+                if (!lo_delRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectOneData);
+                }
+                else {
+                    let lo_params = {
+                        page_id: this.pageOneFieldData[0].page_id,
+                        tab_page_id: this.pageOneFieldData[0].tab_page_id,
+                        event_time: moment().format()
+                    }
+                    lo_delRow = _.extend(lo_delRow, lo_params);
+
+                    await $.post('/api/execNewFormatSQL', {
+                        prg_id: 'PMS0810230',
+                        func_id: "0530",
+                        tmpCUD: {deleteData: [lo_delRow]}
+                    }).then(
+                        result => {
+                            if (result.success) {
+                                alert(go_i18nLang.program.PMS0810230.delete_success);
+                                this.loadDataGridByPrgID();
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                            this.isLoading = false;
+                            this.loadingText = "Loading...";
+                        },
+                        err => {
+                            throw Error(err);
+                        }
+                    );
+                }
+            },
             showSingleGridDialog() {
                 let self = this;
 
@@ -415,30 +448,88 @@
                 }).dialog('open');
             },
             //房型使用期間 日期規則
+            chkFieldRule(ui_field_name, rule_func_name) {
+                // 判斷資料是否有異動
+                if (la_diff.length != 0) {
+                    this.isUpdate = true;
+                }
+
+                if (!_.isEmpty(rule_func_name.trim())) {
+                    let postData = {
+                        prg_id: "PMS0810230",
+                        rule_func_name: rule_func_name,
+                        validateField: ui_field_name,
+                        singleRowData: this.allDatData
+                    };
+                    $.post('/api/chkFieldRule', postData, function (result) {
+                        if (result.success) {
+                            //是否要show出訊息
+                            if (result.showAlert) {
+                                alert(result.alertMsg);
+                            }
+                            //是否要show出詢問視窗
+                            if (result.showConfirm) {
+                                if (confirm(result.confirmMsg)) {
+                                } else {
+                                    //有沒有要再打一次ajax到後端
+                                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
+                                        $.post(result.ajaxURL, postData, function (result) {
+                                            if (!result.success) {
+                                                alert(result.errorMsg);
+                                            }
+                                            else {
+                                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                    self.singleData = _.extend(self.singleData, result.effectValues);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+                        //連動帶回的值
+                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                            self.singleData = _.extend(self.singleData, result.effectValues);
+                            self.chgSingleData = JSON.parse(JSON.stringify(self.singleData));
+                        }
+                    });
+                }
+            },
             chkTimeRule() {
-                let ls_commandCod = this.timeRuleSingleData.command_cod;
-                this.timeRuleSingleData.command_option = [];
+                if (this.allDatData.length > 0) {
+                    this.timeRuleSingleData.begin_dat = moment(this.allDatData[0]).format("YYYY/MM/DD");
+                    this.timeRuleSingleData.end_dat = moment(this.allDatData[1]).format("YYYY/MM/DD");
+                    let ls_commandCod = this.timeRuleSingleData.command_cod;
+                    this.timeRuleSingleData.command_option = [];
 
-                if (ls_commandCod == 'D') {
-                    this.timeRuleSingleData.command_option = 'D1'
-                }
-                else if (ls_commandCod == 'H') {
-                    _.each(this.commandHVal, (ls_val) => {
-                        this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
+                    if (ls_commandCod == 'D') {
+                        this.timeRuleSingleData.command_option = 'D1'
+                    }
+                    else if (ls_commandCod == 'H') {
+                        _.each(this.commandHVal, (ls_val) => {
+                            this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
+                        });
+                    }
+                    else if (ls_commandCod == 'W') {
+                        _.each(this.commandVal, (ls_val) => {
+                            this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
+                        });
+                    }
+
+                    this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option != 'D1' ? this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1) : this.timeRuleSingleData.command_option;
+
+                    this.$eventHub.$emit('setTimeRule', {
+                        singleData: this.timeRuleSingleData
                     });
+                    this.isOpenTimeRule = false;
                 }
-                else if (ls_commandCod == 'W') {
-                    _.each(this.commandVal, (ls_val) => {
-                        this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
-                    });
+                else {
+                    alert("請輸入日期")
                 }
 
-                this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option != 'D1' ? this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1) : this.timeRuleSingleData.command_option;
-
-                this.$eventHub.$emit('setTimeRule', {
-                    singleData: this.timeRuleSingleData
-                });
-                this.isOpenTimeRule = false;
             },
             doCloseTimeRuleDialog() {
                 this.isOpenTimeRule = false;

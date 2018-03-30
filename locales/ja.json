@@ -133,7 +133,12 @@
       "friday": "星期五(日)",
       "saturday": "星期六(日)",
       "dateRule": "日期規則(日)",
-      "showExpire": "過期顯示(日)"
+      "showExpire": "過期顯示(日)",
+      "save_success": "儲存成功(日)",
+      "delete_success": "刪除成功(日)",
+      "start_placeholder": "開始日期(日)",
+      "end_placeholder": "结束日期(日)",
+      "selectDate": "請選擇日期(日)"
     },
     "PMS0820030": {
       "load_default_color": "讀取預設顏色(日)",

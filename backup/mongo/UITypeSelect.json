@@ -4072,7 +4072,8 @@
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
-    "is_qry_src_before" : ""
+    "is_qry_src_before" : "", 
+    "display_func_name" : "filter_rate_grp"
 }
 { 
     "_id" : ObjectId("5aa8b2f63617376398d8cda8"), 
@@ -4140,7 +4141,8 @@
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
-    "is_qry_src_before" : ""
+    "is_qry_src_before" : "", 
+    "display_func_name" : "filter_source_typ"
 }
 { 
     "_id" : ObjectId("5aa8b2f63617376398d8cdac"), 
@@ -4151,13 +4153,14 @@
     "ui_field_name" : "guest_typ", 
     "ui_type" : "select", 
     "ui_display_name" : "guest_sna", 
-    "rule_func_name" : "sel_guest_typ", 
+    "rule_func_name" : "sel_guest_typ_for_select", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
-    "is_qry_src_before" : ""
+    "is_qry_src_before" : "", 
+    "display_func_name" : "filter_guest_typ"
 }
 { 
     "_id" : ObjectId("5aa8b2f63617376398d8cdad"), 

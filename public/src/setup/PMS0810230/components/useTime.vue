@@ -78,13 +78,14 @@
                     let lo_createData = {
                         athena_id: this.$store.state.go_userInfo.athena_id,
                         hotel_cod: this.$store.state.go_userInfo.hotel_cod,
-                        rate_cod: this.$store.state.gs_oriRateCod,
+                        rate_cod: this.$store.state.gs_rateCod,
                         supply_nos: Number(ln_maxSupplyNos) + 1,
                         begin_dat: moment(timeRuleData.singleData.begin_dat).format("YYYY/MM/DD"),
                         end_dat: moment(timeRuleData.singleData.end_dat).format("YYYY/MM/DD"),
                         command_cod: timeRuleData.singleData.command_cod,
                         command_option: timeRuleData.singleData.command_option,
-                        event_time: moment().format()
+                        event_time: moment().format(),
+                        isCreate: true
                     };
                     this.tmpCUD.createData.push(lo_createData);
                     this.dataGridRowsData.push(lo_createData);
@@ -135,24 +136,36 @@
                 //修改原始資料的 rate_cod
                 _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
                     lo_dataGridRowsData.rate_cod = data.rateCod;
-                    let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_dataGridRowsData.supply_nos});
-                    if (ln_editIndex > -1) {
-                        this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                        this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                    if(lo_dataGridRowsData.isCreate){
+                        this.tmpCUD.createData.splice(idx, 1);
+                        this.tmpCUD.createData.push(lo_dataGridRowsData);
                     }
-                    this.tmpCUD.updateData.push(lo_dataGridRowsData);
-                    this.tmpCUD.oriData.push(this.oriDataGridRowsData[idx]);
+                    else{
+                        let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_dataGridRowsData.supply_nos});
+                        if (ln_editIndex > -1) {
+                            this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                            this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                        }
+                        this.tmpCUD.updateData.push(lo_dataGridRowsData);
+                        this.tmpCUD.oriData.push(this.oriDataGridRowsData[idx]);
+                    }
                 });
-
-                //修改 tmpCUD 的 rate_cod
+                //轉換tmpCUD資料
+                let lo_param = {
+                    page_id: this.fieldsData[0].page_id,
+                    tab_page_id: this.fieldsData[0].tab_page_id
+                };
                 _.each(this.tmpCUD, (tmpCUDVal, tmpCUDKey) => {
-                    if (tmpCUDKey != 'oriData') {
-                        _.each(tmpCUDVal, (lo_tmpCUDVal, idx) => {
+                    _.each(tmpCUDVal, (lo_tmpCUDVal, idx) => {
+                        //修改 tmpCUD 的 rate_cod
+                        if(tmpCUDKey != 'oriData'){
                             self.tmpCUD[tmpCUDKey][idx]['rate_cod'] = data.rateCod;
-                        });
-                    }
-                });
+                        }
+                        //增加page_id、tab_page_id
+                        _.extend(self.tmpCUD[tmpCUDKey][idx], lo_param);
+                    });
 
+                });
             });
             this.$eventHub.$on('setClearData', ()=>{
                 this.tmpCUD = {
@@ -162,6 +175,7 @@
                     oriData: []
                 };
             });
+
         },
         mounted() {
             this.fetchRentCalDat();
@@ -315,53 +329,58 @@
                 }
             },
             convertCommandOption(data) {
-                let la_commandOptionHSelect =
-                    JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectData));
-                _.each(la_commandOptionHSelect, (lo_select, idx) => {
-                    la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
-                });
+                try{
+                    let la_commandOptionHSelect =
+                        JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay));
+                    _.each(la_commandOptionHSelect, (lo_select, idx) => {
+                        la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
+                    });
 
-                let la_commandOptionWSelect = [
-                    {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
-                    {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
-                    {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
-                    {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
-                    {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
-                    {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
-                    {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
-                ];
+                    let la_commandOptionWSelect = [
+                        {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
+                        {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
+                        {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
+                        {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
+                        {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
+                        {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
+                        {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
+                    ];
 
-                let ls_commandOptionDisplay = '';
-                if (data.command_cod == 'H') {
-                    let la_commandOption = data.command_option.split(',');
-                    if (la_commandOption.length > 1) {
-                        _.each(la_commandOption, (ls_commandOption) => {
-                            ls_commandOptionDisplay =
-                                ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
-                        });
-                        ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
+                    let ls_commandOptionDisplay = '';
+                    if (data.command_cod == 'H') {
+                        let la_commandOption = data.command_option.split(',');
+                        if (la_commandOption.length > 1) {
+                            _.each(la_commandOption, (ls_commandOption) => {
+                                ls_commandOptionDisplay =
+                                    ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
+                            });
+                            ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
+                        }
+                        else {
+                            ls_commandOptionDisplay = _.findWhere(la_commandOptionHSelect, {value: data.command_option}).display
+                        }
+                    }
+                    else if (data.command_cod == 'W') {
+                        let la_commandOption = data.command_option.split(',');
+                        if (la_commandOption.length > 1) {
+                            _.each(la_commandOption, (ls_commandOption) => {
+                                ls_commandOptionDisplay =
+                                    ls_commandOptionDisplay + _.findWhere(la_commandOptionWSelect, {value: ls_commandOption}).display + ', ';
+                            });
+                            ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
+                        }
+                        else {
+                            ls_commandOptionDisplay = _.findWhere(la_commandOptionWSelect, {value: data.command_option}).display
+                        }
                     }
                     else {
-                        ls_commandOptionDisplay = _.findWhere(la_commandOptionHSelect, {value: data.command_option}).display
+                        ls_commandOptionDisplay = "每一天";
                     }
+                    return ls_commandOptionDisplay;
                 }
-                else if (data.command_cod == 'W') {
-                    let la_commandOption = data.command_option.split(',');
-                    if (la_commandOption.length > 1) {
-                        _.each(la_commandOption, (ls_commandOption) => {
-                            ls_commandOptionDisplay =
-                                ls_commandOptionDisplay + _.findWhere(la_commandOptionWSelect, {value: ls_commandOption}).display + ', ';
-                        });
-                        ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
-                    }
-                    else {
-                        ls_commandOptionDisplay = _.findWhere(la_commandOptionWSelect, {value: data.command_option}).display
-                    }
+                catch(err){
+                    alert(err);
                 }
-                else {
-                    ls_commandOptionDisplay = "每一天";
-                }
-                return ls_commandOptionDisplay;
             },
             //v-table function
             useTimeColumnCellClass(rowIndex, columnName, rowData) {

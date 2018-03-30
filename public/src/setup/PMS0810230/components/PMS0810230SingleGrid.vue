@@ -13,11 +13,11 @@
                                             <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
                                                    :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
-                                                <!--<a @click="editFieldMultiLang(field)"-->
-                                                   <!--v-if="field.multi_lang_table != ''">-->
-                                                    <!--{{field.ui_display_name}}-->
-                                                <!--</a>-->
-                                                <span>{{ field.ui_display_name }}</span>
+                                                <a @click="editFieldMultiLang(field)"
+                                                   v-if="field.multi_lang_table != ''">
+                                                    {{field.ui_display_name}}
+                                                </a>
+                                                <span v-else>{{ field.ui_display_name }}</span>
 
                                             </label>
 
@@ -594,8 +594,8 @@
             });
             this.$eventHub.$on("setMultiLangSingleData", (data) => {
                 let ls_noeLocale = getCookie('locale');
-                let lo_edit = _.findWhere(this.singleData.multiLang, {locale: ls_noeLocale});
-                this.singleData[lo_edit.field] = lo_edit.value;
+                let lo_edit = _.findWhere(this.singleData.multilang, {locale: ls_noeLocale});
+                this.singleData[lo_edit.field] = lo_edit.val;
                 this.singleData = _.extend(this.singleData, data);
             });
         },
@@ -641,9 +641,9 @@
                 }
             },
             singleData: {
-                handler(val, oldVal) {
+                handler(val) {
                     this.setGlobalRateCod();
-                    if (!_.isUndefined(val.rate_cod) && val.rate_cod != oldVal.rate_cod) {
+                    if (!_.isUndefined(val.rate_cod) && val.rate_cod != this.oriSingleData.rate_cod) {
                         this.$eventHub.$emit("setRoomTypRateCod", {
                             rateCod: val.rate_cod
                         });
@@ -741,13 +741,23 @@
                     };
                 }
                 $.post(ls_apiUrl, lo_params).then(result => {
-                    this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
-                    this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                    if (result.success) {
+                        this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
+                        this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        this.setGlobalRateCod();
+                        this.tabName = "roomTyp";
+                        this.isUseTime = true;
+                        setTimeout(()=>{
+                            this.isUseTime = false;
+                        }, 500);
+                    }
+                    else {
+                        alert(result.errorMsg);
+                    }
                     this.isLoadingDialog = false;
-                    this.setGlobalRateCod();
-                    this.tabName = "roomTyp";
-                    this.isUseTime = true;
-                    this.isUseTime = false;
+                }, err => {
+                    this.isLoadingDialog = false;
+                    alert(err.statusText);
                 });
             },
             chkFieldRule(ui_field_name, rule_func_name) {
@@ -866,17 +876,20 @@
                 else {
                     try {
                         this.$store.dispatch("doSaveAllData").then(result => {
-                            if (result.success) {
+                            setTimeout(() => {
                                 this.isLoadingDialog = false;
+                            }, 200);
+                            if (result.success) {
                                 alert("save success");
                                 $("#PMS0810230SingleGrid").dialog('close');
                             }
                             else {
-                                this.isLoadingDialog = false;
                                 alert(result.errorMsg);
                             }
                         }, err => {
-                            this.isLoadingDialog = false;
+                            setTimeout(() => {
+                                this.isLoadingDialog = false;
+                            }, 200);
                             alert(err)
                         });
                     }

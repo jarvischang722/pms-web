@@ -102,8 +102,11 @@
         created() {
             this.$eventHub.$on("getUseTimeData", (data) => {
                 this.useTimeData = data.useTimeData;
-                if (this.roomTypRowsData.length > 0) {
-                    this.roomTypRowClick(0, this.roomTypRowsData[0].room_cod, this.roomTypColumns);
+                if (this.roomTypData.length > 0) {
+                    _.each(this.roomTypData, (lo_roomTypData, idx)=>{
+                        this.roomTypRowClick(idx, lo_roomTypData.roomCode, this.roomTypColumns[0]);
+                    });
+                    this.roomTypRowClick(0, this.roomTypData[0].roomCode, this.roomTypColumns[0]);
                 }
             });
             this.$eventHub.$on("getDeleteUseTimeData", (data) => {
@@ -115,13 +118,22 @@
                 //修改原始資料的 rate_cod
                 _.each(this.roomTypDetailRowsData, (lo_roomTypDetailRowsData, idx) => {
                     lo_roomTypDetailRowsData.rate_cod = data.rateCod;
-                    let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_roomTypDetailRowsData.supply_nos});
-                    if (ln_editIndex > -1) {
-                        this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                        this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                    if (lo_roomTypDetailRowsData.isCreate) {
+                        let ln_editIndex = _.findIndex(this.tmpCUD.createData, {room_cod: lo_roomTypDetailRowsData.room_cod});
+                        if (ln_editIndex > -1) {
+                            this.tmpCUD.createData.splice(ln_editIndex, 1);
+                            this.tmpCUD.createData.push(lo_roomTypDetailRowsData);
+                        }
                     }
-                    this.tmpCUD.updateData.push(lo_roomTypDetailRowsData);
-                    this.tmpCUD.oriData.push(this.oriRoomTypDetailRowsData[idx]);
+                    else {
+                        let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_roomTypDetailRowsData.supply_nos});
+                        if (ln_editIndex > -1) {
+                            this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                            this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                        }
+                        this.tmpCUD.updateData.push(lo_roomTypDetailRowsData);
+                        this.tmpCUD.oriData.push(this.oriRoomTypDetailRowsData[idx]);
+                    }
                 });
 
                 //修改 tmpCUD 的 rate_cod
@@ -133,7 +145,7 @@
                     }
                 });
             });
-            this.$eventHub.$on('setClearData', ()=>{
+            this.$eventHub.$on('setClearData', () => {
                 this.tmpCUD = {
                     createData: [],
                     updateData: [],
@@ -152,7 +164,7 @@
                 editingIndex: -1, //正在編輯的index
                 rentCalDat: '', //滾房租日
                 isLoading: true,
-                rateCod: "",
+                rateCod: '',
                 //房型原始資料
                 roomTypFieldsData: [],
                 roomTypRowsData: [],
@@ -213,7 +225,6 @@
                         if (ln_oriDgCreateIdx == -1) {
                             this.tmpCUD.createData.push(_.extend(lo_val, {
                                 event_time: moment().format(),
-                                rate_cod: this.rateCod
                             }));
                         }
                         //修改房型資料
@@ -226,7 +237,6 @@
                             if (JSON.stringify(lo_val) != JSON.stringify(this.oriRoomTypDetailRowsData[idx])) {
                                 this.tmpCUD.updateData.push(_.extend(lo_val, {
                                     event_time: moment().format(),
-                                    rate_cod: this.rateCod
                                 }));
                                 this.tmpCUD.oriData.push(_.extend(this.oriRoomTypDetailRowsData[idx], {event_time: moment().format()}));
                             }
@@ -239,7 +249,7 @@
                 handler(val) {
                     //轉換tmpCUD資料
                     let la_examFields = ['rent_amt', 'add_adult', 'add_child'];
-                    if(this.roomTypDetailFieldsData.length > 0){
+                    if (this.roomTypDetailFieldsData.length > 0) {
                         let lo_params = {
                             page_id: this.roomTypDetailFieldsData[0].page_id,
                             tab_page_id: this.roomTypDetailFieldsData[0].tab_page_id,
@@ -494,10 +504,11 @@
                                     "add_child": 0,
                                     "rent_amt": 0,
                                     "room_cod": room_cod,
-                                    "rate_cod": this.rateCod,
+                                    "rate_cod": this.$store.state.gs_rateCod,
                                     "supply_nos": lo_useTimeData.supply_nos,
                                     "ratesupply_dt.between_dat": ls_betweenDat,
-                                    "ratesupply_dt.command_option": lo_useTimeData.command_option
+                                    "ratesupply_dt.command_option": lo_useTimeData.command_option,
+                                    "isCreate": true
                                 });
                             }
                         }
@@ -605,49 +616,54 @@
             },
             //轉換command_option資料
             convertCommandOption(command_option) {
-                let la_commandOptionHSelect =
-                    JSON.parse(JSON.stringify(_.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.command_option'}).selectDataDisplay));
-                _.each(la_commandOptionHSelect, (lo_select, idx) => {
-                    la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
-                });
-
-                let la_commandOptionWSelect = [
-                    {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
-                    {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
-                    {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
-                    {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
-                    {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
-                    {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
-                    {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
-                ];
-
-                let ls_commandOptionDisplay = '';
-                if (command_option.substring(0, 1) == 'H') {
-                    let la_commandOption = command_option.split(',');
-                    _.each(la_commandOption, (ls_commandOption) => {
-                        ls_commandOptionDisplay =
-                            ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
+                try {
+                    let la_commandOptionHSelect =
+                        JSON.parse(JSON.stringify(_.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.command_option'}).selectDataDisplay));
+                    _.each(la_commandOptionHSelect, (lo_select, idx) => {
+                        la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
                     });
-                    ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
-                }
-                else if (command_option.substring(0, 1) == 'W') {
-                    let la_commandOption = command_option.split(',');
-                    if (la_commandOption.length > 1) {
+
+                    let la_commandOptionWSelect = [
+                        {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
+                        {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
+                        {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
+                        {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
+                        {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
+                        {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
+                        {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
+                    ];
+
+                    let ls_commandOptionDisplay = '';
+                    if (command_option.substring(0, 1) == 'H') {
+                        let la_commandOption = command_option.split(',');
                         _.each(la_commandOption, (ls_commandOption) => {
                             ls_commandOptionDisplay =
-                                ls_commandOptionDisplay + _.findWhere(la_commandOptionWSelect, {value: ls_commandOption}).display + ', ';
+                                ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
                         });
                         ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
                     }
-                    else {
-                        ls_commandOptionDisplay = _.findWhere(la_commandOptionWSelect, {value: command_option}).display
+                    else if (command_option.substring(0, 1) == 'W') {
+                        let la_commandOption = command_option.split(',');
+                        if (la_commandOption.length > 1) {
+                            _.each(la_commandOption, (ls_commandOption) => {
+                                ls_commandOptionDisplay =
+                                    ls_commandOptionDisplay + _.findWhere(la_commandOptionWSelect, {value: ls_commandOption}).display + ', ';
+                            });
+                            ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
+                        }
+                        else {
+                            ls_commandOptionDisplay = _.findWhere(la_commandOptionWSelect, {value: command_option}).display
+                        }
                     }
-                }
-                else {
-                    ls_commandOptionDisplay = "每一天";
-                }
+                    else {
+                        ls_commandOptionDisplay = "每一天";
+                    }
 
-                return ls_commandOptionDisplay;
+                    return ls_commandOptionDisplay;
+                }
+                catch (err) {
+                    alert(err);
+                }
             },
             computeAmt(value, field) {
                 let ls_value = "";
@@ -744,7 +760,7 @@
                 let la_oriRoomTypData = JSON.parse(JSON.stringify(this.roomTypData));
                 let ln_selectIndex = this.selectedRoomTypSelect.length > 0 ? la_oriRoomTypData.length : this.editingIndex;
                 _.each(this.selectedRoomTypSelect, (lo_selectedRoomTyp) => {
-                    this.roomTypData.push({"roomCode": lo_selectedRoomTyp.room_cod})
+                    this.roomTypData.push({"roomCode": lo_selectedRoomTyp.room_cod});
                 });
                 _.each(this.roomTypData, (lo_roomTypData, idx) => {
                     this.roomTypRowClick(idx, this.roomTypData[idx], this.roomTypColumns[1]);
