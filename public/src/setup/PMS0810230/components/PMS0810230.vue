@@ -1,5 +1,5 @@
 <template>
-    <div v-loading="isLoading" element-loading-text="Loading...">
+    <div v-loading="isLoading" :element-loading-text="loadingText">
         <div class="col-xs-12">
             <search-comp
                     :search-fields="searchFields"
@@ -213,6 +213,7 @@
 <script>
     import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
     import fieldMultiLang from './fieldMultiLang';
+
     //    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
     let gs_prgId = "PMS0810230";
@@ -294,6 +295,7 @@
                 searchCond: {},//搜尋資料
                 dgIns: {},//dataGrid 實體
                 isLoading: false,//是否載入成功
+                loadingText: "Loading...",
                 isCreateStatus: false,//是否為新增狀態
                 isEditStatus: false, //是否為編輯狀態
                 isModifiable: true,
@@ -390,14 +392,42 @@
                 }
                 this.isLoading = false;
             },
-            removeRow(){
-                var lo_delRow = $('#PMS0810230_dg').datagrid('getSelected');
+            async removeRow(){
+                this.isLoading = true;
+                this.loadingText = "Deleting...";
+                let lo_delRow = $('#PMS0810230_dg').datagrid('getSelected');
 
                 if (!lo_delRow) {
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
-                    console.log(lo_delRow);
+                    let lo_params = {
+                        page_id: this.pageOneFieldData[0].page_id,
+                        tab_page_id: this.pageOneFieldData[0].tab_page_id,
+                        event_time: moment().format()
+                    }
+                    lo_delRow = _.extend(lo_delRow, lo_params);
+
+                    await $.post('/api/execNewFormatSQL', {
+                        prg_id: 'PMS0810230',
+                        func_id: "0530",
+                        tmpCUD: {deleteData: [lo_delRow]}
+                    }).then(
+                        result => {
+                            if(result.success){
+                                alert(go_i18nLang.program.PMS0810230.delete_success);
+                                this.loadDataGridByPrgID();
+                            }
+                            else{
+                                alert(result.errorMsg);
+                            }
+                            this.isLoading = false;
+                            this.loadingText = "Loading...";
+                        },
+                        err => {
+                            throw Error(err);
+                        }
+                    );
                 }
             },
             showSingleGridDialog() {

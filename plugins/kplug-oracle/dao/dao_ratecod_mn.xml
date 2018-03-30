@@ -3,7 +3,7 @@
     <!--[PMS0810230 rateCode] rate code 取多筆資料-->
     <dao name="QRY_RATECOD_MN_DG">
         <statement><![CDATA[
-            SELECT RATE_COD,RATECOD_NAM,MENU_NAM,RATE_PROP,RATE_GRP,SOURCE_TYP,GUEST_TYP, REMARK1
+            SELECT RATE_COD,RATECOD_NAM,MENU_NAM,RATE_PROP,RATE_GRP,SOURCE_TYP,GUEST_TYP, REMARK1, hotel_cod, athena_id
             FROM RATECOD_MN
             WHERE ATHENA_ID = :athena_id
             AND trim(HOTEL_COD) = trim(:hotel_cod)
