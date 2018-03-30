@@ -87,6 +87,7 @@
                         this.fetchVisitHistoryFieldData();
                     }
                     else{
+                        alert(result.errorMsg);
                         this.isLoadingDialog = false;
                     }
                 }, err=>{
@@ -107,6 +108,7 @@
                         this.setVisitsData();
                     }
                     else{
+                        alert(result.errorMsg);
                         this.isLoadingDialog = false;
                     }
                 }, err=>{
