@@ -374,7 +374,6 @@
                     prg_id: "PMS0610010",
                     page_id: 1020
                 };
-
                 $.post("/api/fetchOnlyDataGridFieldData", lo_params, function (result) {
                     self.dataGridFieldsData = result.dgFieldsData;
                     self.rowData = self.editRows[0];
@@ -424,6 +423,7 @@
                 this.dgVisitPlanIns.init("PMS0610010", "visitPlan_dg", colOption, this.dataGridFieldsData, {
                     singleSelect: false
                 });
+                console.log(this.dataGridFieldsData, this.editRows);
                 this.dgVisitPlanIns.loadDgData(this.editRows);
 
                 this.setIndexData(editingRow);
