@@ -103,7 +103,10 @@
             this.$eventHub.$on("getUseTimeData", (data) => {
                 this.useTimeData = data.useTimeData;
                 if (this.roomTypData.length > 0) {
-                    this.roomTypRowClick(0, this.roomTypData[0].roomCode, this.roomTypColumns);
+                    _.each(this.roomTypData, (lo_roomTypData, idx)=>{
+                        this.roomTypRowClick(idx, lo_roomTypData.roomCode, this.roomTypColumns[0]);
+                    });
+                    this.roomTypRowClick(0, this.roomTypData[0].roomCode, this.roomTypColumns[0]);
                 }
             });
             this.$eventHub.$on("getDeleteUseTimeData", (data) => {
