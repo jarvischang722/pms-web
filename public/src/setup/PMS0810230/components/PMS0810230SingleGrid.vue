@@ -741,13 +741,21 @@
                     };
                 }
                 $.post(ls_apiUrl, lo_params).then(result => {
-                    this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
-                    this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                    if (result.success) {
+                        this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
+                        this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        this.setGlobalRateCod();
+                        this.tabName = "roomTyp";
+                        this.isUseTime = true;
+                        this.isUseTime = false;
+                    }
+                    else {
+                        alert(result.errorMsg);
+                    }
                     this.isLoadingDialog = false;
-                    this.setGlobalRateCod();
-                    this.tabName = "roomTyp";
-                    this.isUseTime = true;
-                    this.isUseTime = false;
+                }, err => {
+                    this.isLoadingDialog = false;
+                    alert(err.statusText);
                 });
             },
             chkFieldRule(ui_field_name, rule_func_name) {

@@ -135,7 +135,9 @@
       "dateRule": "日期規則(英文)",
       "showExpire": "過期顯示(英文)",
       "save_success": "Save Success",
-      "delete_success": "Delete Success"
+      "delete_success": "Delete Success",
+      "start_placeholder": "開始日期(英文)",
+      "end_placeholder": "结束日期(英文)"
     },
     "PMS0820030": {
       "load_default_color": "Load default color",

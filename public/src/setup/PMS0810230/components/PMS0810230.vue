@@ -64,6 +64,13 @@
                                         <!--開始結束日期設定-->
                                         <div class="block">
                                             <span class="demonstration">{{i18nLang.program.PMS0810230.from}}</span>
+                                            <!--<el-date-picker-->
+                                                    <!--v-model="allDatData"-->
+                                                    <!--type="daterange"-->
+                                                    <!--:range-separator="i18nLang.program.PMS0810230.to"-->
+                                                    <!--:start-placeholder="i18nLang.program.PMS0810230.start_placeholder"-->
+                                                    <!--:end-placeholder="i18nLang.program.PMS0810230.end_placeholder">-->
+                                            <!--</el-date-picker>-->
                                             <el-date-picker
                                                     v-model="timeRuleSingleData['begin_dat']"
                                                     type="date"
@@ -311,6 +318,7 @@
                     begin_dat: '',
                     end_dat: ''
                 },
+                allDatData: [],
                 singleData: {} //單筆資料
             }
         },
@@ -392,7 +400,7 @@
                 }
                 this.isLoading = false;
             },
-            async removeRow(){
+            async removeRow() {
                 this.isLoading = true;
                 this.loadingText = "Deleting...";
                 let lo_delRow = $('#PMS0810230_dg').datagrid('getSelected');
@@ -414,11 +422,11 @@
                         tmpCUD: {deleteData: [lo_delRow]}
                     }).then(
                         result => {
-                            if(result.success){
+                            if (result.success) {
                                 alert(go_i18nLang.program.PMS0810230.delete_success);
                                 this.loadDataGridByPrgID();
                             }
-                            else{
+                            else {
                                 alert(result.errorMsg);
                             }
                             this.isLoading = false;
@@ -479,6 +487,7 @@
                 this.isOpenTimeRule = false;
             },
             doCloseTimeRuleDialog() {
+//                console.log(this.timeRuleSingleData);
                 this.isOpenTimeRule = false;
             }
         }

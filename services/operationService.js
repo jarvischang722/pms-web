@@ -96,12 +96,12 @@ exports.fetchOnlyGsFieldData = async function (postData, session, callback) {
 /**
  * 取作業預設單筆資料
  */
-exports.fetchDefaultGsRowData = async function (postData, session) {
+exports.fetchDefaultGsRowData = async function (postData, session, callback) {
     let lo_gsProc = new fetechDataModule.GridSingleProc(postData, session);
 
     try {
         let la_gsDefaultData = await lo_gsProc.fetchDefaultMnRowData();
-        return {gsDefaultData: la_gsDefaultData};
+        callback(null, {gsDefaultData: la_gsDefaultData});
     }
     catch (err) {
         throw new Error(err);
