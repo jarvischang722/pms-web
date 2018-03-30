@@ -77,25 +77,40 @@
             fetchShopInfoFieldData() {
                 $.post("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0210011",
+                    page_id: 1,
                     tab_page_id: 21,
                     searchCond: {gcust_cod: this.$store.state.gs_gcustCod, rent_cal_dat: this.rentCalDat}
                 }).then(result => {
-                    this.shopInfoFieldsData = result.dgFieldsData;
-                    this.shopInfoRows = result.dgRowData;
-                    this.fetchVisitHistoryFieldData();
-
+                    if(result.success){
+                        this.shopInfoFieldsData = result.dgFieldsData;
+                        this.shopInfoRows = result.dgRowData;
+                        this.fetchVisitHistoryFieldData();
+                    }
+                    else{
+                        this.isLoadingDialog = false;
+                    }
+                }, err=>{
+                    alert(err.statusText)
                 });
             },
             fetchVisitHistoryFieldData() {
                 $.post("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0210011",
+                    page_id: 1,
                     tab_page_id: 22,
                     searchCond: {gcust_cod: this.$store.state.gs_gcustCod}
                 }).then(result => {
-                    this.visitHistoryFieldsData = result.dgFieldsData;
-                    this.visitHistoryRows = result.dgRowData;
-                    this.showShopInfoDataGrid();
-                    this.setVisitsData();
+                    if(result.success){
+                        this.visitHistoryFieldsData = result.dgFieldsData;
+                        this.visitHistoryRows = result.dgRowData;
+                        this.showShopInfoDataGrid();
+                        this.setVisitsData();
+                    }
+                    else{
+                        this.isLoadingDialog = false;
+                    }
+                }, err=>{
+                    alert(err.statusText);
                 });
             },
             //將來管資料放進vuex

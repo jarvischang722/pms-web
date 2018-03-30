@@ -477,7 +477,6 @@
             },
             singleData: {
                 handler(val) {
-                    console.log("test");
                     //姓名
                     val.first_nam = val["cust_idx.first_nam"];
                     val.last_nam = val["cust_idx.last_nam"];
