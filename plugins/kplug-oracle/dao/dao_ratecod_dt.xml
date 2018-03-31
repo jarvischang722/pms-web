@@ -25,7 +25,7 @@
     <dao name="QRY_RATECOD_DT_RIGHT">
         <statement><![CDATA[
         select (s.begin_dat || '~'||s.end_dat) "ratesupply_dt.between_dat", s.command_option "ratesupply_dt.command_option",
-        d.rent_amt,d.add_adult,d.add_child, d.room_cod, d.supply_nos, d.rate_cod
+        d.rent_amt,d.add_adult,d.add_child, d.room_cod, d.supply_nos, d.rate_cod, d.athena_id, d.hotel_cod
         from ratecod_dt  d, ratesupply_dt s
         WHERE d.athena_id = s.athena_id
         and d.hotel_cod = s.hotel_cod

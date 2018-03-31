@@ -64,6 +64,13 @@
     export default {
         name: 'contract-content',
         props: ["rowData", "isContractContent"],
+        created(){
+            this.$eventHub.$on("endContractEdit", ()=>{
+                if(!_.isEmpty(this.dgIns)){
+                    this.dgIns.endEditing();
+                }
+            });
+        },
         data() {
             return {
                 go_funcPurview: [],

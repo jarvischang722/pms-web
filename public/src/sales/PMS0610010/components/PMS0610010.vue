@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div v-loading="isLoading" element-loading-text="Loading...">
+    <div v-loading="isLoading" element-loading-text="Loading...">
+        <div>
             <div class="page-header"></div><!-- /.page-header -->
             <!-- 商務公司(Accounts) Page-->
             <div class="pageMain">
@@ -95,6 +95,7 @@
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     v-model="compStaSingleData[field.ui_field_name]" :data="field.selectData"
                                                     is-qry-src-before="Y" value-field="value" text-field="display"
+                                                    :field="field"
                                                     @update:v-model="val => compStaSingleData[field.ui_field_name] = val"
                                                     :default-val="field.defaultVal"
                                                     :disabled="field.modificable == 'N'">
@@ -149,6 +150,7 @@
                                         <bac-select :style="{width:contractStaMnFieldData.width + 'px' , height:contractStaMnFieldData.height + 'px'}"
                                                     v-model="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
                                                     :data="contractStaMnFieldData.selectData"
+                                                    :field="field"
                                                     is-qry-src-before="Y" value-field="value" text-field="display"
                                                     @update:v-model="val => contractStaMnSingleData[contractStaMnFieldData.ui_field_name] = val"
                                                     :default-val="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
@@ -298,6 +300,7 @@
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
+
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
     DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     };
@@ -394,6 +397,11 @@
                 }
             },
             isEditStatus(val) {
+                if (!val) {
+                    this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+                }
+            },
+            isCreateStatus(val) {
                 if (!val) {
                     this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
                 }

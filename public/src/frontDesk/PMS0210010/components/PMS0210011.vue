@@ -43,7 +43,7 @@
                                                                 v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                 v-model="singleData[field.ui_field_name]"
-                                                                :data="field.selectData"
+                                                                :data="field.selectData" :field="field"
                                                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                                                 @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 @update:v-model="val => singleData[field.ui_field_name] = val"
@@ -58,7 +58,7 @@
                                                                 :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                 v-model="singleData[field.ui_field_name]"
                                                                 :columns="field.selectData.columns"
-                                                                :data="field.selectData.selectData"
+                                                                :data="field.selectData.selectData" :field="field"
                                                                 :is-qry-src-before="field.selectData.isQrySrcBefore"
                                                                 :id-field="field.selectData.value"
                                                                 :text-field="field.selectData.display"
@@ -69,7 +69,7 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                         </bac-select-grid>
 
-                                                        <input type="text" v-model="singleData[field.ui_field_name]"
+                                                        <input type="number" v-model="singleData[field.ui_field_name]"
                                                                v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
@@ -80,7 +80,7 @@
                                                         <el-date-picker
                                                                 v-if="field.visiable == 'Y' && field.ui_type == 'date'"
                                                                 v-model="singleData[field.ui_field_name]"
-                                                                type="datetime"
+                                                                type="date"
                                                                 change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 :disabled="field.modificable == 'N'||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
@@ -94,7 +94,7 @@
                                                         <el-date-picker
                                                                 v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
                                                                 v-model="singleData[field.ui_field_name]"
-                                                                type="date"
+                                                                type="datetime"
                                                                 size="small"
                                                                 :disabled="field.modificable == 'N'||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
@@ -482,7 +482,7 @@
                     val.last_nam = val["cust_idx.last_nam"];
 
                     //公司名稱
-                    val.ccust_nam = val["cust_idx.comp_nam"];
+                    val["cust_idx.comp_nam"] = val.ccust_nam;
 
                     //性別
                     val.sex_typ = val["cust_idx.sex_typ"];
@@ -684,8 +684,8 @@
                     }
 
                     //有format
-                    if (lo_field.format_func_name != "") {
-                        lo_checkResult = go_validateClass[lo_field.format_func_name](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_field.format_func_name.validate != "") {
+                        lo_checkResult = go_validateClass[lo_field.format_func_name.validate](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                         if (lo_checkResult.success == false) {
                             break;
                         }

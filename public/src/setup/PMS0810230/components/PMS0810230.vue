@@ -1,5 +1,5 @@
 <template>
-    <div v-loading="isLoading" element-loading-text="Loading...">
+    <div v-loading="isLoading" :element-loading-text="loadingText">
         <div class="col-xs-12">
             <search-comp
                     :search-fields="searchFields"
@@ -12,8 +12,6 @@
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div class="tableHt">
-                        <!-- rateCode-查詢結果 dataGrid -->
-                        <!--<table id="setRateCode-table" class="gridTableHt" style="width: 100%;max-width: 100%;"></table>-->
                         <table id="PMS0810230_dg" class=""></table>
                     </div>
                 </div>
@@ -24,19 +22,19 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth setRateCode-add"
-                                        role="button" >{{i18nLang.program.PMS0810230.add}}
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" @click="appendRow">{{i18nLang.program.PMS0810230.add}}
                                 </button>
                             </li>
 
                             <li>
-                                <button class="btn btn-danger btn-white btn-defaultWidth rateCode_timeRule"
-                                        role="button">{{i18nLang.program.PMS0810230.delete}}
+                                <button class="btn btn-danger btn-white btn-defaultWidth"
+                                        role="button" @click="removeRow">{{i18nLang.program.PMS0810230.delete}}
                                 </button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth setRateCode-add"
-                                        role="button" >{{i18nLang.program.PMS0810230.edit}}
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" @click="editRow">{{i18nLang.program.PMS0810230.edit}}
                                 </button>
                             </li>
                         </ul>
@@ -65,18 +63,13 @@
                                     <div class="borderFrame">
                                         <!--開始結束日期設定-->
                                         <div class="block">
-                                            <span class="demonstration">{{i18nLang.program.PMS0810230.from}}</span>
                                             <el-date-picker
-                                                    v-model="timeRuleSingleData['begin_dat']"
-                                                    type="date"
-                                                    placeholder="選擇日期">
-                                            </el-date-picker>
-                                            <!--<br>-->
-                                            <span class="demonstration">{{i18nLang.program.PMS0810230.to}}</span>
-                                            <el-date-picker
-                                                    v-model="timeRuleSingleData['end_dat']"
-                                                    type="date"
-                                                    placeholder="選擇日期">
+                                                    v-model="allDatData"
+                                                    type="daterange"
+                                                    :editable="false"
+                                                    :placeholder="i18nLang.program.PMS0810230.selectDate"
+                                                    format="yyyy/MM/dd"
+                                                    :picker-options="pickerOptions">
                                             </el-date-picker>
                                         </div>
                                         <!--/.開始結束日期設定-->
@@ -95,7 +88,7 @@
                                                     <div class="space-6"></div>
                                                     <bac-select
                                                             v-model="commandHVal" :default-val="commandHVal"
-                                                            @update:v-model="val => commandHVal = val"
+                                                            @update:v-model="val => commandHVal = val" field="{}"
                                                             :data="commandOptionSelectOption.selectData" multiple="true"
                                                             is-qry-src-before="Y" value-field="value" text-field="display">
                                                     </bac-select>
@@ -204,18 +197,25 @@
             </div>
         </el-dialog>
         <!--/.房型使用的日期規則-->
+        <!--欄位內容多語系-->
+        <field-multi-lang
+                :sys_locales="sys_locales"
+        ></field-multi-lang>
+        <!--/.欄位內容多語系-->
     </div>
 </template>
 
 <script>
     import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
-    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
+    import fieldMultiLang from './fieldMultiLang';
+
+    //    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
     let gs_prgId = "PMS0810230";
 
     Vue.prototype.$eventHub = new Vue();
 
-    /** DatagridRmSingleGridClass **/
+    /** DataGridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
 
@@ -240,6 +240,8 @@
                     this.timeRuleSingleData = _.extend(this.timeRuleSingleData, timeRuleData.singleData);
                     this.timeRuleSingleData.begin_dat = timeRuleData.singleData.startDat;
                     this.timeRuleSingleData.end_dat = timeRuleData.singleData.endDat;
+                    this.allDatData[0] = timeRuleData.singleData.startDat;
+                    this.allDatData[1] = timeRuleData.singleData.endDat;
                     this.timeRuleSingleData.command_cod = timeRuleData.singleData.command_cod;
                     if (this.timeRuleSingleData.command_cod == 'H') {
                         let la_commandOption = timeRuleData.singleData.command_option.split(',');
@@ -265,17 +267,23 @@
                     }
                 }
             });
+            this.$eventHub.$on('openMultiLang', (data) => {
+                this.singleData = data.singleData;
+                this.$eventHub.$emit('editFieldMultiLang', {
+                    singleData: data.singleData,
+                    fieldInfo: data.fieldInfo
+                });
+            });
         },
         mounted() {
+            this.fetchRentCalDat();//過濾使用期間日期
             this.fetchUserInfo();
             this.loadDataGridByPrgID();
         },
-        components: {
-            ElDialog,
-            pms0810230SingleGrid
-        },
+        components: {pms0810230SingleGrid, fieldMultiLang},
         data() {
             return {
+                sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),//語系
                 i18nLang: go_i18nLang,//多語系資料
                 go_funcPurview: [],//按鈕權限
                 userInfo: {},//使用者資訊
@@ -285,9 +293,11 @@
                 searchCond: {},//搜尋資料
                 dgIns: {},//dataGrid 實體
                 isLoading: false,//是否載入成功
+                loadingText: "Loading...",
                 isCreateStatus: false,//是否為新增狀態
                 isEditStatus: false, //是否為編輯狀態
                 isModifiable: true,
+                singleData: {}, //單筆資料
                 //日期規則
                 isOpenTimeRule: false, //是否開起日期規則
                 timeRuleTabName: "D",
@@ -299,7 +309,9 @@
                     command_option: '',
                     begin_dat: '',
                     end_dat: ''
-                }
+                },
+                allDatData: [],
+                pickerOptions: {}
             }
         },
         watch: {
@@ -311,18 +323,33 @@
                         begin_dat: '',
                         end_dat: ''
                     };
+                    this.allDatData = [];
                     this.commandHVal = [];
                     this.commandVal = [];
                 }
             }
         },
         methods: {
+            fetchRentCalDat() {
+                $.post('/api/qryRentCalDat', {}, (result) => {
+                    this.pickerOptions = {
+                        disabledDate(time){
+                            let lo_date = moment(time);
+                            let lo_rentCalDat = moment(result.rent_cal_dat);
+                            return lo_date.diff(lo_rentCalDat, 'days') < 1;
+                        }
+                    };
+                });
+            },
             fetchUserInfo() {
                 this.isLoading = true;
                 let self = this;
                 $.post('/api/getUserInfo', function (result) {
                     if (result.success) {
                         self.userInfo = result.userInfo;
+                        self.$store.dispatch("setUserInfo", {
+                            go_userInfo: result.userInfo,
+                        });
                     }
                 });
             },
@@ -377,6 +404,44 @@
                 }
                 this.isLoading = false;
             },
+            async removeRow() {
+                this.isLoading = true;
+                this.loadingText = "Deleting...";
+                let lo_delRow = $('#PMS0810230_dg').datagrid('getSelected');
+
+                if (!lo_delRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectOneData);
+                }
+                else {
+                    let lo_params = {
+                        page_id: this.pageOneFieldData[0].page_id,
+                        tab_page_id: this.pageOneFieldData[0].tab_page_id,
+                        event_time: moment().format()
+                    }
+                    lo_delRow = _.extend(lo_delRow, lo_params);
+
+                    await $.post('/api/execNewFormatSQL', {
+                        prg_id: 'PMS0810230',
+                        func_id: "0530",
+                        tmpCUD: {deleteData: [lo_delRow]}
+                    }).then(
+                        result => {
+                            if (result.success) {
+                                alert(go_i18nLang.program.PMS0810230.delete_success);
+                                this.loadDataGridByPrgID();
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                            this.isLoading = false;
+                            this.loadingText = "Loading...";
+                        },
+                        err => {
+                            throw Error(err);
+                        }
+                    );
+                }
+            },
             showSingleGridDialog() {
                 let self = this;
 
@@ -393,35 +458,47 @@
                         self.isEditStatus = false;
                         self.isCreateStatus = false;
                         self.$eventHub.$emit('setTabName', {tabName: ""});
-                        self.$store.dispatch("setAllDataClear");
+                        self.$eventHub.$emit('setClearData');
+                        self.$store.dispatch('setAllDataClear');
+                        self.loadDataGridByPrgID()
                     }
                 }).dialog('open');
             },
             //房型使用期間 日期規則
             chkTimeRule() {
-                let ls_commandCod = this.timeRuleSingleData.command_cod;
-                this.timeRuleSingleData.command_option = [];
 
-                if (ls_commandCod == 'D') {
-                    this.timeRuleSingleData.command_option = 'D1'
-                }
-                else if (ls_commandCod == 'H') {
-                    _.each(this.commandHVal, (ls_val) => {
-                        this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
+                if (this.allDatData.length > 0 && _.isNull(this.allDatData[0])) {
+                    this.timeRuleSingleData.begin_dat = moment(this.allDatData[0]).format("YYYY/MM/DD");
+                    this.timeRuleSingleData.end_dat = moment(this.allDatData[1]).format("YYYY/MM/DD");
+
+                    let ls_commandCod = this.timeRuleSingleData.command_cod;
+                    this.timeRuleSingleData.command_option = [];
+
+                    if (ls_commandCod == 'D') {
+                        this.timeRuleSingleData.command_option = 'D1'
+                    }
+                    else if (ls_commandCod == 'H') {
+                        _.each(this.commandHVal, (ls_val) => {
+                            this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
+                        });
+                    }
+                    else if (ls_commandCod == 'W') {
+                        _.each(this.commandVal, (ls_val) => {
+                            this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
+                        });
+                    }
+
+                    this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option != 'D1' ? this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1) : this.timeRuleSingleData.command_option;
+
+                    this.$eventHub.$emit('setTimeRule', {
+                        singleData: this.timeRuleSingleData
                     });
+                    this.isOpenTimeRule = false;
                 }
-                else if (ls_commandCod == 'W') {
-                    _.each(this.commandVal, (ls_val) => {
-                        this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option + ls_val + ',';
-                    });
+                else {
+                    alert(go_i18nLang.program.PMS0810230.selectDate)
                 }
 
-                this.timeRuleSingleData.command_option = this.timeRuleSingleData.command_option !='D1'? this.timeRuleSingleData.command_option.substring(0, this.timeRuleSingleData.command_option.length - 1):this.timeRuleSingleData.command_option;
-
-                this.$eventHub.$emit('setTimeRule', {
-                    singleData: this.timeRuleSingleData
-                });
-                this.isOpenTimeRule = false;
             },
             doCloseTimeRuleDialog() {
                 this.isOpenTimeRule = false;

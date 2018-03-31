@@ -125,13 +125,24 @@
       "evertDay": "每一天(英文)",
       "holiday": "依假日類別(英文)",
       "week": "依星期別(英文)",
+      "from": "from",
+      "to": "to",
+      "OK": "OK",
+      "cancel": "Cancel",
       "sunday": "Sunday",
       "monday": "Monday",
       "tuesday": "Tuesday",
       "wednesday": "Wednesday",
       "thursday": "Thursday",
       "friday": "Friday",
-      "saturday": "Saturday"
+      "saturday": "Saturday",
+      "dateRule": "日期規則(英文)",
+      "showExpire": "過期顯示(英文)",
+      "save_success": "Save Success",
+      "delete_success": "Delete Success",
+      "start_placeholder": "開始日期(英文)",
+      "end_placeholder": "结束日期(英文)",
+      "selectDate": "請選擇日期(英文)"
     },
     "PMS0820030": {
       "load_default_color": "Load default color",
@@ -203,7 +214,6 @@
       "company_status": "Status chg.",
       "company_maintain": "商務公司維護(英)",
       "company_related_diagram": "公司關聯圖(英)",
-      "company_status": "Status chg.",
       "contract_status": "合約狀態變更(英)",
       "related_set": "相關設定(英)",
       "related_personnel": "相關人員(英)",
@@ -316,6 +326,11 @@
       "atten_nam": "名稱(英)",
       "role_rmk": "職稱(英)",
       "tel_nos": "電話(英)"
+    },
+    "PSIW510030":{
+      "1010": "核准(英)",
+      "1020": "取消核准(英)",
+      "1030": "空白訂貨表下載(英)"
     }
   },
   "table_in_use": "Table in use (%s)",
@@ -403,7 +418,9 @@
       "FmtHHMM": "%s time format is 'HH:MM'",
       "ChkHHMM": "%s time format is 'HHMM' or 'HH:MM'",
       "ChkPointOne": "%s 僅能輸入至小數點1位(英文)",
-      "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)"
+      "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)",
+      "ChkEmail": "%s 格式不正確(英文)",
+      "ChkUniCod": "%s 格式不正確(英文)"
     }
   },
   "ErrorMsg": {

@@ -30,7 +30,7 @@
                                                         v-model="singleData[field.ui_field_name]" :data="field.selectData"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                        :default-val="singleData[field.ui_field_name]"
+                                                        :default-val="singleData[field.ui_field_name]" :field="field"
                                                         :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
@@ -41,6 +41,7 @@
                                                              v-model="singleData[field.ui_field_name]"
                                                              :columns="field.selectData.columns"
                                                              :data="field.selectData.selectData"
+                                                             :field="field"
                                                              :is-qry-src-before="field.selectData.isQrySrcBefore"
                                                              :id-field="field.selectData.value" :text-field="field.selectData.display"
                                                              @update:v-model="val => singleData[field.ui_field_name] = val"
@@ -390,7 +391,7 @@
                             var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
                             this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
                         }
-                        lo_oriSingleData.cust_idx_zip_cod = "";
+                        lo_oriSingleData.cust_idx_zip_cod = lo_singleData.cust_idx_zip_cod;
 
                         //將主檔資料放至Vuex
                         this.$store.dispatch("setMnSingleData", {
@@ -498,6 +499,14 @@
                         }
                     }
 
+                    //有format
+                    if (lo_field.format_func_name.validate != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name.validate]) && self.singleData[lo_field.ui_field_name] != '') {
+                        lo_checkResult = go_validateClass[lo_field.format_func_name.validate](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        if (lo_checkResult.success == false) {
+                            break;
+                        }
+                    }
+
                 }
 
                 return lo_checkResult;
@@ -521,6 +530,8 @@
                 });
             },
             doSaveGrid() {
+                this.$eventHub.$emit("endRpEdit");
+                this.$eventHub.$emit("endContractEdit");
                 this.isLoadingDialog = true;
                 this.loadingText = "saving";
                 this.doConvertData();

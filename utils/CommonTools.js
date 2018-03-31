@@ -66,9 +66,15 @@ exports.requestApi = function (apiUrl, params, callback) {
  */
 exports.mongoDocToObject = function (mongoDataRows) {
     try {
-        _.each(mongoDataRows, function (row, idx) {
-            mongoDataRows[idx] = row.toObject();
-        });
+        if(_.isArray(mongoDataRows)){
+            _.each(mongoDataRows, function (row, idx) {
+                mongoDataRows[idx] = row.toObject();
+            });
+        }
+        else{
+            mongoDataRows = mongoDataRows.toObject();
+        }
+
     } catch (ex) {
         console.error(ex);
     }
@@ -118,11 +124,11 @@ exports.checkRequireParams = function (params, checkKeys) {
 exports.handleOperationProcData = function (la_data, la_fieldAttrs) {
     if (_.isArray(la_data)) {
         _.each(la_data, function (lo_data) {
-            var la_fieldAttrFilter = _.where(la_fieldAttrs, {tab_page_id: lo_data.tab_page_id});
+            let la_fieldAttrFilter = _.where(la_fieldAttrs, {tab_page_id: lo_data.tab_page_id});
             convUtcToDate(lo_data, la_fieldAttrFilter);
         });
     } else if (_.isObject(la_data)) {
-        var la_fieldAttrFilter = _.where(la_fieldAttrs, {tab_page_id: la_data.tab_page_id});
+        let la_fieldAttrFilter = _.where(la_fieldAttrs, {tab_page_id: la_data.tab_page_id});
         convUtcToDate(la_data, la_fieldAttrFilter);
     }
 

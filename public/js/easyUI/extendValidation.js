@@ -155,5 +155,23 @@ $.extend($.fn.validatebox.defaults.rules, {
             return lo_checkResult.success;
         },
         message: '日期格式YYYY/MM'
+    },
+    //統一編號
+    ChkUniCod: {
+        validator: function (value) {
+            var lo_checkResult = go_validateClass.ChkUniCod(value);
+            $.fn.validatebox.defaults.rules.ChkUniCod.message = lo_checkResult.msg;
+            return lo_checkResult.success;
+        },
+        message: '格式不正確'
+    },
+    //email 格式
+    ChkEmail: {
+        validator: function (value) {
+            var lo_checkResult = go_validateClass.ChkEmail(value);
+            $.fn.validatebox.defaults.rules.ChkEmail.message = lo_checkResult.msg;
+            return lo_checkResult.success;
+        },
+        message: '格式不正確'
     }
 });

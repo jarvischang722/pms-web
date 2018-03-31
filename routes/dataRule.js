@@ -25,6 +25,9 @@ module.exports = function (app) {
     //刪除功能規則
     app.post('/api/deleteFuncRule', apiMiddles, ruleCrtl.deleteFuncRule);
 
+    //透過規則取資料
+    app.post('/api/queryDataByRule', apiMiddles, ruleCrtl.queryDataByRule);
+
     //取得回復房間名稱與簡稱
     app.post('/api/revertRoomNam', apiMiddles, ruleCrtl.revertRoomNam);
 
