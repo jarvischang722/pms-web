@@ -147,6 +147,7 @@ async function qryFieldData(rfData, tmpIdType, params, session) {
         }
         else {
             tmpIdType.mainFieldsData = la_gsFieldsData;
+            tmpIdType.dgFieldsData = la_dgFieldsData;
         }
 
         return tmpIdType;

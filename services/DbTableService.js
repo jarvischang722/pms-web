@@ -706,7 +706,8 @@ exports.execProcSQL = async function (postData, session) {
         return {success: true, errorMsg: ""};
     }
     catch (err) {
-        return {success: false, errorMsg: err.errorMsg};
+        let ls_errorMsg = err.errorMsg || err.message;
+        return {success: false, errorMsg: ls_errorMsg};
     }
 };
 
@@ -718,7 +719,8 @@ exports.execNewFormatSQL = async function (postData, session) {
         return {success: true, errorMsg: ""};
     }
     catch (err) {
-        return {success: false, errorMsg: err.message};
+        let ls_errorMsg = err.errorMsg || err.message;
+        return {success: false, errorMsg: ls_errorMsg};
     }
 };
 
