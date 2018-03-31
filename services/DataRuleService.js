@@ -92,7 +92,10 @@ exports.getSelectOptions = function (params, selRow, field, callback) {
 
     if (selRow.ds_from_sql == "Y") {
         let sql_tag = selRow.rule_func_name.toUpperCase();
-        let lo_selectData = {};
+        let lo_selectData = {
+            selectData: [],
+            selectDataDisplay: []
+        };
         async.waterfall([
             //下拉資料
             function (cb) {
