@@ -56,6 +56,13 @@
     export default {
         name: 'related-personnel',
         props: ["rowData", "isRelatedPersonnel"],
+        created(){
+            this.$eventHub.$on("endRpEdit", ()=>{
+                if(!_.isEmpty(this.dgIns)){
+                    this.dgIns.endEditing();
+                }
+            });
+        },
         data() {
             return {
                 go_funcPurview: [],

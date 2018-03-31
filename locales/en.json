@@ -418,7 +418,9 @@
       "FmtHHMM": "%s time format is 'HH:MM'",
       "ChkHHMM": "%s time format is 'HHMM' or 'HH:MM'",
       "ChkPointOne": "%s 僅能輸入至小數點1位(英文)",
-      "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)"
+      "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)",
+      "ChkEmail": "%s 格式不正確(英文)",
+      "ChkUniCod": "%s 格式不正確(英文)"
     }
   },
   "ErrorMsg": {

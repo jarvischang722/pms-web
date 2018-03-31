@@ -913,11 +913,13 @@ exports.handleEditSalesClerk = function (session, postData, callback) {
         "user": userInfo.usr_id,
         "count": 1,
         "func_id": '0500',
-        "exec_data": [{
-            sales_cod: sales_cod,
-            cust_cod: cust_cod,
-            upd_order_mn: upd_order_mn
-        }]
+        "exec_data": {
+            1: {
+                sales_cod: sales_cod,
+                cust_cod: cust_cod,
+                upd_order_mn: upd_order_mn
+            }
+        }
     };
 
     tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {

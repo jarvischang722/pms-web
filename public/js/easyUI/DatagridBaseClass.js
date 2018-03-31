@@ -418,7 +418,6 @@ function DatagridBaseClass() {
                 if (existOriIdx == -1) {
                     lo_chkKeyRowData = this.insertKeyRowData(lo_chkKeyRowData);
                     self.tmpCUD[dataType].push(lo_chkKeyRowData);
-                    self.tmpCUD.oriData.push(self.dtOriRowData[index]);
                     $("#gridEdit").val(self.tmpCUD);
                 }
             }

@@ -175,9 +175,7 @@
                     cust_cod: la_custCod
                 };
 
-                if (this.isCreateStatus) {
-                }
-                else if (this.isEditStatus) {
+                if (this.isEditStatus) {
                     $.post("/api/sales/doEditSalesClerk", lo_params, function (result) {
                         self.isLoadingDialog = false;
                         if (result.success) {

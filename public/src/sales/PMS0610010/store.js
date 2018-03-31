@@ -185,11 +185,13 @@ const actions = {
             dt_deleteData: [],
             dt_oriData: []
         };
+
         let lo_rsSingleData = JSON.parse(JSON.stringify(state.go_allData.go_rsSingleData));
         lo_rsSingleData.ins_dat = moment(new Date(lo_rsSingleData.ins_dat)).format("YYYY/MM/DD HH:mm:ss");
-        lo_rsSingleData.cust_idx_credit_amt = go_formatDisplayClass.removeAmtFormat(lo_rsSingleData.cust_idx_credit_amt);
-        lo_rsSingleData.cust_idx_ar_amt = go_formatDisplayClass.removeAmtFormat(lo_rsSingleData.cust_idx_ar_amt);
-        lo_rsSingleData.balance = go_formatDisplayClass.removeAmtFormat(lo_rsSingleData.balance);
+        lo_rsSingleData.cust_idx_credit_amt = go_formatDisplayClass.removeAmtFormat(lo_rsSingleData.cust_idx_credit_amt.toString());
+        lo_rsSingleData.cust_idx_ar_amt = go_formatDisplayClass.removeAmtFormat(lo_rsSingleData.cust_idx_ar_amt.toString());
+        lo_rsSingleData.cust_idx_ar_amt = go_formatDisplayClass.removeAmtFormat(lo_rsSingleData.cust_idx_ar_amt.toString());
+        lo_rsSingleData.cust_idx_credit_sta = lo_rsSingleData.cust_idx_credit_sta ? 'Y' : 'N';
 
         if (state.gb_isCreateStatus) {
             lo_tmpCUD.createData = [

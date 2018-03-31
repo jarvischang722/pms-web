@@ -225,7 +225,7 @@ exports.GridSingleProc = function (postData, session) {
                 this.fetchGsMnFieldsData(),
                 this.fetchGsMnRowData()
             ]);
-            dataValueChange(la_pageField, la_rowData);
+            dataValueChange(la_pageField, la_rowData[0]);
             let lo_gsMnData = {
                 fieldsData: la_pageField,
                 rowData: la_rowData
@@ -782,6 +782,7 @@ function dataValueChange(fields, data) {
             });
         }
     });
+    return data;
 }
 
 /**

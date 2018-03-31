@@ -401,6 +401,11 @@
                     this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
                 }
             },
+            isCreateStatus(val) {
+                if (!val) {
+                    this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+                }
+            },
             isVisitPlan(val) {
                 if (!val) {
                     this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();

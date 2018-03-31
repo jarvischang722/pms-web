@@ -414,7 +414,9 @@
       "FmtHHMM": "%s 時間格式HH:MM(日文)",
       "ChkHHMM": "%s 時間格式HHMM or HH:MM(日文)",
       "ChkPointOne": "%s 僅能輸入至小數點1位(日文)",
-      "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(日文)"
+      "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(日文)",
+      "ChkEmail": "%s 格式不正確(日文)",
+      "ChkUniCod": "%s 格式不正確(日文)"
     }
   },
   "ErrorMsg": {
