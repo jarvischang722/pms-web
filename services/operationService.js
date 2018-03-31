@@ -65,17 +65,19 @@ exports.fetchOnlySearchFieldsData = function (postData, session, callback) {
 /**
  * 取作業(只有)多筆欄位資料
  */
-exports.fetchOnlyDgFieldData = function (postData, session, callback) {
+exports.fetchOnlyDgFieldData = async function (postData, session, callback) {
     let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
 
-    async.parallel({
-        dgFieldsData: lo_dgProc.fetchDgFieldsData
-    }, function (err, result) {
+    try {
+        let lo_dgFieldsData = await lo_dgProc.fetchDgFieldsData();
         let lo_rtnData = {
-            dgFieldsData: result.dgFieldsData.dgFieldsData
+            dgFieldsData: lo_dgFieldsData.dgFieldsData
         };
-        callback(err, lo_rtnData);
-    });
+        callback(null, lo_rtnData);
+    }
+    catch (err) {
+        callback(null, {dgFieldsData: []});
+    }
 };
 
 /**
