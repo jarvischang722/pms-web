@@ -204,7 +204,8 @@
                 this.$eventHub.$emit('doCloseEditSalesClerk', {
                     isEditSalesClerk: self.isEditSalesClerk,
                     isEditStatus: self.isEditStatus,
-                    isCreateStatus: self.isCreateStatus
+                    isCreateStatus: self.isCreateStatus,
+                    editRowData: self.editRows[0]
                 });
 
             },
