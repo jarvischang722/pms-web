@@ -180,7 +180,9 @@ module.exports = {
         let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
         let lo_param = {
             athena_id: session.user.athena_id,
-            hotel_cod: postData.rowData.hotel_cod
+            hotel_cod: ls_hotelCod,
+            end_dat: ls_endDat,
+            begin_dat: ls_beginDat
         };
 
         async.waterfall([
@@ -241,7 +243,7 @@ module.exports = {
         }
 
         function setRateCodSelectData(result, cb) {
-            if (ls_rateCod != "" && ls_endDat != "" && ls_rateCod != "") {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
                 queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
@@ -282,7 +284,9 @@ module.exports = {
         let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
         let lo_param = {
             athena_id: session.user.athena_id,
-            hotel_cod: postData.rowData.hotel_cod
+            hotel_cod: ls_hotelCod,
+            end_dat: ls_endDat,
+            begin_dat: ls_beginDat
         };
 
         async.waterfall([
@@ -322,7 +326,7 @@ module.exports = {
         }
 
         function setRateCodSelectData(result, cb) {
-            if (ls_rateCod != "" && ls_endDat != "" && ls_rateCod != "") {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
                 queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
@@ -375,7 +379,7 @@ module.exports = {
         });
 
         function setRateCodSelectData(cb) {
-            if (ls_hotelCod != "" && ls_endDat != "" && ls_beginDat != "") {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
                 queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
