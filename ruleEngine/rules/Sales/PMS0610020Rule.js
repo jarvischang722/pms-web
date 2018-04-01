@@ -202,7 +202,7 @@ module.exports = {
                     if (err) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = "sql err";
+                        lo_error.errorMsg = err.message;
                         cb(lo_error, lo_result);
                     }
                     else if (getResult > 0) {
@@ -305,7 +305,7 @@ module.exports = {
                     if (err) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = "sql err";
+                        lo_error.errorMsg = err.message;
                         cb(lo_error, lo_result);
                     }
                     else if (getResult > 0) {
@@ -1096,7 +1096,7 @@ module.exports = {
                                 return cb(lo_error, lo_result);
                             }
                             else {
-                                if (getResult.fincust_mn_count <= 0) {
+                                if (getResult.related_person_count <= 0) {
                                     lo_result.extendExecDataArrSet.push({
                                         function: '0',
                                         table_name: 'cust_idx',

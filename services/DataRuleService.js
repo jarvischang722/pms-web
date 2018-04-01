@@ -872,7 +872,7 @@ exports.chkSpecialDataGridBtnEventRule = function (postData, session, callback) 
 /**
  * 儲存"前"，執行作業規則檢查
  */
-exports.doOperationRuleProcBeforeSave = function (postData, session, rules, callback) {
+exports.doOperationRuleProcBeforeSave = async function (postData, session, rules, callback) {
     let la_createData = postData["tmpCUD"]["createData"] || [];
     let la_updateData = postData["tmpCUD"]["updateData"] || [];
     let la_deleteData = postData["tmpCUD"]["deleteData"] || [];
