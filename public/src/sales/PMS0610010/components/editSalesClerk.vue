@@ -183,12 +183,9 @@
                                 self.$eventHub.$emit('completeEditSalesClerk', {
                                     success: true
                                 });
-                                self.isEditSalesClerk = false;
                             }
-                            else{
-                                self.doCancelEdit();
-                                la_custCod = [];
-                            }
+                            self.doCancelEdit();
+
                         }
                         else {
                             alert(result.errorMsg);

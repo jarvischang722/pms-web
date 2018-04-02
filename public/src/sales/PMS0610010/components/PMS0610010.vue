@@ -690,7 +690,6 @@
             },
             //業務員指派
             doEditSalesClerk() {
-                console.log("test");
                 var self = this;
 
                 var ln_count = 0;
