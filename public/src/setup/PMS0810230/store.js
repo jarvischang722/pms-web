@@ -135,7 +135,7 @@ const actions = {
                 })
             });
         }
-        console.log(lo_tmpCUD);
+        // console.log(lo_tmpCUD);
         // return {success: true};
         return await $.post('/api/execNewFormatSQL', {
             prg_id: 'PMS0810230',

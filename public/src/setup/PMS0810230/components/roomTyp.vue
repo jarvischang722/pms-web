@@ -207,12 +207,15 @@
                 handler(val, oldVal) {
                     //檢查資料是否改變
                     let lb_valIsDifferent = false;
+                    let la_editData = [];
                     _.each(val, (lo_val, idx)=>{
                         if(!_.isMatch(lo_val, this.oriRoomTypDetailRowsData[idx])){
                             lb_valIsDifferent = true;
+                            la_editData.push(lo_val);
                         }
                         else if(_.isUndefined(this.oriRoomTypDetailRowsData[idx])){
                             lb_valIsDifferent = true;
+                            la_editData.push(lo_val);
                         }
                     });
 
@@ -223,16 +226,6 @@
                         }
                         else{
                             //新增、修改房型資料
-                            let la_editData = [];
-                            _.each(val, (lo_val, idx)=>{
-                                if(!_.isMatch(lo_val, this.oriRoomTypDetailRowsData[idx])){
-                                    la_editData.push(lo_val);
-                                }
-                                else if(_.isUndefined(this.oriRoomTypDetailRowsData[idx])){
-                                    la_editData.push(lo_val);
-                                }
-                            });
-
                             _.each(la_editData, (lo_val, idx) => {
                                 let lo_edit = JSON.parse(JSON.stringify(lo_val));
                                 let ln_oriDgCreateIdx = _.findIndex(this.oriRoomTypDetailRowsData, {
