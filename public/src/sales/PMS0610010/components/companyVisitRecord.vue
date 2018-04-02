@@ -24,7 +24,7 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                            role="button" :disabled="BTN_action" @click="editRow"
+                                            role="button" :disabled="BTN_action" @click="editRow({}, -1)"
                                             data-purview_func_id="PMS0610020-1100">
                                         {{i18nLang.program.PMS0620050.edit_vist_mn}}
                                     </button>
@@ -81,6 +81,9 @@
                 self.visitRecordSingleFieldsData = visitRecordSingleData.fieldsData;
                 self.visitRecordSingleData = visitRecordSingleData.singleData;
                 self.visitRecordOriSingleData = visitRecordSingleData.oriSingleData;
+            });
+            this.$eventHub.$on("getOtherRowData", (data) => {
+                this.editRow(data.rowData, data.rowIndex);
             });
         },
         data() {
@@ -191,14 +194,22 @@
 
                 this.showSingleGridDialog();
             },
-            editRow() {
+            editRow(rowData, rowIndex) {
                 this.isCreateStatus = false;
                 this.isEditStatus = true;
                 this.editingRow = {};
 
-                var lo_editRow = $('#companyVisitRecord_dg').datagrid('getSelected');
-                var ln_editIndex = $('#companyVisitRecord_dg').datagrid('getRowIndex', lo_editRow);
+                let lo_editRow = {};
+                let ln_editIndex = -1;
 
+                if (_.isEmpty(rowData)) {
+                    lo_editRow = $('#companyVisitRecord_dg').datagrid('getSelected');
+                    ln_editIndex = $('#companyVisitRecord_dg').datagrid('getRowIndex', lo_editRow);
+                }
+                else {
+                    lo_editRow = rowData;
+                    ln_editIndex = rowIndex;
+                }
 
                 //轉換原始資料時間格式
                 this.visitRecordOriSingleData["visit_dat"] =
@@ -301,18 +312,20 @@
                         cust_cod: this.$store.state.gs_custCod
                     });
                     //轉換資料時間格式
+                    console.log(this.visitRecordSingleData["avisit_dat"]);
                     this.visitRecordSingleData["visit_dat"] =
                         _.isNull(this.visitRecordSingleData["visit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["visit_dat"])).format("YYYY/MM/DD");
                     this.visitRecordSingleData["avisit_dat"] =
-                        _.isNull(this.visitRecordSingleData["avisit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
+                        _.isNull(this.visitRecordSingleData["avisit_dat"]) || this.visitRecordSingleData["avisit_dat"] =="" ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
                     //轉換原始資料時間格式
                     this.visitRecordOriSingleData["visit_dat"] =
                         _.isNull(this.visitRecordOriSingleData["visit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["visit_dat"])).format("YYYY/MM/DD");
                     this.visitRecordOriSingleData["avisit_dat"] =
-                        _.isNull(this.visitRecordOriSingleData["avisit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
+                        _.isNull(this.visitRecordOriSingleData["avisit_dat"]) || this.visitRecordOriSingleData["avisit_dat"] =="" ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
 
 
                     var ln_editIdx = _.isUndefined(this.visitRecordSingleData.index) ? -1 : this.visitRecordSingleData.index;
+console.log(ln_editIdx);
                     if (ln_editIdx > -1) {
                         if (!_.isUndefined(this.visitRecordSingleData.createIndex)) {
                             var createIndex = this.visitRecordSingleData.createIndex;
