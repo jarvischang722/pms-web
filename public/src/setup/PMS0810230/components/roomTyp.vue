@@ -711,7 +711,7 @@
                         modal: true,
                         title: "選擇房型代號",
                         title_html: true,
-                        width: 560,
+                        width: 400,
                         maxwidth: 1920,
                         dialogClass: "test",
                         resizable: true,

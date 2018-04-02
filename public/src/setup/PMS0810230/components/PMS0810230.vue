@@ -75,7 +75,7 @@
                                         <!--/.開始結束日期設定-->
                                         <div class="space-6"></div>
                                         <!--tabPage-->
-                                        <el-tabs v-model="timeRuleSingleData['command_cod']" type="card">
+                                        <el-tabs v-model="timeRuleSingleData['command_cod']" type="card" tab-position="left">
                                             <el-tab-pane :label="i18nLang.program.PMS0810230.evertDay" name="D">
                                                 <div class="ml-5">
                                                     <div class="space-6"></div>
@@ -200,6 +200,9 @@
         <!--欄位內容多語系-->
         <field-multi-lang
                 :sys_locales="sys_locales"
+                :single-data="singleData"
+                :field-info="fieldInfo"
+                :open-multi-lang-dialog="openMultiLangDialog"
         ></field-multi-lang>
         <!--/.欄位內容多語系-->
     </div>
@@ -269,10 +272,12 @@
             });
             this.$eventHub.$on('openMultiLang', (data) => {
                 this.singleData = data.singleData;
-                this.$eventHub.$emit('editFieldMultiLang', {
-                    singleData: data.singleData,
-                    fieldInfo: data.fieldInfo
-                });
+                this.fieldInfo = data.fieldInfo;
+                this.openMultiLangDialog = true;
+//                this.$eventHub.$emit('editFieldMultiLang', {
+//                    singleData: data.singleData,
+//                    fieldInfo: data.fieldInfo
+//                });
             });
         },
         mounted() {
@@ -297,7 +302,10 @@
                 isCreateStatus: false,//是否為新增狀態
                 isEditStatus: false, //是否為編輯狀態
                 isModifiable: true,
+                //單筆內容多語系
                 singleData: {}, //單筆資料
+                fieldInfo: {}, //單筆欄位資料
+                openMultiLangDialog: false, // 是否顯示多語dialog
                 //日期規則
                 isOpenTimeRule: false, //是否開起日期規則
                 timeRuleTabName: "D",
