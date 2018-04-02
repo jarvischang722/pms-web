@@ -205,42 +205,69 @@
             },
             roomTypDetailRowsData: {
                 handler(val, oldVal) {
-                    if(this.isRoomTypDelete){
-                        this.isRoomTypDelete = false;
-                    }
-                    else{
-                        //新增、修改房型資料
-                        _.each(val, (lo_val, idx) => {
-                            let ln_oriDgCreateIdx = _.findIndex(this.oriRoomTypDetailRowsData, {
-                                supply_nos: lo_val.supply_nos,
-                                room_cod: lo_val.room_cod
-                            });
-                            let ln_tmpCUDCreateIdx = _.findIndex(this.tmpCUD.createData, {
-                                supply_nos: lo_val.supply_nos,
-                                room_cod: lo_val.room_cod
-                            });
-                            let ln_tmpCUDUpdateIdx = _.findIndex(this.tmpCUD.updateData, {
-                                supply_nos: lo_val.supply_nos,
-                                room_cod: lo_val.room_cod
-                            });
-                            //新增房型資料，刪除暫存重複的資料,再新增新資料
-                            if (ln_tmpCUDCreateIdx > -1) {
-                                this.tmpCUD.createData.splice(ln_tmpCUDCreateIdx, 1);
-                            }
-                            if (ln_oriDgCreateIdx == -1) {
-                                this.tmpCUD.createData.push(_.extend(lo_val, {event_time: moment().format()}));
-                            }
-                            //修改房型資料
-                            else {
-                                //刪除暫存重複的資料,再新增新資料
-                                if (ln_tmpCUDUpdateIdx > -1) {
-                                    this.tmpCUD.updateData.splice(ln_tmpCUDUpdateIdx, 1);
-                                    this.tmpCUD.oriData.splice(ln_tmpCUDUpdateIdx, 1);
+                    //檢查資料是否改變
+                    let lb_valIsDifferent = false;
+                    _.each(val, (lo_val, idx)=>{
+                        if(!_.isMatch(lo_val, this.oriRoomTypDetailRowsData[idx])){
+                            lb_valIsDifferent = true;
+                        }
+                        else if(_.isUndefined(this.oriRoomTypDetailRowsData[idx])){
+                            lb_valIsDifferent = true;
+                        }
+                    });
+
+                    if(lb_valIsDifferent){
+                        //檢查資料是否被刪除
+                        if(this.isRoomTypDelete){
+                            this.isRoomTypDelete = false;
+                        }
+                        else{
+                            //新增、修改房型資料
+                            let la_editData = [];
+                            _.each(val, (lo_val, idx)=>{
+                                if(!_.isMatch(lo_val, this.oriRoomTypDetailRowsData[idx])){
+                                    la_editData.push(lo_val);
                                 }
-                                this.tmpCUD.updateData.push(_.extend(lo_val, {event_time: moment().format()}));
-                                this.tmpCUD.oriData.push(this.oriRoomTypDetailRowsData[ln_oriDgCreateIdx]);
-                            }
-                        });
+                                else if(_.isUndefined(this.oriRoomTypDetailRowsData[idx])){
+                                    la_editData.push(lo_val);
+                                }
+                            });
+
+                            _.each(la_editData, (lo_val, idx) => {
+                                let lo_edit = JSON.parse(JSON.stringify(lo_val));
+                                let ln_oriDgCreateIdx = _.findIndex(this.oriRoomTypDetailRowsData, {
+                                    supply_nos: lo_edit.supply_nos,
+                                    room_cod: lo_edit.room_cod
+                                });
+                                let ln_tmpCUDCreateIdx = _.findIndex(this.tmpCUD.createData, {
+                                    supply_nos: lo_edit.supply_nos,
+                                    room_cod: lo_edit.room_cod
+                                });
+                                let ln_tmpCUDUpdateIdx = _.findIndex(this.tmpCUD.updateData, {
+                                    supply_nos: lo_edit.supply_nos,
+                                    room_cod: lo_edit.room_cod
+                                });
+                                //新增房型資料，刪除暫存重複的資料,再新增新資料
+                                if (ln_tmpCUDCreateIdx > -1) {
+                                    this.tmpCUD.createData.splice(ln_tmpCUDCreateIdx, 1);
+                                }
+
+                                if (ln_oriDgCreateIdx == -1) {
+                                    this.tmpCUD.createData.push(_.extend(lo_edit, {event_time: moment().format()}));
+                                }
+                                //修改房型資料
+                                else {
+                                    //刪除暫存重複的資料,再新增新資料
+                                    if (ln_tmpCUDUpdateIdx > -1) {
+                                        this.tmpCUD.updateData.splice(ln_tmpCUDUpdateIdx, 1);
+                                        this.tmpCUD.oriData.splice(ln_tmpCUDUpdateIdx, 1);
+                                    }
+
+                                    this.tmpCUD.updateData.push(_.extend(lo_edit, {event_time: moment().format()}));
+                                    this.tmpCUD.oriData.push(this.oriRoomTypDetailRowsData[ln_oriDgCreateIdx]);
+                                }
+                            });
+                        }
                     }
                 },
                 deep: true

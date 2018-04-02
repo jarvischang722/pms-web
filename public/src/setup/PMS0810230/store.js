@@ -136,19 +136,19 @@ const actions = {
             });
         }
         console.log(lo_tmpCUD);
-        return {success: true};
-        // return await $.post('/api/execNewFormatSQL', {
-        //     prg_id: 'PMS0810230',
-        //     func_id: state.gb_isCreateStatus ? "0520" : "0540",
-        //     tmpCUD: lo_tmpCUD
-        // }).then(
-        //     result => {
-        //         return (result);
-        //     },
-        //     err => {
-        //         throw Error(err);
-        //     }
-        // );
+        // return {success: true};
+        return await $.post('/api/execNewFormatSQL', {
+            prg_id: 'PMS0810230',
+            func_id: state.gb_isCreateStatus ? "0520" : "0540",
+            tmpCUD: lo_tmpCUD
+        }).then(
+            result => {
+                return (result);
+            },
+            err => {
+                throw Error(err);
+            }
+        );
     }
 };
 

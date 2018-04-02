@@ -594,10 +594,11 @@
             });
             this.$eventHub.$on("setMultiLangSingleData", (data) => {
                 let ls_noeLocale = getCookie('locale');
-                let lo_edit = _.findWhere(this.singleData.multilang, {locale: ls_noeLocale});
-                this.singleData[lo_edit.field] = lo_edit.val;
+                let la_edit = _.where(this.singleData.multilang, {locale: ls_noeLocale});
+                _.each(la_edit, (lo_edit)=>{
+                    this.singleData[lo_edit.field] = lo_edit.val;
+                });
                 this.singleData = _.extend(this.singleData, data);
-                console.log(this.singleData);
             });
         },
         mounted() {

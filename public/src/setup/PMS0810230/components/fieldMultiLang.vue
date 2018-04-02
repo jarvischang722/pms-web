@@ -66,7 +66,8 @@
                 }
                 else{
                     let la_multiLangContentList = [];
-                    _.each(this.singleData["multilang"], (lo_multiLang, idx)=>{
+                    let la_edit = _.where(this.singleData["multilang"], {field: this.editingLangField});
+                    _.each(la_edit, (lo_multiLang, idx)=>{
                         let lo_editField = {
                             display_locale: lo_multiLang.locale=='en'? "English": "繁體中文",
                             locale: lo_multiLang.locale
