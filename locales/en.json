@@ -208,7 +208,8 @@
       "sales_assign": "Sales Assign",
       "visit_plan": "Visit Plan",
       "edit_sales": "修改業務員(英)",
-      "add_visit_plan": "新增拜訪計畫(英)"
+      "add_visit_plan": "新增拜訪計畫(英)",
+      "selectOneData": "選擇一筆資料(無法同時修改多筆)(英)"
     },
     "PMS0610020": {
       "company_status": "Status chg.",
@@ -418,7 +419,9 @@
       "FmtHHMM": "%s time format is 'HH:MM'",
       "ChkHHMM": "%s time format is 'HHMM' or 'HH:MM'",
       "ChkPointOne": "%s 僅能輸入至小數點1位(英文)",
-      "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)"
+      "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)",
+      "ChkEmail": "%s 格式不正確(英文)",
+      "ChkUniCod": "%s 格式不正確(英文)"
     }
   },
   "ErrorMsg": {

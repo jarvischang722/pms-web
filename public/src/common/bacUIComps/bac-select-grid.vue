@@ -34,7 +34,7 @@
             //combogrid 資料
             data: {
                 type: Array,
-                default: function () {
+                default: () => {
                     return [];
                 }
             },
@@ -48,8 +48,13 @@
             //datagrid 欄位
             columns: {
                 type: Array,
-                default: function () {
+                default: () => {
                     return [];
+                }
+            },
+            editable: {
+                default: () => {
+                    return "Y";
                 }
             }
 
@@ -59,8 +64,8 @@
         },
         mounted: function () {
             this.initComboGrid();
-            if(this.field.requirable == "Y"){
-                $(this.$el).combogrid("textbox").css("background","#c6f2d9");
+            if (this.field.requirable == "Y") {
+                $(this.$el).combogrid("textbox").css("background", "#c6f2d9");
             }
         },
         watch: {
@@ -84,6 +89,7 @@
                     idField: this.idField,
                     textField: this.textField,
                     columns: [this.columns],
+                    editable: this.editable == "Y" ? true : false,
                     data: this.data,
                     onChange: function (newValue) {
                         self.$emit('update:v-model', newValue)

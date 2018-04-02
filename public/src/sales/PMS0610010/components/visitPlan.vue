@@ -1,6 +1,7 @@
 <template>
     <div id="addVisitPlan" class="padding-5 hide">
-        <div class="col-sm-12 newVisitRecord-wrap" v-loading="isVisitPlanLoading" :element-loading-text="visitPlanLoadingText">
+        <div class="col-sm-12 newVisitRecord-wrap" v-loading="isVisitPlanLoading"
+             :element-loading-text="visitPlanLoadingText">
             <!--共同設定-->
             <div class="row">
                 <div class="borderFrame">
@@ -18,7 +19,8 @@
                                     <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                 :class="{'input_sta_required' : field.requirable == 'Y' }"
                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                v-model="settingGridRowData[field.ui_field_name]" :data="field.selectData"
+                                                v-model="settingGridRowData[field.ui_field_name]"
+                                                :data="field.selectData"
                                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                                 @update:v-model="val => settingGridRowData[field.ui_field_name] = val"
                                                 :default-val="settingGridRowData[field.ui_field_name]"
@@ -110,7 +112,8 @@
                                                         v-model="singleData[field.ui_field_name]"
                                                         type="date" size="small"
                                                         :disabled="field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
-                                                        format="yyyy/MM/dd" :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                        format="yyyy/MM/dd"
+                                                        :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                         </el-date-picker>
@@ -142,7 +145,8 @@
                                         <!--  textarea -->
                                         <textarea v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
                                                   v-model="singleData[field.ui_field_name]"
-                                                  class="numStyle-none" rows="4" :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                  class="numStyle-none" rows="4"
+                                                  :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                   :style="{width:field.width + 'px'}" style="resize: none;"
                                                   :required="field.requirable == 'Y'"
                                                   :maxlength="field.ui_field_length"
@@ -200,7 +204,8 @@
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button" @click="doCloseDialog">
+                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button"
+                                            @click="doCloseDialog">
                                         {{i18nLang.SystemCommon.Leave}}
                                     </button>
                                 </li>
@@ -374,7 +379,6 @@
                     prg_id: "PMS0610010",
                     page_id: 1020
                 };
-
                 $.post("/api/fetchOnlyDataGridFieldData", lo_params, function (result) {
                     self.dataGridFieldsData = result.dgFieldsData;
                     self.rowData = self.editRows[0];
@@ -424,6 +428,7 @@
                 this.dgVisitPlanIns.init("PMS0610010", "visitPlan_dg", colOption, this.dataGridFieldsData, {
                     singleSelect: false
                 });
+
                 this.dgVisitPlanIns.loadDgData(this.editRows);
 
                 this.setIndexData(editingRow);
