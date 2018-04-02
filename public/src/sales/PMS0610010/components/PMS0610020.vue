@@ -304,12 +304,6 @@
                 self.relatedSettingSingleData = relatedSettingData.relatedSettingSingleData;
                 self.relatedSettingOriSingleData = relatedSettingData.relatedSettingOriSingleData;
             });
-            //業務員指派
-            this.$eventHub.$on('doEditSalesClerk', function (result) {
-                if (result.success) {
-                    self.fetchFieldData();
-                }
-            });
             //取得商務公司狀態資料
             this.$eventHub.$on('compStateData', function (compStateData) {
                 self.singleData = _.extend(self.singleData, compStateData.singleData);

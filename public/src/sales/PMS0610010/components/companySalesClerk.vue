@@ -46,7 +46,7 @@
         props: ["rowData", "isSalesClerk", "isCreateStatus", "isEditStatus"],
         created() {
             var self = this;
-            this.$eventHub.$on('doEditSalesClerk', function (result) {
+            this.$eventHub.$on('completeEditSalesClerk', function (result) {
                 if(result.success){
                     self.fetchFieldData();
                 }
