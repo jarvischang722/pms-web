@@ -597,6 +597,7 @@
                 let lo_edit = _.findWhere(this.singleData.multilang, {locale: ls_noeLocale});
                 this.singleData[lo_edit.field] = lo_edit.val;
                 this.singleData = _.extend(this.singleData, data);
+                console.log(this.singleData);
             });
         },
         mounted() {

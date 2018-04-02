@@ -49,7 +49,7 @@
         methods: {
             getFieldMultiLangContent: function (fieldInfo) {
                 this.editingLangField = fieldInfo.ui_field_name;
-                if(_.isUndefined(this.singleData["multilang"])){
+                if(_.findIndex(this.singleData["multilang"], {field: this.editingLangField}) <= -1){
                     var self = this;
                     var params = {
                         dataType: 'gridsingle',
@@ -71,7 +71,7 @@
                             display_locale: lo_multiLang.locale=='en'? "English": "繁體中文",
                             locale: lo_multiLang.locale
                         };
-                        lo_editField[lo_multiLang.field] = lo_multiLang.value;
+                        lo_editField[lo_multiLang.field] = lo_multiLang.val;
                         la_multiLangContentList.push(lo_editField);
                     });
                     this.multiLangContentList = la_multiLangContentList;
