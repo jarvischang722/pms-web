@@ -60,6 +60,11 @@
             this.$eventHub.$on("endRpEdit", ()=>{
                 if(!_.isEmpty(this.dgIns)){
                     this.dgIns.endEditing();
+                    _.each(this.dgIns.tmpCUD, (value, key)=>{
+                        _.each(value, (lo_value, idx)=>{
+                            this.dgIns.tmpCUD[key][idx] = _.extend(lo_value, {cust_cod: this.$store.state.gs_custCod});
+                        });
+                    });
                 }
             });
         },
@@ -174,7 +179,6 @@
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
-                    console.log("delete this row");
                     this.dgIns.removeRow();
                 }
             },

@@ -341,6 +341,9 @@
                 self.doEditSalesClerk();
             });
             this.$eventHub.$on('doCloseEditSalesClerk', function (editSalesClerkData) {
+                if(!_.isUndefined(editSalesClerkData.editRowData.isSalesClerk)){
+                    self.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
+                }
                 self.isEditSalesClerk = editSalesClerkData.isEditSalesClerk;
                 self.isEditStatus = editSalesClerkData.isEditStatus;
                 self.isCreateStatus = editSalesClerkData.isCreateStatus;
@@ -539,10 +542,10 @@
                 var la_editRows = $('#PMS0610010_dg').datagrid('getSelections');
 
                 if (!lo_editRow) {
-                    alert(go_i18nLang["SystemCommon"].SelectOneData);
+                    alert(go_i18nLang["SystemCommon"].selectData);
                 }
                 else if (la_editRows.length > 1 || lo_editRow != la_editRows[0]) {
-                    alert(go_i18nLang["SystemCommon"].SelectOneData);
+                    alert(go_i18nLang["program"].PMS0610010.selectOneData);
                 }
                 else {
                     this.editingRow = lo_editRow;

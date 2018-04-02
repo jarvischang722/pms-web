@@ -204,7 +204,8 @@
       "sales_assign": "Sales Assign(日)",
       "visit_plan": "拜訪計畫(日)",
       "edit_sales": "修改業務員(日)",
-      "add_visit_plan": "新增拜訪計畫(日)"
+      "add_visit_plan": "新增拜訪計畫(日)",
+      "selectOneData": "選擇一筆資料(無法同時修改多筆)(日)"
     },
     "PMS0610020": {
       "company_status": "Status chg.(日)",

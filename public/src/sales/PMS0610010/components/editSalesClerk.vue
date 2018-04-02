@@ -204,7 +204,8 @@
                 this.$eventHub.$emit('doCloseEditSalesClerk', {
                     isEditSalesClerk: self.isEditSalesClerk,
                     isEditStatus: self.isEditStatus,
-                    isCreateStatus: self.isCreateStatus
+                    isCreateStatus: self.isCreateStatus,
+                    editRowData: self.editRows[0]
                 });
 
             },
@@ -220,10 +221,11 @@
 
 <style>
 
-    .el-loading-mask{
+    .el-loading-mask {
         width: 108%;
         left: -4%;
     }
+
     .grid-item input {
         padding: 0px;
     }

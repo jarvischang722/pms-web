@@ -208,7 +208,8 @@
       "sales_assign": "Sales Assign",
       "visit_plan": "Visit Plan",
       "edit_sales": "修改業務員(英)",
-      "add_visit_plan": "新增拜訪計畫(英)"
+      "add_visit_plan": "新增拜訪計畫(英)",
+      "selectOneData": "選擇一筆資料(無法同時修改多筆)(英)"
     },
     "PMS0610020": {
       "company_status": "Status chg.",

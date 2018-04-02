@@ -25,12 +25,14 @@
                                                    :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
+
                                             <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         v-model="singleData[field.ui_field_name]" :data="field.selectData"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
                                                         :default-val="singleData[field.ui_field_name]" :field="field"
+                                                        :editable="field.ui_field_name == 'rank_nos' ? 'N' : 'Y'"
                                                         :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
