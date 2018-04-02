@@ -221,10 +221,11 @@
 
 <style>
 
-    .el-loading-mask{
+    .el-loading-mask {
         width: 108%;
         left: -4%;
     }
+
     .grid-item input {
         padding: 0px;
     }

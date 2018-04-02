@@ -37,7 +37,7 @@
                                                             :disabled="field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
                                                             format="yyyy/MM/dd"
                                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                            >
+                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                             </el-date-picker>
 
                                             <!-- 日期時間選擇器 -->

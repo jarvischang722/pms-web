@@ -312,20 +312,19 @@
                         cust_cod: this.$store.state.gs_custCod
                     });
                     //轉換資料時間格式
-                    console.log(this.visitRecordSingleData["avisit_dat"]);
                     this.visitRecordSingleData["visit_dat"] =
                         _.isNull(this.visitRecordSingleData["visit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["visit_dat"])).format("YYYY/MM/DD");
                     this.visitRecordSingleData["avisit_dat"] =
-                        _.isNull(this.visitRecordSingleData["avisit_dat"]) || this.visitRecordSingleData["avisit_dat"] =="" ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
+                        _.isNull(this.visitRecordSingleData["avisit_dat"]) || this.visitRecordSingleData["avisit_dat"] == "" ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
                     //轉換原始資料時間格式
                     this.visitRecordOriSingleData["visit_dat"] =
                         _.isNull(this.visitRecordOriSingleData["visit_dat"]) ? "" : moment(new Date(this.visitRecordSingleData["visit_dat"])).format("YYYY/MM/DD");
                     this.visitRecordOriSingleData["avisit_dat"] =
-                        _.isNull(this.visitRecordOriSingleData["avisit_dat"]) || this.visitRecordOriSingleData["avisit_dat"] =="" ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
+                        _.isNull(this.visitRecordOriSingleData["avisit_dat"]) || this.visitRecordOriSingleData["avisit_dat"] == "" ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
 
 
                     var ln_editIdx = _.isUndefined(this.visitRecordSingleData.index) ? -1 : this.visitRecordSingleData.index;
-console.log(ln_editIdx);
+
                     if (ln_editIdx > -1) {
                         if (!_.isUndefined(this.visitRecordSingleData.createIndex)) {
                             var createIndex = this.visitRecordSingleData.createIndex;
