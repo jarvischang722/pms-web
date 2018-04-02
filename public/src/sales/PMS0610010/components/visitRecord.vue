@@ -331,7 +331,7 @@
                 this.rowData = this.pageOneDataGridRows[nowRowIndex - 1];
                 $("#visitRecord").dialog('close');
                 this.$eventHub.$emit("getOtherRowData", {
-                    rowData: _.last(this.pageOneDataGridRows[nowRowIndex - 1]),
+                    rowData: this.pageOneDataGridRows[nowRowIndex - 1],
                     rowIndex: nowRowIndex - 1
                 });
             },
