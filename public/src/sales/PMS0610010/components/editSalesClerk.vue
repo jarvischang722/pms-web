@@ -180,12 +180,12 @@
                         self.isLoadingDialog = false;
                         if (result.success) {
                             if (!_.isUndefined(self.editRows[0].isSalesClerk)) {
-                                self.$eventHub.$emit('doEditSalesClerk', {
+                                self.$eventHub.$emit('completeEditSalesClerk', {
                                     success: true
                                 });
                             }
                             self.doCancelEdit();
-                            la_custCod = [];
+
                         }
                         else {
                             alert(result.errorMsg);
