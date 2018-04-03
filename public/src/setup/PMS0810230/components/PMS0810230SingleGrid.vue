@@ -595,7 +595,7 @@
             this.$eventHub.$on("setMultiLangSingleData", (data) => {
                 let ls_noeLocale = getCookie('locale');
                 let la_edit = _.where(this.singleData.multilang, {locale: ls_noeLocale});
-                _.each(la_edit, (lo_edit)=>{
+                _.each(la_edit, (lo_edit) => {
                     this.singleData[lo_edit.field] = lo_edit.val;
                 });
                 this.singleData = _.extend(this.singleData, data);
@@ -749,7 +749,7 @@
                         this.setGlobalRateCod();
                         this.tabName = "roomTyp";
                         this.isUseTime = true;
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             this.isUseTime = false;
                         }, 500);
                     }
@@ -825,11 +825,13 @@
                 }
             },
             doConvertData() {
+                this.singleData.display_all = this.singleData.display_all ? 'Y' : 'N';
+
                 let lo_params = {
                     page_id: this.oriFieldsData[0].page_id,
                     tab_page_id: this.oriFieldsData[0].tab_page_id,
                     event_time: moment().format()
-                }
+                };
                 this.singleData = _.extend(this.singleData, lo_params);
                 this.oriSingleData = _.extend(this.oriSingleData, lo_params);
                 //將主檔資料放至Vuex
