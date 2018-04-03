@@ -64,11 +64,17 @@
                                         <!--開始結束日期設定-->
                                         <div class="block">
                                             <el-date-picker
-                                                    v-model="allDatData"
-                                                    type="daterange"
-                                                    :editable="false"
+                                                    v-model="timeRuleSingleData['begin_dat']"
+                                                    type="date"
                                                     :placeholder="i18nLang.program.PMS0810230.selectDate"
-                                                    format="yyyy/MM/dd"
+                                                    :picker-options="pickerOptions">
+                                            </el-date-picker>
+                                            <!--<br>-->
+                                            <span class="demonstration">{{i18nLang.program.PMS0810230.to}}</span>
+                                            <el-date-picker
+                                                    v-model="timeRuleSingleData['end_dat']"
+                                                    type="date"
+                                                    :placeholder="i18nLang.program.PMS0810230.selectDate"
                                                     :picker-options="pickerOptions">
                                             </el-date-picker>
                                         </div>
@@ -243,8 +249,6 @@
                     this.timeRuleSingleData = _.extend(this.timeRuleSingleData, timeRuleData.singleData);
                     this.timeRuleSingleData.begin_dat = timeRuleData.singleData.startDat;
                     this.timeRuleSingleData.end_dat = timeRuleData.singleData.endDat;
-                    this.allDatData[0] = timeRuleData.singleData.startDat;
-                    this.allDatData[1] = timeRuleData.singleData.endDat;
                     this.timeRuleSingleData.command_cod = timeRuleData.singleData.command_cod;
                     if (this.timeRuleSingleData.command_cod == 'H') {
                         let la_commandOption = timeRuleData.singleData.command_option.split(',');
@@ -274,10 +278,6 @@
                 this.singleData = data.singleData;
                 this.fieldInfo = data.fieldInfo;
                 this.openMultiLangDialog = true;
-//                this.$eventHub.$emit('editFieldMultiLang', {
-//                    singleData: data.singleData,
-//                    fieldInfo: data.fieldInfo
-//                });
             });
         },
         mounted() {
@@ -341,7 +341,7 @@
             fetchRentCalDat() {
                 $.post('/api/qryRentCalDat', {}, (result) => {
                     this.pickerOptions = {
-                        disabledDate(time){
+                        disabledDate(time) {
                             let lo_date = moment(time);
                             let lo_rentCalDat = moment(result.rent_cal_dat);
                             return lo_date.diff(lo_rentCalDat, 'days') < 1;
@@ -474,11 +474,11 @@
             },
             //房型使用期間 日期規則
             chkTimeRule() {
-
-                if (this.allDatData.length > 0 && _.isNull(this.allDatData[0])) {
-                    this.timeRuleSingleData.begin_dat = moment(this.allDatData[0]).format("YYYY/MM/DD");
-                    this.timeRuleSingleData.end_dat = moment(this.allDatData[1]).format("YYYY/MM/DD");
-
+                let ln_diffDate = moment(this.timeRuleSingleData.begin_dat).diff(moment(this.timeRuleSingleData.end_dat),"days");
+                if(ln_diffDate> 1){
+                    alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
+                }
+                else if ( !_.isNull(this.timeRuleSingleData.begin_dat) || !_.isNull(this.timeRuleSingleData.end_dat)) {
                     let ls_commandCod = this.timeRuleSingleData.command_cod;
                     this.timeRuleSingleData.command_option = [];
 

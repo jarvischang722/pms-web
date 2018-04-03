@@ -746,6 +746,10 @@
                     if (result.success) {
                         this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
                         this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        this.singleData.commis_rat = this.singleData.commis_rat * 100;
+                        this.oriSingleData.commis_rat = this.singleData.commis_rat * 100;
+                        this.singleData.serv_rat = this.singleData.serv_rat * 100;
+                        this.oriSingleData.serv_rat = this.singleData.serv_rat * 100;
                         this.setGlobalRateCod();
                         this.tabName = "roomTyp";
                         this.isUseTime = true;
@@ -825,19 +829,25 @@
                 }
             },
             doConvertData() {
-                this.singleData.display_all = this.singleData.display_all ? 'Y' : 'N';
+                let lo_saveSingleData = JSON.parse(JSON.stringify(this.singleData));
+                let lo_saveOriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
+
+                lo_saveSingleData.display_all = lo_saveSingleData.display_all ? 'Y' : 'N';
+
+                lo_saveSingleData.commis_rat = lo_saveSingleData.commis_rat / 100;
+                lo_saveSingleData.serv_rat = lo_saveSingleData.serv_rat / 100;
 
                 let lo_params = {
                     page_id: this.oriFieldsData[0].page_id,
                     tab_page_id: this.oriFieldsData[0].tab_page_id,
                     event_time: moment().format()
                 };
-                this.singleData = _.extend(this.singleData, lo_params);
-                this.oriSingleData = _.extend(this.oriSingleData, lo_params);
+                lo_saveSingleData = _.extend(lo_saveSingleData, lo_params);
+                lo_saveOriSingleData = _.extend(lo_saveOriSingleData, lo_params);
                 //將主檔資料放至Vuex
                 this.$store.dispatch("setMnSingleData", {
-                    go_mnSingleData: this.singleData,
-                    go_mnOriSingleData: this.oriSingleData
+                    go_mnSingleData: lo_saveSingleData,
+                    go_mnOriSingleData: lo_saveOriSingleData
                 });
             },
             dataValidate() {
