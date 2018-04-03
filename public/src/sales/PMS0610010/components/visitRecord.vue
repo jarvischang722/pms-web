@@ -196,12 +196,12 @@
             },
             singleData: {
                 handler: function (val) {
-                    if(!_.isEmpty(val)){
+                    if (!_.isEmpty(val)) {
                         var self = this;
                         this.$eventHub.$emit("getVisitRecordSingleData", {
                             singleData: val,
-                            oriSingleData: self.oriSingleData,
-                            fieldsData: self.oriFieldsData
+                            oriSingleData: this.oriSingleData,
+                            fieldsData: this.oriFieldsData
                         });
                     }
                 },
@@ -236,7 +236,7 @@
                 });
             },
             fetchRowData() {
-                this.singleData = JSON.parse(JSON.stringify(this.rowData)) ;
+                this.singleData = JSON.parse(JSON.stringify(this.rowData));
                 this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
                 this.isLoadingDialog = false;
             },
@@ -320,19 +320,39 @@
                 this.isFirstData = true;
                 this.isLastData = false;
                 this.rowData = _.first(this.pageOneDataGridRows);
+                $("#visitRecord").dialog('close');
+                this.$eventHub.$emit("getOtherRowData", {
+                    rowData: _.first(this.pageOneDataGridRows),
+                    rowIndex: 0
+                });
             },
             toPreData() {
                 var nowRowIndex = $("#companyVisitRecord_dg").datagrid('getRowIndex', this.rowData);
                 this.rowData = this.pageOneDataGridRows[nowRowIndex - 1];
+                $("#visitRecord").dialog('close');
+                this.$eventHub.$emit("getOtherRowData", {
+                    rowData: this.pageOneDataGridRows[nowRowIndex - 1],
+                    rowIndex: nowRowIndex - 1
+                });
             },
             toNextData() {
                 var nowRowIndex = $("#companyVisitRecord_dg").datagrid('getRowIndex', this.rowData);
                 this.rowData = this.pageOneDataGridRows[nowRowIndex + 1];
+                $("#visitRecord").dialog('close');
+                this.$eventHub.$emit("getOtherRowData", {
+                    rowData: this.pageOneDataGridRows[nowRowIndex + 1],
+                    rowIndex: nowRowIndex + 1
+                });
             },
             toLastData() {
                 this.isFirstData = false;
                 this.isLastData = true;
                 this.rowData = _.last(this.pageOneDataGridRows);
+                $("#visitRecord").dialog('close');
+                this.$eventHub.$emit("getOtherRowData", {
+                    rowData: _.last(this.pageOneDataGridRows),
+                    rowIndex: this.pageOneDataGridRows.length - 1
+                });
             },
             doCloseDialog() {
                 this.initData();

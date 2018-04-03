@@ -47,6 +47,11 @@
             field: {
                 type: Object,
                 required: true
+            },
+            editable: {
+                default: () => {
+                    return "Y";
+                }
             }
 
         },
@@ -76,6 +81,7 @@
                     multiple: this.multiple,
                     valueField: this.valueField,
                     textField: this.textField,
+                    editable: this.editable == "Y" ? true : false,
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
                     data: this.dataDisplay,
                     onShowPanel: function () {

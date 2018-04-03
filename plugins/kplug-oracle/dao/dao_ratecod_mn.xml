@@ -75,10 +75,8 @@
             SELECT  DISTINCT RATECOD_MN.RATE_COD as value, RATECOD_MN.RATE_COD ||':'|| RATECOD_MN.RATECOD_NAM as display
             FROM  RATESUPPLY_DT, RATECOD_MN
             WHERE  RATECOD_MN.ATHENA_ID = RATESUPPLY_DT.ATHENA_ID
-            AND  RATECOD_MN.KEY = RATESUPPLY_DT.KEY
             AND  to_date(:end_dat, 'YYYY/MM/DD') <= RATESUPPLY_DT.END_DAT
             AND  to_date(:begin_dat, 'YYYY/MM/DD') >= RATESUPPLY_DT.BEGIN_DAT
-            AND  RATECOD_MN.SHOW_STA = 'Y'
             AND  RATECOD_MN.ATHENA_ID = :athena_id
             AND  trim(RATECOD_MN.HOTEL_COD) = trim(:hotel_cod)
         ]]></statement>
@@ -94,10 +92,8 @@
             SELECT COUNT(*)
             FROM  RATESUPPLY_DT, RATECOD_MN
             WHERE  RATECOD_MN.ATHENA_ID = RATESUPPLY_DT.ATHENA_ID
-            AND  RATECOD_MN.KEY = RATESUPPLY_DT.KEY
             AND  to_date(:end_dat, 'YYYY/MM/DD') <= RATESUPPLY_DT.END_DAT
             AND  to_date(:begin_dat, 'YYYY/MM/DD') >= RATESUPPLY_DT.BEGIN_DAT
-            AND  RATECOD_MN.SHOW_STA = 'Y'
             AND  RATECOD_MN.ATHENA_ID = :athena_id
             AND  trim(RATECOD_MN.HOTEL_COD) = trim(:hotel_cod)
         ]]></statement>

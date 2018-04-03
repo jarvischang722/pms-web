@@ -56,10 +56,16 @@ exports.fetchGsFieldData = async function (postData, session, callback) {
 /**
  * 取作業(只有)搜尋欄位資料
  */
-exports.fetchOnlySearchFieldsData = function (postData, session, callback) {
-    fetechDataModule.qrySearchFields(postData, session, function (err, result) {
-        callback(err, result);
-    });
+exports.fetchOnlySearchFieldsData = async function (postData, session) {
+    try {
+        let la_searchFields = await fetechDataModule.qrySearchFields(postData, session);
+        return la_searchFields;
+    }
+    catch (err) {
+        throw err.message;
+    }
+
+
 };
 
 /**

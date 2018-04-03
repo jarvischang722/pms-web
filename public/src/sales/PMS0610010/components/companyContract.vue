@@ -5,7 +5,8 @@
                 <div class="row no-margin-right">
                     <div class="dealContent-select">
                         <div class="float-left">
-                            <input type="text" v-model="searchCondOfRate" :placeholder="i18nLang.program.PMS0610020.rate"
+                            <input type="text" v-model="searchCondOfRate"
+                                   :placeholder="i18nLang.program.PMS0610020.rate"
                                    @blur="doChangeRowData">
                         </div>
                         <div class="float-left">
@@ -33,13 +34,15 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                        role="button" :disabled="BTN_action" @click="appendRow" data-purview_func_id="PMS0610020-1070">
+                                        role="button" :disabled="BTN_action" @click="appendRow"
+                                        data-purview_func_id="PMS0610020-1070">
                                     {{i18nLang.program.PMS0610020.append_contract}}
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
-                                        role="button" :disabled="BTN_action" @click="removeRow" data-purview_func_id="PMS0610020-1080">
+                                        role="button" :disabled="BTN_action" @click="removeRow"
+                                        data-purview_func_id="PMS0610020-1080">
                                     {{i18nLang.program.PMS0610020.remove_contract}}
                                 </button>
                             </li>
@@ -64,6 +67,13 @@
     export default {
         name: 'contract-content',
         props: ["rowData", "isContractContent"],
+        created() {
+            this.$eventHub.$on("endContractEdit", () => {
+                if (!_.isEmpty(this.dgIns)) {
+                    this.dgIns.endEditing();
+                }
+            });
+        },
         data() {
             return {
                 go_funcPurview: [],
@@ -86,7 +96,7 @@
             isContractContent(val) {
                 if (val) {
                     //第一次載入合約內容
-                    if(_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)){
+                    if (_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)) {
                         this.initData();
                     }
                     this.fetchDefaultData();
@@ -94,103 +104,51 @@
                 }
             },
             dataGridRowsData: {
-                handler(val){
-                    if(!_.isEmpty(val)){
-                        var self = this;
-                        //將cust_cod放置tmpCUD中
-                        _.each(this.dgIns.tmpCUD.createData, function(lo_createData, idx){
-                            self.dgIns.tmpCUD.createData[idx] =
-                                _.extend(self.dgIns.tmpCUD.createData[idx],{cust_cod: self.$store.state.gs_custCod});
-                        });
-                        _.each(this.dgIns.tmpCUD.updateData, function(lo_updateData, idx){
-                            self.dgIns.tmpCUD.updateData[idx] =
-                                _.extend(self.dgIns.tmpCUD.updateData[idx],{cust_cod: self.$store.state.gs_custCod});
-                        });
-                        _.each(this.dgIns.tmpCUD.deleteData, function(lo_deleteData, idx){
-                            self.dgIns.tmpCUD.deleteData[idx] =
-                                _.extend(self.dgIns.tmpCUD.deleteData[idx],{cust_cod: self.$store.state.gs_custCod});
-                        });
-                        _.each(this.dgIns.tmpCUD.oriData, function(lo_oriData, idx){
-                            self.dgIns.tmpCUD.oriData[idx] =
-                                _.extend(self.dgIns.tmpCUD.oriData[idx],{cust_cod: self.$store.state.gs_custCod});
-                        });
-
-                        //將合約內容資料放至Vuex
-                        this.$store.dispatch("setCcDataGridRowsData", {
-                            ga_ccDataGridRowsData: val,
-                            go_ccOriDataGridRowsData: this.oriDataGridRowsData,
-                            go_ccTmpCUD: this.dgIns.tmpCUD
-                        });
+                handler(val) {
+                    if (!_.isEmpty(val)) {
+                        this.insertCustCodIntoTmpCUD(val);
                     }
                 },
                 deep: true
             },
             dataGridRowsDataOfExpire: {
-                handler(val){
-                    if(!_.isEmpty(val)){
-                        var self = this;
-                        //將cust_cod放置tmpCUD中
-                        _.each(this.dgIns.tmpCUD.createData, function(lo_createData, idx){
-                            self.dgIns.tmpCUD.createData[idx] =
-                                _.extend(self.dgIns.tmpCUD.createData[idx],{cust_cod: self.$store.state.gs_custCod});
-                        });
-                        _.each(this.dgIns.tmpCUD.updateData, function(lo_updateData, idx){
-                            self.dgIns.tmpCUD.updateData[idx] =
-                                _.extend(self.dgIns.tmpCUD.updateData[idx],{cust_cod: self.$store.state.gs_custCod});
-                        });
-                        _.each(this.dgIns.tmpCUD.deleteData, function(lo_deleteData, idx){
-                            self.dgIns.tmpCUD.deleteData[idx] =
-                                _.extend(self.dgIns.tmpCUD.deleteData[idx],{cust_cod: self.$store.state.gs_custCod});
-                        });
-                        _.each(this.dgIns.tmpCUD.oriData, function(lo_oriData, idx){
-                            self.dgIns.tmpCUD.oriData[idx] =
-                                _.extend(self.dgIns.tmpCUD.oriData[idx],{cust_cod: self.$store.state.gs_custCod});
-                        });
-
-                        //將合約內容資料放至Vuex
-                        this.$store.dispatch("setCcDataGridRowsData", {
-                            ga_ccDataGridRowsData: val,
-                            go_ccOriDataGridRowsData: this.oriDataGridRowsData,
-                            go_ccTmpCUD: this.dgIns.tmpCUD
-                        });
+                handler(val) {
+                    if (!_.isEmpty(val)) {
+                        this.insertCustCodIntoTmpCUD(val);
                     }
                 },
                 deep: true
             },
             dataGridRowsDataOfRateCode: {
-                handler(val){
-                    if(!_.isEmpty(val)){
-                        var self = this;
-                        //將cust_cod放置tmpCUD中
-                        _.each(this.dgIns.tmpCUD.createData, function(lo_createData, idx){
-                            self.dgIns.tmpCUD.createData[idx] =
-                                _.extend(self.dgIns.tmpCUD.createData[idx],{cust_cod: self.$store.state.gs_custCod});
-                        });
-                        _.each(this.dgIns.tmpCUD.updateData, function(lo_updateData, idx){
-                            self.dgIns.tmpCUD.updateData[idx] =
-                                _.extend(self.dgIns.tmpCUD.updateData[idx],{cust_cod: self.$store.state.gs_custCod});
-                        });
-                        _.each(this.dgIns.tmpCUD.deleteData, function(lo_deleteData, idx){
-                            self.dgIns.tmpCUD.deleteData[idx] =
-                                _.extend(self.dgIns.tmpCUD.deleteData[idx],{cust_cod: self.$store.state.gs_custCod});
-                        });
-                        _.each(this.dgIns.tmpCUD.oriData, function(lo_oriData, idx){
-                            self.dgIns.tmpCUD.oriData[idx] =
-                                _.extend(self.dgIns.tmpCUD.oriData[idx],{cust_cod: self.$store.state.gs_custCod});
-                        });
-
-                        //將合約內容資料放至Vuex
-                        this.$store.dispatch("setCcDataGridRowsData", {
-                            ga_ccDataGridRowsData: val,
-                            go_ccOriDataGridRowsData: this.oriDataGridRowsData,
-                            go_ccTmpCUD: this.dgIns.tmpCUD
-                        });
+                handler(val) {
+                    if (!_.isEmpty(val)) {
+                        this.insertCustCodIntoTmpCUD(val);
                     }
                 },
                 deep: true
             }
         },
         methods: {
+            insertCustCodIntoTmpCUD(rowData) {
+                let lo_extendData = {
+                    cust_cod: this.$store.state.gs_custCod,
+                    tab_page_id: 4
+                };
+                //將cust_cod放置tmpCUD中
+                _.each(this.dgIns.tmpCUD, (la_cudData, key) => {
+                    _.each(la_cudData, lo_data => {
+                        la_cudData[key] = _.extend(lo_data, lo_extendData);
+                    })
+                });
+
+                // return;
+                //將合約內容資料放至Vuex
+                this.$store.dispatch("setCcDataGridRowsData", {
+                    ga_ccDataGridRowsData: rowData,
+                    go_ccOriDataGridRowsData: this.oriDataGridRowsData,
+                    go_ccTmpCUD: this.dgIns.tmpCUD
+                });
+            },
             fetchDefaultData() {
                 $.post("/api/fetchDefaultSingleRowData", {
                     prg_id: "PMS0610020",
@@ -218,7 +176,7 @@
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
                     //第一次載入合約內容
-                    if(_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)){
+                    if (_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)) {
                         this.dataGridRowsData = result.dgRowData;
                         this.dataGridRowsDataOfExpire = _.filter(JSON.parse(JSON.stringify(result.dgRowData)), lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
@@ -226,9 +184,9 @@
                         this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                         this.showDataGrid(this.dataGridRowsDataOfExpire);
                     }
-                    else{
+                    else {
                         this.dataGridRowsData = this.$store.state.go_allData.ga_ccDataGridRowsData;
-                        this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify( this.dataGridRowsData)), lo_dgRowData => {
+                        this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify(this.dataGridRowsData)), lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                         });
                         this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_ccDataGridRowsData;
