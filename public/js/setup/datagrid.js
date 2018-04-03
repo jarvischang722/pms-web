@@ -116,7 +116,8 @@ var vm = new Vue({
         searchFields: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
         multiLangDialogVisible: false,
-        isLoading: false
+        isLoading: false,
+        dataGridRows: []
     },
     watch: {
         prgFieldDataAttr: function (newVal) {
@@ -163,6 +164,7 @@ var vm = new Vue({
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 vm.searchFields = result.searchFields;
                 vm.prgFieldDataAttr = result.fieldData;
+                vm.dataGridRows = JSON.parse(JSON.stringify(result.dataGridRows));
                 vm.showDataGrid(result.fieldData, result.dataGridRows);
             });
         },
@@ -235,46 +237,51 @@ var vm = new Vue({
         },
         //結束編輯
         onEndEdit: function (index, row, changes) {
-            if (gb_isUserEdit4EndEdit) {
-                gb_isUserEdit4EndEdit = false;
-                var dataType = row.createRow == 'Y'
-                    ? "createData" : "updateData";  //判斷此筆是新增或更新
-                if (dataType != "createData") {
-                    var tmpCUD_index = this.chkTmpCudExistData(row, dataType);  // 檢查是否有暫存
-                    var lb_multiLangExist = true;                               // 是否有多語系
-                    var la_multiLangTmp = [];
+            this.dataGridRows[index].ins_dat = moment(this.dataGridRows[index].ins_dat).format("YYYY/MM/DD HH:mm:ss");
+            this.dataGridRows[index].upd_dat = moment(this.dataGridRows[index].upd_dat).format("YYYY/MM/DD HH:mm:ss");
+            if (!_.isMatch(this.dataGridRows[index], row)) {
+                if (gb_isUserEdit4EndEdit) {
+                    gb_isUserEdit4EndEdit = false;
+                    var dataType = row.createRow == 'Y'
+                        ? "createData" : "updateData";  //判斷此筆是新增或更新
+                    if (dataType != "createData") {
+                        var tmpCUD_index = this.chkTmpCudExistData(row, dataType);  // 檢查是否有暫存
+                        var lb_multiLangExist = true;                               // 是否有多語系
+                        var la_multiLangTmp = [];
 
-                    try {
-                        var chkMultiLang = this.tmpCUD[dataType][tmpCUD_index].multiLang;
-                        lb_multiLangExist = true;
-                    }
-                    catch (err) {
-                        lb_multiLangExist = false;
-                    }
-
-                    // 產生所有語系資料
-                    _.each(this.sys_locales, function (locales) {
-                        la_multiLangTmp.push({
-                            display_locale: locales.name,
-                            locale: locales.lang
-                        });
-                    });
-
-                    // dataGrid 多語系欄位有修改 且 暫存沒有多語系資料
-                    // 則一起儲存進多語系
-                    _.each(this.multiLangField, function (multiLangField) {
-                        if (!_.isUndefined(changes[multiLangField.ui_field_name]) && !lb_multiLangExist) {
-                            _.each(la_multiLangTmp, function (tmpLang) {
-                                if (tmpLang.locale == gs_locale) {
-                                    tmpLang[multiLangField.ui_field_name] = changes[multiLangField.ui_field_name];
-                                }
-                            });
-                            row.multiLang = la_multiLangTmp;
+                        try {
+                            var chkMultiLang = this.tmpCUD[dataType][tmpCUD_index].multiLang;
+                            lb_multiLangExist = true;
                         }
-                    });
+                        catch (err) {
+                            lb_multiLangExist = false;
+                        }
+
+                        // 產生所有語系資料
+                        _.each(this.sys_locales, function (locales) {
+                            la_multiLangTmp.push({
+                                display_locale: locales.name,
+                                locale: locales.lang
+                            });
+                        });
+
+                        // dataGrid 多語系欄位有修改 且 暫存沒有多語系資料
+                        // 則一起儲存進多語系
+                        _.each(this.multiLangField, function (multiLangField) {
+                            if (!_.isUndefined(changes[multiLangField.ui_field_name]) && !lb_multiLangExist) {
+                                _.each(la_multiLangTmp, function (tmpLang) {
+                                    if (tmpLang.locale == gs_locale) {
+                                        tmpLang[multiLangField.ui_field_name] = changes[multiLangField.ui_field_name];
+                                    }
+                                });
+                                row.multiLang = la_multiLangTmp;
+                                self.dataGridRows.multiLang = la_multiLangTmp;
+                            }
+                        });
+                    }
+                    gb_isUserEdit4EndEdit = true;
+                    this.tempExecData(row);
                 }
-                gb_isUserEdit4EndEdit = true;
-                this.tempExecData(row);
             }
         },
         endEditing: function () {
