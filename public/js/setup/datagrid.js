@@ -237,9 +237,9 @@ var vm = new Vue({
         },
         //結束編輯
         onEndEdit: function (index, row, changes) {
-            this.dataGridRows[index].ins_dat = moment(this.dataGridRows[index].ins_dat).format("YYYY/MM/DD HH:mm:ss");
-            this.dataGridRows[index].upd_dat = moment(this.dataGridRows[index].upd_dat).format("YYYY/MM/DD HH:mm:ss");
-            if (!_.isMatch(this.dataGridRows[index], row)) {
+            var lb_chkIsChanged = this.dataValidate(row, this.dataGridRows[index]);
+
+            if (lb_chkIsChanged) {
                 if (gb_isUserEdit4EndEdit) {
                     gb_isUserEdit4EndEdit = false;
                     var dataType = row.createRow == 'Y'
@@ -490,8 +490,22 @@ var vm = new Vue({
             $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
                 vm.allChangeLogList = result.allChangeLogList;
             });
-        }
+        },
+        // 檢查資料是否有改變
+        dataValidate: function (data, oriData) {
+            var lb_chkIsChanged = false;
 
+            if (_.isUndefined(oriData)) {
+                lb_chkIsChanged = true;
+            }
+            else {
+                oriData.ins_dat = moment(oriData.ins_dat).format("YYYY/MM/DD HH:mm:ss");
+                oriData.upd_dat = moment(oriData.upd_dat).format("YYYY/MM/DD HH:mm:ss");
+                lb_chkIsChanged = !_.isMatch(oriData, data) ? true : false;
+            }
+
+            return lb_chkIsChanged;
+        }
     }
 
 });
