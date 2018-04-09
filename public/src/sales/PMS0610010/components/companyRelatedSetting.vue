@@ -143,7 +143,7 @@
                                                                              :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                              v-model="singleData[field.ui_field_name]"
                                                                              :columns="field.selectData.columns"
-                                                                             :data="field.selectData.selectData"
+                                                                             :data="field.selectData.selectData" :field="field"
                                                                              :is-qry-src-before="field.selectData.isQrySrcBefore"
                                                                              :id-field="field.selectData.value" :text-field="field.selectData.display"
                                                                              @update:v-model="val => singleData[field.ui_field_name] = val"
@@ -307,6 +307,7 @@
                             hoffice_cod: self.$store.state.gs_custCod,
                             dm_flag: 'Y',
                             cust_idx_ar_amt: 0,
+                            cust_idx_credit_amt: 0,
                             business_cod: '01  ',
                             type_cod: '01  '
                         };

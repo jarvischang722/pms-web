@@ -202,6 +202,7 @@ let PMS0620020App = Vue.extend({
             if (Object.keys(this.singleData).length == 0) {
                 $.post("/api/sales/addFuncRule_PMS0620020", {prg_id: "PMS0620020", page_id: 1}, function (result) {
                     if (result.success) {
+                        delete result.defaultValues["status_cod1"];
                         self.rowData = result.defaultValues;
                     } else {
                         alert(result.errorMsg);
@@ -460,7 +461,7 @@ let PMS0620020App = Vue.extend({
                             alert(result.errorMsg);
                         }
                         self.isLoadingDialog = false;
-                        self.dgHoatelDt.initTmpCUD();
+                        // self.dgHoatelDt.initTmpCUD();
                     });
                 }
             }

@@ -247,4 +247,20 @@
         <parameter type="string" kind="3">room_cod</parameter>
         <parameter type="string" kind="3">begin_dat</parameter>
     </dao>
+
+    <!-- 取得可使用的房型 -->
+    <dao name="QRY_RVRMCOD_RF_FOR_RATECOD">
+        <statement><![CDATA[
+            select UNIQUE ROOM_COD,ROOM_NAM,ROOM_SNA
+            from RVRMCOD_RF
+            WHERE ATHENA_ID = :athena_id
+            AND trim(HOTEL_COD) = trim(:hotel_cod)
+            AND END_DAT > = to_date(:rent_cal_dat, 'YYYY/MM/DD')
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rent_cal_dat</parameter>
+    </dao>
+
 </root>

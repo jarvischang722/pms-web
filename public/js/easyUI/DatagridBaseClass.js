@@ -269,6 +269,8 @@ function DatagridBaseClass() {
                 };
             }
 
+            lo_param['allRows'] = $('#' + self.dgName).datagrid('getRows');
+
             $.post("/api/handleDataGridAddEventRule", lo_param, function (result) {
                 var prgDefaultObj = {createRow: 'Y'};
                 if (result.success) {
@@ -418,7 +420,6 @@ function DatagridBaseClass() {
                 if (existOriIdx == -1) {
                     lo_chkKeyRowData = this.insertKeyRowData(lo_chkKeyRowData);
                     self.tmpCUD[dataType].push(lo_chkKeyRowData);
-                    self.tmpCUD.oriData.push(self.dtOriRowData[index]);
                     $("#gridEdit").val(self.tmpCUD);
                 }
             }

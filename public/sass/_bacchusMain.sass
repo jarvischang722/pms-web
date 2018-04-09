@@ -2514,7 +2514,7 @@ td
       border-left: 0 !important
       border-right: 0 !important
       span
-      &:before,&:after
+      &:before, &:after
         border-width: 0
 //fixtable套件bug修正
 .fixed-table-container
@@ -2643,6 +2643,65 @@ td
   float: left
   padding: 0 7px
 
+// 客戶授權
+%c-title
+  .title
+    font-size: 3rem
+    letter-spacing: 3px
+  .menu-mar
+    margin-top: 60px
+
+.custom-authorized
+  letter-spacing: 3px
+  @extend %c-title
+  .con-head
+    margin-top: 20px
+    margin-bottom: 20px
+  .content
+    border: 1px solid $border-color
+    border-top: 0
+    padding: 10px 30px
+    .con-h1
+      font-size: 28px
+      font-weight: 500
+      margin-top: 20px
+    .con-line
+      border-top: 1px solid #3B3B3B
+      margin-top: 25px
+      margin-bottom: 25px
+      width: 30%
+    .con-sub
+      min-height: 38px
+      max-height: 100%
+    .con-button
+      margin-top: 50px
+      .btn-s
+        width: 100%
+        border: 1px
+        padding: 12px 18px
+  .con-top
+    height: 10px
+    background: linear-gradient(314deg, rgba(93, 203, 179, 0.5) 15%, #468eb7 60%)
+  .focus-tip-wrap
+    margin-top: 20px
+    margin-left: 10px
+    .focus-tip
+      margin-top: 10px
+      margin-bottom: 10px
+      color: #5f5f5f
+
+.authorized-tree
+  letter-spacing: 1px
+  @extend %c-title
+  .title
+    margin-bottom: 15px
+
+.new-authorized-tree
+  @extend %c-title
+  .title
+    margin-bottom: 15px
+    label.title-2x
+      font-size: 2rem
 //產生房號訂房內容各種長度
 @for $i from 1 through 28
   $width: 30 * $i
@@ -2694,6 +2753,7 @@ td
         &.triangle-box
           &.colspan-#{$i}
             width: $width - $error-value + px
+
 @media screen and (min-width: 1670px)
   .cus-roomPlan-table
     table
@@ -2714,6 +2774,7 @@ td
         &.triangle-box
           &.colspan-#{$i}
             width: $width - $error-value + px
+
 @media screen and (min-width: 1770px)
   .cus-roomPlan-table
     table

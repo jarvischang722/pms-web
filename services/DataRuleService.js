@@ -86,29 +86,56 @@ exports.qrySelectOptionsFromSQL = function (userInfo, sql_tag, callback) {
 exports.getSelectOptions = function (params, selRow, field, callback) {
 
     if (selRow.referiable == "Y") {
-        callback([]);
+        callback({selectDataDisplay: [], selectData: []});
         return;
     }
 
     if (selRow.ds_from_sql == "Y") {
-        var sql_tag = selRow.rule_func_name.toUpperCase();
-        queryAgent.queryList(sql_tag, params, 0, 0, function (err, selData) {
-            if (err) {
-                selData = [];
-            }
+        let sql_tag = selRow.rule_func_name.toUpperCase();
+        let lo_selectData = {
+            selectData: [],
+            selectDataDisplay: []
+        };
+        async.waterfall([
+            //下拉資料
+            function (cb) {
+                queryAgent.queryList(sql_tag, params, 0, 0, function (err, selData) {
+                    if (err) {
+                        selData = [];
+                    }
 
-            _.each(selData, function (lo_selData, index) {
-                if (!_.isUndefined(lo_selData.value)) {
-                    if (field.modificable == 'N') {
-                        selData[index].display = lo_selData.display;
-                    }
-                    else {
-                        selData[index].display = lo_selData.value + " : " + lo_selData.display;
-                    }
+                    _.each(selData, function (lo_selData, index) {
+                        if (!_.isUndefined(lo_selData.value)) {
+                            if (field.modificable == 'N') {
+                                selData[index].display = lo_selData.display;
+                            }
+                            else {
+                                selData[index].display = lo_selData.value + " : " + lo_selData.display;
+                            }
+                        }
+                    });
+                    lo_selectData.selectDataDisplay = selData;
+                    cb(err, selData);
+                });
+            },
+            //過濾下拉資料
+            function (selData, cb) {
+                if (!_.isUndefined(selRow.display_func_name) && selRow.display_func_name != "") {
+                    ruleAgent[selRow.display_func_name](selData, function (data) {
+                        lo_selectData.selectData = data;
+                        cb(null, selData);
+                    });
                 }
-            });
-            callback(selData);
+                else{
+                    lo_selectData.selectData = [];
+                    cb(null, selData);
+                }
+            }
+        ], function (err, result) {
+            callback(lo_selectData);
         });
+
+
     }
     else {
         if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
@@ -123,12 +150,12 @@ exports.getSelectOptions = function (params, selRow, field, callback) {
                         }
 
                     });
-                    callback(data.selectOptions);
+                    callback({selectDataDisplay: data.selectOptions, selectData: []});
                 }
             });
         }
         else {
-            callback([]);
+            callback({selectDataDisplay: [], selectData: []});
         }
     }
 };
@@ -150,12 +177,12 @@ exports.getSelectGridOption = function (session, selRow, field, callback) {
         //取得下拉資料
         qrySelectGridData
     ], function (err, result) {
-        if(err){
+        if (err) {
             callback(err, null);
         }
-        else{
+        else {
             lo_selectData = result;
-            lo_selectData.isQrySrcBefore = selRow.is_qry_src_before == ""?"Y":selRow.is_qry_src_before;
+            lo_selectData.isQrySrcBefore = selRow.is_qry_src_before == "" ? "Y" : selRow.is_qry_src_before;
             callback(err, lo_selectData);
         }
     });
@@ -593,17 +620,17 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     let tab_page_id = postData.tab_page_id || 1;
     let deleteData = postData["deleteData"] || [];
     let delChkFuncs = [];
-    let lo_mongoCollection = prg_id.substring(0, 5) == "PMS08"?"SetupDatagridFunction" : "PrgFunction";//設定的collection 為SetupDatagridFunction、作業為PrgFunction
+    let lo_mongoCollection = prg_id.substring(0, 5) == "PMS08" ? "SetupDatagridFunction" : "PrgFunction";//設定的collection 為SetupDatagridFunction、作業為PrgFunction
     let lo_params = {};//mongo 搜尋條件
 
-    if(lo_mongoCollection == "SetupDatagridFunction"){
+    if (lo_mongoCollection == "SetupDatagridFunction") {
         lo_params = {
             prg_id: prg_id,
             page_id: Number(page_id),
             func_id: '0300'
         };
     }
-    else{
+    else {
         lo_params = {
             prg_id: prg_id,
             page_id: Number(page_id),

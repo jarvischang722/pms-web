@@ -1051,16 +1051,16 @@ exports.getRateProp = function(){
 exports.getBaserateFlag = function(){
     let la_optionList = [
         {
-            display: "ID",
-            value: "INDEPEND"
+            display: "INDEPEND",
+            value: "ID"
         },
         {
-            display: "BS",
-            value: "BASE"
+            display: " BASE",
+            value: "BS"
         },
         {
-            display: "DP",
-            value: "DEPEND"
+            display: "DEPEND",
+            value: "DP"
         }
 
     ];

@@ -14,6 +14,11 @@ module.exports = function (app) {
     app.post("/api/doOperationSave", apiMiddles, operCtrl.doOperationSave);
 
     /**
+     * 作業新儲存格式
+     */
+    app.post("/api/execNewFormatSQL", apiMiddles, operCtrl.execNewFormatSQL);
+
+    /**
      * (作業)查詢多筆欄位
      */
     app.post("/api/fetchDataGridFieldData", apiMiddles, operCtrl.fetchDgFieldData);

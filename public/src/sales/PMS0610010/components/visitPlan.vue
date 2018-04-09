@@ -1,6 +1,7 @@
 <template>
     <div id="addVisitPlan" class="padding-5 hide">
-        <div class="col-sm-12 newVisitRecord-wrap" v-loading="isVisitPlanLoading" :element-loading-text="visitPlanLoadingText">
+        <div class="col-sm-12 newVisitRecord-wrap" v-loading="isVisitPlanLoading"
+             :element-loading-text="visitPlanLoadingText">
             <!--共同設定-->
             <div class="row">
                 <div class="borderFrame">
@@ -18,7 +19,8 @@
                                     <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                 :class="{'input_sta_required' : field.requirable == 'Y' }"
                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                v-model="settingGridRowData[field.ui_field_name]" :data="field.selectData"
+                                                v-model="settingGridRowData[field.ui_field_name]"
+                                                :data="field.selectData"
                                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                                 @update:v-model="val => settingGridRowData[field.ui_field_name] = val"
                                                 :default-val="settingGridRowData[field.ui_field_name]"
@@ -26,7 +28,6 @@
                                                 :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                     </bac-select>
-
 
 
                                     <input type="text" v-model="settingGridRowData[field.ui_field_name]"
@@ -112,6 +113,7 @@
                                                         type="date" size="small"
                                                         :disabled="field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
                                                         format="yyyy/MM/dd"
+                                                        :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                         </el-date-picker>
@@ -123,6 +125,7 @@
                                                         :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
                                                         size="small" format="yyyy/MM/dd HH:mm:ss"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                        :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                         @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                         </el-date-picker>
 
@@ -134,7 +137,7 @@
                                                     v-model="singleData[field.ui_field_name]" :data="field.selectData"
                                                     is-qry-src-before="Y" value-field="value" text-field="display"
                                                     @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                    :default-val="singleData[field.ui_field_name]"
+                                                    :default-val="singleData[field.ui_field_name]" :field="field"
                                                     :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                         </bac-select>
@@ -143,6 +146,7 @@
                                         <textarea v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
                                                   v-model="singleData[field.ui_field_name]"
                                                   class="numStyle-none" rows="4"
+                                                  :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                   :style="{width:field.width + 'px'}" style="resize: none;"
                                                   :required="field.requirable == 'Y'"
                                                   :maxlength="field.ui_field_length"
@@ -200,7 +204,8 @@
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button" @click="doCloseDialog">
+                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button"
+                                            @click="doCloseDialog">
                                         {{i18nLang.SystemCommon.Leave}}
                                     </button>
                                 </li>
@@ -237,7 +242,6 @@
         created() {
             var self = this;
             vmHub.$on("selectDataGridRow", function (data) {
-                // self.dgVisitPlanIns.onSelect(data.index, data.row);
                 self.rowData = data.row;
             });
         },
@@ -278,7 +282,7 @@
                     this.initData();
                     this.setTmpRowData();
                     this.fetchSingleGridFieldData();
-                    this.go_funcPurview= (new FuncPurview("PMS0620050")).getFuncPurvs();
+                    this.go_funcPurview = (new FuncPurview("PMS0620050")).getFuncPurvs();
                     this.initPurview();
                 }
             },
@@ -375,7 +379,6 @@
                     prg_id: "PMS0610010",
                     page_id: 1020
                 };
-
                 $.post("/api/fetchOnlyDataGridFieldData", lo_params, function (result) {
                     self.dataGridFieldsData = result.dgFieldsData;
                     self.rowData = self.editRows[0];
@@ -425,6 +428,7 @@
                 this.dgVisitPlanIns.init("PMS0610010", "visitPlan_dg", colOption, this.dataGridFieldsData, {
                     singleSelect: false
                 });
+
                 this.dgVisitPlanIns.loadDgData(this.editRows);
 
                 this.setIndexData(editingRow);
@@ -600,8 +604,8 @@
                         }
 
                         //有format
-                        if (lo_field.format_func_name != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name])) {
-                            lo_checkResult = go_validateClass[lo_field.format_func_name](lo_saveData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        if (lo_field.format_func_name.validate != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name.validate])) {
+                            lo_checkResult = go_validateClass[lo_field.format_func_name.validate](lo_saveData[lo_field.ui_field_name], lo_field.ui_display_name);
                             if (lo_checkResult.success == false) {
                                 break;
                             }
@@ -620,6 +624,7 @@
 
                 var la_saveData = JSON.parse(JSON.stringify(this.tmpRowsData));
                 _.each(la_saveData, function (lo_saveData, index) {
+                    la_saveData[index].remark = _.isNull(lo_saveData.remark) ? "" : lo_saveData.remark;
                     la_saveData[index].visit_dat =
                         lo_saveData.visit_dat == "" || _.isUndefined(lo_saveData.visit_dat) ? "" : moment(new Date(lo_saveData.visit_dat)).format("YYYY/MM/DD");
                     la_saveData[index].avisit_dat =
@@ -632,7 +637,7 @@
 
                 if (lo_chkResult.success == false) {
                     alert(lo_chkResult.msg);
-                    this.isLoadingDialog = false;
+                    this.isVisitPlanLoading = false;
                 }
                 else {
                     this.tmpCUD.createData = la_saveData;

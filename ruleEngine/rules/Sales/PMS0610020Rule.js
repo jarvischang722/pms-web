@@ -99,7 +99,7 @@ module.exports = {
      * @param session
      * @param callback
      */
-    sel_area_cod_kvrf_single: function(postData, session, callback){
+    sel_area_cod_kvrf_single: function (postData, session, callback) {
         let self = this;
         let lo_error = null;
         let lo_result = new ReturnClass();
@@ -180,7 +180,9 @@ module.exports = {
         let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
         let lo_param = {
             athena_id: session.user.athena_id,
-            hotel_cod: postData.rowData.hotel_cod
+            hotel_cod: ls_hotelCod,
+            end_dat: ls_endDat,
+            begin_dat: ls_beginDat
         };
 
         async.waterfall([
@@ -241,7 +243,7 @@ module.exports = {
         }
 
         function setRateCodSelectData(result, cb) {
-            if (ls_rateCod != "" && ls_endDat != "" && ls_rateCod != "") {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
                 queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
@@ -282,7 +284,9 @@ module.exports = {
         let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
         let lo_param = {
             athena_id: session.user.athena_id,
-            hotel_cod: postData.rowData.hotel_cod
+            hotel_cod: ls_hotelCod,
+            end_dat: ls_endDat,
+            begin_dat: ls_beginDat
         };
 
         async.waterfall([
@@ -322,7 +326,7 @@ module.exports = {
         }
 
         function setRateCodSelectData(result, cb) {
-            if (ls_rateCod != "" && ls_endDat != "" && ls_rateCod != "") {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
                 queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
@@ -375,7 +379,7 @@ module.exports = {
         });
 
         function setRateCodSelectData(cb) {
-            if (ls_hotelCod != "" && ls_endDat != "" && ls_beginDat != "") {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
                 queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
@@ -503,7 +507,9 @@ module.exports = {
             else {
                 let ls_cod = data["SERIES_NOS"].toString();
                 let ls_perCustCod = "CSP" + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
-                lo_result.defaultValues = {per_cust_cod: ls_perCustCod};
+                let la_allRows = _.sortBy(postData.allRows, "seq_nos");
+                let ln_seq_nos = Number(la_allRows[la_allRows.length - 1].seq_nos) || 0;
+                lo_result.defaultValues = {per_cust_cod: ls_perCustCod, seq_nos: ln_seq_nos + 1};
             }
             callback(lo_error, lo_result);
         });
@@ -825,7 +831,8 @@ module.exports = {
                         home_tel: lo_dtCreateData.home_tel,
                         e_mail: lo_dtCreateData.e_mail,
                         birth_dat: lo_dtCreateData.birth_dat,
-                        sex_typ: lo_dtCreateData.sex_typ
+                        sex_typ: lo_dtCreateData.sex_typ,
+                        show_cod: lo_dtCreateData.per_cust_cod
                     });
                 }
             });
@@ -1015,7 +1022,8 @@ module.exports = {
                         home_tel: lo_dtCreateData.home_tel,
                         e_mail: lo_dtCreateData.e_mail,
                         birth_dat: lo_dtCreateData.birth_dat,
-                        sex_typ: lo_dtCreateData.sex_typ
+                        sex_typ: lo_dtCreateData.sex_typ,
+                        show_cod: lo_dtCreateData.per_cust_cod
                     });
                 }
             });
@@ -1136,6 +1144,7 @@ function convertData2TreeData(lo_selectRowData, lo_parent_node) {
         });
     }
 }
+
 //tree 的基本資料結構
 class node {
     constructor(lo_rowData) {

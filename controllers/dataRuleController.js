@@ -58,6 +58,15 @@ exports.deleteFuncRule = function (req, res) {
     });
 };
 
+/**
+ * 透過規則取資料
+ */
+exports.queryDataByRule = function (req, res) {
+    ruleSVC.handleBlurUiField(req.body, req.session, function (err, result) {
+        res.json(commonTools.mergeRtnErrResultJson(err, result));
+    });
+};
+
 
 /**
  * 復原此RoomCod 原來的房間名稱
@@ -90,7 +99,7 @@ exports.getSelectOptions = function (req, res) {
     console.log(`關鍵字 :  ${ls_keyword}`);
     queryAgent.queryList("QRY_ALL_USER_WITH_COMP", {athena_id: 1, cmp_id: "MIRACHU"}, 0, 0, function (err, data) {
         let filetedData = _.filter(data, function (data) {
-            return  _.values(data).join(" ").indexOf( ls_keyword.trim()) > -1;
+            return _.values(data).join(" ").indexOf(ls_keyword.trim()) > -1;
         });
         let select_data = _.map(filetedData, function (item) {
             return {id: item.usr_id, text: item.usr_cname};

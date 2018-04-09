@@ -3,7 +3,7 @@
     <!--[PMS0810230 rateCode] rate code 取多筆資料-->
     <dao name="QRY_RATECOD_MN_DG">
         <statement><![CDATA[
-            SELECT RATE_COD,RATECOD_NAM,MENU_NAM,RATE_PROP,RATE_GRP,SOURCE_TYP,GUEST_TYP, REMARK1
+            SELECT RATE_COD,RATECOD_NAM,MENU_NAM,RATE_PROP,RATE_GRP,SOURCE_TYP,GUEST_TYP, REMARK1, hotel_cod, athena_id
             FROM RATECOD_MN
             WHERE ATHENA_ID = :athena_id
             AND trim(HOTEL_COD) = trim(:hotel_cod)
@@ -30,11 +30,11 @@
         <!--select *-->
         <!--from ratecod_mn A-->
         <!--where exists (select 1-->
-            <!--from ratesupply_dt b-->
-            <!--where a.athena_id = b.athena_id-->
-            <!--and a.hotel_cod = b.hotel_cod-->
-            <!--and a.rate_cod = b.rate_cod-->
-            <!--and :use_dat between b.begin_dat and  b.end_dat)-->
+        <!--from ratesupply_dt b-->
+        <!--where a.athena_id = b.athena_id-->
+        <!--and a.hotel_cod = b.hotel_cod-->
+        <!--and a.rate_cod = b.rate_cod-->
+        <!--and :use_dat between b.begin_dat and  b.end_dat)-->
         <!--]]></statement>-->
         <orderby>ORDER BY VIEW_SEQ</orderby>
     </dao>
@@ -52,16 +52,31 @@
         <parameter type="string" kind="3">rate_cod</parameter>
     </dao>
 
+    <!--[PMS0810230 rateCode] 檢查 是否有其他房價代號使湧到-->
+    <dao name="CHK_BASERATE_FLAG">
+        <statement><![CDATA[
+            select count(*) as chk_num
+            from ratecod_mn
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and baserate_flag = 'DP'
+            and baserate_cod = :rate_cod
+            and use_sta = 'Y'
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+    </dao>
+
+
     <!-- [PMS0610020 商務公司資料編輯] 合約內容 參考房價代號下拉資料  -->
     <dao name="QRY_CONTRACT_DT_RATE_COD">
         <statement><![CDATA[
             SELECT  DISTINCT RATECOD_MN.RATE_COD as value, RATECOD_MN.RATE_COD ||':'|| RATECOD_MN.RATECOD_NAM as display
             FROM  RATESUPPLY_DT, RATECOD_MN
             WHERE  RATECOD_MN.ATHENA_ID = RATESUPPLY_DT.ATHENA_ID
-            AND  RATECOD_MN.KEY = RATESUPPLY_DT.KEY
             AND  to_date(:end_dat, 'YYYY/MM/DD') <= RATESUPPLY_DT.END_DAT
             AND  to_date(:begin_dat, 'YYYY/MM/DD') >= RATESUPPLY_DT.BEGIN_DAT
-            AND  RATECOD_MN.SHOW_STA = 'Y'
             AND  RATECOD_MN.ATHENA_ID = :athena_id
             AND  trim(RATECOD_MN.HOTEL_COD) = trim(:hotel_cod)
         ]]></statement>

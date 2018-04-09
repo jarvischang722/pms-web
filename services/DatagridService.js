@@ -177,7 +177,9 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
                                     fieldData[fIdx].defaultVal = selRow.defaultVal || "";
 
                                     dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
-                                        fieldData[fIdx].selectData = selectData;
+                                        fieldData[fIdx].selectDataDisplay = selectData.selectDataDisplay;
+                                        fieldData[fIdx].selectData =
+                                            selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
                                         callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                     });
 

@@ -190,15 +190,15 @@ var DatagridFieldAdapter = {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.valueField = 'value';
             tmpFieldObj.editor.options.textField = 'display';
-            tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
+            tmpFieldObj.editor.options.data = fieldAttrObj.selectDataDisplay;
             tmpFieldObj.editor.options.editable = false;
             tmpFieldObj.formatter = function (val, row, index) {
                 if (val != null) {
                     var datas = val.split(",");
                     var allValues = "";
                     _.each(datas, function (field) {
-                        if (_.findIndex(fieldAttrObj.selectData, {value: field}) > -1) {
-                            var valueName = _.findWhere(fieldAttrObj.selectData, {value: field}).display;
+                        if (_.findIndex(fieldAttrObj.selectDataDisplay, {value: field}) > -1) {
+                            var valueName = _.findWhere(fieldAttrObj.selectDataDisplay, {value: field}).display;
                             allValues += "," + valueName;
                         }
                     });
