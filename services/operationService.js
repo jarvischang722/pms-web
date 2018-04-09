@@ -34,6 +34,19 @@ exports.fetchDgFieldData = async function (postData, session, callback) {
     }
 };
 
+exports.fetchDgRowData = async function(postData, session, callback){
+    let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
+
+    try{
+        let fetchDgRowsResult = await lo_dgProc.fetchDgRowData();
+        callback(null, fetchDgRowsResult);
+    }
+    catch(err){
+        callback(err, []);
+    }
+
+};
+
 /**
  * 取作業單筆欄位資料
  */

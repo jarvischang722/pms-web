@@ -4,214 +4,11 @@
         <!-- 訂房卡(Bookings) Page-->
         <div class="pageMain">
             <div class="col-xs-12">
-                <div class="search-content">
-                    <div class="search-co">
-                        <div class="row">
-                            <div class="search-co-content col-xs-12 search-S2">
-                                <div class="width-95 searchMain-S2">
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>Full Name</label>
-                                            <input type="text" class="input-medium medium-c1-sc2" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>速查</label>
-                                            <input type="text" class="input-medium medium-c1-sc2" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row search-footer-btn">
-                                    <div class="footer-btn-menu-co">
-                                        <ul>
-                                            <li>
-                                                <div class="" data-rel="tooltip" data-placement="bottom"
-                                                     title="查詢">
-                                                    <div class="icon-reStyle icon-co-14"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="" data-rel="tooltip" data-placement="bottom"
-                                                     title="清除">
-                                                    <div class="icon-reStyle icon-co-11"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="icon-moreSearch show-search-detail">
-                                                    <i class="fa fa-chevron-down"></i>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>  <!-- /.footer-btn-menu-co -->
-                                </div> <!-- /.search-footer-btn -->
-                            </div>
-
-                            <div class="search-co-content col-xs-12 search-S2-con rece-search-detail"
-                                 style="display: none;">
-                                <div class="width-95">
-                                    <!--1-->
-                                    <!--2-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>訂房卡號</label>
-                                            <input type="text" class="input-medium medium-c1-sc2" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>官網/聯訂中心</label>
-                                            <input type="text" class="input-medium medium-c1-sc2" placeholder="">
-                                        </div>
-                                    </div>
-                                    <!--3-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>Ｃ/I日期</label>
-                                            <input type="date" class="input-medium medium-c1-sc2" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>訂房卡狀態</label>
-                                            <input type="text" class="input-medium medium-c1-sc2" placeholder="有效訂房">
-                                        </div>
-                                    </div>
-                                    <!--4-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>Ｃ/O日期</label>
-                                            <input type="date" class="input-medium medium-c1-sc2" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>種類</label>
-                                            <input type="text" class="input-medium medium-c1-sc2" placeholder="全部">
-                                        </div>
-                                    </div>
-                                    <!--5-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>房價代號</label>
-                                            <input type="text" class="input-medium medium-c1-sc2Rm" placeholder="">
-                                            <i class="moreClick fa fa-ellipsis-h"></i>
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>訂房公司</label>
-                                            <input type="text" class="input-medium medium-c1-sc2" placeholder="">
-                                        </div>
-                                    </div>
-                                    <!--6-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>計價房種</label>
-                                            <input type="text" class="input-medium medium-c1-sc2Rm" placeholder="">
-                                            <i class="moreClick fa fa-ellipsis-h"></i>
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>公司名稱</label>
-                                            <input type="text" class="input-medium medium-c1-sc2" placeholder="">
-                                        </div>
-                                    </div>
-                                    <!--7-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>使用房種</label>
-                                            <input type="text" class="input-medium medium-c1-sc2Rm" placeholder="">
-                                            <i class="moreClick fa fa-ellipsis-h"></i>
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>聯絡人</label>
-                                            <input type="text" class="input-medium medium-c1-sc2" placeholder="">
-                                        </div>
-                                    </div>
-                                    <!--8-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>公帳號</label>
-                                            <input type="text" class="input-medium medium-c1-sc2Rm" placeholder="">
-                                            <i class="moreClick fa fa-ellipsis-h"></i>
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>鍵控代號</label>
-                                            <input type="text" class="input-medium medium-c1-sc2Rm" placeholder="">
-                                            <i class="moreClick fa fa-ellipsis-h"></i>
-                                        </div>
-                                    </div>
-                                    <!--9-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>聯絡電話</label>
-                                            <input type="text" class="input-medium medium-c1-sc2" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>團號</label>
-                                            <input type="text" class="input-medium medium-c1-sc2 text-right"
-                                                   placeholder="">
-                                        </div>
-                                    </div>
-                                    <!--10-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>Source</label>
-                                            <input type="text" class="input-medium medium-c1-sc2" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>市場類別</label>
-                                            <input type="text" class="input-medium medium-c1-sc2" placeholder="">
-                                        </div>
-                                    </div>
-                                    <!--11-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>訂房備註</label>
-                                            <input type="text" class="input-medium medium-c1-sc3" placeholder="">
-                                        </div>
-                                    </div>
-                                    <!--12-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>是否確認</label>
-                                            <input type="text" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>保留日期</label>
-                                            <input type="date" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>新增/修改者</label>
-                                            <input type="text" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                    </div>
-                                    <!--13-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>確認者</label>
-                                            <input type="text" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>取消者</label>
-                                            <input type="date" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>新增日期</label>
-                                            <input type="date" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                    </div>
-                                    <!--14-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>確認日期</label>
-                                            <input type="date" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>取消日期</label>
-                                            <input type="date" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>修改日期</label>
-                                            <input type="date" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div> <!-- row-->
-                    </div> <!-- /.search-co -->
-                </div> <!-- /.row  search-content-->
+                <search-comp
+                        :search-fields="searchFields"
+                        :search-cond.sync="searchCond"
+                        :fetch-data="fetchDgRowData"
+                ></search-comp>
             </div>
             <div class="clearfix"></div>
             <div class="col-xs-12">
@@ -303,6 +100,7 @@
                 };
 
                 $.post("/api/fetchDataGridFieldData", lo_params, result => {
+                    console.log(result);
                     if (this.searchFields.length <= 0) {
                         this.searchFields = result.searchFields;
                     }
@@ -321,6 +119,9 @@
                 this.dgIns.loadPageDgData(this.pageOneDataGridRows);
 
                 this.isLoading = false;
+            },
+            fetchDgRowData() {
+
             }
         }
     }

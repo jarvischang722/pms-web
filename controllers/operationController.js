@@ -72,6 +72,16 @@ exports.fetchDgFieldData = function (req, res) {
     });
 };
 
+exports.fetchDgRowData = function(req, res){
+    let lo_chkResult = chkPrgID(req);
+    if(lo_chkResult.success == false){
+        return res.json(lo_chkResult);
+    }
+    operSVC.fetchDgRowData(req.body, req.session, function(err, result){
+
+    })
+}
+
 /**
  * 取單筆欄位資料
  */
