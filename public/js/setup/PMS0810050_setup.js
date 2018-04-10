@@ -40,8 +40,8 @@ var vueMain = new Vue({
             $("#" + this.dgIns.dgName).datagrid("reload").datagrid("resize");
         },
         trafficData: function (newObj) {
-            this.dgInsPickUp.loadDgData(newObj.arrive_rf);
-            this.dgInsDropOff.loadDgData(newObj.leave_rf);
+            this.dgInsPickUp.loadPageDgData(newObj.arrive_rf);
+            this.dgInsDropOff.loadPageDgData(newObj.leave_rf);
         }
     },
     methods: {
@@ -73,9 +73,17 @@ var vueMain = new Vue({
         },
         createDatagrid: function () {
             this.dgInsPickUp = new DatagridBaseClass();
-            this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', this.pickUpFields, _.where(this.prgFieldDataAttr, {"grid_field_name": 'hfd_arrive_rf'}));
+            this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', this.pickUpFields, _.where(this.prgFieldDataAttr, {"grid_field_name": 'hfd_arrive_rf'}), {
+                pagination: true,
+                rownumbers: true,
+                pageSize: 10
+            });
             this.dgInsDropOff = new DatagridBaseClass();
-            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', this.dropOffFields, _.where(this.prgFieldDataAttr, {"grid_field_name": 'hfd_leave_rf'}));
+            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', this.dropOffFields, _.where(this.prgFieldDataAttr, {"grid_field_name": 'hfd_leave_rf'}), {
+                pagination: true,
+                rownumbers: true,
+                pageSize: 10
+            });
             this.dgIns = this.dgInsPickUp;
 
         },
