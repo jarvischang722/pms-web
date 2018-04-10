@@ -1069,7 +1069,8 @@ module.exports = {
         }
 
         function deleteCustIdx(data, cb) {
-            let ln_rpDataCount = 0;
+            let ln_examCustCount = 0;
+            let ln_examGhistCount = 0;
             let la_rpData = [];
 
             if (la_dtDeleteData.length > 0) {
@@ -1081,41 +1082,85 @@ module.exports = {
                 });
 
                 if (la_rpData.length > 0) {
-                    //檢查此相關人員的客戶索引檔是否被使用，沒有則刪除此相關人員的客戶索引檔
-                    _.each(la_rpData, function (lo_rpData) {
-                        queryAgent.query("CHK_RELATED_PERSON_IS_USED", {
-                            athena_id: session.user.athena_id,
-                            per_cust_cod: lo_rpData.per_cust_cod,
-                            cust_cod: lo_mnSaveData.cust_cod
-                        }, function (err, getResult) {
-                            ln_rpDataCount++;
-                            if (err) {
-                                lo_result.success = false;
-                                lo_error = new ErrorClass();
-                                lo_error.errorMsg = "sql err";
-                                return cb(lo_error, lo_result);
-                            }
-                            else {
-                                if (getResult.related_person_count <= 0) {
-                                    lo_result.extendExecDataArrSet.push({
-                                        function: '0',
-                                        table_name: 'cust_idx',
-                                        condition: [{
-                                            key: 'athena_id',
-                                            operation: "=",
-                                            value: userInfo.athena_id
-                                        }, {
-                                            key: 'cust_cod',
-                                            operation: "=",
-                                            value: lo_rpData.per_cust_cod
-                                        }]
-                                    });
-                                    if (ln_rpDataCount == la_rpData.length) {
-                                        cb(lo_error, lo_result);
+                    async.waterfall([
+                        //檢查此相關人員的客戶索引檔是否被使用
+                        function (rp_cb) {
+                            _.each(la_rpData, function (lo_rpData) {
+                                queryAgent.query("CHK_RELATED_PERSON_IS_USED", {
+                                    athena_id: session.user.athena_id,
+                                    per_cust_cod: lo_rpData.per_cust_cod,
+                                    cust_cod: lo_mnSaveData.cust_cod
+                                }, function (err, getResult) {
+                                    ln_examGhistCount++;
+                                    if (err) {
+                                        lo_result.success = false;
+                                        lo_error = new ErrorClass();
+                                        lo_error.errorMsg = "sql err";
+                                        return rp_cb(lo_error, lo_result);
                                     }
-                                }
-                            }
-                        });
+                                    else {
+                                        if (getResult.related_person_count <= 0) {
+                                            if (ln_examGhistCount == la_rpData.length) {
+                                                rp_cb(lo_error, lo_result);
+                                            }
+                                        }
+                                        else {
+                                            lo_result.success = false;
+                                            lo_error = new ErrorClass();
+                                            let ls_errMsg = commandRules.getMsgByCod("pms61msg11", session.locale);
+                                            lo_error.errorMsg = _s.sprintf(ls_errMsg, lo_rpData.per_cust_cod);
+                                            return rp_cb(lo_error, lo_result);
+                                        }
+                                    }
+                                });
+                            });
+                        },
+                        //檢查此相關人員是否被住客歷史使用，沒有則刪除此相關人員的客戶索引檔
+                        function (rpData, rp_cb) {
+                            _.each(la_rpData, function (lo_rpData) {
+                                queryAgent.query("CHK_RELATED_PERSON_IN_GHIST_MN", {
+                                    athena_id: session.user.athena_id,
+                                    per_cust_cod: lo_rpData.per_cust_cod
+                                }, function (err, getResult) {
+                                    ln_examCustCount++;
+                                    if (err) {
+                                        lo_result.success = false;
+                                        lo_error = new ErrorClass();
+                                        lo_error.errorMsg = "sql err";
+                                        return rp_cb(lo_error, lo_result);
+                                    }
+                                    else {
+                                        if (getResult.related_person_count <= 0) {
+                                            lo_result.extendExecDataArrSet.push({
+                                                function: '0',
+                                                table_name: 'cust_idx',
+                                                condition: [{
+                                                    key: 'athena_id',
+                                                    operation: "=",
+                                                    value: userInfo.athena_id
+                                                }, {
+                                                    key: 'cust_cod',
+                                                    operation: "=",
+                                                    value: lo_rpData.per_cust_cod
+                                                }]
+                                            });
+                                            if (ln_examCustCount == la_rpData.length) {
+                                                rp_cb(lo_error, lo_result);
+                                            }
+                                        }
+                                        else {
+                                            lo_result.success = false;
+                                            lo_error = new ErrorClass();
+                                            let ls_errMsg = commandRules.getMsgByCod("pms61msg12", session.locale);
+                                            lo_error.errorMsg = _s.sprintf(ls_errMsg, lo_rpData.per_cust_cod);
+                                            return rp_cb(lo_error, lo_result);
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    ], function (reErr, rpResult) {
+                        cb(lo_error, lo_result);
                     });
                 }
                 else {
