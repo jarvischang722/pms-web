@@ -142,7 +142,8 @@
       "delete_success": "Delete Success",
       "start_placeholder": "開始日期(英文)",
       "end_placeholder": "结束日期(英文)",
-      "selectDate": "請選擇日期(英文)"
+      "selectDate": "請選擇日期(英文)",
+      "begBiggerEnd": "開始日要小於結束日(英)"
     },
     "PMS0820030": {
       "load_default_color": "Load default color",
