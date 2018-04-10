@@ -263,4 +263,17 @@
         <parameter type="string" kind="3">rent_cal_dat</parameter>
     </dao>
 
+    <!-- [PMS0110040 訂房卡多筆] 房型選單 -->
+    <dao name="SEL_RVRMCOD_RF">
+        <statement><![CDATA[
+            select distinct a.room_cod, a.room_sna,b.view_seq from rvrmcod_rf a
+            join room_cod_order b on a.athena_id =b.athena_id and a.hotel_cod = b.hotel_cod and a.room_cod = b.room_cod
+            where a.athena_id = :athena_id and a.hotel_cod = :hotel_cod and a.end_dat >= to_date(:rent_cal_dat, 'YYYY/MM/DD') order by b.view_seq, a.room_cod
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rent_cal_dat</parameter>
+    </dao>
+
 </root>

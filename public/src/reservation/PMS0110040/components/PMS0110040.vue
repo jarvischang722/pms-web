@@ -103,6 +103,7 @@
                     if (this.searchFields.length <= 0) {
                         this.searchFields = result.searchFields;
                     }
+                    console.log(this.searchFields);
                     this.pageOneFieldData = result.dgFieldsData;
                     this.pageOneDataGridRows = result.dgRowData;
                     this.showDataGrid();
