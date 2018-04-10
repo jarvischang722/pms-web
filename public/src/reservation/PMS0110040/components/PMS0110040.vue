@@ -78,7 +78,7 @@
         },
         mounted() {
             this.fetchUserInfo();
-            this.loadDataGridByPrgID();
+            this.fetchDgFieldsRowData();
         },
         methods: {
             fetchUserInfo() {
@@ -90,7 +90,7 @@
                     }
                 });
             },
-            loadDataGridByPrgID() {
+            fetchDgFieldsRowData() {
                 let lo_searchCond = _.clone(this.searchCond);
 
                 let lo_params = {
@@ -100,7 +100,6 @@
                 };
 
                 $.post("/api/fetchDataGridFieldData", lo_params, result => {
-                    console.log(result);
                     if (this.searchFields.length <= 0) {
                         this.searchFields = result.searchFields;
                     }
@@ -121,7 +120,9 @@
                 this.isLoading = false;
             },
             fetchDgRowData() {
-
+                $.post("/api/fetchDgRowData", lo_params, result => {
+                    this.pageOneDataGridRows = result.dgRowData;
+                });
             }
         }
     }

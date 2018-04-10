@@ -32,4 +32,15 @@
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
     </dao>
+
+    <!--[PMS0110040 訂房卡多筆] 訂房來源選單-->
+    <dao name="SEL_SOURCE_RF">
+        <statement><![CDATA[
+            select source_typ, source_nam
+            from source_rf
+            where athena_id = :athena_id and source_typ = :source_typ
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">source_typ</parameter>
+    </dao>
 </root>

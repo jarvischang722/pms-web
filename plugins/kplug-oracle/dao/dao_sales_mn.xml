@@ -41,7 +41,7 @@
         <statement test="_v(param.bq_sales)"><![CDATA[and bq_sales in(:bq_sales)]]></statement>
         <parameter type="instring" kind="3">member_sales</parameter>
         <statement test="_v(param.member_sales)"><![CDATA[and member_sales in(:member_sales)]]></statement>
-        <orderby>ORDER  BY  DECODE( STATUS_COD, 'N', 1, 2 ), SALES_COD</orderby>
+        <orderby>ORDER BY DECODE( STATUS_COD, 'N', 1, 2 ), SALES_COD</orderby>
     </dao>
 
     <!--[PMS0620020] 取得業務員sales_mn(user_nos空白)-->
@@ -113,5 +113,17 @@
         select sales_cod, sales_nam from sales_mn where athena_id = :athena_id
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+    <!-- [PMS0110040訂房卡多筆] 業務系統下拉選單-sales_mn_1 -->
+    <dao name="SEL_SALES_MN_1">
+        <statement><![CDATA[
+            SELECT  SALES_MN.SALES_COD value, SALES_MN.SALES_NAM display,
+            FROM  SALES_MN
+            WHERE  SALES_MN.ATHENA_ID = :athena_id
+            AND  SALES_MN.SALES_COD = :sales_cod
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">sales_cod</parameter>
     </dao>
 </root>
