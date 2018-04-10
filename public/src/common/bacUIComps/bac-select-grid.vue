@@ -90,7 +90,9 @@
                     textField: this.textField,
                     columns: [this.columns],
                     editable: this.editable == "Y" ? true : false,
-                    data: this.data,
+                    data: {total: this.data.length, rows: this.data},
+                    pagination: true,
+                    scrollbarSize: 50,
                     onChange: function (newValue) {
                         self.$emit('update:v-model', newValue)
                         setTimeout(function () {
@@ -99,7 +101,54 @@
                             }
                         }, 200);
 
+                    },
+                    onBeforeSortColumn: function (sort, order) {
+                        $(self.$el).datagrid("loadData", self.data);
+                    },
+                    rownumbers: true,
+                    keyHandler: {
+                        query: function (q, e) {
+                            var loadDepts = [];
+                            var value = q.toString().toUpperCase();
+                            if(value.length == 0){
+                                $(self.$el).combogrid('grid').datagrid('loadData', self.data);
+                            }
+                            if (value.length < 2) {
+                                return;
+                            }
+                            // var reg = /[\u4e00-\u9fa5]+/g;
+                            // if (reg.test(value)) {
+                            //     return;
+                            // }
+                            for (var i = 0; i < self.textField.length; i++) {
+                                if (self.data[i][self.textField].indexOf(value) > -1 || self.data[i][self.textField].indexOf(value) > -1) {
+                                    loadDepts.push(self.data[i]);
+                                }
+                            }
+                            $(self.$el).combogrid('grid').datagrid('loadData', loadDepts);
+                            $(self.$el).combogrid("setText", q);
+                        }
                     }
+                });
+                $(this.$el).combogrid("grid").datagrid('enableFilter');
+                let lo_tempDatas = [];
+                let pageSize = 20;
+                let ln_count = this.data.length < pageSize ? this.data.length : pageSize;
+                for (let i = 0; i < ln_count; i++) {
+                    lo_tempDatas.push(self.data[i]);
+                }
+
+                $(this.$el).combogrid("grid").datagrid("loadData", lo_tempDatas);
+                let pager = $(self.$el).combogrid("grid").datagrid('getPager');
+                pager.pagination({
+                    total: self.data.length,
+                    onSelectPage: self.setPage,
+                    pageNumber: 1,
+                    pageList: [10, 20, 50],
+                    showPageList: true,
+                    beforePageText: go_i18nLang.SystemCommon.dataGridBeforePageText,
+                    afterPageText: go_i18nLang.SystemCommon.dataGridAfterPageText,
+                    displayMsg: go_i18nLang.SystemCommon.dataGridDisplayMsg
                 });
 
                 //塞入預設值
@@ -114,6 +163,20 @@
                     }
                 });
             },
+            setPage: function (pageNo, pageSize) {
+                console.log(pageNo);
+                console.log(pageSize);
+                $(this.$el).combogrid("grid").datagrid('options').pageSize = pageSize;
+                let pager = $(this.$el).combogrid("grid").datagrid("getPager");
+                let start = (pageNo - 1) * pageSize;
+                let end = start + pageSize;
+                $(this.$el).combogrid("grid").datagrid("loadData", this.data.slice(start, end));
+                pager.pagination('refresh', {
+                    total: this.data.length,
+                    pageNumber: pageNo
+                });
+            },
+
             searchRemoteSrc: function (keyword) {
                 var ls_keyword = keyword || '';
                 var self = this;
@@ -152,7 +215,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>
