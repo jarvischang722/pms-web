@@ -82,7 +82,13 @@
         methods: {
             initComboGrid: function () {
                 let self = this;
-                $(this.$el).combogrid({
+                let lo_options = {};
+                if (this.data.length > 20) {
+                    lo_options.pagination = true;
+                    lo_options.rownumbers = true;
+                    lo_options.data = {total: this.data.length, rows: this.data.slice(0, 20)};
+                }
+                $(this.$el).combogrid(_.extend({
                     panelWidth: self.getPanelWidth(),
                     multiple: this.multiple,
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
@@ -91,10 +97,9 @@
                     columns: [this.columns],
                     editable: this.editable == "Y" ? true : false,
                     data: {total: this.data.length, rows: this.data},
-                    pagination: true,
-                    scrollbarSize: 50,
+                    scrollbarSize: 100,
                     onChange: function (newValue) {
-                        self.$emit('update:v-model', newValue)
+                        self.$emit('update:v-model', newValue);
                         setTimeout(function () {
                             if (self.$listeners.change != undefined) {
                                 self.$listeners.change();
@@ -103,42 +108,24 @@
 
                     },
                     onBeforeSortColumn: function (sort, order) {
-                        $(self.$el).datagrid("loadData", self.data);
+                        $(self.$el).combogrid('grid').datagrid("loadData", self.data);
                     },
-                    rownumbers: true,
                     keyHandler: {
-                        query: function (q, e) {
-                            var loadDepts = [];
-                            var value = q.toString().toUpperCase();
-                            if(value.length == 0){
-                                $(self.$el).combogrid('grid').datagrid('loadData', self.data);
+                        query: function (ls_qStr) {
+
+                            if (ls_qStr.length == 0) {
+                                $(self.$el).combogrid('grid').datagrid('loadData', self.data.slice(0, 10));
                             }
-                            if (value.length < 2) {
-                                return;
-                            }
-                            // var reg = /[\u4e00-\u9fa5]+/g;
-                            // if (reg.test(value)) {
-                            //     return;
-                            // }
-                            for (var i = 0; i < self.textField.length; i++) {
-                                if (self.data[i][self.textField].indexOf(value) > -1 || self.data[i][self.textField].indexOf(value) > -1) {
-                                    loadDepts.push(self.data[i]);
-                                }
-                            }
-                            $(self.$el).combogrid('grid').datagrid('loadData', loadDepts);
-                            $(self.$el).combogrid("setText", q);
+
+                            let la_filteredDatas = self.data.filter((item) => {
+                                return Object.values(item).join(" ").indexOf(ls_qStr.trim()) > -1;
+                            });
+                            $(self.$el).combogrid('grid').datagrid('loadData', la_filteredDatas);
+                            $(self.$el).combogrid("setText", ls_qStr);
                         }
                     }
-                });
-                $(this.$el).combogrid("grid").datagrid('enableFilter');
-                let lo_tempDatas = [];
-                let pageSize = 20;
-                let ln_count = this.data.length < pageSize ? this.data.length : pageSize;
-                for (let i = 0; i < ln_count; i++) {
-                    lo_tempDatas.push(self.data[i]);
-                }
+                }, lo_options));
 
-                $(this.$el).combogrid("grid").datagrid("loadData", lo_tempDatas);
                 let pager = $(self.$el).combogrid("grid").datagrid('getPager');
                 pager.pagination({
                     total: self.data.length,
@@ -158,33 +145,32 @@
 
                 //Remote search
                 $(this.$el).combogrid('textbox').bind('keyup', function (e) {
-                    if (self.isQrySrcBefore) {
+                    if (self.isQrySrcBefore == "N") {
                         self.searchRemoteSrc($(this).val());
                     }
                 });
             },
             setPage: function (pageNo, pageSize) {
-                console.log(pageNo);
-                console.log(pageSize);
                 $(this.$el).combogrid("grid").datagrid('options').pageSize = pageSize;
-                let pager = $(this.$el).combogrid("grid").datagrid("getPager");
-                let start = (pageNo - 1) * pageSize;
-                let end = start + pageSize;
-                $(this.$el).combogrid("grid").datagrid("loadData", this.data.slice(start, end));
-                pager.pagination('refresh', {
+                let lo_pager = $(this.$el).combogrid("grid").datagrid("getPager");
+                let ln_start = (pageNo - 1) * pageSize;
+                let ln_end = ln_start + pageSize;
+                $(this.$el).combogrid("grid").datagrid("loadData", this.data.slice(ln_start, ln_end));
+                lo_pager.pagination('refresh', {
                     total: this.data.length,
                     pageNumber: pageNo
                 });
             },
-
             searchRemoteSrc: function (keyword) {
+                console.log(keyword);
                 var ls_keyword = keyword || '';
                 var self = this;
                 if (ls_keyword == "") {
                     return false;
                 }
                 $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
-                    $(self.$el).combogrid("loadData", items);
+                    $(self.$el).combogrid("grid").datagrid("loadData", items);
+                    $(self.$el).combogrid("setText", ls_keyword);
                 })
 
             },
