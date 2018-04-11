@@ -512,6 +512,11 @@
                 //cust_nam的內容帶入cust_idx_alt_nam
                 this.singleData.cust_idx_alt_nam = this.singleData.cust_nam;
 
+                //如果單筆資料是undefined或null轉換成''
+                _.each(this.singleData, (val, key) => {
+                    this.singleData[key] = _.isUndefined(val) || _.isNull(val) ? "" : val;
+                });
+
                 var lo_singleData = JSON.parse(JSON.stringify(this.singleData));
                 var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
 
