@@ -82,7 +82,13 @@
         methods: {
             initComboGrid: function () {
                 let self = this;
-                $(this.$el).combogrid({
+                let lo_options = {};
+                if (this.data.length > 20) {
+                    lo_options.pagination = true;
+                    lo_options.rownumbers = true;
+                    lo_options.data = {total: this.data.length, rows: this.data.slice(0, 20)};
+                }
+                $(this.$el).combogrid(_.extend({
                     panelWidth: self.getPanelWidth(),
                     multiple: this.multiple,
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
@@ -90,16 +96,46 @@
                     textField: this.textField,
                     columns: [this.columns],
                     editable: this.editable == "Y" ? true : false,
-                    data: this.data,
+                    data: {total: this.data.length, rows: this.data},
+                    scrollbarSize: 100,
                     onChange: function (newValue) {
-                        self.$emit('update:v-model', newValue)
+                        self.$emit('update:v-model', newValue);
                         setTimeout(function () {
                             if (self.$listeners.change != undefined) {
                                 self.$listeners.change();
                             }
                         }, 200);
 
+                    },
+                    onBeforeSortColumn: function (sort, order) {
+                        $(self.$el).combogrid('grid').datagrid("loadData", self.data);
+                    },
+                    keyHandler: {
+                        query: function (ls_qStr) {
+
+                            if (ls_qStr.length == 0) {
+                                $(self.$el).combogrid('grid').datagrid('loadData', self.data.slice(0, 10));
+                            }
+
+                            let la_filteredDatas = self.data.filter((item) => {
+                                return Object.values(item).join(" ").indexOf(ls_qStr.trim()) > -1;
+                            });
+                            $(self.$el).combogrid('grid').datagrid('loadData', la_filteredDatas);
+                            $(self.$el).combogrid("setText", ls_qStr);
+                        }
                     }
+                }, lo_options));
+
+                let pager = $(self.$el).combogrid("grid").datagrid('getPager');
+                pager.pagination({
+                    total: self.data.length,
+                    onSelectPage: self.setPage,
+                    pageNumber: 1,
+                    pageList: [10, 20, 50],
+                    showPageList: true,
+                    beforePageText: go_i18nLang.SystemCommon.dataGridBeforePageText,
+                    afterPageText: go_i18nLang.SystemCommon.dataGridAfterPageText,
+                    displayMsg: go_i18nLang.SystemCommon.dataGridDisplayMsg
                 });
 
                 //塞入預設值
@@ -109,19 +145,32 @@
 
                 //Remote search
                 $(this.$el).combogrid('textbox').bind('keyup', function (e) {
-                    if (self.isQrySrcBefore) {
+                    if (self.isQrySrcBefore == "N") {
                         self.searchRemoteSrc($(this).val());
                     }
                 });
             },
+            setPage: function (pageNo, pageSize) {
+                $(this.$el).combogrid("grid").datagrid('options').pageSize = pageSize;
+                let lo_pager = $(this.$el).combogrid("grid").datagrid("getPager");
+                let ln_start = (pageNo - 1) * pageSize;
+                let ln_end = ln_start + pageSize;
+                $(this.$el).combogrid("grid").datagrid("loadData", this.data.slice(ln_start, ln_end));
+                lo_pager.pagination('refresh', {
+                    total: this.data.length,
+                    pageNumber: pageNo
+                });
+            },
             searchRemoteSrc: function (keyword) {
+                console.log(keyword);
                 var ls_keyword = keyword || '';
                 var self = this;
                 if (ls_keyword == "") {
                     return false;
                 }
                 $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
-                    $(self.$el).combogrid("loadData", items);
+                    $(self.$el).combogrid("grid").datagrid("loadData", items);
+                    $(self.$el).combogrid("setText", ls_keyword);
                 })
 
             },
@@ -152,7 +201,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>
