@@ -37,7 +37,7 @@
     <!-- [PMS0110040訂房卡多筆] 公帳號選單 -->
     <dao name="SEL_MASTER_RF">
         <statement><![CDATA[
-            select master_nos, cust_nam, master_sta
+            select master_nos value, cust_nam display, master_sta
             from master_rf where  athena_id = :athena_id and hotel_cod = :hotel_cod order by master_nos
         ]]>
         </statement>

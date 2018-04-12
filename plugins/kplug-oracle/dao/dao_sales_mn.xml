@@ -118,7 +118,7 @@
     <!-- [PMS0110040訂房卡多筆] 業務系統下拉選單-sales_mn_1 -->
     <dao name="SEL_SALES_MN_1">
         <statement><![CDATA[
-            SELECT  SALES_MN.SALES_COD value, SALES_MN.SALES_NAM display,
+            SELECT  SALES_MN.SALES_COD value, SALES_MN.SALES_NAM display
             FROM  SALES_MN
             WHERE  SALES_MN.ATHENA_ID = :athena_id
             AND  SALES_MN.SALES_COD = :sales_cod

@@ -1276,7 +1276,7 @@ exports.qryLangOrderDtOrderSta = function () {
 };
 
 /**
- * [PMS0110040訂房卡多筆] 搜尋狀態下拉
+ * [PMS0110040訂房卡多筆] 搜尋種類下拉
  */
 exports.qryGuestRfGuestWay = function () {
     let lo_optionList = [
@@ -1291,6 +1291,24 @@ exports.qryGuestRfGuestWay = function () {
         {
             display: "商務",
             value: "C"
+        }
+    ];
+    return lo_optionList;
+};
+
+exports.qryLangMasterRfMasterSta = function () {
+    let lo_optionList = [
+        {
+            display: "使用中",
+            value: "Y"
+        },
+        {
+            display: "未使用",
+            value: "N"
+        },
+        {
+            display: "暫停使用",
+            value: "P"
         }
     ];
     return lo_optionList;
@@ -1970,9 +1988,20 @@ exports.langOrderdtOrdersta = function (params, callback) {
     callback(null, lo_result);
 };
 
+/**
+ * [PMS0110040訂房卡多筆] 搜尋種類下拉
+ * @param params
+ * @param callback
+ */
 exports.langGuestrfGuestway = function (params, callback) {
     let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.qryGuestRfGuestWay();
+    callback(null, lo_result);
+};
+
+exports.langMasterrfMastersta = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.qryLangMasterRfMasterSta();
     callback(null, lo_result);
 };
 //endregion

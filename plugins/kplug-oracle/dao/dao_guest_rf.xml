@@ -71,7 +71,7 @@
     <!-- [PMS0110040 訂房卡多筆] 市場類別選單(過濾use_sta = Y) -->
     <dao name="SEL_GUEST_RF_Y">
         <statement><![CDATA[
-              select  guest_typ, guest_sna, guest_nam, use_sta from guest_rf
+              select  guest_typ, guest_sna display, guest_nam value, use_sta from guest_rf
               where athena_id = :athena_id order by guest_typ
         ]]>
         </statement>
