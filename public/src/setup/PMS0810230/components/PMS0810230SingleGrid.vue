@@ -593,12 +593,12 @@
                 this.tabName = tabNameData.tabName;
             });
             this.$eventHub.$on("setMultiLangSingleData", (data) => {
+                this.singleData = _.extend(this.singleData, {multilang: data.multilang});
                 let ls_noeLocale = getCookie('locale');
                 let la_edit = _.where(this.singleData.multilang, {locale: ls_noeLocale});
                 _.each(la_edit, (lo_edit) => {
                     this.singleData[lo_edit.field] = lo_edit.val;
                 });
-                this.singleData = _.extend(this.singleData, {multilang: data.multilang});
             });
         },
         mounted() {
@@ -946,7 +946,7 @@
                                 this.isLoadingDialog = false;
                             }, 200);
                             if (result.success) {
-                                alert("save success");
+                                alert(go_i18nLang.program.PMS0810230.save_success);
                                 $("#PMS0810230SingleGrid").dialog('close');
                             }
                             else {
