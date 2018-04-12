@@ -1,8 +1,10 @@
 .page-header
   padding-bottom: 0
   margin: 0 0 4px
+
 h3
   font-family: $font-family
+
 .modal-body
   text-align: center
   margin: 20px auto
@@ -18,6 +20,7 @@ h3
 //  border-color: #438EB9
 .btn-height
   padding: 3px 9px
+
 .btn-defaultWidth
   //height: 100%
   width: 100%
@@ -25,16 +28,29 @@ h3
   font-size: $font-btn
   padding-left: 0
   padding-right: 0
-  white-space: normal //文字斷行
+  white-space: normal
+  //文字斷行
   &.segement
     margin-bottom: 10px
 
+.btn-table-wt
+  padding: 3px 9px
+  font-size: $font-btn
+  width: 70%
+  padding-left: 0
+  padding-right: 0
+  white-space: normal
+  //文字斷行
+  margin: 1px
+  &.no-border
+    border: 0
+  &.segement
+    margin-bottom: 10px
 
 .intCountLi-height
   ul
     li
       padding: 5px 0
-
 
 select.form-control
   padding: 4px 2px
@@ -54,7 +70,7 @@ select.form-control
   font-weight: bold
 
 // hsuan bug edit
-.form-widget-label,.form-widget-selectEdit
+.form-widget-label, .form-widget-selectEdit
   select
     padding: 0
     height: auto
@@ -62,13 +78,11 @@ select.form-control
 .input-sm
   height: 24px
 
-
-
 /*-- sidebar --/
 .nav-list
   position: relative
   border-right: 1px solid #438EB9
-  &> li
+  & > li
     &:before
       height: 100%
       min-height: 41px
@@ -95,30 +109,34 @@ select.form-control
         height: auto
         max-height: 100%
         overflow-y: visible
+
 .no-skin .sidebar-toggle
   position: absolute
   top: 10px
   right: 0
-  border: #F79263 //#438EB9
+  border: #F79263
+  //#438EB9
   background: #F79263
-  &> .ace-icon
+  & > .ace-icon
     background: #F79263
     color: #fff
     border: none
     border-radius: 0
-  //padding: 7px 10px
-  //font-size: 22px
+//padding: 7px 10px
+//font-size: 22px
 //top: 18px
 .no-skin .nav-list > li.active:after
   border: none
+
 .no-skin .nav-list li.active > a:after
   border-right-color: transparent
 
 // 170306 to-do
 .page-content
   padding: 8px 0 8px
+
 .pageMain
-  //margin-left: -2
+//margin-left: -2
 
 
 .ace-nav > li
@@ -157,6 +175,7 @@ select.form-control
 // label 文字大小
 label
   font-size: $font-default !important
+
 .container_12 .grid_12
   width: 100% !important
   max-width: 100%

@@ -7,7 +7,6 @@
 <%- include ../common/jsFile/importFiles_JsBase %>
 
 
-
 <body class="no-skin" id="app">
 
 <!-- #section:basics/navbar.layout -->
@@ -41,9 +40,9 @@
 <!-- /section:basics/navbar.layout -->
 <div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
 
-        <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
+    <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
 
-            <%- include('../common/moduleMenu',{current_subsys_id:'',pro_id:''}) %>
+        <%- include('../common/moduleMenu',{current_subsys_id:'',pro_id:''}) %>
         <div class="companyInfo">
             <img src="/images/athena_log.png"/>
         </div>
@@ -56,124 +55,128 @@
         <div class="main-content-inner">
             <%- include('../common/subsysMenu',{current_subsys_id:'',pro_id:''}) %>
             <div class="page-content">
-            <div class="controlReservation">
-                <div class="page-header">
-                </div><!-- /.page-header -->
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12">
-                        <div class="authorityTree">
-                            <div class="col-xs-12">
-                                <div class="row">
-                                    <div class="author-navbar">
-                                        <p class="topTitle float-left">新增人員權限</p>
-                                        <div class="float-right author-nav-btn">
+                <div class="controlReservation">
+                    <div class="page-header">
+                    </div><!-- /.page-header -->
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="authorityTree">
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div class="author-navbar">
+                                            <p class="topTitle float-left">新增人員權限</p>
+                                            <div class="float-right author-nav-btn">
 
-                                            <div class="btn-group">
-                                                <button class="btn btn-primary btn-white btn-sm">
-                                                    <i class="fa fa-pencil"></i> 修改
-                                                </button>
-                                                <button class="btn btn-danger btn-sm delete">
-                                                    <i class="fa fa-minus"></i> 刪除
-                                                </button>
-                                                <button class="btn btn-success btn-white btn-sm">
-                                                    <i class="fa fa-plus"></i> 新增
-                                                </button>
-                                            </div>
-                                            <div class="btn-group">
-                                                <button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle btn-sm">
-                                                    選擇權限
-                                                    <i class="ace-icon fa fa-angle-down icon-on-right"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-right">
-                                                    <li>
-                                                        <a href="authorityRole">角色權限</a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="authorityFeature">功能權限</a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="authorityStaff">人員權限</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12">
-                                <div class="row">
-                                    <div class="easyui-panel tree-body">
-                                        <ul id="tt" class="easyui-tree" data-options="url:'/jsonData/authorStaff_dataRadio.json',method:'get',animate:true,lines:true"></ul>
-                                    </div>
-
-                                    <div class="col-xs-6">
-                                        <div class="row no-margin-right">
-                                            <!--跳頁-->
-                                            <a href="/manageSetting">
-                                            <p class="topTitle">角色權限</p>
-                                            </a>
-                                            <div class="easyui-panel tree-body">
-                                                    <ul id="tt" class="easyui-tree" data-options="url:'/jsonData/authorRole_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-primary btn-white btn-sm">
+                                                        <i class="fa fa-pencil"></i> 修改
+                                                    </button>
+                                                    <button class="btn btn-danger btn-sm delete">
+                                                        <i class="fa fa-minus"></i> 刪除
+                                                    </button>
+                                                    <button class="btn btn-success btn-white btn-sm">
+                                                        <i class="fa fa-plus"></i> 新增
+                                                    </button>
                                                 </div>
-                                        </div>
-                                     </div>
-                                    <div class="col-xs-6">
-                                        <div class="row">
-                                            <p class="topTitle">功能權限</p>
-                                            <div class="easyui-panel tree-body" style="width: 100%;">
-                                                <ul id="tt" class="easyui-tree" data-options="url:'/jsonData/authorFeature_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="space-6"></div>
-                            <div class="col-xs-12">
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <div class="row no-margin-right">
-                                            <p class="topTitle">
-                                                <i class="fa fa-plus green smaller-90"></i>
-                                                新增功能
-                                            </p>
-                                            <div class="authorWall">
-                                                <p>依房型訂房</p>
-                                                <p>團體清單</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <div class="row">
-                                            <p class="topTitle">
-                                                <i class="fa fa-minus red smaller-90"></i>
-                                                排除功能
-                                            </p>
-                                            <div class="authorWall">
-                                                <p>綜合櫃檯</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="space-12"></div>
-                            <div class="col-xs-12">
-                                <div class="row center">
-                                    <button class="btn btn-primary btn-sm">
-                                        儲存
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- button -->
-                        </div> <!-- authorityTree -->
-                    </div>
-                </div>
+                                                <div class="btn-group">
+                                                    <button data-toggle="dropdown"
+                                                            class="btn btn-primary btn-white dropdown-toggle btn-sm">
+                                                        選擇權限
+                                                        <i class="ace-icon fa fa-angle-down icon-on-right"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-right">
+                                                        <li>
+                                                            <a href="authorityRole">角色權限</a>
+                                                        </li>
 
-            </div><!-- /.roomNumPlanPage -->
+                                                        <li>
+                                                            <a href="authorityFeature">功能權限</a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a href="authorityStaff">人員權限</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div class="easyui-panel tree-body">
+                                            <ul id="tt" class="easyui-tree"
+                                                data-options="url:'/jsonData/authorStaff_dataRadio.json',method:'get',animate:true,lines:true"></ul>
+                                        </div>
+
+                                        <div class="col-xs-6">
+                                            <div class="row no-margin-right">
+                                                <!--跳頁-->
+                                                <a href="/manageSetting">
+                                                    <p class="topTitle">角色權限</p>
+                                                </a>
+                                                <div class="easyui-panel tree-body">
+                                                    <ul id="tt" class="easyui-tree"
+                                                        data-options="url:'/jsonData/authorRole_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <p class="topTitle">功能權限</p>
+                                                <div class="easyui-panel tree-body" style="width: 100%;">
+                                                    <ul id="tt" class="easyui-tree"
+                                                        data-options="url:'/jsonData/authorFeature_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="space-6"></div>
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="row no-margin-right">
+                                                <p class="topTitle">
+                                                    <i class="fa fa-plus green smaller-90"></i>
+                                                    新增功能
+                                                </p>
+                                                <div class="authorWall">
+                                                    <p>依房型訂房</p>
+                                                    <p>團體清單</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <p class="topTitle">
+                                                    <i class="fa fa-minus red smaller-90"></i>
+                                                    排除功能
+                                                </p>
+                                                <div class="authorWall">
+                                                    <p>綜合櫃檯</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="space-12"></div>
+                                <div class="col-xs-12">
+                                    <div class="row center">
+                                        <button class="btn btn-primary btn-sm">
+                                            儲存
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- button -->
+                            </div> <!-- authorityTree -->
+                        </div>
+                    </div>
+
+                </div><!-- /.roomNumPlanPage -->
             </div>
         </div>
     </div><!-- /.main-content -->
@@ -190,11 +193,11 @@
 </body>
 
 <script type="text/javascript">
-//   treeView checkbox js
-    function getChecked(){
+    //   treeView checkbox js
+    function getChecked() {
         var nodes = $('#tt').tree('getChecked');
         var s = '';
-        for(var i=0; i<nodes.length; i++){
+        for (var i = 0; i < nodes.length; i++) {
             if (s != '') s += ',';
             s += nodes[i].text;
         }

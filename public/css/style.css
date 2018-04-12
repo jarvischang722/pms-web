@@ -32,10 +32,10 @@
 .grid-item label.label_w80 {
   width: 80px;
 }
-.grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option, .grid-item .input-medium, .grid-item input, .grid-item textarea {
+.grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option, .grid-item .input-medium, .grid-item input, .grid-item textarea, .grid-item .css_table {
   font-size: 13px !important;
 }
-.grid-item span.font-xxs, .grid-item p.font-xxs, .grid-item div.font-xxs, .grid-item select.font-xxs, .grid-item option.font-xxs, .grid-item .input-medium.font-xxs, .grid-item input.font-xxs, .grid-item textarea.font-xxs {
+.grid-item span.font-xxs, .grid-item p.font-xxs, .grid-item div.font-xxs, .grid-item select.font-xxs, .grid-item option.font-xxs, .grid-item .input-medium.font-xxs, .grid-item input.font-xxs, .grid-item textarea.font-xxs, .grid-item .css_table.font-xxs {
   font-size: 12px !important;
 }
 .grid-item span.subtxt {
@@ -449,6 +449,22 @@ h3 {
   white-space: normal;
 }
 .btn-defaultWidth.segement {
+  margin-bottom: 10px;
+}
+
+.btn-table-wt {
+  padding: 3px 9px;
+  font-size: 12px;
+  width: 70%;
+  padding-left: 0;
+  padding-right: 0;
+  white-space: normal;
+  margin: 1px;
+}
+.btn-table-wt.no-border {
+  border: 0;
+}
+.btn-table-wt.segement {
   margin-bottom: 10px;
 }
 
@@ -2986,13 +3002,13 @@ ul.newVisitOther-btn {
 .rulesOfSeparation .counterRow .counterBlock.cb-oc-od {
   background: #ffd45a;
 }
-.rulesOfSeparation .counterRow .counterBlock.cb-purple {
+.rulesOfSeparation .counterRow .counterBlock.cb-ob {
   background: #ae8dc3;
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-doc-dod {
   background: #7cbd64;
 }
-.rulesOfSeparation .counterRow .counterBlock.cb-pink {
+.rulesOfSeparation .counterRow .counterBlock.cb-dod {
   background: #ffddb3;
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-vc-vd {
@@ -3019,7 +3035,7 @@ ul.newVisitOther-btn {
 .rulesOfSeparation .counterRow .counterBlock.cb-sexyGreen {
   background: #556b2f;
 }
-.rulesOfSeparation .counterRow .counterBlock.cb-sexyRed {
+.rulesOfSeparation .counterRow .counterBlock.cb-oos {
   background: rgba(255, 33, 95, 0.77);
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-s {
@@ -3109,13 +3125,13 @@ ul.newVisitOther-btn {
 .foCounter .counterPage .counterRow .counterBlock.cb-oc-od {
   background: #ffd45a;
 }
-.foCounter .counterPage .counterRow .counterBlock.cb-purple {
+.foCounter .counterPage .counterRow .counterBlock.cb-ob {
   background: #ae8dc3;
 }
 .foCounter .counterPage .counterRow .counterBlock.cb-doc-dod {
   background: #7cbd64;
 }
-.foCounter .counterPage .counterRow .counterBlock.cb-pink {
+.foCounter .counterPage .counterRow .counterBlock.cb-dod {
   background: #ffddb3;
 }
 .foCounter .counterPage .counterRow .counterBlock.cb-vc-vd {
@@ -3142,7 +3158,7 @@ ul.newVisitOther-btn {
 .foCounter .counterPage .counterRow .counterBlock.cb-sexyGreen {
   background: #556b2f;
 }
-.foCounter .counterPage .counterRow .counterBlock.cb-sexyRed {
+.foCounter .counterPage .counterRow .counterBlock.cb-oos {
   background: rgba(255, 33, 95, 0.77);
 }
 .foCounter .counterPage .counterRow .counterBlock.cb-s {
@@ -3238,6 +3254,15 @@ ul.newVisitOther-btn {
 .foCounter .counter-right label {
   font-size: 9px;
 }
+.foCounter .floorPlan-table .r-table, .foCounter .floorPlan-table .l-table {
+  width: 49%;
+}
+.foCounter .floorPlan-table .l-table {
+  margin-right: 1%;
+}
+.foCounter .floorPlan-table .r-table {
+  margin-left: 1%;
+}
 .foCounter .floorPlan-table table {
   border: 1px solid #a0a8b4;
   width: 100%;
@@ -3278,6 +3303,10 @@ ul.newVisitOther-btn {
   font-size: 1.2em;
   font-weight: bold;
 }
+.foCounter .floorPlan-table table tr td.btn-center {
+  margin: 0 auto;
+  text-align: center;
+}
 .foCounter .floorPlan-table .customInfo-table {
   width: 100%;
 }
@@ -3299,9 +3328,6 @@ ul.newVisitOther-btn {
 }
 .foCounter .floorPlan-table .fav table td {
   width: 80%;
-}
-.foCounter .intCounterRight {
-  display: none;
 }
 .foCounter .intCounterleft {
   position: relative;
@@ -4283,7 +4309,7 @@ td div.act-box span.act-text {
 .roomAssign {
   /* townHouse.html */
 }
-.roomAssign .select-group {
+.roomAssign .select-group, .roomAssign .btn-group {
   display: inline;
 }
 .roomAssign .room-special {
@@ -4308,22 +4334,26 @@ td div.act-box span.act-text {
 }
 .select-group .status-view div {
   width: 60px;
-  height: 25px;
+  height: 27px;
   line-height: 25px;
   float: left;
   text-align: center;
   margin: 5px 0 5px 5px;
+  padding-top: 2px;
+}
+.select-group .status-view div.status-tip {
+  cursor: pointer;
 }
 .select-group .status-view div.status-tip.cb-oc-od {
   background: #ffd45a;
 }
-.select-group .status-view div.status-tip.cb-purple {
+.select-group .status-view div.status-tip.cb-ob {
   background: #ae8dc3;
 }
 .select-group .status-view div.status-tip.cb-doc-dod {
   background: #7cbd64;
 }
-.select-group .status-view div.status-tip.cb-pink {
+.select-group .status-view div.status-tip.cb-dod {
   background: #ffddb3;
 }
 .select-group .status-view div.status-tip.cb-vc-vd {
@@ -4350,7 +4380,7 @@ td div.act-box span.act-text {
 .select-group .status-view div.status-tip.cb-sexyGreen {
   background: #556b2f;
 }
-.select-group .status-view div.status-tip.cb-sexyRed {
+.select-group .status-view div.status-tip.cb-oos {
   background: rgba(255, 33, 95, 0.77);
 }
 .select-group .status-view div.status-tip.cb-s {
@@ -4549,21 +4579,21 @@ td div.act-box span.act-text {
 }
 
 .bg-red {
-  background: red;
+  background: #ff2244;
   color: #fff;
 }
 
 .bg-green {
-  background: green;
+  background: #4dc16d;
   color: #fff;
 }
 
 .bg-blue {
-  background: #01ffff;
+  background: #4bccff;
 }
 
 .bg-yellow {
-  background: yellow;
+  background: #ffcc37;
 }
 
 .bg-gray {
@@ -4575,7 +4605,7 @@ td div.act-box span.act-text {
   height: 16px;
   display: inline-block;
   vertical-align: sub;
-  border: 1px solid;
+  border: 1px solid #555;
 }
 .cleanArngmts .checkbox-header {
   padding-top: 10px;
@@ -4589,6 +4619,9 @@ td div.act-box span.act-text {
   float: left;
   margin-top: -1px;
 }
+.cleanArngmts .checkbox-header .cleanCheckbox-left .grid-item label {
+  margin-top: 0;
+}
 .cleanArngmts .checkbox-header .cleanCheckbox-left .cleanArngmtsBox, .cleanArngmts .checkbox-header .cleanCheckbox-left .checkbox {
   float: left;
 }
@@ -4600,32 +4633,29 @@ td div.act-box span.act-text {
   width: auto;
   padding-left: 5px;
 }
-.cleanArngmts .checkbox-header .cleanCheckbox-right {
-  margin-left: 20px;
-}
-.cleanArngmts .checkbox-header .cleanCheckbox-right .cc-right {
-  width: 100px;
-  display: inline-block;
-}
-.cleanArngmts .checkbox-header .cleanCheckbox-right .cc-right-down {
-  margin-top: 6px;
-  display: inline-block;
-}
 .cleanArngmts .checkbox-header .checkbox label input[type=checkbox].ace + .lbl {
   margin: 0;
 }
 .cleanArngmts .checkbox-header label {
   display: inline-block !important;
 }
+.cleanArngmts .cleanCheckbox-right .cc-right {
+  width: 60px;
+  display: inline-block;
+}
+.cleanArngmts .cleanCheckbox-right .cc-right-down {
+  margin-top: 6px;
+  display: inline-block;
+}
 .cleanArngmts .bigBox label {
   width: 146px !important;
 }
 .cleanArngmts .clean-table-container {
-  margin-top: 20px;
+  margin-top: 10px;
   display: inline-block;
 }
 .cleanArngmts .clean-table-container .clean-table-wrap {
-  height: 250px;
+  min-height: 315px;
   overflow: auto;
 }
 .cleanArngmts .clean-table-container .clean-text-box {
@@ -6229,9 +6259,9 @@ a {
 
 .input_sta_required {
   background-color: #c6f2d9 !important;
-  /* (186, 242, 234) */
 }
 
+/* (186, 242, 234) */
 .input-medium.medium-c1 {
   width: 165px;
   max-width: 100%;
@@ -6429,11 +6459,6 @@ a {
 }
 .input-medium.rateCode-s1Rm {
   width: 157px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.rateCode-s1-col2 {
-  width: 464px;
   max-width: 100%;
   height: 25px;
 }
@@ -6984,12 +7009,21 @@ input[type=checkbox] {
   height: 15px;
 }
 
+.sel-border {
+  border-color: #555 !important;
+}
+.sel-border .dpShowValue {
+  color: #555 !important;
+}
+
+.status-tip-active {
+  border: 2px solid #555 !important;
+  padding-top: 0px !important;
+  transition: 0.5s;
+}
+
 /*-------------- responsive -------------- */
 @media screen and (max-width: 1280px) {
-  .intCounterRight {
-    display: none;
-  }
-
   .intCounterleft {
     position: relative;
   }
