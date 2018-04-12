@@ -3,312 +3,193 @@
     <!-- 打掃安排 Page-->
 
     <div class="pageMain">
+        <div class="col-xs-12 cleanArngmts">
+            <div class="checkbox-header borderFrame">
+                <div class="grid">
+                    <div class="cleanCheckbox-left">
+                        <div class="grid">
+                            <div class="grid-item">
+                                <span class="cleanArngmtsBox bg-red"></span>
+                                <span class="checkbox">
+                                    <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
+                                        <span class="lbl">Dirty</span>
+                                    </label>
+                                </span>
+                            </div>
+                            <div class="grid-item">
+                                <span class="cleanArngmtsBox bg-blue"></span>
+                                <span class="checkbox">
+                                    <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
+                                        <span class="lbl">clean</span>
+                                    </label>
+                                </span>
+                            </div>
+                            <div class="grid-item">
+                                <span class="cleanArngmtsBox bg-green"></span>
+                                <span class="checkbox ">
+                                    <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace"
+                                               checked="">
+                                        <span class="lbl">Inspected</span>
+                                    </label>
+                                </span>
+                            </div>
+                            <div class="grid-item">
+                                <span class="cleanArngmtsBox bg-gray"></span>
+                                <span class="checkbox ">
+                                    <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace"
+                                               checked="">
+                                        <span class="lbl">Out Of Service</span>
+                                    </label>
+                                </span>
+                            </div>
+                            <div class="grid-item">
+                                <span class="cleanArngmtsBox bg-gray"></span>
+                                <span class="checkbox ">
+                                    <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace"
+                                               checked="">
+                                        <span class="lbl">Out Of Order</span>
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!--main-content-data-->
+        </div>
+        <div class="clearfix"></div>
+        <div class="space-4"></div>
         <div class="col-xs-12 col-sm-12">
             <div class="col-xs-11 col-sm-11">
                 <div class="row no-margin-right cleanArngmts">
-                    <div class="checkbox-header borderFrame">
-
-                        <div class="grid">
-                            <div class="cleanCheckbox-left">
-                                <div class="grid">
-                                <div class="grid-item">
-
-                                    <span class="cleanArngmtsBox bg-red"></span>
-                                    <span class="checkbox">
-                                        <label class="checkbox-width">
-                                            <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
-                                            <span class="lbl">Dirty</span>
-                                        </label>
-                                    </span>
-                                </div>
-                                <div class="grid-item">
-
-                                    <span class="cleanArngmtsBox bg-blue"></span>
-                                    <span class="checkbox">
-                                        <label class="checkbox-width">
-                                            <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
-                                            <span class="lbl">clean</span>
-                                        </label>
-                                    </span>
-                                </div>
-                                <div class="grid-item">
-
-                                    <span class="cleanArngmtsBox bg-yellow"></span>
-                                    <span class="checkbox">
-                                        <label class="checkbox-width">
-                                            <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
-                                            <span class="lbl">pickup</span>
-                                        </label>
-                                    </span>
-                                </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-
-                                        <span class="cleanArngmtsBox bg-green"></span>
-                                        <span class="checkbox ">
-                                            <label class="checkbox-width">
-                                                <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
-                                                <span class="lbl">Inspected</span>
-                                            </label>
-                                        </span>
-                                    </div>
-                                    <div class="grid-item">
-                                        <span class="cleanArngmtsBox bg-gray"></span>
-                                        <span class="checkbox ">
-                                            <label class="checkbox-width">
-                                                <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
-                                                <span class="lbl">Out Of Service</span>
-                                            </label>
-                                        </span>
-                                    </div>
-                                    <div class="grid-item">
-                                        <span class="cleanArngmtsBox bg-gray"></span>
-                                        <span class="checkbox ">
-                                            <label class="checkbox-width">
-                                                <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
-                                                <span class="lbl">Out Of Order</span>
-                                            </label>
-                                        </span>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="cleanCheckbox-right">
-                                <span class="cc-right">! Arrival</span>
-                                <span class="cc-right">* Stayover</span><br>
-                                <!--<span class="cc-right-down">Linen Change Total for the Day</span>-->
-                                <!--<input class="input-medium resvCard-xs text-right" type="text" placeholder="0" >-->
-                            </div>
-                        </div>
-                    </div><!--main-content-data-->
-
+                    <div class="cleanCheckbox-right">
+                        <span class="cc-right">! Arrival</span>
+                        <span class="cc-right">* Stayover</span><br>
+                        <!--<span class="cc-right-down">Linen Change Total for the Day</span>-->
+                        <!--<input class="input-medium resvCard-xs text-right" type="text" placeholder="0" >-->
+                    </div>
+                    <div class="clearfix"></div>
                     <div class="main-content-data">
                         <div class="grid">
                             <div class="clean-table-container">
                                 <div class="grid-item clean-table-wrap">
                                     <table class="css_table horizTable">
                                         <thead class="css_thead">
-                                        <tr class="css_tr text-center">
-                                            <th class="css_th" colspan="4" style="min-width:150px;">Task 1</th>
-                                            <th class="css_th" style="min-width:70px;">Rms 9</th>
-                                        </tr>
+                                            <tr class="css_tr text-center">
+                                                <th class="css_th" colspan="4" style="min-width:150px;">Task 1</th>
+                                                <th class="css_th" style="min-width:70px;">Rms 9</th>
+                                            </tr>
                                         </thead>
                                         <tbody class="css_tbody">
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">L</td>
-                                            <td class="css_td">*</td>
-                                            <td class="css_td bg-blue">0117</td>
-                                            <td class="css_td bg-blue text-right">2</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-blue">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td bg-blue">100</td>
-                                            <td class="css_td bg-blue text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="clean-text-box">
-                                    <span>Credits</span>
-                                    <span class="marginLeft-30">9.5/25</span>
-                                </div>
-                                </div>
-                            <div class="clean-table-container">
-                                <div class="grid-item clean-table-wrap">
-                                    <table class="css_table horizTable">
-                                        <thead class="css_thead">
-                                        <tr class="css_tr text-center">
-                                            <th class="css_th" colspan="4" style="min-width:150px;">Task 2</th>
-                                            <th class="css_th" style="min-width:70px;">Rms 9</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="css_tbody">
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">L</td>
-                                            <td class="css_td">*</td>
-                                            <td class="css_td bg-blue">0117</td>
-                                            <td class="css_td bg-blue text-right">2</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-blue">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td bg-blue">100</td>
-                                            <td class="css_td bg-blue text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">L</td>
+                                                <td class="css_td">*</td>
+                                                <td class="css_td bg-blue">101</td>
+                                                <td class="css_td bg-blue text-right">2</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-blue">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td bg-blue">102</td>
+                                                <td class="css_td bg-blue text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">103</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">104</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">105</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">106</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">107</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">108</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">109</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">110</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">111</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">112</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">113</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">114</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">115</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -322,110 +203,117 @@
                                 <div class="grid-item clean-table-wrap">
                                     <table class="css_table horizTable">
                                         <thead class="css_thead">
-                                        <tr class="css_tr text-center">
-                                            <th class="css_th" colspan="4" style="min-width:150px;">Task 3</th>
-                                            <th class="css_th" style="min-width:70px;">Rms 9</th>
-                                        </tr>
+                                            <tr class="css_tr text-center">
+                                                <th class="css_th" colspan="4" style="min-width:150px;">Task 2</th>
+                                                <th class="css_th" style="min-width:70px;">Rms 9</th>
+                                            </tr>
                                         </thead>
                                         <tbody class="css_tbody">
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">L</td>
-                                            <td class="css_td">*</td>
-                                            <td class="css_td bg-blue">0117</td>
-                                            <td class="css_td bg-blue text-right">2</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-blue">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td bg-blue">100</td>
-                                            <td class="css_td bg-blue text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">L</td>
+                                                <td class="css_td">*</td>
+                                                <td class="css_td bg-blue">201</td>
+                                                <td class="css_td bg-blue text-right">2</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-blue">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td bg-blue">202</td>
+                                                <td class="css_td bg-blue text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">203</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">204</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">205</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">206</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">207</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">208</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">209</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">210</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">211</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">212</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">213</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">214</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">215</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -439,110 +327,117 @@
                                 <div class="grid-item clean-table-wrap">
                                     <table class="css_table horizTable">
                                         <thead class="css_thead">
-                                        <tr class="css_tr text-center">
-                                            <th class="css_th" colspan="4" style="min-width:150px;">Task 4</th>
-                                            <th class="css_th" style="min-width:70px;">Rms 9</th>
-                                        </tr>
+                                            <tr class="css_tr text-center">
+                                                <th class="css_th" colspan="4" style="min-width:150px;">Task 3</th>
+                                                <th class="css_th" style="min-width:70px;">Rms 9</th>
+                                            </tr>
                                         </thead>
                                         <tbody class="css_tbody">
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">L</td>
-                                            <td class="css_td">*</td>
-                                            <td class="css_td bg-blue">0117</td>
-                                            <td class="css_td bg-blue text-right">2</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-blue">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td bg-blue">100</td>
-                                            <td class="css_td bg-blue text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">L</td>
+                                                <td class="css_td">*</td>
+                                                <td class="css_td bg-blue">301</td>
+                                                <td class="css_td bg-blue text-right">2</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-blue">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td bg-blue">302</td>
+                                                <td class="css_td bg-blue text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">303</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">304</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">305</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">306</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">307</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">308</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">309</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">310</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">311</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">312</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">313</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">314</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">315</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -556,110 +451,117 @@
                                 <div class="grid-item clean-table-wrap">
                                     <table class="css_table horizTable">
                                         <thead class="css_thead">
-                                        <tr class="css_tr text-center">
-                                            <th class="css_th" colspan="4" style="min-width:150px;">Task 5</th>
-                                            <th class="css_th" style="min-width:70px;">Rms 9</th>
-                                        </tr>
+                                            <tr class="css_tr text-center">
+                                                <th class="css_th" colspan="4" style="min-width:150px;">Task 4</th>
+                                                <th class="css_th" style="min-width:70px;">Rms 9</th>
+                                            </tr>
                                         </thead>
                                         <tbody class="css_tbody">
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">L</td>
-                                            <td class="css_td">*</td>
-                                            <td class="css_td bg-blue">0117</td>
-                                            <td class="css_td bg-blue text-right">2</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-blue">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td bg-blue">100</td>
-                                            <td class="css_td bg-blue text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">L</td>
+                                                <td class="css_td">*</td>
+                                                <td class="css_td bg-blue">401</td>
+                                                <td class="css_td bg-blue text-right">2</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-blue">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td bg-blue">402</td>
+                                                <td class="css_td bg-blue text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">403</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">404</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">405</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">406</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">407</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">408</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">409</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">410</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">411</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">412</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">413</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">414</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">415</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -673,110 +575,117 @@
                                 <div class="grid-item clean-table-wrap">
                                     <table class="css_table horizTable">
                                         <thead class="css_thead">
-                                        <tr class="css_tr text-center">
-                                            <th class="css_th" colspan="4" style="min-width:150px;">Task 6</th>
-                                            <th class="css_th" style="min-width:70px;">Rms 9</th>
-                                        </tr>
+                                            <tr class="css_tr text-center">
+                                                <th class="css_th" colspan="4" style="min-width:150px;">Task 5</th>
+                                                <th class="css_th" style="min-width:70px;">Rms 9</th>
+                                            </tr>
                                         </thead>
                                         <tbody class="css_tbody">
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">L</td>
-                                            <td class="css_td">*</td>
-                                            <td class="css_td bg-blue">0117</td>
-                                            <td class="css_td bg-blue text-right">2</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-blue">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td bg-blue">100</td>
-                                            <td class="css_td bg-blue text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">L</td>
+                                                <td class="css_td">*</td>
+                                                <td class="css_td bg-blue">501</td>
+                                                <td class="css_td bg-blue text-right">2</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-blue">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td bg-blue">502</td>
+                                                <td class="css_td bg-blue text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">503</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">504</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">505</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">506</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">507</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">508</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">509</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">510</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">511</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">512</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">513</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">514</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">515</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -790,110 +699,117 @@
                                 <div class="grid-item clean-table-wrap">
                                     <table class="css_table horizTable">
                                         <thead class="css_thead">
-                                        <tr class="css_tr text-center">
-                                            <th class="css_th" colspan="4" style="min-width:150px;">Task 7</th>
-                                            <th class="css_th" style="min-width:70px;">Rms 9</th>
-                                        </tr>
+                                            <tr class="css_tr text-center">
+                                                <th class="css_th" colspan="4" style="min-width:150px;">Task 6</th>
+                                                <th class="css_th" style="min-width:70px;">Rms 9</th>
+                                            </tr>
                                         </thead>
                                         <tbody class="css_tbody">
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">L</td>
-                                            <td class="css_td">*</td>
-                                            <td class="css_td bg-blue">0117</td>
-                                            <td class="css_td bg-blue text-right">2</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-blue">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td bg-blue">100</td>
-                                            <td class="css_td bg-blue text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">L</td>
+                                                <td class="css_td">*</td>
+                                                <td class="css_td bg-blue">601</td>
+                                                <td class="css_td bg-blue text-right">2</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-blue">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td bg-blue">602</td>
+                                                <td class="css_td bg-blue text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">603</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">604</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">605</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">606</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">607</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">608</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">609</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">610</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">611</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">612</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">613</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">614</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">615</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -907,110 +823,117 @@
                                 <div class="grid-item clean-table-wrap">
                                     <table class="css_table horizTable">
                                         <thead class="css_thead">
-                                        <tr class="css_tr text-center">
-                                            <th class="css_th" colspan="4" style="min-width:150px;">Task 8</th>
-                                            <th class="css_th" style="min-width:70px;">Rms 9</th>
-                                        </tr>
+                                            <tr class="css_tr text-center">
+                                                <th class="css_th" colspan="4" style="min-width:150px;">Task 7</th>
+                                                <th class="css_th" style="min-width:70px;">Rms 9</th>
+                                            </tr>
                                         </thead>
                                         <tbody class="css_tbody">
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">L</td>
-                                            <td class="css_td">*</td>
-                                            <td class="css_td bg-blue">0117</td>
-                                            <td class="css_td bg-blue text-right">2</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-blue">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td bg-blue">100</td>
-                                            <td class="css_td bg-blue text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">L</td>
+                                                <td class="css_td">*</td>
+                                                <td class="css_td bg-blue">701</td>
+                                                <td class="css_td bg-blue text-right">2</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-blue">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td bg-blue">702</td>
+                                                <td class="css_td bg-blue text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">703</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">704</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">705</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">706</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">707</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">708</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">709</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">710</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">711</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">712</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">713</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">714</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">715</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -1024,110 +947,117 @@
                                 <div class="grid-item clean-table-wrap">
                                     <table class="css_table horizTable">
                                         <thead class="css_thead">
-                                        <tr class="css_tr text-center">
-                                            <th class="css_th" colspan="4" style="min-width:150px;">Task 9</th>
-                                            <th class="css_th" style="min-width:70px;">Rms 9</th>
-                                        </tr>
+                                            <tr class="css_tr text-center">
+                                                <th class="css_th" colspan="4" style="min-width:150px;">Task 8</th>
+                                                <th class="css_th" style="min-width:70px;">Rms 9</th>
+                                            </tr>
                                         </thead>
                                         <tbody class="css_tbody">
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">L</td>
-                                            <td class="css_td">*</td>
-                                            <td class="css_td bg-blue">0117</td>
-                                            <td class="css_td bg-blue text-right">2</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-blue">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td bg-blue">100</td>
-                                            <td class="css_td bg-blue text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">L</td>
+                                                <td class="css_td">*</td>
+                                                <td class="css_td bg-blue">801</td>
+                                                <td class="css_td bg-blue text-right">2</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-blue">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td bg-blue">802</td>
+                                                <td class="css_td bg-blue text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">803</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">804</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">805</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">806</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">807</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">808</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">809</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">810</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">811</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">812</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">813</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">814</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">815</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -1141,110 +1071,241 @@
                                 <div class="grid-item clean-table-wrap">
                                     <table class="css_table horizTable">
                                         <thead class="css_thead">
-                                        <tr class="css_tr text-center">
-                                            <th class="css_th" colspan="4" style="min-width:150px;">Task 10</th>
-                                            <th class="css_th" style="min-width:70px;">Rms 9</th>
-                                        </tr>
+                                            <tr class="css_tr text-center">
+                                                <th class="css_th" colspan="4" style="min-width:150px;">Task 9</th>
+                                                <th class="css_th" style="min-width:70px;">Rms 9</th>
+                                            </tr>
                                         </thead>
                                         <tbody class="css_tbody">
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">L</td>
-                                            <td class="css_td">*</td>
-                                            <td class="css_td bg-blue">0117</td>
-                                            <td class="css_td bg-blue text-right">2</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-blue">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td bg-blue">100</td>
-                                            <td class="css_td bg-blue text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td text-center"><input type="checkbox" checked=""></td>
-                                            <td class="css_td bg-red">F</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">1002</td>
-                                            <td class="css_td text-right">.75</td>
-                                        </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">L</td>
+                                                <td class="css_td">*</td>
+                                                <td class="css_td bg-blue">901</td>
+                                                <td class="css_td bg-blue text-right">2</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-blue">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td bg-blue">902</td>
+                                                <td class="css_td bg-blue text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">903</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">904</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">905</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">906</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">907</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">908</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">909</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">910</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">911</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">912</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">913</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">914</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">915</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="clean-text-box">
+                                    <span>Credits</span>
+                                    <span class="marginLeft-30">9.5/25</span>
+                                </div>
+                            </div>
+                            <div class="clean-table-container">
+                                <div class="grid-item clean-table-wrap">
+                                    <table class="css_table horizTable">
+                                        <thead class="css_thead">
+                                            <tr class="css_tr text-center">
+                                                <th class="css_th" colspan="4" style="min-width:150px;">Task 10</th>
+                                                <th class="css_th" style="min-width:70px;">Rms 9</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="css_tbody">
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">L</td>
+                                                <td class="css_td">*</td>
+                                                <td class="css_td bg-blue">1001</td>
+                                                <td class="css_td bg-blue text-right">2</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-blue">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td bg-blue">1002</td>
+                                                <td class="css_td bg-blue text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1003</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1004</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1005</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1006</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1007</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1008</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1009</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1010</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1011</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1012</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1013</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1014</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked=""></td>
+                                                <td class="css_td bg-red">F</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">1015</td>
+                                                <td class="css_td text-right">.75</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
