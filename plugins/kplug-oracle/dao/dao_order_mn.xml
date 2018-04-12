@@ -146,7 +146,7 @@
             left join guest_rf g on dt.athena_id = g.athena_id and dt.guest_typ = g.guest_typ
             where dt.athena_id = :athena_id
             and dt.hotel_cod = :hotel_cod
-            and dt.show_sta = 'Y'
+            and dt.order_sta <> 'X'
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>

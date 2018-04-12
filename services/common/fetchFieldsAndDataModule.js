@@ -40,7 +40,6 @@ exports.DataGridProc = function (postData, session) {
             la_dgFieldData = await qryLangUIFields(la_dgFieldData, lo_params, session);
             la_dgFieldData = await qrySelectOption(la_dgFieldData, lo_params, session);
             la_dgFieldData = await qrySearchFields(la_dgFieldData, lo_params, session);
-            la_dgFieldData.searchFields = await qrySelectOption(la_dgFieldData.searchFields, lo_params, session);
 
             return la_dgFieldData;
         }

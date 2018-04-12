@@ -72,6 +72,10 @@ exports.fetchDgFieldData = function (req, res) {
     });
 };
 
+/**
+ * 取多筆oracle資料
+ * @returns {*}
+ */
 exports.fetchDgRowData = function (req, res) {
     let lo_chkResult = chkPrgID(req);
     if (lo_chkResult.success == false) {

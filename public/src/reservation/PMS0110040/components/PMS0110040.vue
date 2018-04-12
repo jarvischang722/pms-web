@@ -103,7 +103,7 @@
                     if (this.searchFields.length <= 0) {
                         this.searchFields = result.searchFields;
                     }
-                    console.log(this.searchFields);
+                    console.log(_.findWhere(this.searchFields, {ui_field_name: "order_dt.rate_cod"}));
                     this.pageOneFieldData = result.dgFieldsData;
                     this.pageOneDataGridRows = result.dgRowData;
                     this.showDataGrid();
@@ -123,6 +123,7 @@
             fetchDgRowData() {
                 $.post("/api/fetchDgRowData", lo_params, result => {
                     this.pageOneDataGridRows = result.dgRowData;
+                    this.dgIns.loadPageDgData(this.pageOneDataGridRows);
                 });
             }
         }
