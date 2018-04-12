@@ -1,4 +1,3 @@
-
 /* ---- mixin ---- */
 
 /* ---- grid ---- */
@@ -30,7 +29,7 @@
     &.label_w80
       width: 80px
 
-  span,p,div,select,option,.input-medium,input,textarea
+  span, p, div, select, option, .input-medium, input, textarea, .css_table
     font-size: $font-default !important
     &.font-xxs
       font-size: 12px !important
@@ -94,9 +93,10 @@
         width: 0
         min-height: initial
         cursor: pointer
-  .popCheckbox // rateCode/add
-    label.checkbox-width
-      margin-top: 2px
+  .popCheckbox
+    // rateCode/add
+       label.checkbox-width
+         margin-top: 2px
 
 .grid-item-input
   width: 100px
@@ -149,7 +149,7 @@
       padding-top: 5px
   .css_th
     background: #eee
-    //font-weight: bold
+  //font-weight: bold
   &.top_none
     border-top: 0
   .td-disable
@@ -185,12 +185,14 @@
         height: auto
         bottom: 8px
         width: auto
-      &.moreAbso-t10 // rateCode table 一欄有兩個
-        top: 7px
-        bottom: auto
+      &.moreAbso-t10
+        // rateCode table 一欄有兩個
+               top: 7px
+               bottom: auto
   .icon-addDel
     i
       margin-top: 5px
+
 .css_table
   +css_table($tableWidth: 100%)
 $horizTable-outerHt: 25px
@@ -200,12 +202,12 @@ $horizTable-outerHt: 25px
     +css_table($tableWidth: auto)
     &.horizTable
       table-layout: fixed
-      th,td
+      th, td
         height: $horizTable-outerHt
       th
         font-weight: 400
       .text-right
-        th,td
+        th, td
           text-align: right
   &.table-middle
     .css_table
@@ -213,7 +215,7 @@ $horizTable-outerHt: 25px
   &.table-ht2x
     .css_table
       &.horizTable
-        th,td
+        th, td
           font-size: $font-lg
           height: $horizTable-outerHt *2
 
