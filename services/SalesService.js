@@ -904,6 +904,12 @@ exports.handleEditSalesClerk = function (session, postData, callback) {
     let upd_order_mn = postData.upd_order_mn || "N";
     let cust_cod = postData.cust_cod || [];
     let userInfo = session.user;
+    let lo_exec_Data = {
+        sales_cod: sales_cod,
+        cust_cod: cust_cod,
+        upd_order_mn: upd_order_mn
+    };
+    lo_exec_Data = _.extend(lo_exec_Data, commonRule.getEditDefaultDataRule(session));
 
     let apiParams = {
         "REVE-CODE": "PMS0620030",
@@ -914,11 +920,7 @@ exports.handleEditSalesClerk = function (session, postData, callback) {
         "count": 1,
         "func_id": '0500',
         "exec_data": {
-            1: {
-                sales_cod: sales_cod,
-                cust_cod: cust_cod,
-                upd_order_mn: upd_order_mn
-            }
+            1: lo_exec_Data
         }
     };
 

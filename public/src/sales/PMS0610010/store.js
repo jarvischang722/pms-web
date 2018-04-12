@@ -224,6 +224,7 @@ const actions = {
                 lo_tmpCUD.dt_createData.push(lo_createData);
             });
             _.each(state.go_ccTmpCUD.createData, function (lo_createData) {
+                lo_createData = _.extend(lo_createData, {tab_page_id: 4});
                 lo_tmpCUD.dt_createData.push(lo_createData);
             });
             _.each(state.go_vrTmpCUD.createData, function (lo_createData) {
@@ -238,6 +239,7 @@ const actions = {
                 lo_tmpCUD.dt_updateData.push(lo_updateData);
             });
             _.each(state.go_ccTmpCUD.updateData, function (lo_updateData) {
+                lo_updateData = _.extend(lo_updateData, {tab_page_id: 4});
                 lo_tmpCUD.dt_updateData.push(lo_updateData);
             });
             _.each(state.go_vrTmpCUD.updateData, function (lo_updateData) {
@@ -252,6 +254,7 @@ const actions = {
                 lo_tmpCUD.dt_deleteData.push(lo_deleteData);
             });
             _.each(state.go_ccTmpCUD.deleteData, function (lo_deleteData) {
+                lo_deleteData = _.extend(lo_deleteData, {tab_page_id: 4});
                 lo_tmpCUD.dt_deleteData.push(lo_deleteData);
             });
             _.each(state.go_vrTmpCUD.deleteData, function (lo_deleteData) {

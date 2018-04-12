@@ -304,12 +304,6 @@
                 self.relatedSettingSingleData = relatedSettingData.relatedSettingSingleData;
                 self.relatedSettingOriSingleData = relatedSettingData.relatedSettingOriSingleData;
             });
-            //業務員指派
-            this.$eventHub.$on('doEditSalesClerk', function (result) {
-                if (result.success) {
-                    self.fetchFieldData();
-                }
-            });
             //取得商務公司狀態資料
             this.$eventHub.$on('compStateData', function (compStateData) {
                 self.singleData = _.extend(self.singleData, compStateData.singleData);
@@ -517,6 +511,11 @@
             doConvertData() {
                 //cust_nam的內容帶入cust_idx_alt_nam
                 this.singleData.cust_idx_alt_nam = this.singleData.cust_nam;
+
+                //如果單筆資料是undefined或null轉換成''
+                _.each(this.singleData, (val, key) => {
+                    this.singleData[key] = _.isUndefined(val) || _.isNull(val) ? "" : val;
+                });
 
                 var lo_singleData = JSON.parse(JSON.stringify(this.singleData));
                 var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));

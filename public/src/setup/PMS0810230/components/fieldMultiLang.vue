@@ -23,27 +23,33 @@
 <script>
     export default {
         name: 'fieldMultiLang',
-        props: ['sys_locales'],
+        props: ['sys_locales', 'fieldInfo', 'singleData', 'openMultiLangDialog'],
+        created: function () {
+//            this.$eventHub.$on('editFieldMultiLang', (data)=> {
+//                this.singleData = data.singleData;
+//                this.getFieldMultiLangContent(data.fieldInfo);
+//            });
+        },
         data: function () {
             return {
                 i18nLang: go_i18nLang,
-                singleData: {},
                 editingLangField: "",
                 multiLangContentList: [],
                 fieldMultiLang: {},
                 showMultiLangDialog: false
             };
         },
-        created: function () {
-            this.$eventHub.$on('editFieldMultiLang', (data)=> {
-                this.singleData = data.singleData;
-                this.getFieldMultiLangContent(data.fieldInfo);
-            });
+        watch: {
+            openMultiLangDialog(val){
+                if(val){
+                    this.getFieldMultiLangContent(this.fieldInfo);
+                }
+            }
         },
         methods: {
             getFieldMultiLangContent: function (fieldInfo) {
                 this.editingLangField = fieldInfo.ui_field_name;
-                if(_.isUndefined(this.singleData["multilang"])){
+                if(_.findIndex(this.singleData["multilang"], {field: this.editingLangField}) <= -1){
                     var self = this;
                     var params = {
                         dataType: 'gridsingle',
@@ -60,12 +66,13 @@
                 }
                 else{
                     let la_multiLangContentList = [];
-                    _.each(this.singleData["multilang"], (lo_multiLang, idx)=>{
+                    let la_edit = _.where(this.singleData["multilang"], {field: this.editingLangField});
+                    _.each(la_edit, (lo_multiLang, idx)=>{
                         let lo_editField = {
                             display_locale: lo_multiLang.locale=='en'? "English": "繁體中文",
                             locale: lo_multiLang.locale
                         };
-                        lo_editField[lo_multiLang.field] = lo_multiLang.value;
+                        lo_editField[lo_multiLang.field] = lo_multiLang.val;
                         la_multiLangContentList.push(lo_editField);
                     });
                     this.multiLangContentList = la_multiLangContentList;
@@ -78,9 +85,10 @@
             },
             closeFieldMultiLangDialog: function () {
                 this.showMultiLangDialog = false;
+                this.$parent.openMultiLangDialog = false;
             },
             saveFieldMultiLang: function () {
-                this.singleData["multilang"] = [];
+                this.singleData["multilang"] = this.singleData["multilang"] || [];
                 let la_multiLang = [];
                 let la_saveData = [];
                 //TODO 暫時用jquery 取資料

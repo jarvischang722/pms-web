@@ -180,12 +180,12 @@
                         self.isLoadingDialog = false;
                         if (result.success) {
                             if (!_.isUndefined(self.editRows[0].isSalesClerk)) {
-                                self.$eventHub.$emit('doEditSalesClerk', {
+                                self.$eventHub.$emit('completeEditSalesClerk', {
                                     success: true
                                 });
                             }
                             self.doCancelEdit();
-                            la_custCod = [];
+
                         }
                         else {
                             alert(result.errorMsg);
@@ -221,10 +221,11 @@
 
 <style>
 
-    .el-loading-mask{
+    .el-loading-mask {
         width: 108%;
         left: -4%;
     }
+
     .grid-item input {
         padding: 0px;
     }

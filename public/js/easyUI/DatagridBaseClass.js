@@ -332,6 +332,7 @@ function DatagridBaseClass() {
                 deleteData: self.tmpCUD.deleteData
             };
         }
+
         $.post("/api/handleDataGridDeleteEventRule", lo_param, function (result) {
             if (result.success) {
                 $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
