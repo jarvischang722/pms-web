@@ -80,6 +80,18 @@ var BacchusMainVM = new Vue({
         }
     },
     methods: {
+        //選擇系統
+        /**
+         * 選擇系統(mainFrameWork和systemOption共用同一支js)
+         * @param sys_id{string}: 系統別
+         */
+        selectSys: function (sys_id) {
+            $.post("/api/selectSystem", {sys_id: sys_id}, function (result) {
+                if (result.success) {
+                    location.href = result.subsysPage;
+                }
+            });
+        },
         updSysPrgPath: function () {
             let subsysPurview = _.findWhere(this.subsysMenu, {subsys_id: getCookie("usingSubsysID")});
             if (subsysPurview) {

@@ -542,7 +542,7 @@
                 var la_editRows = $('#PMS0610010_dg').datagrid('getSelections');
 
                 if (!lo_editRow) {
-                    alert(go_i18nLang["SystemCommon"].selectData);
+                    alert(go_i18nLang["SystemCommon"].SelectData);
                 }
                 else if (la_editRows.length > 1 || lo_editRow != la_editRows[0]) {
                     alert(go_i18nLang["program"].PMS0610010.selectOneData);

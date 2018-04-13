@@ -142,7 +142,8 @@
       "delete_success": "Delete Success",
       "start_placeholder": "開始日期(英文)",
       "end_placeholder": "结束日期(英文)",
-      "selectDate": "請選擇日期(英文)"
+      "selectDate": "請選擇日期(英文)",
+      "begBiggerEnd": "開始日要小於結束日(英)"
     },
     "PMS0820030": {
       "load_default_color": "Load default color",
@@ -532,6 +533,9 @@
     "pms61msg7": "此筆資料設為主要聯絡人，不可刪除(英文)",
     "pms61msg8": "指定公司編號『%s』已指定於他筆商務公司，請重新輸入(英文)",
     "pms61msg9": "指定公司編號『%s』已使用於財務系統，請重新輸入(英文)",
+    "pms61msg10": "結束日與開始日重複(英文)",
+    "pms61msg11": "指定相關人員編號『%s』已於其他商務公司使用， 不可刪除(英文)",
+    "pms61msg12": "指定相關人員編號『%s』已於住客歷史中使用， 不可刪除(英文)",
     "pms21msg1": "此住客資料已存在(英文)",
     "pms21msg2": "%s(%s)此筆資料已為訂房使用(%s:%s)，不可刪除(英文)"
   },

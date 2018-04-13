@@ -29,8 +29,8 @@
                                         </div>
                                         <div class="caIcon">
                                             <span class="ca-headerIcon">
-                                                <i class="fa fa-calendar-check-o orange fa-lg" data-rel="tooltip" data-placement="bottom" title="Today"
-                                                   @click="backToRentCalDat"></i>
+                                                <i class="fa fa-calendar-check-o orange fa-lg" data-rel="tooltip" data-placement="bottom"
+                                                   :title="i18nLang.SystemCommon.rentCalDat" @click="backToRentCalDat"></i>
                                             </span>
                                         </div>
                                         <div class="clearfix"></div>
@@ -55,45 +55,52 @@
                                             <td class="middle td-first">
                                                 {{field}} <span class="roomNumTip">{{roomTyp.room_qnt}}</span></td>
                                             <template v-for="emptyRm in roomTyp.emptyRm">
-                                                <td v-if="emptyRm.num === ''" class="numeric" :style="{background:emptyRm.color}"></td>
-                                                <td v-else class="numeric" :style="{background:emptyRm.color}">
+                                                <td v-if="emptyRm.num === ''" class="numeric"></td>
+                                                <td v-else class="numeric">
                                                     {{ emptyRm.num }}
                                                 </td>
                                             </template>
                                         </tr>
                                         <tr :data-tt-id="5*roomTyp.idx + 2" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
-                                            <td class="middle td-first subTree-title">{{i18nLang.program.PMS0110010.useRm}}</td>
+                                            <td class="middle td-first subTree-title">
+                                                {{i18nLang.program.PMS0110010.useRm}}
+                                            </td>
                                             <template v-for="useRm in roomTyp.useRm">
-                                                <td class="numeric" v-if="useRm.num === ''" :style="{background:useRm.color}"></td>
-                                                <td class="numeric" v-else :style="{background:useRm.color}">
+                                                <td class="numeric" v-if="useRm.num === ''"></td>
+                                                <td class="numeric" v-else>
                                                     {{ useRm.num }}
                                                 </td>
                                             </template>
                                         </tr>
                                         <tr :data-tt-id="5*roomTyp.idx + 3" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
-                                            <td class="middle td-first subTree-title">{{i18nLang.program.PMS0110010.notWrsRm}}</td>
+                                            <td class="middle td-first subTree-title">
+                                                {{i18nLang.program.PMS0110010.notWrsRm}}
+                                            </td>
                                             <template v-for="notWrsRm in roomTyp.notWrsRm">
-                                                <td class="numeric" v-if="notWrsRm.num === ''" :style="{background:notWrsRm.color}"></td>
-                                                <td class="numeric" v-else :style="{background:notWrsRm.color}">
+                                                <td class="numeric" v-if="notWrsRm.num === ''"></td>
+                                                <td class="numeric" v-else>
                                                     {{ notWrsRm.num }}
                                                 </td>
                                             </template>
                                         </tr>
                                         <tr :data-tt-id="5*roomTyp.idx + 4" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
-                                            <td class="middle td-first subTree-title">{{i18nLang.program.PMS0110010.wrsRm}}</td>
+                                            <td class="middle td-first subTree-title">
+                                                {{i18nLang.program.PMS0110010.wrsRm}}
+                                            </td>
                                             <template v-for="wrsRm in roomTyp.wrsRm">
-                                                <td class="numeric" v-if="wrsRm.num === ''" :style="{background:wrsRm.color}"></td>
-                                                <td class="numeric" v-else :style="{background:wrsRm.color}">
+                                                <td class="numeric" v-if="wrsRm.num === ''"></td>
+                                                <td class="numeric" v-else>
                                                     {{ wrsRm.num }}
                                                 </td>
                                             </template>
                                         </tr>
                                         <tr :data-tt-id="5*roomTyp.idx + 5" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
-                                            <td class="middle td-first subTree-title">{{i18nLang.program.PMS0110010.overBooking}}</td>
+                                            <td class="middle td-first subTree-title">
+                                                {{i18nLang.program.PMS0110010.overBooking}}
+                                            </td>
                                             <template v-for="overBooking in roomTyp.overBooking">
-                                                <td class="numeric" v-if="overBooking.num === ''"
-                                                    :style="{background:overBooking.color}"></td>
-                                                <td class="numeric" v-else :style="{background:overBooking.color}">
+                                                <td class="numeric" v-if="overBooking.num === ''"></td>
+                                                <td class="numeric" v-else>
                                                     {{ overBooking.num }}
                                                 </td>
                                             </template>
@@ -108,7 +115,7 @@
                                                 {{i18nLang.program.PMS0110010.Total_available}}
                                             </span>
                                         </td>
-                                        <td class="numeric" :style="{background: number.color}" v-for="number in totalAvailable.number">
+                                        <td class="numeric" v-for="number in totalAvailable.number">
                                             {{number.num}}
                                         </td>
                                     </tr>
@@ -118,7 +125,7 @@
                                                 {{i18nLang.program.PMS0110010.occupancy}}
                                             </span>
                                         </td>
-                                        <td class="numeric" :style="{background: number.color}" v-for="number in occupancy.number">
+                                        <td class="numeric" v-for="number in occupancy.number">
                                             {{number.num}}
                                         </td>
                                     </tr>
@@ -126,7 +133,7 @@
                                         <td class="middle td-first">
                                             <span class="room-field-text">{{i18nLang.program.PMS0110010.phyOccupancy}}</span>
                                         </td>
-                                        <td class="numeric" :style="{background: number.color}" v-for="number in phyOccupancy.number">
+                                        <td class="numeric" v-for="number in phyOccupancy.number">
                                             {{number.num}}
                                         </td>
                                     </tr>
@@ -136,7 +143,7 @@
                                                 {{i18nLang.program.PMS0110010.phyAvailable}}
                                             </span>
                                         </td>
-                                        <td class="numeric" :style="{background: number.color}" v-for="number in phyAvailable.number">
+                                        <td class="numeric" v-for="number in phyAvailable.number">
                                             {{number.num}}
                                         </td>
                                     </tr>
@@ -291,13 +298,12 @@
                 this.phyOccupancy = {};
                 this.beginNum = "";
                 this.endNum = "";
-
             },
             fetchData() {
                 this.isLoading = true;
                 this.initData();
 
-                this.nowSearchDate = this.searchData.year + "/" + _s.rpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+                this.nowSearchDate = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
                 let lo_param = {
                     begin_dat: this.nowSearchDate
                 };
@@ -318,7 +324,8 @@
                         }
                         else {
                             //處理日期欄位資料
-                            let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+                            let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
+
                             for (let i = 0; i <= 20; i++) {
                                 let lo_date = moment(new Date(ls_date)).add('days', i);
                                 this.dateFieldData.push({
@@ -350,7 +357,6 @@
                     }
                     this.isLoading = false;
                 });
-
             },
             convertData() {
                 let self = this;
@@ -364,7 +370,7 @@
                 });
 
                 //處理日期欄位資料
-                let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.rpad(this.searchData.date, 2, '0');
+                let ls_date = this.searchData.year + "/" + _s.lpad(this.searchData.month, 2, '0') + "/" + _s.lpad(this.searchData.date, 2, '0');
                 for (let i = this.beginNum; i <= this.endNum; i++) {
                     let lo_date = moment(new Date(ls_date)).add('days', i - this.beginNum);
                     this.dateFieldData.push({
@@ -373,7 +379,6 @@
                     });
                     this.dayFieldData.push({data: lo_date.format("ddd"), color: this.color[i - this.beginNum]});
                 }
-
 
                 //取房型種類
                 _.each(this.roomTypData, (data, key) => {
@@ -420,7 +425,6 @@
                     });
                 });
 
-
                 //處理房型套件樹狀結構
                 let ln_roomTypLen = 0;
 
@@ -431,7 +435,7 @@
                     ln_roomTypLen = ln_roomTypLen + this.roomTypData[this.roomFieldData[i]].length;
                 }
 
-                //處理下面四欄位資料
+                //處理下面四欄位資料(數量、顏色)
                 let la_dataNumData4Field = [];
 
                 for (let i = this.beginNum; i <= this.endNum; i++) {
@@ -466,7 +470,6 @@
                 this.occupancy.number = la_occupancy;
                 this.phyAvailable.number = la_phyAvailable;
                 this.phyOccupancy.number = la_phyOccupancy;
-
             },
             backToRentCalDat() {
                 let ls_searchData4Month = moment(JSON.parse(JSON.stringify(this.searchData4Month))).format("YYYY/MM/DD").toString();
@@ -483,13 +486,8 @@
                 }
             },
             changDate(num) {
-                let self = this;
                 let ls_date = moment(new Date(this.nowSearchDate)).add('days', num).format("YYYY/MM/DD").toString();
-                this.searchData.year = ls_date.split("/")[0];
-                this.searchData.month = ls_date.split("/")[1];
-                this.searchData.date = ls_date.split("/")[2];
                 this.searchData4Month = moment(new Date(ls_date));
-                this.fetchData();
             },
             selectDate() {
                 this.searchData4Month = moment(new Date(this.searchData4Month)).format("YYYY/MM/DD").toString();

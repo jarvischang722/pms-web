@@ -593,10 +593,12 @@
                 this.tabName = tabNameData.tabName;
             });
             this.$eventHub.$on("setMultiLangSingleData", (data) => {
+                this.singleData = _.extend(this.singleData, {multilang: data.multilang});
                 let ls_noeLocale = getCookie('locale');
-                let lo_edit = _.findWhere(this.singleData.multilang, {locale: ls_noeLocale});
-                this.singleData[lo_edit.field] = lo_edit.val;
-                this.singleData = _.extend(this.singleData, data);
+                let la_edit = _.where(this.singleData.multilang, {locale: ls_noeLocale});
+                _.each(la_edit, (lo_edit) => {
+                    this.singleData[lo_edit.field] = lo_edit.val;
+                });
             });
         },
         mounted() {
@@ -650,6 +652,7 @@
                         this.$eventHub.$emit("setUseTimeRateCod", {
                             rateCod: val.rate_cod
                         });
+                        this.setMultiLangSingleData();
                     }
                 },
                 deep: true
@@ -661,7 +664,58 @@
                 this.$eventHub.$emit('openMultiLang', {
                     isOpenFieldMultiLang: true,
                     fieldInfo: fieldInfo,
-                    singleData: this.singleData
+                    singleData: this.oriSingleData
+                });
+            },
+            //設定內容多語資料
+            async setMultiLangSingleData() {
+                if (_.isUndefined(this.singleData.multilang)) {
+                    let lo_multiField = {};
+                    let la_multiLangCont = [];
+                    //房價名稱多語系
+                    lo_multiField = _.findWhere(this.oriFieldsData, {ui_field_name: 'ratecod_nam'});
+                    let la_multiRatecodName = await this.getMultiLangCont(this.oriSingleData, lo_multiField);
+                    _.each(la_multiRatecodName, (lo_multiRatecodName) => {
+                        let ls_field = _.keys(lo_multiRatecodName)[2];
+                        if (!_.isUndefined(ls_field)) {
+                            la_multiLangCont.push({
+                                locale: lo_multiRatecodName.locale,
+                                field: ls_field,
+                                val: lo_multiRatecodName[ls_field]
+                            });
+                        }
+                    });
+
+                    //確認書說明多語系
+                    lo_multiField = _.findWhere(this.oriFieldsData, {ui_field_name: 'rvconfirm_rmk'});
+                    let la_multiRvconfirmRmk = await this.getMultiLangCont(this.oriSingleData, lo_multiField);
+                    _.each(la_multiRvconfirmRmk, (lo_multiRvconfirmRmk) => {
+                        let ls_field = _.keys(lo_multiRvconfirmRmk)[2];
+                        if (!_.isUndefined(ls_field)) {
+                            la_multiLangCont.push({
+                                locale: lo_multiRvconfirmRmk.locale,
+                                field: ls_field,
+                                val: lo_multiRvconfirmRmk[ls_field]
+                            });
+                        }
+                    });
+
+                    this.singleData = la_multiLangCont.length > 0 ? _.extend(this.singleData, {multilang: la_multiLangCont}) : this.singleData;
+                }
+            },
+            async getMultiLangCont(singleData, fieldInfo) {
+                let lo_params = {};
+                lo_params = {
+                    dataType: 'gridsingle',
+                    rowData: singleData,
+                    prg_id: fieldInfo.prg_id,
+                    page_id: fieldInfo.page_id,
+                    ui_field_name: fieldInfo.ui_field_name
+                };
+                return await $.post("/api/fieldAllLocaleContent", lo_params).then(result => {
+                    return result.multiLangContentList;
+                }, err => {
+                    throw Error(err);
                 });
             },
             initData() {
@@ -744,10 +798,14 @@
                     if (result.success) {
                         this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
                         this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        this.singleData.commis_rat = this.singleData.commis_rat * 100;
+                        this.oriSingleData.commis_rat = this.singleData.commis_rat * 100;
+                        this.singleData.serv_rat = this.singleData.serv_rat * 100;
+                        this.oriSingleData.serv_rat = this.singleData.serv_rat * 100;
                         this.setGlobalRateCod();
                         this.tabName = "roomTyp";
                         this.isUseTime = true;
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             this.isUseTime = false;
                         }, 500);
                     }
@@ -823,17 +881,25 @@
                 }
             },
             doConvertData() {
+                let lo_saveSingleData = JSON.parse(JSON.stringify(this.singleData));
+                let lo_saveOriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
+
+                lo_saveSingleData.display_all = lo_saveSingleData.display_all ? 'Y' : 'N';
+
+                lo_saveSingleData.commis_rat = Number(lo_saveSingleData.commis_rat) / 100;
+                lo_saveSingleData.serv_rat = Number(lo_saveSingleData.serv_rat) / 100;
+
                 let lo_params = {
                     page_id: this.oriFieldsData[0].page_id,
                     tab_page_id: this.oriFieldsData[0].tab_page_id,
                     event_time: moment().format()
-                }
-                this.singleData = _.extend(this.singleData, lo_params);
-                this.oriSingleData = _.extend(this.oriSingleData, lo_params);
+                };
+                lo_saveSingleData = _.extend(lo_saveSingleData, lo_params);
+                lo_saveOriSingleData = _.extend(lo_saveOriSingleData, lo_params);
                 //將主檔資料放至Vuex
                 this.$store.dispatch("setMnSingleData", {
-                    go_mnSingleData: this.singleData,
-                    go_mnOriSingleData: this.oriSingleData
+                    go_mnSingleData: lo_saveSingleData,
+                    go_mnOriSingleData: lo_saveOriSingleData
                 });
             },
             dataValidate() {
@@ -880,7 +946,7 @@
                                 this.isLoadingDialog = false;
                             }, 200);
                             if (result.success) {
-                                alert("save success");
+                                alert(go_i18nLang.program.PMS0810230.save_success);
                                 $("#PMS0810230SingleGrid").dialog('close');
                             }
                             else {

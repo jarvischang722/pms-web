@@ -64,18 +64,24 @@
                                         <!--開始結束日期設定-->
                                         <div class="block">
                                             <el-date-picker
-                                                    v-model="allDatData"
-                                                    type="daterange"
-                                                    :editable="false"
+                                                    v-model="timeRuleSingleData['begin_dat']"
+                                                    type="date"
                                                     :placeholder="i18nLang.program.PMS0810230.selectDate"
-                                                    format="yyyy/MM/dd"
+                                                    :picker-options="pickerOptions">
+                                            </el-date-picker>
+                                            <!--<br>-->
+                                            <span class="demonstration">{{i18nLang.program.PMS0810230.to}}</span>
+                                            <el-date-picker
+                                                    v-model="timeRuleSingleData['end_dat']"
+                                                    type="date"
+                                                    :placeholder="i18nLang.program.PMS0810230.selectDate"
                                                     :picker-options="pickerOptions">
                                             </el-date-picker>
                                         </div>
                                         <!--/.開始結束日期設定-->
                                         <div class="space-6"></div>
                                         <!--tabPage-->
-                                        <el-tabs v-model="timeRuleSingleData['command_cod']" type="card">
+                                        <el-tabs v-model="timeRuleSingleData['command_cod']" type="card" tab-position="left">
                                             <el-tab-pane :label="i18nLang.program.PMS0810230.evertDay" name="D">
                                                 <div class="ml-5">
                                                     <div class="space-6"></div>
@@ -200,6 +206,9 @@
         <!--欄位內容多語系-->
         <field-multi-lang
                 :sys_locales="sys_locales"
+                :single-data="singleData"
+                :field-info="fieldInfo"
+                :open-multi-lang-dialog="openMultiLangDialog"
         ></field-multi-lang>
         <!--/.欄位內容多語系-->
     </div>
@@ -240,8 +249,6 @@
                     this.timeRuleSingleData = _.extend(this.timeRuleSingleData, timeRuleData.singleData);
                     this.timeRuleSingleData.begin_dat = timeRuleData.singleData.startDat;
                     this.timeRuleSingleData.end_dat = timeRuleData.singleData.endDat;
-                    this.allDatData[0] = timeRuleData.singleData.startDat;
-                    this.allDatData[1] = timeRuleData.singleData.endDat;
                     this.timeRuleSingleData.command_cod = timeRuleData.singleData.command_cod;
                     if (this.timeRuleSingleData.command_cod == 'H') {
                         let la_commandOption = timeRuleData.singleData.command_option.split(',');
@@ -269,10 +276,8 @@
             });
             this.$eventHub.$on('openMultiLang', (data) => {
                 this.singleData = data.singleData;
-                this.$eventHub.$emit('editFieldMultiLang', {
-                    singleData: data.singleData,
-                    fieldInfo: data.fieldInfo
-                });
+                this.fieldInfo = data.fieldInfo;
+                this.openMultiLangDialog = true;
             });
         },
         mounted() {
@@ -297,7 +302,10 @@
                 isCreateStatus: false,//是否為新增狀態
                 isEditStatus: false, //是否為編輯狀態
                 isModifiable: true,
+                //單筆內容多語系
                 singleData: {}, //單筆資料
+                fieldInfo: {}, //單筆欄位資料
+                openMultiLangDialog: false, // 是否顯示多語dialog
                 //日期規則
                 isOpenTimeRule: false, //是否開起日期規則
                 timeRuleTabName: "D",
@@ -333,7 +341,7 @@
             fetchRentCalDat() {
                 $.post('/api/qryRentCalDat', {}, (result) => {
                     this.pickerOptions = {
-                        disabledDate(time){
+                        disabledDate(time) {
                             let lo_date = moment(time);
                             let lo_rentCalDat = moment(result.rent_cal_dat);
                             return lo_date.diff(lo_rentCalDat, 'days') < 1;
@@ -417,7 +425,7 @@
                         page_id: this.pageOneFieldData[0].page_id,
                         tab_page_id: this.pageOneFieldData[0].tab_page_id,
                         event_time: moment().format()
-                    }
+                    };
                     lo_delRow = _.extend(lo_delRow, lo_params);
 
                     await $.post('/api/execNewFormatSQL', {
@@ -427,7 +435,7 @@
                     }).then(
                         result => {
                             if (result.success) {
-                                alert(go_i18nLang.program.PMS0810230.delete_success);
+                                alert(go_i18nLang.program.PMS0810230.save_success);
                                 this.loadDataGridByPrgID();
                             }
                             else {
@@ -441,6 +449,8 @@
                         }
                     );
                 }
+                this.isLoading = false;
+                this.loadingText = "Loading...";
             },
             showSingleGridDialog() {
                 let self = this;
@@ -466,11 +476,11 @@
             },
             //房型使用期間 日期規則
             chkTimeRule() {
-
-                if (this.allDatData.length > 0 && _.isNull(this.allDatData[0])) {
-                    this.timeRuleSingleData.begin_dat = moment(this.allDatData[0]).format("YYYY/MM/DD");
-                    this.timeRuleSingleData.end_dat = moment(this.allDatData[1]).format("YYYY/MM/DD");
-
+                let ln_diffDate = moment(this.timeRuleSingleData.begin_dat).diff(moment(this.timeRuleSingleData.end_dat),"days");
+                if(ln_diffDate> 1){
+                    alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
+                }
+                else if ( !_.isNull(this.timeRuleSingleData.begin_dat) || !_.isNull(this.timeRuleSingleData.end_dat)) {
                     let ls_commandCod = this.timeRuleSingleData.command_cod;
                     this.timeRuleSingleData.command_option = [];
 
