@@ -4842,7 +4842,7 @@ td div.act-box span.act-text {
 .fixed-table-container table thead tr th.td-first {
   z-index: 99 !important;
 }
-.fixed-table-container table thead tr .rp-first-th {
+.fixed-table-container table thead tr:first-child th:first-child {
   z-index: 99 !important;
   box-shadow: 0px 0px 0px 2px #778899;
   -moz-box-shadow: 0px 0px 0px 2px #778899;
@@ -4852,7 +4852,7 @@ td div.act-box span.act-text {
   background-clip: padding-box;
   border: 1px solid #778899;
 }
-.fixed-table-container table tbody tr td.middle.td-first {
+.fixed-table-container table tbody tr td:first-child {
   z-index: 9;
   box-shadow: 1px 1px 0px 1px lightslategray;
   -moz-box-shadow: 1px 1px 0px 1px lightslategray;
@@ -4945,6 +4945,82 @@ td div.act-box span.act-text {
 }
 .cus-roomPlan-table table tbody tr td div.triangle-box.colspan-0 {
   width: 29px;
+}
+
+.cus-PMS0120020-table table {
+  width: 100%;
+}
+.cus-PMS0120020-table table thead tr .rp-first-th {
+  width: 160px;
+  min-width: 160px;
+}
+.cus-PMS0120020-table table thead tr .rp-first-th .caSelect {
+  margin: 12px 0 10px 0;
+  width: 54px;
+}
+.cus-PMS0120020-table table thead tr .rp-first-th .caSelect .el-icon-date:before {
+  content: none;
+}
+.cus-PMS0120020-table table thead tr .rp-first-th .caSelect .el-input__icon + .el-input__inner {
+  padding: 0;
+}
+.cus-PMS0120020-table table thead tr .rp-first-th .caSelect .el-input__inner {
+  text-align: center;
+}
+.cus-PMS0120020-table table thead tr .rp-first-th .caIcon {
+  margin-top: 6px;
+}
+.cus-PMS0120020-table table tbody tr td {
+  min-width: 35px;
+}
+.cus-PMS0120020-table table tbody tr td.middle.td-first {
+  height: 23px;
+  padding-left: 4px;
+}
+.cus-PMS0120020-table table tbody tr td.middle.td-first.subTree-title, .cus-PMS0120020-table table tbody tr td.middle.td-first .room-field-text {
+  padding-left: 4px;
+}
+.cus-PMS0120020-table table tbody tr td.middle.td-first .roomNumTip {
+  width: 42px;
+  text-align: center;
+}
+
+.cus-resvBlockSetting-table table {
+  width: 100%;
+}
+.cus-resvBlockSetting-table table thead tr .rp-first-th {
+  width: 160px;
+  min-width: 160px;
+}
+.cus-resvBlockSetting-table table thead tr .rp-first-th .caSelect {
+  margin: 12px 0 10px 0;
+  width: 54px;
+}
+.cus-resvBlockSetting-table table thead tr .rp-first-th .caSelect .el-icon-date:before {
+  content: none;
+}
+.cus-resvBlockSetting-table table thead tr .rp-first-th .caSelect .el-input__icon + .el-input__inner {
+  padding: 0;
+}
+.cus-resvBlockSetting-table table thead tr .rp-first-th .caSelect .el-input__inner {
+  text-align: center;
+}
+.cus-resvBlockSetting-table table thead tr .rp-first-th .caIcon {
+  margin-top: 6px;
+}
+.cus-resvBlockSetting-table table tbody tr td {
+  min-width: 35px;
+}
+.cus-resvBlockSetting-table table tbody tr td.middle.td-first {
+  height: 21px;
+  padding-left: 4px;
+}
+.cus-resvBlockSetting-table table tbody tr td.middle.td-first.subTree-title, .cus-resvBlockSetting-table table tbody tr td.middle.td-first .room-field-text {
+  padding-left: 4px;
+}
+.cus-resvBlockSetting-table table tbody tr td.middle.td-first .roomNumTip {
+  width: 42px;
+  text-align: center;
 }
 
 .th-width-s {

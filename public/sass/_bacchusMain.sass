@@ -2516,7 +2516,7 @@ td
       span
       &:before,&:after
         border-width: 0
-//fixtable套件bug修正
+//fixtable基本設定、套件bug修正
 .fixed-table-container
   table
     thead
@@ -2532,17 +2532,19 @@ td
         th
           &.td-first
             z-index: 99 !important
-        .rp-first-th
-          z-index: 99 !important
-          box-shadow: 0px 0px 0px 2px #778899
-          -moz-box-shadow: 0px 0px 0px 2px #778899
-          -webkit-box-shadow: 0px 0px 0px 2px #778899
+        &:first-child
+          th
+            &:first-child
+              z-index: 99 !important
+              box-shadow: 0px 0px 0px 2px #778899
+              -moz-box-shadow: 0px 0px 0px 2px #778899
+              -webkit-box-shadow: 0px 0px 0px 2px #778899
     tbody
       tr
         td
           background-clip: padding-box
           border: 1px solid #778899
-          &.middle.td-first
+          &:first-child
             z-index: 9
             box-shadow: 1px 1px 0px 1px rgba(119, 136, 153, 1)
             -moz-box-shadow: 1px 1px 0px 1px rgba(119, 136, 153, 1)
@@ -2562,7 +2564,7 @@ td
             &.td-first
               box-shadow: 1px 0px 1px 1px #778899
 
-//客製化房型訂房
+//客製化房型訂房table
 .cus-roomType-table
   table
     width: 100%
@@ -2632,6 +2634,77 @@ td
             &.triangle-box
               &.colspan-0
                 width: 30 - 1 + px
+
+//客製化超訂table
+.cus-PMS0120020-table
+  table
+    width: 100%
+    thead
+      tr
+        th
+        .rp-first-th
+          width: 160px
+          min-width: 160px
+          .caSelect
+            margin: 12px 0 10px 0
+            width: 54px
+            .el-icon-date
+              &:before
+                content: none
+            .el-input__icon + .el-input__inner
+              padding: 0
+            .el-input__inner
+              text-align: center
+          .caIcon
+            margin-top: 6px
+    tbody
+      tr
+        td
+          min-width: 35px
+          &.middle.td-first
+            height: 23px
+            padding-left: 4px
+            &.subTree-title, .room-field-text
+              padding-left: 4px
+            .roomNumTip
+              width: 42px
+              text-align: center
+
+//客製化鎖控table
+.cus-resvBlockSetting-table
+  table
+    width: 100%
+    thead
+      tr
+        th
+        .rp-first-th
+          width: 160px
+          min-width: 160px
+          .caSelect
+            margin: 12px 0 10px 0
+            width: 54px
+            .el-icon-date
+              &:before
+                content: none
+            .el-input__icon + .el-input__inner
+              padding: 0
+            .el-input__inner
+              text-align: center
+          .caIcon
+            margin-top: 6px
+    tbody
+      tr
+        td
+          min-width: 35px
+          &.middle.td-first
+            height: 21px
+            padding-left: 4px
+            &.subTree-title, .room-field-text
+              padding-left: 4px
+            .roomNumTip
+              width: 42px
+              text-align: center
+
 
 .th-width-s
   width: 100px
