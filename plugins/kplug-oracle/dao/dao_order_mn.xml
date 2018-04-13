@@ -131,12 +131,12 @@
     -->
     <dao name="QRY_ORDER_MN">
         <statement><![CDATA[
-            select g.guest_way, dt.order_sta, dt.ikey, substr(dt.ikey, 3, 4) ikey_qry, dt.ci_dat,
-            dt.co_dat, dt.days, dt.room_cod, dt.room_cod room_sna, dt.order_qnt, dt.assign_qnt,
+            select g.guest_way "guest_rf.guest_way", dt.order_sta "order_dt.order_sta", dt.ikey, substr(dt.ikey, 3, 4) ikey_qry, dt.ci_dat,
+            dt.co_dat, dt.days, dt.room_cod, dt.room_cod "order_dt.room_sna", dt.order_qnt, dt.assign_qnt,
             dt.ci_qnt, pg_hfd_get_nam2.sf_hfd_get_psngr_list(dt.ikey, dt.ikey_seq_nos, 0, '#1####', mn.athena_id, mn.hotel_cod) full_nam,
-            mn.group_nos, mn.cust_nam, mn.atten_nam, dt.rate_cod, dt.source_typ,
+            mn.group_nos, mn.cust_nam, mn.atten_nam, dt.rate_cod "order_dt.rate_cod", dt.source_typ "order_dt.source_typ",
             (select deposit_nos || ':' || deposit_mn.alt_nam from deposit_mn where deposit_nos = nvl(mn.deposit_nos, '!!!')) deposit_nos,
-            mn.confirm_sta, mn.confirm_dat, dt.use_cod, dt.use_cod use_sna, dt.guest_typ, mn.master_nos,
+            mn.confirm_sta, mn.confirm_dat, dt.use_cod, dt.use_cod "order_dt.use_sna", dt.guest_typ "order_dt.guest_typ", mn.master_nos,
             mn.rvreserve_nos, dt.ins_dat, dt.ins_usr, dt.upd_dat, dt.upd_usr,
             mn.sales_cod, mn.hotel_cod, mn.acust_nam
             from order_mn mn

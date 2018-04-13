@@ -2,7 +2,7 @@
     <div>
         <div class="page-header"></div><!-- /.page-header -->
         <!-- 訂房卡(Bookings) Page-->
-        <div class="pageMain">
+        <div class="pageMain" v-loading="isLoading">
             <div class="col-xs-12">
                 <search-comp
                         :search-fields="searchFields"
@@ -82,7 +82,6 @@
         },
         methods: {
             fetchUserInfo() {
-                this.isLoading = true;
                 let self = this;
                 $.post('/api/getUserInfo', function (result) {
                     if (result.success) {
@@ -98,15 +97,15 @@
                     page_id: 1,
                     searchCond: lo_searchCond
                 };
-
+                // this.isLoading = true;
                 $.post("/api/fetchDataGridFieldData", lo_params, result => {
                     if (this.searchFields.length <= 0) {
                         this.searchFields = result.searchFields;
                     }
-                    console.log(_.findWhere(this.searchFields, {ui_field_name: "order_dt.rate_cod"}));
                     this.pageOneFieldData = result.dgFieldsData;
                     this.pageOneDataGridRows = result.dgRowData;
                     this.showDataGrid();
+                    // this.isLoading = false;
                 });
             },
             showDataGrid() {
@@ -116,14 +115,22 @@
                     rownumbers: true
                 });
 
-                this.dgIns.loadPageDgData(this.pageOneDataGridRows);
-
-                this.isLoading = false;
+                setTimeout(() => {
+                    this.dgIns.loadPageDgData(this.pageOneDataGridRows);
+                }, 1);
             },
             fetchDgRowData() {
+                let lo_params = {
+                    prg_id: this.prg_id,
+                    page_id: 1,
+                    searchCond: this.searchCond
+                };
                 $.post("/api/fetchDgRowData", lo_params, result => {
+                    console.log(result);
                     this.pageOneDataGridRows = result.dgRowData;
-                    this.dgIns.loadPageDgData(this.pageOneDataGridRows);
+                    setTimeout(() => {
+                        this.dgIns.loadPageDgData(this.pageOneDataGridRows);
+                    }, 1);
                 });
             }
         }
