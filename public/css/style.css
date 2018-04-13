@@ -32,6 +32,9 @@
 .grid-item label.label_w80 {
   width: 80px;
 }
+.grid-item label.label-sm {
+  width: 66px;
+}
 .grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option, .grid-item .input-medium, .grid-item input, .grid-item textarea, .grid-item .css_table {
   font-size: 13px !important;
 }
@@ -101,9 +104,6 @@
   width: 0;
   min-height: initial;
   cursor: pointer;
-}
-.grid-item .popCheckbox label.checkbox-width {
-  margin-top: 2px;
 }
 
 .grid-item-input {
@@ -210,10 +210,6 @@
   bottom: 8px;
   width: auto;
 }
-.css_table .css_td .moreClick.moreAbso-t10 {
-  top: 7px;
-  bottom: auto;
-}
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
@@ -295,10 +291,6 @@
   height: auto;
   bottom: 8px;
   width: auto;
-}
-.horizTable-outer .css_table .css_td .moreClick.moreAbso-t10 {
-  top: 7px;
-  bottom: auto;
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
@@ -2506,7 +2498,6 @@ a {
 
 /*-- 商務公司資料編輯 -- */
 .businessCompanyData .main-content-data label {
-  width: 90px;
   text-align: right;
 }
 .businessCompanyData .main-content-data label.label-spc {
@@ -2532,7 +2523,6 @@ a {
   height: 25px;
 }
 .businessCompanyData .grid-item label {
-  width: 90px;
   text-align: right;
 }
 .businessCompanyData .grid-item label.label-spc {
@@ -2612,7 +2602,6 @@ a {
   border-bottom: 1px solid #eee;
 }
 .businessCompanyData .bs-changeRecord label {
-  width: 90px;
   text-align: right;
 }
 .businessCompanyData .bs-changeRecord label.label-spc {
@@ -2834,7 +2823,6 @@ ul.newVisitOther-btn {
 }
 
 .textFrame label {
-  width: 90px;
   text-align: right;
 }
 .textFrame label.label-spc {
@@ -2896,7 +2884,6 @@ ul.newVisitOther-btn {
   border-bottom: 1px solid #eee;
 }
 .resv-changeRecord label {
-  width: 90px;
   text-align: right;
 }
 .resv-changeRecord label.label-spc {
@@ -2940,7 +2927,6 @@ ul.newVisitOther-btn {
   border-bottom: 1px solid #eee;
 }
 .resv-memo label {
-  width: 90px;
   text-align: right;
 }
 .resv-memo label.label-spc {
