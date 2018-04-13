@@ -6,6 +6,7 @@ let go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
 /** DatagridRmSingleGridClass **/
 function DatagridSingleGridClass() {
 }
+
 DatagridSingleGridClass.prototype = new DatagridBaseClass();
 DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     //
@@ -93,19 +94,15 @@ Vue.component('single-grid-pms0620050-tmp', {
                 }
             }
         },
-        singleData: function (val) {
-            if (!_.isEmpty(val)) {
-                let ln_amtValue = _.clone(val['traffic_amt']);
-                let lo_amtField = {};
-
-                _.each(this.oriFieldsData, function (lo_field) {
-                    if (lo_field.ui_field_name == 'traffic_amt') {
-                        lo_amtField = lo_field;
-                    }
-                });
-
-                this.formatAmt(ln_amtValue, lo_amtField);
-            }
+        singleData: {
+            handler(val, oldVal) {
+                if (!_.isEmpty(val)) {
+                    let ln_amtValue = _.clone(val['traffic_amt']);
+                    let lo_amtField = _.findWhere(this.oriFieldsData, {ui_field_name: 'traffic_amt'});
+                    this.formatAmt(ln_amtValue, lo_amtField);
+                }
+            },
+            deep: true
         },
         isSaveEnable: function (val) {
             let purview = _.findIndex(go_funcPurview, function (value) {
@@ -170,7 +167,7 @@ Vue.component('single-grid-pms0620050-tmp', {
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 if (result.success) {
                     result.rowData["avisit_dat"] = _.isNull(self.singleData["avisit_dat"]) ? "" : moment(new Date(self.singleData["avisit_dat"])).format("YYYY/MM/DD");
-                    result.rowData["remark"] = _.isNull(result.rowData["remark"])? "": result.rowData["remark"];
+                    result.rowData["remark"] = _.isNull(result.rowData["remark"]) ? "" : result.rowData["remark"];
                     self.singleData = result.rowData;
                     self.oriSingleData = _.clone(result.rowData);
                 } else {
@@ -190,37 +187,53 @@ Vue.component('single-grid-pms0620050-tmp', {
             });
         },
         formatAmt: function (amtValue, field) {
-            let ls_amtValue = _.clone(amtValue).toString();
+            let lb_isModify = true;
+            let ls_amtValue = _.isUndefined(amtValue) ? '' : _.clone(amtValue).toString();
             let ls_oriAmtValue = '';
+            let la_amtValue = ls_amtValue.split("");
+            if (la_amtValue.length == 0) {
+                return;
+            }
+            for (let i = 0; i < la_amtValue.length; i++) {
+                if (la_amtValue[i].charCodeAt(i) < 48 || la_amtValue[i].charCodeAt(i) > 57) {
+                    lb_isModify = false;
+                    break;
+                }
+            }
 
-            if (ls_amtValue.indexOf(',') > -1) {
-                let la_splitAmtValue = ls_amtValue.split(',');
-                _.each(la_splitAmtValue, function (ls_splitAmtValue) {
-                    ls_oriAmtValue = ls_oriAmtValue + ls_splitAmtValue;
-                });
+            if (lb_isModify) {
+                if (ls_amtValue.indexOf(',') > -1) {
+                    let la_splitAmtValue = ls_amtValue.split(',');
+                    _.each(la_splitAmtValue, function (ls_splitAmtValue) {
+                        ls_oriAmtValue = ls_oriAmtValue + ls_splitAmtValue;
+                    });
+                }
+                else {
+                    ls_oriAmtValue = ls_amtValue;
+                }
+
+                ls_oriAmtValue = Number(ls_oriAmtValue);
+
+                let patternValue = field.format_func_name;
+
+                let patternLength = patternValue.indexOf('.') > -1 ?
+                    patternValue.slice(0, patternValue.indexOf('.')).length - 1 : patternValue.length - 1;
+
+                //幾位小數
+                let numberOfDecimals = patternValue.indexOf('.') > -1 ?
+                    patternValue.slice(patternValue.indexOf('.') + 1, patternValue.length).length : 0;
+                //幾位數一個逗號
+                let commaPosition = patternLength - patternValue.lastIndexOf(',');
+
+                let reStr = '\\d(?=(\\d{' + (commaPosition || 3) + '})+' + (numberOfDecimals > 0 ? '\\.' : '$') + ')';
+
+                ls_oriAmtValue = ls_oriAmtValue.toFixed(numberOfDecimals).toString().replace(new RegExp(reStr, 'g'), '$&,');
+
+                this.singleData[field.ui_field_name] = ls_oriAmtValue;
             }
             else {
-                ls_oriAmtValue = ls_amtValue;
+                this.singleData[field.ui_field_name] = 0;
             }
-
-            ls_oriAmtValue = Number(ls_oriAmtValue);
-
-            let patternValue = field.format_func_name;
-
-            let patternLength = patternValue.indexOf('.') > -1 ?
-                patternValue.slice(0, patternValue.indexOf('.')).length - 1 : patternValue.length - 1;
-
-            //幾位小數
-            let numberOfDecimals = patternValue.indexOf('.') > -1 ?
-                patternValue.slice(patternValue.indexOf('.') + 1, patternValue.length).length : 0;
-            //幾位數一個逗號
-            let commaPosition = patternLength - patternValue.lastIndexOf(',');
-
-            let reStr = '\\d(?=(\\d{' + (commaPosition || 3) + '})+' + (numberOfDecimals > 0 ? '\\.' : '$') + ')';
-
-            ls_oriAmtValue = ls_oriAmtValue.toFixed(numberOfDecimals).toString().replace(new RegExp(reStr, 'g'), '$&,');
-
-            this.singleData[field.ui_field_name] = ls_oriAmtValue;
         },
         chkClickPopUpGrid: function (field) {
             let self = this;
@@ -622,7 +635,7 @@ let vm = new Vue({
             };
 
             $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
-                if(vm.searchFields.length <= 0){
+                if (vm.searchFields.length <= 0) {
                     vm.searchFields = result.searchFields;
                 }
                 vm.pageOneDataGridRows = result.dgRowData;
@@ -654,7 +667,7 @@ let vm = new Vue({
 
             this.isLoading = false;
         },
-        fetchSingleWidth: function(){
+        fetchSingleWidth: function () {
             let self = this;
             $.post("/api/singleGridPageFieldQuery", {
                 prg_id: gs_prgId,
