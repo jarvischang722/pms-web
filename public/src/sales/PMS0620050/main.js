@@ -644,10 +644,19 @@ let vm = new Vue({
             });
         },
         showDataGrid: function () {
+            let la_colOption = DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0620050_dg');
+            let ln_pageSize = 10;//一開始只載入10筆資料
+
             this.isLoading = false;
             this.dgIns = new DatagridSingleGridClass();
-            this.dgIns.init(gs_prgId, "PMS0620050_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0620050_dg'), this.pageOneFieldData);
-            this.dgIns.loadDgData(this.pageOneDataGridRows);
+
+            this.dgIns.init(gs_prgId, "PMS0620050_dg", la_colOption, this.pageOneFieldData, {
+                singleSelect: false,
+                pagination: true,
+                rownumbers: true,
+                pageSize: ln_pageSize
+            });
+            this.dgIns.loadPageDgData(this.pageOneDataGridRows);
             this.isAction = false;
         },
         editRow: function () {
