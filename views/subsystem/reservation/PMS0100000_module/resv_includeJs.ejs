@@ -1617,11 +1617,8 @@
     $(function () {
 
 //      超訂overBooking PMS0120020
-        $('#PMS0120020-table').fixedHeaderTable({
-            cloneHeadToFoot: false,
-            fixedColumns: 1,
-            addPxForFixedColumnsWidth: 80,
-            everyColumnsAddWith: 0
+        $(document).ready(function () {
+            $("#PMS0120020-table").tableHeadFixer({"left": 1});
         });
 
 //      專案訂房 PMS0110030
