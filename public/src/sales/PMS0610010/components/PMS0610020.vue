@@ -312,6 +312,10 @@
             this.$eventHub.$on('contractStateData', function (contractStateData) {
                 self.singleData = _.extend(self.singleData, contractStateData.singleData);
             });
+            //儲存異動的資料
+            this.$eventHub.$on('saveSingleData', function () {
+                self.doSaveGrid();
+            });
 
         },
         mounted() {
@@ -547,7 +551,7 @@
                     this.$store.dispatch("doSaveAllData").then(result => {
                         if (result.success) {
                             alert("save success");
-                            $("#PMS0610020").dialog('close');
+                            this.$store.dispatch("setAllDataClear");
                         }
                         else {
                             alert(result.errorMsg);

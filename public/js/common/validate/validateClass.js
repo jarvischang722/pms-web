@@ -226,7 +226,7 @@ function validateClass() {
 
     //確認統一編號規則
     this.ChkUniCod = function () {
-        var ls_value = arguments[0];
+        var ls_value = _.isUndefined(arguments[0]) || _.isNull(arguments[0]) ? "" : arguments[0];
         var ls_ui_display_name = arguments[1];
         var lb_result = ls_value.length != 8 ? false : true;
         if (lb_result) {
@@ -234,7 +234,7 @@ function validateClass() {
             var la_chkPara = [1, 2, 1, 2, 1, 2, 4, 1];
             var ln_sum = 0;
             for (var i = 0; i < 8; i++) {
-                if (la_chNo[i].charCodeAt(i) >=0 || la_chNo[i].charCodeAt(i) <= 9) {
+                if (la_chNo[i].charCodeAt(i) >= 0 || la_chNo[i].charCodeAt(i) <= 9) {
                     return lb_result = false;
                 }
                 ln_sum += computeUniCod(la_chNo[i] * la_chkPara[i]);
@@ -253,6 +253,17 @@ function validateClass() {
         var lb_result = reg.test(ls_value);
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.ChkEmail, ls_ui_display_name) : sprintf(this.ls_msg.FmtYYYYMM, "");
         return {success: lb_result, msg: ls_msg};
+    };
+
+    //確認資料是否異動
+    this.chkDataChang = function () {
+        var lo_singleData = arguments[0];
+        var lo_oriSingleData = arguments[1];
+        var lb_result = true;
+        if (!_.isMatch(lo_singleData, lo_oriSingleData)) {
+            lb_result = false;
+        }
+        return {success: lb_result, msg: this.ls_msg.chkDataChang};
     };
 }
 

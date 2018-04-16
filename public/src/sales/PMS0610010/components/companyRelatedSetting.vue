@@ -236,8 +236,11 @@
                 }
             },
             singleData: {
-                handler: function (val, oldVal) {
+                handler: function (val) {
                     if (!_.isEmpty(val)) {
+                        let lo_singleData = JSON.parse(JSON.stringify(val));
+                        let lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
+
                         if (this.$store.state.gb_isCreateStatus) {
                             val.ins_dat = moment(new Date(val.ins_dat)).format("YYYY/MM/DD HH:mm:ss")
                             val.ins_usr = this.userInfo.usr_id
@@ -247,9 +250,10 @@
                         }
 
                         this.$eventHub.$emit('getRelatedSettingData', {
-                            relatedSettingSingleData: val,
-                            relatedSettingOriSingleData: this.oriSingleData
+                            relatedSettingSingleData: lo_singleData,
+                            relatedSettingOriSingleData: lo_oriSingleData
                         });
+
                         //將相關設定資料放至Vuex
                         this.$store.dispatch("setRsSingleData", {
                             go_rsSingleData: val,
@@ -309,7 +313,8 @@
                             cust_idx_ar_amt: 0,
                             cust_idx_credit_amt: 0,
                             business_cod: '01  ',
-                            type_cod: '01  '
+                            type_cod: '01  ',
+                            area_cod: null
                         };
                         this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
                         this.isLoading = false;
@@ -326,32 +331,34 @@
                             this.singleData = result.gsMnData.rowData[0];
                             this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
 
-                            //找樹狀parent node
-                            findByValue(this.areaCodSelectData, this.singleData.area_cod);
+                            if(!_.isNull(this.singleData.area_cod)){
+                                //找樹狀parent node
+                                findByValue(this.areaCodSelectData, this.singleData.area_cod);
 
-                            //攤平資料(陣列扁平化)
-                            var list = [];
-                            flattenArray(go_rtnResult, list);
+                                //攤平資料(陣列扁平化)
+                                var list = [];
+                                flattenArray(go_rtnResult, list);
 
-                            this.areaCodSelectedOption = [];
-                            var groupList = _.groupBy(list, "parent_cod");
-                            groupList = _.toArray(groupList).reverse();
-                            var ls_parent_cod = "";
+                                this.areaCodSelectedOption = [];
+                                var groupList = _.groupBy(list, "parent_cod");
+                                groupList = _.toArray(groupList).reverse();
+                                var ls_parent_cod = "";
 
-                            _.each(groupList, function (la_list) {
-                                var lo_data;
-                                if (ls_parent_cod == "") {
-                                    lo_data = _.findWhere(la_list, {value: self.singleData.area_cod});
-                                }
-                                else {
-                                    lo_data = _.findWhere(la_list, {value: ls_parent_cod});
-                                }
-                                if (!_.isUndefined(lo_data)) {
-                                    self.areaCodSelectedOption.push(lo_data.value);
-                                    ls_parent_cod = lo_data.parent_cod;
-                                }
-                            });
-                            this.areaCodSelectedOption = this.areaCodSelectedOption.reverse();
+                                _.each(groupList, function (la_list) {
+                                    var lo_data;
+                                    if (ls_parent_cod == "") {
+                                        lo_data = _.findWhere(la_list, {value: self.singleData.area_cod});
+                                    }
+                                    else {
+                                        lo_data = _.findWhere(la_list, {value: ls_parent_cod});
+                                    }
+                                    if (!_.isUndefined(lo_data)) {
+                                        self.areaCodSelectedOption.push(lo_data.value);
+                                        ls_parent_cod = lo_data.parent_cod;
+                                    }
+                                });
+                                this.areaCodSelectedOption = this.areaCodSelectedOption.reverse();
+                            }
 
                             this.isLoading = false;
                         });

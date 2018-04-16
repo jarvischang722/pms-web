@@ -419,7 +419,8 @@
       "ChkPointOne": "%s 僅能輸入至小數點1位",
       "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)",
       "ChkEmail": "%s 格式不正確",
-      "ChkUniCod": "%s 格式不正確"
+      "ChkUniCod": "%s 格式不正確",
+      "chkDataChang": "資料異動，是否要修改?"
     }
   },
   "ErrorMsg": {
