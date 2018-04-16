@@ -195,7 +195,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                 return;
             }
             for (let i = 0; i < la_amtValue.length; i++) {
-                if (la_amtValue[i].charCodeAt(i) < 48 || la_amtValue[i].charCodeAt(i) > 57) {
+                if (ls_amtValue.charCodeAt(i) < 48 || ls_amtValue.charCodeAt(i) > 57) {
                     lb_isModify = false;
                     break;
                 }
