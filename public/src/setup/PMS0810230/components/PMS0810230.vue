@@ -425,7 +425,7 @@
                         page_id: this.pageOneFieldData[0].page_id,
                         tab_page_id: this.pageOneFieldData[0].tab_page_id,
                         event_time: moment().format()
-                    }
+                    };
                     lo_delRow = _.extend(lo_delRow, lo_params);
 
                     await $.post('/api/execNewFormatSQL', {
@@ -435,7 +435,7 @@
                     }).then(
                         result => {
                             if (result.success) {
-                                alert(go_i18nLang.program.PMS0810230.delete_success);
+                                alert(go_i18nLang.program.PMS0810230.save_success);
                                 this.loadDataGridByPrgID();
                             }
                             else {
@@ -449,6 +449,8 @@
                         }
                     );
                 }
+                this.isLoading = false;
+                this.loadingText = "Loading...";
             },
             showSingleGridDialog() {
                 let self = this;
