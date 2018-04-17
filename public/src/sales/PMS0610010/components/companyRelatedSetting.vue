@@ -331,7 +331,7 @@
                             this.singleData = result.gsMnData.rowData[0];
                             this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
 
-                            if(!_.isNull(this.singleData.area_cod)){
+                            if (!_.isNull(this.singleData.area_cod)) {
                                 //找樹狀parent node
                                 findByValue(this.areaCodSelectData, this.singleData.area_cod);
 
@@ -445,21 +445,38 @@
                 }
             },
             computeAmt(val, field) {
-                var ls_ruleVal = field.format_func_name.rule_val;
+                let ls_ruleVal = field.format_func_name.rule_val;
+                let lb_isModify = true;
+                let ls_creditAmt = _.isUndefined(this.singleData['cust_idx_credit_amt']) ?
+                    "" : go_formatDisplayClass.removeAmtFormat(this.singleData['cust_idx_credit_amt'].toString());
+                let ls_arAmt = _.isUndefined(this.singleData['cust_idx_ar_amt']) ?
+                    "" : go_formatDisplayClass.removeAmtFormat(this.singleData['cust_idx_ar_amt'].toString());
+                let ln_balance = 0;
 
-                var ln_creditAmt = _.isUndefined(this.singleData['cust_idx_credit_amt']) ?
-                    "" : this.singleData['cust_idx_credit_amt'];
-                var ln_arAmt = _.isUndefined(this.singleData['cust_idx_ar_amt']) ?
-                    "" : this.singleData['cust_idx_ar_amt'];
-                ln_creditAmt = ln_creditAmt.toString();
-                ln_arAmt = ln_arAmt.toString();
+                for (let i = 0; i < ls_creditAmt.length; i++) {
+                    if (ls_creditAmt.charCodeAt(i) < 48 || ls_creditAmt.charCodeAt(i) > 57) {
+                        lb_isModify = false;
+                        break;
+                    }
+                }
+                for (let i = 0; i < ls_arAmt.length; i++) {
+                    if (ls_arAmt.charCodeAt(i) < 48 || ls_arAmt.charCodeAt(i) > 57) {
+                        lb_isModify = false;
+                        break;
+                    }
+                }
+                if (lb_isModify) {
+                    ln_balance = Number(ls_creditAmt) - Number(ls_arAmt);
 
-                var ln_balance =
-                    Number(go_formatDisplayClass.removeAmtFormat(ln_creditAmt)) - Number(go_formatDisplayClass.removeAmtFormat(ln_arAmt));
-
-                this.singleData["cust_idx_credit_amt"] = go_formatDisplayClass.amtFormat(ln_creditAmt, ls_ruleVal);
-                this.singleData["cust_idx_ar_amt"] = go_formatDisplayClass.amtFormat(ln_arAmt, ls_ruleVal);
-                this.singleData['balance'] = go_formatDisplayClass.amtFormat(ln_balance, ls_ruleVal);
+                    this.singleData["cust_idx_credit_amt"] = go_formatDisplayClass.amtFormat(ls_creditAmt, ls_ruleVal);
+                    this.singleData["cust_idx_ar_amt"] = go_formatDisplayClass.amtFormat(ls_arAmt, ls_ruleVal);
+                    this.singleData['balance'] = go_formatDisplayClass.amtFormat(ln_balance, ls_ruleVal);
+                }
+                else {
+                    this.singleData["cust_idx_credit_amt"] = 0;
+                    this.singleData["cust_idx_ar_amt"] = 0;
+                    this.singleData['balance'] = 0;
+                }
             },
             //信用額度變更
             async doChangeCreditLimit() {
@@ -485,7 +502,7 @@
             },
             doCloseChangeCreditLimitDialog() {
                 $("#changeCreditLimit").dialog('close');
-            }
+            },
         }
     }
 
