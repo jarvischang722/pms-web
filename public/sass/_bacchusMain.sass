@@ -2716,7 +2716,6 @@ td
               width: 42px
               text-align: center
 
-
 .th-width-s
   width: 100px
   float: left
@@ -2786,6 +2785,19 @@ td
     margin-bottom: 15px
     label.title-2x
       font-size: 2rem
+
+#resvSingle-table
+  th, td
+    padding: 0 3px
+    border: 1px solid #cac3c3
+    +box-shadow(none)
+    +el-date-ht($defHt)
+  th
+    font-weight: 300
+    font-size: $font-default
+    background-color: #eee
+  .date-wt
+    width: 115px
 //產生房號訂房內容各種長度
 @for $i from 1 through 28
   $width: 30 * $i

@@ -1,4 +1,11 @@
 @charset "UTF-8";
+.el-date-editor {
+  height: 25px !important;
+}
+.el-date-editor .el-input__inner, .el-date-editor .el-input__icon {
+  height: 25px !important;
+}
+
 /* ---- mixin ---- */
 /* ---- grid ---- */
 .grid:after {
@@ -33,7 +40,7 @@
   width: 80px;
 }
 .grid-item label.label-sm {
-  width: 66px;
+  width: 69px;
 }
 .grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option, .grid-item .input-medium, .grid-item input, .grid-item textarea, .grid-item .css_table {
   font-size: 13px !important;
@@ -741,6 +748,10 @@ label {
 
 .menu-min .menu-icon {
   top: 0;
+}
+
+.textbox {
+  border-radius: 0;
 }
 
 .divider .fancyTable thead tr td, .divider .fancyTable thead tr th {
@@ -4766,12 +4777,6 @@ td div.act-box span.act-text {
   padding-top: 0 !important;
 }
 
-.grid-item .el-date-editor {
-  height: 25px !important;
-}
-.grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
-  height: 25px !important;
-}
 .grid-item .el-cascader .el-input__inner {
   height: 25px !important;
 }
@@ -5133,6 +5138,22 @@ td div.act-box span.act-text {
 }
 .new-authorized-tree .title label.title-2x {
   font-size: 2rem;
+}
+
+#resvSingle-table th, #resvSingle-table td {
+  padding: 0 3px;
+  border: 1px solid #cac3c3;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+#resvSingle-table th {
+  font-weight: 300;
+  font-size: 13px;
+  background-color: #eee;
+}
+#resvSingle-table .date-wt {
+  width: 115px;
 }
 
 td div.triangle-box.colspan-1 {
@@ -5948,6 +5969,14 @@ td div.triangle-box.colspan-28 {
   padding: 0 3px;
   display: block;
   width: 100%;
+}
+
+.v-easy-s1 {
+  border: 1px solid #C5D0DC;
+}
+.v-easy-s1 .v-table-title-cell, .v-easy-s1 .v-table-body-cell {
+  height: 25px !important;
+  line-height: 25px !important;
 }
 
 .lineDelTgh {
@@ -6905,16 +6934,16 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
 .popCheckbox.resvCk-1 {
   width: 106px;
 }
-.popCheckbox .checkbox {
+.popCheckbox .checkbox, .popCheckbox .radio {
   margin: 1px auto 0 auto;
 }
-.popCheckbox .checkbox .ace {
+.popCheckbox .checkbox .ace, .popCheckbox .radio .ace {
   padding-right: 5px;
 }
-.popCheckbox .checkbox label {
+.popCheckbox .checkbox label, .popCheckbox .radio label {
   width: auto;
 }
-.popCheckbox .checkbox label .lbl:before {
+.popCheckbox .checkbox label .lbl:before, .popCheckbox .radio label .lbl:before {
   margin-right: 3px;
 }
 .popCheckbox.lbl-after .txt {

@@ -61,8 +61,32 @@
                 ]]
             });
 
-        });
+            // vue
+            // 訂房卡單筆 table
+            let resv_vm = new Vue({
+                el: '#reservationDialog-1-message',
+                data: {
+                    ciDate1: '',
+                    coDate1: '',
+                    ciDate2: '',
+                    coDate2: '',
+                    ciDate3: '',
+                    coDate3: '',
+                    ciDate4: '',
+                    coDate4: '',
+                    ciDate5: '',
+                    coDate5: '',
+                    ciDate6: '',
+                    coDate6: '',
+                    ciTime1: new Date(2016, 9, 10, 18, 40),
+                    coTime1: new Date(2016, 9, 10, 18, 40),
+                }
+            })
 
+            // 訂房卡單筆
+            $("#resvSingle-table").tableHeadFixer({"left": 1});
+
+        });
 
         // 彈出 住客歷史
         $(document).on('click', ".reservationDialog-2", function (e) {
@@ -1066,17 +1090,158 @@
         // 彈出setRateCode　公帳號
         $(document).on('click', ".publicAccount-btn", function (e) {
             e.preventDefault();
-            var dialog = $("#publicAccountDialog").removeClass('hide').dialog({
+            var dialog = $("#publicAccount-msg").removeClass('hide').dialog({
                 modal: true,
                 title: "公帳號",
                 title_html: true,
-                width: 600,
+                width: 400,
                 maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
             });
+        });
+
+        // 彈出 更多備註
+        $(document).on('click', ".moreRmks", function (e) {
+            e.preventDefault();
+            var dialog = $("#moreRmks-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "備註",
+                title_html: true,
+                width: 400,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 其他聯絡方式
+        $(document).on('click', ".othContact", function (e) {
+            e.preventDefault();
+            var dialog = $("#othContact-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "其他聯絡方式",
+                title_html: true,
+                width: 400,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 選擇房價
+        $(document).on('click', ".choiceRmPrice", function (e) {
+            e.preventDefault();
+            var dialog = $("#choiceRmPrice-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "選擇房價",
+                title_html: true,
+                width: 550,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+            let chRmPriceTable = {
+                name: 'frozen-title-columns',
+                data() {
+                    return {
+                        tableData: [
+                            {
+                                "source": "合約",
+                                "chMenu": "A",
+                                "newCode": "A0001",
+                                "newName": "STD",
+                                "anotherName": "STDDD"
+                            },
+                            {
+                                "source": "一般",
+                                "chMenu": "B",
+                                "newCode": "B0001",
+                                "newName": "STD",
+                                "anotherName": "STDDD"
+                            },
+                            {
+                                "source": "合約",
+                                "chMenu": "C",
+                                "newCode": "C0001",
+                                "newName": "STD",
+                                "anotherName": "STDDD"
+                            },
+                            {
+                                "source": "合約",
+                                "chMenu": "D",
+                                "newCode": "D0001",
+                                "newName": "STD",
+                                "anotherName": "STDDD"
+                            },
+                            {
+                                "source": "一般",
+                                "chMenu": "E",
+                                "newCode": "E0001",
+                                "newName": "STD",
+                                "anotherName": "STDDD"
+                            }
+                        ],
+                        columns: [
+                            {
+                                field: 'source',
+                                title: '來源',
+                                width: 100,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                titleCellClassName: 'v-easy-s1',
+                                isResize: true
+                            },
+                            {
+                                field: 'chMenu',
+                                title: '選單',
+                                width: 40,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                titleCellClassName: 'v-easy-s1',
+                                isResize: true
+                            },
+                            {
+                                field: 'newCode',
+                                title: '新代號',
+                                width: 90,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                titleCellClassName: 'v-easy-s1',
+                                isResize: true
+                            },
+                            {
+                                field: 'newName',
+                                title: '新名稱',
+                                width: 90,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                titleCellClassName: 'v-easy-s1',
+                                isResize: true
+                            },
+                            {
+                                field: 'anotherName',
+                                title: '新別名',
+                                width: 90,
+                                titleAlign: 'center',
+                                columnAlign: 'center',
+                                titleCellClassName: 'v-easy-s1',
+                                isResize: true
+                            }
+                        ]
+                    }
+                },
+                methods: {
+                    columnCellClass(rowIndex, columnName, rowData){
+
+                        if (rowIndex >= 0) {
+                            return 'v-easy-s1';
+                        }
+                    },
+                }
+            }
+            let Ctor7 = Vue.extend(chRmPriceTable);
+            new Ctor7().$mount('#chRmPriceTable');
         });
 
         // PMS01200070 彈出 交辦事項單筆 resv_tracessingle-1
@@ -1616,10 +1781,8 @@
     });
     $(function () {
 
-//      超訂overBooking PMS0120020
-        $(document).ready(function () {
-            $("#PMS0120020-table").tableHeadFixer({"left": 1});
-        });
+        // 超訂overBooking PMS0120020
+        $("#PMS0120020-table").tableHeadFixer({"left": 1});
 
 //      專案訂房 PMS0110030
         $('#PMS0110030-table').fixedHeaderTable({
