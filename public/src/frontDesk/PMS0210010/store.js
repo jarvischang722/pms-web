@@ -165,12 +165,11 @@ const actions = {
         else if (state.gb_isEditStatus) {
             if (state.gb_isDeleteStatus) {
                 lo_tmpCUD.deleteData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
-                lo_tmpCUD.oriData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
                 ls_funcId = "0300";
             }
             else {
                 lo_tmpCUD.updateData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
-                lo_tmpCUD.oriData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
+                lo_tmpCUD.oriData.push(_.extend(state.go_oriProfileSingleData, {tab_page_id: 1}));
                 ls_funcId = "0400";
             }
         }

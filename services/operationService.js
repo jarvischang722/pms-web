@@ -115,3 +115,22 @@ exports.fetchDefaultGsRowData = async function (postData, session, callback) {
         throw new Error(err);
     }
 };
+
+/**
+ * 取作業(只有)多筆oracle資料
+ * @param postData
+ * @param session
+ * @param callback
+ * @returns {Promise.<void>}
+ */
+exports.fetchDgRowData = async function (postData, session, callback) {
+    let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
+
+    try {
+        let fetchDgRowsResult = await lo_dgProc.fetchDgRowData();
+        callback(null, fetchDgRowsResult);
+    }
+    catch (err) {
+        callback(err, []);
+    }
+};

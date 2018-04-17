@@ -465,6 +465,7 @@
                         break;
                     }
                 }
+
                 if (lb_isModify) {
                     ln_balance = Number(ls_creditAmt) - Number(ls_arAmt);
 

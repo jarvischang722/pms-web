@@ -211,6 +211,7 @@
                         self.editingRow = {};
                         self.isEditStatus = false;
                         self.isCreateStatus = false;
+                        self.$eventHub.$emit("doSaveModifyData");
                         self.fetchDgRowData();
                     }
                 }).dialog('open');

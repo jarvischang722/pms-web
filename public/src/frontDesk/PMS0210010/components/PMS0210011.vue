@@ -429,6 +429,7 @@
     /** DatagridRmSingleGridClass **/
     function DataGridSingleGridClass() {
     }
+
     DataGridSingleGridClass.prototype = new DatagridBaseClass();
     DataGridSingleGridClass.prototype.onClickRow = function (idx, row) {
     };
@@ -440,6 +441,36 @@
         name: 'pms0210011',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
         components: {otherContact, lostAndFound, visitsPanel},
+        created() {
+            this.$eventHub.$on("doSaveModifyData", () => {
+                _.each(this.singleData, (val, key) => {
+                    if (_.isUndefined(val)) {
+                        this.singleData[key] = null;
+                    }
+                });
+                let lo_allData = {
+                    singleData: this.singleData,
+                    emailData: this.$store.state.ga_emailDataGridRowsData,
+                    contactData: this.$store.state.ga_contactDataGridRowsData,
+                    addressData: this.$store.state.ga_addressDataGridRowsData
+                };
+                let lo_oriAllData = {
+                    singleData: this.oriSingleData,
+                    emailData: this.$store.state.ga_oriEmailDataGridRowsData,
+                    contactData: this.$store.state.ga_oriContactDataGridRowsData,
+                    addressData: this.$store.state.ga_oriAddressDataGridRowsData
+                };
+
+                let lo_isModify = go_validateClass.chkDataChang(lo_allData, lo_oriAllData);
+
+                if(!lo_isModify.success){
+                    let lb_confirm = confirm(lo_isModify.msg);
+                    if(lb_confirm){
+                        this.doSaveData();
+                    }
+                }
+            });
+        },
         mounted() {
             this.isLoadingDialog = true;
             this.loadingText = "Loading...";

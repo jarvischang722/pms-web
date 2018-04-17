@@ -260,9 +260,28 @@ function validateClass() {
         var lo_singleData = arguments[0];
         var lo_oriSingleData = arguments[1];
         var lb_result = true;
-        if (!_.isMatch(lo_singleData, lo_oriSingleData)) {
-            lb_result = false;
-        }
+        _.each(lo_singleData, function (val, key) {
+            if (!Array.isArray(val)) {
+                if (!_.isMatch(val, lo_oriSingleData[key])) {
+                    lb_result = false;
+                    return;
+                }
+            }
+            else {
+                _.each(val, function (arrayVal, idx) {
+                    if (val.length != lo_oriSingleData[key].length) {
+                        lb_result = false;
+                        return;
+                    }
+                    else {
+                        if (!_.isMatch(arrayVal, lo_oriSingleData[key][idx])) {
+                            lb_result = false;
+                            return;
+                        }
+                    }
+                });
+            }
+        });
         return {success: lb_result, msg: this.ls_msg.chkDataChang};
     };
 }
