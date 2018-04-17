@@ -18,7 +18,7 @@ module.exports = function (req, res, next) {
     async.series([
         function (cb) {
             //只有登入頁需要往下跑
-            if (req.originalUrl.indexOf("/login") == -1) {
+            if (req.originalUrl.toLocaleLowerCase().indexOf("/login") == -1) {
                 return cb(null, 'done');
             }
             let lo_langRf = require("../configs/LangNameRf.json");
