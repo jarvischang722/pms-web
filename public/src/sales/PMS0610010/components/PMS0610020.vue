@@ -550,7 +550,7 @@
                 else {
                     this.$store.dispatch("doSaveAllData").then(result => {
                         if (result.success) {
-                            alert("save success");
+                            alert(go_i18nLang.program.PMS0610020.save_success);
                             this.$store.dispatch("setAllDataClear");
                         }
                         else {

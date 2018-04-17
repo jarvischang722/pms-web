@@ -241,7 +241,8 @@
       "sales_cod": "業務員代號(日)",
       "sales_nam": "業務員姓名(日)",
       "class_nam": "組別(日)",
-      "rate": "房價代號或名稱(日)"
+      "rate": "房價代號或名稱(日)",
+      "save_success": "儲存成功(日)"
     },
     "PMS0620030":{
       "edit_sales_clerk": "修改業務員(日)"
