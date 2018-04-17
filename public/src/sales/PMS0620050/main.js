@@ -190,28 +190,27 @@ Vue.component('single-grid-pms0620050-tmp', {
             let lb_isModify = true;
             let ls_amtValue = _.isUndefined(amtValue) ? '' : _.clone(amtValue).toString();
             let ls_oriAmtValue = '';
-            let la_amtValue = ls_amtValue.split("");
-            if (la_amtValue.length == 0) {
-                return;
+
+            if (ls_amtValue.indexOf(',') > -1) {
+                let la_splitAmtValue = ls_amtValue.split(',');
+                _.each(la_splitAmtValue, function (ls_splitAmtValue) {
+                    ls_oriAmtValue = ls_oriAmtValue + ls_splitAmtValue;
+                });
             }
+            else {
+                ls_oriAmtValue = ls_amtValue;
+            }
+
+            let la_amtValue = ls_oriAmtValue.split("");
+
             for (let i = 0; i < la_amtValue.length; i++) {
-                if (ls_amtValue.charCodeAt(i) < 48 || ls_amtValue.charCodeAt(i) > 57) {
+                if (ls_oriAmtValue.charCodeAt(i) < 48 || ls_oriAmtValue.charCodeAt(i) > 57) {
                     lb_isModify = false;
                     break;
                 }
             }
 
             if (lb_isModify) {
-                if (ls_amtValue.indexOf(',') > -1) {
-                    let la_splitAmtValue = ls_amtValue.split(',');
-                    _.each(la_splitAmtValue, function (ls_splitAmtValue) {
-                        ls_oriAmtValue = ls_oriAmtValue + ls_splitAmtValue;
-                    });
-                }
-                else {
-                    ls_oriAmtValue = ls_amtValue;
-                }
-
                 ls_oriAmtValue = Number(ls_oriAmtValue);
 
                 let patternValue = field.format_func_name;
