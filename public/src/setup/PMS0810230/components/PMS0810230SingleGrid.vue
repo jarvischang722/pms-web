@@ -14,7 +14,7 @@
                                                    :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                 <a @click="editFieldMultiLang(field)"
-                                                   v-if="field.multi_lang_table != ''">
+                                                   v-if="field.multi_lang_table != '' && field.ui_type != 'textarea'">
                                                     {{field.ui_display_name}}
                                                 </a>
                                                 <span v-else>{{ field.ui_display_name }}</span>
@@ -80,7 +80,7 @@
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                           @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                 </textarea>
-                                                <i class="moreClick fa fa-ellipsis-h "
+                                                <i class="moreClick fa fa-ellipsis-h " @click="editFieldMultiLang"
                                                    style=" display: inline-block; position: absolute; margin-top: 3px;"></i>
                                             </template>
 

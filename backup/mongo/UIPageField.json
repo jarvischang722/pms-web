@@ -17409,7 +17409,7 @@
     "label_width" : "90", 
     "width" : "727", 
     "visiable" : "Y", 
-    "modificable" : "Y", 
+    "modificable" : "N",
     "requirable" : "N", 
     "keyable" : "", 
     "multi_lang_table" : "lang_ratecod_mn", 
