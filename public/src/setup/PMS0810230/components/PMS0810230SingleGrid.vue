@@ -9,7 +9,7 @@
                             <div class="main-content-data borderFrame">
                                 <div v-for="fields in fieldsData">
                                     <div class="grid">
-                                        <div class="grid-item" v-for="field in fields">
+                                        <div class="grid-item" v-for="field in fields" style="position: relative;">
                                             <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
                                                    :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
@@ -70,16 +70,19 @@
                                             </bac-select>
 
                                             <!--  textarea -->
-                                            <textarea v-model="singleData[field.ui_field_name]"
-                                                      v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
-                                                      class="numStyle-none" rows="4" style="resize: none;"
-                                                      :style="{width:field.width + 'px'}"
-                                                      :required="field.requirable == 'Y'"
-                                                      :maxlength="field.ui_field_length"
-                                                      :disabled="field.modificable == 'N'|| !isModifiable ||
+                                            <template v-if="field.visiable == 'Y' && field.ui_type == 'textarea'">
+                                                <textarea v-model="singleData[field.ui_field_name]"
+                                                          class="numStyle-none" rows="1" style="resize: none; display: inline-block;"
+                                                          :style="{width:field.width + 'px'}"
+                                                          :required="field.requirable == 'Y'"
+                                                          :maxlength="field.ui_field_length"
+                                                          :disabled="field.modificable == 'N'|| !isModifiable ||
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                      @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
-                                            </textarea>
+                                                          @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                </textarea>
+                                                <i class="moreClick fa fa-ellipsis-h "
+                                                   style=" display: inline-block; position: absolute; margin-top: 3px;"></i>
+                                            </template>
 
                                         </div>
                                     </div>
@@ -582,7 +585,6 @@
     import roomTyp from './roomTyp';
     import useTime from './useTime';
     import rateList from './rateList';
-
 
     export default {
         name: 'pms0810230SingleGrid',
