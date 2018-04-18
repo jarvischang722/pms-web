@@ -2798,6 +2798,21 @@ td
     background-color: #eee
   .date-wt
     width: 115px
+  .td-more
+    position: relative
+    .wt-input
+      width: 80%
+    .moreClick
+      position: absolute
+      right: 0
+      top: 2px
+      height: 20px
+      border: 1px solid #888
+      background: $border-color
+      border-radius: 5px
+      padding: 4px 5px 0 5px
+      box-sizing: border-box
+      cursor: pointer
 //產生房號訂房內容各種長度
 @for $i from 1 through 28
   $width: 30 * $i

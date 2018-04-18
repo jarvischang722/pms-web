@@ -10,16 +10,15 @@
                             <div style="position: relative;">
                                 <div class="resvTabs-topTxt">
                                     <div class="resvTabs-content">
-                                        <span class="subT">Web RV No.:</span>
+                                        <span class="subT">官網號碼:</span>
                                         <span class="subCon">RMHTD17000121</span>
-                                        <span class="subT">RV No.:</span>
+                                        <span class="subT">訂房卡號:</span>
                                         <span class="subCon">06587201</span>
-                                        <span class="subT">Cfm status:</span>
+                                        <span class="subT">確認狀態:</span>
                                         <select class="input-medium resvCard-xs">
                                             <option value="y">Y</option>
                                             <option value="n">N</option>
                                         </select>
-
                                     </div>
                                 </div>
                             </div>
@@ -86,11 +85,9 @@
                                                         <div class="grid">
                                                             <div class="grid-item">
                                                                 <label class="pull-left">公帳號</label>
-                                                                <select class="input-medium resvCard-xs pull-left"
-                                                                        disabled>
-                                                                    <option value="ch_tw">Y</option>
-                                                                    <option value="en">N</option>
-                                                                </select>
+                                                                <input type="text"
+                                                                       class="input-medium resvCard-xs pull-left"
+                                                                       placeholder="Y" disabled>
                                                                 <input type="text"
                                                                        class="input-medium resvCard-xs pull-left ml-3"
                                                                        placeholder="G01" disabled/>
@@ -164,7 +161,7 @@
                                                             <span class="checkbox">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox"
-                                                                         type="checkbox"
+                                                                         type="checkbox" checked
                                                                          class="ace">
                                                                   <span class="lbl">
                                                                     <span class="txt">已列印</span>
@@ -184,7 +181,6 @@
                                                         <input type="text" class="input-medium resvCardRm"
                                                                placeholder="02-25175008"/>
                                                         <i class="moreClick fa fa-ellipsis-h othContact"></i>
-                                                        <i class="moreClick fa fa-ellipsis-h choiceRmPrice"></i>
                                                     </div>
                                                 </div>
                                                 <!--5-->
@@ -195,7 +191,7 @@
                                                                placeholder=""/>
                                                     </div>
                                                     <div class="grid-item">
-                                                        <label class="pull-left">旅遊登記卡</label>
+                                                        <label class="pull-left">旅客登記卡</label>
                                                         <div class="popCheckbox pull-left resvCk-1">
                                                                                 <span class="checkbox">
                                                                                   <label class="checkbox-width">
@@ -280,30 +276,17 @@
                                                                 <th class="text-center ca-headerTitle height-fntThead rp-first-th">
                                                                     <i class="fa fa-plus green"></i>
                                                                 </th>
-                                                                <th class="text-left" style="min-width: 45px;">No</th>
-                                                                <th class="text-left" style="min-width: 45px;">Status
-                                                                </th>
-                                                                <th class="text-left" style="min-width: 40px;">CI Date
-                                                                </th>
-                                                                <th class="text-left" style="min-width: 40px;">Days</th>
-                                                                <th class="text-left" style="min-width: 40px;">CO Date
-                                                                </th>
-                                                                <th class="text-left" style="min-width: 145px;">Rate
-                                                                    Code
-                                                                </th>
-                                                                <th class="text-left" style="min-width: 130px;">Rm. Type
-                                                                    For Sel
-                                                                </th>
-                                                                <th class="text-right" style="min-width: 60px;">Use Type
-                                                                </th>
-                                                                <th class="text-right" style="min-width: 40px;">Qty</th>
-                                                                <th class="text-right" style="min-width: 60px;">Unit
-                                                                    Price
-                                                                </th>
-                                                                <th class="text-right" style="min-width: 100px;">Unit
-                                                                    Sev.
-                                                                    Chrg
-                                                                </th>
+                                                                <th class="text-left" style="min-width: 45px;">序</th>
+                                                                <th class="text-left" style="min-width: 45px;">狀態</th>
+                                                                <th class="text-left" style="min-width: 40px;">入住日期</th>
+                                                                <th class="text-left" style="min-width: 40px;">天數</th>
+                                                                <th class="text-left" style="min-width: 40px;">退房日期</th>
+                                                                <th class="text-left" style="min-width: 180px;">房價代號</th>
+                                                                <th class="text-left" style="min-width: 130px;">計價房種</th>
+                                                                <th class="text-right" style="min-width: 60px;">使用房種</th>
+                                                                <th class="text-right" style="min-width: 40px;">間數</th>
+                                                                <th class="text-right" style="min-width: 60px;">單價</th>
+                                                                <th class="text-right" style="min-width: 100px;">服務費</th>
                                                                 <th class="text-left" style="min-width: 50px;">大人</th>
                                                                 <th class="text-left" style="min-width: 50px;">小孩</th>
                                                                 <th class="text-left" style="min-width: 50px;">嬰兒</th>
@@ -337,7 +320,7 @@
                                                                 <td class="text-left">
                                                                     <template>
                                                                         <el-date-picker v-model="ciDate1" type="date"
-                                                                                        placeholder="選擇日期"
+                                                                                        placeholder=""
                                                                                         class="date-wt">
                                                                         </el-date-picker>
                                                                     </template>
@@ -348,18 +331,21 @@
                                                                 <td class="text-left">
                                                                     <template>
                                                                         <el-date-picker v-model="coDate1" type="date"
-                                                                                        placeholder="選擇日期"
+                                                                                        placeholder=""
                                                                                         class="date-wt">
                                                                         </el-date-picker>
                                                                     </template>
                                                                 </td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="F1To1:一般散客價"/>
+                                                                <td class="text-left td-more">
+                                                                    <input type="text"
+                                                                           class="selectHt pull-left wt-input"
+                                                                           placeholder="F1To1:一般散客價"/>
+                                                                    <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
                                                                 </td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="STD"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="STD"/>
+                                                                </td>
                                                                 <td class="text-right"><input type="text"
                                                                                               class="selectHt"
                                                                                               placeholder="STD"/></td>
@@ -388,7 +374,7 @@
                                                                 <td class="text-left">
                                                                     <template>
                                                                         <el-date-picker v-model="ciDate2" type="date"
-                                                                                        placeholder="選擇日期"
+                                                                                        placeholder=""
                                                                                         class="date-wt">
                                                                         </el-date-picker>
                                                                     </template>
@@ -399,35 +385,39 @@
                                                                 <td class="text-left">
                                                                     <template>
                                                                         <el-date-picker v-model="coDate2" type="date"
-                                                                                        placeholder="選擇日期"
+                                                                                        placeholder=""
                                                                                         class="date-wt">
                                                                         </el-date-picker>
                                                                     </template>
                                                                 </td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="F1To1:一般散客價"/>
+                                                                <td class="text-left td-more">
+                                                                    <input type="text"
+                                                                           class="selectHt pull-left wt-input"
+                                                                           placeholder="F1To1:一般散客價"/>
+                                                                    <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
                                                                 </td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="STD"/></td>
-                                                                <td class="text-right"><input type="text"
-                                                                                              class="selectHt"
-                                                                                              placeholder="STD"/></td>
-                                                                <td class="text-right"><input type="text"
-                                                                                              class="selectHt"
-                                                                                              placeholder="2"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="STD"/></td>
+                                                                <td class="text-right">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="STD"/>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="2"/>
+                                                                </td>
                                                                 <td class="text-right">5,000</td>
                                                                 <td class="text-right">500</td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="2"/></td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="1"/></td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="1"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="2"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="1"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="1"/></td>
                                                             </tr>
                                                             <!--3-->
                                                             <tr>
@@ -439,7 +429,7 @@
                                                                 <td class="text-left">
                                                                     <template>
                                                                         <el-date-picker v-model="ciDate3" type="date"
-                                                                                        placeholder="選擇日期"
+                                                                                        placeholder=""
                                                                                         class="date-wt">
                                                                         </el-date-picker>
                                                                     </template>
@@ -450,35 +440,39 @@
                                                                 <td class="text-left">
                                                                     <template>
                                                                         <el-date-picker v-model="coDate3" type="date"
-                                                                                        placeholder="選擇日期"
+                                                                                        placeholder=""
                                                                                         class="date-wt">
                                                                         </el-date-picker>
                                                                     </template>
                                                                 </td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="F1To1:一般散客價"/>
+                                                                <td class="text-left td-more">
+                                                                    <input type="text"
+                                                                           class="selectHt pull-left wt-input"
+                                                                           placeholder="F1To1:一般散客價"/>
+                                                                    <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
                                                                 </td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="STD"/></td>
-                                                                <td class="text-right"><input type="text"
-                                                                                              class="selectHt"
-                                                                                              placeholder="STD"/></td>
-                                                                <td class="text-right"><input type="text"
-                                                                                              class="selectHt"
-                                                                                              placeholder="2"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="STD"/></td>
+                                                                <td class="text-right">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="STD"/>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="2"/>
+                                                                </td>
                                                                 <td class="text-right">5,000</td>
                                                                 <td class="text-right">500</td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="2"/></td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="1"/></td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="1"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="2"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="1"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="1"/></td>
                                                             </tr>
                                                             <!--4-->
                                                             <tr>
@@ -490,7 +484,7 @@
                                                                 <td class="text-left">
                                                                     <template>
                                                                         <el-date-picker v-model="ciDate4" type="date"
-                                                                                        placeholder="選擇日期"
+                                                                                        placeholder=""
                                                                                         class="date-wt">
                                                                         </el-date-picker>
                                                                     </template>
@@ -501,35 +495,39 @@
                                                                 <td class="text-left">
                                                                     <template>
                                                                         <el-date-picker v-model="coDate4" type="date"
-                                                                                        placeholder="選擇日期"
+                                                                                        placeholder=""
                                                                                         class="date-wt">
                                                                         </el-date-picker>
                                                                     </template>
                                                                 </td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="F1To1:一般散客價"/>
+                                                                <td class="text-left td-more">
+                                                                    <input type="text"
+                                                                           class="selectHt pull-left wt-input"
+                                                                           placeholder="F1To1:一般散客價"/>
+                                                                    <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
                                                                 </td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="STD"/></td>
-                                                                <td class="text-right"><input type="text"
-                                                                                              class="selectHt"
-                                                                                              placeholder="STD"/></td>
-                                                                <td class="text-right"><input type="text"
-                                                                                              class="selectHt"
-                                                                                              placeholder="2"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="STD"/></td>
+                                                                <td class="text-right">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="STD"/>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="2"/>
+                                                                </td>
                                                                 <td class="text-right">5,000</td>
                                                                 <td class="text-right">500</td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="2"/></td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="1"/></td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="1"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="2"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="1"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="1"/></td>
                                                             </tr>
                                                             <!--5-->
                                                             <tr>
@@ -541,7 +539,7 @@
                                                                 <td class="text-left">
                                                                     <template>
                                                                         <el-date-picker v-model="ciDate5" type="date"
-                                                                                        placeholder="選擇日期"
+                                                                                        placeholder=""
                                                                                         class="date-wt">
                                                                         </el-date-picker>
                                                                     </template>
@@ -552,35 +550,39 @@
                                                                 <td class="text-left">
                                                                     <template>
                                                                         <el-date-picker v-model="coDate5" type="date"
-                                                                                        placeholder="選擇日期"
+                                                                                        placeholder=""
                                                                                         class="date-wt">
                                                                         </el-date-picker>
                                                                     </template>
                                                                 </td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="F1To1:一般散客價"/>
+                                                                <td class="text-left td-more">
+                                                                    <input type="text"
+                                                                           class="selectHt pull-left wt-input"
+                                                                           placeholder="F1To1:一般散客價"/>
+                                                                    <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
                                                                 </td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="STD"/></td>
-                                                                <td class="text-right"><input type="text"
-                                                                                              class="selectHt"
-                                                                                              placeholder="STD"/></td>
-                                                                <td class="text-right"><input type="text"
-                                                                                              class="selectHt"
-                                                                                              placeholder="2"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="STD"/></td>
+                                                                <td class="text-right">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="STD"/>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="2"/>
+                                                                </td>
                                                                 <td class="text-right">5,000</td>
                                                                 <td class="text-right">500</td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="2"/></td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="1"/></td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="1"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="2"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="1"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="1"/></td>
                                                             </tr>
                                                             <!--6-->
                                                             <tr>
@@ -592,7 +594,7 @@
                                                                 <td class="text-left">
                                                                     <template>
                                                                         <el-date-picker v-model="ciDate6" type="date"
-                                                                                        placeholder="選擇日期"
+                                                                                        placeholder=""
                                                                                         class="date-wt">
                                                                         </el-date-picker>
                                                                     </template>
@@ -603,35 +605,39 @@
                                                                 <td class="text-left">
                                                                     <template>
                                                                         <el-date-picker v-model="coDate6" type="date"
-                                                                                        placeholder="選擇日期"
+                                                                                        placeholder=""
                                                                                         class="date-wt">
                                                                         </el-date-picker>
                                                                     </template>
                                                                 </td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="F1To1:一般散客價"/>
+                                                                <td class="text-left td-more">
+                                                                    <input type="text"
+                                                                           class="selectHt pull-left wt-input"
+                                                                           placeholder="F1To1:一般散客價"/>
+                                                                    <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
                                                                 </td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="STD"/></td>
-                                                                <td class="text-right"><input type="text"
-                                                                                              class="selectHt"
-                                                                                              placeholder="STD"/></td>
-                                                                <td class="text-right"><input type="text"
-                                                                                              class="selectHt"
-                                                                                              placeholder="2"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="STD"/></td>
+                                                                <td class="text-right">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="STD"/>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="2"/>
+                                                                </td>
                                                                 <td class="text-right">5,000</td>
                                                                 <td class="text-right">500</td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="2"/></td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="1"/></td>
-                                                                <td class="text-left"><input type="text"
-                                                                                             class="selectHt"
-                                                                                             placeholder="1"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="2"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="1"/></td>
+                                                                <td class="text-left">
+                                                                    <input type="text" class="selectHt"
+                                                                           placeholder="1"/></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -641,9 +647,9 @@
                                         </div>
                                         <div class="resvCard-data">
                                             <div class="pull-right">
-                                                <span>A:<span class="font-lg">4</span></span>
-                                                <span>C:<span class="font-lg">1</span></span>
-                                                <span>B:<span class="font-lg">0</span></span>
+                                                <span>大人:<span class="font-lg">4</span></span>
+                                                <span>小孩:<span class="font-lg">1</span></span>
+                                                <span>嬰兒:<span class="font-lg">0</span></span>
                                             </div>
                                         </div>
                                     </div><!--main-content-data-->
@@ -672,14 +678,14 @@
                                                 </template>
                                             </div>
                                             <div class="grid-item">
-                                                <label>房租</label>
-                                                <input type="text" class="input-medium resvCard text-right"
-                                                       placeholder="10,000"/>
-                                            </div>
-                                            <div class="grid-item">
                                                 <label>佣金</label>
                                                 <input type="text" class="input-medium resvCard"
                                                        placeholder=""/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>房租</label>
+                                                <input type="text" class="input-medium resvCard text-right"
+                                                       placeholder="10,000" disabled/>
                                             </div>
                                         </div>
                                         <!--2-->
@@ -698,10 +704,11 @@
                                                     </el-time-picker>
                                                 </template>
                                             </div>
+                                            <div class="grid-item" style="width: 200px;"></div>
                                             <div class="grid-item">
                                                 <label>服務費</label>
                                                 <input type="text" class="input-medium resvCard text-right"
-                                                       placeholder="1000"/>
+                                                       placeholder="1000" disabled/>
                                             </div>
                                         </div>
                                         <!--3-->
@@ -711,10 +718,11 @@
                                                 <input type="text" class="input-medium resvCard-col2"
                                                        placeholder="high floor"/>
                                             </div>
+                                            <div class="grid-item" style="width: 200px;"></div>
                                             <div class="grid-item">
                                                 <label>其他費用</label>
                                                 <input type="text" class="input-medium resvCard text-right"
-                                                       placeholder="700"/>
+                                                       placeholder="700" disabled/>
                                             </div>
                                         </div>
                                         <!--4-->
@@ -724,10 +732,11 @@
                                                 <input type="text" class="input-medium resvCard-col2"
                                                        placeholder="non smoking"/>
                                             </div>
+                                            <div class="grid-item" style="width: 200px;"></div>
                                             <div class="grid-item">
                                                 <label>小計</label>
                                                 <input type="text" class="input-medium resvCard text-right"
-                                                       placeholder="11,700"/>
+                                                       placeholder="11,700" disabled/>
                                             </div>
                                         </div>
                                     </div><!--main-content-data-->
@@ -2071,7 +2080,7 @@
                                                                             <label>入住提醒</label>
                                                                             <input type="text"
                                                                                    class="input-medium resvCard-sm-col2Rm"
-                                                                                   placeholder=""/>
+                                                                                   placeholder="出示身份證"/>
                                                                             <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
                                                                         </div>
 
@@ -2079,8 +2088,7 @@
                                                                             <label>喜好房號</label>
                                                                             <input type="text"
                                                                                    class="input-medium resvCard-sm"
-                                                                                   placeholder=""
-                                                                                   disabled/>
+                                                                                   placeholder="" disabled/>
                                                                         </div>
                                                                     </div>
                                                                     <!--6-->
@@ -2089,7 +2097,7 @@
                                                                             <label>退房提醒</label>
                                                                             <input type="text"
                                                                                    class="input-medium resvCard-sm-col2Rm"
-                                                                                   placeholder=""/>
+                                                                                   placeholder="發票請打統編"/>
                                                                             <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
                                                                         </div>
                                                                         <div class="grid">
@@ -2605,7 +2613,6 @@
                                                     <th class="css_th" style="min-width:40px;">選擇</th>
                                                     <th class="css_th" style="min-width:100px;">住客姓名</th>
                                                     <th class="css_th" style="min-width:40px;">序號</th>
-                                                    <th class="css_th" style="min-width:40px;">房組</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="css_tbody">
@@ -2624,7 +2631,6 @@
                                                     </td>
                                                     <td class="css_td">王大明</td>
                                                     <td class="css_td">1</td>
-                                                    <td class="css_td">1</td>
                                                 </tr>
                                                 <tr class="css_tr">
                                                     <td class="css_td">
@@ -2641,7 +2647,6 @@
                                                     </td>
                                                     <td class="css_td">李大同</td>
                                                     <td class="css_td">2</td>
-                                                    <td class="css_td">2</td>
                                                 </tr>
                                                 <tr class="css_tr">
                                                     <td class="css_td">
@@ -2657,7 +2662,6 @@
                                                         </div>
                                                     </td>
                                                     <td class="css_td">王大明</td>
-                                                    <td class="css_td">3</td>
                                                     <td class="css_td">3</td>
                                                 </tr>
                                             </tbody>

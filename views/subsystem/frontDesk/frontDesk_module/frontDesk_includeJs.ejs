@@ -1281,7 +1281,8 @@
                 {field: 'rmSta', title: 'Rm. Sta.', width: 70},
                 {field: 'hkSta', title: 'HK Sta.', width: 70},
                 {field: 'oos', title: 'OOS', width: 70},
-                {field: 'assign', title: 'Assign', width: 100},
+                {field: 'assign', title: 'Assign', width: 70},
+                {field: 'demolition', title: '拆併床', width: 70},
                 {field: 'name', title: 'Full Name', width: 100},
                 {field: 'ciDate', title: 'C/I Date', width: 100},
                 {field: 'coDate', title: 'C/O Date', width: 100},
@@ -1411,15 +1412,15 @@
         });
 
         // PMS0210020 綜合櫃檯 相關設定 & 全部設定切換
-        $(document).on('click','.related-set1',function (e) {
+        $(document).on('click', '.related-set1', function (e) {
             $(this).parents('.pageMain').find('.counterBlock').fadeOut('800');
-            $(this).parents('.pageMain').find('.resultCount').css('min-width','95%');
+            $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
             $(this).parents('.pageMain').find('.related-set-block').fadeIn('800');
             $(this).html("全部房號").addClass('related-set2').removeClass('related-set1');
         });
-        $(document).on('click','.related-set2',function (e) {
+        $(document).on('click', '.related-set2', function (e) {
             $(this).parents('.pageMain').find('.counterBlock').fadeIn('800');
-            $(this).parents('.pageMain').find('.resultCount').css('min-width','');
+            $(this).parents('.pageMain').find('.resultCount').css('min-width', '');
             $(this).html("相關房號").addClass('related-set1').removeClass('related-set2');
         });
 
@@ -1429,58 +1430,58 @@
             $(this).addClass('status-tip-active');
             let statusData = $(this).data('class');
 
-            if(statusData=='cb-oc-od'){
+            if (statusData == 'cb-oc-od') {
                 $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
                 $(this).parents('.foCounter').find('.cb-oc-od').fadeIn('800');
-                $(this).parents('.pageMain').find('.resultCount').css('min-width','95%');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
             }
-            else if(statusData=='cb-ob'){
+            else if (statusData == 'cb-ob') {
                 $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
                 $(this).parents('.foCounter').find('.cb-ob').fadeIn('800');
-                $(this).parents('.pageMain').find('.resultCount').css('min-width','95%');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
             }
-            else if(statusData=='cb-doc-dod'){
+            else if (statusData == 'cb-doc-dod') {
                 $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
                 $(this).parents('.foCounter').find('.cb-doc-dod').fadeIn('800');
-                $(this).parents('.pageMain').find('.resultCount').css('min-width','95%');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
             }
-            else if(statusData=='cb-dod'){
+            else if (statusData == 'cb-dod') {
                 $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
                 $(this).parents('.foCounter').find('.cb-dod').fadeIn('800');
-                $(this).parents('.pageMain').find('.resultCount').css('min-width','95%');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
             }
-            else if(statusData=='cb-vc-vd'){
+            else if (statusData == 'cb-vc-vd') {
                 $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
                 $(this).parents('.foCounter').find('.cb-vc-vd').fadeIn('800');
-                $(this).parents('.pageMain').find('.resultCount').css('min-width','95%');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
             }
-            else if(statusData=='cb-ooo'){
+            else if (statusData == 'cb-ooo') {
                 $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
                 $(this).parents('.foCounter').find('.cb-ooo').fadeIn('800');
-                $(this).parents('.pageMain').find('.resultCount').css('min-width','95%');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
             }
-            else if(statusData=='cb-vc-vdGreen'){
+            else if (statusData == 'cb-vc-vdGreen') {
                 $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
                 $(this).parents('.foCounter').find('.cb-vc-vdGreen').fadeIn('800');
-                $(this).parents('.pageMain').find('.resultCount').css('min-width','95%');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
             }
-            else if(statusData=='cb-oos'){
+            else if (statusData == 'cb-oos') {
                 $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
                 $(this).parents('.foCounter').find('.cb-oos').fadeIn('800');
-                $(this).parents('.pageMain').find('.resultCount').css('min-width','95%');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
             }
-            else if(statusData=='cb-s'){
+            else if (statusData == 'cb-s') {
                 $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
                 $(this).parents('.foCounter').find('.cb-s').fadeIn('800');
-                $(this).parents('.pageMain').find('.resultCount').css('min-width','95%');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
             }
-            else if(statusData=='cb-all'){
+            else if (statusData == 'cb-all') {
                 $(this).parents('.foCounter').find('.counterBlock').fadeIn('800');
-                $(this).parents('.pageMain').find('.resultCount').css('min-width','');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '');
             }
-            else{
+            else {
                 $(this).parents('.foCounter').find('.counterBlock').fadeIn('800');
-                $(this).parents('.pageMain').find('.resultCount').css('min-width','');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '');
             }
         });
 

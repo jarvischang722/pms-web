@@ -1986,7 +1986,7 @@
                         </div>
                         <div class="grid">
                             <div class="grid-item">
-                                <label>傳真電話</label>
+                                <label>住家電話</label>
                                 <input type="text" class="input-medium resvCard-xlxl"
                                        placeholder=""/>
                             </div>
@@ -2028,11 +2028,20 @@
         <div class="row">
             <div class="col-xs-10 col-sm-10">
                 <div class="row no-margin-right main-content-data">
+                    <div class="grid">
+                        <div class="grid-item">
+                            <label class="width-auto">來源</label>
+                            <select class="input-medium medium-c1">
+                                <option value="1">一般</option>
+                                <option value="2">合約</option>
+                            </select>
+                        </div>
+                    </div>
                     <!-- TODO 無法固定表頭-->
                     <div id="chRmPriceTable">
                         <template>
                             <v-table
-                                    :width="400"
+                                    :width="300"
                                     :height="150"
                                     :columns="columns"
                                     :table-data="tableData"
