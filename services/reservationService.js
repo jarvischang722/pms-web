@@ -251,7 +251,7 @@ class rmNosPageOneMap {
         };
 
         return new Promise((resolve, reject) => {
-            tools.requestApi(sysConf.api_url, lo_apiParam, function (err, res, data) {
+            tools.requestApi(sysConf.api_url.java, lo_apiParam, function (err, res, data) {
                 var errorMsg = "";
                 if (err || !data) {
                     reject(err);

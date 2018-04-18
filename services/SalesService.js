@@ -924,7 +924,7 @@ exports.handleEditSalesClerk = function (session, postData, callback) {
         }
     };
 
-    tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+    tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
         var err = null;
         var success = true;
         if (apiErr || !data) {
@@ -1041,7 +1041,7 @@ exports.handleCompState = function (session, postData, callback) {
             "exec_data": lo_savaExecDatas
         };
 
-        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
             if (apiErr || !data) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
@@ -1145,7 +1145,7 @@ exports.handleContractState = function (session, postData, callback) {
             "exec_data": lo_savaExecDatas
         };
 
-        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
             if (apiErr || !data) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
