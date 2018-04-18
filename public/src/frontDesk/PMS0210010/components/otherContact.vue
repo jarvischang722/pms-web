@@ -270,8 +270,8 @@
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
                         _.each(val, (lo_addressDataGridRows, idx) => {
-                            if (lo_addressDataGridRows["address_dt.zip_cod"] != null) {
-                                if (lo_addressDataGridRows["address_dt.add_rmk"] == null) {
+                            if (!_.isNull(lo_addressDataGridRows["address_dt.zip_cod"])) {
+                                if (_.isNull(lo_addressDataGridRows["address_dt.add_rmk"])) {
                                     let ls_zipCod = _.findWhere(this.zipCodSelectData, {value: lo_addressDataGridRows["address_dt.zip_cod"]})["display"];
                                     val[idx]["address_dt.add_rmk"] = ls_zipCod.split(":")[1]
                                 }
@@ -329,16 +329,17 @@
                     tab_page_id: 1,
                     searchCond: {cust_cod: this.$store.state.gs_gcustCod}
                 }).then(result => {
-                    _.each(result.dgRowData, (lo_dgRowData, idx) => {
-                        result.dgRowData[idx]["athena_id"] = getCookie("athena_id");
-                        result.dgRowData[idx]["cust_cod"] = this.$store.state.gs_gcustCod;
-                        result.dgRowData[idx] = _.extend(lo_dgRowData, {tab_page_id: 1});
-                    });
-
                     this.emailFieldsData = result.dgFieldsData;
                     this.emailDataGridRows = result.dgRowData;
                     this.oriEmailDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
-                    
+                    _.each(this.emailDataGridRows, (lo_emailDataGridRows, idx) => {
+                        this.emailDataGridRows[idx]["cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.emailDataGridRows[idx]["athena_id"] = getCookie("athena_id");
+                        this.emailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1,});
+                    });
+                    _.each(this.oriEmailDataGridRows, (lo_emailDataGridRows, idx) => {
+                        this.oriEmailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1});
+                    });
                     this.fetchContactData()
                 });
             },
@@ -349,18 +350,19 @@
                     tab_page_id: 2,
                     searchCond: {cust_cod: this.$store.state.gs_gcustCod}
                 }).then(result => {
-                    _.each(result.dgRowData, (lo_dgRowData, idx) => {
-                        result.dgRowData[idx]["contact_dt.athena_id"] = getCookie("athena_id");
-                        result.dgRowData[idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
-                        result.dgRowData[idx] = _.extend(lo_dgRowData, {tab_page_id: 2});
-                    });
-
                     this.contactFieldsData = result.dgFieldsData;
                     this.contactFieldOneData = _.findWhere(this.contactFieldsData, {ui_field_name: 'contact_dt.contact_nam'});
                     this.contactFieldTwoData = _.findWhere(this.contactFieldsData, {ui_field_name: 'contact_dt.contact_rmk'});
                     this.contactDataGridRows = result.dgRowData;
                     this.oriContactDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
-
+                    _.each(this.contactDataGridRows, (lo_contactDataGridRows, idx) => {
+                        this.contactDataGridRows[idx]["contact_dt.athena_id"] = getCookie("athena_id");
+                        this.contactDataGridRows[idx]["contact_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.contactDataGridRows[idx] = _.extend(lo_contactDataGridRows, {tab_page_id: 2});
+                    });
+                    _.each(this.oriContactDataGridRows, (lo_contactDataGridRows, idx) => {
+                        this.oriContactDataGridRows[idx] = _.extend(lo_contactDataGridRows, {tab_page_id: 2});
+                    });
                     this.fetchAddressData();
                 });
             },
@@ -371,11 +373,6 @@
                     tab_page_id: 3,
                     searchCond: {cust_cod: this.$store.state.gs_gcustCod}
                 }).then(result => {
-                    _.each(result.dgRowData, (lo_dgRowData, idx) => {
-                        result.dgRowData[idx]["address_dt.athena_id"] = getCookie("athena_id");
-                        result.dgRowData[idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
-                        result.dgRowData[idx] = _.extend(lo_dgRowData, {tab_page_id: 3});
-                    });
                     this.addressFieldsData = result.dgFieldsData;
                     this.addressDataGridRows = result.dgRowData;
                     this.oriAddressDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
@@ -385,6 +382,15 @@
                         if (lo_addressFieldData.ui_field_name == 'address_dt.zip_cod') {
                             this.zipCodSelectData = lo_addressFieldData.selectData;
                         }
+                    });
+
+                    _.each(this.addressDataGridRows, (lo_addressDataGridRows, idx) => {
+                        this.addressDataGridRows[idx]["address_dt.athena_id"] = getCookie("athena_id");
+                        this.addressDataGridRows[idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.addressDataGridRows[idx] = _.extend(lo_addressDataGridRows, {tab_page_id: 3});
+                    });
+                    _.each(this.oriAddressDataGridRows, (lo_addressDataGridRows, idx) => {
+                        this.oriAddressDataGridRows[idx] = _.extend(lo_addressDataGridRows, {tab_page_id: 3});
                     });
 
                     this.isLoadingDialog = false;

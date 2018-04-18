@@ -449,23 +449,39 @@
                     }
                 });
                 let lo_allData = {
-                    singleData: this.singleData,
+                    singleData: this.$store.state.go_profileSingleData,
                     emailData: this.$store.state.ga_emailDataGridRowsData,
                     contactData: this.$store.state.ga_contactDataGridRowsData,
                     addressData: this.$store.state.ga_addressDataGridRowsData
                 };
                 let lo_oriAllData = {
-                    singleData: this.oriSingleData,
+                    singleData: this.$store.state.go_oriProfileSingleData,
                     emailData: this.$store.state.ga_oriEmailDataGridRowsData,
                     contactData: this.$store.state.ga_oriContactDataGridRowsData,
                     addressData: this.$store.state.ga_oriAddressDataGridRowsData
                 };
 
+                _.each(lo_oriAllData["emailData"], (lo_emailData, idx) => {
+                    lo_oriAllData["emailData"][idx] = _.extend(lo_emailData, {
+                        cust_cod: this.$store.state.gs_gcustCod,
+                        athena_id: lo_allData["emailData"][idx]["athena_id"]
+                    });
+                });
+                _.each(lo_oriAllData["contactData"], (lo_contactData, idx) => {
+                    lo_oriAllData["contactData"][idx]["contact_dt.athena_id"] = lo_allData["contactData"][idx]["contact_dt.athena_id"];
+                    lo_oriAllData["contactData"][idx]["contact_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+
+                });
+                _.each(lo_oriAllData["addressData"], (lo_addressData, idx) => {
+                    lo_oriAllData["addressData"][idx]["address_dt.athena_id"] = lo_allData["addressData"][idx]["address_dt.athena_id"];
+                    lo_oriAllData["addressData"][idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                });
+
                 let lo_isModify = go_validateClass.chkDataChang(lo_allData, lo_oriAllData);
 
-                if(!lo_isModify.success){
+                if (!lo_isModify.success) {
                     let lb_confirm = confirm(lo_isModify.msg);
-                    if(lb_confirm){
+                    if (lb_confirm) {
                         this.doSaveData();
                     }
                 }
@@ -743,12 +759,12 @@
 
                     if (lo_saveProfileDataRes.success && lo_saveOtherContactDataRes.success) {
                         alert(go_i18nLang.SystemCommon.saveSuccess);
-                        this.doCloseDialog();
                     }
                     else {
                         alert(lo_saveProfileDataRes.errorMsg)
                     }
                     this.isLoadingDialog = false;
+                    this.$store.dispatch("setAllDataClear");
                 }
             },
             async doDeleteData() {

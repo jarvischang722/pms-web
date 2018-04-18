@@ -141,6 +141,7 @@ async function qryFieldData(rfData, tmpIdType, params, session) {
 
         if (tmpIdType.template_id == "datagrid") {
             tmpIdType.mainFieldsData = la_dgFieldsData;
+            tmpIdType.dgFieldsData = la_dgFieldsData;
         }
         else if (tmpIdType.template_id == "gridsingle") {
             tmpIdType.mainFieldsData = la_gsFieldsData;
@@ -349,7 +350,7 @@ async function combineMainData(rfData, tmpIdType, params, session) {
                             let lo_fieldsData = qryFieldsDataByTabPageID(data, tmpIdType);
                             let tmpEdit = {"function": "2", "table_name": tmpIdType.mainTableName}; //2  編輯
                             _.each(Object.keys(data), function (objKey) {
-                                if(objKey == "route_cod"){
+                                if (objKey == "route_cod") {
                                     console.log(objKey);
                                 }
                                 if (!_.isUndefined(data[objKey])) {
@@ -707,10 +708,10 @@ async function combineDtCreateEditExecData(rfData, tmpIdTyp, params, session) {
         if (params.dtUpdateData.length == 0) {
             return params;
         }
-        else{
+        else {
             return new Promise((resolve, reject) => {
                 async.parallel(la_dtUpdateData, function (err, result) {
-                    if(err) reject(err);
+                    if (err) reject(err);
                     else resolve(params);
                 });
             });
