@@ -114,10 +114,7 @@
                     pagination: true,
                     rownumbers: true
                 });
-
-                setTimeout(() => {
-                    this.dgIns.loadPageDgData(this.pageOneDataGridRows);
-                }, 1);
+                this.dgIns.loadPageDgData(this.pageOneDataGridRows);
             },
             fetchDgRowData() {
                 let lo_params = {
@@ -128,9 +125,7 @@
                 $.post("/api/fetchDgRowData", lo_params, result => {
                     console.log(result);
                     this.pageOneDataGridRows = result.dgRowData;
-                    setTimeout(() => {
-                        this.dgIns.loadPageDgData(this.pageOneDataGridRows);
-                    }, 1);
+                    this.dgIns.loadPageDgData(this.pageOneDataGridRows);
                 });
             }
         }

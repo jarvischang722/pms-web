@@ -121,9 +121,9 @@
             SELECT  SALES_MN.SALES_COD value, SALES_MN.SALES_NAM display
             FROM  SALES_MN
             WHERE  SALES_MN.ATHENA_ID = :athena_id
-            AND  SALES_MN.SALES_COD = :sales_cod
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
+        <statement test="_v(param.sales_cod)"><![CDATA[AND  SALES_MN.SALES_COD = :sales_cod]]></statement>
         <parameter type="string" kind="3">sales_cod</parameter>
     </dao>
 </root>
