@@ -7,28 +7,10 @@
                     <div class="room-special">
                         <div class="pull-left">
                             <label class="spec-title">Assign Rmks/RM Features</label>
+                            <i class="fa fa-chevron-down blue"></i>
                         </div>
-                        <div class="pull-right">
-                            <span class="checkbox">
-                                  <label class="checkbox-width">
-                                      <input name="form-field-checkbox"
-                                             type="checkbox"
-                                             class="ace">
-                                      <span class="lbl">
-                                          <span class="subtxt">顯示全部</span>
-                                      </span>
-                                  </label>
-                            </span>
-                        </div>
-                        <!--<div class="checkbox pull-right open-cardDetail">-->
-                        <!--<label class="no-padding-left">-->
-                        <!--<input name="showCardDetail" value="showCardDetail" type="checkbox"-->
-                        <!--class="ace showCardDetail"/>-->
-                        <!--<span class="lbl"> 顯示訂房卡明細 </span>-->
-                        <!--</label>-->
-                        <!--</div>-->
                         <div class="clearfix"></div>
-                        <textarea class="width-100 height-auto rzNone" rows="3"></textarea>
+                        <textarea class="width-100 height-auto rzNone padding-2" rows="1"></textarea>
                     </div> <!-- /.room-special -->
                 </div>
 
@@ -36,8 +18,22 @@
                 <div class="roomDetail-table2 easyui-panel">
                     <table id="roomDetail-table"></table>
                 </div>
+                <div class="clearfix"></div>
                 <br>
-                <div class="space-4"></div>
+
+                <div class="popCheckbox">
+                        <span class="checkbox rm-assign-ck">
+                              <label class="checkbox-width">
+                                  <input name="form-field-checkbox"
+                                         type="checkbox"
+                                         class="ace" checked>
+                                  <span class="lbl">
+                                    <span class="txt">顯示下方明細</span>
+                                  </span>
+                              </label>
+                        </span>
+                </div>
+                <div class="clearfix"></div>
                 <div class="jqGridEdit-table roomDetail-table2 cardDetail_margin easyui-panel">
                     <table id="roomDetail-table2" class="roomAssTableHt" style="height: 400px;"></table>
                 </div>
@@ -150,14 +146,14 @@
                     <div class="space-2"></div>
                     <div class="tabbable tabs-left">
                         <div class="horizTable-outer pull-left chooseCount"
-                             style="min-width: 39px; max-width:5%;">
-                            <table class="css_table horizTable center table-lg width-100">
+                             style="min-width: 49px; max-width:5%;">
+                            <table class="css_table horizTable center table-lg width-100 rm-table-s">
                                 <tbody class="css_tbody">
                                     <tr class="css_tr">
                                         <td class="css_td active">All</td>
                                     </tr>
                                     <tr class="css_tr">
-                                        <td class="css_td">JP</td>
+                                        <td class="css_td">WWW</td>
                                     </tr>
                                     <tr class="css_tr">
                                         <td class="css_td">JW</td>
@@ -185,6 +181,18 @@
                                     </tr>
                                     <tr class="css_tr">
                                         <td class="css_td">JPN</td>
+                                    </tr>
+                                    <tr class="css_tr">
+                                        <td class="css_td">SUG</td>
+                                    </tr>
+                                    <tr class="css_tr">
+                                        <td class="css_td">DDT</td>
+                                    </tr>
+                                    <tr class="css_tr">
+                                        <td class="css_td">JPN</td>
+                                    </tr>
+                                    <tr class="css_tr">
+                                        <td class="css_td">SUT</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -2963,7 +2971,7 @@
                         </button>
                     </li>
                     <li>
-                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                        <button class="btn btn-primary btn-white btn-defaultWidth foCnt_autoAssignSGL"
                                 role="button">Assign All
                         </button>
                     </li>

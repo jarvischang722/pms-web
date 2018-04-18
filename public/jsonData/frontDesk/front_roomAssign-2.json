@@ -2,7 +2,6 @@
   "total": 28,
   "rows": [
     {
-      "exclamation": "<i class='fa fa-exclamation red'></i>",
       "cardCode": "00000101-1",
       "bookingNum": "1",
       "name": "李大同",
@@ -17,7 +16,6 @@
       "baby": "0"
     },
     {
-      "exclamation": "",
       "cardCode": "00000201-1",
       "bookingNum": "1",
       "name": "李大同",
@@ -32,7 +30,6 @@
       "baby": "0"
     },
     {
-      "exclamation": "",
       "cardCode": "00000301-1",
       "bookingNum": "2",
       "name": "李大同",
@@ -47,7 +44,6 @@
       "baby": "0"
     },
     {
-      "exclamation": "<i class='fa fa-exclamation red'></i>",
       "cardCode": "00000401-1",
       "bookingNum": "2",
       "name": "李大同，陳小華",

@@ -1897,12 +1897,12 @@
                         <div class="clearfix"></div>
                         <div class="row">
                             <div class="col-xs-4 col-xs-offset-3">
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage13"
+                                <button class="btn btn-primary btn-white btn-defaultWidth cancelRm"
                                         role="button">自動選取
                                 </button>
                             </div>
                             <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth confirm-print-btn"
+                                <button class="btn btn-primary btn-white btn-defaultWidth selectManually"
                                         role="button">手動選取
                                 </button>
                             </div>
@@ -2037,19 +2037,17 @@
                             </select>
                         </div>
                     </div>
-                    <div id="chRmPriceTable">
-                        <template>
-                            <v-table
-                                    :width="300"
-                                    :height="150"
-                                    :columns="columns"
-                                    :table-data="tableData"
-                                    :column-cell-class-name="columnCellClass"
-                                    row-hover-color="#eee"
-                                    row-click-color="#edf7ff">
-                            </v-table>
-                        </template>
-                    </div>
+                    <template>
+                        <v-table
+                                :width="350"
+                                :height="150"
+                                :columns="columns"
+                                :table-data="tableData"
+                                :column-cell-class-name="columnCellClass"
+                                row-hover-color="#eee"
+                                row-click-color="#edf7ff">
+                        </v-table>
+                    </template>
                 </div><!--main-content-data-->
                 <div class="clearfix"></div>
             </div>
@@ -2078,19 +2076,63 @@
         <div class="row">
             <div class="col-xs-10 col-sm-10">
                 <div class="row no-margin-right main-content-data">
-                    <div class="grid">
-                        <div class="grid-item">
-                            <label class="width-auto">來源</label>
-                            <select class="input-medium medium-c1">
-                                <option value="1">一般</option>
-                                <option value="2">合約</option>
-                            </select>
-                        </div>
-                    </div>
                     <template>
-                        <div>
-                            <v-table :width="1100" :height="200" :columns="columns" :table-data="tableData" even-bg-color="#f4f4f4" row-hover-color="#eee" row-click-color="#edf7ff"></v-table>
-                        </div>
+                        <v-table
+                                :width="350"
+                                :height="150"
+                                :columns="columns"
+                                :table-data="tableData"
+                                :column-cell-class-name="columnCellClass"
+                                :select-all="selectALL"
+                                :select-change="selectChange"
+                                :select-group-change="selectGroupChange"
+                                row-hover-color="#eee"
+                                row-click-color="#edf7ff">
+                        </v-table>
+                    </template>
+                </div><!--main-content-data-->
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-xs-2 col-sm-2">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">確定
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">離開
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!-- /.酬賓計畫卡號 -->
+
+<!-- 手動選取 彈出視窗 -->
+<div id="selectManually-msg" class="hide padding-5" style="top: 20px;">
+    <div class="col-xs-12 col-sm-12">
+        <div class="row">
+            <div class="col-xs-10 col-sm-10">
+                <div class="row no-margin-right main-content-data">
+                    <template>
+                        <v-table
+                                :width="350"
+                                :height="150"
+                                :columns="columns"
+                                :table-data="tableData"
+                                :column-cell-class-name="columnCellClass"
+                                row-hover-color="#eee"
+                                row-click-color="#edf7ff">
+                        </v-table>
                     </template>
                 </div><!--main-content-data-->
                 <div class="clearfix"></div>
@@ -2112,4 +2154,50 @@
     </div>
     <div class="clearfix"></div>
 </div>
-<!-- /.酬賓計畫卡號 -->
+<!-- /.手動選取 -->
+
+<!-- 取消訂房原因 彈出視窗 -->
+<div id="cancelRm-msg" class="hide padding-5" style="top: 20px;">
+    <div class="col-xs-12 col-sm-12">
+        <div class="row">
+            <div class="col-xs-10 col-sm-10">
+                <div class="row no-margin-right main-content-data">
+                    <div class="grid">
+                        <div class="grid-item">
+                            <label>取消原因代號</label>
+                            <select class="input-medium medium-c3-col2">
+                                <option value="1">0001/TYPHOON 颱風:天候因素/Y:是</option>
+                                <option value="2">0002/DOUBLE BOOKING 重複訂房TEST/N:否</option>
+                                <option value="2">0003/CHANGE SCHEDULE 改行程/N:否</option>
+                                <option value="2">0004/BOOKED OTHER HOTEL 訂了別的飯店/N:否</option>
+                                <option value="2">0005/家裡有事取消/Y:是</option>
+                                <option value="2">0006/價格因素/Y:是</option>
+                                <option value="2">0007/NoShow/N:否</option>
+                            </select>
+                        </div>
+                        <div class="grid-item">
+                            <label>說明</label>
+                            <input type="text" class="input-medium medium-c3-col2" disabled/>
+                        </div>
+                    </div>
+                </div><!--main-content-data-->
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-xs-2 col-sm-2">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">離開
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!-- /.手動選取 -->

@@ -220,6 +220,10 @@
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
+.css_table.rm-table-s .css_td {
+  padding-top: 0;
+  padding-bottom: 0;
+}
 
 .horizTable-outer {
   overflow: auto;
@@ -301,6 +305,10 @@
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
+}
+.horizTable-outer .css_table.rm-table-s .css_td {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 .horizTable-outer .css_table.horizTable {
   table-layout: fixed;
@@ -5886,6 +5894,10 @@ td div.triangle-box.colspan-28 {
   margin-top: 87px;
 }
 
+.mt-PMS0810050 {
+  margin-top: 57px;
+}
+
 .margin-5 {
   margin: 5px;
 }
@@ -6968,6 +6980,12 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   padding-left: 10px;
 }
 .popCheckbox.rmAssignCk .checkbox label {
+  padding-left: 10px;
+}
+.popCheckbox .rm-assign-ck {
+  margin: -7px auto 25px auto;
+}
+.popCheckbox .rm-assign-ck .checkbox-width {
   padding-left: 10px;
 }
 
