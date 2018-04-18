@@ -2023,7 +2023,7 @@
 <!-- /.其他聯絡方式 -->
 
 <!-- 選擇房價 彈出視窗 -->
-<div id="choiceRmPrice-msg" class="hide padding-5" style="">
+<div id="choiceRmPrice-msg" class="hide padding-5" style="top: 20px;">
     <div class="col-xs-12 col-sm-12">
         <div class="row">
             <div class="col-xs-10 col-sm-10">
@@ -2037,7 +2037,6 @@
                             </select>
                         </div>
                     </div>
-                    <!-- TODO 無法固定表頭-->
                     <div id="chRmPriceTable">
                         <template>
                             <v-table
@@ -2072,3 +2071,45 @@
     <div class="clearfix"></div>
 </div>
 <!-- /.選擇房價 -->
+
+<!-- 酬賓計畫卡號 彈出視窗 -->
+<div id="agent-btn-msg" class="hide padding-5" style="top: 20px;">
+    <div class="col-xs-12 col-sm-12">
+        <div class="row">
+            <div class="col-xs-10 col-sm-10">
+                <div class="row no-margin-right main-content-data">
+                    <div class="grid">
+                        <div class="grid-item">
+                            <label class="width-auto">來源</label>
+                            <select class="input-medium medium-c1">
+                                <option value="1">一般</option>
+                                <option value="2">合約</option>
+                            </select>
+                        </div>
+                    </div>
+                    <template>
+                        <div>
+                            <v-table :width="1100" :height="200" :columns="columns" :table-data="tableData" even-bg-color="#f4f4f4" row-hover-color="#eee" row-click-color="#edf7ff"></v-table>
+                        </div>
+                    </template>
+                </div><!--main-content-data-->
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-xs-2 col-sm-2">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">離開
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!-- /.酬賓計畫卡號 -->
