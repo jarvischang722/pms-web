@@ -650,7 +650,6 @@ let vm = new Vue({
             this.dgIns = new DatagridSingleGridClass();
 
             this.dgIns.init(gs_prgId, "PMS0620050_dg", la_colOption, this.pageOneFieldData, {
-                singleSelect: false,
                 pagination: true,
                 rownumbers: true,
                 pageSize: ln_pageSize
