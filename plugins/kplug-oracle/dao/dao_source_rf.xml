@@ -32,4 +32,27 @@
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
     </dao>
+
+    <!--[PMS0110040 訂房卡多筆] 訂房來源選單-->
+    <dao name="SEL_SOURCE_RF">
+        <statement><![CDATA[
+            select source_typ value, source_nam display
+            from source_rf
+            where athena_id = :athena_id
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="instring" kind="3">source_typ</parameter>
+        <statement test="_v(param.source_typ)"><![CDATA[and source_typ = :source_typ]]></statement>
+        <parameter type="string" kind="3">source_typ</parameter>
+    </dao>
+
+    <!--[PMS0110040 訂房卡多筆] 訂房來源選單(過濾use_sta = Y) -->
+    <dao name="SEL_SOURCE_RF_Y">
+        <statement><![CDATA[
+            select source_typ value, source_nam display, use_sta
+            from source_rf
+            where athena_id = :athena_id order by source_typ
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
 </root>

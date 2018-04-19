@@ -6,7 +6,7 @@
                 <v-table
                         row-hover-color="#eee"
                         row-click-color="#edf7ff"
-                        :height="150"
+                        :height="250"
                         :is-loading="isLoading"
                         :columns="roomTypColumns"
                         :table-data="roomTypData"
@@ -43,7 +43,7 @@
             <div class="businessCompanyData">
                 <div class="col-xs-12 col-sm-12">
                     <div class="row">
-                        <div class="col-xs-11 col-sm-11">
+                        <div class="col-xs-10 col-sm-10">
                             <div class="row no-margin-right">
                                 <v-table
                                         row-hover-color="#eee"
@@ -60,7 +60,7 @@
                             </div>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="col-xs-1 col-sm-1">
+                        <div class="col-xs-2 col-sm-2">
                             <div class="row">
                                 <div class="right-menu-co">
                                     <ul>
@@ -103,7 +103,7 @@
             this.$eventHub.$on("getUseTimeData", (data) => {
                 this.useTimeData = data.useTimeData;
                 if (this.roomTypData.length > 0) {
-                    _.each(this.roomTypData, (lo_roomTypData, idx)=>{
+                    _.each(this.roomTypData, (lo_roomTypData, idx) => {
                         this.roomTypRowClick(idx, lo_roomTypData.roomCode, this.roomTypColumns[0]);
                     });
                     this.roomTypRowClick(0, this.roomTypData[0].roomCode, this.roomTypColumns[0]);
@@ -208,23 +208,23 @@
                     //檢查資料是否改變
                     let lb_valIsDifferent = false;
                     let la_editData = [];
-                    _.each(val, (lo_val, idx)=>{
-                        if(!_.isMatch(lo_val, this.oriRoomTypDetailRowsData[idx])){
+                    _.each(val, (lo_val, idx) => {
+                        if (!_.isMatch(lo_val, this.oriRoomTypDetailRowsData[idx])) {
                             lb_valIsDifferent = true;
                             la_editData.push(lo_val);
                         }
-                        else if(_.isUndefined(this.oriRoomTypDetailRowsData[idx])){
+                        else if (_.isUndefined(this.oriRoomTypDetailRowsData[idx])) {
                             lb_valIsDifferent = true;
                             la_editData.push(lo_val);
                         }
                     });
 
-                    if(lb_valIsDifferent){
+                    if (lb_valIsDifferent) {
                         //檢查資料是否被刪除
-                        if(this.isRoomTypDelete){
+                        if (this.isRoomTypDelete) {
                             this.isRoomTypDelete = false;
                         }
-                        else{
+                        else {
                             //新增、修改房型資料
                             _.each(la_editData, (lo_val, idx) => {
                                 let lo_edit = JSON.parse(JSON.stringify(lo_val));
@@ -731,7 +731,7 @@
                         modal: true,
                         title: "選擇房型代號",
                         title_html: true,
-                        width: 400,
+                        width: 450,
                         maxwidth: 1920,
                         dialogClass: "test",
                         resizable: true,

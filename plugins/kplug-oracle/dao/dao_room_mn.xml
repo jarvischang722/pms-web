@@ -196,4 +196,28 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <!-- [PMS0110040訂房卡多筆] 房型選單(多筆用)-->
+    <dao name="SEL_ROOM_MN_ROOM_TYP">
+        <statement><![CDATA[
+            SELECT  DISTINCT ROOM_MN.ROOM_COD value,
+            RVRMCOD_RF.ROOM_NAM display,
+            ROOM_COD_ORDER.VIEW_SEQ
+            FROM  ROOM_MN, RVRMCOD_RF, ROOM_COD_ORDER
+            WHERE  ROOM_MN.ATHENA_ID = RVRMCOD_RF.ATHENA_ID
+            AND  ROOM_MN.HOTEL_COD = RVRMCOD_RF.HOTEL_COD
+            AND  ROOM_MN.ROOM_COD = RVRMCOD_RF.ROOM_COD
+            AND  SF_HFD_GET_RENT_DAT_LOCAL( ROOM_MN.ATHENA_ID, ROOM_MN.HOTEL_COD ) BETWEEN RVRMCOD_RF.BEGIN_DAT AND RVRMCOD_RF.END_DAT
+            AND  ROOM_MN.ATHENA_ID = ROOM_COD_ORDER.ATHENA_ID
+            AND  ROOM_MN.HOTEL_COD = ROOM_COD_ORDER.HOTEL_COD
+            AND  ROOM_MN.ROOM_COD = ROOM_COD_ORDER.ROOM_COD
+            AND  ROOM_MN.ATHENA_ID = :athena_id
+            AND  ROOM_MN.HOTEL_COD = :hotel_cod
+            ORDER  BY  ROOM_COD_ORDER.VIEW_SEQ, ROOM_MN.ROOM_COD
+
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>
