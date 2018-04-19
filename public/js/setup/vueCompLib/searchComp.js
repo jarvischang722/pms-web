@@ -22,6 +22,22 @@ var go_searchComp = Vue.extend({
         doSearch: function () {
             this.$parent.searchCond = this.searchCond;
             this.fetchData();
+        },
+        doClear: function () {
+            var self = this;
+            _.each(this.searchCond, function (val, key) {
+
+                if (_.isArray(val)) {
+                    self.searchCond[key] = [];
+                }
+                else if(_.isObject(val)){
+                    self.searchCond[key] = {};
+                }
+                else{
+                    self.searchCond[key] = "";
+                }
+            });
+            this.$parent.searchCond = this.searchCond;
         }
     }
 });
