@@ -762,6 +762,10 @@ label {
   border-radius: 0;
 }
 
+.roomDetail-table2 .datagrid-view {
+  overflow: auto;
+}
+
 .divider .fancyTable thead tr td, .divider .fancyTable thead tr th {
   min-width: 30px;
 }
