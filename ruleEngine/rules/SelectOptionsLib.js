@@ -2,9 +2,9 @@
  * Created by Jun on 2017/4/24.
  * 下拉選單內容
  */
-var i18n = require("i18n");
-var optionsLib = this;
-var ReturnClass = require("../returnClass");
+let i18n = require("i18n");
+let optionsLib = this;
+let ReturnClass = require("../returnClass");
 
 /**
  * 上傳狀態選單
@@ -12,7 +12,7 @@ var ReturnClass = require("../returnClass");
  */
 exports.UploadStaList = function () {
 
-    var uploadOptions = [
+    let uploadOptions = [
         {
             display: '已上傳',
             value: 'Y'
@@ -36,7 +36,7 @@ exports.UploadStaList = function () {
  */
 exports.UseStaList = function () {
 
-    var uploadOptions = [
+    let uploadOptions = [
         {
             display: '使用中',
             value: 'Y'
@@ -56,7 +56,7 @@ exports.UseStaList = function () {
  */
 exports.UseRvancelRfFlagStaList = function () {
 
-    var uploadOptions = [
+    let uploadOptions = [
         {
             display: '可修改',
             value: 'Y'
@@ -76,7 +76,7 @@ exports.UseRvancelRfFlagStaList = function () {
  */
 exports.HistoryStaList = function () {
 
-    var historySta = [
+    let historySta = [
         {
             display: '留歷史資料，可印旅客登記卡',
             value: 'Y'
@@ -95,7 +95,7 @@ exports.HistoryStaList = function () {
  * @returns {Array}
  */
 exports.GuestWayList = function () {
-    var guestWay = [
+    let guestWay = [
         {
             display: '散客',
             value: 'F'
@@ -118,7 +118,7 @@ exports.GuestWayList = function () {
  * @returns {Array}
  */
 exports.PrintRcardList = function () {
-    var Rcard = [
+    let Rcard = [
         {
             display: '列印RCARD',
             value: 'Y'
@@ -137,7 +137,7 @@ exports.PrintRcardList = function () {
  * @returns {Array}
  */
 exports.getFocRfRoleStaList = function () {
-    var roleStaList = [
+    let roleStaList = [
         {
             display: '房價最低',
             value: '1'
@@ -164,7 +164,7 @@ exports.getFocRfRoleStaList = function () {
  * @returns {Array}
  */
 exports.getContactContractTypList = function () {
-    var contractTypList = [
+    let contractTypList = [
         {
             display: '電話',
             value: 'T'
@@ -187,7 +187,7 @@ exports.getContactContractTypList = function () {
  * @returns {Array}
  */
 exports.getMasteRrfMasterTypList = function () {
-    var contractTypList = [
+    let contractTypList = [
         {
             display: '指定使用',
             value: 'N'
@@ -210,7 +210,7 @@ exports.getMasteRrfMasterTypList = function () {
  * @returns {Array}
  */
 exports.getMasteRrfMasterStaList = function () {
-    var contractTypList = [
+    let contractTypList = [
         {
             display: '使用中',
             value: 'Y'
@@ -233,7 +233,7 @@ exports.getMasteRrfMasterStaList = function () {
  * @returns {Array}
  */
 exports.getIsCanUseStaList = function () {
-    var contractTypList = [
+    let contractTypList = [
         {
             display: '使用中',
             value: 'Y'
@@ -252,7 +252,7 @@ exports.getIsCanUseStaList = function () {
  * @returns {Array}
  */
 exports.getAddressContractTypList = function () {
-    var contractTypList = [
+    let contractTypList = [
         {
             display: '地址',
             value: 'A'
@@ -271,7 +271,7 @@ exports.getAddressContractTypList = function () {
  * @returns {Array}
  */
 exports.getDeleteFlagList = function () {
-    var deleteFlagList = [
+    let deleteFlagList = [
         {
             display: '不可刪除',
             value: 'N'
@@ -290,7 +290,7 @@ exports.getDeleteFlagList = function () {
  * @returns {Array}
  */
 exports.getIsCanUse = function () {
-    var useList = [
+    let useList = [
         {
             display: '是',
             value: 'Y'
@@ -309,7 +309,7 @@ exports.getIsCanUse = function () {
  * @returns {Array}
  */
 exports.getIsNeed = function () {
-    var useList = [
+    let useList = [
         {
             display: '需要',
             value: 'Y'
@@ -327,7 +327,7 @@ exports.getIsNeed = function () {
  * 取得欄位keep_way 下拉資料
  */
 exports.getGuarenteerfKeepway = function () {
-    var keepWayList = [
+    let keepWayList = [
         {
             display: '依新增日',
             value: 'OR'
@@ -346,7 +346,7 @@ exports.getGuarenteerfKeepway = function () {
  * @returns
  */
 exports.checkStaList = function () {
-    var checkList = [{
+    let checkList = [{
         on: 'Y',
         off: 'N'
     }, {
@@ -362,7 +362,7 @@ exports.checkStaList = function () {
  * @returns
  */
 exports.checkStaIsDefaultList = function () {
-    var checkList = [{
+    let checkList = [{
         on: 'Y',
         off: 'N'
     }, {
@@ -378,7 +378,7 @@ exports.checkStaIsDefaultList = function () {
  * @returns
  */
 exports.checkStaIsCheckedList = function () {
-    var checkList = [{
+    let checkList = [{
         on: 'Y',
         off: 'N'
     }, {
@@ -394,7 +394,7 @@ exports.checkStaIsCheckedList = function () {
  * @returns {[array]}
  */
 exports.getCashierrfUseSta = function () {
-    var lo_optionList = [
+    let lo_optionList = [
         {
             on: 'Y',
             off: 'N'
@@ -410,8 +410,8 @@ exports.getCashierrfUseSta = function () {
  * [PMS0210010_住客歷史]
  * status_cod 下拉資料
  */
-exports.getStatuscod = function(){
-    var lo_optionList = [
+exports.getStatuscod = function () {
+    let lo_optionList = [
         {
             display: "VIP",
             value: "V"
@@ -432,8 +432,8 @@ exports.getStatuscod = function(){
  * [PMS0210010_住客歷史]
  * dmFlag 下拉資料
  */
-exports.getGhistMnDmFlag = function(){
-    var dmFlagList = [
+exports.getGhistMnDmFlag = function () {
+    let dmFlagList = [
         {
             display: '是',
             value: 'Y'
@@ -452,7 +452,7 @@ exports.getGhistMnDmFlag = function(){
  * 生日月分 下拉資料
  */
 exports.getCustIdxBirthDat = function () {
-    var lo_optionList = [
+    let lo_optionList = [
         {
             display: "01",
             value: "01"
@@ -600,7 +600,7 @@ exports.getVIPSta = function () {
  * credit_sta 下拉資料
  */
 exports.getCreditSta = function () {
-    var lo_optionList = [
+    let lo_optionList = [
         {
             display: "可簽帳",
             value: "Y"
@@ -617,7 +617,7 @@ exports.getCreditSta = function () {
  * [PMS0610010_商務公司] 業務員指派(修改業務員PMS0620030) 是否更新未來房卡
  */
 exports.getUpdateOrderMn = function () {
-    var lo_optionList = [
+    let lo_optionList = [
         {
             on: 'Y',
             off: 'N'
@@ -632,8 +632,8 @@ exports.getUpdateOrderMn = function () {
 /**
  * [PMS0610020_商務公司資料編輯] 是否可簽帳
  */
-exports.getCustMnCreditSta = function(){
-    var lo_optionList = [
+exports.getCustMnCreditSta = function () {
+    let lo_optionList = [
         {
             on: 'Y',
             off: 'N'
@@ -648,8 +648,8 @@ exports.getCustMnCreditSta = function(){
 /**
  * [PMS0610020_商務公司資料編輯] 取得公司類別下拉資料
  */
-exports.getCustMnRankNos = function(){
-    var rankNosList = [
+exports.getCustMnRankNos = function () {
+    let rankNosList = [
         {
             display: '0',
             value: '0'
@@ -699,8 +699,8 @@ exports.getCustMnRankNos = function(){
 /**
  * [PMS0610020_商務公司資料編輯] 取得公司類別下拉資料
  */
-exports.getCustMnRelatCod = function(){
-    var relatCodList = [
+exports.getCustMnRelatCod = function () {
+    let relatCodList = [
         {
             display: '關係',
             value: '1'
@@ -717,8 +717,8 @@ exports.getCustMnRelatCod = function(){
 /**
  * [PMS0610020_商務公司資料編輯] 取得欄位收取DM閜拉資料
  */
-exports.getCustMnCreditStaDmFlag = function(){
-    var relatCodList = [
+exports.getCustMnCreditStaDmFlag = function () {
+    let relatCodList = [
         {
             display: '是',
             value: 'Y'
@@ -735,8 +735,8 @@ exports.getCustMnCreditStaDmFlag = function(){
 /**
  * [PMS0610020_商務公司資料編輯] 相關人員 欄位狀態下拉資料
  */
-exports.getCustmnPersdtJobSta = function(){
-    var jobStaList = [
+exports.getCustmnPersdtJobSta = function () {
+    let jobStaList = [
         {
             display: '在職',
             value: 'N'
@@ -753,8 +753,8 @@ exports.getCustmnPersdtJobSta = function(){
 /**
  * [PMS0610020_商務公司資料編輯] 相關人員 欄位性別下拉資料
  */
-exports.getCustIdxSexTyp = function(){
-    var sexList = [
+exports.getCustIdxSexTyp = function () {
+    let sexList = [
         {
             display: '男',
             value: 'M'
@@ -773,7 +773,7 @@ exports.getCustIdxSexTyp = function(){
  * [PMS0620020_業務員資料編輯] 是否飯店、餐飲、會員業務
  */
 exports.getSalesChkeckedList = function () {
-    var lo_optionList = [
+    let lo_optionList = [
         {
             on: 'Y',
             off: 'N'
@@ -790,7 +790,7 @@ exports.getSalesChkeckedList = function () {
  * @returns {[array]}
  */
 exports.getCashierrfUsestaSelect = function () {
-    var lo_optionList = [
+    let lo_optionList = [
         {
             display: "啟用",
             value: "Y"
@@ -803,13 +803,31 @@ exports.getCashierrfUsestaSelect = function () {
     return lo_optionList;
 };
 
+/**
+ * [PMS0810240_房價分類設訂] 是否使用下拉
+ * @returns {*[]}
+ */
+exports.getRateGrpRfUseSta = function () {
+    let lo_optionList = [
+        {
+            display: "使用中",
+            value: "Y"
+        },
+        {
+            display: "不使用",
+            value: "N"
+        }
+    ];
+    return lo_optionList;
+};
+
 
 /**
  * [PMS0820010_房間特色設定] 系統預設
  * @returns {array}
  */
 exports.getCharacterrfSysdefaultList = function () {
-    var lo_SysdefaultList = [
+    let lo_SysdefaultList = [
         {
             display: "是",
             value: "Y"
@@ -951,7 +969,7 @@ exports.roomMnBedSta = function () {
  * @returns {array}
  */
 exports.getChkOutOption = function () {
-    var lo_optionList = [
+    let lo_optionList = [
         {
             display: "是",
             value: "Y"
@@ -969,7 +987,7 @@ exports.getChkOutOption = function () {
  * @returns {array}
  */
 exports.getHfdusedtSysdefault = function () {
-    var lo_optionList = [
+    let lo_optionList = [
         {
             display: "是",
             value: "Y"
@@ -987,7 +1005,7 @@ exports.getHfdusedtSysdefault = function () {
  * @returns {[array]}
  */
 exports.getVisiableOption = function () {
-    var lo_optionList = [
+    let lo_optionList = [
         {
             display: "顯示",
             value: "Y"
@@ -1009,7 +1027,7 @@ exports.getVisiableOption = function () {
  * @return {[*,*]}
  */
 exports.getHfdarriverfday = function () {
-    var la_optionList = [
+    let la_optionList = [
         {
             on: 'Y',
             off: 'N'
@@ -1025,7 +1043,7 @@ exports.getHfdarriverfday = function () {
  * PMS0810230 設定類別下拉資料
  * @returns {[null,null,null]}
  */
-exports.getRateProp = function(){
+exports.getRateProp = function () {
     let la_optionList = [
         {
             display: "一般",
@@ -1048,7 +1066,7 @@ exports.getRateProp = function(){
  * PMS0810230 屬性下拉資料
  * @returns {[null,null,null]}
  */
-exports.getBaserateFlag = function(){
+exports.getBaserateFlag = function () {
     let la_optionList = [
         {
             display: "INDEPEND",
@@ -1073,7 +1091,7 @@ exports.getBaserateFlag = function(){
  * @returns {[*,*]}
  */
 exports.searchAreapntSta = function () {
-    var la_optionList = [
+    let la_optionList = [
         {
             display: "使用",
             value: "Y"
@@ -1092,7 +1110,7 @@ exports.searchAreapntSta = function () {
  * @returns {[*,*]}
  */
 exports.order_sta = function () {
-    var la_optionList = [
+    let la_optionList = [
         {
             display: "預約",
             value: "N"
@@ -1118,8 +1136,8 @@ exports.order_sta = function () {
  * is_allplace checkbox
  * @returns {[*,*]}
  */
-exports.is_allplace = function(){
-    var lo_optionList = [
+exports.is_allplace = function () {
+    let lo_optionList = [
         {
             on: 'Y',
             off: 'N'
@@ -1137,7 +1155,7 @@ exports.is_allplace = function(){
  * @returns {[*,*]}
  */
 exports.getSalesStatus = function () {
-    var la_optionList = [
+    let la_optionList = [
         {
             display: "在職",
             value: "N"
@@ -1156,7 +1174,7 @@ exports.getSalesStatus = function () {
  * @returns {array}
  */
 exports.getCustMnPersPrmaryPers = function () {
-    var la_optionList = [
+    let la_optionList = [
         {
             on: 'Y',
             off: 'N'
@@ -1174,7 +1192,7 @@ exports.getCustMnPersPrmaryPers = function () {
  * @returns {[null,null]}
  */
 exports.getSalesHotelDtStatus = function () {
-    var la_optionList = [
+    let la_optionList = [
         {
             display: "正常",
             value: "N"
@@ -1194,7 +1212,7 @@ exports.getSalesHotelDtStatus = function () {
  * @returns {[null,null]}
  */
 exports.getCustMnStatusCod = function () {
-    var la_optionList = [
+    let la_optionList = [
         {
             display: "正常",
             value: "N"
@@ -1224,7 +1242,7 @@ exports.getCustMnStatusCod = function () {
  * @returns {[null,null]}
  */
 exports.getPsVisitDtVisitSta = function () {
-    var la_optionList = [
+    let la_optionList = [
         {
             display: "預計拜訪",
             value: "N"
@@ -1247,7 +1265,7 @@ exports.getPsVisitDtVisitSta = function () {
  * @param callback
  */
 exports.getHfdroomcolorrfColortyp = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.roomcolorrfColortyp();
     callback(null, lo_result);
 };
@@ -1258,7 +1276,7 @@ exports.getHfdroomcolorrfColortyp = function (params, callback) {
  * @param callback
  */
 exports.getHfdroomcolorrfProtyp = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.HfdroomcolorrfProtyp();
     callback(null, lo_result);
 };
@@ -1268,7 +1286,7 @@ exports.getHfdroomcolorrfProtyp = function (params, callback) {
  * @param callback
  */
 exports.getRvrmUploadStaList = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UploadStaList();
     callback(null, lo_result);
 };
@@ -1277,7 +1295,7 @@ exports.getRvrmUploadStaList = function (params, callback) {
  * 取得住客類別群組對照檔使用與未使用
  */
 exports.getGuestgrprfUseStaList = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
     callback(null, lo_result);
 };
@@ -1286,7 +1304,7 @@ exports.getGuestgrprfUseStaList = function (params, callback) {
  * 取得訂房卡來員群組設定對照檔使用與未使用(與住客類別群組對照檔一樣)
  */
 exports.getSourcegrprfUseStaList = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
     callback(null, lo_result);
 };
@@ -1295,7 +1313,7 @@ exports.getSourcegrprfUseStaList = function (params, callback) {
  * 取得住客類別設定是否留下客戶歷史資料
  */
 exports.qry_guest_rf_history_sta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.HistoryStaList();
     callback(null, lo_result);
 };
@@ -1304,7 +1322,7 @@ exports.qry_guest_rf_history_sta = function (params, callback) {
  * 取得住客類別設定有哪些客群
  */
 exports.qry_guest_rf_guest_way = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.GuestWayList();
     callback(null, lo_result);
 };
@@ -1313,7 +1331,7 @@ exports.qry_guest_rf_guest_way = function (params, callback) {
  * 取得住客類別設定使用還未使用
  */
 exports.qry_guest_rf_use_sta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
     callback(null, lo_result);
 };
@@ -1322,7 +1340,7 @@ exports.qry_guest_rf_use_sta = function (params, callback) {
  * 取得住客類別設定列印或不列印
  */
 exports.qry_guest_rf_rcard_prtrent = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.PrintRcardList();
     callback(null, lo_result);
 };
@@ -1331,7 +1349,7 @@ exports.qry_guest_rf_rcard_prtrent = function (params, callback) {
  * PMS0810110取得是否使用
  */
 exports.qry_source_rf_use_sta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
     callback(null, lo_result);
 };
@@ -1340,7 +1358,7 @@ exports.qry_source_rf_use_sta = function (params, callback) {
  * PMS0810120取得是否可升等、改房價
  */
 exports.qry_rvdiscpers_rf_y_n = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUse();
     callback(null, lo_result);
 };
@@ -1349,7 +1367,7 @@ exports.qry_rvdiscpers_rf_y_n = function (params, callback) {
  * FOC設定(PMS0810140)取得下拉選項
  */
 exports.qry_foc_rf_role_sta_list = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getFocRfRoleStaList();
     callback(null, lo_result);
 };
@@ -1358,7 +1376,7 @@ exports.qry_foc_rf_role_sta_list = function (params, callback) {
  * 交辦事項設定(PMS0810200)取得下拉選項
  */
 exports.qry_hfd_todo_list_rf_Is_default = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
     callback(null, lo_result);
 };
@@ -1367,7 +1385,7 @@ exports.qry_hfd_todo_list_rf_Is_default = function (params, callback) {
  * 訂房取消原因設定
  */
 exports.getRvcancelrfFlag1sta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseRvancelRfFlagStaList();
     callback(null, lo_result);
 };
@@ -1376,7 +1394,7 @@ exports.getRvcancelrfFlag1sta = function (params, callback) {
  * 住客帳調整原因bincome
  */
 exports.qry_hc_adjrmk_rf_bincome_sta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaList();
     callback(null, lo_result);
 };
@@ -1385,7 +1403,7 @@ exports.qry_hc_adjrmk_rf_bincome_sta = function (params, callback) {
  * 合約狀態設定
  */
 exports.qry_contract_status_rf_default_sta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaIsDefaultList();
     callback(null, lo_result);
 };
@@ -1394,7 +1412,7 @@ exports.qry_contract_status_rf_default_sta = function (params, callback) {
  * 住客帳調整原因cancel
  */
 exports.qry_hc_adjrmk_rf_cancel_sta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaList();
     callback(null, lo_result);
 };
@@ -1403,7 +1421,7 @@ exports.qry_hc_adjrmk_rf_cancel_sta = function (params, callback) {
  * PMS0830110平展作業區設定是否啟用
  */
 exports.qry_a6hfd_areapnt_rf_areapnt_sta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaList();
     callback(null, lo_result);
 };
@@ -1412,7 +1430,7 @@ exports.qry_a6hfd_areapnt_rf_areapnt_sta = function (params, callback) {
  * 聯絡設定取得聯絡類別
  */
 exports.qry_contact_rf_contact_typ = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getContactContractTypList();
     callback(null, lo_result);
 };
@@ -1421,7 +1439,7 @@ exports.qry_contact_rf_contact_typ = function (params, callback) {
  * 地址設定取得地址類別
  */
 exports.qry_address_rf_contact_typ = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getAddressContractTypList();
     callback(null, lo_result);
 };
@@ -1430,7 +1448,7 @@ exports.qry_address_rf_contact_typ = function (params, callback) {
  * 聯絡設定取得是否可刪除
  */
 exports.qry_contact_rf_delete_flag = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getDeleteFlagList();
     callback(null, lo_result);
 };
@@ -1439,7 +1457,7 @@ exports.qry_contact_rf_delete_flag = function (params, callback) {
  * 地址設定取得是否可刪除
  */
 exports.qry_address_rf_delete_flag = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getDeleteFlagList();
     callback(null, lo_result);
 };
@@ -1448,7 +1466,7 @@ exports.qry_address_rf_delete_flag = function (params, callback) {
  * 地址設定取得商務公司使用
  */
 exports.qry_address_rf_cust_use = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUse();
     callback(null, lo_result);
 };
@@ -1457,7 +1475,7 @@ exports.qry_address_rf_cust_use = function (params, callback) {
  * 地址設定取得住客歷史使用
  */
 exports.qry_address_rf_ghist_use = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUse();
     callback(null, lo_result);
 };
@@ -1466,7 +1484,7 @@ exports.qry_address_rf_ghist_use = function (params, callback) {
  * 住客歷史(PMS0210010) 取得狀況下拉資料
  */
 exports.lang_GhistMnStatuscod = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getStatuscod();
     callback(null, lo_result);
 };
@@ -1475,7 +1493,7 @@ exports.lang_GhistMnStatuscod = function (params, callback) {
  * 住客歷史(PMS0210010) 取得下拉資料
  */
 exports.lang_GhistMnDmFlag = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getGhistMnDmFlag();
     callback(null, lo_result);
 };
@@ -1484,7 +1502,7 @@ exports.lang_GhistMnDmFlag = function (params, callback) {
  * 住客歷史(PMS0210010) 取得狀況下拉資料
  */
 exports.lang_CustIdxBirthDat = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustIdxBirthDat();
     callback(null, lo_result);
 };
@@ -1502,7 +1520,7 @@ exports.lang_vip_sta = function (params, callback) {
  * 商務公司(PMS0610010) 取得是否可簽帳
  */
 exports.lang_CustidxCreditsta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCreditSta();
     callback(null, lo_result);
 };
@@ -1511,7 +1529,7 @@ exports.lang_CustidxCreditsta = function (params, callback) {
  * 商務公司(PMS0610010) 取得業務員指派(修改業務員PMS0620030)中是否更新未來房卡
  */
 exports.lang_UpdateOrderMn = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getUpdateOrderMn();
     callback(null, lo_result);
 };
@@ -1519,8 +1537,8 @@ exports.lang_UpdateOrderMn = function (params, callback) {
 /**
  * 商務公司資料編輯(PMS0610020) 取得等級下拉資料
  */
-exports.lang_CustMnRankNos = function(params, callback) {
-    var lo_result = new ReturnClass();
+exports.lang_CustMnRankNos = function (params, callback) {
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustMnRankNos();
     callback(null, lo_result);
 };
@@ -1528,14 +1546,14 @@ exports.lang_CustMnRankNos = function(params, callback) {
 /**
  * 商務公司資料編輯(PMS0610020) 取得公司類別下拉資料
  */
-exports.lang_CustMnRelatCod = function(params, callback) {
-    var lo_result = new ReturnClass();
+exports.lang_CustMnRelatCod = function (params, callback) {
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustMnRelatCod();
     callback(null, lo_result);
 };
 
-exports.lang_CustMnCreditSta = function(params, callback) {
-    var lo_result = new ReturnClass();
+exports.lang_CustMnCreditSta = function (params, callback) {
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustMnCreditSta();
     callback(null, lo_result);
 };
@@ -1544,7 +1562,7 @@ exports.lang_CustMnCreditSta = function(params, callback) {
  * 商務公司資料編輯(PMS0610020) 取得欄位收取DM閜拉資料
  */
 exports.lang_CustMnDmFlag = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustMnCreditStaDmFlag();
     callback(null, lo_result);
 };
@@ -1553,7 +1571,7 @@ exports.lang_CustMnDmFlag = function (params, callback) {
  * 商務公司資料編輯(PMS0610020) 相關人員 欄位狀態下拉資料
  */
 exports.lang_CustmnPersdtJobSta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustmnPersdtJobSta();
     callback(null, lo_result);
 };
@@ -1562,7 +1580,7 @@ exports.lang_CustmnPersdtJobSta = function (params, callback) {
  * 商務公司資料編輯(PMS0610020) 相關人員 欄位性別下拉資料
  */
 exports.lang_CustIdxSexTyp = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustIdxSexTyp();
     callback(null, lo_result);
 };
@@ -1571,7 +1589,7 @@ exports.lang_CustIdxSexTyp = function (params, callback) {
  * 商務公司資料編輯(PMS0610020) 相關人員 是否為主要聯絡人
  */
 exports.qry_CustMnPerPrmaryPers = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustMnPersPrmaryPers();
     callback(null, lo_result);
 };
@@ -1582,7 +1600,7 @@ exports.qry_CustMnPerPrmaryPers = function (params, callback) {
  * 業務員作業(PMS0620010)取得狀態是否在職
  */
 exports.lang_status_cod = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getSalesStatus();
     callback(null, lo_result);
 };
@@ -1592,7 +1610,7 @@ exports.lang_status_cod = function (params, callback) {
  * 業務員作業(PMS0620010)取得是否飯店、餐飲、會員業務
  **/
 exports.lang_yn = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUse();
     callback(null, lo_result);
 };
@@ -1601,7 +1619,7 @@ exports.lang_yn = function (params, callback) {
  * 業務員資料編輯(PMS0620020)取得是否飯店、餐飲、會員業務
  */
 exports.lang_yn_chkBox = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getSalesChkeckedList();
     callback(null, lo_result);
 };
@@ -1611,7 +1629,7 @@ exports.lang_yn_chkBox = function (params, callback) {
  *業務員資料編輯(PMS0620020)取得狀態是否停用
  */
 exports.lang_sales_hotel_dt_status_cod = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getSalesHotelDtStatus();
     callback(null, lo_result);
 };
@@ -1621,7 +1639,7 @@ exports.lang_sales_hotel_dt_status_cod = function (params, callback) {
  *業務員拜訪記錄(PMS0620050) cust mn status 下拉資料
  */
 exports.lang_CustmnStatuscod = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCustMnStatusCod();
     callback(null, lo_result);
 };
@@ -1631,7 +1649,7 @@ exports.lang_CustmnStatuscod = function (params, callback) {
  *業務員拜訪記錄(PMS0620050) visit status 下拉資料
  */
 exports.lang_PsvisitdtVisitsta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getPsVisitDtVisitSta();
     callback(null, lo_result);
 };
@@ -1641,8 +1659,8 @@ exports.lang_PsvisitdtVisitsta = function (params, callback) {
  * @param params
  * @param callback
  */
-exports.lang_rate_prop = function(params, callback){
-    var lo_result = new ReturnClass();
+exports.lang_rate_prop = function (params, callback) {
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getRateProp();
     callback(null, lo_result);
 };
@@ -1652,8 +1670,8 @@ exports.lang_rate_prop = function(params, callback){
  * @param params
  * @param callback
  */
-exports.lang_baserate_flag = function(params, callback){
-    var lo_result = new ReturnClass();
+exports.lang_baserate_flag = function (params, callback) {
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getBaserateFlag();
     callback(null, lo_result);
 };
@@ -1662,7 +1680,7 @@ exports.lang_baserate_flag = function(params, callback){
  * 房間特色設定(PMS0820010)取得系統預設下拉選項
  */
 exports.qryCharacterrfSysdefault = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCharacterrfSysdefaultList();
     callback(null, lo_result);
 };
@@ -1671,7 +1689,7 @@ exports.qryCharacterrfSysdefault = function (params, callback) {
  * 訂房類別設定(PMS0810150)取得是否使用下拉選項
  */
 exports.qryGuarenteerfUsesta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
     callback(null, lo_result);
 };
@@ -1680,7 +1698,7 @@ exports.qryGuarenteerfUsesta = function (params, callback) {
  * 訂房類別設定(PMS0810150)取得是否需要訂金
  */
 exports.qryGuarenteerfDpreq = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsNeed();
     callback(null, lo_result);
 };
@@ -1689,7 +1707,7 @@ exports.qryGuarenteerfDpreq = function (params, callback) {
  * 訂房類別設定(PMS0810150)取得欄位 keep_way下拉資料
  */
 exports.qryGuarenteerfKeepway = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getGuarenteerfKeepway();
     callback(null, lo_result);
 };
@@ -1699,7 +1717,7 @@ exports.qryGuarenteerfKeepway = function (params, callback) {
  * @param params
  */
 exports.chkHfdorderconfirmrfContent = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getOrderConfirmRf();
     callback(null, lo_result);
 };
@@ -1710,7 +1728,7 @@ exports.chkHfdorderconfirmrfContent = function (params, callback) {
  * @param params
  */
 exports.qryHfdusedtConotice = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getChkOutOption();
     callback(null, lo_result);
 };
@@ -1720,7 +1738,7 @@ exports.qryHfdusedtConotice = function (params, callback) {
  * @param params
  */
 exports.qryHfdusedtSysdefault = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getHfdusedtSysdefault();
     callback(null, lo_result);
 };
@@ -1731,7 +1749,7 @@ exports.qryHfdusedtSysdefault = function (params, callback) {
  * @returns params
  */
 exports.qryHfdusedtIsvisiable = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getVisiableOption();
     callback(null, lo_result);
 };
@@ -1741,7 +1759,7 @@ exports.qryHfdusedtIsvisiable = function (params, callback) {
  * @param params
  */
 exports.qryMasterrfMastertyp = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getMasteRrfMasterTypList();
     callback(null, lo_result);
 };
@@ -1751,7 +1769,7 @@ exports.qryMasterrfMastertyp = function (params, callback) {
  * @param params
  */
 exports.qryMasterrfMastersta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getMasteRrfMasterStaList();
     callback(null, lo_result);
 };
@@ -1761,7 +1779,7 @@ exports.qryMasterrfMastersta = function (params, callback) {
  * @param params
  */
 exports.qryHkproductrfAmodifysta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaIsCheckedList();
     callback(null, lo_result);
 };
@@ -1771,7 +1789,7 @@ exports.qryHkproductrfAmodifysta = function (params, callback) {
  * @param params
  */
 exports.qryHkproductrfServicesta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaIsCheckedList();
     callback(null, lo_result);
 };
@@ -1781,7 +1799,7 @@ exports.qryHkproductrfServicesta = function (params, callback) {
  * @param params
  */
 exports.qryHkproductrfInvsta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUse();
     callback(null, lo_result);
 };
@@ -1791,7 +1809,7 @@ exports.qryHkproductrfInvsta = function (params, callback) {
  * @param params
  */
 exports.qryHkproductrfUsesta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUseStaList();
     callback(null, lo_result);
 };
@@ -1801,7 +1819,7 @@ exports.qryHkproductrfUsesta = function (params, callback) {
  * @param params
  */
 exports.qryCashierrfUsesta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCashierrfUseSta();
     callback(null, lo_result);
 };
@@ -1811,7 +1829,7 @@ exports.qryCashierrfUsesta = function (params, callback) {
  * @param params
  */
 exports.qryCashierrfUsestaSelect = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCashierrfUsestaSelect();
     callback(null, lo_result);
 };
@@ -1821,7 +1839,7 @@ exports.qryCashierrfUsestaSelect = function (params, callback) {
  * @param params
  */
 exports.qryHfdarriverfday = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getHfdarriverfday();
     callback(null, lo_result);
 };
@@ -1831,7 +1849,7 @@ exports.qryHfdarriverfday = function (params, callback) {
  * @param params
  */
 exports.qryRoommnRoomsta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.roomMnRoomSta();
     callback(null, lo_result);
 };
@@ -1841,7 +1859,7 @@ exports.qryRoommnRoomsta = function (params, callback) {
  * @param params
  */
 exports.qryRoommnAssignsta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.roomMnAssignSta();
     callback(null, lo_result);
 };
@@ -1851,7 +1869,7 @@ exports.qryRoommnAssignsta = function (params, callback) {
  * @param params
  */
 exports.qryRoommnCleansta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.roomMnCleanSta();
     callback(null, lo_result);
 };
@@ -1861,7 +1879,7 @@ exports.qryRoommnCleansta = function (params, callback) {
  * @param params
  */
 exports.qryRoommnBedsta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.roomMnBedSta();
     callback(null, lo_result);
 };
@@ -1872,9 +1890,9 @@ exports.qryRoommnBedsta = function (params, callback) {
  * @returns {[*,*]}
  */
 exports.qrySearchAreapntSta = function (params, callback) {
-    var lo_result = new ReturnClass();
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.searchAreapntSta();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 
@@ -1883,10 +1901,10 @@ exports.qrySearchAreapntSta = function (params, callback) {
  * order_sta下拉資料
  * @returns {[*,*]}
  */
-exports.lang_bquet_mn_order_sta = function(params, callback){
-    var lo_result = new ReturnClass();
+exports.lang_bquet_mn_order_sta = function (params, callback) {
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.order_sta();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
@@ -1894,8 +1912,19 @@ exports.lang_bquet_mn_order_sta = function(params, callback){
  * is_allplace checkbox資料
  * @returns {[*,*]}
  */
-exports.lang_bqplace_dt_isallplace = function(params, callback){
-    var lo_result = new ReturnClass();
+exports.lang_bqplace_dt_isallplace = function (params, callback) {
+    let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.is_allplace();
-    callback(null,lo_result);
+    callback(null, lo_result);
+};
+
+/**
+ * PMS0810240房價分類設定
+ * @param params {object}
+ * @param callback
+ */
+exports.langRategrpRfUseSta = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getRateGrpRfUseSta();
+    callback(null, lo_result);
 };

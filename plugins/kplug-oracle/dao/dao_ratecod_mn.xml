@@ -112,4 +112,18 @@
         <parameter type="string" kind="3">rate_cod</parameter>
     </dao>
 
+    <!-- [PMS0810240房價分類設定] 刪除檢查 -->
+    <dao name="QRY_RATEGRP_IS_EXIST">
+        <statement><![CDATA[
+            SELECT  COUNT(*) as rate_grp_count FROM  RATECOD_MN
+            WHERE  ATHENA_ID = :athena_id
+            AND  hotel_cod = :hotel_cod
+            AND  RATE_GRP = :rate_grp
+            AND  ROWNUM <= 1
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_grp</parameter>
+    </dao>
+
 </root>
