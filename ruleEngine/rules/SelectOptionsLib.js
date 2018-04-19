@@ -803,6 +803,24 @@ exports.getCashierrfUsestaSelect = function () {
     return lo_optionList;
 };
 
+/**
+ * [PMS0810240_房價分類設訂] 是否使用下拉
+ * @returns {*[]}
+ */
+exports.getRateGrpRfUseSta = function () {
+    let lo_optionList = [
+        {
+            display: "使用中",
+            value: "Y"
+        },
+        {
+            display: "不使用",
+            value: "N"
+        }
+    ];
+    return lo_optionList;
+};
+
 
 /**
  * [PMS0820010_房間特色設定] 系統預設
@@ -1974,6 +1992,18 @@ exports.lang_bquet_mn_order_sta = function (params, callback) {
 exports.lang_bqplace_dt_isallplace = function (params, callback) {
     let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.is_allplace();
+    callback(null, lo_result);
+};
+
+/**
+ * PMS0810240房價分類設定
+ * @param params {object}
+ * @param callback
+ */
+exports.langRategrpRfUseSta = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getRateGrpRfUseSta();
+    callback(null, lo_result);
     callback(null, lo_result);
 };
 

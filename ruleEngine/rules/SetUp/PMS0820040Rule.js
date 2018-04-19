@@ -86,19 +86,26 @@ module.exports = {
      * @param callback
      */
     chk_ghist_airline_is_exist: function (postData, session, callback) {
+        let la_deleteData = postData.deleteData || [];
+        let lo_createData = postData.singleRowData;
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        var lo_params = {
+        let ln_isDelete = _.findIndex(la_deleteData, {airline_cod: lo_createData.airline_cod});
+        if (ln_isDelete > -1) {
+            return callback(null, lo_result);
+        }
+
+        let lo_params = {
             athena_id: session.user.athena_id,
-            airline_cod: postData.singleRowData.airline_cod
+            airline_cod: lo_createData.airline_cod
         };
 
         queryAgent.query("CHK_GHIST_AIRLINE_RF_IS_EXIST", lo_params, function (err, getResult) {
             if (err) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
-                lo_error.errorMsg = "555";
+                lo_error.errorMsg = err;
             }
             else if (getResult.air_count > 0) {
                 lo_result.success = false;
