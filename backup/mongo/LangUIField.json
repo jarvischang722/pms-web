@@ -13411,3 +13411,99 @@
     "ui_display_name_en" : "", 
     "hint_en" : ""
 }
+{ 
+    "_id" : ObjectId("5ad80c606108243890b19b9d"), 
+    "prg_id" : "PMS0810240", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "rate_grp", 
+    "ui_display_name_zh_TW" : "代號", 
+    "hint_zh_TW" : "代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ad80c606108243890b19b9e"), 
+    "prg_id" : "PMS0810240", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "rategrp_nam", 
+    "ui_display_name_zh_TW" : "名稱", 
+    "hint_zh_TW" : "名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ad80c606108243890b19b9f"), 
+    "prg_id" : "PMS0810240", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "use_sta", 
+    "ui_display_name_zh_TW" : "是否使用", 
+    "hint_zh_TW" : "是否使用", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ad80c606108243890b19ba0"), 
+    "prg_id" : "PMS0810240", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "view_seq", 
+    "ui_display_name_zh_TW" : "顯示順序", 
+    "hint_zh_TW" : "顯示順序", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5ad80c606108243890b19ba1"), 
+    "prg_id" : "PMS0810240", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ins_dat", 
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
+}
+{ 
+    "_id" : ObjectId("5ad80c606108243890b19ba2"), 
+    "prg_id" : "PMS0810240", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ins_usr", 
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
+}
+{ 
+    "_id" : ObjectId("5ad80c606108243890b19ba3"), 
+    "prg_id" : "PMS0810240", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "upd_dat", 
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
+}
+{ 
+    "_id" : ObjectId("5ad80c606108243890b19ba4"), 
+    "prg_id" : "PMS0810240", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "upd_usr", 
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
+}

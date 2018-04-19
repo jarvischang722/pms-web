@@ -1282,19 +1282,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("59b7362f896f2f05205811c5"), 
-    "prg_id" : "PMS0820020", 
-    "tab_page_id" : "查詢", 
-    "ui_field_name" : "bed_sta", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qryRoommnBedsta", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("59c349dd726c3e155c862e11"), 
     "prg_id" : "PMS0830010", 
     "page_id" : NumberInt(3), 
@@ -1469,19 +1456,6 @@
     "rule_func_name" : "lang_sales_hotel_dt_status_cod", 
     "defaultVal" : "", 
     "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("59d75d838c50201fc486f76a"), 
-    "prg_id" : "PMS0620020", 
-    "ui_field_name" : "class_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "class_nam", 
-    "rule_func_name" : "qry_class_cod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -2914,7 +2888,7 @@
     "ui_field_name" : "hotel_cod", 
     "ui_type" : "select", 
     "ui_display_name" : "hotel_nam", 
-    "rule_func_name" : "qry_hotel_cod_for_sna", 
+    "rule_func_name" : "QRY_HOTEL_COD_FOR_SNA", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -2931,7 +2905,7 @@
     "ui_field_name" : "rate_cod", 
     "ui_type" : "select", 
     "ui_display_name" : "ratecod_nam", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "QRY_CONTRACT_DT_ALL_RATE_COD", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -4386,7 +4360,7 @@
 }
 { 
     "_id" : ObjectId("5aaa0131cde0d060decd7f43"), 
-    "prg_id" : "FLW0120010", 
+    "prg_id" : "FLWA120010", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
@@ -4402,7 +4376,7 @@
 }
 { 
     "_id" : ObjectId("5aaa06a4cde0d060decd7f44"), 
-    "prg_id" : "FLW0120010", 
+    "prg_id" : "FLWA120010", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
@@ -4435,7 +4409,7 @@
 }
 { 
     "_id" : ObjectId("5aab68e7cde0d060decd7f74"), 
-    "prg_id" : "FLW0120020", 
+    "prg_id" : "FLWA120020", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
@@ -4451,7 +4425,7 @@
 }
 { 
     "_id" : ObjectId("5aab68f6cde0d060decd7f75"), 
-    "prg_id" : "FLW0120020", 
+    "prg_id" : "FLWA120020", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
@@ -4467,7 +4441,7 @@
 }
 { 
     "_id" : ObjectId("5ab1f305127b8cd32acc6381"), 
-    "prg_id" : "FLW0120030", 
+    "prg_id" : "FLWA120030", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
@@ -4483,7 +4457,7 @@
 }
 { 
     "_id" : ObjectId("5ab1f30e127b8cd32acc6382"), 
-    "prg_id" : "FLW0120030", 
+    "prg_id" : "FLWA120030", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
@@ -4499,7 +4473,7 @@
 }
 { 
     "_id" : ObjectId("5ab1f31c127b8cd32acc6383"), 
-    "prg_id" : "FLW0120040", 
+    "prg_id" : "FLWA120040", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
@@ -4515,7 +4489,7 @@
 }
 { 
     "_id" : ObjectId("5ab1f323127b8cd32acc6384"), 
-    "prg_id" : "FLW0120040", 
+    "prg_id" : "FLWA120040", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
@@ -4531,7 +4505,7 @@
 }
 { 
     "_id" : ObjectId("5ab1f342127b8cd32acc6385"), 
-    "prg_id" : "FLW0120040", 
+    "prg_id" : "FLWA120040", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
@@ -4547,7 +4521,7 @@
 }
 { 
     "_id" : ObjectId("5ab1f354127b8cd32acc6386"), 
-    "prg_id" : "FLW0120050", 
+    "prg_id" : "FLWA120050", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
@@ -4563,7 +4537,7 @@
 }
 { 
     "_id" : ObjectId("5ab1f35e127b8cd32acc6387"), 
-    "prg_id" : "FLW0120050", 
+    "prg_id" : "FLWA120050", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
@@ -4576,4 +4550,393 @@
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5ac1cfd9ee527c31f42fa7e3"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "查詢", 
+    "ui_field_name" : "bed_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryRoommnBedsta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233704"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "guest_rf.guest_way", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langGuestrfGuestway", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233705"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.order_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langOrderdtOrdersta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233706"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.source_typ", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_source_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233707"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "confirm_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_yn", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233708"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.guest_typ", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_guest_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233709"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sales_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_sales_mn_1", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced180610824271023370a"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "master_nos", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_master_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced180610824271023370b"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.use_sna", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_room_mn_room_typ", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced180610824271023370c"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.room_sna", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_room_mn_room_typ", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced180610824271023370d"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.rate_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_ratecod_mn", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced180610824271023370e"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.order_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langOrderdtOrdersta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced180610824271023370f"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "guest_rf. guest_way", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langGuestrfGuestway", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233710"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.rate_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_ratecod_mn", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233711"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.use_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_rvrmcod_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233712"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.room_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_rvrmcod_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233713"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "master_nos", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_master_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233714"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "block_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_block_mn", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233715"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.source_typ", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_source_rf_y", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "filter_source_typ", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233716"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.guest_typ", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_guest_rf_y", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "filter_source_typ", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5aced1806108242710233717"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "confirm_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_yn", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5ad80d506108243890b19ba9"), 
+    "prg_id" : "PMS0810240", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "use_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langRategrpRfUseSta", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
 }

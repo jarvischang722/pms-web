@@ -1326,3 +1326,28 @@
     "hotel_cod" : "", 
     "lock_key" : ""
 }
+{ 
+    "_id" : ObjectId("5acad8196108240cf8c108f4"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "order_mn", 
+    "rule_func_name" : "qry_order_mn", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5ad809cc6108243890b19b9b"), 
+    "prg_id" : "PMS0810240", 
+    "hotel_cod" : "hotel_cod", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "rategrp_rf", 
+    "rule_func_name" : "qry_rategrp_rf", 
+    "lock_table" : "rategrp_rf", 
+    "lock_type" : "table"
+}
