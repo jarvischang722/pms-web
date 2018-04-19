@@ -258,6 +258,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                     self.isFistData = true;
                     self.isLastData = false;
                     self.editingRow = _.first(self.pageOneDataGridRows);
+                    self.ln_editingIndex = $("#PMS0820020_dg").datagrid('getRowIndex', self.editingRow);
                     self.emitFetchSingleData();
                 }
             });
@@ -297,6 +298,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                     self.isFistData = false;
                     self.isLastData = true;
                     self.editingRow = _.last(self.pageOneDataGridRows);
+                    self.ln_editingIndex = $("#PMS0820020_dg").datagrid('getRowIndex', self.editingRow);
                     self.emitFetchSingleData();
                 }
             });
@@ -404,7 +406,6 @@ Vue.component('single-grid-pms0820020-tmp', {
                 callback = function () {
                 };
             }
-            console.log("doSaveGrid");
             var self = this;
             if (this.isRuleComplete == false) {
                 if (this.timer == null) {
@@ -412,13 +413,11 @@ Vue.component('single-grid-pms0820020-tmp', {
                         self.doSaveGrid(saveAfterAction);
                     }, 1000);
                 }
-                console.log(this.isRuleComplete);
                 return;
             }
             else {
                 clearInterval(this.timer);
                 this.timer = null;
-                console.log(this.isRuleComplete);
                 if (this.isVerified == false) {
                     return;
                 }
@@ -725,7 +724,6 @@ var PMS0820020VM = new Vue({
             }
 
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
-                console.log(result);
                 PMS0820020VM.searchFields = result.searchFields;
                 PMS0820020VM.pageOneDataGridRows = result.dataGridRows;
                 PMS0820020VM.pageOneFieldData = result.fieldData;
