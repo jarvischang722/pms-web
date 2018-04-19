@@ -73,6 +73,20 @@ exports.fetchDgFieldData = function (req, res) {
 };
 
 /**
+ * 取多筆oracle資料
+ * @returns {*}
+ */
+exports.fetchDgRowData = function (req, res) {
+    let lo_chkResult = chkPrgID(req);
+    if (lo_chkResult.success == false) {
+        return res.json(lo_chkResult);
+    }
+    operSVC.fetchDgRowData(req.body, req.session, function (err, result) {
+        res.json({dgRowData: result});
+    })
+};
+
+/**
  * 取單筆欄位資料
  */
 exports.fetchGsFieldData = function (req, res) {
@@ -159,6 +173,20 @@ exports.fetchDefaultGsRowData = function (req, res) {
         };
         res.json(lo_rtnData);
     });
+};
+
+/**
+ * 取多筆oracle資料
+ * @returns {*}
+ */
+exports.fetchDgRowData = function(req, res) {
+    let lo_chkResult = chkPrgID(req);
+    if (lo_chkResult.success == false) {
+        return res.json(lo_chkResult);
+    }
+    operSVC.fetchDgRowData(req.body, req.session, function(err, result) {
+        res.json({ dgRowData: result });
+    })
 };
 
 

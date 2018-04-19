@@ -83,7 +83,7 @@ exports.checkServerSta = function (req, res) {
                     if (exists) {
                         go_sysConf = require(ls_sysConfPath);
                         let ls_sysConfOutput = [];
-                        ls_sysConfOutput.push(`<b>common_api_url</b> : ${go_sysConf.api_url}`);
+                        ls_sysConfOutput.push(`<b>common_api_url</b> : ${go_sysConf.api_url.common}`);
                         ls_sysConfOutput.push(`<b>java_api_url</b>: ${go_sysConf.java_api_url || ""}`);
                         ls_sysConfOutput.push(`<b>dotnet_api_url</b> : ${go_sysConf.dotnet_api_url || "" }`);
                         gas_outputMsg.push(`<br><b>系統設定檔</b>:<br> ${ls_sysConfOutput.join("<br>")}`);
@@ -117,7 +117,7 @@ exports.checkServerSta = function (req, res) {
             },
             function (cb) {
                 request({
-                    url: `${go_sysConf.api_url}`,
+                    url: `${go_sysConf.api_url.common}`,
                     timeout: 3000
                 }, function (error, response, body) {
                     if (error || !response || response && response.statusCode != "200" || (body && body.indexOf("success") == -1)) {

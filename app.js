@@ -4,14 +4,12 @@ let MongoStore = require('connect-mongo')(session);
 let path = require('path');
 let i18n = require("i18n");
 let favicon = require('serve-favicon');
-let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let http = require('http');
 let routing = require('./routing');
 let dbConfig = require('./configs/database');
 let sysConfig = require('./configs/systemConfig');
-let debug = require('debug')('bacchus4web:server');
 let passport = require('passport');
 let flash = require('connect-flash');
 let port = 8888;
@@ -20,19 +18,36 @@ let server = http.createServer(app);
 let io = require('socket.io')(server);
 let dbSvc = require("./services/DbTableService");
 let dbconn = ["mongodb://", dbConfig.mongo.username, ":", dbConfig.mongo.password, "@", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
-let mongoAgent = require("./plugins/mongodb");
-let tbSVC = require("./services/DbTableService");
 let _ = require("underscore");
 let compression = require('compression');
 
+if (dbConfig.oracle == undefined) {
+    let net = require('net');
+    let client = new net.Socket();
+    client.connect(sysConfig.socket_server.port, sysConfig.socket_server.ip, function () {
+        console.log("到socket server取連線資訊...");
+        client.write(require("base-64").encode(JSON.stringify({"REVE_CODE": "0800"})));
+    });
+    client.on('data', function (res) {
+        let oracleConnInfo = JSON.parse(require("base-64").decode(res)).dbconInfo.map(conn => {
+            conn["connectString"] = `${conn.ip}/${conn.service_name}`;
+            conn["user"] = `${conn.username}`;
+            return conn;
+        });
+        //Oracle initial
+        require('./plugins/kplug-oracle/DB').create(oracleConnInfo);
+        client.destroy();
+    });
+    client.on('close', function () {
+        console.log('Connection closed');
+    });
+}else{
+    require('./plugins/kplug-oracle/DB').create(dbConfig.oracle);
+}
 // compress all responses
 app.use(compression());
-
 //時間記錄
 require("console-stamp")(console, {pattern: "yyyy/mm/dd ddd HH:MM:ss"});
-
-//Oracle initial
-require('./plugins/kplug-oracle/DB').create(dbConfig.oracle);
 
 
 // i18n setting
@@ -55,28 +70,18 @@ i18n.configure({
     queryParameter: 'locale'
 });
 
-require('./utils/passport-cas')(passport);
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || port);
 
-// uncomment after placing your favicon in /public
+
 app.use(favicon(path.join(__dirname, 'public/images/icon', 'athena_lg.ico')));
-
-//以下app.use使用中介軟體完成http功能
-//app.use(logger('dev'));
-
 //靜態檔案指定路徑
 app.use(express.static(__dirname + '/public'));
-
 //為了post擴充可傳的資料量
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit: 50000}));
-
-//app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({extended: true}));  //url編碼處理
 app.use(cookieParser(sysConfig.secret));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions

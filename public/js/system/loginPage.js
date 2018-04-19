@@ -52,7 +52,7 @@ var loginVM = new Vue({
         getDefaultAccount: function () {
             var self = this;
             if (!_.isUndefined(self.sysConfig.isDefaultUserID) && self.sysConfig.isDefaultUserID === "Y") {
-                $.get(self.sysConfig.api_url + "/?getip=''", function (ip) {
+                $.get(self.sysConfig.api_url.dotnet + "/?getip=''", function (ip) {
                     $.post("/api/getDefaultAccount", {ip: ip}, function (result) {
                         self.username = result.account;
                     });

@@ -103,6 +103,10 @@ exports.getResv_amenitiesIframe = function (req, res) {
 exports.getPMS0120070 = function (req, res) {
     res.render("subsystem/reservation/PMS0120070");
 };
+
+exports.getPMS0110040 = function(req, res){
+    res.render("subsystem/reservation/PMS0110040");
+}
 /**
  * 房價一覽表iframe(靜態)
  */

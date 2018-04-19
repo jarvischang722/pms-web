@@ -2,7 +2,6 @@
   "total": 28,
   "rows": [
     {
-      "exclamation": "<i class='fa fa-exclamation red'></i>",
       "cardCode": "00000101-1",
       "bookingNum": "1",
       "name": "李大同",
@@ -10,14 +9,13 @@
       "roomNum": "<span class='red'>210</span>",
       "roomAssignHousing": "STD",
       "useHousing": "STD",
-      "lockRoomAssign": "是",
+      "lockRoomAssign": "<select class='selectHt'><option value='y'>是</option><option value='n'>否</option></select>",
       "roomNumCode": "18PKG01",
       "adult": "1",
       "child": "0",
       "baby": "0"
     },
     {
-      "exclamation": "",
       "cardCode": "00000201-1",
       "bookingNum": "1",
       "name": "李大同",
@@ -25,14 +23,13 @@
       "roomNum": "211",
       "roomAssignHousing": "STD",
       "useHousing": "STD",
-      "lockRoomAssign": "是",
+      "lockRoomAssign": "<select class='selectHt'><option value='n'>否</option><option value='y'>是</option></select>",
       "roomNumCode": "18PKG01",
       "adult": "1",
       "child": "0",
       "baby": "0"
     },
     {
-      "exclamation": "",
       "cardCode": "00000301-1",
       "bookingNum": "2",
       "name": "李大同",
@@ -40,14 +37,13 @@
       "roomNum": "212",
       "roomAssignHousing": "STD",
       "useHousing": "STD",
-      "lockRoomAssign": "否",
+      "lockRoomAssign": "<select class='selectHt'><option value='n'>否</option><option value='y'>是</option></select>",
       "roomNumCode": "18PKG01",
       "adult": "2",
       "child": "1",
       "baby": "0"
     },
     {
-      "exclamation": "<i class='fa fa-exclamation red'></i>",
       "cardCode": "00000401-1",
       "bookingNum": "2",
       "name": "李大同，陳小華",
@@ -55,7 +51,7 @@
       "roomNum": "<span class='red'>213</span>",
       "roomAssignHousing": "STD",
       "useHousing": "STD",
-      "lockRoomAssign": "是",
+      "lockRoomAssign": "<select class='selectHt'><option value='y'>是</option><option value='n'>否</option></select>",
       "roomNumCode": "18PKG01",
       "adult": "1",
       "child": "0",
