@@ -16,3 +16,9 @@ var roleSvc = require("../services/RoleFuncService");
 exports.getSER0140010 = function (req, res) {
     res.render("subsystem/customerService/SER0140010");
 }
+/**
+ * 客戶購買授權(靜態)
+ */
+exports.getSER0150010 = function (req, res) {
+    res.render("subsystem/customerService/SER0150010");
+}
