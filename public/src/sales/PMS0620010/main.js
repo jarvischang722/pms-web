@@ -61,6 +61,22 @@ let PMS0620020App = Vue.extend({
 
             self.rowData = _.extend(self.rowData, chooseData);
         });
+        vmHub.$on('doSaveModifyData', function (res) {
+            self.dgHoatelDt.endEditing();
+            self.rowData.user_nos = self.rowData.user_nos.split(":")[0];
+            let lo_notChange = go_validateClass.chkDataChang(self.rowData, self.originRowData);
+            _.each(self.dgHoatelDt.tmpCUD, (val) => {
+                if(val.length > 0){
+                    lo_notChange.success = false;
+                }
+            });
+            if(!lo_notChange.success){
+                let q = confirm(lo_notChange.msg);
+                if(q){
+                    self.doSave();
+                }
+            }
+        });
     },
     mounted: function () {
         this.gs_active = "hotelDt";
@@ -87,19 +103,24 @@ let PMS0620020App = Vue.extend({
         },
         rowData: {
             handler: function (val) {
-                val = _.extend(val, {athena_id: 1});
                 this.dgHoatelDt.updateMnRowData(val);
                 this.dgHoatelDt.updateTmpDtOfMnData(val);
             },
             deep: true
         },
-        editStatus: function(val){
-            if(val){
+        classCodSelectedOption: {
+            handler: function (val) {
+                this.rowData.class_cod = val[val.length - 1];
+            },
+            deep: true
+        },
+        editStatus: function (val) {
+            if (val) {
                 this.go_funcPurview = (new FuncPurview("PMS0620020")).getFuncPurvs();
             }
         },
-        createStatus: function(val){
-            if(val){
+        createStatus: function (val) {
+            if (val) {
                 this.go_funcPurview = (new FuncPurview("PMS0620020")).getFuncPurvs();
             }
         }
@@ -222,12 +243,7 @@ let PMS0620020App = Vue.extend({
                         self.originRowData = JSON.parse(JSON.stringify(result.rtnObject[0]['rowData']));
                         vm.tmpCud.oriData.push(self.originRowData);
                         self.rowData = result.rtnObject[0]['rowData'];
-                        if (_.isNull(self.rowData.user_nos)) {
-                            self.rowData.user_nos = "";
-                        }
-                        else {
-                            self.rowData.user_nos = self.rowData.user_nos + ": " + self.rowData.usr_cname;
-                        }
+
                         self.oriHotelDtRowData = JSON.parse(JSON.stringify(result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows']));
                         _.each(self.oriHotelDtRowData, function (data) {
                             data = _.extend(data, self.originRowData);
@@ -304,7 +320,7 @@ let PMS0620020App = Vue.extend({
         appendDtRow: function (event) {
             let self = this;
             //壤使用者操作紀錄可執行
-            setTimeout(function(){
+            setTimeout(function () {
                 self.BTN_action = true;
                 self.dgHoatelDt.appendRow(function (result) {
                     if (result) {
@@ -334,7 +350,7 @@ let PMS0620020App = Vue.extend({
             vm.pageOneSingleGridRowData = {};
             vm.initTmpCUD();
             this.dgHoatelDt.initTmpCUD();
-            this.hotelDtRowData.length = 0;
+            this.hotelDtRowData = [];
 
             $("#singleGridPMS0620020").dialog('close');
         },
@@ -454,18 +470,15 @@ let PMS0620020App = Vue.extend({
                     vm.doSaveCud("PMS0620020", 1, function (result) {
                         if (result.success) {
                             alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
-                            self.closeSingleGridDialog();
                             vm.initTmpCUD();
                         }
                         else {
                             alert(result.errorMsg);
                         }
                         self.isLoadingDialog = false;
-                        // self.dgHoatelDt.initTmpCUD();
                     });
                 }
             }
-
         },
         //轉換checkbox值
         convertChkVal: function (pageField, singleData) {
@@ -539,8 +552,8 @@ let vm = new Vue({
 
     },
     watch: {
-        editingRow: function(val){
-            if(_.isEmpty(val)){
+        editingRow: function (val) {
+            if (_.isEmpty(val)) {
                 this.go_funcPurview = (new FuncPurview("PMS0620010")).getFuncPurvs();
             }
         }
@@ -576,7 +589,7 @@ let vm = new Vue({
             };
 
             $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
-                if(self.searchFields.length <= 0){
+                if (self.searchFields.length <= 0) {
                     vm.searchFields = result.searchFields;
                 }
                 vm.pageOneDataGridRows = result.dgRowData;
@@ -662,8 +675,9 @@ let vm = new Vue({
             }
         },
         showSingleGridDialog: function () {
-            let self = this;
             this.dialogVisible = true;
+
+            let self = this;
             let maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
             let gridWt = $('.grid-item label').width() + $('.grid-item input').width() + 14; // 抓不到width
             let dialogWt = gridWt * 2 + 250;
@@ -682,6 +696,7 @@ let vm = new Vue({
                     self.editingRow = {};
                     self.isEditStatus = false;
                     self.isCreateStatus = false;
+                    vmHub.$emit("doSaveModifyData");
                 }
             });
             dialog.dialog("open");

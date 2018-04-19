@@ -56,6 +56,12 @@
                 default: () => {
                     return "Y";
                 }
+            },
+            pageSize: {
+                type: Number,
+                default: () => {
+                    return 10;
+                }
             }
 
         },
@@ -73,6 +79,11 @@
             defaultVal: function (val) {
                 this.$emit('update:v-model', this.defaultVal);
                 $(this.$el).combogrid('setValue', val);
+
+                let lo_param = {};
+                lo_param[this.idField] = val;
+                let ln_PgeNo = _.findIndex(this.data, lo_param);
+                this.setPage(Math.floor(ln_PgeNo / this.pageSize + 1), this.pageSize);
             },
             //塞入欄位資料
             columns: function (val) {
@@ -86,6 +97,7 @@
                 if (this.data.length > 20) {
                     lo_options.pagination = true;
                     lo_options.rownumbers = true;
+                    lo_options.pageSize = this.pageSize;
                     lo_options.data = {total: this.data.length, rows: this.data.slice(0, 20)};
                 }
                 $(this.$el).combogrid(_.extend({
@@ -162,7 +174,6 @@
                 });
             },
             searchRemoteSrc: function (keyword) {
-                console.log(keyword);
                 var ls_keyword = keyword || '';
                 var self = this;
                 if (ls_keyword == "") {

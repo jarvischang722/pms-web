@@ -270,8 +270,8 @@
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
                         _.each(val, (lo_addressDataGridRows, idx) => {
-                            if (lo_addressDataGridRows["address_dt.zip_cod"] != null) {
-                                if (lo_addressDataGridRows["address_dt.add_rmk"] == null) {
+                            if (!_.isNull(lo_addressDataGridRows["address_dt.zip_cod"])) {
+                                if (_.isNull(lo_addressDataGridRows["address_dt.add_rmk"])) {
                                     let ls_zipCod = _.findWhere(this.zipCodSelectData, {value: lo_addressDataGridRows["address_dt.zip_cod"]})["display"];
                                     val[idx]["address_dt.add_rmk"] = ls_zipCod.split(":")[1]
                                 }

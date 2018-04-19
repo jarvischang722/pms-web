@@ -21,6 +21,7 @@
         // alert($('.tab-content').find('.search-content').height());
         function allHt() {
             gridTableHt = $(window).height() - navHt - menuHt;
+            gridTableHt2 = $(window).height() - navHt - menuHt - 55; // For 底下可以選擇頁數的
             frontTableHt = $(window).height() - navHt - menuHt - selectgroup - 8;
             roomAssTableHt = $(window).height() - navHt - menuHt - selectgroup - 120; // 上面備註高度
 
@@ -33,6 +34,7 @@
 
         allHt();
         $(".gridTableHt").css("height", gridTableHt);
+        $(".gridTableHt2").css("height", gridTableHt2);
         $(".dtTableSetupHt").css("height", dtTableSetupHt);
         $(".frontTableHt").css("height", frontTableHt);
         $(".roomAssTableHt").css("height", roomAssTableHt); //roomAssign
@@ -48,6 +50,9 @@
 
             $('.gridTableHt').datagrid('resize', {
                 height: gridTableHt
+            });
+            $('.gridTableHt2').datagrid('resize', {
+                height: gridTableHt2
             });
 
             $('.dtTableSetupHt').datagrid('resize', {

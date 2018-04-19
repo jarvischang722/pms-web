@@ -35,6 +35,25 @@ exports.fetchDgFieldData = async function (postData, session, callback) {
 };
 
 /**
+ *
+ * @param postData  {object} 前端資料
+ * @param session   {object}
+ * @param callback
+ * @returns {Promise<void>}
+ */
+exports.fetchDgRowData = async function (postData, session, callback) {
+    let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
+
+    try {
+        let fetchDgRowsResult = await lo_dgProc.fetchDgRowData();
+        callback(null, fetchDgRowsResult);
+    }
+    catch (err) {
+        callback(err, []);
+    }
+};
+
+/**
  * 取作業單筆欄位資料
  */
 exports.fetchGsFieldData = async function (postData, session, callback) {
@@ -113,5 +132,24 @@ exports.fetchDefaultGsRowData = async function (postData, session, callback) {
     }
     catch (err) {
         throw new Error(err);
+    }
+};
+
+/**
+ * 取作業(只有)多筆oracle資料
+ * @param postData
+ * @param session
+ * @param callback
+ * @returns {Promise.<void>}
+ */
+exports.fetchDgRowData = async function (postData, session, callback) {
+    let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
+
+    try {
+        let fetchDgRowsResult = await lo_dgProc.fetchDgRowData();
+        callback(null, fetchDgRowsResult);
+    }
+    catch (err) {
+        callback(err, []);
     }
 };

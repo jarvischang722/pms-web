@@ -35,6 +35,9 @@
 .mt-91
   margin-top: 87px
 
+.mt-PMS0810050
+  margin-top: 57px
+
 .margin-5
   margin: 5px
 
@@ -112,6 +115,11 @@
   padding: 0 3px
   display: block
   width: 100%
+
+.v-easy-s1
+  .v-table-title-cell, .v-table-body-cell
+    height: $defHt !important
+    line-height: $defHt !important
 // 刪除線
 .lineDelTgh
   text-decoration: line-through
@@ -506,8 +514,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
   &.rateCode-s1Rm
     +input-s1($rateCode-s1 -$rmW)
   &.rateCode-s1-col2
-    //464px
-       +input-s1($rateCode-s1-col2)
+  //464px
+     +input-s1($rateCode-s1-col2)
   &.rateCode-s1-col2Rm
     +input-s1($rateCode-s1-col2 -$rmW)
   &.rateCode-s1-col3
@@ -732,7 +740,7 @@ input.numStyle-none
 .popCheckbox
   &.resvCk-1
     width: 106px
-  .checkbox
+  .checkbox, .radio
     margin: 1px auto 0 auto
     .ace
       padding-right: 5px
@@ -753,6 +761,10 @@ input.numStyle-none
     .checkbox
       label
         padding-left: 10px
+  .rm-assign-ck
+    margin: -7px auto 25px auto
+    .checkbox-width
+      padding-left: 10px
 
 .rzNone
   resize: none

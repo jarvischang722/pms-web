@@ -13,4 +13,31 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <!-- [PMS0810240房價分類] 取得多筆資料 -->
+    <dao name="QRY_RATEGRP_RF">
+        <statement><![CDATA[
+            select athena_id, hotel_cod, rate_grp, rategrp_nam, use_sta, view_seq,
+            ins_dat, ins_usr, upd_dat, upd_usr
+            from rategrp_rf
+            where athena_id = :athena_id
+            and hotel_cod = :hotel_cod
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- [PMS0810240房價分類] 檢查分類是否存在 -->
+    <dao name="CHK_RATEGRP_IS_EXIST">
+        <statement><![CDATA[
+            select count(*) rategrp_rf_count
+            from rategrp_rf
+            where athena_id = :athena_id
+            and hotel_cod = :hotel_cod
+            and rate_grp = :rate_grp
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_grp</parameter>
+    </dao>
 </root>
