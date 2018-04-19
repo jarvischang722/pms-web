@@ -306,14 +306,31 @@
                 }
             },
             formatAmt(val, field) {
-                var ls_amtValue = val;
-                var ls_ruleVal = field.format_func_name.rule_val;
+                let ls_amtValue = go_formatDisplayClass.removeAmtFormat(JSON.parse(JSON.stringify(val)).toString());
+                let ls_ruleVal = field.format_func_name.rule_val;
+                let lb_isModify = true;
+                let la_amtValue = ls_amtValue.split("");
 
-                if (ls_ruleVal != "") {
-                    this.singleData[field.ui_field_name] = go_formatDisplayClass.amtFormat(ls_amtValue, ls_ruleVal);
+                if (la_amtValue.length == 0) {
+                    return;
                 }
-                else {
-                    this.singleData[field.ui_field_name] = ls_amtValue;
+                for (let i = 0; i < la_amtValue.length; i++) {
+                    if (ls_amtValue.charCodeAt(i) < 48 || ls_amtValue.charCodeAt(i) > 57) {
+                        lb_isModify = false;
+                        break;
+                    }
+                }
+
+                if(lb_isModify){
+                    if (ls_ruleVal != "") {
+                        this.singleData[field.ui_field_name] = go_formatDisplayClass.amtFormat(ls_amtValue, ls_ruleVal);
+                    }
+                    else {
+                        this.singleData[field.ui_field_name] = ls_amtValue;
+                    }
+                }
+                else{
+                    this.singleData[field.ui_field_name] = 0;
                 }
             },
             toFirstData() {

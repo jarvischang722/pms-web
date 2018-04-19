@@ -241,7 +241,8 @@
       "sales_cod": "業務員代號",
       "sales_nam": "業務員姓名",
       "class_nam": "組別",
-      "rate": "房價代號或名稱"
+      "rate": "房價代號或名稱",
+      "save_success": "儲存成功"
     },
     "PMS0620020": {
       "sales_cod": "業務員代號",
@@ -419,7 +420,8 @@
       "ChkPointOne": "%s 僅能輸入至小數點1位",
       "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)",
       "ChkEmail": "%s 格式不正確",
-      "ChkUniCod": "%s 格式不正確"
+      "ChkUniCod": "%s 格式不正確",
+      "chkDataChang": "資料異動，是否要修改?"
     }
   },
   "ErrorMsg": {
