@@ -28,6 +28,8 @@
       width: 70px
     &.label_w80
       width: 80px
+    &.label-sm
+      width: 69px
 
   span, p, div, select, option, .input-medium, input, textarea, .css_table
     font-size: $font-default !important
@@ -94,9 +96,9 @@
         min-height: initial
         cursor: pointer
   .popCheckbox
-    // rateCode/add
-       label.checkbox-width
-         margin-top: 2px
+// rateCode/add
+   label.checkbox-width
+     margin-top: 2px
 
 .grid-item-input
   width: 100px
@@ -186,12 +188,16 @@
         bottom: 8px
         width: auto
       &.moreAbso-t10
-        // rateCode table 一欄有兩個
-               top: 7px
-               bottom: auto
+  // rateCode table 一欄有兩個
+         top: 7px
+         bottom: auto
   .icon-addDel
     i
       margin-top: 5px
+  &.rm-table-s
+    .css_td
+      padding-top: 0
+      padding-bottom: 0
 
 .css_table
   +css_table($tableWidth: 100%)
