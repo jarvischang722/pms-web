@@ -12,7 +12,7 @@
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div class="tableHt">
-                        <table id="PMS0810230_dg" class=""></table>
+                        <table id="PMS0810230_dg" class="prg_dgHt"></table>
                     </div>
                 </div>
             </div>
@@ -400,13 +400,8 @@
                 let ln_pageSize = 20;
 
                 this.dgIns = new DatagridSingleGridClass();
-                this.dgIns.init("PMS0810230", "PMS0810230_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810230_dg'), this.pageOneFieldData, {
-                    singleSelect: false,
-                    pagination: true,
-                    rownumbers: true,
-                    pageSize: ln_pageSize
-                });
-                this.dgIns.loadPageDgData(this.pageOneDataGridRows);
+                this.dgIns.init("PMS0810230", "PMS0810230_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810230_dg'), this.pageOneFieldData);
+                this.dgIns.loadDgData(this.pageOneDataGridRows);
 
                 this.isLoading = false;
             },
