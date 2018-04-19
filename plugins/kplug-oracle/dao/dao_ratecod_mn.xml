@@ -112,4 +112,17 @@
         <parameter type="string" kind="3">rate_cod</parameter>
     </dao>
 
+    <!-- [PMS0110040 訂房卡多筆] 訂房系統下拉選單-ratecod_mn -->
+    <dao name="SEL_RATECOD_MN">
+        <statement><![CDATA[
+            SELECT  DISTINCT RATE_COD value, RATECOD_NAM display
+            FROM  RATECOD_MN
+            WHERE  ATHENA_ID = :athena_id
+            and hotel_cod = :hotel_cod
+            ORDER  BY  RATE_COD
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
 </root>

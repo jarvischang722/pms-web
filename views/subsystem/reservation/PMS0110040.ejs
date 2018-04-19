@@ -1,8 +1,10 @@
+<!--page-content-->
 <div>
     <div class="page-header"></div><!-- /.page-header -->
-    <!-- 依房號訂房(Room Plan) Page-->
-    <div id="PMS0110050App" v-cloak>
-    </div>
+    <!-- 訂房卡(Bookings) Page-->
+
+    <div id="PMS0110040App" v-cloak></div>
+    <script src="/js/reservation/PMS0110040.js"></script>
 
     <!--  依房型訂房 彈出視窗內容-->
     <%- include PMS0100000_module/resvRoomTypeBtn_1 %>
@@ -16,19 +18,14 @@
     <!--  依房型訂房 彈出視窗內容(jing 新增2)-->
     <%- include PMS0100000_module/resvRoomTypeBtn_3 %>
     <!--  /.End 彈出視窗內容 -->
-</div>
-
-
-<!--  訂房共用 initial js -->
-<%- include PMS0100000_module/resv_includeJs %>
-<!--  /.End 訂房共用 initial js  -->
-
-<!--  接待 initial js -->
-<%- include ../frontDesk/frontDesk_module/frontDesk_includeJs.ejs %>
-<!--  /.End 接待 initial js  -->
+</div><!-- /.page-content -->
 
 <!-- subSystem 共用 js -->
 <%- include ../common/viewsComJs.ejs %>
 <!--  /.End subSystem 共用 js  -->
 
-<script src="/js/reservation/PMS0110050.js"></script>
+<!--  訂房卡共用 initial js -->
+<%- include PMS0100000_module/resv_includeJs %>
+<!--  /.End 訂房卡共用 initial js  -->
+
+

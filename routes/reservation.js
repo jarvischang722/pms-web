@@ -28,7 +28,8 @@ module.exports = function (app) {
     app.get('/resv_gProfile', middles, reservationCrtl.getResv_gProfile);
 
     //訂房卡多筆(靜態 quickMenu)
-    app.get('/resv_bookings', middles, reservationCrtl.getResv_bookings);
+    // app.get('/resv_bookings', middles, reservationCrtl.getResv_bookings);
+    app.get('/resv_bookings', middles, reservationCrtl.getPMS0110040);
 
     //異動紀錄(靜態 quickMenu)
     app.get('/resv_changeRecords', middles, reservationCrtl.getResv_changeRecords);

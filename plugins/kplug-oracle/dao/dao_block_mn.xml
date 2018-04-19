@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- [PMS0110040 訂房卡多筆] 鎖控選單 -->
+    <dao name="SEL_BLOCK_MN">
+        <statement><![CDATA[
+            select block_cod value, block_rmk display
+            from block_mn
+            where athena_id = :athena_id and hotel_cod = :hotel_cod order by block_cod
+        ]]></statement>
+
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+
+    </dao>
+
+
+</root>

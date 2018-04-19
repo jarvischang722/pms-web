@@ -40,6 +40,7 @@ exports.DataGridProc = function (postData, session) {
             la_dgFieldData = await qryLangUIFields(la_dgFieldData, lo_params, session);
             la_dgFieldData = await qrySelectOption(la_dgFieldData, lo_params, session);
             la_dgFieldData = await qrySearchFields(la_dgFieldData, lo_params, session);
+
             return la_dgFieldData;
         }
         catch (err) {
@@ -247,7 +248,7 @@ exports.qrySearchFields = async function (postData, session) {
     };
 
     try {
-        let la_fields = await getAllUIPageFieldAttr(lo_params, session);
+        let la_fields = await qrySearchFieldsAttr(lo_params, session);
         return la_fields;
     }
     catch (err) {
@@ -643,9 +644,8 @@ async function qrySelectOption(la_dgFieldData, params, session) {
  * @param callback
  */
 async function qrySearchFields(la_dgFieldData, params, session) {
-
     try {
-        let la_allPageFields = await getAllUIPageFieldAttr(params, session);
+        let la_allPageFields = await qrySearchFieldsAttr(params, session);
         let la_fieldData = await qryFormatRule(la_allPageFields, params, session);
 
         return {
@@ -658,7 +658,7 @@ async function qrySearchFields(la_dgFieldData, params, session) {
     }
 }
 
-async function getAllUIPageFieldAttr(params, session) {
+async function qrySearchFieldsAttr(params, session) {
     return new Promise((resolve, reject) => {
         fieldAttrSvc.getAllUIPageFieldAttr({
             prg_id: params.prg_id,
