@@ -1271,6 +1271,13 @@ ul.newVisitOther-btn
 
   // int_counter floorPlan-table
   .floorPlan-table
+    .r-table, .l-table
+      width: 49%
+    .l-table
+      margin-right: 1%
+    .r-table
+      margin-left: 1%
+
     table
       border: 1px solid #a0a8b4
       width: 100%
@@ -1303,6 +1310,9 @@ ul.newVisitOther-btn
             box-sizing: border-box
             font-size: 1.2em
             font-weight: bold
+          &.btn-center
+            margin: 0 auto
+            text-align: center
     //color: #555
     .customInfo-table
       width: 100%
@@ -1324,7 +1334,7 @@ ul.newVisitOther-btn
   //.show-intCounterRight
   //  display: none
   .intCounterRight
-    display: none
+  //display: none
   .intCounterleft
     position: relative
   .show-intCounterRight
@@ -2125,7 +2135,7 @@ td
         margin: 4px 1px auto 1px
 
 .roomAssign
-  .select-group
+  .select-group, .btn-group
     display: inline
   /* townHouse.html */
   .room-special
@@ -2147,12 +2157,14 @@ td
     float: right
     div
       width: 60px
-      height: 25px
+      height: 27px
       line-height: 25px
       float: left
       text-align: center
       margin: 5px 0 5px 5px
+      padding-top: 2px
       &.status-tip
+        cursor: pointer
         @include color-bk
   .status-btn
     float: left
@@ -2323,18 +2335,18 @@ td
         text-align: right
 //打掃安排
 .bg-red
-  background: red
+  background: #ff2244
   color: #fff
 
 .bg-green
-  background: green
+  background: #4dc16d
   color: #fff
 
 .bg-blue
-  background: #01ffff
+  background: #4bccff
 
 .bg-yellow
-  background: yellow
+  background: #ffcc37
 
 .bg-gray
   background: gray
@@ -2345,8 +2357,7 @@ td
     height: 16px
     display: inline-block
     vertical-align: sub
-    border: 1px solid
-
+    border: 1px solid #555
   .checkbox-header
     //border-bottom: 1px solid
     padding-top: 10px
@@ -2359,6 +2370,9 @@ td
       margin-top: -1px
     //display: inline-block
     .cleanCheckbox-left
+      .grid-item
+        label
+          margin-top: 0
       .cleanArngmtsBox, .checkbox
         float: left
       .grid-item
@@ -2368,28 +2382,29 @@ td
           label
             width: auto
             padding-left: 5px
-    .cleanCheckbox-right
-      margin-left: 20px
-      .cc-right
-        width: 100px
-        display: inline-block
-      .cc-right-down
-        margin-top: 6px
-        display: inline-block
 
     .checkbox label input[type=checkbox].ace + .lbl
       margin: 0
     label
       display: inline-block !important
+
+  .cleanCheckbox-right
+    //margin-left: 20px
+    .cc-right
+      width: 60px
+      display: inline-block
+    .cc-right-down
+      margin-top: 6px
+      display: inline-block
   .bigBox
     label
       width: 146px !important
   .clean-table-container
     //margin-left: 10px
-    margin-top: 20px
+    margin-top: 10px
     display: inline-block
     .clean-table-wrap
-      height: 250px
+      min-height: 315px
       overflow: auto
     .clean-text-box
       text-align: right
