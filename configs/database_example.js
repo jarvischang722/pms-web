@@ -11,8 +11,7 @@ module.exports = {
         user: "bacchus",
         password: "sql",
         months: [1, 2, 3, 4, 5, 6],
-        debug: 1,
-        maxRows: 1000  //Query db max rows, The default value is 0, meaning unlimited.
+        debug: 1
     }],
     // oracle 參數設定
     oracle_maxRows: 1000,

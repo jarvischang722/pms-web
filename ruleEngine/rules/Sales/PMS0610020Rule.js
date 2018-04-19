@@ -61,7 +61,7 @@ module.exports = {
                     "nos_nam": "CUST_COD",
                     "link_dat": "2000/01/01"
                 };
-                tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
                     if (apiErr || !data) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
@@ -492,7 +492,7 @@ module.exports = {
             "link_dat": "2000/01/01"
         };
 
-        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
             if (apiErr || !data) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();

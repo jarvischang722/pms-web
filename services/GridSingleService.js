@@ -1300,7 +1300,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
             };
             // console.dir(apiParams);
             // callback(null, {success:true});
-            tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+            tools.requestApi(sysConf.api_url.common, apiParams, function (apiErr, apiRes, data) {
                 var log_id = moment().format("YYYYMMDDHHmmss");
                 var err = null;
                 if (apiErr || !data) {

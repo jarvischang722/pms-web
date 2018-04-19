@@ -48,7 +48,7 @@ var params = {
 
 
 
-tools.requestApi(sysConf.api_url, params, function (err, res, data) {
+tools.requestApi(sysConf.api_url.java, params, function (err, res, data) {
     console.log(data);
 })
 
