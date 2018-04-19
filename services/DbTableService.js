@@ -51,7 +51,7 @@ exports.doTableLock = function (prg_id, table_name, userInfo, lock_type, key_cod
                 "socket_id": socket_id
             };
 
-            tools.requestApi(sysConfig.api_url, params, function (err, res, data) {
+            tools.requestApi(sysConfig.api_url.common, params, function (err, res, data) {
                 let success = true;
                 let errorMsg = null;
                 if (err || !data) {
@@ -108,7 +108,7 @@ exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_c
                 "socket_id": socket_id
             };
 
-            tools.requestApi(sysConfig.api_url, params, function (err, res, data) {
+            tools.requestApi(sysConfig.api_url.common, params, function (err, res, data) {
                 let success = true;
                 let errorMsg = null;
                 if (err || !data) {
@@ -149,7 +149,7 @@ exports.doTableUnLockBySocketID = function (socket_id, callback) {
                 "socket_id": socket_id
             };
 
-            tools.requestApi(sysConfig.api_url, params, function (err, res, data) {
+            tools.requestApi(sysConfig.api_url.common, params, function (err, res, data) {
                 let success = true;
                 let errorMsg = null;
                 if (err || !data) {
@@ -173,7 +173,7 @@ exports.doTableUnLockBySocketID = function (socket_id, callback) {
 exports.doTableAllUnLock = function (callback) {
     try {
         let REVE_CODE = "BAC09008030000";
-        tools.requestApi(sysConfig.api_url, {"REVE-CODE": REVE_CODE}, function (err, res, data) {
+        tools.requestApi(sysConfig.api_url.common, {"REVE-CODE": REVE_CODE}, function (err, res, data) {
             let success = true;
             let errorMsg = null;
             if (err || !data) {
@@ -221,7 +221,7 @@ exports.execSQL = function (prg_id, saveExecDatas, session, callback) {
         "exec_data": saveExecDatas
     };
     if (_.size(saveExecDatas) > 0) {
-        tools.requestApi(sysConfig.api_url, apiParams, function (apiErr, apiRes, data) {
+        tools.requestApi(sysConfig.api_url.common, apiParams, function (apiErr, apiRes, data) {
             let success = true;
             let errMsg = null;
             let log_id = moment().format("YYYYMMDDHHmmss");
@@ -469,7 +469,7 @@ exports.doSavePMS0830080 = function (session, postData, callback) {
         "exec_data": lo_savaExecDatas
     };
 
-    tools.requestApi(go_sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+    tools.requestApi(go_sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
         let err = null;
         let success = true;
         if (apiErr || !data) {
@@ -677,7 +677,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     };
 
     // return callback(null, true);
-    tools.requestApi(go_sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+    tools.requestApi(go_sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
         let err = null;
         let success = true;
         if (apiErr || !data) {

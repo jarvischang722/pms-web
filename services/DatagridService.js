@@ -811,7 +811,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     "exec_data": savaExecDatas
                 };
 
-                tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+                tools.requestApi(sysConf.api_url.common, apiParams, function (apiErr, apiRes, data) {
                     let success = true;
                     let errMsg = null;
                     let log_id = moment().format("YYYYMMDDHHmmss");
