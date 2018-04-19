@@ -143,7 +143,7 @@ class ResvBanquetData {
                 parent_cod: null,
                 place_cod: null,
                 banquet_dt: self.genMtime_dt(lo_rspt.rspt_cod), //產生餐期資料
-                rowspan: 0
+                rowspan: 1
             };
             la_rowData.push(lo_rowData);
 
@@ -187,7 +187,7 @@ class ResvBanquetData {
                         parent_cod: "",
                         place_cod: lo_parentPlaceByRspt.place_cod,
                         banquet_dt: self.genOrder_dt(lo_parentPlaceByRspt.place_cod, []),
-                        rowspan: 0,
+                        rowspan: 1,
                         isChild: "N"
                     };
                     la_rowData.push(lo_rowData);
@@ -225,7 +225,7 @@ class ResvBanquetData {
                             parent_cod: lo_childPlaceByRspt.parent_cod,
                             place_cod: lo_childPlaceByRspt.place_cod,
                             banquet_dt: self.genOrder_dt(lo_childPlaceByRspt.place_cod, []),
-                            rowspan: 0,
+                            rowspan: 1,
                             isChild: "Y"
                         };
                         la_rowData.push(lo_rowData);

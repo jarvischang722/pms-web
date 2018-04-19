@@ -593,12 +593,12 @@
                 this.tabName = tabNameData.tabName;
             });
             this.$eventHub.$on("setMultiLangSingleData", (data) => {
+                this.singleData = _.extend(this.singleData, {multilang: data.multilang});
                 let ls_noeLocale = getCookie('locale');
                 let la_edit = _.where(this.singleData.multilang, {locale: ls_noeLocale});
                 _.each(la_edit, (lo_edit) => {
                     this.singleData[lo_edit.field] = lo_edit.val;
                 });
-                this.singleData = _.extend(this.singleData, data);
             });
         },
         mounted() {
@@ -652,6 +652,7 @@
                         this.$eventHub.$emit("setUseTimeRateCod", {
                             rateCod: val.rate_cod
                         });
+                        this.setMultiLangSingleData();
                     }
                 },
                 deep: true
@@ -663,7 +664,58 @@
                 this.$eventHub.$emit('openMultiLang', {
                     isOpenFieldMultiLang: true,
                     fieldInfo: fieldInfo,
-                    singleData: this.singleData
+                    singleData: this.oriSingleData
+                });
+            },
+            //設定內容多語資料
+            async setMultiLangSingleData() {
+                if (_.isUndefined(this.singleData.multilang)) {
+                    let lo_multiField = {};
+                    let la_multiLangCont = [];
+                    //房價名稱多語系
+                    lo_multiField = _.findWhere(this.oriFieldsData, {ui_field_name: 'ratecod_nam'});
+                    let la_multiRatecodName = await this.getMultiLangCont(this.oriSingleData, lo_multiField);
+                    _.each(la_multiRatecodName, (lo_multiRatecodName) => {
+                        let ls_field = _.keys(lo_multiRatecodName)[2];
+                        if (!_.isUndefined(ls_field)) {
+                            la_multiLangCont.push({
+                                locale: lo_multiRatecodName.locale,
+                                field: ls_field,
+                                val: lo_multiRatecodName[ls_field]
+                            });
+                        }
+                    });
+
+                    //確認書說明多語系
+                    lo_multiField = _.findWhere(this.oriFieldsData, {ui_field_name: 'rvconfirm_rmk'});
+                    let la_multiRvconfirmRmk = await this.getMultiLangCont(this.oriSingleData, lo_multiField);
+                    _.each(la_multiRvconfirmRmk, (lo_multiRvconfirmRmk) => {
+                        let ls_field = _.keys(lo_multiRvconfirmRmk)[2];
+                        if (!_.isUndefined(ls_field)) {
+                            la_multiLangCont.push({
+                                locale: lo_multiRvconfirmRmk.locale,
+                                field: ls_field,
+                                val: lo_multiRvconfirmRmk[ls_field]
+                            });
+                        }
+                    });
+
+                    this.singleData = la_multiLangCont.length > 0 ? _.extend(this.singleData, {multilang: la_multiLangCont}) : this.singleData;
+                }
+            },
+            async getMultiLangCont(singleData, fieldInfo) {
+                let lo_params = {};
+                lo_params = {
+                    dataType: 'gridsingle',
+                    rowData: singleData,
+                    prg_id: fieldInfo.prg_id,
+                    page_id: fieldInfo.page_id,
+                    ui_field_name: fieldInfo.ui_field_name
+                };
+                return await $.post("/api/fieldAllLocaleContent", lo_params).then(result => {
+                    return result.multiLangContentList;
+                }, err => {
+                    throw Error(err);
                 });
             },
             initData() {
@@ -834,8 +886,8 @@
 
                 lo_saveSingleData.display_all = lo_saveSingleData.display_all ? 'Y' : 'N';
 
-                lo_saveSingleData.commis_rat = lo_saveSingleData.commis_rat / 100;
-                lo_saveSingleData.serv_rat = lo_saveSingleData.serv_rat / 100;
+                lo_saveSingleData.commis_rat = Number(lo_saveSingleData.commis_rat) / 100;
+                lo_saveSingleData.serv_rat = Number(lo_saveSingleData.serv_rat) / 100;
 
                 let lo_params = {
                     page_id: this.oriFieldsData[0].page_id,
@@ -894,7 +946,7 @@
                                 this.isLoadingDialog = false;
                             }, 200);
                             if (result.success) {
-                                alert("save success");
+                                alert(go_i18nLang.program.PMS0810230.save_success);
                                 $("#PMS0810230SingleGrid").dialog('close');
                             }
                             else {

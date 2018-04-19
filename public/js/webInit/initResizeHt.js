@@ -6,7 +6,7 @@ jQuery(function () {
     var navHt = $(".navbar-container").height();
 
     // quickMenus + 搜尋欄位
-    var menuHt = $(".top-sec-ul").height()+ 30+ $(".page-header").height();//padding-top: 5px
+    var menuHt = $(".top-sec-ul").height() + 30 + $(".page-header").height();//padding-top: 5px
 
     var menuHt3 = 70;  // 高度 margin或padding 的差距
 
@@ -19,16 +19,17 @@ jQuery(function () {
 
     // alert($('.tab-content').find('.search-content').height());
     function allHt() {
-        gridTableHt         = $(window).height()-navHt-menuHt;
-        frontTableHt        = $(window).height()-navHt-menuHt-selectgroup-8;
-        roomAssTableHt      = $(window).height()-navHt-menuHt-selectgroup-120; // 上面備註高度
+        gridTableHt = $(window).height() - navHt - menuHt;
+        frontTableHt = $(window).height() - navHt - menuHt - selectgroup - 8;
+        roomAssTableHt = $(window).height() - navHt - menuHt - selectgroup - 120; // 上面備註高度
 
-        prg_dgHt            = $(window).height() - navHt - menuHt - menuHt3;
-        prg_dgHt_search     = $(window).height() - navHt - menuHt - menuHt3 - searchGridHt - searchPaddHt;  // PMS0810020
-        prg_dgHt_searchRow2 = $(window).height() - navHt - menuHt - menuHt3 - (searchGridHt*2) - searchPaddHt;  // PMS0820020
-        tabConHt            = $(window).height() - navHt - menuHt;
-        dtTableSetupHt      = tabConHt - 70; // 設定檔table 高度 // prg_dgHt 等於
+        prg_dgHt = $(window).height() - navHt - menuHt - menuHt3;
+        prg_dgHt_search = $(window).height() - navHt - menuHt - menuHt3 - searchGridHt - searchPaddHt;  // PMS0810020
+        prg_dgHt_searchRow2 = $(window).height() - navHt - menuHt - menuHt3 - (searchGridHt * 2) - searchPaddHt;  // PMS0820020
+        tabConHt = $(window).height() - navHt - menuHt;
+        dtTableSetupHt = tabConHt - 70; // 設定檔table 高度 // prg_dgHt 等於
     }
+
     allHt();
     $(".gridTableHt").css("height", gridTableHt);
     $(".dtTableSetupHt").css("height", dtTableSetupHt);
@@ -41,35 +42,30 @@ jQuery(function () {
 
 
     // 螢幕縮放時重新抓值
-    $(window).resize(function() {
+    $(window).resize(function () {
         allHt();
 
-        $('.gridTableHt').datagrid('resize',{
-            height:gridTableHt
+        $('.gridTableHt').datagrid('resize', {
+            height: gridTableHt
         });
 
-        $('.dtTableSetupHt').datagrid('resize',{
-            height:dtTableSetupHt
+        $('.dtTableSetupHt').datagrid('resize', {
+            height: dtTableSetupHt
         });
 
         $(".frontTableHt").css("height", frontTableHt);
 
-        $('.roomAssTableHt').datagrid('resize',{
-            height:roomAssTableHt
+        $('.roomAssTableHt').datagrid('resize', {
+            height: roomAssTableHt
         });
-
-//   todo 與(dataGridTmp.ejs)的resize 衝突，之後換table寫法更改，再將“dtTableSetupHt” 拿掉
-//         $(".prg_dgHt").datagrid('resize',{
-//             height:prg_dgHt
-//         });
 
         // PMS0810020
-        $('.prg_dgHt_search').datagrid('resize',{
-            height:prg_dgHt_search
+        $('.prg_dgHt_search').datagrid('resize', {
+            height: prg_dgHt_search
         });
         // // PMS0820020
-        $('.prg_dgHt_searchRow2').datagrid('resize',{
-            height:prg_dgHt_searchRow2
+        $('.prg_dgHt_searchRow2').datagrid('resize', {
+            height: prg_dgHt_searchRow2
         });
 
         $(".tabConHt").css("height", tabConHt);
@@ -91,15 +87,12 @@ jQuery(function () {
     $('[data-rel=tooltip]').tooltip();
     //.END 提示訊息
 
+    // 下拉選單 文字更換(樓層、棟別)
+    $(document).on('click', '.dpUIList li > a', function () {
+        $(this).parents('.chgText-effect').find('.dpShowValue').text(this.innerHTML);
+        $(this).parents('.chgText-effect').find('.dropdown-toggle').addClass('sel-border');
+    });
 
-    // 下拉選單 文字更換(樓層、棟別)
-    $('.dpUIList li > a').on('click', function(){
-        $(this).parents('.select-group').find('.dpShowValue').text(this.innerHTML);
-    });
-    // 下拉選單 文字更換(樓層、棟別)
-    $('.dpUIList li > a').on('click', function(){
-        $(this).parents('.btn-group').find('.dpShowValue').text(this.innerHTML);
-    });
     //.END 下拉選單
 
     $('.townPage').on('click', ".townBlock", function (e) {
@@ -117,7 +110,6 @@ jQuery(function () {
 //        $(document).on('click', ".btn-primary", function (e) {
 //            $(this).removeClass("btn-white").css('border-width','1px');
 //        });
-
 
 
 });

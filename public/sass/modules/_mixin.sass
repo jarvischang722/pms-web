@@ -5,7 +5,8 @@
 //input-spc-1 width (768-1030)  : 349px
 //medium-c1 width (768-1030)    : 349px
 @mixin input-s1($spc-width: 434px)
-  width: $spc-width  //defalut: 439px
+  width: $spc-width
+  //defalut: 439px
   max-width: 100%
   height: $defHt
 // 綜合櫃台 顏色
@@ -13,11 +14,11 @@
   &.cb-oc-od
     //background: #fffba1
     background: #ffd45a
-  &.cb-purple
+  &.cb-ob
     background: #ae8dc3
   &.cb-doc-dod
     background: #7cbd64
-  &.cb-pink
+  &.cb-dod
     background: #ffddb3
   &.cb-vc-vd
     background: #bfbfbf
@@ -35,7 +36,7 @@
     background: #848009
   &.cb-sexyGreen
     background: #556b2f
-  &.cb-sexyRed
+  &.cb-oos
     background: rgba(255, 33, 95, 0.77)
   &.cb-s
     background: #c0d6ee
@@ -43,18 +44,25 @@
     background: #4B3F72 !important
   &.active
     border: 2px solid #ff0000
-    //text-decoration: underline
+//text-decoration: underline
 // 底部線
 @mixin bottomAfterLine($lineLeftPx,$lineBottomPx,$lineWidthPx,$lineHeightPx,$lineBackground,$lineMargin-left,$lineMargin-bottom)
   content: ""
   position: absolute
-  left: $lineLeftPx //15px
-  bottom: $lineBottomPx //0px
-  width: $lineWidthPx //25%
-  height: $lineHeightPx //2px
-  background: $lineBackground //$webThemeColor
-  margin-left: $lineMargin-left //-15px
-  margin-bottom: $lineMargin-bottom //10px
+  left: $lineLeftPx
+  //15px
+  bottom: $lineBottomPx
+  //0px
+  width: $lineWidthPx
+  //25%
+  height: $lineHeightPx
+  //2px
+  background: $lineBackground
+  //$webThemeColor
+  margin-left: $lineMargin-left
+  //-15px
+  margin-bottom: $lineMargin-bottom
+//10px
 
 // 六角形
   // $hexagonWidth             六角形的寬
@@ -62,20 +70,27 @@
   // $hexagonBk                六角形的顏色
   // 後面的文字                  初值
 @mixin hexagon($hexagonWidth, $hexagonHeight, $hexagonBk)
-  width: $hexagonWidth //100px
-  height: $hexagonHeight //55px
-  background: $hexagonBk //#eeeeee
+  width: $hexagonWidth
+  //100px
+  height: $hexagonHeight
+  //55px
+  background: $hexagonBk
+  //#eeeeee
   position: relative
   &:before
     content: ""
     position: absolute
-    top: -$hexagonWidth/4 //-25px
+    top: -$hexagonWidth/4
+    //-25px
     left: 0
     width: 0
     height: 0
-    border-left: $hexagonWidth/2 solid transparent //50px
-    border-right: $hexagonWidth/2 solid transparent //50px
-    border-bottom: $hexagonWidth/4 solid $hexagonBk //25px
+    border-left: $hexagonWidth/2 solid transparent
+    //50px
+    border-right: $hexagonWidth/2 solid transparent
+    //50px
+    border-bottom: $hexagonWidth/4 solid $hexagonBk
+  //25px
   &:after
     content: ""
     position: absolute
@@ -83,9 +98,12 @@
     left: 0
     width: 0
     height: 0
-    border-left: $hexagonWidth/2 solid transparent //50px
-    border-right: $hexagonWidth/2 solid transparent //50px
-    border-top: $hexagonWidth/4 solid $hexagonBk //25px
+    border-left: $hexagonWidth/2 solid transparent
+    //50px
+    border-right: $hexagonWidth/2 solid transparent
+    //50px
+    border-top: $hexagonWidth/4 solid $hexagonBk
+//25px
 
 
 
