@@ -72,7 +72,7 @@
                                             <!--  textarea -->
                                             <template v-if="field.visiable == 'Y' && field.ui_type == 'textarea'">
                                                 <textarea v-model="singleData[field.ui_field_name]"
-                                                          class="numStyle-none" rows="1" style="resize: none; display: inline-block;"
+                                                          class="numStyle-none btn-gray" rows="1" style="resize: none; display: inline-block;"
                                                           :style="{width:field.width + 'px'}"
                                                           :required="field.requirable == 'Y'"
                                                           :maxlength="field.ui_field_length"
@@ -80,7 +80,7 @@
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                           @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                 </textarea>
-                                                <i class="moreClick fa fa-ellipsis-h " @click="editFieldMultiLang"
+                                                <i class="moreClick fa fa-ellipsis-h " @click="editFieldMultiLang(field)"
                                                    style=" display: inline-block; position: absolute; margin-top: 3px;"></i>
                                             </template>
 
@@ -94,10 +94,12 @@
                             <el-tabs v-model="tabName" type="card">
                                 <el-tab-pane :label="i18nLang.program.PMS0810230.roomTyp" name="roomTyp">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0810230.limitSet" name="limitSet" disabled>
-                                </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0810230.promoteSet" name="promoteSet" disabled>
-                                </el-tab-pane>
+                                <template v-if="versionState != 'lite'">
+                                    <el-tab-pane :label="i18nLang.program.PMS0810230.limitSet" name="limitSet" disabled>
+                                    </el-tab-pane>
+                                    <el-tab-pane :label="i18nLang.program.PMS0810230.promoteSet" name="promoteSet" disabled>
+                                    </el-tab-pane>
+                                </template>
                             </el-tabs>
                             <div class="easyui-tabs borderFrame"
                                  style="min-height: 0;!important; overflow-y: auto;">
@@ -358,17 +360,17 @@
                                             {{i18nLang.program.PMS0810230.rateList}}
                                         </button>
                                     </li>
-                                    <li class="depDateLi">
+                                    <li class="depDateLi" v-if="versionState != 'lite'">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_dependantRate" disabled
                                                 role="button">{{i18nLang.program.PMS0810230.depRate}}
                                         </button>
                                     </li>
-                                    <li class="baseDateLi">
+                                    <li class="baseDateLi" v-if="versionState != 'lite'">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate" disabled
                                                 role="button">{{i18nLang.program.PMS0810230.baseRate}}
                                         </button>
                                     </li>
-                                    <li>
+                                    <li v-if="versionState != 'lite'">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_addPpl" disabled
                                                 role="button">{{i18nLang.program.PMS0810230.addPol}}
                                         </button>
@@ -588,7 +590,7 @@
 
     export default {
         name: 'pms0810230SingleGrid',
-        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
+        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable", "versionState"],
         components: {roomTyp, useTime, rateList},
         created() {
             this.$eventHub.$on('setTabName', (tabNameData) => {

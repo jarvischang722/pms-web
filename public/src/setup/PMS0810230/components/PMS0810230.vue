@@ -49,6 +49,7 @@
                 :is-modifiable="isModifiable"
                 :is-create-status="isCreateStatus"
                 :is-edit-status="isEditStatus"
+                :version-state="versionState"
         ></pms0810230-single-grid>
         <!--房型使用的日期規則-->
         <el-dialog
@@ -82,7 +83,7 @@
                                         <div class="space-6"></div>
                                         <!--tabPage-->
                                         <!--lite 版-->
-                                        <template v-if="isLite">
+                                        <template v-if="versionState == 'lite'">
                                             <div class="space-6"></div>
                                             <label>{{i18nLang.program.PMS0810230.holiday}}: </label>
                                             <bac-select
@@ -306,7 +307,7 @@
                 sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),//語系
                 i18nLang: go_i18nLang,//多語系資料
                 go_funcPurview: [],//按鈕權限
-                isLite: true, //版本設定
+                versionState: "lite", //版本設定
                 userInfo: {},//使用者資訊
                 pageOneDataGridRows: [],//多筆資料
                 pageOneFieldData: [],//多筆欄位資料
@@ -329,7 +330,7 @@
                 commandVal: [],//依星期別
                 commandHVal: [],//依假日類別
                 timeRuleSingleData: {
-                    command_cod: 'D',
+                    command_cod: 'H',
                     command_option: '',
                     begin_dat: '',
                     end_dat: ''
@@ -499,6 +500,7 @@
             },
             //房型使用期間 日期規則
             chkTimeRule() {
+                this.timeRuleSingleData.command_cod = this.versionState == 'lite' ? 'H' : this.timeRuleSingleData.command_cod;
                 let ln_diffDate = moment(this.timeRuleSingleData.begin_dat).diff(moment(this.timeRuleSingleData.end_dat), "days");
                 if (ln_diffDate > 1) {
                     alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
