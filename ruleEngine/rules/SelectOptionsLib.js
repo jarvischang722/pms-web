@@ -2004,7 +2004,6 @@ exports.langRategrpRfUseSta = function (params, callback) {
     let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getRateGrpRfUseSta();
     callback(null, lo_result);
-    callback(null, lo_result);
 };
 
 /**
