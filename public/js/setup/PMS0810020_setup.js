@@ -736,6 +736,9 @@ var vm = new Vue({
         maxWidth: 0
     },
     watch: {
+        editingRow: function(val){
+            this.dgIns.clearSelection();
+        },
         editStatus: function (newVal) {
             if (newVal) {
                 vm.createStatus = false;
