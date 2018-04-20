@@ -91,36 +91,9 @@
         </div>
         <div class="clearfix"></div>
         <div class="col-xs-12">
-            <div class="col-sm-11 col-xs-11">
-                <div class="row no-margin-right">
-                    <div>
-                        <!-- 客戶購買授權 SER0510010-table dataGrid -->
-                        <table id="SER0510010-table" class="gridTableHt"></table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-1 col-sm-1">
-                <div class="row">
-                    <div class="right-menu-co">
-                        <ul>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                        role="button">新增
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                        role="button">修改
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1 resv-view"
-                                        role="button">瀏覽
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="">
+                <!-- 客戶購買授權 SER0510010-table dataGrid -->
+                <table id="SER0510010-table" class="gridTableHt"></table>
             </div>
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
@@ -136,15 +109,15 @@
             url: '/jsonData/customerService/SER0510010-table.json',
             method: 'get',
             columns: [[
-                {field: 'prg_id', title: '程式編號', width: 100},
-                {field: 'func_id', title: '操作功能', width: 100},
-                {field: 'url', title: '網址', width: 180},
-                {field: 'event_time', title: '操作時間', width: 100},
-                {field: 'athena_id', title: '集團別', width: 100},
-                {field: 'comp_cod', title: '公司別', width: 100},
-                {field: 'hotel_cod', title: '館別', width: 100},
-                {field: 'id', title: '使用者', width: 100},
-                {field: 'execution_time', title: '執行時間', width: 100},
+                {field: 'prg_id', title: '程式編號', width: 70},
+                {field: 'func_id', title: '操作功能', width: 70},
+                {field: 'url', title: '網址', width: 300},
+                {field: 'event_time', title: '操作時間', width: 120},
+                {field: 'athena_id', title: '集團別', width: 150},
+                {field: 'comp_cod', title: '公司別', width: 150},
+                {field: 'hotel_cod', title: '館別', width: 70},
+                {field: 'id', title: '使用者', width: 140},
+                {field: 'execution_time', title: '執行時間', width: 70},
             ]]
         });
     })
