@@ -5,7 +5,7 @@
                 <search-comp
                         :search-fields="searchFields"
                         :search-cond.sync="searchCond"
-                        :fetch-data="loadDataGridByPrgID"
+                        :fetch-data="fetchDgRowData"
                 ></search-comp>
             </div> <!-- /.col-sm-12 -->
             <div class="clearfix"></div>
@@ -141,6 +141,19 @@
                     self.showDataGrid();
                 });
             },
+            fetchDgRowData() {
+                var lo_searchCond = _.clone(this.searchCond);
+
+                var lo_params = {
+                    prg_id: gs_prgId,
+                    page_id: 1,
+                    searchCond: lo_searchCond
+                };
+                $.post('/api/fetchDgRowData', lo_params, (result) => {
+                    this.pageOneDataGridRows = result.dgRowData;
+                    this.dgIns.loadPageDgData(this.pageOneDataGridRows);
+                });
+            },
             showDataGrid() {
                 let self = this;
 
@@ -183,8 +196,8 @@
                 this.isLoading = false;
             },
             showSingleGridDialog() {
+                this.$store.dispatch("setAllDataClear");
                 let self = this;
-
                 let dialog = $('#PMS0210011').removeClass('hide').dialog({
                     autoOpen: false,
                     modal: true,
@@ -198,8 +211,8 @@
                         self.editingRow = {};
                         self.isEditStatus = false;
                         self.isCreateStatus = false;
-                        self.$store.dispatch("setAllDataClear");
-                        self.loadDataGridByPrgID();
+                        self.$eventHub.$emit("doSaveModifyData");
+                        self.fetchDgRowData();
                     }
                 }).dialog('open');
             },

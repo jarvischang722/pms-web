@@ -149,8 +149,8 @@ const actions = {
     },
     //儲存基本資料
     async doSaveProfileData({commit, dispatch, state}) {
-        var err = null;
-        var lo_tmpCUD = {
+        let err = null;
+        let lo_tmpCUD = {
             createData: [],
             updateData: [],
             deleteData: [],
@@ -165,18 +165,17 @@ const actions = {
         else if (state.gb_isEditStatus) {
             if (state.gb_isDeleteStatus) {
                 lo_tmpCUD.deleteData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
-                lo_tmpCUD.oriData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
                 ls_funcId = "0300";
             }
             else {
                 lo_tmpCUD.updateData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
-                lo_tmpCUD.oriData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
+                lo_tmpCUD.oriData.push(_.extend(state.go_oriProfileSingleData, {tab_page_id: 1}));
                 ls_funcId = "0400";
             }
         }
 
-        // return lo_tmpCUD;
-
+        // console.log(lo_tmpCUD);
+        // return {success: true};
         return await $.post('/api/doOperationSave', {
             prg_id: 'PMS0210011',
             page_id: 1,
@@ -189,8 +188,8 @@ const actions = {
     },
     //儲存其他聯絡資料
     async doSaveOtherContactData({commit, dispatch, state}) {
-        var err = null;
-        var lo_tmpCUD = {
+        let err = null;
+        let lo_tmpCUD = {
             dt_createData: [],
             dt_updateData: [],
             dt_deleteData: [],
@@ -229,7 +228,7 @@ const actions = {
             });
         }
         else if (state.gb_isEditStatus) {
-            if(!state.gb_isDeleteStatus){
+            if (!state.gb_isDeleteStatus) {
                 ls_funcId = "0400";
                 _.each(state.go_emailTmpCUD.createData, function (lo_createData) {
                     lo_tmpCUD.dt_createData.push(lo_createData);
@@ -258,6 +257,7 @@ const actions = {
                     });
                     lo_tmpCUD.dt_createData.push(lo_saveCreateData);
                 });
+
                 _.each(state.go_emailTmpCUD.updateData, function (lo_updateData) {
                     lo_tmpCUD.dt_updateData.push(lo_updateData);
                 });
@@ -316,7 +316,7 @@ const actions = {
         }
 
         // console.log(lo_tmpCUD);
-        // return lo_tmpCUD
+        // return {success: true};
         return await $.post('/api/doOperationSave', {
             prg_id: 'PMS0210011',
             page_id: 1040,

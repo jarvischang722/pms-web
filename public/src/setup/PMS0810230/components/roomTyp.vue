@@ -6,7 +6,7 @@
                 <v-table
                         row-hover-color="#eee"
                         row-click-color="#edf7ff"
-                        :height="150"
+                        :height="250"
                         :is-loading="isLoading"
                         :columns="roomTypColumns"
                         :table-data="roomTypData"

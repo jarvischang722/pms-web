@@ -237,6 +237,7 @@ var vm = new Vue({
         },
         //結束編輯
         onEndEdit: function (index, row, changes) {
+            var self = this;
             var lb_chkIsChanged = this.dataValidate(row, this.dataGridRows[index]);
 
             if (lb_chkIsChanged) {

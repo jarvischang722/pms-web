@@ -1,18 +1,30 @@
 <template>
-    <el-dialog title="Multi Language" :visible.sync="showMultiLangDialog" size="tiny">
-        <table class="langTable" style="margin-top: 20px" align="center">
-            <tbody>
-            <tr v-for="locale in sys_locales">
-                <td> {{locale.name}}</td>
-                <td>
-                    <input :data-locale="locale.lang"
-                           :id="editingLangField"
-                           :value="filterLocaleContent(multiLangContentList,  locale.lang ,editingLangField) "
-                           class="multi_lang_input">
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <el-dialog title="Multi Language" :visible.sync="showMultiLangDialog" size="tiny" :before-close="closeFieldMultiLangDialog">
+        <template v-if="fieldInfo.ui_type == 'textarea'">
+            <div v-for="locale in sys_locales">
+                <label> {{locale.name}}</label>
+                <textarea class="input-medium medium-c1-colv2 height-auto rzNone multi_lang_input"
+                          style="width: 100%; max-width: 100%;" rows="6"
+                          :data-locale="locale.lang" :id="editingLangField"
+                          :value="filterLocaleContent(multiLangContentList,  locale.lang ,editingLangField) ">
+                </textarea>
+            </div>
+        </template>
+        <template v-else>
+            <table class="langTable" style="margin-top: 20px" align="center">
+                <tbody>
+                <tr v-for="locale in sys_locales">
+                    <td> {{locale.name}}</td>
+                    <td>
+                        <input :data-locale="locale.lang"
+                               :id="editingLangField"
+                               :value="filterLocaleContent(multiLangContentList,  locale.lang ,editingLangField) "
+                               class="multi_lang_input">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </template>
         <span slot="footer" class="dialog-footer">
             <el-button @click="closeFieldMultiLangDialog">{{i18nLang.SystemCommon.Cancel }}</el-button>
             <el-button type="primary" @click="saveFieldMultiLang">{{i18nLang.SystemCommon.OK }}  </el-button>
@@ -40,8 +52,9 @@
             };
         },
         watch: {
-            openMultiLangDialog(val){
-                if(val){
+            openMultiLangDialog(val) {
+                if (val) {
+                    console.log(this.fieldInfo);
                     this.getFieldMultiLangContent(this.fieldInfo);
                 }
             }
@@ -49,7 +62,7 @@
         methods: {
             getFieldMultiLangContent: function (fieldInfo) {
                 this.editingLangField = fieldInfo.ui_field_name;
-                if(_.findIndex(this.singleData["multilang"], {field: this.editingLangField}) <= -1){
+                if (_.findIndex(this.singleData["multilang"], {field: this.editingLangField}) <= -1) {
                     var self = this;
                     var params = {
                         dataType: 'gridsingle',
@@ -64,12 +77,12 @@
                         self.openFieldMultiLangDialog();
                     });
                 }
-                else{
+                else {
                     let la_multiLangContentList = [];
                     let la_edit = _.where(this.singleData["multilang"], {field: this.editingLangField});
-                    _.each(la_edit, (lo_multiLang, idx)=>{
+                    _.each(la_edit, (lo_multiLang, idx) => {
                         let lo_editField = {
-                            display_locale: lo_multiLang.locale=='en'? "English": "繁體中文",
+                            display_locale: lo_multiLang.locale == 'en' ? "English" : "繁體中文",
                             locale: lo_multiLang.locale
                         };
                         lo_editField[lo_multiLang.field] = lo_multiLang.val;
@@ -101,7 +114,7 @@
                     }
                 });
 
-                _.each(la_multiLang, (lo_multiLang)=>{
+                _.each(la_multiLang, (lo_multiLang) => {
                     let ls_field = _.keys(lo_multiLang)[1];
                     la_saveData.push({
                         locale: lo_multiLang.locale,
@@ -111,11 +124,14 @@
                 });
 
                 _.each(la_saveData, (lo_saveData) => {
-                    let lo_edit = _.findWhere(this.singleData["multilang"], {field: lo_saveData.field, locale: lo_saveData.locale});
-                    if(_.isUndefined(lo_edit)){
+                    let lo_edit = _.findWhere(this.singleData["multilang"], {
+                        field: lo_saveData.field,
+                        locale: lo_saveData.locale
+                    });
+                    if (_.isUndefined(lo_edit)) {
                         this.singleData["multilang"].push(lo_saveData);
                     }
-                    else{
+                    else {
                         _.extend(lo_edit, lo_saveData);
                     }
                 });

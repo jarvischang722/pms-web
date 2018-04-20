@@ -12,7 +12,7 @@
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div class="tableHt">
-                        <table id="PMS0810230_dg" class=""></table>
+                        <table id="PMS0810230_dg" class="prg_dgHt"></table>
                     </div>
                 </div>
             </div>
@@ -49,6 +49,7 @@
                 :is-modifiable="isModifiable"
                 :is-create-status="isCreateStatus"
                 :is-edit-status="isEditStatus"
+                :version-state="versionState"
         ></pms0810230-single-grid>
         <!--房型使用的日期規則-->
         <el-dialog
@@ -81,30 +82,44 @@
                                         <!--/.開始結束日期設定-->
                                         <div class="space-6"></div>
                                         <!--tabPage-->
-                                        <el-tabs v-model="timeRuleSingleData['command_cod']" type="card" tab-position="left">
-                                            <el-tab-pane :label="i18nLang.program.PMS0810230.evertDay" name="D">
-                                                <div class="ml-5">
+                                        <!--lite 版-->
+                                        <template v-if="versionState == 'lite'">
+                                            <div class="space-6"></div>
+                                            <label>{{i18nLang.program.PMS0810230.holiday}}: </label>
+                                            <bac-select
+                                                    v-model="commandHVal" :default-val="commandHVal"
+                                                    @update:v-model="val => commandHVal = val" field="{}"
+                                                    :data="commandOptionSelectOption.selectData" multiple="true"
+                                                    is-qry-src-before="Y" value-field="value" text-field="display">
+                                            </bac-select>
+                                            <div class="space-6"></div>
+                                        </template>
+                                        <!--其他版-->
+                                        <template v-else>
+                                            <el-tabs v-model="timeRuleSingleData['command_cod']" type="card" tab-position="left">
+                                                <el-tab-pane :label="i18nLang.program.PMS0810230.evertDay" name="D">
+                                                    <div class="ml-5">
+                                                        <div class="space-6"></div>
+                                                        <span>每一天</span>
+                                                        <div class="space-6"></div>
+                                                    </div>
+                                                </el-tab-pane>
+                                                <el-tab-pane :label="i18nLang.program.PMS0810230.holiday" name="H">
+                                                    <div class="ml-5">
+                                                        <div class="space-6"></div>
+                                                        <bac-select
+                                                                v-model="commandHVal" :default-val="commandHVal"
+                                                                @update:v-model="val => commandHVal = val" field="{}"
+                                                                :data="commandOptionSelectOption.selectData" multiple="true"
+                                                                is-qry-src-before="Y" value-field="value" text-field="display">
+                                                        </bac-select>
+                                                        <div class="space-6"></div>
+                                                    </div>
+                                                </el-tab-pane>
+                                                <el-tab-pane :label="i18nLang.program.PMS0810230.week" name="W">
                                                     <div class="space-6"></div>
-                                                    <span>每一天</span>
-                                                    <div class="space-6"></div>
-                                                </div>
-                                            </el-tab-pane>
-                                            <el-tab-pane :label="i18nLang.program.PMS0810230.holiday" name="H">
-                                                <div class="ml-5">
-                                                    <div class="space-6"></div>
-                                                    <bac-select
-                                                            v-model="commandHVal" :default-val="commandHVal"
-                                                            @update:v-model="val => commandHVal = val" field="{}"
-                                                            :data="commandOptionSelectOption.selectData" multiple="true"
-                                                            is-qry-src-before="Y" value-field="value" text-field="display">
-                                                    </bac-select>
-                                                    <div class="space-6"></div>
-                                                </div>
-                                            </el-tab-pane>
-                                            <el-tab-pane :label="i18nLang.program.PMS0810230.week" name="W">
-                                                <div class="space-6"></div>
-                                                <div class="grid ml-5">
-                                                    <div class="grid-item">
+                                                    <div class="grid ml-5">
+                                                        <div class="grid-item">
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
@@ -112,8 +127,8 @@
                                                                   <span class="lbl">{{i18nLang.program.PMS0810230.monday}}</span>
                                                               </label>
                                                             </span>
-                                                    </div>
-                                                    <div class="grid-item">
+                                                        </div>
+                                                        <div class="grid-item">
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
@@ -121,8 +136,8 @@
                                                                   <span class="lbl">{{i18nLang.program.PMS0810230.tuesday}}</span>
                                                               </label>
                                                             </span>
-                                                    </div>
-                                                    <div class="grid-item">
+                                                        </div>
+                                                        <div class="grid-item">
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
@@ -130,8 +145,8 @@
                                                                   <span class="lbl">{{i18nLang.program.PMS0810230.wednesday}}</span>
                                                               </label>
                                                             </span>
-                                                    </div>
-                                                    <div class="grid-item">
+                                                        </div>
+                                                        <div class="grid-item">
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
@@ -139,8 +154,8 @@
                                                                   <span class="lbl">{{i18nLang.program.PMS0810230.thursday}}</span>
                                                               </label>
                                                             </span>
-                                                    </div>
-                                                    <div class="grid-item">
+                                                        </div>
+                                                        <div class="grid-item">
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
@@ -148,8 +163,8 @@
                                                                   <span class="lbl">{{i18nLang.program.PMS0810230.friday}}</span>
                                                               </label>
                                                             </span>
-                                                    </div>
-                                                    <div class="grid-item">
+                                                        </div>
+                                                        <div class="grid-item">
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
@@ -157,8 +172,8 @@
                                                                   <span class="lbl">{{i18nLang.program.PMS0810230.saturday}}</span>
                                                               </label>
                                                             </span>
-                                                    </div>
-                                                    <div class="grid-item">
+                                                        </div>
+                                                        <div class="grid-item">
                                                             <span class="checkbox no-margin">
                                                               <label class="checkbox-width">
                                                                   <input name="form-field-checkbox" type="checkbox"
@@ -166,11 +181,12 @@
                                                                   <span class="lbl">{{i18nLang.program.PMS0810230.sunday}}</span>
                                                               </label>
                                                             </span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="space-6"></div>
-                                            </el-tab-pane>
-                                        </el-tabs>
+                                                    <div class="space-6"></div>
+                                                </el-tab-pane>
+                                            </el-tabs>
+                                        </template>
                                         <!--/.tabPage-->
                                     </div><!--main-content-data-->
                                 </div>
@@ -291,6 +307,7 @@
                 sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),//語系
                 i18nLang: go_i18nLang,//多語系資料
                 go_funcPurview: [],//按鈕權限
+                versionState: "lite", //版本設定
                 userInfo: {},//使用者資訊
                 pageOneDataGridRows: [],//多筆資料
                 pageOneFieldData: [],//多筆欄位資料
@@ -313,7 +330,7 @@
                 commandVal: [],//依星期別
                 commandHVal: [],//依假日類別
                 timeRuleSingleData: {
-                    command_cod: 'D',
+                    command_cod: 'H',
                     command_option: '',
                     begin_dat: '',
                     end_dat: ''
@@ -379,12 +396,14 @@
                 });
             },
             showDataGrid() {
-                let self = this;
-                this.isLoading = false;
+                //一開始只載入20筆資料
+                let ln_pageSize = 20;
+
                 this.dgIns = new DatagridSingleGridClass();
-                this.dgIns.init("PMS0810230", "PMS0810230_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810230_dg'));
+                this.dgIns.init("PMS0810230", "PMS0810230_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810230_dg'), this.pageOneFieldData);
                 this.dgIns.loadDgData(this.pageOneDataGridRows);
 
+                this.isLoading = false;
             },
             appendRow() {
                 this.isLoading = true;
@@ -476,11 +495,12 @@
             },
             //房型使用期間 日期規則
             chkTimeRule() {
-                let ln_diffDate = moment(this.timeRuleSingleData.begin_dat).diff(moment(this.timeRuleSingleData.end_dat),"days");
-                if(ln_diffDate> 1){
+                this.timeRuleSingleData.command_cod = this.versionState == 'lite' ? 'H' : this.timeRuleSingleData.command_cod;
+                let ln_diffDate = moment(this.timeRuleSingleData.begin_dat).diff(moment(this.timeRuleSingleData.end_dat), "days");
+                if (ln_diffDate > 1) {
                     alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
                 }
-                else if ( !_.isNull(this.timeRuleSingleData.begin_dat) || !_.isNull(this.timeRuleSingleData.end_dat)) {
+                else if (!_.isNull(this.timeRuleSingleData.begin_dat) || !_.isNull(this.timeRuleSingleData.end_dat)) {
                     let ls_commandCod = this.timeRuleSingleData.command_cod;
                     this.timeRuleSingleData.command_option = [];
 

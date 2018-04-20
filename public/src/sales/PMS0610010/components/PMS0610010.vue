@@ -341,7 +341,7 @@
                 self.doEditSalesClerk();
             });
             this.$eventHub.$on('doCloseEditSalesClerk', function (editSalesClerkData) {
-                if(!_.isUndefined(editSalesClerkData.editRowData.isSalesClerk)){
+                if (!_.isUndefined(editSalesClerkData.editRowData.isSalesClerk)) {
                     self.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                 }
                 self.isEditSalesClerk = editSalesClerkData.isEditSalesClerk;
@@ -451,7 +451,6 @@
                 },
                 deep: true
             }
-
         },
         methods: {
             fetchUserInfo() {
@@ -570,6 +569,18 @@
                         self.isCreateStatus = false;
                         self.$eventHub.$emit('setTabName', {
                             tabName: ""
+                        });
+
+                        //資料是否有異動
+                        self.$store.dispatch("qryAllDataIsChange").then(result => {
+                            if (result.success) {
+                                if (result.isChange) {
+                                    let lb_confirm = confirm(go_i18nLang.Validation.Formatter.chkDataChang);
+                                    if(lb_confirm){
+                                        self.$eventHub.$emit('saveSingleData');
+                                    }
+                                }
+                            }
                         });
                         // self.doRowUnLock();
                     }

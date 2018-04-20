@@ -304,7 +304,7 @@ exports.doEditPassword = function (postData, callback) {
                     "exec_data": lo_savaExecDatas
                 };
 
-                tools.requestApi(go_sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+                tools.requestApi(go_sysConf.api_url.common, apiParams, function (apiErr, apiRes, data) {
                     var err = null;
                     var success = true;
                     if (apiErr || !data) {
