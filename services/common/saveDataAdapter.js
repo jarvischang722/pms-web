@@ -12,6 +12,7 @@ const ruleAgent = require("../../ruleEngine/ruleAgent");
 class saveDataAdapter {
     constructor(postData, session) {
         this.session = session;
+        this.sys_locales = postData.sys_locales;
         this.params = {
             prg_id: postData.prg_id,
             func_id: postData.func_id,
@@ -44,7 +45,7 @@ class saveDataAdapter {
             // 查詢key值
             let {la_dgKeyFields, la_gsKeyFields} = await this.findFieldsCondition(la_dgFields, la_gsFields);
             await this.insertCondIntoTmpCUD(la_tmpRf, la_dgKeyFields, la_gsKeyFields);
-            let lo_page_data = await this.formatData();
+            let lo_page_data = await this.formatData(la_gsFields);
             let lo_apiFormat = this.apiFormat();
             lo_apiFormat.page_data = lo_page_data;
             return lo_apiFormat;
@@ -171,31 +172,33 @@ class saveDataAdapter {
      * 組API格式
      * @returns {Promise<{}>}
      */
-    async formatData() {
+    async formatData(gsFields) {
         let la_tmpCud = _.union(this.params.createData, this.params.updateData, this.params.deleteData);
         //group page_id
         let lo_groupByPageId = _.groupBy(la_tmpCud, "page_id");
         let lo_groupByTabPgaeId = {};
 
         let lo_page_data = {};
-        //group tab_page_id and
         _.each(lo_groupByPageId, (la_groupByPageId, ln_page_id) => {
             lo_page_data[ln_page_id] = {
                 tabs_data: {}
             };
-
+            //group tab_page_id
             lo_groupByTabPgaeId[ln_page_id] = _.groupBy(la_groupByPageId, "tab_page_id");
             _.each(lo_groupByTabPgaeId[ln_page_id], (la_groupByTabPageId, ln_tab_page_id) => {
                 lo_page_data[ln_page_id].tabs_data[ln_tab_page_id] = [];
+
+                // 1. 組tabs_data資料
                 _.each(la_groupByTabPageId, lo_data => {
                     lo_data = _.extend(lo_data, this.getCommonDefaultData(lo_data));
+                    this.chkMultiLangIsExist(lo_data, gsFields);
                     lo_page_data[ln_page_id].tabs_data[ln_tab_page_id].push(lo_data);
                 });
-                //依照event_time排續
+                // 2. 依照event_time排續
                 lo_page_data[ln_page_id].tabs_data[ln_tab_page_id] = _.sortBy(lo_page_data[ln_page_id].tabs_data[ln_tab_page_id], lo_data => {
                     return lo_data.event_time;
                 });
-                //給seq順序
+                // 3. 給seq順序
                 _.each(lo_page_data[ln_page_id].tabs_data[ln_tab_page_id], (lo_tabPageData, seq) => {
                     lo_tabPageData.seq = seq + 1;
                 });
@@ -226,6 +229,33 @@ class saveDataAdapter {
         _.each(this.params[dataType], (lo_Data, index) => {
             this.params[dataType][index].action = ls_action;
         });
+    }
+
+    /**
+     * 檢查是否有內容多語系
+     * @param postData {object} 儲存資料
+     * @param postData {array} 單筆欄位資料
+     */
+    chkMultiLangIsExist(saveData, gsFields) {
+        let la_sys_locales = this.sys_locales;
+        let la_multiLangCont = [];
+        let la_gsFields = _.filter(gsFields, lo_gsFields => {
+            return lo_gsFields.multi_lang_table != "";
+        });
+
+        if (la_gsFields.length > 0) {
+            _.each(la_gsFields, lo_gsFields => {
+                if (!_.isUndefined(postData[lo_gsFields.ui_field_name]) && (_.isUndefined(saveData.multilang) || saveData.multilang.length == 0)) {
+                    _.each(la_sys_locales, lo_locale => {
+                        la_multiLangCont.push({
+                            locale: lo_locale,
+                            field: lo_gsFields.ui_field_name,
+                            val: lo_multiRvconfirmRmk[ls_field]
+                        });
+                    });
+                }
+            })
+        }
     }
 
     getCommonDefaultData(saveData) {
