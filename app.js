@@ -24,6 +24,8 @@ let mongoAgent = require("./plugins/mongodb");
 let tbSVC = require("./services/DbTableService");
 let _ = require("underscore");
 let compression = require('compression');
+let i18nHook = require("./utils/i18nHook");
+
 
 // compress all responses
 app.use(compression());
@@ -82,6 +84,9 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(i18n.init);
 app.use(flash());
+
+i18n = i18nHook.hookTranslate(i18n);
+
 
 //session setting
 const maxAgeSec = sysConfig.sessionExpiredMS || 1000 * 60 * 60 * 3;                //session 設定過期時間（秒）
