@@ -62,17 +62,18 @@ let PMS0620020App = Vue.extend({
             self.rowData = _.extend(self.rowData, chooseData);
         });
         vmHub.$on('doSaveModifyData', function (res) {
+            console.log("test");
             self.dgHoatelDt.endEditing();
-            self.rowData.user_nos = self.rowData.user_nos.split(":")[0];
-            let lo_notChange = go_validateClass.chkDataChang(self.rowData, self.originRowData);
+            let lo_notChange = {success: true, msg: go_i18nLang.Validation.Formatter.chkDataChang};
+            lo_notChange.success = _.isMatch(self.rowData, self.originRowData) ? true : false;
             _.each(self.dgHoatelDt.tmpCUD, (val) => {
-                if(val.length > 0){
+                if (val.length > 0) {
                     lo_notChange.success = false;
                 }
             });
-            if(!lo_notChange.success){
+            if (!lo_notChange.success) {
                 let q = confirm(lo_notChange.msg);
-                if(q){
+                if (q) {
                     self.doSave();
                 }
             }
@@ -435,7 +436,6 @@ let PMS0620020App = Vue.extend({
                 else {
 
                     let postRowData = this.convertChkVal(this.originFieldData, this.rowData);
-                    postRowData.user_nos = postRowData.user_nos.split(":")[0];
 
                     postRowData["tab_page_id"] = 1;
                     postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
