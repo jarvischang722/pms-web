@@ -26,6 +26,8 @@ let _ = require("underscore");
 let compression = require('compression');
 let i18nHook = require("./utils/i18nHook");
 
+i18n = i18nHook.hookTranslate(i18n);
+
 
 // compress all responses
 app.use(compression());
@@ -85,7 +87,6 @@ app.use(passport.session()); // persistent login sessions
 app.use(i18n.init);
 app.use(flash());
 
-i18n = i18nHook.hookTranslate(i18n);
 
 
 //session setting
