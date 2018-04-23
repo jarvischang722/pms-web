@@ -13,6 +13,7 @@ class saveDataAdapter {
     constructor(postData, session) {
         this.session = session;
         this.sys_locales = postData.sys_locales;
+        this.locale = postData.locale;
         this.params = {
             prg_id: postData.prg_id,
             func_id: postData.func_id,
@@ -191,7 +192,10 @@ class saveDataAdapter {
                 // 1. 組tabs_data資料
                 _.each(la_groupByTabPageId, lo_data => {
                     lo_data = _.extend(lo_data, this.getCommonDefaultData(lo_data));
-                    this.chkMultiLangIsExist(lo_data, gsFields);
+                    let la_multiLang = this.chkMultiLangIsExist(lo_data, gsFields);
+                    if(la_multiLang.length > 0){
+                        lo_data.multi_lang = _.clone(la_multiLang);
+                    }
                     lo_page_data[ln_page_id].tabs_data[ln_tab_page_id].push(lo_data);
                 });
                 // 2. 依照event_time排續
@@ -239,23 +243,26 @@ class saveDataAdapter {
     chkMultiLangIsExist(saveData, gsFields) {
         let la_sys_locales = this.sys_locales;
         let la_multiLangCont = [];
-        let la_gsFields = _.filter(gsFields, lo_gsFields => {
+        let la_gsMultiLangFields = _.filter(gsFields, lo_gsFields => {
             return lo_gsFields.multi_lang_table != "";
         });
 
-        if (la_gsFields.length > 0) {
-            _.each(la_gsFields, lo_gsFields => {
-                if (!_.isUndefined(postData[lo_gsFields.ui_field_name]) && (_.isUndefined(saveData.multilang) || saveData.multilang.length == 0)) {
+        if (la_gsMultiLangFields.length > 0) {
+            _.each(la_gsMultiLangFields, lo_gsMultiLangFields => {
+                if (!_.isUndefined(saveData[lo_gsMultiLangFields.ui_field_name]) && (_.isUndefined(saveData.multilang) || saveData.multilang.length == 0)) {
                     _.each(la_sys_locales, lo_locale => {
+                        let ls_multiLang = lo_locale.lang == this.locale ? saveData[lo_gsMultiLangFields.ui_field_name] : "";
                         la_multiLangCont.push({
-                            locale: lo_locale,
-                            field: lo_gsFields.ui_field_name,
-                            val: lo_multiRvconfirmRmk[ls_field]
+                            locale: lo_locale.lang,
+                            field: lo_gsMultiLangFields.ui_field_name,
+                            val: ls_multiLang
                         });
+                        console.log(la_multiLangCont);
                     });
                 }
-            })
+            });
         }
+        return la_multiLangCont;
     }
 
     getCommonDefaultData(saveData) {
