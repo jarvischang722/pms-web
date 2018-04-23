@@ -13,12 +13,11 @@ exports.hookTranslate = function (i18n) {
 
   var translateHandler = {
     get: function(obj, prop) {
-      console.log(["translateHandler", obj, prop, prop in obj ])
-      // return obj[prop];
 
       return prop in obj ?
         obj[prop] :
-        _i18n.fn__("SystemCommon")[prop];
+        ("_SystemCommon" in obj && prop in obj._SystemCommon ?
+          obj._SystemCommon[prop]: _i18n.fn__.bind(this)("SystemCommon")[prop]);
     }
   };
 
@@ -34,6 +33,8 @@ exports.hookTranslate = function (i18n) {
 
     if(translated===phrase)
       translated =  _i18n.fn__.bind(this)(phrase.replace(keys[0], "SystemCommon"));
+    else
+        translated._SystemCommon = _i18n.fn__.bind(this)("SystemCommon");
 
     return new Proxy(translated, translateHandler);
   }
