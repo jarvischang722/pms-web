@@ -8,6 +8,7 @@ const moment = require("moment");
 const mongoAgent = require("../../plugins/mongodb");
 const commonTools = require("../../utils/CommonTools");
 const ruleAgent = require("../../ruleEngine/ruleAgent");
+const langSvc = require("../../services/LangService");
 
 class saveDataAdapter {
     constructor(postData, session) {
@@ -186,18 +187,19 @@ class saveDataAdapter {
             };
             //group tab_page_id
             lo_groupByTabPgaeId[ln_page_id] = _.groupBy(la_groupByPageId, "tab_page_id");
-            _.each(lo_groupByTabPgaeId[ln_page_id], (la_groupByTabPageId, ln_tab_page_id) => {
+            _.each(lo_groupByTabPgaeId[ln_page_id], async (la_groupByTabPageId, ln_tab_page_id) => {
                 lo_page_data[ln_page_id].tabs_data[ln_tab_page_id] = [];
 
                 // 1. 組tabs_data資料
-                _.each(la_groupByTabPageId, lo_data => {
+                for (let lo_data of la_groupByTabPageId) {
+                    // _.each(la_groupByTabPageId, async lo_data => {
                     lo_data = _.extend(lo_data, this.getCommonDefaultData(lo_data));
-                    let la_multiLang = this.chkMultiLangIsExist(lo_data, gsFields);
-                    if(la_multiLang.length > 0){
-                        lo_data.multi_lang = _.clone(la_multiLang);
+                    let la_multiLang = await this.chkMultiLangIsExist(lo_data, gsFields);
+                    if (la_multiLang.length > 0) {
+                        lo_data.multilang = _.clone(la_multiLang);
                     }
                     lo_page_data[ln_page_id].tabs_data[ln_tab_page_id].push(lo_data);
-                });
+                }
                 // 2. 依照event_time排續
                 lo_page_data[ln_page_id].tabs_data[ln_tab_page_id] = _.sortBy(lo_page_data[ln_page_id].tabs_data[ln_tab_page_id], lo_data => {
                     return lo_data.event_time;
@@ -240,7 +242,7 @@ class saveDataAdapter {
      * @param postData {object} 儲存資料
      * @param postData {array} 單筆欄位資料
      */
-    chkMultiLangIsExist(saveData, gsFields) {
+    async chkMultiLangIsExist(saveData, gsFields) {
         let la_sys_locales = this.sys_locales;
         let la_multiLangCont = [];
         let la_gsMultiLangFields = _.filter(gsFields, lo_gsFields => {
@@ -248,16 +250,32 @@ class saveDataAdapter {
         });
 
         if (la_gsMultiLangFields.length > 0) {
+            let lo_keys = {
+                athena_id: this.session.user.athena_id,
+                hotel_cod: this.session.user.hotel_cod
+            };
+            let la_oriMultiLangContent = await langSvc.handleMultiLangContentByCondition(la_gsMultiLangFields[0].multi_lang_table, lo_keys);
             _.each(la_gsMultiLangFields, lo_gsMultiLangFields => {
                 if (!_.isUndefined(saveData[lo_gsMultiLangFields.ui_field_name]) && (_.isUndefined(saveData.multilang) || saveData.multilang.length == 0)) {
                     _.each(la_sys_locales, lo_locale => {
                         let ls_multiLang = lo_locale.lang == this.locale ? saveData[lo_gsMultiLangFields.ui_field_name] : "";
+                        //目前使用語系
+                        if (lo_locale.lang == this.locale) {
+                            ls_multiLang = saveData[lo_gsMultiLangFields.ui_field_name];
+                        }
+                        //其他語系從oracle db抓原始資料
+                        else {
+                            ls_multiLang = _.findWhere(la_oriMultiLangContent, {
+                                locale: lo_locale.lang,
+                                field_name: lo_gsMultiLangFields.ui_field_name
+                            }).words || "";
+                        }
+
                         la_multiLangCont.push({
                             locale: lo_locale.lang,
                             field: lo_gsMultiLangFields.ui_field_name,
                             val: ls_multiLang
                         });
-                        console.log(la_multiLangCont);
                     });
                 }
             });
