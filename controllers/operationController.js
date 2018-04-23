@@ -42,6 +42,7 @@ exports.execNewFormatSQL = async function (req, res) {
     req.body.page_id = req.body.page_id || 1;
     req.body.tmpCUD = req.body.tmpCUD || {};
     req.body.sys_locales = req.cookies.sys_locales;
+    req.body.locale = req.cookies.locale;
 
     let lo_result = null;
     try {
