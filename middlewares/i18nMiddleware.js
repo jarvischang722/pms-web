@@ -16,42 +16,30 @@ module.exports = function (req, res, next) {
     let lao_localeInfo = [];
     let ls_locale = "";
     async.series([
-        function (cb) {
+        async function (cb) {
             //只有登入頁需要往下跑
-            if (req.originalUrl.toLocaleLowerCase().indexOf("/login") == -1) {
+            if (req.originalUrl.toLocaleLowerCase().indexOf("/login") == -1 && req.cookies.sys_locales !== undefined) {
+                res.cookie("sys_locales", req.cookies.sys_locales, {
+                    maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3
+                });
                 return cb(null, 'done');
             }
-            let lo_langRf = require("../configs/LangNameRf.json");
+
             let lo_cond = {
-                athena_id: req.params.athena_id
+                athena_id: req.params.athena_id || req.cookies.athena_id
             };
-            if (!req.params.athena_id) {
-                res.clearCookie("sys_locales");
-                return cb(null, "done");
+
+            if (req.params.comp_cod || req.cookies.comp_cod) {
+                lo_cond.comp_cod = req.params.comp_cod || req.cookies.comp_cod;
             }
-            if (req.params.comp_cod) {
-                lo_cond.comp_cod = req.params.comp_cod;
-            }
-            queryAgent.queryList("QRY_UI_LANG_BY_ATHENA_ID", lo_cond, 0, 0, function (err, langs) {
 
-                lao_localeInfo = _.uniq(_.map(langs, function (lang) {
-                    return {
-                        lang: lang.locale,
-                        name: lo_langRf[lang.locale]
-                            ? encodeURIComponent(lo_langRf[lang.locale])
-                            : lang.locale
-                    };
-                }), function (lao_localeInfo) {
-                    return lao_localeInfo.lang;
-                });
+            lao_localeInfo = await getUseLangsByAthenaID(lo_cond);
 
-                res.cookie("sys_locales", lao_localeInfo, {
-                    maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3
-                    // signed: true // Indicates if the cookie should be signed
-                });
-
-                cb(null, "done1");
+            res.cookie("sys_locales", lao_localeInfo, {
+                maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3
             });
+
+            cb(null, "done1");
         },
         function (cb) {
             if (_v(req.query.locale) != "") {
@@ -84,7 +72,6 @@ module.exports = function (req, res, next) {
             cb(null, 'done3');
         }
     ], function (err, result) {
-
         next();
     });
 
@@ -119,3 +106,31 @@ function _v(value) {
     return value;
 }
 
+
+/**
+ * 抓取集團公司可使用的語系
+ * @param lo_cond
+ * @return {Promise<any>}
+ */
+async function getUseLangsByAthenaID(lo_cond) {
+    let lo_langRf = require("../configs/LangNameRf.json");
+    return new Promise((resolve, reject) => {
+        queryAgent.queryList("QRY_UI_LANG_BY_ATHENA_ID", lo_cond, 0, 0, function (err, langs) {
+            if (err) {
+                console.error(err);
+            }
+            let lao_localeInfo = _.uniq(_.map(langs, function (lang) {
+                return {
+                    lang: lang.locale,
+                    name: lo_langRf[lang.locale]
+                        ? encodeURIComponent(lo_langRf[lang.locale])
+                        : lang.locale
+                };
+            }), function (lao_localeInfo) {
+                return lao_localeInfo.lang;
+            });
+            resolve(lao_localeInfo)
+
+        });
+    });
+}
