@@ -66,6 +66,7 @@
 			"wrsTabPageTitle": "官網顯示順序"
 		},
 		"PMS0810050": {
+			"Add":"新增接駁",
 			"pick_up": "接機",
 			"drop_off": "送機",
 			"arrive_cod": "代號",
