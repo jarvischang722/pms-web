@@ -216,11 +216,11 @@
             },
             editingRow(val) {
                 if (!_.isEmpty(val)) {
-                    var self = this;
+                    let self = this;
 
                     this.fetchGridSingleFieldData(val);
 
-                    var nowDatagridRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', val);
+                    let nowDatagridRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', val);
 
                     $("#otherRemark_dg").datagrid('selectRow', nowDatagridRowIndex);
 
@@ -330,8 +330,7 @@
             appendRow() {
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
-                this.editingRow = {remark_typ: '01  ' ,createIndex: this.tmpCUD.createData.length};
-
+                this.editingRow = {remark_typ: '01' ,createIndex: this.tmpCUD.createData.length};
                 this.showSingleGridDialog();
             },
             editRow() {
@@ -339,8 +338,8 @@
                 this.isEditStatus = true;
                 this.editingRow = {};
 
-                var lo_editRow = $('#otherRemark_dg').datagrid('getSelected');
-                var ln_editIndex = $('#otherRemark_dg').datagrid('getRowIndex', lo_editRow);
+                let lo_editRow = $('#otherRemark_dg').datagrid('getSelected');
+                let ln_editIndex = $('#otherRemark_dg').datagrid('getRowIndex', lo_editRow);
 
                 if (!lo_editRow) {
                     alert(go_i18nLang["SystemCommon"].SelectData);
@@ -351,21 +350,21 @@
                 }
             },
             removeRow() {
-                var lo_delRow = $('#otherRemark_dg').datagrid('getSelected');
-                var ln_delIndex = $('#otherRemark_dg').datagrid('getRowIndex', lo_delRow);
+                let lo_delRow = $('#otherRemark_dg').datagrid('getSelected');
+                let ln_delIndex = $('#otherRemark_dg').datagrid('getRowIndex', lo_delRow);
                 if (!lo_delRow) {
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
                     //刪除新增的資料
                     if(!_.isUndefined(this.dataGridRowsData[ln_delIndex].createIndex)){
-                        var ln_createIdx = this.dataGridRowsData[ln_delIndex].createIndex;
+                        let ln_createIdx = this.dataGridRowsData[ln_delIndex].createIndex;
                         this.tmpCUD.createData.splice(ln_createIdx, 1)
                     }
                     else{
                         //刪除編輯的資料
                         if(!_.isUndefined(lo_delRow.index) ){
-                            var ln_editIndex = _.findIndex(this.tmpCUD.updateData, {index: lo_delRow.index})
+                            let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {index: lo_delRow.index})
                             this.tmpCUD.updateData.splice(ln_editIndex, 1);
                             this.tmpCUD.oriData.splice(ln_editIndex,1);
                         }
@@ -373,15 +372,15 @@
                         this.tmpCUD.deleteData.push(this.dataGridRowsData[ln_delIndex]);
                     }
                     this.dgIns.removeRow();
-                    console.log(this.tmpCUD)
+
                 }
             },
             showSingleGridDialog() {
-                var self = this;
+                let self = this;
                 this.BTN_action = false;
                 this.isLoadingDialog = true;
 
-                var dialog = $("#singleGridOtherRemark").removeClass('hide').dialog({
+                let dialog = $("#singleGridOtherRemark").removeClass('hide').dialog({
                     modal: true,
                     title: go_i18nLang["program"]["PMS0620050"].other_remark,
                     title_html: true,
@@ -402,10 +401,10 @@
                 if (rule_func_name === "") {
                     return;
                 }
-                var self = this;
-                var la_originData = [this.oriSingleData];
-                var la_singleData = [this.singleData];
-                var la_diff = _.difference(la_originData, la_singleData);
+                let self = this;
+                let la_originData = [this.oriSingleData];
+                let la_singleData = [this.singleData];
+                let la_diff = _.difference(la_originData, la_singleData);
 
                 // 判斷資料是否有異動
                 if (la_diff.length != 0) {
@@ -413,7 +412,7 @@
                 }
 
                 if (!_.isEmpty(rule_func_name.trim())) {
-                    var postData = {
+                    let postData = {
                         prg_id: "PMS0620050",
                         rule_func_name: rule_func_name,
                         validateField: ui_field_name,
@@ -469,11 +468,11 @@
                 this.editingRow = _.first(this.dataGridRowsData);
             },
             toPreData() {
-                var nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.rowData);
+                let nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.rowData);
                 this.editingRow = this.dataGridRowsData[nowRowIndex - 1];
             },
             toNextData() {
-                var nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.rowData);
+                let nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.rowData);
                 this.editingRow = this.dataGridRowsData[nowRowIndex + 1];
             },
             toLastData() {
@@ -482,11 +481,11 @@
                 this.editingRow = _.last(this.dataGridRowsData);
             },
             dataValidate(){
-                var self = this;
-                var lo_checkResult;
+                let self = this;
+                let lo_checkResult;
 
-                for (var i = 0; i < this.oriGridSingleFieldsData.length; i++) {
-                    var lo_field = this.oriGridSingleFieldsData[i];
+                for (let i = 0; i < this.oriGridSingleFieldsData.length; i++) {
+                    let lo_field = this.oriGridSingleFieldsData[i];
                     //必填
                     if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
                         lo_checkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
@@ -503,7 +502,7 @@
                 $("#singleGridOtherRemark").dialog('close');
             },
             setNewDataGridRowsData(){
-                var lo_chkResult = this.dataValidate();
+                let lo_chkResult = this.dataValidate();
 
                 if (lo_chkResult.success == false) {
                     alert(lo_chkResult.msg);
@@ -514,10 +513,10 @@
                         event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
                         cust_cod: this.$store.state.gs_custCod
                     });
-                    var ln_editIdx = _.isUndefined(this.singleData.index)? -1: this.singleData.index;
+                    let ln_editIdx = _.isUndefined(this.singleData.index)? -1: this.singleData.index;
                     if(ln_editIdx > -1){
                         if(!_.isUndefined(this.singleData.createIndex)){
-                            var createIndex = this.singleData.createIndex;
+                            let createIndex = this.singleData.createIndex;
                             this.tmpCUD.createData[createIndex] = this.singleData;
                         }
                         else{

@@ -1036,7 +1036,7 @@ var vm = new Vue({
                 var maxField = _.max(vm.pageTwoFieldData, function (lo_pageTwoField) {
                     return lo_pageTwoField.length;
                 });
-
+                console.log(maxField);
                 _.each(maxField, function (lo_maxField, index) {
                     var width = parseInt(lo_maxField.width) || 35; //90
                     var label_width = parseInt(lo_maxField.label_width) || 50; //165

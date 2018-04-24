@@ -110,6 +110,7 @@
                     editable: this.editable == "Y" ? true : false,
                     data: {total: this.data.length, rows: this.data},
                     scrollbarSize: 100,
+                    hasDownArrow: this.isQrySrcBefore == "Y" ? true : false,
                     onChange: function (newValue) {
                         self.$emit('update:v-model', newValue);
                         setTimeout(function () {
@@ -123,18 +124,26 @@
                         $(self.$el).combogrid('grid').datagrid("loadData", self.data);
                     },
                     keyHandler: {
-                        query: function (ls_qStr) {
-
-                            if (ls_qStr.length == 0) {
-                                $(self.$el).combogrid('grid').datagrid('loadData', self.data.slice(0, 10));
+                        enter: function () {
+                            if (self.isQrySrcBefore == "N") {
+                                return;
                             }
-
+                            let ls_qStr = $(self.$el).combogrid("getText");
+                            if (ls_qStr.length == 0) {
+                                $(self.$el).combogrid('grid').datagrid('loadData', self.data.slice(0, 20));
+                            }
                             let la_filteredDatas = self.data.filter((item) => {
                                 return Object.values(item).join(" ").indexOf(ls_qStr.trim()) > -1;
                             });
-                            $(self.$el).combogrid('grid').datagrid('loadData', la_filteredDatas);
-                            $(self.$el).combogrid("setText", ls_qStr);
+                            $(self.$el).combogrid('grid').datagrid('loadData', la_filteredDatas.slice(0, 20));
+                            $(self.$el).combogrid("setText", ls_qStr)
+                        },
+                        query: function (ls_qStr) {
+                            if (ls_qStr.length == 0 && self.isQrySrcBefore == "N") {
+                                $(self.$el).combogrid('grid').datagrid('loadData', self.data.slice(0, 20));
+                            }
                         }
+
                     }
                 }, lo_options));
 
@@ -174,8 +183,8 @@
                 });
             },
             searchRemoteSrc: function (keyword) {
-                var ls_keyword = keyword || '';
-                var self = this;
+                let ls_keyword = keyword || '';
+                let self = this;
                 if (ls_keyword == "") {
                     return false;
                 }

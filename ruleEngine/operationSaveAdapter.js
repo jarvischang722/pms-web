@@ -239,6 +239,7 @@ function combineDtDeleteExecData(rfData, tmpIdType, params) {
  * @returns {Promise<any>}
  */
 async function combineMainData(rfData, tmpIdType, params, session) {
+    let lo_userLocales = session.user.locale;
     let la_multiLangFields = _.filter(tmpIdType.mainFieldsData, function (field) {
         return field.multi_lang_table != "";
     });  //多語系欄位
@@ -301,6 +302,9 @@ async function combineMainData(rfData, tmpIdType, params, session) {
                                 }
                             });
                         });
+                    }
+                    else{
+
                     }
 
                 });

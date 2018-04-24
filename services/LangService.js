@@ -224,6 +224,23 @@ exports.handleMultiLangContentByField = function (langTable, fields, locale, cal
     });
 };
 
+exports.handleMultiLangContentByCondition = async function (langTable, keys) {
+
+    let ls_condition = _s.join(" ", combineCondition(keys));
+    let ls_queryXML = '<dao >' +
+        '<statement><![CDATA[ SELECT * FROM ' + langTable + '  WHERE ' + ls_condition + '  ]]></statement>' +
+        '</dao>';
+
+    return new Promise((resolve, reject) => {
+        queryAgent.queryList({xml: ls_queryXML}, {}, 0, 0, function (err, rows) {
+            if (err) {
+                rows = [];
+            }
+            resolve(rows);
+        });
+    });
+};
+
 /**
  *
  * @param req {Object}
@@ -248,9 +265,9 @@ exports.handleRowDataMultiLang = function (req, field_name, callback) {
         var la_multiLangFields = _.filter(fieldData, function (field) {
             if (!_.isUndefined(field_name) && !_.isEmpty(field_name)) {
                 return field.ui_field_name == field_name;
-            } 
-                return field.multi_lang_table != "";
-            
+            }
+            return field.multi_lang_table != "";
+
 
         }); // 有多語系的欄位
 
@@ -259,7 +276,7 @@ exports.handleRowDataMultiLang = function (req, field_name, callback) {
         if (_.isUndefined(rowData)) {
             rowData = {};
         }
-        
+
         _.each(la_keyableFields, function (fieldName) {
             if (!_.isUndefined(rowData[fieldName])) {
                 keys[fieldName] = rowData[fieldName].trim();
@@ -280,7 +297,7 @@ exports.handleRowDataMultiLang = function (req, field_name, callback) {
             var result = [];
             _.each(localeGrp, function (locale) {
                 var localeData = _.where(multiLangData, {locale: locale.lang});
-                var langRowObj = {locale: locale.lang,display_locale: decodeURIComponent(locale.name)};
+                var langRowObj = {locale: locale.lang, display_locale: decodeURIComponent(locale.name)};
                 _.each(localeData, function (data) {
                     langRowObj[data.field_name] = data.words || "";
                 });

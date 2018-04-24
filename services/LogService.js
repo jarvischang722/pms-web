@@ -63,7 +63,7 @@ exports.getSetupPrgChangeLog = function (req, callback) {
             });
         },
         function (template, callback) {
-            mongoAgent.SettingHistory.find({prg_id: ls_prg_id})
+            mongoAgent.SettingHistory.find({prg_id: ls_prg_id, "dataOfChanges": {"$exists": true, "$ne": {}}})
                 .sort({event_time: -1}).exec(function (err, allLogs) {
 
                 callback(err, allLogs);
@@ -114,9 +114,9 @@ exports.getSetupPrgChangeLog = function (req, callback) {
                     });
                     _.each(logData.dt, function (dtLog) {
                         var lo_dtData = {
-                            action:dtLog.action,
-                            table_name:dtLog.table_name,
-                            changes :[]
+                            action: dtLog.action,
+                            table_name: dtLog.table_name,
+                            changes: []
                         }
                         //dt 異動記錄組合
                         _.each(dtLog.dataOfChanges, function (changeData, field_name) {
