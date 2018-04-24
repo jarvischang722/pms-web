@@ -181,26 +181,25 @@ class saveDataAdapter {
         let lo_groupByTabPgaeId = {};
 
         let lo_page_data = {};
-        _.each(lo_groupByPageId, (la_groupByPageId, ln_page_id) => {
+        await Promise.all(_.map(lo_groupByPageId, (async (la_groupByPageId, ln_page_id) => {
             lo_page_data[ln_page_id] = {
                 tabs_data: {}
             };
             //group tab_page_id
             lo_groupByTabPgaeId[ln_page_id] = _.groupBy(la_groupByPageId, "tab_page_id");
-            _.each(lo_groupByTabPgaeId[ln_page_id], async (la_groupByTabPageId, ln_tab_page_id) => {
+            await Promise.all(_.map(lo_groupByTabPgaeId[ln_page_id], async (la_groupByTabPageId, ln_tab_page_id) => {
                 lo_page_data[ln_page_id].tabs_data[ln_tab_page_id] = [];
 
                 // 1. 組tabs_data資料
-                for (let lo_data of la_groupByTabPageId) {
-                    // _.each(la_groupByTabPageId, async lo_data => {
+                await Promise.all(_.map(la_groupByTabPageId, async lo_data => {
                     lo_data = _.extend(lo_data, this.getCommonDefaultData(lo_data));
-                    let la_multiLang = await this.chkMultiLangIsExist(lo_data, gsFields);
+                    let la_multiLang = await this.chkMultiLangIsExist(lo_data, gsFields);   //檢查是否需要組多語系
                     if (la_multiLang.length > 0) {
                         lo_data.multilang = _.clone(la_multiLang);
                     }
                     lo_page_data[ln_page_id].tabs_data[ln_tab_page_id].push(lo_data);
-                }
-                // 2. 依照event_time排續
+                }));
+                // 2. 依照event_time排序
                 lo_page_data[ln_page_id].tabs_data[ln_tab_page_id] = _.sortBy(lo_page_data[ln_page_id].tabs_data[ln_tab_page_id], lo_data => {
                     return lo_data.event_time;
                 });
@@ -208,8 +207,8 @@ class saveDataAdapter {
                 _.each(lo_page_data[ln_page_id].tabs_data[ln_tab_page_id], (lo_tabPageData, seq) => {
                     lo_tabPageData.seq = seq + 1;
                 });
-            });
-        });
+            }));
+        })));
 
         return lo_page_data;
     }
