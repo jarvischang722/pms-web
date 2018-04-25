@@ -38,7 +38,11 @@
 		"company_introduction": "公司簡介",
 		"enterprise_mission": "企業使命",
 		"international_certification": "國際認證",
-		"copyright": "版權所有"
+		"copyright": "版權所有",
+		"from": "from",
+		"to": "to",
+		"OK": "OK",
+		"cancel": "cancel"
 	},
 	"program": {
 		"PMS0810020": {
@@ -573,8 +577,5 @@
 		"guest_typ": "市場類別",
 		"guest_sna": "簡稱",
 		"guest_nam": "名稱"
-	},
-	"PMS0810050": {
-		"Add": "新增"
 	}
 }

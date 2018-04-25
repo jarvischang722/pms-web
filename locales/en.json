@@ -409,9 +409,10 @@
 			"FmtFourEngNum": "%s only enter zero to five numbers",
 			"FmtCharacters": "Please enter %s the text",
 			"FmtZeroToFiveNum": "%s only enter zero to five numbers",
-			"FmtExactlyTwoWord": "%s only enter zero to two numbers",
-			"FmtZeroToTenNum": "%s only enter zero to ten numbers",
 			"FmtZeroToTenNumAndMinusOne": "%s 請輸入0到10碼數字(數字必須大於等於-1)(英文)",
+			"FmtExactlyTwoWord": "%s only enter zero to two numbers",
+			"FmtExactlyTwoCode": "%s 請輸入2碼代號(英)",
+			"FmtZeroToTenNum": "%s only enter zero to ten numbers",
 			"ChkGreaterZeroNum": "Please enter %s number greater than 0",
 			"ChkGteZeroNum": "Please enter %s number greater than or equal to 0",
 			"ChkLteZeroNum": "Please enter %s number less than or equal to 0",
@@ -576,8 +577,5 @@
 		"guest_typ": "市場類別(英)",
 		"guest_sna": "簡稱(英)",
 		"guest_nam": "名稱(英)"
-	},
-	"PMS0810050": {
-      "Add": "新增"
-    }
+	}
 }
