@@ -334,7 +334,7 @@
             appendRow() {
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
-                this.editingRow = {remark_typ: '01' ,createIndex: this.tmpCUD.createData.length};
+                this.editingRow = {createIndex: this.tmpCUD.createData.length};
                 this.showSingleGridDialog();
             },
             editRow() {
