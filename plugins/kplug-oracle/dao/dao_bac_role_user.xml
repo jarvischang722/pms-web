@@ -96,9 +96,9 @@
         <parameter type="string" kind="3">func_hotel_cod</parameter>
         <statement test="_v(param.user_id)"><![CDATA[and trim(b.user_id) = trim(:user_id)]]></statement>
         <statement test="_v(param.role_id)"><![CDATA[and trim(b.role_id) = trim(:role_id)]]></statement>
-        <parameter type="string" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
-        <parameter type="string" kind="2" condition="current_id = :current_id ">current_id</parameter>
-        <parameter type="string" kind="2" condition="id_typ = :id_typ ">id_typ</parameter>
+        <parameter type="likestring" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
+        <parameter type="likestring" kind="2" condition="current_id = :current_id ">current_id</parameter>
+        <parameter type="likestring" kind="2" condition="id_typ = :id_typ ">id_typ</parameter>
         <orderby>order by level_nos,sort_cod,current_id</orderby>
     </dao>
 
@@ -123,9 +123,9 @@
         <parameter type="string" kind="3">user_id</parameter>
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">func_hotel_cod</parameter>
-        <parameter type="string" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
-        <parameter type="string" kind="2" condition="current_id = :current_id ">current_id</parameter>
-        <parameter type="string" kind="2" condition="id_typ = :id_typ ">id_typ</parameter>
+        <parameter type="likestring" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
+        <parameter type="likestring" kind="2" condition="current_id = :current_id ">current_id</parameter>
+        <parameter type="likestring" kind="2" condition="id_typ = :id_typ ">id_typ</parameter>
         <orderby>order by pro_id</orderby>
     </dao>
 
@@ -151,7 +151,7 @@
         <parameter type="string" kind="3">user_id</parameter>
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">func_hotel_cod</parameter>
-        <parameter type="string" kind="2" condition="a.subsys_id = :subsys_id">subsys_id</parameter>
+        <parameter type="likestring" kind="2" condition="a.subsys_id = :subsys_id">subsys_id</parameter>
         <orderby>order by a.athena_id, a.comp_cod,a.hotel_cod,a.subsys_id,a.sort_cod,a.pro_id</orderby>
 
     </dao>

@@ -81,7 +81,7 @@
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_cod</parameter>
-        <parameter type="string" kind="2" condition="begin_dat <> to_date(?, 'YYYY/MM/DD')">begin_dat</parameter>
+        <parameter type="likestring" kind="2" condition="begin_dat <> to_date(?, 'YYYY/MM/DD')">begin_dat</parameter>
         <parameter type="string" kind="3">begin_dat</parameter>
     </dao>
 

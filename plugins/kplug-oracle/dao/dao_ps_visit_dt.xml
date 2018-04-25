@@ -48,11 +48,11 @@
         <parameter type="likestring" kind="2" condition="CUST_MN.show_cod like ? ">show_cod</parameter>
         <parameter type="likestring" kind="2" condition="PS_VISIT_DT.purport_rmk like ? ">purport_rmk</parameter>
         <parameter type="likestring" kind="2" condition="PS_VISIT_DT.remark like ? ">remark</parameter>
-        <parameter type="string" kind="2" condition="trunc(PS_VISIT_DT.visit_dat) = to_date(:visit_dat, 'YYYY/MM/DD') ">visit_dat</parameter>
-        <parameter type="string" kind="2" condition="trunc(PS_VISIT_DT.avisit_dat) = to_date(:avisit_dat, 'YYYY/MM/DD') ">avisit_dat</parameter>
-        <parameter type="string" kind="2" condition="trim(CUST_MN.status_cod) = trim(:status_cod) ">status_cod</parameter>
-        <parameter type="string" kind="2" condition="trim(CUST_MN.cust_cod) = trim(:cust_nam) ">cust_nam</parameter>
-        <parameter type="string" kind="2" condition="trim(PS_VISIT_DT.visit_typ) = trim(:visit_typ) ">visit_typ</parameter>
+        <parameter type="likestring" kind="2" condition="trunc(PS_VISIT_DT.visit_dat) = to_date(:visit_dat, 'YYYY/MM/DD') ">visit_dat</parameter>
+        <parameter type="likestring" kind="2" condition="trunc(PS_VISIT_DT.avisit_dat) = to_date(:avisit_dat, 'YYYY/MM/DD') ">avisit_dat</parameter>
+        <parameter type="likestring" kind="2" condition="trim(CUST_MN.status_cod) = trim(:status_cod) ">status_cod</parameter>
+        <parameter type="likestring" kind="2" condition="trim(CUST_MN.cust_cod) = trim(:cust_nam) ">cust_nam</parameter>
+        <parameter type="likestring" kind="2" condition="trim(PS_VISIT_DT.visit_typ) = trim(:visit_typ) ">visit_typ</parameter>
         <parameter type="instring" kind="3">visit_sta</parameter>
         <statement test="_v(param.visit_sta)"><![CDATA[and PS_VISIT_DT.visit_sta in(:visit_sta)]]></statement>
         <parameter type="instring" kind="3">type_cod</parameter>
