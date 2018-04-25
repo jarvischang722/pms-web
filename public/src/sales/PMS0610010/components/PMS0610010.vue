@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div v-loading="isLoading" element-loading-text="Loading...">
+    <div v-loading="isLoading" element-loading-text="Loading...">
+        <div>
             <div class="page-header"></div><!-- /.page-header -->
             <!-- 商務公司(Accounts) Page-->
             <div class="pageMain">
@@ -95,6 +95,7 @@
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     v-model="compStaSingleData[field.ui_field_name]" :data="field.selectData"
                                                     is-qry-src-before="Y" value-field="value" text-field="display"
+                                                    :field="field"
                                                     @update:v-model="val => compStaSingleData[field.ui_field_name] = val"
                                                     :default-val="field.defaultVal"
                                                     :disabled="field.modificable == 'N'">
@@ -149,6 +150,7 @@
                                         <bac-select :style="{width:contractStaMnFieldData.width + 'px' , height:contractStaMnFieldData.height + 'px'}"
                                                     v-model="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
                                                     :data="contractStaMnFieldData.selectData"
+                                                    :field="field"
                                                     is-qry-src-before="Y" value-field="value" text-field="display"
                                                     @update:v-model="val => contractStaMnSingleData[contractStaMnFieldData.ui_field_name] = val"
                                                     :default-val="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
@@ -298,6 +300,7 @@
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
+
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
     DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     };
@@ -338,6 +341,9 @@
                 self.doEditSalesClerk();
             });
             this.$eventHub.$on('doCloseEditSalesClerk', function (editSalesClerkData) {
+                if (!_.isUndefined(editSalesClerkData.editRowData.isSalesClerk)) {
+                    self.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
+                }
                 self.isEditSalesClerk = editSalesClerkData.isEditSalesClerk;
                 self.isEditStatus = editSalesClerkData.isEditStatus;
                 self.isCreateStatus = editSalesClerkData.isCreateStatus;
@@ -398,6 +404,11 @@
                     this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
                 }
             },
+            isCreateStatus(val) {
+                if (!val) {
+                    this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+                }
+            },
             isVisitPlan(val) {
                 if (!val) {
                     this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
@@ -440,7 +451,6 @@
                 },
                 deep: true
             }
-
         },
         methods: {
             fetchUserInfo() {
@@ -531,10 +541,10 @@
                 var la_editRows = $('#PMS0610010_dg').datagrid('getSelections');
 
                 if (!lo_editRow) {
-                    alert(go_i18nLang["SystemCommon"].SelectOneData);
+                    alert(go_i18nLang["SystemCommon"].SelectData);
                 }
                 else if (la_editRows.length > 1 || lo_editRow != la_editRows[0]) {
-                    alert(go_i18nLang["SystemCommon"].SelectOneData);
+                    alert(go_i18nLang["program"].PMS0610010.selectOneData);
                 }
                 else {
                     this.editingRow = lo_editRow;
@@ -559,6 +569,18 @@
                         self.isCreateStatus = false;
                         self.$eventHub.$emit('setTabName', {
                             tabName: ""
+                        });
+
+                        //資料是否有異動
+                        self.$store.dispatch("qryAllDataIsChange").then(result => {
+                            if (result.success) {
+                                if (result.isChange) {
+                                    let lb_confirm = confirm(go_i18nLang.Validation.Formatter.chkDataChang);
+                                    if(lb_confirm){
+                                        self.$eventHub.$emit('saveSingleData');
+                                    }
+                                }
+                            }
                         });
                         // self.doRowUnLock();
                     }

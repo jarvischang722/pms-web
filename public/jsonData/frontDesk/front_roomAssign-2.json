@@ -1,8 +1,62 @@
-{"total":28,
-	"rows":[
-		{"cardCode":"00000101-1","bookingNum":"1","name":"李大同","roomAssignNum":"<input type='checkbox'/>","roomNum":"210","roomAssignHousing":"STD","useHousing":"STD","lockRoomAssign":"是","roomNumCode":"18PKG01","adult":"1","child":"0","baby":"0"},
-		{"cardCode":"00000201-1","bookingNum":"1","name":"李大同","roomAssignNum":"<input type='checkbox'/>","roomNum":"211","roomAssignHousing":"STD","useHousing":"STD","lockRoomAssign":"是","roomNumCode":"18PKG01","adult":"1","child":"0","baby":"0"},
-		{"cardCode":"00000301-1","bookingNum":"2","name":"李大同","roomAssignNum":"<input type='checkbox' checked/>","roomNum":"212","roomAssignHousing":"STD","useHousing":"STD","lockRoomAssign":"否","roomNumCode":"18PKG01","adult":"2","child":"1","baby":"0"},
-		{"cardCode":"00000401-1","bookingNum":"2","name":"李大同，陳小華","roomAssignNum":"<input type='checkbox'/>","roomNum":"213","roomAssignHousing":"STD","useHousing":"STD","lockRoomAssign":"是","roomNumCode":"18PKG01","adult":"1","child":"0","baby":"0"}
-	]}
+{
+  "total": 28,
+  "rows": [
+    {
+      "cardCode": "00000101-1",
+      "bookingNum": "1",
+      "name": "李大同",
+      "roomAssignNum": "<input type='checkbox'/>",
+      "roomNum": "<span class='red'>210</span>",
+      "roomAssignHousing": "STD",
+      "useHousing": "STD",
+      "lockRoomAssign": "<select class='selectHt'><option value='y'>是</option><option value='n'>否</option></select>",
+      "roomNumCode": "18PKG01",
+      "adult": "1",
+      "child": "0",
+      "baby": "0"
+    },
+    {
+      "cardCode": "00000201-1",
+      "bookingNum": "1",
+      "name": "李大同",
+      "roomAssignNum": "<input type='checkbox'/>",
+      "roomNum": "211",
+      "roomAssignHousing": "STD",
+      "useHousing": "STD",
+      "lockRoomAssign": "<select class='selectHt'><option value='n'>否</option><option value='y'>是</option></select>",
+      "roomNumCode": "18PKG01",
+      "adult": "1",
+      "child": "0",
+      "baby": "0"
+    },
+    {
+      "cardCode": "00000301-1",
+      "bookingNum": "2",
+      "name": "李大同",
+      "roomAssignNum": "<input type='checkbox' checked/>",
+      "roomNum": "212",
+      "roomAssignHousing": "STD",
+      "useHousing": "STD",
+      "lockRoomAssign": "<select class='selectHt'><option value='n'>否</option><option value='y'>是</option></select>",
+      "roomNumCode": "18PKG01",
+      "adult": "2",
+      "child": "1",
+      "baby": "0"
+    },
+    {
+      "cardCode": "00000401-1",
+      "bookingNum": "2",
+      "name": "李大同，陳小華",
+      "roomAssignNum": "<input type='checkbox'/>",
+      "roomNum": "<span class='red'>213</span>",
+      "roomAssignHousing": "STD",
+      "useHousing": "STD",
+      "lockRoomAssign": "<select class='selectHt'><option value='y'>是</option><option value='n'>否</option></select>",
+      "roomNumCode": "18PKG01",
+      "adult": "1",
+      "child": "0",
+      "baby": "0"
+    }
+  ]
+}
 

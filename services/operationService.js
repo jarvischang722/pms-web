@@ -11,105 +11,145 @@ const queryAgent = require("../plugins/kplug-oracle/QueryAgent");
 const mongoAgent = require("../plugins/mongodb");
 const sysConfig = require("../configs/systemConfig");
 const tools = require("../utils/CommonTools");
-const fetechDataModule = require("./common/fetchDataModule");
+const fetechDataModule = require("./common/fetchFieldsAndDataModule");
 
 // 取作業多筆欄位資料
-exports.fetchDgFieldData = function (postData, session, callback) {
+exports.fetchDgFieldData = async function (postData, session, callback) {
     let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
 
-    async.parallel({
-        fetchFieldsResult: lo_dgProc.fetchDgFieldsData,   //取多筆欄位資料
-        fetchRowsResult: lo_dgProc.fetchDgRowData      //取多筆資料
-    }, function (err, result) {
-        let lo_rtnData = {};
-        if (!err) {
-            lo_rtnData = {
-                searchFields: result.fetchFieldsResult.searchFields,
-                dgFieldsData: result.fetchFieldsResult.dgFieldsData,
-                dgRowData: result.fetchRowsResult
-            };
-        }
+    try {
+        let [fetchFieldsResult, fetchRowsResult] = await Promise.all([
+            lo_dgProc.fetchDgFieldsData(),
+            lo_dgProc.fetchDgRowData()
+        ]);
+        let lo_rtnData = {
+            searchFields: fetchFieldsResult.searchFields,
+            dgFieldsData: fetchFieldsResult.dgFieldsData,
+            dgRowData: fetchRowsResult
+        };
+        callback(null, lo_rtnData);
+    }
+    catch (err) {
+        callback(err, {})
+    }
+};
 
-        callback(err, lo_rtnData);
-    });
+/**
+ *
+ * @param postData  {object} 前端資料
+ * @param session   {object}
+ * @param callback
+ * @returns {Promise<void>}
+ */
+exports.fetchDgRowData = async function (postData, session, callback) {
+    let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
+
+    try {
+        let fetchDgRowsResult = await lo_dgProc.fetchDgRowData();
+        callback(null, fetchDgRowsResult);
+    }
+    catch (err) {
+        callback(err, []);
+    }
 };
 
 /**
  * 取作業單筆欄位資料
  */
-exports.fetchGsFieldData = function (postData, session, callback) {
+exports.fetchGsFieldData = async function (postData, session, callback) {
     let lo_gsProc = new fetechDataModule.GridSingleProc(postData, session);
     let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
 
-    async.parallel({
-        gsMnData: lo_gsProc.fetchGsMnData,
-        gsDtData: lo_dgProc.fetchDgData
-    }, function (err, result) {
-        let lo_rtnData = {};
-        if (!err) {
-            lo_rtnData = {
-                gsMnData: result.gsMnData,
-                gsDtData: result.gsDtData
-            };
-        }
-
-        callback(err, lo_rtnData);
-    });
+    try {
+        let [lo_gsMnData, la_gsDtData] = await Promise.all([
+            lo_gsProc.fetchGsMnData(),
+            lo_dgProc.fetchDgData()
+        ]);
+        callback(null, {gsMnData: lo_gsMnData, gsDtData: la_gsDtData});
+    }
+    catch (err) {
+        callback(err, {});
+    }
 };
 
 /**
  * 取作業(只有)搜尋欄位資料
  */
-exports.fetchOnlySearchFieldsData = function (postData, session, callback) {
-    fetechDataModule.qrySearchFields(postData, session, function (err, result) {
-        callback(err, result);
-    });
+exports.fetchOnlySearchFieldsData = async function (postData, session) {
+    try {
+        let la_searchFields = await fetechDataModule.qrySearchFields(postData, session);
+        return la_searchFields;
+    }
+    catch (err) {
+        throw err.message;
+    }
+
+
 };
 
 /**
  * 取作業(只有)多筆欄位資料
  */
-exports.fetchOnlyDgFieldData = function (postData, session, callback) {
+exports.fetchOnlyDgFieldData = async function (postData, session, callback) {
     let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
 
-    async.parallel({
-        dgFieldsData: lo_dgProc.fetchDgFieldsData
-    }, function (err, result) {
+    try {
+        let lo_dgFieldsData = await lo_dgProc.fetchDgFieldsData();
         let lo_rtnData = {
-            dgFieldsData: result.dgFieldsData.dgFieldsData
+            dgFieldsData: lo_dgFieldsData.dgFieldsData
         };
-        callback(err, lo_rtnData);
-    });
+        callback(null, lo_rtnData);
+    }
+    catch (err) {
+        callback(null, {dgFieldsData: []});
+    }
 };
 
 /**
  * 取作業(只有)單筆欄位資料
  */
-exports.fetchOnlyGsFieldData = function (postData, session, callback) {
+exports.fetchOnlyGsFieldData = async function (postData, session, callback) {
     let lo_gsProc = new fetechDataModule.GridSingleProc(postData, session);
 
-    async.parallel({
-        gsFieldsData: lo_gsProc.fetchGsMnFieldsData
-    }, function (err, result) {
-        let lo_rtnData = {
-            gsFieldsData: result.gsFieldsData
-        };
-        callback(err, lo_rtnData);
-    });
+    try {
+        let la_gsFieldsData = await lo_gsProc.fetchGsMnFieldsData();
+        callback(null, {gsFieldsData: la_gsFieldsData});
+    }
+    catch (err) {
+        callback(err, []);
+    }
 };
 
 /**
  * 取作業預設單筆資料
  */
-exports.fetchDefaultGsRowData = function (postData, session, callback) {
+exports.fetchDefaultGsRowData = async function (postData, session, callback) {
     let lo_gsProc = new fetechDataModule.GridSingleProc(postData, session);
 
-    async.parallel({
-        gsDefaultData: lo_gsProc.fetchDefaultMnRowData
-    }, function (err, result) {
-        let lo_rtnData = {
-            gsDefaultData: result.gsDefaultData
-        };
-        callback(err, lo_rtnData);
-    });
+    try {
+        let la_gsDefaultData = await lo_gsProc.fetchDefaultMnRowData();
+        callback(null, {gsDefaultData: la_gsDefaultData});
+    }
+    catch (err) {
+        throw new Error(err);
+    }
+};
+
+/**
+ * 取作業(只有)多筆oracle資料
+ * @param postData
+ * @param session
+ * @param callback
+ * @returns {Promise.<void>}
+ */
+exports.fetchDgRowData = async function (postData, session, callback) {
+    let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
+
+    try {
+        let fetchDgRowsResult = await lo_dgProc.fetchDgRowData();
+        callback(null, fetchDgRowsResult);
+    }
+    catch (err) {
+        callback(err, []);
+    }
 };

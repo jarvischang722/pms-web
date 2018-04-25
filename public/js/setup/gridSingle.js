@@ -267,6 +267,7 @@ Vue.component('text-select-grid-dialog-tmp', {
     methods: {
         //顯示點選popupgrid跳出來的視窗
         showPopUpDataGrid: function (result) {
+            $('#txtSelectCondition').val("");
             var self = this;
             var textDataGrid = result.showDataGrid;
             var updateFieldName = result.updateFieldNameTmp;
@@ -309,7 +310,7 @@ Vue.component('text-select-grid-dialog-tmp', {
             var self = this;
             var selectTable = $('#chooseGrid').datagrid('getSelected');
             var chooseData = self.updateFieldNameTmp;
-            var updateFieldName = self.updateFieldNameTmp;
+            var updateFieldName = this.updateFieldNameTmp;
 
             if (selectTable != null) {
                 _.each(selectTable, function (selectValue, selectField) {
@@ -325,12 +326,16 @@ Vue.component('text-select-grid-dialog-tmp', {
                         chooseData[chooseField] = chooseField == "inv_sta" ? "N" : "";  //SAM20170930 目前沒招了，先寫死在這for PMS0840030
                     });
                 }
+                _.each(chooseData, function(val, key){
+                    chooseData[key] = "";
+                });
 
             }
             vm.singleData = _.extend(vm.singleData, chooseData);
             vm.isRuleComplete = true;
             $("#dataPopUpGridDialog").dialog('close');
         },
+
         txtSearchChangeText: function (keyContent) {
             var allData = this.gridData;
             var selectFieldName = $('#cbSelect').val();
@@ -1031,7 +1036,7 @@ var vm = new Vue({
                 var maxField = _.max(vm.pageTwoFieldData, function (lo_pageTwoField) {
                     return lo_pageTwoField.length;
                 });
-
+                console.log(maxField);
                 _.each(maxField, function (lo_maxField, index) {
                     var width = parseInt(lo_maxField.width) || 35; //90
                     var label_width = parseInt(lo_maxField.label_width) || 50; //165
@@ -1075,17 +1080,19 @@ var vm = new Vue({
             // 藍色系統列
             var navHt = $(".navbar-container").height();
             // quickMenus + 搜尋欄位
-            var menuHt = $(".top-sec-ul").height()+ 30+ $(".page-header").height();//padding-top: 5px
+            var menuHt = $(".top-sec-ul").height() + 30 + $(".page-header").height();//padding-top: 5px
             // 高度 margin或padding 的差距
             var menuHt3 = 70;
-            var searchHt = $('.search-content').height() +5;
+            var searchHt = $('.search-content').height() + 5;
+
             function allHt() {
                 prg_dgHtSingle = $(window).height() - navHt - menuHt - menuHt3 - searchHt;  // PMS0810020
             }
+
             allHt();
 
-            $('.prg_dgHtSingle').datagrid('resize',{
-                height:prg_dgHtSingle
+            $('.prg_dgHtSingle').datagrid('resize', {
+                height: prg_dgHtSingle
             });
             // $(".prg_dgHt").css("height", prg_dgHt); // PMS0810020
 

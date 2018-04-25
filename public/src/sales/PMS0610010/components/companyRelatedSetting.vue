@@ -54,6 +54,7 @@
                                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                                 @update:v-model="val => singleData[field.ui_field_name] = val"
                                                 :default-val="singleData[field.ui_field_name] || field.defaultVal"
+                                                :field="field"
                                                 :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                     </bac-select>
@@ -142,7 +143,7 @@
                                                                              :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                              v-model="singleData[field.ui_field_name]"
                                                                              :columns="field.selectData.columns"
-                                                                             :data="field.selectData.selectData"
+                                                                             :data="field.selectData.selectData" :field="field"
                                                                              :is-qry-src-before="field.selectData.isQrySrcBefore"
                                                                              :id-field="field.selectData.value" :text-field="field.selectData.display"
                                                                              @update:v-model="val => singleData[field.ui_field_name] = val"
@@ -235,8 +236,11 @@
                 }
             },
             singleData: {
-                handler: function (val, oldVal) {
+                handler: function (val) {
                     if (!_.isEmpty(val)) {
+                        let lo_singleData = JSON.parse(JSON.stringify(val));
+                        let lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
+
                         if (this.$store.state.gb_isCreateStatus) {
                             val.ins_dat = moment(new Date(val.ins_dat)).format("YYYY/MM/DD HH:mm:ss")
                             val.ins_usr = this.userInfo.usr_id
@@ -246,9 +250,10 @@
                         }
 
                         this.$eventHub.$emit('getRelatedSettingData', {
-                            relatedSettingSingleData: val,
-                            relatedSettingOriSingleData: this.oriSingleData
+                            relatedSettingSingleData: lo_singleData,
+                            relatedSettingOriSingleData: lo_oriSingleData
                         });
+
                         //將相關設定資料放至Vuex
                         this.$store.dispatch("setRsSingleData", {
                             go_rsSingleData: val,
@@ -306,8 +311,10 @@
                             hoffice_cod: self.$store.state.gs_custCod,
                             dm_flag: 'Y',
                             cust_idx_ar_amt: 0,
+                            cust_idx_credit_amt: 0,
                             business_cod: '01  ',
-                            type_cod: '01  '
+                            type_cod: '01  ',
+                            area_cod: null
                         };
                         this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
                         this.isLoading = false;
@@ -324,32 +331,34 @@
                             this.singleData = result.gsMnData.rowData[0];
                             this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
 
-                            //找樹狀parent node
-                            findByValue(this.areaCodSelectData, this.singleData.area_cod);
+                            if (!_.isNull(this.singleData.area_cod)) {
+                                //找樹狀parent node
+                                findByValue(this.areaCodSelectData, this.singleData.area_cod);
 
-                            //攤平資料(陣列扁平化)
-                            var list = [];
-                            flattenArray(go_rtnResult, list);
+                                //攤平資料(陣列扁平化)
+                                var list = [];
+                                flattenArray(go_rtnResult, list);
 
-                            this.areaCodSelectedOption = [];
-                            var groupList = _.groupBy(list, "parent_cod");
-                            groupList = _.toArray(groupList).reverse();
-                            var ls_parent_cod = "";
+                                this.areaCodSelectedOption = [];
+                                var groupList = _.groupBy(list, "parent_cod");
+                                groupList = _.toArray(groupList).reverse();
+                                var ls_parent_cod = "";
 
-                            _.each(groupList, function (la_list) {
-                                var lo_data;
-                                if (ls_parent_cod == "") {
-                                    lo_data = _.findWhere(la_list, {value: self.singleData.area_cod});
-                                }
-                                else {
-                                    lo_data = _.findWhere(la_list, {value: ls_parent_cod});
-                                }
-                                if (!_.isUndefined(lo_data)) {
-                                    self.areaCodSelectedOption.push(lo_data.value);
-                                    ls_parent_cod = lo_data.parent_cod;
-                                }
-                            });
-                            this.areaCodSelectedOption = this.areaCodSelectedOption.reverse();
+                                _.each(groupList, function (la_list) {
+                                    var lo_data;
+                                    if (ls_parent_cod == "") {
+                                        lo_data = _.findWhere(la_list, {value: self.singleData.area_cod});
+                                    }
+                                    else {
+                                        lo_data = _.findWhere(la_list, {value: ls_parent_cod});
+                                    }
+                                    if (!_.isUndefined(lo_data)) {
+                                        self.areaCodSelectedOption.push(lo_data.value);
+                                        ls_parent_cod = lo_data.parent_cod;
+                                    }
+                                });
+                                this.areaCodSelectedOption = this.areaCodSelectedOption.reverse();
+                            }
 
                             this.isLoading = false;
                         });
@@ -436,21 +445,39 @@
                 }
             },
             computeAmt(val, field) {
-                var ls_ruleVal = field.format_func_name.rule_val;
+                let ls_ruleVal = field.format_func_name.rule_val;
+                let lb_isModify = true;
+                let ls_creditAmt = _.isUndefined(this.singleData['cust_idx_credit_amt']) ?
+                    "" : go_formatDisplayClass.removeAmtFormat(this.singleData['cust_idx_credit_amt'].toString());
+                let ls_arAmt = _.isUndefined(this.singleData['cust_idx_ar_amt']) ?
+                    "" : go_formatDisplayClass.removeAmtFormat(this.singleData['cust_idx_ar_amt'].toString());
+                let ln_balance = 0;
 
-                var ln_creditAmt = _.isUndefined(this.singleData['cust_idx_credit_amt']) ?
-                    "" : this.singleData['cust_idx_credit_amt'];
-                var ln_arAmt = _.isUndefined(this.singleData['cust_idx_ar_amt']) ?
-                    "" : this.singleData['cust_idx_ar_amt'];
-                ln_creditAmt = ln_creditAmt.toString();
-                ln_arAmt = ln_arAmt.toString();
+                for (let i = 0; i < ls_creditAmt.length; i++) {
+                    if (ls_creditAmt.charCodeAt(i) < 48 || ls_creditAmt.charCodeAt(i) > 57) {
+                        lb_isModify = false;
+                        break;
+                    }
+                }
+                for (let i = 0; i < ls_arAmt.length; i++) {
+                    if (ls_arAmt.charCodeAt(i) < 48 || ls_arAmt.charCodeAt(i) > 57) {
+                        lb_isModify = false;
+                        break;
+                    }
+                }
 
-                var ln_balance =
-                    Number(go_formatDisplayClass.removeAmtFormat(ln_creditAmt)) - Number(go_formatDisplayClass.removeAmtFormat(ln_arAmt));
+                if (lb_isModify) {
+                    ln_balance = Number(ls_creditAmt) - Number(ls_arAmt);
 
-                this.singleData["cust_idx_credit_amt"] = go_formatDisplayClass.amtFormat(ln_creditAmt, ls_ruleVal);
-                this.singleData["cust_idx_ar_amt"] = go_formatDisplayClass.amtFormat(ln_arAmt, ls_ruleVal);
-                this.singleData['balance'] = go_formatDisplayClass.amtFormat(ln_balance, ls_ruleVal);
+                    this.singleData["cust_idx_credit_amt"] = go_formatDisplayClass.amtFormat(ls_creditAmt, ls_ruleVal);
+                    this.singleData["cust_idx_ar_amt"] = go_formatDisplayClass.amtFormat(ls_arAmt, ls_ruleVal);
+                    this.singleData['balance'] = go_formatDisplayClass.amtFormat(ln_balance, ls_ruleVal);
+                }
+                else {
+                    this.singleData["cust_idx_credit_amt"] = 0;
+                    this.singleData["cust_idx_ar_amt"] = 0;
+                    this.singleData['balance'] = 0;
+                }
             },
             //信用額度變更
             async doChangeCreditLimit() {
@@ -476,7 +503,7 @@
             },
             doCloseChangeCreditLimitDialog() {
                 $("#changeCreditLimit").dialog('close');
-            }
+            },
         }
     }
 

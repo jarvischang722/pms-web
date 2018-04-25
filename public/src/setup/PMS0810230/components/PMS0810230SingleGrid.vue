@@ -1,6 +1,6 @@
 <template>
     <div id="PMS0810230SingleGrid" class="hide padding-5" style="top: 0 !important;">
-        <div class="businessCompanyData">
+        <div class="businessCompanyData" v-loading="isLoadingDialog" :element-loading-text="loadingText">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
@@ -9,11 +9,16 @@
                             <div class="main-content-data borderFrame">
                                 <div v-for="fields in fieldsData">
                                     <div class="grid">
-                                        <div class="grid-item" v-for="field in fields">
+                                        <div class="grid-item" v-for="field in fields" style="position: relative;">
                                             <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
                                                    :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
-                                                <span>{{ field.ui_display_name }}</span>
+                                                <a @click="editFieldMultiLang(field)"
+                                                   v-if="field.multi_lang_table != '' && field.ui_type != 'textarea'">
+                                                    {{field.ui_display_name}}
+                                                </a>
+                                                <span v-else>{{ field.ui_display_name }}</span>
+
                                             </label>
 
                                             <input type="text" v-model="singleData[field.ui_field_name]"
@@ -26,11 +31,11 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                    @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
 
-                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                            <input type="number" v-model="singleData[field.ui_field_name]"
                                                    v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                    :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
-                                                   @keyup="formatAmt(singleData[field.ui_field_name], field)">
+                                            >
 
                                             <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'date'"
                                                             v-model="singleData[field.ui_field_name]"
@@ -54,26 +59,30 @@
                                             <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                         :class="{'input_sta_required' : field.requirable == 'Y' }"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                        v-model="singleData[field.ui_field_name]" :data="field.selectData"
+                                                        v-model="singleData[field.ui_field_name]"
+                                                        :data-display="field.selectDataDisplay " :data="field.selectData"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                        :default-val="singleData[field.ui_field_name]"
+                                                        :default-val="singleData[field.ui_field_name]" :field="field"
                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                         @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                             </bac-select>
 
                                             <!--  textarea -->
-                                            <textarea v-model="singleData[field.ui_field_name]"
-                                                      v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
-                                                      class="numStyle-none" rows="4" style="resize: none;"
-                                                      :style="{width:field.width + 'px'}"
-                                                      :required="field.requirable == 'Y'"
-                                                      :maxlength="field.ui_field_length"
-                                                      :disabled="field.modificable == 'N'|| !isModifiable ||
+                                            <template v-if="field.visiable == 'Y' && field.ui_type == 'textarea'">
+                                                <textarea v-model="singleData[field.ui_field_name]"
+                                                          class="numStyle-none btn-gray" rows="1" style="resize: none; display: inline-block;"
+                                                          :style="{width:field.width + 'px'}"
+                                                          :required="field.requirable == 'Y'"
+                                                          :maxlength="field.ui_field_length"
+                                                          :disabled="field.modificable == 'N'|| !isModifiable ||
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                      @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
-                                            </textarea>
+                                                          @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                </textarea>
+                                                <i class="moreClick fa fa-ellipsis-h " @click="editFieldMultiLang(field)"
+                                                   style=" display: inline-block; position: absolute; margin-top: 3px;"></i>
+                                            </template>
 
                                         </div>
                                     </div>
@@ -85,10 +94,12 @@
                             <el-tabs v-model="tabName" type="card">
                                 <el-tab-pane :label="i18nLang.program.PMS0810230.roomTyp" name="roomTyp">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0810230.limitSet" name="limitSet" disabled>
-                                </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0810230.promoteSet" name="promoteSet" disabled>
-                                </el-tab-pane>
+                                <template v-if="versionState != 'lite'">
+                                    <el-tab-pane :label="i18nLang.program.PMS0810230.limitSet" name="limitSet" disabled>
+                                    </el-tab-pane>
+                                    <el-tab-pane :label="i18nLang.program.PMS0810230.promoteSet" name="promoteSet" disabled>
+                                    </el-tab-pane>
+                                </template>
                             </el-tabs>
                             <div class="easyui-tabs borderFrame"
                                  style="min-height: 0;!important; overflow-y: auto;">
@@ -344,21 +355,22 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth resv_rateList"
-                                                role="button">{{i18nLang.program.PMS0810230.rateList}}
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" @click="doOpenRateList">
+                                            {{i18nLang.program.PMS0810230.rateList}}
                                         </button>
                                     </li>
-                                    <li class="depDateLi">
+                                    <li class="depDateLi" v-if="versionState != 'lite'">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_dependantRate" disabled
                                                 role="button">{{i18nLang.program.PMS0810230.depRate}}
                                         </button>
                                     </li>
-                                    <li class="baseDateLi">
+                                    <li class="baseDateLi" v-if="versionState != 'lite'">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate" disabled
                                                 role="button">{{i18nLang.program.PMS0810230.baseRate}}
                                         </button>
                                     </li>
-                                    <li>
+                                    <li v-if="versionState != 'lite'">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_addPpl" disabled
                                                 role="button">{{i18nLang.program.PMS0810230.addPol}}
                                         </button>
@@ -374,7 +386,6 @@
                     </div>
                     <!--/.按鈕-->
                 </div>
-
                 <div class="space-6"></div>
                 <!--複製部分-->
                 <div class="row hide">
@@ -564,21 +575,34 @@
                 :row-data="rowData"
                 :is-use-time="isUseTime"
         ></use-time>
+        <rate-list
+                :row-data="rowData"
+        ></rate-list>
     </div>
 </template>
 
 <script>
     import _s from 'underscore.string';
+    import moment from 'moment';
     import roomTyp from './roomTyp';
     import useTime from './useTime';
+    import rateList from './rateList';
 
     export default {
         name: 'pms0810230SingleGrid',
-        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
-        components: {roomTyp, useTime},
+        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable", "versionState"],
+        components: {roomTyp, useTime, rateList},
         created() {
             this.$eventHub.$on('setTabName', (tabNameData) => {
                 this.tabName = tabNameData.tabName;
+            });
+            this.$eventHub.$on("setMultiLangSingleData", (data) => {
+                this.singleData = _.extend(this.singleData, {multilang: data.multilang});
+                let ls_noeLocale = getCookie('locale');
+                let la_edit = _.where(this.singleData.multilang, {locale: ls_noeLocale});
+                _.each(la_edit, (lo_edit) => {
+                    this.singleData[lo_edit.field] = lo_edit.val;
+                });
             });
         },
         mounted() {
@@ -599,7 +623,7 @@
                 tabName: "", //頁籤名稱
                 panelName: ["roomTypPanel", "limitSetPanel", "limitSetPanel"], //頁籤內容名稱
                 tabStatus: {isRoomTyp: false}, //現在頁籤狀況
-                isUseTime: false //是否開啟使用期間
+                isUseTime: false, //是否開啟使用期間
             }
         },
         watch: {
@@ -615,8 +639,8 @@
                     this.loadingText = "Loading...";
                 }
             },
-            isUseTime(val){
-                if(!val){
+            isUseTime(val) {
+                if (!val) {
                     this.$eventHub.$emit("getUseTimeData", {
                         useTimeData: this.$store.state.go_allData.ga_utDataGridRowsData
                     });
@@ -625,11 +649,79 @@
             singleData: {
                 handler(val) {
                     this.setGlobalRateCod();
+                    if (!_.isUndefined(val.rate_cod) && val.rate_cod != this.oriSingleData.rate_cod) {
+                        this.$eventHub.$emit("setRoomTypRateCod", {
+                            rateCod: val.rate_cod
+                        });
+                        this.$eventHub.$emit("setUseTimeRateCod", {
+                            rateCod: val.rate_cod
+                        });
+                        this.setMultiLangSingleData();
+                    }
                 },
                 deep: true
             }
         },
         methods: {
+            //打開單欄多語編輯
+            editFieldMultiLang(fieldInfo) {
+                this.$eventHub.$emit('openMultiLang', {
+                    isOpenFieldMultiLang: true,
+                    fieldInfo: fieldInfo,
+                    singleData: this.oriSingleData
+                });
+            },
+            //設定內容多語資料
+            async setMultiLangSingleData() {
+                if (_.isUndefined(this.singleData.multilang)) {
+                    let lo_multiField = {};
+                    let la_multiLangCont = [];
+                    //房價名稱多語系
+                    lo_multiField = _.findWhere(this.oriFieldsData, {ui_field_name: 'ratecod_nam'});
+                    let la_multiRatecodName = await this.getMultiLangCont(this.oriSingleData, lo_multiField);
+                    _.each(la_multiRatecodName, (lo_multiRatecodName) => {
+                        let ls_field = _.keys(lo_multiRatecodName)[2];
+                        if (!_.isUndefined(ls_field)) {
+                            la_multiLangCont.push({
+                                locale: lo_multiRatecodName.locale,
+                                field: ls_field,
+                                val: lo_multiRatecodName[ls_field]
+                            });
+                        }
+                    });
+
+                    //確認書說明多語系
+                    lo_multiField = _.findWhere(this.oriFieldsData, {ui_field_name: 'rvconfirm_rmk'});
+                    let la_multiRvconfirmRmk = await this.getMultiLangCont(this.oriSingleData, lo_multiField);
+                    _.each(la_multiRvconfirmRmk, (lo_multiRvconfirmRmk) => {
+                        let ls_field = _.keys(lo_multiRvconfirmRmk)[2];
+                        if (!_.isUndefined(ls_field)) {
+                            la_multiLangCont.push({
+                                locale: lo_multiRvconfirmRmk.locale,
+                                field: ls_field,
+                                val: lo_multiRvconfirmRmk[ls_field]
+                            });
+                        }
+                    });
+
+                    this.singleData = la_multiLangCont.length > 0 ? _.extend(this.singleData, {multilang: la_multiLangCont}) : this.singleData;
+                }
+            },
+            async getMultiLangCont(singleData, fieldInfo) {
+                let lo_params = {};
+                lo_params = {
+                    dataType: 'gridsingle',
+                    rowData: singleData,
+                    prg_id: fieldInfo.prg_id,
+                    page_id: fieldInfo.page_id,
+                    ui_field_name: fieldInfo.ui_field_name
+                };
+                return await $.post("/api/fieldAllLocaleContent", lo_params).then(result => {
+                    return result.multiLangContentList;
+                }, err => {
+                    throw Error(err);
+                });
+            },
             initData() {
                 this.singleData = {};
                 this.oriSingleData = {};
@@ -643,7 +735,10 @@
                 });
             },
             setGlobalRateCod() {
-                this.$store.dispatch("setRateCod", this.singleData.rate_cod);
+                this.$store.dispatch("setRateCod", {
+                    gs_rateCod: this.singleData.rate_cod,
+                    gs_oriRateCod: this.oriSingleData.rate_cod
+                });
             },
             setTabStatus(tabName) {
                 let self = this;
@@ -683,34 +778,49 @@
                 });
             },
             fetchRowData() {
+                let ls_apiUrl = "";
+                let lo_params = {};
                 if (this.isCreateStatus) {
-                    $.post("/api/fetchDefaultSingleRowData", {
+                    ls_apiUrl = "/api/fetchDefaultSingleRowData";
+                    lo_params = {
                         prg_id: "PMS0810230",
                         page_id: 2,
                         tab_page_id: 1
-                    }).then(result => {
-                        this.singleData = result.gsDefaultData;
-                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
-                        this.isLoadingDialog = false;
-                        this.setGlobalRateCod();
-                        this.tabName = "roomTyp";
-                    });
+                    };
                 }
                 else if (this.isEditStatus) {
-                    $.post("/api/fetchSinglePageFieldData", {
+                    ls_apiUrl = "/api/fetchSinglePageFieldData";
+                    lo_params = {
                         prg_id: "PMS0810230",
                         page_id: 2,
                         tab_page_id: 1,
                         template_id: "gridsingle",
                         searchCond: {rate_cod: this.rowData.rate_cod}
-                    }).then(result => {
-                        this.singleData = result.gsMnData.rowData[0];
-                        this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.isLoadingDialog = false;
+                    };
+                }
+                $.post(ls_apiUrl, lo_params).then(result => {
+                    if (result.success) {
+                        this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
+                        this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        this.singleData.commis_rat = this.singleData.commis_rat * 100;
+                        this.oriSingleData.commis_rat = this.singleData.commis_rat * 100;
+                        this.singleData.serv_rat = this.singleData.serv_rat * 100;
+                        this.oriSingleData.serv_rat = this.singleData.serv_rat * 100;
                         this.setGlobalRateCod();
                         this.tabName = "roomTyp";
-                    });
-                }
+                        this.isUseTime = true;
+                        setTimeout(() => {
+                            this.isUseTime = false;
+                        }, 500);
+                    }
+                    else {
+                        alert(result.errorMsg);
+                    }
+                    this.isLoadingDialog = false;
+                }, err => {
+                    this.isLoadingDialog = false;
+                    alert(err.statusText);
+                });
             },
             chkFieldRule(ui_field_name, rule_func_name) {
                 if (rule_func_name === "" || !this.$parent.isModifiable) {
@@ -774,11 +884,90 @@
                     });
                 }
             },
-            formatAmt(value, field) {
+            doConvertData() {
+                let lo_saveSingleData = JSON.parse(JSON.stringify(this.singleData));
+                let lo_saveOriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
+
+                lo_saveSingleData.display_all = lo_saveSingleData.display_all ? 'Y' : 'N';
+
+                lo_saveSingleData.commis_rat = Number(lo_saveSingleData.commis_rat) / 100;
+                lo_saveSingleData.serv_rat = Number(lo_saveSingleData.serv_rat) / 100;
+
+                let lo_params = {
+                    page_id: this.oriFieldsData[0].page_id,
+                    tab_page_id: this.oriFieldsData[0].tab_page_id,
+                    event_time: moment().format()
+                };
+                lo_saveSingleData = _.extend(lo_saveSingleData, lo_params);
+                lo_saveOriSingleData = _.extend(lo_saveOriSingleData, lo_params);
+                //將主檔資料放至Vuex
+                this.$store.dispatch("setMnSingleData", {
+                    go_mnSingleData: lo_saveSingleData,
+                    go_mnOriSingleData: lo_saveOriSingleData
+                });
             },
             dataValidate() {
+                var self = this;
+                var lo_checkResult = true;
+
+                // 單筆資料檢查
+                for (let i = 0; i < this.oriFieldsData.length; i++) {
+                    let lo_field = this.oriFieldsData[i];
+                    //必填
+                    if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
+                        lo_checkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        if (lo_checkResult.success == false) {
+                            break;
+                        }
+                    }
+                    //有format
+                    if (lo_field.format_func_name.validate != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name.validate])) {
+                        lo_checkResult = go_validateClass[lo_field.format_func_name.validate](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        if (lo_checkResult.success == false) {
+                            break;
+                        }
+                    }
+
+                }
+
+                return lo_checkResult;
             },
             doSaveGrid() {
+                let self = this;
+                this.isLoadingDialog = true;
+                this.loadingText = "saving";
+                this.doConvertData();
+
+                var lo_chkResult = this.dataValidate();
+                if (lo_chkResult.success == false) {
+                    alert(lo_chkResult.msg);
+                    this.isLoadingDialog = false;
+                }
+                else {
+                    try {
+                        this.$store.dispatch("doSaveAllData").then(result => {
+                            setTimeout(() => {
+                                this.isLoadingDialog = false;
+                            }, 200);
+                            if (result.success) {
+                                alert(go_i18nLang.program.PMS0810230.save_success);
+                                $("#PMS0810230SingleGrid").dialog('close');
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                        }, err => {
+                            setTimeout(() => {
+                                this.isLoadingDialog = false;
+                            }, 200);
+                            alert(err)
+                        });
+                    }
+                    catch (err) {
+                        alert(err);
+                        this.isLoadingDialog = false;
+                    }
+                }
             },
             doOpenUseTime() {
                 let self = this;
@@ -791,9 +980,22 @@
                     maxwidth: 1920,
                     dialogClass: "test",
                     resizable: true,
-                    onBeforeClose(){
+                    onBeforeClose() {
                         self.isUseTime = false;
                     }
+                });
+            },
+            doOpenRateList() {
+                var dialog = $("#rateListDialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "期間一覽表",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+                    height: 750,
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
                 });
             },
             doCloseDialog() {

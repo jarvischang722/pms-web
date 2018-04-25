@@ -25,12 +25,14 @@
                                                    :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
+
                                             <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         v-model="singleData[field.ui_field_name]" :data="field.selectData"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                        :default-val="singleData[field.ui_field_name]"
+                                                        :default-val="singleData[field.ui_field_name]" :field="field"
+                                                        :editable="field.ui_field_name == 'rank_nos' ? 'N' : 'Y'"
                                                         :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
@@ -41,6 +43,7 @@
                                                              v-model="singleData[field.ui_field_name]"
                                                              :columns="field.selectData.columns"
                                                              :data="field.selectData.selectData"
+                                                             :field="field"
                                                              :is-qry-src-before="field.selectData.isQrySrcBefore"
                                                              :id-field="field.selectData.value" :text-field="field.selectData.display"
                                                              @update:v-model="val => singleData[field.ui_field_name] = val"
@@ -301,12 +304,6 @@
                 self.relatedSettingSingleData = relatedSettingData.relatedSettingSingleData;
                 self.relatedSettingOriSingleData = relatedSettingData.relatedSettingOriSingleData;
             });
-            //業務員指派
-            this.$eventHub.$on('doEditSalesClerk', function (result) {
-                if (result.success) {
-                    self.fetchFieldData();
-                }
-            });
             //取得商務公司狀態資料
             this.$eventHub.$on('compStateData', function (compStateData) {
                 self.singleData = _.extend(self.singleData, compStateData.singleData);
@@ -314,6 +311,10 @@
             //取得合約狀態資料
             this.$eventHub.$on('contractStateData', function (contractStateData) {
                 self.singleData = _.extend(self.singleData, contractStateData.singleData);
+            });
+            //儲存異動的資料
+            this.$eventHub.$on('saveSingleData', function () {
+                self.doSaveGrid();
             });
 
         },
@@ -390,7 +391,7 @@
                             var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
                             this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
                         }
-                        lo_oriSingleData.cust_idx_zip_cod = "";
+                        lo_oriSingleData.cust_idx_zip_cod = lo_singleData.cust_idx_zip_cod;
 
                         //將主檔資料放至Vuex
                         this.$store.dispatch("setMnSingleData", {
@@ -498,6 +499,14 @@
                         }
                     }
 
+                    //有format
+                    if (lo_field.format_func_name.validate != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name.validate]) && self.singleData[lo_field.ui_field_name] != '') {
+                        lo_checkResult = go_validateClass[lo_field.format_func_name.validate](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        if (lo_checkResult.success == false) {
+                            break;
+                        }
+                    }
+
                 }
 
                 return lo_checkResult;
@@ -506,6 +515,11 @@
             doConvertData() {
                 //cust_nam的內容帶入cust_idx_alt_nam
                 this.singleData.cust_idx_alt_nam = this.singleData.cust_nam;
+
+                //如果單筆資料是undefined或null轉換成''
+                _.each(this.singleData, (val, key) => {
+                    this.singleData[key] = _.isUndefined(val) || _.isNull(val) ? "" : val;
+                });
 
                 var lo_singleData = JSON.parse(JSON.stringify(this.singleData));
                 var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
@@ -521,6 +535,8 @@
                 });
             },
             doSaveGrid() {
+                this.$eventHub.$emit("endRpEdit");
+                this.$eventHub.$emit("endContractEdit");
                 this.isLoadingDialog = true;
                 this.loadingText = "saving";
                 this.doConvertData();
@@ -534,8 +550,8 @@
                 else {
                     this.$store.dispatch("doSaveAllData").then(result => {
                         if (result.success) {
-                            alert("save success");
-                            $("#PMS0610020").dialog('close');
+                            alert(go_i18nLang.program.PMS0610020.save_success);
+                            this.$store.dispatch("setAllDataClear");
                         }
                         else {
                             alert(result.errorMsg);

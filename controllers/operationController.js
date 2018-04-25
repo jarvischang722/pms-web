@@ -15,21 +15,44 @@ const tools = require(appRootDir + "/utils/CommonTools");
 /**
  * 執行作業sql 程序
  */
-exports.doOperationSave = function (req, res) {
+exports.doOperationSave = async function (req, res) {
     req.body.page_id = req.body.page_id || 1;
     req.body.tmpCUD = req.body.tmpCUD || {};
-    doOperationProc(req, res);
-};
 
-function doOperationProc(req, res) {
     //TODO 沒給交易代碼要拋出錯誤
     // 商務公司、業務員API小良還沒做，拋錯會有問題
     req.body.trans_cod = req.body.trans_cod || "BAC03009010000";
+    let lo_result = null;
+    try {
+        lo_result = await dbSVC.execProcSQL(req.body, req.session);
+    }
+    catch (err) {
+        lo_result = err;
+    }
+    res.json(lo_result);
+};
 
-    dbSVC.execProcSQL(req.body, req.session, function (err, result) {
-        res.json(tools.mergeRtnErrResultJson(err, result));
-    });
-}
+/**
+ * 作業新儲存格式
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+exports.execNewFormatSQL = async function (req, res) {
+    req.body.page_id = req.body.page_id || 1;
+    req.body.tmpCUD = req.body.tmpCUD || {};
+    req.body.sys_locales = req.cookies.sys_locales;
+    req.body.locale = req.cookies.locale;
+
+    let lo_result = null;
+    try {
+        lo_result = await dbSVC.execNewFormatSQL(req.body, req.session);
+    }
+    catch (err) {
+        lo_result = err;
+    }
+    res.json(lo_result);
+};
 
 /**
  * 取多筆欄位資料
@@ -49,6 +72,20 @@ exports.fetchDgFieldData = function (req, res) {
         };
         res.json(lo_rtnData);
     });
+};
+
+/**
+ * 取多筆oracle資料
+ * @returns {*}
+ */
+exports.fetchDgRowData = function (req, res) {
+    let lo_chkResult = chkPrgID(req);
+    if (lo_chkResult.success == false) {
+        return res.json(lo_chkResult);
+    }
+    operSVC.fetchDgRowData(req.body, req.session, function (err, result) {
+        res.json({dgRowData: result});
+    })
 };
 
 /**
@@ -73,10 +110,17 @@ exports.fetchGsFieldData = function (req, res) {
 /**
  * 取作業(只有)搜尋欄位資料
  */
-exports.fetchOnlySearchFieldsData = function (req, res) {
-    operSVC.fetchOnlySearchFieldsData(req.body, req.session, function (err, result) {
-        res.json({success: _.isNull(err), errorMsg: err, searchFieldsData: result});
-    });
+exports.fetchOnlySearchFieldsData = async function (req, res) {
+    let ls_errMsg = null;
+    let la_searchFields = [];
+    try {
+        la_searchFields = await operSVC.fetchOnlySearchFieldsData(req.body, req.session);
+    }
+    catch (err) {
+        ls_errMsg = err;
+    }
+
+    res.json({success: _.isNull(ls_errMsg), errorMsg: ls_errMsg, searchFieldsData: la_searchFields});
 };
 
 /**
@@ -131,6 +175,20 @@ exports.fetchDefaultGsRowData = function (req, res) {
         };
         res.json(lo_rtnData);
     });
+};
+
+/**
+ * 取多筆oracle資料
+ * @returns {*}
+ */
+exports.fetchDgRowData = function(req, res) {
+    let lo_chkResult = chkPrgID(req);
+    if (lo_chkResult.success == false) {
+        return res.json(lo_chkResult);
+    }
+    operSVC.fetchDgRowData(req.body, req.session, function(err, result) {
+        res.json({ dgRowData: result });
+    })
 };
 
 

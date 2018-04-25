@@ -125,13 +125,25 @@
       "evertDay": "每一天(英文)",
       "holiday": "依假日類別(英文)",
       "week": "依星期別(英文)",
+      "from": "from",
+      "to": "to",
+      "OK": "OK",
+      "cancel": "Cancel",
       "sunday": "Sunday",
       "monday": "Monday",
       "tuesday": "Tuesday",
       "wednesday": "Wednesday",
       "thursday": "Thursday",
       "friday": "Friday",
-      "saturday": "Saturday"
+      "saturday": "Saturday",
+      "dateRule": "日期規則(英文)",
+      "showExpire": "過期顯示(英文)",
+      "save_success": "Save Success",
+      "delete_success": "Delete Success",
+      "start_placeholder": "開始日期(英文)",
+      "end_placeholder": "结束日期(英文)",
+      "selectDate": "請選擇日期(英文)",
+      "begBiggerEnd": "開始日要小於結束日(英)"
     },
     "PMS0820030": {
       "load_default_color": "Load default color",
@@ -197,13 +209,13 @@
       "sales_assign": "Sales Assign",
       "visit_plan": "Visit Plan",
       "edit_sales": "修改業務員(英)",
-      "add_visit_plan": "新增拜訪計畫(英)"
+      "add_visit_plan": "新增拜訪計畫(英)",
+      "selectOneData": "選擇一筆資料(無法同時修改多筆)(英)"
     },
     "PMS0610020": {
       "company_status": "Status chg.",
       "company_maintain": "商務公司維護(英)",
       "company_related_diagram": "公司關聯圖(英)",
-      "company_status": "Status chg.",
       "contract_status": "合約狀態變更(英)",
       "related_set": "相關設定(英)",
       "related_personnel": "相關人員(英)",
@@ -233,7 +245,8 @@
       "sales_cod": "業務員代號(英)",
       "sales_nam": "業務員姓名(英)",
       "class_nam": "組別(英)",
-      "rate": "房價代號或名稱(英)"
+      "rate": "房價代號或名稱(英)",
+      "save_success": "儲存成功(英)"
     },
     "PMS0620020": {
       "sales_cod": "Sales Id",
@@ -316,6 +329,11 @@
       "atten_nam": "名稱(英)",
       "role_rmk": "職稱(英)",
       "tel_nos": "電話(英)"
+    },
+    "PSIW510030":{
+      "1010": "核准(英)",
+      "1020": "取消核准(英)",
+      "1030": "空白訂貨表下載(英)"
     }
   },
   "table_in_use": "Table in use (%s)",
@@ -403,7 +421,10 @@
       "FmtHHMM": "%s time format is 'HH:MM'",
       "ChkHHMM": "%s time format is 'HHMM' or 'HH:MM'",
       "ChkPointOne": "%s 僅能輸入至小數點1位(英文)",
-      "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)"
+      "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)",
+      "ChkEmail": "%s 格式不正確(英文)",
+      "ChkUniCod": "%s 格式不正確(英文)",
+      "chkDataChang": "資料異動，是否要修改?(英文)"
     }
   },
   "ErrorMsg": {
@@ -439,6 +460,17 @@
     "pms81msg30": "假日日期設定有用到，不可刪除(英文)",
     "pms81msg31": "一個通路代號只能一筆，不可重複(英文)",
     "pms81msg32": "已被交通接駁記錄使用，無法刪除(英文)",
+    "pms81msg33": "上傳官網房型連線出現問題(英文)",
+    "pms81msg34": "上傳官網房型錯誤(英文)",
+    "pms81msg35": "上傳官網圖片連線出現問題(英文)",
+    "pms81msg36": "圖片解析出現錯誤(英文)",
+    "pms81msg37": "找不到房型正圖(英文)",
+    "pms81msg38": "產生庫存發生錯誤(英文)",
+    "pms81msg39": "上傳房型 資料錯誤(英文)",
+    "pms81msg40": "房型圖檔官網上傳 資料錯誤(英文)",
+    "pms81msg41": "產生房型庫存 資料錯誤(英文)",
+    "pms81msg42": "已於房價主檔資料中使用，不可刪除(英文)",
+    "pms81msg43": "房價分類代號: %s 已存在(英文)",
     "pms82msg1": "房間設定已使用，不可刪除(英文)",
     "pms82msg2": "訂房卡已使用，不可刪除(英文)",
     "pms82msg3": "房號未填(英文)",
@@ -514,6 +546,9 @@
     "pms61msg7": "此筆資料設為主要聯絡人，不可刪除(英文)",
     "pms61msg8": "指定公司編號『%s』已指定於他筆商務公司，請重新輸入(英文)",
     "pms61msg9": "指定公司編號『%s』已使用於財務系統，請重新輸入(英文)",
+    "pms61msg10": "結束日與開始日重複(英文)",
+    "pms61msg11": "指定相關人員編號『%s』已於其他商務公司使用， 不可刪除(英文)",
+    "pms61msg12": "指定相關人員編號『%s』已於住客歷史中使用， 不可刪除(英文)",
     "pms21msg1": "此住客資料已存在(英文)",
     "pms21msg2": "%s(%s)此筆資料已為訂房使用(%s:%s)，不可刪除(英文)"
   },

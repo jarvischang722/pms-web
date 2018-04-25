@@ -105,13 +105,15 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="instring" kind="3">agent_idx_show_cod</parameter>
-        <statement test="_v(param.agent_idx_show_cod)"><![CDATA[and AGENT_IDX.Show_cod in(:agent_idx_show_cod)]]></statement>
+        <statement test="_v(param.agent_idx_show_cod)">
+            <![CDATA[and AGENT_IDX.Show_cod in(:agent_idx_show_cod)]]></statement>
         <parameter type="instring" kind="3">contry_cod</parameter>
         <statement test="_v(param.contry_cod)"><![CDATA[and GHIST_MN.Contry_cod in(:contry_cod)]]></statement>
         <parameter type="instring" kind="3">dm_flag</parameter>
         <statement test="_v(param.dm_flag)"><![CDATA[and ghist_mn.Dm_flag in(:dm_flag)]]></statement>
         <parameter type="instring" kind="3">birth_dat</parameter>
-        <statement test="_v(param.birth_dat)"><![CDATA[and to_char( cust_idx.birth_dat, 'mm' ) in(:birth_dat)]]></statement>
+        <statement test="_v(param.birth_dat)">
+            <![CDATA[and to_char( cust_idx.birth_dat, 'mm' ) in(:birth_dat)]]></statement>
         <parameter type="string" kind="2" condition="ghist_mn.Show_cod like ?">show_cod</parameter>
         <parameter type="string" kind="2" condition="GHIST_MN.Ccust_nam like ?">ccust_nam</parameter>
         <parameter type="string" kind="2" condition="CUST_IDX.Id_cod like ?">id_cod</parameter>
@@ -120,7 +122,7 @@
         <parameter type="string" kind="2" condition="GHIST_VISIT_DT.Trans_tot like ?">trans_tot</parameter>
         <parameter type="string" kind="2" condition="GHIST_VISIT_DT.Visit_days like ?">visit_days</parameter>
         <parameter type="string" kind="2" condition="GHIST_VISIT_DT.Visit_nos like ?">visit_nos</parameter>
-        <parameter type="string" kind="3" >name</parameter>
+        <parameter type="string" kind="3">name</parameter>
         <statement test="_v(param.name)"><![CDATA[
         AND (cust_idx.last_nam like :name or cust_idx.first_nam like :name)
         ]]></statement>
@@ -140,5 +142,19 @@
         ]]></statement>
 
 
+    </dao>
+
+    <!--PMS0610020 商務公司資料編輯 檢查此相關人員是否已在住客歷史中使用 -->
+    <dao name="CHK_RELATED_PERSON_IN_GHIST_MN">
+        <statement><![CDATA[
+			SELECT  COUNT(*) related_person_count
+            FROM  GHIST_MN
+            WHERE ATHENA_ID = :athena_id
+            AND  GCUST_COD = :per_cust_cod
+            AND  ROWNUM <= 1
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">per_cust_cod</parameter>
     </dao>
 </root>

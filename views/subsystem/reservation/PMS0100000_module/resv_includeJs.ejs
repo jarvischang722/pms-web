@@ -45,10 +45,10 @@
                 columns: [[
                     {field: 'addDel', title: '<i class="fa fa-plus green"></i>', width: 28, align: 'center'},
                     {field: 'No', title: 'No', width: 30},
-                    {field: 'Status', title: 'Status', width: 40},
-                    {field: 'CIDate', title: 'CI Date', width: 75},
+                    {field: 'Status', title: 'Status', width: 45},
+                    {field: 'CIDate', title: 'CI Date', width: 145},
                     {field: 'Days', title: 'Days', width: 40},
-                    {field: 'CODate', title: 'CO Date', width: 75},
+                    {field: 'CODate', title: 'CO Date', width: 145},
                     {field: 'RateCode', title: 'Rate Code', width: 140},
                     {field: 'RunTypeForSell', title: 'Rm. Type For Sell', width: 60},
                     {field: 'TypeForAssign', title: 'Use Type', align: 'right', width: 60},
@@ -61,8 +61,32 @@
                 ]]
             });
 
-        });
+            // vue
+            // 訂房卡單筆 table
+            let resv_vm = new Vue({
+                el: '#reservationDialog-1-message',
+                data: {
+                    ciDate1: new Date(),
+                    coDate1: new Date(),
+                    ciDate2: new Date(),
+                    coDate2: new Date(),
+                    ciDate3: new Date(),
+                    coDate3: new Date(),
+                    ciDate4: new Date(),
+                    coDate4: new Date(),
+                    ciDate5: new Date(),
+                    coDate5: new Date(),
+                    ciDate6: new Date(),
+                    coDate6: new Date(),
+                    ciTime1: new Date(),
+                    coTime1: new Date(),
+                }
+            })
 
+            // 訂房卡單筆
+            $("#resvSingle-table").tableHeadFixer({"left": 1});
+
+        });
 
         // 彈出 住客歷史
         $(document).on('click', ".reservationDialog-2", function (e) {
@@ -1066,14 +1090,351 @@
         // 彈出setRateCode　公帳號
         $(document).on('click', ".publicAccount-btn", function (e) {
             e.preventDefault();
-            var dialog = $("#publicAccountDialog").removeClass('hide').dialog({
+            var dialog = $("#publicAccount-msg").removeClass('hide').dialog({
                 modal: true,
                 title: "公帳號",
                 title_html: true,
+                width: 400,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 更多備註
+        $(document).on('click', ".moreRmks", function (e) {
+            e.preventDefault();
+            var dialog = $("#moreRmks-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "備註",
+                title_html: true,
                 width: 600,
                 maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 其他聯絡方式
+        $(document).on('click', ".othContact", function (e) {
+            e.preventDefault();
+            var dialog = $("#othContact-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "其他聯絡方式",
+                title_html: true,
+                width: 400,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 選擇房價
+        $(document).on('click', ".choiceRmPrice", function (e) {
+            e.preventDefault();
+            var dialog = $("#choiceRmPrice-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "選擇房價",
+                title_html: true,
+                width: 450,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+            let chRmPriceTable = new Vue({
+                name: 'frozen-title-columns',
+                el: '#choiceRmPrice-msg',
+                data: {
+                    tableData: [
+                        {
+                            "chMenu": "Booking",
+                            "newCode": "A0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "chMenu": "Agoda",
+                            "newCode": "B0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "chMenu": "線上",
+                            "newCode": "C0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "chMenu": "Booking",
+                            "newCode": "D0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "chMenu": "Expedia",
+                            "newCode": "E0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        }
+                    ],
+                    columns: [
+                        {
+                            field: 'chMenu',
+                            title: '選單',
+                            width: 80,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'newCode',
+                            title: '房價代號',
+                            width: 90,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'newName',
+                            title: '房價名稱',
+                            width: 90,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'anotherName',
+                            title: '房價別名',
+//                        width: 90,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        }
+                    ]
+                },
+                methods: {
+                    columnCellClass(rowIndex, columnName, rowData){
+
+                        if (rowIndex >= 0) {
+                            return 'v-easy-s1';
+                        }
+                    },
+                }
+            });
+        });
+
+        // 彈出 酬賓計畫卡號
+        $(document).on('click', ".agent-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#agent-btn-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "酬賓計劃卡號",
+                title_html: true,
+                width: 450,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+            let agentBtn = new Vue({
+                name: 'frozen-title-columns',
+                el: '#agent-btn-msg',
+                data: {
+                    tableData: [
+                        {
+                            "no": "6Y",
+                            "name": "尼加拉瓜航空公司",
+                        },
+                        {
+                            "no": "8L",
+                            "name": "大菲航空公司",
+                        },
+                        {
+                            "no": "AA",
+                            "name": "美國航空公司",
+                        },
+                        {
+                            "no": "AC",
+                            "name": "楓葉航空公司",
+                        },
+                        {
+                            "no": "AE",
+                            "name": "華信航空公司",
+                        },
+                        {
+                            "no": "AF",
+                            "name": "亞洲法國航空公司",
+                        },
+                        {
+                            "no": "AI",
+                            "name": "印度航空公司",
+                        },
+                        {
+                            "no": "AK",
+                            "name": "大馬亞洲航空公司",
+                        },
+                    ],
+                    columns: [
+                        {
+                            width: 40,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            type: 'selection',
+                            titleCellClassName: 'v-easy-s1'
+                        },
+                        {
+                            field: 'no',
+                            title: '代號',
+                            width: 70,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'name',
+                            title: '名稱',
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                    ]
+                },
+                methods: {
+                    selectALL(selection){
+                    },
+
+                    selectChange(selection, rowData){
+                    },
+
+                    selectGroupChange(selection){
+                    },
+                    columnCellClass(rowIndex, columnName, rowData){
+
+                        if (rowIndex >= 0) {
+                            return 'v-easy-s1';
+                        }
+                    },
+                }
+            });
+        });
+
+        // 彈出 手動選取
+        $(document).on('click', ".selectManually", function (e) {
+            e.preventDefault();
+            var dialog = $("#selectManually-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "手動選取",
+                title_html: true,
+                width: 450,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+            let selectManually = new Vue({
+                name: 'frozen-title-columns',
+                el: '#selectManually-msg',
+                data: {
+                    tableData: [
+                        {
+                            "PA": "G85",
+                            "category": "系統產生",
+                            "currentState": "未使用",
+                            "customerCode": "",
+                        },
+                        {
+                            "PA": "G83",
+                            "category": "系統產生",
+                            "currentState": "未使用",
+                            "customerCode": "",
+                        },
+                        {
+                            "PA": "G95",
+                            "category": "系統產生",
+                            "currentState": "未使用",
+                            "customerCode": "",
+                        },
+                        {
+                            "PA": "P004",
+                            "category": "系統產生",
+                            "currentState": "未使用",
+                            "customerCode": "",
+                        },
+                        {
+                            "PA": "G88",
+                            "category": "系統產生",
+                            "currentState": "未使用",
+                            "customerCode": "",
+                        },
+                        {
+                            "PA": "G92",
+                            "category": "系統產生",
+                            "currentState": "未使用",
+                            "customerCode": "",
+                        },
+                    ],
+                    columns: [
+                        {
+                            field: 'PA',
+                            title: '公帳號',
+                            width: 70,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'category',
+                            title: '類別',
+                            width: 70,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'currentState',
+                            title: '目前狀態',
+                            width: 70,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'customerCode',
+                            title: '客戶代號',
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                    ]
+                },
+                methods: {
+                    columnCellClass(rowIndex, columnName, rowData){
+
+                        if (rowIndex >= 0) {
+                            return 'v-easy-s1';
+                        }
+                    },
+                }
+            });
+        });
+
+        // 彈出 訂房取消
+        $(document).on('click', ".cancelRm", function (e) {
+            e.preventDefault();
+            var dialog = $("#cancelRm-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "訂房取消",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
                 dialogClass: "test",
                 resizable: true
             });
@@ -1453,7 +1814,7 @@
             e.preventDefault();
             var dialog = $("#foCnt_roomAssign-message").removeClass('hide').dialog({
                 modal: true,
-                title: "Room Assign [Rv:11023451] [C/I:2018/02/13]",
+                title: "Room Assign [Rv:11023451]",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -1462,7 +1823,6 @@
                 dialogClass: "test",
                 resizable: true
             });
-
         });
 
         <!-- ********* dataGrid ********* -->
@@ -1617,13 +1977,8 @@
     });
     $(function () {
 
-//      超訂overBooking PMS0120020
-        $('#PMS0120020-table').fixedHeaderTable({
-            cloneHeadToFoot: false,
-            fixedColumns: 1,
-            addPxForFixedColumnsWidth: 80,
-            everyColumnsAddWith: 0
-        });
+        // 超訂overBooking PMS0120020
+        $("#PMS0120020-table").tableHeadFixer({"left": 1});
 
 //      專案訂房 PMS0110030
         $('#PMS0110030-table').fixedHeaderTable({

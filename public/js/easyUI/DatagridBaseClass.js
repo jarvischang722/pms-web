@@ -122,9 +122,9 @@ function DatagridBaseClass() {
         });
     };
 
-    this.setpage = function (pageNo) {
+    this.setpage = function (pageNo, pageSize) {
+        $('#' + self.dgName).datagrid('options').pageSize = pageSize;
         var pager = $('#' + self.dgName).datagrid("getPager");
-        var pageSize = $('#' + self.dgName).datagrid('options').pageSize;
         var start = (pageNo - 1) * pageSize;
         var end = start + pageSize;
         $('#' + self.dgName).datagrid("loadData", self.dgData.slice(start, end));
@@ -212,7 +212,8 @@ function DatagridBaseClass() {
      * 排序觸發事件
      */
     this.doSortColumn = function () {
-        self.setpage(1);
+        var pageSize = $('#' + self.dgName).datagrid('options').pageSize;
+        self.setpage(1, pageSize);
     };
 
     /**
@@ -267,6 +268,8 @@ function DatagridBaseClass() {
                     prg_id: self.prg_id
                 };
             }
+
+            lo_param['allRows'] = $('#' + self.dgName).datagrid('getRows');
 
             $.post("/api/handleDataGridAddEventRule", lo_param, function (result) {
                 var prgDefaultObj = {createRow: 'Y'};
@@ -329,6 +332,7 @@ function DatagridBaseClass() {
                 deleteData: self.tmpCUD.deleteData
             };
         }
+
         $.post("/api/handleDataGridDeleteEventRule", lo_param, function (result) {
             if (result.success) {
                 $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
@@ -417,7 +421,6 @@ function DatagridBaseClass() {
                 if (existOriIdx == -1) {
                     lo_chkKeyRowData = this.insertKeyRowData(lo_chkKeyRowData);
                     self.tmpCUD[dataType].push(lo_chkKeyRowData);
-                    self.tmpCUD.oriData.push(self.dtOriRowData[index]);
                     $("#gridEdit").val(self.tmpCUD);
                 }
             }

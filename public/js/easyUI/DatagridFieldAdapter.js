@@ -149,7 +149,14 @@ var DatagridFieldAdapter = {
                 return new Date();
             };
 
-            tmpFieldObj.formatter = dateFunc;
+            var notEditorFunc = function(date){
+                if(date != "" && !_.isUndefined(date) && !_.isNull(date)){
+                    return moment(date).format("YYYY/MM/DD");
+                }
+                return "";
+            };
+
+            tmpFieldObj.formatter = notEditorFunc;
             tmpFieldObj.editor.options.editable = false;
             tmpFieldObj.editor.options.parser = dateParserFunc;
             tmpFieldObj.editor.options.formatter = dateFunc;
@@ -190,15 +197,15 @@ var DatagridFieldAdapter = {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.valueField = 'value';
             tmpFieldObj.editor.options.textField = 'display';
-            tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
+            tmpFieldObj.editor.options.data = fieldAttrObj.selectDataDisplay;
             tmpFieldObj.editor.options.editable = false;
             tmpFieldObj.formatter = function (val, row, index) {
                 if (val != null) {
                     var datas = val.split(",");
                     var allValues = "";
                     _.each(datas, function (field) {
-                        if (_.findIndex(fieldAttrObj.selectData, {value: field}) > -1) {
-                            var valueName = _.findWhere(fieldAttrObj.selectData, {value: field}).display;
+                        if (_.findIndex(fieldAttrObj.selectDataDisplay, {value: field}) > -1) {
+                            var valueName = _.findWhere(fieldAttrObj.selectDataDisplay, {value: field}).display;
                             allValues += "," + valueName;
                         }
                     });

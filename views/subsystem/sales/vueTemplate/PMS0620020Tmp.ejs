@@ -78,7 +78,7 @@
                                                 v-model="rowData[field.ui_field_name]" :data="field.selectData"
                                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                                 @update:v-model="val => rowData[field.ui_field_name] = val"
-                                                :default-val="rowData[field.ui_field_name]"
+                                                :default-val="rowData[field.ui_field_name]" :field="field"
                                                 :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                     </bac-select>
@@ -93,7 +93,7 @@
                                                      :id-field="field.selectData.value"
                                                      :text-field="field.selectData.display"
                                                      @update:v-model="val => rowData[field.ui_field_name] = val"
-                                                     :default-val="rowData[field.ui_field_name]"
+                                                     :default-val="rowData[field.ui_field_name]" :field="field"
                                                      :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                     </bac-select-grid>

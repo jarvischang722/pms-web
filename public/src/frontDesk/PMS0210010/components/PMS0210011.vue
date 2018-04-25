@@ -43,7 +43,7 @@
                                                                 v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                 v-model="singleData[field.ui_field_name]"
-                                                                :data="field.selectData"
+                                                                :data="field.selectData" :field="field"
                                                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                                                 @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 @update:v-model="val => singleData[field.ui_field_name] = val"
@@ -58,7 +58,7 @@
                                                                 :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                 v-model="singleData[field.ui_field_name]"
                                                                 :columns="field.selectData.columns"
-                                                                :data="field.selectData.selectData"
+                                                                :data="field.selectData.selectData" :field="field"
                                                                 :is-qry-src-before="field.selectData.isQrySrcBefore"
                                                                 :id-field="field.selectData.value"
                                                                 :text-field="field.selectData.display"
@@ -69,7 +69,7 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                         </bac-select-grid>
 
-                                                        <input type="text" v-model="singleData[field.ui_field_name]"
+                                                        <input type="number" v-model="singleData[field.ui_field_name]"
                                                                v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
@@ -80,7 +80,7 @@
                                                         <el-date-picker
                                                                 v-if="field.visiable == 'Y' && field.ui_type == 'date'"
                                                                 v-model="singleData[field.ui_field_name]"
-                                                                type="datetime"
+                                                                type="date"
                                                                 change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 :disabled="field.modificable == 'N'||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
@@ -94,7 +94,7 @@
                                                         <el-date-picker
                                                                 v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
                                                                 v-model="singleData[field.ui_field_name]"
-                                                                type="date"
+                                                                type="datetime"
                                                                 size="small"
                                                                 :disabled="field.modificable == 'N'||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
@@ -429,6 +429,7 @@
     /** DatagridRmSingleGridClass **/
     function DataGridSingleGridClass() {
     }
+
     DataGridSingleGridClass.prototype = new DatagridBaseClass();
     DataGridSingleGridClass.prototype.onClickRow = function (idx, row) {
     };
@@ -440,6 +441,52 @@
         name: 'pms0210011',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
         components: {otherContact, lostAndFound, visitsPanel},
+        created() {
+            this.$eventHub.$on("doSaveModifyData", () => {
+                _.each(this.singleData, (val, key) => {
+                    if (_.isUndefined(val)) {
+                        this.singleData[key] = null;
+                    }
+                });
+                let lo_allData = {
+                    singleData: this.$store.state.go_profileSingleData,
+                    emailData: this.$store.state.ga_emailDataGridRowsData,
+                    contactData: this.$store.state.ga_contactDataGridRowsData,
+                    addressData: this.$store.state.ga_addressDataGridRowsData
+                };
+                let lo_oriAllData = {
+                    singleData: this.$store.state.go_oriProfileSingleData,
+                    emailData: this.$store.state.ga_oriEmailDataGridRowsData,
+                    contactData: this.$store.state.ga_oriContactDataGridRowsData,
+                    addressData: this.$store.state.ga_oriAddressDataGridRowsData
+                };
+
+                _.each(lo_oriAllData["emailData"], (lo_emailData, idx) => {
+                    lo_oriAllData["emailData"][idx] = _.extend(lo_emailData, {
+                        cust_cod: this.$store.state.gs_gcustCod,
+                        athena_id: lo_allData["emailData"][idx]["athena_id"]
+                    });
+                });
+                _.each(lo_oriAllData["contactData"], (lo_contactData, idx) => {
+                    lo_oriAllData["contactData"][idx]["contact_dt.athena_id"] = lo_allData["contactData"][idx]["contact_dt.athena_id"];
+                    lo_oriAllData["contactData"][idx]["contact_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+
+                });
+                _.each(lo_oriAllData["addressData"], (lo_addressData, idx) => {
+                    lo_oriAllData["addressData"][idx]["address_dt.athena_id"] = lo_allData["addressData"][idx]["address_dt.athena_id"];
+                    lo_oriAllData["addressData"][idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                });
+
+                let lo_isModify = go_validateClass.chkDataChang(lo_allData, lo_oriAllData);
+
+                if (!lo_isModify.success) {
+                    let lb_confirm = confirm(lo_isModify.msg);
+                    if (lb_confirm) {
+                        this.doSaveData();
+                    }
+                }
+            });
+        },
         mounted() {
             this.isLoadingDialog = true;
             this.loadingText = "Loading...";
@@ -482,7 +529,7 @@
                     val.last_nam = val["cust_idx.last_nam"];
 
                     //公司名稱
-                    val.ccust_nam = val["cust_idx.comp_nam"];
+                    val["cust_idx.comp_nam"] = val.ccust_nam;
 
                     //性別
                     val.sex_typ = val["cust_idx.sex_typ"];
@@ -712,12 +759,12 @@
 
                     if (lo_saveProfileDataRes.success && lo_saveOtherContactDataRes.success) {
                         alert(go_i18nLang.SystemCommon.saveSuccess);
-                        this.doCloseDialog();
                     }
                     else {
                         alert(lo_saveProfileDataRes.errorMsg)
                     }
                     this.isLoadingDialog = false;
+                    this.$store.dispatch("setAllDataClear");
                 }
             },
             async doDeleteData() {

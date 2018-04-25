@@ -1202,23 +1202,23 @@
         $('#roomDetail-table').datagrid({
             singleSelect: true,
             collapsible: true,
-            // 從json 撈
             url: '/jsonData/frontDesk/front_roomAssign-1.json',
             method: 'get',
             columns: [[
-                {field: 'cardCode', title: '訂房卡號', width: 100},
-                {field: 'resv', title: '訂房', width: 50},
-                {field: 'assignRoom', title: '排房', width: 50},
-                {field: 'ciNum', title: 'C/I', width: 50},
+                {field: 'exclamation', title: '', width: 25},
+                {field: 'cardCode', title: '訂房卡號', width: 80},
+                {field: 'resv', title: '訂房', width: 40},
+                {field: 'assignRoom', title: '排房', width: 40},
+                {field: 'ciNum', title: 'C/I', width: 40},
                 {field: 'proxyCompanyName', title: '團號', width: 100},
-                {field: 'ciDate', title: '入住日期', width: 100},
-                {field: 'coDate', title: '退房日期', width: 100},
-                {field: 'cRoom', title: '計價房型', width: 100},
-                {field: 'useRoom', title: '使用房型', width: 100},
+                {field: 'ciDate', title: '入住日期', width: 80},
+                {field: 'coDate', title: '退房日期', width: 80},
+                {field: 'cRoom', title: '計價房型', width: 80},
+                {field: 'useRoom', title: '使用房型', width: 80},
                 {field: 'resvCompany', title: '訂房公司', width: 100},
-                {field: 'adult', title: '大人', width: 50},
-                {field: 'child', title: '小孩', width: 50},
-                {field: 'baby', title: '嬰兒', width: 50}
+                {field: 'adult', title: '大人', width: 40},
+                {field: 'child', title: '小孩', width: 40},
+                {field: 'baby', title: '嬰兒', width: 40}
             ]]
         });
 
@@ -1230,18 +1230,18 @@
             url: '/jsonData/frontDesk/front_roomAssign-2.json',
             method: 'get',
             columns: [[
-                {field: 'cardCode', title: '訂房卡號', width: 100},
-                {field: 'bookingNum', title: '房組', width: 50},
-                {field: 'name', title: '住客姓名', width: 50},
-                {field: 'roomAssignNum', title: '排房', width: 50},
-                {field: 'roomNum', title: '房號', width: 50},
-                {field: 'roomAssignHousing', title: '排房房型', width: 100},
-                {field: 'useHousing', title: '使用房型', width: 100},
-                {field: 'lockRoomAssign', title: '鎖定排房', width: 100},
-                {field: 'roomNumCode', title: '房價代號', width: 150},
-                {field: 'adult', title: '大人', width: 50},
-                {field: 'child', title: '小孩', width: 50},
-                {field: 'baby', title: '嬰兒', width: 50}
+                {field: 'cardCode', title: '訂房卡號', width: 80},
+                {field: 'bookingNum', title: '房組', width: 40},
+                {field: 'name', title: '住客姓名', width: 100},
+                {field: 'roomAssignNum', title: '排房', width: 40},
+                {field: 'roomNum', title: '房號', width: 40},
+                {field: 'roomAssignHousing', title: '排房房型', width: 80},
+                {field: 'useHousing', title: '使用房型', width: 80},
+                {field: 'lockRoomAssign', title: '鎖定排房', width: 60},
+                {field: 'roomNumCode', title: '房價代號', width: 80},
+                {field: 'adult', title: '大人', width: 40},
+                {field: 'child', title: '小孩', width: 40},
+                {field: 'baby', title: '嬰兒', width: 40}
             ]]
         });
 
@@ -1281,7 +1281,8 @@
                 {field: 'rmSta', title: 'Rm. Sta.', width: 70},
                 {field: 'hkSta', title: 'HK Sta.', width: 70},
                 {field: 'oos', title: 'OOS', width: 70},
-                {field: 'assign', title: 'Assign', width: 100},
+                {field: 'assign', title: 'Assign', width: 70},
+                {field: 'demolition', title: '拆併床', width: 70},
                 {field: 'name', title: 'Full Name', width: 100},
                 {field: 'ciDate', title: 'C/I Date', width: 100},
                 {field: 'coDate', title: 'C/O Date', width: 100},
@@ -1411,17 +1412,90 @@
         });
 
         // PMS0210020 綜合櫃檯 相關設定 & 全部設定切換
-        $(document).on('click','.related-set1',function (e) {
+        $(document).on('click', '.related-set1', function (e) {
             $(this).parents('.pageMain').find('.counterBlock').fadeOut('800');
-            $(this).parents('.pageMain').find('.resultCount').css('min-width','95%');
+            $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
             $(this).parents('.pageMain').find('.related-set-block').fadeIn('800');
             $(this).html("全部房號").addClass('related-set2').removeClass('related-set1');
-        })
-        $(document).on('click','.related-set2',function (e) {
+        });
+        $(document).on('click', '.related-set2', function (e) {
             $(this).parents('.pageMain').find('.counterBlock').fadeIn('800');
-            $(this).parents('.pageMain').find('.resultCount').css('min-width','');
+            $(this).parents('.pageMain').find('.resultCount').css('min-width', '');
             $(this).html("相關房號").addClass('related-set1').removeClass('related-set2');
-        })
+        });
+
+        // 指定綜合櫃檯 選擇條件 (OC/OD/....)
+        $(document).on('click', '.status-tip', function () {
+            $('.status-tip').removeClass('status-tip-active');
+            $(this).addClass('status-tip-active');
+            let statusData = $(this).data('class');
+
+            if (statusData == 'cb-oc-od') {
+                $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
+                $(this).parents('.foCounter').find('.cb-oc-od').fadeIn('800');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
+            }
+            else if (statusData == 'cb-ob') {
+                $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
+                $(this).parents('.foCounter').find('.cb-ob').fadeIn('800');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
+            }
+            else if (statusData == 'cb-doc-dod') {
+                $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
+                $(this).parents('.foCounter').find('.cb-doc-dod').fadeIn('800');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
+            }
+            else if (statusData == 'cb-dod') {
+                $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
+                $(this).parents('.foCounter').find('.cb-dod').fadeIn('800');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
+            }
+            else if (statusData == 'cb-vc-vd') {
+                $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
+                $(this).parents('.foCounter').find('.cb-vc-vd').fadeIn('800');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
+            }
+            else if (statusData == 'cb-ooo') {
+                $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
+                $(this).parents('.foCounter').find('.cb-ooo').fadeIn('800');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
+            }
+            else if (statusData == 'cb-vc-vdGreen') {
+                $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
+                $(this).parents('.foCounter').find('.cb-vc-vdGreen').fadeIn('800');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
+            }
+            else if (statusData == 'cb-oos') {
+                $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
+                $(this).parents('.foCounter').find('.cb-oos').fadeIn('800');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
+            }
+            else if (statusData == 'cb-s') {
+                $(this).parents('.foCounter').find('.counterBlock').fadeOut('800');
+                $(this).parents('.foCounter').find('.cb-s').fadeIn('800');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '95%');
+            }
+            else if (statusData == 'cb-all') {
+                $(this).parents('.foCounter').find('.counterBlock').fadeIn('800');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '');
+            }
+            else {
+                $(this).parents('.foCounter').find('.counterBlock').fadeIn('800');
+                $(this).parents('.pageMain').find('.resultCount').css('min-width', '');
+            }
+        });
+
+        // room Assign (RM Features 右側控制下方textArea 行數)
+        $(document).on('click','.show-text-more', function(){
+            let qnt = $(this).parents('.room-special').find('.text-more').attr('rows');
+            if(qnt == 1){
+                $(this).parents('.room-special').find('.text-more').attr('rows','4');
+            }else{
+                $(this).parents('.room-special').find('.text-more').attr('rows','1');
+            }
+
+        });
+
     });
 
 </script>

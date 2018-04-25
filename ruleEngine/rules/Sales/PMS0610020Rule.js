@@ -61,7 +61,7 @@ module.exports = {
                     "nos_nam": "CUST_COD",
                     "link_dat": "2000/01/01"
                 };
-                tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
                     if (apiErr || !data) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
@@ -99,7 +99,7 @@ module.exports = {
      * @param session
      * @param callback
      */
-    sel_area_cod_kvrf_single: function(postData, session, callback){
+    sel_area_cod_kvrf_single: function (postData, session, callback) {
         let self = this;
         let lo_error = null;
         let lo_result = new ReturnClass();
@@ -180,7 +180,9 @@ module.exports = {
         let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
         let lo_param = {
             athena_id: session.user.athena_id,
-            hotel_cod: postData.rowData.hotel_cod
+            hotel_cod: ls_hotelCod,
+            end_dat: ls_endDat,
+            begin_dat: ls_beginDat
         };
 
         async.waterfall([
@@ -200,7 +202,7 @@ module.exports = {
                     if (err) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = "sql err";
+                        lo_error.errorMsg = err.message;
                         cb(lo_error, lo_result);
                     }
                     else if (getResult > 0) {
@@ -241,7 +243,7 @@ module.exports = {
         }
 
         function setRateCodSelectData(result, cb) {
-            if (ls_rateCod != "" && ls_endDat != "" && ls_rateCod != "") {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
                 queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
@@ -282,7 +284,9 @@ module.exports = {
         let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
         let lo_param = {
             athena_id: session.user.athena_id,
-            hotel_cod: postData.rowData.hotel_cod
+            hotel_cod: ls_hotelCod,
+            end_dat: ls_endDat,
+            begin_dat: ls_beginDat
         };
 
         async.waterfall([
@@ -301,7 +305,7 @@ module.exports = {
                     if (err) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = "sql err";
+                        lo_error.errorMsg = err.message;
                         cb(lo_error, lo_result);
                     }
                     else if (getResult > 0) {
@@ -322,7 +326,7 @@ module.exports = {
         }
 
         function setRateCodSelectData(result, cb) {
-            if (ls_rateCod != "" && ls_endDat != "" && ls_rateCod != "") {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
                 queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
@@ -375,7 +379,7 @@ module.exports = {
         });
 
         function setRateCodSelectData(cb) {
-            if (ls_hotelCod != "" && ls_endDat != "" && ls_beginDat != "") {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
                 queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
@@ -488,7 +492,7 @@ module.exports = {
             "link_dat": "2000/01/01"
         };
 
-        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
             if (apiErr || !data) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
@@ -503,7 +507,9 @@ module.exports = {
             else {
                 let ls_cod = data["SERIES_NOS"].toString();
                 let ls_perCustCod = "CSP" + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
-                lo_result.defaultValues = {per_cust_cod: ls_perCustCod};
+                let la_allRows = _.sortBy(postData.allRows, "seq_nos");
+                let ln_seq_nos = Number(la_allRows[la_allRows.length - 1].seq_nos) || 0;
+                lo_result.defaultValues = {per_cust_cod: ls_perCustCod, seq_nos: ln_seq_nos + 1};
             }
             callback(lo_error, lo_result);
         });
@@ -825,7 +831,8 @@ module.exports = {
                         home_tel: lo_dtCreateData.home_tel,
                         e_mail: lo_dtCreateData.e_mail,
                         birth_dat: lo_dtCreateData.birth_dat,
-                        sex_typ: lo_dtCreateData.sex_typ
+                        sex_typ: lo_dtCreateData.sex_typ,
+                        show_cod: lo_dtCreateData.per_cust_cod
                     });
                 }
             });
@@ -1015,7 +1022,8 @@ module.exports = {
                         home_tel: lo_dtCreateData.home_tel,
                         e_mail: lo_dtCreateData.e_mail,
                         birth_dat: lo_dtCreateData.birth_dat,
-                        sex_typ: lo_dtCreateData.sex_typ
+                        sex_typ: lo_dtCreateData.sex_typ,
+                        show_cod: lo_dtCreateData.per_cust_cod
                     });
                 }
             });
@@ -1061,7 +1069,8 @@ module.exports = {
         }
 
         function deleteCustIdx(data, cb) {
-            let ln_rpDataCount = 0;
+            let ln_examCustCount = 0;
+            let ln_examGhistCount = 0;
             let la_rpData = [];
 
             if (la_dtDeleteData.length > 0) {
@@ -1073,41 +1082,85 @@ module.exports = {
                 });
 
                 if (la_rpData.length > 0) {
-                    //檢查此相關人員的客戶索引檔是否被使用，沒有則刪除此相關人員的客戶索引檔
-                    _.each(la_rpData, function (lo_rpData) {
-                        queryAgent.query("CHK_RELATED_PERSON_IS_USED", {
-                            athena_id: session.user.athena_id,
-                            per_cust_cod: lo_rpData.per_cust_cod,
-                            cust_cod: lo_mnSaveData.cust_cod
-                        }, function (err, getResult) {
-                            ln_rpDataCount++;
-                            if (err) {
-                                lo_result.success = false;
-                                lo_error = new ErrorClass();
-                                lo_error.errorMsg = "sql err";
-                                return cb(lo_error, lo_result);
-                            }
-                            else {
-                                if (getResult.fincust_mn_count <= 0) {
-                                    lo_result.extendExecDataArrSet.push({
-                                        function: '0',
-                                        table_name: 'cust_idx',
-                                        condition: [{
-                                            key: 'athena_id',
-                                            operation: "=",
-                                            value: userInfo.athena_id
-                                        }, {
-                                            key: 'cust_cod',
-                                            operation: "=",
-                                            value: lo_rpData.per_cust_cod
-                                        }]
-                                    });
-                                    if (ln_rpDataCount == la_rpData.length) {
-                                        cb(lo_error, lo_result);
+                    async.waterfall([
+                        //檢查此相關人員的客戶索引檔是否被使用
+                        function (rp_cb) {
+                            _.each(la_rpData, function (lo_rpData) {
+                                queryAgent.query("CHK_RELATED_PERSON_IS_USED", {
+                                    athena_id: session.user.athena_id,
+                                    per_cust_cod: lo_rpData.per_cust_cod,
+                                    cust_cod: lo_mnSaveData.cust_cod
+                                }, function (err, getResult) {
+                                    ln_examGhistCount++;
+                                    if (err) {
+                                        lo_result.success = false;
+                                        lo_error = new ErrorClass();
+                                        lo_error.errorMsg = "sql err";
+                                        return rp_cb(lo_error, lo_result);
                                     }
-                                }
-                            }
-                        });
+                                    else {
+                                        if (getResult.related_person_count <= 0) {
+                                            if (ln_examGhistCount == la_rpData.length) {
+                                                rp_cb(lo_error, lo_result);
+                                            }
+                                        }
+                                        else {
+                                            lo_result.success = false;
+                                            lo_error = new ErrorClass();
+                                            let ls_errMsg = commandRules.getMsgByCod("pms61msg11", session.locale);
+                                            lo_error.errorMsg = _s.sprintf(ls_errMsg, lo_rpData.per_cust_cod);
+                                            return rp_cb(lo_error, lo_result);
+                                        }
+                                    }
+                                });
+                            });
+                        },
+                        //檢查此相關人員是否被住客歷史使用，沒有則刪除此相關人員的客戶索引檔
+                        function (rpData, rp_cb) {
+                            _.each(la_rpData, function (lo_rpData) {
+                                queryAgent.query("CHK_RELATED_PERSON_IN_GHIST_MN", {
+                                    athena_id: session.user.athena_id,
+                                    per_cust_cod: lo_rpData.per_cust_cod
+                                }, function (err, getResult) {
+                                    ln_examCustCount++;
+                                    if (err) {
+                                        lo_result.success = false;
+                                        lo_error = new ErrorClass();
+                                        lo_error.errorMsg = "sql err";
+                                        return rp_cb(lo_error, lo_result);
+                                    }
+                                    else {
+                                        if (getResult.related_person_count <= 0) {
+                                            lo_result.extendExecDataArrSet.push({
+                                                function: '0',
+                                                table_name: 'cust_idx',
+                                                condition: [{
+                                                    key: 'athena_id',
+                                                    operation: "=",
+                                                    value: userInfo.athena_id
+                                                }, {
+                                                    key: 'cust_cod',
+                                                    operation: "=",
+                                                    value: lo_rpData.per_cust_cod
+                                                }]
+                                            });
+                                            if (ln_examCustCount == la_rpData.length) {
+                                                rp_cb(lo_error, lo_result);
+                                            }
+                                        }
+                                        else {
+                                            lo_result.success = false;
+                                            lo_error = new ErrorClass();
+                                            let ls_errMsg = commandRules.getMsgByCod("pms61msg12", session.locale);
+                                            lo_error.errorMsg = _s.sprintf(ls_errMsg, lo_rpData.per_cust_cod);
+                                            return rp_cb(lo_error, lo_result);
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    ], function (reErr, rpResult) {
+                        cb(lo_error, lo_result);
                     });
                 }
                 else {
@@ -1136,6 +1189,7 @@ function convertData2TreeData(lo_selectRowData, lo_parent_node) {
         });
     }
 }
+
 //tree 的基本資料結構
 class node {
     constructor(lo_rowData) {

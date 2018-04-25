@@ -114,7 +114,7 @@
                                                                 <bac-select v-model="data['address_dt.zip_cod']" :data="zipCodSelectData"
                                                                             is-qry-src-before="Y" value-field="value" text-field="display"
                                                                             @update:v-model="val => data['address_dt.zip_cod'] = val"
-                                                                            :default-val="data['address_dt.zip_cod']">
+                                                                            :default-val="data['address_dt.zip_cod']" field="{}">
                                                                 </bac-select>
 
                                                             </td>
@@ -270,8 +270,8 @@
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
                         _.each(val, (lo_addressDataGridRows, idx) => {
-                            if (lo_addressDataGridRows["address_dt.zip_cod"] != null) {
-                                if (lo_addressDataGridRows["address_dt.add_rmk"] == null) {
+                            if (!_.isNull(lo_addressDataGridRows["address_dt.zip_cod"])) {
+                                if (_.isNull(lo_addressDataGridRows["address_dt.add_rmk"])) {
                                     let ls_zipCod = _.findWhere(this.zipCodSelectData, {value: lo_addressDataGridRows["address_dt.zip_cod"]})["display"];
                                     val[idx]["address_dt.add_rmk"] = ls_zipCod.split(":")[1]
                                 }

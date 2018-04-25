@@ -49,7 +49,7 @@ exports.qryPageOneData = function (postData, session, callback) {
             "user": "cio"
         };
 
-        tools.requestApi(sysConfig.api_url, params, function (err, res, result) {
+        tools.requestApi(sysConfig.api_url.dotnet, params, function (err, res, result) {
             let errorMsg = null;
             let data = "";
             if (err || !result) {
@@ -143,7 +143,7 @@ class ResvBanquetData {
                 parent_cod: null,
                 place_cod: null,
                 banquet_dt: self.genMtime_dt(lo_rspt.rspt_cod), //產生餐期資料
-                rowspan: 0
+                rowspan: 1
             };
             la_rowData.push(lo_rowData);
 
@@ -187,7 +187,7 @@ class ResvBanquetData {
                         parent_cod: "",
                         place_cod: lo_parentPlaceByRspt.place_cod,
                         banquet_dt: self.genOrder_dt(lo_parentPlaceByRspt.place_cod, []),
-                        rowspan: 0,
+                        rowspan: 1,
                         isChild: "N"
                     };
                     la_rowData.push(lo_rowData);
@@ -225,7 +225,7 @@ class ResvBanquetData {
                             parent_cod: lo_childPlaceByRspt.parent_cod,
                             place_cod: lo_childPlaceByRspt.place_cod,
                             banquet_dt: self.genOrder_dt(lo_childPlaceByRspt.place_cod, []),
-                            rowspan: 0,
+                            rowspan: 1,
                             isChild: "Y"
                         };
                         la_rowData.push(lo_rowData);
@@ -614,10 +614,12 @@ exports.qrySystemParam = function (postData, session, callback) {
 
     queryAgent.query(paramName, lo_params, function (err, Result) {
         if (!err) {
-            if (Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            if (Result) {
+                callback(lo_error, Result);
+            }
+            else {
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -638,10 +640,12 @@ exports.chk_use_typ = function (postData, session, callback) {
 
     queryAgent.query("CHK_USE_TYP", lo_params, function (err, Result) {
         if (!err) {
-            if (Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            if (Result) {
+                callback(lo_error, Result);
+            }
+            else {
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -660,10 +664,12 @@ exports.def_proc_sta = function (postData, session, callback) {
 
     queryAgent.query("DEF_PROC_STA", lo_params, function (err, Result) {
         if (!err) {
-            if (Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            if (Result) {
+                callback(lo_error, Result);
+            }
+            else {
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -684,10 +690,12 @@ exports.def_banlance_amt = function (postData, session, callback) {
 
     queryAgent.query("QRY_BANLANCE_AMT", lo_params, function (err, Result) {
         if (!err) {
-            if (Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            if (Result) {
+                callback(lo_error, Result);
+            }
+            else {
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -733,8 +741,9 @@ exports.qry_bqcust_mn = function (postData, session, callback) {
                     }
                 });
             }
-            else
-                {callback(lo_error, "");}
+            else {
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -762,7 +771,7 @@ exports.chgOrderStaAPI = function (postData, session, callback) {
         "upd_usr": postData.upd_usr
     };
 
-    tools.requestApi(sysConfig.api_url, apiParams, function (apiErr, apiRes, data) {
+    tools.requestApi(sysConfig.api_url.dotnet, apiParams, function (apiErr, apiRes, data) {
         let log_id = moment().format("YYYYMMDDHHmmss");
         let success = true;
         let errorMsg = "";
@@ -791,10 +800,12 @@ exports.getPlaceUnitAmt = function (postData, session, callback) {
 
     queryAgent.query("QRY_PLACE_UNIT_AMT", lo_params, function (err, Result) {
         if (!err) {
-            if (Result)
-                {callback(lo_error, Result);}
-            else
-                {callback(lo_error, "");}
+            if (Result) {
+                callback(lo_error, Result);
+            }
+            else {
+                callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();

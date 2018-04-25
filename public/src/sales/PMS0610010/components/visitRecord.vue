@@ -68,6 +68,7 @@
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
                                                         :default-val="singleData[field.ui_field_name] || field.defaultVal"
+                                                        :field="field"
                                                         :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
@@ -195,12 +196,12 @@
             },
             singleData: {
                 handler: function (val) {
-                    if(!_.isEmpty(val)){
+                    if (!_.isEmpty(val)) {
                         var self = this;
                         this.$eventHub.$emit("getVisitRecordSingleData", {
                             singleData: val,
-                            oriSingleData: self.oriSingleData,
-                            fieldsData: self.oriFieldsData
+                            oriSingleData: this.oriSingleData,
+                            fieldsData: this.oriFieldsData
                         });
                     }
                 },
@@ -235,7 +236,7 @@
                 });
             },
             fetchRowData() {
-                this.singleData = JSON.parse(JSON.stringify(this.rowData)) ;
+                this.singleData = JSON.parse(JSON.stringify(this.rowData));
                 this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
                 this.isLoadingDialog = false;
             },
@@ -305,33 +306,70 @@
                 }
             },
             formatAmt(val, field) {
-                var ls_amtValue = val;
-                var ls_ruleVal = field.format_func_name.rule_val;
+                let ls_amtValue = go_formatDisplayClass.removeAmtFormat(JSON.parse(JSON.stringify(val)).toString());
+                let ls_ruleVal = field.format_func_name.rule_val;
+                let lb_isModify = true;
+                let la_amtValue = ls_amtValue.split("");
 
-                if (ls_ruleVal != "") {
-                    this.singleData[field.ui_field_name] = go_formatDisplayClass.amtFormat(ls_amtValue, ls_ruleVal);
+                if (la_amtValue.length == 0) {
+                    return;
                 }
-                else {
-                    this.singleData[field.ui_field_name] = ls_amtValue;
+                for (let i = 0; i < la_amtValue.length; i++) {
+                    if (ls_amtValue.charCodeAt(i) < 48 || ls_amtValue.charCodeAt(i) > 57) {
+                        lb_isModify = false;
+                        break;
+                    }
+                }
+
+                if(lb_isModify){
+                    if (ls_ruleVal != "") {
+                        this.singleData[field.ui_field_name] = go_formatDisplayClass.amtFormat(ls_amtValue, ls_ruleVal);
+                    }
+                    else {
+                        this.singleData[field.ui_field_name] = ls_amtValue;
+                    }
+                }
+                else{
+                    this.singleData[field.ui_field_name] = 0;
                 }
             },
             toFirstData() {
                 this.isFirstData = true;
                 this.isLastData = false;
                 this.rowData = _.first(this.pageOneDataGridRows);
+                $("#visitRecord").dialog('close');
+                this.$eventHub.$emit("getOtherRowData", {
+                    rowData: _.first(this.pageOneDataGridRows),
+                    rowIndex: 0
+                });
             },
             toPreData() {
                 var nowRowIndex = $("#companyVisitRecord_dg").datagrid('getRowIndex', this.rowData);
                 this.rowData = this.pageOneDataGridRows[nowRowIndex - 1];
+                $("#visitRecord").dialog('close');
+                this.$eventHub.$emit("getOtherRowData", {
+                    rowData: this.pageOneDataGridRows[nowRowIndex - 1],
+                    rowIndex: nowRowIndex - 1
+                });
             },
             toNextData() {
                 var nowRowIndex = $("#companyVisitRecord_dg").datagrid('getRowIndex', this.rowData);
                 this.rowData = this.pageOneDataGridRows[nowRowIndex + 1];
+                $("#visitRecord").dialog('close');
+                this.$eventHub.$emit("getOtherRowData", {
+                    rowData: this.pageOneDataGridRows[nowRowIndex + 1],
+                    rowIndex: nowRowIndex + 1
+                });
             },
             toLastData() {
                 this.isFirstData = false;
                 this.isLastData = true;
                 this.rowData = _.last(this.pageOneDataGridRows);
+                $("#visitRecord").dialog('close');
+                this.$eventHub.$emit("getOtherRowData", {
+                    rowData: _.last(this.pageOneDataGridRows),
+                    rowIndex: this.pageOneDataGridRows.length - 1
+                });
             },
             doCloseDialog() {
                 this.initData();

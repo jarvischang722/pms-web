@@ -177,7 +177,9 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
                                     fieldData[fIdx].defaultVal = selRow.defaultVal || "";
 
                                     dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
-                                        fieldData[fIdx].selectData = selectData;
+                                        fieldData[fIdx].selectDataDisplay = selectData.selectDataDisplay;
+                                        fieldData[fIdx].selectData =
+                                            selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
                                         callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                     });
 
@@ -563,6 +565,48 @@ exports.doSaveDataGrid = function (postData, session, callback) {
             return field.multi_lang_table != "";
         }); //多語系欄位
         async.parallel([
+            //刪除 0300
+            function (callback) {
+                _.each(deleteData, function (data) {
+                    let tmpDel = {"function": "0"}; //0 代表刪除
+                    tmpDel["table_name"] = mainTableName;
+                    tmpDel.condition = [];
+                    //組合where 條件
+                    _.each(keyFields, function (keyField, keyIdx) {
+                        if (!_.isUndefined(data[keyField])) {
+                            tmpDel.condition.push({
+                                key: keyField,
+                                operation: "=",
+                                value: data[keyField]
+                            });
+                        }
+                    });
+
+                    savaExecDatas[exec_seq] = tmpDel;
+                    exec_seq++;
+
+                    /** 刪除多語系 **/
+                    if (la_multiLangFields.length > 0) {
+                        let ls_langTable = la_multiLangFields[0].multi_lang_table;
+                        let langDel = {"function": "0"};
+                        langDel["table_name"] = ls_langTable;
+                        langDel.condition = [];
+                        _.each(keyFields, function (keyField, keyIdx) {
+                            if (!_.isUndefined(data[keyField])) {
+                                langDel.condition.push({
+                                    key: keyField,
+                                    operation: "=",
+                                    value: data[keyField]
+                                });
+                            }
+                        });
+                        savaExecDatas[exec_seq] = langDel;
+                        exec_seq++;
+                    }
+
+                });
+                callback(null, '0300');
+            },
             //新增 0200
             function (callback) {
                 if (createData.length == 0) {
@@ -611,48 +655,6 @@ exports.doSaveDataGrid = function (postData, session, callback) {
 
                 });
                 callback(null, '0200');
-            },
-            //刪除 0300
-            function (callback) {
-                _.each(deleteData, function (data) {
-                    let tmpDel = {"function": "0"}; //0 代表刪除
-                    tmpDel["table_name"] = mainTableName;
-                    tmpDel.condition = [];
-                    //組合where 條件
-                    _.each(keyFields, function (keyField, keyIdx) {
-                        if (!_.isUndefined(data[keyField])) {
-                            tmpDel.condition.push({
-                                key: keyField,
-                                operation: "=",
-                                value: data[keyField]
-                            });
-                        }
-                    });
-
-                    savaExecDatas[exec_seq] = tmpDel;
-                    exec_seq++;
-
-                    /** 刪除多語系 **/
-                    if (la_multiLangFields.length > 0) {
-                        let ls_langTable = la_multiLangFields[0].multi_lang_table;
-                        let langDel = {"function": "0"};
-                        langDel["table_name"] = ls_langTable;
-                        langDel.condition = [];
-                        _.each(keyFields, function (keyField, keyIdx) {
-                            if (!_.isUndefined(data[keyField])) {
-                                langDel.condition.push({
-                                    key: keyField,
-                                    operation: "=",
-                                    value: data[keyField]
-                                });
-                            }
-                        });
-                        savaExecDatas[exec_seq] = langDel;
-                        exec_seq++;
-                    }
-
-                });
-                callback(null, '0300');
             },
             //修改 0400
             function (callback) {
@@ -809,7 +811,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     "exec_data": savaExecDatas
                 };
 
-                tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+                tools.requestApi(sysConf.api_url.common, apiParams, function (apiErr, apiRes, data) {
                     let success = true;
                     let errMsg = null;
                     let log_id = moment().format("YYYYMMDDHHmmss");

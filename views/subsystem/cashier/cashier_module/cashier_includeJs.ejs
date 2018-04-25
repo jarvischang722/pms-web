@@ -77,7 +77,7 @@
                 url: '/jsonData/cashier/cashier_transferDg.json',
                 method: 'get',
                 columns: [[
-                    {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                    {field: 'checkbox', title: '<input type="checkbox">', width: 28, align: "center"},
                     {field: 'consumeNum', title: '消費單號', width: 150},
                     {field: 'consumeItem', title: '消費項目', width: 260},
                     {field: 'quantity', title: '數量', width: 60, align: 'right'},
@@ -112,7 +112,7 @@
                 url: '/jsonData/cashier/cashier_adjustmentCslDg.json',
                 method: 'get',
                 columns: [[
-                    {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                    {field: 'checkbox', title: '<input type="checkbox">', width: 28, align: "center"},
                     {field: 'consumeNum', title: '消費單號', width: 150},
                     {field: 'consumeCode', title: '消費代號', width: 150},
                     {field: 'quantity', title: '數量', width: 60, align: 'right'},
@@ -159,22 +159,23 @@
                 buttons: [
                     {
                         text: "是(Y)",
-                        "class" : "btn btn-minier",
-                        click: function() {
-                            $( this ).dialog( "close" );
+                        "class": "btn btn-minier",
+                        click: function () {
+                            $(this).dialog("close");
                         }
                     },
                     {
                         text: "否(N)",
-                        "class" : "btn btn-primary btn-minier",
-                        click: function() {
-                            $( this ).dialog( "close" );
+                        "class": "btn btn-primary btn-minier",
+                        click: function () {
+                            $(this).dialog("close");
                         }
                     }
                 ]
             });
         });
 
+        <!--TODO 連接到"cashier_partialSettle_s2" (確認是否用到) -->
         // 彈出 Billing>partialSettle (cashier_partialSettle_s1)
         $(document).on('click', ".cashier_partialSettle_s1", function (e) {
             e.preventDefault();
@@ -192,19 +193,16 @@
                 buttons: [
                     {
                         text: "是(Y)",
-                        "class" : "btn btn-minier",
-                        click: function() {
-                            $( this ).dialog( "close" );
+                        "class": "btn btn-minier",
+                        click: function () {
+                            $(this).dialog("close");
                         }
-
-                        //todo 連接到“cashier_partialSettle_s2”
                     },
                     {
                         text: "否(N)",
-                        "class" : "btn btn-primary btn-minier cashier_partialSettle_s2",
-                        click: function() {
-                            alert('123');
-                            $('.cashier_partialSettle_s2').dialog( "open" );
+                        "class": "btn btn-primary btn-minier cashier_partialSettle_s2",
+                        click: function () {
+                            $('.cashier_partialSettle_s2').dialog("open");
                         }
                     }
                 ]
@@ -233,7 +231,7 @@
                 url: '/jsonData/cashier/cashier_partialSettle_s2Dg.json',
                 method: 'get',
                 columns: [[
-                    {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                    {field: 'checkbox', title: '<input type="checkbox">', width: 28, align: "center"},
                     {field: 'consumeNum', title: '消費單號', width: 150},
                     {field: 'billDate', title: '帳單日期', width: 100},
                     {field: 'code', title: '代號', width: 80},
@@ -339,20 +337,20 @@
                 columns: [[
                     {field: 'consumeDate', title: '1.消費日期', width: 100},
                     {field: 'consumeItem', title: '消費項目', width: 100},
-                    {field: 'quantity', title: '數量', width: 40, align:'right'},
-                    {field: 'consumeSum', title: '消費總額', width: 80, align:'right'},
+                    {field: 'quantity', title: '數量', width: 40, align: 'right'},
+                    {field: 'consumeSum', title: '消費總額', width: 80, align: 'right'},
                     {field: 'billingDate', title: '帳單日期', width: 80},
                     {field: 'recordOffice', title: '入帳廳別', width: 80},
                     {field: 'addBy', title: '入帳者', width: 80},
                     {field: 'addShift', title: '入帳班', width: 60},
-                    {field: 'consumeRoom', title: '消費房號', width: 60,align: 'right'},
+                    {field: 'consumeRoom', title: '消費房號', width: 60, align: 'right'},
                     {field: 'liveTransferRm', title: '住掛轉帳備註', width: 160},
                     {field: 'adjustRm', title: '調整備註', width: 160},
                     {field: 'cashierRm', title: '出納備註', width: 160},
                     {field: 'billingRm', title: '帳單備註', width: 160},
                     {field: 'consumeNum', title: '消費單號', width: 120},
                     {field: 'billingNum', title: '帳單編號', width: 100},
-                    {field: 'tax', title: '稅別', width: 100,align: 'right'}
+                    {field: 'tax', title: '稅別', width: 100, align: 'right'}
                 ]]
             });
 
@@ -366,20 +364,20 @@
                 columns: [[
                     {field: 'consumeDate', title: '2.消費日期', width: 100},
                     {field: 'consumeItem', title: '消費項目', width: 100},
-                    {field: 'quantity', title: '數量', width: 40, align:'right'},
-                    {field: 'consumeSum', title: '消費總額', width: 80, align:'right'},
+                    {field: 'quantity', title: '數量', width: 40, align: 'right'},
+                    {field: 'consumeSum', title: '消費總額', width: 80, align: 'right'},
                     {field: 'billingDate', title: '帳單日期', width: 80},
                     {field: 'recordOffice', title: '入帳廳別', width: 80},
                     {field: 'addBy', title: '入帳者', width: 80},
                     {field: 'addShift', title: '入帳班', width: 60},
-                    {field: 'consumeRoom', title: '消費房號', width: 60,align: 'right'},
+                    {field: 'consumeRoom', title: '消費房號', width: 60, align: 'right'},
                     {field: 'liveTransferRm', title: '住掛轉帳備註', width: 160},
                     {field: 'adjustRm', title: '調整備註', width: 160},
                     {field: 'cashierRm', title: '出納備註', width: 160},
                     {field: 'billingRm', title: '帳單備註', width: 160},
                     {field: 'consumeNum', title: '消費單號', width: 120},
                     {field: 'billingNum', title: '帳單編號', width: 100},
-                    {field: 'tax', title: '稅別', width: 100,align: 'right'}
+                    {field: 'tax', title: '稅別', width: 100, align: 'right'}
                 ]]
             });
 
@@ -415,7 +413,7 @@
                     {field: 'payPerson', title: '結帳者', width: 100},
                     {field: 'payClass', title: '結帳班別', width: 70},
                     {field: 'payNum', title: '結帳單號', width: 150},
-                    {field: 'payTotal', title: '結帳金額', width: 100,align: 'right'},
+                    {field: 'payTotal', title: '結帳金額', width: 100, align: 'right'},
                     {field: 'invoice', title: '發票號碼', width: 150}
                 ]]
             });
@@ -533,8 +531,8 @@
                 {field: 'idCard', title: '身分證/護照', width: 100},
                 {field: 'exchangeType', title: '兌換種類', width: 60},
                 {field: 'currency', title: '幣別', width: 60},
-                {field: 'foreignCurrencyAmount', title: '外幣金額', width: 80,align: 'right'},
-                {field: 'exchangeAmount', title: '兌換金額', width: 100,align: 'right'},
+                {field: 'foreignCurrencyAmount', title: '外幣金額', width: 80, align: 'right'},
+                {field: 'exchangeAmount', title: '兌換金額', width: 100, align: 'right'},
                 {field: 'banknote', title: '支/鈔票號碼', width: 160},
                 {field: 'updDate', title: '修改日期', width: 130}
             ]]
@@ -555,11 +553,11 @@
                 {field: 'preCoDate', title: 'C/O Date', width: 80},
                 {field: 'ciDate', title: 'C/I Date', width: 80},
                 {field: 'guestTime', title: 'C/I Time', width: 80},
-                {field: 'balanceResidentAcc', title: 'Balance', width: 80,align: 'right'},
+                {field: 'balanceResidentAcc', title: 'Balance', width: 80, align: 'right'},
                 {field: 'resvCardNum', title: 'Rv. Num.', width: 100},
-                {field: 'preCreditFee', title: 'Pre. auth.', width: 100,align: 'right'},
-                {field: 'deposits', title: 'Deposits', width: 100,align: 'right'},
-                {field: 'star', title: '', width: 20,align: 'center'},
+                {field: 'preCreditFee', title: 'Pre. auth.', width: 100, align: 'right'},
+                {field: 'deposits', title: 'Deposits', width: 100, align: 'right'},
+                {field: 'star', title: '', width: 20, align: 'center'},
                 {field: 'companyName', title: 'Company', width: 160}
             ]]
         });

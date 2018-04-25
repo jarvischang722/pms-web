@@ -14,9 +14,20 @@ module.exports = function (app) {
     app.post("/api/doOperationSave", apiMiddles, operCtrl.doOperationSave);
 
     /**
+     * 作業新儲存格式
+     */
+    app.post("/api/execNewFormatSQL", apiMiddles, operCtrl.execNewFormatSQL);
+
+    /**
      * (作業)查詢多筆欄位
+     * 查詢欄位會包含多筆資料
      */
     app.post("/api/fetchDataGridFieldData", apiMiddles, operCtrl.fetchDgFieldData);
+
+    /**
+     * (作業) 查詢多筆資料
+     */
+    app.post("/api/fetchDgRowData", apiMiddles, operCtrl.fetchDgRowData);
 
     /**
      * (作業)查詢單筆欄位
@@ -41,4 +52,9 @@ module.exports = function (app) {
      * (作業)查詢預設單筆資料
      */
     app.post("/api/fetchDefaultSingleRowData", apiMiddles, operCtrl.fetchDefaultGsRowData);
+
+    /**
+     * (作業) 查詢多筆資料
+     */
+    app.post("/api/fetchDgRowData", apiMiddles, operCtrl.fetchDgRowData);
 };

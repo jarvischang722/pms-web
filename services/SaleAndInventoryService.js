@@ -6,17 +6,12 @@
 
 const sysConf = require("../configs/systemConfig");
 const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-const mongoAgent = require("../plugins/mongodb");
 const _ = require("underscore");
 const async = require("async");
 const moment = require("moment");
-const i18n = require("i18n");
 const tools = require("../utils/CommonTools");
-const dataRuleSvc = require("./DataRuleService");
 const ruleAgent = require("../ruleEngine/ruleAgent");
-const logSvc = require("./LogService");
 const mailSvc = require("./MailService");
-const langSvc = require("./LangService");
 const path = require('path');
 const appRootDir = path.dirname(require.main.filename);
 const ruleRootPath = appRootDir + "/ruleEngine/";
@@ -552,7 +547,7 @@ exports.callSaveAPI = function (params, session, callback) {
         "ip": params.ip
     };
 
-    tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+    tools.requestApi(sysConf.api_url.dotnet, apiParams, function (apiErr, apiRes, data) {
         let log_id = moment().format("YYYYMMDDHHmmss");
         let success = true;
         let errorMsg = "";
@@ -607,7 +602,7 @@ exports.callAPI = function (params, req, callback) {
         "order_nos": params.order_nos
     };
 
-    tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+    tools.requestApi(sysConf.api_url.dotnet, apiParams, function (apiErr, apiRes, data) {
         let log_id = moment().format("YYYYMMDDHHmmss");
         let success = true;
         let errorMsg = "";
@@ -659,7 +654,7 @@ exports.callOrderAPI = function (params, session, callback) {
         "ORDER_DAT": moment(params.singleData.order_dat).format('YYYY/MM/DD')
     };
 
-    tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+    tools.requestApi(sysConf.api_url.dotnet, apiParams, function (apiErr, apiRes, data) {
         let log_id = moment().format("YYYYMMDDHHmmss");
         let success = true;
         let errorMsg = "";
@@ -1117,7 +1112,7 @@ exports.callWebServiceAPI = function (params, session, callback) {
         "exec_data": params.data
     };
 
-    tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+    tools.requestApi(sysConf.api_url.dotnet, apiParams, function (apiErr, apiRes, data) {
         let log_id = moment().format("YYYYMMDDHHmmss");
         let success = true;
         let retn_cod = "0000";

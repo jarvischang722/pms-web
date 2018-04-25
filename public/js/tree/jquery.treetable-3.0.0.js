@@ -495,7 +495,7 @@ function treeToggle(obj){
 }
 
 function iterateTreeToogle(ttid, status1, isIterate){
-    $(".fht-tbody > .treetable").find("tr[data-tt-parent-id='" + ttid + "']").each(function(){
+    $(".fixed-table-container > .treetable").find("tr[data-tt-parent-id='" + ttid + "']").each(function(){
         $(this).attr("style", status1);
         var lv_isExpand = (status1 == "display: table-row;") ? true: false;
         $(this).find('a').attr('title', lv_isExpand ? "Expand": "Collapse");
