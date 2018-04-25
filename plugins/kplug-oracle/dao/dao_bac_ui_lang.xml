@@ -10,7 +10,7 @@
         ]]></statement>
 
         <parameter type="string" kind="3">athena_id</parameter>
-        <parameter type="likestring" kind="2" condition="trim(comp_cod)=trim(:comp_cod)">comp_cod</parameter>
+        <parameter type="string" kind="2" condition="trim(comp_cod)=trim(:comp_cod)">comp_cod</parameter>
 
     </dao>
 

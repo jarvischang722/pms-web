@@ -156,13 +156,13 @@
         <statement test="_v(param.pcust_idx_show_cod)"><![CDATA[and CUST_MN.pcust_cod in(:pcust_idx_show_cod)]]></statement>
         <parameter type="instring" kind="3">hoffice_cust_idx_show_cod</parameter>
         <statement test="_v(param.hoffice_cust_idx_show_cod)"><![CDATA[and CUST_MN.hoffice_cod in(:hoffice_cust_idx_show_cod)]]></statement>
-        <parameter type="likestring" kind="2" condition="trim(CUST_IDX.credit_amt) = trim(:credit_amt) ">credit_amt
+        <parameter type="string" kind="2" condition="trim(CUST_IDX.credit_amt) = trim(:credit_amt) ">credit_amt
         </parameter>
-        <parameter type="likestring" kind="2" condition="trim(CUST_IDX.ar_amt) = trim(:ar_amt) ">ar_amt</parameter>
-        <parameter type="likestring" kind="2" condition="trim(CUST_IDX.credit_sta) = trim(:credit_sta) ">credit_sta</parameter>
-        <parameter type="likestring" kind="2" condition="trim(CUST_MN.rank_nos) = trim(:rank_nos) ">rank_nos</parameter>
-        <parameter type="likestring" kind="2" condition="trim(CUST_MN.status_cod) = trim(:status_cod) ">status_cod</parameter>
-        <parameter type="likestring" kind="2" condition="trunc(CUST_MN.ins_dat) = to_date(:ins_dat, 'YYYY/MM/DD') ">ins_dat</parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_IDX.ar_amt) = trim(:ar_amt) ">ar_amt</parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_IDX.credit_sta) = trim(:credit_sta) ">credit_sta</parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_MN.rank_nos) = trim(:rank_nos) ">rank_nos</parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_MN.status_cod) = trim(:status_cod) ">status_cod</parameter>
+        <parameter type="string" kind="2" condition="trunc(CUST_MN.ins_dat) = to_date(:ins_dat, 'YYYY/MM/DD') ">ins_dat</parameter>
         <parameter type="likestring" kind="2" condition="CUST_MN.show_cod like ? ">cust_mn_show_cod</parameter>
     </dao>
 

@@ -10,7 +10,7 @@
         ]]></statement>
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
-        <parameter type="likestring" kind="2" condition="trim(confirm_cod) = trim(:confirm_cod) ">confirm_cod</parameter>
+        <parameter type="string" kind="2" condition="trim(confirm_cod) = trim(:confirm_cod) ">confirm_cod</parameter>
         <orderby >order by confirm_cod </orderby>
     </dao>
 

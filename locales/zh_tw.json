@@ -242,7 +242,9 @@
       "sales_nam": "業務員姓名",
       "class_nam": "組別",
       "rate": "房價代號或名稱",
-      "save_success": "儲存成功"
+      "save_success": "儲存成功",
+      "confirmVisitRecord": "確定",
+      "confirmRemark": "確定"
     },
     "PMS0620020": {
       "sales_cod": "業務員代號",

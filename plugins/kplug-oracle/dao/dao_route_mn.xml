@@ -11,7 +11,7 @@
 
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
-        <parameter type="likestring" kind="2" condition="route_cod =:route_cod">route_cod</parameter>
+        <parameter type="string" kind="2" condition="route_cod =:route_cod">route_cod</parameter>
 
     </dao>
 

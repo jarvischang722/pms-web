@@ -246,7 +246,9 @@
       "sales_nam": "業務員姓名(英)",
       "class_nam": "組別(英)",
       "rate": "房價代號或名稱(英)",
-      "save_success": "儲存成功(英)"
+      "save_success": "儲存成功(英)",
+      "confirmVisitRecord": "OK",
+      "confirmRemark": "OK"
     },
     "PMS0620020": {
       "sales_cod": "Sales Id",
