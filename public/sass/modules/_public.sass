@@ -105,7 +105,8 @@
   height: 60px
 
 .defHt
-  height: $defHt
+  height: $defHt !important
+  line-height: $defHt !important
 
 .defLineHt
   line-height: $defHt
@@ -919,6 +920,26 @@ input[type=checkbox]
   border-color: #555 !important
   .dpShowValue
     color: #555 !important
+
+.select-group
+  position: relative
+  // 點擊打勾
+  .click-act
+    //background: #ff2244
+    &:after
+      display: inline-block
+      content: '\f00c'
+      font-style: normal
+      font-weight: normal
+      text-decoration: inherit
+      font-family: FontAwesome
+      position: absolute
+      right: 3px
+      margin-top: -25px
+      color: $blue
+    &:hover
+      &:after
+        color: #fff
 
 .status-tip-active
   //border-width: 2px !important

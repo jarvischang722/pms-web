@@ -2388,6 +2388,9 @@ a {
 .search-content .search-co .search-co-content .searchCheckbox .checkbox label .lbl:before {
   margin-right: 3px;
 }
+.search-content .search-co .search-co-content.search-S2 {
+  max-width: 90%;
+}
 .search-content .search-co .search-co-content.search-S2 .searchMain-S2 {
   padding-top: 10px;
 }
@@ -5167,6 +5170,10 @@ td div.act-box span.act-text {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+#resvSingle-table th input, #resvSingle-table td input {
+  border: 0;
+  border-bottom: 1px solid #D5D5D5;
+}
 #resvSingle-table th {
   font-weight: 300;
   font-size: 13px;
@@ -6005,7 +6012,8 @@ td div.triangle-box.colspan-28 {
 }
 
 .defHt {
-  height: 25px;
+  height: 25px !important;
+  line-height: 25px !important;
 }
 
 .defLineHt {
@@ -7161,6 +7169,25 @@ input[type=checkbox] {
 }
 .sel-border .dpShowValue {
   color: #555 !important;
+}
+
+.select-group {
+  position: relative;
+}
+.select-group .click-act:after {
+  display: inline-block;
+  content: "";
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  font-family: FontAwesome;
+  position: absolute;
+  right: 3px;
+  margin-top: -25px;
+  color: #478FCA;
+}
+.select-group .click-act:hover:after {
+  color: #fff;
 }
 
 .status-tip-active {
