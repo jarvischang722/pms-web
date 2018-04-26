@@ -319,8 +319,9 @@ module.exports = {
         let lo_error = null;
         let ls_alt_nam = postData.singleRowData[0].alt_nam || "";
         let ls_birth_dat = postData.singleRowData[0]["cust_idx.birth_dat"] == "" ? "" : moment(postData.singleRowData[0]["cust_idx.birth_dat"]).format("YYYY/MM/DD");
+        let ls_ori_birth_dat = postData.oriSingleData[0]["cust_idx.birth_dat"] == "" ? "" : moment(postData.oriSingleData[0]["cust_idx.birth_dat"]).format("YYYY/MM/DD");
 
-        if (ls_alt_nam != "" && ls_birth_dat != "") {
+        if (ls_alt_nam != "" && ls_birth_dat != "" && ls_birth_dat != ls_ori_birth_dat) {
             let lo_param = {
                 athena_id: session.user.athena_id,
                 alt_nam: ls_alt_nam,
@@ -407,7 +408,7 @@ module.exports = {
                 lo_return.success = false;
                 lo_error.errorMsg = err;
             }
-            else {
+            else if(result != null) {
                 lo_return.effectValues = {
                     live_cod: postData.singleRowData[0].contry_cod,
                     lang_cod: result.lang_cod

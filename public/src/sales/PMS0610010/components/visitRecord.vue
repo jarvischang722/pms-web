@@ -115,6 +115,12 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                                @click="doConfirmData">
+                                            {{i18nLang.program.PMS0610020.confirmVisitRecord}}
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
                                                 @click="doCloseDialog">
                                             {{i18nLang.SystemCommon.Leave}}
                                         </button>
@@ -198,11 +204,7 @@
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
                         var self = this;
-                        this.$eventHub.$emit("getVisitRecordSingleData", {
-                            singleData: val,
-                            oriSingleData: this.oriSingleData,
-                            fieldsData: this.oriFieldsData
-                        });
+
                     }
                 },
                 deep: true
@@ -371,9 +373,15 @@
                     rowIndex: this.pageOneDataGridRows.length - 1
                 });
             },
+            doConfirmData(){
+                this.$eventHub.$emit("getVisitRecordSingleData", {
+                    singleData: this.singleData,
+                    oriSingleData: this.oriSingleData,
+                    fieldsData: this.oriFieldsData
+                });
+                $("#visitRecord").dialog('close');
+            },
             doCloseDialog() {
-                this.initData();
-                this.rowData = {};
                 $("#visitRecord").dialog('close');
             }
         }

@@ -135,6 +135,12 @@
                                                 </li>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button" @click="doConfirmData">
+                                                        {{i18nLang.program.PMS0610020.confirmRemark}}
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
                                                             role="button" @click="doLeaveGrid">
                                                         {{i18nLang.SystemCommon.Leave}}
                                                     </button>
@@ -217,8 +223,7 @@
             editingRow(val) {
                 if (!_.isEmpty(val)) {
                     let self = this;
-
-                    this.fetchGridSingleFieldData(val);
+                    this.fetchGridSingleFieldData(JSON.parse(JSON.stringify(val)));
 
                     let nowDatagridRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', val);
 
@@ -325,12 +330,11 @@
                 this.singleData = editingRowOfRemark;
                 this.oriSingleData = JSON.parse(JSON.stringify(editingRowOfRemark));
                 this.isLoadingDialog = false;
-
             },
             appendRow() {
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
-                this.editingRow = {remark_typ: '01' ,createIndex: this.tmpCUD.createData.length};
+                this.editingRow = {createIndex: this.tmpCUD.createData.length};
                 this.showSingleGridDialog();
             },
             editRow() {
@@ -389,10 +393,8 @@
                     dialogClass: "test",
                     resizable: true,
                     onBeforeClose: function () {
-                        self.setNewDataGridRowsData();//更新dataGridRowsData
                         self.isCreateStatus = false;
                         self.isEditStatus = false;
-                        self.editingRow = {};
                     }
                 });
             },
@@ -501,9 +503,12 @@
             doLeaveGrid() {
                 $("#singleGridOtherRemark").dialog('close');
             },
+            doConfirmData(){
+                $("#singleGridOtherRemark").dialog('close');
+                this.setNewDataGridRowsData();
+            },
             setNewDataGridRowsData(){
                 let lo_chkResult = this.dataValidate();
-
                 if (lo_chkResult.success == false) {
                     alert(lo_chkResult.msg);
                 }
@@ -530,6 +535,7 @@
                         this.dataGridRowsData.push(this.singleData);
                     }
                     this.showDataGrid();
+                    this.singleData = {};
                 }
             }
         }
