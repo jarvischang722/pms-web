@@ -242,7 +242,7 @@
                         let lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
 
                         if (this.$store.state.gb_isCreateStatus) {
-                            val.ins_dat = moment(new Date(val.ins_dat)).format("YYYY/MM/DD HH:mm:ss")
+                            val.ins_dat = moment(new Date(val.ins_dat)).format("YYYY/MM/DD HH:mm:ss");
                             val.ins_usr = this.userInfo.usr_id
                         }
                         else {

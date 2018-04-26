@@ -1,0 +1,128 @@
+<!--page-content-->
+<div>
+    <div class="page-header"></div><!-- /.page-header -->
+    <!-- 客戶購買授權 Page-->
+    <div class="pageMain">
+        <div class="col-xs-12">
+            <div class="search-content">
+                <div class="search-co">
+                    <div class="row">
+                        <div class="search-co-content col-xs-12 search-S2">
+                            <div class="width-95 searchMain-S2">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>程式編號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="">
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>操作功能</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="">
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>網址</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row search-footer-btn">
+                                <div class="footer-btn-menu-co">
+                                    <ul>
+                                        <li>
+                                            <div class="" data-rel="tooltip" data-placement="bottom"
+                                                 title="查詢">
+                                                <div class="icon-reStyle icon-co-14"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="" data-rel="tooltip" data-placement="bottom"
+                                                 title="清除">
+                                                <div class="icon-reStyle icon-co-11"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="icon-moreSearch show-search-detail">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>  <!-- /.footer-btn-menu-co -->
+                            </div> <!-- /.search-footer-btn -->
+                        </div>
+
+                        <div class="search-co-content col-xs-12 search-S2-con rece-search-detail"
+                             style="display: none;">
+                            <div class="width-95">
+                                <!--1-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>操作時間</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="">
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>集團別</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="">
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>公司別</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="">
+                                    </div>
+                                </div>
+                                <!--2-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>館別</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="">
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>使用者</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="">
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>執行時間</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div> <!-- row-->
+                </div> <!-- /.search-co -->
+            </div> <!-- /.row  search-content-->
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-12">
+            <div class="">
+                <!-- 客戶購買授權 SER0510010-table dataGrid -->
+                <table id="SER0510010-table" class="gridTableHt"></table>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+
+    </div>
+</div><!-- /.page-content -->
+<script type="text/javascript">
+    $(function () {
+        // 訂房卡多筆 dataGrid
+        $('#SER0510010-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            url: '/jsonData/customerService/SER0510010-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'prg_id', title: '程式編號', width: 70},
+                {field: 'func_id', title: '操作功能', width: 70},
+                {field: 'url', title: '網址', width: 300},
+                {field: 'event_time', title: '操作時間', width: 120},
+                {field: 'athena_id', title: '集團別', width: 150},
+                {field: 'comp_cod', title: '公司別', width: 150},
+                {field: 'hotel_cod', title: '館別', width: 70},
+                {field: 'id', title: '使用者', width: 140},
+                {field: 'execution_time', title: '執行時間', width: 70},
+            ]]
+        });
+    })
+</script>
+
+<!-- subSystem 共用 js -->
+<%- include ../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
