@@ -159,7 +159,8 @@ const actions = {
         let ls_funcId = "";
         let lo_saveData = JSON.parse(JSON.stringify(state.go_profileSingleData));
 
-        lo_saveData["cust_idx.birth_dat"] = _.isUndefined(lo_saveData["cust_idx.birth_dat"]) ? "" : moment(lo_saveData["cust_idx.birth_dat"]).format("YYYY/MM/DD");
+        lo_saveData["cust_idx.birth_dat"] = _.isUndefined(lo_saveData["cust_idx.birth_dat"]) || _.isNull(lo_saveData["cust_idx.birth_dat"]) ? "" : moment(lo_saveData["cust_idx.birth_dat"]).format("YYYY/MM/DD");
+        lo_saveData["sex_typ"] = _.isNull(lo_saveData["sex_typ"]) ? lo_saveData["cust_idx.sex_typ"] : lo_saveData["sex_typ"];
         lo_saveData = _.extend(lo_saveData, {tab_page_id: 1});
 
         if (state.gb_isCreateStatus) {
