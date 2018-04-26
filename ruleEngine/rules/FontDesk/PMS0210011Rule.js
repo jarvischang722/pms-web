@@ -407,7 +407,7 @@ module.exports = {
                 lo_return.success = false;
                 lo_error.errorMsg = err;
             }
-            else {
+            else if(result != null) {
                 lo_return.effectValues = {
                     live_cod: postData.singleRowData[0].contry_cod,
                     lang_cod: result.lang_cod
