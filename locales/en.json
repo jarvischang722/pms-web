@@ -70,6 +70,7 @@
       "wrsTabPageTitle": "官網顯示順序(英文)"
     },
     "PMS0810050": {
+      "Add" : "Add 1",
       "pick_up": "Pick up",
       "drop_off": "Drop off",
       "arrive_cod": "No.",
@@ -414,6 +415,7 @@
       "FmtExactlyTwoWord": "%s only enter zero to two numbers",
       "FmtZeroToTenNum": "%s only enter zero to ten numbers",
       "FmtZeroToTenNumAndMinusOne": "%s 請輸入0到10碼數字(數字必須大於等於-1)(英文)",
+      "FmtExactlyTwoCode": "%s 請輸入2碼代號(英)",
       "ChkGreaterZeroNum": "Please enter %s number greater than 0",
       "ChkGteZeroNum": "Please enter %s number greater than or equal to 0",
       "ChkLteZeroNum": "Please enter %s number less than or equal to 0",

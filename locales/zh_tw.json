@@ -38,7 +38,11 @@
     "company_introduction": "公司簡介",
     "enterprise_mission": "企業使命",
     "international_certification": "國際認證",
-    "copyright": "版權所有"
+    "copyright": "版權所有",
+    "from": "from",
+    "to": "to",
+    "OK": "OK",
+    "cancel": "cancel"
   },
   "program": {
     "PMS0810020": {
@@ -66,6 +70,7 @@
       "wrsTabPageTitle": "官網顯示順序"
     },
     "PMS0810050": {
+      "Add":"新增接駁",
       "pick_up": "接機",
       "drop_off": "送機",
       "arrive_cod": "代號",
