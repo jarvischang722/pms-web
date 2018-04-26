@@ -1,5 +1,5 @@
 /**
- * Created by jing on 2018/03/29.
+ * Created by jing on 2018/04/26.
  */
 
 var _ = require("underscore");
@@ -11,8 +11,8 @@ var appRootDir = path.dirname(require.main.filename);
 var roleSvc = require("../services/RoleFuncService");
 
 /**
- * 客戶維護(靜態)
+ * 客戶購買授權(靜態)
  */
-exports.getSER0140010 = function (req, res) {
-    res.render("subsystem/customerService/SER0140010");
+exports.getSYS0210010 = function (req, res) {
+    res.render("subsystem/sysManagement/SYS0210010");
 }

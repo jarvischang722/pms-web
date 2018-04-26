@@ -60,7 +60,8 @@
                                                         :class="{'input_sta_required' : field.requirable == 'Y' }"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                         v-model="singleData[field.ui_field_name]"
-                                                        :data-display="field.selectDataDisplay " :data="field.selectData"
+                                                        :data-display="field.selectDataDisplay "
+                                                        :data="field.selectData"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
                                                         :default-val="singleData[field.ui_field_name]" :field="field"
@@ -72,7 +73,8 @@
                                             <!--  textarea -->
                                             <template v-if="field.visiable == 'Y' && field.ui_type == 'textarea'">
                                                 <textarea v-model="singleData[field.ui_field_name]"
-                                                          class="numStyle-none btn-gray" rows="1" style="resize: none; display: inline-block;"
+                                                          class="numStyle-none btn-gray" rows="1"
+                                                          style="resize: none; display: inline-block;"
                                                           :style="{width:field.width + 'px'}"
                                                           :required="field.requirable == 'Y'"
                                                           :maxlength="field.ui_field_length"
@@ -80,7 +82,8 @@
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                           @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                 </textarea>
-                                                <i class="moreClick fa fa-ellipsis-h " @click="editFieldMultiLang(field)"
+                                                <i class="moreClick fa fa-ellipsis-h "
+                                                   @click="editFieldMultiLang(field)"
                                                    style=" display: inline-block; position: absolute; margin-top: 3px;"></i>
                                             </template>
 
@@ -97,7 +100,8 @@
                                 <template v-if="versionState != 'lite'">
                                     <el-tab-pane :label="i18nLang.program.PMS0810230.limitSet" name="limitSet" disabled>
                                     </el-tab-pane>
-                                    <el-tab-pane :label="i18nLang.program.PMS0810230.promoteSet" name="promoteSet" disabled>
+                                    <el-tab-pane :label="i18nLang.program.PMS0810230.promoteSet" name="promoteSet"
+                                                 disabled>
                                     </el-tab-pane>
                                 </template>
                             </el-tabs>
@@ -105,10 +109,202 @@
                                  style="min-height: 0;!important; overflow-y: auto;">
                                 <div id="roomTypPanel" v-show="tabName=='roomTyp'" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
-                                        <room-typ
-                                                :row-data="rowData"
-                                                :is-room-type="tabName=='roomTyp'"
-                                        ></room-typ>
+                                        <template v-if="versionState=='lite'">
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label class="width-auto">使用期間</label>
+                                                    <select class="input-medium medium-c1">
+                                                        <option value="-1">使用期間</option>
+                                                        <option value="1">2018/04/17~2018/12/31</option>
+                                                        <option value="2">2019/01/01~2019/12/31</option>
+                                                        <option value="2">2020/01/01~2020/12/31</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+
+                                            <div class="container_12 divider">
+                                                <div class="grid_12 fixed-table-container cus-resvBlockSetting-table"
+                                                     width="100%">
+                                                    <!--<div class="">-->
+                                                    <table class="fancyTable themeTable treeControl themeTableTwo"
+                                                           id="PMS0810230-table" cellpadding="0" cellspacing="0">
+                                                        <thead>
+                                                            <tr class="grayBg">
+                                                                <th class="ca-headerTitle grayBg">
+                                                                    日期規則
+                                                                </th>
+                                                                <th class="">STD</th>
+                                                                <th class="">SUP</th>
+                                                                <th class="">DXK</th>
+                                                                <th class="">DXT</th>
+                                                                <th class="">SUE</th>
+                                                                <th class="">ESD</th>
+                                                                <th class="">ESP</th>
+                                                                <th class="">EXK</th>
+                                                                <th class="">EXT</th>
+                                                                <th class="">ESU</th>
+                                                                <th class="">PDS</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="tbodyRight">
+                                                            <tr class="grayBg">
+                                                                <td class="middle td-first grayBg">每一天</td>
+                                                                <td class="numeric">20</td>
+                                                                <td class="numeric">20</td>
+                                                                <td class="numeric">22</td>
+                                                                <td class="numeric darkRedTxt">-1</td>
+                                                                <td class="numeric ">9</td>
+                                                                <td class="numeric ">8</td>
+                                                                <td class="numeric ">15</td>
+                                                                <td class="numeric ">10</td>
+                                                                <td class="numeric ">12</td>
+                                                                <td class="numeric ">6</td>
+                                                                <td class="numeric ">1</td>
+                                                            </tr>
+                                                            <tr class="grayBg">
+                                                                <td class="middle td-first grayBg">感恩節，假日</td>
+                                                                <td class="numeric ">20</td>
+                                                                <td class="numeric ">20</td>
+                                                                <td class="numeric ">22</td>
+                                                                <td class="numeric darkRedTxt">-1</td>
+                                                                <td class="numeric ">9</td>
+                                                                <td class="numeric ">8</td>
+                                                                <td class="numeric ">15</td>
+                                                                <td class="numeric ">10</td>
+                                                                <td class="numeric ">12</td>
+                                                                <td class="numeric ">6</td>
+                                                                <td class="numeric ">1</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="middle td-first ">國慶日</td>
+                                                                <td class="numeric">3800</td>
+                                                                <td class="numeric">4000</td>
+                                                                <td class="numeric ">4200</td>
+                                                                <td class="numeric">4500</td>
+                                                                <td class="numeric">1500</td>
+                                                                <td class="numeric ">3300</td>
+                                                                <td class="numeric">4500</td>
+                                                                <td class="numeric">4700</td>
+                                                                <td class="numeric">5000</td>
+                                                                <td class="numeric">4800</td>
+                                                                <td class="numeric">45000</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="middle td-first">中秋節</td>
+                                                                <td class="numeric">3100</td>
+                                                                <td class="numeric ">3300</td>
+                                                                <td class="numeric">3500</td>
+                                                                <td class="numeric">3800</td>
+                                                                <td class="numeric">4000</td>
+                                                                <td class="numeric">3600</td>
+                                                                <td class="numeric">3800</td>
+                                                                <td class="numeric">4100</td>
+                                                                <td class="numeric">4300</td>
+                                                                <td class="numeric">4300</td>
+                                                                <td class="numeric">40000</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="middle td-first">春節</td>
+                                                                <td class="numeric">3600</td>
+                                                                <td class="numeric">3800</td>
+                                                                <td class="numeric">4000</td>
+                                                                <td class="numeric">4300</td>
+                                                                <td class="numeric">4300</td>
+                                                                <td class="numeric">4100</td>
+                                                                <td class="numeric">4300</td>
+                                                                <td class="numeric">4500</td>
+                                                                <td class="numeric">4800</td>
+                                                                <td class="numeric">4600</td>
+                                                                <td class="numeric">4300</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="middle td-first">清明節</td>
+                                                                <td class="numeric">2800</td>
+                                                                <td class="numeric">3000</td>
+                                                                <td class="numeric">3200</td>
+                                                                <td class="numeric">3500</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="middle td-first">端午節</td>
+                                                                <td class="numeric">2750</td>
+                                                                <td class="numeric">2950</td>
+                                                                <td class="numeric">3150</td>
+                                                                <td class="numeric">3450</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="middle td-first">教師節</td>
+                                                                <td class="numeric">4200</td>
+                                                                <td class="numeric">4400</td>
+                                                                <td class="numeric">4600</td>
+                                                                <td class="numeric">4900</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="middle td-first">228紀念日</td>
+                                                                <td class="numeric">9800</td>
+                                                                <td class="numeric">10000</td>
+                                                                <td class="numeric">10200</td>
+                                                                <td class="numeric">10500</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="middle td-first">愚人節</td>
+                                                                <td class="numeric">3200</td>
+                                                                <td class="numeric">3400</td>
+                                                                <td class="numeric">3600</td>
+                                                                <td class="numeric">3900</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                                <td class="numeric">*</td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                    <!--</div>-->
+                                                </div>
+                                                <div class="clear"></div>
+
+                                            </div> <!-- table -->
+
+
+                                        </template>
+                                        <template v-else>
+                                            <room-typ
+                                                    :row-data="rowData"
+                                                    :is-room-type="tabName=='roomTyp'"
+                                            ></room-typ>
+                                        </template>
                                         <div class="clearfix"></div>
                                         <div class="space-12"></div>
                                     </div>
@@ -116,26 +312,25 @@
                                 <div id="limitSetPanel" v-show="tabName=='limitSet'" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
-
                                             <table class="css_table">
                                                 <tbody class="css_tbody">
-                                                <!--1-->
-                                                <tr class="css_tr">
-                                                    <td class="css_td padding-top width-50">
-                                                        <div class="grid">
-                                                            <div class="grid-item">
-                                                                <label>最少住宿天數</label>
-                                                                <input type="text"
-                                                                       class="input-medium rateCode-s2"
-                                                                       placeholder="1"/>
-                                                                <span>天</span>
+                                                    <!--1-->
+                                                    <tr class="css_tr">
+                                                        <td class="css_td padding-top width-50">
+                                                            <div class="grid">
+                                                                <div class="grid-item">
+                                                                    <label>最少住宿天數</label>
+                                                                    <input type="text"
+                                                                           class="input-medium rateCode-s2"
+                                                                           placeholder="1"/>
+                                                                    <span>天</span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="css_td padding-top width-50">
-                                                        <div class="grid">
-                                                            <div class="grid-item no-margin-right">
-                                                                <div class="popCheckbox">
+                                                        </td>
+                                                        <td class="css_td padding-top width-50">
+                                                            <div class="grid">
+                                                                <div class="grid-item no-margin-right">
+                                                                    <div class="popCheckbox">
                                                                         <span class="checkbox">
                                                                               <label class="checkbox-width">
                                                                                   <input name="form-field-checkbox"
@@ -146,26 +341,26 @@
                                                                                   </span>
                                                                               </label>
                                                                         </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <input type="text"
+                                                                           class="input-medium rateCode-s2"
+                                                                           placeholder="90"/>
+                                                                    <span class="ml-4 subtxt">天前至</span>
+                                                                    <input type="text"
+                                                                           class="input-medium rateCode-s2 ml-4"
+                                                                           placeholder="60"/>
+                                                                    <span class="ml-4 subtxt">天前</span>
                                                                 </div>
                                                             </div>
-                                                            <div class="grid-item">
-                                                                <input type="text"
-                                                                       class="input-medium rateCode-s2"
-                                                                       placeholder="90"/>
-                                                                <span class="ml-4 subtxt">天前至</span>
-                                                                <input type="text"
-                                                                       class="input-medium rateCode-s2 ml-4"
-                                                                       placeholder="60"/>
-                                                                <span class="ml-4 subtxt">天前</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <!--2-->
-                                                <tr class="css_tr">
-                                                    <td class="css_td padding-top width-50">
-                                                        <div class="grid">
-                                                            <div class="grid-item popCheckbox">
+                                                        </td>
+                                                    </tr>
+                                                    <!--2-->
+                                                    <tr class="css_tr">
+                                                        <td class="css_td padding-top width-50">
+                                                            <div class="grid">
+                                                                <div class="grid-item popCheckbox">
 
                                                                 <span class="checkbox">
                                                                   <label class="checkbox-width">
@@ -177,16 +372,16 @@
                                                                       </span>
                                                                   </label>
                                                                 </span>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <span class="moreClick moreHtAuto">會員類別</span>
+                                                                </div>
                                                             </div>
-                                                            <div class="grid-item">
-                                                                <span class="moreClick moreHtAuto">會員類別</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="css_td padding-top width-50">
-                                                        <div class="grid">
+                                                        </td>
+                                                        <td class="css_td padding-top width-50">
+                                                            <div class="grid">
 
-                                                            <div class="grid-item popCheckbox">
+                                                                <div class="grid-item popCheckbox">
                                                                 <span class="checkbox">
                                                                   <label class="checkbox-width">
                                                                       <input name="form-field-checkbox"
@@ -205,15 +400,15 @@
                                                                       </span>
                                                                   </label>
                                                                 </span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <!--3-->
-                                                <tr class="css_tr">
-                                                    <td class="css_td padding-top width-50">
-                                                        <div class="grid">
-                                                            <div class="grid-item popCheckbox">
+                                                        </td>
+                                                    </tr>
+                                                    <!--3-->
+                                                    <tr class="css_tr">
+                                                        <td class="css_td padding-top width-50">
+                                                            <div class="grid">
+                                                                <div class="grid-item popCheckbox">
                                                                 <span class="checkbox">
                                                                   <label class="checkbox-width width-auto">
                                                                       <input name="form-field-checkbox"
@@ -224,30 +419,30 @@
                                                                       </span>
                                                                   </label>
                                                                 </span>
-                                                            </div>
-                                                            <div class="grid-item">
-                                                                <div style="display: block;">
-
-
-                                                                    <label>上架日期</label>
-                                                                    <input type="date"
-                                                                           class="input-medium rateCode-s3"
-                                                                           placeholder="2016/01/01"/>
                                                                 </div>
-                                                                <div style="display: block;">
+                                                                <div class="grid-item">
+                                                                    <div style="display: block;">
 
-                                                                    <label>下架日期</label>
-                                                                    <input type="date"
-                                                                           class="input-medium rateCode-s3"
-                                                                           placeholder="2016/01/01"/>
+
+                                                                        <label>上架日期</label>
+                                                                        <input type="date"
+                                                                               class="input-medium rateCode-s3"
+                                                                               placeholder="2016/01/01"/>
+                                                                    </div>
+                                                                    <div style="display: block;">
+
+                                                                        <label>下架日期</label>
+                                                                        <input type="date"
+                                                                               class="input-medium rateCode-s3"
+                                                                               placeholder="2016/01/01"/>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="css_td padding-top width-50">
+                                                        </td>
+                                                        <td class="css_td padding-top width-50">
 
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -259,11 +454,11 @@
                                         <div class="row">
                                             <table class="css_table">
                                                 <tbody class="css_tbody">
-                                                <!--1-->
-                                                <tr class="css_tr">
-                                                    <td class="css_td padding-top width-100">
-                                                        <div class="grid">
-                                                            <div class="grid-item popCheckbox">
+                                                    <!--1-->
+                                                    <tr class="css_tr">
+                                                        <td class="css_td padding-top width-100">
+                                                            <div class="grid">
+                                                                <div class="grid-item popCheckbox">
                                                                 <span class="checkbox">
                                                                   <label class="checkbox-width">
                                                                       <input name="form-field-checkbox"
@@ -282,16 +477,16 @@
                                                                       </span>
                                                                   </label>
                                                                 </span>
-                                                            </div>
+                                                                </div>
 
-                                                            <div class="grid-item">
-                                                                <span class="moreClick moreHtAuto  moreAbso-t10">贈送規則</span>
+                                                                <div class="grid-item">
+                                                                    <span class="moreClick moreHtAuto  moreAbso-t10">贈送規則</span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="clearfix"></div>
-                                                        <div class="grid">
+                                                            <div class="clearfix"></div>
+                                                            <div class="grid">
 
-                                                            <div class="grid-item popCheckbox">
+                                                                <div class="grid-item popCheckbox">
                                                                 <span class="checkbox">
                                                                   <label class="checkbox-width">
                                                                       <input name="form-field-checkbox"
@@ -310,18 +505,18 @@
                                                                       </span>
                                                                   </label>
                                                                 </span>
+                                                                </div>
+
+
+                                                                <div class="grid-item">
+
+                                                                    <span class="moreClick moreHtAuto">贈送規則</span>
+                                                                </div>
+
+                                                                <div class="clearfix"></div>
                                                             </div>
-
-
-                                                            <div class="grid-item">
-
-                                                                <span class="moreClick moreHtAuto">贈送規則</span>
-                                                            </div>
-
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -361,17 +556,20 @@
                                         </button>
                                     </li>
                                     <li class="depDateLi" v-if="versionState != 'lite'">
-                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_dependantRate" disabled
+                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_dependantRate"
+                                                disabled
                                                 role="button">{{i18nLang.program.PMS0810230.depRate}}
                                         </button>
                                     </li>
                                     <li class="baseDateLi" v-if="versionState != 'lite'">
-                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate" disabled
+                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate"
+                                                disabled
                                                 role="button">{{i18nLang.program.PMS0810230.baseRate}}
                                         </button>
                                     </li>
                                     <li v-if="versionState != 'lite'">
-                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_addPpl" disabled
+                                        <button class="btn btn-primary btn-white btn-defaultWidth rateCode_addPpl"
+                                                disabled
                                                 role="button">{{i18nLang.program.PMS0810230.addPol}}
                                         </button>
                                     </li>
@@ -394,160 +592,160 @@
                             <div class="horizTable-outer">
                                 <table class="css_table horizTable width-100">
                                     <thead class="css_thead">
-                                    <tr class="css_tr">
-                                        <th class="css_th width-5">
-                                            <i class="fa fa-plus green pointer"></i>
-                                        </th>
-                                        <th class="css_th width-20">服務項目</th>
-                                        <th class="css_th width-10">單價</th>
-                                        <th class="css_th width-15">計算規則</th>
-                                        <th class="css_th width-15">服務方式</th>
-                                        <th class="css_th width-10">服務規則</th>
-                                        <th class="css_th width-10">收費方式</th>
-                                        <th class="css_th width-15">併入方式</th>
-                                    </tr>
+                                        <tr class="css_tr">
+                                            <th class="css_th width-5">
+                                                <i class="fa fa-plus green pointer"></i>
+                                            </th>
+                                            <th class="css_th width-20">服務項目</th>
+                                            <th class="css_th width-10">單價</th>
+                                            <th class="css_th width-15">計算規則</th>
+                                            <th class="css_th width-15">服務方式</th>
+                                            <th class="css_th width-10">服務規則</th>
+                                            <th class="css_th width-10">收費方式</th>
+                                            <th class="css_th width-15">併入方式</th>
+                                        </tr>
                                     </thead>
                                     <tbody class="css_tbody">
-                                    <tr class="css_tr">
-                                        <td class="css_td">
-                                            <i class="fa fa-minus red pointer"></i>
-                                        </td>
-                                        <td class="css_td">201A-早餐</td>
-                                        <td class="css_td text-right">200</td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="1">依大人數</option>
-                                                <option value="2">依小孩數</option>
-                                                <option value="3">依房間</option>
-                                            </select>
-                                        </td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="1">D:每天</option>
-                                                <option value="2">F:第一天</option>
-                                                <option value="3">C:自訂規則</option>
-                                                <option value="4">L:最後一天</option>
-                                            </select>
-                                        </td>
-                                        <td class="css_td">旺日</td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="inside">I:內拆</option>
-                                                <option value="outside">Q:外加</option>
-                                            </select>
-                                        </td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="addRent">1:加入至房租</option>
-                                                <option value="addTip">2:加入至服務費</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr class="css_tr">
-                                        <td class="css_td">
-                                            <i class="fa fa-minus red pointer"></i>
-                                        </td>
-                                        <td class="css_td">218A-迎賓飲料</td>
-                                        <td class="css_td text-right">100</td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="1">依大人數</option>
-                                                <option value="2">依小孩數</option>
-                                                <option value="3">依房間</option>
-                                            </select>
-                                        </td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="1">D:每天</option>
-                                                <option value="2">F:第一天</option>
-                                                <option value="3">C:自訂規則</option>
-                                                <option value="4">L:最後一天</option>
-                                            </select>
-                                        </td>
-                                        <td class="css_td">平日</td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="outside">Q:外加</option>
-                                                <option value="inside">I:內拆</option>
-                                            </select>
-                                        </td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="addRent">1:加入至房租</option>
-                                                <option value="addTip">2:加入至服務費</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr class="css_tr">
-                                        <td class="css_td">
-                                            <i class="fa fa-minus red pointer"></i>
-                                        </td>
-                                        <td class="css_td">219A-水果</td>
-                                        <td class="css_td text-right">100</td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="1">依大人數</option>
-                                                <option value="2">依小孩數</option>
-                                                <option value="3">依房間</option>
-                                            </select>
-                                        </td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="1">D:每天</option>
-                                                <option value="2">F:第一天</option>
-                                                <option value="3">C:自訂規則</option>
-                                                <option value="4">L:最後一天</option>
-                                            </select>
-                                        </td>
-                                        <td class="css_td">平日</td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="outside">Q:外加</option>
-                                                <option value="inside">I:內拆</option>
-                                            </select>
-                                        </td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="addRent">1:加入至房租</option>
-                                                <option value="addTip">2:加入至服務費</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr class="css_tr">
-                                        <td class="css_td">
-                                            <i class="fa fa-minus red pointer"></i>
-                                        </td>
-                                        <td class="css_td">510C-門票</td>
-                                        <td class="css_td text-right">200</td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="1">依大人數</option>
-                                                <option value="2">依小孩數</option>
-                                                <option value="3">依房間</option>
-                                            </select>
-                                        </td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="1">D:每天</option>
-                                                <option value="2">F:第一天</option>
-                                                <option value="3">C:自訂規則</option>
-                                                <option value="4">L:最後一天</option>
-                                            </select>
-                                        </td>
-                                        <td class="css_td">平日</td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="outside">Q:外加</option>
-                                                <option value="inside">I:內拆</option>
-                                            </select>
-                                        </td>
-                                        <td class="css_td">
-                                            <select class="selectHt">
-                                                <option value="addRent">1:加入至房租</option>
-                                                <option value="addTip">2:加入至服務費</option>
-                                            </select>
-                                        </td>
-                                    </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">
+                                                <i class="fa fa-minus red pointer"></i>
+                                            </td>
+                                            <td class="css_td">201A-早餐</td>
+                                            <td class="css_td text-right">200</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">依大人數</option>
+                                                    <option value="2">依小孩數</option>
+                                                    <option value="3">依房間</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">D:每天</option>
+                                                    <option value="2">F:第一天</option>
+                                                    <option value="3">C:自訂規則</option>
+                                                    <option value="4">L:最後一天</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">旺日</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="inside">I:內拆</option>
+                                                    <option value="outside">Q:外加</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="addRent">1:加入至房租</option>
+                                                    <option value="addTip">2:加入至服務費</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">
+                                                <i class="fa fa-minus red pointer"></i>
+                                            </td>
+                                            <td class="css_td">218A-迎賓飲料</td>
+                                            <td class="css_td text-right">100</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">依大人數</option>
+                                                    <option value="2">依小孩數</option>
+                                                    <option value="3">依房間</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">D:每天</option>
+                                                    <option value="2">F:第一天</option>
+                                                    <option value="3">C:自訂規則</option>
+                                                    <option value="4">L:最後一天</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">平日</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="outside">Q:外加</option>
+                                                    <option value="inside">I:內拆</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="addRent">1:加入至房租</option>
+                                                    <option value="addTip">2:加入至服務費</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">
+                                                <i class="fa fa-minus red pointer"></i>
+                                            </td>
+                                            <td class="css_td">219A-水果</td>
+                                            <td class="css_td text-right">100</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">依大人數</option>
+                                                    <option value="2">依小孩數</option>
+                                                    <option value="3">依房間</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">D:每天</option>
+                                                    <option value="2">F:第一天</option>
+                                                    <option value="3">C:自訂規則</option>
+                                                    <option value="4">L:最後一天</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">平日</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="outside">Q:外加</option>
+                                                    <option value="inside">I:內拆</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="addRent">1:加入至房租</option>
+                                                    <option value="addTip">2:加入至服務費</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">
+                                                <i class="fa fa-minus red pointer"></i>
+                                            </td>
+                                            <td class="css_td">510C-門票</td>
+                                            <td class="css_td text-right">200</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">依大人數</option>
+                                                    <option value="2">依小孩數</option>
+                                                    <option value="3">依房間</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="1">D:每天</option>
+                                                    <option value="2">F:第一天</option>
+                                                    <option value="3">C:自訂規則</option>
+                                                    <option value="4">L:最後一天</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">平日</td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="outside">Q:外加</option>
+                                                    <option value="inside">I:內拆</option>
+                                                </select>
+                                            </td>
+                                            <td class="css_td">
+                                                <select class="selectHt">
+                                                    <option value="addRent">1:加入至房租</option>
+                                                    <option value="addTip">2:加入至服務費</option>
+                                                </select>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -615,6 +813,7 @@
                 isLoadingDialog: false,//是否載入成功
                 loadingText: "",//載入的提示文字
                 singleData: {}, //單筆資料
+
                 chgSingleData: {}, //改變前的單筆資料
                 oriSingleData: {}, //原始單筆資料
                 fieldsData: [], //欄位資料
@@ -624,6 +823,7 @@
                 panelName: ["roomTypPanel", "limitSetPanel", "limitSetPanel"], //頁籤內容名稱
                 tabStatus: {isRoomTyp: false}, //現在頁籤狀況
                 isUseTime: false, //是否開啟使用期間
+                versionState: 'lite'
             }
         },
         watch: {

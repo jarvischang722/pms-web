@@ -96,7 +96,8 @@
 
         // 下拉選單 文字更換(樓層、棟別)
         $(document).on('click', '.dpUIList li > a', function () {
-            $(this).parents('.chgText-effect').find('.dpShowValue').text(this.innerHTML);
+            $(this).parent().toggleClass('click-act');
+//            $(this).parents('.chgText-effect').find('.dpShowValue').text(this.innerHTML);
             $(this).parents('.chgText-effect').find('.dropdown-toggle').addClass('sel-border');
         });
         //.END 下拉選單
@@ -112,6 +113,8 @@
             $(this).addClass("active");
         });
         //.END 排房選中active
+
+
 
 
 //        $(document).on('click', ".btn-primary", function (e) {
