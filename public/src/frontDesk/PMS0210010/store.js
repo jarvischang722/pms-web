@@ -157,18 +157,22 @@ const actions = {
             oriData: []
         };
         let ls_funcId = "";
+        let lo_saveData = JSON.parse(JSON.stringify(state.go_profileSingleData));
+
+        lo_saveData["cust_idx.birth_dat"] = _.isUndefined(lo_saveData["cust_idx.birth_dat"]) ? "" : moment(lo_saveData["cust_idx.birth_dat"]).format("YYYY/MM/DD");
+        lo_saveData = _.extend(lo_saveData, {tab_page_id: 1});
 
         if (state.gb_isCreateStatus) {
-            lo_tmpCUD.createData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
+            lo_tmpCUD.createData.push(lo_saveData);
             ls_funcId = "0200";
         }
         else if (state.gb_isEditStatus) {
             if (state.gb_isDeleteStatus) {
-                lo_tmpCUD.deleteData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
+                lo_tmpCUD.deleteData.push(lo_saveData);
                 ls_funcId = "0300";
             }
             else {
-                lo_tmpCUD.updateData.push(_.extend(state.go_profileSingleData, {tab_page_id: 1}));
+                lo_tmpCUD.updateData.push(lo_saveData);
                 lo_tmpCUD.oriData.push(_.extend(state.go_oriProfileSingleData, {tab_page_id: 1}));
                 ls_funcId = "0400";
             }

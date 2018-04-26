@@ -123,10 +123,7 @@
         <parameter type="likestring" kind="2" condition="GHIST_VISIT_DT.Trans_tot like ?">trans_tot</parameter>
         <parameter type="likestring" kind="2" condition="GHIST_VISIT_DT.Visit_days like ?">visit_days</parameter>
         <parameter type="likestring" kind="2" condition="GHIST_VISIT_DT.Visit_nos like ?">visit_nos</parameter>
-        <parameter type="likestring" kind="3">name</parameter>
-        <statement test="_v(param.name)"><![CDATA[
-        AND (cust_idx.last_nam like :name or cust_idx.first_nam like :name)
-        ]]></statement>
+        <parameter type="likestring" kind="2" condition="CUST_IDX.ALT_NAM like ?">name</parameter>
         <parameter type="string" kind="3">ci_dat</parameter>
         <statement test="_v(param.ci_dat)"><![CDATA[
         AND GHIST_MN.GCUST_COD IN
