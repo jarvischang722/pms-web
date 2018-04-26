@@ -80,7 +80,7 @@
     <dao name="QRY_BAC_SYS_MODULE_BY_USER">
         <statement><![CDATA[
             select distinct a.func_athena_id menu_athena_ID, trim(func_comp_cod) as func_comp_cod, a.role_id,
-            trim(func_hotel_cod) as func_hotel_cod , pre_id , current_id , id_typ ,level_nos ,sort_cod  from BAC_ROLE_FUNCTION a
+            trim(func_hotel_cod) as func_hotel_cod , pre_id , current_id , id_typ ,level_nos ,sort_cod, UPPER(a.edition) as edition from BAC_ROLE_FUNCTION a
             join bac_role_user b on a.role_athena_id = b.role_athena_id and a.role_comp_cod = b.role_comp_cod and a.role_id = b.role_id
             where b.user_athena_id = :user_athena_id
             and trim(b.user_comp_cod) = trim(:user_comp_cod)
@@ -182,9 +182,10 @@
     <!-- 抓取process -->
     <dao name="QRY_S99_PROCESS_BY_SYS_MODULE">
         <statement><![CDATA[
-         select pro.* ,mdl.mdl_name,mdl.mdl_name as mdl_name_zh_TW , mdl_ename as mdl_name_en , mdl.group_sta, mdl.mdl_url
+         select pro.* ,mdl.mdl_name,mdl.mdl_name as mdl_name_zh_TW , mdl_ename as mdl_name_en , mdl.group_sta, mdl.mdl_url, brf.edition
          from s99_process pro
          inner join s99_model mdl on mdl.SYS_ID = pro.SYS_ID and mdl.mdl_id = pro.mdl_id
+         inner join bac_role_function  brf on brf.current_id =  pro.pro_id
          where pro.SYS_ID = :sys_id
         ]]>
         </statement>

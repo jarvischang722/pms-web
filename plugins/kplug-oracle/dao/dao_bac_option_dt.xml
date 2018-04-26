@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- 撈取某一支prg_id 的option list-->
+    <dao name="QRY_BAC_OPTION_DT">
+        <statement><![CDATA[
+            select * from BAC_OPTION_DT
+            where athena_id = :athena_id
+            and trim(comp_cod) = trim(:comp_cod)
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and sys_id = :sys_id
+            and pro_id = :prg_id
+            and use_sta = 'Y'
+            and id_typ = 'OPTION';
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">comp_cod</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">sys_id</parameter>
+        <parameter type="string" kind="3">prg_id</parameter>
+
+    </dao>
+
+
+</root>

@@ -737,3 +737,34 @@ exports.qryRoleByCurrentID = function (postData, session, callback) {
         callback(err, la_roleList);
     });
 };
+
+/**
+ * 撈取某支作業的OPTION ID 與程式的版本
+ * @param postData
+ * @param session
+ * @return {Promise<any>}
+ */
+exports.qryPrgEditionOptionList = async function (postData, session) {
+    let lo_params = {
+        athena_id: session.user.athena_id,
+        hotel_cod: session.user.hotel_cod,
+        comp_cod: session.user.comp_cod,
+        sys_id: session.activeSystem.id,
+        prg_id: postData.prg_id
+    };
+    let lao_subsysMenu = session.user.subsysMenu;
+    let lao_allQuickmenu = _.pluck(lao_subsysMenu, "quickMenu");
+    let lao_quickmenuList = [].concat(...lao_allQuickmenu);
+    let lo_editionData = {edition: _.findWhere(lao_quickmenuList, {pro_id: postData.prg_id}).edition, optionList: []};
+
+    return new Promise(function (resolve, reject) {
+        queryAgent.queryList("QRY_BAC_OPTION_DT", lo_params, 0, 0, function (err, la_optionList) {
+            if (err) {
+                reject(err);
+            } else {
+                lo_editionData.optionList = _.pluck(la_optionList, "option_id");
+                resolve(lo_editionData);
+            }
+        });
+    });
+};
