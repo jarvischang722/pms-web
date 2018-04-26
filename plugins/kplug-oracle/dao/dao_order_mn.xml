@@ -152,5 +152,31 @@
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <!-- 速查 -->
+        <statement test="_v(param.ikey_qry)"><![CDATA[
+            and
+            (mn.acust_nam like :ikey_qry
+            or mn.atten_nam like :ikey_qry
+            or mn.cust_nam like :ikey_qry
+            or mn.ikey like :ikey_qry
+            or mn.group_nos like :ikey_qry
+            or mn.rvreserve_nos like :ikey_qry)
+        ]]></statement>
+        <parameter type="likestring" kind="3">ikey_qry</parameter>
+        <!-- 連絡電話 -->
+        <statement test="_v(param.tel_nos)"><![CDATA[
+            and (mn.mobile_nos like :tel_nos
+            or mn.office_tel like :tel_nos
+            or mn.home_tel like :tel_nos
+            or mn.fax_nos like :tel_nos
+            or mn.e_mail like :tel_nos)
+        ]]></statement>
+        <parameter type="likestring" kind="3">tel_nos</parameter>
+        <!-- 新增/修改者 -->
+        <statement test="_v(param['order_dt.upd_usr'])"><![CDATA[
+            and (dt.ins_usr like :order_dt.upd_usr
+            or dt.upd_usr like :order_dt.upd_usr)
+        ]]></statement>
+        <parameter type="likestring" kind="3">order_dt.upd_usr</parameter>
     </dao>
 </root>

@@ -321,6 +321,9 @@ DB.prototype.queryDao = function (dao, param, cb) {
                         con[parameter.key] = self.paramTypeFormat(parameter.type, param, parameter.key);
                     }
                 }
+                else {
+                    console.log(parameter.key);
+                }
             }
         });
 
@@ -386,13 +389,20 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
         delete condition["inCond"];
     }
 
+    //判斷condition有沒有 '.'的欄位表示，用字串取代方法做
+    _.each(condition, (value, paramKey) => {
+        if (paramKey.indexOf(".") > -1) {
+            sqlstring = sqlstring.replace(new RegExp(`:${paramKey}`, 'g'), `'${value}'`);
+            delete condition[paramKey];
+        }
+    });
+
     if (dbObj.debug == 1) {
         console.log("sqlstring:" + sqlstring);
         console.log("parameters:" + JSON.stringify(condition));
     }
 
     connection.execute(sqlstring, condition, function (err, result) {
-
         if (err) {
             if (mode == 1) {
                 cb(err, []);
