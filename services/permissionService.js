@@ -1,22 +1,11 @@
 /**
  * Created by kaiyue on 2017/12/26.
  */
-const path = require('path');
-const moment = require("moment");
 const _ = require("underscore");
 const async = require("async");
-const alasql = require("alasql");
-
-const ruleAgent = require("../ruleEngine/ruleAgent");
 const queryAgent = require("../plugins/kplug-oracle/QueryAgent");
-const mongoAgent = require("../plugins/mongodb");
-const sysConfig = require("../configs/systemConfig");
-const tools = require("../utils/CommonTools");
-const fetechDataModule = require("./common/fetchFieldsAndDataModule");
 const commonRule = require("../ruleEngine/rules/CommonRule");
 const langSvc = require("../services/LangService");
-const logSvc = require("../services/LogService");
-const mailSvc = require("../services/MailService");
 const dbSvc = require("../services/DbTableService");
 
 exports.saveAuthByRole = function (postData, session, callback) {
@@ -744,27 +733,84 @@ exports.qryRoleByCurrentID = function (postData, session, callback) {
  * @param session
  * @return {Promise<any>}
  */
-exports.qryPrgEditionOptionList = async function (postData, session) {
-    let lo_params = {
-        athena_id: session.user.athena_id,
-        hotel_cod: session.user.hotel_cod,
-        comp_cod: session.user.comp_cod,
-        sys_id: session.activeSystem.id,
-        prg_id: postData.prg_id
-    };
-    let lao_subsysMenu = session.user.subsysMenu;
-    let lao_allQuickmenu = _.pluck(lao_subsysMenu, "quickMenu");
-    let lao_quickmenuList = [].concat(...lao_allQuickmenu);
-    let lo_editionData = {edition: _.findWhere(lao_quickmenuList, {pro_id: postData.prg_id}).edition, optionList: []};
+exports.qryPrgEditionOptionList = function (postData, session) {
+    const _this = this;
+    return new Promise(async function (resolve, reject) {
+        try {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                comp_cod: session.user.comp_cod,
+                sys_id: session.activeSystem.id,
+                prg_id: postData.prg_id
+            };
+            let lao_subsysMenu = session.user.subsysMenu;
+            let lao_allQuickmenu = _.pluck(lao_subsysMenu, "quickMenu");
+            let lao_quickmenuList = [].concat(...lao_allQuickmenu);
+            let las_funcPurvs = await  _this.getUserFuncPurviewByProID(session, postData);
+            let lo_pro = _.findWhere(lao_quickmenuList, {pro_id: postData.prg_id});
+            queryAgent.queryList("QRY_BAC_OPTION_DT", lo_params, 0, 0, function (err, la_optionList) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({
+                        edition: lo_pro ? lo_pro.edition : "",
+                        optionList: _.pluck(la_optionList, "option_id"),
+                        funcList: _.object(_.pluck(las_funcPurvs, "func_id"), _.pluck(las_funcPurvs, "edition"))
+                    });
+                }
+            });
 
-    return new Promise(function (resolve, reject) {
-        queryAgent.queryList("QRY_BAC_OPTION_DT", lo_params, 0, 0, function (err, la_optionList) {
+        } catch (err) {
+            reject(err);
+        }
+    });
+};
+
+/**
+ * 取得使用者某支程式的功能按鈕權限
+ * @param session
+ * @param postData
+ * @return {Promise<void>}
+ */
+exports.getUserFuncPurviewByProID = async function (session, postData, callback) {
+
+    return new Promise((resolve, reject) => {
+        let lo_params = {
+            user_id: session.user.usr_id,
+            comp_cod: session.user.cmp_id,
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            prg_id: postData.prg_id
+        };
+        async.parallel({
+            funcPurvs: function (callback) {
+                queryAgent.queryList("QRY_PROCESS_USER_FUNC_PURVIEW", lo_params, 0, 0, function (err, funcPurvs) {
+                    callback(err, funcPurvs);
+                });
+            },
+            funcLangs: function (callback) {
+                langSvc.handleMultiLangContentByKey("LANG_BAC_PROCESS_FUNC_RF", session.locale,
+                    {pro_id: postData.prg_id}, "func_nam", function (err, funcLangs) {
+                        callback(err, funcLangs);
+                    });
+            }
+        }, function (err, results) {
             if (err) {
+                console.error(err);
                 reject(err);
             } else {
-                lo_editionData.optionList = _.pluck(la_optionList, "option_id");
-                resolve(lo_editionData);
+                resolve(_.map(results.funcPurvs, (func) => {
+                    return {
+                        func_id: func.current_id,
+                        func_nam: _.findIndex(results.funcLangs, {func_id: func.current_id}) > -1
+                            ? _.findWhere(results.funcLangs, {func_id: func.current_id}).words : func.current_id,
+                        edition: func.edition
+                    }
+                }))
             }
+
         });
     });
+
 };
