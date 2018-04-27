@@ -533,6 +533,9 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
+                                        <p>{{prgEditionOptions}}</p>
+                                    </li>
+                                    <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doSaveGrid">{{i18nLang.program.PMS0810230.save}}
                                         </button>
@@ -813,7 +816,6 @@
                 isLoadingDialog: false,//是否載入成功
                 loadingText: "",//載入的提示文字
                 singleData: {}, //單筆資料
-
                 chgSingleData: {}, //改變前的單筆資料
                 oriSingleData: {}, //原始單筆資料
                 fieldsData: [], //欄位資料
@@ -823,7 +825,8 @@
                 panelName: ["roomTypPanel", "limitSetPanel", "limitSetPanel"], //頁籤內容名稱
                 tabStatus: {isRoomTyp: false}, //現在頁籤狀況
                 isUseTime: false, //是否開啟使用期間
-                versionState: 'lite'
+                versionState: 'lite',
+                prgEditionOptions: {} //版本資料
             }
         },
         watch: {

@@ -10,7 +10,7 @@
             and sys_id = :sys_id
             and pro_id = :prg_id
             and use_sta = 'Y'
-            and id_typ = 'OPTION';
+            and id_typ = 'OPTION'
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>

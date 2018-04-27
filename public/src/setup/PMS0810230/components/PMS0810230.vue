@@ -300,6 +300,11 @@
             this.fetchRentCalDat();//過濾使用期間日期
             this.fetchUserInfo();
             this.loadDataGridByPrgID();
+
+            //取得版本資料
+            BacchusMainVM.doGetVersionData("PMS0810230");
+            this.prgEditionOptions = BacchusMainVM.prgEditionOptions;
+            console.log(this.prgEditionOptions);
         },
         components: {pms0810230SingleGrid, fieldMultiLang},
         data() {
@@ -308,6 +313,7 @@
                 i18nLang: go_i18nLang,//多語系資料
                 go_funcPurview: [],//按鈕權限
                 versionState: "lite", //版本設定
+                prgEditionOptions: {}, //版本設定資料
                 userInfo: {},//使用者資訊
                 pageOneDataGridRows: [],//多筆資料
                 pageOneFieldData: [],//多筆欄位資料
