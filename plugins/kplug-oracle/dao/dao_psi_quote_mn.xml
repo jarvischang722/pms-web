@@ -56,4 +56,23 @@
         <parameter type="string" kind="3">format_sta</parameter>
     </dao>
 
+
+    <!-- ['PSIW510030'] 檢查P訂在期間內是否有相同格式的訂單 -->
+    <dao name="CHK_PSI_P_FORMAT_STA">
+        <statement><![CDATA[
+            select count(*) as count from psi_quote_mn
+            where trim(comp_cod) = trim(:comp_cod)
+            and trim(cust_cod) = trim(:cust_cod)
+            and trim(format_sta) = trim(:format_sta)
+            and order_dat between to_date(:start_dat, 'YYYY/MM/DD')
+            and to_date(:end_dat, 'YYYY/MM/DD')
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+        <parameter type="string" kind="3">format_sta</parameter>
+        <parameter type="string" kind="3">start_dat</parameter>
+        <parameter type="string" kind="3">end_dat</parameter>
+    </dao>
+
 </root>
