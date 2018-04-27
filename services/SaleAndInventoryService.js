@@ -461,6 +461,41 @@ exports.chkFormatSta = function (params, session, callback) {
             else {
                 cb(false, result);
             }
+        },
+        //5. 如果為P訂,則要檢查期間內只能有一張訂單
+        function (result, cb) {
+            if (params.singleData.order_time.toString().substr(0, 1) == 'P') {
+                let lo_params = {
+                    comp_cod: session.user.cmp_id,
+                    cust_cod: params.singleData.cust_cod,
+                    format_sta: params.singleData.format_sta,
+                    start_dat: params.singleData.PXW1_start_dat,
+                    end_dat: params.singleData.PXW1_end_dat
+                };
+
+                queryAgent.query("CHK_PSI_P_FORMAT_STA", lo_params, function (err, Result) {
+                    if (!err) {
+                        if (Result.count > 0) {
+                            lo_error = new ErrorClass();
+                            lo_error.errorMsg = "在" + params.singleData.PXW1_start_dat + "~" + params.singleData.PXW1_end_dat + "此期間內已有相同格式的訂單";
+                            lo_error.errorCod = "1111";
+                            cb(true, lo_error);
+                        }
+                        else {
+                            cb(false, result);
+                        }
+                    }
+                    else {
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = err.message || "error";
+                        lo_error.errorCod = "1111";
+                        cb(true, lo_error);
+                    }
+                });
+            }
+            else {
+                cb(false, result);
+            }
         }
     ], function (err, result) {
         if (result.errorCod == "0000") {

@@ -552,6 +552,10 @@
                         if (result.success) {
                             alert(go_i18nLang.program.PMS0610020.save_success);
                             this.$store.dispatch("setAllDataClear");
+                            let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
+                            this.rowData = {};
+                            this.tabName = "";
+                            this.rowData = lo_cloneRowData;
                         }
                         else {
                             alert(result.errorMsg);
@@ -561,8 +565,6 @@
                 }
             },
             doCloseDialog() {
-                this.initData();
-                this.rowData = {};
                 $("#PMS0610020").dialog('close');
             },
             //ststus chg.(公司狀態)

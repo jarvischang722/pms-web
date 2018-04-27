@@ -1481,7 +1481,10 @@ var PSIW510030 = new Vue({
                     alert(result.error);
                 }
                 else {
-                    self.singleDataTemp.period_cod = result.data.period_cod;
+                    var lo_period = result.data.period_cod.split(",");
+                    self.singleDataTemp.period_cod = lo_period[0];
+                    self.singleDataTemp.PXW1_start_dat = lo_period[1];
+                    self.singleDataTemp.PXW1_end_dat = lo_period[2];
 
                     //Week 格式代號用
                     var day;
