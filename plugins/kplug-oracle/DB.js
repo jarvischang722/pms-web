@@ -321,9 +321,6 @@ DB.prototype.queryDao = function (dao, param, cb) {
                         con[parameter.key] = self.paramTypeFormat(parameter.type, param, parameter.key);
                     }
                 }
-                else {
-                    console.log(parameter.key);
-                }
             }
         });
 

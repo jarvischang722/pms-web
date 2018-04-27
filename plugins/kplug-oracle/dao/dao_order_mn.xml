@@ -145,13 +145,38 @@
             and mn.hotel_cod = dt.hotel_cod
             and mn.ikey = dt.ikey
             left join guest_rf g on dt.athena_id = g.athena_id and dt.guest_typ = g.guest_typ
+        ]]>
+        </statement>
+
+        <statement test="_d(param.full_nam) == ''"><![CDATA[
             where dt.athena_id = :athena_id
             and dt.hotel_cod = :hotel_cod
             and dt.order_sta <> 'X'
-        ]]>
-        </statement>
+        ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <!-- full_nam -->
+        <statement test="_d(param.full_nam) != ''"><![CDATA[
+                where exists
+                (select 1 from guest_mn
+                where guest_mn.athena_id = order_dt.athena_id
+                and guest_mn.hotel_cod = order_dt.hotel_cod
+                and guest_mn.ikey = order_dt.ikey
+                and guest_mn.ikey_seq_nos = order_dt.ikey_seq_nos
+                and (guest_mn.alt_nam like :full_nam
+                or  guest_mn.first_nam like :full_nam
+                or guest_mn.last_nam like :full_nam)
+                and guest_mn.master_sta = 'G'
+                and guest_mn.guest_sta <> 'X')
+        ]]></statement>
+        <parameter type="likestring" kind="3">full_nam</parameter>
+
+        <statement test="_v(param.ikey)"><![CDATA[
+            and ikey like :ikey
+        ]]></statement>
+        <parameter type="likestring" kind="3">ikey</parameter>
+        <!--<statement test="_v(param.rvreserve_nos)"></statement>-->
+
         <!-- 速查 -->
         <statement test="_v(param.ikey_qry)"><![CDATA[
             and
@@ -178,5 +203,15 @@
             or dt.upd_usr like :order_dt.upd_usr)
         ]]></statement>
         <parameter type="likestring" kind="3">order_dt.upd_usr</parameter>
+        <!-- 新增日 -->
+        <statement test="_v(param['order_dt.ins_dat'])"><![CDATA[
+            and trunc(dt.ins_dat) = to_date(:order_dt.ins_dat, 'YYYY/MM/DD')
+        ]]></statement>
+        <parameter type="string" kind="3">order_dt.ins_dat</parameter>
+        <!-- 修改日 -->
+        <statement test="_v(param['order_dt.upd_dat'])"><![CDATA[
+            and trunc(dt.upd_dat) = to_date(:order_dt.upd_dat, 'YYYY/MM/DD')
+        ]]></statement>
+        <parameter type="string" kind="3">order_dt.upd_dat</parameter>
     </dao>
 </root>
