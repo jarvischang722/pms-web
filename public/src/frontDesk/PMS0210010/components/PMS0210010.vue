@@ -60,6 +60,62 @@
                 :is-create-status="isCreateStatus"
                 :is-edit-status="isEditStatus"
         ></pms0210011>
+        <!--異動紀錄-->
+        <el-dialog
+                :title="i18nLang.SystemCommon.ChangeLog" :close-on-click-modal="true" :show-close="false"
+                :visible.sync="openChangeLogDialog" size="large" class="openChangeLogDialog">
+            <div class="col-xs-12">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="fixHeadTable">
+                            <div class="tbl-header02">
+                                <table class=" custab">
+                                    <thead class="custab-head">
+                                    <tr>
+                                        <th class="width-15 text-center">{{i18nLang.SystemCommon.Time}}</th>
+                                        <th class="width-10 text-center">{{i18nLang.SystemCommon.User}}</th>
+                                        <th class="width-15 text-center">{{i18nLang.SystemCommon.Action_type}}</th>
+                                        <th class="width-20 text-center">{{i18nLang.SystemCommon.Desciption_Mn}}</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="tbl-content02" style="height: 300px;">
+                                <table class="custab">
+                                    <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
+                                    <tr v-for="logData in allChangeLogList">
+                                        <td class="width-15">{{logData.event_time}}</td>
+                                        <td class="width-10">{{logData.user}}</td>
+                                        <td class="width-15">
+                                            <span v-for="keyData in logData.keys">{{keyData}}<br></span>
+                                        </td>
+                                        <td class="width-20">
+                                            <div class="blue bold" style="text-transform: capitalize;">
+                                                {{logData.action}}
+                                            </div>
+                                            <span v-for="mnData in logData.desc_mn">
+                                                {{mnData.field_name}} :
+                                                {{mnData.oldVal}}
+                                                <span v-if="logData.action == 'update'"> →  </span>
+                                                {{mnData.newVal}}
+                                                <br>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div> <!-- /.col-sm-12 -->
+            <div class="clearfix"></div>
+            <span slot="footer" class="dialog-footer">
+             <el-button @click="openChangeLogDialog = false">{{i18nLang.SystemCommon.OK}}</el-button>
+        </span>
+        </el-dialog>
+        <!--/.異動紀錄-->
     </div>
 </template>
 <script>
@@ -91,6 +147,11 @@
                     self.appendRow();
                 }, 100);
             });
+            //change log dialog
+            this.$eventHub.$on('getChangeLogData', function (changeLogData) {
+                self.openChangeLogDialog = changeLogData.openChangeLogDialog;
+                self.allChangeLogList = changeLogData.allChangeLogList;
+            });
         },
         mounted() {
             this.fetchUserInfo();
@@ -109,7 +170,8 @@
                 isLoading: false,//是否載入成功
                 isCreateStatus: false,//是否為新增狀態
                 isEditStatus: false, //是否為編輯狀態
-                isModifiable: true
+                isModifiable: true,
+                openChangeLogDialog: false
             }
         },
         methods: {
