@@ -7,25 +7,20 @@
                     <div class="col-xs-10 col-sm-10">
                         <div class="row no-margin-right">
                             <div class="main-content-data">
-                                <template v-if="$parent.$parent.prgEditionOptions.funcList['1010'] == 'LITE'">
-
-                                </template>
-                                <template v-else>
-                                    <v-table
-                                            row-hover-color="#eee"
-                                            row-click-color="#edf7ff"
-                                            is-horizontal-resize
-                                            style="width:100%"
-                                            :columns="useTimeColumns"
-                                            :table-data="useTimeData"
-                                            :error-content="errorContent"
-                                            :column-cell-class-name="useTimeColumnCellClass"
-                                            :title-click="appendRow"
-                                            :row-click="getRowData"
-                                            @on-custom-comp="customCompFunc"
-                                    >
-                                    </v-table>
-                                </template>
+                                <v-table
+                                        row-hover-color="#eee"
+                                        row-click-color="#edf7ff"
+                                        is-horizontal-resize
+                                        style="width:100%"
+                                        :columns="useTimeColumns"
+                                        :table-data="useTimeData"
+                                        :error-content="errorContent"
+                                        :column-cell-class-name="useTimeColumnCellClass"
+                                        :title-click="appendRow"
+                                        :row-click="getRowData"
+                                        @on-custom-comp="customCompFunc"
+                                >
+                                </v-table>
                             </div>
                         </div>
                     </div>
@@ -181,7 +176,6 @@
                     oriData: []
                 };
             });
-
         },
         mounted() {
             this.fetchRentCalDat();
@@ -448,8 +442,14 @@
             },
             appendRow(title, field) {
                 if (field == "control") {
+                    let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
                     this.timeRuleData = {};
-                    this.showTimeRuleDialog();
+                    if(lo_funcList['1010'] == 'LITE'){
+                        this.useTimeData.push({});
+                    }
+                    else{
+                        this.showTimeRuleDialog();
+                    }
                 }
             },
             editRow() {
