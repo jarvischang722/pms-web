@@ -83,14 +83,6 @@
                                         <div class="space-6"></div>
                                         <!--tabPage-->
                                         <div class="space-6"></div>
-                                        <label>{{i18nLang.program.PMS0810230.holiday}}: </label>
-                                        <bac-select
-                                                v-model="commandHVal" :default-val="commandHVal"
-                                                @update:v-model="val => commandHVal = val" field="{}"
-                                                :data="commandOptionSelectOption.selectData" multiple="true"
-                                                is-qry-src-before="Y" value-field="value" text-field="display">
-                                        </bac-select>
-                                        <div class="space-6"></div>
                                         <el-tabs v-model="timeRuleSingleData['command_cod']" type="card" tab-position="left">
                                             <el-tab-pane :label="i18nLang.program.PMS0810230.evertDay" name="D">
                                                 <div class="ml-5">
@@ -298,6 +290,7 @@
             //取得版本資料
             BacchusMainVM.doGetVersionData("PMS0810230");
             this.prgEditionOptions = BacchusMainVM.prgEditionOptions;
+            console.log(this.prgEditionOptions);
         },
         components: {pms0810230SingleGrid, fieldMultiLang},
         data() {

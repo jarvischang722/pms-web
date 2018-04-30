@@ -7,20 +7,34 @@
                     <div class="col-xs-10 col-sm-10">
                         <div class="row no-margin-right">
                             <div class="main-content-data">
-                                <v-table
-                                        row-hover-color="#eee"
-                                        row-click-color="#edf7ff"
-                                        is-horizontal-resize
-                                        style="width:100%"
-                                        :columns="useTimeColumns"
-                                        :table-data="useTimeData"
-                                        :error-content="errorContent"
-                                        :column-cell-class-name="useTimeColumnCellClass"
-                                        :title-click="appendRow"
-                                        :row-click="getRowData"
-                                        @on-custom-comp="customCompFunc"
-                                >
-                                </v-table>
+                                <template v-if="$parent.$parent.prgEditionOptions.funcList['1010'] == 'LITE'">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <i class="fa fa-plus green pointer"></i>
+                                            </td>
+                                            <td>開始日期</td>
+                                            <td>結束日期</td>
+                                            <td>日期規則</td>
+                                        </tr>
+                                    </table>
+                                </template>
+                                <template v-else>
+                                    <v-table
+                                            row-hover-color="#eee"
+                                            row-click-color="#edf7ff"
+                                            is-horizontal-resize
+                                            style="width:100%"
+                                            :columns="useTimeColumns"
+                                            :table-data="useTimeData"
+                                            :error-content="errorContent"
+                                            :column-cell-class-name="useTimeColumnCellClass"
+                                            :title-click="appendRow"
+                                            :row-click="getRowData"
+                                            @on-custom-comp="customCompFunc"
+                                    >
+                                    </v-table>
+                                </template>
                             </div>
                         </div>
                     </div>
@@ -31,7 +45,8 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button
+                                                class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="editRow">{{i18nLang.program.PMS0810230.dateRule}}
                                         </button>
                                     </li>
@@ -136,11 +151,11 @@
                 //修改原始資料的 rate_cod
                 _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
                     lo_dataGridRowsData.rate_cod = data.rateCod;
-                    if(lo_dataGridRowsData.isCreate){
+                    if (lo_dataGridRowsData.isCreate) {
                         this.tmpCUD.createData.splice(idx, 1);
                         this.tmpCUD.createData.push(lo_dataGridRowsData);
                     }
-                    else{
+                    else {
                         let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_dataGridRowsData.supply_nos});
                         if (ln_editIndex > -1) {
                             this.tmpCUD.updateData.splice(ln_editIndex, 1);
@@ -158,7 +173,7 @@
                 _.each(this.tmpCUD, (tmpCUDVal, tmpCUDKey) => {
                     _.each(tmpCUDVal, (lo_tmpCUDVal, idx) => {
                         //修改 tmpCUD 的 rate_cod
-                        if(tmpCUDKey != 'oriData'){
+                        if (tmpCUDKey != 'oriData') {
                             self.tmpCUD[tmpCUDKey][idx]['rate_cod'] = data.rateCod;
                         }
                         //增加page_id、tab_page_id
@@ -167,7 +182,7 @@
 
                 });
             });
-            this.$eventHub.$on('setClearData', ()=>{
+            this.$eventHub.$on('setClearData', () => {
                 this.tmpCUD = {
                     createData: [],
                     updateData: [],
@@ -307,17 +322,17 @@
                 ];
                 let la_displayDataGridRowsData = this.isShowExpire ?
                     this.dataGridRowsData : _.filter(this.dataGridRowsData, (lo_dataGridRowsData) => {
-                    let lo_endDat = moment(lo_dataGridRowsData.end_dat);
-                    let lo_rentCalDat = moment(this.rentCalDat);
-                    return lo_endDat.diff(lo_rentCalDat, 'days') >= 1
-                });
+                        let lo_endDat = moment(lo_dataGridRowsData.end_dat);
+                        let lo_rentCalDat = moment(this.rentCalDat);
+                        return lo_endDat.diff(lo_rentCalDat, 'days') >= 1
+                    });
                 if (la_displayDataGridRowsData.length > 0) {
                     _.each(la_displayDataGridRowsData, (lo_dataGridRowsData) => {
                         this.useTimeData.push({
                             "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
                             "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
                             "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(lo_dataGridRowsData))),
-                            "supply_nos":lo_dataGridRowsData.supply_nos
+                            "supply_nos": lo_dataGridRowsData.supply_nos
                         });
                     });
                 }
@@ -329,7 +344,7 @@
                 }
             },
             convertCommandOption(data) {
-                try{
+                try {
                     let la_commandOptionHSelect =
                         JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay));
                     _.each(la_commandOptionHSelect, (lo_select, idx) => {
@@ -378,7 +393,7 @@
                     }
                     return ls_commandOptionDisplay;
                 }
-                catch(err){
+                catch (err) {
                     alert(err);
                 }
             },
@@ -390,7 +405,7 @@
             },
             getRowData(rowIndex, rowData, column) {
                 let lb_editIndex = _.findIndex(this.dataGridRowsData, {supply_nos: rowData.supply_nos});
-                if(lb_editIndex> -1){
+                if (lb_editIndex > -1) {
                     this.timeRuleData = _.extend(rowData, this.dataGridRowsData[lb_editIndex]);
                 }
             },
