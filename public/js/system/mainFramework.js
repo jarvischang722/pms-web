@@ -62,10 +62,12 @@ let BacchusMainVM = new Vue({
                 this.quickMenu = [];
                 this.moduleMenu = [];
             }
-            if (_.isEmpty(this.usingPrgID)) {
-                if (this.getQueryString("prg_id") != null) {
-                    this.usingPrgID = this.getQueryString("prg_id");
-                } else if (!_.isUndefined(getCookie('usingPrgID')) && !_.isNull(getCookie('usingPrgID'))) {
+            if (this.getQueryString("prg_id")) {
+                this.usingPrgID = this.getQueryString("prg_id");
+                this.loadMainProcess(this.usingPrgID);
+            }
+            else if (_.isEmpty(this.usingPrgID)) {
+                if (!_.isUndefined(getCookie('usingPrgID')) && !_.isNull(getCookie('usingPrgID'))) {
                     this.usingPrgID = getCookie('usingPrgID');
                 }
                 this.loadMainProcess(this.usingPrgID);
@@ -177,8 +179,10 @@ let BacchusMainVM = new Vue({
             setupCookie("usingPrgID", prg_id);
             setupCookie("lockingPrgID", prg_id);
             BacchusMainVM.updSysPrgPath();
-            $("#MainContentDiv").html("");
 
+            if (!_.isEmpty(prg_id)) {
+                $("#MainContentDiv").html("");
+            }
             _.each(this.moduleMenu, function (mdl) {
                 if (mdl.group_sta == 'N') {
                     let lo_pro = _.findWhere(mdl.processMenu, {pro_id: prg_id}) || {};
@@ -208,6 +212,13 @@ let BacchusMainVM = new Vue({
         loadQuickMenuProcess: function (prg_id) {
             setupCookie("usingSubsysID", this.usingSubsysID, 2592000000);
             location.href = "/bacchus4web/" + this.usingSubsysID + "?prg_id=" + prg_id;
+        },
+        openNewPageLoadProgram: function (prg_id) {
+
+            let lao_allPrgs = [].concat(..._.pluck(this.subsysMenu, "quickMenu"));
+            let ls_newSubsysID = _.findIndex(lao_allPrgs, {pro_id: prg_id}) > -1
+                ? _.findWhere(lao_allPrgs, {pro_id: prg_id}).subsys_id : "";
+            window.open("/bacchus4web/" + ls_newSubsysID + "?prg_id=" + prg_id, "_blank")
         },
         /**
          * 做Table unlock
