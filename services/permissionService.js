@@ -627,8 +627,8 @@ function genPermissionFuncTree(req, session, la_funcList, callback) {
                     });
                 },
                 funcLangList: function (lo_cb) {
+                    let lo_langFile = commonRule.getLangFileByLocale(ls_locale);
                     lo_cb(null, lo_langFile);
-
                 }
             }, function (err, results) {
                 cb(err, results.sysLangList, results.subsysLangList, results.mdlLangList, results.proLangList, results.funcLangList);
