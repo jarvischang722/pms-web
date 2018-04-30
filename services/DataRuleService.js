@@ -83,24 +83,36 @@ exports.qrySelectOptionsFromSQL = function (userInfo, sql_tag, callback) {
  * @param callback
  * @constructor
  */
-exports.getSelectOptions = function (params, selRow, field, callback) {
+exports.getSelectOptions = async function (params, selRow, field, callback) {
 
     if (selRow.referiable == "Y") {
         callback({selectDataDisplay: [], selectData: []});
         return;
     }
 
+    //下拉資料來源為sql
     if (selRow.ds_from_sql == "Y") {
         let sql_tag = selRow.rule_func_name.toUpperCase();
         let lo_selectData = {
             selectData: [],
             selectDataDisplay: []
         };
-        async.waterfall([
-            //下拉資料
-            function (cb) {
+
+        let la_selData = await qrySelectOption();           //1.取下拉資料
+        la_selData = await filterSelectOption(la_selData);  //2.過濾下拉資料
+        // await filterOptionByOptionID(la_selData);
+
+        callback(lo_selectData);
+
+        /**
+         * 取下拉資料
+         * @returns {Promise<any>}
+         */
+        async function qrySelectOption() {
+            return new Promise((resolve, reject) => {
                 queryAgent.queryList(sql_tag, params, 0, 0, function (err, selData) {
                     if (err) {
+                        console.error(err);
                         selData = [];
                     }
 
@@ -115,40 +127,43 @@ exports.getSelectOptions = function (params, selRow, field, callback) {
                         }
                     });
                     lo_selectData.selectDataDisplay = selData;
-                    cb(err, selData);
+                    resolve(selData);
                 });
-            },
-            //過濾下拉資料
-            function (selData, cb) {
+            });
+        }
+
+        /**
+         * 過濾要顯示的下拉資料
+         * @param selectData {array} 原始下拉資料
+         * @returns {Promise<any>}
+         */
+        async function filterSelectOption(selectData) {
+            return new Promise((resolve, reject) => {
                 if (!_.isUndefined(selRow.display_func_name) && selRow.display_func_name != "") {
-                    ruleAgent[selRow.display_func_name](selData, function (data) {
+                    ruleAgent[selRow.display_func_name](selectData, function (data) {
                         lo_selectData.selectData = data;
-                        cb(null, selData);
+                        resolve(data);
                     });
                 }
-                else{
+                else {
                     lo_selectData.selectData = [];
-                    cb(null, selData);
+                    resolve(selectData);
                 }
-            }
-        ], function (err, result) {
-            callback(lo_selectData);
-        });
-
-
+            });
+        }
     }
     else {
         if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
             ruleAgent[selRow.rule_func_name](params, function (err, data) {
                 if (err) {
+                    console.error(err);
                     callback([]);
                 } else {
                     _.each(data.selectOptions, function (lo_selData, index) {
                         if (!_.isUndefined(lo_selData.value)) {
                             data.selectOptions[index].display = lo_selData.display;
                         }
-
                     });
                     callback({selectDataDisplay: data.selectOptions, selectData: []});
                 }
@@ -157,6 +172,12 @@ exports.getSelectOptions = function (params, selRow, field, callback) {
         else {
             callback({selectDataDisplay: [], selectData: []});
         }
+    }
+
+    async function filterOptionByOptionID() {
+        return new Promise((resolve, reject) => {
+            resolve();
+        });
     }
 };
 
@@ -416,8 +437,8 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
                     if (err) {
                         lo_result.success = false;
                     }
-                    _.each(result, function(lo_data){
-                        if(!_.isUndefined(lo_data)){
+                    _.each(result, function (lo_data) {
+                        if (!_.isUndefined(lo_data)) {
                             lo_result.extendExecDataArrSet = lo_data.extendExecDataArrSet;
                         }
                     });
