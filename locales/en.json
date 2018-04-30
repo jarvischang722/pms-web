@@ -211,7 +211,10 @@
       "visit_plan": "Visit Plan",
       "edit_sales": "修改業務員(英)",
       "add_visit_plan": "新增拜訪計畫(英)",
-      "selectOneData": "選擇一筆資料(無法同時修改多筆)(英)"
+      "selectOneData": "選擇一筆資料(無法同時修改多筆)(英)",
+      "1010": "業務員指派(英)",
+      "1020": "拜訪計畫(英)",
+      "1030": "瀏覽(英)"
     },
     "PMS0610020": {
       "company_status": "Status chg.",
@@ -249,7 +252,21 @@
       "rate": "房價代號或名稱(英)",
       "save_success": "儲存成功(英)",
       "confirmVisitRecord": "OK",
-      "confirmRemark": "OK"
+      "confirmRemark": "OK",
+      "1010": "狀態變更(英)",
+      "1020": "合約狀態變更(英)",
+      "1030": "信用額度變更(英)",
+      "1040": "新增聯絡人(英)",
+      "1050": "刪除聯絡人(英)",
+      "1060": "修改業務員(英)",
+      "1070": "新增合約(英)",
+      "1080": "刪除合約(英)",
+      "1090": "新增拜訪記錄(英)",
+      "1100": "修改拜訪記錄(英)",
+      "1110": "刪除拜訪記錄(英)",
+      "1120": "新增備註(英)",
+      "1130": "修改備註(英)",
+      "1140": "刪除備註(英)"
     },
     "PMS0620020": {
       "sales_cod": "Sales Id",
@@ -268,7 +285,9 @@
       "Property": "Property(英文)",
       "group_change_record": "組別異動紀錄(英文)",
       "saveSuccess": "Save Success",
-      "delSuccess": "Delete Success"
+      "delSuccess": "Delete Success",
+      "1010": "新增營業目標館別(英)",
+      "1020": "刪除營業目標館別(英)"
     },
     "PMS0620030":{
       "edit_sales_clerk": "修改業務員(英文)"
