@@ -8,16 +8,7 @@
                         <div class="row no-margin-right">
                             <div class="main-content-data">
                                 <template v-if="$parent.$parent.prgEditionOptions.funcList['1010'] == 'LITE'">
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <i class="fa fa-plus green pointer"></i>
-                                            </td>
-                                            <td>開始日期</td>
-                                            <td>結束日期</td>
-                                            <td>日期規則</td>
-                                        </tr>
-                                    </table>
+
                                 </template>
                                 <template v-else>
                                     <v-table

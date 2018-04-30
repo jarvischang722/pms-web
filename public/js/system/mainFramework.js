@@ -173,7 +173,6 @@ var BacchusMainVM = new Vue({
          */
         loadMainProcess: function (prg_id) {
 
-
             g_socket.emit('handleTableUnlock', {'prg_id': getCookie("lockingPrgID")});
 
             var ls_pro_url = "";

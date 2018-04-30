@@ -220,8 +220,6 @@
     import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
     import fieldMultiLang from './fieldMultiLang';
 
-    //    import ElDialog from "../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
-
     let gs_prgId = "PMS0810230";
 
     Vue.prototype.$eventHub = new Vue();
@@ -290,7 +288,6 @@
             //取得版本資料
             BacchusMainVM.doGetVersionData("PMS0810230");
             this.prgEditionOptions = BacchusMainVM.prgEditionOptions;
-            console.log(this.prgEditionOptions);
         },
         components: {pms0810230SingleGrid, fieldMultiLang},
         data() {

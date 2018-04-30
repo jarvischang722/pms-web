@@ -17,7 +17,7 @@ Vue.component('table-operation', {
     methods: {
         deleteRow() {
             let params = {type: 'delete', index: this.index, rowData: this.rowData};
-               this.$emit('on-custom-comp', params);
+            this.$emit('on-custom-comp', params);
         }
     }
 });
@@ -26,5 +26,5 @@ Vue.component('table-operation', {
 new Vue({
     el: "#PMS0810230App",
     store,
-    render: h=> h(PMS0810230)
+    render: h => h(PMS0810230)
 });
