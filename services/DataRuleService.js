@@ -253,6 +253,19 @@ exports.getSelectGridOption = function (session, selRow, field, callback) {
     }
 };
 
+exports.handleRuleExtendFunc = async function (fieldData, session) {
+    if (_.isUndefined(fieldData.rule_extend_func_name)) return fieldData;
+
+    if (_.isObject(fieldData.rule_extend_func_name)) {
+        let lo_ruleExtendFunc = fieldData.rule_extend_func_name;
+        await Promise.all(_.map(lo_ruleExtendFunc, async (ls_enable, ls_ruleName) => {
+            if (ls_enable == "Y") {
+                let lo_result = await ruleAgent[ls_ruleName](session, fieldData);
+            }
+        }));
+    }
+}
+
 /**
  * 使用者離開欄位時檢查
  * @param postData
