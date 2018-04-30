@@ -63,9 +63,14 @@ exports.getSetupPrgChangeLog = function (req, callback) {
             });
         },
         function (template, callback) {
-            mongoAgent.SettingHistory.find({prg_id: ls_prg_id, "dataOfChanges": {"$exists": true, "$ne": {}}})
-                .sort({event_time: -1}).exec(function (err, allLogs) {
-
+            let lo_param = {
+                $or: [
+                    {dataOfChanges: {"$exists": true, "$ne": {}}},
+                    {dt: {"$exists": true}}
+                ],
+                prg_id: ls_prg_id
+            };
+            mongoAgent.SettingHistory.find(lo_param).sort({event_time: -1}).exec(function (err, allLogs) {
                 callback(err, allLogs);
             });
         },

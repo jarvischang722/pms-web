@@ -1,10 +1,54 @@
-{"total":28,
-	"rows":[
-		{"row":"<input type='checkbox' checked/>","roomKind":"Q3","rmGrpup":"1","fullName":"楊牧牧","firstName":"牧牧","lastName":"楊"},
-		{"row":"<input type='checkbox' checked/>","roomKind":"Q3","rmGrpup":"1","fullName":"楊牧牧","firstName":"牧牧","lastName":"楊"},
-		{"row":"<input type='checkbox' checked/>","roomKind":"Q3","rmGrpup":"1","fullName":"楊牧牧","firstName":"牧牧","lastName":"楊"},
-		{"row":"<input type='checkbox' checked/>","roomKind":"Q3","rmGrpup":"1","fullName":"楊牧牧","firstName":"牧牧","lastName":"楊"},
-		{"row":"<input type='checkbox' checked/>","roomKind":"Q3","rmGrpup":"1","fullName":"楊牧牧","firstName":"牧牧","lastName":"楊"},
-		{"row":"<input type='checkbox' checked/>","roomKind":"Q3","rmGrpup":"1","fullName":"楊牧牧","firstName":"牧牧","lastName":"楊"}
-	]}
+{
+  "total": 28,
+  "rows": [
+    {
+      "row": "<input type='checkbox' checked/>",
+      "roomKind": "0301",
+      "rmGrpup": "1",
+      "fullName": "楊牧牧",
+      "firstName": "牧牧",
+      "lastName": "楊"
+    },
+    {
+      "row": "<input type='checkbox' checked/>",
+      "roomKind": "0302",
+      "rmGrpup": "1",
+      "fullName": "楊牧牧",
+      "firstName": "牧牧",
+      "lastName": "楊"
+    },
+    {
+      "row": "<input type='checkbox' checked/>",
+      "roomKind": "0303",
+      "rmGrpup": "1",
+      "fullName": "楊牧牧",
+      "firstName": "牧牧",
+      "lastName": "楊"
+    },
+    {
+      "row": "<input type='checkbox' checked/>",
+      "roomKind": "0304",
+      "rmGrpup": "1",
+      "fullName": "楊牧牧",
+      "firstName": "牧牧",
+      "lastName": "楊"
+    },
+    {
+      "row": "<input type='checkbox' checked/>",
+      "roomKind": "0305",
+      "rmGrpup": "1",
+      "fullName": "楊牧牧",
+      "firstName": "牧牧",
+      "lastName": "楊"
+    },
+    {
+      "row": "<input type='checkbox' checked/>",
+      "roomKind": "0306",
+      "rmGrpup": "1",
+      "fullName": "楊牧牧",
+      "firstName": "牧牧",
+      "lastName": "楊"
+    }
+  ]
+}
 

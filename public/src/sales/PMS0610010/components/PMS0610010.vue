@@ -241,9 +241,10 @@
                                     <thead class="custab-head">
                                     <tr>
                                         <th class="width-15 text-center">{{i18nLang.SystemCommon.Time}}</th>
-                                        <th class="width-10 text-center">{{i18nLang.SystemCommon.User}}</th>
-                                        <th class="width-15 text-center">{{i18nLang.SystemCommon.Action_type}}</th>
-                                        <th class="width-20 text-center">{{i18nLang.SystemCommon.Desciption_Mn}}</th>
+                                        <th class="width-20 text-center">{{i18nLang.SystemCommon.User}}</th>
+                                        <th class="width-20 text-center">{{i18nLang.SystemCommon.Action_type}}</th>
+                                        <th class="width-25 text-center">{{i18nLang.SystemCommon.Desciption_Mn}}</th>
+                                        <th class="width-20 text-center">{{i18nLang.SystemCommon.Desciption_Dt}}</th>
                                     </tr>
                                     </thead>
                                 </table>
@@ -253,11 +254,11 @@
                                     <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
                                     <tr v-for="logData in allChangeLogList">
                                         <td class="width-15">{{logData.event_time}}</td>
-                                        <td class="width-10">{{logData.user}}</td>
-                                        <td class="width-15">
+                                        <td class="width-20">{{logData.user}}</td>
+                                        <td class="width-20">
                                             <span v-for="keyData in logData.keys">{{keyData}}<br></span>
                                         </td>
-                                        <td class="width-20">
+                                        <td class="width-25">
                                             <div class="blue bold" style="text-transform: capitalize;">
                                                 {{logData.action}}
                                             </div>
@@ -268,6 +269,20 @@
                                                 {{mnData.newVal}}
                                                 <br>
                                             </span>
+                                        </td>
+                                        <td class="width-20">
+                                            <div v-for="dtData in logData.desc_dt">
+                                                <div class="blue bold" style="text-transform: capitalize;">
+                                                    {{dtData.action}}
+                                                </div>
+                                                <span v-for="dtChange in dtData.changes">
+                                                    {{dtChange.field_name}} :
+                                                    {{dtChange.oldVal}}
+                                                    <span v-if="dtData.action == 'update'"> →  </span>
+                                                    {{dtChange.newVal}}
+                                                    <br>
+                                                </span>
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>
