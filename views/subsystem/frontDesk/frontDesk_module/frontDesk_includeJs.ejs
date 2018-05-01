@@ -612,9 +612,9 @@
             e.preventDefault();
             var dialog = $("#foCnt_autoAssignSGL-message").removeClass('hide').dialog({
                 modal: true,
-                title: "[訂房卡號：00481901]自動排房",
+                title: "[訂房卡號：00481901-1 STD]",
                 title_html: true,
-                width: 600,
+                width: 500,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -630,12 +630,10 @@
                 url: '/jsonData/frontDesk/foCnt_autoAssignSGL.json',
                 method: 'get',
                 columns: [[
-                    {field: 'row', title: '排', width: 40},
-                    {field: 'roomKind', title: '房種', width: 60},
+                    {field: 'row', title: '選擇', width: 40},
+                    {field: 'roomKind', title: '房號', width: 60},
                     {field: 'rmGrpup', title: '房組', width: 60},
-                    {field: 'fullName', title: 'Full Name', width: 100},
-                    {field: 'firstName', title: 'First Name', width: 100},
-                    {field: 'lastName', title: 'Last Name', width: 100}
+                    {field: 'fullName', title: 'Full Name', width: 220}
                 ]]
             });
 
@@ -1486,12 +1484,12 @@
         });
 
         // room Assign (RM Features 右側控制下方textArea 行數)
-        $(document).on('click','.show-text-more', function(){
+        $(document).on('click', '.show-text-more', function () {
             let qnt = $(this).parents('.room-special').find('.text-more').attr('rows');
-            if(qnt == 1){
-                $(this).parents('.room-special').find('.text-more').attr('rows','4');
-            }else{
-                $(this).parents('.room-special').find('.text-more').attr('rows','1');
+            if (qnt == 1) {
+                $(this).parents('.room-special').find('.text-more').attr('rows', '4');
+            } else {
+                $(this).parents('.room-special').find('.text-more').attr('rows', '1');
             }
 
         });

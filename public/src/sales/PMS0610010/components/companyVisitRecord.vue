@@ -81,6 +81,7 @@
                 self.visitRecordSingleFieldsData = visitRecordSingleData.fieldsData;
                 self.visitRecordSingleData = visitRecordSingleData.singleData;
                 self.visitRecordOriSingleData = visitRecordSingleData.oriSingleData;
+                self.setNewDataGridRowsData();
             });
             this.$eventHub.$on("getOtherRowData", (data) => {
                 this.editRow(data.rowData, data.rowIndex);
@@ -276,7 +277,6 @@
                     dialogClass: "test",
                     resizable: true,
                     onBeforeClose: function () {
-                        self.setNewDataGridRowsData();
                         self.editingRow = {};
                         self.isSingleVisitRecord = false;
                     }

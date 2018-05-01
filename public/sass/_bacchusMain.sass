@@ -10,7 +10,7 @@ a
 .navbar-container
   padding-left: 10px
   padding-right: 10px
-  background: $navbar-bg
+  background: $theme-main
   &.container
     padding-left: 0
     padding-right: 0
@@ -18,7 +18,7 @@ a
     float: left
   .breadcrumbs
     color: $white
-    background-color: $navbar-bg
+    background-color: $theme-main
     border-bottom: none
   .breadcrumb
     margin: 6px 6px 0 6px
@@ -35,8 +35,7 @@ a
       color: #fff
   .navbar-toggle
     background: #75B3D7
-    &.pull-left
-      margin: 5px 0 4px 6px
+    margin: 5px 0 4px 6px
     &:hover
       background-color: #61a8d1
       border-color: rgba(255, 255, 255, 0.1)
@@ -65,7 +64,7 @@ a
     height: 150px
   p
     margin: 0 0 10px
-    line-height: $lineHeight22
+    line-height: $lh22
   // optionSystem hover text
   .system-block-all
     display: inline-block
@@ -80,7 +79,7 @@ a
           +optionCircle
           +border-radius(50%)
           border: 0px solid #000000
-          background: #438EB9
+          background: $theme-main
           font-size: 36px
           color: #fff
           display: inline-block
@@ -91,7 +90,7 @@ a
           white-space: nowrap
           text-overflow: ellipsis
           &.circle-bg-blue
-            background: #438EB9
+            background: $theme-main
           &.circle-bg-orange
             background: $orange
           &.circle-bg-green
@@ -175,7 +174,7 @@ a
       +transition(all 0.4s ease-in-out)
       +transform(scale(0))
       &.circle-bg-blue
-        background: #438EB9
+        background: $theme-main
       &.circle-bg-orange
         background: $orange
       &.circle-bg-green
@@ -241,24 +240,9 @@ a
   margin-left: 10px
   font-weight: bold
   color: $redDefault
-  line-height: $lineHeight34
+  line-height: $lh34
 
-@mixin exLinkIcon
-  i
-    +transition(transform .5s)
-    &:hover
-      //color: $blue
-      +transform(scale(1.2))
-      animation: exLinkIcon_Active 1.2s
-      @keyframes exLinkIcon_Active
-        0%
-          +transform(rotate(0deg))
-        25%
-          +transform(rotate(45deg))
-        50%
-          +transform(rotate(-90deg))
-        100%
-          +transform(rotate(0deg))
+
 /*-- top-sec-menu --*/
 .top-sec-ul
   max-width: 100%
@@ -413,7 +397,6 @@ a
 
   .authRadio
     margin-right: 2px
-  //height: 11px
   .tree-body
     padding: 5px
   .author-navbar
@@ -441,31 +424,20 @@ a
 #singleGridDialog
   position: relative
   overflow-y: hidden
-  //margin-top: 5px
-  //padding-top: 15px
-  //padding-bottom: 15px
   .singleRelative
     position: relative
   .singleEditStatus
     padding-left: 5px
     position: absolute
     top: 5px
-    //right: 0
-    //display: block
-    //top: 10px
     .btn-defaultWidth
       display: block
-      //width: auto !important
-      //display: block !important
-      //margin-top: 5px
       max-width: 85px
       right: 11px
       padding: 5px
   // TODO
   // resize dialog can not correct
   .singleGridContent
-    //height: auto
-    //height: 300px
     padding-top: 5px
     padding-bottom: 5px
     max-height: 100%
@@ -493,8 +465,6 @@ a
       width: 15px
       text-align: center
       min-width: 15px
-    //input
-      //height: 30px
     button
       margin-left: 10px
     .block-item-content
@@ -518,7 +488,7 @@ a
     color: #ff625f
     padding: 10px
     p, li
-      line-height: $lineHeight22
+      line-height: $lh22
   .changeChoice
     margin: 10px auto
     ul
@@ -575,22 +545,6 @@ a
     .search-co-content
       text-align: left
       border-collapse: collapse
-      .grid-item
-        label.key-Word
-          margin: 0 0 0 -20px
-        label.more-Word
-          margin: 0 0 0 -68px
-      //.moreClick
-      //  //width: 25px
-      //  height: $defHt
-      //  //line-height: $defHt
-      //  border: 1px solid $border-color
-      //  background: $border-color
-      //  border-radius: 5px
-      //  padding: 3px 5px 4px 5px
-      //  box-sizing: border-box
-      //  cursor: pointer
-      //margin-top: -1px
       .search-footer-btn
         position: absolute
         right: 20px
@@ -632,6 +586,7 @@ a
       &.search-S2
         .searchMain-S2
           padding-top: 10px
+          max-width: 90%
         .search-footer-btn
           top: -10px
           .icon-moreSearch
@@ -643,26 +598,14 @@ a
             height: 28px
             box-shadow: 2px 2px 3px rgba(51, 51, 102, 0.5)
             i
-              color: #438EB9
+              color: $theme-main
               +transform(rotate(0deg))
               //-webkit-transform: rotate(0deg)
               +animation(outAnimation 1s)
               //-webkit-animation: outAnimation 1s
               &.active
                 +animation(inAnimation 1s)
-                //-webkit-animation: inAnimation 1s
                 +transform(rotate(180deg))
-                -webkit-transform: rotate(180deg)
-                @-webkit-keyframes inAnimation
-                  0%
-                    -webkit-transform: rotate(-135deg)
-                  100%
-                    -webkit-transform: rotate(180deg)
-                @-webkit-keyframes outAnimation
-                  0%
-                    -webkit-transform: rotate(45deg)
-                  100%
-                    -webkit-transform: rotate(360deg)
             &:hover
               background: #0A4E9D
               i
@@ -683,14 +626,6 @@ a
   margin-left: -15px
 
 /*-- 訂房特殊版型 日期 --*/
-@mixin datePin($bk: #5367ff)
-  background: $bk
-  //#5367ff
-  width: 32px
-  height: 32px
-  margin: 1px auto auto 5px
-  vertical-align: middle
-
 .holidayDateSet
   .holidayDateSet-content
     .holidayDateGrid
@@ -711,16 +646,16 @@ a
         .choiceDay
           height: 34px
           line-height: 34px
-          border: 1px solid #438EB9
+          border: 1px solid $theme-main
           padding: 6px
           cursor: pointer
           box-sizing: border-box
           &:hover
             background: #eeeeee
-            border: 2px solid #438EB9
-            color: #438EB9
+            border: 2px solid $theme-main
+            color: $theme-main
           &.all
-            background: #438EB9
+            background: $theme-main
             color: #eee
             &:hover
               background: rgba(67, 142, 185, .7)
@@ -943,14 +878,6 @@ ul.newVisitOther-btn
   .tab-block.grid-item.single-input
     width: 600px
 //修改拜訪記錄end
-
-@media screen and (min-width: 768px) and (max-width: 1030px)
-  .businessCompanyData
-    .main-content-data
-//.medium-c1
-//  +input-s1(120px)
-//.input-spc-1
-//  +input-s1(349px)
 
 /*-- 商務公司資料編輯 修改easyUI dataGrid 樣式 --*/
 .easyUi-custom1
@@ -1327,21 +1254,16 @@ ul.newVisitOther-btn
         td
           width: 80%
 
-  //.show-intCounterRight
-  //  display: none
-  .intCounterRight
-  //display: none
   .intCounterleft
     position: relative
   .show-intCounterRight
     float: right
     display: block
+    color: #70a0c1
     i
       border: 1px solid #8fbcd9
       padding: 3px 10px
       cursor: pointer
-    color: #70a0c1
-    //line-height: 1.42857143
     span
       margin: 0 0 0 2px
       font-size: 14px
@@ -1356,7 +1278,7 @@ ul.newVisitOther-btn
 
 //ho改holidayDateSet
 .holidayDateSet .holidayDateSet-content .holidayDateGrid .weekDate .choiceDay:active
-  background-color: #438EB9
+  background-color: $theme-main
   color: #fff
 
 //ho 接送機
@@ -2001,7 +1923,7 @@ td
   table
     width: 100%
     table-layout: fixed
-  .tbl-header02
+  //.tbl-header02
   .tbl-content02
     overflow-x: auto
     margin-top: 0px
@@ -2212,8 +2134,6 @@ td
           height: 25px
           color: #fff
           font-weight: bold
-          &.red
-        &.blue
       .quantityTip-icon
         margin: 0 0 0 10px
     .middle
@@ -2432,8 +2352,6 @@ td
 //PMS0820020房間設定
 .specRoomTypeSet
   margin: auto auto 50px auto
-  .leftTitle
-  //width: 100px
   .dottedLine
     margin: 10px auto
     border: 1px dotted
@@ -2503,7 +2421,6 @@ td
     right: 0px
     .triangle-text
       border-right: 0 !important
-      span
       &:after
         right: 0
         border-width: 0 !important
@@ -2513,7 +2430,6 @@ td
     right: 0px
     .triangle-text
       border-left: 0 !important
-      span
       &:before
         left: 0
         border-width: 0
@@ -2524,7 +2440,6 @@ td
     .triangle-text
       border-left: 0 !important
       border-right: 0 !important
-      span
       &:before, &:after
         border-width: 0
 //fixtable基本設定、套件bug修正
@@ -2581,7 +2496,6 @@ td
     width: 100%
     thead
       tr
-        th
         .rp-first-th
           width: 188px
           min-width: 188px
@@ -2652,7 +2566,6 @@ td
     width: 100%
     thead
       tr
-        th
         .rp-first-th
           width: 160px
           min-width: 160px
@@ -2687,7 +2600,6 @@ td
     width: 100%
     thead
       tr
-        th
         .rp-first-th
           width: 160px
           min-width: 160px
@@ -2792,16 +2704,22 @@ td
     border: 1px solid #cac3c3
     +box-shadow(none)
     +el-date-ht($defHt)
+    input
+      border: 0
   th
     font-weight: 300
     font-size: $font-default
     background-color: #eee
   .date-wt
-    width: 115px
+    width: 82px
+    .el-icon-date
+      display: none
+    .el-input__icon + .el-input__inner
+      padding-right: 0
   .td-more
     position: relative
     .wt-input
-      width: 80%
+      width: 68%
     .moreClick
       position: absolute
       right: 0

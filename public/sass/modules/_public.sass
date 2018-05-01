@@ -100,12 +100,13 @@
 
 .height87
   height: 87px
-//border: none
+
 .height60
   height: 60px
 
 .defHt
-  height: $defHt
+  height: $defHt !important
+  line-height: $defHt !important
 
 .defLineHt
   line-height: $defHt
@@ -587,6 +588,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(83px)
   &.resvCard-m
     +input-s1(70px)
+  &.rc-contact-man
+    +input-s1(148px)
   &.resvCard-col2
     +input-s1($resvCard-col2)
   &.resvCard-col2Rm
@@ -780,14 +783,6 @@ input.numStyle-none
   width: 414px
   resize: none
 
-.remarkInput-75
-  width: 75%
-
-.remarkInput-45
-  width: 45.4%
-
-.remarkInput-79
-  width: 79.4%
 
 .btn-spc-sm
   border-radius: 5px
@@ -814,21 +809,11 @@ input.numStyle-none
     i
       color: #fff
       font-weight: bold
-      -webkit-transform: rotate(0deg)
-      -webkit-animation: outAnimation 1s
+      +transform(rotate(0deg))
+      +animation(outAnimation 1s)
       &.active
-        -webkit-animation: inAnimation 1s
-        -webkit-transform: rotate(180deg)
-      @-webkit-keyframes inAnimation
-        0%
-          -webkit-transform: rotate(-135deg)
-        100%
-          -webkit-transform: rotate(180deg)
-      @-webkit-keyframes outAnimation
-        0%
-          -webkit-transform: rotate(45deg)
-        100%
-          -webkit-transform: rotate(360deg)
+        +animation(inAnimation 1s)
+        +transform(rotate(180deg))
 
   .extendContent
     display: none
@@ -917,6 +902,26 @@ input[type=checkbox]
   border-color: #555 !important
   .dpShowValue
     color: #555 !important
+
+.select-group
+  position: relative
+  // 點擊打勾
+  .click-act
+    //background: #ff2244
+    &:after
+      display: inline-block
+      content: '\f00c'
+      font-style: normal
+      font-weight: normal
+      text-decoration: inherit
+      font-family: FontAwesome
+      position: absolute
+      right: 3px
+      margin-top: -25px
+      color: $blue
+    &:hover
+      &:after
+        color: #fff
 
 .status-tip-active
   //border-width: 2px !important

@@ -1,20 +1,19 @@
-var g_socket = io.connect('/system');
-var gf_chkSessionInterval;
-var vmHub = new Vue();
+let g_socket = io.connect("/system");
+let gf_chkSessionInterval;
 
-g_socket.on('checkOnlineUserResult', function (result) {
+g_socket.on("checkOnlineUserResult", function (result) {
     if (!result.success) {
         alert(result.errorMsg);
-        location.href = '/systemOption';
+        location.href = "/systemOption";
     }
 });
 
-var BacchusMainVM = new Vue({
-    el: '#BacchusMainApp',
+let BacchusMainVM = new Vue({
+    el: "#BacchusMainApp",
     components: {Treeselect: VueTreeselect.Treeselect},
     data: {
-        usingSubsysID: '',
-        usingPrgID: '',
+        usingSubsysID: "",
+        usingPrgID: "",
         locale: gs_locale,
         moduleMenu: [],
         quickMenu: [],
@@ -22,11 +21,11 @@ var BacchusMainVM = new Vue({
         activeSystem: {},
         isOpenModule: "", //打開的模組 ex: PMS0001000
         displayLogoutDialog: false, //決定閒置登出的視窗是否要跳出
-        gs_cookieExpires: '', //cookie 剩餘時間
-        serverTime: '', //server 時間
+        gs_cookieExpires: "", //cookie 剩餘時間
+        serverTime: "", //server 時間
         prgVueIns: {}, //目前作業的 vue 實例
         leaveAfterExecFuncsNam: [], //頁面前離開後要幫作業觸發的功能
-        sysPrgPath: '',
+        sysPrgPath: "",
         //修改密碼
         isLoading: false,
         openEditPasswordDialog: false,
@@ -55,27 +54,23 @@ var BacchusMainVM = new Vue({
     },
     watch: {
         usingSubsysID: function (subsys_id) {
-            var lo_subsysMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID});
+            let lo_subsysMenu = _.findWhere(this.subsysMenu, {subsys_id: subsys_id});
             if (lo_subsysMenu) {
-                this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).quickMenu;
-                this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).mdlMenu;
+                this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: subsys_id}).quickMenu;
+                this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: subsys_id}).mdlMenu;
             } else {
                 this.quickMenu = [];
                 this.moduleMenu = [];
             }
-
             if (_.isEmpty(this.usingPrgID)) {
                 if (this.getQueryString("prg_id") != null) {
                     this.usingPrgID = this.getQueryString("prg_id");
                 } else if (!_.isUndefined(getCookie('usingPrgID')) && !_.isNull(getCookie('usingPrgID'))) {
                     this.usingPrgID = getCookie('usingPrgID');
-                } else {
-                    this.usingPrgID = this.quickMenu.length > 0 ? this.quickMenu[0].pro_id : "";
                 }
-            } else {
-                this.usingPrgID = this.quickMenu.length > 0 ? this.quickMenu[0].pro_id : "";
+                this.loadMainProcess(this.usingPrgID);
             }
-            this.loadMainProcess(this.usingPrgID);
+
             this.updSysPrgPath();
         }
     },
@@ -112,8 +107,8 @@ var BacchusMainVM = new Vue({
                     }
                     return _.isEmpty(usingPrgName);
                 });
-                document.title = `${usingPrgName} > ${usingSubsysName} > ${this.activeSystem.abbrName}`;
-                this.sysPrgPath = `${this.activeSystem.abbrName} > ${usingSubsysName} > ${usingPrgName}`;
+                document.title = [usingPrgName, usingSubsysName, this.activeSystem.abbrName].join(">");
+                this.sysPrgPath = [this.activeSystem.abbrName, usingSubsysName, usingPrgName].join(">");
             }
         },
         /**
@@ -152,8 +147,8 @@ var BacchusMainVM = new Vue({
          * @param name
          */
         getQueryString: function (name) {
-            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-            var r = window.location.search.substr(1).match(reg);
+            let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            let r = window.location.search.substr(1).match(reg);
             if (r != null) {
                 return unescape(r[2]);
             }
@@ -164,7 +159,8 @@ var BacchusMainVM = new Vue({
          * @param subsys_id
          */
         changeSubsys: function (subsys_id) {
-            location.href = '/bacchus4web/' + subsys_id;
+            this.usingSubsysID = subsys_id;
+            this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: subsys_id}).quickMenu;
         },
         /**
          * 讀入主程式
@@ -175,7 +171,7 @@ var BacchusMainVM = new Vue({
 
             g_socket.emit('handleTableUnlock', {'prg_id': getCookie("lockingPrgID")});
 
-            var ls_pro_url = "";
+            let ls_pro_url = "";
             this.isOpenModule = "";
             this.doTableUnlock();
             setupCookie("usingPrgID", prg_id);
@@ -185,7 +181,7 @@ var BacchusMainVM = new Vue({
 
             _.each(this.moduleMenu, function (mdl) {
                 if (mdl.group_sta == 'N') {
-                    var lo_pro = _.findWhere(mdl.processMenu, {pro_id: prg_id}) || {};
+                    let lo_pro = _.findWhere(mdl.processMenu, {pro_id: prg_id}) || {};
                     if (_.size(lo_pro) > 0) {
                         BacchusMainVM.isOpenModule = mdl.mdl_id;
                         ls_pro_url = lo_pro.pro_url;
@@ -197,7 +193,7 @@ var BacchusMainVM = new Vue({
                 }
             });
             if (_.isEmpty(ls_pro_url)) {
-                var tmpQuick = _.findWhere(this.quickMenu, {pro_id: prg_id});
+                let tmpQuick = _.findWhere(this.quickMenu, {pro_id: prg_id});
                 if (tmpQuick) {
                     ls_pro_url = tmpQuick.pro_url;
                 }
@@ -210,7 +206,8 @@ var BacchusMainVM = new Vue({
 
         },
         loadQuickMenuProcess: function (prg_id) {
-            location.href = location.pathname + "?prg_id=" + prg_id;
+            setupCookie("usingSubsysID", this.usingSubsysID, 2592000000);
+            location.href = "/bacchus4web/" + this.usingSubsysID + "?prg_id=" + prg_id;
         },
         /**
          * 做Table unlock
@@ -239,7 +236,7 @@ var BacchusMainVM = new Vue({
          * 更新目前時間
          */
         updateCurrentDateTime: function () {
-            var datetime = moment(new Date()).format("YYYY/MM/DD A HH:mm:ss");
+            let datetime = moment(new Date()).format("YYYY/MM/DD A HH:mm:ss");
             $("#datetimeSpan").html(datetime);
         },
 
@@ -250,20 +247,18 @@ var BacchusMainVM = new Vue({
             let secs = moment(BacchusMainVM.gs_cookieExpires).diff(BacchusMainVM.serverTime, "seconds");
             gf_chkSessionInterval = setInterval(function () {
 
-                let hr = Math.floor(secs / 3600);
+                let hr = Math.floor(secs / 3600) < 0 ? "00" : Math.floor(secs / 3600);
                 let min = Math.floor((secs - hr * 3600) / 60);
                 let sec = parseInt(secs - hr * 3600 - min * 60);
 
                 if (min.length < 2) {
-                    min = '0' + min;
+                    min = "0" + min;
                 }
                 if (sec.length < 2) {
-                    sec = '0' + min;
+                    sec = "0" + min;
                 }
-                if (hr) {
-                    hr += ':';
-                }
-                $('#timeLeft').text(`${hr}  ${min} : ${sec}`);
+
+                $("#timeLeft").text([hr, min, sec].join(" : "));
                 if (secs > 0) {
                     secs--;
                 } else {
@@ -296,10 +291,10 @@ var BacchusMainVM = new Vue({
 
         //確認是否空白
         dataValidate: function () {
-            var lo_checkResult;
+            let lo_checkResult;
 
             for (let i = 0; i < this.fieldData.length; i++) {
-                var lo_field = this.fieldData[i];
+                let lo_field = this.fieldData[i];
                 lo_checkResult = go_validateClass.required(this.pwdData[lo_field.ui_field_name], lo_field.ui_display_name);
                 if (lo_checkResult.success == false) {
                     break;
@@ -312,8 +307,8 @@ var BacchusMainVM = new Vue({
         //確定修改密碼
         confirmEditPassword: function () {
             this.isLoading = true;
-            var self = this;
-            var lo_chkResult = this.dataValidate();
+            let self = this;
+            let lo_chkResult = this.dataValidate();
 
             if (lo_chkResult.success == false) {
                 alert(lo_chkResult.msg);
@@ -340,7 +335,7 @@ var BacchusMainVM = new Vue({
          * 取消修改密碼
          */
         doCancelEditPassword: function () {
-            var self = this;
+            let self = this;
             this.openEditPasswordDialog = false;
             _.each(this.pwdData, function (val, key) {
                 self.pwdData[key] = "";
@@ -377,8 +372,8 @@ $(function () {
 });
 
 $(document).on('click', '.purview_btn', function (event) {
-    var purview_func_id = $(this).data("purview_func_id").toString();
-    var lo_params = {
+    let purview_func_id = $(this).data("purview_func_id").toString();
+    let lo_params = {
         prg_id: purview_func_id.split("-")[0],
         func_id: purview_func_id.split("-")[1]
     };

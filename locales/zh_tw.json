@@ -38,7 +38,11 @@
     "company_introduction": "公司簡介",
     "enterprise_mission": "企業使命",
     "international_certification": "國際認證",
-    "copyright": "版權所有"
+    "copyright": "版權所有",
+    "from": "from",
+    "to": "to",
+    "OK": "OK",
+    "cancel": "cancel"
   },
   "program": {
     "PMS0810020": {
@@ -66,6 +70,7 @@
       "wrsTabPageTitle": "官網顯示順序"
     },
     "PMS0810050": {
+      "Add":"新增接駁",
       "pick_up": "接機",
       "drop_off": "送機",
       "arrive_cod": "代號",
@@ -206,7 +211,10 @@
       "visit_plan": "拜訪計畫",
       "edit_sales": "修改業務員",
       "add_visit_plan": "新增拜訪計畫",
-      "selectOneData": "選擇一筆資料(無法同時修改多筆)"
+      "selectOneData": "選擇一筆資料(無法同時修改多筆)",
+      "1010": "業務員指派",
+      "1020": "拜訪計畫",
+      "1030": "瀏覽"
     },
     "PMS0610020": {
       "company_status": "Status chg.(中)",
@@ -242,7 +250,23 @@
       "sales_nam": "業務員姓名",
       "class_nam": "組別",
       "rate": "房價代號或名稱",
-      "save_success": "儲存成功"
+      "save_success": "儲存成功",
+      "confirmVisitRecord": "確定",
+      "confirmRemark": "確定",
+      "1010": "狀態變更",
+      "1020": "合約狀態變更",
+      "1030": "信用額度變更",
+      "1040": "新增聯絡人",
+      "1050": "刪除聯絡人",
+      "1060": "修改業務員",
+      "1070": "新增合約",
+      "1080": "刪除合約",
+      "1090": "新增拜訪記錄",
+      "1100": "修改拜訪記錄",
+      "1110": "刪除拜訪記錄",
+      "1120": "新增備註",
+      "1130": "修改備註",
+      "1140": "刪除備註"
     },
     "PMS0620020": {
       "sales_cod": "業務員代號",
@@ -261,7 +285,9 @@
       "Property": "Property(中)",
       "group_change_record": "組別異動紀錄",
       "saveSuccess": "儲存成功",
-      "delSuccess": "刪除成功"
+      "delSuccess": "刪除成功",
+      "1010": "新增營業目標館別",
+      "1020": "刪除營業目標館別"
     },
     "PMS0620030": {
       "edit_sales_clerk": "修改業務員"
@@ -392,6 +418,7 @@
     "0200": "新增",
     "0300": "刪除",
     "0400": "修改",
+    "0500": "儲存",
     "0800": "異動紀錄"
   },
   "SystemWarn": {

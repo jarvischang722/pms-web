@@ -1,4 +1,11 @@
 @charset "UTF-8";
+/* @description: 六角形
+ * @參數: // $hexagonWidth             六角形的寬
+ *         // $hexagonHeight            六角形的高(不影響六角形形狀)
+ *         // $hexagonBk                六角形的顏色
+ *         // 後面的文字                  初值
+ * @author: m15009
+ */
 .el-date-editor {
   height: 25px !important;
 }
@@ -6,6 +13,43 @@
   height: 25px !important;
 }
 
+/* @description: search 下拉按鈕旋轉 & 單筆更多資料旋轉 特效
+ * @author: m15009
+ */
+@-webkit-keyframes inAnimation {
+  0% {
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+  }
+  100% {
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+}
+@-webkit-keyframes outAnimation {
+  0% {
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+/* @description: 子作業，另外彈窗按鈕特效
+ * @author: m15009
+ */
+/* @description: 訂房特殊版型 日期
+ * @author: m15009
+ */
 /* ---- mixin ---- */
 /* ---- grid ---- */
 .grid:after {
@@ -112,34 +156,18 @@
   min-height: initial;
   cursor: pointer;
 }
+.grid-item .textbox {
+  height: 25px;
+  line-height: 25px;
+}
+.grid-item .textbox .textbox-text {
+  height: 25px;
+  line-height: 25px;
+}
 
 .grid-item-input {
   width: 100px;
   height: 50px;
-}
-
-.grid-item--width2 {
-  width: 320px;
-}
-
-.grid-item--width3 {
-  width: 480px;
-}
-
-.grid-item--width4 {
-  width: 640px;
-}
-
-.grid-item--height2 {
-  height: 200px;
-}
-
-.grid-item--height3 {
-  height: 260px;
-}
-
-.grid-item--height4 {
-  height: 360px;
 }
 
 .css_table {
@@ -1689,8 +1717,6 @@ a {
 }
 .navbar-container .navbar-toggle {
   background: #75B3D7;
-}
-.navbar-container .navbar-toggle.pull-left {
   margin: 5px 0 4px 6px;
 }
 .navbar-container .navbar-toggle:hover {
@@ -2333,12 +2359,6 @@ a {
   text-align: left;
   border-collapse: collapse;
 }
-.search-content .search-co .search-co-content .grid-item label.key-Word {
-  margin: 0 0 0 -20px;
-}
-.search-content .search-co .search-co-content .grid-item label.more-Word {
-  margin: 0 0 0 -68px;
-}
 .search-content .search-co .search-co-content .search-footer-btn {
   position: absolute;
   right: 20px;
@@ -2382,6 +2402,7 @@ a {
 }
 .search-content .search-co .search-co-content.search-S2 .searchMain-S2 {
   padding-top: 10px;
+  max-width: 90%;
 }
 .search-content .search-co .search-co-content.search-S2 .search-footer-btn {
   top: -10px;
@@ -2413,23 +2434,6 @@ a {
   -ms-transform: rotate(180deg);
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
-  -webkit-transform: rotate(180deg);
-}
-@-webkit-keyframes inAnimation {
-  0% {
-    -webkit-transform: rotate(-135deg);
-  }
-  100% {
-    -webkit-transform: rotate(180deg);
-  }
-}
-@-webkit-keyframes outAnimation {
-  0% {
-    -webkit-transform: rotate(45deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
 }
 .search-content .search-co .search-co-content.search-S2 .search-footer-btn .icon-moreSearch:hover {
   background: #0A4E9D;
@@ -5159,19 +5163,28 @@ td div.act-box span.act-text {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+#resvSingle-table th input, #resvSingle-table td input {
+  border: 0;
+}
 #resvSingle-table th {
   font-weight: 300;
   font-size: 13px;
   background-color: #eee;
 }
 #resvSingle-table .date-wt {
-  width: 115px;
+  width: 82px;
+}
+#resvSingle-table .date-wt .el-icon-date {
+  display: none;
+}
+#resvSingle-table .date-wt .el-input__icon + .el-input__inner {
+  padding-right: 0;
 }
 #resvSingle-table .td-more {
   position: relative;
 }
 #resvSingle-table .td-more .wt-input {
-  width: 80%;
+  width: 68%;
 }
 #resvSingle-table .td-more .moreClick {
   position: absolute;
@@ -5991,7 +6004,8 @@ td div.triangle-box.colspan-28 {
 }
 
 .defHt {
-  height: 25px;
+  height: 25px !important;
+  line-height: 25px !important;
 }
 
 .defLineHt {
@@ -6744,6 +6758,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.rc-contact-man {
+  width: 148px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.resvCard-col2 {
   width: 316px;
   max-width: 100%;
@@ -7011,18 +7030,6 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   resize: none;
 }
 
-.remarkInput-75 {
-  width: 75%;
-}
-
-.remarkInput-45 {
-  width: 45.4%;
-}
-
-.remarkInput-79 {
-  width: 79.4%;
-}
-
 .btn-spc-sm {
   border-radius: 5px;
   height: 20px !important;
@@ -7054,28 +7061,22 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
 .extendGrid .extendIcon i {
   color: #fff;
   font-weight: bold;
+  -moz-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -moz-animation: outAnimation 1s;
   -webkit-animation: outAnimation 1s;
+  animation: outAnimation 1s;
 }
 .extendGrid .extendIcon i.active {
+  -moz-animation: inAnimation 1s;
   -webkit-animation: inAnimation 1s;
+  animation: inAnimation 1s;
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
   -webkit-transform: rotate(180deg);
-}
-@-webkit-keyframes inAnimation {
-  0% {
-    -webkit-transform: rotate(-135deg);
-  }
-  100% {
-    -webkit-transform: rotate(180deg);
-  }
-}
-@-webkit-keyframes outAnimation {
-  0% {
-    -webkit-transform: rotate(45deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
+  transform: rotate(180deg);
 }
 .extendGrid .extendContent {
   display: none;
@@ -7142,6 +7143,25 @@ input[type=checkbox] {
 }
 .sel-border .dpShowValue {
   color: #555 !important;
+}
+
+.select-group {
+  position: relative;
+}
+.select-group .click-act:after {
+  display: inline-block;
+  content: "";
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  font-family: FontAwesome;
+  position: absolute;
+  right: 3px;
+  margin-top: -25px;
+  color: #478FCA;
+}
+.select-group .click-act:hover:after {
+  color: #fff;
 }
 
 .status-tip-active {

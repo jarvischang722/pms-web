@@ -347,7 +347,6 @@
                                         </button>
                                     </li>
                                     <!--btn 有間距class:segement-->
-
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
                                                 role="button" :disabled="isOtherContact" @click="doDeleteData">
@@ -402,6 +401,12 @@
                                             {{i18nLang.SystemCommon.Leave}}
                                         </button>
                                     </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" :disabled="isOpenChangeLog" @click="loadChangeLog">
+                                            {{i18nLang.SystemCommon.ChangeLog}}
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -443,48 +448,55 @@
         components: {otherContact, lostAndFound, visitsPanel},
         created() {
             this.$eventHub.$on("doSaveModifyData", () => {
-                _.each(this.singleData, (val, key) => {
-                    if (_.isUndefined(val)) {
-                        this.singleData[key] = null;
-                    }
-                });
-                let lo_allData = {
-                    singleData: this.$store.state.go_profileSingleData,
-                    emailData: this.$store.state.ga_emailDataGridRowsData,
-                    contactData: this.$store.state.ga_contactDataGridRowsData,
-                    addressData: this.$store.state.ga_addressDataGridRowsData
-                };
-                let lo_oriAllData = {
-                    singleData: this.$store.state.go_oriProfileSingleData,
-                    emailData: this.$store.state.ga_oriEmailDataGridRowsData,
-                    contactData: this.$store.state.ga_oriContactDataGridRowsData,
-                    addressData: this.$store.state.ga_oriAddressDataGridRowsData
-                };
-
-                _.each(lo_oriAllData["emailData"], (lo_emailData, idx) => {
-                    lo_oriAllData["emailData"][idx] = _.extend(lo_emailData, {
-                        cust_cod: this.$store.state.gs_gcustCod,
-                        athena_id: lo_allData["emailData"][idx]["athena_id"]
+                if (!this.isDeleteStatus) {
+                    _.each(this.$store.state.go_profileSingleData, (val, key) => {
+                        if (_.isUndefined(val) || _.isUndefined(this.$store.state.go_oriProfileSingleData[key])) {
+                            this.$store.state.go_profileSingleData[key] = null;
+                            this.$store.state.go_oriProfileSingleData[key] = null;
+                        }
                     });
-                });
-                _.each(lo_oriAllData["contactData"], (lo_contactData, idx) => {
-                    lo_oriAllData["contactData"][idx]["contact_dt.athena_id"] = lo_allData["contactData"][idx]["contact_dt.athena_id"];
-                    lo_oriAllData["contactData"][idx]["contact_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                    let lo_allData = {
+                        singleData: this.$store.state.go_profileSingleData,
+                        emailData: this.$store.state.ga_emailDataGridRowsData,
+                        contactData: this.$store.state.ga_contactDataGridRowsData,
+                        addressData: this.$store.state.ga_addressDataGridRowsData
+                    };
+                    let lo_oriAllData = {
+                        singleData: this.$store.state.go_oriProfileSingleData,
+                        emailData: this.$store.state.ga_oriEmailDataGridRowsData,
+                        contactData: this.$store.state.ga_oriContactDataGridRowsData,
+                        addressData: this.$store.state.ga_oriAddressDataGridRowsData
+                    };
 
-                });
-                _.each(lo_oriAllData["addressData"], (lo_addressData, idx) => {
-                    lo_oriAllData["addressData"][idx]["address_dt.athena_id"] = lo_allData["addressData"][idx]["address_dt.athena_id"];
-                    lo_oriAllData["addressData"][idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
-                });
+                    _.each(lo_oriAllData["emailData"], (lo_emailData, idx) => {
+                        lo_oriAllData["emailData"][idx] = _.extend(lo_emailData, {
+                            cust_cod: this.$store.state.gs_gcustCod,
+                            athena_id: lo_allData["emailData"][idx]["athena_id"]
+                        });
+                    });
+                    _.each(lo_oriAllData["contactData"], (lo_contactData, idx) => {
+                        lo_oriAllData["contactData"][idx]["contact_dt.athena_id"] = lo_allData["contactData"][idx]["contact_dt.athena_id"];
+                        lo_oriAllData["contactData"][idx]["contact_dt.cust_cod"] = this.$store.state.gs_gcustCod;
 
-                let lo_isModify = go_validateClass.chkDataChang(lo_allData, lo_oriAllData);
+                    });
+                    _.each(lo_oriAllData["addressData"], (lo_addressData, idx) => {
+                        lo_oriAllData["addressData"][idx]["address_dt.athena_id"] = lo_allData["addressData"][idx]["address_dt.athena_id"];
+                        lo_oriAllData["addressData"][idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                    });
 
-                if (!lo_isModify.success) {
-                    let lb_confirm = confirm(lo_isModify.msg);
-                    if (lb_confirm) {
-                        this.doSaveData();
+                    let lo_isModify = go_validateClass.chkDataChang(lo_allData, lo_oriAllData);
+
+                    if (!lo_isModify.success) {
+                        let lb_confirm = confirm(lo_isModify.msg);
+                        if (lb_confirm) {
+                            this.doSaveData();
+                        }
                     }
                 }
+                this.isDeleteStatus = false;
+            });
+            this.$eventHub.$on('getCloseChangeLogData', (closeChangeLogData) => {
+                this.isOpenChangeLog = closeChangeLogData.isOpenChangeLog;
             });
         },
         mounted() {
@@ -506,7 +518,9 @@
                 panelName: ["profilePanel", "visitsPanel", "referencePanel"], //頁籤內容名稱
                 tabStatus: {isProfile: false, isVisits: false, isReference: false}, //現在頁籤狀況
                 isOtherContact: false, //是否開啟other contact
-                isLostAndFound: false  //是否開啟lost&found
+                isLostAndFound: false, //是否開啟lost&found
+                isDeleteStatus: false, //是否為刪除
+                isOpenChangeLog: false
             }
         },
         watch: {
@@ -524,6 +538,9 @@
             },
             singleData: {
                 handler(val) {
+                    //國籍
+                    this.oriSingleData.live_cod = this.oriSingleData.live_cod == "" ? val.live_cod : this.oriSingleData.live_cod;
+
                     //姓名
                     val.first_nam = val["cust_idx.first_nam"];
                     val.last_nam = val["cust_idx.last_nam"];
@@ -532,6 +549,7 @@
                     val["cust_idx.comp_nam"] = val.ccust_nam;
 
                     //性別
+                    this.oriSingleData["cust_idx.sex_typ"] = _.isNull(this.oriSingleData["cust_idx.sex_typ"]) ? val["cust_idx.sex_typ"] : this.oriSingleData["cust_idx.sex_typ"];
                     val.sex_typ = val["cust_idx.sex_typ"];
 
                     //訂房公司影響統一編號,發票抬頭
@@ -561,6 +579,7 @@
                 this.profileFieldData = [];
                 this.profileOriFieldsData = [];
                 this.setGlobalStatus();
+                this.chgSingleData = {};
             },
             setGlobalStatus() {
                 this.$store.dispatch("setStatus", {
@@ -744,7 +763,6 @@
             },
             //儲存資料
             async doSaveData() {
-
                 this.isLoadingDialog = true;
                 this.loadingText = "saving";
                 let lo_chkResult = this.dataValidate();
@@ -759,21 +777,31 @@
 
                     if (lo_saveProfileDataRes.success && lo_saveOtherContactDataRes.success) {
                         alert(go_i18nLang.SystemCommon.saveSuccess);
+
+                        let lo_cloneRowData = _.extend(JSON.parse(JSON.stringify(this.rowData)),);
+                        lo_cloneRowData = _.extend(lo_cloneRowData, {gcust_cod: this.$store.state.gs_gcustCod});
+
+                        this.isEditStatus = true;
+                        this.isCreateStatus = false;
+
+                        this.rowData = {};
+                        this.rowData = lo_cloneRowData;
                     }
                     else {
                         alert(lo_saveProfileDataRes.errorMsg)
                     }
+
                     this.isLoadingDialog = false;
                     this.$store.dispatch("setAllDataClear");
                 }
             },
             async doDeleteData() {
-
+                this.isDeleteStatus = true;
                 this.isLoadingDialog = true;
 
                 if (this.$store.state.gb_isEditStatus) {
                     this.$store.dispatch("setDeleteStatus", {
-                        gb_isDeleteStatus: true
+                        gb_isDeleteStatus: this.isDeleteStatus
                     });
 
                     let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
@@ -835,6 +863,17 @@
                 this.rowData = {};
                 $("#PMS0210011").dialog('close');
             },
+            loadChangeLog() {
+                this.isOpenChangeLog = true;
+                $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0210011"}, (result) => {
+                    if (result.success) {
+                        this.$eventHub.$emit('getChangeLogData', {
+                            openChangeLogDialog: this.isOpenChangeLog,
+                            allChangeLogList: result.allChangeLogList
+                        });
+                    }
+                });
+            }
         }
     }
 </script>

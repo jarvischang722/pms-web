@@ -279,6 +279,8 @@ const actions = {
             });
         }
 
+        console.log(lo_tmpCUD);
+        // return {success: true};
         return await $.post('/api/doOperationSave', {
             prg_id: 'PMS0610020',
             page_id: 1,
