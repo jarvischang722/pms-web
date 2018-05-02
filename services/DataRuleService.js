@@ -77,40 +77,52 @@ exports.qrySelectOptionsFromSQL = function (userInfo, sql_tag, callback) {
 
 /**
  * 取得Select options值
- * @param params
- * @param selRow
+ * @param userInfo
+ * @param typeSelectField
  * @param field
  * @param callback
  * @constructor
  */
-exports.getSelectOptions = async function (params, selRow, field, callback) {
+exports.getSelectOptions = async function (userInfo, typeSelectField, field, callback) {
+    let lo_selectData = {
+        selectDataDisplay: [],
+        selectData: []
+    };
 
-    if (selRow.referiable == "Y") {
-        callback({selectDataDisplay: [], selectData: []});
+    if (typeSelectField.referiable == "Y") {
+        callback(lo_selectData);
         return;
     }
 
     //下拉資料來源為sql
-    if (selRow.ds_from_sql == "Y") {
-        let sql_tag = selRow.rule_func_name.toUpperCase();
-        let lo_selectData = {
-            selectData: [],
-            selectDataDisplay: []
-        };
+    if (typeSelectField.ds_from_sql == "Y") {
+        let sql_tag = typeSelectField.rule_func_name.toUpperCase();
 
-        let la_selData = await qrySelectOption();           //1.取下拉資料
-        la_selData = await filterSelectOption(la_selData);  //2.過濾下拉資料
-        // await filterOptionByOptionID(la_selData);
 
+        try {
+            //1.取下拉顯示資料(全部資料)
+            let la_displayData = await qrySelectOptionDisplayData();
+            //2.分版本
+            let la_editionOption = await this.handleRuleExtendFunc(la_displayData, userInfo, typeSelectField);
+            //3.過濾下拉資料
+            let la_selectData = await filterSelectOption(la_editionOption);
+
+            lo_selectData.selectDataDisplay = la_displayData;
+            lo_selectData.selectData = la_selectData;
+
+        }
+        catch (err) {
+            console.error(err);
+        }
         callback(lo_selectData);
 
         /**
          * 取下拉資料
          * @returns {Promise<any>}
          */
-        async function qrySelectOption() {
+        async function qrySelectOptionDisplayData() {
             return new Promise((resolve, reject) => {
-                queryAgent.queryList(sql_tag, params, 0, 0, function (err, selData) {
+                queryAgent.queryList(sql_tag, userInfo, 0, 0, function (err, selData) {
                     if (err) {
                         console.error(err);
                         selData = [];
@@ -126,7 +138,6 @@ exports.getSelectOptions = async function (params, selRow, field, callback) {
                             }
                         }
                     });
-                    lo_selectData.selectDataDisplay = selData;
                     resolve(selData);
                 });
             });
@@ -139,23 +150,21 @@ exports.getSelectOptions = async function (params, selRow, field, callback) {
          */
         async function filterSelectOption(selectData) {
             return new Promise((resolve, reject) => {
-                if (!_.isUndefined(selRow.display_func_name) && selRow.display_func_name != "") {
-                    ruleAgent[selRow.display_func_name](selectData, function (data) {
-                        lo_selectData.selectData = data;
+                if (!_.isUndefined(typeSelectField.display_func_name) && typeSelectField.display_func_name != "") {
+                    ruleAgent[typeSelectField.display_func_name](selectData, function (data) {
                         resolve(data);
                     });
                 }
                 else {
-                    lo_selectData.selectData = [];
                     resolve(selectData);
                 }
             });
         }
     }
     else {
-        if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
+        if (!_.isUndefined(ruleAgent[typeSelectField.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
-            ruleAgent[selRow.rule_func_name](params, function (err, data) {
+            ruleAgent[typeSelectField.rule_func_name](userInfo, function (err, data) {
                 if (err) {
                     console.error(err);
                     callback([]);
@@ -170,14 +179,8 @@ exports.getSelectOptions = async function (params, selRow, field, callback) {
             });
         }
         else {
-            callback({selectDataDisplay: [], selectData: []});
+            callback(lo_selectData);
         }
-    }
-
-    async function filterOptionByOptionID() {
-        return new Promise((resolve, reject) => {
-            resolve();
-        });
     }
 };
 
@@ -188,7 +191,7 @@ exports.getSelectOptions = async function (params, selRow, field, callback) {
  * @param field
  * @param callback
  */
-exports.getSelectGridOption = function (session, selRow, field, callback) {
+exports.getSelectGridOption = function (session, typeSelectField, field, callback) {
     //要回傳的資料
     let lo_selectData = {};
 
@@ -203,14 +206,14 @@ exports.getSelectGridOption = function (session, selRow, field, callback) {
         }
         else {
             lo_selectData = result;
-            lo_selectData.isQrySrcBefore = selRow.is_qry_src_before == "" ? "Y" : selRow.is_qry_src_before;
+            lo_selectData.isQrySrcBefore = typeSelectField.is_qry_src_before == "" ? "Y" : typeSelectField.is_qry_src_before;
             callback(err, lo_selectData);
         }
     });
 
     function qrySelectGridColumn(cb) {
-        if (!_.isUndefined(ruleAgent[selRow.column_func_name])) {
-            ruleAgent[selRow.column_func_name](session, function (err, data) {
+        if (!_.isUndefined(ruleAgent[typeSelectField.column_func_name])) {
+            ruleAgent[typeSelectField.column_func_name](session, function (err, data) {
                 cb(err, data);
             });
         }
@@ -226,8 +229,8 @@ exports.getSelectGridOption = function (session, selRow, field, callback) {
             cb(err, null);
         }
         else {
-            if (selRow.is_qry_src_before != "N") {
-                var sql_tag = selRow.rule_func_name.toUpperCase();
+            if (typeSelectField.is_qry_src_before != "N") {
+                var sql_tag = typeSelectField.rule_func_name.toUpperCase();
                 var lo_params = session.user;
                 queryAgent.queryList(sql_tag, lo_params, 0, 0, function (err, selData) {
                     if (err) {
@@ -253,17 +256,31 @@ exports.getSelectGridOption = function (session, selRow, field, callback) {
     }
 };
 
-exports.handleRuleExtendFunc = async function (fieldData, session) {
-    if (_.isUndefined(fieldData.rule_extend_func_name)) return fieldData;
+exports.handleRuleExtendFunc = async function (postData, session, fieldsData) {
+    if (_.isUndefined(fieldsData.rule_extend_func_name)) return fieldsData;
 
-    if (_.isObject(fieldData.rule_extend_func_name)) {
-        let lo_ruleExtendFunc = fieldData.rule_extend_func_name;
-        await Promise.all(_.map(lo_ruleExtendFunc, async (ls_enable, ls_ruleName) => {
-            if (ls_enable == "Y") {
-                let lo_result = await ruleAgent[ls_ruleName](session, fieldData);
+    if (_.isArray(fieldsData.rule_extend_func_name)) {
+        let lo_result = await execRuleExtendFuncIsArray(postData, session, fieldsData);
+        console.log(lo_result);
+    }
+};
+
+async function execRuleExtendFuncIsArray(postData, session, fieldsData) {
+    let la_ruleExtendFunc = _.sortBy(fieldsData.rule_extend_func_name, "sort");
+    return await Promise.all(_.map(la_ruleExtendFunc, async (lo_ruleExtendFunc) => {
+        return await Promise.all(_.map(lo_ruleExtendFunc, async (ls_enable, ls_ruleName) => {
+            if (ls_enable == "Y" && ls_ruleName != "sort") {
+                if (!_.isUndefined(ruleAgent[ls_ruleName])) {
+                    let lo_result = await ruleAgent[ls_ruleName](postData, session);
+                    return lo_result;
+                }
+                else {
+                    return [];
+                }
+
             }
         }));
-    }
+    }));
 }
 
 /**

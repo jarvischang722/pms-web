@@ -67,7 +67,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                                     la_fields[fIdx].ds_from_sql = selRow.ds_from_sql || "";
                                     la_fields[fIdx].referiable = selRow.referiable || "N";
                                     la_fields[fIdx].defaultVal = selRow.defaultVal || "";
-                                    dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
+                                    dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
                                         la_fields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
                                         la_fields[fIdx].selectData =
                                             selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
@@ -243,7 +243,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                                 lo_dataGridField[fIdx].referiable = selRow.referiable || "N";
                                 lo_dataGridField[fIdx].defaultVal = selRow.defaultVal || "";
 
-                                dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
+                                dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
                                     lo_dataGridField[fIdx].selectDataDisplay = selectData.selectDataDisplay;
                                     lo_dataGridField[fIdx].selectData =
                                         selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
@@ -504,7 +504,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                                 lo_dataGridField[fIdx].referiable = selRow.referiable || "N";
                                 lo_dataGridField[fIdx].defaultVal = selRow.defaultVal || "";
 
-                                dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
+                                dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
                                     lo_dataGridField[fIdx].selectDataDisplay = selectData.selectDataDisplay;
                                     lo_dataGridField[fIdx].selectData =
                                         selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;

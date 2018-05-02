@@ -9,6 +9,22 @@ let UITypeSelectSchema = new Schema({
     ui_field_name: {type: String, trim: true, index: true, required: true},       //頁面欄位名稱
     ui_display_name: String,      //
     rule_func_name: String,      //單筆資料來源規則
+    /**
+     * 格式可以接受
+     * 1. array(多規則)
+     * [
+     *      {
+     *          rule1_name: Y,
+     *          sort: 1
+     *      },
+     *      {
+     *          rule2_name: N,
+     *          sort: 2
+     *      }
+     * ]
+     * 2. string(單一規則)
+     */
+    rule_extend_func_name: Schema.Types.Mixed,  //擴充規則
     multi_lang_table: String,     //
     multi_value_field: String,    //
     multi_display_field: String,  //
