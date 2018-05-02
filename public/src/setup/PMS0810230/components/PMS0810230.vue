@@ -84,13 +84,13 @@
                                         <!--tabPage-->
                                         <div class="space-6"></div>
                                         <el-tabs v-model="timeRuleSingleData['command_cod']" type="card" tab-position="left">
-                                            <el-tab-pane :label="i18nLang.program.PMS0810230.evertDay" name="D">
-                                                <div class="ml-5">
-                                                    <div class="space-6"></div>
-                                                    <span>每一天</span>
-                                                    <div class="space-6"></div>
-                                                </div>
-                                            </el-tab-pane>
+                                            <!--<el-tab-pane :label="i18nLang.program.PMS0810230.evertDay" name="D">-->
+                                                <!--<div class="ml-5">-->
+                                                    <!--<div class="space-6"></div>-->
+                                                    <!--<span>每一天</span>-->
+                                                    <!--<div class="space-6"></div>-->
+                                                <!--</div>-->
+                                            <!--</el-tab-pane>-->
                                             <el-tab-pane :label="i18nLang.program.PMS0810230.holiday" name="H">
                                                 <div class="ml-5">
                                                     <div class="space-6"></div>
@@ -103,75 +103,75 @@
                                                     <div class="space-6"></div>
                                                 </div>
                                             </el-tab-pane>
-                                            <el-tab-pane :label="i18nLang.program.PMS0810230.week" name="W">
-                                                <div class="space-6"></div>
-                                                <div class="grid ml-5">
-                                                    <div class="grid-item">
-                                                            <span class="checkbox no-margin">
-                                                              <label class="checkbox-width">
-                                                                  <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace" v-model="commandVal" value="W2">
-                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.monday}}</span>
-                                                              </label>
-                                                            </span>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                            <span class="checkbox no-margin">
-                                                              <label class="checkbox-width">
-                                                                  <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace" v-model="commandVal" value="W3">
-                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.tuesday}}</span>
-                                                              </label>
-                                                            </span>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                            <span class="checkbox no-margin">
-                                                              <label class="checkbox-width">
-                                                                  <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace" v-model="commandVal" value="W4">
-                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.wednesday}}</span>
-                                                              </label>
-                                                            </span>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                            <span class="checkbox no-margin">
-                                                              <label class="checkbox-width">
-                                                                  <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace" v-model="commandVal" value="W5">
-                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.thursday}}</span>
-                                                              </label>
-                                                            </span>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                            <span class="checkbox no-margin">
-                                                              <label class="checkbox-width">
-                                                                  <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace" v-model="commandVal" value="W6">
-                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.friday}}</span>
-                                                              </label>
-                                                            </span>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                            <span class="checkbox no-margin">
-                                                              <label class="checkbox-width">
-                                                                  <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace" v-model="commandVal" value="W7">
-                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.saturday}}</span>
-                                                              </label>
-                                                            </span>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                            <span class="checkbox no-margin">
-                                                              <label class="checkbox-width">
-                                                                  <input name="form-field-checkbox" type="checkbox"
-                                                                         class="ace" v-model="commandVal" value="W1">
-                                                                  <span class="lbl">{{i18nLang.program.PMS0810230.sunday}}</span>
-                                                              </label>
-                                                            </span>
-                                                    </div>
-                                                </div>
-                                                <div class="space-6"></div>
-                                            </el-tab-pane>
+                                            <!--<el-tab-pane :label="i18nLang.program.PMS0810230.week" name="W">-->
+                                                <!--<div class="space-6"></div>-->
+                                                <!--<div class="grid ml-5">-->
+                                                    <!--<div class="grid-item">-->
+                                                            <!--<span class="checkbox no-margin">-->
+                                                              <!--<label class="checkbox-width">-->
+                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
+                                                                         <!--class="ace" v-model="commandVal" value="W2">-->
+                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.monday}}</span>-->
+                                                              <!--</label>-->
+                                                            <!--</span>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="grid-item">-->
+                                                            <!--<span class="checkbox no-margin">-->
+                                                              <!--<label class="checkbox-width">-->
+                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
+                                                                         <!--class="ace" v-model="commandVal" value="W3">-->
+                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.tuesday}}</span>-->
+                                                              <!--</label>-->
+                                                            <!--</span>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="grid-item">-->
+                                                            <!--<span class="checkbox no-margin">-->
+                                                              <!--<label class="checkbox-width">-->
+                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
+                                                                         <!--class="ace" v-model="commandVal" value="W4">-->
+                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.wednesday}}</span>-->
+                                                              <!--</label>-->
+                                                            <!--</span>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="grid-item">-->
+                                                            <!--<span class="checkbox no-margin">-->
+                                                              <!--<label class="checkbox-width">-->
+                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
+                                                                         <!--class="ace" v-model="commandVal" value="W5">-->
+                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.thursday}}</span>-->
+                                                              <!--</label>-->
+                                                            <!--</span>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="grid-item">-->
+                                                            <!--<span class="checkbox no-margin">-->
+                                                              <!--<label class="checkbox-width">-->
+                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
+                                                                         <!--class="ace" v-model="commandVal" value="W6">-->
+                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.friday}}</span>-->
+                                                              <!--</label>-->
+                                                            <!--</span>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="grid-item">-->
+                                                            <!--<span class="checkbox no-margin">-->
+                                                              <!--<label class="checkbox-width">-->
+                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
+                                                                         <!--class="ace" v-model="commandVal" value="W7">-->
+                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.saturday}}</span>-->
+                                                              <!--</label>-->
+                                                            <!--</span>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="grid-item">-->
+                                                            <!--<span class="checkbox no-margin">-->
+                                                              <!--<label class="checkbox-width">-->
+                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
+                                                                         <!--class="ace" v-model="commandVal" value="W1">-->
+                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.sunday}}</span>-->
+                                                              <!--</label>-->
+                                                            <!--</span>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="space-6"></div>-->
+                                            <!--</el-tab-pane>-->
                                         </el-tabs>
                                         <!--/.tabPage-->
                                     </div><!--main-content-data-->

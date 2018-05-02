@@ -30,7 +30,7 @@
                         <div class="row">
                             <div class="right-menu-co">
                                 <ul>
-                                    <li v-if="$parent.$parent.prgEditionOptions.funcList['1010'] != 'LITE'">
+                                    <li>
                                         <button
                                                 class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="editRow">{{i18nLang.program.PMS0810230.dateRule}}
@@ -308,83 +308,118 @@
             },
             showTable() {
                 let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
-                if (lo_funcList['1010'] == 'LITE') {
-                    this.useTimeColumns = [
-                        {
-                            field: 'control',
-                            title: '<i class="fa fa-plus green pointer"></i>',
-                            width: 40,
-                            titleAlign: 'center',
-                            columnAlign: 'center',
-                            componentName: 'table-operation',
-                            isResize: true
-                        },
-                        {
-                            field: 'startDat',
-                            title: _.findWhere(this.fieldsData, {ui_field_name: 'begin_dat'}).ui_display_name,
-                            width: 135,
-                            titleAlign: 'center',
-                            columnAlign: 'center',
-                            isResize: true,
-                            componentName: 'table-start-date'
-                        },
-                        {
-                            field: 'endDat',
-                            title: _.findWhere(this.fieldsData, {ui_field_name: 'end_dat'}).ui_display_name,
-                            width: 135,
-                            titleAlign: 'center',
-                            columnAlign: 'center',
-                            isResize: true,
-                            componentName: 'table-end-date'
-                        },
-                        {
-                            field: 'datRule',
-                            title: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).ui_display_name,
-                            width: 135,
-                            titleAlign: 'center',
-                            columnAlign: 'center',
-                            isResize: true,
-                            componentName: 'table-date-rule'
-                        }
-                    ];
-                }
-                else {
-                    this.useTimeColumns = [
-                        {
-                            field: 'control',
-                            title: '<i class="fa fa-plus green pointer"></i>',
-                            width: 40,
-                            titleAlign: 'center',
-                            columnAlign: 'center',
-                            componentName: 'table-operation',
-                            isResize: true
-                        },
-                        {
-                            field: 'startDat',
-                            title: _.findWhere(this.fieldsData, {ui_field_name: 'begin_dat'}).ui_display_name,
-                            width: 135,
-                            titleAlign: 'center',
-                            columnAlign: 'center',
-                            isResize: true,
-                        },
-                        {
-                            field: 'endDat',
-                            title: _.findWhere(this.fieldsData, {ui_field_name: 'end_dat'}).ui_display_name,
-                            width: 135,
-                            titleAlign: 'center',
-                            columnAlign: 'center',
-                            isResize: true,
-                        },
-                        {
-                            field: 'datRule',
-                            title: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).ui_display_name,
-                            width: 135,
-                            titleAlign: 'center',
-                            columnAlign: 'center',
-                            isResize: true,
-                        }
-                    ];
-                }
+//                if (lo_funcList['1010'] == 'LITE') {
+//                    this.useTimeColumns = [
+//                        {
+//                            field: 'control',
+//                            title: '<i class="fa fa-plus green pointer"></i>',
+//                            width: 40,
+//                            titleAlign: 'center',
+//                            columnAlign: 'center',
+//                            componentName: 'table-operation',
+//                            isResize: true
+//                        },
+//                        {
+//                            field: 'startDat',
+//                            title: _.findWhere(this.fieldsData, {ui_field_name: 'begin_dat'}).ui_display_name,
+//                            width: 135,
+//                            titleAlign: 'center',
+//                            columnAlign: 'center',
+//                            isResize: true,
+//                            componentName: 'table-start-date'
+//                        },
+//                        {
+//                            field: 'endDat',
+//                            title: _.findWhere(this.fieldsData, {ui_field_name: 'end_dat'}).ui_display_name,
+//                            width: 135,
+//                            titleAlign: 'center',
+//                            columnAlign: 'center',
+//                            isResize: true,
+//                            componentName: 'table-end-date'
+//                        },
+//                        {
+//                            field: 'datRule',
+//                            title: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).ui_display_name,
+//                            width: 135,
+//                            titleAlign: 'center',
+//                            columnAlign: 'center',
+//                            isResize: true,
+//                            componentName: 'table-date-rule'
+//                        }
+//                    ];
+//                }
+//                else {
+//                    this.useTimeColumns = [
+//                        {
+//                            field: 'control',
+//                            title: '<i class="fa fa-plus green pointer"></i>',
+//                            width: 40,
+//                            titleAlign: 'center',
+//                            columnAlign: 'center',
+//                            componentName: 'table-operation',
+//                            isResize: true
+//                        },
+//                        {
+//                            field: 'startDat',
+//                            title: _.findWhere(this.fieldsData, {ui_field_name: 'begin_dat'}).ui_display_name,
+//                            width: 135,
+//                            titleAlign: 'center',
+//                            columnAlign: 'center',
+//                            isResize: true,
+//                        },
+//                        {
+//                            field: 'endDat',
+//                            title: _.findWhere(this.fieldsData, {ui_field_name: 'end_dat'}).ui_display_name,
+//                            width: 135,
+//                            titleAlign: 'center',
+//                            columnAlign: 'center',
+//                            isResize: true,
+//                        },
+//                        {
+//                            field: 'datRule',
+//                            title: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).ui_display_name,
+//                            width: 135,
+//                            titleAlign: 'center',
+//                            columnAlign: 'center',
+//                            isResize: true,
+//                        }
+//                    ];
+//                }
+                this.useTimeColumns = [
+                    {
+                        field: 'control',
+                        title: '<i class="fa fa-plus green pointer"></i>',
+                        width: 40,
+                        titleAlign: 'center',
+                        columnAlign: 'center',
+                        componentName: 'table-operation',
+                        isResize: true
+                    },
+                    {
+                        field: 'startDat',
+                        title: _.findWhere(this.fieldsData, {ui_field_name: 'begin_dat'}).ui_display_name,
+                        width: 135,
+                        titleAlign: 'center',
+                        columnAlign: 'center',
+                        isResize: true,
+                    },
+                    {
+                        field: 'endDat',
+                        title: _.findWhere(this.fieldsData, {ui_field_name: 'end_dat'}).ui_display_name,
+                        width: 135,
+                        titleAlign: 'center',
+                        columnAlign: 'center',
+                        isResize: true,
+                    },
+                    {
+                        field: 'datRule',
+                        title: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).ui_display_name,
+                        width: 135,
+                        titleAlign: 'center',
+                        columnAlign: 'center',
+                        isResize: true,
+                    }
+                ];
                 this.useTimeData = [];
 
                 let la_displayDataGridRowsData = this.isShowExpire ?
@@ -530,36 +565,43 @@
                     });
                     let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
                     this.timeRuleData = {};
-                    if (lo_funcList['1010'] == 'LITE') {
-                        let lo_createData = {
-                            athena_id: this.$store.state.go_userInfo.athena_id,
-                            hotel_cod: this.$store.state.go_userInfo.hotel_cod,
-                            rate_cod: this.$store.state.gs_rateCod,
-                            supply_nos: 1,
-                            begin_dat: moment().format("YYYY/MM/DD"),
-                            end_dat: moment().format("YYYY/MM/DD"),
-                            command_cod: "H",
-                            command_option: "HH",
-                            event_time: moment().format(),
-                            isCreate: true
-                        };
-                        this.dataGridRowsData.push(lo_createData);
-                        this.showTable();
-                    }
-                    else {
-                        this.showTimeRuleDialog();
-                    }
+//                    if (lo_funcList['1010'] == 'LITE') {
+//                        let lo_createData = {
+//                            athena_id: this.$store.state.go_userInfo.athena_id,
+//                            hotel_cod: this.$store.state.go_userInfo.hotel_cod,
+//                            rate_cod: this.$store.state.gs_rateCod,
+//                            supply_nos: 1,
+//                            begin_dat: moment().format("YYYY/MM/DD"),
+//                            end_dat: moment().format("YYYY/MM/DD"),
+//                            command_cod: "H",
+//                            command_option: "HH",
+//                            event_time: moment().format(),
+//                            isCreate: true
+//                        };
+//                        this.dataGridRowsData.push(lo_createData);
+//                        this.showTable();
+//                    }
+//                    else {
+//                        this.showTimeRuleDialog();
+//                    }
+                    this.showTimeRuleDialog();
                 }
             },
             editRow() {
                 let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
-                if (lo_funcList['1010'] != 'LITE') {
-                    if (_.isEmpty(this.timeRuleData)) {
-                        alert(go_i18nLang["SystemCommon"].SelectData);
-                    }
-                    else {
-                        this.showTimeRuleDialog();
-                    }
+//                if (lo_funcList['1010'] != 'LITE') {
+//                    if (_.isEmpty(this.timeRuleData)) {
+//                        alert(go_i18nLang["SystemCommon"].SelectData);
+//                    }
+//                    else {
+//                        this.showTimeRuleDialog();
+//                    }
+//                }
+                if (_.isEmpty(this.timeRuleData)) {
+                    alert(go_i18nLang["SystemCommon"].SelectData);
+                }
+                else {
+                    this.showTimeRuleDialog();
                 }
             },
             //日期規則
