@@ -293,6 +293,7 @@
                                                     <!--</div>-->
                                                 </div>
                                                 <div class="clear"></div>
+                                                <div class="clear"></div>date
 
                                             </div> <!-- table -->
                                         </template>

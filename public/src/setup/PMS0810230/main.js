@@ -1,6 +1,7 @@
 import PMS0810230 from './components/PMS0810230.vue';
 import store from './store';
 
+//vue easy table 刪除按鈕
 Vue.component('table-operation', {
     template: '<span class="column-cell-class-delete" @click.stop.prevent="deleteRow(rowData,index)">▬</span>',
     props: {
@@ -21,7 +22,6 @@ Vue.component('table-operation', {
         }
     }
 });
-
 
 new Vue({
     el: "#PMS0810230App",

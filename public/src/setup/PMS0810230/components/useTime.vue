@@ -30,7 +30,7 @@
                         <div class="row">
                             <div class="right-menu-co">
                                 <ul>
-                                    <li>
+                                    <li v-if="$parent.$parent.prgEditionOptions.funcList['1010'] != 'LITE'">
                                         <button
                                                 class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="editRow">{{i18nLang.program.PMS0810230.dateRule}}
@@ -63,6 +63,44 @@
 </template>
 
 <script>
+
+    let vmHub4EasyTable = new Vue();
+
+    Vue.component('table-start-date', {
+        template: '<el-date-picker v-model="rowData.startDat" type="date" format="yyyy/MM/dd"' +
+        'style="width: 135px; height: 35px;line-height: 25px;" editable="false"></el-date-picker>',
+        props: {
+            rowData: {
+                type: Object
+            }
+        }
+    });
+
+    Vue.component('table-end-date', {
+        template: '<el-date-picker v-model="rowData.endDat" type="date" format="yyyy/MM/dd"' +
+        'style="width: 135px; height: 35px; line-height: 25px;" editable="false"></el-date-picker>',
+        props: {
+            rowData: {
+                type: Object
+            }
+        }
+    });
+
+    Vue.component('table-date-rule', {
+        template: '<bac-select v-model="rowData.datRule" :field="rowData.fieldsData" :data="rowData.fieldsData.selectData" ' +
+        ':data-display="rowData.fieldsData.selectData" style="width: 135px; height: 25px;"' +
+        ':default-val="rowData.datRule" is-qry-src-before="Y" value-field="value" text-field="display"' +
+        '@update:v-model="val => rowData.datRule = val"></bac-select>',
+        props: {
+            rowData: {
+                type: Object
+            },
+            field: {
+                type: String
+            }
+        }
+    });
+
     import moment from 'moment';
 
     export default {
@@ -270,7 +308,7 @@
             },
             showTable() {
                 let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
-                if(lo_funcList['1010'] == 'LITE'){
+                if (lo_funcList['1010'] == 'LITE') {
                     this.useTimeColumns = [
                         {
                             field: 'control',
@@ -288,7 +326,7 @@
                             titleAlign: 'center',
                             columnAlign: 'center',
                             isResize: true,
-                            isEdit: true
+                            componentName: 'table-start-date'
                         },
                         {
                             field: 'endDat',
@@ -297,7 +335,7 @@
                             titleAlign: 'center',
                             columnAlign: 'center',
                             isResize: true,
-                            isEdit: true
+                            componentName: 'table-end-date'
                         },
                         {
                             field: 'datRule',
@@ -306,11 +344,11 @@
                             titleAlign: 'center',
                             columnAlign: 'center',
                             isResize: true,
-                            isEdit: true
+                            componentName: 'table-date-rule'
                         }
                     ];
                 }
-                else{
+                else {
                     this.useTimeColumns = [
                         {
                             field: 'control',
@@ -361,7 +399,8 @@
                             "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
                             "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
                             "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(lo_dataGridRowsData))),
-                            "supply_nos": lo_dataGridRowsData.supply_nos
+                            "supply_nos": lo_dataGridRowsData.supply_nos,
+                            "fieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_option'})
                         });
                     });
                 }
@@ -486,9 +525,12 @@
             },
             appendRow(title, field) {
                 if (field == "control") {
+                    vmHub4EasyTable.$emit('getFieldsData', {
+                        fieldsData: this.fieldsData
+                    });
                     let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
                     this.timeRuleData = {};
-                    if(lo_funcList['1010'] == 'LITE'){
+                    if (lo_funcList['1010'] == 'LITE') {
                         let lo_createData = {
                             athena_id: this.$store.state.go_userInfo.athena_id,
                             hotel_cod: this.$store.state.go_userInfo.hotel_cod,
@@ -496,22 +538,22 @@
                             supply_nos: 1,
                             begin_dat: moment().format("YYYY/MM/DD"),
                             end_dat: moment().format("YYYY/MM/DD"),
-                            command_cod: "D",
-                            command_option: "D1",
+                            command_cod: "H",
+                            command_option: "HH",
                             event_time: moment().format(),
                             isCreate: true
                         };
                         this.dataGridRowsData.push(lo_createData);
-                        this.showTable()
+                        this.showTable();
                     }
-                    else{
+                    else {
                         this.showTimeRuleDialog();
                     }
                 }
             },
             editRow() {
                 let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
-                if(lo_funcList['1010'] != 'LITE'){
+                if (lo_funcList['1010'] != 'LITE') {
                     if (_.isEmpty(this.timeRuleData)) {
                         alert(go_i18nLang["SystemCommon"].SelectData);
                     }
