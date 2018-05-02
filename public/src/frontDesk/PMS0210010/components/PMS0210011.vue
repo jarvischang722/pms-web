@@ -347,7 +347,6 @@
                                         </button>
                                     </li>
                                     <!--btn 有間距class:segement-->
-
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
                                                 role="button" :disabled="isOtherContact" @click="doDeleteData">
@@ -400,6 +399,12 @@
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doCloseDialog" :disabled="isOtherContact">
                                             {{i18nLang.SystemCommon.Leave}}
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" :disabled="isOpenChangeLog" @click="loadChangeLog">
+                                            {{i18nLang.SystemCommon.ChangeLog}}
                                         </button>
                                     </li>
                                 </ul>
@@ -490,6 +495,9 @@
                 }
                 this.isDeleteStatus = false;
             });
+            this.$eventHub.$on('getCloseChangeLogData', (closeChangeLogData) => {
+                this.isOpenChangeLog = closeChangeLogData.isOpenChangeLog;
+            });
         },
         mounted() {
             this.isLoadingDialog = true;
@@ -511,7 +519,8 @@
                 tabStatus: {isProfile: false, isVisits: false, isReference: false}, //現在頁籤狀況
                 isOtherContact: false, //是否開啟other contact
                 isLostAndFound: false, //是否開啟lost&found
-                isDeleteStatus: false  //是否為刪除
+                isDeleteStatus: false, //是否為刪除
+                isOpenChangeLog: false
             }
         },
         watch: {
@@ -854,6 +863,17 @@
                 this.rowData = {};
                 $("#PMS0210011").dialog('close');
             },
+            loadChangeLog() {
+                this.isOpenChangeLog = true;
+                $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0210011"}, (result) => {
+                    if (result.success) {
+                        this.$eventHub.$emit('getChangeLogData', {
+                            openChangeLogDialog: this.isOpenChangeLog,
+                            allChangeLogList: result.allChangeLogList
+                        });
+                    }
+                });
+            }
         }
     }
 </script>
