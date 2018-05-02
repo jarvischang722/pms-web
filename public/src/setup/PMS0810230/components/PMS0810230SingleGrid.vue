@@ -109,6 +109,7 @@
                                  style="min-height: 0;!important; overflow-y: auto;">
                                 <div id="roomTypPanel" v-show="tabName=='roomTyp'" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
+                                        <!--新版rateCode 彈窗內容-->
                                         <!--<template v-if="versionState=='lite'">-->
                                             <!--<div class="grid">-->
                                                 <!--<div class="grid-item">-->

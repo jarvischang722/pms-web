@@ -72,9 +72,62 @@
 
         <!--<div class="row">-->
         <div class="col-xs-12">
-            <!--  接待 roomAssign 內容-->
-            <%- include frontDesk_module/frontDesk_roomAssign.ejs %>
-            <!--  /.End 接待 roomAssign 內容 -->
+            <div class="roomAssign">
+                <!--  接待 roomAssign 內容-->
+                <%- include frontDesk_module/frontDesk_roomAssign.ejs %>
+                <!--  /.End 接待 roomAssign 內容 -->
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">排房
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth foCnt_autoAssignSGL"
+                                            role="button">批次排房
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                            role="button">取消排房
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                            role="button">批次取消
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-gray btn-defaultWidth foCnt_autoAssign"
+                                            role="button">自動排房
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-gray btn-defaultWidth"
+                                            role="button">鎖定排房
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth resv_guestDetail"
+                                            role="button">住客清單
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth town-list-btn">
+                                        條列式
+                                    </button>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth town-graphics-btn">
+                                        圖示
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.roomAssign -->
         </div>
 
     </div>

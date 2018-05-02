@@ -1203,8 +1203,8 @@
             url: '/jsonData/frontDesk/front_roomAssign-1.json',
             method: 'get',
             columns: [[
-                {field: 'exclamation', title: '', width: 25},
                 {field: 'cardCode', title: '訂房卡號', width: 80},
+                {field: 'status', title: '狀態', width: 25},
                 {field: 'resv', title: '訂房', width: 40},
                 {field: 'assignRoom', title: '排房', width: 40},
                 {field: 'ciNum', title: 'C/I', width: 40},
@@ -1228,18 +1228,17 @@
             url: '/jsonData/frontDesk/front_roomAssign-2.json',
             method: 'get',
             columns: [[
-                {field: 'cardCode', title: '訂房卡號', width: 80},
-                {field: 'bookingNum', title: '房組', width: 40},
+                {field: 'bookingNum', title: '房組', width: 35},
                 {field: 'name', title: '住客姓名', width: 100},
-                {field: 'roomAssignNum', title: '排房', width: 40},
+                {field: 'roomAssignNum', title: '排房狀態', width: 60},
                 {field: 'roomNum', title: '房號', width: 40},
-                {field: 'roomAssignHousing', title: '排房房型', width: 80},
-                {field: 'useHousing', title: '使用房型', width: 80},
+                {field: 'roomAssignHousing', title: '排房房型', width: 60},
+                {field: 'useHousing', title: '使用房型', width: 60},
                 {field: 'lockRoomAssign', title: '鎖定排房', width: 60},
-                {field: 'roomNumCode', title: '房價代號', width: 80},
-                {field: 'adult', title: '大人', width: 40},
-                {field: 'child', title: '小孩', width: 40},
-                {field: 'baby', title: '嬰兒', width: 40}
+                {field: 'roomNumCode', title: '房價代號', width: 60},
+                {field: 'adult', title: '大人', width: 35},
+                {field: 'child', title: '小孩', width: 35},
+                {field: 'baby', title: '嬰兒', width: 35}
             ]]
         });
 
