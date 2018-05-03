@@ -98,7 +98,6 @@ exports.getSelectOptions = async function (userInfo, typeSelectField, field, cal
     if (typeSelectField.ds_from_sql == "Y") {
         let sql_tag = typeSelectField.rule_func_name.toUpperCase();
 
-
         try {
             //1.取下拉顯示資料(全部資料)
             let la_displayData = await qrySelectOptionDisplayData();
@@ -168,7 +167,8 @@ exports.getSelectOptions = async function (userInfo, typeSelectField, field, cal
                 if (err) {
                     console.error(err);
                     callback([]);
-                } else {
+                }
+                else {
                     _.each(data.selectOptions, function (lo_selData, index) {
                         if (!_.isUndefined(lo_selData.value)) {
                             data.selectOptions[index].display = lo_selData.display;
@@ -277,7 +277,6 @@ async function execRuleExtendFuncIsArray(postData, session, fieldsData) {
                 else {
                     return [];
                 }
-
             }
         }));
     }));
