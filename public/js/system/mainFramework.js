@@ -31,7 +31,8 @@ let BacchusMainVM = new Vue({
             {ui_field_name: "oriPassword", ui_display_name: "Original Password"},
             {ui_field_name: "newPassword", ui_display_name: "New Password"},
             {ui_field_name: "confirmPassword", ui_display_name: "Check new password"}
-        ]
+        ],
+        prgEditionOptions: {} //版本資料
     },
     mounted: function () {
         //離開時
@@ -161,7 +162,6 @@ let BacchusMainVM = new Vue({
          * @param prg_id
          */
         loadMainProcess: function (prg_id) {
-
 
             g_socket.emit('handleTableUnlock', {'prg_id': getCookie("lockingPrgID")});
 
@@ -369,10 +369,31 @@ let BacchusMainVM = new Vue({
          */
         doCheckOnlineUser: function () {
             g_socket.emit('checkOnlineUser');
+        },
+
+        /**
+         * 取得版本資料(option id、function id)
+         * @param prg_id{string}: 各程式編號
+         */
+        doGetVersionData: function(prg_id){
+            var self = this;
+            $.ajax({
+                type: 'POST',
+                url: '/api/getPrgEditionOptionList',
+                data: {prg_id: prg_id},
+                success: function(result){
+                    if(result.success){
+                        self.prgEditionOptions = result.prgEditionOptions;
+                    }
+                    else{
+                        alert(result.errorMsg);
+                    }
+                },
+                async:false
+            });
         }
 
     }
-
 });
 
 
