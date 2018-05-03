@@ -567,7 +567,7 @@ exports.addStaff = function (postData, session, callback) {
 
 exports.qryPermissionFuncTreeData = function (req, session, callback) {
     async.waterfall([
-        qryFuncList.bind(null, req),    //取功能清單
+        qryFuncList.bind(null, req, session),    //取功能清單
         genPermissionFuncTree
     ], function (err, result) {
         callback(err, result);
@@ -579,7 +579,7 @@ exports.qryPermissionFuncTreeData = function (req, session, callback) {
  * @param userInfo {object} 使用者資訊
  * @param cb
  */
-function qryFuncList(req, cb) {
+function qryFuncList(req, session, cb) {
     let userInfo = req.session.user;
     let lo_params = {
         athena_id: userInfo.athena_id,
@@ -587,7 +587,7 @@ function qryFuncList(req, cb) {
         hotel_cod: userInfo.fun_hotel_cod
     };
     queryAgent.queryList("QRY_BAC_PROCESSMENU", lo_params, 0, 0, function (err, result) {
-        cb(err, req, result);
+        cb(err, req, session, result);
     });
 }
 
@@ -598,8 +598,9 @@ function qryFuncList(req, cb) {
  * @param sysID {string} 系統別
  * @param callback
  */
-function genPermissionFuncTree(req, la_funcList, callback) {
-    let la_locales = _.pluck(req.cookies.sys_locales, "lang");
+function genPermissionFuncTree(req, session, la_funcList, callback) {
+    let la_sys_locales = _.pluck(req.cookies.sys_locales, "lang");
+    let ls_locale = session.locale;
 
     async.waterfall([
         //找出模組作業的多語系
@@ -626,20 +627,19 @@ function genPermissionFuncTree(req, la_funcList, callback) {
                     });
                 },
                 funcLangList: function (lo_cb) {
-                    langSvc.handleMultiLangContentByField("lang_bac_process_func_rf", "func_nam", "", function (err, funcLangList) {
-                        lo_cb(err, funcLangList);
-                    });
+                    let lo_langFile = commonRule.getLangFileByLocale(ls_locale);
+                    lo_cb(null, lo_langFile);
                 }
             }, function (err, results) {
                 cb(err, results.sysLangList, results.subsysLangList, results.mdlLangList, results.proLangList, results.funcLangList);
             });
         },
         //組功能樹狀結構
-        function (la_sysLang, la_subsysLang, la_mdlLang, la_proLang, la_funcLang, cb) {
+        function (la_sysLang, la_subsysLang, la_mdlLang, la_proLang, lo_funcLang, cb) {
             let la_sys = _.where(la_funcList, {id_typ: "SYSTEM"});
             _.each(la_sys, function (lo_sys) {
                 //系統多語系
-                _.each(la_locales, function (locale) {
+                _.each(la_sys_locales, function (locale) {
                     let lo_sysLang = _.findWhere(la_sysLang, {locale: locale, sys_id: lo_sys.current_id});
                     let sys_name = _.isUndefined(lo_sysLang) ? lo_sys.current_id : lo_sysLang.words;
                     lo_sys["sys_name_" + locale] = sys_name;
@@ -649,7 +649,7 @@ function genPermissionFuncTree(req, la_funcList, callback) {
                 let la_subsys = _.where(la_funcList, {pre_id: lo_sys.current_id, id_typ: "SUBSYS"});
                 _.each(la_subsys, function (lo_subsys) {
                     //子系統多語系
-                    _.each(la_locales, function (lo_locale) {
+                    _.each(la_sys_locales, function (lo_locale) {
                         let lo_subsysLang = _.findWhere(la_subsysLang, {
                             subsys_id: lo_subsys.current_id,
                             locale: lo_locale
@@ -662,7 +662,7 @@ function genPermissionFuncTree(req, la_funcList, callback) {
                     let la_model = _.where(la_funcList, {pre_id: lo_subsys.current_id, id_typ: "MODEL"});
                     _.each(la_model, function (lo_model) {
                         //模組多語系
-                        _.each(la_locales, function (lo_locale) {
+                        _.each(la_sys_locales, function (lo_locale) {
                             let lo_mdlLang = _.findWhere(la_mdlLang, {locale: lo_locale, mdl_id: lo_model.current_id});
                             let mdl_name = _.isUndefined(lo_mdlLang) ? lo_model.current_id : lo_mdlLang.words;
                             lo_model["mdl_nam_" + lo_locale] = mdl_name;
@@ -671,7 +671,7 @@ function genPermissionFuncTree(req, la_funcList, callback) {
                         let la_process = _.where(la_funcList, {pre_id: lo_model.current_id, id_typ: "PROCESS"});
                         _.each(la_process, function (lo_process) {
                             //作業多語系
-                            _.each(la_locales, function (lo_locale) {
+                            _.each(la_sys_locales, function (lo_locale) {
                                 let lo_proLang = _.findWhere(la_proLang, {
                                     locale: lo_locale,
                                     pro_id: lo_process.current_id
@@ -683,15 +683,12 @@ function genPermissionFuncTree(req, la_funcList, callback) {
                             let la_func = _.where(la_funcList, {pre_id: lo_process.current_id, id_typ: "FUNCTION"});
                             _.each(la_func, function (lo_func) {
                                 //功能多語系
-                                _.each(la_locales, function (lo_locale) {
-                                    let lo_funcLang = _.findWhere(la_funcLang, {
-                                        locale: lo_locale,
-                                        func_id: lo_func.current_id,
-                                        pro_id: lo_process.current_id
-                                    });
-                                    let func_name = _.isUndefined(lo_funcLang) ? lo_func.current_id : lo_funcLang.words;
-                                    lo_func["func_nam_" + lo_locale] = func_name;
-                                });
+                                if (!_.isUndefined(lo_funcLang.program[lo_process.current_id]) && !_.isUndefined(lo_funcLang.program[lo_process.current_id][lo_func.current_id])) {
+                                    lo_func["func_nam_" + ls_locale] = lo_funcLang.program[lo_process.current_id][lo_func.current_id];
+                                }
+                                else{
+                                    lo_func["func_nam_" + ls_locale] = lo_funcLang.SystemCommon[lo_func.current_id] || lo_func.current_id;
+                                }
                             });
                         });
                     });
