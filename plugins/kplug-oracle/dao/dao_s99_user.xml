@@ -4,7 +4,7 @@
     <dao name="QRY_BAC_GET_USER_BY_ONE">
         <statement><![CDATA[
 
-            SELECT u.CMP_ID, u.GRP_ID, u.USR_ID, u.USR_CNAME,u.ACCOUNT_STA,u.USER_ATHENA_ID
+            SELECT u.CMP_ID, u.CMP_ID as comp_cod, u.GRP_ID, u.USR_ID, u.USR_CNAME,u.ACCOUNT_STA,u.USER_ATHENA_ID
             FROM s99_user u
             WHERE   trim(u.usr_id) = :user_id and u.usr_pwd = :usr_pwd and trim(u.cmp_id) = :cmp_id
 

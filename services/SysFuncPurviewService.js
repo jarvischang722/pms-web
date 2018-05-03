@@ -163,6 +163,7 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                     lo_mdl['mdl_url'] = lo_mdlInfo.mdl_url;
                     lo_mdl['group_sta'] = lo_mdlInfo.group_sta;
                     lo_mdl['processMenu'] = processMenu;
+                    lo_mdl['edition'] = lo_mdlInfo.edition;
                     mdlList.push(lo_mdl);
                 });
 
@@ -227,7 +228,8 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                                 tmpQuickObj = {
                                     pro_id: lo_mdl.mdl_id,
                                     pro_url: lo_mdl.mdl_url,
-                                    subsys_id: quickData.subsys_id
+                                    subsys_id: quickData.subsys_id,
+                                    edition: lo_mdl.edition
                                 };
                                 _.each(la_locales, function (locale) {
                                     if (!_.isUndefined(lo_mdl["mdl_name_" + locale.lang])) {
@@ -244,6 +246,7 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                                     pro_id: pro.pro_id,
                                     pro_url: pro.pro_url,
                                     subsys_id: quickData.subsys_id,
+                                    edition: pro.edition,
                                     isBusinessVer: "N",
                                     isEnterpriseVer: "N"
                                 };

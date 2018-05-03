@@ -48,18 +48,18 @@ module.exports = function (app, passport) {
     app.post('/api/getAllRoles', apiMiddles, userCrtl.getAllRoles);
     //取得全部功能權限
     app.post("/api/getAllFuncs", apiMiddles, permisCrtl.qryPermissionFuncTreeData);
-
+    //取得Edition 和 options
+    app.post('/api/getPrgEditionOptionList', apiMiddles, permisCrtl.getPrgEditionOptionList);
     //抓取單一角色對應的功能權限
     app.post("/api/getFuncsOfRole", apiMiddles, userCrtl.getFuncsOfRole);
     //取得單一角色對應全部的帳號
     app.post('/api/getRoleOfAccounts', apiMiddles, userCrtl.getRoleOfAccounts);
-
     //取得作業每顆按鈕func_id的權限
     app.post('/api/getUserFuncPurviewByProID', apiMiddles, userCrtl.getUserFuncPurviewByProID);
     //取得某一個系統的所有權限資料
     app.post('/api/userSubsysPurviewBySysID', apiMiddles, userCrtl.userSubsysPurviewBySysID);
-
     //修改密碼
     app.post('/api/doEditPassword', apiMiddles, userCrtl.doEditPassword);
+
 };
 
