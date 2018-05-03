@@ -507,7 +507,7 @@ module.exports = {
             else {
                 let ls_cod = data["SERIES_NOS"].toString();
                 let ls_perCustCod = "CSP" + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
-                let la_allRows = _.sortBy(postData.allRows, "seq_nos");
+                let la_allRows = _.isUndefined(postData.allRows) ? [{}] : _.sortBy(postData.allRows, "seq_nos");
                 let ln_seq_nos = Number(la_allRows[la_allRows.length - 1].seq_nos) || 0;
                 lo_result.defaultValues = {per_cust_cod: ls_perCustCod, seq_nos: ln_seq_nos + 1};
             }
