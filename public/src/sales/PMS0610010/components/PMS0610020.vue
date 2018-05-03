@@ -393,6 +393,11 @@
                         }
                         lo_oriSingleData.cust_idx_zip_cod = lo_singleData.cust_idx_zip_cod;
 
+                        //若發票抬頭為空的，則將公司名稱帶入
+                        if( lo_singleData.cust_idx_uni_titile == "" || _.isNull(lo_singleData.cust_idx_uni_titile) || _.isUndefined(lo_singleData.cust_idx_uni_titile)){
+                            this.singleData.cust_idx_uni_titile = lo_singleData.cust_nam;
+                        }
+
                         //將主檔資料放至Vuex
                         this.$store.dispatch("setMnSingleData", {
                             go_mnSingleData: lo_singleData,

@@ -80,7 +80,7 @@
                 this.$emit('update:v-model', this.defaultVal);
                 $(this.$el).combogrid('setValue', val);
 
-                if(!_.isNull(val) && val != ""){
+                if (!_.isNull(val) && val != "") {
                     let lo_param = {};
                     lo_param[this.idField] = val;
                     let ln_PgeNo = _.findIndex(this.data, lo_param);
@@ -90,6 +90,14 @@
             //塞入欄位資料
             columns: function (val) {
                 this.initComboGrid();
+            },
+            field: {
+                handler: function (val) {
+                    let lb_modificable = val.modificable == 'Y' ? false : true;
+                    $(this.$el).combogrid({disabled: lb_modificable});
+                    this.initComboGrid();
+                },
+                deep: true
             }
         },
         methods: {
