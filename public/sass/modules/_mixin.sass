@@ -64,11 +64,15 @@
   margin-bottom: $lineMargin-bottom
 //10px
 
-// 六角形
-  // $hexagonWidth             六角形的寬
-  // $hexagonHeight            六角形的高(不影響六角形形狀)
-  // $hexagonBk                六角形的顏色
-  // 後面的文字                  初值
+/*
+ * @description: 六角形
+ * @參數: // $hexagonWidth             六角形的寬
+         // $hexagonHeight            六角形的高(不影響六角形形狀)
+         // $hexagonBk                六角形的顏色
+         // 後面的文字                  初值
+ * @author: m15009
+ */
+
 @mixin hexagon($hexagonWidth, $hexagonHeight, $hexagonBk)
   width: $hexagonWidth
   //100px
@@ -113,3 +117,49 @@
   .el-input__inner, .el-input__icon
     height: $defHt !important
 
+/*
+ * @description: search 下拉按鈕旋轉 & 單筆更多資料旋轉 特效
+ * @author: m15009
+ */
+@-webkit-keyframes inAnimation
+  0%
+    +transform(rotate(-135deg))
+  100%
+    +transform(rotate(180deg))
+@-webkit-keyframes outAnimation
+  0%
+    +transform(rotate(45deg))
+  100%
+    +transform(rotate(360deg))
+/*
+ * @description: 子作業，另外彈窗按鈕特效
+ * @author: m15009
+ */
+@mixin exLinkIcon
+  i
+    +transition(transform .5s)
+    &:hover
+      //color: $blue
+      +transform(scale(1.2))
+      animation: exLinkIcon_Active 1.2s
+      @keyframes exLinkIcon_Active
+        0%
+          +transform(rotate(0deg))
+        25%
+          +transform(rotate(45deg))
+        50%
+          +transform(rotate(-90deg))
+        100%
+          +transform(rotate(0deg))
+
+/*
+ * @description: 訂房特殊版型 日期
+ * @author: m15009
+ */
+@mixin datePin($bk: #5367ff)
+  background: $bk
+  //#5367ff
+  width: 32px
+  height: 32px
+  margin: 1px auto auto 5px
+  vertical-align: middle
