@@ -62,7 +62,6 @@
 /* @description: 表格td長六角形
  * @author: a17008
  */
-/* ---- mixin ---- */
 /* ---- grid ---- */
 .grid:after {
   content: "";
@@ -257,6 +256,11 @@
   bottom: 8px;
   width: auto;
 }
+
+.css_table .css_td .moreClick.moreAbso-t10 {
+    top: 7px;
+    bottom: auto;
+}
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
@@ -342,6 +346,11 @@
   height: auto;
   bottom: 8px;
   width: auto;
+}
+
+.horizTable-outer .css_table .css_td .moreClick.moreAbso-t10 {
+    top: 7px;
+    bottom: auto;
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
@@ -4272,7 +4281,7 @@ td div.act-box span.act-text {
   position: relative;
   padding: 5px;
   width: 85px;
-  height: 85px;
+    height: 65px;
   box-sizing: border-box;
   background: #a0563d;
   color: #ede3d1;
@@ -4812,6 +4821,10 @@ td div.act-box span.act-text {
 }
 .easytb-ht-title .v-table-title-cell .table-title {
   color: #fff;
+}
+
+.el-cascader-s1 .el-cascader__label {
+    line-height: 25px;
 }
 
 #prgPropsSetupVM .title {
@@ -6003,7 +6016,7 @@ td div.triangle-box.colspan-28 {
 }
 
 .defLineHt {
-  line-height: 25px;
+    line-height: 25px !important;
 }
 
 .selectHt {
@@ -6592,7 +6605,6 @@ a {
   max-width: 100%;
   height: 25px;
 }
-
 .input-medium.rateCode-s1-col2 {
   width: 464px;
   max-width: 100%;

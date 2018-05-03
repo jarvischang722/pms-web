@@ -1793,7 +1793,7 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-gray btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth focnt_lockRoom"
                                                 role="button">鎖定排房
                                         </button>
                                     </li>
@@ -2084,10 +2084,11 @@
                     <div class="grid">
                         <div class="grid-item">
                             <label class="width-auto">來源</label>
-                            <select class="input-medium medium-c1">
-                                <option value="1">一般</option>
-                                <option value="2">合約</option>
-                            </select>
+                            <template>
+                                <el-cascader expand-trigger="hover" :options="options" v-model="selectedOptions2"
+                                             @change="handleChange" class="el-cascader-s1 input-medium medium-c1">
+                                </el-cascader>
+                            </template>
                         </div>
                     </div>
                     <template>

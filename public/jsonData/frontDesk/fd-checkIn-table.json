@@ -1,7 +1,66 @@
-{"total":28,
-  "rows":[
-    {"checkbox":"<input type='checkbox'>","scan":"","rem":"ddd","money":"12,300","phone":"無","clean":"clean","roomNum":"203","vip":"1","name":"RICK","inDate":"2017/05/12","outDate":"2017/05/13","code":"13256","useRoom":"豪華房","roomPrice":"700","roomType":""},
-    {"checkbox":"<input type='checkbox'>","scan":"","rem":"ddd","money":"12,300","phone":"無","clean":"dirty","roomNum":"203","vip":"2","name":"RICK","inDate":"2017/05/12","outDate":"2017/05/13","code":"13256","useRoom":"豪華房","roomPrice":"700","roomType":""},
-    {"checkbox":"<input type='checkbox'>","scan":"","rem":"ddd","money":"12,300","phone":"無","clean":"clean","roomNum":"203","vip":"3","name":"RICK","inDate":"2017/05/12","outDate":"2017/05/13","code":"13256","useRoom":"豪華房","roomPrice":"700","roomType":""}
-  ]}
+{
+  "total": 28,
+  "rows": [
+    {
+      "checkbox": "<input type='checkbox'>",
+      "clean": "clean",
+      "housingGroup": "1",
+      "roomNum": "203",
+      "vip": "1",
+      "name": "RICK",
+      "inDate": "2017/05/12",
+      "outDate": "2017/05/13",
+      "code": "13256",
+      "priceRoom": "豪華房",
+      "useRoom": "豪華房",
+      "roomPrice": "700",
+      "roomType": ""
+    },
+    {
+      "checkbox": "<input type='checkbox'>",
+      "clean": "clean",
+      "housingGroup": "1",
+      "roomNum": "203",
+      "vip": "1",
+      "name": "RICK",
+      "inDate": "2017/05/12",
+      "outDate": "2017/05/13",
+      "code": "13256",
+      "priceRoom": "豪華房",
+      "useRoom": "豪華房",
+      "roomPrice": "700",
+      "roomType": ""
+    },
+    {
+      "checkbox": "<input type='checkbox'>",
+      "clean": "clean",
+      "housingGroup": "3",
+      "roomNum": "203",
+      "vip": "1",
+      "name": "RICK",
+      "inDate": "2017/05/12",
+      "outDate": "2017/05/13",
+      "code": "13256",
+      "priceRoom": "豪華房",
+      "useRoom": "豪華房",
+      "roomPrice": "700",
+      "roomType": ""
+    },
+    {
+      "checkbox": "<input type='checkbox'>",
+      "clean": "clean",
+      "housingGroup": "4",
+      "roomNum": "203",
+      "vip": "1",
+      "name": "RICK",
+      "inDate": "2017/05/12",
+      "outDate": "2017/05/13",
+      "code": "13256",
+      "priceRoom": "豪華房",
+      "useRoom": "豪華房",
+      "roomPrice": "700",
+      "roomType": ""
+    }
+  ]
+}
 

@@ -1147,94 +1147,82 @@
                 data: {
                     tableData: [
                         {
-                            "chMenu": "Booking",
+//                            "chMenu": "Booking",
                             "newCode": "A0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         },
                         {
-                            "chMenu": "Agoda",
                             "newCode": "B0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         },
                         {
-                            "chMenu": "線上",
                             "newCode": "C0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         },
                         {
-                            "chMenu": "Booking",
                             "newCode": "D0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         },
                         {
-                            "chMenu": "Expedia",
                             "newCode": "E0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         },
                         {
-                            "chMenu": "Booking",
                             "newCode": "A0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         },
                         {
-                            "chMenu": "Agoda",
                             "newCode": "B0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         },
                         {
-                            "chMenu": "線上",
                             "newCode": "C0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         },
                         {
-                            "chMenu": "Booking",
                             "newCode": "D0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         },
                         {
-                            "chMenu": "Booking",
                             "newCode": "A0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         },
                         {
-                            "chMenu": "Agoda",
                             "newCode": "B0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         },
                         {
-                            "chMenu": "線上",
                             "newCode": "C0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         },
                         {
-                            "chMenu": "Booking",
                             "newCode": "D0001",
                             "newName": "STD",
                             "anotherName": "STDDD"
                         }
                     ],
                     columns: [
-                        {
-                            field: 'chMenu',
-                            title: '選單',
-                            width: 80,
-                            titleAlign: 'left',
-                            columnAlign: 'left',
-                            titleCellClassName: 'v-easy-s1',
-                            isResize: true
-                        },
+//                        {
+//                            field: 'chMenu',
+//                            title: '選單',
+//                            width: 80,
+//                            titleAlign: 'left',
+//                            columnAlign: 'left',
+//                            titleCellClassName: 'v-easy-s1',
+//                            isResize: true
+//                        },
                         {
                             field: 'newCode',
                             title: '房價代號',
@@ -1262,15 +1250,61 @@
                             titleCellClassName: 'v-easy-s1',
                             isResize: true
                         }
-                    ]
+                    ],
+                    options: [
+                        {
+                            value: 'source',
+                            label: '一般',
+                            children: [
+                                {
+                                    value: 'Booking',
+                                    label: 'Booking'
+                                },
+                                {
+                                    value: 'Agoda',
+                                    label: 'Agoda'
+                                },
+                                {
+                                    value: 'Expedia',
+                                    label: 'Expedia'
+                                },
+                                {
+                                    value: 'online',
+                                    label: '線上'
+                                }]
+                        },
+                        {
+                            value: 'contract',
+                            label: '合約',
+                            children: [
+                                {
+                                    value: 'Booking',
+                                    label: 'Booking'
+                                },
+                                {
+                                    value: 'Agoda',
+                                    label: 'Agoda'
+                                },
+                                {
+                                    value: 'Expedia',
+                                    label: 'Expedia'
+                                },
+                                {
+                                    value: 'online',
+                                    label: '線上'
+                                }]
+                        },
+                    ],
+                    selectedOptions2: []
                 },
                 methods: {
-                    columnCellClass(rowIndex, columnName, rowData){
-
+                    columnCellClass(rowIndex, columnName, rowData) {
                         if (rowIndex >= 0) {
                             return 'v-easy-s1';
                         }
                     },
+                    handleChange(value) {
+                    }
                 }
             });
         });
@@ -1353,15 +1387,15 @@
                     ]
                 },
                 methods: {
-                    selectALL(selection){
+                    selectALL(selection) {
                     },
 
-                    selectChange(selection, rowData){
+                    selectChange(selection, rowData) {
                     },
 
-                    selectGroupChange(selection){
+                    selectGroupChange(selection) {
                     },
-                    columnCellClass(rowIndex, columnName, rowData){
+                    columnCellClass(rowIndex, columnName, rowData) {
 
                         if (rowIndex >= 0) {
                             return 'v-easy-s1';
@@ -1464,7 +1498,7 @@
                     ]
                 },
                 methods: {
-                    columnCellClass(rowIndex, columnName, rowData){
+                    columnCellClass(rowIndex, columnName, rowData) {
 
                         if (rowIndex >= 0) {
                             return 'v-easy-s1';

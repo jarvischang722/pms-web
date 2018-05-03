@@ -519,18 +519,17 @@
         // 彈出 接待 單筆
         $(document).on('click', ".fdCheckIn", function (e) {
             e.preventDefault();
-            var dialog = $("#fdCheckIn-page").removeClass('hide').dialog({
+            var dialog = $("#fdCheckIn-msg").removeClass('hide').dialog({
                 modal: true,
                 title: "Check In",
                 title_html: true,
-                width: 1000,
+                width: 800,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
             });
-
             // PMS0210060 arrivals 接待單筆
             $('#fd-checkIn-table').datagrid({
                 singleSelect: true,
@@ -540,23 +539,53 @@
                 method: 'get',
                 columns: [[
                     {field: 'checkbox', title: '<input type="checkbox">', width: 28, align: "center"},
-                    {field: 'scan', title: '掃描', width: 40},
-                    {field: 'rem', title: '提醒', width: 40},
-                    {field: 'money', title: '指定訂金', width: 70, align: "right"},
-                    {field: 'phone', title: '電話機語言', width: 80},
+//                    {field: 'scan', title: '掃描', width: 40},
                     {field: 'clean', title: '清掃狀態', width: 70},
+                    {field: 'housingGroup', title: '房組', width: 50},
                     {field: 'roomNum', title: '房號', width: 70},
-                    {field: 'vip', title: 'VIP', width: 40},
+                    {field: 'vip', title: 'VIP等級', width: 40},
                     {field: 'name', title: '住客姓名', width: 100},
                     {field: 'inDate', title: '入住日期', width: 100},
                     {field: 'outDate', title: '退房日期', width: 100},
-                    {field: 'code', title: '房價代號', width: 100},
-                    {field: 'useRoom', title: '使用房種', width: 100},
+                    {field: 'code', title: '房價代號', width: 70},
+                    {field: 'priceRoom', title: '計價房種', width: 70},
+                    {field: 'useRoom', title: '使用房種', width: 70},
                     {field: 'roomPrice', title: '房價', width: 100, align: "right"},
                     {field: 'roomType', title: '排房房種', width: 100}
                 ]]
             });
+        });
 
+        // 彈出 接待 單筆取消
+        $(document).on('click', ".clFdCheckIn", function (e) {
+            e.preventDefault();
+            var dialog = $("#clFdCheckIn-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "取消入住",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+            // PMS0210060 arrivals 接待單筆
+            $('#cl-fd-checkIn-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/cal-fd-checkIn-table.json',
+                method: 'get',
+                columns: [[
+                    {field: 'checkbox', title: '<input type="checkbox">', width: 28, align: "center"},
+                    {field: 'roomNum', title: '房號', width: 70},
+                    {field: 'name', title: '住客姓名', width: 100},
+                    {field: 'inDate', title: '入住日期', width: 100},
+                    {field: 'outDate', title: '退房日期', width: 100},
+                    {field: 'gstAccPrice', title: '住客帳餘額', width: 100, align: "right"}
+                ]]
+            });
         });
 
 
@@ -612,12 +641,10 @@
             e.preventDefault();
             var dialog = $("#foCnt_autoAssignSGL-message").removeClass('hide').dialog({
                 modal: true,
-                title: "[訂房卡號：00481901-1 STD]",
+                title: "[訂房卡號：00481901-1  使用房種:STD]",
                 title_html: true,
                 width: 500,
                 maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
             });
@@ -678,6 +705,35 @@
 
         });
 
+        // 彈出 focnt_lockRoom 鎖定排房
+        $(document).on('click', ".focnt_lockRoom", function (e) {
+            e.preventDefault();
+            var dialog = $("#focnt_lockRoom-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "鎖定排房",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+
+            // auto assignSGL dataGrid
+            $('#foCnt_autoAssignSGL-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/foCnt_autoAssignSGL.json',
+                method: 'get',
+                columns: [[
+                    {field: 'row', title: '選擇', width: 40},
+                    {field: 'roomKind', title: '房號', width: 60},
+                    {field: 'rmGrpup', title: '房組', width: 60},
+                    {field: 'fullName', title: 'Full Name', width: 220}
+                ]]
+            });
+
+        });
 
         /***
          * PMS0210070 Departures
@@ -1183,16 +1239,17 @@
                 {field: 'roomNum2', title: '排房數', width: 50},
                 {field: 'ciNum', title: 'C/I數', width: 50},
                 {field: 'coNum', title: 'C/O數', width: 50},
-                {field: 'state', title: '狀態', width: 100},
+                {field: 'state', title: '狀態', width: 50},
                 {field: 'bookingDate', title: '訂房卡號', width: 100},
+                {field: 'housingGroup', title: '房組', width: 50},
                 {field: 'roomCode', title: '房號', width: 50},
-                {field: 'fullName', title: 'Full Name', width: 100},
+                {field: 'fullName', title: '住客姓名', width: 100},
                 {field: 'groupNum', title: '團號', width: 100},
                 {field: 'bookingCompany', title: '訂房公司', width: 150},
                 {field: 'contact', title: '聯絡人', width: 100},
-                {field: 'category', title: '市場類別', width: 100},
+                {field: 'category', title: '住客類別', width: 100},
                 {field: 'booking', title: '訂房來源', width: 100},
-                {field: 'bookingRemark', title: '訂房備註', width: 200}
+                {field: 'bookingRemark', title: '訂房備註', width: 330}
             ]]
         });
 
@@ -1204,7 +1261,7 @@
             method: 'get',
             columns: [[
                 {field: 'cardCode', title: '訂房卡號', width: 80},
-                {field: 'status', title: '狀態', width: 25},
+                {field: 'status', title: '狀態', width: 60},
                 {field: 'resv', title: '訂房', width: 40},
                 {field: 'assignRoom', title: '排房', width: 40},
                 {field: 'ciNum', title: 'C/I', width: 40},
@@ -1495,4 +1552,12 @@
 
     });
 
+    //vue
+    let searchCon = new Vue({
+        el: '.search-content',
+        data: {
+            ciDate1: new Date(),
+            coDate1: new Date(),
+        }
+    })
 </script>
