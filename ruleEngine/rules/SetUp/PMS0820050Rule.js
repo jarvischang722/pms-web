@@ -237,11 +237,17 @@ module.exports = {
                 item_cod: postData.singleRowData.item_cod
             };
             queryAgent.query("QRY_HFD_USE_DT_COUNT", params, function (err, qryResult) {
+                if (err) {
+                    return cb(err.message, "");
+                }
                 if (qryResult.item_count > 0) {
                     let ls_errMsg = commandRules.getMsgByCod("pms82msg20", session.locale);
                     return cb(true, ls_errMsg);
+
                 }
+
                 cb(null, "");
+
             });
         }
 

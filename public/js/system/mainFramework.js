@@ -1,18 +1,11 @@
 let g_socket = io.connect("/system");
 let gf_chkSessionInterval;
-
-g_socket.on("checkOnlineUserResult", function (result) {
-    if (!result.success) {
-        alert(result.errorMsg);
-        location.href = "/systemOption";
-    }
-});
-
 let BacchusMainVM = new Vue({
     el: "#BacchusMainApp",
     components: {Treeselect: VueTreeselect.Treeselect},
     data: {
         usingSubsysID: "",
+        oldSubsysID: "",
         usingPrgID: "",
         locale: gs_locale,
         moduleMenu: [],
@@ -38,7 +31,8 @@ let BacchusMainVM = new Vue({
             {ui_field_name: "oriPassword", ui_display_name: "Original Password"},
             {ui_field_name: "newPassword", ui_display_name: "New Password"},
             {ui_field_name: "confirmPassword", ui_display_name: "Check new password"}
-        ]
+        ],
+        prgEditionOptions: {} //版本資料
     },
     mounted: function () {
         //離開時
@@ -53,21 +47,19 @@ let BacchusMainVM = new Vue({
         setInterval(this.updateExpiresTime, 5000);
     },
     watch: {
-        usingSubsysID: function (subsys_id) {
-            let lo_subsysMenu = _.findWhere(this.subsysMenu, {subsys_id: subsys_id});
+        usingSubsysID: function (newSubsysID, oldSubsysID) {
+            this.oldSubsysID = oldSubsysID;
+            let lo_subsysMenu = _.findWhere(this.subsysMenu, {subsys_id: newSubsysID});
             if (lo_subsysMenu) {
-                this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: subsys_id}).quickMenu;
-                this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: subsys_id}).mdlMenu;
+                this.quickMenu = lo_subsysMenu.quickMenu;
+                this.moduleMenu = lo_subsysMenu.mdlMenu;
             } else {
                 this.quickMenu = [];
                 this.moduleMenu = [];
             }
-            if (_.isEmpty(this.usingPrgID)) {
-                if (this.getQueryString("prg_id") != null) {
-                    this.usingPrgID = this.getQueryString("prg_id");
-                } else if (!_.isUndefined(getCookie('usingPrgID')) && !_.isNull(getCookie('usingPrgID'))) {
-                    this.usingPrgID = getCookie('usingPrgID');
-                }
+
+            if (this.oldSubsysID == "") {
+                this.usingPrgID = this.getQueryString("prg_id") || getCookie('usingPrgID');
                 this.loadMainProcess(this.usingPrgID);
             }
 
@@ -75,7 +67,6 @@ let BacchusMainVM = new Vue({
         }
     },
     methods: {
-        //選擇系統
         /**
          * 選擇系統(mainFrameWork和systemOption共用同一支js)
          * @param sys_id{string}: 系統別
@@ -88,19 +79,23 @@ let BacchusMainVM = new Vue({
             });
         },
         updSysPrgPath: function () {
-            let subsysPurview = _.findWhere(this.subsysMenu, {subsys_id: getCookie("usingSubsysID")});
-            if (subsysPurview) {
+            if (this.oldSubsysID != "") {
+                return;
+            }
+            let self = this;
+            let lo_subsysPurview = _.findWhere(this.subsysMenu, {subsys_id: self.usingSubsysID});
+            if (lo_subsysPurview) {
 
-                let usingSubsysName = subsysPurview ? subsysPurview["subsys_nam_" + gs_locale] : "";
+                let usingSubsysName = lo_subsysPurview["subsys_nam_" + gs_locale] || "";
                 let usingPrgName = '';
-                subsysPurview.mdlMenu.every(function (mdl) {
+                lo_subsysPurview.mdlMenu.every(function (mdl) {
 
                     if (mdl.group_sta == 'G') {
-                        if (mdl.mdl_id == getCookie("usingPrgID")) {
+                        if (mdl.mdl_id == self.usingPrgID) {
                             usingPrgName = mdl["mdl_name_" + gs_locale];
                         }
                     } else {
-                        let lo_pro = _.findWhere(mdl.processMenu, {pro_id: getCookie("usingPrgID")});
+                        let lo_pro = _.findWhere(mdl.processMenu, {pro_id: self.usingPrgID});
                         if (!_.isUndefined(lo_pro)) {
                             usingPrgName = lo_pro["pro_name_" + gs_locale];
                         }
@@ -155,7 +150,7 @@ let BacchusMainVM = new Vue({
             return null;
         },
         /**
-         *
+         * 按下不同子系統的事件
          * @param subsys_id
          */
         changeSubsys: function (subsys_id) {
@@ -168,17 +163,17 @@ let BacchusMainVM = new Vue({
          */
         loadMainProcess: function (prg_id) {
 
-
             g_socket.emit('handleTableUnlock', {'prg_id': getCookie("lockingPrgID")});
 
             let ls_pro_url = "";
-            this.isOpenModule = "";
             this.doTableUnlock();
             setupCookie("usingPrgID", prg_id);
             setupCookie("lockingPrgID", prg_id);
             BacchusMainVM.updSysPrgPath();
-            $("#MainContentDiv").html("");
 
+            if (!_.isEmpty(prg_id)) {
+                $("#MainContentDiv").html("");
+            }
             _.each(this.moduleMenu, function (mdl) {
                 if (mdl.group_sta == 'N') {
                     let lo_pro = _.findWhere(mdl.processMenu, {pro_id: prg_id}) || {};
@@ -205,9 +200,25 @@ let BacchusMainVM = new Vue({
             }
 
         },
+        /**
+         * 按下其中一個quick menu 的 program
+         * @param prg_id
+         */
         loadQuickMenuProcess: function (prg_id) {
             setupCookie("usingSubsysID", this.usingSubsysID, 2592000000);
             location.href = "/bacchus4web/" + this.usingSubsysID + "?prg_id=" + prg_id;
+        },
+        /**
+         * 打開quick menu的program另跳窗
+         * @param prg_id
+         */
+        openNewPageLoadProgram: function (prg_id) {
+            let lao_allPrgs = [].concat(..._.pluck(this.subsysMenu, "quickMenu"));
+            let ls_newSubsysID = _.findIndex(lao_allPrgs, {pro_id: prg_id}) > -1
+                ? _.findWhere(lao_allPrgs, {pro_id: prg_id}).subsys_id : "";
+            window.open("/bacchus4web/" + ls_newSubsysID + "?prg_id=" + prg_id, "_blank");
+            setupCookie("usingSubsysID", this.usingSubsysID, 2592000000);
+            this.usingSubsysID = this.oldSubsysID;
         },
         /**
          * 做Table unlock
@@ -358,10 +369,31 @@ let BacchusMainVM = new Vue({
          */
         doCheckOnlineUser: function () {
             g_socket.emit('checkOnlineUser');
+        },
+
+        /**
+         * 取得版本資料(option id、function id)
+         * @param prg_id{string}: 各程式編號
+         */
+        doGetVersionData: function(prg_id){
+            var self = this;
+            $.ajax({
+                type: 'POST',
+                url: '/api/getPrgEditionOptionList',
+                data: {prg_id: prg_id},
+                success: function(result){
+                    if(result.success){
+                        self.prgEditionOptions = result.prgEditionOptions;
+                    }
+                    else{
+                        alert(result.errorMsg);
+                    }
+                },
+                async:false
+            });
         }
 
     }
-
 });
 
 
@@ -369,6 +401,14 @@ $(function () {
     /** 預設一開始模組更能列關閉 **/
     $("#sidebar-toggle-icon").click();
 
+});
+
+
+g_socket.on("checkOnlineUserResult", function (result) {
+    if (!result.success) {
+        alert(result.errorMsg);
+        location.href = "/systemOption";
+    }
 });
 
 $(document).on('click', '.purview_btn', function (event) {
