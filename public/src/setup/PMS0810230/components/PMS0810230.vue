@@ -84,13 +84,13 @@
                                         <!--tabPage-->
                                         <div class="space-6"></div>
                                         <el-tabs v-model="timeRuleSingleData['command_cod']" type="card" tab-position="left">
-                                            <!--<el-tab-pane :label="i18nLang.program.PMS0810230.evertDay" name="D">-->
-                                                <!--<div class="ml-5">-->
-                                                    <!--<div class="space-6"></div>-->
-                                                    <!--<span>每一天</span>-->
-                                                    <!--<div class="space-6"></div>-->
-                                                <!--</div>-->
-                                            <!--</el-tab-pane>-->
+                                            <el-tab-pane :label="i18nLang.program.PMS0810230.evertDay" name="D">
+                                                <div class="ml-5">
+                                                    <div class="space-6"></div>
+                                                    <span>每一天</span>
+                                                    <div class="space-6"></div>
+                                                </div>
+                                            </el-tab-pane>
                                             <el-tab-pane :label="i18nLang.program.PMS0810230.holiday" name="H">
                                                 <div class="ml-5">
                                                     <div class="space-6"></div>
@@ -484,7 +484,6 @@
             },
             //房型使用期間 日期規則
             chkTimeRule() {
-                this.timeRuleSingleData.command_cod = this.prgEditionOptions.funcList['1010'] == 'LITE' ? 'H' : this.timeRuleSingleData.command_cod;
                 let ln_diffDate = moment(this.timeRuleSingleData.begin_dat).diff(moment(this.timeRuleSingleData.end_dat), "days");
                 if (ln_diffDate > 1) {
                     alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
