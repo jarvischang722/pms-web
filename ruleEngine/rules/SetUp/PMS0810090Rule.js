@@ -50,7 +50,7 @@ module.exports = {
             function (callback) {
                 async.waterfall([
                     function (callback) {
-                        queryAgent.query("GET_ORDER_MN.GUEST_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
+                        queryAgent.query("GET_ORDER_DT.GUEST_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
                             if (!err) {
                                 if (guestData.guest_count > 0) {
                                     isUsed = true;
