@@ -385,41 +385,6 @@
                         }
                     ];
                 }
-//                this.useTimeColumns = [
-//                    {
-//                        field: 'control',
-//                        title: '<i class="fa fa-plus green pointer"></i>',
-//                        width: 40,
-//                        titleAlign: 'center',
-//                        columnAlign: 'center',
-//                        componentName: 'table-operation',
-//                        isResize: true
-//                    },
-//                    {
-//                        field: 'startDat',
-//                        title: _.findWhere(this.fieldsData, {ui_field_name: 'begin_dat'}).ui_display_name,
-//                        width: 135,
-//                        titleAlign: 'center',
-//                        columnAlign: 'center',
-//                        isResize: true,
-//                    },
-//                    {
-//                        field: 'endDat',
-//                        title: _.findWhere(this.fieldsData, {ui_field_name: 'end_dat'}).ui_display_name,
-//                        width: 135,
-//                        titleAlign: 'center',
-//                        columnAlign: 'center',
-//                        isResize: true,
-//                    },
-//                    {
-//                        field: 'datRule',
-//                        title: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).ui_display_name,
-//                        width: 135,
-//                        titleAlign: 'center',
-//                        columnAlign: 'center',
-//                        isResize: true,
-//                    }
-//                ];
                 this.useTimeData = [];
 
                 let la_displayDataGridRowsData = this.isShowExpire ?
