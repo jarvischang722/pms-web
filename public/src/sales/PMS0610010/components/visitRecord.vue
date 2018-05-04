@@ -199,15 +199,6 @@
                         this.isLastData = false;
                     }
                 }
-            },
-            singleData: {
-                handler: function (val) {
-                    if (!_.isEmpty(val)) {
-                        var self = this;
-
-                    }
-                },
-                deep: true
             }
         },
         methods: {
