@@ -253,8 +253,9 @@ class saveDataAdapter {
                 athena_id: this.session.user.athena_id,
                 hotel_cod: this.session.user.hotel_cod
             };
-            let la_oriMultiLangContent = await langSvc.handleMultiLangContentByCondition(la_gsMultiLangFields[0].multi_lang_table, lo_keys);
-            _.each(la_gsMultiLangFields, lo_gsMultiLangFields => {
+
+            await Promise.all(_.map(la_gsMultiLangFields, async lo_gsMultiLangFields => {
+                let la_oriMultiLangContent = await langSvc.handleMultiLangContentByCondition(lo_gsMultiLangFields.multi_lang_table, lo_keys);
                 if (!_.isUndefined(saveData[lo_gsMultiLangFields.ui_field_name]) && (_.isUndefined(saveData.multilang) || saveData.multilang.length == 0)) {
                     _.each(la_sys_locales, lo_locale => {
                         let ls_multiLang = lo_locale.lang == this.locale ? saveData[lo_gsMultiLangFields.ui_field_name] : "";
@@ -264,10 +265,15 @@ class saveDataAdapter {
                         }
                         //其他語系從oracle db抓原始資料
                         else {
-                            ls_multiLang = _.findWhere(la_oriMultiLangContent, {
-                                locale: lo_locale.lang,
-                                field_name: lo_gsMultiLangFields.ui_field_name
-                            }).words || "";
+                            try {
+                                ls_multiLang = _.findWhere(la_oriMultiLangContent, {
+                                    locale: lo_locale.lang,
+                                    field_name: lo_gsMultiLangFields.ui_field_name
+                                }).words || "";
+                            }
+                            catch (err) {
+                                ls_multiLang = "";
+                            }
                         }
 
                         la_multiLangCont.push({
@@ -277,7 +283,7 @@ class saveDataAdapter {
                         });
                     });
                 }
-            });
+            }));
         }
         return la_multiLangCont;
     }
