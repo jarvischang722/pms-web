@@ -83,7 +83,7 @@
                 if (!_.isNull(val) && val != "") {
                     let lo_param = {};
                     lo_param[this.idField] = val;
-                    let ln_PgeNo = _.findIndex(this.data, lo_param);
+                    let ln_PgeNo = _.findIndex(this.data, lo_param) > -1 ? _.findIndex(this.data, lo_param) : 0;
                     this.setPage(Math.floor(ln_PgeNo / this.pageSize + 1), this.pageSize);
                 }
             },

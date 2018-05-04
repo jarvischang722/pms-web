@@ -549,7 +549,7 @@ module.exports = {
 
         let lo_param = {
             athena_id: session.user.athena_id,
-            cust_cod: postData.singleRowData.cust_mn_cust_cod,
+            cust_cod: postData.singleRowData.cust_cod,
             hotel_cod: postData.deleteData[0].hotel_cod,
             rate_cod: postData.deleteData[0].rate_cod
         };
@@ -566,7 +566,7 @@ module.exports = {
                 if (err) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "sql err";
+                    lo_error.errorMsg = err;
                     cb(lo_error, lo_result);
                 }
                 else {
@@ -1095,7 +1095,7 @@ module.exports = {
                                     if (err) {
                                         lo_result.success = false;
                                         lo_error = new ErrorClass();
-                                        lo_error.errorMsg = "sql err";
+                                        lo_error.errorMsg = err;
                                         return rp_cb(lo_error, lo_result);
                                     }
                                     else {
@@ -1126,7 +1126,7 @@ module.exports = {
                                     if (err) {
                                         lo_result.success = false;
                                         lo_error = new ErrorClass();
-                                        lo_error.errorMsg = "sql err";
+                                        lo_error.errorMsg = err;
                                         return rp_cb(lo_error, lo_result);
                                     }
                                     else {
