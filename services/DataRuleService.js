@@ -83,7 +83,7 @@ exports.qrySelectOptionsFromSQL = function (userInfo, sql_tag, callback) {
  * @param callback
  * @constructor
  */
-exports.getSelectOptions = async function (userInfo, typeSelectField, field, callback) {
+exports.getSelectOptions = async function (session, typeSelectField, field, callback) {
     let lo_selectData = {
         selectDataDisplay: [],
         selectData: []
@@ -102,7 +102,7 @@ exports.getSelectOptions = async function (userInfo, typeSelectField, field, cal
             //1.取下拉顯示資料(全部資料)
             let la_displayData = await qrySelectOptionDisplayData();
             //2.分版本
-            let la_editionOption = await this.handleRuleExtendFunc(la_displayData, userInfo, typeSelectField);
+            let la_editionOption = await this.handleRuleExtendFunc(la_displayData, session, typeSelectField);
             //3.過濾下拉資料
             let la_selectData = await filterSelectOption(la_editionOption);
 
@@ -121,7 +121,7 @@ exports.getSelectOptions = async function (userInfo, typeSelectField, field, cal
          */
         async function qrySelectOptionDisplayData() {
             return new Promise((resolve, reject) => {
-                queryAgent.queryList(sql_tag, userInfo, 0, 0, function (err, selData) {
+                queryAgent.queryList(sql_tag, session.user, 0, 0, function (err, selData) {
                     if (err) {
                         console.error(err);
                         selData = [];
@@ -163,20 +163,27 @@ exports.getSelectOptions = async function (userInfo, typeSelectField, field, cal
     else {
         if (!_.isUndefined(ruleAgent[typeSelectField.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
-            ruleAgent[typeSelectField.rule_func_name](userInfo, function (err, data) {
-                if (err) {
-                    console.error(err);
-                    callback([]);
-                }
-                else {
-                    _.each(data.selectOptions, function (lo_selData, index) {
-                        if (!_.isUndefined(lo_selData.value)) {
-                            data.selectOptions[index].display = lo_selData.display;
-                        }
-                    });
-                    callback({selectDataDisplay: data.selectOptions, selectData: []});
-                }
+            let la_selectOptions = await new Promise(resolve => {
+                ruleAgent[typeSelectField.rule_func_name](session.user, function (err, data) {
+                    if (err) {
+                        resolve([]);
+                        console.error(err);
+                    }
+                    else {
+                        _.each(data.selectOptions, function (lo_selData, index) {
+                            if (!_.isUndefined(lo_selData.value)) {
+                                data.selectOptions[index].display = lo_selData.display;
+                            }
+                        });
+                    }
+                    resolve(data.selectOptions);
+                });
             });
+
+            let la_editionOption = await this.handleRuleExtendFunc(la_selectOptions, session, typeSelectField);
+            lo_selectData.selectDataDisplay = la_editionOption;
+            lo_selectData.selectData = la_editionOption;
+            callback(lo_selectData);
         }
         else {
             callback(lo_selectData);
@@ -218,14 +225,14 @@ exports.getSelectGridOption = function (session, typeSelectField, field, callbac
             });
         }
         else {
-            let err = "column_func_name is undefined"
+            let err = "column_func_name is undefined";
             cb(err, null);
         }
     }
 
     function qrySelectGridData(selectData, cb) {
         if (_.isEmpty(selectData)) {
-            let err = "select's attribute is null"
+            let err = "select's attribute is null";
             cb(err, null);
         }
         else {
@@ -261,6 +268,7 @@ exports.handleRuleExtendFunc = async function (postData, session, fieldsData) {
 
     if (_.isArray(fieldsData.rule_extend_func_name)) {
         let lo_result = await execRuleExtendFuncIsArray(postData, session, fieldsData);
+        return lo_result;
         console.log(lo_result);
     }
 };
