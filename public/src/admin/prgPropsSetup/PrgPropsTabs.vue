@@ -14,14 +14,14 @@
                                      column-width-drag
                                      multiple-sort
                                      sort-always
-                                     style="width:100%"
+                                     style="width:100%;"
                                      :columns="columns"
                                      :table-data="propsData"
                                      row-hover-color="#eee"
                                      row-click-color="#edf7ff"
                                      :cell-edit-done="editFieldDone"
+                                     :height="table_ht"
                                      error-content="無資料"
-                                     height="300"
                                      :column-cell-class-name="columnCellClass">
                             </v-table>
                         </div>
@@ -49,11 +49,11 @@
 </template>
 
 <script>
-
     export default {
         name: 'prg-prors-tabs',
         mounted() {
             this.updatePrgCollPropsTable();
+            this.table_ht = $(window).height() - $('.borderFrame').height() - 250;
         },
         props: ["activePrg"],
         data() {
@@ -62,7 +62,8 @@
                 collIndex: [],
                 propsData: [],
                 columns: [],
-                tmpUpdateData: []
+                tmpUpdateData: [],
+                table_ht: 400
             }
         },
         watch: {

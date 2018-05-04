@@ -5,7 +5,7 @@
     }
 </style>
 <script type="text/x-template" id="sigleGridPMS0810020Tmp">
-    <div id="singleGridPMS0810020" v-show="false" v-loading="$parent.isSaving">
+    <div id="singleGridPMS0810020" class="dialog-fixed" v-show="false" v-loading="$parent.isSaving">
         <div class="singleGridContent padding-5">
             <div class="">
                 <div class="col-sm-12 col-xs-12">
@@ -110,7 +110,7 @@
                         <!-- Control Panel -->
                         <div class="col-sm-1 col-xs-1 singleRelative">
                             <div class="row">
-                                <div class="singleEditStatus right-menu-co">
+                                <div class="singleEditStatus ml-spc1 right-menu-co">
                                     <ul>
                                         <template v-if="editStatus">
 
@@ -286,29 +286,29 @@
 
                         <table class="css_table horizTable" width="100％;">
                             <thead class="css_thead">
-                                <tr class="css_tr">
-                                    <th class="css_th"
-                                        style="width: 35%;"><%= __("program")["PMS0810020"].room_cod %></th>
-                                    <th class="css_th"
-                                        style="width: 35%;"><%= __("program")["PMS0810020"].room_name %></th>
-                                    <th class="css_th"
-                                        style="width: 25%;"><%= __("program")["PMS0810020"].room_sort %></th>
-                                </tr>
+                            <tr class="css_tr">
+                                <th class="css_th"
+                                    style="width: 35%;"><%= __("program")["PMS0810020"].room_cod %></th>
+                                <th class="css_th"
+                                    style="width: 35%;"><%= __("program")["PMS0810020"].room_name %></th>
+                                <th class="css_th"
+                                    style="width: 25%;"><%= __("program")["PMS0810020"].room_sort %></th>
+                            </tr>
                             </thead>
                             <tbody class="css_tbody">
-                                <tr class="css_tr" v-for="(item, index) in erpSortData">
-                                    <td class="css_td">{{item.room_cod}} {{testData}}</td>
-                                    <td class="css_td">{{item.room_nam}}</td>
-                                    <td class="css_td">
-                                        <el-button type="button" size="small" class="el-icon-caret-top"
-                                                   @click="itemMove(index, index-1, erpSortData)" v-if="index != 0">
-                                        </el-button>
-                                        <el-button type="button" size="small" class="el-icon-caret-bottom"
-                                                   @click="itemMove(index, index+1, erpSortData)"
-                                                   v-if="index != erpSortData.length-1">
-                                        </el-button>
-                                    </td>
-                                </tr>
+                            <tr class="css_tr" v-for="(item, index) in erpSortData">
+                                <td class="css_td">{{item.room_cod}} {{testData}}</td>
+                                <td class="css_td">{{item.room_nam}}</td>
+                                <td class="css_td">
+                                    <el-button type="button" size="small" class="el-icon-caret-top"
+                                               @click="itemMove(index, index-1, erpSortData)" v-if="index != 0">
+                                    </el-button>
+                                    <el-button type="button" size="small" class="el-icon-caret-bottom"
+                                               @click="itemMove(index, index+1, erpSortData)"
+                                               v-if="index != erpSortData.length-1">
+                                    </el-button>
+                                </td>
+                            </tr>
 
 
                             </tbody>
@@ -318,46 +318,46 @@
 
                         <table class="css_table horizTable" width="100％;">
                             <thead class="css_thead">
-                                <tr class="css_tr">
+                            <tr class="css_tr">
 
-                                    <th class="css_th"
-                                        style="width: 20%;"><%= __("program")["PMS0810020"].room_cod %></th>
-                                    <th class="css_th"
-                                        style="width: 45%;"><%= __("program")["PMS0810020"].room_name %></th>
-                                    <th class="css_th"
-                                        style="width: 15%;"><%= __("program")["PMS0810020"].room_sort %></th>
-                                    <th class="css_th"
-                                        style="width: 20%;"><%= __("program")["PMS0810020"].room_disable %></th>
-                                </tr>
+                                <th class="css_th"
+                                    style="width: 20%;"><%= __("program")["PMS0810020"].room_cod %></th>
+                                <th class="css_th"
+                                    style="width: 45%;"><%= __("program")["PMS0810020"].room_name %></th>
+                                <th class="css_th"
+                                    style="width: 15%;"><%= __("program")["PMS0810020"].room_sort %></th>
+                                <th class="css_th"
+                                    style="width: 20%;"><%= __("program")["PMS0810020"].room_disable %></th>
+                            </tr>
                             </thead>
                             <tbody class="css_tbody">
 
-                                <tr class="css_tr" v-for="(item, index) in webSiteSortData">
-                                    <td class="css_td">{{item.room_cod}} {{testData}}</td>
-                                    <td class="css_td">{{item.room_nam}}</td>
-                                    <td class="css_td">
-                                        <el-button type="button" size="small" class="el-icon-caret-top"
-                                                   @click="itemMove(index, index-1, webSiteSortData)" v-if="index != 0">
-                                        </el-button>
-                                        <el-button type="button" size="small" class="el-icon-caret-bottom"
-                                                   @click="itemMove(index, index+1, webSiteSortData)"
-                                                   v-if="index != webSiteSortData.length-1">
-                                        </el-button>
-                                    </td>
-                                    <td class="css_td">
-                                        <input type="checkbox" v-model="checkList" :value="item.room_cod"
-                                               :true-value="item.room_cod">
-                                    </td>
-                                </tr>
+                            <tr class="css_tr" v-for="(item, index) in webSiteSortData">
+                                <td class="css_td">{{item.room_cod}} {{testData}}</td>
+                                <td class="css_td">{{item.room_nam}}</td>
+                                <td class="css_td">
+                                    <el-button type="button" size="small" class="el-icon-caret-top"
+                                               @click="itemMove(index, index-1, webSiteSortData)" v-if="index != 0">
+                                    </el-button>
+                                    <el-button type="button" size="small" class="el-icon-caret-bottom"
+                                               @click="itemMove(index, index+1, webSiteSortData)"
+                                               v-if="index != webSiteSortData.length-1">
+                                    </el-button>
+                                </td>
+                                <td class="css_td">
+                                    <input type="checkbox" v-model="checkList" :value="item.room_cod"
+                                           :true-value="item.room_cod">
+                                </td>
+                            </tr>
 
                             </tbody>
                         </table>
 
                         <table width="100%" border="1">
                             <thead>
-                                <tr>
+                            <tr>
 
-                                </tr>
+                            </tr>
                             </thead>
                             <tbody>
 

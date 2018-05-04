@@ -5,7 +5,7 @@
     }
 </style>
 <script type="text/x-template" id="singleGridPMS0810190Tmp">
-    <div id="singleGridPMS0810190" v-show="false" class="padding-5">
+    <div id="singleGridPMS0810190" v-show="false" class="padding-5 dialog-fixed">
         <div class="col-sm-12 col-xs-12 singleGridContent">
             <div class="row">
                 <div class="col-sm-12 col-xs-12">
@@ -75,7 +75,8 @@
                                     <div class=" grid-item tab-block">
                                         <label class="pull-left">用途別</label>
                                         <div class="pull-left dropdown dropdownCustom" align="left">
-                                            <button class="btn btn-default btn-white dropdown-toggle btn-height" type="button"
+                                            <button class="btn btn-default btn-white dropdown-toggle btn-height"
+                                                    type="button"
                                                     id="menu1" data-toggle="dropdown">
                                                 {{showSelectDisplay(singleData.use_cod)}}
                                                 <span class="caret"></span>
@@ -100,13 +101,15 @@
                                             <div class=" grid-item tab-block block-item">
                                                 <label style="width: 75px;">新增者</label>
                                                 <span class="spaceColon">：</span>
-                                                <input v-model="singleData.ins_usr" class="input-medium large-c1" type="text" disabled/>
+                                                <input v-model="singleData.ins_usr" class="input-medium large-c1"
+                                                       type="text" disabled/>
                                             </div>
 
                                             <div class=" grid-item tab-block block-item">
                                                 <label style="width: 75px;">新增日</label>
                                                 <span class="spaceColon">：</span>
-                                                <input v-model="singleData.ins_dat" class="input-medium large-c1" type="text" disabled/>
+                                                <input v-model="singleData.ins_dat" class="input-medium large-c1"
+                                                       type="text" disabled/>
                                             </div>
                                         </div>
 
@@ -114,13 +117,16 @@
                                             <div class=" grid-item tab-block block-item">
                                                 <label style="width: 75px;">最後異動者</label>
                                                 <span class="spaceColon">：</span>
-                                                <input v-model="singleData.upd_usr" class="input-medium large-c1" type="text" disabled/>
+                                                <input v-model="singleData.upd_usr" class="input-medium large-c1"
+                                                       type="text" disabled/>
                                             </div>
 
                                             <div class=" grid-item tab-block block-item">
                                                 <label style="width: 75px;">最後異動日</label>
                                                 <span class="spaceColon">：</span>
-                                                <input v-model="singleData.upd_dat" :value="singleData.upd_dat | datetimeFormat" class="input-medium large-c1" type="text" disabled/>
+                                                <input v-model="singleData.upd_dat"
+                                                       :value="singleData.upd_dat | datetimeFormat"
+                                                       class="input-medium large-c1" type="text" disabled/>
                                             </div>
                                         </div>
                                     </div>
@@ -143,7 +149,8 @@
                                         <li style="cursor: pointer;" @click="insertFormatCont('[[%%CompName%%]]')">
                                             公司名稱
                                         </li>
-                                        <li style="cursor: pointer;" @click="insertFormatCont('[[%%ReservationComp%%]]')">
+                                        <li style="cursor: pointer;"
+                                            @click="insertFormatCont('[[%%ReservationComp%%]]')">
                                             訂房公司
                                         </li>
                                     </ul>
@@ -168,7 +175,7 @@
                     <!-- Control Panel -->
                     <div class="col-sm-1 col-xs-1 singleRelative">
                         <div class="row">
-                            <div class="singleEditStatus right-menu-co">
+                            <div class="singleEditStatus ml-spc1 right-menu-co">
                                 <ul>
                                     <template v-if="isEditStatus">
                                         <li>
@@ -197,30 +204,36 @@
                                             </button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-danger btn-white btn-defaultWidth" @click="$parent.removeData">
+                                            <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                    @click="$parent.removeData">
                                                 <%= __("SystemCommon").Delete %>
                                             </button>
                                         </li>
                                     </template>
                                     <li v-if="isCreateStatus">
-                                        <button @click="$parent.toAddAfterSave" class="btn btn-primary btn-white btn-defaultWidth" style="margin-right: 5px;">
+                                        <button @click="$parent.toAddAfterSave"
+                                                class="btn btn-primary btn-white btn-defaultWidth"
+                                                style="margin-right: 5px;">
                                             <%= __("SystemCommon").Add_after_save %>
                                         </button>
                                     </li>
                                     <li v-if="isEditStatus">
-                                        <button @click="$parent.toLeaveAfterSave" :disabled="isEditStatus && !$parent.modificableForRow "
+                                        <button @click="$parent.toLeaveAfterSave"
+                                                :disabled="isEditStatus && !$parent.modificableForRow "
                                                 class="btn btn-primary btn-white btn-defaultWidth">
                                             <%= __("SystemCommon").Leave_after_save %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button @click="$parent.doSave" :disabled="isEditStatus && !$parent.modificableForRow "
+                                        <button @click="$parent.doSave"
+                                                :disabled="isEditStatus && !$parent.modificableForRow "
                                                 class="btn btn-primary btn-white btn-defaultWidth">
                                             <%= __("SystemCommon").Save %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button @click="$parent.closeSingleGridDialog" class="btn btn-primary btn-white btn-defaultWidth">
+                                        <button @click="$parent.closeSingleGridDialog"
+                                                class="btn btn-primary btn-white btn-defaultWidth">
                                             <%= __("SystemCommon").Leave %>
                                         </button>
                                     </li>

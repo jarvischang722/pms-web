@@ -736,7 +736,7 @@ var vm = new Vue({
         maxWidth: 0
     },
     watch: {
-        editingRow: function(val){
+        editingRow: function (val) {
             this.dgIns.clearSelection();
         },
         editStatus: function (newVal) {
@@ -799,7 +799,7 @@ var vm = new Vue({
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
 
                 // 算最小寬度 && 最大行數
-                var maxField = _.max(vm.pageTwoFieldData, function(lo_pageTwoField){
+                var maxField = _.max(vm.pageTwoFieldData, function (lo_pageTwoField) {
                     return lo_pageTwoField.length;
                 });
                 _.each(maxField, function (lo_maxField) {
@@ -1164,7 +1164,8 @@ var vm = new Vue({
             this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
 
-            var dialogWt = this.maxWidth +120;
+            var btnWt = $('.right-menu-co').outerWidth();
+            var dialogWt = this.maxWidth + btnWt;
             // alert(dialogWt);
             var height = 10 * 50; // 預設一個row 高度
             var dialog = $("#singleGridPMS0810020").dialog({
