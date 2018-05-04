@@ -445,7 +445,8 @@
                             ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
                         }
                         else {
-                            ls_commandOptionDisplay = _.findWhere(la_commandOptionHSelect, {value: data.command_option}).display
+                            let lo_commandOptionSelected = _.findWhere(la_commandOptionHSelect, {value: data.command_option});
+                            ls_commandOptionDisplay = !_.isUndefined(lo_commandOptionSelected) ? _.findWhere(la_commandOptionHSelect, {value: data.command_option}).display : ls_commandOptionDisplay;
                         }
                     }
                     else if (data.command_cod == 'W') {
@@ -529,6 +530,12 @@
                 });
             },
             appendRow(title, field) {
+                let la_commandOptionHSelect =
+                    JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay));
+                _.each(la_commandOptionHSelect, (lo_select, idx) => {
+                    la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
+                });
+
                 if (field == "control") {
                     vmHub4EasyTable.$emit('getFieldsData', {
                         fieldsData: this.fieldsData
@@ -544,7 +551,7 @@
                             begin_dat: moment().format("YYYY/MM/DD"),
                             end_dat: moment().format("YYYY/MM/DD"),
                             command_cod: "H",
-                            command_option: "HH",
+                            command_option: _.first(la_commandOptionHSelect).value,
                             event_time: moment().format(),
                             isCreate: true
                         };
