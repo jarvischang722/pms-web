@@ -50,7 +50,18 @@
 /* @description: 訂房特殊版型 日期
  * @author: m15009
  */
-/* ---- mixin ---- */
+/* @description: 產生房號訂房內容 有資料的長度
+ * @author: a17008
+ */
+/* @description: 產生房號訂房內容各種長度
+ * @author: a17008
+ */
+/* @description: 客製化 table樣板
+ * @author: a17008
+ */
+/* @description: 表格td長六角形
+ * @author: a17008
+ */
 /* ---- grid ---- */
 .grid:after {
   content: "";
@@ -245,6 +256,11 @@
   bottom: 8px;
   width: auto;
 }
+
+.css_table .css_td .moreClick.moreAbso-t10 {
+    top: 7px;
+    bottom: auto;
+}
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
@@ -330,6 +346,11 @@
   height: auto;
   bottom: 8px;
   width: auto;
+}
+
+.horizTable-outer .css_table .css_td .moreClick.moreAbso-t10 {
+    top: 7px;
+    bottom: auto;
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
@@ -2534,9 +2555,6 @@ a {
 .businessCompanyData .main-content-data label.label-spc-2 {
   width: 70px;
 }
-.businessCompanyData .main-content-data label.label_w80 {
-  width: 80px;
-}
 .businessCompanyData .main-content-data .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
@@ -2558,9 +2576,6 @@ a {
 }
 .businessCompanyData .grid-item label.label-spc-2 {
   width: 70px;
-}
-.businessCompanyData .grid-item label.label_w80 {
-  width: 80px;
 }
 .businessCompanyData .grid-item .mainData-tip {
   font-size: 12px;
@@ -2637,9 +2652,6 @@ a {
 }
 .businessCompanyData .bs-changeRecord label.label-spc-2 {
   width: 70px;
-}
-.businessCompanyData .bs-changeRecord label.label_w80 {
-  width: 80px;
 }
 .businessCompanyData .bs-changeRecord .mainData-tip {
   font-size: 12px;
@@ -2859,9 +2871,6 @@ ul.newVisitOther-btn {
 .textFrame label.label-spc-2 {
   width: 70px;
 }
-.textFrame label.label_w80 {
-  width: 80px;
-}
 .textFrame .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
@@ -2920,9 +2929,6 @@ ul.newVisitOther-btn {
 .resv-changeRecord label.label-spc-2 {
   width: 70px;
 }
-.resv-changeRecord label.label_w80 {
-  width: 80px;
-}
 .resv-changeRecord .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
@@ -2962,9 +2968,6 @@ ul.newVisitOther-btn {
 }
 .resv-memo label.label-spc-2 {
   width: 70px;
-}
-.resv-memo label.label_w80 {
-  width: 80px;
 }
 .resv-memo .mainData-tip {
   font-size: 12px;
@@ -4278,7 +4281,7 @@ td div.act-box span.act-text {
   position: relative;
   padding: 5px;
   width: 85px;
-  height: 85px;
+    height: 65px;
   box-sizing: border-box;
   background: #a0563d;
   color: #ede3d1;
@@ -4820,6 +4823,10 @@ td div.act-box span.act-text {
   color: #fff;
 }
 
+.el-cascader-s1 .el-cascader__label {
+    line-height: 25px;
+}
+
 #prgPropsSetupVM .title {
   font-size: 1.2em;
   color: #555;
@@ -4920,43 +4927,6 @@ td div.act-box span.act-text {
     box-shadow: 1px 0px 1px 1px #778899;
   }
 }
-.cus-roomType-table table {
-  width: 100%;
-}
-.cus-roomType-table table thead tr .rp-first-th {
-  width: 188px;
-  min-width: 188px;
-}
-.cus-roomType-table table thead tr .rp-first-th .caSelect {
-  margin: 12px 0 10px 0;
-  width: 54px;
-}
-.cus-roomType-table table thead tr .rp-first-th .caSelect .el-icon-date:before {
-  content: none;
-}
-.cus-roomType-table table thead tr .rp-first-th .caSelect .el-input__icon + .el-input__inner {
-  padding: 0;
-}
-.cus-roomType-table table thead tr .rp-first-th .caSelect .el-input__inner {
-  text-align: center;
-}
-.cus-roomType-table table thead tr .rp-first-th .caIcon {
-  margin-top: 6px;
-}
-.cus-roomType-table table tbody tr td {
-  min-width: 35px;
-}
-.cus-roomType-table table tbody tr td.middle.td-first {
-  height: 21px;
-}
-.cus-roomType-table table tbody tr td.middle.td-first.subTree-title, .cus-roomType-table table tbody tr td.middle.td-first .room-field-text {
-  padding-left: 4px;
-}
-.cus-roomType-table table tbody tr td.middle.td-first .roomNumTip {
-  width: 42px;
-  text-align: center;
-}
-
 .cus-roomPlan-table {
   max-height: 800px;
 }
@@ -4995,6 +4965,44 @@ td div.act-box span.act-text {
 }
 .cus-roomPlan-table table tbody tr td div.triangle-box.colspan-0 {
   width: 29px;
+}
+
+.cus-roomType-table table {
+  width: 100%;
+}
+.cus-roomType-table table thead tr .rp-first-th {
+  width: 188px;
+  min-width: 188px;
+}
+.cus-roomType-table table thead tr .rp-first-th .caSelect {
+  margin: 12px 0 10px 0;
+  width: 54px;
+}
+.cus-roomType-table table thead tr .rp-first-th .caSelect .el-icon-date:before {
+  content: none;
+}
+.cus-roomType-table table thead tr .rp-first-th .caSelect .el-input__icon + .el-input__inner {
+  padding: 0;
+}
+.cus-roomType-table table thead tr .rp-first-th .caSelect .el-input__inner {
+  text-align: center;
+}
+.cus-roomType-table table thead tr .rp-first-th .caIcon {
+  margin-top: 6px;
+}
+.cus-roomType-table table tbody tr td {
+  min-width: 35px;
+}
+.cus-roomType-table table tbody tr td.middle.td-first {
+  height: 21px;
+  padding-left: 4px;
+}
+.cus-roomType-table table tbody tr td.middle.td-first.subTree-title, .cus-roomType-table table tbody tr td.middle.td-first .room-field-text {
+  padding-left: 4px;
+}
+.cus-roomType-table table tbody tr td.middle.td-first .roomNumTip {
+  width: 42px;
+  text-align: center;
 }
 
 .cus-PMS0120020-table table {
@@ -6005,11 +6013,10 @@ td div.triangle-box.colspan-28 {
 
 .defHt {
   height: 25px !important;
-  line-height: 25px !important;
 }
 
 .defLineHt {
-  line-height: 25px;
+    line-height: 25px !important;
 }
 
 .selectHt {
@@ -6595,6 +6602,11 @@ a {
 }
 .input-medium.rateCode-s1Rm {
   width: 157px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.rateCode-s1-col2 {
+  width: 464px;
   max-width: 100%;
   height: 25px;
 }

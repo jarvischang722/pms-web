@@ -189,6 +189,13 @@
                 openChangeLogDialog: false
             }
         },
+        watch: {
+            openChangeLogDialog(val){
+                if (!val) {
+                    this.$eventHub.$emit('getCloseChangeLogData', {isOpenChangeLog: val});
+                }
+            }
+        },
         methods: {
             fetchUserInfo() {
                 this.isLoading = true;

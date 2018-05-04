@@ -79,3 +79,14 @@ exports.qryRoleByCurrentID = function (req, res) {
         res.json({success: err == null, errMsg: err, roleList: result});
     });
 };
+
+
+exports.getPrgEditionOptionList = async function (req, res) {
+    try {
+        let prgEditionOptions = await permissionSvc.qryPrgEditionOptionList(req.body, req.session);
+        res.json({success: true, errorMsg: "", prgEditionOptions: prgEditionOptions});
+    } catch (err) {
+        let ls_errorMsg = err.message.indexOf("ORA") > -1 ? "OracleDB Error." : err.message;
+        res.json({success: false, errorMsg: ls_errorMsg, prgEditionOptions: []});
+    }
+};
