@@ -680,7 +680,7 @@ var PMS0830100VM = new Vue({
                     PMS0830100VM.loadDataGridByPrgID(function (success) {
                         callback(success);
                     });
-                    alert('save success!');
+                    alert(go_i18nLang.SystemCommon.saveSuccess);
                     waitingDialog.hide();
                 } else {
                     waitingDialog.hide();

@@ -35,10 +35,25 @@ let BacchusMainVM = new Vue({
         prgEditionOptions: {} //版本資料
     },
     mounted: function () {
-        //離開時
+        let self = this;
+
+        //Trigger this method before leave page
         window.onbeforeunload = function () {
             BacchusMainVM.doLeavePageBeforePrgFuncs();
         };
+
+        //Orverride the window alert  function
+        window.alert = function () {
+            self.$alert(arguments[0], arguments[1] || go_i18nLang.SystemCommon.notice, {
+                confirmButtonText: go_i18nLang.SystemCommon.OK
+            });
+        };
+
+        //When click the #MainContentDiv's area , usingSubsysID changed back to current process's subsystem id
+        $("#MainContentDiv").click(function () {
+            self.usingSubsysID = self.getSubsysIDOfPrgID();
+        });
+
         this.doCheckOnlineUser();
         this.getUserSubsys();
         this.updateCurrentDateTime();
@@ -213,12 +228,21 @@ let BacchusMainVM = new Vue({
          * @param prg_id
          */
         openNewPageLoadProgram: function (prg_id) {
-            let lao_allPrgs = [].concat(..._.pluck(this.subsysMenu, "quickMenu"));
-            let ls_newSubsysID = _.findIndex(lao_allPrgs, {pro_id: prg_id}) > -1
-                ? _.findWhere(lao_allPrgs, {pro_id: prg_id}).subsys_id : "";
+            let ls_newSubsysID = this.getSubsysIDOfPrgID(prg_id);
             window.open("/bacchus4web/" + ls_newSubsysID + "?prg_id=" + prg_id, "_blank");
             setupCookie("usingSubsysID", this.usingSubsysID, 2592000000);
             this.usingSubsysID = this.oldSubsysID;
+        },
+        /**
+         * 取得prg_id 所屬的子系統編號
+         * @param prg_id
+         * @return {string}
+         */
+        getSubsysIDOfPrgID: function (prg_id) {
+            let lao_allPrgs = [].concat(..._.pluck(this.subsysMenu, "quickMenu"));
+            let ls_newSubsysID = _.findIndex(lao_allPrgs, {pro_id: prg_id}) > -1
+                ? _.findWhere(lao_allPrgs, {pro_id: prg_id}).subsys_id : "";
+            return ls_newSubsysID;
         },
         /**
          * 做Table unlock
@@ -375,21 +399,21 @@ let BacchusMainVM = new Vue({
          * 取得版本資料(option id、function id)
          * @param prg_id{string}: 各程式編號
          */
-        doGetVersionData: function(prg_id){
+        doGetVersionData: function (prg_id) {
             var self = this;
             $.ajax({
                 type: 'POST',
                 url: '/api/getPrgEditionOptionList',
                 data: {prg_id: prg_id},
-                success: function(result){
-                    if(result.success){
+                success: function (result) {
+                    if (result.success) {
                         self.prgEditionOptions = result.prgEditionOptions;
                     }
-                    else{
+                    else {
                         alert(result.errorMsg);
                     }
                 },
-                async:false
+                async: false
             });
         }
 
@@ -400,7 +424,6 @@ let BacchusMainVM = new Vue({
 $(function () {
     /** 預設一開始模組更能列關閉 **/
     $("#sidebar-toggle-icon").click();
-
 });
 
 

@@ -116,7 +116,10 @@
         watch: {
             isVisitRecord(val) {
                 if (val) {
-                    this.initData();
+                    if (_.isEmpty(this.$store.state.go_allData.ga_vrDataGridRowsData)) {
+                        this.initTmpCUD();
+                        this.initData();
+                    }
                     this.fetchFieldData();
                     this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                 }
@@ -163,7 +166,6 @@
                 }).then(result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
-
                     if (_.isEmpty(this.$store.state.go_allData.ga_vrDataGridRowsData)) {
                         this.dataGridRowsData = result.dgRowData;
                         this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
@@ -301,7 +303,7 @@
                 return lo_checkResult
             },
             setNewDataGridRowsData() {
-                var lo_chkResult = this.dataValidate();
+                let lo_chkResult = this.dataValidate();
                 if (lo_chkResult.success == false) {
                     alert(lo_chkResult.msg);
                 }
@@ -322,24 +324,28 @@
                     this.visitRecordOriSingleData["visit_dat"] = moment(new Date(this.visitRecordSingleData["visit_dat"])).format("YYYY/MM/DD");
                     this.visitRecordOriSingleData["avisit_dat"] =
                         this.visitRecordOriSingleData["avisit_dat"] == "" ? "" : moment(new Date(this.visitRecordSingleData["avisit_dat"])).format("YYYY/MM/DD");
+                    this.visitRecordOriSingleData["traffic_amt"] = this.visitRecordOriSingleData["traffic_amt"] != "" ?
+                        go_formatDisplayClass.removeAmtFormat(this.visitRecordOriSingleData["traffic_amt"]) : 0;
 
+                    let lo_saveData = JSON.parse(JSON.stringify(this.visitRecordSingleData));
+                    lo_saveData["traffic_amt"] = lo_saveData["traffic_amt"] != "" ? go_formatDisplayClass.removeAmtFormat(lo_saveData["traffic_amt"]) : 0;
 
-                    var ln_editIdx = _.isUndefined(this.visitRecordSingleData.index) ? -1 : this.visitRecordSingleData.index;
+                    let ln_editIdx = _.isUndefined(this.visitRecordSingleData.index) ? -1 : this.visitRecordSingleData.index;
 
                     if (ln_editIdx > -1) {
                         if (!_.isUndefined(this.visitRecordSingleData.createIndex)) {
-                            var createIndex = this.visitRecordSingleData.createIndex;
-                            this.tmpCUD.createData[createIndex] = this.visitRecordSingleData;
+                            let createIndex = this.visitRecordSingleData.createIndex;
+                            this.tmpCUD.createData[createIndex] = lo_saveData;
                         }
                         else {
-                            this.tmpCUD.updateData.push(this.visitRecordSingleData);
-                            this.tmpCUD.oriData.push(this.visitRecordOriSingleData);
+                            this.tmpCUD.updateData.push(lo_saveData);
+                            this.tmpCUD.oriData.push(lo_saveData);
                         }
 
                         this.dataGridRowsData[ln_editIdx] = this.visitRecordSingleData;
                     }
                     else {
-                        this.tmpCUD.createData.push(this.visitRecordSingleData);
+                        this.tmpCUD.createData.push(lo_saveData);
                         this.dataGridRowsData.push(this.visitRecordSingleData);
                     }
                     this.showDataGrid();

@@ -70,7 +70,7 @@
       "wrsTabPageTitle": "官網顯示順序"
     },
     "PMS0810050": {
-      "Add":"新增接駁",
+      "Add": "新增接駁",
       "pick_up": "接機",
       "drop_off": "送機",
       "arrive_cod": "代號",
@@ -352,7 +352,7 @@
       "role_rmk": "職稱",
       "tel_nos": "電話"
     },
-    "PSIW510030":{
+    "PSIW510030": {
       "1010": "核准",
       "1020": "取消核准",
       "1030": "空白訂貨表下載"
@@ -394,6 +394,7 @@
     "Setting": "設定",
     "Save_changed_data": "資料已修改是否存檔",
     "saveSuccess": "儲存成功",
+    "saveFail": "儲存失敗",
     "delSuccess": "刪除成功",
     "dataGridBeforePageText": "第",
     "dataGridAfterPageText": "頁,共{pages}頁",
@@ -406,7 +407,7 @@
     "checkNewPwd": "請再輸入新密碼",
     "newPwd": "新密碼",
     "selectMonth": "選擇月",
-    "rentCalDat":"滾房租日",
+    "rentCalDat": "滾房租日",
     "before7days": "前7天",
     "after7days": "後7天",
     "before14days": "前14天",
@@ -419,7 +420,8 @@
     "0300": "刪除",
     "0400": "修改",
     "0500": "儲存",
-    "0800": "異動紀錄"
+    "0800": "異動紀錄",
+    "notice": "通知"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",
@@ -594,9 +596,9 @@
     "contry_cod": "contry cod(中文)",
     "contry_nam": "contry nam(中文)",
     "contry_sna": "contry sna(中文)",
-    "live_cod" : "live cod(中文)",
-    "live_nam" : "live nam(中文)",
-    "live_sna" : "live sna(中文)",
+    "live_cod": "live cod(中文)",
+    "live_nam": "live nam(中文)",
+    "live_sna": "live sna(中文)",
     "cust_show_cod": "客戶代號",
     "alt_nam": "客戶姓名",
     "contact_rmk": "聯絡電話",

@@ -438,10 +438,12 @@
             //可簽帳時，目前簽帳金額可改變
             chkContractSta(item) {
                 if (item.target.checked) {
-                    this.pageTwoFieldsData[3][0].modificable = 'Y';
+                    this.pageTwoFieldsData[1][0].modificable = 'Y';
+                    this.pageTwoFieldsData[2][0].modificable = 'Y';
                 }
                 else {
-                    this.pageTwoFieldsData[3][0].modificable = 'N';
+                    this.pageTwoFieldsData[1][0].modificable = 'N';
+                    this.pageTwoFieldsData[2][0].modificable = 'N';
                 }
             },
             computeAmt(val, field) {
@@ -481,14 +483,16 @@
             },
             //信用額度變更
             async doChangeCreditLimit() {
-                await $.post("/api/fetchOnlySinglePageFieldData", {
-                    prg_id: "PMS0610020",
-                    page_id: 2,
-                    tab_page_id: 1030
-                }).then(result => {
-                    this.oriPageTwoFieldsData = result.gsFieldsData;
-                    this.pageTwoFieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
-                });
+                if(this.oriPageTwoFieldsData.length <= 0){
+                    await $.post("/api/fetchOnlySinglePageFieldData", {
+                        prg_id: "PMS0610020",
+                        page_id: 2,
+                        tab_page_id: 1030
+                    }).then(result => {
+                        this.oriPageTwoFieldsData = result.gsFieldsData;
+                        this.pageTwoFieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
+                    });
+                }
 
                 var dialog = $("#changeCreditLimit").removeClass('hide').dialog({
                     modal: true,
