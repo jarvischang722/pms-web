@@ -1,7 +1,7 @@
 var loginVM = new Vue({
     el: "#loginAPP",
     data: {
-        loadingText:'',
+        loadingText: '',
         isLoading: true,
         sysConfig: "",
         companyData: [],
@@ -110,7 +110,7 @@ var loginVM = new Vue({
                 }
                 else {
                     self.isLoading = false;
-                    alert(result.errorMsg);
+                    self.$alert(result.errorMsg);
                 }
             });
 

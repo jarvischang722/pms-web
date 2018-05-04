@@ -319,10 +319,10 @@ var PMS0830080VM = new Vue({
                     if (PMS0830080VM.isCreateStatus) {
                         PMS0830080VM.closeRouteDialog();
                     }
-                    alert("save success!");
+                    alert(go_i18nLang.SystemCommon.saveSuccess);
                     self.getRouteData();
                 } else {
-                    alert("save error!");
+                    alert(go_i18nLang.SystemCommon.saveFail);
                 }
 
             });

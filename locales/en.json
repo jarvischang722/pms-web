@@ -70,7 +70,7 @@
       "wrsTabPageTitle": "官網顯示順序(英文)"
     },
     "PMS0810050": {
-      "Add" : "Add 1",
+      "Add": "Add 1",
       "pick_up": "Pick up",
       "drop_off": "Drop off",
       "arrive_cod": "No.",
@@ -289,7 +289,7 @@
       "1010": "新增營業目標館別(英)",
       "1020": "刪除營業目標館別(英)"
     },
-    "PMS0620030":{
+    "PMS0620030": {
       "edit_sales_clerk": "修改業務員(英文)"
     },
     "PMS0620050": {
@@ -352,7 +352,7 @@
       "role_rmk": "職稱(英)",
       "tel_nos": "電話(英)"
     },
-    "PSIW510030":{
+    "PSIW510030": {
       "1010": "核准(英)",
       "1020": "取消核准(英)",
       "1030": "空白訂貨表下載(英)"
@@ -393,7 +393,8 @@
     "CompanyName": "Athena Information Systems",
     "Setting": "Setting",
     "Save_changed_data": "資料已修改是否存檔(英)",
-    "saveSuccess": "Save Success",
+    "saveSuccess": "Saved Successfully",
+    "saveFail": "Save Failed",
     "delSuccess": "Delete Success",
     "dataGridBeforePageText": "第(英)",
     "dataGridAfterPageText": "頁,共{pages}頁(英)",
@@ -406,7 +407,7 @@
     "checkNewPwd": "Check new password.",
     "newPwd": "New Password",
     "selectMonth": "選擇月(英)",
-    "rentCalDat":"滾房租日(英)",
+    "rentCalDat": "滾房租日(英)",
     "before7days": "前7天(英)",
     "after7days": "後7天(英)",
     "before14days": "前14天(英)",
@@ -418,7 +419,8 @@
     "0200": "新增(英)",
     "0300": "刪除(英)",
     "0400": "修改(英)",
-    "0800": "異動紀錄(英)"
+    "0800": "異動紀錄(英)",
+    "notice": "Notice"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",
@@ -575,7 +577,7 @@
     "pms21msg1": "此住客資料已存在(英文)",
     "pms21msg2": "%s(%s)此筆資料已為訂房使用(%s:%s)，不可刪除(英文)"
   },
-  "Columns":{
+  "Columns": {
     "show_cod": "公司編號(英文)",
     "cust_nam": "公司名稱(英文)",
     "uni_cod": "統一編號(英文)",
@@ -593,9 +595,9 @@
     "contry_cod": "contry cod(英文)",
     "contry_nam": "contry nam(英文)",
     "contry_sna": "contry sna(英文)",
-    "live_cod" : "live cod(英文)",
-    "live_nam" : "live nam(英文)",
-    "live_sna" : "live sna(英文)",
+    "live_cod": "live cod(英文)",
+    "live_nam": "live nam(英文)",
+    "live_sna": "live sna(英文)",
     "cust_show_cod": "客戶代號(英)",
     "alt_nam": "客戶姓名(英)",
     "contact_rmk": "聯絡電話(英)",

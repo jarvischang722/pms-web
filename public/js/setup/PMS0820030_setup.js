@@ -167,7 +167,7 @@ var PMS0820030VM = new Vue({
                         if (response.success) {
                             self.dgIns.initTmpCUD();
                             $("#gridEdit").val(null);
-                            alert('save success!');
+                            alert(go_i18nLang.SystemCommon.saveSuccess);
                         } else {
                             alert(response.errorMsg);
                         }

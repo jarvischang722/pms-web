@@ -659,7 +659,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                 if (result.success) {
                     self.dialogRmTypeStockVisible = false;
                     self.showRoomTypeMaxStockDate();
-                    alert('save success!');
+                    alert(go_i18nLang.SystemCommon.saveSuccess);
                 } else {
                     alert(result.errorMsg);
                 }
@@ -914,7 +914,7 @@ var vm = new Vue({
 
                     vm.initTmpCUD();
                     vm.loadDataGridByPrgID();
-                    alert('save success!');
+                    alert(go_i18nLang.SystemCommon.saveSuccess);
 
                     callback(true);
                 } else {
@@ -1038,7 +1038,7 @@ var vm = new Vue({
                 .done(function (response) {
                     self.isSaving = false;
                     if (response.success) {
-                        alert('save success!');
+                        alert(go_i18nLang.SystemCommon.saveSuccess);
                         callback(null, true);
                     } else {
                         alert(response.errorMsg);

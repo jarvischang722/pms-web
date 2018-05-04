@@ -35,10 +35,21 @@ let BacchusMainVM = new Vue({
         prgEditionOptions: {} //版本資料
     },
     mounted: function () {
-        //離開時
+        let self = this;
+
+        //Trigger this method before leave page
         window.onbeforeunload = function () {
             BacchusMainVM.doLeavePageBeforePrgFuncs();
         };
+
+        //Orverride the window alert  function
+        window.alert = function () {
+            self.$alert(arguments[0], arguments[1] || go_i18nLang.SystemCommon.notice, {
+                confirmButtonText: go_i18nLang.SystemCommon.OK
+            });
+        };
+
+
         this.doCheckOnlineUser();
         this.getUserSubsys();
         this.updateCurrentDateTime();
@@ -375,21 +386,21 @@ let BacchusMainVM = new Vue({
          * 取得版本資料(option id、function id)
          * @param prg_id{string}: 各程式編號
          */
-        doGetVersionData: function(prg_id){
+        doGetVersionData: function (prg_id) {
             var self = this;
             $.ajax({
                 type: 'POST',
                 url: '/api/getPrgEditionOptionList',
                 data: {prg_id: prg_id},
-                success: function(result){
-                    if(result.success){
+                success: function (result) {
+                    if (result.success) {
                         self.prgEditionOptions = result.prgEditionOptions;
                     }
-                    else{
+                    else {
                         alert(result.errorMsg);
                     }
                 },
-                async:false
+                async: false
             });
         }
 
@@ -400,7 +411,6 @@ let BacchusMainVM = new Vue({
 $(function () {
     /** 預設一開始模組更能列關閉 **/
     $("#sidebar-toggle-icon").click();
-
 });
 
 
