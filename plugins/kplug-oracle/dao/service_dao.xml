@@ -143,5 +143,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_zipcod_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bac_ui_lang.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_block_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bac_option_dt.xml"/>
     </sql-sources>
 </struts-config>
