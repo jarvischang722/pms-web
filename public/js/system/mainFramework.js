@@ -51,7 +51,7 @@ let BacchusMainVM = new Vue({
 
         //When click the #MainContentDiv's area , usingSubsysID changed back to current process's subsystem id
         $("#MainContentDiv").click(function () {
-            self.usingSubsysID = self.getSubsysIDOfPrgID();
+            self.usingSubsysID = self.getSubsysIDOfPrgID(self.usingPrgID);
         });
 
         this.doCheckOnlineUser();
