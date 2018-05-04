@@ -41,7 +41,7 @@
     <dao name="QRY_CONTRACT_DT">
         <statement><![CDATA[
             SELECT a.CONTRACT_COD, a.BEGIN_DAT, a.END_DAT, a.HOTEL_COD, a.RATE_COD, b.ratecod_nam,
-            a.RSDISC_COD, a.REMARK1, a.REMARK2, a.INS_DAT, a.INS_USR, a.UPD_DAT, a.UPD_USR
+            a.RSDISC_COD, a.REMARK1, a.REMARK2, a.INS_DAT, a.INS_USR, a.UPD_DAT, a.UPD_USR, a.cust_cod
             FROM  CONTRACT_DT a
             left join ratecod_mn b on a.athena_id = b.athena_id and a.rate_cod = b.rate_cod and a.hotel_cod = b.hotel_cod
             WHERE  a.ATHENA_ID = :athena_id

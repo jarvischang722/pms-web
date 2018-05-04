@@ -199,15 +199,6 @@
                         this.isLastData = false;
                     }
                 }
-            },
-            singleData: {
-                handler: function (val) {
-                    if (!_.isEmpty(val)) {
-                        var self = this;
-
-                    }
-                },
-                deep: true
             }
         },
         methods: {
@@ -238,6 +229,10 @@
                 });
             },
             fetchRowData() {
+                let lo_taFieldData = _.findWhere(this.oriFieldsData, {ui_field_name: 'traffic_amt'});
+                this.rowData["traffic_amt"] = this.rowData["traffic_amt"] != 0 ?
+                    go_formatDisplayClass.amtFormat(this.rowData["traffic_amt"], lo_taFieldData.format_func_name.rule_val) : '0';
+
                 this.singleData = JSON.parse(JSON.stringify(this.rowData));
                 this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
                 this.isLoadingDialog = false;
@@ -323,7 +318,7 @@
                     }
                 }
 
-                if(lb_isModify){
+                if (lb_isModify) {
                     if (ls_ruleVal != "") {
                         this.singleData[field.ui_field_name] = go_formatDisplayClass.amtFormat(ls_amtValue, ls_ruleVal);
                     }
@@ -331,7 +326,7 @@
                         this.singleData[field.ui_field_name] = ls_amtValue;
                     }
                 }
-                else{
+                else {
                     this.singleData[field.ui_field_name] = 0;
                 }
             },
@@ -373,7 +368,7 @@
                     rowIndex: this.pageOneDataGridRows.length - 1
                 });
             },
-            doConfirmData(){
+            doConfirmData() {
                 this.$eventHub.$emit("getVisitRecordSingleData", {
                     singleData: this.singleData,
                     oriSingleData: this.oriSingleData,
