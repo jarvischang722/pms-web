@@ -256,7 +256,6 @@
   bottom: 8px;
   width: auto;
 }
-
 .css_table .css_td .moreClick.moreAbso-t10 {
     top: 7px;
     bottom: auto;
@@ -347,7 +346,6 @@
   bottom: 8px;
   width: auto;
 }
-
 .horizTable-outer .css_table .css_td .moreClick.moreAbso-t10 {
     top: 7px;
     bottom: auto;
@@ -6024,6 +6022,10 @@ td div.triangle-box.colspan-28 {
   padding: 0 3px;
   display: block;
   width: 100%;
+}
+
+.iframeHt {
+    width: 100%;
 }
 
 .v-easy-s1 .v-table-title-cell, .v-easy-s1 .v-table-body-cell {
