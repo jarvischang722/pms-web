@@ -672,7 +672,6 @@
                         let la_commandOption = command_option.split(',');
                         _.each(la_commandOption, (ls_commandOption) => {
                             let lo_commandOptionSelected = _.findWhere(la_commandOptionHSelect, {value: ls_commandOption});
-                            console.log()
                             ls_commandOptionDisplay = !_.isUndefined(lo_commandOptionSelected) ?
                                 ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ' : ls_commandOptionDisplay;
                         });
