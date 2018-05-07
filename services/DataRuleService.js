@@ -269,25 +269,37 @@ exports.handleRuleExtendFunc = async function (postData, session, fieldsData) {
     if (_.isArray(fieldsData.rule_extend_func_name)) {
         let lo_result = await execRuleExtendFuncIsArray(postData, session, fieldsData);
         return lo_result;
-        console.log(lo_result);
     }
 };
 
 async function execRuleExtendFuncIsArray(postData, session, fieldsData) {
+    let lb_isAddPrgID = false;
+    if (_.isUndefined(postData.prg_id)) {
+        postData.prg_id = fieldsData.prg_id;
+        lb_isAddPrgID = true;
+    }
     let la_ruleExtendFunc = _.sortBy(fieldsData.rule_extend_func_name, "sort");
-    return await Promise.all(_.map(la_ruleExtendFunc, async (lo_ruleExtendFunc) => {
+    let la_result = await Promise.all(_.map(la_ruleExtendFunc, async (lo_ruleExtendFunc) => {
         return await Promise.all(_.map(lo_ruleExtendFunc, async (ls_enable, ls_ruleName) => {
             if (ls_enable == "Y" && ls_ruleName != "sort") {
                 if (!_.isUndefined(ruleAgent[ls_ruleName])) {
                     let lo_result = await ruleAgent[ls_ruleName](postData, session);
+                    if (lb_isAddPrgID) {
+                        delete lo_result.prg_id;
+                        lb_isAddPrgID = false;
+                    }
                     return lo_result;
                 }
                 else {
                     return [];
                 }
             }
+            else{
+                return postData;
+            }
         }));
     }));
+
 }
 
 /**

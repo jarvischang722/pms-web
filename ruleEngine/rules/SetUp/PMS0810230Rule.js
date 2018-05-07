@@ -198,7 +198,16 @@ module.exports = {
     },
 
     async chkOptionID(postData, session) {
-        let prgEditionOptions = await permissionSvc.qryPrgEditionOptionList(postData, session);
-        console.log(prgEditionOptions);
+        let lo_prgEditionOptions = await permissionSvc.qryPrgEditionOptionList(postData, session);
+        if(lo_prgEditionOptions.edition.toLocaleUpperCase() == "LITE"){
+            postData.push({
+                display: "DAILY",
+                value: "DR"
+            },{
+                display: "PACKAGE",
+                value: "PKG"
+            });
+        }
+        return postData;
     }
 };
