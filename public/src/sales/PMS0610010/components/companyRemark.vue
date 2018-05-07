@@ -212,7 +212,7 @@
             isOtherRemark(val) {
                 if (val) {
                     //第一次載入業務備註
-                    if(_.isEmpty(this.$store.state.go_allData.ga_remarkDataGridRowsData)){
+                    if (_.isEmpty(this.$store.state.go_allData.ga_remarkDataGridRowsData)) {
                         this.initDataGridData();
                         this.initTmpCUD();
                     }
@@ -252,7 +252,7 @@
             },
             dataGridRowsData: {
                 handler: function (val) {
-                    if(!_.isEmpty(val)){
+                    if (!_.isEmpty(val)) {
                         //將業務備註資料放至Vuex
                         this.$store.dispatch("setRemarkDataGridRowsData", {
                             ga_remarkDataGridRowsData: val,
@@ -296,11 +296,11 @@
                     this.searchFields = result.searchFields;
                     this.dataGridFieldsData = result.dgFieldsData;
 
-                    if(_.isEmpty(this.$store.state.go_allData.ga_remarkDataGridRowsData)){
+                    if (_.isEmpty(this.$store.state.go_allData.ga_remarkDataGridRowsData)) {
                         this.dataGridRowsData = result.dgRowData;
                         this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                     }
-                    else{
+                    else {
                         this.dataGridRowsData = this.$store.state.go_allData.ga_remarkDataGridRowsData;
                         this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_remarkDataGridRowsData;
                     }
@@ -327,6 +327,9 @@
                 });
             },
             fetchGridSingleRowData(editingRowOfRemark) {
+                let lo_remarkTypField = _.findWhere(this.oriGridSingleFieldsData, {ui_field_name: 'remark_typ'});
+                editingRowOfRemark["remark_typ"] = _.isUndefined(editingRowOfRemark["remark_typ"]) ? _.first(lo_remarkTypField.selectData).value : editingRowOfRemark["remark_typ"];
+
                 this.singleData = editingRowOfRemark;
                 this.oriSingleData = JSON.parse(JSON.stringify(editingRowOfRemark));
                 this.isLoadingDialog = false;
@@ -349,7 +352,7 @@
                     alert(go_i18nLang["SystemCommon"].SelectData);
                 }
                 else {
-                    this.editingRow = _.extend(this.dataGridRowsData[ln_editIndex],{index: ln_editIndex});
+                    this.editingRow = _.extend(this.dataGridRowsData[ln_editIndex], {index: ln_editIndex});
                     this.showSingleGridDialog();
                 }
             },
@@ -361,16 +364,16 @@
                 }
                 else {
                     //刪除新增的資料
-                    if(!_.isUndefined(this.dataGridRowsData[ln_delIndex].createIndex)){
+                    if (!_.isUndefined(this.dataGridRowsData[ln_delIndex].createIndex)) {
                         let ln_createIdx = this.dataGridRowsData[ln_delIndex].createIndex;
                         this.tmpCUD.createData.splice(ln_createIdx, 1)
                     }
-                    else{
+                    else {
                         //刪除編輯的資料
-                        if(!_.isUndefined(lo_delRow.index) ){
+                        if (!_.isUndefined(lo_delRow.index)) {
                             let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {index: lo_delRow.index})
                             this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                            this.tmpCUD.oriData.splice(ln_editIndex,1);
+                            this.tmpCUD.oriData.splice(ln_editIndex, 1);
                         }
                         this.tmpCUD.oriData.push(this.oriDataGridRowsData[ln_delIndex]);
                         this.tmpCUD.deleteData.push(this.dataGridRowsData[ln_delIndex]);
@@ -482,7 +485,7 @@
                 this.isLastData = true;
                 this.editingRow = _.last(this.dataGridRowsData);
             },
-            dataValidate(){
+            dataValidate() {
                 let self = this;
                 let lo_checkResult;
 
@@ -503,34 +506,34 @@
             doLeaveGrid() {
                 $("#singleGridOtherRemark").dialog('close');
             },
-            doConfirmData(){
+            doConfirmData() {
                 $("#singleGridOtherRemark").dialog('close');
                 this.setNewDataGridRowsData();
             },
-            setNewDataGridRowsData(){
+            setNewDataGridRowsData() {
                 let lo_chkResult = this.dataValidate();
                 if (lo_chkResult.success == false) {
                     alert(lo_chkResult.msg);
                 }
-                else{
+                else {
                     this.singleData = _.extend(this.singleData, {
                         tab_page_id: 6,
                         event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
                         cust_cod: this.$store.state.gs_custCod
                     });
-                    let ln_editIdx = _.isUndefined(this.singleData.index)? -1: this.singleData.index;
-                    if(ln_editIdx > -1){
-                        if(!_.isUndefined(this.singleData.createIndex)){
+                    let ln_editIdx = _.isUndefined(this.singleData.index) ? -1 : this.singleData.index;
+                    if (ln_editIdx > -1) {
+                        if (!_.isUndefined(this.singleData.createIndex)) {
                             let createIndex = this.singleData.createIndex;
                             this.tmpCUD.createData[createIndex] = this.singleData;
                         }
-                        else{
+                        else {
                             this.tmpCUD.updateData.push(this.singleData);
                             this.tmpCUD.oriData.push(this.oriSingleData);
                         }
                         this.dataGridRowsData[ln_editIdx] = this.singleData;
                     }
-                    else{
+                    else {
                         this.tmpCUD.createData.push(this.singleData);
                         this.dataGridRowsData.push(this.singleData);
                     }

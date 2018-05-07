@@ -206,7 +206,6 @@
 
             },
             doChangeRowData() {
-
                 if (this.isHideExpire) {
                     this.dataGridRowsDataOfRateCode =
                         alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsData])
