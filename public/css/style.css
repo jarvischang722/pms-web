@@ -2237,24 +2237,19 @@ a {
   position: relative;
   overflow-y: hidden;
 }
-
 .dialog-fixed .singleRelative {
   position: relative;
 }
-
 .dialog-fixed .singleEditStatus {
     position: fixed;
     margin-left: -30px;
 }
-
 .dialog-fixed .singleEditStatus.ml-spc1 {
     margin-left: -5px;
 }
-
 .dialog-fixed .singleEditStatus .btn-defaultWidth {
     padding: 3px 9px;
 }
-
 .dialog-fixed .singleGridContent {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -2262,7 +2257,6 @@ a {
   overflow-y: auto;
   box-sizing: border-box;
 }
-
 .dialog-fixed .singleBtnBottom {
   position: fixed;
   bottom: 50px;
@@ -6027,6 +6021,10 @@ td div.triangle-box.colspan-28 {
   padding: 0 3px;
   display: block;
   width: 100%;
+}
+
+.iframeHt {
+    width: 100%;
 }
 
 .v-easy-s1 .v-table-title-cell, .v-easy-s1 .v-table-body-cell {
