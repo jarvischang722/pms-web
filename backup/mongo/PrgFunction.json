@@ -636,3 +636,213 @@
     "rule_func_name" : "", 
     "link_prg_id" : "PMS0110041"
 }
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880511"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0800", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880512"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1010", 
+    "rule_func_name" : "r_1010", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880513"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1011", 
+    "rule_func_name" : "r_1011", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880514"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1020", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880515"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1030", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880516"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1040", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880517"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1050", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880518"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1060", 
+    "rule_func_name" : "r_1060", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880519"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1070", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d9702088051a"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1080", 
+    "rule_func_name" : "r_1080", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d9702088051b"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1090", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d9702088051c"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1100", 
+    "rule_func_name" : "ins_order_dt", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d9702088051d"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1110", 
+    "rule_func_name" : "del_order_dt", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d9702088051e"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1120", 
+    "rule_func_name" : "r_1120", 
+    "link_prg_id" : "PMS0210011"
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d9702088051f"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1130", 
+    "rule_func_name" : "", 
+    "link_prg_id" : "PMS0610020(唯讀開啟)"
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880520"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1140", 
+    "rule_func_name" : "r_1140(若是公帳號狀態master_sta已是I:C/I時按鈕為唯讀，CLICK不再跳出視窗)", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880521"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1150", 
+    "rule_func_name" : "r_1150", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880522"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1160", 
+    "rule_func_name" : "r_1160", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880523"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1140), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1141", 
+    "rule_func_name" : "r_1141", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880524"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1140), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1142", 
+    "rule_func_name" : "r_1142", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5ae993240bf3d97020880525"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1140), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "1143", 
+    "rule_func_name" : "r_1143", 
+    "link_prg_id" : ""
+}

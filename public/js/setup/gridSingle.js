@@ -326,7 +326,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                         chooseData[chooseField] = chooseField == "inv_sta" ? "N" : "";  //SAM20170930 目前沒招了，先寫死在這for PMS0840030
                     });
                 }
-                _.each(chooseData, function(val, key){
+                _.each(chooseData, function (val, key) {
                     chooseData[key] = "";
                 });
 
@@ -1205,7 +1205,7 @@ var vm = new Vue({
                                     delete lo_dtData["createRow"];
                                 }
                             });
-                            alert('save success!');
+                            alert(go_i18nLang.SystemCommon.saveSuccess);
                             callback(success);
                         });
                     });
@@ -1301,7 +1301,8 @@ var vm = new Vue({
             this.dialogVisible = true;
             var height = this.pageTwoFieldData.length * 50 + 130; // 預設一個row 高度
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
-            var dialogWt = this.maxWidth + 125;
+            var btnWt = $('.right-menu-co').outerWidth();
+            var dialogWt = this.maxWidth + btnWt;
 
             // if (this.pageTwoDataGridFieldData.length > 0) {
             //     //加上 dt 高度
