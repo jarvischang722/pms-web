@@ -10,5 +10,5 @@ var middles = [i18nMW, authMW, sysMW];
 /* GET  page. */
 module.exports = function (app) {
     //報表(靜態)
-    app.get('/report', middles, sysManagementCrtl.getreport);
+    app.get('/report', middles, reportCrtl.getreport);
 };
