@@ -96,7 +96,7 @@
         <parameter type="string" kind="3">func_hotel_cod</parameter>
         <statement test="_v(param.user_id)"><![CDATA[and trim(b.user_id) = trim(:user_id)]]></statement>
         <statement test="_v(param.role_id)"><![CDATA[and trim(b.role_id) = trim(:role_id)]]></statement>
-        <parameter type="likestring" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
+        <parameter type="string" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
         <parameter type="string" kind="2" condition="current_id = :current_id ">current_id</parameter>
         <parameter type="string" kind="2" condition="id_typ = :id_typ ">id_typ</parameter>
         <orderby>order by level_nos,sort_cod,current_id</orderby>

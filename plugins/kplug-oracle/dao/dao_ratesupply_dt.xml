@@ -6,12 +6,12 @@
             select * from ratesupply_dt
             where athena_id = :athena_id
             and trim(hotel_cod) = trim(:hotel_cod)
-            and rate_cod = :rate_cod
-            order by supply_nos
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <statement test="_v(param.rate_cod)"><![CDATA[and rate_cod = :rate_cod]]></statement>
         <parameter type="string" kind="3">rate_cod</parameter>
+        <orderBy>order by supply_nos</orderBy>
     </dao>
 </root>

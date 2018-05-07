@@ -12,13 +12,13 @@
         from ratecod_dt d
         where athena_id = :athena_id
         and trim(hotel_cod) = trim(:hotel_cod)
-        and rate_cod = :rate_cod
-        order by view_seq, room_cod
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <statement test="_v(param.rate_cod)"><![CDATA[and rate_cod = :rate_cod]]></statement>
         <parameter type="string" kind="3">rate_cod</parameter>
+        <orderBy>order by view_seq, room_cod</orderBy>
     </dao>
 
     <!--rateCode 取得房型的房型(右邊)-->
@@ -33,12 +33,12 @@
         and d.supply_nos = s.supply_nos
         and d.athena_id = :athena_id
         and trim(d.hotel_cod) = trim(:hotel_cod)
-        and d.rate_cod =  :rate_cod
-        order by  s.begin_dat
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <statement test="_v(param.rate_cod)"><![CDATA[and d.rate_cod =  :rate_cod]]></statement>
         <parameter type="string" kind="3">rate_cod</parameter>
+        <orderBy>order by  s.begin_dat</orderBy>
     </dao>
 </root>

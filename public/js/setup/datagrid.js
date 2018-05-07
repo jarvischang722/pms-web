@@ -369,7 +369,7 @@ var vm = new Vue({
                         vm.initTmpCUD();
                         self.fetchDataGridData();
                         $("#gridEdit").val(null);
-                        alert('save success!');
+                        alert(go_i18nLang.SystemCommon.saveSuccess);
                         $("#prgContentDiv").load('/mainSetUp/' + prg_id + "?_r=" + Math.floor((Math.random() * 10000000000) + 1));
                     } else {
                         alert(result.errorMsg);

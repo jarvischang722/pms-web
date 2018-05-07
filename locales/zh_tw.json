@@ -70,7 +70,7 @@
       "wrsTabPageTitle": "官網顯示順序"
     },
     "PMS0810050": {
-      "Add":"新增接駁",
+      "Add": "新增接駁",
       "pick_up": "接機",
       "drop_off": "送機",
       "arrive_cod": "代號",
@@ -211,7 +211,10 @@
       "visit_plan": "拜訪計畫",
       "edit_sales": "修改業務員",
       "add_visit_plan": "新增拜訪計畫",
-      "selectOneData": "選擇一筆資料(無法同時修改多筆)"
+      "selectOneData": "選擇一筆資料(無法同時修改多筆)",
+      "1010": "業務員指派",
+      "1020": "拜訪計畫",
+      "1030": "瀏覽"
     },
     "PMS0610020": {
       "company_status": "Status chg.(中)",
@@ -249,7 +252,21 @@
       "rate": "房價代號或名稱",
       "save_success": "儲存成功",
       "confirmVisitRecord": "確定",
-      "confirmRemark": "確定"
+      "confirmRemark": "確定",
+      "1010": "狀態變更",
+      "1020": "合約狀態變更",
+      "1030": "信用額度變更",
+      "1040": "新增聯絡人",
+      "1050": "刪除聯絡人",
+      "1060": "修改業務員",
+      "1070": "新增合約",
+      "1080": "刪除合約",
+      "1090": "新增拜訪記錄",
+      "1100": "修改拜訪記錄",
+      "1110": "刪除拜訪記錄",
+      "1120": "新增備註",
+      "1130": "修改備註",
+      "1140": "刪除備註"
     },
     "PMS0620020": {
       "sales_cod": "業務員代號",
@@ -268,7 +285,9 @@
       "Property": "Property(中)",
       "group_change_record": "組別異動紀錄",
       "saveSuccess": "儲存成功",
-      "delSuccess": "刪除成功"
+      "delSuccess": "刪除成功",
+      "1010": "新增營業目標館別",
+      "1020": "刪除營業目標館別"
     },
     "PMS0620030": {
       "edit_sales_clerk": "修改業務員"
@@ -333,7 +352,7 @@
       "role_rmk": "職稱",
       "tel_nos": "電話"
     },
-    "PSIW510030":{
+    "PSIW510030": {
       "1010": "核准",
       "1020": "取消核准",
       "1030": "空白訂貨表下載"
@@ -354,7 +373,7 @@
     "Previous": "前一筆",
     "First": "第一筆",
     "Last": "最後一筆",
-    "Add_after_save": "儲存後繼續新增",
+    "Add_after_save": "儲存後新增",
     "Leave_after_save": "儲存後離開",
     "Leave": "離開",
     "Login": "登入",
@@ -369,12 +388,13 @@
     "User": "使用者",
     "Action_type": "動作類型",
     "Desciption_Mn": "主檔描述",
-    "Desciption_Dt": "名細描述",
+    "Desciption_Dt": "明細描述",
     "check_delete": "確定刪除此筆資料",
     "CompanyName": "德安資訊股份有限公司",
     "Setting": "設定",
     "Save_changed_data": "資料已修改是否存檔",
     "saveSuccess": "儲存成功",
+    "saveFail": "儲存失敗",
     "delSuccess": "刪除成功",
     "dataGridBeforePageText": "第",
     "dataGridAfterPageText": "頁,共{pages}頁",
@@ -387,7 +407,7 @@
     "checkNewPwd": "請再輸入新密碼",
     "newPwd": "新密碼",
     "selectMonth": "選擇月",
-    "rentCalDat":"滾房租日",
+    "rentCalDat": "滾房租日",
     "before7days": "前7天",
     "after7days": "後7天",
     "before14days": "前14天",
@@ -399,7 +419,9 @@
     "0200": "新增",
     "0300": "刪除",
     "0400": "修改",
-    "0800": "異動紀錄"
+    "0500": "儲存",
+    "0800": "異動紀錄",
+    "notice": "通知"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",
@@ -574,9 +596,9 @@
     "contry_cod": "contry cod(中文)",
     "contry_nam": "contry nam(中文)",
     "contry_sna": "contry sna(中文)",
-    "live_cod" : "live cod(中文)",
-    "live_nam" : "live nam(中文)",
-    "live_sna" : "live sna(中文)",
+    "live_cod": "live cod(中文)",
+    "live_nam": "live nam(中文)",
+    "live_sna": "live sna(中文)",
     "cust_show_cod": "客戶代號",
     "alt_nam": "客戶姓名",
     "contact_rmk": "聯絡電話",

@@ -680,7 +680,7 @@ var PMS0830100VM = new Vue({
                     PMS0830100VM.loadDataGridByPrgID(function (success) {
                         callback(success);
                     });
-                    alert('save success!');
+                    alert(go_i18nLang.SystemCommon.saveSuccess);
                     waitingDialog.hide();
                 } else {
                     waitingDialog.hide();
@@ -714,13 +714,13 @@ var PMS0830100VM = new Vue({
                 }
 
                 // 算最小寬度 && 最大行數
-                var maxField = _.max(PMS0830100VM.pageTwoFieldData, function(lo_pageTwoField){
+                var maxField = _.max(PMS0830100VM.pageTwoFieldData, function (lo_pageTwoField) {
                     return lo_pageTwoField.length;
                 });
-                _.each(maxField, function(lo_maxField){
+                _.each(maxField, function (lo_maxField) {
 
-                    var width = parseInt(lo_maxField.width)|| 90;
-                    var label_width = parseInt(lo_maxField.label_width)|| 165;
+                    var width = parseInt(lo_maxField.width) || 90;
+                    var label_width = parseInt(lo_maxField.label_width) || 165;
                     self.maxWidth += (width + label_width + 14);
                 });
             });
@@ -787,7 +787,8 @@ var PMS0830100VM = new Vue({
             this.initDatePicker();
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
             var height = 19 * 50; // 預設一個row 高度
-            var dialogWt = this.maxWidth +120;
+            var btnWt = $('.right-menu-co').outerWidth();
+            var dialogWt = this.maxWidth + btnWt;
             var dialog = $("#singleGridPMS0830100").dialog({
                 autoOpen: false,
                 modal: true,

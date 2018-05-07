@@ -62,15 +62,16 @@ let PMS0620020App = Vue.extend({
             self.rowData = _.extend(self.rowData, chooseData);
         });
         vmHub.$on('doSaveModifyData', function (res) {
-            console.log("test");
             self.dgHoatelDt.endEditing();
             let lo_notChange = {success: true, msg: go_i18nLang.Validation.Formatter.chkDataChang};
+
             lo_notChange.success = _.isMatch(self.rowData, self.originRowData) ? true : false;
-            _.each(self.dgHoatelDt.tmpCUD, (val) => {
-                if (val.length > 0) {
-                    lo_notChange.success = false;
-                }
+            lo_notChange.success = self.dgHoatelDt.tmpCUD.createData.length <= 0 ? true : false;
+            lo_notChange.success = self.dgHoatelDt.tmpCUD.deleteData.length <= 0 ? true : false;
+            _.each(self.dgHoatelDt.tmpCUD.updateData, function (val, idx) {
+                lo_notChange.success = _.isMatch(val, self.dgHoatelDt.tmpCUD.oriData[idx]) ? true : false;
             });
+
             if (!lo_notChange.success) {
                 let q = confirm(lo_notChange.msg);
                 if (q) {
@@ -347,12 +348,6 @@ let PMS0620020App = Vue.extend({
             });
         },
         closeSingleGridDialog: function () {
-            vm.editingRow = {};
-            vm.pageOneSingleGridRowData = {};
-            vm.initTmpCUD();
-            this.dgHoatelDt.initTmpCUD();
-            this.hotelDtRowData = [];
-
             $("#singleGridPMS0620020").dialog('close');
         },
         //mn資料檢查
@@ -471,6 +466,10 @@ let PMS0620020App = Vue.extend({
                         if (result.success) {
                             alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
                             vm.initTmpCUD();
+
+                            let lo_cloneSingleData = JSON.parse(JSON.stringify(self.singleData));
+                            self.singleData = {};
+                            self.singleData = lo_cloneSingleData;
                         }
                         else {
                             alert(result.errorMsg);
@@ -667,6 +666,8 @@ let vm = new Vue({
 
             if (!editRow) {
                 alert(go_i18nLang["SystemCommon"].SelectData);
+                this.isCreateStatus = false;
+                this.isEditStatus = false;
             }
             else {
                 editRow["prg_id"] = "PMS0620020";
@@ -721,6 +722,7 @@ let vm = new Vue({
         doSaveCud: function (prg_id, page_id, callback) {
             let self = this;
             let lo_params = {
+                trans_cod: prg_id,
                 prg_id: prg_id,
                 page_id: page_id,
                 tmpCUD: this.tmpCud

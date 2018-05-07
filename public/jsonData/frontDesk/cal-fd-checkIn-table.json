@@ -1,0 +1,38 @@
+{
+  "total": 28,
+  "rows": [
+    {
+      "checkbox": "<input type='checkbox'>",
+      "roomNum": "203",
+      "name": "RICK",
+      "inDate": "2017/05/12",
+      "outDate": "2017/05/13",
+      "gstAccPrice": "1,000"
+    },
+    {
+      "checkbox": "<input type='checkbox'>",
+      "roomNum": "203",
+      "name": "RICK",
+      "inDate": "2017/05/12",
+      "outDate": "2017/05/13",
+      "gstAccPrice": "1,000"
+    },
+    {
+      "checkbox": "<input type='checkbox'>",
+      "roomNum": "203",
+      "name": "RICK",
+      "inDate": "2017/05/12",
+      "outDate": "2017/05/13",
+      "gstAccPrice": "1,000"
+    },
+    {
+      "checkbox": "<input type='checkbox'>",
+      "roomNum": "203",
+      "name": "RICK",
+      "inDate": "2017/05/12",
+      "outDate": "2017/05/13",
+      "gstAccPrice": "1,000"
+    }
+  ]
+}
+

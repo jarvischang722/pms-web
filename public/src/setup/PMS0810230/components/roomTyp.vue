@@ -368,18 +368,23 @@
                     tab_page_id: 11,
                     searchCond: {rate_cod: this.$store.state.gs_oriRateCod}
                 };
+                let ls_apiUrl = lo_params.searchCond.rate_cod == "" ? "/api/fetchOnlyDataGridFieldData" : "/api/fetchDataGridFieldData";
 
-                $.post("/api/fetchDataGridFieldData", lo_params, (result) => {
+                $.post(ls_apiUrl, lo_params).then(result => {
                     if (result.success) {
+                        let la_dgRowData = result.dgRowData || []
                         this.roomTypFieldsData = result.dgFieldsData;
-                        this.roomTypRowsData = result.dgRowData;
-                        this.oriRoomTypRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        this.roomTypRowsData = la_dgRowData;
+                        this.oriRoomTypRowsData = JSON.parse(JSON.stringify(la_dgRowData));
                         this.fetchRoomTypRightData();
                     }
                     else {
                         alert(result.errorMsg);
                     }
+                }, err => {
+                    throw Error(err);
                 });
+
             },
             fetchRoomTypRightData() {
                 let lo_params = {
@@ -388,23 +393,26 @@
                     tab_page_id: 12,
                     searchCond: {rate_cod: this.$store.state.gs_oriRateCod}
                 };
-
-                $.post("/api/fetchDataGridFieldData", lo_params, (result) => {
+                let ls_apiUrl = lo_params.searchCond.rate_cod == "" ? "/api/fetchOnlyDataGridFieldData" : "/api/fetchDataGridFieldData";
+                $.post(ls_apiUrl, lo_params).then(result => {
                     if (result.success) {
-                        _.each(result.dgRowData, (lo_dgRowData, idx) => {
+                        let la_dgRowData = result.dgRowData || [];
+                        _.each(la_dgRowData, (lo_dgRowData, idx) => {
                             let ls_beginDat = lo_dgRowData["ratesupply_dt.between_dat"].split("~")[0];
                             let ls_endDat = lo_dgRowData["ratesupply_dt.between_dat"].split("~")[1];
-                            result.dgRowData[idx]["ratesupply_dt.between_dat"] =
+                            la_dgRowData[idx]["ratesupply_dt.between_dat"] =
                                 moment(ls_beginDat).format("YYYY/MM/DD") + "~" + moment(ls_endDat).format("YYYY/MM/DD")
                         });
                         this.roomTypDetailFieldsData = result.dgFieldsData;
-                        this.roomTypDetailRowsData = result.dgRowData;
-                        this.oriRoomTypDetailRowsData = JSON.parse(JSON.stringify(result.dgRowData));
-                        this.setUseTimeData(JSON.parse(JSON.stringify(result.dgRowData)));
+                        this.roomTypDetailRowsData = la_dgRowData;
+                        this.oriRoomTypDetailRowsData = JSON.parse(JSON.stringify(la_dgRowData));
+                        this.setUseTimeData(JSON.parse(JSON.stringify(la_dgRowData)));
                     }
                     else {
                         alert(result.errorMsg);
                     }
+                }, (err) => {
+                    throw Error(err)
                 });
             },
             showRoomTypTable() {
@@ -582,18 +590,22 @@
                         tab_page_id: 1,
                         searchCond: {rate_cod: this.$store.state.gs_oriRateCod}
                     };
-                    $.post("/api/fetchDataGridFieldData", lo_params, (result) => {
+                    let ls_apiUrl = lo_params.searchCond.rate_cod == "" ? "/api/fetchOnlyDataGridFieldData" : "/api/fetchDataGridFieldData";
+                    $.post(ls_apiUrl, lo_params).then(result => {
                         if (result.success) {
-                            _.each(result.dgRowData, (lo_dgRowData, idx) => {
-                                result.dgRowData[idx]["begin_dat"] = moment(lo_dgRowData["begin_dat"]).format("YYYY/MM/DD");
-                                result.dgRowData[idx]["end_dat"] = moment(lo_dgRowData["end_dat"]).format("YYYY/MM/DD");
+                            let la_dgRowData = result.dgRowData || [];
+                            _.each(la_dgRowData, (lo_dgRowData, idx) => {
+                                la_dgRowData[idx]["begin_dat"] = moment(lo_dgRowData["begin_dat"]).format("YYYY/MM/DD");
+                                la_dgRowData[idx]["end_dat"] = moment(lo_dgRowData["end_dat"]).format("YYYY/MM/DD");
                             });
-                            this.useTimeData = result.dgRowData;
+                            this.useTimeData = la_dgRowData;
                             this.showRoomTypTable();
                         }
                         else {
                             alert(result.errorMsg);
                         }
+                    }, (err) => {
+                        throw Error(err)
                     });
                 }
             },
@@ -640,6 +652,7 @@
                 try {
                     let la_commandOptionHSelect =
                         JSON.parse(JSON.stringify(_.findWhere(this.roomTypDetailFieldsData, {ui_field_name: 'ratesupply_dt.command_option'}).selectDataDisplay));
+
                     _.each(la_commandOptionHSelect, (lo_select, idx) => {
                         la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
                     });
@@ -658,8 +671,9 @@
                     if (command_option.substring(0, 1) == 'H') {
                         let la_commandOption = command_option.split(',');
                         _.each(la_commandOption, (ls_commandOption) => {
-                            ls_commandOptionDisplay =
-                                ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
+                            let lo_commandOptionSelected = _.findWhere(la_commandOptionHSelect, {value: ls_commandOption});
+                            ls_commandOptionDisplay = !_.isUndefined(lo_commandOptionSelected) ?
+                                ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ' : ls_commandOptionDisplay;
                         });
                         ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
                     }

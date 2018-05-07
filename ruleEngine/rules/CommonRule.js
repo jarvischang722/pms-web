@@ -127,5 +127,26 @@ module.exports = {
         }
 
         return localeContent.Columns[columnNam] || columnNam;
+    },
+    /**
+     * 新增取目前系統語系資料
+     * @param locale {string} 系統部前語系
+     * @returns {*}
+     */
+    getLangFileByLocale: function(locale){
+        let appRootPath = require('app-root-path').path;
+        let localeContent = {};
+        let localesPath = appRootPath + "/locales/";
+
+        let isExist = fs.existsSync(localesPath + locale.toLowerCase() + ".json");
+        if (isExist) {
+            localeContent = require(localesPath + locale.toLowerCase() + ".json");
+
+        } else {
+            console.error("找不到多語系對應檔案[" + localesPath + locale.toLowerCase() + ".json]");
+            localeContent = require(localesPath + "en.json");
+        }
+
+        return localeContent;
     }
 };

@@ -30,8 +30,9 @@
                         <div class="row">
                             <div class="right-menu-co">
                                 <ul>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                    <li v-if="$parent.$parent.prgEditionOptions.funcList['1010'] != 'LITE'">
+                                        <button
+                                                class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="editRow">{{i18nLang.program.PMS0810230.dateRule}}
                                         </button>
                                     </li>
@@ -62,6 +63,44 @@
 </template>
 
 <script>
+
+    let vmHub4EasyTable = new Vue();
+
+    Vue.component('table-start-date', {
+        template: '<el-date-picker v-model="rowData.startDat" type="date" format="yyyy/MM/dd"' +
+        'style="width: 135px; height: 35px;line-height: 25px;" editable="false"></el-date-picker>',
+        props: {
+            rowData: {
+                type: Object
+            }
+        }
+    });
+
+    Vue.component('table-end-date', {
+        template: '<el-date-picker v-model="rowData.endDat" type="date" format="yyyy/MM/dd"' +
+        'style="width: 135px; height: 35px; line-height: 25px;" editable="false"></el-date-picker>',
+        props: {
+            rowData: {
+                type: Object
+            }
+        }
+    });
+
+    Vue.component('table-date-rule', {
+        template: '<bac-select v-model="rowData.datRule" :field="rowData.fieldsData" :data="rowData.fieldsData.selectData" ' +
+        ':data-display="rowData.fieldsData.selectData" style="width: 135px; height: 25px;"' +
+        ':default-val="rowData.datRule" is-qry-src-before="Y" value-field="value" text-field="display"' +
+        '@update:v-model="val => rowData.datRule = val"></bac-select>',
+        props: {
+            rowData: {
+                type: Object
+            },
+            field: {
+                type: String
+            }
+        }
+    });
+
     import moment from 'moment';
 
     export default {
@@ -131,16 +170,15 @@
                 this.showTable();
             });
             this.$eventHub.$on("setUseTimeRateCod", (data) => {
-                let self = this;
                 this.rateCod = data.rateCod;
                 //修改原始資料的 rate_cod
                 _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
                     lo_dataGridRowsData.rate_cod = data.rateCod;
-                    if(lo_dataGridRowsData.isCreate){
+                    if (lo_dataGridRowsData.isCreate) {
                         this.tmpCUD.createData.splice(idx, 1);
                         this.tmpCUD.createData.push(lo_dataGridRowsData);
                     }
-                    else{
+                    else {
                         let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_dataGridRowsData.supply_nos});
                         if (ln_editIndex > -1) {
                             this.tmpCUD.updateData.splice(ln_editIndex, 1);
@@ -158,7 +196,7 @@
                 _.each(this.tmpCUD, (tmpCUDVal, tmpCUDKey) => {
                     _.each(tmpCUDVal, (lo_tmpCUDVal, idx) => {
                         //修改 tmpCUD 的 rate_cod
-                        if(tmpCUDKey != 'oriData'){
+                        if (tmpCUDKey != 'oriData') {
                             self.tmpCUD[tmpCUDKey][idx]['rate_cod'] = data.rateCod;
                         }
                         //增加page_id、tab_page_id
@@ -167,7 +205,7 @@
 
                 });
             });
-            this.$eventHub.$on('setClearData', ()=>{
+            this.$eventHub.$on('setClearData', () => {
                 this.tmpCUD = {
                     createData: [],
                     updateData: [],
@@ -175,7 +213,6 @@
                     oriData: []
                 };
             });
-
         },
         mounted() {
             this.fetchRentCalDat();
@@ -244,16 +281,18 @@
                     tab_page_id: 1,
                     searchCond: {rate_cod: this.$store.state.gs_oriRateCod}
                 };
+                let ls_apiUrl = lo_params.searchCond.rate_cod == "" ? "/api/fetchOnlyDataGridFieldData" : "/api/fetchDataGridFieldData";
 
-                $.post("/api/fetchDataGridFieldData", lo_params, (result) => {
+                $.post(ls_apiUrl, lo_params).then(result => {
                     if (result.success) {
-                        _.each(result.dgRowData, (lo_dgRowData, idx) => {
-                            result.dgRowData[idx]["begin_dat"] = moment(lo_dgRowData["begin_dat"]).format("YYYY/MM/DD");
-                            result.dgRowData[idx]["end_dat"] = moment(lo_dgRowData["end_dat"]).format("YYYY/MM/DD");
+                        let la_dgRowData = result.dgRowData || [];
+                        _.each(la_dgRowData, (lo_dgRowData, idx) => {
+                            la_dgRowData[idx]["begin_dat"] = moment(lo_dgRowData["begin_dat"]).format("YYYY/MM/DD");
+                            la_dgRowData[idx]["end_dat"] = moment(lo_dgRowData["end_dat"]).format("YYYY/MM/DD");
                         });
                         this.fieldsData = result.dgFieldsData;
-                        this.dataGridRowsData = result.dgRowData;
-                        this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        this.dataGridRowsData = la_dgRowData;
+                        this.oriDataGridRowsData = JSON.parse(JSON.stringify(la_dgRowData));
                         this.showTable();
                         //將資料放入Vuex
                         this.$store.dispatch("setUseTimeData", {
@@ -266,70 +305,118 @@
                     else {
                         alert(result.errorMsg);
                     }
+                }, err => {
+                    throw Error(err)
                 });
             },
             showTable() {
+                let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
+                if (lo_funcList['1010'] == 'LITE') {
+                    this.useTimeColumns = [
+                        {
+                            field: 'control',
+                            title: '<i class="fa fa-plus green pointer"></i>',
+                            width: 40,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            componentName: 'table-operation',
+                            isResize: true
+                        },
+                        {
+                            field: 'startDat',
+                            title: _.findWhere(this.fieldsData, {ui_field_name: 'begin_dat'}).ui_display_name,
+                            width: 135,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                            componentName: 'table-start-date'
+                        },
+                        {
+                            field: 'endDat',
+                            title: _.findWhere(this.fieldsData, {ui_field_name: 'end_dat'}).ui_display_name,
+                            width: 135,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                            componentName: 'table-end-date'
+                        },
+                        {
+                            field: 'datRule',
+                            title: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).ui_display_name,
+                            width: 135,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                            componentName: 'table-date-rule'
+                        }
+                    ];
+                }
+                else {
+                    this.useTimeColumns = [
+                        {
+                            field: 'control',
+                            title: '<i class="fa fa-plus green pointer"></i>',
+                            width: 40,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            componentName: 'table-operation',
+                            isResize: true
+                        },
+                        {
+                            field: 'startDat',
+                            title: _.findWhere(this.fieldsData, {ui_field_name: 'begin_dat'}).ui_display_name,
+                            width: 135,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                        },
+                        {
+                            field: 'endDat',
+                            title: _.findWhere(this.fieldsData, {ui_field_name: 'end_dat'}).ui_display_name,
+                            width: 135,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                        },
+                        {
+                            field: 'datRule',
+                            title: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).ui_display_name,
+                            width: 135,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                        }
+                    ];
+                }
                 this.useTimeData = [];
-                this.useTimeColumns = [
-                    {
-                        field: 'control',
-                        title: '<i class="fa fa-plus green pointer"></i>',
-                        width: 40,
-                        titleAlign: 'center',
-                        columnAlign: 'center',
-                        componentName: 'table-operation',
-                        isResize: true
-                    },
-                    {
-                        field: 'startDat',
-                        title: _.findWhere(this.fieldsData, {ui_field_name: 'begin_dat'}).ui_display_name,
-                        width: 135,
-                        titleAlign: 'center',
-                        columnAlign: 'center',
-                        isResize: true,
-                    },
-                    {
-                        field: 'endDat',
-                        title: _.findWhere(this.fieldsData, {ui_field_name: 'end_dat'}).ui_display_name,
-                        width: 135,
-                        titleAlign: 'center',
-                        columnAlign: 'center',
-                        isResize: true,
-                    },
-                    {
-                        field: 'datRule',
-                        title: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).ui_display_name,
-                        width: 135,
-                        titleAlign: 'center',
-                        columnAlign: 'center',
-                        isResize: true,
-                    }
-                ];
+
                 let la_displayDataGridRowsData = this.isShowExpire ?
                     this.dataGridRowsData : _.filter(this.dataGridRowsData, (lo_dataGridRowsData) => {
-                    let lo_endDat = moment(lo_dataGridRowsData.end_dat);
-                    let lo_rentCalDat = moment(this.rentCalDat);
-                    return lo_endDat.diff(lo_rentCalDat, 'days') >= 1
-                });
+                        let lo_endDat = moment(lo_dataGridRowsData.end_dat);
+                        let lo_rentCalDat = moment(this.rentCalDat);
+                        return lo_endDat.diff(lo_rentCalDat, 'days') >= 1
+                    });
+
                 if (la_displayDataGridRowsData.length > 0) {
                     _.each(la_displayDataGridRowsData, (lo_dataGridRowsData) => {
                         this.useTimeData.push({
                             "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
                             "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
                             "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(lo_dataGridRowsData))),
-                            "supply_nos":lo_dataGridRowsData.supply_nos
+                            "supply_nos": lo_dataGridRowsData.supply_nos,
+                            "fieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_option'})
                         });
                     });
                 }
                 else {
-                    this.useTimeData = [{}];
+                    this.useTimeData = [{"fieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_option'})}];
                     setTimeout(() => {
                         this.$delete(this.useTimeData, 0);
                     }, 0.1);
                 }
             },
             convertCommandOption(data) {
-                try{
+                try {
                     let la_commandOptionHSelect =
                         JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay));
                     _.each(la_commandOptionHSelect, (lo_select, idx) => {
@@ -351,13 +438,15 @@
                         let la_commandOption = data.command_option.split(',');
                         if (la_commandOption.length > 1) {
                             _.each(la_commandOption, (ls_commandOption) => {
-                                ls_commandOptionDisplay =
-                                    ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
+                                let lo_commandOptionSelected = _.findWhere(la_commandOptionHSelect, {value: ls_commandOption});
+                                ls_commandOptionDisplay = !_.isUndefined(lo_commandOptionSelected) ?
+                                    ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ' : ls_commandOptionDisplay;
                             });
                             ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
                         }
                         else {
-                            ls_commandOptionDisplay = _.findWhere(la_commandOptionHSelect, {value: data.command_option}).display
+                            let lo_commandOptionSelected = _.findWhere(la_commandOptionHSelect, {value: data.command_option});
+                            ls_commandOptionDisplay = !_.isUndefined(lo_commandOptionSelected) ? _.findWhere(la_commandOptionHSelect, {value: data.command_option}).display : ls_commandOptionDisplay;
                         }
                     }
                     else if (data.command_cod == 'W') {
@@ -378,7 +467,7 @@
                     }
                     return ls_commandOptionDisplay;
                 }
-                catch(err){
+                catch (err) {
                     alert(err);
                 }
             },
@@ -390,7 +479,7 @@
             },
             getRowData(rowIndex, rowData, column) {
                 let lb_editIndex = _.findIndex(this.dataGridRowsData, {supply_nos: rowData.supply_nos});
-                if(lb_editIndex> -1){
+                if (lb_editIndex > -1) {
                     this.timeRuleData = _.extend(rowData, this.dataGridRowsData[lb_editIndex]);
                 }
             },
@@ -441,18 +530,56 @@
                 });
             },
             appendRow(title, field) {
+                let la_commandOptionHSelect =
+                    JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay));
+                _.each(la_commandOptionHSelect, (lo_select, idx) => {
+                    la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
+                });
+
                 if (field == "control") {
+                    vmHub4EasyTable.$emit('getFieldsData', {
+                        fieldsData: this.fieldsData
+                    });
+                    let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
                     this.timeRuleData = {};
-                    this.showTimeRuleDialog();
+                    if (lo_funcList['1010'] == 'LITE') {
+                        let lo_createData = {
+                            athena_id: this.$store.state.go_userInfo.athena_id,
+                            hotel_cod: this.$store.state.go_userInfo.hotel_cod,
+                            rate_cod: this.$store.state.gs_rateCod,
+                            supply_nos: 1,
+                            begin_dat: moment().format("YYYY/MM/DD"),
+                            end_dat: moment().format("YYYY/MM/DD"),
+                            command_cod: "H",
+                            command_option: _.first(la_commandOptionHSelect).value,
+                            event_time: moment().format(),
+                            isCreate: true
+                        };
+                        this.dataGridRowsData.push(lo_createData);
+                        this.showTable();
+                    }
+                    else {
+                        this.showTimeRuleDialog();
+                    }
+//                    this.showTimeRuleDialog();
                 }
             },
             editRow() {
-                if (_.isEmpty(this.timeRuleData)) {
-                    alert(go_i18nLang["SystemCommon"].SelectData);
+                let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
+                if (lo_funcList['1010'] != 'LITE') {
+                    if (_.isEmpty(this.timeRuleData)) {
+                        alert(go_i18nLang["SystemCommon"].SelectData);
+                    }
+                    else {
+                        this.showTimeRuleDialog();
+                    }
                 }
-                else {
-                    this.showTimeRuleDialog();
-                }
+//                if (_.isEmpty(this.timeRuleData)) {
+//                    alert(go_i18nLang["SystemCommon"].SelectData);
+//                }
+//                else {
+//                    this.showTimeRuleDialog();
+//                }
             },
             //日期規則
             showTimeRuleDialog() {

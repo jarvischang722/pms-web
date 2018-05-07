@@ -23,13 +23,13 @@ module.exports = {
      * @param callback
      */
     qry_key_nos: function (postData, session, callback) {
-        var lo_result = new ReturnClass();
-        var lo_error = null;
+        let lo_result = new ReturnClass();
+        let lo_error = null;
 
         lo_result.defaultValues = commandRules.getCreateCommonDefaultDataRule(session);
-
-        var lo_max_key_nos = 0;
-        for (i = 0; i < postData.gridDataInfo.rows.length; i++) {
+        let la_rows = postData.gridDataInfo.rows || [];
+        let lo_max_key_nos = 0;
+        for (i = 0; i < la_rows.length; i++) {
             var lo_current_key_nos = Number(postData.gridDataInfo.rows[i].key_nos);
             if (lo_current_key_nos > lo_max_key_nos) {
                 lo_max_key_nos = lo_current_key_nos;
