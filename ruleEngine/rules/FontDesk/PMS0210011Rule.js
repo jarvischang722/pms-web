@@ -162,6 +162,11 @@ module.exports = {
         if (postData.oriSingleData[0].status_cod == "V" && (postData.singleRowData[0].status_cod != "V" && postData.singleRowData[0].status_cod != "B")) {
             lo_return.effectValues["vip_sta"] = 0;
         }
+        // if(postData.oriSingleData[0].status_cod == "V" && postData.singleRowData[0].status_cod == "B"){
+        //     lo_return.showConfirm = true;
+        //     lo_return.confirmMsg = commonRule.getMsgByCod("pms21msg3", session.locale);
+        //     lo_return.effectValues["vip_sta"] = 0;
+        // }
 
         callback(lo_error, lo_return);
     },
@@ -200,7 +205,6 @@ module.exports = {
                     }
                 }
             });
-            console.log(ls_ch_str, ls_en_str);
         }
         //若姓名中僅有一個或無逗點，則檢查姓名中是否有中文
         else {
@@ -408,7 +412,7 @@ module.exports = {
                 lo_return.success = false;
                 lo_error.errorMsg = err;
             }
-            else if(result != null) {
+            else if (result != null) {
                 lo_return.effectValues = {
                     live_cod: postData.singleRowData[0].contry_cod,
                     lang_cod: result.lang_cod
@@ -447,7 +451,7 @@ module.exports = {
 
         //3.若客戶索引檔來源資料表為住客歷史,才同步異動cust_idx.cust_sta
         if (postData.singleRowData[0]["cust_idx.from_table"] == 'GHIST_MN') {
-            lo_return.effectValues["cust_idx.cust_sta"] = ln_new_vip_sta;
+            lo_return.effectValues["cust_idx.cust_sta"] = lo_return.effectValues.status_cod;
         }
 
         callback(lo_error, lo_return);

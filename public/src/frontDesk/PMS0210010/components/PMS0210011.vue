@@ -552,6 +552,10 @@
                     this.oriSingleData["cust_idx.sex_typ"] = _.isNull(this.oriSingleData["cust_idx.sex_typ"]) ? val["cust_idx.sex_typ"] : this.oriSingleData["cust_idx.sex_typ"];
                     val.sex_typ = val["cust_idx.sex_typ"];
 
+                    //生日
+                    val["cust_idx.birth_dat"] = val["cust_idx.birth_dat"] == "" ? "" : moment(val["cust_idx.birth_dat"]).format("YYYY/MM/DD");
+                    val.birth_dat = val["cust_idx.birth_dat"];
+
                     //訂房公司影響統一編號,發票抬頭
                     if (!_.isNull(val.acust_cod) && !_.isUndefined(val.acust_cod)) {
                         if (val.acust_cod.trim() != "") {
@@ -647,21 +651,24 @@
                             //是否要show出詢問視窗
                             if (result.showConfirm) {
                                 if (confirm(result.confirmMsg)) {
-                                } else {
+                                    self.singleData = _.extend(self.singleData, result.effectValues);
+                                }
+                                else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
                                         $.post(result.ajaxURL, postData, function (result) {
-
                                             if (!result.success) {
                                                 alert(result.errorMsg);
-                                            } else {
-
+                                            }
+                                            else {
                                                 if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
                                                     self.singleData = _.extend(self.singleData, result.effectValues);
                                                 }
-
                                             }
                                         });
+                                    }
+                                    else {
+                                        self.singleData = self.chgSingleData
                                     }
                                 }
                             }
@@ -715,6 +722,8 @@
                         template_id: "gridsingle",
                         searchCond: {gcust_cod: this.rowData.gcust_cod}
                     }).then(result => {
+                        result.gsMnData.rowData[0]["cust_idx.birth_dat"] = result.gsMnData.rowData[0]["cust_idx.birth_dat"] == "" ? "" : moment(result.gsMnData.rowData[0]["cust_idx.birth_dat"]).format("YYYY/MM/DD");
+                        
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.setGlobalGcustCod();

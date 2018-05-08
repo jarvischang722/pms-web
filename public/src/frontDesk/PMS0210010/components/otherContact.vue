@@ -373,7 +373,7 @@
                     tab_page_id: 3,
                     searchCond: {cust_cod: this.$store.state.gs_gcustCod}
                 }).then(result => {
-                    this.addressFieldsData = result.dgFieldsData;
+                    this.addressFieldsData = _.sortBy(result.dgFieldsData, "col_seq");
                     this.addressDataGridRows = result.dgRowData;
                     this.oriAddressDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
 
