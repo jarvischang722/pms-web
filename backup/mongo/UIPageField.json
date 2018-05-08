@@ -15331,7 +15331,7 @@
     "label_width" : "90", 
     "width" : NumberInt(106), 
     "visiable" : "Y", 
-    "modificable" : "Y", 
+    "modificable" : "N", 
     "requirable" : "N", 
     "keyable" : "", 
     "multi_lang_table" : "", 
