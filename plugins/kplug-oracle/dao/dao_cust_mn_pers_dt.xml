@@ -33,8 +33,8 @@
         <statement><![CDATA[
 			select  'n' primary_pers, cust_idx.alt_nam, cust_mn_pers_dt.dept_nam, cust_mn_pers_dt.role_cod,
             cust_mn_pers_dt.job_sta, cust_idx.mobile_nos, cust_idx.office_tel, cust_idx.home_tel,
-            cust_idx.fax_nos, cust_idx.e_mail, cust_mn_pers_dt.remark, cust_mn_pers_dt.quit_dat,
-            cust_idx.sex_typ, cust_idx.birth_dat, cust_mn_pers_dt.seq_nos, cust_mn_pers_dt.per_cust_cod
+            cust_idx.fax_nos, cust_idx.e_mail, cust_mn_pers_dt.remark, cust_mn_pers_dt.quit_dat,cust_mn_pers_dt.athena_id,
+            cust_idx.sex_typ, cust_idx.birth_dat, cust_mn_pers_dt.seq_nos, cust_mn_pers_dt.per_cust_cod, cust_mn_pers_dt.cust_cod
             from  cust_mn_pers_dt
             left join cust_idx on cust_mn_pers_dt.athena_id = cust_idx.athena_id
             where cust_mn_pers_dt.per_cust_cod = cust_idx.cust_cod

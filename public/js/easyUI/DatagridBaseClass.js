@@ -259,7 +259,8 @@ function DatagridBaseClass() {
                 prg_id: self.prg_id,
                 page_id: self.fieldsData[0].page_id || 1,
                 tab_page_id: self.fieldsData[0].tab_page_id || 1,
-                allRows: $('#' + self.dgName).datagrid('getRows')
+                allRows: $('#' + self.dgName).datagrid('getRows'),
+                mnRowData: self.mnRowData
             };
 
             $.post("/api/handleDataGridAddEventRule", lo_param, function (result) {
@@ -328,7 +329,6 @@ function DatagridBaseClass() {
 
     };
 
-
     /**
      * 儲存個人化欄位屬性
      */
@@ -379,7 +379,7 @@ function DatagridBaseClass() {
         //判斷資料有無在暫存裡, 如果有先刪掉
         var existIdx = _.findIndex(self.tmpCUD[dataType], condKey);
         if (existIdx > -1) {
-            if (this.dtOriRowData.length != 0) {
+            if (this.dtOriRowData.length != 0 && dataType == "updateData") {
                 self.tmpCUD.oriData.splice(existIdx, 1);
             }
             this.tmpCUD[dataType].splice(existIdx, 1);
@@ -396,6 +396,7 @@ function DatagridBaseClass() {
                 lo_chkKeyRowData = this.insertKeyRowData(lo_chkKeyRowData);
                 self.tmpCUD[dataType].splice(existOriIdx, 0, lo_chkKeyRowData);
                 self.tmpCUD.oriData.splice(existOriIdx, 0, self.dtOriRowData[index]);
+
                 $("#gridEdit").val(self.tmpCUD);
             }
             else if (dataType == "createData") {
@@ -411,7 +412,6 @@ function DatagridBaseClass() {
             self.tmpCUD[dataType].push(lo_chkKeyRowData);
             $("#gridEdit").val(self.tmpCUD);
         }
-
     };
 
     this.insertKeyRowData = function (lo_chkKeyRowData) {
