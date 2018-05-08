@@ -402,20 +402,23 @@ a
     width: 100%
 
 /*-- singleGridDialogTmp 新增權限 --*/
-#singleGridDialog
+.dialog-fixed
   position: relative
   overflow-y: hidden
   .singleRelative
     position: relative
   .singleEditStatus
-    padding-left: 5px
-    position: absolute
-    top: 5px
+    //padding-left: 5px
+    position: fixed
+    margin-left: -30px
+    //position: absolute
+    //top: 5px
+    &.ml-spc1
+      margin-left: -5px
     .btn-defaultWidth
-      display: block
-      max-width: 85px
-      right: 11px
-      padding: 5px
+      //display: block
+      //max-width: 85px
+      padding: 3px 9px
   // TODO
   // resize dialog can not correct
   .singleGridContent

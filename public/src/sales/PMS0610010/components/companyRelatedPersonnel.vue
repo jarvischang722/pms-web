@@ -56,12 +56,13 @@
     export default {
         name: 'related-personnel',
         props: ["rowData", "isRelatedPersonnel"],
-        created(){
-            this.$eventHub.$on("endRpEdit", ()=>{
-                if(!_.isEmpty(this.dgIns)){
+        created() {
+            this.$eventHub.$on("endRpEdit", () => {
+                if (!_.isEmpty(this.dgIns)) {
                     this.dgIns.endEditing();
-                    _.each(this.dgIns.tmpCUD, (value, key)=>{
-                        _.each(value, (lo_value, idx)=>{
+                    //確認tmpCUD 的cust_cod
+                    _.each(this.dgIns.tmpCUD, (value, key) => {
+                        _.each(value, (lo_value, idx) => {
                             this.dgIns.tmpCUD[key][idx] = _.extend(lo_value, {cust_cod: this.$store.state.gs_custCod});
                         });
                     });
@@ -87,7 +88,7 @@
             isRelatedPersonnel(val) {
                 if (val) {
                     //第一次載入相關人員
-                    if(_.isEmpty(this.$store.state.go_allData.ga_rpDataGridRowsData)){
+                    if (_.isEmpty(this.$store.state.go_allData.ga_rpDataGridRowsData)) {
                         this.initData();
                     }
                     this.fetchFieldData();
@@ -96,7 +97,7 @@
             },
             dataGridRowsData: {
                 handler: function (val) {
-                    if(!_.isEmpty(val)){
+                    if (!_.isEmpty(val)) {
                         //將相關人員資料放至Vuex
                         this.$store.dispatch("setRpDataGridRowsData", {
                             ga_rpDataGridRowsData: val,
@@ -130,14 +131,18 @@
                 }).then(result => {
                     //取得主要聯絡人資料
                     var lo_mnSingleData = this.$store.state.go_allData.go_mnSingleData;
-                    var ln_primaryIndex = _.findIndex(result.dgRowData, {seq_nos: lo_mnSingleData.cust_mn_atten_cod});
+                    var ln_primaryIndex = _.findIndex(result.dgRowData, {seq_nos: lo_mnSingleData.atten_cod});
                     if (ln_primaryIndex > -1) {
                         result.dgRowData[ln_primaryIndex].primary_pers = 'Y';
                     }
-                    this.searchFields = result.searchFields;
+                    //調整主要聯絡人值
+                    _.each(result.dgRowData, (lo_dgRowData, idx) => {
+                        result.dgRowData[idx].primary_pers = lo_dgRowData.primary_pers == 'n' ? 'N' : lo_dgRowData.primary_pers;
+                    });
+
                     this.fieldsData = result.dgFieldsData;
                     //第一次載入此頁面
-                    if(_.isEmpty(this.$store.state.go_allData.ga_rpDataGridRowsData)){
+                    if (_.isEmpty(this.$store.state.go_allData.ga_rpDataGridRowsData)) {
                         this.dataGridRowsData = result.dgRowData;
                         this.dataGridRowsDataOfStaff = _.filter(result.dgRowData, lo_dgRowData => {
                             return lo_dgRowData.job_sta != 'Q'
@@ -145,9 +150,9 @@
                         this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                         this.showDataGrid(this.dataGridRowsData);
                     }
-                    else{
+                    else {
                         this.dataGridRowsData = this.$store.state.go_allData.ga_rpDataGridRowsData;
-                        this.dataGridRowsDataOfStaff = _.filter( this.$store.state.go_allData.ga_rpDataGridRowsData, lo_dgRowData => {
+                        this.dataGridRowsDataOfStaff = _.filter(this.$store.state.go_allData.ga_rpDataGridRowsData, lo_dgRowData => {
                             return lo_dgRowData.job_sta != 'Q'
                         });
                         this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_rpDataGridRowsData;
@@ -160,6 +165,7 @@
                 this.dgIns = new DatagridBaseClass();
                 this.dgIns.init("PMS0610020", "relatedPerson_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
                 this.dgIns.loadDgData(dataGridRowsData);
+                this.dgIns.updateMnRowData(this.$store.state.go_allData.go_mnSingleData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
                 this.isLoading = false;
             },

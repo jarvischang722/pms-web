@@ -1255,7 +1255,8 @@ var PMS0820020VM = new Vue({
             this.initDatePicker();
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
             // gridWt = $('.singleGridContent .grid-item label').width() + $('.singleGridContent .grid-item input').width() +14;
-            var dialogWt = this.maxWidth + 120;
+            var btnWt = $('.right-menu-co').outerWidth();
+            var dialogWt = this.maxWidth + btnWt;
             var height = 10 * 50; // 預設一個row 高度
             var dialog = $("#sigleGridPMS0820020").dialog({
                 autoOpen: false,

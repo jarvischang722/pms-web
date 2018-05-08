@@ -509,7 +509,12 @@ module.exports = {
                 let ls_perCustCod = "CSP" + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
                 let la_allRows = _.isUndefined(postData.allRows) ? [{}] : _.sortBy(postData.allRows, "seq_nos");
                 let ln_seq_nos = Number(la_allRows[la_allRows.length - 1].seq_nos) || 0;
-                lo_result.defaultValues = {per_cust_cod: ls_perCustCod, seq_nos: ln_seq_nos + 1};
+                lo_result.defaultValues = {
+                    athena_id: session.user.athena_id,
+                    per_cust_cod: ls_perCustCod,
+                    seq_nos: ln_seq_nos + 1,
+                    cust_cod: postData.mnRowData.cust_cod
+                };
             }
             callback(lo_error, lo_result);
         });
@@ -937,7 +942,7 @@ module.exports = {
                     la_examData.push(lo_dtCreateData);
                 }
             });
-            if(la_examData.length > 0){
+            if (la_examData.length > 0) {
                 _.each(la_examData, function (lo_examData) {
                     let lo_params = {
                         athena_id: userInfo.athena_id,
@@ -971,7 +976,7 @@ module.exports = {
                     });
                 });
             }
-            else{
+            else {
                 cb(lo_error, lo_result);
             }
         }

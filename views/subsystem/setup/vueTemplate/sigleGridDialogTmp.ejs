@@ -1,6 +1,7 @@
 <!-- 單檔彈出視窗 -->
 <script type="text/x-template" id="sigleGridDialogTmp">
-    <div id="singleGridDialog" v-show="false" v-loading="$parent.isSaving" element-loading-text="Saving">
+    <div id="singleGridDialog" class="dialog-fixed" v-show="false" v-loading="$parent.isSaving"
+         element-loading-text="Saving">
         <div class="singleGridContent padding-5">
             <div class="col-sm-12 col-xs-12 ">
                 <div class="row">
@@ -146,9 +147,7 @@
                                 </div>
                             </form>
                             <!-- End Content -->
-
                         </div>
-
                     </div>
                     <!-- Control Panel -->
                     <div class="col-sm-1 col-xs-1 singleRelative">

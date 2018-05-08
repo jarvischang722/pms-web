@@ -28,56 +28,61 @@
                             <div class="col-xs-8 col-sm-8">
                                 <div class="row main-content-data">
                                     <div class="horizTable-outer">
-                                        <table id="PMS0830070_dt" class="css_table horizTable PMS0830070_table" style="width:100%;">
+                                        <table id="PMS0830070_dt" class="css_table horizTable PMS0830070_table"
+                                               style="width:100%;">
                                             <thead class="css_thead">
-                                                <tr class="css_tr">
-                                                    <th class="ccs_th width-5 center">
-                                                        <i class="fa fa-plus green" id="addDtDetail" type="submit" name="addDtDetail" value="新增明細" @click="btnAddDtDetail"></i>
-                                                        <!--<button class="btn btn-primary btn-white btn-defaultWidth margin-top5"-->
-                                                        <!--&gt;-->
-                                                        <!--新增明細-->
-                                                        <!--</button>-->
-                                                    </th>
-                                                    <th class="css_th width-8">序號</th>
-                                                    <th class="css_th width-75">虛擬帳單類別</th>
-                                                    <th class="css_th width-10"></th>
-                                                </tr>
+                                            <tr class="css_tr">
+                                                <th class="ccs_th width-5 center">
+                                                    <i class="fa fa-plus green" id="addDtDetail" type="submit"
+                                                       name="addDtDetail" value="新增明細" @click="btnAddDtDetail"></i>
+                                                    <!--<button class="btn btn-primary btn-white btn-defaultWidth margin-top5"-->
+                                                    <!--&gt;-->
+                                                    <!--新增明細-->
+                                                    <!--</button>-->
+                                                </th>
+                                                <th class="css_th width-8">序號</th>
+                                                <th class="css_th width-75">虛擬帳單類別</th>
+                                                <th class="css_th width-10"></th>
+                                            </tr>
                                             </thead>
 
                                             <tbody class="css_tbody">
-                                                <tr class="css_tr defHt" v-for="(item, index) in singleDataDt">
+                                            <tr class="css_tr defHt" v-for="(item, index) in singleDataDt">
 
-                                                    <td class="css_td center">
-                                                        <!--<div class="checkbox float-right open-cardDetail">-->
-                                                        <!--<label class="no-padding-left">-->
-                                                        <!--<input type="checkbox"-->
-                                                        <!--class="ace" :value="item.seq_nos" v-model="deleteDtTmp"/>-->
-                                                        <!--<span class="lbl"></span>-->
-                                                        <!--</label>-->
-                                                        <!--</div>-->
-                                                        <i class="fa fa-minus red" id="deleteDtDetail" name="deleteDtDetail" @click="btnDeleteDtDetail(item.seq_nos)"></i>
+                                                <td class="css_td center">
+                                                    <!--<div class="checkbox float-right open-cardDetail">-->
+                                                    <!--<label class="no-padding-left">-->
+                                                    <!--<input type="checkbox"-->
+                                                    <!--class="ace" :value="item.seq_nos" v-model="deleteDtTmp"/>-->
+                                                    <!--<span class="lbl"></span>-->
+                                                    <!--</label>-->
+                                                    <!--</div>-->
+                                                    <i class="fa fa-minus red" id="deleteDtDetail" name="deleteDtDetail"
+                                                       @click="btnDeleteDtDetail(item.seq_nos)"></i>
 
-                                                        <!--<button class="btn btn-primary btn-white btn-defaultWidth margin-top5"-->
-                                                        <!--&gt;刪除明細-->
-                                                        <!--</button>-->
-                                                    </td>
+                                                    <!--<button class="btn btn-primary btn-white btn-defaultWidth margin-top5"-->
+                                                    <!--&gt;刪除明細-->
+                                                    <!--</button>-->
+                                                </td>
 
-                                                    <td class="css_td">
-                                                        <input class="input-medium medium-c1 width-100" type="text" name="seqNos" disabled
-                                                               @click="qrySelectedItemNos(item)" v-model="item.seq_nos">
-                                                    </td>
-                                                    <td class="css_td">
-                                                        <input class="input-medium medium-c1 width-100" type="text" name="itemNam"
-                                                               @click="qrySelectedItemNos(item)" v-model="item.item_nam"
-                                                               @keyup="updateDtData(item)">
-                                                    </td>
+                                                <td class="css_td">
+                                                    <input class="input-medium medium-c1 width-100" type="text"
+                                                           name="seqNos" disabled
+                                                           @click="qrySelectedItemNos(item)" v-model="item.seq_nos">
+                                                </td>
+                                                <td class="css_td">
+                                                    <input class="input-medium medium-c1 width-100" type="text"
+                                                           name="itemNam"
+                                                           @click="qrySelectedItemNos(item)" v-model="item.item_nam"
+                                                           @keyup="updateDtData(item)">
+                                                </td>
 
-                                                    <td class="css_td">
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                @click="openDt2(item)">...
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                                <td class="css_td">
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            @click="openDt2(item)">...
+                                                    </button>
+                                                </td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -85,19 +90,20 @@
                             </div>
                             <div class="col-xs-4 col-sm-4">
                                 <div class="horizTable-outer">
-                                    <table id="PMS0830070_dt2" class="css_table horizTable PMS0830070_table" style="width: 100%;">
+                                    <table id="PMS0830070_dt2" class="css_table horizTable PMS0830070_table"
+                                           style="width: 100%;">
                                         <thead class="css_thead">
-                                            <tr class="css_tr">
-                                                <th class="css_th defHt width-20">序號</th>
-                                                <th class="css_th defHt width-80">服務項目</th>
-                                            </tr>
+                                        <tr class="css_tr">
+                                            <th class="css_th defHt width-20">序號</th>
+                                            <th class="css_th defHt width-80">服務項目</th>
+                                        </tr>
                                         </thead>
 
                                         <tbody class="css_tbody">
-                                            <tr class="css_tr" v-for="(item,index) in dtSelItemNosShowList">
-                                                <td class="css_td defHt">{{item.seq_nos}}</td>
-                                                <td class="css_td defHt">{{item.item_sna}}</td>
-                                            </tr>
+                                        <tr class="css_tr" v-for="(item,index) in dtSelItemNosShowList">
+                                            <td class="css_td defHt">{{item.seq_nos}}</td>
+                                            <td class="css_td defHt">{{item.item_sna}}</td>
+                                        </tr>
                                         </tbody>
                                     </table>
 
@@ -105,9 +111,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-1 col-sm-1 singleRelative">
+                    <div class="col-xs-1 col-sm-1">
                         <div class="row">
-                            <div class="singleEditStatus right-menu-co">
+                            <div class="right-menu-co">
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -128,11 +134,11 @@
                 </div>
             </div>
             <!--<div class="col-xs-12 col-sm-12 margin-top10">-->
-                <!--<div id="dialgBtns">-->
-                    <!--<div class="singleBtnBottom">-->
+            <!--<div id="dialgBtns">-->
+            <!--<div class="singleBtnBottom">-->
 
-                    <!--</div>-->
-                <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
             <!--</div>-->
 
             <!--跳出DT的DT視窗-->
@@ -157,7 +163,8 @@
                                         <!--:disabled="item.disabled =='true' " name="chk" id="ckItem"-->
                                         <!--@click="chkAdjfolioData(index,item.checking)">-->
                                         <input type="checkbox" :checked="item.checked"
-                                               :disabled="item.disabled" :value="item.item_nos" @click="updateCheckData(item, index)">
+                                               :disabled="item.disabled" :value="item.item_nos"
+                                               @click="updateCheckData(item, index)">
                                     </form>
                                 </td>
                                 <td class="css_td">{{item.item_nos}}</td>
@@ -171,7 +178,8 @@
                 <div>
                     <el-row>
                         <el-col>
-                            <el-button @click="dialogServiceItemVisible=false"><%= __("SystemCommon").Cancel %></el-button>
+                            <el-button
+                                    @click="dialogServiceItemVisible=false"><%= __("SystemCommon").Cancel %></el-button>
                             <el-button @click="dialogServiceItemVisible=false"><%= __("SystemCommon").OK %></el-button>
                         </el-col>
                     </el-row>
