@@ -5,37 +5,13 @@
             <span class="menu-text"> <%= session.activeSystem["name_" + session.locale] %> </span>
         </a>
     </li>
-    <li class="nav-height" v-for="mdlItem in moduleMenu"  :class="{open : isOpenModule == mdlItem.mdl_id}" >
-        <template v-if="mdlItem.group_sta == 'N'">
-            <a href="#" class="dropdown-toggle">
+    <li class="nav-height" v-for="rptItem in reportMenu" :class="{open : isOpenModule == rptItem.mdl_id}">
+
+        <template >
+            <a @click="window.open('?prg_id='+rptItem.mdl_id)" class="dropdown-toggle">
                 <i class="menu-icon fa fa-desktop"></i>
                 <span class="menu-text">
-                    <!-- 模組名稱 -->
-                {{mdlItem["mdl_name_" + locale]  ?  mdlItem["mdl_name_" + locale] : mdlItem.mdl_name}}
-            </span>
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
-
-            <ul class="submenu">
-                <li v-for="proItem in mdlItem.processMenu"
-                    v-if="proItem.flag2_sta == 'Y'"
-                    >
-                    <a @click="window.open('?prg_id='+proItem.pro_id)"
-                       target="_blank">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        <!-- 作業名稱 -->
-                        {{proItem["pro_name_" + locale]}}
-                    </a>
-                </li>
-            </ul>
-        </template>
-
-        <template v-else>
-            <a @click="window.open('?prg_id='+mdlItem.mdl_id)" class="dropdown-toggle">
-                <i class="menu-icon fa fa-desktop"></i>
-                <span class="menu-text">
-                        <!-- 模組名稱 -->
-                    {{mdlItem["mdl_name_" + locale]  ?  mdlItem["mdl_name_" + locale] : mdlItem.mdl_name}}
+                    {{rptItem.mdl_name}}
                 </span>
             </a>
         </template>

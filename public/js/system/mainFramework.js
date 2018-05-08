@@ -10,6 +10,7 @@ let BacchusMainVM = new Vue({
         locale: gs_locale,
         moduleMenu: [],
         quickMenu: [],
+        reportMenu: [],
         subsysMenu: [],
         activeSystem: {},
         isOpenModule: "", //打開的模組 ex: PMS0001000
@@ -51,7 +52,9 @@ let BacchusMainVM = new Vue({
 
         //When click the #MainContentDiv's area , usingSubsysID changed back to current process's subsystem id
         $("#MainContentDiv").click(function () {
-            self.usingSubsysID = self.getSubsysIDOfPrgID(self.usingPrgID);
+            if(!_.isEmpty(self.getSubsysIDOfPrgID(self.usingPrgID))){
+                self.usingSubsysID = self.getSubsysIDOfPrgID(self.usingPrgID);
+            }
         });
 
         this.doCheckOnlineUser();
@@ -68,9 +71,11 @@ let BacchusMainVM = new Vue({
             if (lo_subsysMenu) {
                 this.quickMenu = lo_subsysMenu.quickMenu;
                 this.moduleMenu = lo_subsysMenu.mdlMenu;
+                this.reportMenu = lo_subsysMenu.reportMenu;
             } else {
                 this.quickMenu = [];
                 this.moduleMenu = [];
+                this.reportMenu = [];
             }
 
             if (this.oldSubsysID == "") {
@@ -189,26 +194,30 @@ let BacchusMainVM = new Vue({
             if (!_.isEmpty(prg_id)) {
                 $("#MainContentDiv").html("");
             }
-            _.each(this.moduleMenu, function (mdl) {
-                if (mdl.group_sta == 'N') {
-                    let lo_pro = _.findWhere(mdl.processMenu, {pro_id: prg_id}) || {};
-                    if (_.size(lo_pro) > 0) {
-                        BacchusMainVM.isOpenModule = mdl.mdl_id;
-                        ls_pro_url = lo_pro.pro_url;
+            if (_.findIndex(this.reportMenu, {mdl_id: prg_id}) > -1) {
+                ls_pro_url = _.findWhere(this.reportMenu, {mdl_id: prg_id}).mdl_url;
+            } else {
+                _.each(this.moduleMenu, function (mdl) {
+                    if (mdl.group_sta == 'N') {
+                        let lo_pro = _.findWhere(mdl.processMenu, {pro_id: prg_id}) || {};
+                        if (_.size(lo_pro) > 0) {
+                            BacchusMainVM.isOpenModule = mdl.mdl_id;
+                            ls_pro_url = lo_pro.pro_url;
+                        }
+                    } else {
+                        if (mdl.mdl_id == prg_id) {
+                            ls_pro_url = mdl.mdl_url;
+                        }
                     }
-                } else {
-                    if (mdl.mdl_id == prg_id) {
-                        ls_pro_url = mdl.mdl_url;
-                    }
-                }
-            });
+                });
+            }
             if (_.isEmpty(ls_pro_url)) {
                 let tmpQuick = _.findWhere(this.quickMenu, {pro_id: prg_id});
                 if (tmpQuick) {
                     ls_pro_url = tmpQuick.pro_url;
                 }
             }
-            ls_pro_url = "/report";
+
             if (!_.isEmpty(ls_pro_url)) {
                 this.usingPrgID = prg_id;
                 $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());

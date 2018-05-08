@@ -182,16 +182,39 @@
     <!-- 抓取process -->
     <dao name="QRY_S99_PROCESS_BY_SYS_MODULE">
         <statement><![CDATA[
-         select pro.* ,mdl.mdl_name,mdl.mdl_name as mdl_name_zh_TW , mdl_ename as mdl_name_en , mdl.group_sta, mdl.mdl_url, brf.edition
+         select DISTINCT pro.* ,mdl.mdl_name,mdl.mdl_name as mdl_name_zh_TW , mdl_ename as mdl_name_en , mdl.group_sta, mdl.mdl_url, brf.edition
          from s99_process pro
          inner join s99_model mdl on mdl.SYS_ID = pro.SYS_ID and mdl.mdl_id = pro.mdl_id
          inner join bac_role_function  brf on brf.current_id =  pro.pro_id
          where pro.SYS_ID = :sys_id
+         and func_athena_id = :athena_id
+         and trim(brf.func_hotel_cod) = :hotel_cod
         ]]>
         </statement>
         <parameter type="string" kind="3">sys_id</parameter>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <orderby>order by pro.mdl_id, pro.pro_id, pro.SORT_COD</orderby>
     </dao>
+
+    <!-- 抓取所有報表 -->
+    <dao name="QRY_ALL_REPORT_BY_SYS_ID">
+        <statement><![CDATA[
+        select *
+        from bac_role_function  brf
+        inner join s99_model mdl  on mdl.MDL_ID  = brf.current_id
+        where mdl.sys_id = :sys_id
+        and group_sta = 'R'
+        and func_hotel_cod = :hotel_cod
+        and func_athena_id= :athena_id
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">sys_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <orderby>order by mdl_id</orderby>
+    </dao>
+
 
     <!-- 撈取某支作業全部功能權限 -->
     <dao name="QRY_PROCESS_USER_FUNC_PURVIEW">
