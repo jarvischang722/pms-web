@@ -1100,7 +1100,7 @@ module.exports = {
                             {
                                 key: 'show_cod',
                                 operation: "=",
-                                value: lo_mnOriData.show_cod
+                                value: lo_dtUpdateData.per_cust_cod
                             }
                         ],
                         athena_id: userInfo.athena_id,
