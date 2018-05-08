@@ -137,20 +137,30 @@
 <!--  /.End subSystem 共用 js  -->
 
 <script>
-    let locale = '<%= session.locale %>'
+    let gs_mdl_id = '<%= mdl_id %>';
+    let gs_locale = '<%= session.locale %>';
+    console.log(gs_mdl_id);
     new Vue({
         el: "#report-app",
         data: {
+            searchFields: [],
             pdfUrl: '',
-            pdfUrl2: 'pdfUrl2pdfUrl2pdfUrl2',
             loading: false
         },
         mounted() {
-
+            this.doSearchFields();
         },
         methods: {
+            doSearchFields() {
+                $.post('/api/fetchOnlySearchFieldsData', {prg_id: gs_mdl_id}, (result) => {
+                    if (result.success) {
+                        this.searchFields = result.searchFieldsData;
+                        console.log(  this.searchFields);
+                    }
+                });
+            },
             doGenReport: function () {
-                let url = locale == 'zh_TW' ? 'https://dev.linktravel.tw/bacchus/images/temPdf/10254227647542307746136201805080010050.pdf' : 'http://dev.linktravel.tw/bacchus/images/temPdf/10208373264601184583063201805080012019.pdf';
+                let url = gs_locale == 'zh_TW' ? 'https://dev.linktravel.tw/bacchus/images/temPdf/10254227647542307746136201805080010050.pdf' : 'http://dev.linktravel.tw/bacchus/images/temPdf/10208373264601184583063201805080012019.pdf';
                 let self = this;
                 self.loading = true;
                 setTimeout(() => {

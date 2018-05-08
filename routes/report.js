@@ -1,11 +1,11 @@
 /**
  * Created by jing on 2018/05/07.
  */
-var reportCrtl = require("../controllers/reportController");
-var authMW = require("../middlewares/authMiddleware");
-var sysMW = require("../middlewares/systemMiddleware");
-var i18nMW = require("../middlewares/i18nMiddleware");
-var middles = [i18nMW, authMW, sysMW];
+const reportCrtl = require("../controllers/reportController");
+const authMW = require("../middlewares/authMiddleware");
+const sysMW = require("../middlewares/systemMiddleware");
+const i18nMW = require("../middlewares/i18nMiddleware");
+const middles = [i18nMW, authMW, sysMW];
 
 /* GET  page. */
 module.exports = function (app) {
