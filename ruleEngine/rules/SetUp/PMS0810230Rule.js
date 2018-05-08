@@ -209,11 +209,11 @@ module.exports = {
     async chkOptionID(postData, session) {
         let lo_prgEditionOptions = await permissionSvc.qryPrgEditionOptionList(postData, session);
         console.log(`edition: ${lo_prgEditionOptions.edition}`);
-        if(lo_prgEditionOptions.edition.toLocaleUpperCase() == "BUSINESS"){
+        if (lo_prgEditionOptions.edition.toLocaleUpperCase() == "BUSINESS") {
             postData.push({
                 display: "DAILY",
                 value: "DR"
-            },{
+            }, {
                 display: "PACKAGE",
                 value: "PKG"
             });
