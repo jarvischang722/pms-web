@@ -330,7 +330,7 @@ module.exports = {
                 queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
-                        lo_error = ErrorClass();
+                        lo_error = new ErrorClass();
                         lo_error.errorMsg = err;
                         cb(lo_error, lo_result);
                     }
