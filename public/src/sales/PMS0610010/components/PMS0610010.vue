@@ -494,6 +494,13 @@
                     pcust_idx_show_cod: ""
                 };
             },
+            fetchSearchFields() {
+                $.post('/api/fetchOnlySearchFieldsData', {prg_id: 'PMS0610010'}, (result) => {
+                    if (result.success) {
+                        this.searchFields = result.searchFieldsData;
+                    }
+                });
+            },
             loadDataGridByPrgID() {
                 var self = this;
                 var lo_searchCond = _.clone(this.searchCond);
@@ -591,12 +598,13 @@
                             if (result.success) {
                                 if (result.isChange) {
                                     let lb_confirm = confirm(go_i18nLang.Validation.Formatter.chkDataChang);
-                                    if(lb_confirm){
+                                    if (lb_confirm) {
                                         self.$eventHub.$emit('saveSingleData');
                                     }
                                 }
                             }
                         });
+                        self.fetchSearchFields();
                         // self.doRowUnLock();
                     }
                 }).dialog('open');

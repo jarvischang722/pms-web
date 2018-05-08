@@ -307,13 +307,18 @@
                 //第一次載入相關設定
                 if (_.isEmpty(this.$store.state.go_allData.go_rsSingleData)) {
                     if (this.isCreateStatus) {
+                        let la_typeCodSelectData = _.findWhere(self.oriFieldsData, {ui_field_name: 'type_cod'});
+                        la_typeCodSelectData = _.isUndefined(la_typeCodSelectData) ? [] : la_typeCodSelectData.selectData;
+                        let la_businessCodSelectData = _.findWhere(self.oriFieldsData, {ui_field_name: 'business_cod'});
+                        la_businessCodSelectData = _.isUndefined(la_businessCodSelectData) ? [] : la_businessCodSelectData.selectData;
+
                         this.singleData = {
                             hoffice_cod: self.$store.state.gs_custCod,
                             dm_flag: 'Y',
                             cust_idx_ar_amt: 0,
                             cust_idx_credit_amt: 0,
-                            business_cod: '01  ',
-                            type_cod: '01  ',
+                            business_cod: _.first(la_businessCodSelectData).value,
+                            type_cod: _.first(la_typeCodSelectData).value,
                             area_cod: null
                         };
                         this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
@@ -483,7 +488,7 @@
             },
             //信用額度變更
             async doChangeCreditLimit() {
-                if(this.oriPageTwoFieldsData.length <= 0){
+                if (this.oriPageTwoFieldsData.length <= 0) {
                     await $.post("/api/fetchOnlySinglePageFieldData", {
                         prg_id: "PMS0610020",
                         page_id: 2,
@@ -491,6 +496,8 @@
                     }).then(result => {
                         this.oriPageTwoFieldsData = result.gsFieldsData;
                         this.pageTwoFieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
+                        this.pageTwoFieldsData[1][0].modificable = this.singleData.cust_idx_credit_sta ? 'Y' : 'N';
+                        this.pageTwoFieldsData[2][0].modificable = this.singleData.cust_idx_credit_sta ? 'Y' : 'N';
                     });
                 }
 
