@@ -264,7 +264,7 @@ exports.getSelectGridOption = function (session, typeSelectField, field, callbac
 };
 
 exports.handleRuleExtendFunc = async function (postData, session, fieldsData) {
-    if (_.isUndefined(fieldsData.rule_extend_func_name)) return fieldsData;
+    if (_.isUndefined(fieldsData.rule_extend_func_name)) return postData;
 
     if (_.isArray(fieldsData.rule_extend_func_name)) {
         let lo_result = await execRuleExtendFuncIsArray(postData, session, fieldsData);

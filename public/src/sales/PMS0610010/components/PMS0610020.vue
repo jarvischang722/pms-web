@@ -375,9 +375,9 @@
                         //取得合約狀態說明
                         if (!_.isNull(lo_singleData.contract_sta)) {
                             if (lo_singleData.contract_sta.trim() != "") {
-                                var lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'})
-                                var lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: lo_singleData.contract_sta});
-                                var ls_contractStaDesc = lo_contractSta.display.split(":")[1];
+                                let lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'})
+                                let lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: lo_singleData.contract_sta});
+                                let ls_contractStaDesc = _.isUndefined(lo_contractSta) ? [] : lo_contractSta.display.split(":")[1];
                                 lo_singleData = _.extend(lo_singleData, {status_desc: ls_contractStaDesc});
                                 lo_oriSingleData = _.extend(lo_oriSingleData, {status_desc: ls_contractStaDesc});
                             }
@@ -394,7 +394,7 @@
                         lo_oriSingleData.cust_idx_zip_cod = lo_singleData.cust_idx_zip_cod;
 
                         //若發票抬頭為空的，則將公司名稱帶入
-                        if( lo_singleData.cust_idx_uni_titile == "" || _.isNull(lo_singleData.cust_idx_uni_titile) || _.isUndefined(lo_singleData.cust_idx_uni_titile)){
+                        if (lo_singleData.cust_idx_uni_titile == "" || _.isNull(lo_singleData.cust_idx_uni_titile) || _.isUndefined(lo_singleData.cust_idx_uni_titile)) {
                             this.singleData.cust_idx_uni_titile = lo_singleData.cust_nam;
                         }
 
