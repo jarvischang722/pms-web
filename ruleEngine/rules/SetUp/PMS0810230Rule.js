@@ -197,9 +197,19 @@ module.exports = {
         }
     },
 
+    /**
+     * "『設定類別』下拉多
+     * DR:DAILY
+     * PKG:PACKAGE
+     * 則是Business就有,不是OptionID"
+     * @param postData
+     * @param session
+     * @returns {Promise<*>}
+     */
     async chkOptionID(postData, session) {
         let lo_prgEditionOptions = await permissionSvc.qryPrgEditionOptionList(postData, session);
-        if(lo_prgEditionOptions.edition.toLocaleUpperCase() == "LITE"){
+        console.log(`edition: ${lo_prgEditionOptions.edition}`);
+        if(lo_prgEditionOptions.edition.toLocaleUpperCase() == "BUSINESS"){
             postData.push({
                 display: "DAILY",
                 value: "DR"
