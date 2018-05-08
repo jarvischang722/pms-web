@@ -186,6 +186,7 @@ const actions = {
             dt_oriData: []
         };
 
+        //調整相關設定資料
         let lo_rsSingleData = JSON.parse(JSON.stringify(state.go_allData.go_rsSingleData));
         lo_rsSingleData.ins_dat = moment(new Date(lo_rsSingleData.ins_dat)).format("YYYY/MM/DD HH:mm:ss");
         lo_rsSingleData.cust_idx_credit_amt = go_formatDisplayClass.removeAmtFormat(lo_rsSingleData.cust_idx_credit_amt.toString());
@@ -278,7 +279,18 @@ const actions = {
                 lo_tmpCUD.dt_oriData.push(lo_oriData);
             });
         }
-
+        //調整cust_mn 主檔的主要聯絡人
+        _.each(lo_tmpCUD, (value, key) => {
+            let la_examType = ["dt_createData", "dt_updateData"];
+            let ls_dataTyp = state.gb_isCreateStatus ? "createData" : "updateData";
+            if (_.indexOf(la_examType, key) > -1) {
+                _.each(value, (lo_value, idx) => {
+                    let lo_primaryPerson = _.findWhere(lo_tmpCUD[key], {primary_pers: 'Y'});
+                    lo_tmpCUD[ls_dataTyp][0].atten_cod = _.isUndefined(lo_primaryPerson) ? 1 : lo_primaryPerson.seq_nos;
+                    return;
+                });
+            }
+        });
         console.log(lo_tmpCUD);
         // return {success: true};
         return await $.post('/api/doOperationSave', {

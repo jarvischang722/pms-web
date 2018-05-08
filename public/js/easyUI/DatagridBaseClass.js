@@ -6,6 +6,14 @@
  *
  */
 
+//TODO 暫時解決 dataGrid remove function result.success 為false時, 需用到vueMain
+let vueMain = new Vue({
+    methods: {
+        endEditing() {
+        }
+    }
+});
+
 function DatagridBaseClass() {
     var self = this;
 

@@ -60,6 +60,7 @@
             this.$eventHub.$on("endRpEdit", () => {
                 if (!_.isEmpty(this.dgIns)) {
                     this.dgIns.endEditing();
+                    //確認tmpCUD 的cust_cod
                     _.each(this.dgIns.tmpCUD, (value, key) => {
                         _.each(value, (lo_value, idx) => {
                             this.dgIns.tmpCUD[key][idx] = _.extend(lo_value, {cust_cod: this.$store.state.gs_custCod});
@@ -130,11 +131,15 @@
                 }).then(result => {
                     //取得主要聯絡人資料
                     var lo_mnSingleData = this.$store.state.go_allData.go_mnSingleData;
-                    var ln_primaryIndex = _.findIndex(result.dgRowData, {seq_nos: lo_mnSingleData.cust_mn_atten_cod});
+                    var ln_primaryIndex = _.findIndex(result.dgRowData, {seq_nos: lo_mnSingleData.atten_cod});
                     if (ln_primaryIndex > -1) {
                         result.dgRowData[ln_primaryIndex].primary_pers = 'Y';
                     }
-                    this.searchFields = result.searchFields;
+                    //調整主要聯絡人值
+                    _.each(result.dgRowData, (lo_dgRowData, idx) => {
+                        result.dgRowData[idx].primary_pers = lo_dgRowData.primary_pers == 'n' ? 'N' : lo_dgRowData.primary_pers;
+                    });
+
                     this.fieldsData = result.dgFieldsData;
                     //第一次載入此頁面
                     if (_.isEmpty(this.$store.state.go_allData.ga_rpDataGridRowsData)) {
