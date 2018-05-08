@@ -29,6 +29,7 @@
             prg_dgHt_search = $(window).height() - navHt - menuHt - menuHt3 - searchGridHt - searchPaddHt;  // PMS0810020
             prg_dgHt_searchRow2 = $(window).height() - navHt - menuHt - menuHt3 - (searchGridHt * 2) - searchPaddHt;  // PMS0820020
             tabConHt = $(window).height() - navHt - menuHt;
+            iframeHt = $(window).height() - navHt - menuHt - 70;
             dtTableSetupHt = tabConHt - 70; // 設定檔table 高度 // prg_dgHt 等於
         }
 
@@ -42,6 +43,7 @@
         $(".prg_dgHt_search").css("height", prg_dgHt_search); // PMS0810020
         $(".prg_dgHt_searchRow2").css("height", prg_dgHt_searchRow2); // PMS0820020
         $(".tabConHt").css("height", tabConHt);
+        $(".iframeHt").css("height", iframeHt);
 
 
         // 螢幕縮放時重新抓值
@@ -75,6 +77,7 @@
             });
 
             $(".tabConHt").css("height", tabConHt);
+            $(".iframeHt").css("height", iframeHt);
         });
 
         //.END Resize Table Height // Date:170920
