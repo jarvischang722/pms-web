@@ -170,7 +170,6 @@
                 this.showTable();
             });
             this.$eventHub.$on("setUseTimeRateCod", (data) => {
-                let self = this;
                 this.rateCod = data.rateCod;
                 //修改原始資料的 rate_cod
                 _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
@@ -282,16 +281,18 @@
                     tab_page_id: 1,
                     searchCond: {rate_cod: this.$store.state.gs_oriRateCod}
                 };
+                let ls_apiUrl = lo_params.searchCond.rate_cod == "" ? "/api/fetchOnlyDataGridFieldData" : "/api/fetchDataGridFieldData";
 
-                $.post("/api/fetchDataGridFieldData", lo_params, (result) => {
+                $.post(ls_apiUrl, lo_params).then(result => {
                     if (result.success) {
-                        _.each(result.dgRowData, (lo_dgRowData, idx) => {
-                            result.dgRowData[idx]["begin_dat"] = moment(lo_dgRowData["begin_dat"]).format("YYYY/MM/DD");
-                            result.dgRowData[idx]["end_dat"] = moment(lo_dgRowData["end_dat"]).format("YYYY/MM/DD");
+                        let la_dgRowData = result.dgRowData || [];
+                        _.each(la_dgRowData, (lo_dgRowData, idx) => {
+                            la_dgRowData[idx]["begin_dat"] = moment(lo_dgRowData["begin_dat"]).format("YYYY/MM/DD");
+                            la_dgRowData[idx]["end_dat"] = moment(lo_dgRowData["end_dat"]).format("YYYY/MM/DD");
                         });
                         this.fieldsData = result.dgFieldsData;
-                        this.dataGridRowsData = result.dgRowData;
-                        this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        this.dataGridRowsData = la_dgRowData;
+                        this.oriDataGridRowsData = JSON.parse(JSON.stringify(la_dgRowData));
                         this.showTable();
                         //將資料放入Vuex
                         this.$store.dispatch("setUseTimeData", {
@@ -304,6 +305,8 @@
                     else {
                         alert(result.errorMsg);
                     }
+                }, err => {
+                    throw Error(err)
                 });
             },
             showTable() {
@@ -385,41 +388,6 @@
                         }
                     ];
                 }
-//                this.useTimeColumns = [
-//                    {
-//                        field: 'control',
-//                        title: '<i class="fa fa-plus green pointer"></i>',
-//                        width: 40,
-//                        titleAlign: 'center',
-//                        columnAlign: 'center',
-//                        componentName: 'table-operation',
-//                        isResize: true
-//                    },
-//                    {
-//                        field: 'startDat',
-//                        title: _.findWhere(this.fieldsData, {ui_field_name: 'begin_dat'}).ui_display_name,
-//                        width: 135,
-//                        titleAlign: 'center',
-//                        columnAlign: 'center',
-//                        isResize: true,
-//                    },
-//                    {
-//                        field: 'endDat',
-//                        title: _.findWhere(this.fieldsData, {ui_field_name: 'end_dat'}).ui_display_name,
-//                        width: 135,
-//                        titleAlign: 'center',
-//                        columnAlign: 'center',
-//                        isResize: true,
-//                    },
-//                    {
-//                        field: 'datRule',
-//                        title: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).ui_display_name,
-//                        width: 135,
-//                        titleAlign: 'center',
-//                        columnAlign: 'center',
-//                        isResize: true,
-//                    }
-//                ];
                 this.useTimeData = [];
 
                 let la_displayDataGridRowsData = this.isShowExpire ?
@@ -428,6 +396,7 @@
                         let lo_rentCalDat = moment(this.rentCalDat);
                         return lo_endDat.diff(lo_rentCalDat, 'days') >= 1
                     });
+
                 if (la_displayDataGridRowsData.length > 0) {
                     _.each(la_displayDataGridRowsData, (lo_dataGridRowsData) => {
                         this.useTimeData.push({
@@ -440,7 +409,7 @@
                     });
                 }
                 else {
-                    this.useTimeData = [{}];
+                    this.useTimeData = [{"fieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_option'})}];
                     setTimeout(() => {
                         this.$delete(this.useTimeData, 0);
                     }, 0.1);
@@ -469,13 +438,15 @@
                         let la_commandOption = data.command_option.split(',');
                         if (la_commandOption.length > 1) {
                             _.each(la_commandOption, (ls_commandOption) => {
-                                ls_commandOptionDisplay =
-                                    ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ';
+                                let lo_commandOptionSelected = _.findWhere(la_commandOptionHSelect, {value: ls_commandOption});
+                                ls_commandOptionDisplay = !_.isUndefined(lo_commandOptionSelected) ?
+                                    ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ' : ls_commandOptionDisplay;
                             });
                             ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
                         }
                         else {
-                            ls_commandOptionDisplay = _.findWhere(la_commandOptionHSelect, {value: data.command_option}).display
+                            let lo_commandOptionSelected = _.findWhere(la_commandOptionHSelect, {value: data.command_option});
+                            ls_commandOptionDisplay = !_.isUndefined(lo_commandOptionSelected) ? _.findWhere(la_commandOptionHSelect, {value: data.command_option}).display : ls_commandOptionDisplay;
                         }
                     }
                     else if (data.command_cod == 'W') {
@@ -559,6 +530,12 @@
                 });
             },
             appendRow(title, field) {
+                let la_commandOptionHSelect =
+                    JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay));
+                _.each(la_commandOptionHSelect, (lo_select, idx) => {
+                    la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
+                });
+
                 if (field == "control") {
                     vmHub4EasyTable.$emit('getFieldsData', {
                         fieldsData: this.fieldsData
@@ -574,7 +551,7 @@
                             begin_dat: moment().format("YYYY/MM/DD"),
                             end_dat: moment().format("YYYY/MM/DD"),
                             command_cod: "H",
-                            command_option: "HH",
+                            command_option: _.first(la_commandOptionHSelect).value,
                             event_time: moment().format(),
                             isCreate: true
                         };

@@ -334,7 +334,7 @@ var vm = new Vue({
 
                         vm.getOrderConfirm();
                         vm.initTmpCUD();
-                        alert("save success!");
+                        alert(go_i18nLang.SystemCommon.saveSuccess);
 
                     } else {
                         alert(response.errorMsg);

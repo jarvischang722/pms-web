@@ -127,7 +127,7 @@ function appendFieldSelectData(field, session, callback) {
                 });
             }
             else{
-                dataRuleSvc.getSelectOptions(session.user, selRow, field, function (selectData) {
+                dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
                     field.selectDataDisplay = selectData.selectDataDisplay;
                     field.selectData = selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
                     callback(null, field);

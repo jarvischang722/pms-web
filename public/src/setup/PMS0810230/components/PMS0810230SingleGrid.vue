@@ -98,10 +98,9 @@
                                 <el-tab-pane :label="i18nLang.program.PMS0810230.roomTyp" name="roomTyp">
                                 </el-tab-pane>
                                 <template v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
-                                    <el-tab-pane :label="i18nLang.program.PMS0810230.limitSet" name="limitSet" disabled>
+                                    <el-tab-pane :label="i18nLang.program.PMS0810230.limitSet" name="limitSet">
                                     </el-tab-pane>
-                                    <el-tab-pane :label="i18nLang.program.PMS0810230.promoteSet" name="promoteSet"
-                                                 disabled>
+                                    <el-tab-pane :label="i18nLang.program.PMS0810230.promoteSet" name="promoteSet">
                                     </el-tab-pane>
                                 </template>
                             </el-tabs>
@@ -556,19 +555,16 @@
                                     </li>
                                     <li class="depDateLi" v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_dependantRate"
-                                                disabled
                                                 role="button">{{i18nLang.program.PMS0810230.depRate}}
                                         </button>
                                     </li>
                                     <li class="baseDateLi" v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate"
-                                                disabled
                                                 role="button">{{i18nLang.program.PMS0810230.baseRate}}
                                         </button>
                                     </li>
                                     <li v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_addPpl"
-                                                disabled
                                                 role="button">{{i18nLang.program.PMS0810230.addPol}}
                                         </button>
                                     </li>

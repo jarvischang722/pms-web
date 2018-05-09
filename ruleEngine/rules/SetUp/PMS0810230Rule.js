@@ -11,6 +11,7 @@ let queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
 let commandRules = require("./../CommonRule");
 let ReturnClass = require(ruleRootPath + "/returnClass");
 let ErrorClass = require(ruleRootPath + "/errorClass");
+let permissionSvc = require("./../../../services/permissionService");
 
 module.exports = {
 
@@ -189,9 +190,34 @@ module.exports = {
         }
         callback(lo_error, lo_result);
     },
+
     PMS0810230_templateRf: (page_id, tab_page_id) => {
-        if(page_id == 1 && tab_page_id == 1){
+        if (page_id == 1 && tab_page_id == 1) {
             return "datagrid";
         }
+    },
+
+    /**
+     * "『設定類別』下拉多
+     * DR:DAILY
+     * PKG:PACKAGE
+     * 則是Business就有,不是OptionID"
+     * @param postData
+     * @param session
+     * @returns {Promise<*>}
+     */
+    async chkOptionID(postData, session) {
+        let lo_prgEditionOptions = await permissionSvc.qryPrgEditionOptionList(postData, session);
+        console.log(`edition: ${lo_prgEditionOptions.edition}`);
+        if (lo_prgEditionOptions.edition.toLocaleUpperCase() == "BUSINESS") {
+            postData.push({
+                display: "DAILY",
+                value: "DR"
+            }, {
+                display: "PACKAGE",
+                value: "PKG"
+            });
+        }
+        return postData;
     }
 };

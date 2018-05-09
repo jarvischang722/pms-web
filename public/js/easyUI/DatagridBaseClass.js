@@ -18,7 +18,7 @@ function DatagridBaseClass() {
     this.dgName = "";
     this.prg_id = "";
     this.page_id = 1;
-    this.fieldsData = [];
+    this.fieldsData = [{}];
     this.editIndex = undefined;
     this.mnRowData = {};
     this.dtOriRowData = [];
@@ -57,7 +57,7 @@ function DatagridBaseClass() {
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
             onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
-            onBeforeSortColumn: function(sort, order){
+            onBeforeSortColumn: function (sort, order) {
                 $('#' + dgName).datagrid("loadData", self.dgData);
             },
             onSortColumn: this.doSortColumn,
@@ -87,7 +87,7 @@ function DatagridBaseClass() {
         $('#' + this.dgName).datagrid("loadData", self.dgData);
     };
 
-    this.clearSelection = function(){
+    this.clearSelection = function () {
         $('#' + this.dgName).datagrid("clearSelections");
     };
 
@@ -255,21 +255,13 @@ function DatagridBaseClass() {
         }
         if (self.endEditing()) {
             //設定搜尋條件
-            var lo_param = {};
-            if (this.dtOriRowData.length != 0) {
-                lo_param = {
-                    prg_id: self.prg_id,
-                    page_id: self.fieldsData[0].page_id,
-                    tab_page_id: self.fieldsData[0].tab_page_id
-                };
-            }
-            else {
-                lo_param = {
-                    prg_id: self.prg_id
-                };
-            }
-
-            lo_param['allRows'] = $('#' + self.dgName).datagrid('getRows');
+            var lo_param = {
+                prg_id: self.prg_id,
+                page_id: self.fieldsData[0].page_id || 1,
+                tab_page_id: self.fieldsData[0].tab_page_id || 1,
+                allRows: $('#' + self.dgName).datagrid('getRows'),
+                mnRowData: self.mnRowData
+            };
 
             $.post("/api/handleDataGridAddEventRule", lo_param, function (result) {
                 var prgDefaultObj = {createRow: 'Y'};
@@ -318,34 +310,25 @@ function DatagridBaseClass() {
 
         $("#gridEdit").val(self.tmpCUD);
 
-        var lo_param = {};
-        if (this.dtOriRowData.length != 0) {
-            lo_param = {
-                prg_id: self.prg_id,
-                tab_page_id: self.fieldsData[0].tab_page_id,
-                deleteData: self.tmpCUD.deleteData
-            };
-        }
-        else {
-            lo_param = {
-                prg_id: self.prg_id,
-                deleteData: self.tmpCUD.deleteData
-            };
-        }
+        var lo_param = {
+            prg_id: self.prg_id,
+            tab_page_id: self.fieldsData[0].tab_page_id || 1,
+            deleteData: self.tmpCUD.deleteData
+        };
 
         $.post("/api/handleDataGridDeleteEventRule", lo_param, function (result) {
             if (result.success) {
                 $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
             } else {
                 self.tmpCUD.deleteData = _.without(self.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
-                vueMain.endEditing();
+                //TODO 暫時解決 dataGrid remove function result.success 為false時, 需用到vueMain
+                // vueMain.endEditing();
                 alert(result.errorMsg);
             }
 
         });
 
     };
-
 
     /**
      * 儲存個人化欄位屬性
@@ -397,15 +380,14 @@ function DatagridBaseClass() {
         //判斷資料有無在暫存裡, 如果有先刪掉
         var existIdx = _.findIndex(self.tmpCUD[dataType], condKey);
         if (existIdx > -1) {
-            if (this.dtOriRowData.length != 0) {
+            if (this.dtOriRowData.length != 0 && dataType == "updateData") {
                 self.tmpCUD.oriData.splice(existIdx, 1);
             }
             this.tmpCUD[dataType].splice(existIdx, 1);
         }
 
-        // 作業才需要判斷舊值
+        //判斷資料有無跟原始資料重複
         if (this.dtOriRowData.length != 0) {
-            //判斷資料有無跟原始資料重複
             var existOriIdx = _.findIndex(self.dtOriRowData, condKey);
             if (dataType == "updateData") {
                 if (existOriIdx > -1 && existIdx == -1) {
@@ -415,6 +397,7 @@ function DatagridBaseClass() {
                 lo_chkKeyRowData = this.insertKeyRowData(lo_chkKeyRowData);
                 self.tmpCUD[dataType].splice(existOriIdx, 0, lo_chkKeyRowData);
                 self.tmpCUD.oriData.splice(existOriIdx, 0, self.dtOriRowData[index]);
+
                 $("#gridEdit").val(self.tmpCUD);
             }
             else if (dataType == "createData") {
@@ -425,17 +408,16 @@ function DatagridBaseClass() {
                 }
             }
         }
-        // 設定檔
         else {
+            lo_chkKeyRowData = this.insertKeyRowData(lo_chkKeyRowData);
             self.tmpCUD[dataType].push(lo_chkKeyRowData);
             $("#gridEdit").val(self.tmpCUD);
         }
-
     };
 
     this.insertKeyRowData = function (lo_chkKeyRowData) {
         lo_chkKeyRowData["mnRowData"] = this.mnRowData;
-        lo_chkKeyRowData["tab_page_id"] = this.fieldsData[0].tab_page_id;
+        lo_chkKeyRowData["tab_page_id"] = this.fieldsData[0].tab_page_id || 1;
         lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
         return lo_chkKeyRowData;
     };

@@ -299,7 +299,7 @@ exports.handleSinglePageRowData_PM0620020 = function (session, postData, callbac
                                         fieldData[fIdx].referiable = selRow.referiable || "N";
                                         fieldData[fIdx].defaultVal = selRow.defaultVal || "";
 
-                                        dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
+                                        dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
                                             fieldData[fIdx].selectDataDisplay = selectData.selectDataDisplay;
                                             fieldData[fIdx].selectData =
                                                 selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
@@ -520,7 +520,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                                 });
                                             }
                                             else{
-                                                dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
+                                                dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
                                                     la_saleMnfields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
                                                     la_saleMnfields[fIdx].selectData =
                                                         selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
@@ -670,7 +670,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                         la_hotelDtFields[fIdx].referiable = selRow.referiable || "N";
                                         la_hotelDtFields[fIdx].defaultVal = selRow.defaultVal || "";
 
-                                        dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
+                                        dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
                                             la_hotelDtFields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
                                             la_hotelDtFields[fIdx].selectData =
                                                 selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
@@ -779,7 +779,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                         la_classHsFields[fIdx].referiable = selRow.referiable || "N";
                                         la_classHsFields[fIdx].defaultVal = selRow.defaultVal || "";
 
-                                        dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
+                                        dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
                                             la_classHsFields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
                                             la_classHsFields[fIdx].selectData =
                                                 selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;

@@ -10,7 +10,7 @@
 
   "rules": {
     "semi": 2,
-    // "quotes": [1, "single"], //建議使用單引號
+    "quotes": [1, "double",{"avoidEscape": true}], //建議使用單引號
     "no-extra-boolean-cast": 1, //多餘的感嘆號轉布爾型
     "no-extra-semi": 1, //多餘的分號
     "no-extra-parens": 1, //多餘的括號
@@ -18,7 +18,6 @@
     "no-var": 2, //只能用let or const
     "no-use-before-define": [1, "nofunc"], //使用前未定義
     "complexity": [1, 10], //圈複雜度大於10 警告
-
     //常見錯誤
     "no-console": 1,
     "comma-dangle": [2, "never"], //定義數組或對象最後多餘的逗號

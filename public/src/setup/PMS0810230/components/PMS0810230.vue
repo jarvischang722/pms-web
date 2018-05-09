@@ -239,6 +239,10 @@
         name: 'pms0810230',
         created() {
             var self = this;
+            //取得版本資料
+            BacchusMainVM.doGetVersionData("PMS0810230");
+            this.prgEditionOptions = BacchusMainVM.prgEditionOptions;
+
             this.$eventHub.$on('getTimeRuleData', (timeRuleData) => {
                 this.isOpenTimeRule = timeRuleData.openTimeRule;
                 this.commandOptionSelectOption = JSON.parse(JSON.stringify(timeRuleData.commandOptionSelectOption));
@@ -284,10 +288,6 @@
             this.fetchRentCalDat();//過濾使用期間日期
             this.fetchUserInfo();
             this.loadDataGridByPrgID();
-
-            //取得版本資料
-            BacchusMainVM.doGetVersionData("PMS0810230");
-            this.prgEditionOptions = BacchusMainVM.prgEditionOptions;
         },
         components: {pms0810230SingleGrid, fieldMultiLang},
         data() {

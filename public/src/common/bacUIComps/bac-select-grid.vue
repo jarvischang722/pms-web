@@ -90,6 +90,14 @@
             //塞入欄位資料
             columns: function (val) {
                 this.initComboGrid();
+            },
+            field: {
+                handler: function (val) {
+                    let lb_modificable = val.modificable == 'Y' ? false : true;
+                    $(this.$el).combogrid({disabled: lb_modificable});
+                    this.initComboGrid();
+                },
+                deep: true
             }
         },
         methods: {

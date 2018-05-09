@@ -314,7 +314,7 @@ function saveIntoOracleHolidayRf() {
         .done(function (response) {
             waitingDialog.hide();
             if (response.success) {
-                alert('save success!');
+                alert(go_i18nLang.SystemCommon.saveSuccess);
                 initTmpCUD();
                 getHolidayDateSet();
             } else {

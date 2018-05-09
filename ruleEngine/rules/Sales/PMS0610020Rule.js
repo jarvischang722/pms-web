@@ -507,9 +507,14 @@ module.exports = {
             else {
                 let ls_cod = data["SERIES_NOS"].toString();
                 let ls_perCustCod = "CSP" + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
-                let la_allRows = _.sortBy(postData.allRows, "seq_nos");
+                let la_allRows = _.isUndefined(postData.allRows) ? [{}] : _.sortBy(postData.allRows, "seq_nos");
                 let ln_seq_nos = Number(la_allRows[la_allRows.length - 1].seq_nos) || 0;
-                lo_result.defaultValues = {per_cust_cod: ls_perCustCod, seq_nos: ln_seq_nos + 1};
+                lo_result.defaultValues = {
+                    athena_id: session.user.athena_id,
+                    per_cust_cod: ls_perCustCod,
+                    seq_nos: ln_seq_nos + 1,
+                    cust_cod: postData.mnRowData.cust_cod
+                };
             }
             callback(lo_error, lo_result);
         });
@@ -549,7 +554,7 @@ module.exports = {
 
         let lo_param = {
             athena_id: session.user.athena_id,
-            cust_cod: postData.singleRowData.cust_mn_cust_cod,
+            cust_cod: postData.singleRowData.cust_cod,
             hotel_cod: postData.deleteData[0].hotel_cod,
             rate_cod: postData.deleteData[0].rate_cod
         };
@@ -566,7 +571,7 @@ module.exports = {
                 if (err) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "sql err";
+                    lo_error.errorMsg = err;
                     cb(lo_error, lo_result);
                 }
                 else {
@@ -854,6 +859,7 @@ module.exports = {
      */
     r_compMnUpdate: function (postData, session, callback) {
         let userInfo = session.user;
+        let ln_counter = 0;
         let lo_mnSaveData = postData["tmpCUD"]["updateData"][0] || {};
         let lo_mnOriData = postData["tmpCUD"]["oriData"][0] || {};
         let la_dtCreateData = postData["tmpCUD"]["dt_createData"] || [];
@@ -866,6 +872,7 @@ module.exports = {
         async.waterfall([
             qryCustMn,
             qryFincustMn,
+            qryVisitRecord,
             qryContract,
             updateCustIdx,
             deleteCustIdx
@@ -882,7 +889,7 @@ module.exports = {
                 if (err) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "sql err";
+                    lo_error.errorMsg = err;
                     cb(lo_error, lo_result);
                 }
                 else {
@@ -909,7 +916,7 @@ module.exports = {
                 if (err) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "sql err";
+                    lo_error.errorMsg = err;
                     cb(lo_error, lo_result);
                 }
                 else {
@@ -925,6 +932,53 @@ module.exports = {
                     }
                 }
             });
+        }
+
+        function qryVisitRecord(data, cb) {
+            let la_examData = [];
+            let la_returnMsg = [];
+            _.each(la_dtCreateData, function (lo_dtCreateData) {
+                if (Number(lo_dtCreateData.tab_page_id == 5)) {
+                    la_examData.push(lo_dtCreateData);
+                }
+            });
+            if (la_examData.length > 0) {
+                _.each(la_examData, function (lo_examData) {
+                    let lo_params = {
+                        athena_id: userInfo.athena_id,
+                        cust_cod: lo_examData.cust_cod,
+                        visit_typ: lo_examData.visit_typ,
+                        visit_dat: lo_examData.visit_dat
+                    };
+                    queryAgent.query("QRY_PS_VISIT_DT_SINGLE", lo_params, function (err, result) {
+                        ln_counter++;
+                        if (err) {
+                            lo_error = new ErrorClass();
+                            lo_result.success = false;
+                            lo_error.errorMsg = err;
+                            lo_error.errorCod = "1111";
+                            cb(lo_error, lo_result);
+                        }
+                        else if (result) {
+                            la_returnMsg.push("公司編號: " + result.show_cod.trim() + " 公司名稱: " + result.cust_nam + "，拜訪計畫已存在\n");
+                        }
+
+                        if (ln_counter == la_examData.length) {
+                            if (la_returnMsg.length > 0) {
+                                lo_error = new ErrorClass();
+                                lo_result.success = false;
+                                _.each(la_returnMsg, function (ls_returnMsg) {
+                                    lo_error.errorMsg = lo_error.errorMsg + ls_returnMsg;
+                                });
+                            }
+                            cb(lo_error, lo_result);
+                        }
+                    });
+                });
+            }
+            else {
+                cb(lo_error, lo_result);
+            }
         }
 
         function qryContract(data, cb) {
@@ -1095,7 +1149,7 @@ module.exports = {
                                     if (err) {
                                         lo_result.success = false;
                                         lo_error = new ErrorClass();
-                                        lo_error.errorMsg = "sql err";
+                                        lo_error.errorMsg = err;
                                         return rp_cb(lo_error, lo_result);
                                     }
                                     else {
@@ -1126,7 +1180,7 @@ module.exports = {
                                     if (err) {
                                         lo_result.success = false;
                                         lo_error = new ErrorClass();
-                                        lo_error.errorMsg = "sql err";
+                                        lo_error.errorMsg = err;
                                         return rp_cb(lo_error, lo_result);
                                     }
                                     else {

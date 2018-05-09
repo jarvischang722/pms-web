@@ -1205,7 +1205,7 @@ var vm = new Vue({
                                     delete lo_dtData["createRow"];
                                 }
                             });
-                            alert('save success!');
+                            alert(go_i18nLang.SystemCommon.saveSuccess);
                             callback(success);
                         });
                     });

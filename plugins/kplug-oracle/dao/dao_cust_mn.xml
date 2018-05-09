@@ -151,7 +151,7 @@
         <parameter type="instring" kind="3">type_cod</parameter>
         <statement test="_v(param.type_cod)"><![CDATA[and CUST_MN.type_cod in(:type_cod)]]></statement>
         <parameter type="instring" kind="3">cust_nam</parameter>
-        <statement test="_v(param.cust_nam)"><![CDATA[and CUST_MN.cust_nam in(:cust_nam)]]></statement>
+        <statement test="_v(param.cust_nam)"><![CDATA[and CUST_MN.cust_cod in(:cust_nam)]]></statement>
         <parameter type="instring" kind="3">pcust_idx_show_cod</parameter>
         <statement test="_v(param.pcust_idx_show_cod)"><![CDATA[and CUST_MN.pcust_cod in(:pcust_idx_show_cod)]]></statement>
         <parameter type="instring" kind="3">hoffice_cust_idx_show_cod</parameter>
