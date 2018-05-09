@@ -7,119 +7,12 @@
         <div class="col-xs-12">
             <h1>訂房報表</h1>
             <div class="search-content">
-                <div class="search-co">
-                    <div class="row">
-                        <div class="search-co-content col-xs-12 search-S2">
-                            <div class="width-95 searchMain-S2">
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>輸入日</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="2018/12/31">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>輸入者</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>聯絡人</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row search-footer-btn">
-                                <div class="footer-btn-menu-co">
-                                    <ul>
-                                        <li>
-                                            <div class="" data-rel="tooltip" data-placement="bottom"
-                                                 title="查詢" @click="doGenReport">
-                                                <div class="icon-reStyle icon-co-14"></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="" data-rel="tooltip" data-placement="bottom"
-                                                 title="清除">
-                                                <div class="icon-reStyle icon-co-11"></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="icon-moreSearch show-search-detail">
-                                                <i class="fa fa-chevron-down"></i>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>  <!-- /.footer-btn-menu-co -->
-                            </div> <!-- /.search-footer-btn -->
-                        </div>
-
-                        <div class="search-co-content col-xs-12 search-S2-con rece-search-detail"
-                             style="display: none;">
-                            <div class="width-95">
-                                <!--1-->
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>c/i日期</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="2018/12/31">
-
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>c/o日期</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="2018/12/31">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>公司名稱</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="">
-                                    </div>
-                                </div>
-                                <!--2-->
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>住客類別</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>訂房公司編號</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>訂房公司名稱</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>訂房卡狀態</label>
-                                        <select width="100" name="" id="">
-                                            <option value="D">取消</option>
-                                            <option value="W">等待</option>
-                                            <option value="O">已到</option>
-                                            <option value="S">NO-SHOW</option>
-                                            <option value="I">今日到達</option>
-                                            <option value="T">暫定</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>市場類別</label>
-                                        <select width="100">
-                                            <option value="LOP">LOP</option>
-                                            <option value="COL">COL</option>
-                                            <option value="TAF">TAF</option>
-                                            <option value="TAG">TAG</option>
-                                            <option value="LOG">LOG</option>
-                                            <option value="GDS">GDS</option>
-                                            <option value="MWB">MWB</option>
-                                            <option value="GWB">GWB</option>
-                                            <option value="HUS">HUS</option>
-                                            <option value="BAR">BAR</option>
-                                            <option value="NCC">NCC</option>
-                                            <option value="COF">COF</option>
-                                        </select>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div> <!-- row-->
-                </div> <!-- /.search-co -->
-            </div> <!-- /.row  search-content-->
+                <search-comp
+                        :search-fields="searchFields"
+                        :search-cond.sync="searchCond"
+                        :fetch-data="doGenReport">
+                </search-comp>
+            </div>
         </div>
         <div class="clearfix"></div>
         <div class="col-xs-12">
@@ -138,12 +31,12 @@
 
 <script>
     let gs_mdl_id = '<%= mdl_id %>';
-    let gs_locale = '<%= session.locale %>';
     console.log(gs_mdl_id);
     new Vue({
         el: "#report-app",
         data: {
             searchFields: [],
+            searchCond: {},
             pdfUrl: '',
             loading: false
         },
@@ -155,19 +48,41 @@
                 $.post('/api/fetchOnlySearchFieldsData', {prg_id: gs_mdl_id}, (result) => {
                     if (result.success) {
                         this.searchFields = result.searchFieldsData;
-                        console.log(  this.searchFields);
+                        console.log(this.searchFields);
                     }
                 });
             },
+            convertFieldCond: function () {
+                let lao_fields = [];
+                try {
+                    _.each(this.searchCond, function (val, field) {
+                        if (val != "" && val != undefined) {
+                            lao_fields.push({
+                                "field": field,
+                                "operator": "equal",
+                                "values": [val]
+                            });
+                        }
+                    })
+                    console.log(lao_fields);
+                    return lao_fields;
+                } catch (e) {
+                    console.log(e);
+                }
+
+            },
             doGenReport: function () {
-                let url = gs_locale == 'zh_TW' ? 'https://dev.linktravel.tw/bacchus/images/temPdf/10254227647542307746136201805080010050.pdf' : 'http://dev.linktravel.tw/bacchus/images/temPdf/10208373264601184583063201805080012019.pdf';
                 let self = this;
                 self.loading = true;
-                setTimeout(() => {
+                console.log(this.convertFieldCond());
+                $.post('/api/doGenReport', {prg_id: gs_mdl_id, conditions: this.convertFieldCond()}, (res) => {
                     self.loading = false;
-                    self.pdfUrl = url;
-                }, 1500)
-
+                    if (res.success) {
+                        self.pdfUrl = res.reportPdfUrl;
+                    } else {
+                        alert(res.errorMsg);
+                    }
+                })
             }
         }
     })

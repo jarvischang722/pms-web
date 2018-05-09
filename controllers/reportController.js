@@ -3,11 +3,20 @@
  */
 
 const _ = require("underscore");
-
+const reportSvc = require("../services/reportService");
 
 /**
- * 報表(靜態)
+ * 報表
  */
-exports.getreport = function (req, res) {
+exports.report = (req, res) => {
     res.render("subsystem/report/report", {mdl_id: req.params.mdl_id});
+};
+
+/**
+ * 取得報表
+ */
+exports.doGenReport = (req, res) => {
+    reportSvc.handleReports(req, (errorMsg, reportPdfUrl) => {
+        res.json({success: errorMsg == null, errorMsg: errorMsg, reportPdfUrl: reportPdfUrl});
+    });
 };

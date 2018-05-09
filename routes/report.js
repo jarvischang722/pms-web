@@ -9,6 +9,8 @@ const middles = [i18nMW, authMW, sysMW];
 
 /* GET  page. */
 module.exports = function (app) {
-    //報表(靜態)
-    app.get('/report/:mdl_id', middles, reportCrtl.getreport);
+    //報表
+    app.get("/report/:mdl_id", middles, reportCrtl.report);
+    //產生報表
+    app.post("/api/doGenReport", middles, reportCrtl.doGenReport);
 };
