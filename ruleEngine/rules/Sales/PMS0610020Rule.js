@@ -71,11 +71,11 @@ module.exports = {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
                         console.error(data["RETN-CODE-DESC"]);
-                        lo_error.errorMsg = "save error!";
+                        lo_error.errorMsg = data["RETN-CODE-DESC"];
                     }
                     else {
                         let ls_cod = data["SERIES_NOS"].toString();
-                        ls_custMnCustCod = "CS " + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
+                        ls_custMnCustCod = "CS " + _s.lpad(ls_cod, 13, '0') + session.user.hotel_cod.trim();
                         ls_custMnShowCod = ls_custMnCustCod.substring(8, 20);
                         ls_custMnPcustCod = ls_custMnCustCod;
                     }
@@ -501,12 +501,12 @@ module.exports = {
             else if (data["RETN-CODE"] != "0000") {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
-                lo_error.errorMsg = "save error!";
+                lo_error.errorMsg = data["RETN-CODE-DESC"];
                 console.error(data["RETN-CODE-DESC"]);
             }
             else {
                 let ls_cod = data["SERIES_NOS"].toString();
-                let ls_perCustCod = "CSP" + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
+                let ls_perCustCod = "CSP" + _s.lpad(ls_cod, 13, '0') + session.user.hotel_cod.trim();
                 let la_allRows = _.isUndefined(postData.allRows) ? [{}] : _.sortBy(postData.allRows, "seq_nos");
                 let ln_seq_nos = Number(la_allRows[la_allRows.length - 1].seq_nos) || 0;
                 lo_result.defaultValues = {
