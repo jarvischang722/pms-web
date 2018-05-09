@@ -128,12 +128,13 @@ module.exports = {
 
         return localeContent.Columns[columnNam] || columnNam;
     },
+
     /**
      * 新增取目前系統語系資料
      * @param locale {string} 系統部前語系
      * @returns {*}
      */
-    getLangFileByLocale: function(locale){
+    getLangFileByLocale: function (locale) {
         let appRootPath = require('app-root-path').path;
         let localeContent = {};
         let localesPath = appRootPath + "/locales/";
@@ -148,5 +149,14 @@ module.exports = {
         }
 
         return localeContent;
+    },
+
+    /**
+     * AES加密
+     * @param text {string} 被加密字串
+     * @param key {string} 簽章
+     */
+    encryptByAes: function (text, key) {
+
     }
 };

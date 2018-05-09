@@ -517,10 +517,11 @@
                 tabName: "", //頁籤名稱
                 panelName: ["profilePanel", "visitsPanel", "referencePanel"], //頁籤內容名稱
                 tabStatus: {isProfile: false, isVisits: false, isReference: false}, //現在頁籤狀況
-                isOtherContact: false, //是否開啟other contact
-                isLostAndFound: false, //是否開啟lost&found
-                isDeleteStatus: false, //是否為刪除
-                isOpenChangeLog: false
+                isOtherContact: false,  //是否開啟other contact
+                isLostAndFound: false,  //是否開啟lost&found
+                isDeleteStatus: false,  //是否為刪除
+                isOpenChangeLog: false,
+                isEffectFromRule: true     //是否要連動
             }
         },
         watch: {
@@ -616,7 +617,8 @@
                 $("#" + ls_showPanelName).show();
             },
             chkFieldRule(ui_field_name, rule_func_name) {
-                if (rule_func_name === "" || !this.$parent.isModifiable) {
+                if (rule_func_name === "" || !this.$parent.isModifiable || !this.isEffectFromRule) {
+                    this.isEffectFromRule = true;
                     return;
                 }
                 var self = this;
@@ -663,6 +665,7 @@
                                             else {
                                                 if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
                                                     self.singleData = _.extend(self.singleData, result.effectValues);
+                                                    self.isEffectFromRule = result.isEffectFromRule;
                                                 }
                                             }
                                         });
@@ -682,6 +685,7 @@
                         if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
                             self.singleData = _.extend(self.singleData, result.effectValues);
                             self.chgSingleData = JSON.parse(JSON.stringify(self.singleData));
+                            self.isEffectFromRule = result.isEffectFromRule;
                         }
 
                     });

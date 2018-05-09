@@ -153,20 +153,23 @@ module.exports = {
     r_status_cod(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
+        let ls_oriStatusCod = postData.oriSingleData[0].status_cod;
+        let ls_statusCod = postData.singleRowData[0].status_cod;
         if (postData.singleRowData[0]["cust_idx.from_table"] == "GHIST_MN") {
-            lo_return.effectValues["cust_idx.cust_sta"] = postData.singleRowData[0].status_cod;
+            lo_return.effectValues["cust_idx.cust_sta"] = ls_statusCod;
         }
-        if (postData.oriSingleData[0].status_cod != "V" && postData.singleRowData[0].status_cod == "V") {
+        if (ls_oriStatusCod != "V" && ls_statusCod == "V") {
             lo_return.effectValues["vip_sta"] = 1;
         }
-        if (postData.oriSingleData[0].status_cod == "V" && (postData.singleRowData[0].status_cod != "V" && postData.singleRowData[0].status_cod != "B")) {
+        if (ls_oriStatusCod == "V" && (ls_statusCod != "V" && ls_statusCod != "B")) {
             lo_return.effectValues["vip_sta"] = 0;
         }
-        // if(postData.oriSingleData[0].status_cod == "V" && postData.singleRowData[0].status_cod == "B"){
-        //     lo_return.showConfirm = true;
-        //     lo_return.confirmMsg = commonRule.getMsgByCod("pms21msg3", session.locale);
-        //     lo_return.effectValues["vip_sta"] = 0;
-        // }
+        if (ls_oriStatusCod == "V" && ls_statusCod == "B") {
+            lo_return.showConfirm = true;
+            lo_return.confirmMsg = commonRule.getMsgByCod("pms21msg3", session.locale);
+            lo_return.effectValues["vip_sta"] = 0;
+            lo_return.isEffectFromRule = false;
+        }
 
         callback(lo_error, lo_return);
     },
@@ -440,7 +443,7 @@ module.exports = {
         let ln_old_vip_sta = postData.oriSingleData[0].vip_sta;
         let ln_new_vip_sta = postData.singleRowData[0].vip_sta;
 
-        // 1.改不為零時，將欄位status_cod改為V:VIP
+        //1.改不為零時，將欄位status_cod改為V:VIP
         if (ln_new_vip_sta != "0") {
             lo_return.effectValues = {status_cod: "V"};
         }
