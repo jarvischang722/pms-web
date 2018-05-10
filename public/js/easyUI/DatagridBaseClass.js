@@ -6,14 +6,6 @@
  *
  */
 
-//TODO 暫時解決 dataGrid remove function result.success 為false時, 需用到vueMain
-let vueMain = new Vue({
-    methods: {
-        endEditing() {
-        }
-    }
-});
-
 function DatagridBaseClass() {
     var self = this;
 
@@ -329,7 +321,8 @@ function DatagridBaseClass() {
                 $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
             } else {
                 self.tmpCUD.deleteData = _.without(self.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
-                vueMain.endEditing();
+                //TODO 暫時解決 dataGrid remove function result.success 為false時, 需用到vueMain
+                // vueMain.endEditing();
                 alert(result.errorMsg);
             }
 
