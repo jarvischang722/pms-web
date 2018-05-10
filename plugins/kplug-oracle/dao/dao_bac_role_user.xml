@@ -55,7 +55,7 @@
         <parameter type="string" kind="3">user_comp_cod</parameter>
         <parameter type="string" kind="3">user_id</parameter>
         <parameter type="string" kind="3">role_id</parameter>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">func_hotel_cod</parameter>
         <statement test="_v(param.user_id)"><![CDATA[and trim(b.user_id) = trim(:user_id)]]></statement>
         <statement test="_v(param.role_id)"><![CDATA[and trim(b.role_id) = trim(:role_id)]]></statement>
@@ -81,10 +81,10 @@
             and flag2_sta = 'Y'
         ]]>
         </statement>
-        <parameter type="int" kind="3">user_athena_id</parameter>
+        <parameter type="number" kind="3">user_athena_id</parameter>
         <parameter type="string" kind="3">user_comp_cod</parameter>
         <parameter type="string" kind="3">user_id</parameter>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">func_hotel_cod</parameter>
         <parameter type="string" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
         <parameter type="string" kind="2" condition="current_id = :current_id ">current_id</parameter>

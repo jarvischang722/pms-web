@@ -183,7 +183,7 @@
             and begin_dat <> to_date(:begin_dat, 'YYYY/MM/DD')
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_cod</parameter>
         <parameter type="string" kind="3">begin_dat</parameter>
@@ -198,7 +198,7 @@
             and trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
@@ -208,7 +208,7 @@
             select room_cod as value, room_nam as display from rvrmcod_rf where trim(athena_id) = ? and trim(hotel_cod) = ?
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
     </dao>
 

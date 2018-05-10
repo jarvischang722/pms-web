@@ -37,7 +37,7 @@
             order by contry_nam
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
     </dao>
 
     <!-- [PMS0210011] 國籍設定中使用語言-->

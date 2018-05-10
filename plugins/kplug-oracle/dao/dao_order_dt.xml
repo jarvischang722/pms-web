@@ -23,7 +23,7 @@
         and trim(guest_typ) = trim(?) and rownum = 1
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">guest_typ</parameter>
     </dao>

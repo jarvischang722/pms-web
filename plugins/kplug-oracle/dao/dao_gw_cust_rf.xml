@@ -8,7 +8,7 @@
              where trim(athena_id) = trim(?) and trim(default_guest_typ) = trim(?) and rownum = 1
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">default_guest_typ</parameter>
     </dao>
 
@@ -20,7 +20,7 @@
              where trim(athena_id) = trim(?) and trim(default_source_typ) = trim(?) and rownum = 1
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">source_typ</parameter>
     </dao>
 
@@ -34,7 +34,7 @@
            where a.athena_id = :athena_id
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <statement test="_d(param.agent_no)"><![CDATA[and agent_no like :agent_no]]></statement>
         <parameter type="string" kind="3">agent_no</parameter>
     </dao>
@@ -49,7 +49,7 @@
            where a.athena_id =:athena_id and trim(agent_no) =?
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="1">agent_no</parameter>
     </dao>
 
@@ -61,7 +61,7 @@
               where athena_id = ? and trim(agent_no) = ?
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">agent_no</parameter>
     </dao>
 </root>

@@ -7,7 +7,7 @@
          from hfd_use_dt where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(item_cod) = trim(:item_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">item_cod</parameter>
     </dao>
@@ -19,7 +19,7 @@
          and trim(item_cod) = trim(:item_cod) and action_cod <> 'add' and status_cod = 'N' and rownum <= 1
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">item_cod</parameter>
     </dao>

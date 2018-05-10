@@ -6,7 +6,7 @@
             select count(*) as count from hksell_dt where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(product_nos) = trim(:product_nos) and rownum =1
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">product_nos</parameter>
     </dao>

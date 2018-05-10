@@ -12,7 +12,7 @@
         </statement>
         <statement test="_v(param.master_typ)"><![CDATA[and master_typ in(:master_typ)]]></statement>
         <statement test="_v(param.master_sta)"><![CDATA[and master_sta in(:master_sta)]]></statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="instring" kind="3">master_typ</parameter>
         <parameter type="instring" kind="3">master_sta</parameter>
@@ -29,7 +29,7 @@
             where trim(m.athena_id) = trim(:athena_id)  and trim(m.hotel_cod) = trim(:hotel_cod) and trim(m.master_nos) = trim(:master_nos)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">master_nos</parameter>
     </dao>

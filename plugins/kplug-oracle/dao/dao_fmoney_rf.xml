@@ -5,7 +5,7 @@
         <statement><![CDATA[
             select fmoney_cod, fmoney_nam from fmoney_rf where user_athena_id = :athena_id and trim(fmoney_cod) = trim(:fmoney_cod)
         ]]></statement>
-        <parameter type="int">athena_id</parameter>
+        <parameter type="number">athena_id</parameter>
         <parameter type="String">fmoney_cod</parameter>
     </dao>
 </root>
