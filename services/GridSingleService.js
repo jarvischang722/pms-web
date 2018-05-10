@@ -1407,10 +1407,11 @@ function changeValueFormat(value, ui_type) {
         return valueTemp;
     }
     if (ui_type == "time") {
+        let fieldName = "";
         if (!_.isEmpty(value)) {
             let hour = value.substring(0, 2);
             let min = value.substring(2, 4);
-            let fieldName = hour + ":" + min;
+            fieldName = hour + ":" + min;
         }
         valueTemp = fieldName;
     } else if (ui_type == "percent") {
