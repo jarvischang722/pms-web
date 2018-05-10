@@ -45,7 +45,7 @@ module.exports = function (io) {
             doReleaseOnlineUser(go_session, socket.client.request.sessionID);
 
             //斷線後更改session清單裡的狀態
-            let index = _.findIndex(ga_sessionStaList, {session_id: go_session.id ,socket_id: socket.client.id});
+            let index = _.findIndex(ga_sessionStaList, {session_id: go_session.id, socket_id: socket.client.id});
             ga_sessionStaList[index].disconnect = true;
             ga_sessionStaList[index].time = moment().format("YYYY/MM/DD HH:mm:ss");
         });
@@ -53,7 +53,7 @@ module.exports = function (io) {
         /**
          * 記錄使用者使用button的狀態(資訊)
          */
-        socket.on("recordUserAction", function(clientData){
+        socket.on("recordUserAction", function (clientData) {
             doRecordUserAction(socket, clientData, go_session);
         });
 
@@ -86,6 +86,21 @@ module.exports = function (io) {
             doCheckOnlineUser(socket, go_session, socket.client.request.sessionID);
         });
 
+        //體醒前端是否離線
+        setInterval(function () {
+            //判斷Array中有無已離線的紀錄
+            let lb_isConnect = true;
+            let li_index = _.findIndex(ga_sessionStaList, {session_id: go_session.id, disconnect: false});
+
+            if (li_index == -1) {
+                lb_isConnect = false;
+                socket.emit("checkSessionConnect", {success: lb_isConnect});
+            }
+            else {
+                return;
+            }
+        }, 5000);
+
     });
 
     function checkSessionList() {
@@ -95,24 +110,25 @@ module.exports = function (io) {
             //判斷Array中有無已離線的紀錄
             let li_index = _.findIndex(ga_sessionStaList, {disconnect: true});
 
-            if(li_index === -1) break;
+            if (li_index === -1) break;
 
             var ld_time_diff = (new Date(moment().format("YYYY/MM/DD HH:mm:ss")) - new Date(ga_sessionStaList[li_index].time)) / 1000;
 
             //離開頁面5秒內判定是重新整理
-            if(ld_time_diff < 5) break;
+            if (ld_time_diff < 5) break;
 
             //找出Array中是否有相同的Session
             let li_count = 0;
             _.each(ga_sessionStaList, function (session) {
-                if(session.session_id === ga_sessionStaList[li_index].session_id){
+                if (session.session_id === ga_sessionStaList[li_index].session_id) {
                     li_count += 1;
                 }
             });
 
             //如果只有一個，就刪真的Session
-            if(li_count === 1){
-                mongoAgent.Sessions.remove({_id: ga_sessionStaList[li_index].session_id}, function (err, reslut) {});
+            if (li_count === 1) {
+                mongoAgent.Sessions.remove({_id: ga_sessionStaList[li_index].session_id}, function (err, reslut) {
+                });
             }
 
             //清除Array中的紀錄
@@ -235,15 +251,15 @@ module.exports = function (io) {
      * @param session{object}
      * @param session_id{string}
      */
-    function doRecordUserAction(socket, clientData, session){
-        try{
-            usrActSVS.doRecordUserAction(session, socket.client.request.sessionID, clientData.prg_id, clientData.func_id, socket.client.request.headers.referer, function(err, success){
-                if(err){
+    function doRecordUserAction(socket, clientData, session) {
+        try {
+            usrActSVS.doRecordUserAction(session, socket.client.request.sessionID, clientData.prg_id, clientData.func_id, socket.client.request.headers.referer, function (err, success) {
+                if (err) {
                     console.error(err);
                 }
             });
         }
-        catch (ex){
+        catch (ex) {
             console.error(ex);
         }
 

@@ -420,7 +420,6 @@ let BacchusMainVM = new Vue({
     }
 });
 
-
 $(function () {
     /** 預設一開始模組更能列關閉 **/
     $("#sidebar-toggle-icon").click();
@@ -431,6 +430,12 @@ g_socket.on("checkOnlineUserResult", function (result) {
     if (!result.success) {
         alert(result.errorMsg);
         location.href = "/systemOption";
+    }
+});
+
+g_socket.on("checkSessionConnect", function (result) {
+    if (result.success) {
+        BacchusMainVM.displayLogoutDialog = true;
     }
 });
 
