@@ -4270,7 +4270,6 @@ td div.act-box span.act-text {
 
 .townPage {
   height: 500px;
-  overflow: auto;
 }
 .townPage .townRow .townBlock {
   float: left;

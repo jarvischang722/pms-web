@@ -1,4 +1,13 @@
 <!--page-content-->
+<link href="/css/scrollbar/perfect-scrollbar.css" rel="stylesheet">
+<script src="/js/scrollbar/perfect-scrollbar.js"></script>
+<style>
+    .ps__rail-y {
+        right: 0;
+    }
+</style>
+<!--<link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css" />-->
+<!--<script src="https://unpkg.com/simplebar@latest/dist/simplebar.js"></script>-->
 <div>
     <div class="page-header"></div><!-- /.page-header -->
     <!-- 排房作業 Page-->
@@ -172,3 +181,18 @@
 <!-- subSystem 共用 js -->
 <%- include ../common/viewsComJs.ejs %>
 <!--  /.End subSystem 共用 js  -->
+<script>
+    //    var $ = document.querySelector.bind(document);
+
+    new PerfectScrollbar('#townPage');
+
+    //    function updateSize() {
+    //        var width = parseInt($('#width').value, 10);
+    //        var height = parseInt($('#height').value, 10);
+    //
+    //        $('.townPage').style.width = width + 'px';
+    //        $('.townPage').style.height = height + 'px';
+    //
+    //        ps.update();
+    //    }
+</script>
