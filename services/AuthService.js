@@ -30,11 +30,15 @@ exports.doAuthAccount = function (authData, callback) {
             },
             function (usr_pwd, cb) {
                 params["usr_pwd"] = usr_pwd;
-                queryAgent.query("QRY_BAC_GET_USER_BY_ONE", params, function (err, user) {
-                    if (!user) {
+                queryAgent.queryList("QRY_BAC_USER_ROLES", params, 0, 0, function (err, user) {
+                    let lo_userInfo = {};
+                    if (user.length == 0) {
                         err = {message: "Login fail!"};
+                    } else {
+                        lo_userInfo = user[0];
+                        lo_userInfo.roles = _.pluck(user, "role_id");
                     }
-                    cb(err, user);
+                    cb(err, lo_userInfo);
                 });
             },
             //取得使用者館別資訊
@@ -108,11 +112,11 @@ exports.doAuthAccount = function (authData, callback) {
             },
             //insert 到mongo
             function (user, cb) {
-                if(_.isUndefined(user.onlineUserBy)){
+                if (_.isUndefined(user.onlineUserBy)) {
                     var err = {message: "Login fail!"};
                     cb(err, null);
                 }
-                else{
+                else {
                     mongoAgent.OnlineUser.findOne({
                         athena_id: user.onlineUserBy.athena_id,
                         comp_cod: user.onlineUserBy.comp_cod,

@@ -1,0 +1,94 @@
+<!--page-content-->
+<div>
+    <div class="page-header"></div><!-- /.page-header -->
+    <!-- rpeorts Page-->
+    <div class="pageMain" id="report-app" v-loading="loading">
+        <div class="col-xs-12">
+            <label class="prg_idLbH3">
+                {{BacchusMainVM.$data.usingPrgName}}(<%= prg_id %>)
+            </label>
+        </div>
+        <div class="col-xs-12">
+
+            <div class="search-content">
+                <search-comp
+                        :search-fields="searchFields"
+                        :search-cond.sync="searchCond"
+                        :fetch-data="doGenReport">
+                </search-comp>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-12">
+            <div>
+                <iframe id="reportIframe" class="iframeHt" height="400%" frameborder="0" scrolling="no"
+                        :src="pdfUrl"></iframe>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+    </div>
+</div><!-- /.page-content -->
+
+<!-- subSystem 共用 js -->
+<%- include ../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
+
+<script>
+    let gs_prg_id = '<%= prg_id %>';
+    console.log(gs_prg_id);
+    new Vue({
+        el: "#report-app",
+        data: {
+            searchFields: [],
+            searchCond: {},
+            pdfUrl: '',
+            loading: false
+        },
+        mounted() {
+            this.doSearchFields();
+            console.log(BacchusMainVM.$data.usingPrgName);
+
+        },
+        methods: {
+            doSearchFields() {
+                $.post('/api/fetchOnlySearchFieldsData', {prg_id: gs_prg_id}, (result) => {
+                    if (result.success) {
+                        this.searchFields = result.searchFieldsData;
+                        console.log(this.searchFields);
+                    }
+                });
+            },
+            convertFieldCond: function () {
+                let lao_fields = [];
+                try {
+                    _.each(this.searchCond, function (val, field) {
+                        if (val != "" && val != undefined) {
+                            lao_fields.push({
+                                "field": field,
+                                "operator": "equal",
+                                "values": [val]
+                            });
+                        }
+                    })
+                    console.log(lao_fields);
+                    return lao_fields;
+                } catch (e) {
+                    console.log(e);
+                }
+
+            },
+            doGenReport: function () {
+                let self = this;
+                self.loading = true;
+                $.post('/api/doGenReport', {prg_id: gs_prg_id, conditions: this.convertFieldCond()}, (res) => {
+                    self.loading = false;
+                    if (res.success) {
+                        self.pdfUrl = res.reportPdfUrl;
+                    } else {
+                        alert(res.errorMsg);
+                    }
+                })
+            }
+        }
+    })
+</script>
