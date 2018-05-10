@@ -79,4 +79,13 @@
         <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 
+    <!-- 當日新增報表(PMS01R0010) 市場類別選單-->
+    <dao name="QRY_GUEST_TYP">
+        <statement><![CDATA[
+             select guest_typ AS value, guest_sna AS display, guest_way, use_sta
+             from GUEST_RF t
+             where  use_sta = 'Y'
+        ]]>
+        </statement>
+    </dao>
 </root>

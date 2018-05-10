@@ -38,7 +38,7 @@ exports.doAuthAccount = function (authData, callback) {
                         lo_userInfo = user[0];
                         lo_userInfo.roles = _.pluck(user, "role_id");
                     }
-                    cb(err, user);
+                    cb(err, lo_userInfo);
                 });
             },
             //取得使用者館別資訊

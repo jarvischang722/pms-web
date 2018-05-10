@@ -112,4 +112,15 @@
         <parameter type="string" kind="2" condition="trim(role_id) = trim(:role_id) ">role_id</parameter>
         <parameter type="string" kind="2" condition="trim(user_id) = trim(:user_id) ">user_id</parameter>
     </dao>
+
+    <!-- 取輸入者 -->
+    <dao name="QRY_USERS_BY_ATHENA_ID">
+        <statement><![CDATA[
+          select distinct  usr_id AS value ,usr_cname AS display
+          from s99_user
+          where USER_ATHENA_ID = :athena_id
+
+        ]]> </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
 </root>
