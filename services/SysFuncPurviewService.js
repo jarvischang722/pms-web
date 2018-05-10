@@ -2,13 +2,10 @@
  * Created by Jun on 2017/12/03.
  * 系統功能權限
  */
-const moment = require("moment");
 const _ = require("underscore");
 const async = require("async");
 const alasql = require("alasql");
-const CommonTools = require("../utils/CommonTools");
-const sysConfig = require("../configs/systemConfig");
-const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const queryAgent = require("../plugins/kplug-oracle/QueryAgent");
 const langSvc = require("../services/LangService");
 
 /**
@@ -26,7 +23,7 @@ exports.getUserAllowSystem = function (req, callback) {
     };
 
     queryAgent.queryList("QUY_ROLE_USER_USE_SYSTEM", lo_params, 0, 0, function (err, sysRows) {
-        langSvc.handleMultiLangContentByField("lang_s99_system", 'sys_name', '', function (err, sysLang) {
+        langSvc.handleMultiLangContentByField("lang_s99_system", "sys_name", "", function (err, sysLang) {
             _.each(sysRows, function (sys, sIdx) {
                 let allLangForSys = _.where(sysLang, {sys_id: sys.sys_id});
                 _.each(la_locales, function (locale) {
@@ -65,7 +62,7 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
         func_hotel_cod: userInfo.fun_hotel_cod.trim()
     };
 
-    let la_allMdlProList = [];  // 全部作業
+    let la_allMdlProList = []; // 全部作業
     let la_allMenuList = []; // 全部Menu
     let lao_subsysList = []; //全部子系統
     let lao_mdlLangList = []; //模組多語系
@@ -108,7 +105,7 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                     "order by meun_sub_sys.sort_cod"
                     , [subsysList, la_allMenuSubSys]);
 
-                langSvc.handleMultiLangContentByField("lang_bac_subsysmenu_rf", 'subsys_nam', '', function (err, langContent) {
+                langSvc.handleMultiLangContentByField("lang_bac_subsysmenu_rf", "subsys_nam", "", function (err, langContent) {
                     _.each(lao_subsysList, function (subsys, sysIdx) {
                         _.each(la_locales, function (locale) {
                             let lo_subsysLang = _.findWhere(langContent, {
@@ -155,11 +152,24 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                     let lo_mdlInfo = mdlMenu[mdl_id][0];
                     let lo_mdl = {};
                     _.each(processMenu, function (pro, pIdx) {
+
+                        processMenu[pIdx]["pro_name"] = _.findWhere(lao_proLangList, {
+                            pro_id: pro.pro_id,
+                            locale: ls_locale
+                        })
+                            ? _.findWhere(lao_proLangList, {pro_id: pro.pro_id, locale: ls_locale}).words
+                            : pro.pro_name;
+
+                        //TODO 只需要取一個語言就好(目前使用者正在使用的語言)
                         _.each(la_locales, function (locale) {
                             let lo_proLang = _.findWhere(lao_proLangList, {pro_id: pro.pro_id, locale: locale.lang});
                             processMenu[pIdx]["pro_name_" + locale.lang] = lo_proLang ? lo_proLang.words : pro.pro_name;
                         });
                     });
+
+                    lo_mdl["mdl_name"] = _.findWhere(lao_mdlLangList, {mdl_id: lo_mdlInfo.mdl_id, locale: ls_locale})
+                        ? _.findWhere(lao_mdlLangList, {mdl_id: lo_mdlInfo.mdl_id, locale: ls_locale}).words
+                        : lo_mdlInfo.mdl_name;
 
                     _.each(la_locales, function (locale) {
                         let lo_mdlLang = _.findWhere(lao_mdlLangList, {mdl_id: lo_mdlInfo.mdl_id, locale: locale.lang});
@@ -187,36 +197,12 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                         }
                     });
                     lao_subsysList[sIdx]["mdlMenu"] = la_mdlList;
+                    lao_subsysList[sIdx]["reportMenu"] = [].concat(..._.pluck(_.where(la_mdlList, {group_sta: "R"}), "processMenu"));
                 });
 
                 callback(err, lao_subsysList);
             });
 
-        },
-        //找出報表模組
-        function (callback) {
-
-            queryAgent.queryList("QRY_ALL_REPORT_BY_SYS_ID", _.extend(lo_params, {sys_id: ls_sys_id}), 0, 0, function (err, reportList) {
-                let mmmmm_data = alasql("select DISTINCT lang.* , report.pre_id AS subsys_id , report.mdl_url " +
-                    "from  ? report  " +
-                    "inner join ? lang  on lang.mdl_id = report.mdl_id  " +
-                    "order by report.mdl_id"
-                    , [reportList, lao_mdlLangList]);
-                let gggggg_data = _.groupBy(mmmmm_data, "subsys_id");
-
-                _.each(lao_subsysList, function (subsys, idx) {
-                    let sus_menu = gggggg_data[subsys.subsys_id];
-                    let menu2 = _.groupBy(sus_menu, "mdl_id");
-                    menu2 = _.map(menu2, (ddd) => {
-                        let mdl_name =  _.findIndex(ddd, {locale: ls_locale}) > -1
-                            ? _.findWhere(ddd, {locale: ls_locale}).words : "";
-                        return {mdl_id: ddd[0].mdl_id, mdl_url: ddd[0].mdl_url, mdl_name:mdl_name};
-                    })
-                    lao_subsysList[idx].reportMenu = menu2 || [];
-                })
-
-                callback(err, null);
-            });
         },
         //組合QuickMenu
         function (callback) {
@@ -239,7 +225,7 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                 function filterSysIdMenu(sys_id, allQuickMenuList) {
                     let la_subsys_id = _.pluck(_.where(la_allMenuList, {
                         pre_id: sys_id,
-                        id_typ: 'SUBSYS'
+                        id_typ: "SUBSYS"
                     }), "current_id");
                     allQuickMenuList = _.filter(allQuickMenuList, function (quick) {
                         return _.indexOf(la_subsys_id, quick.subsys_id) > -1;

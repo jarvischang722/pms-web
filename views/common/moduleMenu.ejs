@@ -7,11 +7,11 @@
     </li>
     <li class="nav-height" v-for="rptItem in reportMenu" :class="{open : isOpenModule == rptItem.mdl_id}">
 
-        <template >
-            <a @click="window.open('?prg_id='+rptItem.mdl_id)" class="dropdown-toggle">
+        <template>
+            <a @click="window.open('?prg_id='+rptItem.pro_id)" class="dropdown-toggle">
                 <i class="menu-icon fa fa-desktop"></i>
                 <span class="menu-text">
-                    {{rptItem.mdl_name}}
+                    {{rptItem.pro_name}}
                 </span>
             </a>
         </template>
