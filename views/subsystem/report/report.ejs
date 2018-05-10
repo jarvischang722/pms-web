@@ -3,9 +3,15 @@
     <div class="page-header"></div><!-- /.page-header -->
     <!-- rpeorts Page-->
     <div class="pageMain" id="report-app" v-loading="loading">
-
         <div class="col-xs-12">
-            <h1>訂房報表</h1>
+            <div class="row">
+                <label class="prg_idLbH3">
+                    {{BacchusMainVM.$data.usingPrgName}}(<%= prg_id %>)
+                </label>
+            </div>
+        </div>
+        <div class="col-xs-12">
+
             <div class="search-content">
                 <search-comp
                         :search-fields="searchFields"
@@ -30,8 +36,8 @@
 <!--  /.End subSystem 共用 js  -->
 
 <script>
-    let gs_mdl_id = '<%= mdl_id %>';
-    console.log(gs_mdl_id);
+    let gs_prg_id = '<%= prg_id %>';
+    console.log(gs_prg_id);
     new Vue({
         el: "#report-app",
         data: {
@@ -42,10 +48,12 @@
         },
         mounted() {
             this.doSearchFields();
+            console.log(BacchusMainVM.$data.usingPrgName);
+
         },
         methods: {
             doSearchFields() {
-                $.post('/api/fetchOnlySearchFieldsData', {prg_id: gs_mdl_id}, (result) => {
+                $.post('/api/fetchOnlySearchFieldsData', {prg_id: gs_prg_id}, (result) => {
                     if (result.success) {
                         this.searchFields = result.searchFieldsData;
                         console.log(this.searchFields);
@@ -74,8 +82,7 @@
             doGenReport: function () {
                 let self = this;
                 self.loading = true;
-                console.log(this.convertFieldCond());
-                $.post('/api/doGenReport', {prg_id: gs_mdl_id, conditions: this.convertFieldCond()}, (res) => {
+                $.post('/api/doGenReport', {prg_id: gs_prg_id, conditions: this.convertFieldCond()}, (res) => {
                     self.loading = false;
                     if (res.success) {
                         self.pdfUrl = res.reportPdfUrl;

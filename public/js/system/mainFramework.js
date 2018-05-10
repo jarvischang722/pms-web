@@ -5,6 +5,7 @@ let BacchusMainVM = new Vue({
     components: {Treeselect: VueTreeselect.Treeselect},
     data: {
         usingSubsysID: "",
+        usingPrgName: "",
         oldSubsysID: "",
         usingPrgID: "",
         locale: gs_locale,
@@ -107,23 +108,22 @@ let BacchusMainVM = new Vue({
             if (lo_subsysPurview) {
 
                 let usingSubsysName = lo_subsysPurview["subsys_nam_" + gs_locale] || "";
-                let usingPrgName = "";
                 lo_subsysPurview.mdlMenu.every(function (mdl) {
 
                     if (mdl.group_sta == "G") {
                         if (mdl.mdl_id == self.usingPrgID) {
-                            usingPrgName = mdl["mdl_name_" + gs_locale];
+                            self.usingPrgName = mdl["mdl_name_" + gs_locale];
                         }
                     } else {
                         let lo_pro = _.findWhere(mdl.processMenu, {pro_id: self.usingPrgID});
                         if (!_.isUndefined(lo_pro)) {
-                            usingPrgName = lo_pro["pro_name_" + gs_locale];
+                            self.usingPrgName = lo_pro["pro_name_" + gs_locale];
                         }
                     }
-                    return _.isEmpty(usingPrgName);
+                    return _.isEmpty(self.usingPrgName);
                 });
-                document.title = [usingPrgName, usingSubsysName, this.activeSystem.abbrName].join(">");
-                this.sysPrgPath = [this.activeSystem.abbrName, usingSubsysName, usingPrgName].join(">");
+                document.title = [self.usingPrgName, usingSubsysName, this.activeSystem.abbrName].join(">");
+                this.sysPrgPath = [this.activeSystem.abbrName, usingSubsysName, self.usingPrgName].join(">");
             }
         },
         /**
@@ -194,8 +194,8 @@ let BacchusMainVM = new Vue({
             if (!_.isEmpty(prg_id)) {
                 $("#MainContentDiv").html("");
             }
-            if (_.findIndex(this.reportMenu, {mdl_id: prg_id}) > -1) {
-                ls_pro_url = _.findWhere(this.reportMenu, {mdl_id: prg_id}).mdl_url;
+            if (_.findIndex(this.reportMenu, {pro_id: prg_id}) > -1) {
+                ls_pro_url = _.findWhere(this.reportMenu, {pro_id: prg_id}).pro_url;
             } else {
                 _.each(this.moduleMenu, function (mdl) {
                     if (mdl.group_sta == "N") {
