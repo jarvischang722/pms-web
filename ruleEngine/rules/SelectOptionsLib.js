@@ -1332,6 +1332,37 @@ exports.qryLangMasterRfMasterSta = function () {
     return lo_optionList;
 };
 
+exports.OrderSta = () => {
+    let lo_optionList = [
+        {
+            display: "取消",
+            value: "D"
+        },
+        {
+            display: "等待",
+            value: "W"
+        },
+        {
+            display: "已到",
+            value: "O"
+        },
+        {
+            display: "NO-SHOW",
+            value: "S"
+        },
+        {
+            display: "暫定",
+            value: "T"
+        }
+        ,
+        {
+            display: "今日到達",
+            value: "I"
+        }
+    ];
+    return lo_optionList;
+};
+
 
 //TODO 將搬到 [程式編碼]Rule裡
 
@@ -2031,6 +2062,12 @@ exports.langGuestrfGuestway = function (params, callback) {
 exports.langMasterrfMastersta = function (params, callback) {
     let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.qryLangMasterRfMasterSta();
+    callback(null, lo_result);
+};
+
+exports.qryOrderSta = function (parans, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.OrderSta();
     callback(null, lo_result);
 };
 //endregion
