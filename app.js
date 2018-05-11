@@ -45,7 +45,7 @@ if (dbConfig.oracle == undefined) {
     client.on('close', function () {
         console.log('Connection closed');
     });
-}else{
+} else {
     require('./plugins/kplug-oracle/DB').create(dbConfig.oracle);
 }
 // compress all responses
@@ -91,7 +91,6 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(i18n.init);
 app.use(flash());
-
 
 
 //session setting
@@ -156,6 +155,7 @@ app.use(function (err, req, res, next) {
 server.listen(port, function () {
     // debug('Listening on ' + app.get('port'));
     tableUnlockforAllPrg();
+    fetchPrivateKey();
     console.log('Express server listening on port ' + app.get('port'));
 });
 
@@ -163,7 +163,6 @@ server.listen(port, function () {
  * table unlock
  */
 function tableUnlockforAllPrg() {
-
     dbSvc.doTableAllUnLock(function (err, success) {
         if (err) {
             console.error(err);
@@ -171,7 +170,12 @@ function tableUnlockforAllPrg() {
         else {
             console.log("Table unlock all program ID.");
         }
-
     });
+}
+
+/**
+ * 取密鑰
+ */
+function fetchPrivateKey() {
 
 }

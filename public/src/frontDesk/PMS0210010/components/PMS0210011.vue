@@ -617,10 +617,6 @@
                 $("#" + ls_showPanelName).show();
             },
             chkFieldRule(ui_field_name, rule_func_name) {
-                if (rule_func_name === "" || !this.$parent.isModifiable || !this.isEffectFromRule) {
-                    this.isEffectFromRule = true;
-                    return;
-                }
                 var self = this;
                 if (_.isEmpty(this.chgSingleData)) {
                     this.chgSingleData = this.oriSingleData;
@@ -628,10 +624,15 @@
                 let la_oriSingleData = [this.chgSingleData];
                 let la_singleData = [this.singleData];
                 let la_diff = _.difference(la_oriSingleData, la_singleData);
-
                 // 判斷資料是否有異動
                 if (la_diff.length != 0) {
                     this.isUpdate = true;
+                }
+
+                if (rule_func_name === "" || !this.$parent.isModifiable || !this.isEffectFromRule) {
+                    console.log(this.$parent.isModifiable, this.isEffectFromRule);
+                    this.isEffectFromRule = true;
+                    return;
                 }
 
                 if (!_.isEmpty(rule_func_name.trim())) {

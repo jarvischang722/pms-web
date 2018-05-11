@@ -161,14 +161,13 @@ module.exports = {
         if (ls_oriStatusCod != "V" && ls_statusCod == "V") {
             lo_return.effectValues["vip_sta"] = 1;
         }
-        if (ls_oriStatusCod == "V" && (ls_statusCod != "V" && ls_statusCod != "B")) {
+        if (ls_oriStatusCod == "V" && ls_statusCod == "N") {
             lo_return.effectValues["vip_sta"] = 0;
         }
         if (ls_oriStatusCod == "V" && ls_statusCod == "B") {
             lo_return.showConfirm = true;
             lo_return.confirmMsg = commonRule.getMsgByCod("pms21msg3", session.locale);
             lo_return.effectValues["vip_sta"] = 0;
-            lo_return.isEffectFromRule = false;
         }
 
         callback(lo_error, lo_return);
@@ -367,6 +366,10 @@ module.exports = {
     r_salute_cod(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
+        if (postData.singleRowData[0].salute_cod == postData.oriSingleData[0].salute_cod) {
+            lo_return.isEffectFromRule = true;
+            return callback(lo_error, lo_return);
+        }
         let lb_sex_typ;
         let lo_params = {
             athena_id: session.user.athena_id,
@@ -405,6 +408,10 @@ module.exports = {
     r_contry_cod(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
+        if (postData.singleRowData[0].contry_cod == postData.oriSingleData[0].contry_cod) {
+            lo_return.isEffectFromRule = true;
+            return callback(lo_error, lo_return);
+        }
         let lo_params = {
             athena_id: session.user.athena_id,
             contry_cod: postData.singleRowData[0].contry_cod
