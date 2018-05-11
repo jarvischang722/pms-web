@@ -12,6 +12,8 @@
 
             <div class="search-content">
                 <search-comp
+                        field-mode="operator"
+                        :searchs-cond-operator="searchsCondOperator"
                         :search-fields="searchFields"
                         :search-cond.sync="searchCond"
                         :fetch-data="doGenReport">
@@ -35,22 +37,21 @@
 
 <script>
     let gs_prg_id = '<%= prg_id %>';
-    console.log(gs_prg_id);
     new Vue({
         el: "#report-app",
         data: {
             searchFields: [],
             searchCond: {},
+            searchsCondOperator: {},
             pdfUrl: '',
             loading: false
         },
         mounted() {
             this.doSearchFields();
-            console.log(BacchusMainVM.$data.usingPrgName);
-
         },
         methods: {
             doSearchFields() {
+
                 $.post('/api/fetchOnlySearchFieldsData', {prg_id: gs_prg_id}, (result) => {
                     if (result.success) {
                         this.searchFields = result.searchFieldsData;
@@ -60,14 +61,22 @@
             },
             convertFieldCond: function () {
                 let lao_fields = [];
+                let self = this;
                 try {
-                    _.each(this.searchCond, function (val, field) {
+                    _.each(this.searchCond, function (val, fieldName) {
+                        let lo_field = _.findWhere(self.searchFields, {ui_field_name: fieldName}) || {};
                         if (val != "" && val != undefined) {
+                            if (lo_field.ui_type == "daterange") {
+                                val = _.map(val, (d) => {
+                                    return moment(d).format("YYYY/MM/DD")
+                                })
+                            }
                             lao_fields.push({
-                                "field": field,
-                                "operator": "equal",
-                                "values": [val]
-                            });
+                                "field": fieldName,
+                                "operator": self.searchsCondOperator[fieldName] || "",
+                                "values": lo_field.ui_type == "mutilselect" || lo_field.ui_type == "daterange" ? val : [val]
+                            })
+                            console.log(`${lo_field.ui_type}  : ${lo_field.ui_type == "mutilselect" || lo_field.ui_type == "daterange" ? val : [val]}`);
                         }
                     })
                     console.log(lao_fields);
@@ -78,6 +87,8 @@
 
             },
             doGenReport: function () {
+                console.log(this.searchsCondOperator);
+                console.log(this.searchCond);
                 let self = this;
                 self.loading = true;
                 $.post('/api/doGenReport', {prg_id: gs_prg_id, conditions: this.convertFieldCond()}, (res) => {
