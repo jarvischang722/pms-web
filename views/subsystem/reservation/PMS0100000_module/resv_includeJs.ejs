@@ -1,16 +1,15 @@
-
 <%- include ../../../common/jsFile/groupJs_fixTable %>
 
 <script type="text/javascript">
-//    var vm = new Vue({
-//        el: ".pageMain",
-//        methods:{
-//            reservationDialog_1: function (e) {
-//               // 將dialog 跟 datagrid 丟到裡面
-//            }
-//        }
-//    })
-    $(function (){
+    //    var vm = new Vue({
+    //        el: ".pageMain",
+    //        methods:{
+    //            reservationDialog_1: function (e) {
+    //               // 將dialog 跟 datagrid 丟到裡面
+    //            }
+    //        }
+    //    })
+    $(function () {
 
         // 彈出 訂房卡
         $(document).on('click', ".reservationDialog-1", function (e) {
@@ -27,6 +26,15 @@
                 resizable: true
             });
 
+            // 控制如果是瀏覽按鈕 save 是 disabled && title 唯讀
+            if ($(this).hasClass("resv-view")) {
+                $("#reservationDialog-1-message").find(".is-save").attr("disabled", true);
+                $("#reservationDialog-1-message").removeClass('hide').dialog({title: "訂房卡-唯讀"});
+            }
+            else {
+                $("#reservationDialog-1-message").find(".is-save").attr("disabled", false);
+            }
+
             // 訂房卡 dataGrid
             $('#reservation_resvCard-table').datagrid({
                 singleSelect: true,
@@ -35,26 +43,50 @@
                 url: '/jsonData/reservation/reservation_resvCard.json',
                 method: 'get',
                 columns: [[
-                    {field: 'addDel', title: '<i class="fa fa-plus green"></i>', width: 28, align:'center'},
+                    {field: 'addDel', title: '<i class="fa fa-plus green"></i>', width: 28, align: 'center'},
                     {field: 'No', title: 'No', width: 30},
-                    {field: 'Status', title: 'Status', width: 40},
-                    {field: 'CIDate', title: 'CI Date', width: 75},
+                    {field: 'Status', title: 'Status', width: 45},
+                    {field: 'CIDate', title: 'CI Date', width: 145},
                     {field: 'Days', title: 'Days', width: 40},
-                    {field: 'CODate', title: 'CO Date', width: 75},
+                    {field: 'CODate', title: 'CO Date', width: 145},
                     {field: 'RateCode', title: 'Rate Code', width: 140},
                     {field: 'RunTypeForSell', title: 'Rm. Type For Sell', width: 60},
-                    {field: 'TypeForAssign', title: 'Use Type',align:'right', width: 60},
-                    {field: 'NoOfRms', title: 'Qty',align:'right', width: 40},
-                    {field: 'UnitPrice', title: 'Unit Price',align:'right', width: 60},
-                    {field: 'UnitSevChrg', title: 'Unit Sev. Chrg',align:'right', width: 60},
-                    {field: 'adult', title: '大人', width: 50},
-                    {field: 'child', title: '小孩', width: 50},
-                    {field: 'baby', title: '嬰兒', width: 50}
+                    {field: 'TypeForAssign', title: 'Use Type', align: 'right', width: 60},
+                    {field: 'NoOfRms', title: 'Qty', align: 'right', width: 40},
+                    {field: 'UnitPrice', title: 'Unit Price', align: 'right', width: 60},
+                    {field: 'UnitSevChrg', title: 'Unit Sev. Chrg', align: 'right', width: 60},
+                    {field: 'adult', title: '大人', width: 50, align: 'right'},
+                    {field: 'child', title: '小孩', width: 50, align: 'right'},
+                    {field: 'baby', title: '嬰兒', width: 50, align: 'right'}
                 ]]
             });
 
-        });
+            // vue
+            // 訂房卡單筆 table
+            let resv_vm = new Vue({
+                el: '#reservationDialog-1-message',
+                data: {
+                    ciDate1: new Date(),
+                    coDate1: new Date(),
+                    ciDate2: new Date(),
+                    coDate2: new Date(),
+                    ciDate3: new Date(),
+                    coDate3: new Date(),
+                    ciDate4: new Date(),
+                    coDate4: new Date(),
+                    ciDate5: new Date(),
+                    coDate5: new Date(),
+                    ciDate6: new Date(),
+                    coDate6: new Date(),
+                    ciTime1: new Date(),
+                    coTime1: new Date(),
+                }
+            })
 
+            // 訂房卡單筆
+            $("#resvSingle-table").tableHeadFixer({"left": 1});
+
+        });
 
         // 彈出 住客歷史
         $(document).on('click', ".reservationDialog-2", function (e) {
@@ -105,13 +137,13 @@
                     {field: 'departDate', title: '退房日期', width: 100},
                     {field: 'roomNum', title: '房號', width: 60},
                     {field: 'roomPriceCode', title: '房價代號', width: 140},
-                    {field: 'roomPrice', title: '房價', width: 80, align:'right'},
-                    {field: 'consumption', title: '消費總額', width: 80, align:'right'},
-                    {field: 'rentConsume', title: '房租消費', width: 60, align:'right'},
-                    {field: 'foodConsume', title: '餐飲消費', width: 60, align:'right'},
-                    {field: 'otherConsume', title: '其他消費', width: 60, align:'right'},
-                    {field: 'tipConsume', title: '小費', width: 60, align:'right'},
-                    {field: 'proxyPrice', title: '代支金額', width: 60, align:'right'},
+                    {field: 'roomPrice', title: '房價', width: 80, align: 'right'},
+                    {field: 'consumption', title: '消費總額', width: 80, align: 'right'},
+                    {field: 'rentConsume', title: '房租消費', width: 60, align: 'right'},
+                    {field: 'foodConsume', title: '餐飲消費', width: 60, align: 'right'},
+                    {field: 'otherConsume', title: '其他消費', width: 60, align: 'right'},
+                    {field: 'tipConsume', title: '小費', width: 60, align: 'right'},
+                    {field: 'proxyPrice', title: '代支金額', width: 60, align: 'right'},
                     {field: 'proxyCompany', title: '訂房公司', width: 100}
                 ]]
             });
@@ -203,7 +235,7 @@
                     {field: 'addDate', title: '新增日', width: 90},
                     {field: 'addBy', title: '新增者', width: 75},
                     {field: 'updDate', title: '異動日', width: 90},
-                    {field: 'updBy', title: '異動者',width: 75}
+                    {field: 'updBy', title: '異動者', width: 75}
                 ]]
             });
 
@@ -446,8 +478,8 @@
                     {field: 'className', title: '類別名稱', width: 100},
                     {field: 'startDate', title: '使用開始日期', width: 100},
                     {field: 'endDate', title: '使用結業日期', width: 150},
-                    {field: 'useNum', title: '使用數', width: 100, align:'right'},
-                    {field: 'stockNum', title: '佔庫存數', width: 100, align:'right'},
+                    {field: 'useNum', title: '使用數', width: 100, align: 'right'},
+                    {field: 'stockNum', title: '佔庫存數', width: 100, align: 'right'},
                     {field: 'resvNo', title: '訂房卡號', width: 100},
                     {field: 'roomNo', title: '房號', width: 60},
                     {field: 'groupNo', title: '團號', width: 100},
@@ -509,9 +541,9 @@
                     {field: 'batchTotal', title: '計價房種', width: 100},
                     {field: 'batchUse', title: '使用房種', width: 100},
                     {field: 'batchNum', title: '間數', width: 50},
-                    {field: 'batchPrice', title: '房價', width: 60,align:'right'},
-                    {field: 'batchSerice', title: '服務費', width: 60,align:'right'},
-                    {field: 'batchMargin', title: '房價差額', width: 60,align:'right'},
+                    {field: 'batchPrice', title: '房價', width: 60, align: 'right'},
+                    {field: 'batchSerice', title: '服務費', width: 60, align: 'right'},
+                    {field: 'batchMargin', title: '房價差額', width: 60, align: 'right'},
                     {field: 'batchBrokerage', title: '備註', width: 100}
                 ]]
 
@@ -879,7 +911,7 @@
                 url: '/jsonData/frontDesk/front_message.json',
                 method: 'get',
                 columns: [[
-                    {field: 'room', title: 'Room', width: 80,align:"right"},
+                    {field: 'room', title: 'Room', width: 80, align: "right"},
                     {field: 'fullName', title: 'Full Name', width: 150},
                     {field: 'date', title: 'Date', width: 80},
                     {field: 'time', title: 'Time', width: 80},
@@ -942,9 +974,9 @@
                     {field: 'resvDate', title: '日期', width: 80},
                     {field: 'resvNum', title: '班次', width: 80},
                     {field: 'resvTime', title: '時間', width: 80},
-                    {field: 'resvAdult', title: '大人數', width: 50,align:'right'},
-                    {field: 'resvChild', title: '小孩數', width: 50,align:'right'},
-                    {field: 'resvBaby', title: '嬰兒數', width: 50,align:'right'},
+                    {field: 'resvAdult', title: '大人數', width: 50, align: 'right'},
+                    {field: 'resvChild', title: '小孩數', width: 50, align: 'right'},
+                    {field: 'resvBaby', title: '嬰兒數', width: 50, align: 'right'},
                     {field: 'resvPoint', title: '指定住客', width: 80},
                     {field: 'resvMark', title: '備註', width: 150}
                 ]]
@@ -1058,14 +1090,433 @@
         // 彈出setRateCode　公帳號
         $(document).on('click', ".publicAccount-btn", function (e) {
             e.preventDefault();
-            var dialog = $("#publicAccountDialog").removeClass('hide').dialog({
+            var dialog = $("#publicAccount-msg").removeClass('hide').dialog({
                 modal: true,
                 title: "公帳號",
                 title_html: true,
+                width: 400,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 更多備註
+        $(document).on('click', ".moreRmks", function (e) {
+            e.preventDefault();
+            var dialog = $("#moreRmks-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "備註",
+                title_html: true,
                 width: 600,
                 maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 其他聯絡方式
+        $(document).on('click', ".othContact", function (e) {
+            e.preventDefault();
+            var dialog = $("#othContact-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "其他聯絡方式",
+                title_html: true,
+                width: 400,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 選擇房價
+        $(document).on('click', ".choiceRmPrice", function (e) {
+            e.preventDefault();
+            var dialog = $("#choiceRmPrice-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "選擇房價",
+                title_html: true,
+                width: 450,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+            let chRmPriceTable = new Vue({
+                name: 'frozen-title-columns',
+                el: '#choiceRmPrice-msg',
+                data: {
+                    tableData: [
+                        {
+//                            "chMenu": "Booking",
+                            "newCode": "A0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "newCode": "B0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "newCode": "C0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "newCode": "D0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "newCode": "E0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "newCode": "A0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "newCode": "B0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "newCode": "C0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "newCode": "D0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "newCode": "A0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "newCode": "B0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "newCode": "C0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        },
+                        {
+                            "newCode": "D0001",
+                            "newName": "STD",
+                            "anotherName": "STDDD"
+                        }
+                    ],
+                    columns: [
+//                        {
+//                            field: 'chMenu',
+//                            title: '選單',
+//                            width: 80,
+//                            titleAlign: 'left',
+//                            columnAlign: 'left',
+//                            titleCellClassName: 'v-easy-s1',
+//                            isResize: true
+//                        },
+                        {
+                            field: 'newCode',
+                            title: '房價代號',
+                            width: 90,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'newName',
+                            title: '房價名稱',
+                            width: 90,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'anotherName',
+                            title: '房價別名',
+//                        width: 90,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        }
+                    ],
+                    options: [
+                        {
+                            value: 'source',
+                            label: '一般',
+                            children: [
+                                {
+                                    value: 'Booking',
+                                    label: 'Booking'
+                                },
+                                {
+                                    value: 'Agoda',
+                                    label: 'Agoda'
+                                },
+                                {
+                                    value: 'Expedia',
+                                    label: 'Expedia'
+                                },
+                                {
+                                    value: 'online',
+                                    label: '線上'
+                                }]
+                        },
+                        {
+                            value: 'contract',
+                            label: '合約',
+                            children: [
+                                {
+                                    value: 'Booking',
+                                    label: 'Booking'
+                                },
+                                {
+                                    value: 'Agoda',
+                                    label: 'Agoda'
+                                },
+                                {
+                                    value: 'Expedia',
+                                    label: 'Expedia'
+                                },
+                                {
+                                    value: 'online',
+                                    label: '線上'
+                                }]
+                        },
+                    ],
+                    selectedOptions2: []
+                },
+                methods: {
+                    columnCellClass(rowIndex, columnName, rowData) {
+                        if (rowIndex >= 0) {
+                            return 'v-easy-s1';
+                        }
+                    },
+                    handleChange(value) {
+                    }
+                }
+            });
+        });
+
+        // 彈出 酬賓計畫卡號
+        $(document).on('click', ".agent-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#agent-btn-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "酬賓計劃卡號",
+                title_html: true,
+                width: 450,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+            let agentBtn = new Vue({
+                name: 'frozen-title-columns',
+                el: '#agent-btn-msg',
+                data: {
+                    tableData: [
+                        {
+                            "no": "6Y",
+                            "name": "尼加拉瓜航空公司",
+                        },
+                        {
+                            "no": "8L",
+                            "name": "大菲航空公司",
+                        },
+                        {
+                            "no": "AA",
+                            "name": "美國航空公司",
+                        },
+                        {
+                            "no": "AC",
+                            "name": "楓葉航空公司",
+                        },
+                        {
+                            "no": "AE",
+                            "name": "華信航空公司",
+                        },
+                        {
+                            "no": "AF",
+                            "name": "亞洲法國航空公司",
+                        },
+                        {
+                            "no": "AI",
+                            "name": "印度航空公司",
+                        },
+                        {
+                            "no": "AK",
+                            "name": "大馬亞洲航空公司",
+                        },
+                    ],
+                    columns: [
+                        {
+                            width: 40,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            type: 'selection',
+                            titleCellClassName: 'v-easy-s1'
+                        },
+                        {
+                            field: 'no',
+                            title: '代號',
+                            width: 70,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'name',
+                            title: '名稱',
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                    ]
+                },
+                methods: {
+                    selectALL(selection) {
+                    },
+
+                    selectChange(selection, rowData) {
+                    },
+
+                    selectGroupChange(selection) {
+                    },
+                    columnCellClass(rowIndex, columnName, rowData) {
+
+                        if (rowIndex >= 0) {
+                            return 'v-easy-s1';
+                        }
+                    },
+                }
+            });
+        });
+
+        // 彈出 手動選取
+        $(document).on('click', ".selectManually", function (e) {
+            e.preventDefault();
+            var dialog = $("#selectManually-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "手動選取",
+                title_html: true,
+                width: 450,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+            let selectManually = new Vue({
+                name: 'frozen-title-columns',
+                el: '#selectManually-msg',
+                data: {
+                    tableData: [
+                        {
+                            "PA": "G85",
+                            "category": "系統產生",
+                            "currentState": "未使用",
+                            "customerCode": "",
+                        },
+                        {
+                            "PA": "G83",
+                            "category": "系統產生",
+                            "currentState": "未使用",
+                            "customerCode": "",
+                        },
+                        {
+                            "PA": "G95",
+                            "category": "系統產生",
+                            "currentState": "未使用",
+                            "customerCode": "",
+                        },
+                        {
+                            "PA": "P004",
+                            "category": "系統產生",
+                            "currentState": "未使用",
+                            "customerCode": "",
+                        },
+                        {
+                            "PA": "G88",
+                            "category": "系統產生",
+                            "currentState": "未使用",
+                            "customerCode": "",
+                        },
+                        {
+                            "PA": "G92",
+                            "category": "系統產生",
+                            "currentState": "未使用",
+                            "customerCode": "",
+                        },
+                    ],
+                    columns: [
+                        {
+                            field: 'PA',
+                            title: '公帳號',
+                            width: 70,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'category',
+                            title: '類別',
+                            width: 70,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'currentState',
+                            title: '目前狀態',
+                            width: 70,
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                        {
+                            field: 'customerCode',
+                            title: '客戶代號',
+                            titleAlign: 'left',
+                            columnAlign: 'left',
+                            titleCellClassName: 'v-easy-s1',
+                            isResize: true
+                        },
+                    ]
+                },
+                methods: {
+                    columnCellClass(rowIndex, columnName, rowData) {
+
+                        if (rowIndex >= 0) {
+                            return 'v-easy-s1';
+                        }
+                    },
+                }
+            });
+        });
+
+        // 彈出 訂房取消
+        $(document).on('click', ".cancelRm", function (e) {
+            e.preventDefault();
+            var dialog = $("#cancelRm-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "訂房取消",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
                 dialogClass: "test",
                 resizable: true
             });
@@ -1141,7 +1592,7 @@
             e.preventDefault();
             var dialog = $("#resv_depositsStep3A-message").removeClass('hide').dialog({
                 modal: true,
-                title: "訂金編號新增",
+                title: "訂金編號新增 [廳別：FO:客房櫃檯] [班別：A]",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -1181,8 +1632,8 @@
                     {field: 'office', title: '廳別', width: 100},
                     {field: 'singleNum', title: '單號', width: 100},
                     {field: 'status', title: '狀態', width: 150},
-                    {field: 'deposit', title: '存入', width: 150, align:'right'},
-                    {field: 'expenditure', title: '支出', width: 150, align:'right'},
+                    {field: 'deposit', title: '存入', width: 150, align: 'right'},
+                    {field: 'expenditure', title: '支出', width: 150, align: 'right'},
                     {field: 'remark', title: '備註', width: 150}
                 ]]
             });
@@ -1230,7 +1681,7 @@
                 columns: [[
                     {field: 'depositNum', title: '訂金編號', width: 100},
                     {field: 'customName', title: '客戶姓名', width: 100},
-                    {field: 'accBalance', title: '帳戶餘額', width: 100, align:'right'},
+                    {field: 'accBalance', title: '帳戶餘額', width: 100, align: 'right'},
                     {field: 'invoiceOpen', title: '發票開立方式', width: 150},
                     {field: 'IdCardNum', title: '身分證字號', width: 150}
                 ]]
@@ -1263,9 +1714,9 @@
                     {field: 'date', title: '日期', width: 100},
                     {field: 'sDate', title: '服務日期', width: 100},
                     {field: 'item', title: '項目', width: 150},
-                    {field: 'price', title: '單價', width: 80, align:'right'},
-                    {field: 'amount', title: '數量', width: 50, align:'right'},
-                    {field: 'total', title: '小計', width: 70, align:'right'},
+                    {field: 'price', title: '單價', width: 80, align: 'right'},
+                    {field: 'amount', title: '數量', width: 50, align: 'right'},
+                    {field: 'total', title: '小計', width: 70, align: 'right'},
                     {field: 'mode', title: '收費方式.', width: 70}
                 ]]
             });
@@ -1296,14 +1747,14 @@
                 url: '/jsonData/reservation/resv_merge.json',
                 method: 'get',
                 columns: [[
-                    {field: 'checkbox01', title: '',width: 28,align:"center"},
-                    {field: 'checkbox02', title: '<input type="checkbox">',width: 28,align:"center"},
-                    {field: 'guestNo', title: 'Guest No', width: 100, align:'right'},
+                    {field: 'checkbox01', title: '', width: 28, align: "center"},
+                    {field: 'checkbox02', title: '<input type="checkbox">', width: 28, align: "center"},
+                    {field: 'guestNo', title: 'Guest No', width: 100, align: 'right'},
                     {field: 'fullName', title: 'Full Name', width: 100},
-                    {field: 'birth', title: 'Birth', width: 100, align:'right'},
+                    {field: 'birth', title: 'Birth', width: 100, align: 'right'},
                     {field: 'IDNo', title: 'ID No.', width: 100},
                     {field: 'nationality', title: 'Nationality', width: 80},
-                    {field: 'mobile', title: 'Mobile', width: 100, align:'right'},
+                    {field: 'mobile', title: 'Mobile', width: 100, align: 'right'},
                     {field: 'email', title: 'Email', width: 150}
                 ]]
             });
@@ -1333,11 +1784,11 @@
                 url: '/jsonData/reservation/resv_coupon.json',
                 method: 'get',
                 columns: [[
-                    {field: 'sort', title: '序',width: 28},
-                    {field: 'couponCategory', title: '禮券類別',width: 100},
+                    {field: 'sort', title: '序', width: 28},
+                    {field: 'couponCategory', title: '禮券類別', width: 100},
                     {field: 'couponNum', title: '禮券編號', width: 150},
                     {field: 'couponStatus', title: '禮券狀態', width: 70},
-                    {field: 'couponPrice', title: '面額', width: 70,align:'right'},
+                    {field: 'couponPrice', title: '面額', width: 70, align: 'right'},
                     {field: 'remark', title: '備註', width: 100},
                     {field: 'status', title: '狀態', width: 60},
                     {field: 'finiteDate', title: '有限日期', width: 100},
@@ -1374,8 +1825,8 @@
                 url: '/jsonData/reservation/resv_PaxImports.json',
                 method: 'get',
                 columns: [[
-                    {field: 'sort', title: '明細序號',width: 70},
-                    {field: 'roomGroup', title: '房組',width: 100},
+                    {field: 'sort', title: '明細序號', width: 70},
+                    {field: 'roomGroup', title: '房組', width: 100},
                     {field: 'guestName', title: '住客姓名', width: 80},
                     {field: 'gender', title: '性別', width: 80},
                     {field: 'country', title: '國籍', width: 80},
@@ -1445,7 +1896,7 @@
             e.preventDefault();
             var dialog = $("#foCnt_roomAssign-message").removeClass('hide').dialog({
                 modal: true,
-                title: "Room Assign",
+                title: "Room Assign [Rv:11023451]",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -1454,7 +1905,6 @@
                 dialogClass: "test",
                 resizable: true
             });
-
         });
 
         <!-- ********* dataGrid ********* -->
@@ -1475,7 +1925,7 @@
                 {field: 'country', title: '國籍', width: 100},
                 {field: 'visitNum', title: '來訪次數', width: 60},
                 {field: 'visitDay', title: '來訪天數', width: 60},
-                {field: 'totalSpend', title: '消費總額', width: 60,align:'right'},
+                {field: 'totalSpend', title: '消費總額', width: 60, align: 'right'},
                 {field: 'mobile', title: 'Mobile', width: 100},
                 {field: 'email', title: 'Email', width: 150}
             ]]
@@ -1503,15 +1953,17 @@
                 {field: 'ciNum', title: 'C/I數', width: 60},
                 {field: 'fullName', title: 'Full Name', width: 60},
                 {field: 'groupNum', title: '團號', width: 60},
+                {field: 'proxyCompany', title: '訂房公司名稱', width: 100},
                 {field: 'companyName', title: '公司名稱', width: 60},
                 {field: 'contact', title: '聯絡人', width: 60},
+                {field: 'sales', title: '業務員', width: 60},
                 {field: 'roomPriceCode', title: '房價代號', width: 60},
                 {field: 'resvSource', title: '訂房來源', width: 60},
                 {field: 'depositNum', title: '訂金編號', width: 60},
                 {field: 'confirmStatus', title: '確認狀態', width: 60},
                 {field: 'confirmDate', title: '確認日期', width: 60},
-                {field: 'firstName', title: 'First Name', width: 60},
-                {field: 'lastName', title: 'Last Name', width: 60},
+//                {field: 'firstName', title: 'First Name', width: 60},
+//                {field: 'lastName', title: 'Last Name', width: 60},
                 {field: 'valHousing', title: '計價房種', width: 60},
                 {field: 'guestCategory', title: '市場類別', width: 60},
                 {field: 'publicAccount', title: '公帳號', width: 60},
@@ -1519,10 +1971,8 @@
                 {field: 'addDate', title: '輸入日期', width: 60},
                 {field: 'addBy', title: '輸入者', width: 60},
                 {field: 'updDate', title: '最後修改日', width: 60},
-                {field: 'updBy', title: '最後修改者', width: 60},
-                {field: 'sales', title: '業務員', width: 60},
-                {field: 'hall', title: '館別', width: 60},
-                {field: 'proxyCompany', title: '代訂公司名稱', width: 100}
+                {field: 'updBy', title: '最後修改者', width: 60}
+//                {field: 'hall', title: '館別', width: 60},
             ]]
         });
 
@@ -1534,7 +1984,7 @@
             url: '/jsonData/reservation/resv_PMS0110030-dg.json',
             method: 'get',
             columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28, align: "center"},
                 {field: 'rateCode', title: 'Rate Code', width: 80},
                 {field: 'rateName', title: 'Rate Name', width: 150},
                 {field: 'rmType', title: 'RM Type', width: 100},
@@ -1542,9 +1992,9 @@
                 {field: 'departure', title: 'Departure', width: 80},
                 {field: 'days', title: 'Days', width: 50},
                 {field: 'qnt', title: 'Qnt.', width: 50},
-                {field: 'rateAmt', title: 'Rate Amt.', width: 60,align:'right'},
-                {field: 'svc', title: 'Svc.', width: 60,align:'right'},
-                {field: 'sTotal', title: 'S.Total', width: 60,align:'right'},
+                {field: 'rateAmt', title: 'Rate Amt.', width: 60, align: 'right'},
+                {field: 'svc', title: 'Svc.', width: 60, align: 'right'},
+                {field: 'sTotal', title: 'S.Total', width: 60, align: 'right'},
                 {field: 'adult', title: 'Adult', width: 40},
                 {field: 'child', title: 'Child', width: 40},
                 {field: 'baby', title: 'Baby', width: 40}
@@ -1559,7 +2009,6 @@
             url: '/jsonData/reservation/resv_RateCode.json',
             method: 'get',
             columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'roomCode', title: '房價代號', width: 100},
                 {field: 'roomName', title: '房價名稱', width: 100},
                 {field: 'menu', title: 'MENU選單', width: 100},
@@ -1580,7 +2029,7 @@
             url: '/jsonData/reservation/resv_traces.json',
             method: 'get',
             columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28, align: "center"},
                 {field: 'status', title: '狀態', width: 80},
                 {field: 'startDate', title: '開始日期', width: 100},
                 {field: 'endDate', title: '結束日期', width: 100},
@@ -1593,37 +2042,41 @@
         });
 
 
+        //changeRecords中的dropdown select
+        $(document.body).on('click', '.dropdown-menu li', function (event) {
+            var $target = $(event.currentTarget);
 
+            $target.closest('.btn-group')
+                .find('[data-bind="label"]').text($target.text())
+                .end()
+                .children('.dropdown-toggle').dropdown('toggle');
 
+            return false;
 
+        });
 
-    //changeRecords中的dropdown select
-    $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
-        var $target = $( event.currentTarget );
-
-        $target.closest( '.btn-group' )
-            .find( '[data-bind="label"]' ).text( $target.text() )
-            .end()
-            .children( '.dropdown-toggle' ).dropdown( 'toggle' );
-
-        return false;
 
     });
+    $(function () {
 
-
-
-
-});
-    $(function() {
-
-//      超訂overBooking PMS0120020
-        $('#PMS0120020-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 80, everyColumnsAddWith: 0 });
+        // 超訂overBooking PMS0120020
+        $("#PMS0120020-table").tableHeadFixer({"left": 1});
 
 //      專案訂房 PMS0110030
-        $('#PMS0110030-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 10, everyColumnsAddWith: 0 });
+        $('#PMS0110030-table').fixedHeaderTable({
+            cloneHeadToFoot: false,
+            fixedColumns: 1,
+            addPxForFixedColumnsWidth: 10,
+            everyColumnsAddWith: 0
+        });
 
 //      櫃檯備品
-        $('#amenities-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 60, everyColumnsAddWith: 0 });
+        $('#amenities-table').fixedHeaderTable({
+            cloneHeadToFoot: false,
+            fixedColumns: 1,
+            addPxForFixedColumnsWidth: 60,
+            everyColumnsAddWith: 0
+        });
 
 
 //        https://www.sitepoint.com/community/t/fixed-header-and-first-column-in-table/29828/11
@@ -1643,31 +2096,31 @@
         // resize table
 //        // divider margin 40px && fht-body -85px
         var header1 = $(".navbar-container").height();
-        var header2 = $(".top-sec-ul").height()+5; //padding-top: 5px
+        var header2 = $(".top-sec-ul").height() + 5; //padding-top: 5px
 
-        height=$(window).height()-header1-header2-10;
+        height = $(window).height() - header1 - header2 - 10;
         $(".height600").css("height", height);
         //		$(".height600").removeClass("height600");
-        $(".fht-tbody").css("height", height-80);
-        $(window).resize(function() {
-            height=$(window).height()-header1-header2-10;
+        $(".fht-tbody").css("height", height - 80);
+        $(window).resize(function () {
+            height = $(window).height() - header1 - header2 - 10;
             $(".height600").css("height", height);
-            $(".fht-tbody").css("height", height-80);
+            $(".fht-tbody").css("height", height - 80);
         });
 
         //#PMS0110030-table
         var PMS0110030Height = $("#PMS0110030-table").height();
-        $("#PMS0110030-table").parents(".PMS0110030-table").find(".height600").css("height", PMS0110030Height+10);
+        $("#PMS0110030-table").parents(".PMS0110030-table").find(".height600").css("height", PMS0110030Height + 10);
 
 
         var tableWidth1 = $(".sidebar").width();
 
-        tableWidth=$(window).width()-tableWidth1-10;
+        tableWidth = $(window).width() - tableWidth1 - 10;
         $(".grid_12").css("width", "95%");
 //        $(".grid_12").find(".fht-fixed-body").css("width", "95%");
         $(".fht-body").css("width", "95% !important");
-        $(window).resize(function() {
-            tableWidth=$(window).width()-tableWidth1-10;
+        $(window).resize(function () {
+            tableWidth = $(window).width() - tableWidth1 - 10;
             $(".grid_12").css("width", "100%");
             $(".fht-body").css("width", "100%");
         });
@@ -1676,27 +2129,27 @@
         //collapsed
         //expanded
         var treeTdId = new Set();
-        $('tr[data-tt-parent-id]').each(function(){
+        $('tr[data-tt-parent-id]').each(function () {
             treeTdId.add($(this).attr('data-tt-parent-id'));
         });
         var openStatus = false;
         $(document).on('click', ".openDetails", function () {
-            openStatus=!openStatus;
+            openStatus = !openStatus;
 //            if(iterateTreeToogle =='display: table-row;')
-            if(openStatus){
-                for(var tdId of treeTdId){
+            if (openStatus) {
+                for (var tdId of treeTdId) {
 //                    var obj =$(".fht-tbody > .treetable").find("tr[data-tt-id='" + tdId + "']").children().find('a').parent().html();
 //                    console.log(obj);
 //                    treeToggle(obj);
-                    iterateTreeToogle(tdId,"display: table-row;",false);
-                    $('.openDetailsTxt').css('display','none');
-                    $('.closeDetailsTxt').css('display','block');
+                    iterateTreeToogle(tdId, "display: table-row;", false);
+                    $('.openDetailsTxt').css('display', 'none');
+                    $('.closeDetailsTxt').css('display', 'block');
                 }
-            }else{
-                for(var tdId of treeTdId){
-                    iterateTreeToogle(tdId,"display: none;",true);
-                    $('.closeDetailsTxt').css('display','none');
-                    $('.openDetailsTxt').css('display','block');
+            } else {
+                for (var tdId of treeTdId) {
+                    iterateTreeToogle(tdId, "display: none;", true);
+                    $('.closeDetailsTxt').css('display', 'none');
+                    $('.openDetailsTxt').css('display', 'block');
                 }
             }
 
@@ -1714,32 +2167,32 @@
         $(".chosenDialog-w1").chosen({
             width: "414px"
         });
-        if(!ace.vars['touch']) {
-            $('.chosen-select').chosen({allow_single_deselect:true});
+        if (!ace.vars['touch']) {
+            $('.chosen-select').chosen({allow_single_deselect: true});
             //resize the chosen on window resize
 
             $(window)
                 .off('resize.chosen')
-                .on('resize.chosen', function() {
-                    $('.chosen-select').each(function() {
+                .on('resize.chosen', function () {
+                    $('.chosen-select').each(function () {
                         var $this = $(this);
 //                        $this.next().css({'width': $this.parent().width()});
                     })
                 }).trigger('resize.chosen');
             //resize chosen on sidebar collapse/expand
-            $(document).on('settings.ace.chosen', function(e, event_name, event_val) {
-                if(event_name != 'sidebar_collapsed') return;
-                $('.chosen-select').each(function() {
+            $(document).on('settings.ace.chosen', function (e, event_name, event_val) {
+                if (event_name != 'sidebar_collapsed') return;
+                $('.chosen-select').each(function () {
                     var $this = $(this);
                     $this.next().css({'width': $this.parent().width()});
                 })
             });
 
 
-            $('#chosen-multiple-style .btn').on('click', function(e){
+            $('#chosen-multiple-style .btn').on('click', function (e) {
                 var target = $(this).find('input[type=radio]');
                 var which = parseInt(target.val());
-                if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
+                if (which == 2) $('#form-field-select-4').addClass('tag-input-style');
                 else $('#form-field-select-4').removeClass('tag-input-style');
             });
         }
@@ -1762,21 +2215,22 @@
             //addRemoveLinks : true,
 //            dictRemoveFile: 'Remove',
 
-            dictDefaultMessage :
-                '<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
+            dictDefaultMessage: '<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
                 <span class="smaller-80 grey">(or click)</span> <br /> \
                 <i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
             ,
 
-            thumbnail: function(file, dataUrl) {
+            thumbnail: function (file, dataUrl) {
                 if (file.previewElement) {
                     $(file.previewElement).removeClass("dz-file-preview");
-                    var images = $(file.previewElement).find("[data-dz-thumbnail]").each(function() {
+                    var images = $(file.previewElement).find("[data-dz-thumbnail]").each(function () {
                         var thumbnailElement = this;
                         thumbnailElement.alt = file.name;
                         thumbnailElement.src = dataUrl;
                     });
-                    setTimeout(function() { $(file.previewElement).addClass("dz-image-preview"); }, 1);
+                    setTimeout(function () {
+                        $(file.previewElement).addClass("dz-image-preview");
+                    }, 1);
                 }
             }
 
@@ -1789,7 +2243,7 @@
             timeBetweenSteps = 100,
             bytesPerStep = 100000;
 
-        myDropzone.uploadFiles = function(files) {
+        myDropzone.uploadFiles = function (files) {
             var self = this;
 
             for (var i = 0; i < files.length; i++) {
@@ -1798,8 +2252,8 @@
 
                 for (var step = 0; step < totalSteps; step++) {
                     var duration = timeBetweenSteps * (step + 1);
-                    setTimeout(function(file, totalSteps, step) {
-                        return function() {
+                    setTimeout(function (file, totalSteps, step) {
+                        return function () {
                             file.upload = {
                                 progress: 100 * (step + 1) / totalSteps,
                                 total: file.size,
@@ -1819,13 +2273,13 @@
             }
         }
 
-    } catch(e) {
+    } catch (e) {
 //        alert('Dropzone.js does not support older browsers!');
     }
 
 
-// 訂房卡button 文字轉換
-    $("#resv_changeTxt").click(function(){
+    // 訂房卡button 文字轉換
+    $("#resv_changeTxt").click(function () {
         var textName = $(this).text();
         if (textName == "Waiting")
             $(this).text("Cancel")
@@ -1845,11 +2299,11 @@
         $('.depositsBtn').removeClass('resv_depositsStep3A').addClass('resv_depositsStep3B');
     });
 
-    $(document).ready(function() {
-        $("#resRoomPlan-table").tableHeadFixer({"left" : 1});
+    $(document).ready(function () {
+        $("#resRoomPlan-table").tableHeadFixer({"left": 1});
     });
-    $(document).ready(function() {
-        $("#resRoomType-table").tableHeadFixer({"left" : 1});
+    $(document).ready(function () {
+        $("#resRoomType-table").tableHeadFixer({"left": 1});
     });
 
 </script>

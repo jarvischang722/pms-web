@@ -299,8 +299,10 @@ exports.handleSinglePageRowData_PM0620020 = function (session, postData, callbac
                                         fieldData[fIdx].referiable = selRow.referiable || "N";
                                         fieldData[fIdx].defaultVal = selRow.defaultVal || "";
 
-                                        dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
-                                            fieldData[fIdx].selectData = selectData;
+                                        dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
+                                            fieldData[fIdx].selectDataDisplay = selectData.selectDataDisplay;
+                                            fieldData[fIdx].selectData =
+                                                selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
                                             cb(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                         });
 
@@ -494,10 +496,10 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                         if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
 
                             //讀取selectgrid的設定參數
-                            if (field.ui_type == 'selectgrid') {
-                                var func_name = prg_id + '_' + field.ui_field_name;
-                                la_saleMnfields[fIdx].selectGridOptions = ruleAgent[func_name]();
-                            }
+                            // if (field.ui_type == 'selectgrid') {
+                            //     var func_name = prg_id + '_' + field.ui_field_name;
+                            //     la_saleMnfields[fIdx].selectGridOptions = ruleAgent[func_name]();
+                            // }
 
                             selectDSFunc.push(
                                 function (cbw) {
@@ -511,10 +513,20 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                             la_saleMnfields[fIdx].ds_from_sql = selRow.ds_from_sql || "";
                                             la_saleMnfields[fIdx].referiable = selRow.referiable || "N";
                                             la_saleMnfields[fIdx].defaultVal = selRow.defaultVal || "";
-                                            dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
-                                                la_saleMnfields[fIdx].selectData = selectData;
-                                                cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
-                                            });
+                                            if(la_saleMnfields[fIdx].ui_type =='selectgrid'){
+                                                dataRuleSvc.getSelectGridOption(session, selRow, la_saleMnfields[fIdx], function (err, selectData) {
+                                                    la_saleMnfields[fIdx].selectData = selectData;
+                                                    cbw(err, {ui_field_idx: fIdx, ui_field_name: la_saleMnfields[fIdx].ui_field_name});
+                                                });
+                                            }
+                                            else{
+                                                dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
+                                                    la_saleMnfields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
+                                                    la_saleMnfields[fIdx].selectData =
+                                                        selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
+                                                    cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                                                });
+                                            }
                                         } else {
                                             cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                         }
@@ -658,8 +670,10 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                         la_hotelDtFields[fIdx].referiable = selRow.referiable || "N";
                                         la_hotelDtFields[fIdx].defaultVal = selRow.defaultVal || "";
 
-                                        dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
-                                            la_hotelDtFields[fIdx].selectData = selectData;
+                                        dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
+                                            la_hotelDtFields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
+                                            la_hotelDtFields[fIdx].selectData =
+                                                selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
                                             cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                         });
 
@@ -765,8 +779,10 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                         la_classHsFields[fIdx].referiable = selRow.referiable || "N";
                                         la_classHsFields[fIdx].defaultVal = selRow.defaultVal || "";
 
-                                        dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
-                                            la_classHsFields[fIdx].selectData = selectData;
+                                        dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
+                                            la_classHsFields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
+                                            la_classHsFields[fIdx].selectData =
+                                                selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
                                             cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                         });
 
@@ -888,6 +904,12 @@ exports.handleEditSalesClerk = function (session, postData, callback) {
     let upd_order_mn = postData.upd_order_mn || "N";
     let cust_cod = postData.cust_cod || [];
     let userInfo = session.user;
+    let lo_exec_Data = {
+        sales_cod: sales_cod,
+        cust_cod: cust_cod,
+        upd_order_mn: upd_order_mn
+    };
+    lo_exec_Data = _.extend(lo_exec_Data, commonRule.getEditDefaultDataRule(session));
 
     let apiParams = {
         "REVE-CODE": "PMS0620030",
@@ -897,14 +919,12 @@ exports.handleEditSalesClerk = function (session, postData, callback) {
         "user": userInfo.usr_id,
         "count": 1,
         "func_id": '0500',
-        "exec_data": [{
-            sales_cod: sales_cod,
-            cust_cod: cust_cod,
-            upd_order_mn: upd_order_mn
-        }]
+        "exec_data": {
+            1: lo_exec_Data
+        }
     };
 
-    tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+    tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
         var err = null;
         var success = true;
         if (apiErr || !data) {
@@ -1021,7 +1041,7 @@ exports.handleCompState = function (session, postData, callback) {
             "exec_data": lo_savaExecDatas
         };
 
-        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
             if (apiErr || !data) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
@@ -1125,7 +1145,7 @@ exports.handleContractState = function (session, postData, callback) {
             "exec_data": lo_savaExecDatas
         };
 
-        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
             if (apiErr || !data) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();

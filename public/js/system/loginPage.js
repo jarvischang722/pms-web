@@ -1,7 +1,8 @@
 var loginVM = new Vue({
     el: "#loginAPP",
     data: {
-        isLoading: false,
+        loadingText: '',
+        isLoading: true,
         sysConfig: "",
         companyData: [],
         rememberMeCheck: false,
@@ -51,7 +52,7 @@ var loginVM = new Vue({
         getDefaultAccount: function () {
             var self = this;
             if (!_.isUndefined(self.sysConfig.isDefaultUserID) && self.sysConfig.isDefaultUserID === "Y") {
-                $.get(self.sysConfig.api_url + "/?getip=''", function (ip) {
+                $.get(self.sysConfig.api_url.dotnet + "/?getip=''", function (ip) {
                     $.post("/api/getDefaultAccount", {ip: ip}, function (result) {
                         self.username = result.account;
                     });
@@ -59,7 +60,9 @@ var loginVM = new Vue({
             }
         },
         getCompaonyData: function () {
+            this.loadingText = 'Loading...';
             $.post("/api/getSelectCompany", function (result) {
+                loginVM.isLoading = false;
                 if (result.success) {
                     loginVM.companyData = result.selectCompany;
                     loginVM.comp_id = result.selectCompany.length > 0 ? result.selectCompany[0].cmp_id.trim() : "";
@@ -78,6 +81,7 @@ var loginVM = new Vue({
         },
         doLogin: function () {
             var self = this;
+            this.loadingText = 'Logging in...';
             self.isLoading = true;
             setupCookie("login_isRememberMe", this.rememberMeCheck ? "Y" : "N", "/", 2592000000);
             var params = {
@@ -106,7 +110,7 @@ var loginVM = new Vue({
                 }
                 else {
                     self.isLoading = false;
-                    alert(result.errorMsg);
+                    self.$alert(result.errorMsg);
                 }
             });
 

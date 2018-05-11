@@ -247,4 +247,34 @@
         <parameter type="string" kind="3">room_cod</parameter>
         <parameter type="string" kind="3">begin_dat</parameter>
     </dao>
+
+    <!-- 取得可使用的房型 -->
+    <dao name="QRY_RVRMCOD_RF_FOR_RATECOD">
+        <statement><![CDATA[
+            select UNIQUE ROOM_COD,ROOM_NAM,ROOM_SNA
+            from RVRMCOD_RF
+            WHERE ATHENA_ID = :athena_id
+            AND trim(HOTEL_COD) = trim(:hotel_cod)
+            AND END_DAT > = to_date(:rent_cal_dat, 'YYYY/MM/DD')
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rent_cal_dat</parameter>
+    </dao>
+
+    <!-- [PMS0110040 訂房卡多筆] 房型選單 -->
+    <dao name="SEL_RVRMCOD_RF">
+        <statement><![CDATA[
+            select distinct a.room_cod value, a.room_sna display,b.view_seq
+            from rvrmcod_rf a
+            join room_cod_order b on a.athena_id =b.athena_id and a.hotel_cod = b.hotel_cod and a.room_cod = b.room_cod
+            where a.athena_id = :athena_id and a.hotel_cod = :hotel_cod and a.end_dat >= to_date(pg_ais2.sf_get_hotel_sval(:hotel_cod,'HFD','rent_cal_dat', :athena_id),'YYYY/MM/DD')
+            order by b.view_seq, a.room_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
 </root>

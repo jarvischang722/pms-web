@@ -2,15 +2,15 @@
  * Created by Jun Chang on 2017/2/15.
  */
 
-var moment = require("moment");
-var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var mongoAgent = require("../plugins/mongodb");
-var ruleAgent = require("../ruleEngine/ruleAgent");
-var commonTools = require("../utils/CommonTools");
-var _ = require("underscore");
-var async = require("async");
-var ReturnClass = require("../ruleEngine/returnClass");
-var ErrorClass = require("../ruleEngine/errorClass");
+let moment = require("moment");
+let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+let mongoAgent = require("../plugins/mongodb");
+let ruleAgent = require("../ruleEngine/ruleAgent");
+let commonTools = require("../utils/CommonTools");
+let _ = require("underscore");
+let async = require("async");
+let ReturnClass = require("../ruleEngine/returnClass");
+let ErrorClass = require("../ruleEngine/errorClass");
 
 
 /**
@@ -77,58 +77,116 @@ exports.qrySelectOptionsFromSQL = function (userInfo, sql_tag, callback) {
 
 /**
  * 取得Select options值
- * @param params
- * @param selRow
+ * @param session
+ * @param typeSelectField
  * @param field
  * @param callback
  * @constructor
  */
-exports.getSelectOptions = function (params, selRow, field, callback) {
+exports.getSelectOptions = async function (session, typeSelectField, field, callback) {
+    let lo_selectData = {
+        selectDataDisplay: [],
+        selectData: []
+    };
 
-    if (selRow.referiable == "Y") {
-        callback([]);
+    if (typeSelectField.referiable == "Y") {
+        callback(lo_selectData);
         return;
     }
 
-    if (selRow.ds_from_sql == "Y") {
-        var sql_tag = selRow.rule_func_name.toUpperCase();
-        queryAgent.queryList(sql_tag, params, 0, 0, function (err, selData) {
-            if (err) {
-                selData = [];
-            }
+    //下拉資料來源為sql
+    if (typeSelectField.ds_from_sql == "Y") {
+        let sql_tag = typeSelectField.rule_func_name.toUpperCase();
 
-            _.each(selData, function (lo_selData, index) {
-                if (!_.isUndefined(lo_selData.value)) {
-                    if (field.modificable == 'N') {
-                        selData[index].display = lo_selData.display;
+        try {
+            //1.取下拉顯示資料(全部資料)
+            let la_displayData = await qrySelectOptionDisplayData();
+            //2.分版本
+            let la_editionOption = await this.handleRuleExtendFunc(la_displayData, session, typeSelectField);
+            //3.過濾下拉資料
+            let la_selectData = await filterSelectOption(la_editionOption);
+
+            lo_selectData.selectDataDisplay = la_displayData;
+            lo_selectData.selectData = la_selectData;
+
+        }
+        catch (err) {
+            console.error(err);
+        }
+        callback(lo_selectData);
+
+        /**
+         * 取下拉資料
+         * @returns {Promise<any>}
+         */
+        async function qrySelectOptionDisplayData() {
+            return new Promise((resolve, reject) => {
+                queryAgent.queryList(sql_tag, session.user, 0, 0, function (err, selData) {
+                    if (err) {
+                        console.error(err);
+                        selData = [];
                     }
-                    else {
-                        selData[index].display = lo_selData.value + " : " + lo_selData.display;
-                    }
-                }
-            });
-            callback(selData);
-        });
-    }
-    else {
-        if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
-            //方法訂義都需傳入一個Object參數集合
-            ruleAgent[selRow.rule_func_name](params, function (err, data) {
-                if (err) {
-                    callback([]);
-                } else {
-                    _.each(data.selectOptions, function (lo_selData, index) {
+
+                    _.each(selData, function (lo_selData, index) {
                         if (!_.isUndefined(lo_selData.value)) {
-                            data.selectOptions[index].display = lo_selData.display;
+                            if (field.modificable == 'N') {
+                                selData[index].display = lo_selData.display;
+                            }
+                            else {
+                                selData[index].display = lo_selData.value + " : " + lo_selData.display;
+                            }
                         }
-
                     });
-                    callback(data.selectOptions);
+                    resolve(selData);
+                });
+            });
+        }
+
+        /**
+         * 過濾要顯示的下拉資料
+         * @param selectData {array} 原始下拉資料
+         * @returns {Promise<any>}
+         */
+        async function filterSelectOption(selectData) {
+            return new Promise((resolve, reject) => {
+                if (!_.isUndefined(typeSelectField.display_func_name) && typeSelectField.display_func_name != "") {
+                    ruleAgent[typeSelectField.display_func_name](selectData, function (data) {
+                        resolve(data);
+                    });
+                }
+                else {
+                    resolve(selectData);
                 }
             });
         }
+    }
+    else {
+        if (!_.isUndefined(ruleAgent[typeSelectField.rule_func_name])) {
+            //方法訂義都需傳入一個Object參數集合
+            let la_selectOptions = await new Promise(resolve => {
+                ruleAgent[typeSelectField.rule_func_name](session.user, function (err, data) {
+                    if (err) {
+                        resolve([]);
+                        console.error(err);
+                    }
+                    else {
+                        _.each(data.selectOptions, function (lo_selData, index) {
+                            if (!_.isUndefined(lo_selData.value)) {
+                                data.selectOptions[index].display = lo_selData.display;
+                            }
+                        });
+                    }
+                    resolve(data.selectOptions);
+                });
+            });
+
+            let la_editionOption = await this.handleRuleExtendFunc(la_selectOptions, session, typeSelectField);
+            lo_selectData.selectDataDisplay = la_editionOption;
+            lo_selectData.selectData = la_editionOption;
+            callback(lo_selectData);
+        }
         else {
-            callback([]);
+            callback(lo_selectData);
         }
     }
 };
@@ -140,7 +198,7 @@ exports.getSelectOptions = function (params, selRow, field, callback) {
  * @param field
  * @param callback
  */
-exports.getSelectGridOption = function (session, selRow, field, callback) {
+exports.getSelectGridOption = function (session, typeSelectField, field, callback) {
     //要回傳的資料
     let lo_selectData = {};
 
@@ -150,37 +208,37 @@ exports.getSelectGridOption = function (session, selRow, field, callback) {
         //取得下拉資料
         qrySelectGridData
     ], function (err, result) {
-        if(err){
+        if (err) {
             callback(err, null);
         }
-        else{
+        else {
             lo_selectData = result;
-            lo_selectData.isQrySrcBefore = selRow.is_qry_src_before == ""?"Y":selRow.is_qry_src_before;
+            lo_selectData.isQrySrcBefore = typeSelectField.is_qry_src_before == "" ? "Y" : typeSelectField.is_qry_src_before;
             callback(err, lo_selectData);
         }
     });
 
     function qrySelectGridColumn(cb) {
-        if (!_.isUndefined(ruleAgent[selRow.column_func_name])) {
-            ruleAgent[selRow.column_func_name](session, function (err, data) {
+        if (!_.isUndefined(ruleAgent[typeSelectField.column_func_name])) {
+            ruleAgent[typeSelectField.column_func_name](session, function (err, data) {
                 cb(err, data);
             });
         }
         else {
-            let err = "column_func_name is undefined"
+            let err = "column_func_name is undefined";
             cb(err, null);
         }
     }
 
     function qrySelectGridData(selectData, cb) {
         if (_.isEmpty(selectData)) {
-            let err = "select's attribute is null"
+            let err = "select's attribute is null";
             cb(err, null);
         }
         else {
-            if (selRow.is_qry_src_before != "N") {
-                var sql_tag = selRow.rule_func_name.toUpperCase();
-                var lo_params = session.user;
+            if (typeSelectField.is_qry_src_before != "N") {
+                let sql_tag = typeSelectField.rule_func_name.toUpperCase();
+                let lo_params = session.user;
                 queryAgent.queryList(sql_tag, lo_params, 0, 0, function (err, selData) {
                     if (err) {
                         selData = [];
@@ -205,6 +263,40 @@ exports.getSelectGridOption = function (session, selRow, field, callback) {
     }
 };
 
+exports.handleRuleExtendFunc = async function (postData, session, fieldsData) {
+    if (_.isUndefined(fieldsData.rule_extend_func_name)) return postData;
+
+    if (_.isArray(fieldsData.rule_extend_func_name)) {
+        let lo_result = await execRuleExtendFuncIsArray(postData, session, fieldsData);
+        return lo_result;
+    }
+};
+
+async function execRuleExtendFuncIsArray(postData, session, fieldsData) {
+    let lb_isAddPrgID = false;
+    if (_.isUndefined(postData.prg_id)) {
+        postData.prg_id = fieldsData.prg_id;
+        lb_isAddPrgID = true;
+    }
+    let la_ruleExtendFunc = _.sortBy(fieldsData.rule_extend_func_name, "sort");
+
+    for (let lo_ruleExtendFunc of la_ruleExtendFunc) {
+        let la_ruleName = Object.keys(lo_ruleExtendFunc);
+        for (let ls_ruleName of la_ruleName) {
+            let ls_enable = lo_ruleExtendFunc[ls_ruleName];
+            if (ls_ruleName != "sort" && ls_enable == "Y") {
+                let lo_result = await ruleAgent[ls_ruleName](postData, session);
+                _.extend(postData, lo_result);
+            }
+        }
+    }
+
+    if (lb_isAddPrgID) {
+        delete postData.prg_id;
+    }
+    return postData;
+}
+
 /**
  * 使用者離開欄位時檢查
  * @param postData
@@ -218,7 +310,7 @@ exports.handleBlurUiField = function (postData, session, callback) {
             callback(err, result);
         });
     } else {
-        var errorObj = new ErrorClass();
+        let errorObj = new ErrorClass();
         errorObj.errorMsg = "Not found rule function.";
         callback(errorObj, new ReturnClass());
     }
@@ -266,8 +358,8 @@ exports.handleAddFuncRule = function (postData, session, callback) {
             });
         }
     ], function (err, getResult) {
-        var fieldNameList = getResult[0];
-        var selectData = commonTools.mongoDocToObject(getResult[1]);
+        let fieldNameList = getResult[0];
+        let selectData = commonTools.mongoDocToObject(getResult[1]);
         let lo_initField = {};
         _.each(fieldNameList, function (name) {
             if (name == "athena_id") {
@@ -307,7 +399,7 @@ exports.handleAddFuncRule = function (postData, session, callback) {
             } else {
 
                 //取typeSelect的預設值
-                var result = {};
+                let result = {};
                 _.each(selectData, function (value, index) {
                     if (value.defaultVal != "") {
                         result[value.ui_field_name] = value.defaultVal;
@@ -338,7 +430,7 @@ exports.handleEditFuncRule = function (postData, session, callback) {
         });
 
     } else {
-        var errorObj = new ReturnClass();
+        let errorObj = new ReturnClass();
         errorObj.errorMsg = "Not found rule function.";
         callback(errorObj, new ReturnClass());
 
@@ -352,9 +444,9 @@ exports.handleEditFuncRule = function (postData, session, callback) {
  * @return callback
  */
 exports.handleDeleteFuncRule = function (postData, session, callback) {
-    var isDtData = postData["isDtData"] || false;
-    var prg_id = postData.prg_id;
-    var page_id = Number(postData.page_id || 1);
+    let isDtData = postData["isDtData"] || false;
+    let prg_id = postData.prg_id;
+    let page_id = Number(postData.page_id || 1);
     let dbName = (page_id == 2) ? "SetupPageFunction" : "SetupDatagridFunction";
 
     mongoAgent[dbName].findOne({
@@ -362,12 +454,12 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
         func_id: '0300',
         "$or": [{"page_id": {$not: {$exists: true}}}, {"page_id": page_id}]
     }, function (err, func) {
-        var lo_result = new ReturnClass();
+        let lo_result = new ReturnClass();
         if (!err && func) {
             func = func.toObject();
             if (!_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
-                var funcs = [];
-                var deleteData = postData["deleteData"] || [];
+                let funcs = [];
+                let deleteData = postData["deleteData"] || [];
 
                 if (isDtData) {
                     deleteData = postData["dt_deleteData"] || [];
@@ -375,7 +467,7 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
 
                 _.each(deleteData, function (d_data) {
                     postData.singleRowData = d_data;
-                    var lo_postData = _.clone(postData);
+                    let lo_postData = _.clone(postData);
                     funcs.push(
                         function (callback) {
                             ruleAgent[func.rule_func_name](lo_postData, session, function (err, result) {
@@ -389,7 +481,12 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
                     if (err) {
                         lo_result.success = false;
                     }
-                    lo_result.extendExecDataArrSet = result[0].extendExecDataArrSet;
+                    _.each(result, function (lo_data) {
+                        if (!_.isUndefined(lo_data)) {
+                            lo_result.extendExecDataArrSet = lo_data.extendExecDataArrSet;
+                        }
+                    });
+
                     callback(err, lo_result);
                 });
 
@@ -418,7 +515,7 @@ exports.handleSaveFuncRule = function (postData, session, callback) {
         });
 
     } else {
-        var errorObj = new ReturnClass();
+        let errorObj = new ReturnClass();
         errorObj.errorMsg = "Not found rule function.";
         callback(errorObj, new ReturnClass());
 
@@ -434,7 +531,7 @@ exports.handleSaveFuncRule = function (postData, session, callback) {
  */
 exports.chkIsModificableRowData = function (rule_func_name, rowData, session, callback) {
     if (!_.isEmpty(rule_func_name) && !_.isUndefined(ruleAgent[rule_func_name])) {
-        var postData = {
+        let postData = {
             singleRowData: rowData
         };
         ruleAgent[rule_func_name](postData, session, function (err, result) {
@@ -442,7 +539,7 @@ exports.chkIsModificableRowData = function (rule_func_name, rowData, session, ca
         });
 
     } else {
-        // var errorObj = new ReturnClass();
+        // let errorObj = new ReturnClass();
         // errorObj.errorMsg = "Not found rule function.";
         callback(null, new ReturnClass());
 
@@ -456,15 +553,15 @@ exports.chkIsModificableRowData = function (rule_func_name, rowData, session, ca
  * @param callback
  */
 exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback) {
-    var prg_id = postData["prg_id"] || "";
-    var deleteData = postData["deleteData"] || [];
-    var createData = postData["createData"] || [];
-    var updateData = postData["updateData"] || [];
-    var la_before_save_create_sql_action = [];      //儲存前需要新增插入資料庫的動作
-    var la_before_save_delete_sql_action = [];      //儲存前需要刪除資料庫的動作
-    var la_before_save_update_sql_action = [];      //儲存前需要修改資料庫的動作
-    var lo_beforeSaveCreateCheckResult = [];       //檢查update 結果
-    var lo_beforeSaveUpdateCheckResult = [];       //檢查
+    let prg_id = postData["prg_id"] || "";
+    let deleteData = postData["deleteData"] || [];
+    let createData = postData["createData"] || [];
+    let updateData = postData["updateData"] || [];
+    let la_before_save_create_sql_action = [];      //儲存前需要新增插入資料庫的動作
+    let la_before_save_delete_sql_action = [];      //儲存前需要刪除資料庫的動作
+    let la_before_save_update_sql_action = [];      //儲存前需要修改資料庫的動作
+    let lo_beforeSaveCreateCheckResult = [];       //檢查update 結果
+    let lo_beforeSaveUpdateCheckResult = [];       //檢查
 
     mongoAgent.SetupDatagridFunction.find({prg_id: prg_id}).exec(function (err, ruleFuncs) {
         if (ruleFuncs.length > 0) {
@@ -473,13 +570,13 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
 
         //檢查新增資料
         function chkCreateData(callback) {
-            var createChkFuncs = [];
-            var beforeCreateFuncRule = _.findIndex(ruleFuncs, {func_id: '0521'}) > -1
+            let createChkFuncs = [];
+            let beforeCreateFuncRule = _.findIndex(ruleFuncs, {func_id: '0521'}) > -1
                 ? _.findWhere(ruleFuncs, {func_id: '0521'}).rule_func_name
                 : "";
             _.each(createData, function (c_data, cIdx) {
                 if (!_.isEmpty(beforeCreateFuncRule) && !_.isUndefined(ruleAgent[beforeCreateFuncRule])) {
-                    var createPostData = {
+                    let createPostData = {
                         singleRowData: c_data
                     };
                     createPostData = _.extend(createPostData, postData);
@@ -507,13 +604,13 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
 
         //檢查修改資料
         function chkEditData(callback) {
-            var editChkFuncs = [];
-            var beforeEditFuncRule = _.findIndex(ruleFuncs, {func_id: '0541'}) > -1
+            let editChkFuncs = [];
+            let beforeEditFuncRule = _.findIndex(ruleFuncs, {func_id: '0541'}) > -1
                 ? _.findWhere(ruleFuncs, {func_id: '0541'}).rule_func_name
                 : "";
             _.each(updateData, function (u_data) {
                 if (!_.isEmpty(beforeEditFuncRule) && !_.isUndefined(ruleAgent[beforeEditFuncRule])) {
-                    var editPostData = {
+                    let editPostData = {
                         singleRowData: u_data
                     };
                     editPostData = _.extend(editPostData, postData);
@@ -538,13 +635,13 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
         //檢查刪除資料
         function chkDeleteData(callback) {
 
-            var delChkFuncs = [];
-            var beforeDeleteFuncRule = _.findIndex(ruleFuncs, {func_id: '0531'}) > -1
+            let delChkFuncs = [];
+            let beforeDeleteFuncRule = _.findIndex(ruleFuncs, {func_id: '0531'}) > -1
                 ? _.findWhere(ruleFuncs, {func_id: '0531'}).rule_func_name
                 : "";
             _.each(deleteData, function (d_data) {
                 if (!_.isEmpty(beforeDeleteFuncRule) && !_.isUndefined(ruleAgent[beforeDeleteFuncRule])) {
-                    var deletePostData = {
+                    let deletePostData = {
                         singleRowData: d_data
                     };
                     deletePostData = _.extend(deletePostData, postData);
@@ -593,17 +690,17 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     let tab_page_id = postData.tab_page_id || 1;
     let deleteData = postData["deleteData"] || [];
     let delChkFuncs = [];
-    let lo_mongoCollection = prg_id.substring(0, 5) == "PMS08"?"SetupDatagridFunction" : "PrgFunction";//設定的collection 為SetupDatagridFunction、作業為PrgFunction
+    let lo_mongoCollection = prg_id.substring(0, 5) == "PMS08" ? "SetupDatagridFunction" : "PrgFunction";//設定的collection 為SetupDatagridFunction、作業為PrgFunction
     let lo_params = {};//mongo 搜尋條件
 
-    if(lo_mongoCollection == "SetupDatagridFunction"){
+    if (lo_mongoCollection == "SetupDatagridFunction") {
         lo_params = {
             prg_id: prg_id,
             page_id: Number(page_id),
             func_id: '0300'
         };
     }
-    else{
+    else {
         lo_params = {
             prg_id: prg_id,
             page_id: Number(page_id),
@@ -613,10 +710,10 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     }
 
     mongoAgent[lo_mongoCollection].findOne(lo_params, function (err, deleteRule) {
-        var beforeDeleteFuncRule = !err && deleteRule ? deleteRule.toObject().rule_func_name : "";
+        let beforeDeleteFuncRule = !err && deleteRule ? deleteRule.toObject().rule_func_name : "";
         if (!_.isEmpty(beforeDeleteFuncRule) && !_.isUndefined(ruleAgent[beforeDeleteFuncRule])) {
             _.each(deleteData, function (d_data) {
-                var deletePostData = {
+                let deletePostData = {
                     singleRowData: d_data
                 };
                 deletePostData = _.extend(deletePostData, postData);
@@ -630,7 +727,7 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
 
             });
             async.parallel(delChkFuncs, function (err, result) {
-                var lo_result = new ReturnClass();
+                let lo_result = new ReturnClass();
                 if (err) {
                     lo_result.success = false;
                 }
@@ -650,25 +747,25 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
  */
 exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
     try {
-        var prg_id = postData.prg_id;
-        var page_id = postData.page_id || 2;
-        var userInfo = session.user;
-        var lo_chkResult = new ReturnClass();
-        var lo_chkError = null;
-        var tmpExtendExecDataArrSet = [];  //新刪修回傳要執行的SQL API 組合
-        var deleteData = postData["deleteData"] || [];
-        var createData = postData["createData"] || [];
-        var editData = postData["editData"] || [];
+        let prg_id = postData.prg_id;
+        let page_id = postData.page_id || 2;
+        let userInfo = session.user;
+        let lo_chkResult = new ReturnClass();
+        let lo_chkError = null;
+        let tmpExtendExecDataArrSet = [];  //新刪修回傳要執行的SQL API 組合
+        let deleteData = postData["deleteData"] || [];
+        let createData = postData["createData"] || [];
+        let editData = postData["editData"] || [];
         mongoAgent.SetupPageFunction.find({prg_id: prg_id, page_id: page_id}).exec(function (err, rules) {
             if (!err && rules.length > 0) {
                 async.parallel([
                     //新增資料檢查
                     function (callback) {
-                        var createRuleFuncName = _.findIndex(rules, {func_id: '0521'}) > -1
+                        let createRuleFuncName = _.findIndex(rules, {func_id: '0521'}) > -1
                             ? _.findWhere(rules, {func_id: '0521'}).rule_func_name
                             : "";
                         if (createData.length > 0 && !_.isEmpty(createRuleFuncName)) {
-                            var createSubFunc = [];
+                            let createSubFunc = [];
                             _.each(createData, function (c_data) {
                                 createSubFunc.push(
                                     function (callback) {
@@ -703,11 +800,11 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                     },
                     //修改資料檢查
                     function (callback) {
-                        var updateRuleFuncName = _.findIndex(rules, {func_id: '0541'}) > -1
+                        let updateRuleFuncName = _.findIndex(rules, {func_id: '0541'}) > -1
                             ? _.findWhere(rules, {func_id: '0541'}).rule_func_name
                             : "";
                         if (editData.length > 0 && !_.isEmpty(updateRuleFuncName)) {
-                            var updateSubFunc = [];
+                            let updateSubFunc = [];
                             _.each(editData, function (u_data) {
                                 updateSubFunc.push(
                                     function (callback) {
@@ -741,11 +838,11 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                     },
                     //刪除資料檢查
                     function (callback) {
-                        var deleteRuleFuncName = _.findIndex(rules, {func_id: '0531'}) > -1
+                        let deleteRuleFuncName = _.findIndex(rules, {func_id: '0531'}) > -1
                             ? _.findWhere(rules, {func_id: '0531'}).rule_func_name
                             : "";
                         if (deleteData.length > 0 && !_.isEmpty(deleteRuleFuncName)) {
-                            var deleteSubFunc = [];
+                            let deleteSubFunc = [];
                             _.each(deleteData, function (d_data) {
                                 deleteSubFunc.push(
                                     function (callback) {
@@ -806,8 +903,8 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
 exports.doChkSingleGridAfterSave = function (postData, session, callback) {
     //TODO 單檔Mn 儲存前規則檢查
     try {
-        var lo_chkResult = new ReturnClass();
-        var lo_chkError = null;
+        let lo_chkResult = new ReturnClass();
+        let lo_chkError = null;
         callback(lo_chkError, lo_chkResult);
     } catch (err) {
         lo_chkError = new ErrorClass();
@@ -845,7 +942,7 @@ exports.chkSpecialDataGridBtnEventRule = function (postData, session, callback) 
 /**
  * 儲存"前"，執行作業規則檢查
  */
-exports.doOperationRuleProcBeforeSave = function (postData, session, rules, callback) {
+exports.doOperationRuleProcBeforeSave = async function (postData, session, rules, callback) {
     let la_createData = postData["tmpCUD"]["createData"] || [];
     let la_updateData = postData["tmpCUD"]["updateData"] || [];
     let la_deleteData = postData["tmpCUD"]["deleteData"] || [];
@@ -857,11 +954,11 @@ exports.doOperationRuleProcBeforeSave = function (postData, session, rules, call
         async.parallel([
             //新增資料檢查
             function (para_cb) {
-                var createRuleFuncName = _.findIndex(rules, {func_id: '0521'}) > -1
+                let createRuleFuncName = _.findIndex(rules, {func_id: '0521'}) > -1
                     ? _.findWhere(rules, {func_id: '0521'}).rule_func_name
                     : "";
                 if (la_createData.length > 0 && !_.isEmpty(createRuleFuncName)) {
-                    var createSubFunc = [];
+                    let createSubFunc = [];
                     _.each(la_createData, function (c_data, index) {
                         createSubFunc.push(
                             function (cb) {
@@ -896,11 +993,11 @@ exports.doOperationRuleProcBeforeSave = function (postData, session, rules, call
             },
             //修改資料檢查
             function (para_cb) {
-                var updateRuleFuncName = _.findIndex(rules, {func_id: '0541'}) > -1
+                let updateRuleFuncName = _.findIndex(rules, {func_id: '0541'}) > -1
                     ? _.findWhere(rules, {func_id: '0541'}).rule_func_name
                     : "";
                 if (la_updateData.length > 0 && !_.isEmpty(updateRuleFuncName)) {
-                    var updateSubFunc = [];
+                    let updateSubFunc = [];
                     _.each(la_updateData, function (u_data, index) {
                         updateSubFunc.push(
                             function (cb) {
@@ -935,11 +1032,11 @@ exports.doOperationRuleProcBeforeSave = function (postData, session, rules, call
             },
             //刪除資料檢查
             function (para_cb) {
-                var deleteRuleFuncName = _.findIndex(rules, {func_id: '0531'}) > -1
+                let deleteRuleFuncName = _.findIndex(rules, {func_id: '0531'}) > -1
                     ? _.findWhere(rules, {func_id: '0531'}).rule_func_name
                     : "";
                 if (la_deleteData.length > 0 && !_.isEmpty(deleteRuleFuncName)) {
-                    var deleteSubFunc = [];
+                    let deleteSubFunc = [];
                     _.each(la_deleteData, function (d_data, index) {
                         deleteSubFunc.push(
                             function (cb) {

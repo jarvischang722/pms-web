@@ -11,7 +11,7 @@
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div class="" style="padding: 0; box-sizing: border-box;">
-                        <table id="PMS0820030_prg_dg" class="dtTableSetupHt"></table>
+                        <table id="PMS0820030_prg_dg" class="prg_dgHt"></table>
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -25,28 +25,28 @@
                                 <button id="save-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
                                         @click="loadDefaultColor"
                                         role="button">
-                                    <%=__("program.PMS0820030.load_default_color")%>
+                                    <%=__("program").PMS0820030.load_default_color%>
                                 </button>
                             </li>
                             <li>
                                 <button id="save-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
                                         @click="copyColor"
                                         role="button">
-                                    <%=__("program.PMS0820030.copy_color")%>
+                                    <%=__("program").PMS0820030.copy_color%>
                                 </button>
                             </li>
                             <li>
                                 <button id="save-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
                                         @click="pasteColor"
                                         role="button">
-                                    <%=__("program.PMS0820030.paste_color")%>
+                                    <%=__("program").PMS0820030.paste_color%>
                                 </button>
                             </li>
                             <li>
                                 <button id="save-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
                                         @click="doSave();"
                                         role="button">
-                                    <%=__("SystemCommon.Save")%>
+                                    <%=__("SystemCommon").Save%>
                                 </button>
                             </li>
                         </ul>

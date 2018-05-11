@@ -31,12 +31,17 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="likestring" kind="2" condition="SALES_COD like ?">sales_cod</parameter>
         <parameter type="likestring" kind="2" condition="SALES_NAM like ?">sales_nam</parameter>
-        <parameter type="likestring" kind="2" condition="CLASS_COD like ?">class_cod</parameter>
-        <parameter type="string" kind="2" condition="trim(STATUS_COD) = trim(:STATUS_COD) ">status_cod</parameter>
-        <parameter type="string" kind="2" condition="trim(HOTEL_SALES) = trim(:HOTEL_SALES) ">hotel_sales</parameter>
-        <parameter type="string" kind="2" condition="trim(BQ_SALES) = trim(:BQ_SALES) ">bq_sales</parameter>
-        <parameter type="string" kind="2" condition="trim(MEMBER_SALES) = trim(:MEMBER_SALES) ">member_sales</parameter>
-        <orderby>ORDER  BY  DECODE( STATUS_COD, 'N', 1, 2 ), SALES_COD</orderby>
+        <parameter type="instring" kind="3">class_cod</parameter>
+        <statement test="_v(param.class_cod)"><![CDATA[and class_cod in(:class_cod)]]></statement>
+        <parameter type="instring" kind="3">status_cod</parameter>
+        <statement test="_v(param.status_cod)"><![CDATA[and status_cod in(:status_cod)]]></statement>
+        <parameter type="instring" kind="3">hotel_sales</parameter>
+        <statement test="_v(param.hotel_sales)"><![CDATA[and hotel_sales in(:hotel_sales)]]></statement>
+        <parameter type="instring" kind="3">bq_sales</parameter>
+        <statement test="_v(param.bq_sales)"><![CDATA[and bq_sales in(:bq_sales)]]></statement>
+        <parameter type="instring" kind="3">member_sales</parameter>
+        <statement test="_v(param.member_sales)"><![CDATA[and member_sales in(:member_sales)]]></statement>
+        <orderby>ORDER BY DECODE( STATUS_COD, 'N', 1, 2 ), SALES_COD</orderby>
     </dao>
 
     <!--[PMS0620020] 取得業務員sales_mn(user_nos空白)-->
@@ -108,5 +113,17 @@
         select sales_cod, sales_nam from sales_mn where athena_id = :athena_id
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+    <!-- [PMS0110040訂房卡多筆] 業務系統下拉選單-sales_mn_1 -->
+    <dao name="SEL_SALES_MN_1">
+        <statement><![CDATA[
+            SELECT  SALES_MN.SALES_COD value, SALES_MN.SALES_NAM display
+            FROM  SALES_MN
+            WHERE  SALES_MN.ATHENA_ID = :athena_id
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <statement test="_v(param.sales_cod)"><![CDATA[AND  SALES_MN.SALES_COD = :sales_cod]]></statement>
+        <parameter type="string" kind="3">sales_cod</parameter>
     </dao>
 </root>

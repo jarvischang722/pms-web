@@ -36,8 +36,8 @@
         <parameter type="string" kind="3">airline_cod</parameter>
     </dao>
 
-    <!--[PMS0610020 商務公司資料編輯] 合約內容
-        合約指定的房價代號未有相關訂房卡指定則可刪除合約-->
+    <!-- [PMS0610020 商務公司資料編輯] 合約內容
+        合約指定的房價代號未有相關訂房卡指定則可刪除合約 -->
     <dao name="CHK_RATE_COD_IS_EXIST_IN_GUEST_MN">
         <statement><![CDATA[
             SELECT  COUNT(*) as order_rate_Count
@@ -53,5 +53,57 @@
         <parameter type="string" kind="3">cust_cod</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">rate_cod</parameter>
+    </dao>
+
+    <!-- PMS0210011 住客歷史資料編輯 取得『預約來館資料』-->
+    <dao name="QRY_GUEST_MN">
+        <statement><![CDATA[
+            SELECT  DISTINCT ORDER_DT.ORDER_STA "ORDER_DT.ORDER_STA", ORDER_DT.CI_DAT "ORDER_DT.CI_DAT", ORDER_DT.CO_DAT "ORDER_DT.CO_DAT", ORDER_MN.ACUST_NAM "ORDER_MN.ACUST_NAM",
+            ORDER_MN.CUST_NAM "ORDER_MN.CUST_NAM", ORDER_MN.ATTEN_NAM "ORDER_MN.ATTEN_NAM", ORDER_DT.RATE_COD "ORDER_DT.RATE_COD",
+            ORDER_DT.USE_COD "ORDER_DT.USE_COD", ORDER_DT.ORDER_QNT "ORDER_DT.ORDER_QNT", ORDER_DT.RENT_AMT "ORDER_DT.RENT_AMT", ( ORDER_DT.ADULT_QNT + ORDER_DT.CHILD_QNT + ORDER_DT.BABY_QNT ) "order_dt.guest_qnt",
+            ORDER_DT.IKEY "ORDER_DT.IKEY", ORDER_DT.IKEY_SEQ_NOS "ORDER_DT.IKEY_SEQ_NOS"
+            FROM  ORDER_DT, ORDER_MN, GUEST_MN
+            WHERE  ORDER_MN.ATHENA_ID = ORDER_DT.ATHENA_ID
+            AND  ORDER_MN.IKEY = ORDER_DT.IKEY
+            AND  ORDER_DT.ATHENA_ID = GUEST_MN.ATHENA_ID
+            AND  ORDER_DT.IKEY = GUEST_MN.IKEY
+            AND  ORDER_DT.IKEY_SEQ_NOS = GUEST_MN.IKEY_SEQ_NOS
+            AND  ORDER_DT.CI_DAT >= to_date(:rent_cal_dat, 'YYYY/MM/DD')
+            AND  ORDER_DT.ORDER_STA <> 'D'
+            AND  GUEST_MN.ATHENA_ID = :athena_id
+            AND  GUEST_MN.GCUST_COD = :gcust_cod
+            AND  ORDER_MN.HOTEL_COD = trim(:hotel_cod)
+            ORDER BY  ORDER_DT.CI_DAT, ORDER_DT.IKEY, ORDER_DT.IKEY_SEQ_NOS
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">gcust_cod</parameter>
+        <parameter type="string" kind="3">rent_cal_dat</parameter>
+    </dao>
+
+    <!-- PMS0210011 住客歷史資料編輯 『檢查是否為在館住客及未來訂房卡住客資料』-->
+    <dao name="CHK_GUEST_MN_IS_EXIST">
+        <statement><![CDATA[
+            SELECT  GUEST_MN.ALT_NAM, GHIST_MN.SHOW_COD, GUEST_MN.HOTEL_COD, HOTEL_RF.HOTEL_NAM
+            FROM  GUEST_MN, GHIST_MN, ORDER_DT, HOTEL_RF
+            WHERE  GUEST_MN.ATHENA_ID = GHIST_MN.ATHENA_ID
+            AND  GUEST_MN.GCUST_COD = GHIST_MN.GCUST_COD
+            AND  GUEST_MN.ATHENA_ID = ORDER_DT.ATHENA_ID
+            AND  GUEST_MN.IKEY = ORDER_DT.IKEY
+            AND  GUEST_MN.IKEY_SEQ_NOS = ORDER_DT.IKEY_SEQ_NOS
+            AND  GUEST_MN.ATHENA_ID = HOTEL_RF.ATHENA_ID
+            AND  GUEST_MN.HOTEL_COD = HOTEL_RF.HOTEL_COD
+            AND  ( GUEST_MN.GUEST_STA IN ( 'K', 'O' ) OR
+                   ORDER_DT.CI_DAT >= TO_DATE( PG_AIS2.SF_GET_HOTEL_SVAL( ORDER_DT.HOTEL_COD, 'HFD', 'rent_cal_dat', :athena_id ), 'YYYY/MM/DD' ) )
+            AND  GUEST_MN.ATHENA_ID = :athena_id
+            AND  GUEST_MN.GCUST_COD = :gcust_cod
+            AND  GUEST_MN.SYSTEM_TYP = 'HFD'
+            AND  ROWNUM <= 1
+
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">gcust_cod</parameter>
     </dao>
 </root>

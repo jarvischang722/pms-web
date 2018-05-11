@@ -4,7 +4,7 @@
     <dao name="QRY_BAC_GET_USER_BY_ONE">
         <statement><![CDATA[
 
-            SELECT u.CMP_ID, u.GRP_ID, u.USR_ID, u.USR_CNAME,u.ACCOUNT_STA,u.USER_ATHENA_ID
+            SELECT u.CMP_ID, u.CMP_ID as comp_cod, u.GRP_ID, u.USR_ID, u.USR_CNAME,u.ACCOUNT_STA,u.USER_ATHENA_ID
             FROM s99_user u
             WHERE   trim(u.usr_id) = :user_id and u.usr_pwd = :usr_pwd and trim(u.cmp_id) = :cmp_id
 
@@ -14,6 +14,21 @@
         <parameter type="string" kind="3">user_id</parameter>
         <parameter type="string" kind="3">usr_pwd</parameter>
     </dao>
+
+    <!--取得使用者資料與使用者角色-->
+    <dao name="QRY_BAC_USER_ROLES">
+        <statement><![CDATA[
+            SELECT u.CMP_ID, u.CMP_ID as comp_cod, u.GRP_ID, u.USR_ID, u.USR_CNAME,u.ACCOUNT_STA,u.USER_ATHENA_ID, bru.role_id
+            FROM s99_user u
+            left join bac_role_user bru on  bru.user_id = u.usr_id
+            WHERE   trim(u.usr_id) = :user_id and u.usr_pwd = :usr_pwd and trim(u.cmp_id) = :cmp_id
+        ]]> </statement>
+
+        <parameter type="string" kind="3">cmp_id</parameter>
+        <parameter type="string" kind="3">user_id</parameter>
+        <parameter type="string" kind="3">usr_pwd</parameter>
+    </dao>
+
     <!--轉換使用者密碼-->
     <dao name="QRY_TRAN_S99_USER_PWD">
         <statement><![CDATA[
@@ -59,7 +74,7 @@
 
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">cmp_id</parameter>
-        <parameter type="likestring" kind="2" condition="usr_cname like ?" >usr_cname</parameter>
+        <parameter type="likestring" kind="2" condition="usr_cname like ?">usr_cname</parameter>
 
     </dao>
 
@@ -68,7 +83,9 @@
     -->
     <dao name="QRY_USER_NOS">
         <statement><![CDATA[
-        select distinct usr_id value, usr_cname as display from s99_user where user_athena_id = :athena_id order by usr_id
+        select distinct usr_id as user_nos, usr_cname as user_name, trim(usr_id ||':'|| usr_cname) as user_display
+        from s99_user
+        where user_athena_id = :athena_id order by usr_id
         ]]> </statement>
         <parameter type="number" kind="3">athena_id</parameter>
     </dao>
@@ -94,5 +111,16 @@
         <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="2" condition="trim(role_id) = trim(:role_id) ">role_id</parameter>
         <parameter type="string" kind="2" condition="trim(user_id) = trim(:user_id) ">user_id</parameter>
+    </dao>
+
+    <!-- 取輸入者 -->
+    <dao name="QRY_USERS_BY_ATHENA_ID">
+        <statement><![CDATA[
+          select distinct  usr_id AS value ,usr_cname AS display
+          from s99_user
+          where USER_ATHENA_ID = :athena_id
+
+        ]]> </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 </root>

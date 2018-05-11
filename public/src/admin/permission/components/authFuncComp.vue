@@ -97,52 +97,55 @@
                     la_plugins.splice(4, 1);
                 }
 
-                $('#permissionFuncTree').jstree({
-                    "core": {
-                        "animation": 0,
-                        "themes": {"stripes": true},
-                        "multiple": false,                  //不可多選
-                        "check_callback": true,
-                        "data": la_funcList4Tree
-                    },
-                    "types": {
-                        "#": {
-                            "icon": "glyphicon glyphicon-file",
-                            "max_children": 1,
-                            "max_depth": 4,
-                            "valid_children": ["root"]
+                setTimeout(function(){
+                    $('#permissionFuncTree').jstree({
+                        "core": {
+                            "animation": 0,
+                            "themes": {"stripes": true},
+                            "multiple": false,                  //不可多選
+                            "check_callback": true,
+                            "data": la_funcList4Tree
                         },
-                        "root": {
-                            "icon": "glyphicon glyphicon-file",
-                            "valid_children": ["default"]
+                        "types": {
+                            "#": {
+                                "icon": "glyphicon glyphicon-file",
+                                "max_children": 1,
+                                "max_depth": 4,
+                                "valid_children": ["root"]
+                            },
+                            "root": {
+                                "icon": "glyphicon glyphicon-file",
+                                "valid_children": ["default"]
+                            },
+                            "default": {
+                                "valid_children": ["default", "file"]
+                            },
+                            "file": {
+                                "icon": "glyphicon glyphicon-file",
+                                "valid_children": []
+                            }
                         },
-                        "default": {
-                            "valid_children": ["default", "file"]
+                        "checkbox": {
+                            "three_state": true,
+                            "keep_selected_style": true,
+                            "whole_node": false,
+                            "tie_selection": false   // 選取時，false只會選到父節點，不會選到子結點
                         },
-                        "file": {
-                            "icon": "glyphicon glyphicon-file",
-                            "valid_children": []
-                        }
-                    },
-                    "checkbox": {
-                        "three_state": true,
-                        "keep_selected_style": true,
-                        "whole_node": false,
-                        "tie_selection": false   // 選取時，false只會選到父節點，不會選到子結點
-                    },
-                    "plugins": la_plugins
-                });
-                self.treeIns = $("#permissionFuncTree").jstree(true);
-                self.$store.commit("setFuncTreeIns", self.treeIns);
+                        "plugins": la_plugins
+                    });
+                    self.treeIns = $("#permissionFuncTree").jstree(true);
+                    self.$store.commit("setFuncTreeIns", self.treeIns);
 
-                if (self.$store.state.gs_permissionModel == "authByFunc") {
-                    $("#permissionFuncTree").on("select_node.jstree", function (e, data) {
-                        let lo_funcSelected = data.node;
-                        self.$store.commit("setSelectedCurrentID", lo_funcSelected);
-                        self.checkedRoleByCurrentID(lo_funcSelected);
-                    })
-                }
-                cb(null, "");
+                    if (self.$store.state.gs_permissionModel == "authByFunc") {
+                        $("#permissionFuncTree").on("select_node.jstree", function (e, data) {
+                            let lo_funcSelected = data.node;
+                            self.$store.commit("setSelectedCurrentID", lo_funcSelected);
+                            self.checkedRoleByCurrentID(lo_funcSelected);
+                        })
+                    }
+                    cb(null, "");
+                }, 100);
+
 
             },
 
@@ -150,15 +153,19 @@
                 let self = this;
                 let la_allRoles = this.$store.state.ga_allRoles;
                 let la_funcsOfRole = this.$store.state.ga_funcsOfRole;
-                if (la_funcsOfRole.length == 0 || this.$store.state.gs_permissionModel == "authByFunc" || la_allRoles.length <= 0 || this.treeIns == null) {
+                if (this.$store.state.gs_permissionModel == "authByFunc" || la_allRoles.length <= 0 || this.treeIns == null) {
                     return;
                 }
+                // if(la_funcsOfRole.length == 0){
+                //     this.treeIns.uncheck_all();
+                    // return;
+                // }
 
                 this.isLoading = true;
-                this.treeIns.uncheck_all();
                 setTimeout(function () {
                     let ls_node_id = "";
                     let lo_node = null;
+                    self.treeIns.uncheck_all();
                     _.each(la_funcsOfRole, function (func) {
                         ls_node_id = func.current_id.length <= 4 ? func.pre_id + "_" + func.current_id : func.current_id;
                         lo_node = self.treeIns.get_node(ls_node_id);
@@ -169,7 +176,7 @@
 
                     self.isInitChecked = false;
                     self.isLoading = false;
-                }, 200);
+                }, 300);
             },
 
             checkedRoleByCurrentID(lo_selectedNode) {

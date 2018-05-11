@@ -19,268 +19,169 @@
 
 <body class="no-skin">
 
-    <div class="main-container ace-save-state" id="sysoption-app">
-        <div class="navbar-container avbar-default  ace-save-state navbar-fixed-top nav-header" id="navbar-container">
-            <!-- #section:basics/sidebar.mobile.toggle -->
-            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
-                <span class="sr-only">Toggle sidebar</span>
+<div class="main-container ace-save-state" id="BacchusMainApp">
+    <div class="navbar-container avbar-default  ace-save-state navbar-fixed-top nav-header" id="navbar-container">
+        <!-- #section:basics/sidebar.mobile.toggle -->
+        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+            <span class="sr-only">Toggle sidebar</span>
 
-                <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
 
-                <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
 
-                <span class="icon-bar"></span>
-            </button>
-            <!-- /section:basics/sidebar.mobile.toggle -->
-            <!-- Nav -->
-            <div class="navbar-header pull-left">
-                <!-- #section:basics/navbar.layout.brand -->
-                <div class="nav-header-inline">
-                    <div class="btn-group header-other-choice">
-                        <button data-toggle="dropdown" class="btn btn-info btn-white btn-sm dropdown-toggle"
-                                aria-expanded="false">
-                            <%= session.user.fun_hotel_name %>
-                            <span class="ace-icon fa fa-angle-down icon-on-right"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-info dropdown-menu-left">
-                            <% session.user.hotels.forEach(function(hotel){ %>
-                            <li>
-                                <a href="javascript:void(0);"
-                                   @click="changeHotelCod('<%= hotel.hotel_cod %>');"><%= hotel.hotel_nam %></a>
-                            </li>
-                            <% }) %>
-                        </ul>
-                    </div>
-                </div><!-- /.nav-header-inline -->
-                <div class="breadcrumbs pull-left" id="breadcrumbs">
-                    <ul class="breadcrumb">
+            <span class="icon-bar"></span>
+        </button>
+        <!-- /section:basics/sidebar.mobile.toggle -->
+        <!-- Nav -->
+        <div class="navbar-header pull-left">
+            <!-- #section:basics/navbar.layout.brand -->
+            <div class="nav-header-inline">
+                <div class="btn-group header-other-choice">
+                    <button data-toggle="dropdown" class="btn btn-info btn-white btn-sm dropdown-toggle"
+                            aria-expanded="false">
+                        <%= session.user.fun_hotel_name %>
+                        <span class="ace-icon fa fa-angle-down icon-on-right"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-info dropdown-menu-left">
+                        <% session.user.hotels.forEach(function(hotel){ %>
                         <li>
-                            <a href="/systemOption">
-                                <i class="ace-icon fa fa-home home-icon" style="color: #fff"></i>
-                            </a>
+                            <a href="javascript:void(0);"
+                               @click="changeHotelCod('<%= hotel.hotel_cod %>');"><%= hotel.hotel_nam %></a>
                         </li>
-                    </ul><!-- /.breadcrumb -->
-                </div> <!-- /.breadcrumbs -->
-                <div class="clearfix"></div>
-            </div>
-
-            <!-- #section:basics/navbar.dropdown -->
-            <div class="navbar-buttons navbar-header pull-right" role="navigation">
-                <ul class="nav ace-nav">
-                    <li class="info">
-                        <span id="datetimeSpan"></span>
-                        | <span>  <%= session.user.usr_cname %>  </span>
-                        | <%= __("SystemCommon.LogOutTime") %> : <span id="timeLeft">00:00:00</span>
-                    </li>
-
-                    <!-- #section:basics/navbar.user_menu -->
-                    <li class="light-blue dropdown-modal">
-                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                            <img class="nav-user-photo" src="/images/user-icon.png" width="35" alt=""/>
-                            <i class="ace-icon fa fa-caret-down"></i>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div><!-- /.nav-header-inline -->
+            <div class="breadcrumbs pull-left" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="/systemOption">
+                            <i class="ace-icon fa fa-home home-icon" style="color: #fff"></i>
                         </a>
-                        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                            <li class="divider"></li>
-                            <li>
-                                <a @click="doEditPassword">
-                                    <i class="ace-icon fa fa-power-off"></i>
-                                    <%= __("BAC01P0120")["editPwd"] %>
-                                </a>
-                            </li>
-                            <li>
-                                <a @click="doLogout">
-                                    <i class="ace-icon fa fa-power-off"></i>
-                                    <%= __("BAC01P0120")["logout"] %>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
-                </ul>
-            </div>
+                </ul><!-- /.breadcrumb -->
+            </div> <!-- /.breadcrumbs -->
             <div class="clearfix"></div>
         </div>
 
-        <div class="main-content">
-            <div class="main-content-inner">
-                <div class="page-content optionSystem">
-                    <!--<img src="/images/banner.jpg" class="banner"/>-->
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <!-- PAGE CONTENT BEGINS -->
-                            <div class="row">
-                                <div class="space-24"></div>
-                                <div class="col-sm-3 col-sm-offset-1">
-                                    <div class="page-header">
-                                        <h1>
-                                            <%= __("BAC01P0130")["news"] %>
-                                        </h1>
-                                    </div><!-- /.page-header -->
-                                </div>
-                                <div class="col-sm-6 col-sm-offset-1 system-block-all">
-                                    <div class="system-block">
-                                        <% sysList.forEach(function(sys, sIdx){ %>
-                                        <div class="boxy">
-                                            <a href="#" class="system-circle" @click="selectSys('<%= sys.sys_id %>')">
-                                                <%
-                                                    var sysColor = "circle-bg-blue";
-                                                    var sysAbbrName = "";
-                                                    var la_sys = sys["sys_name_en"].split(" ");
-                                                    la_sys.forEach(function (s) {
-                                                        sysAbbrName += s.substring(0, 1);
-                                                    })
-                                                    //circle-bg-blue   :藍色
-                                                    //circle-bg-orange :橘色
-                                                    //circle-bg-green  :綠色
-                                                    if (sIdx / 3 == 0) {
-                                                        sysColor = "circle-bg-blue";
-                                                    } else if (sIdx / 3 == 1) {
-                                                        sysColor = "circle-bg-orange";
-                                                    } else {
-                                                        sysColor = "circle-bg-green";
-                                                    }
-                                                %>
+        <!-- #section:basics/navbar.dropdown -->
+        <div class="navbar-buttons navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+                <li class="info">
+                    <span id="datetimeSpan"></span>
+                    | <span>  <%= session.user.usr_cname %>  </span>
+                    | <%= __("SystemCommon.LogOutTime") %> : <span id="timeLeft">00:00:00</span>
+                </li>
 
-                                                <div class="inner-item"
-                                                     title="<%= sys["sys_name_" + session.locale] %>">
-                                                    <div class="sub <%= sysColor %>">
-                                                        <p class="optionTip"><%= sys["sys_name_" + session.locale] %></p>
-                                                    </div>
-                                                    <h3><%= sysAbbrName %></h3>
-                                                </div>
-
-                                            </a>
-
-                                        </div>
-
-                                        <% }) %>
-
-                                    </div>
-                                </div><!-- /.col -->
-                                <div class="clearfix"></div>
-                            </div><!-- /.row -->
-                            <!-- PAGE CONTENT ENDS -->
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                </div><!-- /.page-content -->
-            </div>
-        </div><!-- /.main-content -->
-
-        <!--修改密碼-->
-        <div id="editPasswordDialog" class="hide">
-            <el-dialog
-                    :close-on-click-modal="true" style="width:50%; left:25%; right: 25%;"
-                    :visible.sync="openEditPasswordDialog" :before-close="doCancelEditPassword">
-                <%- include ../user/editPassword.ejs %>
-            </el-dialog>
+                <!-- #section:basics/navbar.user_menu -->
+                <li class="light-blue dropdown-modal">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img class="nav-user-photo" src="/images/user-icon.png" width="35" alt=""/>
+                        <i class="ace-icon fa fa-caret-down"></i>
+                    </a>
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close dropdown-rz">
+                        <li class="divider"></li>
+                        <li>
+                            <a @click="doEditPassword">
+                                <i class="ace-icon fa fa-power-off"></i>
+                                <%= __("BAC01P0120")["editPwd"] %>
+                            </a>
+                        </li>
+                        <li>
+                            <a @click="doLogout">
+                                <i class="ace-icon fa fa-power-off"></i>
+                                <%= __("BAC01P0120")["logout"] %>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-
-        <%- include ../common/footer.ejs %>
-
-        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-        </a>
+        <div class="clearfix"></div>
     </div>
 
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="page-content optionSystem">
+                <!--<img src="/images/banner.jpg" class="banner"/>-->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <div class="space-24"></div>
+                            <div class="col-sm-3 col-sm-offset-1">
+                                <div class="page-header">
+                                    <h1>
+                                        <%= __("BAC01P0130")["news"] %>
+                                    </h1>
+                                </div><!-- /.page-header -->
+                            </div>
+                            <div class="col-sm-6 col-sm-offset-1 system-block-all">
+                                <div class="system-block">
+                                    <% sysList.forEach(function(sys, sIdx){ %>
+                                    <div class="boxy">
+                                        <a class="system-circle"
+                                           @click.prevent="selectSys('<%= sys.sys_id %>')">
+                                            <%
+                                                var sysColor = "circle-bg-blue";
+                                                var sysAbbrName = "";
+                                                var la_sys = sys["sys_name_en"].split(" ");
+                                                la_sys.forEach(function (s) {
+                                                    sysAbbrName += s.substring(0, 1);
+                                                })
+                                                //circle-bg-blue   :藍色
+                                                //circle-bg-orange :橘色
+                                                //circle-bg-green  :綠色
+                                                if (sIdx / 3 == 0) {
+                                                    sysColor = "circle-bg-blue";
+                                                } else if (sIdx / 3 == 1) {
+                                                    sysColor = "circle-bg-orange";
+                                                } else {
+                                                    sysColor = "circle-bg-green";
+                                                }
+                                            %>
+
+                                            <div class="inner-item"
+                                                 title="<%= sys["sys_name_" + session.locale] %>">
+                                                <div class="sub <%= sysColor %>">
+                                                    <p class="optionTip"><%= sys["sys_name_" + session.locale] %></p>
+                                                </div>
+                                                <h3><%= sysAbbrName %></h3>
+                                            </div>
+
+                                        </a>
+
+                                    </div>
+
+                                    <% }) %>
+
+                                </div>
+                            </div><!-- /.col -->
+                            <div class="clearfix"></div>
+                        </div><!-- /.row -->
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+
+    <!--修改密碼-->
+    <div id="editPasswordDialog" class="hide">
+        <el-dialog
+                :close-on-click-modal="true" style="width:50%; left:25%; right: 25%;"
+                :visible.sync="openEditPasswordDialog" :before-close="doCancelEditPassword">
+            <%- include ../user/editPassword.ejs %>
+        </el-dialog>
+    </div>
+
+    <%- include ../common/footer.ejs %>
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div>
+
 </body>
+<script src="/js/system/mainFramework.js"></script>
 </html>
-
-<script>
-    new Vue({
-        el: '#sysoption-app',
-        data: {
-            //修改密碼
-            isLoading: false,
-            openEditPasswordDialog: false,
-            pwdData: {
-                oriPassword: "",
-                newPassword: "",
-                confirmPassword: ""
-            },
-            fieldData: [
-                {ui_field_name: 'oriPassword', ui_display_name: "Original Password"},
-                {ui_field_name: 'newPassword', ui_display_name: "New Password"},
-                {ui_field_name: 'confirmPassword', ui_display_name: "Check new password"}
-            ]
-        },
-        methods: {
-            //選擇系統
-            selectSys: function (sys_id) {
-                $.post("/api/selectSystem", {sys_id: sys_id}, function (result) {
-                    if (result.success) {
-                        location.href = result.subsysPage;
-                    }
-                })
-            },
-            /**
-             * 登出
-             */
-            doLogout: function () {
-                $.post("/cas/logout", function () {
-                    location.reload();
-                });
-            },
-
-            /**
-             * 修改密碼
-             */
-            doEditPassword: function () {
-                $('#editPasswordDialog').removeClass('hide');
-                this.openEditPasswordDialog = true;
-            },
-
-            //確認是否空白
-            dataValidate: function () {
-                var lo_checkResult;
-
-                for (let i = 0; i < this.fieldData.length; i++) {
-                    var lo_field = this.fieldData[i];
-                    lo_checkResult = go_validateClass.required(this.pwdData[lo_field.ui_field_name], lo_field.ui_display_name);
-                    if (lo_checkResult.success == false) {
-                        break;
-                    }
-                }
-
-                return lo_checkResult;
-            },
-
-            //確定修改密碼
-            confirmEditPassword: function () {
-                this.isLoading = true;
-                var self = this;
-                var lo_chkResult = this.dataValidate();
-
-                if (lo_chkResult.success == false) {
-                    alert(lo_chkResult.msg);
-                }
-                else {
-                    $.post("/api/doEditPassword", this.pwdData, function (result) {
-                        if (result.success) {
-                            alert('Edit success!');
-                            self.openEditPasswordDialog = false;
-                            self.doLogout();
-                        }
-                        else {
-                            alert(result.errorMsg);
-                        }
-                        _.each(self.pwdData, function (val, key) {
-                            self.pwdData[key] = "";
-                        });
-                        self.isLoading = false;
-                    });
-                }
-            },
-
-            /**
-             * 取消修改密碼
-             */
-            doCancelEditPassword: function () {
-                var self = this;
-                this.openEditPasswordDialog = false;
-                _.each(this.pwdData, function (val, key) {
-                    self.pwdData[key] = "";
-                });
-            },
-
-        }
-    })
-</script>

@@ -5,26 +5,28 @@
 //input-spc-1 width (768-1030)  : 349px
 //medium-c1 width (768-1030)    : 349px
 @mixin input-s1($spc-width: 434px)
-  width: $spc-width  //defalut: 439px
+  width: $spc-width
+  //defalut: 439px
   max-width: 100%
   height: $defHt
 // 綜合櫃台 顏色
 @mixin color-bk
-  &.cb-yellow
-    background: #fffba1
-  &.cb-purple
+  &.cb-oc-od
+    //background: #fffba1
+    background: #ffd45a
+  &.cb-ob
     background: #ae8dc3
-  &.cb-green
+  &.cb-doc-dod
     background: #7cbd64
-  &.cb-pink
+  &.cb-dod
     background: #ffddb3
-  &.cb-gray
+  &.cb-vc-vd
     background: #bfbfbf
-  &.cb-brown
+  &.cb-all
     background: #dcbe88
-  &.cb-blueGreen
+  &.cb-ooo
     background: #06eed5
-  &.cb-grayGreen
+  &.cb-vc-vdGreen
     background: #008148
   &.cb-sexyBlue
     background: #19647E
@@ -34,46 +36,65 @@
     background: #848009
   &.cb-sexyGreen
     background: #556b2f
-  &.cb-sexyRed
+  &.cb-oos
     background: rgba(255, 33, 95, 0.77)
-  &.cb-default
+  &.cb-s
     background: #c0d6ee
   &.cd-sexyPurple
     background: #4B3F72 !important
   &.active
     border: 2px solid #ff0000
+//text-decoration: underline
 // 底部線
 @mixin bottomAfterLine($lineLeftPx,$lineBottomPx,$lineWidthPx,$lineHeightPx,$lineBackground,$lineMargin-left,$lineMargin-bottom)
   content: ""
   position: absolute
-  left: $lineLeftPx //15px
-  bottom: $lineBottomPx //0px
-  width: $lineWidthPx //25%
-  height: $lineHeightPx //2px
-  background: $lineBackground //$webThemeColor
-  margin-left: $lineMargin-left //-15px
-  margin-bottom: $lineMargin-bottom //10px
+  left: $lineLeftPx
+  //15px
+  bottom: $lineBottomPx
+  //0px
+  width: $lineWidthPx
+  //25%
+  height: $lineHeightPx
+  //2px
+  background: $lineBackground
+  //$webThemeColor
+  margin-left: $lineMargin-left
+  //-15px
+  margin-bottom: $lineMargin-bottom
+//10px
 
-// 六角形
-  // $hexagonWidth             六角形的寬
-  // $hexagonHeight            六角形的高(不影響六角形形狀)
-  // $hexagonBk                六角形的顏色
-  // 後面的文字                  初值
+/*
+ * @description: 六角形
+ * @參數: // $hexagonWidth             六角形的寬
+         // $hexagonHeight            六角形的高(不影響六角形形狀)
+         // $hexagonBk                六角形的顏色
+         // 後面的文字                  初值
+ * @author: m15009
+ */
+
 @mixin hexagon($hexagonWidth, $hexagonHeight, $hexagonBk)
-  width: $hexagonWidth //100px
-  height: $hexagonHeight //55px
-  background: $hexagonBk //#eeeeee
+  width: $hexagonWidth
+  //100px
+  height: $hexagonHeight
+  //55px
+  background: $hexagonBk
+  //#eeeeee
   position: relative
   &:before
     content: ""
     position: absolute
-    top: -$hexagonWidth/4 //-25px
+    top: -$hexagonWidth/4
+    //-25px
     left: 0
     width: 0
     height: 0
-    border-left: $hexagonWidth/2 solid transparent //50px
-    border-right: $hexagonWidth/2 solid transparent //50px
-    border-bottom: $hexagonWidth/4 solid $hexagonBk //25px
+    border-left: $hexagonWidth/2 solid transparent
+    //50px
+    border-right: $hexagonWidth/2 solid transparent
+    //50px
+    border-bottom: $hexagonWidth/4 solid $hexagonBk
+  //25px
   &:after
     content: ""
     position: absolute
@@ -81,10 +102,161 @@
     left: 0
     width: 0
     height: 0
-    border-left: $hexagonWidth/2 solid transparent //50px
-    border-right: $hexagonWidth/2 solid transparent //50px
-    border-top: $hexagonWidth/4 solid $hexagonBk //25px
+    border-left: $hexagonWidth/2 solid transparent
+    //50px
+    border-right: $hexagonWidth/2 solid transparent
+    //50px
+    border-top: $hexagonWidth/4 solid $hexagonBk
+//25px
 
 
 
+@mixin el-date-ht($defHt)
+.el-date-editor
+  height: $defHt !important
+  .el-input__inner, .el-input__icon
+    height: $defHt !important
+
+/*
+ * @description: search 下拉按鈕旋轉 & 單筆更多資料旋轉 特效
+ * @author: m15009
+ */
+@-webkit-keyframes inAnimation
+  0%
+    +transform(rotate(-135deg))
+  100%
+    +transform(rotate(180deg))
+@-webkit-keyframes outAnimation
+  0%
+    +transform(rotate(45deg))
+  100%
+    +transform(rotate(360deg))
+/*
+ * @description: 子作業，另外彈窗按鈕特效
+ * @author: m15009
+ */
+@mixin exLinkIcon
+  i
+    +transition(transform .5s)
+    &:hover
+      //color: $blue
+      +transform(scale(1.2))
+      animation: exLinkIcon_Active 1.2s
+      @keyframes exLinkIcon_Active
+        0%
+          +transform(rotate(0deg))
+        25%
+          +transform(rotate(45deg))
+        50%
+          +transform(rotate(-90deg))
+        100%
+          +transform(rotate(0deg))
+
+/*
+ * @description: 訂房特殊版型 日期
+ * @author: m15009
+ */
+@mixin datePin($bk: #5367ff)
+  background: $bk
+  //#5367ff
+  width: 32px
+  height: 32px
+  margin: 1px auto auto 5px
+  vertical-align: middle
+
+/*
+ * @description: 產生房號訂房內容 有資料的長度
+ * @author: a17008
+ */
+@mixin triangle-box-w($w: 30,$i-for: 28)
+  @for $i from 1 through $i-for
+    $width: $w * $i
+    $error-value: 1
+    td
+      div
+        &.triangle-box
+          &.colspan-#{$i}
+            width: $width - $error-value + px
+/*
+ * @description: 產生房號訂房內容各種長度
+ * @author: a17008
+ */
+@mixin cus-roomPlan-table($w:36px)
+  .cus-roomPlan-table
+    table
+      tbody
+        tr
+          td
+            min-width: $w
+            max-width: $w
+            div
+
+
+              &.triangle-box
+                &.colspan-0
+                  width: $w - 1px
+/*
+ * @description: 客製化 table樣板
+ * @author: a17008
+ */
+@mixin cus-table-templete($rp-th-wt: 188px,$tbody-td-ht: 21px)
+  table
+    width: 100%
+    thead
+      tr
+        .rp-first-th
+          width: $rp-th-wt
+          min-width: $rp-th-wt
+          .caSelect
+            margin: 12px 0 10px 0
+            width: 54px
+            .el-icon-date
+              &:before
+                content: none
+            .el-input__icon + .el-input__inner
+              padding: 0
+            .el-input__inner
+              text-align: center
+          .caIcon
+            margin-top: 6px
+    tbody
+      tr
+        td
+          min-width: 35px
+          &.middle.td-first
+            height: $tbody-td-ht
+            padding-left: 4px
+            &.subTree-title, .room-field-text
+              padding-left: 4px
+            .roomNumTip
+              width: 42px
+              text-align: center
+/*
+ * @description: 表格td長六角形
+ * @author: a17008
+ */
+@mixin triangle_before($triangle_bg: #f8cbac , $triangle_txt: #555)
+  &:before, &:after
+    content: ""
+    border-style: solid
+    border-width: 0
+    height: 19px
+    position: absolute
+    width: 0
+    border-color: transparent $triangle_bg
+  &:before
+    left: 0px
+    border-width: 9px 10px 9px 0px
+  &:after
+    right: 0px
+    border-width: 9px 0 9px 10px
+  &.triangle-text
+    width: 100%
+    display: inline-block
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
+    color: $triangle_txt
+    border-right: 10px solid #fff
+    border-left: 10px solid #fff
 

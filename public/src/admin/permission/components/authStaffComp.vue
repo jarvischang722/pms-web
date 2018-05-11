@@ -199,7 +199,7 @@
                     }
 
                     cb(null, "");
-                }, 200);
+                }, 100);
 
             },
 
@@ -208,14 +208,19 @@
                 let self = this;
                 let la_allRoles = this.$store.state.ga_allRoles;
                 let la_staffOfRole = this.$store.state.ga_staffOfRole;
-                if (la_staffOfRole.length == 0 || this.$store.state.gs_permissionModel == "authByStaff" || la_allRoles.length <= 0 || this.treeIns == null) {
+
+                if (this.$store.state.gs_permissionModel == "authByStaff" || la_allRoles.length <= 0 || this.treeIns == null) {
                     return;
                 }
+                // if(la_staffOfRole.length == 0){
+                //     this.treeIns.uncheck_all();
+                //     return;
+                // }
 
                 this.isLoading = true;
-                this.treeIns.uncheck_all();
                 this.isInitChecked = true;
                 setTimeout(function () {
+                    self.treeIns.uncheck_all();
                     _.each(la_staffOfRole, function (account) {
                         let lo_node = self.treeIns.get_node(account.user_id);
                         if (lo_node != null && !_.isUndefined(lo_node.children) && lo_node.children.length == 0) {
@@ -224,7 +229,7 @@
                     });
                     self.isLoading = false;
                     self.isInitChecked = false;
-                }, 100);
+                }, 300);
             },
 
             //勾選有此人員的角色
@@ -258,7 +263,6 @@
                         if (result.success) {
                             self.qryCompGrpList(function (err, la_compGrpList4Tree) {
                                 if(!err){
-                                    console.log(la_compGrpList4Tree);
                                     self.treeIns.settings.core.data = la_compGrpList4Tree;
                                     self.treeIns.refresh();
                                     alert("save success");
@@ -310,7 +314,6 @@
             },
 
             delete_node(lb_isAuthDelete, ln_isDelNode) {
-                console.log(lb_isAuthDelete, ln_isDelNode);
                 if (lb_isAuthDelete && this.$store.state.gs_permissionModel == "authByStaff" && ln_isDelNode) {
                     let ls_parent_id = this.selectedNode.parent;
                     this.treeIns.delete_node(this.selectedNode);

@@ -30,7 +30,7 @@ exports.genRoomTypeStock = function (session, params, cb) {
     params["sys_cod"] = "HFD";
     params["start_dat"] = moment(new Date(params["start_dat"])).format("YYYY/MM/DD");
     params["end_dat"] = moment(new Date(params["end_dat"])).format("YYYY/MM/DD");
-    CommonTools.requestApi(sysConfig.api_url, params, function (err, res, data) {
+    CommonTools.requestApi(sysConfig.api_url.java, params, function (err, res, data) {
         if (err) {
             return cb(err, false);
         } else if (data["RETN-CODE"] != "0000") {
@@ -57,7 +57,7 @@ exports.uploadRoomTypePic = function (session, params, cb) {
     params["athena_id"] = session.user.athena_id;
     params["hotel_cod"] = session.user.fun_hotel_cod;
     params["sys_cod"] = "HFD";
-    CommonTools.requestApi(sysConfig.api_url, params, function (err, res, data) {
+    CommonTools.requestApi(sysConfig.api_url.java, params, function (err, res, data) {
         if (err) {
             return cb(err, false);
         } else if (data["RETN-CODE"] != "0000") {
@@ -84,7 +84,7 @@ exports.uploadRoomType = function (session, params, cb) {
     params["athena_id"] = session.user.athena_id;
     params["hotel_cod"] = session.user.fun_hotel_cod;
     params["sys_cod"] = "HFD";
-    CommonTools.requestApi(sysConfig.api_url, params, function (err, res, data) {
+    CommonTools.requestApi(sysConfig.api_url.java, params, function (err, res, data) {
         if (err) {
             return cb(err, false);
         } else if (data["RETN-CODE"] != "0000") {

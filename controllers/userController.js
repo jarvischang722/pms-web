@@ -11,7 +11,8 @@ const langSvc = require("../services/LangService");
 const fs = require("fs");
 const ip = require("ip");
 const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
-var go_sysConf = require("../configs/systemConfig");
+const go_permissionSvc = require("../services/permissionService");
+const go_sysConf = require("../configs/systemConfig");
 /**
  * 登入頁面
  */
@@ -30,10 +31,10 @@ exports.loginPage = function (req, res) {
         async.waterfall([
             function (callback) {
                 if (_.isUndefined(req.params.athena_id)) {
-                    if (!_.isUndefined(req.session.athena_id) && !_.isUndefined(req.session.comp_cod)) {
-                        return res.redirect(`/${req.session.athena_id}/${req.session.comp_cod}/login`);
-                    } else if (!_.isUndefined(req.session.athena_id) && _.isUndefined(req.session.comp_cod)) {
-                        return res.redirect(`/${req.session.athena_id}/login`);
+                    if (!_.isUndefined(req.cookies.athena_id) && !_.isUndefined(req.cookies.comp_cod)) {
+                        return res.redirect(`/${req.cookies.athena_id}/${req.cookies.comp_cod}/login`);
+                    } else if (!_.isUndefined(req.cookies.athena_id) && _.isUndefined(req.cookies.comp_cod)) {
+                        return res.redirect(`/${req.cookies.athena_id}/login`);
                     }
                     queryAgent.query("QRY_SELECT_COMPANY", {}, function (err, company) {
                         if (err) {
@@ -46,26 +47,22 @@ exports.loginPage = function (req, res) {
                         callback(null, 'done');
                     });
                 } else {
-                    req.session.athena_id = req.params.athena_id;
-                    req.session.comp_cod = req.params.comp_cod || "";
+                    if (!req.params.athena_id || _.isEmpty(req.params.athena_id)) {
+                        res.clearCookie("athena_id");
+                    }
+                    else {
+                        res.cookie("athena_id", req.params.athena_id, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
+                    }
+
+                    if (!req.params.comp_cod || _.isEmpty(req.params.comp_cod)) {
+                        res.clearCookie("comp_cod");
+                    }
+                    else {
+                        res.cookie("comp_cod", req.params.comp_cod, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
+                    }
+
                     callback(null, 'done');
                 }
-            },
-            //公司館別可用語系判斷
-            function (data, callback) {
-                //TODO 判別每間公司館別可以用的語系，
-                let options = {
-                    maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3 // would expire after 15 minutes
-                    //httpOnly: true, // The cookie only accessible by the web server
-                    //signed: true // Indicates if the cookie should be signed
-                };
-                let localeInfo = [
-                    {lang: 'en', sort: 1, name: 'English'},
-                    {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')},
-                    {lang: 'ja', sort: 3, name: encodeURIComponent('日本語')}
-                ];
-                res.cookie('sys_locales', localeInfo, options);
-                callback(null, 'done');
             }
         ], function (err) {
             res.render('user/loginPage');
@@ -150,7 +147,10 @@ exports.authLogin = function (req, res) {
         if (!err && userInfo) {
             req.session.user = userInfo;
             req.session.athena_id = userInfo.athena_id;
-            req.session.comp_cod = userInfo.cmp_id.trim();
+            req.cookies.athena_id = userInfo.athena_id;
+            req.cookies.comp_cod = userInfo.cmp_id.trim();
+            res.cookie("login_username", userInfo.usr_id, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
+            res.cookie("login_comp_id", userInfo.cmp_id.trim(), {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
         }
 
         res.json({
@@ -177,10 +177,10 @@ exports.logout = function (req, res) {
 exports.selectSystem = function (req, res) {
     let sys_id = req.body["sys_id"] || "";
     if (!_.isUndefined(req.session.activeSystem.id) && !_.isEqual(sys_id, req.session.activeSystem.id)) {
-        delete req.cookies.usingSubsysID;
-        req.session.activeSystem.id = sys_id;
-        res.clearCookie("usingSubsysID");
-        res.clearCookie("usingPrgID");
+        // delete req.cookies.usingSubsysID;
+        // req.session.activeSystem.id = sys_id;
+        // res.clearCookie("usingSubsysID");
+        // res.clearCookie("usingPrgID");
     }
     try {
         if (!_.isEmpty(sys_id)) {
@@ -262,18 +262,11 @@ exports.getSubsysQuickMenu = function (req, res) {
  * 取得選擇的公司
  */
 exports.getSelectCompony = function (req, res) {
-    let start = new Date().getTime();
+
     queryAgent.queryList("QRY_SELECT_COMPANY", {
-        athena_id: req.session.athena_id,
-        comp_cod: req.session.comp_cod
+        athena_id: req.cookies.athena_id,
+        comp_cod: req.cookies.comp_cod
     }, 0, 0, function (err, getData) {
-        //TODO 2018/02/06  因為達美樂首頁公司別出不來的因素，懷疑因為DB塞車導致回應速度慢，故加上時間紀錄
-        let end = new Date().getTime();
-        if ((end - start) / 1000 > 1) {
-            console.error(` 公司別撈取執行時間:  ${(end - start) / 1000} sec`);
-        } else {
-            console.log(` 公司別撈取執行時間:  ${(end - start) / 1000} sec`);
-        }
 
         if (err) {
             res.json({success: false, errorMsg: err});
@@ -282,6 +275,7 @@ exports.getSelectCompony = function (req, res) {
             res.json({success: true, selectCompany: getData});
         }
     });
+
 };
 
 /**
@@ -398,40 +392,11 @@ exports.getFuncsOfRole = function (req, res) {
 /**
  * 取得作業每顆按鈕func_id的權限
  */
-exports.getUserFuncPurviewByProID = function (req, res) {
+exports.getUserFuncPurviewByProID = async function (req, res) {
+
     try {
-        let params = {
-            user_id: req.session.user.usr_id,
-            comp_cod: req.session.user.cmp_id,
-            athena_id: req.session.user.athena_id,
-            hotel_cod: req.session.user.hotel_cod,
-            prg_id: req.body.prg_id
-        };
-        async.parallel({
-            funcPurvs: function (callback) {
-                queryAgent.queryList("QRY_PROCESS_USER_FUNC_PURVIEW", params, 0, 0, function (err, funcPurvs) {
-                    callback(err, funcPurvs);
-                });
-            },
-            funcLangs: function (callback) {
-                langSvc.handleMultiLangContentByKey("LANG_BAC_PROCESS_FUNC_RF", req.session.locale,
-                    {pro_id: req.body.prg_id}, "func_nam", function (err, funcLangs) {
-                        callback(err, funcLangs);
-                    });
-            }
-        }, function (err, results) {
-
-            let retnfuncPurvs = [];
-            _.each(results.funcPurvs, function (func) {
-                retnfuncPurvs.push({
-                    func_id: func.current_id,
-                    func_nam: _.findIndex(results.funcLangs, {func_id: func.current_id}) > -1
-                        ? _.findWhere(results.funcLangs, {func_id: func.current_id}).words : func.current_id
-                });
-            });
-            res.json({success: _.isNull(err), funcPurvs: retnfuncPurvs});
-        });
-
+        let las_funcPurvs = await go_permissionSvc.getUserFuncPurviewByProID(req.session, req.body);
+        res.json({success: true, funcPurvs: las_funcPurvs});
     } catch (err) {
         res.json({success: false, errorMsg: err.message, funcPurvs: []});
     }

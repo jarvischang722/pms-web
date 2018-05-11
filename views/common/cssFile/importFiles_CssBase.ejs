@@ -1,5 +1,5 @@
 <!-- CSS Block -->
-<link rel="stylesheet" href="/css/bootstrap/bootstrap.css" />
+<link rel="stylesheet" href="/css/bootstrap/bootstrap.css"/>
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/jquery-ui.css">
 <!-- 警式視窗彈出 -->
@@ -10,11 +10,8 @@
 <link rel="stylesheet" type="text/css" href="/css/easyUI/icon.css">
 <link rel="stylesheet" type="text/css" href="/css/easyUI/demo.css">
 <!-- 多選chosen -->
-<link rel="stylesheet" href="/css/chosen/chosen.css" />
+<link rel="stylesheet" href="/css/chosen/chosen.css"/>
 
-<!-- color picker 套件 -->
-<!--<link rel="stylesheet" type="text/css" href="/css/spectrum/spectrum.css">-->
-<!--<link rel="stylesheet" type="text/css" href="/css/spectrum/docs/docs.css">-->
 <!-- 全頁日曆 -->
 <link rel="stylesheet" type="text/css" href="/css/bs-calendar/bootstrap-year-calendar.css">
 <link rel="stylesheet" type="text/css" href="/css/bootstrap/bootstrap-datepicker.min.css">
@@ -22,8 +19,8 @@
 <link rel="stylesheet" type="text/css" href="/css/bootstrap/bootstrap-timepicker.min.css">
 
 <!--fixTable-->
-<link rel="stylesheet" href="/css/fixtable/960.css" />
-<link rel="stylesheet" href="/css/fixtable/fixTable.css" />
+<link rel="stylesheet" href="/css/fixtable/960.css"/>
+<link rel="stylesheet" href="/css/fixtable/fixTable.css"/>
 <!-- vue tree multiselect套件 -->
 <link rel="stylesheet" href="/css/vue-treeselect.min.css">
 <link rel="stylesheet" href="/css/vue/vue-easytable.css">
@@ -40,17 +37,25 @@
 <!-- 自定義style 擺最後 -->
 <link rel="stylesheet" href="/css/style.css">
 
-<!-- easyui dialog 預設z-index 9000  會影響到element ui -->
+
 <style>
-    .panel.window {
-        z-index: 1500 !important;
+    /*https://vuejs.org/v2/api/#v-cloak*/
+    [v-cloak] {
+        display: none;
     }
 
-    .window-shadow {
-        z-index: 1499 !important;
-    }
+    /*easyui dialog 預設z-index 9000  會影響到element ui */
+    /*直接在jquery.easyui.min.js套件修改zIndex */
 
-    .window-mask {
-        z-index: 1498 !important;
-    }
+    /*.panel.window {*/
+        /*z-index: 1500 !important;*/
+    /*}*/
+
+    /*.window-shadow {*/
+        /*z-index: 1499 !important;*/
+    /*}*/
+
+    /*.window-mask {*/
+        /*z-index: 1498 !important;*/
+    /*}*/
 </style>

@@ -15,11 +15,11 @@
                     <!--  鎖控明細表格 -->
 
                         <div class="container_12 divider">
-                            <div class="grid_12 height600 treeIconDisplay" width="100%">
+                            <div class="grid_12 height600 treeIconDisplay fixed-table-container cus-resvBlockSetting-table" width="100%">
                                 <table class="fancyTable themeTable treeControl"  id="resvBlockSetting-table" cellpadding="0" cellspacing="0" >
                                     <thead>
                                     <tr>
-                                        <th class="ca-headerTitle height-fntThead" rowspan="2">
+                                        <th class="ca-headerTitle height-fntThead rp-first-th" rowspan="2">
                                             <!--ca-center-->
                                             <div class="caSelect">
                                                 <select class="input-medium ca-select">
@@ -1283,7 +1283,9 @@
         });
 
 //      ***** fixedHeaderTable *****
-        $('#resvBlockSetting-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
+        $(document).ready(function () {
+            $("#resvBlockSetting-table").tableHeadFixer({"left": 1});
+        });
 
         //fixedColumns             : 固定左側列行數
         //addPxForFixedColumnsWidth: 固定左側列行數-寬
@@ -1307,7 +1309,7 @@
             $(".fht-tbody").css("height", height-80);
         });
 
-        //todo 按鈕控制tree 開合
+        // 按鈕控制tree 開合
         //collapsed
         //expanded
 

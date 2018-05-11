@@ -18,16 +18,25 @@ dist:   /path/to/bacchus4web/public/js/common/BacUIComps.js
 
 ####  Props:
 
-| 屬性                | 型態      | 預設      | 必要    | 說明                 |
-| ----------------- | ------- | ------- | ----- | ------------------ |
-| v-model           | String  |         | Y     | 給Vue 綁定的data model |
-| multiple          | Boolean | false   | N     | 是否多選               |
-| value-field       | String  | value   | N     | 作為存入資料庫值的欄位        |
-| text-field        | String  | display | N     | 顯示的欄位              |
-| is-qry-src-before | String  | Y       | N     | 是否為KEY 欄位時才去後端撈資料  |
-| field             | Object  | {}      | Y     | 欄位屬性               |
-| default-val       | String  | Number  | Array | 預設值                |
-| data              | Array   | []      | N     | 下拉選單資料             |
+| 屬性              | 型態    | 預設    | 必要  | 說明                           |
+| ----------------- | ------- | ------- | ----- | ------------------------------ |
+| v-model           | String  |         | Y     | 給Vue 綁定的data model         |
+| multiple          | Boolean | false   | N     | 是否多選                       |
+| value-field       | String  | value   | N     | 作為存入資料庫值的欄位         |
+| text-field        | String  | display | N     | 顯示的欄位                     |
+| is-qry-src-before | String  | Y       | N     | 是否為KEY 欄位時才去後端撈資料 |
+| field             | Object  | {}      | Y     | 欄位屬性                       |
+| default-val       | String  | Number  | Array | 預設值                         |
+| data              | Array   | []      | N     | 下拉選單資料                   |
+| dataDisplay       | Array   | []      | N     | 顯示用下拉選單資料 ，較完整    |
+| editable          | String  | Y       | N     | 是否可以在下拉欄位key值        |
+
+#### Events: 
+
+|   事件    |  參數  |   說明   |
+| :-----: | :--: | :----: |
+| @change | none | 選到值後觸發 |
+
 #### Usage: 
 
 ```
@@ -41,19 +50,24 @@ is-qry-src-before="Y" value-field="id" text-field="text"
 
 #### Props:
 
-| 屬性                | 型態      | 預設      | 必要    | 說明                                       |
-| ----------------- | ------- | ------- | ----- | ---------------------------------------- |
-| v-model           | String  |         | Y     | 給Vue 綁定的data model                       |
-| multiple          | Boolean | false   | N     | 是否多選                                     |
-| id-field          | String  | value   | N     | 作為存入資料庫值的欄位                              |
-| text-field        | String  | display | N     | 顯示的欄位                                    |
-| is-qry-src-before | String  | Y       | N     | 是否為KEY 欄位時才去後端撈資料                        |
-| field             | Object  | {}      | Y     | 欄位屬性                                     |
-| default-val       | String  | Number  | Array | 預設值                                      |
-| data              | Array   | []      | N     | 下拉選單資料                                   |
+| 屬性              | 型態    | 預設    | 必要  | 說明                                                         |
+| ----------------- | ------- | ------- | ----- | ------------------------------------------------------------ |
+| v-model           | String  |         | Y     | 給Vue 綁定的data model                                       |
+| multiple          | Boolean | false   | N     | 是否多選                                                     |
+| id-field          | String  | value   | N     | 作為存入資料庫值的欄位                                       |
+| text-field        | String  | display | N     | 顯示的欄位                                                   |
+| is-qry-src-before | String  | Y       | N     | 是否為KEY 欄位時才去後端撈資料                               |
+| field             | Object  | {}      | Y     | 欄位屬性                                                     |
+| default-val       | String  | Number  | Array | 預設值                                                       |
+| data              | Array   | []      | N     | 下拉選單資料                                                 |
 | columns           | Array   | []      | N     | 下拉Datagrid 欄位屬性 [{**field**, **title**, **width**},...,{}] |
+| editable          | String  | Y       | N     | 是否可以在下拉欄位key值                                      |
 
+#### Events: 
 
+|   事件    |  參數  |   說明   |
+| :-----: | :--: | :----: |
+| @change | none | 選到值後觸發 |
 
 #### Usage: 
 ```

@@ -17,7 +17,7 @@
         <statement><![CDATA[
             SELECT ps_visit_dt.athena_id,ps_visit_dt.cust_cod,PS_VISIT_RF.VISIT_NAM, PS_VISIT_DT.VISIT_DAT,
             PS_VISIT_DT.VISIT_STA, PS_VISIT_DT.PURPORT_RMK, PS_VISIT_DT.REMARK,PS_VISIT_DT.VISIT_TYP,
-            PS_VISIT_DT.AVISIT_DAT, PS_VISIT_DT.TRAFFIC_AMT
+            PS_VISIT_DT.AVISIT_DAT, PS_VISIT_DT.TRAFFIC_AMT, PS_VISIT_DT.INS_DAT, PS_VISIT_DT.INS_USR, PS_VISIT_DT.UPD_DAT, PS_VISIT_DT.UPD_USR
             FROM PS_VISIT_DT
             join PS_VISIT_RF on PS_VISIT_DT.ATHENA_ID = PS_VISIT_RF.ATHENA_ID
             AND PS_VISIT_DT.VISIT_TYP = PS_VISIT_RF.VISIT_TYP
@@ -51,20 +51,20 @@
         <parameter type="string" kind="2" condition="trunc(PS_VISIT_DT.visit_dat) = to_date(:visit_dat, 'YYYY/MM/DD') ">visit_dat</parameter>
         <parameter type="string" kind="2" condition="trunc(PS_VISIT_DT.avisit_dat) = to_date(:avisit_dat, 'YYYY/MM/DD') ">avisit_dat</parameter>
         <parameter type="string" kind="2" condition="trim(CUST_MN.status_cod) = trim(:status_cod) ">status_cod</parameter>
-        <parameter type="string" kind="2" condition="trim(CUST_MN.cust_nam) = trim(:cust_nam) ">cust_nam</parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_MN.cust_cod) = trim(:cust_nam) ">cust_nam</parameter>
         <parameter type="string" kind="2" condition="trim(PS_VISIT_DT.visit_typ) = trim(:visit_typ) ">visit_typ</parameter>
         <parameter type="instring" kind="3">visit_sta</parameter>
         <statement test="_v(param.visit_sta)"><![CDATA[and PS_VISIT_DT.visit_sta in(:visit_sta)]]></statement>
         <parameter type="instring" kind="3">type_cod</parameter>
-        <statement test="_v(param.type_cod)"><![CDATA[and type_cod in(:type_cod)]]></statement>
+        <statement test="_v(param.type_cod)"><![CDATA[and CUST_MN.type_cod in(:type_cod)]]></statement>
         <parameter type="instring" kind="3">contract_sta</parameter>
-        <statement test="_v(param.contract_sta)"><![CDATA[and contract_sta in(:contract_sta)]]></statement>
+        <statement test="_v(param.contract_sta)"><![CDATA[and CUST_MN.contract_sta in(:contract_sta)]]></statement>
         <parameter type="instring" kind="3">sales_cod</parameter>
-        <statement test="_v(param.sales_cod)"><![CDATA[and sales_cod in(:sales_cod)]]></statement>
+        <statement test="_v(param.sales_cod)"><![CDATA[and cust_mn.sales_cod in(:sales_cod)]]></statement>
         <parameter type="instring" kind="3">business_cod</parameter>
-        <statement test="_v(param.business_cod)"><![CDATA[and business_cod in(:business_cod)]]></statement>
+        <statement test="_v(param.business_cod)"><![CDATA[and cust_mn.business_cod in(:business_cod)]]></statement>
         <parameter type="instring" kind="3">area_cod</parameter>
-        <statement test="_v(param.area_cod)"><![CDATA[and area_cod in(:area_cod)]]></statement>
+        <statement test="_v(param.area_cod)"><![CDATA[and cust_mn.area_cod in(:area_cod)]]></statement>
         <orderby>ORDER  BY  PS_VISIT_DT.VISIT_DAT, CUST_MN.SHOW_COD</orderby>
     </dao>
 

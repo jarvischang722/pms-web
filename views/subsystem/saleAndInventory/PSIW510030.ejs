@@ -23,11 +23,11 @@
 
                     <div class="dominos-inventory-container">
 
-                        <div class="dominos-inventory-left"　style="min-width: auto;">
+                        <div class="dominos-inventory-left"　style="min-width: auto; width: 335px">
 
                             <div class="main-content-data">
                                 <div class="horizTable-outer">
-                                    <table id="PSIW510030_dg" class="css_table horizTable" style="width:100%; height: 550px"></table>
+                                    <table id="PSIW510030_dg" class="css_table horizTable" style="width:100%; height: 600px"></table>
                                 </div>
                             </div>
                         </div>
@@ -58,6 +58,12 @@
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth" @click="drop()" :disabled="!dropEnable" role="button">放棄</button>
                                         </li>
+
+                                        <li>
+                                            <a class="btn btn-primary btn-white btn-defaultWidth" onclick="this.href='data:text/html;charset=UTF-8,' + encodeURIComponent($('#order_tag').html())" href="#" :download="print_quote_rmk" v-if="printEnable">訂單列印</a>
+                                            <a class="btn btn-primary btn-white btn-defaultWidth" v-else disabled>訂單列印</a>
+                                        </li>
+
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="PSIW510030-0800" @click="loadChangeLog()" :disabled="!changeLogEnable" role="button"><%= __("SystemCommon").ChangeLog %></button>
                                         </li>
@@ -229,7 +235,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-2">
-                                <a class="btn btn-primary btn-white btn-defaultWidth" onclick="this.href='data:text/html;charset=UTF-8,' + encodeURIComponent($('#order_tag').html())" href="#" :download="select_quote_rmk">下載</a>
+                                <a class="btn btn-primary btn-white btn-defaultWidth" onclick="this.href='data:text/html;charset=UTF-8,' + encodeURIComponent($('#spaceOrder_tag').html())" href="#" :download="select_quote_rmk">下載</a>
                             </div>
                             <div class="clearfix"></div>
                             <div class="space-6"></div>
@@ -241,33 +247,65 @@
             </div>
         </div>
 
-        <!-- 空白訂單下載 PDF表格 -->
+        <!-- 空白訂單下載 -->
         <div class="main-content-data" >
-            <div id="order_tag" class="horizTable-outer" style="display: none;">
+            <div id="spaceOrder_tag" class="horizTable-outer" style="display: none;">
                 <html lang="zh-TW">
                 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 
-                <div v-for="index in pageNum" style="page-break-before: always">
-                <div style="font-size: 16px; margin-left: 21px; margin-bottom: 5px;font-weight: bold;"><span>新莊FAX: (02)2901-4323</span> <span style="margin-left: 64px">台中FAX: (04)2437-7389</span></div>
-                <div style="font-size: 16px; margin-left: 21px; margin-bottom: 20px;font-weight: bold;"> <span>訂貨門市:</span> <span style="margin-left: 180px">訂貨日期:</span> <span style="margin-left: 180px">訂貨人員:</span> </div>
+                <div v-for="index in pageNum" style="page-break-after: always">
+                <div style="font-size: 14px; margin-left: 21px; margin-bottom: 10px;font-weight: bold;"><span>新莊FAX: (02)2901-4323</span> <span style="margin-left: 64px">台中FAX: (04)2437-7389</span></div>
+                <div style="font-size: 14px; margin-left: 21px; margin-bottom: 10px;font-weight: bold;"> <span>訂貨門市:</span> <span style="margin-left: 180px">訂貨日期:</span> <span style="margin-left: 180px">訂貨人員:</span> </div>
 
-                <span style="font-size: 16px; margin: auto 30px 10px 20px;"><span style="font-weight: bold;">訂單格式：</span>{{select_format_sta}}</span>
-                <span style="font-size: 16px; margin: auto 30px 10px auto;"><span style="font-weight: bold;">格式說明：</span>{{select_quote_rmk}}</span>
-                <span style="font-size: 16px; margin: auto 30px 10px 10px;"><span style="font-weight: bold;">訂單時間：</span>{{select_order_time}}</span>
-                <table border="1">
-                    <tr style="font-size:20px;">
-                        <td style="width: 120px; text-align: center;">貨品代號</td>
-                        <td style="width: 400px; text-align: center;">貨品描述</td>
+                <span style="font-size: 14px; margin: auto 30px 10px 20px;"><span style="font-weight: bold;">訂單格式：</span>{{select_format_sta}}</span>
+                <span style="font-size: 14px; margin: auto 30px 10px auto;"><span style="font-weight: bold;">格式說明：</span>{{select_quote_rmk}}</span>
+                <span style="font-size: 14px; margin: auto 30px 10px 10px;"><span style="font-weight: bold;">訂單時間：</span>{{select_order_time}}</span>
+                <table border="1" style="border-collapse: collapse;">
+                    <tr style="font-size:12px;">
+                        <td style="width: 100px; text-align: center;">貨品代號</td>
+                        <td style="width: 440px; text-align: center;">貨品簡稱</td>
                         <td style="width: 100px; text-align: center;">訂貨單位</td>
-                        <td style="width: 100px; text-align: center;">數量</td>
+                        <td style="width: 80px; text-align: center;">數量</td>
                     </tr>
-                    <tr v-for="item in order_data[index]" style="font-size:16px;">
+                    <tr v-for="item in order_data[index]" style="font-size: 10px;">
                         <td style=" text-align: center;">{{item.goods_cod}}</td>
                         <td>{{item.goods_rmk}}</td>
                         <td style=" text-align: center;">{{item.goods_unit}}</td>
                         <td></td>
                     </tr>
                 </table>
+                </div>
+                </html>
+            </div>
+
+        </div>
+
+        <!-- 訂單下載 -->
+        <div class="main-content-data" >
+            <div id="order_tag" class="horizTable-outer" style="display: none;">
+                <html lang="zh-TW">
+                <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+
+                <div v-for="index in print_pageNum" style="page-break-after: always">
+                    <div style="font-size: 14px; margin-left: 21px; margin-bottom: 10px;font-weight: bold;"> <span>訂貨門市: {{singleData.cust_nam}}</span> <span style="margin-left: 80px">訂貨日期: {{singleData.order_dat}}</span> <span style="margin-left: 80px">訂貨人員: {{singleData.atten_nam}}</span> </div>
+                    <div style="font-size: 14px; margin-left: 21px; margin-bottom: 10px;font-weight: bold;"> <span>訂單編號: {{singleData.order_nos}}</span> <span style="margin-left: 80px">訂貨備註: {{singleData.order_rmk}}</span> </div>
+                    <span style="font-size: 14px; margin: auto 30px 10px 20px;"><span style="font-weight: bold;">訂單格式：</span>{{singleData.format_sta}}</span>
+                    <span style="font-size: 14px; margin: auto 30px 10px auto;"><span style="font-weight: bold;">格式說明：</span>{{print_quote_rmk}}</span>
+                    <span style="font-size: 14px; margin: auto 30px 10px 10px;"><span style="font-weight: bold;">訂單時間：</span>{{singleData.order_time}}</span>
+                    <table border="1" style="border-collapse: collapse;">
+                        <tr style="font-size:12px;">
+                            <td style="width: 100px; text-align: center;">貨品代號</td>
+                            <td style="width: 440px; text-align: center;">貨品簡稱</td>
+                            <td style="width: 100px; text-align: center;">訂貨單位</td>
+                            <td style="width: 80px; text-align: center;">訂貨數量</td>
+                        </tr>
+                        <tr v-for="item in print_order_data[index]" style="font-size:10px;">
+                            <td style=" text-align: center;">{{item.goods_cod}}</td>
+                            <td>{{item.goods_rmk}}</td>
+                            <td style=" text-align: center;">{{item.goods_unit}}</td>
+                            <td style=" text-align: center;">{{item.item_qnt}}</td>
+                        </tr>
+                    </table>
                 </div>
                 </html>
             </div>
@@ -354,7 +392,4 @@
 
     </div>
 
-    <%- include ../setup/vueTemplate/searchTmp.ejs %>
-
-    <script src="/js/setup/vueCompLib/searchComp.js"></script>
     <script src="/js/saleAndInventory/PSIW510030.js"></script>

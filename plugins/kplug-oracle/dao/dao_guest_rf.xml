@@ -18,7 +18,7 @@
           where athena_id = ?
         ]]>
         </statement>
-        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
     </dao>
 
     <!-- ["PMS0810180"]取得預設住客類別-->
@@ -29,6 +29,63 @@
               where use_sta = 'Y' and athena_id = ?
         ]]>
         </statement>
-        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
+    </dao>
+
+    <!--取得市場類別下拉資料(select)-->
+    <dao name="SEL_GUEST_TYP_FOR_SELECT">
+        <statement><![CDATA[
+              select guest_typ value, guest_nam display, use_sta
+              from guest_rf
+              where athena_id = :athena_id
+              order by guest_typ
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+
+    <!--取得市場類別下拉資料(selectgrid)-->
+    <dao name="SEL_GUEST_TYP">
+        <statement><![CDATA[
+              select guest_typ ,guest_sna ,guest_nam, (trim(guest_typ) ||':'|| guest_nam) as guest_display
+              from guest_rf
+              where athena_id = :athena_id
+              order by guest_typ
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+    <!-- [PMS0110040 訂房卡多筆] 市場類別選單 -->
+    <dao name="SEL_GUEST_RF">
+        <statement><![CDATA[
+              select  guest_typ value, guest_sna display
+              from guest_rf where athena_id = :athena_id
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <statement test="_v(param.guest_typ)"><![CDATA[and guest_typ = :guest_typ]]></statement>
+        <parameter type="string" kind="3">guest_typ</parameter>
+    </dao>
+
+    <!-- [PMS0110040 訂房卡多筆] 市場類別選單(過濾use_sta = Y) -->
+    <dao name="SEL_GUEST_RF_Y">
+        <statement><![CDATA[
+              select  guest_typ value, guest_sna, guest_nam display, use_sta from guest_rf
+              where athena_id = :athena_id order by guest_typ
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+    <!-- 當日新增報表(PMS01R0010) 市場類別選單-->
+    <dao name="QRY_GUEST_TYP">
+        <statement><![CDATA[
+             select guest_typ AS value, guest_sna AS display, guest_way, use_sta
+             from GUEST_RF t
+             where  use_sta = 'Y'
+        ]]>
+        </statement>
     </dao>
 </root>

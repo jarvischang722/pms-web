@@ -2,6 +2,7 @@
 .vue-treeselect__menu label
   text-align: left !important
   width: auto !important
+
 .vue-treeselect
   display: inline-block
 
@@ -14,8 +15,7 @@
   .el-dialog
     top: 3% !important
 
-// todo 問題:多選下拉選完出現選擇項目會跑版 ex.PMS0830090
-.search-content ,.editVueTpl,.grid-item
+.search-content, .editVueTpl, .grid-item
   .el-select
     .el-input__inner
       height: $defHt !important
@@ -41,10 +41,7 @@
           padding-top: 0 !important
 
 .grid-item
-  .el-date-editor
-    height: $defHt !important
-    .el-input__inner,.el-input__icon
-      height: $defHt !important
+  +el-date-ht($defHt)
   .el-cascader
     .el-input__inner
       height: $defHt !important
@@ -58,3 +55,22 @@
         height: 30px
         line-height: 30px
         font-size: 13px
+
+//ratecode 表格
+.easytb-ht
+  .v-table-body-cell
+    height: $defHt !important
+    line-height: $defHt !important
+    font-size: $font-default
+
+.easytb-ht-title
+  background-color: $tableBg
+  .v-table-title-cell
+    //height: $defHt !important
+    //line-height: $defHt !important
+    .table-title
+      color: #fff
+
+.el-cascader-s1
+  .el-cascader__label
+    line-height: 25px

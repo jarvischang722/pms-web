@@ -6,36 +6,77 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var _ = require("underscore");
-var i18n = require("i18n");
-
+const _ = require("underscore");
+const i18n = require("i18n");
+const async = require("async");
+const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const go_sysConf = require("../configs/systemConfig");
 
 module.exports = function (req, res, next) {
+    let lao_localeInfo = [];
+    let ls_locale = "";
+    async.series([
+        async function (cb) {
+            //只有登入頁需要往下跑
+            if (req.originalUrl.toLocaleLowerCase().indexOf("/login") == -1 && req.cookies.sys_locales !== undefined) {
+                res.cookie("sys_locales", req.cookies.sys_locales, {
+                    maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3
+                });
+                return cb(null, 'done');
+            }
 
-    if (_v(req.query["locale"]) != "") {
-        i18n.overrideLocaleFromQuery(req);
-        res.cookie('locale', _v(req.query["locale"]));
-    } else if (_v(req.cookies.locale) != "") {
-        if (req.url.indexOf("?") > 1) {
-            req.url = req.url + "&locale=" + req.cookies.locale;
-        } else {
-            req.url = req.url + "?locale=" + req.cookies.locale;
+            let lo_cond = {
+                athena_id: req.params.athena_id || req.cookies.athena_id
+            };
+
+            if (req.params.comp_cod || req.cookies.comp_cod) {
+                lo_cond.comp_cod = req.params.comp_cod || req.cookies.comp_cod;
+            }
+
+            lao_localeInfo = await getUseLangsByAthenaID(lo_cond);
+
+            res.cookie("sys_locales", lao_localeInfo, {
+                maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3
+            });
+
+            cb(null, "done1");
+        },
+        function (cb) {
+            if (_v(req.query.locale) != "") {
+                ls_locale = _v(req.query.locale);
+            } else if (_v(req.cookies.locale) != "") {
+                ls_locale = _v(req.cookies.locale);
+            } else {
+                ls_locale = judgeBrowserLang(req);
+            }
+
+            //檢查使用者可選語系
+            if (lao_localeInfo.length > 0 && _.findIndex(lao_localeInfo, {lang: ls_locale}) == -1) {
+                ls_locale = lao_localeInfo[0].lang;
+            }
+            cb(null, "done2");
+        },
+        function (cb) {
+            res.cookie("locale", ls_locale);
+            req.session.locale = ls_locale;
+            let ls_redirectUrl = `${req.originalUrl.split("?")[0]}?locale=${ls_locale}`;
+            _.each(req.query, function (val, key) {
+                if (key !== 'locale') {
+                    ls_redirectUrl += `&${key} = ${val}`;
+                }
+            });
+
+            req.url = ls_redirectUrl;
+
+            i18n.overrideLocaleFromQuery(req);
+            cb(null, 'done3');
         }
-        i18n.overrideLocaleFromQuery(req);
-    } else {
-        res.cookie('locale', judgeBrowserLang(req));
-        if (req.url.indexOf("?") > 1) {
-            req.url = req.url + "&locale=" + req.cookies.locale;
-        } else {
-            req.url = req.url + "?locale=" + req.cookies.locale;
-        }
-        i18n.overrideLocaleFromQuery(req);
+    ], function (err, result) {
+        next();
+    });
 
-    }
-    req.session.locale = req.cookies.locale;
-    next();
 
-}
+};
 
 /**
  * 抓取瀏覽器預設語言
@@ -65,3 +106,31 @@ function _v(value) {
     return value;
 }
 
+
+/**
+ * 抓取集團公司可使用的語系
+ * @param lo_cond
+ * @return {Promise<any>}
+ */
+async function getUseLangsByAthenaID(lo_cond) {
+    let lo_langRf = require("../configs/LangNameRf.json");
+    return new Promise((resolve, reject) => {
+        queryAgent.queryList("QRY_UI_LANG_BY_ATHENA_ID", lo_cond, 0, 0, function (err, langs) {
+            if (err) {
+                console.error(err);
+            }
+            let lao_localeInfo = _.uniq(_.map(langs, function (lang) {
+                return {
+                    lang: lang.locale,
+                    name: lo_langRf[lang.locale]
+                        ? encodeURIComponent(lo_langRf[lang.locale])
+                        : lang.locale
+                };
+            }), function (lao_localeInfo) {
+                return lao_localeInfo.lang;
+            });
+            resolve(lao_localeInfo)
+
+        });
+    });
+}

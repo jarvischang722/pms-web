@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <dao name="QRY_RENT_DT">
+        <statement><![CDATA[
+            select distinct rent_dat
+            from rent_dt
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and rate_cod = :rate_cod
+            and rent_dat between to_date(:begin_dat, 'YYYY/MM/DD') and to_date(:end_dat, 'YYYY/MM/DD')
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
+        <parameter type="string" kind="3">end_dat</parameter>
+    </dao>
+</root>

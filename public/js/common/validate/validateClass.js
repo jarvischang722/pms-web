@@ -151,7 +151,7 @@ function validateClass() {
         var reg = /([0-1][0-9]|2[0-3]):?[0-5][0-9]/;
         var lb_result = reg.test(ls_value);
 
-        if(ls_value.length > 4 && ls_value.indexOf(":") == -1){
+        if (ls_value.length > 4 && ls_value.indexOf(":") == -1) {
             lb_result = false;
         }
 
@@ -223,4 +223,81 @@ function validateClass() {
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.FmtYYYYMM, ls_ui_display_name) : sprintf(this.ls_msg.FmtYYYYMM, "");
         return {success: lb_result, msg: ls_msg};
     };
+
+    //確認統一編號規則
+    this.ChkUniCod = function () {
+        var ls_value = _.isUndefined(arguments[0]) || _.isNull(arguments[0]) ? "" : arguments[0];
+        var ls_ui_display_name = arguments[1];
+        var lb_result = ls_value.length != 8 ? false : true;
+        if (lb_result) {
+            var la_chNo = ls_value.split("");
+            var la_chkPara = [1, 2, 1, 2, 1, 2, 4, 1];
+            var ln_sum = 0;
+            for (var i = 0; i < 8; i++) {
+                if (la_chNo[i].charCodeAt(i) >= 0 || la_chNo[i].charCodeAt(i) <= 9) {
+                    return lb_result = false;
+                }
+                ln_sum += computeUniCod(la_chNo[i] * la_chkPara[i]);
+            }
+            lb_result = ln_sum % 10 == 0 ? true : false;
+        }
+        var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.ChkUniCod, ls_ui_display_name) : sprintf(this.ls_msg.FmtYYYYMM, "");
+        return {success: lb_result, msg: ls_msg};
+    };
+
+    //確認email格式規則
+    this.ChkEmail = function () {
+        var ls_value = arguments[0];
+        var ls_ui_display_name = arguments[1];
+        var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var lb_result = reg.test(ls_value);
+        var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.ChkEmail, ls_ui_display_name) : sprintf(this.ls_msg.FmtYYYYMM, "");
+        return {success: lb_result, msg: ls_msg};
+    };
+
+    //確認資料是否異動
+    this.chkDataChang = function () {
+        var lo_singleData = arguments[0];
+        var lo_oriSingleData = arguments[1];
+        var lb_result = true;
+        _.each(lo_singleData, function (val, key) {
+            if (!Array.isArray(val)) {
+                // _.each(val, function(objVal, objKey){
+                //     if(objVal != lo_oriSingleData[key][objKey]){
+                //         console.log(objKey, objVal, lo_oriSingleData[key][objKey]);
+                //     }
+                // });
+                if (!_.isMatch(val, lo_oriSingleData[key])) {
+                    lb_result = false;
+                    return;
+                }
+            }
+            else {
+                _.each(val, function (arrayVal, idx) {
+                    if (val.length != lo_oriSingleData[key].length) {
+                        lb_result = false;
+                        return;
+                    }
+                    else {
+                        if (!_.isMatch(arrayVal, lo_oriSingleData[key][idx])) {
+                            lb_result = false;
+                            return;
+                        }
+                    }
+                });
+            }
+        });
+        return {success: lb_result, msg: this.ls_msg.chkDataChang};
+    };
+}
+
+//計算統一編號
+function computeUniCod(num) {
+    if (num > 9) {
+        var ls_param = num + "";
+        var ln_param1 = ls_param.substring(0, 1) * 1;
+        var ln_param2 = ls_param.substring(1, 2) * 1;
+        num = ln_param1 + ln_param2;
+    }
+    return num;
 }

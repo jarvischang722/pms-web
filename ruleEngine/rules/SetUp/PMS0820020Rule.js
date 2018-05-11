@@ -188,8 +188,8 @@ module.exports = {
 
             //滾房租日
             function qryHotelSval(cb) {
-                queryAgent.query("QRY_HOTEL_SVAL", params, function (err, getResult) {
-                    params4BatchDat.batch_dat = getResult.hotel_sval;
+                queryAgent.query("QRY_RENT_CAL_DAT", params, function (err, getResult) {
+                    params4BatchDat.batch_dat = moment(getResult.rent_cal_dat).format("YYYY/MM/DD");
                     params4BatchDat.room_nos = postData.singleRowData.room_nos;
                     cb(null, params4BatchDat);
                 });
@@ -280,8 +280,8 @@ module.exports = {
 
         //滾房租日
         function qryHotelSval(cb) {
-            queryAgent.query("QRY_HOTEL_SVAL", lo_params, function (err, getResult) {
-                ls_hotel_sval = getResult.hotel_sval;
+            queryAgent.query("QRY_RENT_CAL_DAT", lo_params, function (err, getResult) {
+                ls_hotel_sval = getResult.rent_cal_dat;
                 cb(null, ls_hotel_sval);
             });
         }
@@ -737,7 +737,7 @@ module.exports = {
         //如果房型有異動,同時修改房間庫存資料於滾房租日(含)以後之該房號房型資料
         function chkRoomCodEdit(result, cb) {
             if (lo_oldSingleData.room_cod != lo_newSingleData.room_cod) {
-                queryAgent.query("QRY_HOTEL_SVAL", lo_params, function (err, getResult) {
+                queryAgent.query("QRY_RENT_CAL_DAT", lo_params, function (err, getResult) {
                     lo_result.extendExecDataArrSet.push({
                         function: '2',
                         table_name: 'RMINV_DT',
@@ -756,7 +756,7 @@ module.exports = {
                         }, {
                             key: "batch_dat",
                             operation: ">=",
-                            value: getResult.hotel_sval
+                            value: getResult.rent_cal_dat
                         }],
                         room_cod: lo_newSingleData.room_cod
                     });

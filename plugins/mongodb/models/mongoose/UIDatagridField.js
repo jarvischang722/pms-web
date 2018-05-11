@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 let UIDatagridFieldSchema = new Schema({
     user_athena_id: String, //使用者登入驗證athena_id
     athena_id: String,    //athena_id
-    user_id: String,       //使用者
+    user_id: {type: String, trim: true, index: true},       //使用者
     prg_id: {type: String, trim: true, index: true, required: true},      　 　　        //程式編號
     page_id: {type: Number, index: true, required: true},      　　　        //頁面編號
     tab_page_id: {type: Number, index: true, required: true},      　　　    //頁面編號
@@ -28,6 +28,6 @@ let UIDatagridFieldSchema = new Schema({
 
 }, {collection: "UIDatagridField"});
 
-UIDatagridFieldSchema.index({prg_id: 1, page_id: 1, tab_page_id: 1, ui_field_name: 1}, {unique: true});
+UIDatagridFieldSchema.index({user_id: 1, prg_id: 1, page_id: 1, tab_page_id: 1, ui_field_name: 1}, {unique: true});
 
 mongoose.model("UIDatagridField", UIDatagridFieldSchema);

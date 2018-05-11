@@ -1,38 +1,41 @@
 <div class="col-xs-12 top-sec-ul breadcrumbs-fixed">
     <!-- Subsystem menu  -->
-    <div class="top-ul">
+    <div class="top-ul" v-cloak>
         <ul id="subsysUl">
             <li v-for="subsysItem in subsysMenu"
                 :class="{active_01: usingSubsysID == subsysItem.subsys_id}"
                 @click.prevent="changeSubsys(subsysItem.subsys_id)">
-                    {{
-                        subsysItem["subsys_nam_" + locale] != ""
-                        ? subsysItem["subsys_nam_" + locale]
-                        :subsysItem.subsys_nam
-                    }}
+                {{subsysItem['subsys_nam_' + locale] != ''
+                ? subsysItem['subsys_nam_' + locale]
+                :subsysItem.subsys_nam}}
             </li>
 
         </ul>
     </div>
 
-    <!-- Quick menu  -->
-    <div class="secondMenu-ul secondMenuClick ">
-        <ul id="quickMenuUl">
-            <li v-for="quick in quickMenu"
-                @click="loadMainProcess(quick.pro_id)"
-                :class="{activeThis:quick.pro_id == usingPrgID, 'btn-skin':quick.isBusinessVer == 'Y', 'btn-gray':quick.isEnterpriseVer == 'Y'}" >
+    <!-- Quick menu -->
+    <div class="secondMenu-ul secondMenuClick">
+        <div id="quickMenuUl">
+            <div v-for="quick in quickMenu"
+                 class="subnav"
+                 :class="{activeThis:quick.pro_id == usingPrgID, 'btn-skin':quick.isBusinessVer == 'Y', 'btn-gray':quick.isEnterpriseVer == 'Y'}">
 
-                <!--會另彈新一頁的icon-->
-                <span class="exLinkIcon">
-                    <i class="fa fa-external-link" ></i>
-                </span>
-                <span >
-                    {{ quick["pro_name_" + locale] }}
-                </span>
-
-            </li>
-        </ul>
+                <div class="exLinkIcon pull-left">
+                    <a @click.prevent="openNewPageLoadProgram(quick.pro_id)">
+                        <i class="fa fa-external-link"></i>
+                    </a>
+                </div>
+                <div class="pull-left subnav-txt" v-cloak @click="loadQuickMenuProcess(quick.pro_id)">
+                    {{quick['pro_name_'+locale]}}
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
     </div>
+
 </div>
+
+<style>
+</style>
 
 

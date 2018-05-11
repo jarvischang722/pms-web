@@ -54,13 +54,13 @@ const mutations = {
     setRsSingleData(state, payload) {
         state.go_allData.go_rsSingleData = payload.go_rsSingleData;
         state.go_allOriData.go_rsSingleData = payload.go_rsOriSingleData;
-    },
-    //設定相關人員資料
+    },//設定相關人員資料
     setRpDataGridRowsData(state, payload) {
         state.go_allData.ga_rpDataGridRowsData = payload.ga_rpDataGridRowsData;
         state.go_allOriData.ga_rpDataGridRowsData = payload.ga_rpOriDataGridRowsData;
         state.go_rpTmpCUD = payload.go_rpTmpCUD;
     },
+
     //設定合約內容資料
     setCcDataGridRowsData(state, payload) {
         state.go_allData.ga_ccDataGridRowsData = payload.ga_ccDataGridRowsData;
@@ -185,14 +185,21 @@ const actions = {
             dt_deleteData: [],
             dt_oriData: []
         };
+
+        //調整相關設定資料
         let lo_rsSingleData = JSON.parse(JSON.stringify(state.go_allData.go_rsSingleData));
         lo_rsSingleData.ins_dat = moment(new Date(lo_rsSingleData.ins_dat)).format("YYYY/MM/DD HH:mm:ss");
+        lo_rsSingleData.cust_idx_credit_amt = go_formatDisplayClass.removeAmtFormat(lo_rsSingleData.cust_idx_credit_amt.toString());
+        lo_rsSingleData.cust_idx_ar_amt = go_formatDisplayClass.removeAmtFormat(lo_rsSingleData.cust_idx_ar_amt.toString());
+        lo_rsSingleData.cust_idx_ar_amt = go_formatDisplayClass.removeAmtFormat(lo_rsSingleData.cust_idx_ar_amt.toString());
+        lo_rsSingleData.cust_idx_credit_sta = lo_rsSingleData.cust_idx_credit_sta ? 'Y' : 'N';
 
         if (state.gb_isCreateStatus) {
             lo_tmpCUD.createData = [
                 _.extend(state.go_allData.go_mnSingleData, state.go_allData.go_rsSingleData)
             ];
             _.each(state.go_rpTmpCUD.createData, function (lo_createData) {
+                lo_createData = _.extend(lo_createData, {cust_cod: state.gs_custCod});
                 lo_tmpCUD.dt_createData.push(lo_createData);
             });
             _.each(state.go_ccTmpCUD.createData, function (lo_createData) {
@@ -214,9 +221,11 @@ const actions = {
             ];
 
             _.each(state.go_rpTmpCUD.createData, function (lo_createData) {
+                lo_createData = _.extend(lo_createData, {cust_cod: state.gs_custCod});
                 lo_tmpCUD.dt_createData.push(lo_createData);
             });
             _.each(state.go_ccTmpCUD.createData, function (lo_createData) {
+                lo_createData = _.extend(lo_createData, {tab_page_id: 4});
                 lo_tmpCUD.dt_createData.push(lo_createData);
             });
             _.each(state.go_vrTmpCUD.createData, function (lo_createData) {
@@ -227,9 +236,11 @@ const actions = {
             });
 
             _.each(state.go_rpTmpCUD.updateData, function (lo_updateData) {
+                lo_updateData = _.extend(lo_updateData, {cust_cod: state.gs_custCod});
                 lo_tmpCUD.dt_updateData.push(lo_updateData);
             });
             _.each(state.go_ccTmpCUD.updateData, function (lo_updateData) {
+                lo_updateData = _.extend(lo_updateData, {tab_page_id: 4});
                 lo_tmpCUD.dt_updateData.push(lo_updateData);
             });
             _.each(state.go_vrTmpCUD.updateData, function (lo_updateData) {
@@ -240,9 +251,11 @@ const actions = {
             });
 
             _.each(state.go_rpTmpCUD.deleteData, function (lo_deleteData) {
+                lo_deleteData = _.extend(lo_deleteData, {cust_cod: state.gs_custCod});
                 lo_tmpCUD.dt_deleteData.push(lo_deleteData);
             });
             _.each(state.go_ccTmpCUD.deleteData, function (lo_deleteData) {
+                lo_deleteData = _.extend(lo_deleteData, {tab_page_id: 4});
                 lo_tmpCUD.dt_deleteData.push(lo_deleteData);
             });
             _.each(state.go_vrTmpCUD.deleteData, function (lo_deleteData) {
@@ -253,6 +266,7 @@ const actions = {
             });
 
             _.each(state.go_rpTmpCUD.oriData, function (lo_oriData) {
+                lo_oriData = _.extend(lo_oriData, {cust_cod: state.gs_custCod});
                 lo_tmpCUD.dt_oriData.push(lo_oriData);
             });
             _.each(state.go_ccTmpCUD.oriData, function (lo_oriData) {
@@ -265,8 +279,20 @@ const actions = {
                 lo_tmpCUD.dt_oriData.push(lo_oriData);
             });
         }
-
+        //調整cust_mn 主檔的主要聯絡人
+        _.each(lo_tmpCUD, (value, key) => {
+            let la_examType = ["dt_createData", "dt_updateData"];
+            let ls_dataTyp = state.gb_isCreateStatus ? "createData" : "updateData";
+            if (_.indexOf(la_examType, key) > -1) {
+                _.each(value, (lo_value, idx) => {
+                    let lo_primaryPerson = _.findWhere(lo_tmpCUD[key], {primary_pers: 'Y'});
+                    lo_tmpCUD[ls_dataTyp][0].atten_cod = _.isUndefined(lo_primaryPerson) ? 1 : lo_primaryPerson.seq_nos;
+                    return;
+                });
+            }
+        });
         console.log(lo_tmpCUD);
+        // return {success: true};
         return await $.post('/api/doOperationSave', {
             prg_id: 'PMS0610020',
             page_id: 1,

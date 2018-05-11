@@ -1,105 +1,165 @@
 /*------  共用區public ------ */
 .float-left, .pull-left
   float: left
+
 .float-right, .pull-right
   float: right
+
 .text-left
   text-align: left !important
+
 .no-padding
   padding: 0
+
 .no-padding-left
   padding-left: 0
+
 .no-padding-right
   padding-right: 0
+
 .padding-2
   padding: 2px
+
 .padding-5
   padding: 5px
+
 .no-margin
   margin: 0 !important
+
 .no-margin-top
   margin-top: 0 !important
+
 .mt-3
   margin-top: 3px !important
+
 .mt-91
   margin-top: 87px
+
+.mt-PMS0810050
+  margin-top: 57px
+
 .margin-5
   margin: 5px
+
 .m-label
   margin: 3px 4px auto auto
+
 .margin-3
   margin: 3px
+
 .ml--13
   margin-left: -13px
+
 .ml-2
   margin-left: 2px
+
 .ml-3
   margin-left: 3px
+
 .ml-4
   margin-left: 4px
+
 .ml-5
   margin-left: 5px
+
 .ml-6
   margin-left: 6px
+
 .ml-7
   margin-left: 7px
+
 .ml-8
   margin-left: 8px
+
 .ml-90
   margin-left: 90px
+
 .ml-93
   margin-left: 93px
+
 .ml-94
   margin-left: 94px
+
 .mlr-3
   margin: auto 3px
+
 .mlr-4
   margin: auto 4px
+
 .mr-5
   margin-right: 5px
+
 .mr-10
   margin-right: 10px
+
+.pl-10
+  padding-left: 10px
+
 .cardDetail_margin
   margin-top: -20px
+
 .height87
   height: 87px
-//border: none
+
 .height60
   height: 60px
+
 .defHt
-  height: $defHt
+  height: $defHt !important
+
+.defLineHt
+  line-height: $defHt !important
+
 .selectHt
-  height: $defHt
+  height: $defHt - 1px
   padding: 0 3px
   display: block
   width: 100%
-  // 刪除線
+
+.iframeHt
+  width: 100%
+.v-easy-s1
+  .v-table-title-cell, .v-table-body-cell
+    height: $defHt !important
+    line-height: $defHt !important
+// 刪除線
 .lineDelTgh
   text-decoration: line-through
 // width
 .width-5
   width: 5% !important
+
 .width-8
   width: 8% !important
+
 .width-10
   width: 10% !important
+
 .width-15
   width: 15% !important
+
 .width-20
   width: 20% !important
+
 .width-30
   width: 30% !important
+
 .width-61
   width: 61% !important
+
 .border-width-1
   border-width: 1px
+
 .pointer
   cursor: pointer
+
 .notice
   color: $redDefault
   font-weight: bold
+
 .bold
   font-weight: bold
+
 .markOne
   color: $blue
   font-weight: bold
@@ -107,33 +167,46 @@
 .border-double1
   border-bottom: 3px double #b09e9b
   margin: auto auto 5px auto
+
 .lineHt14
   line-height: 14px
+
 .lineHt18
   line-height: 18px
+
 .lineHt24
   line-height: 24px
+
 .lineHt27
   line-height: 27px
+
 .lineHt34
   line-height: 34px
 // font-size
 .font-btn
   font-size: $font-btn
+
 .font-14
   font-size: $font-14
+
 .font-15
   font-size: $font-15
+
 .font-default
   font-size: $font-default
+
 .font-lg
   font-size: $font-lg
+
 .font-2x
   font-size: $font-2x
+
 .font-3x
   font-size: $font-3x
+
 .label-fontLg
   font-size: $font-16 !important
+
 a
   text-decoration: none
   cursor: pointer
@@ -141,57 +214,82 @@ a
 // color
 .dark
   color: $dark !important
+
 .white
   color: $white !important
+
 .red
   color: $red !important
+
 .red2
   color: $red2 !important
+
 .light-red
   color: $light-red !important
+
 .blue
   color: $blue !important
+
 .light-blue
   color: $light-blue !important
+
 .green
   color: $green !important
+
 .light-green
   color: $light-green !important
+
 .orange
   color: $orange !important
+
 .fontBrown
   color: $fontBrown !important
+
 .orange2
   color: $orange2 !important
+
 .light-orange
   color: $light-orange !important
+
 .font-yellow
   color: $fontYellow !important
+
 .purple
   color: $purple !important
+
 .dark-purple
   color: $dark-purple !important
+
 .pink
   color: $pink !important
+
 .pink2
   color: $pink2 !important
+
 .brown
   color: $brown !important
+
 .grey
   color: $grey !important
+
 .bgLGrey
   background: $light-grey !important
+
 .bgTGreen
   background: $t-green !important
+
 .bgLGreen
   background: $light-green !important
+
 .light-grey
   color: $light-grey !important
+
 .orangeBlock1
   background-color: #FAD7B6
   padding: 2px
   width: 65px
   text-align: center
+
 .grayDisable
   color: $grayDisable
 // btn
@@ -199,10 +297,11 @@ a
   padding: 3px 9px
   font-size: $font-btn
   margin-top: -1px
+
 .btn-sm-font2
   padding: 3px 9px
   font-size: $font-btn
-  //margin-top: 1px
+//margin-top: 1px
 // space height
 
 //<!--PMS(business) excample:"
@@ -212,24 +311,26 @@ a
   border: 1px solid #ffece3 !important
   color: $grayDisable !important
   &.btn
-    &:hover,&:active,&:focus,&:visited
+    &:hover, &:active, &:focus, &:visited
       background-color: #ffece3 !important
       border: 1px solid #ffece3 !important
       color: $grayDisable !important
+
 .btn-skin
   font-weight: 300
   text-shadow: none
   cursor: not-allowed !important
   +btn-skin-style
-  &.btn.disabled,&.btn[disabled]
+  &.btn.disabled, &.btn[disabled]
     +btn-skin-style
+
 .btn.btn-white
   &.btn-skin
     font-weight: 300
     text-shadow: none
     cursor: not-allowed !important
     +btn-skin-style
-    &.btn.disabled,&.btn[disabled]
+    &.btn.disabled, &.btn[disabled]
       +btn-skin-style
 
 //<!--PMS(enterprise) excample:"
@@ -242,7 +343,7 @@ a
   border: 1px solid #ebebeb !important
   color: $grayDisable !important
   &.btn
-    &:hover,&:active,&:focus,&:visited
+    &:hover, &:active, &:focus, &:visited
       background-color: #ebebeb !important
       border: 1px solid #ebebeb !important
       color: $grayDisable !important
@@ -252,15 +353,16 @@ a
   text-shadow: none
   cursor: not-allowed !important
   +btn-gray-style
-  &.btn.disabled,&.btn[disabled]
+  &.btn.disabled, &.btn[disabled]
     +btn-gray-style
+
 .btn.btn-white
   &.btn-gray
     font-weight: 300
     text-shadow: none
     cursor: not-allowed !important
     +btn-gray-style
-    &.btn.disabled,&.btn[disabled]
+    &.btn.disabled, &.btn[disabled]
       +btn-gray-style
 //第二階段btn
 //<!--
@@ -274,21 +376,23 @@ a
   span
     color: #888
 
-
 .moreHide
   overflow: hidden
   white-space: nowrap
   text-overflow: ellipsis
+
 .space-6
   max-height: 1px
   min-height: 1px
   overflow: hidden
   margin: 6px 0 5px
+
 .space-custom-5
   max-height: 1px
   min-height: 1px
   overflow: hidden
   margin: 0 0 5px
+
 .space-custom-6
   max-height: 1px
   min-height: 1px
@@ -299,7 +403,7 @@ a
 // custom
 .input_sta_required
   background-color: rgb(198, 242, 217) !important
-  /* (186, 242, 234) */
+/* (186, 242, 234) */
 
 // 兩個間距 104
 $labelw: 104px
@@ -325,15 +429,15 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
 .input-medium
   &.medium-c1
     +input-s1($medium-c1)
-    //@media screen and (min-width: 768px) and (max-width: 1030px)
-    //  +input-s1(120px)
+  //@media screen and (min-width: 768px) and (max-width: 1030px)
+  //  +input-s1(120px)
   &.medium-c1Rm
     +input-s1($medium-c1 -$rmW)
   //&.medium-c1-col2
   //  +input-s1(488px)
   &.medium-c1-col2v2
     +input-s1($medium-c1-col2v2)
-    //彈出視窗內會多一px(?)
+  //彈出視窗內會多一px(?)
   &.medium-c1-col2v2Rm
     +input-s1(($medium-c1-col2v2)-$rmW)
   &.medium-c1-col2v3
@@ -344,6 +448,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1($medium-c1*3 + $labelw*2 -$rmW)
   &.medium-c1-sc2
     +input-s1($medium-c1-sc2)
+  &.medium-c1-sc3
+    +input-s1(703px)
   &.medium-c1-sc2-col2
     +input-s1($medium-c1-sc2-col2)
   &.medium-c1-sc2-col2Rm
@@ -354,8 +460,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(623px)
   &.medium-c2
     +input-s1(179px)
-    //@media screen and (min-width: 768px) and (max-width: 1030px)
-    //  +input-s1(134px)
+  //@media screen and (min-width: 768px) and (max-width: 1030px)
+  //  +input-s1(134px)
   &.medium-c3-sm
     +input-s1(104px)
   &.medium-c3-smFullRm
@@ -409,7 +515,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1($rateCode-s1)
   &.rateCode-s1Rm
     +input-s1($rateCode-s1 -$rmW)
-  &.rateCode-s1-col2 //464px
+  //464px
+  &.rateCode-s1-col2
     +input-s1($rateCode-s1-col2)
   &.rateCode-s1-col2Rm
     +input-s1($rateCode-s1-col2 -$rmW)
@@ -429,7 +536,7 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(695px)
   &.popWindow-s1
     +input-s1(155px)
-    //popWindow-s1拆成兩個
+  //popWindow-s1拆成兩個
   &.consumeCode-g1-s
     +input-s1(50px)
   &.consumeCode-g1-m
@@ -439,7 +546,7 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(128px)
   &.popWindow-s1-col3
     +input-s1(673px)
-    // resv_gProfile
+  // resv_gProfile
   &.popWindow-s2
     +input-s1(138px)
   &.popWindow-s1-col2
@@ -464,10 +571,12 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(535px)
 
   &.resvCard
-    +input-s1($resvCard) //106px
+    +input-s1($resvCard)
+  //106px
   &.resvCardHalf
-    +input-s1($resvCard /2) //53px
-    //住客帳維護 單筆
+    +input-s1($resvCard /2)
+  //53px
+  //住客帳維護 單筆
   &.resvCardSpec1
     +input-s1(203px)
   &.resvCard-date
@@ -480,6 +589,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(83px)
   &.resvCard-m
     +input-s1(70px)
+  &.rc-contact-man
+    +input-s1(148px)
   &.resvCard-col2
     +input-s1($resvCard-col2)
   &.resvCard-col2Rm
@@ -488,6 +599,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(736px)
   &.resvCard-col2Spec1
     +input-s1(258px)
+  &.resvCard-col2Spec2
+    +input-s1(214px)
   &.resvCard-col2Rm2
     +input-s1(278px)
   &.resvCard-full
@@ -504,6 +617,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(140px)
   &.resvCard-sm
     +input-s1(84px)
+  &.resvCard-sm-col2Rm
+    +input-s1(84px + 84px + $labelw -$rmW)
   &.resvCard-2sm
     +input-s1(102.5px)
   &.ca-select
@@ -525,11 +640,14 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
   &.w118px
     +input-s1(118px)
   &.input-spc-2
-    +input-s1(456px) // suggestion Page
+    +input-s1(456px)
+  // suggestion Page
   &.input-spc-3
-    +input-s1(348px) // suggestion Page
+    +input-s1(348px)
+  // suggestion Page
   &.input-spc-3Rm
-    +input-s1(325px) // -23px
+    +input-s1(325px)
+  // -23px
   &.postalCode
     +input-s1(60px)
   &.postaladdress
@@ -539,17 +657,19 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
 
 .input-hMedium
   height: $defHt !important
+
 .input-hCol2
   resize: none
   height: ($defHt*2)+5 !important
+
 .input-spc-1
   +input-s1
-  //@media screen and (min-width: 768px) and (max-width: 1030px)
-  //  +input-s1(349px)
+//@media screen and (min-width: 768px) and (max-width: 1030px)
+//  +input-s1(349px)
 .input-spc-key
   +input-s1(466px)
-  //@media screen and (min-width: 768px) and (max-width: 1030px)
-  //  +input-s1(376px)
+//@media screen and (min-width: 768px) and (max-width: 1030px)
+//  +input-s1(376px)
 .input-mLeft-1
   margin-left: 28px
 
@@ -564,6 +684,7 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
 //    width: 24px !important
 .border-block-left
   border-left: 1px solid #dddddd
+
 .margin-spacing-3
   margin: 3px auto
 //**
@@ -618,12 +739,12 @@ input.numStyle-none
 //  position: fixed //  bottom: 20px //  right: 20px //  width: 301px //  z-index: 9999
 
 .gritter-item-wrapper.gritter-info
-  background-color: rgba(67,142,185,1)
+  background-color: rgba(67, 142, 185, 1)
 
 .popCheckbox
   &.resvCk-1
     width: 106px
-  .checkbox
+  .checkbox, .radio
     margin: 1px auto 0 auto
     .ace
       padding-right: 5px
@@ -632,20 +753,29 @@ input.numStyle-none
       .lbl
         &:before
           margin-right: 3px
-        //.txt
-        //  line-height: 19px
+  //.txt
+  //  line-height: 19px
   &.lbl-after
     .txt
       line-height: 22px
     .checkbox
       label
         padding-left: 10px
-
+  &.rmAssignCk
+    .checkbox
+      label
+        padding-left: 10px
+  .rm-assign-ck
+    margin: -7px auto 25px auto
+    .checkbox-width
+      padding-left: 10px
 
 .rzNone
   resize: none
+
 .remarkInput
   width: 85%
+
 .remarkInput2
   width: 748px
   resize: none
@@ -653,17 +783,13 @@ input.numStyle-none
 .remarkInput3
   width: 414px
   resize: none
-.remarkInput-75
-  width: 75%
-.remarkInput-45
-  width: 45.4%
-.remarkInput-79
-  width: 79.4%
+
 .btn-spc-sm
   border-radius: 5px
   height: 20px !important
   border-width: 1px
   line-height: 15px
+
 .extendGrid
   position: relative
   .extendIcon
@@ -683,21 +809,11 @@ input.numStyle-none
     i
       color: #fff
       font-weight: bold
-      -webkit-transform: rotate(0deg)
-      -webkit-animation: outAnimation 1s
+      +transform(rotate(0deg))
+      +animation(outAnimation 1s)
       &.active
-        -webkit-animation: inAnimation 1s
-        -webkit-transform: rotate(180deg)
-      @-webkit-keyframes inAnimation
-        0%
-          -webkit-transform: rotate(-135deg)
-        100%
-          -webkit-transform: rotate(180deg)
-      @-webkit-keyframes outAnimation
-        0%
-          -webkit-transform: rotate(45deg)
-        100%
-          -webkit-transform: rotate(360deg)
+        +animation(inAnimation 1s)
+        +transform(rotate(180deg))
 
   .extendContent
     display: none
@@ -728,10 +844,11 @@ input.numStyle-none
     .checkbox-width
       padding: 0
       margin: 0
+
 .text-right
-  text-align: right!important
+  text-align: right !important
   .numeric
-    text-align: right!important
+    text-align: right !important
 //scroll-bar style
 // https://codepen.io/kqlambert/pen/tbJCD?editors=1100
 //::-webkit-scrollbar
@@ -775,8 +892,39 @@ select
   background-repeat: no-repeat !important
   cursor: pointer
 
-
 // input checkbox -> width
 input[type=checkbox]
   width: 15px
   height: 15px
+
+.sel-border
+  //border-width: 2px !important
+  border-color: #555 !important
+  .dpShowValue
+    color: #555 !important
+
+.select-group
+  position: relative
+  // 點擊打勾
+  .click-act
+    //background: #ff2244
+    &:after
+      display: inline-block
+      content: '\f00c'
+      font-style: normal
+      font-weight: normal
+      text-decoration: inherit
+      font-family: FontAwesome
+      position: absolute
+      right: 3px
+      margin-top: -25px
+      color: $blue
+    &:hover
+      &:after
+        color: #fff
+
+.status-tip-active
+  //border-width: 2px !important
+  border: 2px solid #555 !important
+  padding-top: 0px !important
+  transition: 0.5s

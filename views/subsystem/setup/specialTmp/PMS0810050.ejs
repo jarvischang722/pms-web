@@ -1,9 +1,9 @@
 <div class="row" id="app-PMS0810050">
     <div class="col-xs-12 col-sm-12">
+        <div class="row">
+            <%- include('../programInfoTheme', {prg_id: prg_id }) %>
+        </div>
         <div class="col-sm-11 col-xs-11">
-            <div class="row">
-                <%-include('../programInfoTheme', {prg_id:  prg_id })%>
-            </div>
 
             <div class="row no-margin-right" v-loading="isLoading">
 
@@ -24,14 +24,14 @@
             </div>
         </div>
 
-        <div class="col-xs-1 col-sm-1">
+        <div class="col-xs-1 col-sm-1 mt-PMS0810050">
             <div class="row">
                 <div class="right-menu-co">
                     <ul>
                         <li>
                             <button id="ins-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
                                     @click="doAppendRow" role="button">
-                                <%= __("SystemCommon").Add %>
+                                <%= __("program")["PMS0810050"].Add %>
                             </button>
                         </li>
                         <li>
@@ -39,7 +39,7 @@
                                     class="btn btn-danger btn-white btn-defaultWidth"
                                     @click="doRemoveRow();" role="button">
 
-                                <%= __("SystemCommon").Delete %>
+                                <%= __("program")["PMS0810050"].Delete %>
                             </button>
                         </li>
                         <li>

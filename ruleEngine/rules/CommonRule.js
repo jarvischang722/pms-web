@@ -82,6 +82,12 @@ module.exports = {
         return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
     },
 
+    /**
+     * 錯誤訊息多語系
+     * @param msgCod: 錯誤訊息編號
+     * @param locale: 語系
+     * @returns {String}: 訊息
+     */
     getMsgByCod: function (msgCod, locale) {
 
         var appRootPath = require('app-root-path').path;
@@ -97,6 +103,50 @@ module.exports = {
             localeContent = require(localesPath + "en.json");
         }
 
-        return localeContent.ErrorMsg[msgCod];
+        return localeContent.ErrorMsg[msgCod] || msgCod;
+    },
+
+    /**
+     * 取得select grid 欄位名稱多語系
+     * @param columnNam: 欄位名稱編號
+     * @param locale: 現在語系
+     * @returns {String}: 欄位名稱
+     */
+    getColumnByNam: function (columnNam, locale) {
+        var appRootPath = require('app-root-path').path;
+        var localeContent = {};
+        var localesPath = appRootPath + "/locales/";
+
+        var isExist = fs.existsSync(localesPath + locale.toLowerCase() + ".json");
+        if (isExist) {
+            localeContent = require(localesPath + locale.toLowerCase() + ".json");
+
+        } else {
+            console.error("找不到多語系對應檔案[" + localesPath + locale.toLowerCase() + ".json]");
+            localeContent = require(localesPath + "en.json");
+        }
+
+        return localeContent.Columns[columnNam] || columnNam;
+    },
+    /**
+     * 新增取目前系統語系資料
+     * @param locale {string} 系統部前語系
+     * @returns {*}
+     */
+    getLangFileByLocale: function(locale){
+        let appRootPath = require('app-root-path').path;
+        let localeContent = {};
+        let localesPath = appRootPath + "/locales/";
+
+        let isExist = fs.existsSync(localesPath + locale.toLowerCase() + ".json");
+        if (isExist) {
+            localeContent = require(localesPath + locale.toLowerCase() + ".json");
+
+        } else {
+            console.error("找不到多語系對應檔案[" + localesPath + locale.toLowerCase() + ".json]");
+            localeContent = require(localesPath + "en.json");
+        }
+
+        return localeContent;
     }
 };

@@ -1,105 +1,15 @@
 <div id="PMS0620010App">
     <div class="page-header"></div><!-- /.page-header -->
     <!-- 業務員(Sales Rep) Page-->
-
     <div class="pageMain" v-loading="isLoading" element-loading-text="Loading...">
         <!--搜尋列-->
         <div class="col-xs-12">
-            <div class="search-content">
-                <div class="search-co">
-                    <div class="row">
-                        <div class="search-co-content col-xs-12 search-S2">
-                            <div class="width-95 searchMain-S2">
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label><%= __("program")["PMS0620020"]["sales_cod"] %></label>
-                                        <input type="text" class="input-medium medium-c1"
-                                               v-model="searchCond.sales_cod"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label><%= __("program")["PMS0620020"]["sales_nam"] %></label>
-                                        <input type="text" class="input-medium medium-c1"
-                                               v-model="searchCond.sales_nam"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label><%= __("program")["PMS0620020"]["class_cod"] %></label>
-                                        <input type="text" class="input-medium medium-c1"
-                                               v-model="searchCond.class_cod"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row search-footer-btn">
-                                <div class="footer-btn-menu-co">
-                                    <ul>
-                                        <li>
-                                            <div class="" data-rel="tooltip" data-placement="bottom"
-                                                 title="查詢">
-                                                <div class="icon-reStyle icon-co-14" @click="doSearch"></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="" data-rel="tooltip" data-placement="bottom"
-                                                 title="清除">
-                                                <div class="icon-reStyle icon-co-11" @click="doClear"></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="icon-moreSearch show-search-detail">
-                                                <i class="fa fa-chevron-down"></i>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>  <!-- /.footer-btn-menu-co -->
-                            </div> <!-- /.search-footer-btn -->
-                        </div>
-
-                        <div class="search-co-content col-xs-12 search-S2-con rece-search-detail"
-                             style="display: none;">
-                            <div class="width-95">
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label><%= __("program")["PMS0620020"]["hotel_sales"] %></label>
-                                        <select class="input-medium medium-c1" v-model="searchCond.hotel_sales">
-                                            <option value="Y"><%= __("program")["PMS0620020"]["selectYes"] %></option>
-                                            <option value="N"><%= __("program")["PMS0620020"]["selectNo"] %></option>
-                                            <option value="all"><%= __("program")["PMS0620020"]["selectAll"] %></option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label><%= __("program")["PMS0620020"]["bq_sales"] %></label>
-                                        <select class="input-medium medium-c1" v-model="searchCond.bq_sales">
-                                            <option value="Y"><%= __("program")["PMS0620020"]["selectYes"] %></option>
-                                            <option value="N"><%= __("program")["PMS0620020"]["selectNo"] %></option>
-                                            <option value="all"><%= __("program")["PMS0620020"]["selectAll"] %></option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label><%= __("program")["PMS0620020"]["member_sales"] %></label>
-                                        <select class="input-medium medium-c1" v-model="searchCond.member_sales">
-                                            <option value="Y"><%= __("program")["PMS0620020"]["selectYes"] %></option>
-                                            <option value="N"><%= __("program")["PMS0620020"]["selectNo"] %></option>
-                                            <option value="all"><%= __("program")["PMS0620020"]["selectAll"] %></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label><%= __("program")["PMS0620020"]["status_cod"] %></label>
-                                        <select class="input-medium medium-c1" v-model="searchCond.status_cod">
-                                            <option value="Q">
-                                                Q:<%= __("program")["PMS0620020"]["selectQuit"] %></option>
-                                            <option value="N">N:<%= __("program")["PMS0620020"]["selectEmp"] %></option>
-                                            <option value="all"><%= __("program")["PMS0620020"]["selectAll"] %></option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div> <!-- row-->
-                </div> <!-- /.search-co -->
-
-            </div> <!-- /.row  search-content-->
+            <search-comp
+                    :search-fields="searchFields"
+                    :search-cond.sync="searchCond"
+                    :fetch-data="loadDataGridByPrgID"
+            ></search-comp>
+            <!-- /.row  search-content-->
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
         <div class="col-xs-12">
@@ -149,14 +59,11 @@
     >
     </single-grid-pms0620020-tmp>
 
-    <!--popup grid-->
-    <text-select-grid-dialog-tmp></text-select-grid-dialog-tmp>
 
     <!-- 異動紀錄 -->
     <div id="salesChangelogDialog" class="hide">
         <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
                    :visible.sync="openChangeLogDialog" size="large" class="openChangeLogDialog">
-
             <div class="col-xs-12">
                 <div class="col-sm-12 col-xs-12">
                     <div class="row">
@@ -166,34 +73,48 @@
                                     <thead class="custab-head">
                                     <tr>
                                         <th class="width-15 text-center"><%= __("SystemCommon")["Time"] %></th>
-                                        <th class="width-10 text-center"><%= __("SystemCommon")["User"] %></th>
-                                        <th class="width-15 text-center"><%= __("SystemCommon")["Action_type"] %></th>
-                                        <th class="width-20 text-center"><%= __("SystemCommon")["Desciption_Mn"] %></th>
+                                        <th class="width-20 text-center"><%= __("SystemCommon")["User"] %></th>
+                                        <th class="width-20 text-center"><%= __("SystemCommon")["Action_type"] %></th>
+                                        <th class="width-25 text-center"><%= __("SystemCommon")["Desciption_Mn"] %></th>
+                                        <th class="width-20 text-center"><%= __("SystemCommon")["Desciption_Dt"] %></th>
                                     </tr>
                                     </thead>
                                 </table>
                             </div>
                             <div class="tbl-content02" style="height: 300px;">
                                 <table class="custab">
-
                                     <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
                                     <tr v-for="logData in allChangeLogList">
                                         <td class="width-15">{{logData.event_time}}</td>
-                                        <td class="width-10">{{logData.user}}</td>
-                                        <td class="width-15"><span
-                                                    v-for="keyData in logData.keys">{{keyData}}<br></span>
-                                        </td>
+                                        <td class="width-20">{{logData.user}}</td>
                                         <td class="width-20">
-                                            <div class="blue bold" style="text-transform: capitalize;">{{logData.action
-                                                }}
+                                            <span v-for="keyData in logData.keys">{{keyData}}<br></span>
+                                        </td>
+                                        <td class="width-25">
+                                            <div class="blue bold" style="text-transform: capitalize;">
+                                                {{logData.action}}
                                             </div>
                                             <span v-for="mnData in logData.desc_mn">
-                                        {{mnData.field_name}} :
-                                        {{mnData.oldVal}}
-                                        <span v-if="logData.action == 'update'"> →  </span>
-                                        {{mnData.newVal}}
-                                        <br>
-                                    </span>
+                                                {{mnData.field_name}} :
+                                                {{mnData.oldVal}}
+                                                <span v-if="logData.action == 'update'"> →  </span>
+                                                {{mnData.newVal}}
+                                                <br>
+                                            </span>
+                                        </td>
+                                        <td class="width-20">
+                                            <div v-for="dtData in logData.desc_dt">
+                                                <div class="blue bold" style="text-transform: capitalize;">
+                                                    {{dtData.action}}
+                                                </div>
+                                                <span v-for="dtChange in dtData.changes">
+                                                    {{dtChange.field_name}} :
+                                                    {{dtChange.oldVal}}
+                                                    <span v-if="dtData.action == 'update'"> →  </span>
+                                                    {{dtChange.newVal}}
+                                                    <br>
+                                                </span>
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -215,8 +136,6 @@
 
 </div><!-- /.page-content -->
 
-
-<%- include ./vueTemplate/chooseDataDialogTmp.ejs %>
 <%- include ./vueTemplate/PMS0620020Tmp.ejs %>
 
 <script src="/js/sales/PMS0620010.js"></script>

@@ -1,12 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+
+    <!-- [RS0W212010] 取連絡人資料 -->
+    <dao name="SEL_ATTEN_NAM">
+        <statement><![CDATA[
+            select cust_mn_pers_dt.per_nam as atten_nam, role_rf.role_rmk, cust_mn_pers_dt.tel_nos
+            from cust_mn_pers_dt,role_rf
+            where cust_mn_pers_dt.role_cod = role_rf.role_cod(+)
+        ]]>
+        </statement>
+        <statement test="_v(param.cust_cod)"><![CDATA[and trim(cust_cod) = trim(:cust_cod)]]></statement>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
+
+    <!-- [RS0W212010] 取連絡人資料 -->
+    <dao name="QRY_ATTEN_NAM">
+        <statement><![CDATA[
+            select cust_mn_pers_dt.per_nam as atten_nam
+            from cust_mn_pers_dt,role_rf,member_mn
+            where cust_mn_pers_dt.role_cod=role_rf.role_cod(+)
+            and cust_mn_pers_dt.secretary_cod=member_mn.cust_cod(+)
+            and trim(cust_mn_pers_dt.cust_cod) = trim(:cust_cod)
+            and trim(cust_mn_pers_dt.seq_nos) = trim(:atten_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">cust_cod</parameter>
+        <parameter type="string" kind="3">atten_cod</parameter>
+    </dao>
+
     <!--[PMS0610020 商務公司資料編輯] 相關人員 取多筆資料-->
     <dao name="QRY_CUST_MN_PERS_DT">
         <statement><![CDATA[
 			select  'n' primary_pers, cust_idx.alt_nam, cust_mn_pers_dt.dept_nam, cust_mn_pers_dt.role_cod,
-            cust_mn_pers_dt.job_sta, cust_idx.mobile_nos, cust_idx.office_tel, cust_idx.home_tel,
-            cust_idx.fax_nos, cust_idx.e_mail, cust_mn_pers_dt.remark, cust_mn_pers_dt.quit_dat,
-            cust_idx.sex_typ, cust_idx.birth_dat, cust_mn_pers_dt.seq_nos
+            cust_mn_pers_dt.job_sta, cust_idx.mobile_nos, cust_idx.office_tel, cust_idx.home_tel, cust_mn_pers_dt.seq_nos,
+            cust_idx.fax_nos, cust_idx.e_mail, cust_mn_pers_dt.remark, cust_mn_pers_dt.quit_dat,cust_mn_pers_dt.athena_id,
+            cust_idx.sex_typ, cust_idx.birth_dat, cust_mn_pers_dt.seq_nos, cust_mn_pers_dt.per_cust_cod, cust_mn_pers_dt.cust_cod
             from  cust_mn_pers_dt
             left join cust_idx on cust_mn_pers_dt.athena_id = cust_idx.athena_id
             where cust_mn_pers_dt.per_cust_cod = cust_idx.cust_cod

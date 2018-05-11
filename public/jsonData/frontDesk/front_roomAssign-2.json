@@ -1,10 +1,58 @@
-{"total":28,
-	"rows":[
-		{"cardCode":"00456201","code":"1","bookingNum":"1","name":"李大同","roomAssignNum":"<input type='checkbox'/>","roomNum":"450","roomAssignHousing":"OSK:大阪套房","useHousing":"OSK:大阪套房","valuationHousing":"DDT:家庭客房","roomAssignSet":"已排房","ciDate":"2017/03/19","coDate":"2017/03/20","days":"3","insteadOrderCo":"千層派熊","roomNumCode":"s9500-01:94標準房價","adult":"4","child":"0","baby":"0","avgRoom":"9,020","changeRoomRm":"排房注意事項:勿西曬"},
-		{"cardCode":"00456201","code":"1","bookingNum":"1","name":"李大同","roomAssignNum":"<input type='checkbox'/>","roomNum":"450","roomAssignHousing":"OSK:大阪套房","useHousing":"OSK:大阪套房","valuationHousing":"DDT:家庭客房","roomAssignSet":"已排房","ciDate":"2017/03/19","coDate":"2017/03/20","days":"3","insteadOrderCo":"千層派熊","roomNumCode":"s9500-01:94標準房價","adult":"4","child":"0","baby":"0","avgRoom":"9,020","changeRoomRm":"排房注意事項:勿西曬"},
-		{"cardCode":"00456201","code":"1","bookingNum":"1","name":"李大同","roomAssignNum":"<input type='checkbox'/>","roomNum":"450","roomAssignHousing":"OSK:大阪套房","useHousing":"OSK:大阪套房","valuationHousing":"DDT:家庭客房","roomAssignSet":"已排房","ciDate":"2017/03/19","coDate":"2017/03/20","days":"3","insteadOrderCo":"千層派熊","roomNumCode":"s9500-01:94標準房價","adult":"4","child":"0","baby":"0","avgRoom":"9,020","changeRoomRm":"排房注意事項:勿西曬"},
-		{"cardCode":"00456201","code":"1","bookingNum":"1","name":"李大同","roomAssignNum":"<input type='checkbox'/>","roomNum":"450","roomAssignHousing":"OSK:大阪套房","useHousing":"OSK:大阪套房","valuationHousing":"DDT:家庭客房","roomAssignSet":"已排房","ciDate":"2017/03/19","coDate":"2017/03/20","days":"3","insteadOrderCo":"千層派熊","roomNumCode":"s9500-01:94標準房價","adult":"4","child":"0","baby":"0","avgRoom":"9,020","changeRoomRm":"排房注意事項:勿西曬"},
-		{"cardCode":"00456201","code":"1","bookingNum":"1","name":"李大同","roomAssignNum":"<input type='checkbox'/>","roomNum":"450","roomAssignHousing":"OSK:大阪套房","useHousing":"OSK:大阪套房","valuationHousing":"DDT:家庭客房","roomAssignSet":"已排房","ciDate":"2017/03/19","coDate":"2017/03/20","days":"3","insteadOrderCo":"千層派熊","roomNumCode":"s9500-01:94標準房價","adult":"4","child":"0","baby":"0","avgRoom":"9,020","changeRoomRm":"排房注意事項:勿西曬"},
-		{"cardCode":"00456201","code":"1","bookingNum":"1","name":"李大同","roomAssignNum":"<input type='checkbox'/>","roomNum":"450","roomAssignHousing":"OSK:大阪套房","useHousing":"OSK:大阪套房","valuationHousing":"DDT:家庭客房","roomAssignSet":"已排房","ciDate":"2017/03/19","coDate":"2017/03/20","days":"3","insteadOrderCo":"千層派熊","roomNumCode":"s9500-01:94標準房價","adult":"4","child":"0","baby":"0","avgRoom":"9,020","changeRoomRm":"排房注意事項:勿西曬"}
-	]}
+{
+  "total": 28,
+  "rows": [
+    {
+      "bookingNum": "1",
+      "name": "李大同",
+      "roomAssignNum": "未排房",
+      "roomNum": "<span class='red'>210</span>",
+      "roomAssignHousing": "STD",
+      "useHousing": "STD",
+      "lockRoomAssign": "是",
+      "roomNumCode": "18PKG01",
+      "adult": "1",
+      "child": "0",
+      "baby": "0"
+    },
+    {
+      "bookingNum": "1",
+      "name": "李大同",
+      "roomAssignNum": "未排房",
+      "roomNum": "211",
+      "roomAssignHousing": "STD",
+      "useHousing": "STD",
+      "lockRoomAssign": "否",
+      "roomNumCode": "18PKG01",
+      "adult": "1",
+      "child": "0",
+      "baby": "0"
+    },
+    {
+      "bookingNum": "2",
+      "name": "李大同",
+      "roomAssignNum": "已排房",
+      "roomNum": "212",
+      "roomAssignHousing": "STD",
+      "useHousing": "STD",
+      "lockRoomAssign": "否",
+      "roomNumCode": "18PKG01",
+      "adult": "2",
+      "child": "1",
+      "baby": "0"
+    },
+    {
+      "bookingNum": "2",
+      "name": "李大同，陳小華",
+      "roomAssignNum": "未排房",
+      "roomNum": "<span class='red'>213</span>",
+      "roomAssignHousing": "STD",
+      "useHousing": "STD",
+      "lockRoomAssign": "是",
+      "roomNumCode": "18PKG01",
+      "adult": "1",
+      "child": "0",
+      "baby": "0"
+    }
+  ]
+}
 

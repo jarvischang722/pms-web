@@ -24,8 +24,8 @@ exports.qryPageOneData = function (postData, session, callback) {
     };
 
     async.parallel([
-        qryBanquetData,     // 查訂席平面圖資料
-        qryBanquetSta       // 查訂席場地狀態
+        qryBanquetData, // 查訂席平面圖資料
+        qryBanquetSta // 查訂席場地狀態
     ], function (err, result) {
         if (err) {
             lo_error = err;
@@ -49,7 +49,7 @@ exports.qryPageOneData = function (postData, session, callback) {
             "user": "cio"
         };
 
-        tools.requestApi(sysConfig.api_url, params, function (err, res, result) {
+        tools.requestApi(sysConfig.api_url.dotnet, params, function (err, res, result) {
             let errorMsg = null;
             let data = "";
             if (err || !result) {
@@ -143,7 +143,7 @@ class ResvBanquetData {
                 parent_cod: null,
                 place_cod: null,
                 banquet_dt: self.genMtime_dt(lo_rspt.rspt_cod), //產生餐期資料
-                rowspan: 0
+                rowspan: 1
             };
             la_rowData.push(lo_rowData);
 
@@ -187,7 +187,7 @@ class ResvBanquetData {
                         parent_cod: "",
                         place_cod: lo_parentPlaceByRspt.place_cod,
                         banquet_dt: self.genOrder_dt(lo_parentPlaceByRspt.place_cod, []),
-                        rowspan: 0,
+                        rowspan: 1,
                         isChild: "N"
                     };
                     la_rowData.push(lo_rowData);
@@ -225,7 +225,7 @@ class ResvBanquetData {
                             parent_cod: lo_childPlaceByRspt.parent_cod,
                             place_cod: lo_childPlaceByRspt.place_cod,
                             banquet_dt: self.genOrder_dt(lo_childPlaceByRspt.place_cod, []),
-                            rowspan: 0,
+                            rowspan: 1,
                             isChild: "Y"
                         };
                         la_rowData.push(lo_rowData);
@@ -277,9 +277,9 @@ class ResvBanquetData {
             let lo_groupDataByRowId = _.groupBy(la_newOrderData, "rowId");
             la_newOrderData = [];
             if (Object.keys(lo_groupDataByRowId).length > 0) {
-                _.each(lo_groupDataByRowId, function(la_eachGroupData){
+                _.each(lo_groupDataByRowId, function (la_eachGroupData) {
                     la_eachGroupData = _.sortBy(la_eachGroupData, "begin_tim");
-                    _.each(la_eachGroupData, function(lo_eachData){
+                    _.each(la_eachGroupData, function (lo_eachData) {
                         la_newOrderData.push(lo_eachData);
                     });
                 });
@@ -480,7 +480,7 @@ class ResvBanquetData {
         /**
          * 最後訂席結束時間 != 營業結束時間 (補空白格子)
          */
-        if (!_.isUndefined(lo_last) && this.convertToMin(lo_last.end_tim) != (this.day_end_min + 60)) {
+        if (!_.isUndefined(lo_last) && this.convertToMin(lo_last.end_tim) != this.day_end_min + 60) {
             //計算空白格子數： 營業結束時間 + 1hour - 最後訂席結束時間
             ln_colspan = self.calcColSpan(this.convertToMin(lo_last.end_tim), this.day_end_min + 60);
             lo_banquet_dt = {
@@ -578,9 +578,9 @@ class ResvBanquetData {
 
 //[RS0W212010] 取格萊天漾查詢頁資料
 exports.qryPageTwoData = function (postData, session, callback) {
-    var lo_error = null;
+    let lo_error = null;
 
-    var lo_params = {
+    let lo_params = {
         bquet_nos: postData.bquet_nos
     };
 
@@ -604,20 +604,22 @@ exports.qryPageTwoData = function (postData, session, callback) {
 
 //[RS0W212010] 取系統參數
 exports.qrySystemParam = function (postData, session, callback) {
-    var lo_error = null;
+    let lo_error = null;
 
-    var paramName = "QRY_" + postData.paramName.toUpperCase();
+    let paramName = "QRY_" + postData.paramName.toUpperCase();
 
-    var lo_params = {
+    let lo_params = {
         comp_cod: session.user.cmp_id
     };
 
     queryAgent.query(paramName, lo_params, function (err, Result) {
         if (!err) {
-            if (Result)
+            if (Result) {
                 callback(lo_error, Result);
-            else
+            }
+            else {
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -630,18 +632,20 @@ exports.qrySystemParam = function (postData, session, callback) {
 
 //[RS0W212010] 取宴席類別
 exports.chk_use_typ = function (postData, session, callback) {
-    var lo_error = null;
+    let lo_error = null;
 
-    var lo_params = {
+    let lo_params = {
         use_typ: postData.use_typ
     };
 
     queryAgent.query("CHK_USE_TYP", lo_params, function (err, Result) {
         if (!err) {
-            if (Result)
+            if (Result) {
                 callback(lo_error, Result);
-            else
+            }
+            else {
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -654,16 +658,18 @@ exports.chk_use_typ = function (postData, session, callback) {
 
 //[RS0W212010] 取預約處理預設值
 exports.def_proc_sta = function (postData, session, callback) {
-    var lo_error = null;
+    let lo_error = null;
 
-    var lo_params = {};
+    let lo_params = {};
 
     queryAgent.query("DEF_PROC_STA", lo_params, function (err, Result) {
         if (!err) {
-            if (Result)
+            if (Result) {
                 callback(lo_error, Result);
-            else
+            }
+            else {
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -676,18 +682,20 @@ exports.def_proc_sta = function (postData, session, callback) {
 
 //[RS0W212010] 取已付訂金預設值
 exports.def_banlance_amt = function (postData, session, callback) {
-    var lo_error = null;
+    let lo_error = null;
 
-    var lo_params = {
+    let lo_params = {
         bquet_nos: postData.bquet_nos
     };
 
     queryAgent.query("QRY_BANLANCE_AMT", lo_params, function (err, Result) {
         if (!err) {
-            if (Result)
+            if (Result) {
                 callback(lo_error, Result);
-            else
+            }
+            else {
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -700,9 +708,9 @@ exports.def_banlance_amt = function (postData, session, callback) {
 
 //[RS0W212010] 取客戶資料
 exports.qry_bqcust_mn = function (postData, session, callback) {
-    var lo_error = null;
+    let lo_error = null;
 
-    var lo_params = {
+    let lo_params = {
         cust_cod: postData.cust_cod
     };
 
@@ -710,7 +718,7 @@ exports.qry_bqcust_mn = function (postData, session, callback) {
         if (!err) {
             if (Result) {
 
-                var lo_params2 = {
+                let lo_params2 = {
                     cust_cod: postData.cust_cod,
                     atten_cod: Result.atten_cod
                 };
@@ -733,8 +741,9 @@ exports.qry_bqcust_mn = function (postData, session, callback) {
                     }
                 });
             }
-            else
+            else {
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -747,7 +756,7 @@ exports.qry_bqcust_mn = function (postData, session, callback) {
 
 //[RS0W212010] 異動表單狀態
 exports.chgOrderStaAPI = function (postData, session, callback) {
-    var apiParams = {
+    let apiParams = {
         "REVE-CODE": postData.REVE_CODE,
         "comp_cod": session.user.cmp_id,
         "program_id": postData.prg_id,
@@ -762,10 +771,10 @@ exports.chgOrderStaAPI = function (postData, session, callback) {
         "upd_usr": postData.upd_usr
     };
 
-    tools.requestApi(sysConfig.api_url, apiParams, function (apiErr, apiRes, data) {
-        var log_id = moment().format("YYYYMMDDHHmmss");
-        var success = true;
-        var errorMsg = "";
+    tools.requestApi(sysConfig.api_url.dotnet, apiParams, function (apiErr, apiRes, data) {
+        let log_id = moment().format("YYYYMMDDHHmmss");
+        let success = true;
+        let errorMsg = "";
         if (apiErr || !data) {
             success = false;
             errorMsg = apiErr;
@@ -783,18 +792,20 @@ exports.chgOrderStaAPI = function (postData, session, callback) {
 
 //[RS0W212010] 取場地單價
 exports.getPlaceUnitAmt = function (postData, session, callback) {
-    var lo_error = null;
+    let lo_error = null;
 
-    var lo_params = {
+    let lo_params = {
         place_cod: postData.place_cod
     };
 
     queryAgent.query("QRY_PLACE_UNIT_AMT", lo_params, function (err, Result) {
         if (!err) {
-            if (Result)
+            if (Result) {
                 callback(lo_error, Result);
-            else
+            }
+            else {
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
