@@ -88,7 +88,7 @@
               and rownum = 1
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">area_cod</parameter>
     </dao>
 

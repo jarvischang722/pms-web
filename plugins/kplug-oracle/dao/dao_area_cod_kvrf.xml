@@ -6,7 +6,7 @@
                 select area_cod, area_nam, parent_cod, sort_cod, level_nos, ins_dat, ins_usr, upd_dat, upd_usr, athena_id from area_cod_kvrf where athena_id = :athena_id
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 
     <!--[PMS0620050] 搜尋列area下拉資料-->

@@ -223,7 +223,6 @@ a
   color: $redDefault
   line-height: $lh34
 
-
 /*-- top-sec-menu --*/
 .top-sec-ul
   max-width: 100%
@@ -1094,8 +1093,9 @@ ul.newVisitOther-btn
         padding: 5px
         //min-width: 100%
         //min-height: 100%
-        width: 124px
-        height: 86px
+        //default: width: 124px height: 86px
+        width: 140px
+        height: 93px
         line-height: 23px
         box-sizing: border-box
         background: #c0d6ee
@@ -1946,8 +1946,8 @@ td
 // Room Assign 排房
 .townPage
   //position: relative
+  //overflow: auto
   height: 500px
-  overflow: auto
   .townRow
     //margin: 3px auto auto 3px
     .townBlock
@@ -2480,20 +2480,22 @@ td
 
 //客製化房型訂房table
 .cus-roomType-table
-  +cus-table-templete($rp-th-wt: 188px,$tbody-td-ht: 21px)
+  +cus-table-templete($rp-th-wt: 188px, $tbody-td-ht: 21px)
 //客製化超訂table
 .cus-PMS0120020-table
-  +cus-table-templete($rp-th-wt: 160px,$tbody-td-ht: 23px)
+  +cus-table-templete($rp-th-wt: 160px, $tbody-td-ht: 23px)
 //客製化鎖控table
 .cus-resvBlockSetting-table
-  +cus-table-templete($rp-th-wt: 160px,$tbody-td-ht: 21px)
+  +cus-table-templete($rp-th-wt: 160px, $tbody-td-ht: 21px)
 
 @mixin th-width-wt($wt:100px)
   width: $wt
   float: left
   padding: 0 7px
+
 .th-width-s
   +th-width-wt(100px)
+
 .th-width-l
   +th-width-wt(120px)
 

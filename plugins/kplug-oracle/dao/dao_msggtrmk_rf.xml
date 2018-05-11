@@ -8,7 +8,7 @@
              where athena_id = ? and trim(hotel_cod) = trim(?)
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="likestring" kind="2" condition="rmk_cod like ?" >rmk_cod</parameter>
         <parameter type="likestring" kind="2" condition="msg_tax1 like ?" >msg_tax1</parameter>
@@ -22,7 +22,7 @@
              where athena_id = ? and trim(hotel_cod) = trim(?) and rmk_cod = ?
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">rmk_cod</parameter>
     </dao>

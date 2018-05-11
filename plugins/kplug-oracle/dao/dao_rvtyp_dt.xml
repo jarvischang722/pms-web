@@ -11,8 +11,8 @@
           and type = :type
 
         ]]></statement>
-        <parameter type="int" kind="3">athena_id</parameter>
-        <parameter type="int" kind="3">hotel_cod</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="int" kind="3">type</parameter>
     </dao>
 
