@@ -15,21 +15,6 @@
         <parameter type="string" kind="3">user_id</parameter>
     </dao>
 
-    <!-- (old)使用者有權限的公司 -->
-    <dao name="OLD_QUY_ROLE_USER_USE_HOTELS">
-        <statement><![CDATA[
-              SELECT DISTINCT   hotel_rf.hotel_nam ,hotel_rf.hotel_cod
-              FROM  hotel_rf
-              INNER JOIN  bac_role_function  ON bac_role_function.fun_hotel_cod = hotel_rf.hotel_cod
-              join bac_role_user on bac_role_function.role_comp_cod = bac_role_user.role_comp_cod and bac_role_function.role_id = bac_role_user.role_id
-              WHERE trim(bac_role_user.user_comp_cod) = trim(:comp_id)
-              AND trim(bac_role_user.user_id) = trim(:user_id)
-        ]]>
-        </statement>
-        <parameter type="string" kind="3">comp_id</parameter>
-        <parameter type="string" kind="3">user_id</parameter>
-    </dao>
-
 
     <!-- 使用者可選的系統 -->
     <dao name="QUY_ROLE_USER_USE_SYSTEM">
@@ -53,28 +38,6 @@
 
     </dao>
 
-    <!-- (old)使用者可選的系統 -->
-    <dao name="OLD_QUY_ROLE_USER_USE_SYSTEM">
-        <statement><![CDATA[
-            SELECT  DISTINCT   current_id as sys_id, sys.SYS_NAME as sys_name_zh_tw,  sys.SYS_ENAME as sys_name_en, sys.SORT_COD
-            FROM BAC_ROLE_FUNCTION  brf
-            JOIN bac_role_user bru ON brf.role_comp_cod = bru.role_comp_cod AND brf.role_id = bru.role_id
-            JOIN S99_SYSTEM  sys   on sys.SYS_ID = brf.current_id
-            where trim(bru.user_comp_cod) = trim(:user_comp_cod)
-            AND trim(bru.user_id) = trim(:user_id)
-            AND trim(fun_comp_cod) = trim(:fun_comp_cod)
-            and trim(fun_hotel_cod) = trim(:fun_hotel_cod)
-            AND id_typ <> 'FUNCTION'
-            AND brf.ID_TYP   = 'SYSTEM'
-            order by sys.SORT_COD
-        ]]>
-        </statement>
-        <parameter type="string" kind="3">user_comp_cod</parameter>
-        <parameter type="string" kind="3">user_id</parameter>
-        <parameter type="string" kind="3">fun_comp_cod</parameter>
-        <parameter type="string" kind="3">fun_hotel_cod</parameter>
-
-    </dao>
 
     <!--使用者可使用作業menu-->
     <dao name="QRY_BAC_SYS_MODULE_BY_USER">
@@ -92,7 +55,7 @@
         <parameter type="string" kind="3">user_comp_cod</parameter>
         <parameter type="string" kind="3">user_id</parameter>
         <parameter type="string" kind="3">role_id</parameter>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">func_hotel_cod</parameter>
         <statement test="_v(param.user_id)"><![CDATA[and trim(b.user_id) = trim(:user_id)]]></statement>
         <statement test="_v(param.role_id)"><![CDATA[and trim(b.role_id) = trim(:role_id)]]></statement>
@@ -118,10 +81,10 @@
             and flag2_sta = 'Y'
         ]]>
         </statement>
-        <parameter type="int" kind="3">user_athena_id</parameter>
+        <parameter type="number" kind="3">user_athena_id</parameter>
         <parameter type="string" kind="3">user_comp_cod</parameter>
         <parameter type="string" kind="3">user_id</parameter>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">func_hotel_cod</parameter>
         <parameter type="string" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
         <parameter type="string" kind="2" condition="current_id = :current_id ">current_id</parameter>
@@ -182,16 +145,39 @@
     <!-- 抓取process -->
     <dao name="QRY_S99_PROCESS_BY_SYS_MODULE">
         <statement><![CDATA[
-         select pro.* ,mdl.mdl_name,mdl.mdl_name as mdl_name_zh_TW , mdl_ename as mdl_name_en , mdl.group_sta, mdl.mdl_url, brf.edition
+         select DISTINCT pro.* ,mdl.mdl_name,mdl.mdl_name as mdl_name_zh_TW , mdl_ename as mdl_name_en , mdl.group_sta, mdl.mdl_url, brf.edition
          from s99_process pro
          inner join s99_model mdl on mdl.SYS_ID = pro.SYS_ID and mdl.mdl_id = pro.mdl_id
          inner join bac_role_function  brf on brf.current_id =  pro.pro_id
          where pro.SYS_ID = :sys_id
+         and func_athena_id = :athena_id
+         and trim(brf.func_hotel_cod) = :hotel_cod
         ]]>
         </statement>
         <parameter type="string" kind="3">sys_id</parameter>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <orderby>order by pro.mdl_id, pro.pro_id, pro.SORT_COD</orderby>
     </dao>
+
+    <!-- 抓取所有報表 -->
+    <dao name="QRY_ALL_REPORT_BY_SYS_ID">
+        <statement><![CDATA[
+        select *
+        from bac_role_function  brf
+        inner join s99_model mdl  on mdl.MDL_ID  = brf.current_id
+        where mdl.sys_id = :sys_id
+        and group_sta = 'R'
+        and func_hotel_cod = :hotel_cod
+        and func_athena_id= :athena_id
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">sys_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <orderby>order by mdl_id</orderby>
+    </dao>
+
 
     <!-- 撈取某支作業全部功能權限 -->
     <dao name="QRY_PROCESS_USER_FUNC_PURVIEW">

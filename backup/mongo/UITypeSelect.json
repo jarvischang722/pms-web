@@ -5422,3 +5422,45 @@
     "multi_display_field" : "", 
     "display_func_name" : ""
 }
+{ 
+    "_id" : ObjectId("5af2cc8c30c478072c325a12"), 
+    "prg_id" : "PMS01R0010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "order_dt.order_sta", 
+    "ui_display_name" : "display", 
+    "rule_func_name" : "qryOrderSta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5af2cd0230c478072c325a15"), 
+    "prg_id" : "PMS01R0010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "guest_rf.guest_typ", 
+    "ui_display_name" : "guest_typ", 
+    "rule_func_name" : "QRY_GUEST_TYP", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5af2cd3830c478072c325a17"), 
+    "prg_id" : "PMS01R0010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "order_dt.ins_usr", 
+    "ui_display_name" : "usr_cname", 
+    "rule_func_name" : "QRY_USERS_BY_ATHENA_ID", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}

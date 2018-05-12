@@ -26,7 +26,7 @@ module.exports = {
         let prg_id = postData.prg_id;
         let field = _.isUndefined(postData.fields) ? {} : postData.fields;
         let ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
-        let params = postData.singleRowData.ashow_cod == "" ? userInfo : _.extend(postData.singleRowData, userInfo);
+        let params = postData.singleRowData.ashow_cod == "" ? session : _.extend(postData.singleRowData, session);
 
         let selectDSFunc = [];
         let result = new ReturnClass();
@@ -80,7 +80,7 @@ module.exports = {
         let prg_id = postData.prg_id;
         let field = _.isUndefined(postData.fields) ? {} : postData.fields;
         let ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
-        let params = postData.singleRowData.ashow_cod == "" ? userInfo : _.extend(postData.singleRowData, userInfo);
+        let params = postData.singleRowData.ashow_cod == "" ? session : _.extend(postData.singleRowData, session);
 
         let selectDSFunc = [];
         let result = new ReturnClass();

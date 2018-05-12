@@ -230,8 +230,8 @@
             },
             fetchRowData() {
                 let lo_taFieldData = _.findWhere(this.oriFieldsData, {ui_field_name: 'traffic_amt'});
-                this.rowData["traffic_amt"] = this.rowData["traffic_amt"] != 0 ?
-                    go_formatDisplayClass.amtFormat(this.rowData["traffic_amt"], lo_taFieldData.format_func_name.rule_val) : '0';
+                this.rowData["traffic_amt"] = !_.isUndefined(this.rowData["traffic_amt"]) ?
+                    go_formatDisplayClass.amtFormat(this.rowData["traffic_amt"].toString(), lo_taFieldData.format_func_name.rule_val) : '0';
 
                 this.singleData = JSON.parse(JSON.stringify(this.rowData));
                 this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));

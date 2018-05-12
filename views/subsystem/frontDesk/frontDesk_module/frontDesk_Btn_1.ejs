@@ -467,15 +467,18 @@
                                         <label>公司名稱</label>
                                         <input class="input-medium rateCode-s1" type="text" placeholder="">
                                     </div>
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>公帳號</label>
-                                            <select class="input-medium rateCode-s1">
-                                                <option value="">Y:有 G01</option>
-                                                <option value="">N:無</option>
-                                                <option value="">Y:有</option>
-                                            </select>
+                                    <div class="grid-item">
+                                        <label class="pull-left">公帳號</label>
+                                        <input type="text"
+                                               class="input-medium resvCard-s1Half2 pull-left"
+                                               placeholder="Y" disabled>
+                                        <input type="text"
+                                               class="input-medium resvCard-s1Half2 pull-left ml-3"
+                                               placeholder="G01" disabled/>
+                                        <div class="pull-left">
+                                            <i class="moreClick fa fa-ellipsis-h publicAccount-btn"></i>
                                         </div>
+                                        <div class="clearfix"></div>
                                     </div>
                                 </div>
                                 <div class="grid">
@@ -593,15 +596,18 @@
                                         <label>公司名稱</label>
                                         <input class="input-medium rateCode-s1" type="text" placeholder="">
                                     </div>
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>公帳號</label>
-                                            <select class="input-medium rateCode-s1">
-                                                <option value="">Y:有 G01</option>
-                                                <option value="">N:無</option>
-                                                <option value="">Y:有</option>
-                                            </select>
+                                    <div class="grid-item">
+                                        <label class="pull-left">公帳號</label>
+                                        <input type="text"
+                                               class="input-medium resvCard-s1Half2 pull-left"
+                                               placeholder="Y" disabled>
+                                        <input type="text"
+                                               class="input-medium resvCard-s1Half2 pull-left ml-2"
+                                               placeholder="G01" disabled/>
+                                        <div class="pull-left">
+                                            <i class="moreClick fa fa-ellipsis-h publicAccount-btn"></i>
                                         </div>
+                                        <div class="clearfix"></div>
                                     </div>
                                 </div>
                                 <div class="grid">
@@ -2195,31 +2201,35 @@
                                                     <!--3-->
                                                     <div class="grid">
                                                         <div class="grid-item">
-                                                            <label>拆併床</label>
-                                                            <input type="text" class="input-medium resvCard"
-                                                                   placeholder=""/>
-                                                        </div>
-                                                        <div class="grid-item">
-                                                            <label>房間特色</label>
-                                                            <input type="text" class="input-medium resvCard-col2"
-                                                                   placeholder="Inside views" disabled/>
-                                                        </div>
-                                                    </div>
-                                                    <!--4-->
-                                                    <div class="grid">
-                                                        <div class="grid-item">
                                                             <label>房間備註</label>
                                                             <input type="text" class="input-medium resvCard-col3-fullRm"
                                                                    placeholder="king size bed"/>
                                                             <i class="moreClick fa fa-ellipsis-h"></i>
                                                         </div>
                                                     </div>
+                                                    <!--4-->
                                                 </div><!--main-content-data-->
                                             </div>
                                             <div class="space-4"></div>
                                             <div class="row">
                                                 <div class="main-content-data borderFrame">
                                                     <!--3-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>住客姓名</label>
+                                                            <input type="text" class="input-medium resvCard-col2Spec1"
+                                                                   placeholder="王大明"/>
+                                                            <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 btn-afterInput">
+                                                                Profile
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="grid-item">
+                                                            <label>住客帳狀態</label>
+                                                            <input type="text" class="input-medium resvCard"
+                                                                   placeholder="開帳" disabled/>
+                                                        </div>
+                                                    </div>
                                                     <div class="grid">
                                                         <div class="grid-item">
                                                             <label>入住日期</label>
@@ -2376,40 +2386,34 @@
                                                 role="button">新增住客
                                         </button>
                                     </li>
-                                    <!--"個人換房" 同"Rm.chg" button-->
-                                    <li>
-                                        <button class="btn btn-gray btn-defaultWidth changeRoom-Btn"
-                                                role="button">個人換房
-                                        </button>
-                                    </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth lateCo-Btn"
                                                 role="button">Late C/O
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth preAuth-Btn"
-                                                role="button">Pre. Auth.
+                                        <button class="btn btn-gray btn-defaultWidth preAuth-Btn"
+                                                role="button">預先授權
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth resv_guestDetail-btn1"
-                                                role="button">Trace
+                                                role="button">交辦事項
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                                role="button">Reservation
+                                                role="button">訂房
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Save
+                                                role="button">儲存
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Quit
+                                                role="button">離開
                                         </button>
                                     </li>
                                 </ul>

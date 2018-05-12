@@ -8,7 +8,7 @@
         where athena_id = ? and trim(hotel_cod) = trim(?)
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
     </dao>
 </root>

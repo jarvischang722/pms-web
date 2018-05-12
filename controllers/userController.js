@@ -177,10 +177,10 @@ exports.logout = function (req, res) {
 exports.selectSystem = function (req, res) {
     let sys_id = req.body["sys_id"] || "";
     if (!_.isUndefined(req.session.activeSystem.id) && !_.isEqual(sys_id, req.session.activeSystem.id)) {
-        delete req.cookies.usingSubsysID;
-        req.session.activeSystem.id = sys_id;
-        res.clearCookie("usingSubsysID");
-        res.clearCookie("usingPrgID");
+        // delete req.cookies.usingSubsysID;
+        // req.session.activeSystem.id = sys_id;
+        // res.clearCookie("usingSubsysID");
+        // res.clearCookie("usingPrgID");
     }
     try {
         if (!_.isEmpty(sys_id)) {

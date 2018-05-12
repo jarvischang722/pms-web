@@ -588,7 +588,7 @@ async function qrySelectOption(la_dgFieldData, params, session) {
                             });
                         }
                         else {
-                            dataRuleSvc.getSelectOptions(session.user, selRow, la_dgFieldData[fIdx], function (selectData) {
+                            dataRuleSvc.getSelectOptions(session, selRow, la_dgFieldData[fIdx], function (selectData) {
                                 la_dgFieldData[fIdx].selectDataDisplay = selectData.selectDataDisplay;
                                 la_dgFieldData[fIdx].selectData =
                                     selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;

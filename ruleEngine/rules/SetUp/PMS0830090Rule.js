@@ -74,7 +74,7 @@ module.exports = {
         var prg_id = postData.prg_id;
         var field = _.isUndefined(postData.fields) ? {} : postData.fields;
         var ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
-        var params = postData.singleRowData.ashow_cod == "" ? userInfo : _.extend(postData.singleRowData, userInfo);
+        var params = postData.singleRowData.ashow_cod == "" ? session : _.extend(postData.singleRowData, session);
 
         var selectDSFunc = [];
         var result = new ReturnClass();
@@ -143,7 +143,7 @@ module.exports = {
         var prg_id = postData.prg_id;
         var field = _.isUndefined(postData.fields) ? {} : postData.fields.ui_field_name;
         var ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
-        var params = postData.singleRowData.ashow_cod == "" ? userInfo : _.extend(postData.singleRowData, userInfo);
+        var params = postData.singleRowData.ashow_cod == "" ? session : _.extend(postData.singleRowData, session);
 
         var selectDSFunc = [];
         var result = new ReturnClass();
