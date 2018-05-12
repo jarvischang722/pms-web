@@ -299,7 +299,7 @@
                     text: ["like"],
                     number: [">", ">=", "<", "<=", "="],
                     date: [">", ">=", "<", "<=", "="],
-                    daterange: "in",
+                    daterange: "between",
                     select: ["="],
                     mutilselect: ["in"]
                 },
