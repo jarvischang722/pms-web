@@ -97,6 +97,10 @@ if (process.env.NODE_ENV === 'production') {
             ),
             threshold: 10240,
             minRatio: 0.8
+        }),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
         })
     ]);
 }

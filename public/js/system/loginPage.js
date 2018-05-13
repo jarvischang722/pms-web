@@ -14,6 +14,7 @@ var loginVM = new Vue({
         locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", ""))
     },
     mounted: function () {
+
         this.getSysConfig();
         this.getDefaultAccount();
         this.getCompaonyData();
@@ -61,7 +62,7 @@ var loginVM = new Vue({
         },
         getCompaonyData: function () {
             this.loadingText = 'Loading...';
-            $.post("/api/getSelectCompany", function (result) {
+            bacUtils.doHttpPostAgent("/api/getSelectCompany", function (result) {
                 loginVM.isLoading = false;
                 if (result.success) {
                     loginVM.companyData = result.selectCompany;
