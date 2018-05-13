@@ -4,13 +4,15 @@
 const _ = require("underscore");
 const _s = require("underscore.string");
 const moment = require("moment");
-const async = require("async");
 const queryAgent = require("../../../plugins/kplug-oracle/QueryAgent");
 const commonRule = require("./../CommonRule");
 const ReturnClass = require("../../returnClass");
 const ErrorClass = require("../../errorClass");
 const tools = require("../../../utils/CommonTools");
 const sysConf = require("../../../configs/systemConfig");
+const crypto = require("crypto");
+const gs_private_key = sysConf.private_key;
+const gs_public_key = sysConf.public_key;
 
 module.exports = {
     /**
@@ -548,6 +550,9 @@ module.exports = {
         let lo_cust_idx = {};
         let lo_ghist_visit_dt = {};
 
+        //卡號加密
+        lo_createData.credit_nos = this.encodeCreditNos(lo_createData.credit_nos);
+
         _.each(lo_createData, (val, key) => {
             let la_keySplit = key.split(".");
 
@@ -635,6 +640,9 @@ module.exports = {
         let lo_cust_idx = {};
         let lo_ghist_visit_dt = {};
 
+        //卡號加密
+        lo_updateData.credit_nos = this.encodeCreditNos(lo_updateData.credit_nos);
+
         _.each(lo_updateData, (val, key) => {
             let la_keySplit = key.split(".");
 
@@ -693,5 +701,90 @@ module.exports = {
         lo_return.extendExecDataArrSet.push(lo_ghistVisitDtData);
 
         callback(lo_error, lo_return);
+    },
+
+    /**
+     * 解密加卡號遮罩
+     * 信用卡號遮罩
+     * 參數選項:2、7、99
+     * 2:從第2位遮罩，保留後四位，範例:3***********1234
+     * 7:從第7位遮罩，保留後四位，範例:321234******1234
+     * 99:無遮罩，範例:3212345678901234
+     * 預設值：7
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    async r_credit_nos(postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let ls_credit_nos = postData.singleRowData[0].credit_nos;
+        let ls_oriCredit_nos = postData.oriSingleData[0].credit_nos;
+        //改卡號 和 新增不用遮罩
+        if (ls_credit_nos != ls_oriCredit_nos || ls_oriCredit_nos == "") {
+            return callback(null, lo_return);
+        }
+
+
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+        queryAgent.query("QRY_DMASK_CREDIT_NOS", lo_params, (err, result) => {
+            if (err) {
+                console.error(err);
+                lo_return.effectValues = {credit_nos: ls_credit_nos};
+            }
+            else {
+                //資料是否為加密
+                if (ls_credit_nos.length > 16) {
+                    ls_credit_nos = this.decodeCreditNos(ls_credit_nos);
+                }
+                let ls_masked = this.doCreditNosMask(ls_credit_nos, result.dmask_credit_nos);
+                lo_return.effectValues = {credit_nos: ls_masked};
+            }
+            callback(lo_error, lo_return);
+        });
+    },
+
+    /**
+     * 卡號解密
+     * @param credit_nos {string} base64加密卡號
+     * @returns {*}
+     */
+    decodeCreditNos(credit_nos) {
+        let crypted = new Buffer(credit_nos, 'base64');
+        return crypto.privateDecrypt(gs_private_key, crypted).toString();
+    },
+
+    /**
+     * 卡號加密
+     * @param credit_nos {string} 卡號明碼
+     * @returns {String} 加密後轉base64格式
+     */
+    encodeCreditNos(credit_nos) {
+        let lbin_encoded = crypto.publicEncrypt(gs_public_key, Buffer.from(credit_nos));
+        let ls_encoded = new Buffer(lbin_encoded, "binary").toString("base64");
+        return ls_encoded;
+    },
+
+    /**
+     * 信用卡號遮罩
+     * 參數選項:2、7、99
+     * 2:從第2位遮罩，保留後四位，範例:3***********1234
+     * 7:從第7位遮罩，保留後四位，範例:321234******1234
+     * 99:無遮罩，範例:3212345678901234
+     * 預設值：7
+     * @param credit_nos {string} 卡號明碼
+     * @param mask_nos {string} 遮罩號碼
+     */
+    doCreditNosMask(credit_nos, mask_nos) {
+        let ls_masked_nos;
+        if (mask_nos == "99") return credit_nos;
+
+        let ln_mask_num = credit_nos.length - Number(mask_nos) - 4;
+        let ls_replace_str = _s.repeat("*", ln_mask_num);
+        ls_masked_nos = _s.splice(credit_nos, mask_nos, ln_mask_num, ls_replace_str);
+        return ls_masked_nos;
     }
 };

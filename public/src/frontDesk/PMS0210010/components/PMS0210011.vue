@@ -44,7 +44,8 @@
                                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                 v-model="singleData[field.ui_field_name]"
                                                                 :data="field.selectData" :field="field"
-                                                                is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                is-qry-src-before="Y" value-field="value"
+                                                                text-field="display"
                                                                 @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 @update:v-model="val => singleData[field.ui_field_name] = val"
                                                                 :default-val="singleData[field.ui_field_name] || field.defaultVal"
@@ -84,7 +85,7 @@
                                                                 change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 :disabled="field.modificable == 'N'||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                                size="small" format="yyyy/MM/dd HH:mm:ss"
+                                                                size="small" :format="field.ui_format"
                                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                 @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                         </el-date-picker>
@@ -98,7 +99,7 @@
                                                                 size="small"
                                                                 :disabled="field.modificable == 'N'||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                                format="yyyy/MM/dd"
+                                                                :format="field.ui_format"
                                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                 @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                         </el-date-picker>
@@ -701,6 +702,18 @@
                     tab_page_id: 1,
                     template_id: 'gridsingle'
                 }, function (result) {
+                    _.each(result.gsFieldsData, (lo_gsFieldsData) => {
+                        if (lo_gsFieldsData.ui_field_name == "expira_dat") {
+                            lo_gsFieldsData.ui_format = "MM/yy";
+                            console.log(lo_gsFieldsData);
+                        }
+                        else if (lo_gsFieldsData.ui_type == "date") {
+                            lo_gsFieldsData.ui_format = "yyyy/MM/dd";
+                        }
+                        else if (lo_gsFieldsData.ui_type == "datetime") {
+                            lo_gsFieldsData.ui_format = "yyyy/MM/dd HH:mm:ss";
+                        }
+                    });
                     self.profileOriFieldsData = result.gsFieldsData;
                     self.profileFieldData = _.values(_.groupBy(_.sortBy(self.profileOriFieldsData, "col_seq"), "row_seq"));
                     self.fetchProfileRowData();
@@ -728,7 +741,7 @@
                         searchCond: {gcust_cod: this.rowData.gcust_cod}
                     }).then(result => {
                         result.gsMnData.rowData[0]["cust_idx.birth_dat"] = result.gsMnData.rowData[0]["cust_idx.birth_dat"] == "" ? "" : moment(result.gsMnData.rowData[0]["cust_idx.birth_dat"]).format("YYYY/MM/DD");
-                        
+
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.setGlobalGcustCod();
