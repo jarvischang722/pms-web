@@ -32,7 +32,7 @@ var vm = new Vue({
         methods: {
             //取得使用者資料
             fetchUserInfo: function () {
-                $.post('/api/getUserInfo', function (result) {
+                bacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                     if (result.success) {
                         vm.userInfo = result.userInfo;
                     }
@@ -48,7 +48,7 @@ var vm = new Vue({
             //抓取顯示資料
             loadDataGridByPrgID: function () {
                 var self = this;
-                $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
+                bacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
                     vm.dataGridRows = _.map(result.dataGridRows, function (obj) {
                         if (obj.area_cod.trim() != "ROOT") {
                             var li_area_cod = Number(obj.area_cod);
@@ -184,7 +184,7 @@ var vm = new Vue({
                     fieldData: fieldData,
                     mainTableName: "area_cod_kvrf"
                 };
-                $.post('/api/execSQLProcess', params)
+                bacUtils.doHttpPostAgent('/api/execSQLProcess', params)
                     .done(function (response) {
                         if (response.success) {
                             self.initTemCud();
@@ -246,7 +246,7 @@ var vm = new Vue({
                 var la_allDelRowData = searchNode(lo_node, []);
                 la_allDelRowData.push(new rowData(lo_node));
 
-                $.post("/api/handleDataGridDeleteEventRule", {
+                bacUtils.doHttpPostAgent("/api/handleDataGridDeleteEventRule", {
                     prg_id: gs_prg_id,
                     deleteData: la_allDelRowData
                 }, function (result) {

@@ -31,7 +31,7 @@ var vm = new Vue({
         //取得使用者資料
         fetchUserInfo: function () {
             var self = this;
-            $.post('/api/getUserInfo', function (result) {
+            bacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                 if (result.success) {
                     self.userInfo = result.userInfo;
                 }
@@ -47,7 +47,7 @@ var vm = new Vue({
         //抓取顯示資料
         loadDataGridByPrgID: function () {
             var self = this;
-            $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
+            bacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
                 vm.treeDataRows = _.map(result.dataGridRows, function (obj) {
                     if (obj.class_cod.trim() != "ROOT") {
                         var li_class_cod = Number(obj.class_cod);
@@ -175,7 +175,7 @@ var vm = new Vue({
             var la_allDelRowData = searchNode(lo_node, []);
             la_allDelRowData.push(new rowData(lo_node));
 
-            $.post("/api/handleDataGridDeleteEventRule", {
+            bacUtils.doHttpPostAgent("/api/handleDataGridDeleteEventRule", {
                 prg_id: gs_prg_id,
                 deleteData: la_allDelRowData
             }, function (result) {
@@ -248,7 +248,7 @@ var vm = new Vue({
                 fieldData: fieldData,
                 mainTableName: "sales_class_kvrf"
             };
-            $.post('/api/execSQLProcess', params)
+            bacUtils.doHttpPostAgent('/api/execSQLProcess', params)
                 .done(function (response) {
                     if (response.success) {
                         self.initTemCud();
@@ -265,7 +265,7 @@ var vm = new Vue({
 
         qrySalesMn: function (class_cod) {
             var self = this;
-            $.post("/api/sales/qrySalesMn", {class_cod: class_cod}, function (getResult) {
+            bacUtils.doHttpPostAgent("/api/sales/qrySalesMn", {class_cod: class_cod}, function (getResult) {
                 if (getResult.success) {
                     self.dataGridRows = getResult.data;
                     self.initDataGrid();

@@ -1,7 +1,7 @@
 import bacSelect from './bac-select';
 import bacSelectGrid from './bac-select-grid';
 import bacSearchComp from './bac-search-comp';
-import bacUtils from './commonUtils';
+import bacUtils from './bacCommonUtils';
 
 Vue.component('bac-select', bacSelect);
 Vue.component('bac-select-grid', bacSelectGrid);

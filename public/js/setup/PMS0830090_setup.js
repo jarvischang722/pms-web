@@ -59,7 +59,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
                 ui_field_name: fieldInfo.ui_field_name
             };
 
-            $.post("/api/fieldAllLocaleContent", params, function (result) {
+            bacUtils.doHttpPostAgent("/api/fieldAllLocaleContent", params, function (result) {
                 self.multiLangContentList = result.multiLangContentList;
                 self.editingMultiLangFieldName = fieldInfo.ui_display_name;
                 self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
@@ -279,7 +279,7 @@ Vue.component('single-grid-pms0830090-tmp', {
                     fields: field,
                     singleRowData: JSON.parse(JSON.stringify(this.singleData))
                 };
-                $.post("/api/popUpGridData", params, function (result) {
+                bacUtils.doHttpPostAgent("/api/popUpGridData", params, function (result) {
                     if (result != null) {
                         PMS0830090VM.selectPopUpGridData = result.showDataGrid;
                         vmHub.$emit('showPopUpDataGrid', result);
@@ -302,7 +302,7 @@ Vue.component('single-grid-pms0830090-tmp', {
                     singleRowData: lo_singleData,
                     oriSingleRowData: PMS0830090VM.originData
                 };
-                $.post('/api/chkFieldRule', postData, function (result) {
+                bacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
                     if (result.success) {
                         PMS0830090VM.originData = _.clone(lo_singleData);
                         //是否要show出訊息
@@ -397,7 +397,7 @@ Vue.component('single-grid-pms0830090-tmp', {
             var q = confirm("Are you sure delete those data?");
             if (q) {
                 //刪除前檢查
-                $.post("/api/deleteFuncRule", {
+                bacUtils.doHttpPostAgent("/api/deleteFuncRule", {
                     page_id: 2,
                     prg_id: prg_id,
                     deleteData: [self.singleData]
@@ -568,7 +568,7 @@ Vue.component('single-grid-pms0830090-tmp', {
         appendDtRow: function () {
             var self = this;
             if (this.endDtEditing()) {
-                $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id, page_id: 2}, function (result) {
+                bacUtils.doHttpPostAgent("/api/handleDataGridAddEventRule", {prg_id: prg_id, page_id: 2}, function (result) {
                     var prgDefaultObj = {createRow: 'Y'};
                     if (result.success) {
                         prgDefaultObj = _.extend(prgDefaultObj, result.prgDefaultObj);
@@ -593,7 +593,7 @@ Vue.component('single-grid-pms0830090-tmp', {
 
             PMS0830090VM.tmpCud.dt_deleteData.push(delRow);
 
-            $.post("/api/handleDataGridDeleteEventRule", {
+            bacUtils.doHttpPostAgent("/api/handleDataGridDeleteEventRule", {
                 prg_id: prg_id,
                 page_id: 2,
                 deleteData: PMS0830090VM.tmpCud.dt_deleteData
@@ -671,7 +671,7 @@ var PMS0830090VM = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
+            bacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 waitingDialog.hide();
                 PMS0830090VM.searchFields = result.searchFields;
                 PMS0830090VM.pageOneDataGridRows = result.dataGridRows;
@@ -696,7 +696,7 @@ var PMS0830090VM = new Vue({
 
         //取得使用者資料
         fetchUserInfo: function () {
-            $.post('/api/getUserInfo', function (result) {
+            bacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                 if (result.success) {
                     PMS0830090VM.userInfo = result.userInfo;
                 }
@@ -714,7 +714,7 @@ var PMS0830090VM = new Vue({
             PMS0830090VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(go_Field_Data_Tmp, "row_seq"), "row_seq"));
             PMS0830090VM.oriPageTwoFieldData = go_Field_Data_Tmp;
 
-            $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
+            bacUtils.doHttpPostAgent("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                 if (result.success) {
                     PMS0830090VM.singleData = result.defaultValues;
                     PMS0830090VM.showSingleGridDialog();
@@ -758,7 +758,7 @@ var PMS0830090VM = new Vue({
                     PMS0830090VM.tmpCud.deleteData.push(row);
                 });
 
-                $.post("/api/deleteFuncRule", {
+                bacUtils.doHttpPostAgent("/api/deleteFuncRule", {
                     page_id: 1,
                     prg_id: prg_id,
                     deleteData: PMS0830090VM.tmpCud.deleteData
@@ -827,7 +827,7 @@ var PMS0830090VM = new Vue({
             waitingDialog.show('Saving...');
 
             var params = _.extend({prg_id: prg_id}, PMS0830090VM.tmpCud);
-            $.post("/api/saveGridSingleData", params, function (result) {
+            bacUtils.doHttpPostAgent("/api/saveGridSingleData", params, function (result) {
                 if (result.success) {
                     PMS0830090VM.initTmpCUD();
                     PMS0830090VM.loadDataGridByPrgID(function (success) {
@@ -852,7 +852,7 @@ var PMS0830090VM = new Vue({
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function () {
             var self = this;
-            $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
+            bacUtils.doHttpPostAgent("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
                 var fieldData = _.clone(result.fieldData);
                 go_Field_Data_Tmp = _.clone(result.fieldData);
 
@@ -874,7 +874,7 @@ var PMS0830090VM = new Vue({
             PMS0830090VM.editStatus = true;
             PMS0830090VM.editingRow = editingRow;
             editingRow["prg_id"] = prg_id;
-            $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
+            bacUtils.doHttpPostAgent('/api/singlePageRowDataQuery', editingRow, function (result) {
                 if (result.success) {
                     PMS0830090VM.singleData = result.rowData;
                     PMS0830090VM.originData = _.clone(result.rowData);

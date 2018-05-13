@@ -393,7 +393,7 @@ var singlePage = Vue.extend({
             var lo_params = {
                 paramName: "mask_hfd"
             };
-            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/qrySystemParam", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.mask_hfd = result.data.mask_hfd;
                 } else {
@@ -405,7 +405,7 @@ var singlePage = Vue.extend({
             lo_params = {
                 paramName: "round_hfd"
             };
-            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/qrySystemParam", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.round_hfd = result.data.round_hfd;
                 } else {
@@ -417,7 +417,7 @@ var singlePage = Vue.extend({
             lo_params = {
                 paramName: "pg_ais_rent_cal_dat"
             };
-            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/qrySystemParam", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.rent_cal_dat = result.data.rent_cal_dat;
                 } else {
@@ -429,7 +429,7 @@ var singlePage = Vue.extend({
             lo_params = {
                 paramName: "required_bride_nam"
             };
-            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/qrySystemParam", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.required_bride_nam = result.data.required_bride_nam;
                 } else {
@@ -441,7 +441,7 @@ var singlePage = Vue.extend({
             lo_params = {
                 paramName: "default_use_typ_common"
             };
-            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/qrySystemParam", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.default_use_typ_common = result.data.default_use_typ_common;
                 } else {
@@ -453,7 +453,7 @@ var singlePage = Vue.extend({
             lo_params = {
                 paramName: "default_bquet_order_sta"
             };
-            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/qrySystemParam", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.default_bquet_order_sta = result.data.default_bquet_order_sta;
                 } else {
@@ -465,7 +465,7 @@ var singlePage = Vue.extend({
             lo_params = {
                 paramName: "default_meal_typ"
             };
-            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/qrySystemParam", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.default_meal_typ = result.data.default_meal_typ;
                 } else {
@@ -477,7 +477,7 @@ var singlePage = Vue.extend({
             lo_params = {
                 paramName: "default_expire_dat"
             };
-            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/qrySystemParam", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.default_expire_dat = result.data.default_expire_dat;
                 } else {
@@ -489,7 +489,7 @@ var singlePage = Vue.extend({
             lo_params = {
                 paramName: "default_adult_qnt"
             };
-            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/qrySystemParam", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.default_adult_qnt = result.data.default_adult_qnt;
                 } else {
@@ -498,7 +498,7 @@ var singlePage = Vue.extend({
             });
 
             //預約處理
-            $.post("/reserveBanquet/def_proc_sta", {}, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/def_proc_sta", {}, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.default_proc_sta = result.data.proc_sta;
                 } else {
@@ -512,7 +512,7 @@ var singlePage = Vue.extend({
          */
         fetchUserInfo: function () {
             var self = this;
-            $.post('/api/getUserInfo', function (result) {
+            bacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                 if (result.success) {
                     self.userInfo = result.userInfo;
                 }
@@ -540,7 +540,7 @@ var singlePage = Vue.extend({
          */
         loadField: function () {
             var self = this;
-            $.post("/api/singleGridPageFieldQuery", {
+            bacUtils.doHttpPostAgent("/api/singleGridPageFieldQuery", {
                 prg_id: prg_id,
                 page_id: 2,
                 singleRowData: self.editingRow
@@ -587,7 +587,7 @@ var singlePage = Vue.extend({
         fetchSingleData: function (bquet_nos) {
             var self = this;
 
-            $.post("/reserveBanquet/qryPageTwoData", {bquet_nos}, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/qryPageTwoData", {bquet_nos}, function (result) {
                 if (!_.isUndefined(result.data)) {
 
                     //Time format
@@ -633,7 +633,7 @@ var singlePage = Vue.extend({
                     self.singleData = result.data;
 
                     //已付訂金預設值
-                    $.post("/reserveBanquet/def_banlance_amt", {bquet_nos: self.singleData.bquet_nos}, function (result) {
+                    bacUtils.doHttpPostAgent("/reserveBanquet/def_banlance_amt", {bquet_nos: self.singleData.bquet_nos}, function (result) {
                         if (!_.isUndefined(result.data)) {
                             self.singleData.deposit_amt = result.data.banlance_amt || 0;
 
@@ -657,7 +657,7 @@ var singlePage = Vue.extend({
          */
         fetchDataGridData: function (postData) {
             var self = this;
-            $.post("/api/singlePageRowDataQuery", {
+            bacUtils.doHttpPostAgent("/api/singlePageRowDataQuery", {
                 prg_id: prg_id,
                 page_id: 2,
                 singleRowData: self.editingRow,
@@ -687,7 +687,7 @@ var singlePage = Vue.extend({
                 //新增模式時，如有預設值，直接將預設值帶入明細
                 if (self.createStatus && postData.begin_tim != "") {
                     var defaultData = {};
-                    $.post("/reserveBanquet/getPlaceUnitAmt", {place_cod: postData.place_cod}, function (result) {
+                    bacUtils.doHttpPostAgent("/reserveBanquet/getPlaceUnitAmt", {place_cod: postData.place_cod}, function (result) {
                         if (!_.isUndefined(result.data)) {
 
                             defaultData["bquet_nos"] = "";
@@ -854,7 +854,7 @@ var singlePage = Vue.extend({
                         singleRowData: JSON.parse(JSON.stringify(this.singleData))
                     };
 
-                    $.post("/api/popUpGridData", params, function (result) {
+                    bacUtils.doHttpPostAgent("/api/popUpGridData", params, function (result) {
                         if (result != null) {
                             self.selectPopUpGridData = result.showDataGrid;
                             vmHub.$emit('showPopUpDataGrid', result);
@@ -904,7 +904,7 @@ var singlePage = Vue.extend({
             var lo_params = {
                 use_typ: self.singleData.use_typ
             };
-            $.post("/reserveBanquet/chk_use_typ", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/chk_use_typ", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.singleData.inter_cod = result.data.inter_cod;
                 }
@@ -926,7 +926,7 @@ var singlePage = Vue.extend({
             }
 
             var lo_selectItem = _.find(self.selectgridOptions.alt_nam.selectData, {alt_nam: self.singleData.alt_nam});
-            $.post("/reserveBanquet/qry_bqcust_mn", {cust_cod: lo_selectItem.cust_cod}, function (result) {
+            bacUtils.doHttpPostAgent("/reserveBanquet/qry_bqcust_mn", {cust_cod: lo_selectItem.cust_cod}, function (result) {
 
                 //帶回前先將舊值清掉
                 self.singleData.cust_cod = "";
@@ -1288,7 +1288,7 @@ var singlePage = Vue.extend({
                     upd_usr: self.userInfo.usr_id
                 };
 
-                $.post("/reserveBanquet/chgOrderStaAPI", lo_params, function (result) {
+                bacUtils.doHttpPostAgent("/reserveBanquet/chgOrderStaAPI", lo_params, function (result) {
                     RS00202010VM.isLoading = false;
 
                     if (result.success) {
@@ -1381,7 +1381,7 @@ var singlePage = Vue.extend({
 
             RS00202010VM.isLoading = true;
 
-            $.post("/api/doOperationSave", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/api/doOperationSave", lo_params, function (result) {
                 RS00202010VM.isLoading = false;
                 if (result.success) {
                     self.updateInventory(result.data, function () {
@@ -1411,7 +1411,7 @@ var singlePage = Vue.extend({
 
             RS00202010VM.isLoading = true;
 
-            $.post("/api/doOperationSave", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/api/doOperationSave", lo_params, function (result) {
                 RS00202010VM.isLoading = false;
                 if (result.success) {
                     alert("檢查通過！");
@@ -1438,7 +1438,7 @@ var singlePage = Vue.extend({
                 tmpCUD: self.tmpCud
             };
             RS00202010VM.isLoading = true;
-            $.post("/api/doOperationSave", lo_params, function (result) {
+            bacUtils.doHttpPostAgent("/api/doOperationSave", lo_params, function (result) {
                 RS00202010VM.isLoading = false;
                 if (result.success) {
                     self.singleData.bquet_nos = result.data.bquet_nos;
