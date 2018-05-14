@@ -78,6 +78,8 @@
             initCombobox: function () {
                 let self = this;
                 $(this.$el).combobox({
+                    width: this.$attrs.width,
+                    height: this.$attrs.height,
                     multiple: this.multiple,
                     valueField: this.valueField,
                     textField: this.textField,

@@ -7,8 +7,18 @@
                         <div class="width-95 searchMain-S2 row" style="padding-top: 10px;">
                             <div class="grid">
                                 <div class="grid-item" v-for="field in searchFieldsByRow[0]" :key="field.ui_field_name">
+                                    <label>{{searchCond[field.ui_field_name]}}</label>
+                                    <template
+                                            v-if="fieldMode == 'operator' && (field.ui_type == 'number' || field.ui_type == 'date')">
+                                        <bac-select v-model="searchsCondOperator[field.ui_field_name]"
+                                                    :data="optionOfOperator[field.ui_type]"
+                                                    editable="N"
+                                                    @update:v-model="val => searchsCondOperator[field.ui_field_name] = val"
+                                                    :field="field"
+                                                    width="50px">
+                                        </bac-select>
+                                    </template>
 
-                                    <label :title="field.ui_hint">{{field.ui_display_name}}</label>
                                     <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
                                         <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
                                                class="numStyle-none defHt"
@@ -23,23 +33,28 @@
                                                     :field="field"
                                                     is-qry-src-before="Y" value-field="value" text-field="display"
                                                     @update:v-model="val => searchCond[field.ui_field_name] = val"
-                                                    :default-val="searchCond[field.ui_field_name]" :multiple="field.ui_type == 'multiselect'"
+                                                    :default-val="searchCond[field.ui_field_name]"
+                                                    :multiple="field.ui_type == 'multiselect'"
                                                     :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                         </bac-select>
                                     </template>
 
-                                    <template v-if="field.ui_type == 'selectgrid' || field.ui_type == 'multiselectgrid'">
-                                        <bac-select-grid :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                         v-model="searchCond[field.ui_field_name]"
-                                                         :columns="field.selectData.columns" :multiple="field.ui_type == 'multiselectgrid'"
-                                                         :data="field.selectData.selectData"
-                                                         :field="field"
-                                                         :is-qry-src-before="field.selectData.isQrySrcBefore"
-                                                         :id-field="field.selectData.value" :text-field="field.selectData.display"
-                                                         @update:v-model="val => searchCond[field.ui_field_name] = val"
-                                                         :default-val="searchCond[field.ui_field_name]"
-                                                         :disabled="field.modificable == 'N'||
+                                    <template
+                                            v-if="field.ui_type == 'selectgrid' || field.ui_type == 'multiselectgrid'">
+                                        <bac-select-grid
+                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                v-model="searchCond[field.ui_field_name]"
+                                                :columns="field.selectData.columns"
+                                                :multiple="field.ui_type == 'multiselectgrid'"
+                                                :data="field.selectData.selectData"
+                                                :field="field"
+                                                :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                :id-field="field.selectData.value"
+                                                :text-field="field.selectData.display"
+                                                @update:v-model="val => searchCond[field.ui_field_name] = val"
+                                                :default-val="searchCond[field.ui_field_name]"
+                                                :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                         </bac-select-grid>
                                     </template>
@@ -55,10 +70,11 @@
 
                                     <template v-if="field.ui_type == 'daterange'">
                                         <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
-                                                        format="yyyy/MM/dd" type="daterange"
-                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                        placeholder="Select date range">
+                                                        value-format="yyyy/MM/dd" type="daterange"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}">
+
                                         </el-date-picker>
+
                                     </template>
 
                                     <template v-if="field.ui_type == 'radio'">
@@ -125,6 +141,18 @@
                                 <template>
                                     <div class="grid-item" v-for="field in searchFieldList" v-if="index != 0">
                                         <label :title="field.ui_hint">{{field.ui_display_name}}</label>
+
+                                        <bac-select
+                                                v-if="fieldMode == 'operator' && (field.ui_type == 'number' || field.ui_type == 'date')"
+                                                v-model="searchsCondOperator[field.ui_field_name]"
+                                                editable="N"
+                                                :data="optionOfOperator[field.ui_type]"
+                                                @update:v-model="val => searchsCondOperator[field.ui_field_name] = val"
+                                                :field="field"
+                                                width="50px">
+                                        </bac-select>
+
+
                                         <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
                                             <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
                                                    class="numStyle-none defHt"
@@ -133,27 +161,35 @@
                                                    :required="field.requirable == 'Y'"/>
                                         </template>
 
+
                                         <template v-if="field.ui_type == 'multiselect' || field.ui_type == 'select'">
                                             <bac-select :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                        v-model="searchCond[field.ui_field_name]" :data="field.selectData"
-                                                        is-qry-src-before="Y" value-field="value" text-field="display" :field="field"
+                                                        v-model="searchCond[field.ui_field_name]"
+                                                        :data="field.selectData"
+                                                        is-qry-src-before="Y" value-field="value" text-field="display"
+                                                        :field="field"
                                                         @update:v-model="val => searchCond[field.ui_field_name] = val"
-                                                        :default-val="searchCond[field.ui_field_name]" :multiple="field.ui_type == 'multiselect'"
+                                                        :default-val="searchCond[field.ui_field_name]"
+                                                        :multiple="field.ui_type == 'multiselect'"
                                                         :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
                                         </template>
 
-                                        <template v-if="field.ui_type == 'selectgrid' || field.ui_type == 'multiselectgrid'">
-                                            <bac-select-grid :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                             v-model="searchCond[field.ui_field_name]"
-                                                             :columns="field.selectData.columns" :multiple="field.ui_type == 'multiselectgrid'"
-                                                             :data="field.selectData.selectData" :field="field"
-                                                             :is-qry-src-before="field.selectData.isQrySrcBefore"
-                                                             :id-field="field.selectData.value" :text-field="field.selectData.display"
-                                                             @update:v-model="val => searchCond[field.ui_field_name] = val"
-                                                             :default-val="searchCond[field.ui_field_name]"
-                                                             :disabled="field.modificable == 'N'||
+                                        <template
+                                                v-if="field.ui_type == 'selectgrid' || field.ui_type == 'multiselectgrid'">
+                                            <bac-select-grid
+                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                    v-model="searchCond[field.ui_field_name]"
+                                                    :columns="field.selectData.columns"
+                                                    :multiple="field.ui_type == 'multiselectgrid'"
+                                                    :data="field.selectData.selectData" :field="field"
+                                                    :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                    :id-field="field.selectData.value"
+                                                    :text-field="field.selectData.display"
+                                                    @update:v-model="val => searchCond[field.ui_field_name] = val"
+                                                    :default-val="searchCond[field.ui_field_name]"
+                                                    :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select-grid>
                                         </template>
@@ -169,10 +205,11 @@
 
                                         <template v-if="field.ui_type == 'daterange'">
                                             <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
-                                                            format="yyyy/MM/dd" type="daterange"
-                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                            placeholder="Select date range">
+                                                            value-format="yyyy/MM/dd" type="daterange"
+                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}">
+
                                             </el-date-picker>
+
                                         </template>
 
                                         <template v-if="field.ui_type == 'radio'">
@@ -222,10 +259,19 @@
 
     export default {
         name: "search-comp",
+        mounted() {
+            if (this.fieldMode == "operator") {
+                this.setDefaultOperator();
+            }
+        },
         props: {
             searchFields: {
                 type: Array,
                 default: []
+            },
+            searchsCondOperator: {
+                type: Object,
+                default: {}
             },
             searchCond: {
                 type: Object,
@@ -233,28 +279,69 @@
             },
             fetchData: {
                 type: Function
+            },
+            fieldMode: {
+                type: String,
+                validator: function (value) {
+                    return ['normal', 'operator'].indexOf(value) !== -1
+                },
+                default: "normal"
             }
         },
         components: {treeselect},
         data: function () {
             return {
                 i18nLng: go_i18nLang,
-                searchFieldsByRow: []
+                searchFieldsByRow: [],
+                fieldOfOperator: {
+                    text: ["like"],
+                    number: [">", ">=", "<", "<=", "="],
+                    date: [">", ">=", "<", "<=", "="],
+                    daterange: "between",
+                    select: ["="],
+                    mutilselect: ["in"]
+                },
+                optionOfOperator: {
+                    number: [{value: "gt", display: ">"}, {value: "gte", display: ">="}, {
+                        value: "lt",
+                        display: "<"
+                    }, {value: "lte", display: "<="}, {value: "equal", display: "="}],
+                    date: [{value: "gt", display: ">"}, {value: "gte", display: ">="}, {
+                        value: "lt",
+                        display: "<"
+                    }, {value: "lte", display: "<="}, {value: "equal", display: "="}],
+                }
             };
         },
         watch: {
             searchFields: function (newFields) {
                 let lo_searchCond = {};
-                _.each(newFields, (lo_newField)=>{
-                    lo_searchCond[lo_newField.ui_field_name] =
-                        lo_newField.ui_type == 'multiselect' || lo_newField.ui_type == 'multiselectgrid' || lo_newField.ui_type == 'multitree' ? []:"";
+                _.each(newFields, (lo_newField) => {
+                    let la_condfield = ["multiselect", "multiselectgrid", "multitree"];
+                    lo_searchCond[lo_newField.ui_field_name] = la_condfield.indexOf(lo_newField.ui_type) > -1 ? [] : "";
                 });
                 this.$parent.searchCond = lo_searchCond;
-
                 this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(newFields, "row_seq"), "row_seq"));
+                this.setDefaultOperator();
+                console.log(this.searchsCondOperator);
             }
         },
         methods: {
+            setDefaultOperator() {
+                let self = this;
+                _.each(this.searchFields, (field) => {
+                    let defaultOprt = "equal";
+                    if (field.ui_type == "text") {
+                        defaultOprt = "like";
+                    } else if (field.ui_type == "mutilselect" || field.ui_type == "daterange") {
+                        defaultOprt = "in";
+                    } else {
+                        //  "number" || "date" || "select"
+                        defaultOprt = "equal";
+                    }
+                    self.searchsCondOperator[field.ui_field_name] = defaultOprt;
+                });
+            },
             doSearch: function () {
                 var la_searchFields = JSON.parse(JSON.stringify(this.searchFields));
                 var lo_searchCond = JSON.parse(JSON.stringify(this.searchCond));
@@ -299,12 +386,14 @@
                 });
 
                 this.$parent.searchCond = lo_searchCond;
+                this.$parent.searchsCondOperator = this.searchsCondOperator;
+
                 this.fetchData();
             },
             doClear() {
-                var self = this;
-                var lo_searchCond = JSON.parse(JSON.stringify(this.searchCond));
-
+                let self = this;
+                let lo_searchCond = JSON.parse(JSON.stringify(this.searchCond));
+                this.searchsCondOperator = {};
                 _.each(lo_searchCond, function (val, key) {
                     if (typeof val === "string") {
                         self.searchCond[key] = "";
@@ -345,7 +434,3 @@
         });
     }
 </script>
-
-<style scoped>
-
-</style>
