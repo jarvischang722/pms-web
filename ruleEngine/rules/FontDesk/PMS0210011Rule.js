@@ -10,9 +10,7 @@ const ReturnClass = require("../../returnClass");
 const ErrorClass = require("../../errorClass");
 const tools = require("../../../utils/CommonTools");
 const sysConf = require("../../../configs/systemConfig");
-const crypto = require("crypto");
-const gs_private_key = sysConf.private_key;
-const gs_public_key = sysConf.public_key;
+const encryptTools = require("../../../utils/encryptTools");
 
 module.exports = {
     /**
@@ -542,16 +540,42 @@ module.exports = {
      * @param session
      * @param callback
      */
-    saveAddGhistMn(postData, session, callback) {
+    async saveAddGhistMn(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
 
         let lo_createData = postData.tmpCUD.createData[0];
+        let ls_credit_nos = lo_createData.credit_nos;
         let lo_cust_idx = {};
         let lo_ghist_visit_dt = {};
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+        //卡號遮罩
+        let ls_masked_credit_nos;
+        try {
+            ls_masked_credit_nos = await new Promise((resolve, reject) => {
+                queryAgent.query("QRY_DMASK_CREDIT_NO", lo_params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    let ls_masked = this.doCreditNosMask(ls_credit_nos, result.dmask_credit_nos);
+                    resolve(ls_masked);
+                });
+            });
+        }
+        catch (err) {
+            console.log(err.message);
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err.message;
+            lo_return.success = false;
+
+            return callback(lo_error, lo_return);
+        }
 
         //卡號加密
-        lo_createData.credit_nos = this.encodeCreditNos(lo_createData.credit_nos);
+        // lo_createData.credit_nos = encryptTools.publicEncrypt(lo_createData.credit_nos);
 
         _.each(lo_createData, (val, key) => {
             let la_keySplit = key.split(".");
@@ -641,7 +665,7 @@ module.exports = {
         let lo_ghist_visit_dt = {};
 
         //卡號加密
-        lo_updateData.credit_nos = this.encodeCreditNos(lo_updateData.credit_nos);
+        lo_updateData.credit_nos = encryptTools.publicEncrypt(lo_updateData.credit_nos);
 
         _.each(lo_updateData, (val, key) => {
             let la_keySplit = key.split(".");
@@ -725,7 +749,6 @@ module.exports = {
             return callback(null, lo_return);
         }
 
-
         let lo_params = {
             athena_id: session.user.athena_id,
             hotel_cod: session.user.hotel_cod
@@ -738,6 +761,7 @@ module.exports = {
             else {
                 //資料是否為加密
                 if (ls_credit_nos.length > 16) {
+                    //TODO: 卡號解密打小良API
                     ls_credit_nos = this.decodeCreditNos(ls_credit_nos);
                 }
                 let ls_masked = this.doCreditNosMask(ls_credit_nos, result.dmask_credit_nos);
