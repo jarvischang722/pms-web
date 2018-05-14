@@ -5,7 +5,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 let UITypeSelectSchema = new Schema({
-    prg_id: {type: String, trim: true, index: true, required: true},      　 　    //程式編號
+    prg_id: {type: String, trim: true, index: true, required: true},      　 　   //程式編號
     ui_field_name: {type: String, trim: true, index: true, required: true},       //頁面欄位名稱
     ui_display_name: String,      //
     rule_func_name: String,      //單筆資料來源規則

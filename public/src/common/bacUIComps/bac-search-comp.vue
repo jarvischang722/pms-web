@@ -7,7 +7,7 @@
                         <div class="width-95 searchMain-S2 row" style="padding-top: 10px;">
                             <div class="grid">
                                 <div class="grid-item" v-for="field in searchFieldsByRow[0]" :key="field.ui_field_name">
-                                    <label>{{searchCond[field.ui_field_name]}}</label>
+                                    <label :title="field.ui_hint">{{field.ui_display_name}}</label>
                                     <template
                                             v-if="fieldMode == 'operator' && (field.ui_type == 'number' || field.ui_type == 'date')">
                                         <bac-select v-model="searchsCondOperator[field.ui_field_name]"
