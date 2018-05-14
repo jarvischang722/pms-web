@@ -149,8 +149,8 @@ var DatagridFieldAdapter = {
                 return new Date();
             };
 
-            var notEditorFunc = function(date){
-                if(date != "" && !_.isUndefined(date) && !_.isNull(date)){
+            var notEditorFunc = function (date) {
+                if (date != "" && !_.isUndefined(date) && !_.isNull(date)) {
                     return moment(date).format("YYYY/MM/DD");
                 }
                 return "";
@@ -224,7 +224,7 @@ var DatagridFieldAdapter = {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                     if (isUserEdit) {
-                        oldValue = oldValue || undefined;
+                        oldValue = oldValue;
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 };
@@ -449,7 +449,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
                 var effectValues = result.effectValues;
                 if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
-
                     $('#' + dgName).datagrid('updateRow', {
                         index: indexRow,
                         row: effectValues
@@ -514,7 +513,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             // 動態產生下拉資料
             if (result.selectField.length > 0) {
                 //單一欄位下拉資料
-                if(result.selectField.length == 1){
+                if (result.selectField.length == 1) {
                     var lo_editor = $('#' + dgName).datagrid('getEditor', {
                         index: indexRow,
                         field: result.selectField
@@ -522,8 +521,8 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     $(lo_editor.target).combobox("loadData", result.selectOptions);
                 }
                 //多個欄位
-                else{
-                    _.each(result.selectField, function(ls_field){
+                else {
+                    _.each(result.selectField, function (ls_field) {
                         var lo_editor = $('#' + dgName).datagrid('getEditor', {
                             index: indexRow,
                             field: ls_field

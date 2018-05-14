@@ -131,32 +131,38 @@ module.exports = {
      * @param session
      * @param callback
      */
-    defaultCustMnContract: function (postData, session, callback) {
+    defaultCustMnContract: async function (postData, session, callback) {
         let lo_result = new ReturnClass;
         let lo_error = null;
 
-        let ls_rentDathq;
-
-        //取得訂房中心滾房租日
-        queryAgent.query("QRY_RENT_DAT_HQ", {
-            athena_id: session.user.athena_id,
-            hotel_cod: session.user.hotel_cod
-        }, function (err, data) {
-            if (err) {
-                lo_error = new ErrorClass();
-                lo_error.errorMsg = err;
-                lo_result.success = false;
-            }
-            else {
-                ls_rentDathq = data.rent_dat_hq;
-            }
+        try {
+            //取得訂房中心滾房租日
+            let ls_rentDathq = await new Promise((resolve, reject) => {
+                queryAgent.query("QRY_RENT_DAT_HQ", {
+                    athena_id: session.user.athena_id,
+                    hotel_cod: session.user.hotel_cod
+                }, function (err, data) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(data.rent_dat_hq);
+                    }
+                });
+            });
 
             lo_result.defaultValues = {
-                rent_dat_hq: ls_rentDathq
+                rent_dat_hq: ls_rentDathq,
+                rate_cod: ""
             };
+        }
+        catch (err) {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err;
+            lo_result.success = false;
+        }
 
-            callback(lo_error, lo_result);
-        });
+        callback(lo_error, lo_result);
     },
 
     /**
@@ -423,27 +429,72 @@ module.exports = {
      * @param session
      * @param callback
      */
-    r_ContractdtRatecod: function (postData, session, callback) {
+    r_ContractdtRatecod: async function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
         let ls_rateCod = postData.rowData.rate_cod;
+        let ls_beginDat = postData.rowData.begin_dat;
+        let ls_endDat = postData.rowData.end_dat;
+        let ls_hotelCod = postData.rowData.hotel_cod;
         let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
 
-        queryAgent.query("QRY_RATE_NAM", {rate_cod: ls_rateCod}, function (err, getResult) {
-            if (err) {
-                lo_result.success = false;
-                lo_error = new ErrorClass();
-                lo_error.errorMsg = "sql err";
-                callback(lo_error, lo_result);
-            }
-            else {
-                lo_result.effectValues = {ratecod_nam: getResult.ratecod_nam};
-                callback(lo_error, lo_result);
-            }
-        });
+        try {
+            let la_rateCodSelectData = await new Promise((resolve, reject) => {
+                if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
+                    queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", {
+                        athena_id: session.user.athena_id,
+                        hotel_cod: ls_hotelCod,
+                        end_dat: ls_endDat,
+                        begin_dat: ls_beginDat
+                    }, 0, 0, function (err, getResult) {
+                        if (err) {
+                            reject(err)
+                        }
+                        else {
+                            resolve(getResult);
+                        }
+                    });
+                }
+            });
+            let la_rsdiscCodSelectData = await new Promise((resolve, reject) => {
+                queryAgent.queryList("QRY_CONTRACT_DT_RSDISC_COD", {
+                    athena_id: session.user.athena_id,
+                    hotel_cod: ls_hotelCod,
+                    end_dat: ls_endDat,
+                    begin_dat: ls_beginDat
+                }, 0, 0, function (err, getResult) {
+                    if (err) {
+                        reject(err)
+                    }
+                    else {
+                        resolve(getResult);
+                    }
+                });
+            });
+            let ls_ratecodNam = await new Promise((resolve, reject) => {
+                queryAgent.query("QRY_RATE_NAM", {rate_cod: ls_rateCod}, function (err, getResult) {
+                    if (err) {
+                        reject(err)
+                    }
+                    else {
+                        resolve(getResult);
+                    }
+                });
+            });
 
-
+            lo_result.effectValues = {ratecod_nam: ls_ratecodNam.ratecod_nam};
+            lo_result.selectField = ["rate_cod", "rsdisc_cod"];
+            lo_result.multiSelectOptions.rate_cod = la_rateCodSelectData;
+            lo_result.multiSelectOptions.rsdisc_cod = la_rsdiscCodSelectData;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
     },
 
     /**
@@ -468,7 +519,8 @@ module.exports = {
         }
 
         callback(lo_error, lo_result);
-    },
+    }
+    ,
 
     /**
      * 相關人員預設值
@@ -518,7 +570,8 @@ module.exports = {
             }
             callback(lo_error, lo_result);
         });
-    },
+    }
+    ,
 
     /**
      * 相關人員刪除前檢查
@@ -538,7 +591,8 @@ module.exports = {
         }
 
         callback(lo_error, lo_result);
-    },
+    }
+    ,
 
     /**
      * 合約內容刪除前檢查
@@ -610,7 +664,8 @@ module.exports = {
                 }
             });
         }
-    },
+    }
+    ,
 
     /**
      * 公司狀態是否可以為刪除
@@ -681,7 +736,8 @@ module.exports = {
             });
         }
 
-    },
+    }
+    ,
 
     /**
      * 存檔(新增)
@@ -844,7 +900,8 @@ module.exports = {
 
             cb(lo_error, lo_result);
         }
-    },
+    }
+    ,
 
     /**
      * 存檔(編輯)
