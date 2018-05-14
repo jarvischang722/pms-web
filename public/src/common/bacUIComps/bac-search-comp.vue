@@ -323,7 +323,6 @@
                 this.$parent.searchCond = lo_searchCond;
                 this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(newFields, "row_seq"), "row_seq"));
                 this.setDefaultOperator();
-                console.log(this.searchsCondOperator);
             }
         },
         methods: {
