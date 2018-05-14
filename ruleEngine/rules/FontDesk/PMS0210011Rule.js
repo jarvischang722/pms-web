@@ -556,12 +556,15 @@ module.exports = {
         let ls_masked_credit_nos;
         try {
             ls_masked_credit_nos = await new Promise((resolve, reject) => {
-                queryAgent.query("QRY_DMASK_CREDIT_NO", lo_params, (err, result) => {
+                queryAgent.query("QRY_DMASK_CREDIT_NOS", lo_params, (err, result) => {
                     if (err) {
                         reject(err);
                     }
-                    let ls_masked = this.doCreditNosMask(ls_credit_nos, result.dmask_credit_nos);
-                    resolve(ls_masked);
+                    else {
+                        let ln_dmask_credit_nos = result.dmask_credit_nos || "99";
+                        let ls_masked = this.doCreditNosMask(ls_credit_nos, ln_dmask_credit_nos);
+                        resolve(ls_masked);
+                    }
                 });
             });
         }
@@ -769,27 +772,6 @@ module.exports = {
             }
             callback(lo_error, lo_return);
         });
-    },
-
-    /**
-     * 卡號解密
-     * @param credit_nos {string} base64加密卡號
-     * @returns {*}
-     */
-    decodeCreditNos(credit_nos) {
-        let crypted = new Buffer(credit_nos, 'base64');
-        return crypto.privateDecrypt(gs_private_key, crypted).toString();
-    },
-
-    /**
-     * 卡號加密
-     * @param credit_nos {string} 卡號明碼
-     * @returns {String} 加密後轉base64格式
-     */
-    encodeCreditNos(credit_nos) {
-        let lbin_encoded = crypto.publicEncrypt(gs_public_key, Buffer.from(credit_nos));
-        let ls_encoded = new Buffer(lbin_encoded, "binary").toString("base64");
-        return ls_encoded;
     },
 
     /**
