@@ -183,12 +183,12 @@ module.exports = {
         let ls_endDat = postData.rowData.end_dat || "";
         let ls_rateCod = postData.rowData.rate_cod || "";
         let ls_hotelCod = postData.rowData.hotel_cod || "";
-        let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
+        let ls_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
         let lo_param = {
             athena_id: session.user.athena_id,
             hotel_cod: ls_hotelCod,
-            end_dat: ls_endDat,
-            begin_dat: ls_beginDat
+            end_dat: moment(new Date(ls_endDat)).format("YYYY/MM/DD"),
+            begin_dat: moment(new Date(ls_beginDat)).format("YYYY/MM/DD")
         };
 
         async.waterfall([
@@ -200,20 +200,18 @@ module.exports = {
         });
 
         function examineContract(cb) {
-            if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "") {
-                lo_param.end_dat = moment(new Date(ls_endDat)).format("YYYY/MM/DD");
-                lo_param.begin_dat = moment(new Date(ls_beginDat)).format("YYYY/MM/DD");
+            if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "" && ls_beginDat != ls_oldValue) {
                 lo_param.rate_cod = ls_rateCod;
-                queryAgent.queryList("QRY_CONTRACT_EXIST", lo_param, 0, 0, function (err, getResult) {
+                queryAgent.query("QRY_CONTRACT_EXIST", lo_param, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = err.message;
+                        lo_error.errorMsg = err;
                         cb(lo_error, lo_result);
                     }
-                    else if (getResult > 0) {
+                    else if (getResult.order_rate_count == 0) {
                         lo_result.success = false;
-                        lo_result.effectValues = {begin_dat: lo_oldValue};
+                        lo_result.effectValues = {begin_dat: ls_oldValue};
                         lo_error = new ErrorClass();
                         lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
                         cb(lo_error, lo_result);
@@ -253,7 +251,7 @@ module.exports = {
                 queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", lo_param, 0, 0, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
-                        lo_error = ErrorClass();
+                        lo_error = new ErrorClass();
                         lo_error.errorMsg = err;
                         cb(lo_error, lo_result);
                     }
@@ -287,12 +285,12 @@ module.exports = {
         let ls_endDat = postData.rowData.end_dat || "";
         let ls_rateCod = postData.rowData.rate_cod || "";
         let ls_hotelCod = postData.rowData.hotel_cod || "";
-        let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
+        let ls_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
         let lo_param = {
             athena_id: session.user.athena_id,
             hotel_cod: ls_hotelCod,
-            end_dat: ls_endDat,
-            begin_dat: ls_beginDat
+            end_dat: moment(new Date(ls_endDat)).format("YYYY/MM/DD"),
+            begin_dat: moment(new Date(ls_beginDat)).format("YYYY/MM/DD")
         };
 
         async.waterfall([
@@ -303,20 +301,18 @@ module.exports = {
         });
 
         function examineContract(cb) {
-            if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "") {
-                lo_param.end_dat = moment(new Date(ls_endDat)).format("YYYY/MM/DD");
-                lo_param.begin_dat = moment(new Date(ls_beginDat)).format("YYYY/MM/DD");
+            if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "" && ls_endDat != ls_oldValue) {
                 lo_param.rate_cod = ls_rateCod;
-                queryAgent.queryList("QRY_CONTRACT_EXIST", lo_param, 0, 0, function (err, getResult) {
+                queryAgent.query("QRY_CONTRACT_EXIST", lo_param, function (err, getResult) {
                     if (err) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = err.message;
+                        lo_error.errorMsg = err;
                         cb(lo_error, lo_result);
                     }
-                    else if (getResult > 0) {
+                    else if (getResult.order_rate_count == 0) {
                         lo_result.success = false;
-                        lo_result.effectValues = {begin_dat: lo_oldValue};
+                        lo_result.effectValues = {end_dat: ls_oldValue};
                         lo_error = new ErrorClass();
                         lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
                         cb(lo_error, lo_result);
@@ -373,8 +369,8 @@ module.exports = {
         let lo_param = {
             athena_id: session.user.athena_id,
             hotel_cod: ls_hotelCod,
-            end_dat: ls_endDat,
-            begin_dat: ls_beginDat
+            end_dat: moment(new Date(ls_endDat)).format("YYYY/MM/DD"),
+            begin_dat: moment(new Date(ls_beginDat)).format("YYYY/MM/DD")
         };
 
         async.waterfall([
@@ -424,7 +420,11 @@ module.exports = {
 
     /**
      * 合約內容 參考房價代號
-     * 房價代號帶回房價名稱
+     * 1.合約期間檢查:
+     * 如果『合約起始日』、『合約終止日』、『參考房價代號』3欄位都有值,如果sql檢查=0,訊息『相同館別及房價代號之合約期間不可重覆』,起始日回復到舊值
+     * 2.參考房價代號下拉資料
+     * 3.參考餐廳折扣下拉資料
+     * 2.房價代號帶回房價名稱
      * @param postData
      * @param session
      * @param callback
@@ -434,12 +434,43 @@ module.exports = {
         let lo_error = null;
 
         let ls_rateCod = postData.rowData.rate_cod;
-        let ls_beginDat = postData.rowData.begin_dat;
-        let ls_endDat = postData.rowData.end_dat;
-        let ls_hotelCod = postData.rowData.hotel_cod;
-        let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
+        let ls_beginDat = postData.rowData.begin_dat || "";
+        let ls_endDat = postData.rowData.end_dat || "";
+        let ls_hotelCod = postData.rowData.hotel_cod || "";
+        let ls_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
 
         try {
+
+            ls_beginDat = moment(new Date(ls_endDat)).format("YYYY/MM/DD");
+            ls_endDat = moment(new Date(ls_beginDat)).format("YYYY/MM/DD");
+
+            //合約期間檢查:
+            let lo_examineContract = await new Promise((resolve, reject) => {
+                if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "" && ls_rateCod != ls_oldValue) {
+                    queryAgent.query("QRY_CONTRACT_EXIST", {
+                        athena_id: session.user.athena_id,
+                        hotel_cod: ls_hotelCod,
+                        end_dat: ls_endDat,
+                        begin_dat: ls_beginDat,
+                        rate_cod: ls_rateCod
+                    }, function (err, getResult) {
+                        if (err) {
+                            reject(err)
+                        }
+                        else {
+                            resolve(getResult);
+                        }
+                    });
+                }
+            });
+            if (lo_examineContract.order_rate_count == 0) {
+                lo_result.success = false;
+                lo_result.effectValues = {rate_cod: ls_oldValue};
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
+                ls_rateCod = ls_oldValue;
+            }
+            //參考房價代號下拉資料
             let la_rateCodSelectData = await new Promise((resolve, reject) => {
                 if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
                     queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", {
@@ -457,6 +488,7 @@ module.exports = {
                     });
                 }
             });
+            //參考餐廳折扣下拉資料
             let la_rsdiscCodSelectData = await new Promise((resolve, reject) => {
                 queryAgent.queryList("QRY_CONTRACT_DT_RSDISC_COD", {
                     athena_id: session.user.athena_id,
@@ -472,6 +504,7 @@ module.exports = {
                     }
                 });
             });
+            //房價代號帶回房價名稱
             let ls_ratecodNam = await new Promise((resolve, reject) => {
                 queryAgent.query("QRY_RATE_NAM", {rate_cod: ls_rateCod}, function (err, getResult) {
                     if (err) {
@@ -483,7 +516,7 @@ module.exports = {
                 });
             });
 
-            lo_result.effectValues = {ratecod_nam: ls_ratecodNam.ratecod_nam};
+            lo_result.effectValues = _.extend(lo_result.effectValues, {ratecod_nam: ls_ratecodNam.ratecod_nam});
             lo_result.selectField = ["rate_cod", "rsdisc_cod"];
             lo_result.multiSelectOptions.rate_cod = la_rateCodSelectData;
             lo_result.multiSelectOptions.rsdisc_cod = la_rsdiscCodSelectData;

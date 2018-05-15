@@ -46,13 +46,11 @@
             left join ratecod_mn b on a.athena_id = b.athena_id and a.rate_cod = b.rate_cod and a.hotel_cod = b.hotel_cod
             WHERE  a.ATHENA_ID = :athena_id
             AND a.CUST_COD = :cust_cod
-            and trim(b.hotel_cod)= trim(:hotel_cod)
             order by a.begin_dat
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">cust_cod</parameter>
-        <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
     <!--[PMS0210011] 住客歷史資料編輯 取得『其他聯絡方式－聯絡方式』-->
