@@ -70,7 +70,7 @@
                 this.visitHistoryDgIns = [];
             },
             fetchRentCalDat() {
-                $.post('/api/qryRentCalDat', {}, (result) => {
+                BacUtils.doHttpPostAgent('/api/qryRentCalDat', {}, (result) => {
                     this.rentCalDat = moment(result.rent_cal_dat).format("YYYY/MM/DD");
                 });
             },

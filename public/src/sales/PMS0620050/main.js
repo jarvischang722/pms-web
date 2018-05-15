@@ -147,7 +147,7 @@ Vue.component('single-grid-pms0620050-tmp', {
         },
         fetchFieldData: function () {
             let self = this;
-            $.post("/api/singleGridPageFieldQuery", {
+            BacUtils.doHttpPostAgent("/api/singleGridPageFieldQuery", {
                 prg_id: gs_prgId,
                 page_id: 2,
                 singleRowData: self.rowData
@@ -164,7 +164,7 @@ Vue.component('single-grid-pms0620050-tmp', {
             let self = this;
             editingRow = _.extend(editingRow, {prg_id: gs_prgId});
 
-            $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
+            BacUtils.doHttpPostAgent('/api/singlePageRowDataQuery', editingRow, function (result) {
                 if (result.success) {
                     result.rowData["avisit_dat"] = _.isNull(self.singleData["avisit_dat"]) ? "" : moment(new Date(self.singleData["avisit_dat"])).format("YYYY/MM/DD");
                     result.rowData["remark"] = _.isNull(result.rowData["remark"]) ? "" : result.rowData["remark"];
@@ -178,7 +178,7 @@ Vue.component('single-grid-pms0620050-tmp', {
 
             editingRow.visit_dat = moment(new Date(editingRow.visit_dat)).format("YYYY/MM/DD");
             editingRow.avisit_dat = moment(new Date(editingRow.avisit_dat)).format("YYYY/MM/DD");
-            $.post("/api/fetchSinglePageFieldData", {
+            BacUtils.doHttpPostAgent("/api/fetchSinglePageFieldData", {
                 prg_id: gs_prgId,
                 page_id: 2,
                 searchCond: editingRow
@@ -242,7 +242,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                     fields: field
                 };
 
-                $.post("/api/popUpGridData", params, function (result) {
+                BacUtils.doHttpPostAgent("/api/popUpGridData", params, function (result) {
                     if (result != null) {
                         self.selectPopUpGridData = result.showDataGrid;
                         result.fieldData = field;
@@ -274,7 +274,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                     singleRowData: JSON.parse(JSON.stringify(this.singleData)),
                     oriSingleData: this.oriSingleData
                 };
-                $.post('/api/chkFieldRule', postData, function (result) {
+                BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
 
                     if (result.success) {
                         //是否要show出訊息
@@ -289,7 +289,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                             } else {
                                 //有沒有要再打一次ajax到後端
                                 if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                    $.post(result.ajaxURL, postData, function (result) {
+                                    BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
 
                                         if (!result.success) {
                                             alert(result.errorMsg);
@@ -371,7 +371,7 @@ Vue.component('single-grid-pms0620050-tmp', {
             let q = confirm(go_i18nLang["SystemCommon"].check_delete);
             if (q) {
                 //刪除前檢查
-                $.post("/api/deleteFuncRule", {
+                BacUtils.doHttpPostAgent("/api/deleteFuncRule", {
                     page_id: 2,
                     prg_id: gs_prgId,
                     deleteData: [self.singleData]
@@ -448,7 +448,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                             tmpCUD: vm.tmpCUD
                         };
 
-                        $.post("/api/doOperationSave", lo_params, function (result) {
+                        BacUtils.doHttpPostAgent("/api/doOperationSave", lo_params, function (result) {
                             if (result.success) {
                                 alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
                             }
@@ -610,7 +610,7 @@ let vm = new Vue({
     },
     methods: {
         fetchUserInfo: function () {
-            $.post('/api/getUserInfo', function (result) {
+            BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                 if (result.success) {
                     vm.userInfo = result.userInfo;
                 }
@@ -633,7 +633,7 @@ let vm = new Vue({
                 pag_id: 1
             };
 
-            $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", lo_params, function (result) {
                 if (vm.searchFields.length <= 0) {
                     vm.searchFields = result.searchFields;
                 }
@@ -676,7 +676,7 @@ let vm = new Vue({
         },
         fetchSingleWidth: function () {
             let self = this;
-            $.post("/api/singleGridPageFieldQuery", {
+            BacUtils.doHttpPostAgent("/api/singleGridPageFieldQuery", {
                 prg_id: gs_prgId,
                 page_id: 2
             }, function (result) {
@@ -724,7 +724,7 @@ let vm = new Vue({
                 tmpCUD: this.tmpCUD
             };
 
-            $.post("/api/doOperationSave", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/doOperationSave", lo_params, function (result) {
                 callback(result);
             });
         }

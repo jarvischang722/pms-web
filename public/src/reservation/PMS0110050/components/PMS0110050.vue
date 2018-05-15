@@ -249,13 +249,13 @@
         methods: {
             //取滾房租日
             fetchRentCalDat() {
-                $.post('/api/qryRentCalDat', {}, (result) => {
+                BacUtils.doHttpPostAgent('/api/qryRentCalDat', (result) => {
                     this.rentCalDat = result.rent_cal_dat;
                 });
             },
             //取搜尋欄位資料
             fetchSearchFields() {
-                $.post('/api/fetchOnlySearchFieldsData', {prg_id: 'PMS0110050'}, (result) => {
+                BacUtils.doHttpPostAgent('/api/fetchOnlySearchFieldsData', {prg_id: 'PMS0110050'}, (result) => {
                     if (result.success) {
                         this.searchFields = result.searchFieldsData;
                     }

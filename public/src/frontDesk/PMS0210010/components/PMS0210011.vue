@@ -636,7 +636,7 @@
                         singleRowData: la_singleData,
                         oriSingleData: la_oriSingleData
                     };
-                    $.post('/api/chkFieldRule', postData, function (result) {
+                    BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
 
                         if (result.success) {
                             //是否要show出訊息
@@ -650,7 +650,7 @@
                                 } else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
+                                        BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
 
                                             if (!result.success) {
                                                 alert(result.errorMsg);
@@ -683,7 +683,7 @@
             fetchProfileFieldData() {
                 this.isLoadingDialog = true;
                 let self = this;
-                $.post("/api/fetchOnlySinglePageFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0210011",
                     page_id: 1,
                     tab_page_id: 1,
@@ -865,7 +865,7 @@
             },
             loadChangeLog() {
                 this.isOpenChangeLog = true;
-                $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0210011"}, (result) => {
+                BacUtils.doHttpPostAgent("/api/getSetupPrgChangeLog", {prg_id: "PMS0210011"}, (result) => {
                     if (result.success) {
                         this.$eventHub.$emit('getChangeLogData', {
                             openChangeLogDialog: this.isOpenChangeLog,

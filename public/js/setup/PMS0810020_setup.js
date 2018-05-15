@@ -252,7 +252,7 @@ Vue.component('single-grid-pms0810020-tmp', {
         // 取得房型排序設定資料
         fetchRoomCodOrder: function () {
             var self = this;
-            $.post('/api/PMS0810020/roomCodOrder').done(function (response) {
+            $.post('/api/PMS0810020/roomCodOrder', function (response) {
                 self.originSortData = response.roomCodOrderData;
                 self.erpSortData = _.sortBy(self.originSortData, function (item) {
                     return item.view_seq;
@@ -979,7 +979,7 @@ var vm = new Vue({
                 cache: false,
                 contentType: false,
                 processData: false
-            }).done(function (uploadResult) {
+            }, function (uploadResult) {
 
                 if (uploadResult.success) {
                     self.uploadFileList = [];

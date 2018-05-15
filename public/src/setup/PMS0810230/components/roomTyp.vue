@@ -298,7 +298,7 @@
         methods: {
             //取滾房租日
             fetchRentCalDat() {
-                $.post('/api/qryRentCalDat', {}, (result) => {
+                BacUtils.doHttpPostAgent('/api/qryRentCalDat', {}, (result) => {
                     this.rentCalDat = result.rent_cal_dat;
                 });
             },
@@ -315,7 +315,7 @@
                 this.roomTypDetailData = [];
             },
             fetchRoomTypSelectData() {
-                $.post('/api/chkFieldRule', {rule_func_name: 'get_room_typ_select'}, (result) => {
+                BacUtils.doHttpPostAgent('/api/chkFieldRule', {rule_func_name: 'get_room_typ_select'}, (result) => {
                     this.roomTypSelectColumns = [
                         {
                             width: 60,

@@ -83,7 +83,7 @@
         methods: {
             fetchUserInfo() {
                 let self = this;
-                $.post('/api/getUserInfo', function (result) {
+                BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                     if (result.success) {
                         self.userInfo = result.userInfo;
                     }
@@ -98,7 +98,7 @@
                     searchCond: lo_searchCond
                 };
                 // this.isLoading = true;
-                $.post("/api/fetchDataGridFieldData", lo_params, result => {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", lo_params, result => {
                     if (this.searchFields.length <= 0) {
                         this.searchFields = result.searchFields;
                     }
@@ -122,7 +122,7 @@
                     page_id: 1,
                     searchCond: this.searchCond
                 };
-                $.post("/api/fetchDgRowData", lo_params, result => {
+                BacUtils.doHttpPostAgent("/api/fetchDgRowData", lo_params, result => {
                     console.log(result);
                     this.pageOneDataGridRows = result.dgRowData;
                     this.dgIns.loadPageDgData(this.pageOneDataGridRows);

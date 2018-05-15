@@ -32,7 +32,7 @@ var vm = new Vue({
         methods: {
             //取得使用者資料
             fetchUserInfo: function () {
-                bacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
+                BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                     if (result.success) {
                         vm.userInfo = result.userInfo;
                     }
@@ -48,7 +48,7 @@ var vm = new Vue({
             //抓取顯示資料
             loadDataGridByPrgID: function () {
                 var self = this;
-                bacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
+                BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
                     vm.dataGridRows = _.map(result.dataGridRows, function (obj) {
                         if (obj.area_cod.trim() != "ROOT") {
                             var li_area_cod = Number(obj.area_cod);
@@ -78,12 +78,12 @@ var vm = new Vue({
             // 初始化jstree
             initAreaTree: function () {
                 this.convertDataGridRows2TreeData();
-                if(this.isTreeCreate == false){
+                if (this.isTreeCreate == false) {
                     this.createTree();
                     this.tree = $("#areaTree").jstree(true);
                     this.isTreeCreate = true;
                 }
-                else{
+                else {
                     this.tree.settings.core.data = vm.treeData.root;
                     this.tree.refresh();
                 }
@@ -184,20 +184,17 @@ var vm = new Vue({
                     fieldData: fieldData,
                     mainTableName: "area_cod_kvrf"
                 };
-                bacUtils.doHttpPostAgent('/api/execSQLProcess', params)
-                    .done(function (response) {
-                        if (response.success) {
-                            self.initTemCud();
-                            self.loadDataGridByPrgID();
-                            alert(go_i18nLang.SystemCommon.saveSuccess);
-                        }
-                        else {
-                            alert(response.errorMsg);
-                        }
-                    })
-                    .fail(function (error) {
-                        console.log(error);
-                    });
+                BacUtils.doHttpPostAgent('/api/execSQLProcess', params, function (response) {
+                    if (response.success) {
+                        self.initTemCud();
+                        self.loadDataGridByPrgID();
+                        alert(go_i18nLang.SystemCommon.saveSuccess);
+                    }
+                    else {
+                        alert(response.errorMsg);
+                    }
+                });
+
             },
 
             getSelectedNode: function () {
@@ -246,7 +243,7 @@ var vm = new Vue({
                 var la_allDelRowData = searchNode(lo_node, []);
                 la_allDelRowData.push(new rowData(lo_node));
 
-                bacUtils.doHttpPostAgent("/api/handleDataGridDeleteEventRule", {
+                BacUtils.doHttpPostAgent("/api/handleDataGridDeleteEventRule", {
                     prg_id: gs_prg_id,
                     deleteData: la_allDelRowData
                 }, function (result) {
@@ -305,7 +302,7 @@ function rowData(node) {
     this.area_nam = node.text;
     this.sort_cod = node.position;
     this.parent_cod = node.parent;
-    this.level_nos = node.parents.length-1;
+    this.level_nos = node.parents.length - 1;
 }
 
 function Node(rowData) {

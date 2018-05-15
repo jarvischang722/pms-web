@@ -45,7 +45,7 @@ var loginVM = new Vue({
                 async: false,
                 type: 'json',
                 method: 'post'
-            }).done(function (result) {
+            }, function (result) {
                 self.sysConfig = result.sysConf;
             });
         },
@@ -62,7 +62,7 @@ var loginVM = new Vue({
         },
         getCompaonyData: function () {
             this.loadingText = 'Loading...';
-            bacUtils.doHttpPostAgent("/api/getSelectCompany", function (result) {
+            BacUtils.doHttpPostAgent("/api/getSelectCompany", function (result) {
                 loginVM.isLoading = false;
                 if (result.success) {
                     loginVM.companyData = result.selectCompany;

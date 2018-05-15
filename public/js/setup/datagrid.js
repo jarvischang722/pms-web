@@ -60,7 +60,7 @@ Vue.component("multi-lang-dialog-tmp", {
             }
             if (lb_getFromAPI) {
                 // 取多語系資料
-                bacUtils.doHttpPostAgent("/api/multiLangFieldContentByKey", params, function (result) {
+                BacUtils.doHttpPostAgent("/api/multiLangFieldContentByKey", params, function (result) {
                     self.$emit('update-multi-lang-dg', result);
                 });
             }
@@ -152,7 +152,7 @@ var vm = new Vue({
                 saveField.push(_.extend(currentColumOption));
             });
 
-            bacUtils.doHttpPostAgent("/api/saveFieldOptionByUser", {
+            BacUtils.doHttpPostAgent("/api/saveFieldOptionByUser", {
                 prg_id: prg_id,
                 page_id: 1,
                 fieldOptions: saveField
@@ -161,7 +161,7 @@ var vm = new Vue({
 
         //抓取顯示資料
         fetchDataGridData: function () {
-            bacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
+            BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 vm.searchFields = result.searchFields;
                 vm.prgFieldDataAttr = result.fieldData;
                 vm.dataGridRows = JSON.parse(JSON.stringify(result.dataGridRows));
@@ -301,7 +301,7 @@ var vm = new Vue({
         appendRow: function () {
             var gridDataInfo = $("#prg_dg").datagrid("getData");    //SAM 20170418 因新增時可能需要帶預設值且是由目前資料來判斷取得值，所以需取得所有資料
             if (this.endEditing()) {
-                bacUtils.doHttpPostAgent("/api/handleDataGridAddEventRule", {
+                BacUtils.doHttpPostAgent("/api/handleDataGridAddEventRule", {
                     prg_id: prg_id,
                     gridDataInfo: gridDataInfo
                 }, function (result) {
@@ -335,7 +335,7 @@ var vm = new Vue({
                 vm.tmpCUD.deleteData.push(delRow);
                 $("#gridEdit").val(vm.tmpCUD);
 
-                bacUtils.doHttpPostAgent("/api/handleDataGridDeleteEventRule", {
+                BacUtils.doHttpPostAgent("/api/handleDataGridDeleteEventRule", {
                     prg_id: prg_id,
                     deleteData: vm.tmpCUD.deleteData
                 }, function (result) {
@@ -362,7 +362,7 @@ var vm = new Vue({
                     updateData: vm.tmpCUD.updateData
                 };
                 this.isLoading = true;
-                bacUtils.doHttpPostAgent("/api/saveDataRow", params, function (result) {
+                BacUtils.doHttpPostAgent("/api/saveDataRow", params, function (result) {
                     self.isLoading = false;
                     if (result.success) {
                         $('#prg_dg').datagrid('acceptChanges');
@@ -488,7 +488,7 @@ var vm = new Vue({
         },
         loadChangeLog: function () {
             this.openChangeLogDialog = true;
-            bacUtils.doHttpPostAgent("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
+            BacUtils.doHttpPostAgent("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
                 vm.allChangeLogList = result.allChangeLogList;
             });
         },

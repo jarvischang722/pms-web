@@ -151,7 +151,7 @@ let BacchusMainVM = new Vue({
          * 取得此子系統的權限
          */
         getUserSubsys: function () {
-            $.post("/api/getUserSubsys").done(function (res) {
+            $.post("/api/getUserSubsys", function (res) {
                 BacchusMainVM.subsysMenu = res.subsysMenu;
                 BacchusMainVM.activeSystem = res.activeSystem;
                 BacchusMainVM.usingSubsysID = getCookie("usingSubsysID");

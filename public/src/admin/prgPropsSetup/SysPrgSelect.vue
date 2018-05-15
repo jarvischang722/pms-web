@@ -65,7 +65,7 @@
             },
             initSysPrgMenu() {
                 let _this = this;
-                bacUtils.doHttpPostAgent('/api/userAllowSystem').done(function (response) {
+                BacUtils.doHttpPostAgent('/api/userAllowSystem', function (response) {
                     _.each(response.sysList, function (sys) {
                         _this.options.push({
                             value: sys.sys_id,
@@ -90,7 +90,7 @@
             //
             getSubsysBySysID(sys_id) {
                 return new Promise(function (resolve, reject) {
-                    bacUtils.doHttpPostAgent('/api/userSubsysPurviewBySysID', {sys_id}).done(function (response) {
+                    BacUtils.doHttpPostAgent('/api/userSubsysPurviewBySysID', {sys_id}, function (response) {
                         resolve(response.subsysMenu);
                     })
                 });
@@ -98,7 +98,7 @@
             //更新程式清單
             updProgramList(mdl_id) {
                 let _this = this;
-                bacUtils.doHttpPostAgent("/api/getGroupMdlPros", {mdl_id: mdl_id}, function (response) {
+                BacUtils.doHttpPostAgent("/api/getGroupMdlPros", {mdl_id: mdl_id}, function (response) {
                     if (response.success) {
                         _this.prosList = _.values(_.groupBy(response.prosList, function (item, i) {
                             return Math.floor(i / 6);

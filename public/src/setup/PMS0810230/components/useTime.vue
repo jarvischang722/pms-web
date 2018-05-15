@@ -262,7 +262,7 @@
         methods: {
             //取滾房租日
             fetchRentCalDat() {
-                $.post('/api/qryRentCalDat', {}, (result) => {
+                BacUtils.doHttpPostAgent('/api/qryRentCalDat', (result) => {
                     this.rentCalDat = result.rent_cal_dat;
                 });
             },
