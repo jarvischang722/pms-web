@@ -281,7 +281,7 @@ module.exports = {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        let ls_beginDat = postData.rowData.begin_dat;
+        let ls_beginDat = postData.rowData.begin_dat || "";
         let ls_endDat = postData.rowData.end_dat || "";
         let ls_rateCod = postData.rowData.rate_cod || "";
         let ls_hotelCod = postData.rowData.hotel_cod || "";
@@ -397,6 +397,8 @@ module.exports = {
                 });
             }
             else {
+                lo_result.multiSelectOptions.rate_cod = [];
+                lo_result.selectField.push("rate_cod");
                 cb(lo_error, lo_result);
             }
         }
@@ -437,43 +439,70 @@ module.exports = {
         let ls_beginDat = postData.rowData.begin_dat || "";
         let ls_endDat = postData.rowData.end_dat || "";
         let ls_hotelCod = postData.rowData.hotel_cod || "";
-        let ls_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
+        let ls_oldValue = postData.oldValue;
 
         try {
+            let la_rateCodSelectData = [];
+            let la_rsdiscCodSelectData = [];
 
-            ls_beginDat = moment(new Date(ls_endDat)).format("YYYY/MM/DD");
-            ls_endDat = moment(new Date(ls_beginDat)).format("YYYY/MM/DD");
-
-            //合約期間檢查:
-            let lo_examineContract = await new Promise((resolve, reject) => {
-                if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "" && ls_rateCod != ls_oldValue) {
-                    queryAgent.query("QRY_CONTRACT_EXIST", {
-                        athena_id: session.user.athena_id,
-                        hotel_cod: ls_hotelCod,
-                        end_dat: ls_endDat,
-                        begin_dat: ls_beginDat,
-                        rate_cod: ls_rateCod
-                    }, function (err, getResult) {
-                        if (err) {
-                            reject(err)
-                        }
-                        else {
-                            resolve(getResult);
-                        }
-                    });
-                }
-            });
-            if (lo_examineContract.order_rate_count == 0) {
+            if (ls_beginDat == "" || ls_endDat == "") {
                 lo_result.success = false;
-                lo_result.effectValues = {rate_cod: ls_oldValue};
                 lo_error = new ErrorClass();
-                lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
-                ls_rateCod = ls_oldValue;
+                lo_error.errorMsg = commandRules.getMsgByCod("pms61msg13", session.locale);
+                ls_rateCod = "";
+                lo_result.effectValues = {rate_cod: ls_rateCod};
             }
-            //參考房價代號下拉資料
-            let la_rateCodSelectData = await new Promise((resolve, reject) => {
-                if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
-                    queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", {
+            else {
+                ls_beginDat = moment(new Date(ls_beginDat)).format("YYYY/MM/DD");
+                ls_endDat = moment(new Date(ls_endDat)).format("YYYY/MM/DD");
+
+                //合約期間檢查:
+                let lo_examineContract = await new Promise((resolve, reject) => {
+                    if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "" && ls_rateCod != ls_oldValue) {
+                        queryAgent.query("QRY_CONTRACT_EXIST", {
+                            athena_id: session.user.athena_id,
+                            hotel_cod: ls_hotelCod,
+                            end_dat: ls_endDat,
+                            begin_dat: ls_beginDat,
+                            rate_cod: ls_rateCod
+                        }, function (err, getResult) {
+                            if (err) {
+                                reject(err)
+                            }
+                            else {
+                                resolve(getResult);
+                            }
+                        });
+                    }
+                });
+                if (lo_examineContract.order_rate_count == 0) {
+                    lo_result.success = false;
+                    lo_result.effectValues = {rate_cod: ls_oldValue};
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
+                    ls_rateCod = ls_oldValue;
+                }
+                //參考房價代號下拉資料
+                la_rateCodSelectData = await new Promise((resolve, reject) => {
+                    if (ls_beginDat != "" && ls_endDat != "" && ls_hotelCod != "") {
+                        queryAgent.queryList("QRY_CONTRACT_DT_RATE_COD", {
+                            athena_id: session.user.athena_id,
+                            hotel_cod: ls_hotelCod,
+                            end_dat: ls_endDat,
+                            begin_dat: ls_beginDat
+                        }, 0, 0, function (err, getResult) {
+                            if (err) {
+                                reject(err)
+                            }
+                            else {
+                                resolve(getResult);
+                            }
+                        });
+                    }
+                });
+                //參考餐廳折扣下拉資料
+                la_rsdiscCodSelectData = await new Promise((resolve, reject) => {
+                    queryAgent.queryList("QRY_CONTRACT_DT_RSDISC_COD", {
                         athena_id: session.user.athena_id,
                         hotel_cod: ls_hotelCod,
                         end_dat: ls_endDat,
@@ -486,24 +515,13 @@ module.exports = {
                             resolve(getResult);
                         }
                     });
-                }
-            });
-            //參考餐廳折扣下拉資料
-            let la_rsdiscCodSelectData = await new Promise((resolve, reject) => {
-                queryAgent.queryList("QRY_CONTRACT_DT_RSDISC_COD", {
-                    athena_id: session.user.athena_id,
-                    hotel_cod: ls_hotelCod,
-                    end_dat: ls_endDat,
-                    begin_dat: ls_beginDat
-                }, 0, 0, function (err, getResult) {
-                    if (err) {
-                        reject(err)
-                    }
-                    else {
-                        resolve(getResult);
-                    }
                 });
-            });
+
+                lo_result.selectField = ["rate_cod", "rsdisc_cod"];
+                lo_result.multiSelectOptions.rate_cod = la_rateCodSelectData;
+                lo_result.multiSelectOptions.rsdisc_cod = la_rsdiscCodSelectData;
+            }
+
             //房價代號帶回房價名稱
             let ls_ratecodNam = await new Promise((resolve, reject) => {
                 queryAgent.query("QRY_RATE_NAM", {rate_cod: ls_rateCod}, function (err, getResult) {
@@ -516,10 +534,11 @@ module.exports = {
                 });
             });
 
-            lo_result.effectValues = _.extend(lo_result.effectValues, {ratecod_nam: ls_ratecodNam.ratecod_nam});
+            lo_result.effectValues = _.extend(lo_result.effectValues, {ratecod_nam: _.isNull(ls_ratecodNam) ? "" : ls_ratecodNam.ratecod_nam});
             lo_result.selectField = ["rate_cod", "rsdisc_cod"];
             lo_result.multiSelectOptions.rate_cod = la_rateCodSelectData;
             lo_result.multiSelectOptions.rsdisc_cod = la_rsdiscCodSelectData;
+
         }
         catch (err) {
             console.log(err);
