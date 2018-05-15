@@ -7,6 +7,7 @@ const config = {
         "/sales/PMS0610010": ["./public/src/sales/PMS0610010/main.js", "./public/src/sales/PMS0610010/store.js"],
         "/sales/PMS0620020": "./public/src/sales/PMS0620010/main.js",
         "/sales/PMS0620050": "./public/src/sales/PMS0620050/main.js",
+        "/setup/PMS0810230_setup": "./public/src/setup/PMS0810230/main.js",
         "/reservation/PMS0110010": "./public/src/reservation/PMS0110010/main.js",
         "/reservation/PMS0110040": "./public/src/reservation/PMS0110040/main.js",
         "/reservation/PMS0110050": "./public/src/reservation/PMS0110050/main.js",

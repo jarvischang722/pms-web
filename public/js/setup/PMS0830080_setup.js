@@ -5,6 +5,7 @@
 /** DatagridRmSingleGridClass ***/
 function DatagridSingleGridClass() {
 }
+
 DatagridSingleGridClass.prototype = new DatagridBaseClass();
 DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     //
@@ -224,19 +225,15 @@ var PMS0830080VM = new Vue({
         },
         //取得中小分類
         getStypeRf: function () {
-            $.post('/api/getStypeRf', function (result) {
+            BacUtils.doHttpPostAgent('/api/getStypeRf', function (result) {
                 PMS0830080VM.stypeRfList = result.stypeList;
             });
         },
         getRouteData: function () {
-            $.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
-                .done(function (response) {
-                    PMS0830080VM.pageOneDataGridRows = response.dataGridRows;
-                    PMS0830080VM.pageOneFieldData = response.fieldData;
-                })
-                .fail(function (error) {
-                    console.log(error);
-                });
+            BacUtils.doHttpPostAgent('/api/prgDataGridDataQuery', {prg_id: this.prg_id}, function (response) {
+                PMS0830080VM.pageOneDataGridRows = response.dataGridRows;
+                PMS0830080VM.pageOneFieldData = response.fieldData;
+            });
         },
         addRoute: function () {
 
@@ -255,10 +252,10 @@ var PMS0830080VM = new Vue({
             this.openRouteDialog();
         },
         //預設全部都在第一個帳夾
-        toDefaultAccountOne: function(){
+        toDefaultAccountOne: function () {
 
-            var notAccountSmallTypList = _.reject(PMS0830080VM.stypeRfList, function(d) {
-                return _.findIndex(PMS0830080VM.routeDtList,{small_typ: d.small_typ.trim()}) > -1;
+            var notAccountSmallTypList = _.reject(PMS0830080VM.stypeRfList, function (d) {
+                return _.findIndex(PMS0830080VM.routeDtList, {small_typ: d.small_typ.trim()}) > -1;
             });
             _.each(notAccountSmallTypList, function (stype) {
                 PMS0830080VM.accounts["account1"].push({
@@ -277,11 +274,9 @@ var PMS0830080VM = new Vue({
 
             this.isCreateStatus = false;
             this.isEditStatus = true;
-            $.post('/api/getRouteDtByRouteCod', {route_cod: this.editingRow.route_cod})
-                .done(function (response) {
-                    PMS0830080VM.routeDtList = response.routeDtList;
-
-                });
+            BacUtils.doHttpPostAgent('/api/getRouteDtByRouteCod', {route_cod: this.editingRow.route_cod}, function (response) {
+                PMS0830080VM.routeDtList = response.routeDtList;
+            });
 
             this.openRouteDialog();
         },
@@ -312,7 +307,7 @@ var PMS0830080VM = new Vue({
             }
             self.combineSQLData();
             self.isSaving = true;
-            $.post("/api/doSavePMS0830080", this.tmpCUD, function (result) {
+            BacUtils.doHttpPostAgent("/api/doSavePMS0830080", this.tmpCUD, function (result) {
                 self.isSaving = false;
                 if (result.success) {
                     PMS0830080VM.initTmpCUD();

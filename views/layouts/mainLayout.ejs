@@ -47,12 +47,12 @@
             quickMenu: [],
             subsysMenu: []
         },
-        mounted(){
+        mounted() {
 
             this.getUserSubsys();
         },
         watch: {
-            usingSubsysID(newVal){
+            usingSubsysID(newVal) {
                 this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).quickMenu;
                 this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).mdlMenu;
 
@@ -60,14 +60,14 @@
             }
         },
         methods: {
-            getUserSubsys(){
-                $.post("/api/getUserSubsys").done(function (res) {
+            getUserSubsys() {
+                BacUtils.doHttpPostAgent("/api/getUserSubsys", function (res) {
                     mainVue.subsysMenu = res.subsysMenu;
                     mainVue.usingSubsysID = getCookie('usingSubsysID');
                 })
             },
 //切換子系統
-            toSubsys(subsys_id){
+            toSubsys(subsys_id) {
                 setupCookie("usingPrgID", "");
                 setupCookie('usingSubsysID', subsys_id)
                 this.usingSubsysID = subsys_id;
@@ -75,9 +75,9 @@
             },
 
             //讀入主程式
-            loadMainProcess(pro_id,pro_url){
+            loadMainProcess(pro_id, pro_url) {
                 this.current_pro_id = pro_id;
-                 $("#MainContentDiv").load(pro_url);
+                $("#MainContentDiv").load(pro_url);
             }
         },
 

@@ -263,7 +263,7 @@ function DatagridBaseClass() {
                 mnRowData: self.mnRowData
             };
 
-            $.post("/api/handleDataGridAddEventRule", lo_param, function (result) {
+            BacUtils.doHttpPostAgent("/api/handleDataGridAddEventRule", lo_param, function (result) {
                 var prgDefaultObj = {createRow: 'Y'};
                 if (result.success) {
                     prgDefaultObj = result.prgDefaultObj;
@@ -316,7 +316,7 @@ function DatagridBaseClass() {
             deleteData: self.tmpCUD.deleteData
         };
 
-        $.post("/api/handleDataGridDeleteEventRule", lo_param, function (result) {
+        BacUtils.doHttpPostAgent("/api/handleDataGridDeleteEventRule", lo_param, function (result) {
             if (result.success) {
                 $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
             } else {
@@ -350,7 +350,7 @@ function DatagridBaseClass() {
             saveField.push(_.extend(currentColumOption));
         });
 
-        $.post("/api/saveFieldOptionByUser", {
+        BacUtils.doHttpPostAgent("/api/saveFieldOptionByUser", {
             prg_id: self.prg_id,
             page_id: self.page_id,
             fieldOptions: saveField

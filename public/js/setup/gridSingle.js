@@ -122,7 +122,7 @@ Vue.component("multiLang-dialog-tmp", {
                 return;
             }
 
-            $.post("/api/multiLangFieldContentByKey", params, function (result) {
+            BacUtils.doHttpPostAgent("/api/multiLangFieldContentByKey", params, function (result) {
                 self.updateDtMultiLangData(result.multiLangContent);
             });
         },
@@ -201,7 +201,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
                 ui_field_name: fieldInfo.ui_field_name
             };
 
-            $.post("/api/fieldAllLocaleContent", params, function (result) {
+            BacUtils.doHttpPostAgent("/api/fieldAllLocaleContent", params, function (result) {
                 self.multiLangContentList = result.multiLangContentList;
                 self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
             });
@@ -452,7 +452,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                     oriSingleRowData: this.$parent.oriSingleData
                 };
 
-                $.post('/api/chkFieldRule', postData, function (result) {
+                BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
                     self.isEditingForFieldRule = false;
                     vm.isRuleComplete = true;
                     if (result.success) {
@@ -477,7 +477,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                         if (confirm(result.confirmMsg)) {
                             //有沒有要再打一次ajax到後端
                             if (result.isGoPostAjax) {
-                                $.post(result.ajaxURL, postData, function (result) {
+                                BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
                                     if (!result.success) {
                                         alert(result.errorMsg);
                                     }
@@ -499,7 +499,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                     singleRowData: JSON.parse(JSON.stringify(this.singleData))
                 };
 
-                $.post("/api/popUpGridData", params, function (result) {
+                BacUtils.doHttpPostAgent("/api/popUpGridData", params, function (result) {
                     if (result != null) {
                         vm.selectPopUpGridData = result.showDataGrid;
                         vmHub.$emit('showPopUpDataGrid', result);
@@ -542,7 +542,7 @@ Vue.component('sigle-grid-dialog-tmp', {
             var q = confirm("Are you sure delete those data?");
             if (q) {
                 //刪除前檢查
-                $.post("/api/deleteFuncRule", {
+                BacUtils.doHttpPostAgent("/api/deleteFuncRule", {
                     page_id: 2,
                     prg_id: prg_id,
                     deleteData: [self.singleData]
@@ -748,7 +748,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                         this.tmpCud.dt_updateData.splice(li_index, 1);
                     }
                     var self = this;
-                    $.post('/api/chkDtFieldRule', lo_params, function (chkResult) {
+                    BacUtils.doHttpPostAgent('/api/chkDtFieldRule', lo_params, function (chkResult) {
                         if (chkResult.success) {
                             //是否要show出訊息
                             if (chkResult.showAlert) {
@@ -760,7 +760,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                                 if (confirm(chkResult.confirmMsg)) {
                                     //有沒有要再打一次ajax到後端
                                     if (chkResult.isGoPostAjax) {
-                                        $.post(chkResult.ajaxURL, postData, function (ajaxResult) {
+                                        BacUtils.doHttpPostAgent(chkResult.ajaxURL, postData, function (ajaxResult) {
                                             if (!ajaxResult.success) {
                                                 alert(ajaxResult.errorMsg);
                                             }
@@ -807,7 +807,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 saveField.push(_.extend(currentColumOption));
             });
 
-            $.post("/api/saveFieldOptionByUser", {
+            BacUtils.doHttpPostAgent("/api/saveFieldOptionByUser", {
                 prg_id: prg_id,
                 page_id: 2,
                 fieldOptions: saveField
@@ -819,7 +819,7 @@ Vue.component('sigle-grid-dialog-tmp', {
             var self = this;
             var la_allRow = $("#dt_dg").datagrid('getRows');
             if (this.endDtEditing()) {
-                $.post("/api/handleDataGridAddEventRule", {
+                BacUtils.doHttpPostAgent("/api/handleDataGridAddEventRule", {
                     prg_id: prg_id,
                     page_id: 2,
                     allRows: la_allRow
@@ -857,7 +857,7 @@ Vue.component('sigle-grid-dialog-tmp', {
             //檢查dt_editData、dt_createData裡的資料是否跟要刪除的資料重複
             this.examineTmpData(delRow, vm.tmpCud);
 
-            $.post("/api/handleDataGridDeleteEventRule", {
+            BacUtils.doHttpPostAgent("/api/handleDataGridDeleteEventRule", {
                 prg_id: prg_id,
                 page_id: 2,
                 deleteData: vm.tmpCud.dt_deleteData
@@ -1007,7 +1007,7 @@ var vm = new Vue({
                 callback = function () {
                 };
             }
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
+            BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 waitingDialog.hide();
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dataGridRows;
@@ -1023,7 +1023,7 @@ var vm = new Vue({
                 callback = function () {
                 };
             }
-            $.post("/api/singleGridPageFieldQuery", {
+            BacUtils.doHttpPostAgent("/api/singleGridPageFieldQuery", {
                 prg_id: prg_id,
                 page_id: 2,
                 singleRowData: vm.editingRow
@@ -1061,7 +1061,7 @@ var vm = new Vue({
         },
         //取得使用者資料
         fetchUserInfo: function () {
-            $.post('/api/getUserInfo', function (result) {
+            BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                 if (result.success) {
                     vm.userInfo = result.userInfo;
                 }
@@ -1126,7 +1126,7 @@ var vm = new Vue({
                     vm.tmpCud.deleteData.push(row);
                 });
 
-                $.post("/api/deleteFuncRule", {
+                BacUtils.doHttpPostAgent("/api/deleteFuncRule", {
                     page_id: 1,
                     prg_id: prg_id,
                     deleteData: vm.tmpCud.deleteData
@@ -1194,7 +1194,7 @@ var vm = new Vue({
 
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
 
-            $.post("/api/saveGridSingleData", params, function (result) {
+            BacUtils.doHttpPostAgent("/api/saveGridSingleData", params, function (result) {
                 vm.isSaving = false;
                 if (result.success) {
                     vm.initTmpCUD();
@@ -1226,7 +1226,7 @@ var vm = new Vue({
             vm.isModifiable = true;
             vm.editStatus = false;
             this.loadSingleGridPageField(function (success) {
-                $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
+                BacUtils.doHttpPostAgent("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                     if (result.success) {
                         vm.singleData = result.defaultValues;
                         vmHub.$emit('showDtDataGrid', vm.dtData);
@@ -1245,7 +1245,7 @@ var vm = new Vue({
             vm.editingRow = editingRow;
             this.loadSingleGridPageField(function (result) {
                 editingRow["prg_id"] = prg_id;
-                $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
+                BacUtils.doHttpPostAgent('/api/singlePageRowDataQuery', editingRow, function (result) {
                     var dtData = result.dtData || [];
                     if (result.success) {
                         vm.oriSingleData = $.extend({}, result.rowData);
@@ -1345,7 +1345,7 @@ var vm = new Vue({
                 saveField.push(_.extend(currentColumOption));
             });
 
-            $.post("/api/saveFieldOptionByUser", {
+            BacUtils.doHttpPostAgent("/api/saveFieldOptionByUser", {
                 prg_id: prg_id,
                 page_id: 1,
                 fieldOptions: saveField
@@ -1375,7 +1375,7 @@ var vm = new Vue({
         },
         loadChangeLog: function () {
             this.openChangeLogDialog = true;
-            $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
+            BacUtils.doHttpPostAgent("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
                 vm.allChangeLogList = result.allChangeLogList;
             });
             // 給裡面table的高 值

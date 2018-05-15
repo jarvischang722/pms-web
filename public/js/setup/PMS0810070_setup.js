@@ -31,11 +31,11 @@ function initCalendar() {
             gs_calendar_year = e.currentYear;
 
             //預設為當天日期
-            if(gs_calendar_year == moment().year()){    //如果是今年, 日期區間預設今日到12/31
+            if (gs_calendar_year == moment().year()) {    //如果是今年, 日期區間預設今日到12/31
                 $("input[name='start']").datepicker("setDate", moment().format("YYYY/MM/DD"));
                 $("input[name='end']").datepicker("setDate", gs_calendar_year + "/12/31");
             }
-            else{
+            else {
 
                 $("input[name='start']").datepicker("setDate", gs_calendar_year + "/01/01");
                 $("input[name='end']").datepicker("setDate", gs_calendar_year + "/12/31");
@@ -97,15 +97,10 @@ function initDatePicker() {
 
 // 取假日種類設定
 function getHolidayKindSet() {
-    $.post("/api/getHolidayKindSet")
-        .then(function (kindSetResult) {
-            go_holidayKind = kindSetResult.dateKindSetData;
-            createDateKindSelectOption();
-        })
-        .fail(function (error) {
-            console.log(error);
-            waitingDialog.hide();
-        });
+    BacUtils.doHttpPostAgent("/api/getHolidayKindSet", function (kindSetResult) {
+        go_holidayKind = kindSetResult.dateKindSetData;
+        createDateKindSelectOption();
+    });
 }
 
 // 取假日日期設定
@@ -114,19 +109,14 @@ function getHolidayDateSet() {
     var params = {
         year: gs_calendar_year
     };
-    $.post("/api/getHolidayDateSet", params)
-        .done(function (getResult) {
-            go_holidayDate = getResult.dateSetData;
-            initDataSource();
-            setCalendarDataSource();
-            changeYearSetColor();
+    BacUtils.doHttpPostAgent("/api/getHolidayDateSet", params, function (getResult) {
+        go_holidayDate = getResult.dateSetData;
+        initDataSource();
+        setCalendarDataSource();
+        changeYearSetColor();
+        waitingDialog.hide();
+    });
 
-            waitingDialog.hide();
-        })
-        .fail(function (err) {
-            console.log(err);
-            waitingDialog.hide();
-        });
 }
 
 // 初始化dataSource
@@ -164,8 +154,9 @@ function insertTmpCUD(la_dateDT) {
             return moment(cudDate.batch_dat).format("YYYY/MM/DD") == moment(tmpDate.date).format("YYYY/MM/DD");
         });
 
-        if (chkIndex != -1)
-            {ga_tmpCUD[dataType][chkIndex].day_sta = tmpDate.day_sta;}
+        if (chkIndex != -1) {
+            ga_tmpCUD[dataType][chkIndex].day_sta = tmpDate.day_sta;
+        }
         else {
             ga_tmpCUD[dataType].push({
                 "day_sta": tmpDate.day_sta,
@@ -181,10 +172,10 @@ function setCalendarDataSource() {
     $(".calendar-list").data("calendarYear").setDataSource(ga_dataSource);
 }
 
-function changeYearSetColor(){
-    _.each(ga_tmpCUD, function(obj, key){
-        if(key == "createData" || key == "updateData"){
-            _.each(obj, function(value){
+function changeYearSetColor() {
+    _.each(ga_tmpCUD, function (obj, key) {
+        if (key == "createData" || key == "updateData") {
+            _.each(obj, function (value) {
                 chkDataSourceAndEdit(value.batch_dat);
             });
         }
@@ -238,7 +229,7 @@ function bindDayClickEvent() {
             var li_diffDay = moment(ls_end_date).diff(moment(ls_start_date), "days") + 1;
             waitingDialog.show("Loading...");
 
-            setTimeout(function(){
+            setTimeout(function () {
                 while (day_counter != li_diffDay) {
                     var nowDay = moment(ls_start_date).add("days", day_counter);
                     chkDataSourceAndEdit(nowDay);
@@ -269,7 +260,7 @@ function bindDayClickEvent() {
 function chkDataSourceAndEdit(ls_date) {
     var yearStr = moment(ls_date).format("YYYY");
 
-    if(yearStr == gs_calendar_year) {
+    if (yearStr == gs_calendar_year) {
         var monStr = moment(ls_date).format("MMMM");
         var dayStr = moment(ls_date).format("D");
         var ls_select_color = $("#color_scheme option:selected").val();
@@ -310,21 +301,17 @@ function saveIntoOracleHolidayRf() {
     };
 
     waitingDialog.show('Saving...');
-    $.post("/api/execSQLProcess", params)
-        .done(function (response) {
-            waitingDialog.hide();
-            if (response.success) {
-                alert(go_i18nLang.SystemCommon.saveSuccess);
-                initTmpCUD();
-                getHolidayDateSet();
-            } else {
-                alert(response.errorMsg);
-            }
-        })
-        .fail(function (error) {
-            waitingDialog.hide();
-            console.log(error);
-        });
+    BacUtils.doHttpPostAgent("/api/execSQLProcess", params, function (response) {
+        waitingDialog.hide();
+        if (response.success) {
+            alert(go_i18nLang.SystemCommon.saveSuccess);
+            initTmpCUD();
+            getHolidayDateSet();
+        } else {
+            alert(response.errorMsg);
+        }
+    });
+
 }
 
 // 切割RGB顏色
@@ -374,37 +361,39 @@ function getDaysBetweenDates(ls_start, ls_end, dayName) {
 // 第一次新增一整年的資料到holiday_rf
 function insertDefalutValueTmpCUD() {
 
-    if(go_holidayDate.length >= 365) {return;}
+    if (go_holidayDate.length >= 365) {
+        return;
+    }
 
     var lo_start_date = moment([gs_calendar_year, 0, 1]);
     var lo_end_date = moment([gs_calendar_year, 11, 31]);
     var lo_days = lo_end_date.diff(lo_start_date, 'days');
     lo_days = lo_days + 1;
 
-    for(var i = 0; i < lo_days; i++){
+    for (var i = 0; i < lo_days; i++) {
 
-        var lo_day = moment(gs_calendar_year +"/01/01").add(i, 'day').format("YYYY/MM/DD");
+        var lo_day = moment(gs_calendar_year + "/01/01").add(i, 'day').format("YYYY/MM/DD");
 
         var dateIsExist = false;
 
-        for(var j = 0; j < ga_tmpCUD["createData"].length; j++){
-            if(lo_day == ga_tmpCUD["createData"][j].batch_dat){
+        for (var j = 0; j < ga_tmpCUD["createData"].length; j++) {
+            if (lo_day == ga_tmpCUD["createData"][j].batch_dat) {
                 dateIsExist = true;
                 break;
             }
         }
 
-        if(!dateIsExist){
-            for(var j = 0; j < go_holidayDate.length; j++){
-                if(lo_day == moment(go_holidayDate[j].batch_dat).format("YYYY/MM/DD")){
+        if (!dateIsExist) {
+            for (var j = 0; j < go_holidayDate.length; j++) {
+                if (lo_day == moment(go_holidayDate[j].batch_dat).format("YYYY/MM/DD")) {
                     dateIsExist = true;
                     break;
                 }
             }
         }
 
-        if(!dateIsExist) {
-            var la_dateDT ={
+        if (!dateIsExist) {
+            var la_dateDT = {
                 "day_sta": "N",
                 "batch_dat": lo_day
             };

@@ -54,7 +54,7 @@ var loginVM = new Vue({
             var self = this;
             if (!_.isUndefined(self.sysConfig.isDefaultUserID) && self.sysConfig.isDefaultUserID === "Y") {
                 $.get(self.sysConfig.api_url.dotnet + "/?getip=''", function (ip) {
-                    $.post("/api/getDefaultAccount", {ip: ip}, function (result) {
+                    BacUtils.doHttpPostAgent("/api/getDefaultAccount", {ip: ip}, function (result) {
                         self.username = result.account;
                     });
                 });
@@ -91,7 +91,7 @@ var loginVM = new Vue({
                 dbname: this.dbname,
                 comp_id: this.comp_id
             };
-            $.post("/api/authLogin", params, function (result) {
+            BacUtils.doHttpPostAgent("/api/authLogin", params, function (result) {
 
                 if (result.success) {
 

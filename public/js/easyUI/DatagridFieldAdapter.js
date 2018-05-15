@@ -421,7 +421,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
         isUserEdit = false;
 
-        $.post('/api/chkFieldRule', postData, function (result) {
+        BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
             if (result.success) {
                 //是否要show出訊息
                 if (result.showAlert) {
@@ -433,7 +433,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     if (confirm(result.confirmMsg)) {
                         //有沒有要再打一次ajax到後端
                         if (result.isGoPostAjax) {
-                            $.post(result.ajaxURL, postData, function (ajaxResult) {
+                            BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (ajaxResult) {
                                 if (!ajaxResult.success) {
                                     alert(ajaxResult.errorMsg);
                                 }

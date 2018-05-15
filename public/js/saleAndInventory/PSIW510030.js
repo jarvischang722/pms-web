@@ -396,7 +396,7 @@ var PSIW510030 = new Vue({
                 func: "getShowCodSelect"
             };
             this.isLoading = true;
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
 
                 if (result.error != null) {
@@ -412,7 +412,7 @@ var PSIW510030 = new Vue({
                 func: "getUnitSelect"
             };
             this.isLoading = true;
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
 
                 if (result.error != null) {
@@ -439,7 +439,7 @@ var PSIW510030 = new Vue({
                     lo_params = {
                         func: "getSearchFormatSta"
                     };
-                    $.post("/api/getQueryResult", lo_params, function (result) {
+                    BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
 
                         if (result.error != null) {
                             alert(result.error);
@@ -458,7 +458,7 @@ var PSIW510030 = new Vue({
                         func: "getSearchShowCod"
                     };
                     self.isLoading = true;
-                    $.post("/api/getQueryResult", lo_params, function (result) {
+                    BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                         self.isLoading = false;
 
                         if (result.error != null) {
@@ -560,7 +560,7 @@ var PSIW510030 = new Vue({
                 func: "getSystemParam",
                 paramName: "ship_mn_round_nos"
             };
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 if (result.error != null) {
                     alert(result.error);
                 }
@@ -574,7 +574,7 @@ var PSIW510030 = new Vue({
                 func: "getSystemParam",
                 paramName: "ship_dt_round_nos"
             };
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 if (result.error != null) {
                     alert(result.error);
                 }
@@ -588,7 +588,7 @@ var PSIW510030 = new Vue({
                 func: "getSystemParam",
                 paramName: "order_dat_change_time"
             };
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 if (result.error != null) {
                     alert(result.error);
                 }
@@ -601,7 +601,7 @@ var PSIW510030 = new Vue({
             lo_params = {
                 func: "getAllFormatSta"
             };
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
 
                 if (result.error != null) {
@@ -650,7 +650,7 @@ var PSIW510030 = new Vue({
          */
         fetchUserInfo: function () {
             var self = this;
-            $.post('/api/getUserInfo', function (result) {
+            BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                 if (result.success) {
                     self.userInfo = result.userInfo;
                 }
@@ -1231,7 +1231,7 @@ var PSIW510030 = new Vue({
 
             self.isLoading = true;
             //撈多筆資料
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
 
                 if (result.error != null) {
@@ -1259,7 +1259,7 @@ var PSIW510030 = new Vue({
             };
 
             self.isLoading = true;
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
 
                 if (result.error != null) {
@@ -1305,7 +1305,7 @@ var PSIW510030 = new Vue({
             };
 
             self.isLoading = true;
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
 
                 if (result.error != null) {
@@ -1474,7 +1474,7 @@ var PSIW510030 = new Vue({
 
             self.isLoading = true;
 
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
 
                 if (result.error != null) {
@@ -1520,7 +1520,7 @@ var PSIW510030 = new Vue({
                         singleData: self.singleDataTemp
                     };
                     self.isLoading = true;
-                    $.post("/api/getQueryResult", lo_params2, function (result) {
+                    BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params2, function (result) {
                         self.isLoading = false;
 
                         self.orderSelectData = result.data;
@@ -1563,7 +1563,7 @@ var PSIW510030 = new Vue({
                 func: "getCustInfo",
                 singleData: self.singleData
             };
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
                 if (result.error == null) {
                     self.singleData.accunt_sta = result.data.accunt_sta;
@@ -1631,7 +1631,7 @@ var PSIW510030 = new Vue({
                 singleData: self.singleData
             };
 
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
                     if (result.error) {
@@ -1984,7 +1984,7 @@ var PSIW510030 = new Vue({
                 func: "getGoodsData",
                 select_format_sta: self.select_format_sta
             };
-            $.post("/api/getQueryResult", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
 
                 if (result.error != null) {
@@ -2037,7 +2037,7 @@ var PSIW510030 = new Vue({
                 singleDataGridRows: self.singleDataGridRows
             };
 
-            $.post("/api/callSaveAPI", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/callSaveAPI", lo_params, function (result) {
                 self.isLoading = false;
                 if (result.success) {
                     alert('儲存成功!');
@@ -2065,7 +2065,7 @@ var PSIW510030 = new Vue({
                 order_nos: self.singleData.order_nos
             };
 
-            $.post("/api/callAPI", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/callAPI", lo_params, function (result) {
                 self.isLoading = false;
                 if (result.success) {
                     callback();
@@ -2089,7 +2089,7 @@ var PSIW510030 = new Vue({
                 singleData: self.singleData
             };
 
-            $.post("/api/callOrderAPI", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/callOrderAPI", lo_params, function (result) {
                 self.isLoading = false;
 
                 if (result.success) {
@@ -2162,7 +2162,7 @@ var PSIW510030 = new Vue({
         loadChangeLog: function () {
             var self = this;
             self.openChangeLogDialog = true;
-            $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
+            BacUtils.doHttpPostAgent("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
                 self.allChangeLogList = result.allChangeLogList;
                 self.allChangeLogList = _.filter(result.allChangeLogList, function (data) {
                     var order_nos = _.find(data.desc_mn, function (field) {

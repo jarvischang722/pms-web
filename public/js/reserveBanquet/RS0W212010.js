@@ -1648,7 +1648,7 @@ var RS00202010VM = new Vue({
             var self = this;
             var lo_params = {use_dat: this.searchDate};
             this.isLoading = true;
-            $.post("/reserveBanquet/qryPageOneData", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/reserveBanquet/qryPageOneData", lo_params, function (result) {
                 self.isLoading = false;
                 if (result.success) {
                     self.pageOneData = result.pageOneData;
