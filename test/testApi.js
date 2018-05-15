@@ -2,7 +2,7 @@
  * Created by Jun Chang on 2017/2/14.
  */
 
-const Svc = require("../ruleEngine/rules/FontDesk/PMS0210011Rule");
+const Svc = require("../ruleEngine/rules/FrontDesk/PMS0210011Rule");
 
 let encode = Svc.encodeCreditNos("hello");
 console.log(encode);

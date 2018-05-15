@@ -169,6 +169,7 @@ module.exports = {
             lo_return.confirmMsg = commonRule.getMsgByCod("pms21msg3", session.locale);
             lo_return.effectValues["vip_sta"] = 0;
         }
+        lo_return.isEffectFromRule = false;
 
         callback(lo_error, lo_return);
     },
@@ -367,7 +368,6 @@ module.exports = {
         let lo_return = new ReturnClass();
         let lo_error = null;
         if (postData.singleRowData[0].salute_cod == postData.oriSingleData[0].salute_cod) {
-            lo_return.isEffectFromRule = true;
             return callback(lo_error, lo_return);
         }
         let lb_sex_typ;
@@ -409,7 +409,6 @@ module.exports = {
         let lo_return = new ReturnClass();
         let lo_error = null;
         if (postData.singleRowData[0].contry_cod == postData.oriSingleData[0].contry_cod) {
-            lo_return.isEffectFromRule = true;
             return callback(lo_error, lo_return);
         }
         let lo_params = {
@@ -577,7 +576,7 @@ module.exports = {
             return callback(lo_error, lo_return);
         }
 
-        //卡號加密
+        //TODO: 卡號加密等Oracle DB 修改完成
         // lo_createData.credit_nos = encryptTools.publicEncrypt(lo_createData.credit_nos);
 
         _.each(lo_createData, (val, key) => {
@@ -659,16 +658,45 @@ module.exports = {
      * @param session
      * @param callback
      */
-    saveUpdateGhistMn(postData, session, callback) {
+    async saveUpdateGhistMn(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
 
         let lo_updateData = postData.tmpCUD.updateData[0];
+        let ls_credit_nos = lo_updateData.credit_nos;
         let lo_cust_idx = {};
         let lo_ghist_visit_dt = {};
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
 
-        //卡號加密
-        lo_updateData.credit_nos = encryptTools.publicEncrypt(lo_updateData.credit_nos);
+        //卡號遮罩
+        let ls_masked_credit_nos;
+        try {
+            ls_masked_credit_nos = await new Promise((resolve, reject) => {
+                queryAgent.query("QRY_DMASK_CREDIT_NOS", lo_params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        let ln_dmask_credit_nos = result.dmask_credit_nos || "99";
+                        let ls_masked = this.doCreditNosMask(ls_credit_nos, ln_dmask_credit_nos);
+                        resolve(ls_masked);
+                    }
+                });
+            });
+        }
+        catch (err) {
+            console.log(err.message);
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err.message;
+            lo_return.success = false;
+
+            return callback(lo_error, lo_return);
+        }
+        //TODO: 卡號加密等Oracle DB 修改完成
+        //lo_updateData.credit_nos = encryptTools.publicEncrypt(lo_updateData.credit_nos);
 
         _.each(lo_updateData, (val, key) => {
             let la_keySplit = key.split(".");

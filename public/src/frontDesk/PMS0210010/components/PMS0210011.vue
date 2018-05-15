@@ -562,11 +562,19 @@
                     if (!_.isNull(val.acust_cod) && !_.isUndefined(val.acust_cod)) {
                         if (val.acust_cod.trim() != "") {
                             let lo_compCodSelectData = _.findWhere(this.profileOriFieldsData, {ui_field_name: "acust_cod"}).selectData.selectData;
-                            let ls_uniCod = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_cod;
-                            let ls_uniTitle = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_title;
+                            let ls_uniCod = "";
+                            let ls_uniTitle = "";
+                            try {
+                                ls_uniCod = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_cod;
+                                ls_uniTitle = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_title;
+                            }
+                            catch (err) {
+                            }
 
-                            val["cust_idx.uni_cod"] = ls_uniCod;
-                            val["cust_idx.uni_title"] = ls_uniTitle;
+                            val["cust_idx.uni_cod"] = val["cust_idx.uni_cod"] || "";
+                            val["cust_idx.uni_title"] = val["cust_idx.uni_title"] || "";
+                            val["cust_idx.uni_cod"] = val["cust_idx.uni_cod"] == "" ? ls_uniCod : val["cust_idx.uni_cod"];
+                            val["cust_idx.uni_title"] = val["cust_idx.uni_title"] == "" ? ls_uniTitle : val["cust_idx.uni_title"];
                         }
                     }
 
@@ -631,7 +639,6 @@
                 }
 
                 if (rule_func_name === "" || !this.$parent.isModifiable || !this.isEffectFromRule) {
-                    console.log(this.$parent.isModifiable, this.isEffectFromRule);
                     this.isEffectFromRule = true;
                     return;
                 }
@@ -705,7 +712,6 @@
                     _.each(result.gsFieldsData, (lo_gsFieldsData) => {
                         if (lo_gsFieldsData.ui_field_name == "expira_dat") {
                             lo_gsFieldsData.ui_format = "MM/yy";
-                            console.log(lo_gsFieldsData);
                         }
                         else if (lo_gsFieldsData.ui_type == "date") {
                             lo_gsFieldsData.ui_format = "yyyy/MM/dd";
@@ -799,27 +805,37 @@
                     this.isLoadingDialog = false;
                 }
                 else {
-                    let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
-                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
+                    try {
+                        let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
+                        if (lo_saveProfileDataRes.success) {
+                            let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
 
-                    if (lo_saveProfileDataRes.success && lo_saveOtherContactDataRes.success) {
-                        alert(go_i18nLang.SystemCommon.saveSuccess);
+                            if (lo_saveOtherContactDataRes.success) {
+                                alert(go_i18nLang.SystemCommon.saveSuccess);
 
-                        let lo_cloneRowData = _.extend(JSON.parse(JSON.stringify(this.rowData)),);
-                        lo_cloneRowData = _.extend(lo_cloneRowData, {gcust_cod: this.$store.state.gs_gcustCod});
+                                let lo_cloneRowData = _.extend(JSON.parse(JSON.stringify(this.rowData)),);
+                                lo_cloneRowData = _.extend(lo_cloneRowData, {gcust_cod: this.$store.state.gs_gcustCod});
 
-                        this.isEditStatus = true;
-                        this.isCreateStatus = false;
+                                this.isEditStatus = true;
+                                this.isCreateStatus = false;
 
-                        this.rowData = {};
-                        this.rowData = lo_cloneRowData;
+                                this.rowData = {};
+                                this.rowData = lo_cloneRowData;
+                                this.$store.dispatch("setAllDataClear");
+                            }
+                            else {
+                                alert(lo_saveOtherContactDataRes.errorMsg)
+                            }
+                        }
+                        else {
+                            alert(lo_saveProfileDataRes.errorMsg)
+                        }
                     }
-                    else {
-                        alert(lo_saveProfileDataRes.errorMsg)
-                    }
+                    catch (err) {
 
+                    }
                     this.isLoadingDialog = false;
-                    this.$store.dispatch("setAllDataClear");
+
                 }
             },
             async doDeleteData() {
