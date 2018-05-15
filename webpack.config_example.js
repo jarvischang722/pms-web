@@ -11,7 +11,8 @@ const config = {
         "/reservation/PMS0110010": "./public/src/reservation/PMS0110010/main.js",
         "/reservation/PMS0110040": "./public/src/reservation/PMS0110040/main.js",
         "/reservation/PMS0110050": "./public/src/reservation/PMS0110050/main.js",
-        "/system/permissionSetup": ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"]
+        "/system/permissionSetup": ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"],
+        "/system/prgPropsSetup": "./public/src/admin/prgPropsSetup/main.js"
     },
     output: {
         path: path.join(__dirname, 'public', 'js'),
