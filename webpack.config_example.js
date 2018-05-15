@@ -2,27 +2,19 @@ const path = require('path');
 const webpack = require('webpack');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const config = {
-    // entry: "./public/src/admin/permission/permissionSetup",
-    // entry: [
-    //     'webpack/hot/dev-server',
-    //     path.join(__dirname, 'public', 'src')
-    // ],
     entry: {
-        // BacUIComps: "./public/src/common/bacUIComps/main.js",
-        // PMS0610010: ["./public/src/sales/PMS0610010/main.js", "./public/src/sales/PMS0610010/store.js"]
-        PMS0110050: "./public/src/reservation/PMS0110050/main.js"
-
-        // permissionSetup: ["./public/src/common/permission/permissionSetup", "./public/src/admin/permission/store"],
-        // store: "./public/src/admin/permission/store"
-        // a: "./a",
-        // b: "./b",
-        // c: ["./c", "./d"]
+        "/common/BacUIComps": "./public/src/common/bacUIComps/main.js",
+        "/sales/PMS0610010": ["./public/src/sales/PMS0610010/main.js", "./public/src/sales/PMS0610010/store.js"],
+        "/sales/PMS0620020": "./public/src/sales/PMS0620010/main.js",
+        "/sales/PMS0620050": "./public/src/sales/PMS0620050/main.js",
+        "/reservation/PMS0110010": "./public/src/reservation/PMS0110010/main.js",
+        "/reservation/PMS0110040": "./public/src/reservation/PMS0110040/main.js",
+        "/reservation/PMS0110050": "./public/src/reservation/PMS0110050/main.js",
+        "/system/permissionSetup": ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"]
     },
     output: {
-        publicPath: '/dist',
-        path: path.join(__dirname, 'public', 'js/reservation/'),
+        path: path.join(__dirname, 'public', 'js'),
         filename: '[name].js'
-
     },
     module: {
         loaders: [

@@ -909,7 +909,7 @@
             fetchFieldData() {
                 this.isLoadingDialog = true;
                 var self = this;
-                $.post("/api/fetchOnlySinglePageFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0810230",
                     page_id: 2,
                     tab_page_id: 1,
@@ -990,7 +990,7 @@
                         singleRowData: la_singleData,
                         oriSingleData: la_oriSingleData
                     };
-                    $.post('/api/chkFieldRule', postData, function (result) {
+                    BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
                         if (result.success) {
                             //是否要show出訊息
                             if (result.showAlert) {
@@ -1002,7 +1002,7 @@
                                 } else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
+                                        BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
                                             if (!result.success) {
                                                 alert(result.errorMsg);
                                             }

@@ -449,7 +449,7 @@
             fetchFieldData() {
                 this.isLoadingDialog = true;
                 var self = this;
-                $.post("/api/fetchOnlySinglePageFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0610020",
                     page_id: 1,
                     tab_page_id: 1,
@@ -618,7 +618,7 @@
             loadChangeLog() {
                 var self = this;
                 this.isOpenChangeLog = true;
-                $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0610020"}, function (result) {
+                BacUtils.doHttpPostAgent("/api/getSetupPrgChangeLog", {prg_id: "PMS0610020"}, function (result) {
                     if (result.success) {
                         self.$eventHub.$emit('getChangeLogData', {
                             openChangeLogDialog: self.isOpenChangeLog,

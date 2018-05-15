@@ -648,7 +648,7 @@
                         tmpCUD: this.tmpCUD
                     };
 
-                    $.post("/api/doOperationSave", lo_params, function (result) {
+                    BacUtils.doHttpPostAgent("/api/doOperationSave", lo_params, function (result) {
                         if (result.success) {
                             self.tmpCUD.createData = [];
                             alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
