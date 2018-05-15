@@ -145,7 +145,7 @@
     <!-- 抓取process -->
     <dao name="QRY_S99_PROCESS_BY_SYS_MODULE">
         <statement><![CDATA[
-         select DISTINCT pro.* ,mdl.mdl_name,mdl.mdl_name as mdl_name_zh_TW , mdl_ename as mdl_name_en , mdl.group_sta, mdl.mdl_url, brf.edition
+         select DISTINCT pro.* ,mdl.mdl_name,mdl.mdl_name as mdl_name_zh_TW , mdl_ename as mdl_name_en , mdl.group_sta, mdl.mdl_url, brf.edition ,brf.pre_id AS subsys_id
          from s99_process pro
          inner join s99_model mdl on mdl.SYS_ID = pro.SYS_ID and mdl.mdl_id = pro.mdl_id
          inner join bac_role_function  brf on brf.current_id =  pro.pro_id

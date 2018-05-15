@@ -248,7 +248,7 @@ let BacchusMainVM = new Vue({
          * @return {string}
          */
         getSubsysIDOfPrgID: function (prg_id) {
-            let lao_allPrgs = [].concat(..._.pluck(this.subsysMenu, "quickMenu"));
+            let lao_allPrgs = [].concat(..._.pluck(this.subsysMenu, "quickMenu"), ..._.pluck(this.subsysMenu, "reportMenu"));
             let ls_newSubsysID = _.findIndex(lao_allPrgs, {pro_id: prg_id}) > -1
                 ? _.findWhere(lao_allPrgs, {pro_id: prg_id}).subsys_id : "";
             return ls_newSubsysID;
