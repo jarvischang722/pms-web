@@ -7,7 +7,7 @@
                         <div class="width-95 searchMain-S2 row" style="padding-top: 10px;">
                             <div class="grid">
                                 <div class="grid-item" v-for="field in searchFieldsByRow[0]" :key="field.ui_field_name">
-                                    <label>{{searchCond[field.ui_field_name]}}</label>
+                                    <label :title="field.ui_hint">{{field.ui_display_name}}</label>
                                     <template
                                             v-if="fieldMode == 'operator' && (field.ui_type == 'number' || field.ui_type == 'date')">
                                         <bac-select v-model="searchsCondOperator[field.ui_field_name]"
@@ -323,7 +323,6 @@
                 this.$parent.searchCond = lo_searchCond;
                 this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(newFields, "row_seq"), "row_seq"));
                 this.setDefaultOperator();
-                console.log(this.searchsCondOperator);
             }
         },
         methods: {
@@ -343,9 +342,8 @@
                 });
             },
             doSearch: function () {
-                var la_searchFields = JSON.parse(JSON.stringify(this.searchFields));
-                var lo_searchCond = JSON.parse(JSON.stringify(this.searchCond));
-
+                let la_searchFields = JSON.parse(JSON.stringify(this.searchFields));
+                let lo_searchCond = JSON.parse(JSON.stringify(this.searchCond));
                 _.each(la_searchFields, function (lo_searchField) {
                     if (lo_searchField.ui_type == "multitree") {
                         if (lo_searchCond[lo_searchField.ui_field_name].length != 0) {
@@ -368,7 +366,7 @@
                         }
                     }
                     else if (lo_searchField.ui_type == "tree") {
-                        var ln_dataLen = lo_searchCond[lo_searchField.ui_field_name].length;
+                        let ln_dataLen = lo_searchCond[lo_searchField.ui_field_name].length;
                         lo_searchCond[lo_searchField.ui_field_name] = lo_searchCond[lo_searchField.ui_field_name][ln_dataLen] - 1;
                     }
                     else if (lo_searchField.ui_type == "date") {
@@ -420,7 +418,7 @@
 
     function searchOptions(la_options, ls_value, la_selectData) {
         _.each(la_options, function (lo_option) {
-            var lo_childrenOptions = _.findWhere(lo_option.children, {id: ls_value});
+            let lo_childrenOptions = _.findWhere(lo_option.children, {id: ls_value});
             if (_.isUndefined(lo_childrenOptions)) {
                 searchOptions(lo_option.children, ls_value, la_selectData);
             }

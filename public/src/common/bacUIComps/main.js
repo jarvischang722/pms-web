@@ -7,4 +7,4 @@ Vue.component('bac-select', bacSelect);
 Vue.component('bac-select-grid', bacSelectGrid);
 Vue.component('search-comp', bacSearchComp);
 
-window.bacUtils = bacUtils;
+window.BacUtils = bacUtils;
