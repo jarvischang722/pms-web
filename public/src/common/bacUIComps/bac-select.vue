@@ -130,7 +130,7 @@
         beforeDestroy: function () {
             $(this.$el).combobox('destroy');
             $(this.$el).combobox('textbox').unbind('keyup')
-        },
+        }
     }
 </script>
 

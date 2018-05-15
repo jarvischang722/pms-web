@@ -696,11 +696,11 @@
             },
             fetchProfileRowData() {
                 if (this.isCreateStatus) {
-                    $.post("/api/fetchDefaultSingleRowData", {
+                    BacUtils.doHttpPostAgent("/api/fetchDefaultSingleRowData", {
                         prg_id: "PMS0210011",
                         page_id: 1,
                         tab_page_id: 1
-                    }).then(result => {
+                    }, result => {
                         this.singleData = result.gsDefaultData;
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
                         this.setGlobalGcustCod();
@@ -708,13 +708,13 @@
                     });
                 }
                 else if (this.isEditStatus) {
-                    $.post("/api/fetchSinglePageFieldData", {
+                    BacUtils.doHttpPostAgent("/api/fetchSinglePageFieldData", {
                         prg_id: "PMS0210011",
                         page_id: 1,
                         tab_page_id: 1,
                         template_id: "gridsingle",
                         searchCond: {gcust_cod: this.rowData.gcust_cod}
-                    }).then(result => {
+                    }, result => {
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.setGlobalGcustCod();

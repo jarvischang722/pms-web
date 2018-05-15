@@ -14,6 +14,7 @@
     /** DatagridRmSingleGridClass **/
     function DataGridSingleGridClass() {
     }
+
     DataGridSingleGridClass.prototype = new DatagridBaseClass();
     DataGridSingleGridClass.prototype.onClickRow = function (idx, row) {
     };
@@ -46,13 +47,13 @@
         watch: {
             isVisitsPanel(val) {
                 if (val) {
-                    if(this.$store.state.ga_shopInfoFieldsData.length != 0){
+                    if (this.$store.state.ga_shopInfoFieldsData.length != 0) {
                         this.shopInfoFieldsData = this.$store.state.ga_shopInfoFieldsData;
                         this.shopInfoRows = this.$store.state.ga_shopInfoRows;
                         this.visitHistoryFieldsData = this.$store.state.ga_visitHistoryFieldsData;
                         this.visitHistoryRows = this.$store.state.ga_visitHistoryRows;
                     }
-                    else{
+                    else {
                         this.isLoadingDialog = true;
                         this.initData();
                         this.fetchShopInfoFieldData();
@@ -61,7 +62,7 @@
             }
         },
         methods: {
-            initData(){
+            initData() {
                 this.shopInfoRows = [];
                 this.shopInfoFieldsData = [];
                 this.visitHistoryRows = [];
@@ -75,48 +76,44 @@
                 });
             },
             fetchShopInfoFieldData() {
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0210011",
                     page_id: 1,
                     tab_page_id: 21,
                     searchCond: {gcust_cod: this.$store.state.gs_gcustCod, rent_cal_dat: this.rentCalDat}
-                }).then(result => {
-                    if(result.success){
+                }, result => {
+                    if (result.success) {
                         this.shopInfoFieldsData = result.dgFieldsData;
                         this.shopInfoRows = result.dgRowData;
                         this.fetchVisitHistoryFieldData();
                     }
-                    else{
+                    else {
                         alert(result.errorMsg);
                         this.isLoadingDialog = false;
                     }
-                }, err=>{
-                    alert(err.statusText)
                 });
             },
             fetchVisitHistoryFieldData() {
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0210011",
                     page_id: 1,
                     tab_page_id: 22,
                     searchCond: {gcust_cod: this.$store.state.gs_gcustCod}
-                }).then(result => {
-                    if(result.success){
+                }, result => {
+                    if (result.success) {
                         this.visitHistoryFieldsData = result.dgFieldsData;
                         this.visitHistoryRows = result.dgRowData;
                         this.showShopInfoDataGrid();
                         this.setVisitsData();
                     }
-                    else{
+                    else {
                         alert(result.errorMsg);
                         this.isLoadingDialog = false;
                     }
-                }, err=>{
-                    alert(err.statusText);
                 });
             },
             //將來管資料放進vuex
-            setVisitsData(){
+            setVisitsData() {
                 this.$store.dispatch("setVisitsData", {
                     ga_shopInfoFieldsData: this.shopInfoFieldsData,
                     ga_shopInfoRows: this.shopInfoRows,

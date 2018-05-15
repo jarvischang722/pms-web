@@ -124,11 +124,11 @@
             },
             fetchFieldData() {
                 this.isLoading = true;
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 2,
                     searchCond: {cust_cod: this.$store.state.gs_custCod}
-                }).then(result => {
+                }, result => {
                     //取得主要聯絡人資料
                     var lo_mnSingleData = this.$store.state.go_allData.go_mnSingleData;
                     var ln_primaryIndex = _.findIndex(result.dgRowData, {seq_nos: lo_mnSingleData.atten_cod});

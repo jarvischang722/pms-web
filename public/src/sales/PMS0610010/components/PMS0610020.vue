@@ -28,7 +28,8 @@
 
                                             <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                        v-model="singleData[field.ui_field_name]" :data="field.selectData"
+                                                        v-model="singleData[field.ui_field_name]"
+                                                        :data="field.selectData"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
                                                         :default-val="singleData[field.ui_field_name]" :field="field"
@@ -37,18 +38,20 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
 
-                                            <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
-                                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                             :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                             v-model="singleData[field.ui_field_name]"
-                                                             :columns="field.selectData.columns"
-                                                             :data="field.selectData.selectData"
-                                                             :field="field"
-                                                             :is-qry-src-before="field.selectData.isQrySrcBefore"
-                                                             :id-field="field.selectData.value" :text-field="field.selectData.display"
-                                                             @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                             :default-val="singleData[field.ui_field_name]"
-                                                             :disabled="field.modificable == 'N'||
+                                            <bac-select-grid
+                                                    v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                    v-model="singleData[field.ui_field_name]"
+                                                    :columns="field.selectData.columns"
+                                                    :data="field.selectData.selectData"
+                                                    :field="field"
+                                                    :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                    :id-field="field.selectData.value"
+                                                    :text-field="field.selectData.display"
+                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                    :default-val="singleData[field.ui_field_name]"
+                                                    :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select-grid>
                                         </div>
@@ -72,9 +75,11 @@
                                 </el-tab-pane>
                                 <el-tab-pane :label="i18nLang.program.PMS0610020.other_remark" name="remark">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0610020.historical_consumption" name="historical">
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.historical_consumption"
+                                             name="historical">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0610020.contribution" name="contribution" disabled>
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.contribution" name="contribution"
+                                             disabled>
                                 </el-tab-pane>
                             </el-tabs>
                             <div class="easyui-tabs easyUi-custom1 borderFrame"
@@ -386,7 +391,7 @@
                         //自動將郵遞區號對應之地址資料帶至地址欄位
                         lo_singleData.cust_idx_zip_cod =
                             _.isUndefined(lo_singleData.cust_idx_zip_cod) || _.isNull(lo_singleData.cust_idx_zip_cod) ? "" : lo_singleData.cust_idx_zip_cod;
-                        if (lo_singleData.cust_idx_zip_cod != "" && (lo_singleData.cust_idx_add_rmk == "" || _.isNull(lo_singleData.cust_idx_add_rmk) )) {
+                        if (lo_singleData.cust_idx_zip_cod != "" && (lo_singleData.cust_idx_add_rmk == "" || _.isNull(lo_singleData.cust_idx_add_rmk))) {
                             var ln_zipCodIdx = _.findIndex(this.oriFieldsData, {ui_field_name: 'cust_idx_zip_cod'})
                             var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
                             this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
@@ -394,7 +399,7 @@
                         lo_oriSingleData.cust_idx_zip_cod = lo_singleData.cust_idx_zip_cod;
 
                         //若發票抬頭為空的，則將公司名稱帶入
-                        if( lo_singleData.cust_idx_uni_titile == "" || _.isNull(lo_singleData.cust_idx_uni_titile) || _.isUndefined(lo_singleData.cust_idx_uni_titile)){
+                        if (lo_singleData.cust_idx_uni_titile == "" || _.isNull(lo_singleData.cust_idx_uni_titile) || _.isUndefined(lo_singleData.cust_idx_uni_titile)) {
                             this.singleData.cust_idx_uni_titile = lo_singleData.cust_nam;
                         }
 
@@ -462,11 +467,11 @@
             },
             fetchRowData() {
                 if (this.isCreateStatus) {
-                    $.post("/api/fetchDefaultSingleRowData", {
+                    BacUtils.doHttpPostAgent("/api/fetchDefaultSingleRowData", {
                         prg_id: "PMS0610020",
                         page_id: 1,
                         tab_page_id: 1
-                    }).then(result => {
+                    }, result => {
                         this.singleData = result.gsDefaultData;
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
                         this.isLoadingDialog = false;
@@ -475,13 +480,13 @@
                     });
                 }
                 else if (this.isEditStatus) {
-                    $.post("/api/fetchSinglePageFieldData", {
+                    BacUtils.doHttpPostAgent("/api/fetchSinglePageFieldData", {
                         prg_id: "PMS0610020",
                         page_id: 1,
                         tab_page_id: 1,
                         template_id: "gridsingle",
                         searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
-                    }).then(result => {
+                    }, result => {
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.isLoadingDialog = false;

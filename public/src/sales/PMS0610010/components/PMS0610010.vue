@@ -445,12 +445,12 @@
             },
             isOpenContractStatus(val) {
                 if (val) {
-                    $.post("/api/fetchDataGridFieldData", {
+                    BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                         prg_id: "PMS0610020",
                         page_id: 2,
                         tab_page_id: 1020,
                         searchCond: {cust_cod: this.contractStaMnSingleData.cust_cod}
-                    }).then(result => {
+                    }, result => {
                         this.contractStaDtFieldData = result.dgFieldsData;
                         this.contractStaDtRowsData = result.dgRowData;
                     });

@@ -44,7 +44,8 @@
                                     <li>
                                         <span class="checkbox">
                                               <label class="checkbox-width">
-                                                  <input name="form-field-checkbox" type="checkbox" class="ace" v-model="isShowExpire" @change="showTable">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace"
+                                                         v-model="isShowExpire" @change="showTable">
                                                   <span class="lbl font-btn">{{i18nLang.program.PMS0810230.showExpire}}</span>
                                               </label>
                                           </span>
@@ -283,7 +284,7 @@
                 };
                 let ls_apiUrl = lo_params.searchCond.rate_cod == "" ? "/api/fetchOnlyDataGridFieldData" : "/api/fetchDataGridFieldData";
 
-                $.post(ls_apiUrl, lo_params).then(result => {
+                BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, result => {
                     if (result.success) {
                         let la_dgRowData = result.dgRowData || [];
                         _.each(la_dgRowData, (lo_dgRowData, idx) => {
@@ -305,8 +306,6 @@
                     else {
                         alert(result.errorMsg);
                     }
-                }, err => {
-                    throw Error(err)
                 });
             },
             showTable() {

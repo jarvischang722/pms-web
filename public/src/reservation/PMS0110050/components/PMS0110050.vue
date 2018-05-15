@@ -32,12 +32,14 @@
                     <div class="container_12 divider fix-table">
                         <div class="grid_12">
                             <div class="fht-table-wrapper fht-default fixed-table-container cus-roomPlan-table">
-                                <table class="fancyTable themeTable treeControl roomPlanTable" id="resRoomPlan-table" cellpadding="0"
+                                <table class="fancyTable themeTable treeControl roomPlanTable" id="resRoomPlan-table"
+                                       cellpadding="0"
                                        cellspacing="0">
                                     <thead>
 
                                     <tr>
-                                        <th class="ca-headerTitle height-fntThead datecolor rp-first-th" rowspan="2" style="z-index: 21;">
+                                        <th class="ca-headerTitle height-fntThead datecolor rp-first-th" rowspan="2"
+                                            style="z-index: 21;">
                                             <!--搜尋日期-->
                                             <div class="caSelect">
                                                 <el-date-picker
@@ -54,7 +56,8 @@
                                             <div class="caIcon">
                                     <span class="ca-headerIcon">
                                         <i class="fa fa-calendar-check-o orange fa-lg" data-rel="tooltip"
-                                           data-placement="bottom" :title="i18nLang.SystemCommon.rentCalDat" @click="backToRentCalDat"></i>
+                                           data-placement="bottom" :title="i18nLang.SystemCommon.rentCalDat"
+                                           @click="backToRentCalDat"></i>
                                     </span>
                                             </div>
                                             <div class="clearfix"></div>
@@ -62,15 +65,18 @@
                                             <div class="roomNum-wrap room-color">
                                                 <div class="room-Num-Left th-width-s roomPlan-Num1">
                                                     {{i18nLang.program.PMS0110050.roomTyp}}
-                                                    <i class="fa fa-caret-down" :class="typArrowClass" style="cursor: pointer;" @click="sortData('roomTyp')"></i>
+                                                    <i class="fa fa-caret-down" :class="typArrowClass"
+                                                       style="cursor: pointer;" @click="sortData('roomTyp')"></i>
                                                 </div>
                                                 <div class="room-Num-Right th-width-s roomPlan-Num1">
                                                     {{i18nLang.program.PMS0110050.roomNos}}
-                                                    <i class="fa fa-caret-down" :class="nosArrowClass" style="cursor: pointer;" @click="sortData('room_nos')"></i>
+                                                    <i class="fa fa-caret-down" :class="nosArrowClass"
+                                                       style="cursor: pointer;" @click="sortData('room_nos')"></i>
                                                 </div>
                                                 <div class="room-Num-Right th-width-l roomPlan-Num1">
                                                     {{i18nLang.program.PMS0110050.clean_sta}}
-                                                    <i class="fa fa-caret-down" :class="staArrowClass" style="cursor: pointer;" @click="sortData('room_sta')"></i>
+                                                    <i class="fa fa-caret-down" :class="staArrowClass"
+                                                       style="cursor: pointer;" @click="sortData('room_sta')"></i>
                                                 </div>
                                             </div>
                                             <div class="clearfix"></div>
@@ -97,7 +103,8 @@
                                                 <span></span>
                                                 <span></span>
                                             </td>
-                                            <td v-for="data in roomNosDataBlankDisplay" style="overflow: hidden;background-color: #ffffff;border: none;"></td>
+                                            <td v-for="data in roomNosDataBlankDisplay"
+                                                style="overflow: hidden;background-color: #ffffff;border: none;"></td>
                                         </tr>
                                     </template>
                                     <template v-else>
@@ -117,7 +124,8 @@
                                                 <template v-if="roomUse.isValidity">
                                                     <td v-if="roomUse.isUsed" class="name-color">
                                                         <div class="triangle-box" :class="roomUse.attClass">
-                                                            <span class="triangle-text" data-rel="tooltip" data-placement="bottom" :title="roomUse.title">{{roomUse.text}}</span>
+                                                            <span class="triangle-text" data-rel="tooltip"
+                                                                  data-placement="bottom" :title="roomUse.title">{{roomUse.text}}</span>
                                                         </div>
                                                     </td>
                                                     <td v-else class="empty-color"></td>
@@ -125,7 +133,8 @@
                                                 <template v-else>
                                                     <td v-if="roomUse.isUsed" class="name-color td-bg-gray">
                                                         <div class="triangle-box" :class="roomUse.attClass">
-                                                            <span class="triangle-text" data-rel="tooltip" data-placement="bottom" :title="roomUse.title">{{roomUse.text}}</span>
+                                                            <span class="triangle-text" data-rel="tooltip"
+                                                                  data-placement="bottom" :title="roomUse.title">{{roomUse.text}}</span>
                                                         </div>
                                                     </td>
                                                     <td v-else class="empty-color td-bg-gray"></td>
@@ -148,23 +157,27 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                        role="button" data-rel="tooltip" data-placement="bottom" :title="i18nLang.SystemCommon.before7days" @click="changDate(-7)">
+                                        role="button" data-rel="tooltip" data-placement="bottom"
+                                        :title="i18nLang.SystemCommon.before7days" @click="changDate(-7)">
                                     <i class="fa fa-angle-left fa-lg"></i>
                                 </button>
                                 <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                        role="button" data-rel="tooltip" data-placement="bottom" :title="i18nLang.SystemCommon.after7days" @click="changDate(7)">
+                                        role="button" data-rel="tooltip" data-placement="bottom"
+                                        :title="i18nLang.SystemCommon.after7days" @click="changDate(7)">
                                     <i class="fa fa-angle-right fa-lg"></i>
                                 </button>
                                 <div class="clearfix"></div>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                        role="button" data-rel="tooltip" data-placement="bottom" :title="i18nLang.SystemCommon.before14days" @click="changDate(-14)">
+                                        role="button" data-rel="tooltip" data-placement="bottom"
+                                        :title="i18nLang.SystemCommon.before14days" @click="changDate(-14)">
                                     <i class="fa fa-angle-double-left fa-lg"></i>
                                 </button>
                                 <button
                                         class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                        role="button" data-rel="tooltip" data-placement="bottom" :title="i18nLang.SystemCommon.after14days" @click="changDate(14)">
+                                        role="button" data-rel="tooltip" data-placement="bottom"
+                                        :title="i18nLang.SystemCommon.after14days" @click="changDate(14)">
                                     <i class="fa fa-angle-double-right fa-lg"></i>
                                 </button>
                                 <div class="clearfix"></div>
@@ -286,7 +299,7 @@
                     floor_nos: _.isUndefined(this.searchCond.floor_nos) ? [] : this.searchCond.floor_nos
                 };
 
-                $.post('/api/qryRmNosPageOneMap', lo_param).then(result => {
+                BacUtils.doHttpPostAgent('/api/qryRmNosPageOneMap', lo_param, result => {
                     if (result.success) {
                         if (result.data.roomNosData.length != 0) {
                             this.beginNum = result.data.date_range.begin_dat;

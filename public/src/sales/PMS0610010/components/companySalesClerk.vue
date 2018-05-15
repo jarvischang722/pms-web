@@ -47,7 +47,7 @@
         created() {
             var self = this;
             this.$eventHub.$on('completeEditSalesClerk', function (result) {
-                if(result.success){
+                if (result.success) {
                     self.fetchFieldData();
                 }
             });
@@ -87,11 +87,11 @@
             },
             fetchFieldData() {
                 this.isLoading = true;
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 3,
                     searchCond: {cust_cod: this.$store.state.gs_custCod}
-                }).then(result => {
+                }, result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
                     this.dataGridRowsData = result.dgRowData;

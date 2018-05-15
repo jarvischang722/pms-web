@@ -45,7 +45,7 @@
                     year: this.calendarYear,
                     rule_func_name: 'query_rate_list'
                 }
-                $.post("/api/queryDataByRule", lo_params).then(result => {
+                BacUtils.doHttpPostAgent("/api/queryDataByRule", lo_params, result => {
                     if (result.success) {
                         this.rentDatData = result.effectValues;
                         this.initDataSource();
@@ -53,8 +53,6 @@
                     else {
                         alert(result.errorMsg);
                     }
-                }, err => {
-                    console.log(err);
                 })
             },
             initDataSource() {

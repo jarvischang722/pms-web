@@ -218,11 +218,11 @@
             },
             fetchFieldData() {
                 this.isLoadingDialog = true;
-                $.post("/api/fetchOnlySinglePageFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0610020",
                     page_id: 2,
                     tab_page_id: 1100
-                }).then(result => {
+                }, result => {
                     this.fieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
                     this.oriFieldsData = JSON.parse(JSON.stringify(result.gsFieldsData));
                     this.fetchRowData();
