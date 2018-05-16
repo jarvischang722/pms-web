@@ -23,8 +23,9 @@
                                                         <tr v-for="data in emailDataGridRows" class="css_tr">
                                                             <th class="css_th width-15">{{data['add_nam']}}</th>
                                                             <td class="css_td width-70">
-                                                                <input type="text" class="input-medium medium-c1 width-100"
-                                                                       v-model="data['add_rmk']">
+                                                                <input type="text" v-validate="'email'"
+                                                                       class="input-medium medium-c1 width-100"
+                                                                       v-model="data['add_rmk']" name="email">
                                                             </td>
                                                         </tr>
                                                         </tbody>
@@ -64,7 +65,8 @@
                                                         <tr v-for="data in contactDataGridRows" class="css_tr">
                                                             <td class="css_td">{{ data['contact_rf.contact_nam']}}</td>
                                                             <td class="css_td">
-                                                                <input type="text" class="input-medium medium-c1 width-100"
+                                                                <input type="text"
+                                                                       class="input-medium medium-c1 width-100"
                                                                        v-model="data['contact_dt.contact_rmk']">
                                                             </td>
                                                         </tr>
@@ -111,15 +113,19 @@
                                                             <td class="css_td">{{ data["address_rf.add_nam"]}}</td>
                                                             <td class="css_td">
 
-                                                                <bac-select v-model="data['address_dt.zip_cod']" :data="zipCodSelectData"
-                                                                            is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                <bac-select v-model="data['address_dt.zip_cod']"
+                                                                            :data="zipCodSelectData"
+                                                                            is-qry-src-before="Y" value-field="value"
+                                                                            text-field="display"
                                                                             @update:v-model="val => data['address_dt.zip_cod'] = val"
-                                                                            :default-val="data['address_dt.zip_cod']" field="{}">
+                                                                            :default-val="data['address_dt.zip_cod']"
+                                                                            field="{}">
                                                                 </bac-select>
 
                                                             </td>
                                                             <td class="css_td">
-                                                                <input type="text" class="input-medium medium-c1 width-100"
+                                                                <input type="text"
+                                                                       class="input-medium medium-c1 width-100"
                                                                        v-model="data['address_dt.add_rmk']">
                                                             </td>
                                                         </tr>
@@ -158,6 +164,7 @@
 
 <script>
     import _ from 'underscore';
+
 
     export default {
         name: 'otherContact',
@@ -406,8 +413,17 @@
                 });
             },
             doCloseDialog() {
-                this.initData();
-                $("#otherContact").dialog('close');
+                this.$validator.validate().then(result => {
+                    if (!result) {
+                        // do stuff if not valid.
+                        alert(this.$validator.errors.items[0].msg);
+                    }
+                    else {
+                        this.initData();
+                        $("#otherContact").dialog('close');
+                    }
+                });
+
             }
         }
     }
