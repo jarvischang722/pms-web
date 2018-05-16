@@ -106,7 +106,8 @@ exports.handleGroupMdlProcess = function (userInfo, mdl_id, la_locales, callback
         athena_id: userInfo.athena_id,
         func_hotel_cod: userInfo.fun_hotel_cod,
         pre_id: mdl_id,
-        id_typ: "PROCESS"
+        id_typ: "PROCESS",
+        role_id: userInfo.role_id
     };
     queryAgent.queryList("QRY_BAC_PROCESS_BY_MODULE", params, 0, 0, function (err, prosList) {
         if (err) {
