@@ -5160,37 +5160,49 @@ td div.act-box span.act-text {
   font-size: 2rem;
 }
 
-#resvSingle-table th, #resvSingle-table td {
+.custom-table th, .custom-table td {
   padding: 0 3px;
   border: 1px solid #cac3c3;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-#resvSingle-table th input, #resvSingle-table td input {
+
+.custom-table th input, .custom-table td input {
   border: 0;
 }
-#resvSingle-table th {
+
+.custom-table th {
   font-weight: 300;
   font-size: 13px;
   background-color: #eee;
 }
-#resvSingle-table .date-wt {
+
+.custom-table .date-wt {
   width: 82px;
 }
-#resvSingle-table .date-wt .el-icon-date {
+
+.custom-table .date-wt .el-icon-date {
   display: none;
 }
-#resvSingle-table .date-wt .el-input__icon + .el-input__inner {
+
+.custom-table .date-wt .el-input__icon + .el-input__inner {
   padding-right: 0;
 }
-#resvSingle-table .td-more {
+
+.custom-table .el-select-ht .el-input__inner {
+    height: 25px;
+}
+
+.custom-table .td-more {
   position: relative;
 }
-#resvSingle-table .td-more .wt-input {
+
+.custom-table .td-more .wt-input {
   width: 68%;
 }
-#resvSingle-table .td-more .moreClick {
+
+.custom-table .td-more .moreClick {
   position: absolute;
   right: 0;
   top: 2px;
@@ -5201,6 +5213,18 @@ td div.act-box span.act-text {
   padding: 4px 5px 0 5px;
   box-sizing: border-box;
   cursor: pointer;
+}
+
+.custom-table .td-relative {
+    position: relative;
+}
+
+.custom-table .td-relative .moreAbso {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 25px;
+    box-sizing: border-box;
 }
 
 td div.triangle-box.colspan-1 {

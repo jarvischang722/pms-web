@@ -211,7 +211,7 @@
                                             <!--style="height: 165px; width: 100%;"></table>-->
                                             <div class="container_12 divider">
                                                 <div class="grid_12 fixed-table-container" style="height: 132px;">
-                                                    <table class="fancyTable themeTable treeControl"
+                                                    <table class="fancyTable themeTable treeControl custom-table"
                                                            id="resvSingle-table" cellpadding="0" cellspacing="0">
                                                         <thead>
                                                         <tr>
@@ -225,15 +225,15 @@
                                                             <th class="text-left" style="min-width: 35px;">天數</th>
                                                             <th class="text-left" style="min-width: 40px;">退房日期</th>
                                                             <th class="text-left" style="min-width: 35px;">星期</th>
-                                                            <th class="text-left" style="min-width: 120px;">房價代號</th>
-                                                            <th class="text-left" style="min-width: 60px;">計價房種</th>
-                                                            <th class="text-right" style="min-width: 60px;">使用房種</th>
+                                                            <th class="text-left" style="min-width: 190px;">房價代號</th>
+                                                            <th class="text-left" style="min-width: 70px;">計價房種</th>
+                                                            <th class="text-right" style="min-width: 70px;">使用房種</th>
                                                             <th class="text-right" style="min-width: 35px;">間數</th>
                                                             <th class="text-right" style="min-width: 50px;">單價</th>
                                                             <th class="text-right" style="min-width: 50px;">服務費</th>
-                                                            <th class="text-left" style="min-width: 35px;">大人</th>
-                                                            <th class="text-left" style="min-width: 35px;">小孩</th>
-                                                            <th class="text-left" style="min-width: 35px;">嬰兒</th>
+                                                            <!--<th class="text-left" style="min-width: 35px;">大人</th>-->
+                                                            <!--<th class="text-left" style="min-width: 35px;">小孩</th>-->
+                                                            <!--<th class="text-left" style="min-width: 35px;">嬰兒</th>-->
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -252,9 +252,9 @@
                                                             <td class=""></td>
                                                             <td class=""></td>
                                                             <td class=""></td>
-                                                            <td class=""></td>
-                                                            <td class=""></td>
-                                                            <td class=""></td>
+                                                            <!--<td class=""></td>-->
+                                                            <!--<td class=""></td>-->
+                                                            <!--<td class=""></td>-->
                                                         </tr>
                                                         <!--1-->
                                                         <tr>
@@ -294,23 +294,23 @@
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="STD"/>
                                                             </td>
-                                                            <td class="text-right"><input type="text"
-                                                                                          class="selectHt"
-                                                                                          placeholder="STD"/></td>
-                                                            <td class="text-right"><input type="text"
-                                                                                          class="selectHt"
-                                                                                          placeholder="2"/></td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt" placeholder="STD"/>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt" placeholder="2"/>
+                                                            </td>
                                                             <td class="text-right">5,000</td>
                                                             <td class="text-right">500</td>
-                                                            <td class="text-left"><input type="text"
-                                                                                         class="selectHt"
-                                                                                         placeholder="2"/></td>
-                                                            <td class="text-left"><input type="text"
-                                                                                         class="selectHt"
-                                                                                         placeholder="1"/></td>
-                                                            <td class="text-left"><input type="text"
-                                                                                         class="selectHt"
-                                                                                         placeholder="1"/></td>
+                                                            <!--<td class="text-left"><input type="text"-->
+                                                            <!--class="selectHt"-->
+                                                            <!--placeholder="2"/></td>-->
+                                                            <!--<td class="text-left"><input type="text"-->
+                                                            <!--class="selectHt"-->
+                                                            <!--placeholder="1"/></td>-->
+                                                            <!--<td class="text-left"><input type="text"-->
+                                                            <!--class="selectHt"-->
+                                                            <!--placeholder="1"/></td>-->
                                                         </tr>
                                                         <!--2-->
                                                         <tr>
@@ -328,9 +328,9 @@
                                                                 </template>
                                                             </td>
                                                             <td class="text-left">(日)</td>
-                                                            <td class="text-left"><input type="text"
-                                                                                         class="selectHt"
-                                                                                         placeholder="2"/></td>
+                                                            <td class="text-left">
+                                                                <input type="text" class="selectHt" placeholder="2"/>
+                                                            </td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker v-model="coDate2" type="date"
@@ -348,7 +348,8 @@
                                                             </td>
                                                             <td class="text-left">
                                                                 <input type="text" class="selectHt"
-                                                                       placeholder="STD"/></td>
+                                                                       placeholder="STD"/>
+                                                            </td>
                                                             <td class="text-right">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="STD"/>
@@ -359,15 +360,6 @@
                                                             </td>
                                                             <td class="text-right">5,000</td>
                                                             <td class="text-right">500</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="2"/></td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/></td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/></td>
                                                         </tr>
                                                         <!--3-->
                                                         <tr>
@@ -405,7 +397,8 @@
                                                             </td>
                                                             <td class="text-left">
                                                                 <input type="text" class="selectHt"
-                                                                       placeholder="STD"/></td>
+                                                                       placeholder="STD"/>
+                                                            </td>
                                                             <td class="text-right">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="STD"/>
@@ -416,15 +409,6 @@
                                                             </td>
                                                             <td class="text-right">5,000</td>
                                                             <td class="text-right">500</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="2"/></td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/></td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/></td>
                                                         </tr>
                                                         <!--4-->
                                                         <tr>
@@ -462,7 +446,8 @@
                                                             </td>
                                                             <td class="text-left">
                                                                 <input type="text" class="selectHt"
-                                                                       placeholder="STD"/></td>
+                                                                       placeholder="STD"/>
+                                                            </td>
                                                             <td class="text-right">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="STD"/>
@@ -473,15 +458,6 @@
                                                             </td>
                                                             <td class="text-right">5,000</td>
                                                             <td class="text-right">500</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="2"/></td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/></td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/></td>
                                                         </tr>
                                                         <!--5-->
                                                         <tr>
@@ -519,7 +495,8 @@
                                                             </td>
                                                             <td class="text-left">
                                                                 <input type="text" class="selectHt"
-                                                                       placeholder="STD"/></td>
+                                                                       placeholder="STD"/>
+                                                            </td>
                                                             <td class="text-right">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="STD"/>
@@ -530,15 +507,6 @@
                                                             </td>
                                                             <td class="text-right">5,000</td>
                                                             <td class="text-right">500</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="2"/></td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/></td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/></td>
                                                         </tr>
                                                         <!--6-->
                                                         <tr>
@@ -576,7 +544,8 @@
                                                             </td>
                                                             <td class="text-left">
                                                                 <input type="text" class="selectHt"
-                                                                       placeholder="STD"/></td>
+                                                                       placeholder="STD"/>
+                                                            </td>
                                                             <td class="text-right">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="STD"/>
@@ -587,15 +556,6 @@
                                                             </td>
                                                             <td class="text-right">5,000</td>
                                                             <td class="text-right">500</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="2"/></td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/></td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/></td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -653,10 +613,17 @@
                                                 <input type="text" class="input-medium resvCard"
                                                        placeholder="OTA-AGODA"/>
                                             </div>
+
                                             <div class="grid-item">
-                                                <label>早餐</label>
-                                                <input type="text" class="input-medium resvCard"
-                                                       placeholder=""/>
+                                                <label>大/小/嬰</label>
+                                                <input type="text" class="input-medium resvCard-2xs text-right"
+                                                       placeholder="1"/>
+                                                <!--<span>/</span>-->
+                                                <input type="text" class="input-medium resvCard-2xs text-right ml-2"
+                                                       placeholder="0"/>
+                                                <!--<span>/</span>-->
+                                                <input type="text" class="input-medium resvCard-2xs text-right ml-2"
+                                                       placeholder="0"/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>其他費用</label>
@@ -742,7 +709,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth resv_guestDetail"
-                                                role="button">住客資料
+                                                role="button">訂房資料
                                         </button>
                                     </li>
 
@@ -1690,7 +1657,7 @@
     <!-- /.選項 option -->
 
 
-    <!-- 住客明細 Guest details 彈出視窗 -->
+    <!-- 訂房資料 Guest details 彈出視窗 -->
     <div id="resvGuestDetail-message" class="hide padding-5" style="top: 0 !important;">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
@@ -1702,14 +1669,15 @@
                                     <div class="css_table horizTable">
                                         <div class="css_thead">
                                             <div class="css_tr">
-                                                <div class="css_th" style="min-width:40px;">序號</div>
                                                 <div class="css_th" style="min-width:60px;">狀態</div>
                                                 <div class="css_th" style="min-width:100px;">入住日期</div>
                                                 <div class="css_th" style="min-width:100px;">退房日期</div>
                                                 <div class="css_th" style="min-width:150px;">房價代號</div>
-                                                <div class="css_th" style="min-width:100px;">計價房種</div>
-                                                <div class="css_th" style="min-width:60px;">使用房種</div>
+                                                <div class="css_th" style="min-width:100px;">計價房型</div>
+                                                <div class="css_th" style="min-width:60px;">使用房型</div>
                                                 <div class="css_th" style="min-width:60px;">間數</div>
+                                                <div class="css_th" style="min-width:60px;">單價</div>
+                                                <div class="css_th" style="min-width:60px;">服務費</div>
                                                 <div class="css_th" style="min-width:40px;">大人</div>
                                                 <div class="css_th" style="min-width:40px;">小孩</div>
                                                 <div class="css_th" style="min-width:40px;">嬰兒</div>
@@ -1717,26 +1685,28 @@
                                         </div>
                                         <div class="css_tbody">
                                             <div class="css_tr">
-                                                <div class="css_td">1</div>
                                                 <div class="css_td">正常</div>
                                                 <div class="css_td">2005/11/13(Su)</div>
                                                 <div class="css_td">2005/11/19(Mo)</div>
                                                 <div class="css_td">FIT2017:一般散客價</div>
                                                 <div class="css_td">STD</div>
                                                 <div class="css_td">STD</div>
+                                                <div class="css_td text-right">1,500</div>
+                                                <div class="css_td text-right">60</div>
                                                 <div class="css_td text-right">3</div>
                                                 <div class="css_td text-right">4</div>
                                                 <div class="css_td text-right">1</div>
                                                 <div class="css_td text-right">1</div>
                                             </div>
                                             <div class="css_tr">
-                                                <div class="css_td">2</div>
                                                 <div class="css_td">正常</div>
                                                 <div class="css_td">2005/11/13(Su)</div>
                                                 <div class="css_td">2005/11/19(Mo)</div>
                                                 <div class="css_td">TRA:旅展價</div>
                                                 <div class="css_td">DXT</div>
                                                 <div class="css_td">DXT</div>
+                                                <div class="css_td text-right">1,500</div>
+                                                <div class="css_td text-right">60</div>
                                                 <div class="css_td text-right">2</div>
                                                 <div class="css_td text-right">4</div>
                                                 <div class="css_td text-right">1</div>
@@ -1775,218 +1745,465 @@
                                 </div>
                             </div>
                             <div class="easyui-tabs easyUi-custom1 guestHoliday" style="overflow-y: auto; width: 100%;">
-                                <div title="住客明細" class="padding-tabs">
+                                <div title="訂房明細" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
-                                            <div class="main-content-data">
-                                                <div class="col-xs-12 col-sm-12">
-                                                    <div class="row">
-                                                        <div class="col-xs-4 col-sm-4">
-                                                            <div class="row no-margin-right">
-                                                                <div class="horizTable-outer">
-                                                                    <table class="css_table horizTable">
-                                                                        <thead class="css_thead">
-                                                                        <tr class="css_tr">
-                                                                            <th class="css_th" style="min-width:25px;">
-                                                                                <i class="fa fa-plus green pointer"></i>
-                                                                            </th>
-                                                                            <th class="css_th" style="min-width:158px;">
-                                                                                住客姓名
-                                                                            </th>
-                                                                            <th class="css_th" style="min-width:37px;">
-                                                                                房組
-                                                                            </th>
-                                                                            <th class="css_th" style="min-width:50px;">
-                                                                                房號
-                                                                            </th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <tbody class="css_tbody">
-                                                                        <tr class="css_tr">
-                                                                            <td class="css_td">
-                                                                                <i class="fa fa-minus red pointer"></i>
-                                                                            </td>
-                                                                            <td class="css_td">王大明</td>
-                                                                            <td class="css_td">1</td>
-                                                                            <td class="css_td">201</td>
-                                                                        </tr>
-                                                                        <tr class="css_tr">
-                                                                            <td class="css_td">
-                                                                                <i class="fa fa-minus red pointer"></i>
-                                                                            </td>
-                                                                            <td class="css_td">王美美</td>
-                                                                            <td class="css_td">1</td>
-                                                                            <td class="css_td">201</td>
-                                                                        </tr>
-                                                                        <tr class="css_tr">
-                                                                            <td class="css_td">
-                                                                                <i class="fa fa-minus red pointer"></i>
-                                                                            </td>
-                                                                            <td class="css_td">李大同</td>
-                                                                            <td class="css_td">2</td>
-                                                                            <td class="css_td">302</td>
-                                                                        </tr>
-                                                                        <tr class="css_tr">
-                                                                            <td class="css_td">
-                                                                                <i class="fa fa-minus red pointer"></i>
-                                                                            </td>
-                                                                            <td class="css_td">陳小華</td>
-                                                                            <td class="css_td">3</td>
-                                                                            <td class="css_td"></td>
-                                                                        </tr>
-                                                                        <tr class="css_tr">
-                                                                            <td class="css_td">
-                                                                                <i class="fa fa-minus red pointer"></i>
-                                                                            </td>
-                                                                            <td class="css_td">張三</td>
-                                                                            <td class="css_td"></td>
-                                                                            <td class="css_td"></td>
-                                                                        </tr>
-                                                                        <tr class="css_tr">
-                                                                            <td class="css_td">
-                                                                                <i class="fa fa-minus red pointer"></i>
-                                                                            </td>
-                                                                            <td class="css_td">李四</td>
-                                                                            <td class="css_td"></td>
-                                                                            <td class="css_td"></td>
-                                                                        </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-8 col-sm-8">
-                                                            <div class="row">
-                                                                <div class="main-content-data borderFrame">
-                                                                    <!--1-->
-                                                                    <div class="grid">
-                                                                        <div class="grid-item">
-                                                                            <label>Full name</label>
-                                                                            <input type="text"
-                                                                                   class="input-medium resvCard-col2Spec2"
-                                                                                   placeholder="Simon Cowll"/>
-                                                                            <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 btn-afterInput">
-                                                                                Profile
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="grid-item">
-                                                                            <label>Guest Status</label>
-                                                                            <input type="text"
-                                                                                   class="input-medium resvCard-sm"
-                                                                                   placeholder="" disabled/>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!--2-->
-                                                                    <!--<div class="grid">-->
-                                                                    <!--<div class="grid-item">-->
-                                                                    <!--<label>Title</label>-->
-                                                                    <!--<input type="text" class="input-medium resvCard" placeholder="Manager" disabled/>-->
-                                                                    <!--</div>-->
-                                                                    <!--<div class="grid-item">-->
-                                                                    <!--<label>Gend</label>-->
-                                                                    <!--<input type="text" class="input-medium resvCard" placeholder="Normal" disabled/>-->
-                                                                    <!--</div>-->
-                                                                    <!--<div class="grid-item">-->
-                                                                    <!--<label>喜好房號</label>-->
-                                                                    <!--<input type="text" class="input-medium resvCard" placeholder="" disabled/>-->
-                                                                    <!--</div>-->
-                                                                    <!--</div>-->
-                                                                    <!--3-->
-                                                                    <!--<div class="grid">-->
-                                                                    <!--<div class="grid-item">-->
-                                                                    <!--<label>職稱</label>-->
-                                                                    <!--<input type="text" class="input-medium resvCard" placeholder="Manager" disabled/>-->
-                                                                    <!--</div>-->
-                                                                    <!--<div class="grid-item">-->
-                                                                    <!--<label>國籍</label>-->
-                                                                    <!--<input type="text" class="input-medium resvCard" placeholder="Normal" disabled/>-->
-                                                                    <!--</div>-->
-                                                                    <!--<div class="grid-item">-->
-                                                                    <!--<label>最近入住房號</label>-->
-                                                                    <!--<input type="text" class="input-medium resvCard" placeholder="" disabled/>-->
-                                                                    <!--</div>-->
-                                                                    <!--</div>-->
-                                                                    <div class="border-double1"></div>
-                                                                    <!--4-->
-                                                                    <div class="grid">
-                                                                        <div class="grid-item">
-                                                                            <label>房組</label>
-                                                                            <input type="text"
-                                                                                   class="input-medium resvCard-sm"
-                                                                                   placeholder="" disabled/>
-                                                                        </div>
-                                                                        <div class="grid-item">
-                                                                            <label>排房狀態</label>
-                                                                            <input type="text"
-                                                                                   class="input-medium resvCard-sm"
-                                                                                   placeholder="" disabled/>
-                                                                        </div>
-                                                                        <div class="grid-item">
-                                                                            <label>房號</label>
-                                                                            <input type="text"
-                                                                                   class="input-medium resvCard-sm"
-                                                                                   placeholder="" disabled/>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!--5-->
-                                                                    <div class="grid">
-                                                                        <div class="grid-item">
-                                                                            <label>入住提醒</label>
-                                                                            <input type="text"
-                                                                                   class="input-medium resvCard-sm-col2Rm"
-                                                                                   placeholder="出示身份證"/>
-                                                                            <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
-                                                                        </div>
-
-                                                                        <div class="grid-item">
-                                                                            <label>喜好房號</label>
-                                                                            <input type="text"
-                                                                                   class="input-medium resvCard-sm"
-                                                                                   placeholder="" disabled/>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!--6-->
-                                                                    <div class="grid">
-                                                                        <div class="grid-item">
-                                                                            <label>退房提醒</label>
-                                                                            <input type="text"
-                                                                                   class="input-medium resvCard-sm-col2Rm"
-                                                                                   placeholder="發票請打統編"/>
-                                                                            <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
-                                                                        </div>
-                                                                        <div class="grid">
-                                                                            <div class="grid-item">
-                                                                                <label>車號</label>
-                                                                                <input type="text"
-                                                                                       class="input-medium resvCard-sm"
-                                                                                       placeholder=""/>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="border-double1"></div>
-                                                                    <!--7-->
-                                                                    <div class="grid">
-                                                                        <div class="grid-item">
-                                                                            <label>酬賓計畫</label>
-                                                                            <input type="text"
-                                                                                   class="input-medium resvCard-sm"
-                                                                                   placeholder="" disabled/>
-                                                                        </div>
-                                                                        <div class="grid-item">
-                                                                            <label>酬賓計畫卡號</label>
-                                                                            <input type="text"
-                                                                                   class="input-medium resvCard-sm"
-                                                                                   placeholder="" disabled/>
-                                                                            <i class="moreClick fa fa-ellipsis-h agent-btn"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                </div><!--main-content-data-->
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                            <div class="container_12 divider">
+                                                <div class="grid_12 fixed-table-container">
+                                                    <table class="fancyTable themeTable treeControl custom-table"
+                                                           id="resvDetail-table" cellpadding="0"
+                                                           cellspacing="0">
+                                                        <thead>
+                                                        <tr>
+                                                            <th class="text-center ca-headerTitle height-fntThead rp-first-th">
+                                                                <i class="fa fa-plus green"></i>
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 40px;">
+                                                                序號
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 40px;">
+                                                                入住日期
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 40px;">
+                                                                退房日期
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 100px;">
+                                                                房價代號
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 100px;">
+                                                                計價房型
+                                                            </th>
+                                                            <th class="text-right"
+                                                                style="min-width: 100px;">使用房型
+                                                            </th>
+                                                            <th class="text-right" style="min-width: 50px;">
+                                                                單價
+                                                            </th>
+                                                            <th class="text-right" style="min-width: 50px;">
+                                                                服務費
+                                                            </th>
+                                                            <th class="text-right" style="min-width: 35px;">
+                                                                佣金
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 35px;">
+                                                                大人
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 35px;">
+                                                                小孩
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 35px;">
+                                                                嬰兒
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 100px;">
+                                                                訂房來源
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 100px;">
+                                                                市場類別
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 80px;">
+                                                                排房狀態
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 40px;">
+                                                                房號
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 80px;">
+                                                                住客姓名
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr class="hidden-firstTr">
+                                                            <td class="middle td-first hidden-firstTd"></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                        </tr>
+                                                        <!--1-->
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                <i class="fa fa-minus red"></i>
+                                                            </td>
+                                                            <td class="text-left">1</td>
+                                                            <td class="text-left">
+                                                                <template>
+                                                                    <el-date-picker
+                                                                            v-model="resvDetail_ciDate"
+                                                                            type="date"
+                                                                            placeholder=""
+                                                                            class="date-wt">
+                                                                    </el-date-picker>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <template>
+                                                                    <el-date-picker
+                                                                            v-model="resvDetail_coDate"
+                                                                            type="date"
+                                                                            placeholder=""
+                                                                            class="date-wt">
+                                                                    </el-date-picker>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <template>
+                                                                    <el-select v-model="roomCodes_val"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in roomCodes"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <!--計價房型-->
+                                                                <template>
+                                                                    <el-select v-model="roomTypes_val"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in roomTypes"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <!--使用房型-->
+                                                                <template>
+                                                                    <el-select v-model="useRmTypes_val"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in useRmTypes"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-right">5,000</td>
+                                                            <td class="text-right">50</td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="20"/>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="2"/>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="1"/>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="0"/>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <!--訂房來源-->
+                                                                <template>
+                                                                    <el-select v-model="resv_sources_val"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in resv_sources"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <!--市場類別-->
+                                                                <template>
+                                                                    <el-select v-model="marketCates_val"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in marketCates"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">是</td>
+                                                            <td class="text-left">503</td>
+                                                            <td class="text-left">陳Rick</td>
+                                                        </tr>
+                                                        <!--2-->
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                <i class="fa fa-minus red"></i>
+                                                            </td>
+                                                            <td class="text-left">1</td>
+                                                            <td class="text-left">
+                                                                <template>
+                                                                    <el-date-picker
+                                                                            v-model="resvDetail_ciDate_2"
+                                                                            type="date"
+                                                                            placeholder=""
+                                                                            class="date-wt">
+                                                                    </el-date-picker>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <template>
+                                                                    <el-date-picker
+                                                                            v-model="resvDetail_coDate_2"
+                                                                            type="date"
+                                                                            placeholder=""
+                                                                            class="date-wt">
+                                                                    </el-date-picker>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <template>
+                                                                    <el-select v-model="roomCodes_val_2"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in roomCodes"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <!--計價房型-->
+                                                                <template>
+                                                                    <el-select v-model="roomTypes_val_2"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in roomTypes"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <!--使用房型-->
+                                                                <template>
+                                                                    <el-select v-model="useRmTypes_val_2"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in useRmTypes"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-right">5,000</td>
+                                                            <td class="text-right">50</td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="20"/>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="2"/>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="1"/>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="0"/>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <!--訂房來源-->
+                                                                <template>
+                                                                    <el-select v-model="resv_sources_val_2"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in resv_sources"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <!--市場類別-->
+                                                                <template>
+                                                                    <el-select v-model="marketCates_val_2"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in marketCates"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">是</td>
+                                                            <td class="text-left">503</td>
+                                                            <td class="text-left">陳Rick</td>
+                                                        </tr>
+                                                        <!--3-->
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                <i class="fa fa-minus red"></i>
+                                                            </td>
+                                                            <td class="text-left">1</td>
+                                                            <td class="text-left">
+                                                                <template>
+                                                                    <el-date-picker
+                                                                            v-model="resvDetail_ciDate_3"
+                                                                            type="date"
+                                                                            placeholder=""
+                                                                            class="date-wt">
+                                                                    </el-date-picker>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <template>
+                                                                    <el-date-picker
+                                                                            v-model="resvDetail_coDate_3"
+                                                                            type="date"
+                                                                            placeholder=""
+                                                                            class="date-wt">
+                                                                    </el-date-picker>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <template>
+                                                                    <el-select v-model="roomCodes_val_3"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in roomCodes"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <!--計價房型-->
+                                                                <template>
+                                                                    <el-select v-model="roomTypes_val_3"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in roomTypes"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <!--使用房型-->
+                                                                <template>
+                                                                    <el-select v-model="useRmTypes_val_3"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in useRmTypes"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-right">5,000</td>
+                                                            <td class="text-right">50</td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="20"/>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="2"/>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="1"/>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="0"/>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <!--訂房來源-->
+                                                                <template>
+                                                                    <el-select v-model="resv_sources_val_3"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in resv_sources"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <!--市場類別-->
+                                                                <template>
+                                                                    <el-select v-model="marketCates_val_3"
+                                                                               placeholder="請選擇"
+                                                                               class="el-select-ht">
+                                                                        <el-option
+                                                                                v-for="item in marketCates"
+                                                                                :key="item.value"
+                                                                                :label="item.label"
+                                                                                :value="item.value">
+                                                                        </el-option>
+                                                                    </el-select>
+                                                                </template>
+                                                            </td>
+                                                            <td class="text-left">是</td>
+                                                            <td class="text-left">503</td>
+                                                            <td class="text-left">陳Rick</td>
+                                                        </tr>
+                                                        <!--4-->
+                                                        </tbody>
+                                                    </table>
+                                                    <!-- table -->
                                                 </div>
-                                            </div><!--main-content-data-->
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
@@ -1994,136 +2211,155 @@
                                 <div title="住客名單" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
-                                            <div class="main-content-data">
-                                                <div class="clearfix"></div>
-                                                <div class="horizTable-outer">
-                                                    <table class="css_table horizTable">
-                                                        <thead class="css_thead">
-                                                        <tr class="css_tr text-center">
-                                                            <th class="css_th" style="min-width:25px;"><i
-                                                                        class="fa fa-plus green pointer"></i></th>
-                                                            <th class="css_th" style="min-width:200px;">住客姓名</th>
-                                                            <th class="css_th" style="min-width:60px;">房組</th>
-                                                            <th class="css_th" style="min-width:60px;">房號</th>
-                                                            <th class="css_th" style="min-width:70px;">國籍</th>
-                                                            <th class="css_th" style="min-width:200px;">入住提醒</th>
-                                                            <th class="css_th" style="min-width:200px;">退房提醒</th>
+                                            <div class="container_12 divider">
+                                                <div class="grid_12 fixed-table-container">
+                                                    <table class="fancyTable themeTable treeControl custom-table"
+                                                           id="resvDetail-table" cellpadding="0"
+                                                           cellspacing="0">
+                                                        <thead>
+                                                        <tr>
+                                                            <th class="text-center ca-headerTitle height-fntThead rp-first-th">
+                                                                <i class="fa fa-plus green"></i>
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 40px;">
+                                                                序號
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 300px;">
+                                                                住客姓名
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 80px;">
+                                                                排房狀態
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 100px;">
+                                                                房號
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 40px;">
+                                                                國籍
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 100px;">
+                                                                喜好房號
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 80px;">
+                                                                車號
+                                                            </th>
                                                         </tr>
                                                         </thead>
-                                                        <tbody class="css_tbody">
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">
-                                                                <i class="fa fa-minus red pointer"></i></td>
-                                                            <td class="css_td">王大明
+                                                        <tbody>
+                                                        <tr class="hidden-firstTr">
+                                                            <td class="middle td-first hidden-firstTd"></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                            <td class=""></td>
+                                                        </tr>
+                                                        <!--1-->
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                <i class="fa fa-minus red"></i>
+                                                            </td>
+                                                            <td class="text-left">1</td>
+                                                            <td class="text-left td-relative">王大明
                                                                 <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
                                                                     Profile
                                                                 </button>
                                                             </td>
-                                                            <td class="css_td">1</td>
-                                                            <td class="css_td">201</td>
-                                                            <td class="css_td"></td>
-                                                            <td class="css_td">
-                                                                <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
-                                                            </td>
-                                                            <td class="css_td">
-                                                                <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
+                                                            <td class="text-left">已排房</td>
+                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">Taiwan</td>
+                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="1"/>
                                                             </td>
                                                         </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">
-                                                                <i class="fa fa-minus red pointer"></i></td>
-                                                            <td class="css_td">王美美
+                                                        <!--2-->
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                <i class="fa fa-minus red"></i>
+                                                            </td>
+                                                            <td class="text-left">1</td>
+                                                            <td class="text-left td-relative">王美美
                                                                 <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
                                                                     Profile
                                                                 </button>
                                                             </td>
-                                                            <td class="css_td">2</td>
-                                                            <td class="css_td">201</td>
-                                                            <td class="css_td"></td>
-                                                            <td class="css_td">
-                                                                <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
-                                                            </td>
-                                                            <td class="css_td">
-                                                                <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
+                                                            <td class="text-left">未排房</td>
+                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">Taiwan</td>
+                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="1"/>
                                                             </td>
                                                         </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">
-                                                                <i class="fa fa-minus red pointer"></i></td>
-                                                            <td class="css_td">李大同
+                                                        <!--3-->
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                <i class="fa fa-minus red"></i>
+                                                            </td>
+                                                            <td class="text-left">1</td>
+                                                            <td class="text-left td-relative">李大同
                                                                 <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
                                                                     Profile
                                                                 </button>
                                                             </td>
-                                                            <td class="css_td">1</td>
-                                                            <td class="css_td">302</td>
-                                                            <td class="css_td"></td>
-                                                            <td class="css_td">
-                                                                <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
-                                                            </td>
-                                                            <td class="css_td">
-                                                                <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
+                                                            <td class="text-left">已排房</td>
+                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">Taiwan</td>
+                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="1"/>
                                                             </td>
                                                         </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td">
-                                                                <i class="fa fa-minus red pointer"></i>
+                                                        <!--4-->
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                <i class="fa fa-minus red"></i>
                                                             </td>
-                                                            <td class="css_td">陳小華
+                                                            <td class="text-left">1</td>
+                                                            <td class="text-left td-relative">陳小華
                                                                 <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
                                                                     Profile
                                                                 </button>
                                                             </td>
-                                                            <td class="css_td">2</td>
-                                                            <td class="css_td"></td>
-                                                            <td class="css_td"></td>
-                                                            <td class="css_td">
-                                                                <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
-                                                            </td>
-                                                            <td class="css_td">
-                                                                <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
+                                                            <td class="text-left">已排房</td>
+                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">Taiwan</td>
+                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="1"/>
                                                             </td>
                                                         </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td"><i
-                                                                        class="fa fa-minus red pointer"></i></td>
-                                                            <td class="css_td">張三
+                                                        <!--5-->
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                <i class="fa fa-minus red"></i>
+                                                            </td>
+                                                            <td class="text-left">1</td>
+                                                            <td class="text-left td-relative">張三
                                                                 <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
                                                                     Profile
                                                                 </button>
                                                             </td>
-                                                            <td class="css_td">2</td>
-                                                            <td class="css_td"></td>
-                                                            <td class="css_td"></td>
-                                                            <td class="css_td">
-                                                                <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
-                                                            </td>
-                                                            <td class="css_td">
-                                                                <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="css_tr">
-                                                            <td class="css_td"><i
-                                                                        class="fa fa-minus red pointer"></i></td>
-                                                            <td class="css_td">李四
-                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
-                                                                    Profile
-                                                                </button>
-                                                            </td>
-                                                            <td class="css_td">2</td>
-                                                            <td class="css_td"></td>
-                                                            <td class="css_td"></td>
-                                                            <td class="css_td">
-                                                                <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
-                                                            </td>
-                                                            <td class="css_td">
-                                                                <i class="moreClick fa fa-ellipsis-h moreRmks"></i>
+                                                            <td class="text-left">已排房</td>
+                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">Taiwan</td>
+                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">
+                                                                <input type="text" class="selectHt"
+                                                                       placeholder="1"/>
                                                             </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
+                                                    <!-- table -->
                                                 </div>
-                                            </div><!--main-content-data-->
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
@@ -2175,7 +2411,7 @@
             <div class="clearfix"></div>
         </div>
     </div>
-    <!-- /.住客明細 Guest details -->
+    <!-- /.訂房資料 Guest details -->
 
     <!--todo 刪掉 (待確認)-->
     <!-- 住客明細->新增交辦 Guest details  彈出視窗 -->
@@ -2304,14 +2540,15 @@
                         <div class="css_table horizTable">
                             <div class="css_thead">
                                 <div class="css_tr">
-                                    <div class="css_th" style="min-width:40px;">序號</div>
                                     <div class="css_th" style="min-width:50px;">狀態</div>
                                     <div class="css_th" style="min-width:80px;">入住日期</div>
                                     <div class="css_th" style="min-width:80px;">退房日期</div>
-                                    <div class="css_th" style="min-width:140px;">房價代號</div>
-                                    <div class="css_th" style="min-width:70px;">計價房種</div>
-                                    <div class="css_th" style="min-width:70px;">使用房種</div>
+                                    <div class="css_th" style="min-width:130px;">房價代號</div>
+                                    <div class="css_th" style="min-width:65px;">計價房型</div>
+                                    <div class="css_th" style="min-width:70px;">使用房型</div>
                                     <div class="css_th" style="min-width:40px;">間數</div>
+                                    <div class="css_th" style="min-width:40px;">單價</div>
+                                    <div class="css_th" style="min-width:50px;">服務費</div>
                                     <div class="css_th" style="min-width:40px;">大人</div>
                                     <div class="css_th" style="min-width:40px;">小孩</div>
                                     <div class="css_th" style="min-width:40px;">嬰兒</div>
@@ -2319,7 +2556,6 @@
                             </div>
                             <div class="css_tbody">
                                 <div class="css_tr">
-                                    <div class="css_td">1</div>
                                     <div class="css_td">正常</div>
                                     <div class="css_td">2005/11/13(Su)</div>
                                     <div class="css_td">2005/11/19(Mo)</div>
@@ -2327,12 +2563,13 @@
                                     <div class="css_td">STD</div>
                                     <div class="css_td">STD</div>
                                     <div class="css_td text-right">3</div>
+                                    <div class="css_td text-right">5,000</div>
+                                    <div class="css_td text-right">500</div>
                                     <div class="css_td text-right">4</div>
                                     <div class="css_td text-right">1</div>
                                     <div class="css_td text-right">1</div>
                                 </div>
                                 <div class="css_tr">
-                                    <div class="css_td">2</div>
                                     <div class="css_td">正常</div>
                                     <div class="css_td">2005/11/13(Su)</div>
                                     <div class="css_td">2005/11/19(Mo)</div>
@@ -2340,6 +2577,8 @@
                                     <div class="css_td">DXT</div>
                                     <div class="css_td">DXT</div>
                                     <div class="css_td text-right">2</div>
+                                    <div class="css_td text-right">5,000</div>
+                                    <div class="css_td text-right">500</div>
                                     <div class="css_td text-right">4</div>
                                     <div class="css_td text-right">1</div>
                                     <div class="css_td text-right">1</div>
@@ -2354,101 +2593,93 @@
 
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
-                        <div class="main-content-data">
-                            <div class="">
-                                <div class="row">
-                                    <div class="horizTable-outer pull-left">
-                                        <table class="css_table horizTable">
-                                            <thead class="css_thead">
-                                            <tr class="css_tr">
-                                                <th class="css_th" style="min-width:40px;">房組</th>
-                                                <th class="css_th" style="min-width:40px;">房號</th>
-                                                <th class="css_th" style="min-width:250px;">住客姓名</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody class="css_tbody">
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">201</td>
-                                                <td class="css_td">王大明,李大同</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">2</td>
-                                                <td class="css_td">302</td>
-                                                <td class="css_td">李大同,沈大偉</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">3</td>
-                                                <td class="css_td" rowspan="2">303</td>
-                                                <td class="css_td">李大同,菜一目</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="horizTable-outer pull-left ml-5">
-                                        <table class="css_table horizTable">
-                                            <thead class="css_thead">
-                                            <tr class="css_tr">
-                                                <th class="css_th" style="min-width:40px;">選擇</th>
-                                                <th class="css_th" style="min-width:100px;">住客姓名</th>
-                                                <th class="css_th" style="min-width:40px;">房組</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody class="css_tbody">
-                                            <tr class="css_tr">
-                                                <td class="css_td">
-                                                    <div class="popCheckbox rmAssignCk">
-                                                            <span class="checkbox">
-                                                                  <label class="checkbox-width">
-                                                                      <input name="form-field-checkbox"
-                                                                             type="checkbox"
-                                                                             class="ace">
-                                                                      <span class="lbl"></span>
-                                                                  </label>
-                                                            </span>
-                                                    </div>
-                                                </td>
-                                                <td class="css_td">王大明</td>
-                                                <td class="css_td">1</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">
-                                                    <div class="popCheckbox rmAssignCk">
-                                                            <span class="checkbox">
-                                                                  <label class="checkbox-width">
-                                                                      <input name="form-field-checkbox"
-                                                                             type="checkbox"
-                                                                             class="ace">
-                                                                      <span class="lbl"></span>
-                                                                  </label>
-                                                            </span>
-                                                    </div>
-                                                </td>
-                                                <td class="css_td">李大同</td>
-                                                <td class="css_td">2</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">
-                                                    <div class="popCheckbox rmAssignCk">
-                                                            <span class="checkbox">
-                                                                  <label class="checkbox-width">
-                                                                      <input name="form-field-checkbox"
-                                                                             type="checkbox"
-                                                                             class="ace">
-                                                                      <span class="lbl"></span>
-                                                                  </label>
-                                                            </span>
-                                                    </div>
-                                                </td>
-                                                <td class="css_td">王大明</td>
-                                                <td class="css_td">3</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                        <div class="row">
+                            <div class="horizTable-outer pull-left">
+                                <table class="css_table horizTable">
+                                    <thead class="css_thead">
+                                    <tr class="css_tr">
+                                        <th class="css_th" style="min-width:40px;">序號</th>
+                                        <th class="css_th" style="min-width:40px;">房號</th>
+                                        <th class="css_th" style="min-width:250px;">住客姓名</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="css_tbody">
+                                    <tr class="css_tr">
+                                        <td class="css_td">1</td>
+                                        <td class="css_td">201</td>
+                                        <td class="css_td">王大明,李大同</td>
+                                    </tr>
+                                    <tr class="css_tr">
+                                        <td class="css_td">2</td>
+                                        <td class="css_td">302</td>
+                                        <td class="css_td">李大同,沈大偉</td>
+                                    </tr>
+                                    <tr class="css_tr">
+                                        <td class="css_td">3</td>
+                                        <td class="css_td" rowspan="2">303</td>
+                                        <td class="css_td">李大同,菜一目</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                        </div><!--main-content-data-->
+                            <div class="horizTable-outer pull-left ml-5">
+                                <table class="css_table horizTable">
+                                    <thead class="css_thead">
+                                    <tr class="css_tr">
+                                        <th class="css_th" style="min-width:40px;">選擇</th>
+                                        <th class="css_th" style="min-width:100px;">住客姓名</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="css_tbody">
+                                    <tr class="css_tr">
+                                        <td class="css_td">
+                                            <div class="popCheckbox rmAssignCk">
+                                                            <span class="checkbox">
+                                                                  <label class="checkbox-width">
+                                                                      <input name="form-field-checkbox"
+                                                                             type="checkbox"
+                                                                             class="ace">
+                                                                      <span class="lbl"></span>
+                                                                  </label>
+                                                            </span>
+                                            </div>
+                                        </td>
+                                        <td class="css_td">王大明</td>
+                                    </tr>
+                                    <tr class="css_tr">
+                                        <td class="css_td">
+                                            <div class="popCheckbox rmAssignCk">
+                                                            <span class="checkbox">
+                                                                  <label class="checkbox-width">
+                                                                      <input name="form-field-checkbox"
+                                                                             type="checkbox"
+                                                                             class="ace">
+                                                                      <span class="lbl"></span>
+                                                                  </label>
+                                                            </span>
+                                            </div>
+                                        </td>
+                                        <td class="css_td">李大同</td>
+                                    </tr>
+                                    <tr class="css_tr">
+                                        <td class="css_td">
+                                            <div class="popCheckbox rmAssignCk">
+                                                            <span class="checkbox">
+                                                                  <label class="checkbox-width">
+                                                                      <input name="form-field-checkbox"
+                                                                             type="checkbox"
+                                                                             class="ace">
+                                                                      <span class="lbl"></span>
+                                                                  </label>
+                                                            </span>
+                                            </div>
+                                        </td>
+                                        <td class="css_td">王大明</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-xs-1 col-sm-1">
                         <div class="row">

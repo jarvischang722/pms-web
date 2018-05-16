@@ -2559,7 +2559,7 @@ td
     label.title-2x
       font-size: 2rem
 
-#resvSingle-table
+.custom-table
   th, td
     padding: 0 3px
     border: 1px solid #cac3c3
@@ -2577,6 +2577,9 @@ td
       display: none
     .el-input__icon + .el-input__inner
       padding-right: 0
+  .el-select-ht
+    .el-input__inner
+      height: $defHt
   .td-more
     position: relative
     .wt-input
@@ -2592,6 +2595,14 @@ td
       padding: 4px 5px 0 5px
       box-sizing: border-box
       cursor: pointer
+  .td-relative
+    position: relative
+    .moreAbso
+      position: absolute
+      right: 0
+      bottom: 0
+      height: 25px
+      box-sizing: border-box
 //產生房號訂房內容各種長度
 +triangle-box-w(30, 28)
 

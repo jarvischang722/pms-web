@@ -64,7 +64,7 @@
             // vue
             // 訂房卡單筆 table
             let resv_vm = new Vue({
-                el: '#reservationDialog-1-message',
+                el: '#resvSingle-table',
                 data: {
                     ciDate1: new Date(),
                     coDate1: new Date(),
@@ -81,10 +81,12 @@
                     ciTime1: new Date(),
                     coTime1: new Date(),
                 }
-            })
+            });
+
 
             // 訂房卡單筆
             $("#resvSingle-table").tableHeadFixer({"left": 1});
+
 
         });
 
@@ -322,7 +324,7 @@
             e.preventDefault();
             var dialog = $("#resvGuestDetail-message").removeClass('hide').dialog({
                 modal: true,
-                title: "住客明細",
+                title: "訂房資料",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -331,6 +333,180 @@
                 dialogClass: "test",
                 resizable: true
             });
+            var resv_detail = new Vue({
+                el: '#resvDetail-table',
+                data: {
+                    roomCodes: [
+                        {
+                            value: '1',
+                            label: 'FIT2017:一般散客價'
+                        },
+                        {
+                            value: '2',
+                            label: 'TRA:旅展價'
+                        },
+                        {
+                            value: '3',
+                            label: 'FIT2017:一般散客價'
+                        },
+                        {
+                            value: '4',
+                            label: 'TRA:旅展價'
+                        },
+                        {
+                            value: '5',
+                            label: 'FIT2017:一般散客價'
+                        }],
+                    roomTypes: [
+                        {
+                            value: '1',
+                            label: 'DXK'
+                        },
+                        {
+                            value: '2',
+                            label: 'SUP'
+                        },
+                        {
+                            value: '3',
+                            label: 'STD'
+                        },
+                        {
+                            value: '4',
+                            label: 'DXT'
+                        },
+                        {
+                            value: '5',
+                            label: 'SUE'
+                        },
+                        {
+                            value: '6',
+                            label: 'ESD'
+                        },
+                        {
+                            value: '7',
+                            label: 'ESP'
+                        },
+                        {
+                            value: '8',
+                            label: 'EXK'
+                        },
+                        {
+                            value: '9',
+                            label: 'ESP'
+                        },
+                        {
+                            value: '10',
+                            label: 'ESU'
+                        }
+                    ],
+
+                    useRmTypes: [
+                        {
+                            value: '1',
+                            label: 'DXK'
+                        },
+                        {
+                            value: '2',
+                            label: 'SUP'
+                        },
+                        {
+                            value: '3',
+                            label: 'STD'
+                        },
+                        {
+                            value: '4',
+                            label: 'DXT'
+                        },
+                        {
+                            value: '5',
+                            label: 'SUE'
+                        },
+                        {
+                            value: '6',
+                            label: 'ESD'
+                        },
+                        {
+                            value: '7',
+                            label: 'ESP'
+                        },
+                        {
+                            value: '8',
+                            label: 'EXK'
+                        },
+                        {
+                            value: '9',
+                            label: 'ESP'
+                        },
+                        {
+                            value: '10',
+                            label: 'ESU'
+                        }
+                    ],
+
+                    resv_sources: [
+                        {
+                            value: '1',
+                            label: '1.電話訂房'
+                        },
+                        {
+                            value: '2',
+                            label: '2.官網訂房'
+                        },
+                        {
+                            value: '3',
+                            label: '3.app訂房'
+                        }],
+
+                    marketCates: [
+                        {
+                            value: '1',
+                            label: '1.純訂房'
+                        },
+                        {
+                            value: '2',
+                            label: '2.套裝行程'
+                        },
+                        {
+                            value: '3',
+                            label: '3.專案促銷'
+                        },
+                        {
+                            value: '4',
+                            label: '4.票券銷售'
+                        },
+                        {
+                            value: '5',
+                            label: '5.員工訂房'
+                        }],
+
+                    resvDetail_ciDate: new Date(),
+                    resvDetail_coDate: new Date(),
+                    roomCodes_val: '',
+                    roomTypes_val: '',
+                    useRmTypes_val: '',
+                    resv_sources_val: '',
+                    marketCates_val: '',
+
+                    resvDetail_ciDate_2: new Date(),
+                    resvDetail_coDate_2: new Date(),
+                    roomCodes_val_2: '',
+                    roomTypes_val_2: '',
+                    useRmTypes_val_2: '',
+                    resv_sources_val_2: '',
+                    marketCates_val_2: '',
+
+                    resvDetail_ciDate_3: new Date(),
+                    resvDetail_coDate_3: new Date(),
+                    roomCodes_val_3: '',
+                    roomTypes_val_3: '',
+                    useRmTypes_val_3: '',
+                    resv_sources_val_3: '',
+                    marketCates_val_3: '',
+                }
+            });
+
+            // 訂房明細
+            $("#resvDetail-table").tableHeadFixer({"left": 1});
         });
 
         // 彈出 訂房卡 住客明細 Guest Details btn1 交辦事項
