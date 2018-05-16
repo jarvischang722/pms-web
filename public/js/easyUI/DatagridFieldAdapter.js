@@ -464,7 +464,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                 var effectValues = result.effectValues;
                 if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
                     $('#' + dgName).datagrid('updateRow', {
-                        index: indexRow,
+                        index: _.isUndefined(result.effectValues.effectIndex) ? indexRow : result.effectValues.effectIndex,
                         row: effectValues
                     });
 

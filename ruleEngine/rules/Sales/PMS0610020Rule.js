@@ -586,17 +586,48 @@ module.exports = {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        if (postData.newValue == 'Y') {
-            _.each(postData.allRowData, function (lo_rowData, idx) {
-                postData.allRowData[idx].primary_pers = "N";
-            });
-            postData.allRowData[postData.rowIndex].primary_pers = postData.newValue;
-            lo_result.effectValues = postData.allRowData;
+        if (postData.rowData.primary_pers == 'Y') {
+            let ln_clearIndex = Number(postData.rowIndex);
+            let la_otherRowData = JSON.parse(JSON.stringify(postData.allRowData));
+            la_otherRowData.splice(ln_clearIndex, 1);
+            let lo_effectRow = _.findWhere(la_otherRowData, {primary_pers: 'Y'});
+
+            if (!_.isUndefined(lo_effectRow)) {
+                let ln_effectIndex = _.findIndex(postData.allRowData, {seq_nos: lo_effectRow.seq_nos});
+                if (ln_effectIndex > -1) {
+                    lo_result.effectValues = {effectIndex: ln_effectIndex, primary_pers: 'N'};
+                }
+            }
         }
 
         callback(lo_error, lo_result);
-    }
-    ,
+    },
+
+    /**相關人員 人員名稱
+     *1.切換主要聯絡人
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    sel_cust_idx_cust_mn_pers_dt: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        if (postData.rowData.primary_pers == 'Y') {
+            let ln_clearIndex = Number(postData.rowIndex);
+            let la_otherRowData = JSON.parse(JSON.stringify(postData.allRowData));
+            la_otherRowData.splice(ln_clearIndex, 1);
+            let lo_effectRow = _.findWhere(la_otherRowData, {primary_pers: 'Y'});
+
+            if (!_.isUndefined(lo_effectRow)) {
+                let ln_effectIndex = _.findIndex(postData.allRowData, {seq_nos: lo_effectRow.seq_nos});
+                if (ln_effectIndex > -1) {
+                    lo_result.effectValues = {effectIndex: ln_effectIndex, primary_pers: 'N'};
+                }
+            }
+        }
+        callback(lo_error, lo_result);
+    },
 
     /**
      * 相關人員預設值
@@ -646,8 +677,7 @@ module.exports = {
             }
             callback(lo_error, lo_result);
         });
-    }
-    ,
+    },
 
     /**
      * 相關人員刪除前檢查
@@ -667,8 +697,7 @@ module.exports = {
         }
 
         callback(lo_error, lo_result);
-    }
-    ,
+    },
 
     /**
      * 合約內容刪除前檢查
@@ -740,8 +769,7 @@ module.exports = {
                 }
             });
         }
-    }
-    ,
+    },
 
     /**
      * 公司狀態是否可以為刪除
@@ -812,8 +840,7 @@ module.exports = {
             });
         }
 
-    }
-    ,
+    },
 
     /**
      * 存檔(新增)
@@ -976,8 +1003,7 @@ module.exports = {
 
             cb(lo_error, lo_result);
         }
-    }
-    ,
+    },
 
     /**
      * 存檔(編輯)

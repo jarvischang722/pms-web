@@ -51,7 +51,6 @@
 </template>
 
 <script>
-    var adpterDg = undefined;
 
     export default {
         name: 'related-personnel',
@@ -79,6 +78,7 @@
                 dataGridRowsData: [],
                 dataGridRowsDataOfStaff: [],
                 oriDataGridRowsData: [],
+                chgDataGridRowsData: [],
                 fieldsData: [],
                 oriFieldsData: [],
                 dgIns: {}
@@ -98,6 +98,7 @@
             dataGridRowsData: {
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
+
                         //將相關人員資料放至Vuex
                         this.$store.dispatch("setRpDataGridRowsData", {
                             ga_rpDataGridRowsData: val,
@@ -118,6 +119,7 @@
                 this.dataGridRowsData = [];
                 this.dataGridRowsDataOfStaff = [];
                 this.oriDataGridRowsData = [];
+                this.chgDataGridRowsData = [];
                 this.fieldsData = [];
                 this.oriFieldsData = [];
                 this.dgIns = {};
