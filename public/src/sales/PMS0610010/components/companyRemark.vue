@@ -473,12 +473,14 @@
                 this.editingRow = _.first(this.dataGridRowsData);
             },
             toPreData() {
-                let nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.rowData);
-                this.editingRow = this.dataGridRowsData[nowRowIndex - 1];
+                let ln_nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.editingRow);
+                this.editingRow = _.extend(this.dataGridRowsData[ln_nowRowIndex - 1], {index: ln_nowRowIndex - 1});
+                this.setNewDataGridRowsData();
             },
             toNextData() {
-                let nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.rowData);
-                this.editingRow = this.dataGridRowsData[nowRowIndex + 1];
+                let ln_nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.editingRow);
+                this.editingRow = _.extend(this.dataGridRowsData[ln_nowRowIndex + 1], {index: ln_nowRowIndex + 1});
+                this.setNewDataGridRowsData();
             },
             toLastData() {
                 this.isFirstData = false;
@@ -528,8 +530,14 @@
                             this.tmpCUD.createData[createIndex] = this.singleData;
                         }
                         else {
-                            this.tmpCUD.updateData.push(this.singleData);
-                            this.tmpCUD.oriData.push(this.oriSingleData);
+                            let ln_updateIdx = _.findIndex(this.tmpCUD.updateData, {index: ln_editIdx});
+                            if (ln_updateIdx > -1) {
+                                this.tmpCUD.updateData[ln_updateIdx] = this.singleData;
+                            }
+                            else {
+                                this.tmpCUD.updateData.push(this.singleData);
+                                this.tmpCUD.oriData.push(this.oriSingleData);
+                            }
                         }
                         this.dataGridRowsData[ln_editIdx] = this.singleData;
                     }
@@ -537,6 +545,7 @@
                         this.tmpCUD.createData.push(this.singleData);
                         this.dataGridRowsData.push(this.singleData);
                     }
+                    console.log(this.tmpCUD);
                     this.showDataGrid();
                     this.singleData = {};
                 }
