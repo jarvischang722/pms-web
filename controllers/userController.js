@@ -12,6 +12,7 @@ const fs = require("fs");
 const ip = require("ip");
 const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
 const go_permissionSvc = require("../services/permissionService");
+const go_userActionSvc = require("../services/userActionService");
 const go_sysConf = require("../configs/systemConfig");
 /**
  * 登入頁面
@@ -425,4 +426,13 @@ exports.doEditPassword = function (req, res) {
             errorMsg: _.isNull(err) || _.isUndefined(err.message) ? "" : err.message
         });
     });
+};
+
+/**
+ * 記錄使用者動作func_id執行時間
+ */
+exports.saveFuncExecTime = (req, res) => {
+    go_userActionSvc.doSaveFuncExecTime(req, function (err) {
+        res.json({success: err == null, errorMsg: err});
+    })
 };

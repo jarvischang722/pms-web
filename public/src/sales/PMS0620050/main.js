@@ -179,11 +179,10 @@ Vue.component('single-grid-pms0620050-tmp', {
             editingRow.visit_dat = moment(new Date(editingRow.visit_dat)).format("YYYY/MM/DD");
             editingRow.avisit_dat = moment(new Date(editingRow.avisit_dat)).format("YYYY/MM/DD");
             BacUtils.doHttpPostAgent("/api/fetchSinglePageFieldData", {
+                func_id: "0400",
                 prg_id: gs_prgId,
                 page_id: 2,
                 searchCond: editingRow
-            }, function (result) {
-
             });
         },
         formatAmt: function (amtValue, field) {
