@@ -4823,6 +4823,11 @@ td div.act-box span.act-text {
     line-height: 25px;
 }
 
+#editPasswordDialog .el-dialog--small {
+    width: 400px;
+    max-width: 100%;
+}
+
 #prgPropsSetupVM .title {
   font-size: 1.2em;
   color: #555;
@@ -5167,41 +5172,40 @@ td div.act-box span.act-text {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-
 .custom-table th input, .custom-table td input {
   border: 0;
 }
-
 .custom-table th {
   font-weight: 300;
   font-size: 13px;
   background-color: #eee;
 }
-
 .custom-table .date-wt {
   width: 82px;
 }
-
 .custom-table .date-wt .el-icon-date {
   display: none;
 }
-
 .custom-table .date-wt .el-input__icon + .el-input__inner {
   padding-right: 0;
 }
-
 .custom-table .el-select-ht .el-input__inner {
     height: 25px;
 }
 
+.custom-table .el-select-ht .el-input__icon {
+    width: 20px;
+}
+
+.custom-table .el-select-ht .el-input__icon + .el-input__inner {
+    padding-right: 0;
+}
 .custom-table .td-more {
   position: relative;
 }
-
 .custom-table .td-more .wt-input {
   width: 68%;
 }
-
 .custom-table .td-more .moreClick {
   position: absolute;
   right: 0;
@@ -5214,11 +5218,9 @@ td div.act-box span.act-text {
   box-sizing: border-box;
   cursor: pointer;
 }
-
 .custom-table .td-relative {
     position: relative;
 }
-
 .custom-table .td-relative .moreAbso {
     position: absolute;
     right: 0;
@@ -7227,4 +7229,11 @@ input[type=checkbox] {
     font-size: 14px;
     line-height: 2;
   }
+}
+
+@media screen and (max-width: 768px) {
+    #editPasswordDialog .loginPage, #editPasswordDialog .login-container {
+        width: 100%;
+        padding: 0px 10px 0px 10px;
+    }
 }
