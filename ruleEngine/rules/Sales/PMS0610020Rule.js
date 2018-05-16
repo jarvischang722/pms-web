@@ -426,7 +426,8 @@ module.exports = {
      * 如果『合約起始日』、『合約終止日』、『參考房價代號』3欄位都有值,如果sql檢查=0,訊息『相同館別及房價代號之合約期間不可重覆』,起始日回復到舊值
      * 2.參考房價代號下拉資料
      * 3.參考餐廳折扣下拉資料
-     * 2.房價代號帶回房價名稱
+     * 4.房價代號帶回房價名稱
+     * 5.檢查相同館別及房價代號之合約期間不可重覆
      * @param postData
      * @param session
      * @param callback
@@ -520,6 +521,29 @@ module.exports = {
                 lo_result.selectField = ["rate_cod", "rsdisc_cod"];
                 lo_result.multiSelectOptions.rate_cod = la_rateCodSelectData;
                 lo_result.multiSelectOptions.rsdisc_cod = la_rsdiscCodSelectData;
+
+                // 檢查相同館別及房價代號之合約期間不可重覆
+                let la_examData = JSON.parse(JSON.stringify(postData.allRowData));
+                for (let i = 0; i < la_examData.length; i++) {
+                    for (let j = 0; j < i; j++) {
+                        let lo_nowData = la_examData[i];
+                        let lo_compareData = la_examData[j];
+                        if (lo_compareData.rate_cod == lo_nowData.rate_cod && lo_compareData.hotel_cod == lo_nowData.hotel_cod) {
+                            let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
+                            let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
+                            let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
+                            let ls_compareEndDat = moment(new Date(lo_compareData.begin_dat));
+                            let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+
+                            if (lb_chkOverLap) {
+                                lo_result.success = false;
+                                lo_error = new ErrorClass();
+                                lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
+                                break;
+                            }
+                        }
+                    }
+                }
             }
 
             //房價代號帶回房價名稱
@@ -1108,10 +1132,10 @@ module.exports = {
                     let lo_nowData = la_examData[i];
                     let lo_compareData = la_examData[j];
                     if (lo_compareData.rate_cod == lo_nowData.rate_cod && lo_compareData.hotel_cod == lo_nowData.hotel_cod) {
-                        let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
-                        let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
-                        let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
-                        let ls_compareEndDat = moment(new Date(lo_compareData.begin_dat));
+                        let ls_nowBeginDat = moment(lo_nowData.begin_dat).format("YYYY/MM/DD");
+                        let ls_nowEndDat = moment(lo_nowData.end_dat).format("YYYY/MM/DD");
+                        let ls_compareBeginDat = moment(lo_compareData.begin_dat).format("YYYY/MM/DD");
+                        let ls_compareEndDat = moment(lo_compareData.begin_dat).format("YYYY/MM/DD");
                         let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
 
                         if (lb_chkOverLap) {
