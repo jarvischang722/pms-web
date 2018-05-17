@@ -7,7 +7,7 @@
            where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(room_cod) = trim(:room_cod) order by begin_dat, day_sta
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_cod</parameter>
     </dao>
@@ -18,7 +18,7 @@
            select MAX(seq_nos)+1 as max_seq_nos from hfd_rest_dt where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 </root>

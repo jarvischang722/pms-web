@@ -50,7 +50,7 @@
 
         ]]> </statement>
 
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">cmp_id</parameter>
     </dao>
 
@@ -61,7 +61,7 @@
         where user_athena_id = :athena_id and trim(cmp_id) = trim(:cmp_id)
         ]]> </statement>
 
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">cmp_id</parameter>
     </dao>
 
@@ -72,7 +72,7 @@
         where user_athena_id = :athena_id and trim(cmp_id) = trim(:cmp_id)
         ]]> </statement>
 
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">cmp_id</parameter>
         <parameter type="likestring" kind="2" condition="usr_cname like ?">usr_cname</parameter>
 

@@ -197,7 +197,10 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                         }
                     });
                     lao_subsysList[sIdx]["mdlMenu"] = la_mdlList;
-                    lao_subsysList[sIdx]["reportMenu"] = [].concat(..._.pluck(_.where(la_mdlList, {group_sta: "R"}), "processMenu"));
+                    lao_subsysList[sIdx]["reportMenu"] = [].concat(..._.pluck(_.where(la_mdlList, {group_sta: "R"}), "processMenu")).filter((obj, idx, arr) => {
+                        return arr.map(prgObj => prgObj["pro_id"]).indexOf(obj["pro_id"]) === idx;
+                    });
+
                 });
 
                 callback(err, lao_subsysList);

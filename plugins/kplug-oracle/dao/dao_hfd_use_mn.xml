@@ -7,9 +7,9 @@
                where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and item_cod = :item_cod and left_qnt < 0 and batch_dat > :batch_dat;
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
-        <parameter type="int" kind="3">item_cod</parameter>
+        <parameter type="number" kind="3">item_cod</parameter>
         <parameter type="date" kind="3">batch_dat</parameter>
     </dao>
 

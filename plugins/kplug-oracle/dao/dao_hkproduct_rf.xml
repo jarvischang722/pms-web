@@ -6,7 +6,7 @@
             select count(*) middle_typ_count from hkproduct_rf where athena_id= :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(middle_typ) = trim(:middle_typ) and rownum =1
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">middle_typ</parameter>
     </dao>
@@ -17,7 +17,7 @@
             select count(*) small_typ_count from hkproduct_rf where athena_id= :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(small_typ) = trim(:small_typ) and rownum =1
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">small_typ</parameter>
     </dao>
@@ -30,7 +30,7 @@
        where trim(athena_id) = ? and trim(hotel_cod) = ?
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="instring" kind="3">use_sta</parameter>
         <parameter type="instring" kind="3">inv_sta</parameter>
@@ -50,7 +50,7 @@
        where trim(athena_id) = ? and trim(hotel_cod) = ? and product_nos = ?
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">product_nos</parameter>
     </dao>
@@ -61,7 +61,7 @@
               select middle_typ as value, typ_nam as display from hkmtype_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
@@ -71,7 +71,7 @@
               select small_typ as value, typ_nam as display, middle_typ from hkstype_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
@@ -81,7 +81,7 @@
               select small_typ as value, typ_nam as display, middle_typ from hkstype_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(small_typ) = trim(:small_typ)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">small_typ</parameter>
     </dao>
@@ -95,7 +95,7 @@
               and g.athena_id = :athena_id and trim(rf.comp_cod) = trim(:comp_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
@@ -113,7 +113,7 @@
               and b.use_typ in ('1', '2')
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
@@ -133,7 +133,7 @@
         and b.use_typ in ('1', '2')
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
@@ -144,7 +144,7 @@
         where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 </root>
