@@ -557,33 +557,34 @@
                     //生日
                     val["cust_idx.birth_dat"] = val["cust_idx.birth_dat"] == "" ? "" : moment(val["cust_idx.birth_dat"]).format("YYYY/MM/DD");
                     val.birth_dat = val["cust_idx.birth_dat"];
-
-                    //訂房公司影響統一編號,發票抬頭
-                    if (!_.isNull(val.acust_cod) && !_.isUndefined(val.acust_cod)) {
-                        if (val.acust_cod.trim() != "") {
-                            let lo_compCodSelectData = _.findWhere(this.profileOriFieldsData, {ui_field_name: "acust_cod"}).selectData.selectData;
-                            let ls_uniCod = "";
-                            let ls_uniTitle = "";
-                            try {
-                                ls_uniCod = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_cod;
-                                ls_uniTitle = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_title;
-                            }
-                            catch (err) {
-                            }
-
-                            val["cust_idx.uni_cod"] = val["cust_idx.uni_cod"] || "";
-                            val["cust_idx.uni_title"] = val["cust_idx.uni_title"] || "";
-                            val["cust_idx.uni_cod"] = val["cust_idx.uni_cod"] == "" ? ls_uniCod : val["cust_idx.uni_cod"];
-                            val["cust_idx.uni_title"] = val["cust_idx.uni_title"] == "" ? ls_uniTitle : val["cust_idx.uni_title"];
-                        }
-                    }
-
-                    this.$store.dispatch("setProfileData", {
-                        go_profileSingleData: val,
-                        go_oriProfileSingleData: this.oriSingleData
-                    });
                 },
                 deep: true
+            },
+            //訂房公司影響統一編號,發票抬頭
+            "singleData.acust_cod": function (newVal, oldVal) {
+                if (!_.isNull(newVal) && !_.isUndefined(newVal)) {
+                    if (newVal.trim() != "") {
+                        let lo_compCodSelectData = _.findWhere(this.profileOriFieldsData, {ui_field_name: "acust_cod"}).selectData.selectData;
+                        let ls_uniCod = "";
+                        let ls_uniTitle = "";
+                        try {
+                            ls_uniCod = _.findWhere(lo_compCodSelectData, {cust_cod: newVal}).uni_cod;
+                            ls_uniTitle = _.findWhere(lo_compCodSelectData, {cust_cod: newVal}).uni_title;
+                        }
+                        catch (err) {
+                        }
+
+                        this.singleData["cust_idx.uni_cod"] = this.singleData["cust_idx.uni_cod"] || "";
+                        this.singleData["cust_idx.uni_title"] = this.singleData["cust_idx.uni_title"] || "";
+                        this.singleData["cust_idx.uni_cod"] = this.singleData["cust_idx.uni_cod"] == "" ? ls_uniCod : this.singleData["cust_idx.uni_cod"];
+                        this.singleData["cust_idx.uni_title"] = this.singleData["cust_idx.uni_title"] == "" ? ls_uniTitle : this.singleData["cust_idx.uni_title"];
+                    }
+                }
+
+                this.$store.dispatch("setProfileData", {
+                    go_profileSingleData: this.singleData,
+                    go_oriProfileSingleData: this.oriSingleData
+                });
             }
         },
         methods: {
