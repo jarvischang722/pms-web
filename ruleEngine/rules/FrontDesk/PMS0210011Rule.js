@@ -4,13 +4,13 @@
 const _ = require("underscore");
 const _s = require("underscore.string");
 const moment = require("moment");
-const async = require("async");
 const queryAgent = require("../../../plugins/kplug-oracle/QueryAgent");
 const commonRule = require("./../CommonRule");
 const ReturnClass = require("../../returnClass");
 const ErrorClass = require("../../errorClass");
 const tools = require("../../../utils/CommonTools");
 const sysConf = require("../../../configs/systemConfig");
+const encryptTools = require("../../../utils/encryptTools");
 
 module.exports = {
     /**
@@ -153,14 +153,27 @@ module.exports = {
     r_status_cod(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
+        let ls_oriStatusCod = postData.oriSingleData[0].status_cod;
+        let ls_statusCod = postData.singleRowData[0].status_cod;
         if (postData.singleRowData[0]["cust_idx.from_table"] == "GHIST_MN") {
-            lo_return.effectValues["cust_idx.cust_sta"] = postData.singleRowData[0].status_cod;
+            lo_return.effectValues["cust_idx.cust_sta"] = ls_statusCod;
         }
-        if (postData.oriSingleData[0].status_cod != "V" && postData.singleRowData[0].status_cod == "V") {
+        if (ls_oriStatusCod != "V" && ls_statusCod == "V") {
             lo_return.effectValues["vip_sta"] = 1;
         }
-        if (postData.oriSingleData[0].status_cod == "V" && (postData.singleRowData[0].status_cod != "V" && postData.singleRowData[0].status_cod != "B")) {
+        if (ls_oriStatusCod == "V" && ls_statusCod == "N") {
             lo_return.effectValues["vip_sta"] = 0;
+        }
+        if (ls_oriStatusCod == "V" && ls_statusCod == "B") {
+            lo_return.showConfirm = true;
+            lo_return.confirmMsg = commonRule.getMsgByCod("pms21msg3", session.locale);
+            lo_return.effectValues["vip_sta"] = 0;
+        }
+        if (lo_return.effectValues.vip_sta == postData.singleRowData[0].vip_sta || _.isUndefined(lo_return.effectValues.vip_sta)) {
+            lo_return.isEffectFromRule = true;
+        }
+        else {
+            lo_return.isEffectFromRule = false;
         }
 
         callback(lo_error, lo_return);
@@ -200,7 +213,6 @@ module.exports = {
                     }
                 }
             });
-            console.log(ls_ch_str, ls_en_str);
         }
         //若姓名中僅有一個或無逗點，則檢查姓名中是否有中文
         else {
@@ -301,11 +313,6 @@ module.exports = {
                 callback(err, lo_return);
             }
         });
-        // callback(null, lo_return);
-        // console.log("中文:" + ls_ch_str, "英文：" + ls_en_str, "姓：" + ls_last_name, "名：" + ls_first_name);
-        // console.log("test");
-        // queryAgent.query("CHK_ALT_NAM_IS_EXIST", lo_params, function (err, result) {
-        // })
     },
 
     /**
@@ -360,6 +367,13 @@ module.exports = {
     r_salute_cod(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
+        if (postData.singleRowData[0].salute_cod == postData.oriSingleData[0].salute_cod) {
+            //性別資料防呆
+            if (postData.singleRowData[0]["cust_idx.sex_typ"].trim() == "") {
+                lo_return.effectValues = {"cust_idx.sex_typ": "M"};
+            }
+            return callback(lo_error, lo_return);
+        }
         let lb_sex_typ;
         let lo_params = {
             athena_id: session.user.athena_id,
@@ -398,6 +412,9 @@ module.exports = {
     r_contry_cod(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
+        if (postData.singleRowData[0].contry_cod == postData.oriSingleData[0].contry_cod) {
+            return callback(lo_error, lo_return);
+        }
         let lo_params = {
             athena_id: session.user.athena_id,
             contry_cod: postData.singleRowData[0].contry_cod
@@ -408,7 +425,7 @@ module.exports = {
                 lo_return.success = false;
                 lo_error.errorMsg = err;
             }
-            else if(result != null) {
+            else if (result != null) {
                 lo_return.effectValues = {
                     live_cod: postData.singleRowData[0].contry_cod,
                     lang_cod: result.lang_cod
@@ -436,7 +453,7 @@ module.exports = {
         let ln_old_vip_sta = postData.oriSingleData[0].vip_sta;
         let ln_new_vip_sta = postData.singleRowData[0].vip_sta;
 
-        // 1.改不為零時，將欄位status_cod改為V:VIP
+        //1.改不為零時，將欄位status_cod改為V:VIP
         if (ln_new_vip_sta != "0") {
             lo_return.effectValues = {status_cod: "V"};
         }
@@ -447,8 +464,9 @@ module.exports = {
 
         //3.若客戶索引檔來源資料表為住客歷史,才同步異動cust_idx.cust_sta
         if (postData.singleRowData[0]["cust_idx.from_table"] == 'GHIST_MN') {
-            lo_return.effectValues["cust_idx.cust_sta"] = ln_new_vip_sta;
+            lo_return.effectValues["cust_idx.cust_sta"] = lo_return.effectValues.status_cod;
         }
+        lo_return.isEffectFromRule = lo_return.effectValues.status_cod == postData.singleRowData[0].status_cod ? true : false;
 
         callback(lo_error, lo_return);
     },
@@ -526,13 +544,45 @@ module.exports = {
      * @param session
      * @param callback
      */
-    saveAddGhistMn(postData, session, callback) {
+    async saveAddGhistMn(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
 
         let lo_createData = postData.tmpCUD.createData[0];
+        let ls_credit_nos = lo_createData.credit_nos;
         let lo_cust_idx = {};
         let lo_ghist_visit_dt = {};
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+        //卡號遮罩
+        let ls_masked_credit_nos;
+        try {
+            ls_masked_credit_nos = await new Promise((resolve, reject) => {
+                queryAgent.query("QRY_DMASK_CREDIT_NOS", lo_params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        let ln_dmask_credit_nos = result.dmask_credit_nos || "99";
+                        let ls_masked = this.doCreditNosMask(ls_credit_nos, ln_dmask_credit_nos);
+                        resolve(ls_masked);
+                    }
+                });
+            });
+        }
+        catch (err) {
+            console.log(err.message);
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err.message;
+            lo_return.success = false;
+
+            return callback(lo_error, lo_return);
+        }
+
+        //TODO: 卡號加密等Oracle DB 修改完成
+        // lo_createData.credit_nos = encryptTools.publicEncrypt(lo_createData.credit_nos);
 
         _.each(lo_createData, (val, key) => {
             let la_keySplit = key.split(".");
@@ -613,13 +663,45 @@ module.exports = {
      * @param session
      * @param callback
      */
-    saveUpdateGhistMn(postData, session, callback) {
+    async saveUpdateGhistMn(postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
 
         let lo_updateData = postData.tmpCUD.updateData[0];
+        let ls_credit_nos = lo_updateData.credit_nos;
         let lo_cust_idx = {};
         let lo_ghist_visit_dt = {};
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+
+        //卡號遮罩
+        let ls_masked_credit_nos;
+        try {
+            ls_masked_credit_nos = await new Promise((resolve, reject) => {
+                queryAgent.query("QRY_DMASK_CREDIT_NOS", lo_params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        let ln_dmask_credit_nos = result.dmask_credit_nos || "99";
+                        let ls_masked = this.doCreditNosMask(ls_credit_nos, ln_dmask_credit_nos);
+                        resolve(ls_masked);
+                    }
+                });
+            });
+        }
+        catch (err) {
+            console.log(err.message);
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err.message;
+            lo_return.success = false;
+
+            return callback(lo_error, lo_return);
+        }
+        //TODO: 卡號加密等Oracle DB 修改完成
+        //lo_updateData.credit_nos = encryptTools.publicEncrypt(lo_updateData.credit_nos);
 
         _.each(lo_updateData, (val, key) => {
             let la_keySplit = key.split(".");
@@ -679,5 +761,69 @@ module.exports = {
         lo_return.extendExecDataArrSet.push(lo_ghistVisitDtData);
 
         callback(lo_error, lo_return);
+    },
+
+    /**
+     * 解密加卡號遮罩
+     * 信用卡號遮罩
+     * 參數選項:2、7、99
+     * 2:從第2位遮罩，保留後四位，範例:3***********1234
+     * 7:從第7位遮罩，保留後四位，範例:321234******1234
+     * 99:無遮罩，範例:3212345678901234
+     * 預設值：7
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    async r_credit_nos(postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let ls_credit_nos = postData.singleRowData[0].credit_nos;
+        let ls_oriCredit_nos = postData.oriSingleData[0].credit_nos;
+        //改卡號 和 新增不用遮罩
+        if (ls_credit_nos != ls_oriCredit_nos || ls_oriCredit_nos == "") {
+            return callback(null, lo_return);
+        }
+
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+        queryAgent.query("QRY_DMASK_CREDIT_NOS", lo_params, (err, result) => {
+            if (err) {
+                console.error(err);
+                lo_return.effectValues = {credit_nos: ls_credit_nos};
+            }
+            else {
+                //資料是否為加密
+                if (ls_credit_nos.length > 16) {
+                    //TODO: 卡號解密打小良API
+                    ls_credit_nos = this.decodeCreditNos(ls_credit_nos);
+                }
+                let ls_masked = this.doCreditNosMask(ls_credit_nos, result.dmask_credit_nos);
+                lo_return.effectValues = {credit_nos: ls_masked};
+            }
+            callback(lo_error, lo_return);
+        });
+    },
+
+    /**
+     * 信用卡號遮罩
+     * 參數選項:2、7、99
+     * 2:從第2位遮罩，保留後四位，範例:3***********1234
+     * 7:從第7位遮罩，保留後四位，範例:321234******1234
+     * 99:無遮罩，範例:3212345678901234
+     * 預設值：7
+     * @param credit_nos {string} 卡號明碼
+     * @param mask_nos {string} 遮罩號碼
+     */
+    doCreditNosMask(credit_nos, mask_nos) {
+        let ls_masked_nos;
+        if (mask_nos == "99") return credit_nos;
+
+        let ln_mask_num = credit_nos.length - Number(mask_nos) - 4;
+        let ls_replace_str = _s.repeat("*", ln_mask_num);
+        ls_masked_nos = _s.splice(credit_nos, mask_nos, ln_mask_num, ls_replace_str);
+        return ls_masked_nos;
     }
 };
