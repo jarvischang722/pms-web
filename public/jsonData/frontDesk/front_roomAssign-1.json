@@ -2,7 +2,7 @@
   "total": 28,
   "rows": [
     {
-      "cardCode": "00000101-1",
+      "cardCode": "00000101",
       "status": "正常",
       "resv": "1",
       "assignRoom": "0",
@@ -21,7 +21,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000201-1",
+      "cardCode": "00000201",
       "status": "正常",
       "resv": "2",
       "assignRoom": "1",
@@ -40,7 +40,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000301-1",
+      "cardCode": "00000301",
       "status": "正常",
       "resv": "3",
       "assignRoom": "0",
@@ -59,7 +59,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000401-1",
+      "cardCode": "00000401",
       "status": "已到達",
       "resv": "4",
       "assignRoom": "1",
@@ -78,7 +78,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000501-1",
+      "cardCode": "00000501",
       "status": "已到達",
       "resv": "5",
       "assignRoom": "0",
@@ -97,7 +97,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000601-1",
+      "cardCode": "00000601",
       "status": "正常",
       "resv": "6",
       "assignRoom": "1",
@@ -116,7 +116,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000701-1",
+      "cardCode": "00000701",
       "status": "已到達",
       "resv": "7",
       "assignRoom": "0",
@@ -135,7 +135,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000801-1",
+      "cardCode": "00000801",
       "status": "正常",
       "resv": "8",
       "assignRoom": "1",
