@@ -98,7 +98,7 @@
             dataGridRowsData: {
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
-
+                        this.$eventHub.$emit("chgRelatedPersonData");
                         //將相關人員資料放至Vuex
                         this.$store.dispatch("setRpDataGridRowsData", {
                             ga_rpDataGridRowsData: val,

@@ -236,7 +236,14 @@ module.exports = {
                 }
                 else {
                     if (moment(new Date(begin_dat)).diff(moment(new Date(getResult.rent_dat_hq)), "days") < 0) {
+                        lo_result.showAlert = true;
                         lo_result.alertMsg = commandRules.getMsgByCod("pms61msg2", session.locale);
+                        if (ls_beginDat != "" && ls_endDat != "" && moment(new Date(begin_dat)).diff(moment(new Date(ls_endDat)), "days") > 0) {
+                            lo_result.success = false;
+                            lo_result.effectValues = {begin_dat: ls_oldValue};
+                            lo_error = new ErrorClass();
+                            lo_error.errorMsg = commandRules.getMsgByCod("pms61msg15", session.locale);
+                        }
                         cb(lo_error, lo_result);
                     }
                     else {
@@ -295,9 +302,10 @@ module.exports = {
 
         async.waterfall([
             examineContract,
+            compareDat,
             setRateCodSelectData
         ], function (err, result) {
-            callback(err, result);
+            callback(lo_error, lo_result);
         });
 
         function examineContract(cb) {
@@ -323,6 +331,16 @@ module.exports = {
                 });
             }
             else {
+                cb(lo_error, lo_result);
+            }
+        }
+
+        function compareDat(result, cb) {
+            if (ls_beginDat != "" && ls_endDat != "" && moment(new Date(ls_beginDat)).diff(moment(new Date(ls_endDat)), "days") > 0) {
+                lo_result.success = false;
+                lo_result.effectValues = {end_dat: ls_oldValue};
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = commandRules.getMsgByCod("pms61msg15", session.locale);
                 cb(lo_error, lo_result);
             }
         }
@@ -603,7 +621,8 @@ module.exports = {
         callback(lo_error, lo_result);
     },
 
-    /**相關人員 人員名稱
+    /**
+     * 相關人員 人員名稱
      *1.切換主要聯絡人
      * @param postData
      * @param session

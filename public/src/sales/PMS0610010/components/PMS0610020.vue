@@ -312,6 +312,14 @@
             this.$eventHub.$on('contractStateData', function (contractStateData) {
                 self.singleData = _.extend(self.singleData, contractStateData.singleData);
             });
+            //取得相關人員資料，並改變主檔資料(主要聯絡人)
+            this.$eventHub.$on('chgRelatedPersonData', function () {
+                _.each(self.$store.state.go_allData.ga_rpDataGridRowsData, (go_rpDataGridRowsData) => {
+                    if (go_rpDataGridRowsData.primary_pers == 'Y') {
+                        self.singleData.atten_cod = go_rpDataGridRowsData.seq_nos;
+                    }
+                })
+            });
             //儲存異動的資料
             this.$eventHub.$on('saveSingleData', function () {
                 self.doSaveGrid();

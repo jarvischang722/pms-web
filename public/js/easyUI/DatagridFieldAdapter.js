@@ -464,9 +464,15 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                 var effectValues = result.effectValues;
                 if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
                     $('#' + dgName).datagrid('updateRow', {
-                        index: _.isUndefined(result.effectValues.effectIndex) ? indexRow : result.effectValues.effectIndex,
+                        index: _.isUndefined(effectValues.effectIndex) ? indexRow : effectValues.effectIndex,
                         row: effectValues
                     });
+                    if (!_.isUndefined(effectValues.effectIndex)) {
+                        if (effectValues.effectIndex != indexRow) {
+                            $('#' + dgName).datagrid('beginEdit', effectValues.effectIndex);
+                            $('#' + dgName).datagrid('endEdit', effectValues.effectIndex);
+                        }
+                    }
 
                     if (!_.isUndefined(effectValues.day_sta_color)) {
                         var col = $("#" + dgName).datagrid('getColumnOption', 'day_sta');

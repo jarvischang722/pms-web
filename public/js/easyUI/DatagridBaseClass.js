@@ -419,6 +419,7 @@ function DatagridBaseClass() {
             self.tmpCUD[dataType].push(lo_chkKeyRowData);
             $("#gridEdit").val(self.tmpCUD);
         }
+        console.log(self.tmpCUD);
     };
 
     this.insertKeyRowData = function (lo_chkKeyRowData) {

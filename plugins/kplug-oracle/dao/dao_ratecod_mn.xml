@@ -89,7 +89,7 @@
     <!-- [PMS0610020 商務公司資料編輯] 合約內容 參考房價代號下拉資料(所有)  -->
     <dao name="QRY_CONTRACT_DT_ALL_RATE_COD">
         <statement><![CDATA[
-            SELECT  DISTINCT RATECOD_MN.RATE_COD as value, RATECOD_MN.RATE_COD as display
+            SELECT  DISTINCT RATECOD_MN.RATE_COD as value, RATECOD_MN.RATECOD_NAM as display
             FROM  RATESUPPLY_DT, RATECOD_MN
             WHERE  RATECOD_MN.ATHENA_ID = RATESUPPLY_DT.ATHENA_ID
             AND  RATECOD_MN.ATHENA_ID = :athena_id
