@@ -163,6 +163,8 @@
 
 <script>
 
+    import _s from 'underscore.string';
+
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
@@ -517,10 +519,13 @@
                     alert(lo_chkResult.msg);
                 }
                 else {
+                    let la_remarkTypSelectData = _.findWhere(this.oriGridSingleFieldsData, {ui_field_name: 'remark_typ'}).selectData;
+                    let lo_remarkTypRmk = _.findWhere(la_remarkTypSelectData, {value: this.singleData.remark_typ});
                     this.singleData = _.extend(this.singleData, {
                         tab_page_id: 6,
                         event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
-                        cust_cod: this.$store.state.gs_custCod
+                        cust_cod: this.$store.state.gs_custCod,
+                        remark_typ_rmk: !_.isUndefined(lo_remarkTypRmk) ? lo_remarkTypRmk.display.split(":")[1].toString().trim() : ""
                     });
                     let ln_editIdx = _.isUndefined(this.singleData.index) ? -1 : this.singleData.index;
                     if (ln_editIdx > -1) {
@@ -541,8 +546,15 @@
                         this.dataGridRowsData[ln_editIdx] = this.singleData;
                     }
                     else {
-                        this.tmpCUD.createData.push(this.singleData);
-                        this.dataGridRowsData.push(this.singleData);
+                        let lo_conKey = {remark_typ: this.singleData.remark_typ};
+                        var ln_existIdx = _.findIndex(this.tmpCUD.createData, lo_conKey);
+                        if (ln_existIdx > -1) {
+                            alert(_s.sprintf(go_i18nLang.ErrorMsg.pms61msg14, this.singleData.remark_typ_rmk));
+                        }
+                        else {
+                            this.tmpCUD.createData.push(this.singleData);
+                            this.dataGridRowsData.push(this.singleData);
+                        }
                     }
                     console.log(this.tmpCUD);
                     this.showDataGrid();

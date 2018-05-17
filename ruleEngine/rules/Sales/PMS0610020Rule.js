@@ -799,7 +799,7 @@ module.exports = {
                 if (err) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "sql err";
+                    lo_error.errorMsg = err;
                     cb(lo_error, lo_result);
                 }
                 else {
@@ -807,7 +807,6 @@ module.exports = {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
                         lo_error.errorMsg = commandRules.getMsgByCod("pms61msg5", session.locale);
-                        ;
                         cb(lo_error, lo_result);
                     }
                     else {
@@ -1009,9 +1008,11 @@ module.exports = {
      * 存檔(編輯)
      * 1.公司編號不可重複
      * 2.公司編號不可與財務應收客戶重複
-     * 3.檢查相同館別及房價代號之合約期間不可重覆
-     * 4.修改cust_idx
-     * 5.刪除cust_idx(相關人員)
+     * 3.檢查拜訪紀錄是否重複
+     * 4.檢查業務備註是否重複
+     * 5檢查相同館別及房價代號之合約期間不可重覆
+     * 6.修改cust_idx
+     * 7.刪除cust_idx(相關人員)
      * @param postData
      * @param session
      * @param callback
@@ -1032,6 +1033,7 @@ module.exports = {
             qryCustMn,
             qryFincustMn,
             qryVisitRecord,
+            qryRemarkDt,
             qryContract,
             updateCustIdx,
             deleteCustIdx
@@ -1102,6 +1104,7 @@ module.exports = {
                 }
             });
             if (la_examData.length > 0) {
+                ln_counter = 0;
                 _.each(la_examData, function (lo_examData) {
                     let lo_params = {
                         athena_id: userInfo.athena_id,
@@ -1138,6 +1141,51 @@ module.exports = {
             else {
                 cb(lo_error, lo_result);
             }
+        }
+
+        async function qryRemarkDt(data, cb) {
+            let la_examData = [];
+            _.each(la_dtCreateData, function (lo_dtCreateData) {
+                if (Number(lo_dtCreateData.tab_page_id == 6)) {
+                    la_examData.push(lo_dtCreateData);
+                }
+            });
+            try {
+                if (la_examData.length > 0) {
+                    for (let i = 0; i < la_examData.length; i++) {
+                        let lo_examData = la_examData[i];
+                        let lo_params = {
+                            athena_id: userInfo.athena_id,
+                            cust_cod: lo_examData.cust_cod,
+                            remark_typ: lo_examData.remark_typ
+                        };
+
+                        let ln_remarkDtExistNum = await new Promise((resolve, reject) => {
+                            queryAgent.query("QRY_REMARK_DT_SINGLE", lo_params, function (err, result) {
+                                if (err) {
+                                    reject(err)
+                                }
+                                else {
+                                    resolve(result);
+                                }
+                            });
+                        });
+                        if (ln_remarkDtExistNum.remark_dt_count > 0) {
+                            lo_error = new ErrorClass();
+                            lo_result.success = false;
+                            let ls_errMsg = commandRules.getMsgByCod("pms61msg14", session.locale);
+                            lo_error.errorMsg = _s.sprintf(ls_errMsg, lo_examData.remark_typ_rmk);
+                        }
+                    }
+                }
+            }
+            catch (err) {
+                console.log(err);
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = err;
+            }
+            cb(lo_error, lo_result);
         }
 
         function qryContract(data, cb) {
