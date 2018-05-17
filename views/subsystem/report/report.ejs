@@ -13,7 +13,7 @@
             <div class="search-content">
                 <search-comp
                         field-mode="operator"
-                        :searchs-cond-operator="searchsCondOperator"
+                        :searchs-cond-operator.sync="searchsCondOperator"
                         :search-fields="searchFields"
                         :search-cond.sync="searchCond"
                         :fetch-data="doGenReport">
@@ -34,71 +34,4 @@
 <!-- subSystem 共用 js -->
 <%- include ../common/viewsComJs.ejs %>
 <!--  /.End subSystem 共用 js  -->
-
-<script>
-    let gs_prg_id = '<%= prg_id %>';
-    new Vue({
-        el: "#report-app",
-        data: {
-            searchFields: [],
-            searchCond: {},
-            searchsCondOperator: {},
-            pdfUrl: '',
-            loading: false
-        },
-        mounted() {
-            this.doSearchFields();
-        },
-        methods: {
-            doSearchFields() {
-
-                BacUtils.doHttpPostAgent('/api/fetchOnlySearchFieldsData', {prg_id: gs_prg_id}, (result) => {
-                    if (result.success) {
-                        this.searchFields = result.searchFieldsData;
-                        console.log(this.searchFields);
-                    }
-                });
-            },
-            convertFieldCond: function () {
-                let lao_fields = [];
-                let self = this;
-                try {
-                    _.each(this.searchCond, function (val, fieldName) {
-                        let lo_field = _.findWhere(self.searchFields, {ui_field_name: fieldName}) || {};
-                        if (val != "" && val != undefined) {
-                            if (lo_field.ui_type == "daterange") {
-                                val = _.map(val, (d) => {
-                                    return moment(d).format("YYYY/MM/DD")
-                                })
-                            }
-                            lao_fields.push({
-                                "field": fieldName,
-                                "operator": self.searchsCondOperator[fieldName] || "",
-                                "values": lo_field.ui_type == "mutilselect" || lo_field.ui_type == "daterange" ? val : [val]
-                            })
-                        }
-                    })
-                    console.log(lao_fields);
-                    return lao_fields;
-                } catch (e) {
-                    console.log(e);
-                }
-
-            },
-            doGenReport: function () {
-                console.log(this.searchsCondOperator);
-                console.log(this.searchCond);
-                let self = this;
-                self.loading = true;
-                BacUtils.doHttpPostAgent('/api/doGenReport', {prg_id: gs_prg_id, conditions: this.convertFieldCond()}, (res) => {
-                    self.loading = false;
-                    if (res.success) {
-                        self.pdfUrl = res.reportPdfUrl;
-                    } else {
-                        alert(res.errorMsg);
-                    }
-                })
-            }
-        }
-    })
-</script>
+<script src="/js/reports/report.js"></script>
