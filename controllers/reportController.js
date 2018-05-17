@@ -9,7 +9,7 @@ const reportSvc = require("../services/reportService");
  * 報表
  */
 exports.report = (req, res) => {
-    res.render("subsystem/report/report", {prg_id: req.params.prg_id});
+    res.render("subsystem/reports/reports", {prg_id: req.params.prg_id});
 };
 
 /**

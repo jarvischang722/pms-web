@@ -24,55 +24,6 @@ exports.handleReports = (req, callback) => {
         "event_time": moment().format()
 
     };
-    // lo_params = {
-    //     "REVE-CODE": "PMS01R0010",
-    //     "athena_id": 1,
-    //     "hotel_cod": "02",
-    //     "program_id": "PMS01R0010",
-    //     "user": "a17017",
-    //     "locale": "en",
-    //     "func_id": "0100",
-    //     "conditions": [
-    //         {
-    //             "field": "ins_dat",
-    //             "operator": "gte",
-    //             "values": [
-    //                 "2013/1/21"
-    //             ]
-    //         },
-    //         {
-    //             "field": "ins_usr",
-    //             "operator": "like",
-    //             "values": [
-    //                 "SM1"
-    //             ]
-    //         },
-    //         {
-    //             "field": "atten_nam",
-    //             "operator": "in",
-    //             "values": [
-    //                 "alex",
-    //                 "ssss",
-    //                 "ssssddd"
-    //             ]
-    //         },
-    //         {
-    //             "field": "ci_dat",
-    //             "operator": "gte",
-    //             "values": [
-    //                 "2013/12/03"
-    //             ]
-    //         },
-    //         {
-    //             "field": "co_dat",
-    //             "operator": "gte",
-    //             "values": [
-    //                 "2013/12/4"
-    //             ]
-    //         }
-    //     ],
-    //     "event_time": "2018-04-11T18:23:51+08:00"
-    // };
     tools.requestApi(sysConf.api_url.common, lo_params, (apiErr, apiRes, res) => {
         let ls_errorMsg = null;
         let ls_pdfUrl = "";
