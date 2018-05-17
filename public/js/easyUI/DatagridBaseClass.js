@@ -262,11 +262,9 @@ function DatagridBaseClass() {
                 allRows: $('#' + self.dgName).datagrid('getRows'),
                 mnRowData: self.mnRowData
             };
-
             BacUtils.doHttpPostAgent("/api/handleDataGridAddEventRule", lo_param, function (result) {
                 var prgDefaultObj = {createRow: 'Y'};
-            $.post("/api/handleDataGridAddEventRule", lo_param, function (result) {
-                //TODO 取亂數之後會有共用function
+                // TODO 取亂數之後會有共用function
                 var prgDefaultObj = {createRow: 'Y', uniKey: Math.floor(Math.random() * (99999999999999999999))};
                 if (result.success) {
                     prgDefaultObj = _.extend(prgDefaultObj, result.prgDefaultObj);
@@ -276,8 +274,8 @@ function DatagridBaseClass() {
                 $('#' + self.dgName).datagrid('selectRow', self.editIndex)
                     .datagrid('beginEdit', self.editIndex);
                 callback(true);
+                // $("#gridEdit").val(self.tmpCUD);
             });
-            // $("#gridEdit").val(self.tmpCUD);
         }
     };
     /**
