@@ -7,13 +7,13 @@
                         <div class="float-left">
                             <input type="text" v-model="searchCondOfRate"
                                    :placeholder="i18nLang.program.PMS0610020.rate"
-                                   @blur="doChangeRowData">
+                                   @keyup="doChangeRowData">
                         </div>
                         <div class="float-left">
                             <span class="checkbox">
                               <label class="checkbox-width">
                                   <input name="form-field-checkbox" type="checkbox"
-                                         class="ace" v-model="isHideExpire" @keyup="doHideExpire">
+                                         class="ace" v-model="isHideExpire">
                                   <span class="lbl"><span
                                           class="txt">{{i18nLang.program.PMS0610020.hide_expired}}</span></span>
                               </label>
@@ -126,6 +126,14 @@
                     }
                 },
                 deep: true
+            },
+            isHideExpire(val) {
+                if (val) {
+                    this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
+                }
+                else {
+                    this.dgIns.loadDgData(this.dataGridRowsData);
+                }
             }
         },
         methods: {
@@ -156,7 +164,7 @@
                     tab_page_id: 4,
                     template_id: "datagrid"
                 }).then(result => {
-                    this.rentDatHq = result.gsDefaultData.rent_dat_hq.toString();
+                    this.rentDatHq = moment(result.gsDefaultData.rent_dat_hq).format("YYYY/MM/DD").toString();
                     this.fetchFieldData();
                 });
             },
@@ -165,6 +173,8 @@
                 this.oriDataGridRowsData = [];
                 this.fieldsData = [];
                 this.oriFieldsData = [];
+                this.searchCondOfRate = "";
+                this.isHideExpire = true;
             },
             fetchFieldData() {
                 this.isLoading = true;
@@ -208,11 +218,11 @@
             doChangeRowData() {
                 if (this.isHideExpire) {
                     this.dataGridRowsDataOfRateCode =
-                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsData])
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsDataOfExpire])
                 }
                 else {
                     this.dataGridRowsDataOfRateCode =
-                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsDataOfExpire])
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsData])
                 }
                 this.showDataGrid(this.dataGridRowsDataOfRateCode);
             },
@@ -233,14 +243,6 @@
                 }
                 else {
                     this.dgIns.removeRow();
-                }
-            },
-            doHideExpire() {
-                if (this.isHideExpire) {
-                    this.dgIns.loadDgData(this.dataGridRowsData);
-                }
-                else {
-                    this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
                 }
             }
         }

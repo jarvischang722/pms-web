@@ -79,7 +79,7 @@ module.exports = {
                 }
                 else {
                     let ls_cod = data["SERIES_NOS"].toString();
-                    let ls_ghistMnGcustCod = "HFD" + _s.lpad(ls_cod, 13, '0') + _s.rpad(session.user.hotel_cod.trim(), 4, '');
+                    let ls_ghistMnGcustCod = "HFD" + _s.lpad(ls_cod, 13, '0') + session.user.hotel_cod.trim();
                     let ls_ghistMnShowCod = ls_ghistMnGcustCod.substring(8, 20);
                     resolve({
                         gcust_cod: ls_ghistMnGcustCod,

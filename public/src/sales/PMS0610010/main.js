@@ -6,3 +6,4 @@ new Vue({
     store,
     render: h=> h(PMS0610010)
 });
+

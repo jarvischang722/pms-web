@@ -8,6 +8,8 @@ var config = require("../configs/database");
 require('../plugins/kplug-oracle/DB').create(config.oracle);
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 
+console.log(moment(new Date('2018/05/23')).diff(moment(new Date('2018/10/13')), "days"));
+
 
 let la_test = [{field: 'a'}, {field: 'b'}, {field: 'c'}];
 
