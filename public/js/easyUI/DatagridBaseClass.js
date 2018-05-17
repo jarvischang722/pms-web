@@ -264,9 +264,10 @@ function DatagridBaseClass() {
             };
 
             $.post("/api/handleDataGridAddEventRule", lo_param, function (result) {
-                var prgDefaultObj = {createRow: 'Y'};
+                //TODO 取亂數之後會有共用function
+                var prgDefaultObj = {createRow: 'Y', uniKey: Math.floor(Math.random() * (99999999999999999999))};
                 if (result.success) {
-                    prgDefaultObj = result.prgDefaultObj;
+                    prgDefaultObj = _.extend(prgDefaultObj, result.prgDefaultObj);
                 }
                 $('#' + self.dgName).datagrid('appendRow', prgDefaultObj);
                 self.editIndex = $('#' + self.dgName).datagrid('getRows').length - 1;
@@ -373,9 +374,14 @@ function DatagridBaseClass() {
 
         var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
         var condKey = {};
-        _.each(keyVals, function (field_name) {
-            condKey[field_name] = lo_chkKeyRowData[field_name] || "";
-        });
+        if (dataType == "updateData") {
+            _.each(keyVals, function (field_name) {
+                condKey[field_name] = lo_chkKeyRowData[field_name] || "";
+            });
+        }
+        else {
+            condKey = {uniKey: lo_chkKeyRowData.uniKey};
+        }
 
         //判斷資料有無在暫存裡, 如果有先刪掉
         var existIdx = _.findIndex(self.tmpCUD[dataType], condKey);
@@ -413,6 +419,7 @@ function DatagridBaseClass() {
             self.tmpCUD[dataType].push(lo_chkKeyRowData);
             $("#gridEdit").val(self.tmpCUD);
         }
+        console.log(self.tmpCUD);
     };
 
     this.insertKeyRowData = function (lo_chkKeyRowData) {

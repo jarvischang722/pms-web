@@ -10,7 +10,7 @@
             and trim(shift_cod) = trim(:shift_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="String" kind="3">hotel_cod</parameter>
         <parameter type="date" kind="3">shop_dat</parameter>
         <parameter type="String" kind="3">shift_cod</parameter>
@@ -25,7 +25,7 @@
             and trim(open_man) = trim(:open_man)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="String" kind="3">hotel_cod</parameter>
         <parameter type="String" kind="3">open_man</parameter>
     </dao>
@@ -40,7 +40,7 @@
             and trim(shift_cod) = trim(:shift_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="String" kind="3">hotel_cod</parameter>
         <parameter type="date" kind="3">shop_dat</parameter>
         <parameter type="String" kind="3">shift_cod</parameter>

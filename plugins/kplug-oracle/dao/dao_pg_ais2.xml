@@ -46,7 +46,7 @@
         ]]>
         </statement>
         <parameter type="string" kind="3">hotel_cod</parameter>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 
     <!-- [PMS0210011] 參數:前台金額格式 -->
@@ -88,10 +88,10 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
-    <!-- [PMS0210011] 參數:預設信用卡號遮罩 -->
-    <dao name="QRY_DEFAULT_DMASK_CREDIT_NOS">
+    <!-- [PMS0210011] 參數:信用卡號遮罩 -->
+    <dao name="QRY_DMASK_CREDIT_NOS">
         <statement><![CDATA[
-               select pg_ais2.sf_get_hotel_sval(:hotel_cod, 'CM', 'dmask_credit_nos', :athena_id) as default_dmask_credit_nos from dual
+               select pg_ais2.sf_get_hotel_sval(:hotel_cod, 'CM', 'dmask_credit_nos', :athena_id) as dmask_credit_nos from dual
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>

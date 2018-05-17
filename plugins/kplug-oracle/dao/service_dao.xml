@@ -28,7 +28,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_cust_type_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_dept_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_deposit_mn.xml"/>
-        <sql-source base="true" comment="user" key="user" path="dao_email.xml"/>
         <sql-source base="true" comment="user" key="user" path="dao_fincust_mn.xml"/>
         <sql-source base="true" comment="user" key="user" path="dao_fmoney_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_foc_dt.xml"/>
@@ -68,7 +67,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_open_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_order_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_order_mn.xml"/>
-        <!--<sql-source base="true" comment="test" key="test" path="dao_pa_ais2.xml"/>-->
         <sql-source base="true" comment="test" key="test" path="dao_pg_ais.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_pg_ais2.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_pms0110050_room_list.xml"/>
@@ -111,7 +109,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_source_grp_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_source_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_state_rf.xml"/>
-        <sql-source base="true" comment="test" key="test" path="dao_test.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_wrs_normal_pic.xml"/>
         <sql-source base="true" comment="test" key="test" path="hfd_room_color_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_master_rf.xml"/>

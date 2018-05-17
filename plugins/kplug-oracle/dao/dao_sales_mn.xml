@@ -6,7 +6,7 @@
         SELECT SALES_COD, SALES_NAM, HOTEL_SALES, BQ_SALES, MEMBER_SALES FROM SALES_MN
         WHERE ATHENA_ID = :athena_id and trim(CLASS_COD) = trim(:class_cod) ORDER BY SALES_COD
         ]]></statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">class_cod</parameter>
     </dao>
 
@@ -18,7 +18,7 @@
         select count(*) as sales_mn_count from sales_mn
         where athena_id = :athena_id and trim(class_cod) = trim(:class_cod) and rownum = 1
         ]]></statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">class_cod</parameter>
     </dao>
 

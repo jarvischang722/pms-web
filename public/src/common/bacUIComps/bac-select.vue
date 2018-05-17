@@ -52,8 +52,12 @@
                 default: () => {
                     return "Y";
                 }
+            },
+            //是否唯讀
+            disabled: {
+                type: Boolean,
+                default: false
             }
-
         },
         mounted: function () {
             this.dataDisplay = this.dataDisplay.length == 0 ? this.data : this.dataDisplay;
@@ -72,18 +76,25 @@
             defaultVal: function (val) {
                 this.$emit('update:v-model', this.defaultVal);
                 $(this.$el).combobox('setValue', val);
+            },
+            //設定是否唯讀
+            disabled: function (val) {
+                $(this.$el).combobox({disabled: val});
             }
         },
         methods: {
             initCombobox: function () {
                 let self = this;
                 $(this.$el).combobox({
+                    width: this.$attrs.width,
+                    height: this.$attrs.height,
                     multiple: this.multiple,
                     valueField: this.valueField,
                     textField: this.textField,
                     editable: this.editable == "Y" ? true : false,
                     value: this.defaultVal && this.defaultVal != "" ? this.defaultVal : "",
                     data: this.dataDisplay,
+                    disabled: this.disabled,
                     onShowPanel: function () {
                         $(this).combobox("loadData", self.data);
                     },

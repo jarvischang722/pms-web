@@ -8,7 +8,7 @@
              where athena_id = ? and trim(guest_typ) = ? and rownum = 1
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">guest_typ</parameter>
     </dao>
 
@@ -20,7 +20,7 @@
              where athena_id = ? and trim(airline_cod) = :airline_cod and rownum = 1
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="3">airline_cod</parameter>
     </dao>
 
@@ -32,7 +32,7 @@
              where athena_id = ? and trim(airline_cod) = :airline_cod and rownum = 1
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="3">airline_cod</parameter>
     </dao>
 

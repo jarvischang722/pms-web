@@ -8,7 +8,7 @@
          where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(middle_typ) = trim(:middle_typ)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">middle_typ</parameter>
     </dao>

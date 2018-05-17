@@ -8,7 +8,7 @@
             where athena_id = ?
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
     </dao>
 
     <!-- [PMS0210011 住客歷史資料編輯] 居住地選單 -->

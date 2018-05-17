@@ -62,6 +62,11 @@
                 default: () => {
                     return 10;
                 }
+            },
+            //是否唯讀
+            disabled: {
+                type: Boolean,
+                default: false
             }
 
         },
@@ -91,13 +96,10 @@
             columns: function (val) {
                 this.initComboGrid();
             },
-            field: {
-                handler: function (val) {
-                    let lb_modificable = val.modificable == 'Y' ? false : true;
-                    $(this.$el).combogrid({disabled: lb_modificable});
-                    this.initComboGrid();
-                },
-                deep: true
+            //設定是否唯讀
+            disabled: function (val) {
+                $(this.$el).combogrid({disabled: val});
+                this.initComboGrid();
             }
         },
         methods: {
@@ -118,6 +120,7 @@
                     textField: this.textField,
                     columns: [this.columns],
                     editable: this.editable == "Y" ? true : false,
+                    disabled: this.disabled,
                     data: {total: this.data.length, rows: this.data},
                     scrollbarSize: 100,
                     hasDownArrow: this.isQrySrcBefore == "Y" ? true : false,

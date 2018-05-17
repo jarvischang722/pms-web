@@ -9,7 +9,7 @@
 from hfd_use_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="instring" kind="3">item_cod</parameter>
         <statement test="_v(param.item_cod)"><![CDATA[and item_cod in(:item_cod)]]></statement>
@@ -25,7 +25,7 @@ from hfd_use_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:h
          where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and item_cod = :item_cod
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">item_cod</parameter>
     </dao>
@@ -37,7 +37,7 @@ from hfd_use_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:h
          from hfd_use_dt where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
@@ -47,7 +47,7 @@ from hfd_use_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:h
          select item_cod, item_nam, item_cod as value, item_nam as display from hfd_use_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) order by decode(view_seq, -1, 999999, view_seq), item_cod
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
@@ -57,7 +57,7 @@ from hfd_use_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:h
          select nvl(max(view_seq),0) + 1 as view_seq from hfd_use_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 </root>
