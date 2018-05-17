@@ -556,7 +556,6 @@
                             this.dataGridRowsData.push(this.singleData);
                         }
                     }
-                    console.log(this.tmpCUD);
                     this.showDataGrid();
                     this.singleData = {};
                 }
