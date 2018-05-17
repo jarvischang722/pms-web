@@ -33,7 +33,7 @@
                                             <!-- 日期選擇器 -->
                                             <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'date'"
                                                             v-model="singleData[field.ui_field_name]"
-                                                            type="date" size="small"
+                                                            type="date" size="small" :clearable="false" :editable="false"
                                                             :disabled="field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
                                                             format="yyyy/MM/dd"
                                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"

@@ -31,8 +31,7 @@
 
                                 <template v-if="field.visiable == 'Y' && field.ui_type == 'date'">
                                     <el-date-picker v-model="singleData[field.ui_field_name]"
-                                                    type="date"
-                                                    size="small"
+                                                    type="date"  :clearable="false" :editable="false"
                                                     :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
                                                     format="yyyy/MM/dd"
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
@@ -47,7 +46,6 @@
                                                     type="datetime"
                                                     change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                     :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
-                                                    size="small"
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     format="yyyy/MM/dd HH:mm:ss"
                                                     @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
@@ -70,7 +68,7 @@
                                           v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
                                           class="numStyle-none"
                                           rows="4" :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                          :style="{width:field.width + 'px'}"
+                                          :style="{width:field.width + 'px'}" style="resize: none;"
                                           :required="field.requirable == 'Y'"
                                           :maxlength="field.ui_field_length"
                                           :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E' && createStatus) || !isModifiable"

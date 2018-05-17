@@ -1074,9 +1074,11 @@ exports.doOperationRuleProcBeforeSave = async function (postData, session, rules
                 lo_error.errorCod = "1111";
                 lo_result.success = false;
             }
-            lo_result.extendExecDataArrSet = la_tmpExtendExecDataArrSet;
-            delete postData.singleRowData;
-            lo_result.effectValues = postData;
+            else {
+                lo_result.extendExecDataArrSet = la_tmpExtendExecDataArrSet;
+                delete postData.singleRowData;
+                lo_result.effectValues = postData;
+            }
 
             callback(lo_error, lo_result);
         });
