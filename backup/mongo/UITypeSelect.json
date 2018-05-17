@@ -3280,7 +3280,7 @@
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "sales_cod", 
+    "ui_field_name" : "sales_cod1", 
     "ui_type" : "select", 
     "ui_display_name" : "sales_nam", 
     "rule_func_name" : "sel_sales_mn_hotel_status_n", 
@@ -5463,4 +5463,54 @@
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5afbcb1f70cce7b0c7298dd2"), 
+    "prg_id" : "FLWA120040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "action", 
+    "ui_type" : "select", 
+    "ui_display_name" : "action", 
+    "rule_func_name" : "QryFlowAction", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5afd1e4419e0cb3c7874603c"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "room_cods", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
+}
+{ 
+    "_id" : ObjectId("5afd1f5319e0cb3c78746046"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "command_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_command_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
 }
