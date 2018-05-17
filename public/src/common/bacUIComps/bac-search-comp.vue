@@ -30,7 +30,6 @@
                                     </template>
 
                                     <template v-if="field.ui_type == 'multiselect' || field.ui_type == 'select'">
-                                        <label>{{searchCond[field.ui_field_name]}}</label>
                                         <bac-select :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     v-model="searchCond[field.ui_field_name]" :data="field.selectData"
                                                     :field="field"
