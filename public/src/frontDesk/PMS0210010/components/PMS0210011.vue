@@ -655,6 +655,14 @@
                     $.post('/api/chkFieldRule', postData, function (result) {
 
                         if (result.success) {
+
+                            //連動帶回的值
+                            if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                self.singleData = _.extend(self.singleData, result.effectValues);
+
+                                self.isEffectFromRule = result.isEffectFromRule;
+                            }
+
                             //是否要show出訊息
                             if (result.showAlert) {
                                 alert(result.alertMsg);
@@ -687,19 +695,12 @@
                                     }
                                 }
                             }
+                            self.chgSingleData = JSON.parse(JSON.stringify(self.singleData));
 
                         }
                         else {
                             alert(result.errorMsg);
                         }
-
-                        //連動帶回的值
-                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
-                            self.singleData = _.extend(self.singleData, result.effectValues);
-                            self.chgSingleData = JSON.parse(JSON.stringify(self.singleData));
-                            self.isEffectFromRule = result.isEffectFromRule;
-                        }
-
                     });
                 }
             },
