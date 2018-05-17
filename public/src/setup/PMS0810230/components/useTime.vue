@@ -114,6 +114,51 @@
             field: {
                 type: String
             }
+        },
+        data() {
+            return {
+                selectData: []
+            }
+        },
+        watch: {
+            rowData: {
+                handler(data) {
+                    console.log(data);
+//                    let la_selectData = []
+//                    if (_.isEmpty(data)) {
+//                        la_selectData = _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay;
+//                        _.each(la_selectData, (lo_select, idx) => {
+//                            la_selectData[idx].value = 'H' + lo_select.value;
+//                        });
+//                        return la_selectData;
+//                    }
+//                    else {
+//                        //計算方式為D
+//                        if (data.compMethod == 'D') {
+//                            la_selectData = [{value: 'D1', display: '每一天'}];
+//                        }
+//                        //計算方式為H
+//                        else if (data.compMethod == 'H') {
+//                            la_selectData = _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay;
+//                        }
+//                        //計算方式為W
+//                        else {
+//                            la_selectData = [
+//                                {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
+//                                {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
+//                                {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
+//                                {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
+//                                {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
+//                                {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
+//                                {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
+//                            ];
+//                        }
+//
+//                        return la_selectData;
+//                    }
+                },
+                deep: true
+            }
         }
     });
     //房型
@@ -366,21 +411,25 @@
 
                 if (la_displayDataGridRowsData.length > 0) {
                     _.each(la_displayDataGridRowsData, (lo_dataGridRowsData) => {
-                        let la_commandOptionSelectData = [];
                         this.useTimeData.push({
                             "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
                             "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
+                            "compMethod": lo_dataGridRowsData.command_cod,
                             "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(lo_dataGridRowsData))),
-                            "roomCod": "",
+                            "roomCod": _.isUndefined(lo_dataGridRowsData.room_cods) ? "" : lo_dataGridRowsData.room_cods,
                             "supply_nos": lo_dataGridRowsData.supply_nos,
                             "cmFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}),
-                            "dtdFieldsData": la_commandOptionSelectData,
+                            "dtdFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}),
                             "rcFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'room_cods'}),
                         });
                     });
                 }
                 else {
-                    this.useTimeData = [{"fieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_option'})}];
+                    this.useTimeData = [{
+                        "cmFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}),
+                        "dtdFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}),
+                        "rcFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'room_cods'})
+                    }];
                     setTimeout(() => {
                         this.$delete(this.useTimeData, 0);
                     }, 0.1);
@@ -441,6 +490,10 @@
                 catch (err) {
                     alert(err);
                 }
+            },
+            //計算方式影響日期規則下拉資料
+            convertCommandOptionSelectData(data) {
+
             },
             //v-table function
             useTimeColumnCellClass(rowIndex, columnName, rowData) {
