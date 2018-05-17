@@ -7,19 +7,20 @@
                         <div class="width-95 searchMain-S2 row" style="padding-top: 10px;">
                             <div class="grid">
                                 <div class="grid-item" v-for="field in searchFieldsByRow[0]" :key="field.ui_field_name">
-                                    <label :title="field.ui_hint">{{field.ui_display_name}}</label>
-                                    <template
-                                            v-if="fieldMode == 'operator' && (field.ui_type == 'number' || field.ui_type.indexOf('date') > -1)">
-                                        <bac-select v-model="searchsCondOperator[field.ui_field_name]"
-                                                    :data="optionOfOperator[field.ui_type]"
-                                                    editable="N"
-                                                    :default-val="searchsCondOperator[field.ui_field_name]"
-                                                    @update:v-model="val => searchsCondOperator[field.ui_field_name] = val"
-                                                    :field="field"
-                                                    width="60px">
-                                        </bac-select>
-                                    </template>
-
+                                    <label class="pull-left" :title="field.ui_hint">{{field.ui_display_name}}</label>
+                                    <div class="pull-left">
+                                        <template
+                                                v-if="fieldMode == 'operator' && (field.ui_type == 'number' || field.ui_type.indexOf('date') > -1)">
+                                            <bac-select v-model="searchsCondOperator[field.ui_field_name]"
+                                                        :data="optionOfOperator[field.ui_type]"
+                                                        editable="N"
+                                                        :default-val="searchsCondOperator[field.ui_field_name]"
+                                                        @update:v-model="val => searchsCondOperator[field.ui_field_name] = val"
+                                                        :field="field"
+                                                        width="60px">
+                                            </bac-select>
+                                        </template>
+                                    </div>
                                     <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
                                         <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
                                                class="numStyle-none defHt"
@@ -133,18 +134,22 @@
                             <div class="grid" v-for="(searchFieldList, index) in searchFieldsByRow">
                                 <template>
                                     <div class="grid-item" v-for="field in searchFieldList" v-if="index != 0">
-                                        <label :title="field.ui_hint">{{field.ui_display_name}}</label>
+                                        <label class="pull-left"
+                                               :title="field.ui_hint">{{field.ui_display_name}}</label>
 
-                                        <bac-select
-                                                v-if="fieldMode == 'operator'  && (field.ui_type == 'number' || field.ui_type.indexOf('date') > -1)"
-                                                v-model="searchsCondOperator[field.ui_field_name]"
-                                                editable="N"
-                                                :data="optionOfOperator[field.ui_type]"
-                                                @update:v-model="val => searchsCondOperator[field.ui_field_name] = val"
-                                                :field="field"
-                                                width="60px">
-                                        </bac-select>
-
+                                        <div class="pull-left">
+                                            <template
+                                                    v-if="fieldMode == 'operator' && (field.ui_type == 'number' || field.ui_type.indexOf('date') > -1)">
+                                                <bac-select v-model="searchsCondOperator[field.ui_field_name]"
+                                                            :data="optionOfOperator[field.ui_type]"
+                                                            editable="N"
+                                                            :default-val="searchsCondOperator[field.ui_field_name]"
+                                                            @update:v-model="val => searchsCondOperator[field.ui_field_name] = val"
+                                                            :field="field"
+                                                            width="60px">
+                                                </bac-select>
+                                            </template>
+                                        </div>
 
                                         <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
                                             <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
@@ -221,7 +226,7 @@
                                                     :style="{width:field.width + 'px', height:field.height + 'px'}"
                                                     v-model="searchCond[field.ui_field_name]"
                                                     :multiple="true"
-                                                    :options="field.selectData" />
+                                                    :options="field.selectData"/>
                                         </template>
 
                                     </div>
