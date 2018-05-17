@@ -159,11 +159,11 @@
             },
             fetchFieldData() {
                 this.isLoading = true;
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 5,
                     searchCond: {cust_cod: this.$store.state.gs_custCod}
-                }).then(result => {
+                }, result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
                     if (_.isEmpty(this.$store.state.go_allData.ga_vrDataGridRowsData)) {

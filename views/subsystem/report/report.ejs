@@ -52,7 +52,7 @@
         methods: {
             doSearchFields() {
 
-                $.post('/api/fetchOnlySearchFieldsData', {prg_id: gs_prg_id}, (result) => {
+                BacUtils.doHttpPostAgent('/api/fetchOnlySearchFieldsData', {prg_id: gs_prg_id}, (result) => {
                     if (result.success) {
                         this.searchFields = result.searchFieldsData;
                         console.log(this.searchFields);
@@ -90,7 +90,7 @@
                 console.log(this.searchCond);
                 let self = this;
                 self.loading = true;
-                $.post('/api/doGenReport', {prg_id: gs_prg_id, conditions: this.convertFieldCond()}, (res) => {
+                BacUtils.doHttpPostAgent('/api/doGenReport', {prg_id: gs_prg_id, conditions: this.convertFieldCond()}, (res) => {
                     self.loading = false;
                     if (res.success) {
                         self.pdfUrl = res.reportPdfUrl;

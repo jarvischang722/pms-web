@@ -31,14 +31,14 @@ var vm = new Vue({
         //取得使用者資料
         fetchUserInfo: function () {
             var self = this;
-            $.post('/api/getUserInfo', function (result) {
+            BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                 if (result.success) {
                     self.userInfo = result.userInfo;
                 }
             });
         },
 
-        initTemCud: function(){
+        initTemCud: function () {
             this.tmpCud.createData = [];
             this.tmpCud.updateData = [];
             this.tmpCud.deleteData = [];
@@ -47,7 +47,7 @@ var vm = new Vue({
         //抓取顯示資料
         loadDataGridByPrgID: function () {
             var self = this;
-            $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
+            BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
                 vm.treeDataRows = _.map(result.dataGridRows, function (obj) {
                     if (obj.class_cod.trim() != "ROOT") {
                         var li_class_cod = Number(obj.class_cod);
@@ -76,12 +76,12 @@ var vm = new Vue({
 
         initAreaTree: function () {
             this.convertDataGridRows2TreeData();
-            if(this.isTreeCreate == false){
+            if (this.isTreeCreate == false) {
                 this.createTree();
                 this.tree = $("#areaTree").jstree(true);
                 this.isTreeCreate = true;
             }
-            else{
+            else {
                 this.tree.settings.core.data = vm.treeData.root;
                 this.tree.refresh();
             }
@@ -164,7 +164,7 @@ var vm = new Vue({
                 return true;
             }
 
-            if(lo_node.createStatus == "Y"){
+            if (lo_node.createStatus == "Y") {
                 this.tmpCud["createData"] = _.without(this.tmpCud["createData"], _.findWhere(this.tmpCud["createData"], {
                     class_cod: lo_node.id
                 }));
@@ -175,12 +175,12 @@ var vm = new Vue({
             var la_allDelRowData = searchNode(lo_node, []);
             la_allDelRowData.push(new rowData(lo_node));
 
-            $.post("/api/handleDataGridDeleteEventRule", {
+            BacUtils.doHttpPostAgent("/api/handleDataGridDeleteEventRule", {
                 prg_id: gs_prg_id,
                 deleteData: la_allDelRowData
             }, function (result) {
                 if (result.success) {
-                    _.each(la_allDelRowData, function(delRowData){
+                    _.each(la_allDelRowData, function (delRowData) {
                         var lo_childNode = self.tree.get_node(delRowData.class_cod);
                         lo_childNode.deleteStatus = "Y";
                         self.tmpCudHandler(lo_childNode);
@@ -206,7 +206,7 @@ var vm = new Vue({
                 _.each(lo_parentNode.children, function (childNode, Idx) {
                     var lo_childNode = self.tree.get_node(childNode);
                     lo_childNode.position = Idx;
-                    if(lo_childNode.createStatus == "N" || lo_childNode.deleteStatus == "N"){
+                    if (lo_childNode.createStatus == "N" || lo_childNode.deleteStatus == "N") {
                         lo_childNode.updateStatus = "Y";
                     }
                 });
@@ -223,13 +223,13 @@ var vm = new Vue({
                     }
                 });
 
-                if(lo_childNode.createStatus == "Y"){
+                if (lo_childNode.createStatus == "Y") {
                     self.tmpCud["createData"].push(new rowData(lo_childNode));
                 }
-                if(lo_childNode.updateStatus == "Y"){
+                if (lo_childNode.updateStatus == "Y") {
                     self.tmpCud["updateData"].push(new rowData(lo_childNode));
                 }
-                if(lo_childNode.deleteStatus == "Y"){
+                if (lo_childNode.deleteStatus == "Y") {
                     self.tmpCud["deleteData"].push(new rowData(lo_childNode));
                 }
             });
@@ -248,24 +248,21 @@ var vm = new Vue({
                 fieldData: fieldData,
                 mainTableName: "sales_class_kvrf"
             };
-            $.post('/api/execSQLProcess', params)
-                .done(function (response) {
-                    if (response.success) {
-                        self.initTemCud();
-                        self.loadDataGridByPrgID();
-                        alert(go_i18nLang.SystemCommon.saveSuccess);
-                    } else {
-                        alert(response.errorMsg);
-                    }
-                })
-                .fail(function (error) {
-                    console.log(error);
-                });
+            BacUtils.doHttpPostAgent('/api/execSQLProcess', params, function (response) {
+                if (response.success) {
+                    self.initTemCud();
+                    self.loadDataGridByPrgID();
+                    alert(go_i18nLang.SystemCommon.saveSuccess);
+                } else {
+                    alert(response.errorMsg);
+                }
+            });
+
         },
 
         qrySalesMn: function (class_cod) {
             var self = this;
-            $.post("/api/sales/qrySalesMn", {class_cod: class_cod}, function (getResult) {
+            BacUtils.doHttpPostAgent("/api/sales/qrySalesMn", {class_cod: class_cod}, function (getResult) {
                 if (getResult.success) {
                     self.dataGridRows = getResult.data;
                     self.initDataGrid();
@@ -288,33 +285,33 @@ var vm = new Vue({
                     {field: 'sales_nam', title: '業務員姓名', width: 150},
                     {
                         field: 'hotel_sales', title: '飯店業務', width: 100, formatter: function (value) {
-                        if (value == "Y") {
-                            return '<input type="checkbox" name="hotel_sales" checked="checked" disabled>';
+                            if (value == "Y") {
+                                return '<input type="checkbox" name="hotel_sales" checked="checked" disabled>';
+                            }
+                            else {
+                                return '<input type="checkbox" name="hotel_sales" disabled>';
+                            }
                         }
-                        else {
-                            return '<input type="checkbox" name="hotel_sales" disabled>';
-                        }
-                    }
                     },
                     {
                         field: 'bq_sales', title: '餐飲業務', width: 100, formatter: function (value) {
-                        if (value == "Y") {
-                            return '<input type="checkbox" name="bq_sales" checked="checked" disabled>';
+                            if (value == "Y") {
+                                return '<input type="checkbox" name="bq_sales" checked="checked" disabled>';
+                            }
+                            else {
+                                return '<input type="checkbox" name="bq_sales" disabled>';
+                            }
                         }
-                        else {
-                            return '<input type="checkbox" name="bq_sales" disabled>';
-                        }
-                    }
                     },
                     {
                         field: 'member_sales', title: '會員業務', width: 100, formatter: function (value) {
-                        if (value == "Y") {
-                            return '<input type="checkbox" name="member_sales" checked="checked" disabled>';
+                            if (value == "Y") {
+                                return '<input type="checkbox" name="member_sales" checked="checked" disabled>';
+                            }
+                            else {
+                                return '<input type="checkbox" name="member_sales" disabled>';
+                            }
                         }
-                        else {
-                            return '<input type="checkbox" name="member_sales" disabled>';
-                        }
-                    }
                     }
                 ]]
             });
@@ -327,7 +324,7 @@ function rowData(node) {
     this.class_nam = node.text;
     this.sort_cod = node.position;
     this.parent_cod = node.parent;
-    this.level_nos = node.parents.length-1;
+    this.level_nos = node.parents.length - 1;
 }
 
 function Node(rowData) {
@@ -470,7 +467,7 @@ $("#areaTree").on("move_node.jstree", function (e, data) {
     var lo_node = data.node;
     vm.tree.deselect_all();
     vm.tree.select_node(lo_node);
-    if(lo_node.createStatus != "Y"){
+    if (lo_node.createStatus != "Y") {
         lo_node.updateStatus = "Y";
     }
     vm.tmpCudHandler(lo_node);

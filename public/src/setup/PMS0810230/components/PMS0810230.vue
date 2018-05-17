@@ -345,7 +345,7 @@
         },
         methods: {
             fetchRentCalDat() {
-                $.post('/api/qryRentCalDat', {}, (result) => {
+                BacUtils.doHttpPostAgent('/api/qryRentCalDat', {}, (result) => {
                     this.pickerOptions = {
                         disabledDate(time) {
                             let lo_date = moment(time);
@@ -358,7 +358,7 @@
             fetchUserInfo() {
                 this.isLoading = true;
                 let self = this;
-                $.post('/api/getUserInfo', function (result) {
+                BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                     if (result.success) {
                         self.userInfo = result.userInfo;
                         self.$store.dispatch("setUserInfo", {
@@ -375,7 +375,7 @@
                     searchCond: lo_searchCond
                 };
 
-                $.post("/api/prgDataGridDataQuery", lo_params, function (result) {
+                BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", lo_params, function (result) {
                     if (self.searchFields.length <= 0) {
                         self.searchFields = result.searchFields;
                     }

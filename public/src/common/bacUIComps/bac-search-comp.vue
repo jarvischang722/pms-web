@@ -342,9 +342,8 @@
                 });
             },
             doSearch: function () {
-                var la_searchFields = JSON.parse(JSON.stringify(this.searchFields));
-                var lo_searchCond = JSON.parse(JSON.stringify(this.searchCond));
-
+                let la_searchFields = JSON.parse(JSON.stringify(this.searchFields));
+                let lo_searchCond = JSON.parse(JSON.stringify(this.searchCond));
                 _.each(la_searchFields, function (lo_searchField) {
                     if (lo_searchField.ui_type == "multitree") {
                         if (lo_searchCond[lo_searchField.ui_field_name].length != 0) {
@@ -367,7 +366,7 @@
                         }
                     }
                     else if (lo_searchField.ui_type == "tree") {
-                        var ln_dataLen = lo_searchCond[lo_searchField.ui_field_name].length;
+                        let ln_dataLen = lo_searchCond[lo_searchField.ui_field_name].length;
                         lo_searchCond[lo_searchField.ui_field_name] = lo_searchCond[lo_searchField.ui_field_name][ln_dataLen] - 1;
                     }
                     else if (lo_searchField.ui_type == "date") {
@@ -419,7 +418,7 @@
 
     function searchOptions(la_options, ls_value, la_selectData) {
         _.each(la_options, function (lo_option) {
-            var lo_childrenOptions = _.findWhere(lo_option.children, {id: ls_value});
+            let lo_childrenOptions = _.findWhere(lo_option.children, {id: ls_value});
             if (_.isUndefined(lo_childrenOptions)) {
                 searchOptions(lo_option.children, ls_value, la_selectData);
             }

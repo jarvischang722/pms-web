@@ -66,12 +66,12 @@ exports.requestApi = function (apiUrl, params, callback) {
  */
 exports.mongoDocToObject = function (mongoDataRows) {
     try {
-        if(_.isArray(mongoDataRows)){
+        if (_.isArray(mongoDataRows)) {
             _.each(mongoDataRows, function (row, idx) {
                 mongoDataRows[idx] = row.toObject();
             });
         }
-        else{
+        else {
             mongoDataRows = mongoDataRows.toObject();
         }
 
@@ -224,3 +224,5 @@ exports.combineKeys = function (obj, keys, isNeedAthenaID) {
     }
     return lo_key;
 };
+
+

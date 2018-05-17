@@ -158,12 +158,12 @@
                 });
             },
             fetchDefaultData() {
-                $.post("/api/fetchDefaultSingleRowData", {
+                BacUtils.doHttpPostAgent("/api/fetchDefaultSingleRowData", {
                     prg_id: "PMS0610020",
                     page_id: 1,
                     tab_page_id: 4,
                     template_id: "datagrid"
-                }).then(result => {
+                }, result => {
                     this.rentDatHq = moment(result.gsDefaultData.rent_dat_hq).format("YYYY/MM/DD").toString();
                     this.fetchFieldData();
                 });
@@ -178,11 +178,11 @@
             },
             fetchFieldData() {
                 this.isLoading = true;
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 4,
                     searchCond: {cust_cod: this.$store.state.gs_custCod}
-                }).then(result => {
+                }, result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
                     //第一次載入合約內容

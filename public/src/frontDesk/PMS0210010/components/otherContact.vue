@@ -329,12 +329,12 @@
                 this.oriAddressDataGridRows = [];
             },
             fetchEmailData() {
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0210011",
                     page_id: 1040,
                     tab_page_id: 1,
                     searchCond: {cust_cod: this.$store.state.gs_gcustCod}
-                }).then(result => {
+                }, result => {
                     this.emailFieldsData = result.dgFieldsData;
                     this.emailDataGridRows = result.dgRowData;
                     this.oriEmailDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
@@ -350,12 +350,12 @@
                 });
             },
             fetchContactData() {
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0210011",
                     page_id: 1040,
                     tab_page_id: 2,
                     searchCond: {cust_cod: this.$store.state.gs_gcustCod}
-                }).then(result => {
+                }, result => {
                     this.contactFieldsData = result.dgFieldsData;
                     this.contactFieldOneData = _.findWhere(this.contactFieldsData, {ui_field_name: 'contact_dt.contact_nam'});
                     this.contactFieldTwoData = _.findWhere(this.contactFieldsData, {ui_field_name: 'contact_dt.contact_rmk'});
@@ -373,13 +373,13 @@
                 });
             },
             fetchAddressData() {
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0210011",
                     page_id: 1040,
                     tab_page_id: 3,
                     searchCond: {cust_cod: this.$store.state.gs_gcustCod}
-                }).then(result => {
-                    this.addressFieldsData = _.sortBy(result.dgFieldsData, "col_seq");
+                }, result => {
+                    this.addressFieldsData = result.dgFieldsData;
                     this.addressDataGridRows = result.dgRowData;
                     this.oriAddressDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
 

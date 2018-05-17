@@ -108,7 +108,8 @@
                                  style="min-height: 0;!important; overflow-y: auto;">
                                 <div id="roomTypPanel" v-show="tabName=='roomTyp'" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
-                                        <template v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') <= -1">
+                                        <template
+                                                v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') <= -1">
                                             <div class="grid">
                                                 <div class="grid-item">
                                                     <label class="width-auto">使用期間</label>
@@ -553,12 +554,14 @@
                                             {{i18nLang.program.PMS0810230.rateList}}
                                         </button>
                                     </li>
-                                    <li class="depDateLi" v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
+                                    <li class="depDateLi"
+                                        v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_dependantRate"
                                                 role="button">{{i18nLang.program.PMS0810230.depRate}}
                                         </button>
                                     </li>
-                                    <li class="baseDateLi" v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
+                                    <li class="baseDateLi"
+                                        v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate"
                                                 role="button">{{i18nLang.program.PMS0810230.baseRate}}
                                         </button>
@@ -570,7 +573,8 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="doCloseDialog">{{i18nLang.program.PMS0810230.leave}}
+                                                role="button" @click="doCloseDialog">
+                                            {{i18nLang.program.PMS0810230.leave}}
                                         </button>
                                     </li>
                                 </ul>
@@ -909,7 +913,7 @@
             fetchFieldData() {
                 this.isLoadingDialog = true;
                 var self = this;
-                $.post("/api/fetchOnlySinglePageFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0810230",
                     page_id: 2,
                     tab_page_id: 1,
@@ -941,7 +945,7 @@
                         searchCond: {rate_cod: this.rowData.rate_cod}
                     };
                 }
-                $.post(ls_apiUrl, lo_params).then(result => {
+                BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, result => {
                     if (result.success) {
                         this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
                         this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
@@ -960,9 +964,6 @@
                         alert(result.errorMsg);
                     }
                     this.isLoadingDialog = false;
-                }, err => {
-                    this.isLoadingDialog = false;
-                    alert(err.statusText);
                 });
             },
             chkFieldRule(ui_field_name, rule_func_name) {
@@ -990,7 +991,7 @@
                         singleRowData: la_singleData,
                         oriSingleData: la_oriSingleData
                     };
-                    $.post('/api/chkFieldRule', postData, function (result) {
+                    BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
                         if (result.success) {
                             //是否要show出訊息
                             if (result.showAlert) {
@@ -1002,7 +1003,7 @@
                                 } else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
+                                        BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
                                             if (!result.success) {
                                                 alert(result.errorMsg);
                                             }

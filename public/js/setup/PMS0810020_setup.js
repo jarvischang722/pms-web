@@ -54,7 +54,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
                 ui_field_name: fieldInfo.ui_field_name
             };
 
-            $.post("/api/fieldAllLocaleContent", params, function (result) {
+            BacUtils.doHttpPostAgent("/api/fieldAllLocaleContent", params, function (result) {
                 self.multiLangContentList = result.multiLangContentList;
                 self.editingMultiLangFieldName = fieldInfo.ui_display_name;
                 self.openFieldMultiLangDialog();
@@ -203,7 +203,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                     validateField: ui_field_name,
                     singleRowData: JSON.parse(JSON.stringify(this.singleData))
                 };
-                $.post('/api/chkFieldRule', postData, function (result) {
+                BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
 
                     if (result.success) {
                         //是否要show出訊息
@@ -218,7 +218,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                             } else {
                                 //有沒有要再打一次ajax到後端
                                 if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                    $.post(result.ajaxURL, postData, function (result) {
+                                    BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
 
                                         if (!result.success) {
                                             alert(result.errorMsg);
@@ -252,7 +252,7 @@ Vue.component('single-grid-pms0810020-tmp', {
         // 取得房型排序設定資料
         fetchRoomCodOrder: function () {
             var self = this;
-            $.post('/api/PMS0810020/roomCodOrder').done(function (response) {
+            BacUtils.doHttpPostAgent('/api/PMS0810020/roomCodOrder', function (response) {
                 self.originSortData = response.roomCodOrderData;
                 self.erpSortData = _.sortBy(self.originSortData, function (item) {
                     return item.view_seq;
@@ -309,7 +309,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             var q = confirm("Are you sure delete those data?");
             if (q) {
                 //刪除前檢查
-                $.post("/api/deleteFuncRule", {
+                BacUtils.doHttpPostAgent("/api/deleteFuncRule", {
                     page_id: 2,
                     prg_id: prg_id,
                     deleteData: [self.singleData]
@@ -459,7 +459,7 @@ Vue.component('single-grid-pms0810020-tmp', {
         // 執行上傳官網
         execUploadRoomType: function (lo_params) {
             var params = _.extend({prg_id: prg_id}, lo_params);
-            $.post("/api/gateway/uploadRoomType", params, function (result) {
+            BacUtils.doHttpPostAgent("/api/gateway/uploadRoomType", params, function (result) {
                 if (result.success) {
                     alert('uploadRoomType success!');
                 } else {
@@ -509,7 +509,7 @@ Vue.component('single-grid-pms0810020-tmp', {
         },
 
         execUploadRoomTypePic: function (lo_params) {
-            $.post("/api/gateway/uploadRoomTypePic", lo_params, function (getResult) {
+            BacUtils.doHttpPostAgent("/api/gateway/uploadRoomTypePic", lo_params, function (getResult) {
                 if (getResult.success) {
                     alert("upload success!");
                 }
@@ -654,7 +654,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             };
 
             var params = _.extend({prg_id: prg_id}, lo_params);
-            $.post("/api/gateway/genRoomTypeStock", params, function (result) {
+            BacUtils.doHttpPostAgent("/api/gateway/genRoomTypeStock", params, function (result) {
 
                 if (result.success) {
                     self.dialogRmTypeStockVisible = false;
@@ -671,7 +671,7 @@ Vue.component('single-grid-pms0810020-tmp', {
         //房型庫存最大日期
         showRoomTypeMaxStockDate: function () {
             var self = this;
-            $.post("/api/getRoomTypeMaxStockDate", function (result) {
+            BacUtils.doHttpPostAgent("/api/getRoomTypeMaxStockDate", function (result) {
                 self.maxRmStock = moment(result.max_batch_dat).format("YYYY/MM/DD");
             });
         },
@@ -781,7 +781,10 @@ var vm = new Vue({
                 callback = function () {
                 };
             }
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
+            BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {
+                prg_id: prg_id,
+                searchCond: this.searchCond
+            }, function (result) {
 
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dataGridRows;
@@ -793,7 +796,7 @@ var vm = new Vue({
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function () {
             var self = this;
-            $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
+            BacUtils.doHttpPostAgent("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
                 var fieldData = result.fieldData;
                 vm.pageTwoDataGridFieldData = result.fieldData;
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
@@ -810,7 +813,7 @@ var vm = new Vue({
 
         //取得使用者資料
         fetchUserInfo: function () {
-            $.post('/api/getUserInfo', function (result) {
+            BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                 if (result.success) {
                     vm.userInfo = result.userInfo;
                 }
@@ -841,7 +844,7 @@ var vm = new Vue({
                     vm.tmpCud.deleteData.push(row);
                 });
                 //刪除前檢查
-                $.post("/api/deleteFuncRule", {
+                BacUtils.doHttpPostAgent("/api/deleteFuncRule", {
                     page_id: 1,
                     prg_id: prg_id,
                     deleteData: vm.tmpCud.deleteData
@@ -904,7 +907,7 @@ var vm = new Vue({
                 return;
             }
             self.isSaving = true;
-            $.post("/api/saveGridSingleData", params, function (result) {
+            BacUtils.doHttpPostAgent("/api/saveGridSingleData", params, function (result) {
                 self.isSaving = false;
                 if (result.success) {
                     if (self.uploadFileList.length != 0) {
@@ -979,7 +982,7 @@ var vm = new Vue({
                 cache: false,
                 contentType: false,
                 processData: false
-            }).done(function (uploadResult) {
+            }, function (uploadResult) {
 
                 if (uploadResult.success) {
                     self.uploadFileList = [];
@@ -1034,21 +1037,17 @@ var vm = new Vue({
         execSQLProcessAction: function (params, callback) {
             var self = this;
             self.isSaving = true;
-            $.post("/api/execSQLProcess", params)
-                .done(function (response) {
-                    self.isSaving = false;
-                    if (response.success) {
-                        alert(go_i18nLang.SystemCommon.saveSuccess);
-                        callback(null, true);
-                    } else {
-                        alert(response.errorMsg);
-                        callback(response.errorMsg, false);
-                    }
-                })
-                .fail(function (error) {
-                    self.isSaving = false;
-                    callback(error, false);
-                });
+            BacUtils.doHttpPostAgent("/api/execSQLProcess", params, function (response) {
+                self.isSaving = false;
+                if (response.success) {
+                    alert(go_i18nLang.SystemCommon.saveSuccess);
+                    callback(null, true);
+                } else {
+                    alert(response.errorMsg);
+                    callback(response.errorMsg, false);
+                }
+            });
+
         },
 
         //新增按鈕Event
@@ -1058,7 +1057,7 @@ var vm = new Vue({
             vm.createStatus = true;
             vm.imageDisplay = false;
             vm.singleData = {};
-            $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
+            BacUtils.doHttpPostAgent("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                 if (result.success) {
                     vm.singleData = result.defaultValues;
                     vm.showSingleGridDialog();
@@ -1078,7 +1077,7 @@ var vm = new Vue({
             vm.editingRow = editingRow;
 
             editingRow["prg_id"] = prg_id;
-            $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
+            BacUtils.doHttpPostAgent('/api/singlePageRowDataQuery', editingRow, function (result) {
                 vm.isLoading = false;
                 if (result.success) {
                     vm.singleData = result.rowData;
@@ -1105,29 +1104,28 @@ var vm = new Vue({
                 room_cod: vm.singleData.room_cod,
                 begin_dat: vm.singleData.begin_dat
             };
-            $.post("/api/PMS0810020/getRoomTypeUploadPic", params)
-                .done(function (getResult) {
-                    vm.isLoading = false;
-                    if (getResult.success) {
-                        vm.singleData.pic_path = getResult.roomTypePicData;
-                        _.each(vm.singleData.pic_path, function (eachPic) {
-                            var la_filePath = eachPic.pic_path.split("/");
-                            var ls_fileName = la_filePath[la_filePath.length - 1];
-                            vm.displayFileList.push({
-                                name: ls_fileName,
-                                url: eachPic.pic_path + "?" + Math.random()
-                            });
-
+            BacUtils.doHttpPostAgent("/api/PMS0810020/getRoomTypeUploadPic", params, function (getResult) {
+                vm.isLoading = false;
+                if (getResult.success) {
+                    vm.singleData.pic_path = getResult.roomTypePicData;
+                    _.each(vm.singleData.pic_path, function (eachPic) {
+                        var la_filePath = eachPic.pic_path.split("/");
+                        var ls_fileName = la_filePath[la_filePath.length - 1];
+                        vm.displayFileList.push({
+                            name: ls_fileName,
+                            url: eachPic.pic_path + "?" + Math.random()
                         });
-                        vm.uploadFileList = [];
-                        vm.imageDisplay = true;
-                        callback(true);
-                    }
-                    else {
-                        vm.singleData.pic_path = [];
-                        callback(true);
-                    }
-                });
+
+                    });
+                    vm.uploadFileList = [];
+                    vm.imageDisplay = true;
+                    callback(true);
+                }
+                else {
+                    vm.singleData.pic_path = [];
+                    callback(true);
+                }
+            });
         },
 
         //init datepicker

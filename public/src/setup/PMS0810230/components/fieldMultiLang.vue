@@ -71,7 +71,7 @@
                         page_id: fieldInfo.page_id,
                         ui_field_name: fieldInfo.ui_field_name
                     };
-                    $.post("/api/fieldAllLocaleContent", params, function (result) {
+                    BacUtils.doHttpPostAgent("/api/fieldAllLocaleContent", params, function (result) {
                         self.multiLangContentList = result.multiLangContentList;
                         self.editingMultiLangFieldName = fieldInfo.ui_display_name;
                         self.openFieldMultiLangDialog();

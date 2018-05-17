@@ -263,6 +263,8 @@ function DatagridBaseClass() {
                 mnRowData: self.mnRowData
             };
 
+            BacUtils.doHttpPostAgent("/api/handleDataGridAddEventRule", lo_param, function (result) {
+                var prgDefaultObj = {createRow: 'Y'};
             $.post("/api/handleDataGridAddEventRule", lo_param, function (result) {
                 //TODO 取亂數之後會有共用function
                 var prgDefaultObj = {createRow: 'Y', uniKey: Math.floor(Math.random() * (99999999999999999999))};
@@ -317,7 +319,7 @@ function DatagridBaseClass() {
             deleteData: self.tmpCUD.deleteData
         };
 
-        $.post("/api/handleDataGridDeleteEventRule", lo_param, function (result) {
+        BacUtils.doHttpPostAgent("/api/handleDataGridDeleteEventRule", lo_param, function (result) {
             if (result.success) {
                 $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
             } else {
@@ -351,7 +353,7 @@ function DatagridBaseClass() {
             saveField.push(_.extend(currentColumOption));
         });
 
-        $.post("/api/saveFieldOptionByUser", {
+        BacUtils.doHttpPostAgent("/api/saveFieldOptionByUser", {
             prg_id: self.prg_id,
             page_id: self.page_id,
             fieldOptions: saveField
@@ -419,7 +421,6 @@ function DatagridBaseClass() {
             self.tmpCUD[dataType].push(lo_chkKeyRowData);
             $("#gridEdit").val(self.tmpCUD);
         }
-        console.log(self.tmpCUD);
     };
 
     this.insertKeyRowData = function (lo_chkKeyRowData) {

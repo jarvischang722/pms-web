@@ -201,7 +201,7 @@
                 if (ls_keyword == "") {
                     return false;
                 }
-                $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
+                BacUtils.doHttpPostAgent('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
                     $(self.$el).combogrid("grid").datagrid("loadData", items);
                     $(self.$el).combogrid("setText", ls_keyword);
                 })
