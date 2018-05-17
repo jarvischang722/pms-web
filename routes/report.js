@@ -10,7 +10,7 @@ const middles = [i18nMW, authMW, sysMW];
 /* GET  page. */
 module.exports = function (app) {
     //報表
-    app.get("/reports/:prg_id", middles, reportCrtl.report);
+    app.get("/report/:prg_id", middles, reportCrtl.report);
     //產生報表
     app.post("/api/doGenReport", middles, reportCrtl.doGenReport);
 };
