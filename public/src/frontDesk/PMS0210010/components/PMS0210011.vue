@@ -701,14 +701,6 @@
                         else {
                             alert(result.errorMsg);
                         }
-
-                        //連動帶回的值
-                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
-                            self.singleData = _.extend(self.singleData, result.effectValues);
-                            self.chgSingleData = JSON.parse(JSON.stringify(self.singleData));
-                            self.isEffectFromRule = result.isEffectFromRule;
-                        }
-
                     });
                 }
             },
@@ -758,7 +750,8 @@
                         template_id: "gridsingle",
                         searchCond: {gcust_cod: this.rowData.gcust_cod}
                     }).then(result => {
-                        result.gsMnData.rowData[0]["cust_idx.birth_dat"] = result.gsMnData.rowData[0]["cust_idx.birth_dat"] == "" ? "" : moment(result.gsMnData.rowData[0]["cust_idx.birth_dat"]).format("YYYY/MM/DD");
+                        let ls_birth_dat = result.gsMnData.rowData[0]["cust_idx.birth_dat"] || "";
+                        result.gsMnData.rowData[0]["cust_idx.birth_dat"] = ls_birth_dat == "" ? "" : moment(ls_birth_dat).format("YYYY/MM/DD");
 
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
