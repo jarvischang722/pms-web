@@ -169,7 +169,12 @@ module.exports = {
             lo_return.confirmMsg = commonRule.getMsgByCod("pms21msg3", session.locale);
             lo_return.effectValues["vip_sta"] = 0;
         }
-        lo_return.isEffectFromRule = false;
+        if (lo_return.effectValues.vip_sta == postData.singleRowData[0].vip_sta || _.isUndefined(lo_return.effectValues.vip_sta)) {
+            lo_return.isEffectFromRule = true;
+        }
+        else {
+            lo_return.isEffectFromRule = false;
+        }
 
         callback(lo_error, lo_return);
     },
@@ -308,11 +313,6 @@ module.exports = {
                 callback(err, lo_return);
             }
         });
-        // callback(null, lo_return);
-        // console.log("中文:" + ls_ch_str, "英文：" + ls_en_str, "姓：" + ls_last_name, "名：" + ls_first_name);
-        // console.log("test");
-        // queryAgent.query("CHK_ALT_NAM_IS_EXIST", lo_params, function (err, result) {
-        // })
     },
 
     /**
@@ -368,6 +368,10 @@ module.exports = {
         let lo_return = new ReturnClass();
         let lo_error = null;
         if (postData.singleRowData[0].salute_cod == postData.oriSingleData[0].salute_cod) {
+            //性別資料防呆
+            if (postData.singleRowData[0]["cust_idx.sex_typ"].trim() == "") {
+                lo_return.effectValues = {"cust_idx.sex_typ": "M"};
+            }
             return callback(lo_error, lo_return);
         }
         let lb_sex_typ;
@@ -462,6 +466,7 @@ module.exports = {
         if (postData.singleRowData[0]["cust_idx.from_table"] == 'GHIST_MN') {
             lo_return.effectValues["cust_idx.cust_sta"] = lo_return.effectValues.status_cod;
         }
+        lo_return.isEffectFromRule = lo_return.effectValues.status_cod == postData.singleRowData[0].status_cod ? true : false;
 
         callback(lo_error, lo_return);
     },

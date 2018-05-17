@@ -663,6 +663,7 @@
                             //是否要show出詢問視窗
                             if (result.showConfirm) {
                                 if (confirm(result.confirmMsg)) {
+                                    self.chgSingleData = _.extend(self.singleData, result.effectValues);
                                     self.singleData = _.extend(self.singleData, result.effectValues);
                                 }
                                 else {
@@ -674,6 +675,7 @@
                                             }
                                             else {
                                                 if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                    self.chgSingleData = _.extend(self.singleData, result.effectValues);
                                                     self.singleData = _.extend(self.singleData, result.effectValues);
                                                     self.isEffectFromRule = result.isEffectFromRule;
                                                 }
