@@ -8,7 +8,7 @@
                     <search-comp
                             :search-fields="searchFields"
                             :search-cond.sync="searchCond"
-                            :fetch-data="loadDataGridByPrgID"
+                            :fetch-data="fetchDgRowData"
                     ></search-comp>
                 </div>
                 <div class="clearfix"></div>
@@ -518,6 +518,22 @@
                     self.pageOneDataGridRows = result.dgRowData;
                     self.showDataGrid();
                 });
+            },
+            fetchDgRowData(){
+                var lo_searchCond = _.clone(this.searchCond);
+
+                var lo_params = {
+                    prg_id: gs_prgId,
+                    page_id: 1,
+                    searchCond: lo_searchCond
+                };
+
+                $.post("/api/fetchDgRowData", lo_params).then(result=>{
+                    this.pageOneDataGridRows = result.dgRowData;
+                    this.showDataGrid();
+                }, err=>{
+                    throw Error (err);
+                })
             },
             showDataGrid() {
                 var colOption = [{field: 'ck', checkbox: true}];

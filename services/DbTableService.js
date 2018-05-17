@@ -707,7 +707,7 @@ exports.execProcSQL = async function (postData, session) {
     }
     catch (err) {
         let ls_errorMsg = err.errorMsg || err.message;
-        return {success: false, errorMsg: ls_errorMsg};
+        throw {success: false, errorMsg: ls_errorMsg};
     }
 };
 

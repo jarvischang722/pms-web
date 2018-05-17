@@ -14719,3 +14719,27 @@
     "ui_display_name_en" : "訂房卡狀態(英)", 
     "hint_en" : "訂房卡狀態(英)"
 }
+{ 
+    "_id" : ObjectId("5afd1e9919e0cb3c78746044"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "room_cods", 
+    "ui_display_name_zh_TW" : "房型", 
+    "hint_zh_TW" : "房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5afd1fea19e0cb3c7874604e"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "command_cod", 
+    "ui_display_name_zh_TW" : "計算方式", 
+    "hint_zh_TW" : "計算方式", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}

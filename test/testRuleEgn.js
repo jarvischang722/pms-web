@@ -2,7 +2,7 @@
  * Created by Jun on 2017/2/28.
  */
 // var RuleEngine = require('node-rules');
-let PMS0210011Rule = require("../ruleEngine/rules/FontDesk/PMS0210011Rule");
+let PMS0210011Rule = require("../ruleEngine/rules/FrontDesk/PMS0210011Rule");
 let config = require("../configs/database");
 require('../plugins/kplug-oracle/DB').create(config.oracle);
 // var queryAgent = require('../plugins/kplug-oracle/QueryAgent');

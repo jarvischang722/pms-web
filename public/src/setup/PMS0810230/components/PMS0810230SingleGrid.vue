@@ -1118,7 +1118,7 @@
                 this.isUseTime = true;
                 var dialog = $("#useTimeDialog").removeClass('hide').dialog({
                     modal: true,
-                    title: go_i18nLang.program.PMS0810230.useTime,
+                    title: go_i18nLang.program.PMS0810230.useTime + "假日日期設定最大日期:2018/12/31",
                     title_html: true,
                     width: 700,
                     maxwidth: 1920,

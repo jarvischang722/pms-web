@@ -317,6 +317,14 @@
             this.$eventHub.$on('contractStateData', function (contractStateData) {
                 self.singleData = _.extend(self.singleData, contractStateData.singleData);
             });
+            //取得相關人員資料，並改變主檔資料(主要聯絡人)
+            this.$eventHub.$on('chgRelatedPersonData', function () {
+                _.each(self.$store.state.go_allData.ga_rpDataGridRowsData, (go_rpDataGridRowsData) => {
+                    if (go_rpDataGridRowsData.primary_pers == 'Y') {
+                        self.singleData.atten_cod = go_rpDataGridRowsData.seq_nos;
+                    }
+                })
+            });
             //儲存異動的資料
             this.$eventHub.$on('saveSingleData', function () {
                 self.doSaveGrid();
@@ -380,9 +388,9 @@
                         //取得合約狀態說明
                         if (!_.isNull(lo_singleData.contract_sta)) {
                             if (lo_singleData.contract_sta.trim() != "") {
-                                var lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'})
-                                var lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: lo_singleData.contract_sta});
-                                var ls_contractStaDesc = lo_contractSta.display.split(":")[1];
+                                let lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'})
+                                let lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: lo_singleData.contract_sta});
+                                let ls_contractStaDesc = _.isUndefined(lo_contractSta) ? [] : lo_contractSta.display.split(":")[1];
                                 lo_singleData = _.extend(lo_singleData, {status_desc: ls_contractStaDesc});
                                 lo_oriSingleData = _.extend(lo_oriSingleData, {status_desc: ls_contractStaDesc});
                             }

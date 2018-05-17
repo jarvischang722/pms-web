@@ -26,4 +26,18 @@
         <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">cust_cod</parameter>
     </dao>
+
+    <dao name="QRY_REMARK_DT_SINGLE">
+        <statement><![CDATA[
+            SELECT COUNT(*) AS remark_dt_count
+            FROM REMARK_DT
+            WHERE  REMARK_DT.ATHENA_ID = :athena_id
+            AND  REMARK_DT.CUST_COD = :cust_cod
+            AND  REMARK_DT.REMARK_TYP = :remark_typ
+        ]]>
+        </statement>
+        <parameter type="number" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">cust_cod</parameter>
+        <parameter type="string" kind="1">remark_typ</parameter>
+    </dao>
 </root>

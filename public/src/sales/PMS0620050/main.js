@@ -166,11 +166,12 @@ Vue.component('single-grid-pms0620050-tmp', {
 
             BacUtils.doHttpPostAgent('/api/singlePageRowDataQuery', editingRow, function (result) {
                 if (result.success) {
-                    result.rowData["avisit_dat"] = _.isNull(self.singleData["avisit_dat"]) ? "" : moment(new Date(self.singleData["avisit_dat"])).format("YYYY/MM/DD");
+                    result.rowData["avisit_dat"] = _.isNull(self.rowData["avisit_dat"]) ? "" : moment(new Date(self.rowData["avisit_dat"])).format("YYYY/MM/DD");
                     result.rowData["remark"] = _.isNull(result.rowData["remark"]) ? "" : result.rowData["remark"];
                     self.singleData = result.rowData;
                     self.oriSingleData = _.clone(result.rowData);
-                } else {
+                }
+                else {
                     console.error(result.errorMsg);
                 }
                 self.isLoadingDialog = false;

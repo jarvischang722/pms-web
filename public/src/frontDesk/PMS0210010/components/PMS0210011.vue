@@ -44,7 +44,8 @@
                                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                 v-model="singleData[field.ui_field_name]"
                                                                 :data="field.selectData" :field="field"
-                                                                is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                is-qry-src-before="Y" value-field="value"
+                                                                text-field="display"
                                                                 @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 @update:v-model="val => singleData[field.ui_field_name] = val"
                                                                 :default-val="singleData[field.ui_field_name] || field.defaultVal"
@@ -84,7 +85,7 @@
                                                                 change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                 :disabled="field.modificable == 'N'||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                                size="small" format="yyyy/MM/dd HH:mm:ss"
+                                                                size="small" :format="field.ui_format"
                                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                 @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                         </el-date-picker>
@@ -98,7 +99,7 @@
                                                                 size="small"
                                                                 :disabled="field.modificable == 'N'||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                                format="yyyy/MM/dd"
+                                                                :format="field.ui_format"
                                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                 @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                         </el-date-picker>
@@ -517,10 +518,11 @@
                 tabName: "", //頁籤名稱
                 panelName: ["profilePanel", "visitsPanel", "referencePanel"], //頁籤內容名稱
                 tabStatus: {isProfile: false, isVisits: false, isReference: false}, //現在頁籤狀況
-                isOtherContact: false, //是否開啟other contact
-                isLostAndFound: false, //是否開啟lost&found
-                isDeleteStatus: false, //是否為刪除
-                isOpenChangeLog: false
+                isOtherContact: false,  //是否開啟other contact
+                isLostAndFound: false,  //是否開啟lost&found
+                isDeleteStatus: false,  //是否為刪除
+                isOpenChangeLog: false,
+                isEffectFromRule: true     //是否要連動
             }
         },
         watch: {
@@ -552,24 +554,37 @@
                     this.oriSingleData["cust_idx.sex_typ"] = _.isNull(this.oriSingleData["cust_idx.sex_typ"]) ? val["cust_idx.sex_typ"] : this.oriSingleData["cust_idx.sex_typ"];
                     val.sex_typ = val["cust_idx.sex_typ"];
 
-                    //訂房公司影響統一編號,發票抬頭
-                    if (!_.isNull(val.acust_cod) && !_.isUndefined(val.acust_cod)) {
-                        if (val.acust_cod.trim() != "") {
-                            let lo_compCodSelectData = _.findWhere(this.profileOriFieldsData, {ui_field_name: "acust_cod"}).selectData.selectData;
-                            let ls_uniCod = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_cod;
-                            let ls_uniTitle = _.findWhere(lo_compCodSelectData, {cust_cod: val.acust_cod}).uni_title;
-
-                            val["cust_idx.uni_cod"] = ls_uniCod;
-                            val["cust_idx.uni_title"] = ls_uniTitle;
-                        }
-                    }
-
-                    this.$store.dispatch("setProfileData", {
-                        go_profileSingleData: val,
-                        go_oriProfileSingleData: this.oriSingleData
-                    });
+                    //生日
+                    val["cust_idx.birth_dat"] = val["cust_idx.birth_dat"] == "" ? "" : moment(val["cust_idx.birth_dat"]).format("YYYY/MM/DD");
+                    val.birth_dat = val["cust_idx.birth_dat"];
                 },
                 deep: true
+            },
+            //訂房公司影響統一編號,發票抬頭
+            "singleData.acust_cod": function (newVal, oldVal) {
+                if (!_.isNull(newVal) && !_.isUndefined(newVal)) {
+                    if (newVal.trim() != "") {
+                        let lo_compCodSelectData = _.findWhere(this.profileOriFieldsData, {ui_field_name: "acust_cod"}).selectData.selectData;
+                        let ls_uniCod = "";
+                        let ls_uniTitle = "";
+                        try {
+                            ls_uniCod = _.findWhere(lo_compCodSelectData, {cust_cod: newVal}).uni_cod;
+                            ls_uniTitle = _.findWhere(lo_compCodSelectData, {cust_cod: newVal}).uni_title;
+                        }
+                        catch (err) {
+                        }
+
+                        this.singleData["cust_idx.uni_cod"] = this.singleData["cust_idx.uni_cod"] || "";
+                        this.singleData["cust_idx.uni_title"] = this.singleData["cust_idx.uni_title"] || "";
+                        this.singleData["cust_idx.uni_cod"] = this.singleData["cust_idx.uni_cod"] == "" ? ls_uniCod : this.singleData["cust_idx.uni_cod"];
+                        this.singleData["cust_idx.uni_title"] = this.singleData["cust_idx.uni_title"] == "" ? ls_uniTitle : this.singleData["cust_idx.uni_title"];
+                    }
+                }
+
+                this.$store.dispatch("setProfileData", {
+                    go_profileSingleData: this.singleData,
+                    go_oriProfileSingleData: this.oriSingleData
+                });
             }
         },
         methods: {
@@ -612,9 +627,6 @@
                 $("#" + ls_showPanelName).show();
             },
             chkFieldRule(ui_field_name, rule_func_name) {
-                if (rule_func_name === "" || !this.$parent.isModifiable) {
-                    return;
-                }
                 var self = this;
                 if (_.isEmpty(this.chgSingleData)) {
                     this.chgSingleData = this.oriSingleData;
@@ -622,10 +634,14 @@
                 let la_oriSingleData = [this.chgSingleData];
                 let la_singleData = [this.singleData];
                 let la_diff = _.difference(la_oriSingleData, la_singleData);
-
                 // 判斷資料是否有異動
                 if (la_diff.length != 0) {
                     this.isUpdate = true;
+                }
+
+                if (rule_func_name === "" || !this.$parent.isModifiable || !this.isEffectFromRule) {
+                    this.isEffectFromRule = true;
+                    return;
                 }
 
                 if (!_.isEmpty(rule_func_name.trim())) {
@@ -647,21 +663,28 @@
                             //是否要show出詢問視窗
                             if (result.showConfirm) {
                                 if (confirm(result.confirmMsg)) {
-                                } else {
+                                    self.chgSingleData = _.extend(self.singleData, result.effectValues);
+                                    self.singleData = _.extend(self.singleData, result.effectValues);
+                                }
+                                else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
                                         BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
 
                                             if (!result.success) {
                                                 alert(result.errorMsg);
-                                            } else {
-
+                                            }
+                                            else {
                                                 if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                    self.chgSingleData = _.extend(self.singleData, result.effectValues);
                                                     self.singleData = _.extend(self.singleData, result.effectValues);
+                                                    self.isEffectFromRule = result.isEffectFromRule;
                                                 }
-
                                             }
                                         });
+                                    }
+                                    else {
+                                        self.singleData = self.chgSingleData
                                     }
                                 }
                             }
@@ -675,6 +698,7 @@
                         if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
                             self.singleData = _.extend(self.singleData, result.effectValues);
                             self.chgSingleData = JSON.parse(JSON.stringify(self.singleData));
+                            self.isEffectFromRule = result.isEffectFromRule;
                         }
 
                     });
@@ -689,6 +713,17 @@
                     tab_page_id: 1,
                     template_id: 'gridsingle'
                 }, function (result) {
+                    _.each(result.gsFieldsData, (lo_gsFieldsData) => {
+                        if (lo_gsFieldsData.ui_field_name == "expira_dat") {
+                            lo_gsFieldsData.ui_format = "MM/yy";
+                        }
+                        else if (lo_gsFieldsData.ui_type == "date") {
+                            lo_gsFieldsData.ui_format = "yyyy/MM/dd";
+                        }
+                        else if (lo_gsFieldsData.ui_type == "datetime") {
+                            lo_gsFieldsData.ui_format = "yyyy/MM/dd HH:mm:ss";
+                        }
+                    });
                     self.profileOriFieldsData = result.gsFieldsData;
                     self.profileFieldData = _.values(_.groupBy(_.sortBy(self.profileOriFieldsData, "col_seq"), "row_seq"));
                     self.fetchProfileRowData();
@@ -772,27 +807,37 @@
                     this.isLoadingDialog = false;
                 }
                 else {
-                    let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
-                    let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
+                    try {
+                        let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
+                        if (lo_saveProfileDataRes.success) {
+                            let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
 
-                    if (lo_saveProfileDataRes.success && lo_saveOtherContactDataRes.success) {
-                        alert(go_i18nLang.SystemCommon.saveSuccess);
+                            if (lo_saveOtherContactDataRes.success) {
+                                alert(go_i18nLang.SystemCommon.saveSuccess);
 
-                        let lo_cloneRowData = _.extend(JSON.parse(JSON.stringify(this.rowData)),);
-                        lo_cloneRowData = _.extend(lo_cloneRowData, {gcust_cod: this.$store.state.gs_gcustCod});
+                                let lo_cloneRowData = _.extend(JSON.parse(JSON.stringify(this.rowData)),);
+                                lo_cloneRowData = _.extend(lo_cloneRowData, {gcust_cod: this.$store.state.gs_gcustCod});
 
-                        this.isEditStatus = true;
-                        this.isCreateStatus = false;
+                                this.isEditStatus = true;
+                                this.isCreateStatus = false;
 
-                        this.rowData = {};
-                        this.rowData = lo_cloneRowData;
+                                this.rowData = {};
+                                this.rowData = lo_cloneRowData;
+                                this.$store.dispatch("setAllDataClear");
+                            }
+                            else {
+                                alert(lo_saveOtherContactDataRes.errorMsg)
+                            }
+                        }
+                        else {
+                            alert(lo_saveProfileDataRes.errorMsg)
+                        }
                     }
-                    else {
-                        alert(lo_saveProfileDataRes.errorMsg)
-                    }
+                    catch (err) {
 
+                    }
                     this.isLoadingDialog = false;
-                    this.$store.dispatch("setAllDataClear");
+
                 }
             },
             async doDeleteData() {
@@ -865,7 +910,7 @@
             },
             loadChangeLog() {
                 this.isOpenChangeLog = true;
-                BacUtils.doHttpPostAgent("/api/getSetupPrgChangeLog", {prg_id: "PMS0210011"}, (result) => {
+                $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0210011"}, (result) => {
                     if (result.success) {
                         this.$eventHub.$emit('getChangeLogData', {
                             openChangeLogDialog: this.isOpenChangeLog,

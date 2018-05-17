@@ -225,18 +225,19 @@ class oldSaveDataProc extends saveTemplate {
                     if (err) {
                         reject(err);
                     }
+                    else{
+                        if (chkResult.extendExecDataArrSet.length > 0) {
+                            _.each(chkResult.extendExecDataArrSet, (execData) => {
+                                this.lo_saveExecDatas[this.ln_exec_seq] = execData;
+                                this.ln_exec_seq++;
+                            });
+                        }
 
-                    if (chkResult.extendExecDataArrSet.length > 0) {
-                        _.each(chkResult.extendExecDataArrSet, (execData) => {
-                            this.lo_saveExecDatas[this.ln_exec_seq] = execData;
-                            this.ln_exec_seq++;
-                        });
+                        if (!_.isUndefined(chkResult.effectValues)) {
+                            this.lo_postData = _.extend(this.lo_postData, chkResult.effectValues);
+                        }
+                        resolve(this.lo_postData);
                     }
-
-                    if (!_.isUndefined(chkResult.effectValues)) {
-                        this.lo_postData = _.extend(this.lo_postData, chkResult.effectValues);
-                    }
-                    resolve(this.lo_postData);
                 });
             })
         }

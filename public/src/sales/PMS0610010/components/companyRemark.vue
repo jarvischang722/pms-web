@@ -83,6 +83,13 @@
                                                                 </textarea>
 
                                                                 <!--select-->
+                                                                <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                            v-model="singleData[field.ui_field_name]" :data="field.selectData"
+                                                                            is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                            @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                            :default-val="singleData[field.ui_field_name]" :field="field"
+                                                                            :disabled="field.modificable == 'N'||(field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 <bac-select
                                                                         v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
@@ -183,6 +190,8 @@
 </template>
 
 <script>
+
+    import _s from 'underscore.string';
 
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
@@ -493,12 +502,14 @@
                 this.editingRow = _.first(this.dataGridRowsData);
             },
             toPreData() {
-                let nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.rowData);
-                this.editingRow = this.dataGridRowsData[nowRowIndex - 1];
+                let ln_nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.editingRow);
+                this.editingRow = _.extend(this.dataGridRowsData[ln_nowRowIndex - 1], {index: ln_nowRowIndex - 1});
+                this.setNewDataGridRowsData();
             },
             toNextData() {
-                let nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.rowData);
-                this.editingRow = this.dataGridRowsData[nowRowIndex + 1];
+                let ln_nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.editingRow);
+                this.editingRow = _.extend(this.dataGridRowsData[ln_nowRowIndex + 1], {index: ln_nowRowIndex + 1});
+                this.setNewDataGridRowsData();
             },
             toLastData() {
                 this.isFirstData = false;
@@ -536,10 +547,13 @@
                     alert(lo_chkResult.msg);
                 }
                 else {
+                    let la_remarkTypSelectData = _.findWhere(this.oriGridSingleFieldsData, {ui_field_name: 'remark_typ'}).selectData;
+                    let lo_remarkTypRmk = _.findWhere(la_remarkTypSelectData, {value: this.singleData.remark_typ});
                     this.singleData = _.extend(this.singleData, {
                         tab_page_id: 6,
                         event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
-                        cust_cod: this.$store.state.gs_custCod
+                        cust_cod: this.$store.state.gs_custCod,
+                        remark_typ_rmk: !_.isUndefined(lo_remarkTypRmk) ? lo_remarkTypRmk.display.split(":")[1].toString().trim() : ""
                     });
                     let ln_editIdx = _.isUndefined(this.singleData.index) ? -1 : this.singleData.index;
                     if (ln_editIdx > -1) {
@@ -548,14 +562,27 @@
                             this.tmpCUD.createData[createIndex] = this.singleData;
                         }
                         else {
-                            this.tmpCUD.updateData.push(this.singleData);
-                            this.tmpCUD.oriData.push(this.oriSingleData);
+                            let ln_updateIdx = _.findIndex(this.tmpCUD.updateData, {index: ln_editIdx});
+                            if (ln_updateIdx > -1) {
+                                this.tmpCUD.updateData[ln_updateIdx] = this.singleData;
+                            }
+                            else {
+                                this.tmpCUD.updateData.push(this.singleData);
+                                this.tmpCUD.oriData.push(this.oriSingleData);
+                            }
                         }
                         this.dataGridRowsData[ln_editIdx] = this.singleData;
                     }
                     else {
-                        this.tmpCUD.createData.push(this.singleData);
-                        this.dataGridRowsData.push(this.singleData);
+                        let lo_conKey = {remark_typ: this.singleData.remark_typ};
+                        var ln_existIdx = _.findIndex(this.tmpCUD.createData, lo_conKey);
+                        if (ln_existIdx > -1) {
+                            alert(_s.sprintf(go_i18nLang.ErrorMsg.pms61msg14, this.singleData.remark_typ_rmk));
+                        }
+                        else {
+                            this.tmpCUD.createData.push(this.singleData);
+                            this.dataGridRowsData.push(this.singleData);
+                        }
                     }
                     this.showDataGrid();
                     this.singleData = {};
