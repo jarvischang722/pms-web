@@ -1,7 +1,7 @@
 <div>
     <!-- 訂房卡 彈出視窗 -->
     <div id="reservationDialog-1-message" class="hide padding-5" style="top: 0 !important;">
-        <div class="businessCompanyData">
+        <div class="businessCompanyData" id="resv-single-info">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
@@ -76,7 +76,7 @@
                                                             <label class="pull-left">歷史備註</label>
                                                             <textarea
                                                                     class="input-medium resvCard-col2 pull-left input-hCol2"
-                                                                    placeholder="pick guy"></textarea>
+                                                                    placeholder="pick guy" disabled></textarea>
                                                             <div class="clearfix"></div>
                                                         </div>
                                                         <div class="clearfix"></div>
@@ -218,14 +218,13 @@
                                                             <th class="text-center ca-headerTitle height-fntThead rp-first-th">
                                                                 <i class="fa fa-plus green"></i>
                                                             </th>
-                                                            <th class="text-left" style="min-width: 25px;">序</th>
                                                             <th class="text-left" style="min-width: 40px;">狀態</th>
                                                             <th class="text-left" style="min-width: 40px;">入住日期</th>
                                                             <th class="text-left" style="min-width: 35px;">星期</th>
                                                             <th class="text-left" style="min-width: 35px;">天數</th>
                                                             <th class="text-left" style="min-width: 40px;">退房日期</th>
                                                             <th class="text-left" style="min-width: 35px;">星期</th>
-                                                            <th class="text-left" style="min-width: 190px;">房價代號</th>
+                                                            <th class="text-left" style="min-width: 215px;">房價代號</th>
                                                             <th class="text-left" style="min-width: 70px;">計價房型</th>
                                                             <th class="text-left" style="min-width: 70px;">使用房型</th>
                                                             <th class="text-right" style="min-width: 35px;">間數</th>
@@ -251,7 +250,6 @@
                                                             <td class=""></td>
                                                             <td class=""></td>
                                                             <td class=""></td>
-                                                            <td class=""></td>
                                                             <!--<td class=""></td>-->
                                                             <!--<td class=""></td>-->
                                                             <!--<td class=""></td>-->
@@ -261,8 +259,7 @@
                                                             <td class="text-center">
                                                                 <i class="fa fa-minus red"></i>
                                                             </td>
-                                                            <td class="text-left">1</td>
-                                                            <td class="text-left">No</td>
+                                                            <td class="text-left">正常</td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker v-model="ciDate1" type="date"
@@ -340,8 +337,7 @@
                                                             <td class="text-center">
                                                                 <i class="fa fa-minus red"></i>
                                                             </td>
-                                                            <td class="text-left">2</td>
-                                                            <td class="text-left">No</td>
+                                                            <td class="text-left">正常</td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker v-model="ciDate2" type="date"
@@ -411,8 +407,7 @@
                                                             <td class="text-center">
                                                                 <i class="fa fa-minus red"></i>
                                                             </td>
-                                                            <td class="text-left">3</td>
-                                                            <td class="text-left">No</td>
+                                                            <td class="text-left">正常</td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker v-model="ciDate3" type="date"
@@ -482,8 +477,7 @@
                                                             <td class="text-center">
                                                                 <i class="fa fa-minus red"></i>
                                                             </td>
-                                                            <td class="text-left">4</td>
-                                                            <td class="text-left">No</td>
+                                                            <td class="text-left">正常</td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker v-model="ciDate4" type="date"
@@ -553,8 +547,7 @@
                                                             <td class="text-center">
                                                                 <i class="fa fa-minus red"></i>
                                                             </td>
-                                                            <td class="text-left">5</td>
-                                                            <td class="text-left">No</td>
+                                                            <td class="text-left">正常</td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker v-model="ciDate5" type="date"
@@ -624,8 +617,7 @@
                                                             <td class="text-center">
                                                                 <i class="fa fa-minus red"></i>
                                                             </td>
-                                                            <td class="text-left">6</td>
-                                                            <td class="text-left">No</td>
+                                                            <td class="text-left">正常</td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker v-model="ciDate6" type="date"
@@ -719,9 +711,23 @@
                                         <!--1-->
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label>訂房來源</label>
-                                                <input type="text" class="input-medium resvCard"
-                                                       placeholder="WEB"/>
+                                                <label>
+                                                    <span class="notice">
+                                                        <i class="fa fa-star"></i>
+                                                    </span>訂房來源
+                                                </label>
+                                                <template>
+                                                    <el-select v-model="resv_sources_val_4"
+                                                               placeholder="請選擇"
+                                                               class="el-select-ht input-medium resvCard">
+                                                        <el-option
+                                                                v-for="item in resv_sources"
+                                                                :key="item.value"
+                                                                :label="item.label"
+                                                                :value="item.value">
+                                                        </el-option>
+                                                    </el-select>
+                                                </template>
                                             </div>
                                             <div class="grid-item">
                                                 <label>佣金</label>
@@ -743,20 +749,28 @@
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>市場類別</label>
-                                                <input type="text" class="input-medium resvCard"
-                                                       placeholder="OTA-AGODA"/>
+                                                <template>
+                                                    <el-select v-model="marketCates_val_4"
+                                                               placeholder="請選擇"
+                                                               class="el-select-ht input-medium resvCard">
+                                                        <el-option
+                                                                v-for="item in marketCates"
+                                                                :key="item.value"
+                                                                :label="item.label"
+                                                                :value="item.value">
+                                                        </el-option>
+                                                    </el-select>
+                                                </template>
                                             </div>
 
                                             <div class="grid-item">
                                                 <label>大/小/嬰</label>
                                                 <input type="text" class="input-medium resvCard-2xs text-right"
-                                                       placeholder="1"/>
-                                                <!--<span>/</span>-->
+                                                       placeholder="1" disabled/>
                                                 <input type="text" class="input-medium resvCard-2xs text-right ml-2"
-                                                       placeholder="0"/>
-                                                <!--<span>/</span>-->
+                                                       placeholder="0" disabled/>
                                                 <input type="text" class="input-medium resvCard-2xs text-right ml-2"
-                                                       placeholder="0"/>
+                                                       placeholder="0" disabled/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>其他費用</label>
@@ -1538,7 +1552,7 @@
                                             <div class="css_th" style="min-width:100px;">C/O日期</div>
                                             <div class="css_th" style="min-width:100px;">房價代號</div>
                                             <div class="css_th" style="min-width:100px;">名稱</div>
-                                            <div class="css_th" style="min-width:100px;">計價房種</div>
+                                            <div class="css_th" style="min-width:100px;">計價房型</div>
                                             <div class="css_th" style="min-width:60px;">房價</div>
                                             <div class="css_th" style="min-width:60px;">服務費</div>
                                             <div class="css_th" style="min-width:60px;">間數</div>
@@ -1891,7 +1905,7 @@
                                                                 <i class="fa fa-plus green"></i>
                                                             </th>
                                                             <th class="text-left" style="min-width: 40px;">
-                                                                序
+                                                                序號
                                                             </th>
                                                             <th class="text-left" style="min-width: 40px;">
                                                                 入住日期
@@ -2420,7 +2434,7 @@
                                                             <td class="text-left">已排房</td>
                                                             <td class="text-left">801</td>
                                                             <td class="text-left">Taiwan</td>
-                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">801</td>
                                                             <td class="text-left">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="12345678"/>
@@ -2441,7 +2455,7 @@
                                                             <td class="text-left">未排房</td>
                                                             <td class="text-left">802</td>
                                                             <td class="text-left">Taiwan</td>
-                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">802</td>
                                                             <td class="text-left">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="12345678"/>
@@ -2462,7 +2476,7 @@
                                                             <td class="text-left">已排房</td>
                                                             <td class="text-left">803</td>
                                                             <td class="text-left">Taiwan</td>
-                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">803</td>
                                                             <td class="text-left">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="12345678"/>
@@ -2483,7 +2497,7 @@
                                                             <td class="text-left">已排房</td>
                                                             <td class="text-left">804</td>
                                                             <td class="text-left">Taiwan</td>
-                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">804</td>
                                                             <td class="text-left">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="12345678"/>
@@ -2504,7 +2518,7 @@
                                                             <td class="text-left">已排房</td>
                                                             <td class="text-left">805</td>
                                                             <td class="text-left">Taiwan</td>
-                                                            <td class="text-left">80170076-1</td>
+                                                            <td class="text-left">805</td>
                                                             <td class="text-left">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="12345678"/>
@@ -2902,7 +2916,7 @@
                                                 <div class="css_th" style="min-width:60px;">狀態</div>
                                                 <div class="css_th" style="min-width:100px;">C/I日期</div>
                                                 <div class="css_th" style="min-width:100px;">C/O日期</div>
-                                                <div class="css_th" style="min-width:120px;">使用房種</div>
+                                                <div class="css_th" style="min-width:120px;">使用房型</div>
                                                 <div class="css_th" style="min-width:120px;">姓名</div>
                                                 <div class="css_th" style="min-width:60px;">訂房數</div>
                                             </div>

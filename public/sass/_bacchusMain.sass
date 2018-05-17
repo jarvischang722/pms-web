@@ -2399,12 +2399,10 @@ td
       tr
         td, th
           background-clip: padding-box !important
-          font-size: 14px
-          font-weight: bold
+          font-size: $font-default
+          font-weight: 700
           z-index: 4
-          box-shadow: 1px 1px 1px 1px #778899
-          -moz-box-shadow: 1px 1px 1px 1px #778899
-          -webkit-box-shadow: 1px 1px 1px 1px #778899
+          +box-shadow(1px 1px 1px 1px #778899)
         th
           &.td-first
             z-index: 99 !important
@@ -2412,9 +2410,7 @@ td
           th
             &:first-child
               z-index: 99 !important
-              box-shadow: 0px 0px 0px 2px #778899
-              -moz-box-shadow: 0px 0px 0px 2px #778899
-              -webkit-box-shadow: 0px 0px 0px 2px #778899
+              +box-shadow(0px 0px 0px 2px #778899)
     tbody
       tr
         td
@@ -2422,9 +2418,7 @@ td
           border: 1px solid #778899
           &:first-child
             z-index: 9
-            box-shadow: 1px 1px 0px 1px rgba(119, 136, 153, 1)
-            -moz-box-shadow: 1px 1px 0px 1px rgba(119, 136, 153, 1)
-            -webkit-box-shadow: 1px 1px 0px 1px rgba(119, 136, 153, 1)
+            +box-shadow(1px 1px 0px 1px rgba(119, 136, 153, 1))
 
 //fixTable新套件-firefox相容性處理
 @-moz-document url-prefix()
@@ -2559,6 +2553,15 @@ td
     label.title-2x
       font-size: 2rem
 
+.el-select-ht
+  .el-input__inner
+    height: $defHt
+  .el-input__icon
+    width: 20px
+  .el-input__icon + .el-input__inner
+    padding-right: 0
+  input[readonly]
+    background: #fff !important
 .custom-table
   th, td
     padding: 0 3px
@@ -2575,13 +2578,6 @@ td
     width: 82px
     .el-icon-date
       display: none
-    .el-input__icon + .el-input__inner
-      padding-right: 0
-  .el-select-ht
-    .el-input__inner
-      height: $defHt
-    .el-input__icon
-      width: 20px
     .el-input__icon + .el-input__inner
       padding-right: 0
   .td-more

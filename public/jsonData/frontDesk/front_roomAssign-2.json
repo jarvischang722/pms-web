@@ -9,7 +9,6 @@
       "roomAssignHousing": "STD",
       "useHousing": "STD",
       "lockRoomAssign": "是",
-      "roomNumCode": "18PKG01",
       "adult": "1",
       "child": "0",
       "baby": "0"
@@ -22,7 +21,6 @@
       "roomAssignHousing": "STD",
       "useHousing": "STD",
       "lockRoomAssign": "否",
-      "roomNumCode": "18PKG01",
       "adult": "1",
       "child": "0",
       "baby": "0"
@@ -35,7 +33,6 @@
       "roomAssignHousing": "STD",
       "useHousing": "STD",
       "lockRoomAssign": "否",
-      "roomNumCode": "18PKG01",
       "adult": "2",
       "child": "1",
       "baby": "0"
@@ -48,7 +45,6 @@
       "roomAssignHousing": "STD",
       "useHousing": "STD",
       "lockRoomAssign": "是",
-      "roomNumCode": "18PKG01",
       "adult": "1",
       "child": "0",
       "baby": "0"

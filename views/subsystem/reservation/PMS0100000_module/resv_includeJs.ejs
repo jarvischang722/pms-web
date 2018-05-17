@@ -66,7 +66,7 @@
 
             // 訂房明細 裡面的 vue 要放在上一層，不然會出現關掉後ID衝突跑不出來問題
             var resv_detail = new Vue({
-                el: '#resvDetail-table',
+                el: '#resv-single-info',
                 data: {
                     roomCodes: [
                         {
@@ -75,7 +75,7 @@
                         },
                         {
                             value: '2',
-                            label: 'TRA:旅展價'
+                            label: '`'
                         },
                         {
                             value: '3',
@@ -192,7 +192,7 @@
                     marketCates: [
                         {
                             value: '1',
-                            label: '1.純訂房'
+                            label: '1.OTA-AGODA'
                         },
                         {
                             value: '2',
@@ -209,6 +209,10 @@
                         {
                             value: '5',
                             label: '5.員工訂房'
+                        },
+                        {
+                            value: '6',
+                            label: '6.純訂房'
                         }],
 
                     resvDetail_ciDate: new Date(),
@@ -234,6 +238,9 @@
                     useRmTypes_val_3: '',
                     resv_sources_val_3: '',
                     marketCates_val_3: '',
+
+                    resv_sources_val_4: '',
+                    marketCates_val_4: '',
                 }
             });
             // 訂房明細　table 顯示
@@ -387,7 +394,7 @@
                     {field: 'groupNum', title: '團號', width: 60},
                     {field: 'contactMan', title: '聯絡人', width: 100},
                     {field: 'roomKind', title: '房價代號', width: 80},
-                    {field: 'roomKindAcc', title: '計價房種', width: 80},
+                    {field: 'roomKindAcc', title: '計價房型', width: 80},
                     {field: 'rooms', title: '間數', width: 80},
                     {field: 'dayPrices', title: '單日房價', width: 80},
                     {field: 'people', title: '人數', width: 80}
@@ -807,8 +814,8 @@
                     {field: 'batchDate1', title: 'C/I日期', width: 80},
                     {field: 'batchDate2', title: 'C/O日期', width: 80},
                     {field: 'batchCode', title: '房價代號', width: 150},
-                    {field: 'batchTotal', title: '計價房種', width: 100},
-                    {field: 'batchUse', title: '使用房種', width: 100},
+                    {field: 'batchTotal', title: '計價房型', width: 100},
+                    {field: 'batchUse', title: '使用房型', width: 100},
                     {field: 'batchNum', title: '間數', width: 50},
                     {field: 'batchPrice', title: '房價', width: 60, align: 'right'},
                     {field: 'batchSerice', title: '服務費', width: 60, align: 'right'},
@@ -2216,7 +2223,7 @@
                 {field: 'ciDate', title: 'C/I日期', width: 80},
                 {field: 'coDate', title: 'C/O日期', width: 80},
                 {field: 'dateNum', title: '天數', width: 50},
-                {field: 'useHousing', title: '使用房種', width: 100},
+                {field: 'useHousing', title: '使用房型', width: 100},
                 {field: 'housingNum', title: '間數', width: 50},
                 {field: 'planRoomNum', title: '排房數', width: 50},
                 {field: 'ciNum', title: 'C/I數', width: 60},
@@ -2233,7 +2240,7 @@
                 {field: 'confirmDate', title: '確認日期', width: 60},
 //                {field: 'firstName', title: 'First Name', width: 60},
 //                {field: 'lastName', title: 'Last Name', width: 60},
-                {field: 'valHousing', title: '計價房種', width: 60},
+                {field: 'valHousing', title: '計價房型', width: 60},
                 {field: 'guestCategory', title: '市場類別', width: 60},
                 {field: 'publicAccount', title: '公帳號', width: 60},
                 {field: 'officalCard', title: '官網卡號', width: 60},

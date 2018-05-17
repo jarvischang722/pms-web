@@ -3,51 +3,39 @@
   "rows": [
     {
       "row": "<input type='checkbox' checked/>",
-      "roomKind": "0301",
+      "roomKind": "301",
       "rmGrpup": "1",
-      "fullName": "楊牧牧",
-      "firstName": "牧牧",
-      "lastName": "楊"
+      "fullName": "李大同, 陳小華"
     },
     {
       "row": "<input type='checkbox' checked/>",
-      "roomKind": "0302",
+      "roomKind": "302",
       "rmGrpup": "1",
-      "fullName": "楊牧牧",
-      "firstName": "牧牧",
-      "lastName": "楊"
+      "fullName": "李大同, 陳小華"
     },
     {
       "row": "<input type='checkbox' checked/>",
-      "roomKind": "0303",
+      "roomKind": "303",
       "rmGrpup": "1",
-      "fullName": "楊牧牧",
-      "firstName": "牧牧",
-      "lastName": "楊"
+      "fullName": "楊牧牧,王大明"
     },
     {
       "row": "<input type='checkbox' checked/>",
-      "roomKind": "0304",
+      "roomKind": "304",
       "rmGrpup": "1",
-      "fullName": "楊牧牧",
-      "firstName": "牧牧",
-      "lastName": "楊"
+      "fullName": "楊牧牧,王大明"
     },
     {
       "row": "<input type='checkbox' checked/>",
-      "roomKind": "0305",
+      "roomKind": "305",
       "rmGrpup": "1",
-      "fullName": "楊牧牧",
-      "firstName": "牧牧",
-      "lastName": "楊"
+      "fullName": "楊牧牧"
     },
     {
       "row": "<input type='checkbox' checked/>",
-      "roomKind": "0306",
+      "roomKind": "306",
       "rmGrpup": "1",
-      "fullName": "楊牧牧",
-      "firstName": "牧牧",
-      "lastName": "楊"
+      "fullName": "王大明"
     }
   ]
 }
