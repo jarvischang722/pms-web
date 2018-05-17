@@ -1,5 +1,194 @@
 <template>
     <div class="row">
+        <div>
+            <div class="grid">
+                <div class="grid-item">
+                    <label class="width-auto">使用期間</label>
+                    <select class="input-medium medium-c1">
+                        <option value="-1">使用期間</option>
+                        <option value="1">2018/04/17~2018/12/31</option>
+                        <option value="2">2019/01/01~2019/12/31</option>
+                        <option value="2">2020/01/01~2020/12/31</option>
+                    </select>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="container_12 divider">
+                <div class="grid_12 fixed-table-container cus-resvBlockSetting-table"
+                     width="100%">
+                    <!--<div class="">-->
+                    <table class="fancyTable themeTable treeControl themeTableTwo"
+                           id="PMS0810230-table" cellpadding="0" cellspacing="0">
+                        <thead>
+                        <tr class="grayBg">
+                            <th class="ca-headerTitle grayBg">
+                                日期規則
+                            </th>
+                            <th class="">STD</th>
+                            <th class="">SUP</th>
+                            <th class="">DXK</th>
+                            <th class="">DXT</th>
+                            <th class="">SUE</th>
+                            <th class="">ESD</th>
+                            <th class="">ESP</th>
+                            <th class="">EXK</th>
+                            <th class="">EXT</th>
+                            <th class="">ESU</th>
+                            <th class="">PDS</th>
+                        </tr>
+                        </thead>
+                        <tbody class="tbodyRight">
+                        <tr class="grayBg">
+                            <td class="middle td-first grayBg">每一天</td>
+                            <td class="numeric">20</td>
+                            <td class="numeric">20</td>
+                            <td class="numeric">22</td>
+                            <td class="numeric darkRedTxt">-1</td>
+                            <td class="numeric ">9</td>
+                            <td class="numeric ">8</td>
+                            <td class="numeric ">15</td>
+                            <td class="numeric ">10</td>
+                            <td class="numeric ">12</td>
+                            <td class="numeric ">6</td>
+                            <td class="numeric ">1</td>
+                        </tr>
+                        <tr class="grayBg">
+                            <td class="middle td-first grayBg">感恩節，假日</td>
+                            <td class="numeric ">20</td>
+                            <td class="numeric ">20</td>
+                            <td class="numeric ">22</td>
+                            <td class="numeric darkRedTxt">-1</td>
+                            <td class="numeric ">9</td>
+                            <td class="numeric ">8</td>
+                            <td class="numeric ">15</td>
+                            <td class="numeric ">10</td>
+                            <td class="numeric ">12</td>
+                            <td class="numeric ">6</td>
+                            <td class="numeric ">1</td>
+                        </tr>
+                        <tr>
+                            <td class="middle td-first ">國慶日</td>
+                            <td class="numeric">3800</td>
+                            <td class="numeric">4000</td>
+                            <td class="numeric ">4200</td>
+                            <td class="numeric">4500</td>
+                            <td class="numeric">1500</td>
+                            <td class="numeric ">3300</td>
+                            <td class="numeric">4500</td>
+                            <td class="numeric">4700</td>
+                            <td class="numeric">5000</td>
+                            <td class="numeric">4800</td>
+                            <td class="numeric">45000</td>
+                        </tr>
+                        <tr>
+                            <td class="middle td-first">中秋節</td>
+                            <td class="numeric">3100</td>
+                            <td class="numeric ">3300</td>
+                            <td class="numeric">3500</td>
+                            <td class="numeric">3800</td>
+                            <td class="numeric">4000</td>
+                            <td class="numeric">3600</td>
+                            <td class="numeric">3800</td>
+                            <td class="numeric">4100</td>
+                            <td class="numeric">4300</td>
+                            <td class="numeric">4300</td>
+                            <td class="numeric">40000</td>
+                        </tr>
+                        <tr>
+                            <td class="middle td-first">春節</td>
+                            <td class="numeric">3600</td>
+                            <td class="numeric">3800</td>
+                            <td class="numeric">4000</td>
+                            <td class="numeric">4300</td>
+                            <td class="numeric">4300</td>
+                            <td class="numeric">4100</td>
+                            <td class="numeric">4300</td>
+                            <td class="numeric">4500</td>
+                            <td class="numeric">4800</td>
+                            <td class="numeric">4600</td>
+                            <td class="numeric">4300</td>
+                        </tr>
+                        <tr>
+                            <td class="middle td-first">清明節</td>
+                            <td class="numeric">2800</td>
+                            <td class="numeric">3000</td>
+                            <td class="numeric">3200</td>
+                            <td class="numeric">3500</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                        </tr>
+                        <tr>
+                            <td class="middle td-first">端午節</td>
+                            <td class="numeric">2750</td>
+                            <td class="numeric">2950</td>
+                            <td class="numeric">3150</td>
+                            <td class="numeric">3450</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                        </tr>
+                        <tr>
+                            <td class="middle td-first">教師節</td>
+                            <td class="numeric">4200</td>
+                            <td class="numeric">4400</td>
+                            <td class="numeric">4600</td>
+                            <td class="numeric">4900</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                        </tr>
+                        <tr>
+                            <td class="middle td-first">228紀念日</td>
+                            <td class="numeric">9800</td>
+                            <td class="numeric">10000</td>
+                            <td class="numeric">10200</td>
+                            <td class="numeric">10500</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                        </tr>
+                        <tr>
+                            <td class="middle td-first">愚人節</td>
+                            <td class="numeric">3200</td>
+                            <td class="numeric">3400</td>
+                            <td class="numeric">3600</td>
+                            <td class="numeric">3900</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                            <td class="numeric">*</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <!--</div>-->
+                </div>
+                <div class="clear"></div>
+                <div class="clear"></div>
+                date
+
+            </div>
+        </div>
         <!--房型-->
         <div class="roomCodeTable pull-left width-15">
             <div>
@@ -843,7 +1032,6 @@
             }
         }
     }
-
 
 </script>
 

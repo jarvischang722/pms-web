@@ -59,7 +59,7 @@ module.exports = {
         let lo_params = {
             athena_id: session.user.athena_id,
             hotel_cod: session.user.hotel_cod
-        }
+        };
 
         try {
             let lo_rentCalData = await new Promise((resolve, reject) => {
@@ -83,6 +83,56 @@ module.exports = {
                 });
             });
             lo_result.multiSelectOptions = la_roomTypeSelectData;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 房型下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    async qry_ratesupplydt_room_cod(postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+
+        try {
+            let lo_rentCalData = await new Promise((resolve, reject) => {
+                queryAgent.query("QRY_RENT_CAL_DAT", lo_params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            let la_roomTypeSelectData = await new Promise((resolve, reject) => {
+                queryAgent.queryList("QRY_RVRMCOD_RF_FOR_RATESUPPLY_DT", _.extend(lo_params, {rent_cal_dat: lo_rentCalData.rent_cal_dat}), 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            _.each(la_roomTypeSelectData, (lo_roomTypeSelectData) => {
+                lo_roomTypeSelectData.display = lo_roomTypeSelectData.value + " : " + lo_roomTypeSelectData.display;
+            });
+            lo_result.selectOptions = la_roomTypeSelectData;
         }
         catch (err) {
             console.log(err);
