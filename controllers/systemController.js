@@ -117,7 +117,7 @@ exports.sales = function (req, res) {
  * 報表
  */
 exports.report = function (req, res) {
-    res.render('subsystem/report/index');
+    res.render('subsystem/reports/index');
 };
 
 /**

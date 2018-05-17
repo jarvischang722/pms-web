@@ -3177,6 +3177,6 @@ let img = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0"
     + "3gAAAABJRU5ErkJggg==";
 // strip off the data: url prefix to get just the base64-encoded bytes
 // let buf = new Buffer(reportPDFStream, 'base64');
-// fs.writeFile('report.pdf', buf);
+// fs.writeFile('reports.pdf', buf);
 // fs.write() ;
 

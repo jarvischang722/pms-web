@@ -431,7 +431,7 @@
             },
             isOpenCompSta(val) {
                 if (val) {
-                    $.post("/api/fetchOnlySinglePageFieldData", {
+                    BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                         prg_id: "PMS0610020",
                         page_id: 2,
                         tab_page_id: 1010,
@@ -445,12 +445,12 @@
             },
             isOpenContractStatus(val) {
                 if (val) {
-                    $.post("/api/fetchDataGridFieldData", {
+                    BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                         prg_id: "PMS0610020",
                         page_id: 2,
                         tab_page_id: 1020,
                         searchCond: {cust_cod: this.contractStaMnSingleData.cust_cod}
-                    }).then(result => {
+                    }, result => {
                         this.contractStaDtFieldData = result.dgFieldsData;
                         this.contractStaDtRowsData = result.dgRowData;
                     });
@@ -470,7 +470,7 @@
         methods: {
             fetchUserInfo() {
                 var self = this;
-                $.post('/api/getUserInfo', function (result) {
+                BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                     if (result.success) {
                         self.userInfo = result.userInfo;
                     }
@@ -495,7 +495,7 @@
                 };
             },
             fetchSearchFields() {
-                $.post('/api/fetchOnlySearchFieldsData', {prg_id: 'PMS0610010'}, (result) => {
+                BacUtils.doHttpPostAgent('/api/fetchOnlySearchFieldsData', {prg_id: 'PMS0610010'}, (result) => {
                     if (result.success) {
                         this.searchFields = result.searchFieldsData;
                     }
@@ -510,7 +510,7 @@
                     page_id: 1,
                     searchCond: lo_searchCond
                 };
-                $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", lo_params, function (result) {
                     if (self.searchFields.length <= 0) {
                         self.searchFields = result.searchFields;
                     }
@@ -642,12 +642,12 @@
 
                 this.chkCompStat(function (result) {
                     if (result) {
-                        $.post('/api/sales/doCompState', postData, function (res) {
+                        BacUtils.doHttpPostAgent('/api/sales/doCompState', postData, function (res) {
                             if (res.success) {
                                 if (res.showConfirm) {
                                     if (confirm(res.confirmMsg)) {
                                         postData.isFirst = false;
-                                        $.post(res.ajaxURL, postData, function (res2) {
+                                        BacUtils.doHttpPostAgent(res.ajaxURL, postData, function (res2) {
                                             //傳公司狀態回商務公司資料編輯
                                             self.$eventHub.$emit("compStateData", {
                                                 singleData: self.compStaSingleData
@@ -688,7 +688,7 @@
                         oriSingleData: this.$store.state.go_allData.go_mnSingleData.status_cod
                     };
 
-                    $.post('/api/chkFieldRule', postData, function (result) {
+                    BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
                         if (result.success) {
                             callback(true);
                         }
@@ -720,7 +720,7 @@
                     oriSingleData: this.$store.state.go_allData.go_mnSingleData.contract_sta
                 };
 
-                $.post('/api/sales/doContractState', postData, function (result) {
+                BacUtils.doHttpPostAgent('/api/sales/doContractState', postData, function (result) {
                     if (result.success) {
                         self.$eventHub.$emit("contractStateData", {
                             singleData: self.contractStaMnSingleData

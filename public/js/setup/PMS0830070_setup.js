@@ -52,7 +52,7 @@ var Pms0830070Comp = Vue.extend({
             var lo_singleData = PMS0830070VM.singleData;
             lo_singleData.seq_nos = ls_seq_nos;
             self.qrySelectedItemNos(item);
-            $.post('/api/qryDt2SelectedItemNos', lo_singleData, function (response) {
+            BacUtils.doHttpPostAgent('/api/qryDt2SelectedItemNos', lo_singleData, function (response) {
                 self.qryDt2DisableItemNos(lo_singleData, function (result) {
                     if (!_.isUndefined(item.createRow)) {
                         self.dt2SelectedItemNos = [];
@@ -70,7 +70,7 @@ var Pms0830070Comp = Vue.extend({
         //查詢dt2禁用項目
         qryDt2DisableItemNos: function (lo_singleData, callback) {
             var self = this;
-            $.post("/api/qryDt2DisableItemNos", lo_singleData, function (result) {
+            BacUtils.doHttpPostAgent("/api/qryDt2DisableItemNos", lo_singleData, function (result) {
                 self.dt2DisableItemNos = result.dt2DisableItemNos;
                 callback(result.success);
             });
@@ -204,7 +204,7 @@ var Pms0830070Comp = Vue.extend({
                 adjfolio_cod: this.singleData.adjfolio_cod
             };
 
-            $.post('/api/qryDt2SelectedItemNos', params, function (response) {
+            BacUtils.doHttpPostAgent('/api/qryDt2SelectedItemNos', params, function (response) {
                 if (!_.isUndefined(item.createRow)) {
                     self.dt2SelectedItemNos = [];
                 }
@@ -232,7 +232,7 @@ var Pms0830070Comp = Vue.extend({
                         }
                     }
                     else {
-                        if(_.isUndefined(lo_selItemNos)){
+                        if (_.isUndefined(lo_selItemNos)) {
                             self.dtSelItemNosShowList.push(lo_itemNosTemp);
                         }
                     }
@@ -364,15 +364,13 @@ var Pms0830070Comp = Vue.extend({
 
             PMS0830070VM.doSave(function (result) {
                 PMS0830070VM.initTmpCUD();
-                $.post('/api/qryPMS0830070SingleData', self.singleData)
-                    .done(function (response) {
-                        PMS0830070VM.singleData = response.mnData;
-                        PMS0830070VM.singleDataDt = response.dtData;
-                        PMS0830070VM.oriSingleDataDt = _.clone(response.dtData);
-                        PMS0830070VM.dt2ItemNosDataList = response.dt2ItemNosDataList;
-                        self.itemNosCheckedTemp = [];
-                    });
-                // PMS0830070VM.oriSingleDataDt = _.clone(PMS0830070VM.singleData);
+                BacUtils.doHttpPostAgent('/api/qryPMS0830070SingleData', self.singleData, function (response) {
+                    PMS0830070VM.singleData = response.mnData;
+                    PMS0830070VM.singleDataDt = response.dtData;
+                    PMS0830070VM.oriSingleDataDt = _.clone(response.dtData);
+                    PMS0830070VM.dt2ItemNosDataList = response.dt2ItemNosDataList;
+                    self.itemNosCheckedTemp = [];
+                });
             });
 
         }
@@ -436,7 +434,10 @@ var PMS0830070VM = new Vue({
                 };
             }
 
-            $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id, searchCond: this.searchCond}, function (result) {
+            BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {
+                prg_id: gs_prg_id,
+                searchCond: this.searchCond
+            }, function (result) {
                 waitingDialog.hide();
                 PMS0830070VM.searchFields = result.searchFields;
                 PMS0830070VM.pageOneDataGridRows = result.dataGridRows;
@@ -453,11 +454,10 @@ var PMS0830070VM = new Vue({
             PMS0830070VM.oriSingleDataDt = {};
             PMS0830070VM.isEditStatus = false;
 
-            $.post('/api/qryDt2ItemNosList', PMS0830070VM.singleData)
-                .done(function (response) {
-                    PMS0830070VM.dt2ItemNosDataList = response.dt2ItemNosDataList;
-                    self.openRouteDialog();
-                });
+            BacUtils.doHttpPostAgent('/api/qryDt2ItemNosList', PMS0830070VM.singleData, function (response) {
+                PMS0830070VM.dt2ItemNosDataList = response.dt2ItemNosDataList;
+                self.openRouteDialog();
+            });
         },
 
         delRoutes: function () {
@@ -482,14 +482,13 @@ var PMS0830070VM = new Vue({
         //取得單筆
         fetchSingleData: function (editingRow) {
             var self = this;
-            $.post('/api/qryPMS0830070SingleData', editingRow)
-                .done(function (response) {
-                    PMS0830070VM.singleData = response.mnData;
-                    PMS0830070VM.singleDataDt = response.dtData;
-                    PMS0830070VM.oriSingleDataDt = _.clone(response.dtData);
-                    PMS0830070VM.dt2ItemNosDataList = response.dt2ItemNosDataList;
-                    self.openRouteDialog();
-                });
+            BacUtils.doHttpPostAgent('/api/qryPMS0830070SingleData', editingRow, function (response) {
+                PMS0830070VM.singleData = response.mnData;
+                PMS0830070VM.singleDataDt = response.dtData;
+                PMS0830070VM.oriSingleDataDt = _.clone(response.dtData);
+                PMS0830070VM.dt2ItemNosDataList = response.dt2ItemNosDataList;
+                self.openRouteDialog();
+            });
         },
 
         //開起單筆頁
@@ -528,7 +527,7 @@ var PMS0830070VM = new Vue({
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: gs_prg_id}, this.tmpCUD);
 
-            $.post("/api/doSavePMS0830070", params, function (result) {
+            BacUtils.doHttpPostAgent("/api/doSavePMS0830070", params, function (result) {
                 callback(result.success);
                 if (result.success) {
                     PMS0830070VM.initTmpCUD();

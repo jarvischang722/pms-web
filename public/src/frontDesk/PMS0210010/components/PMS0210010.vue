@@ -200,7 +200,7 @@
             fetchUserInfo() {
                 this.isLoading = true;
                 let self = this;
-                $.post('/api/getUserInfo', function (result) {
+                BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                     if (result.success) {
                         self.userInfo = result.userInfo;
                     }
@@ -216,7 +216,7 @@
                     searchCond: lo_searchCond
                 };
 
-                $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", lo_params, function (result) {
                     if(self.searchFields.length <= 0){
                         self.searchFields = result.searchFields;
                     }
@@ -233,7 +233,7 @@
                     page_id: 1,
                     searchCond: lo_searchCond
                 };
-                $.post('/api/fetchDgRowData', lo_params, (result) => {
+                BacUtils.doHttpPostAgent('/api/fetchDgRowData', lo_params, (result) => {
                     this.pageOneDataGridRows = result.dgRowData;
                     this.dgIns.loadPageDgData(this.pageOneDataGridRows);
                 });

@@ -273,7 +273,7 @@
         methods: {
             fetchUserInfo() {
                 var self = this;
-                $.post('/api/getUserInfo', function (result) {
+                BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                     if (result.success) {
                         self.userInfo = result.userInfo;
                     }
@@ -290,7 +290,7 @@
             fetchFieldData() {
                 this.isLoading = true;
                 var self = this;
-                $.post("/api/fetchOnlySinglePageFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0610020",
                     page_id: 1,
                     tab_page_id: 1,
@@ -326,13 +326,13 @@
                     }
                     else if (this.isEditStatus) {
                         var self = this;
-                        $.post("/api/fetchSinglePageFieldData", {
+                        BacUtils.doHttpPostAgent("/api/fetchSinglePageFieldData", {
                             prg_id: "PMS0610020",
                             page_id: 1,
                             tab_page_id: 1,
                             template_id: "gridsingledt",
                             searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
-                        }).then(result => {
+                        }, result => {
                             this.singleData = result.gsMnData.rowData[0];
                             this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
 
@@ -397,7 +397,7 @@
                         singleRowData: JSON.parse(JSON.stringify(this.singleData)),
                         oriSingleData: this.oriSingleData
                     };
-                    $.post('/api/chkFieldRule', postData, function (result) {
+                    BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
 
                         if (result.success) {
                             //是否要show出訊息
@@ -412,7 +412,7 @@
                                 } else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
+                                        BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
 
                                             if (!result.success) {
                                                 alert(result.errorMsg);

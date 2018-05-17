@@ -1335,6 +1335,10 @@ exports.qryLangMasterRfMasterSta = function () {
 exports.OrderSta = () => {
     let lo_optionList = [
         {
+            display: "正常",
+            value: "N"
+        },
+        {
             display: "取消",
             value: "D"
         },

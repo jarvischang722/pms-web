@@ -127,7 +127,7 @@ const mutations = {
 const actions = {
     //取全部角色
     qryAllRoles({dispatch, commit}) {
-        $.post("/api/getAllRoles", function (result) {
+        BacUtils.doHttpPostAgent("/api/getAllRoles", function (result) {
             commit("setAllRoles", result.roles);
             commit("setSelRole", result.roles[0].role_id);
             dispatch("qryRoleOfAccounts", result.roles[0].role_id);

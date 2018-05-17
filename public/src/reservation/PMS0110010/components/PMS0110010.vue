@@ -10,7 +10,8 @@
                         <!--window 問題：最後一個<th>會超出範圍，並且看不到-->
                         <div class="grid_12 height600 resRoomType-table fixed-table-container cus-roomType-table"
                              style="width: 99% !important;">
-                            <table class="fancyTable themeTable treeControl" id="resRoomType-table" cellpadding="0" cellspacing="0">
+                            <table class="fancyTable themeTable treeControl" id="resRoomType-table" cellpadding="0"
+                                   cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th class="ca-headerTitle height-fntThead rp-first-th" rowspan="2">
@@ -29,14 +30,17 @@
                                         </div>
                                         <div class="caIcon">
                                             <span class="ca-headerIcon">
-                                                <i class="fa fa-calendar-check-o orange fa-lg" data-rel="tooltip" data-placement="bottom"
-                                                   :title="i18nLang.SystemCommon.rentCalDat" @click="backToRentCalDat"></i>
+                                                <i class="fa fa-calendar-check-o orange fa-lg" data-rel="tooltip"
+                                                   data-placement="bottom"
+                                                   :title="i18nLang.SystemCommon.rentCalDat"
+                                                   @click="backToRentCalDat"></i>
                                             </span>
                                         </div>
                                         <div class="clearfix"></div>
                                     </th>
                                     <!--日期-->
-                                    <th class="dateColor" :style="{background: field.color}" v-for="field in dateFieldData">
+                                    <th class="dateColor" :style="{background: field.color}"
+                                        v-for="field in dateFieldData">
                                         {{field.data}}
                                     </th>
                                 </tr>
@@ -61,7 +65,8 @@
                                                 </td>
                                             </template>
                                         </tr>
-                                        <tr :data-tt-id="5*roomTyp.idx + 2" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
+                                        <tr :data-tt-id="5*roomTyp.idx + 2" :data-tt-parent-id="5*roomTyp.idx + 1"
+                                            class="subTree-s">
                                             <td class="middle td-first subTree-title">
                                                 {{i18nLang.program.PMS0110010.useRm}}
                                             </td>
@@ -72,7 +77,8 @@
                                                 </td>
                                             </template>
                                         </tr>
-                                        <tr :data-tt-id="5*roomTyp.idx + 3" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
+                                        <tr :data-tt-id="5*roomTyp.idx + 3" :data-tt-parent-id="5*roomTyp.idx + 1"
+                                            class="subTree-s">
                                             <td class="middle td-first subTree-title">
                                                 {{i18nLang.program.PMS0110010.notWrsRm}}
                                             </td>
@@ -83,7 +89,8 @@
                                                 </td>
                                             </template>
                                         </tr>
-                                        <tr :data-tt-id="5*roomTyp.idx + 4" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
+                                        <tr :data-tt-id="5*roomTyp.idx + 4" :data-tt-parent-id="5*roomTyp.idx + 1"
+                                            class="subTree-s">
                                             <td class="middle td-first subTree-title">
                                                 {{i18nLang.program.PMS0110010.wrsRm}}
                                             </td>
@@ -94,7 +101,8 @@
                                                 </td>
                                             </template>
                                         </tr>
-                                        <tr :data-tt-id="5*roomTyp.idx + 5" :data-tt-parent-id="5*roomTyp.idx + 1" class="subTree-s">
+                                        <tr :data-tt-id="5*roomTyp.idx + 5" :data-tt-parent-id="5*roomTyp.idx + 1"
+                                            class="subTree-s">
                                             <td class="middle td-first subTree-title">
                                                 {{i18nLang.program.PMS0110010.overBooking}}
                                             </td>
@@ -163,12 +171,14 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                        role="button" data-rel="tooltip" data-placement="bottom" :title="i18nLang.SystemCommon.before7days"
+                                        role="button" data-rel="tooltip" data-placement="bottom"
+                                        :title="i18nLang.SystemCommon.before7days"
                                         @click="changDate(-7)">
                                     <i class="fa fa-angle-left fa-lg"></i>
                                 </button>
                                 <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                        role="button" data-rel="tooltip" data-placement="bottom" :title="i18nLang.SystemCommon.after7days"
+                                        role="button" data-rel="tooltip" data-placement="bottom"
+                                        :title="i18nLang.SystemCommon.after7days"
                                         @click="changDate(7)">
                                     <i class="fa fa-angle-right fa-lg"></i>
                                 </button>
@@ -176,13 +186,15 @@
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                        role="button" data-rel="tooltip" data-placement="bottom" :title="i18nLang.SystemCommon.before14days"
+                                        role="button" data-rel="tooltip" data-placement="bottom"
+                                        :title="i18nLang.SystemCommon.before14days"
                                         @click="changDate(-14)">
                                     <i class="fa fa-angle-double-left fa-lg"></i>
                                 </button>
                                 <button
                                         class="btn btn-primary btn-white btn-defaultWidth width-50 pull-left"
-                                        role="button" data-rel="tooltip" data-placement="bottom" :title="i18nLang.SystemCommon.after14days"
+                                        role="button" data-rel="tooltip" data-placement="bottom"
+                                        :title="i18nLang.SystemCommon.after14days"
                                         @click="changDate(14)">
                                     <i class="fa fa-angle-double-right fa-lg"></i>
                                 </button>
@@ -283,7 +295,7 @@
         },
         methods: {
             fetchRentCalDat() {
-                $.post('/api/qryRentCalDat', {}, (result) => {
+                BacUtils.doHttpPostAgent('/api/qryRentCalDat', {}, (result) => {
                     this.rentCalDat = result.rent_cal_dat;
                 });
             },
@@ -308,7 +320,7 @@
                     begin_dat: this.nowSearchDate
                 };
 
-                $.post('/api/qryPageOneDataByRmTyp', lo_param).then(result => {
+                BacUtils.doHttpPostAgent('/api/qryPageOneDataByRmTyp', lo_param, result => {
                     if (result.success) {
                         if (!_.isEmpty(result.data)) {
                             this.is4fieldAppear = true;

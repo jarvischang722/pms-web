@@ -157,7 +157,7 @@ let PMS0620020App = Vue.extend({
                     singleRowData: this.rowData,
                     oriSingleData: vm.originData
                 };
-                $.post('/api/chkFieldRule', postData, function (result) {
+                BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
 
                     if (result.success) {
                         //是否要show出訊息
@@ -172,7 +172,7 @@ let PMS0620020App = Vue.extend({
                             } else {
                                 //有沒有要再打一次ajax到後端
                                 if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                    $.post(result.ajaxURL, postData, function (result) {
+                                    BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
 
                                         if (!result.success) {
                                             alert(result.errorMsg);
@@ -209,7 +209,7 @@ let PMS0620020App = Vue.extend({
         },
         fetchFieldData: function () {
             let self = this;
-            $.post("/api/sales/qrySingleGridFieldData_PM0620020", {prg_id: "PMS0620020"}, function (result) {
+            BacUtils.doHttpPostAgent("/api/sales/qrySingleGridFieldData_PM0620020", {prg_id: "PMS0620020"}, function (result) {
                 self.originFieldData = result.salesMnField;
                 self.fieldData = _.values(_.groupBy(_.sortBy(self.originFieldData, "row_seq"), "row_seq"));
                 self.hotelDtFieldData = result.hotelDtField;
@@ -223,7 +223,7 @@ let PMS0620020App = Vue.extend({
 
             //新增的狀況
             if (Object.keys(this.singleData).length == 0) {
-                $.post("/api/sales/addFuncRule_PMS0620020", {prg_id: "PMS0620020", page_id: 1}, function (result) {
+                BacUtils.doHttpPostAgent("/api/sales/addFuncRule_PMS0620020", {prg_id: "PMS0620020", page_id: 1}, function (result) {
                     if (result.success) {
                         delete result.defaultValues["status_cod1"];
                         self.rowData = result.defaultValues;
@@ -234,13 +234,13 @@ let PMS0620020App = Vue.extend({
                     self.showDtDataGrid();
 
                 });
-                $.post("/api/fetchDefaultSingleRowData", {prg_id: "PMS0620020", page_id: 1}, function (result) {
+                BacUtils.doHttpPostAgent("/api/fetchDefaultSingleRowData", {prg_id: "PMS0620020", page_id: 1}, function (result) {
 
                 });
             }
             //編輯的狀況
             else {
-                $.post("/api/sales/qrySalesMn_PM0620020", singleData, function (result) {
+                BacUtils.doHttpPostAgent("/api/sales/qrySalesMn_PM0620020", singleData, function (result) {
                     if (result.success) {
                         self.originRowData = JSON.parse(JSON.stringify(result.rtnObject[0]['rowData']));
                         vm.tmpCud.oriData.push(self.originRowData);
@@ -296,7 +296,7 @@ let PMS0620020App = Vue.extend({
                     self.isLoadingDialog = false;
                     self.showDtDataGrid();
                 });
-                $.post("/api/fetchSinglePageFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchSinglePageFieldData", {
                     prg_id: "PMS0620020",
                     page_id: 1,
                     tab_page_id: 1,
@@ -340,7 +340,7 @@ let PMS0620020App = Vue.extend({
         },
         loadChangeLog: function () {
             $('#salesChangelogDialog').removeClass('hide');
-            $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0620020"}, function (result) {
+            BacUtils.doHttpPostAgent("/api/getSetupPrgChangeLog", {prg_id: "PMS0620020"}, function (result) {
                 if (result.success) {
                     vm.openChangeLogDialog = true;
                     vm.allChangeLogList = result.allChangeLogList;
@@ -559,7 +559,7 @@ let vm = new Vue({
     },
     methods: {
         fetchUserInfo: function () {
-            $.post('/api/getUserInfo', function (result) {
+            BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                 if (result.success) {
                     vm.userInfo = result.userInfo;
                 }
@@ -587,7 +587,7 @@ let vm = new Vue({
                 searchCond: lo_searchCond
             };
 
-            $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", lo_params, function (result) {
                 if (self.searchFields.length <= 0) {
                     vm.searchFields = result.searchFields;
                 }
@@ -610,7 +610,7 @@ let vm = new Vue({
             this.isEditStatus = false;
             this.editingRow = {};
 
-            $.post("/api/sales/addFuncRule_PMS0620020", {prg_id: "PMS0620020", page_id: 1}, function (result) {
+            BacUtils.doHttpPostAgent("/api/sales/addFuncRule_PMS0620020", {prg_id: "PMS0620020", page_id: 1}, function (result) {
                 if (result.success) {
                     vm.pageOneSingleGridRowData = result.defaultValues;
                     vm.showSingleGridDialog();
@@ -728,7 +728,7 @@ let vm = new Vue({
                 tmpCUD: this.tmpCud
             };
 
-            $.post("/api/doOperationSave", lo_params, function (result) {
+            BacUtils.doHttpPostAgent("/api/doOperationSave", lo_params, function (result) {
                 self.loadDataGridByPrgID();
                 callback(result);
             });

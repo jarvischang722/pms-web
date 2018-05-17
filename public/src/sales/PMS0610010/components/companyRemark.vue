@@ -17,19 +17,22 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark purview_btn"
-                                            role="button" :disabled="BTN_action" @click="appendRow" data-purview_func_id="PMS0610020-1120">
+                                            role="button" :disabled="BTN_action" @click="appendRow"
+                                            data-purview_func_id="PMS0610020-1120">
                                         {{i18nLang.program.PMS0610020.append_remark}}
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark purview_btn"
-                                            role="button" :disabled="BTN_action" @click="editRow" data-purview_func_id="PMS0610020-1130">
+                                            role="button" :disabled="BTN_action" @click="editRow"
+                                            data-purview_func_id="PMS0610020-1130">
                                         {{i18nLang.program.PMS0610020.update_remark}}
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
-                                            role="button" :disabled="BTN_action" @click="removeRow" data-purview_func_id="PMS0610020-1140">
+                                            role="button" :disabled="BTN_action" @click="removeRow"
+                                            data-purview_func_id="PMS0610020-1140">
                                         {{i18nLang.program.PMS0610020.remove_remark}}
                                     </button>
                                 </li>
@@ -53,11 +56,13 @@
                                                         <div class="'grid">
                                                             <div class="grid-item" v-for="field in fields">
                                                                 <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
-                                                                    <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                                    <span v-if=" field.requirable == 'Y' "
+                                                                          style="color: red;">*</span>
                                                                     <span>{{ field.ui_display_name }}</span>
                                                                 </label>
 
-                                                                <input type="text" v-model="singleData[field.ui_field_name]"
+                                                                <input type="text"
+                                                                       v-model="singleData[field.ui_field_name]"
                                                                        v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
                                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                        :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
@@ -66,32 +71,40 @@
                                                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
                                                                 <!--  textarea -->
-                                                                <textarea v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
-                                                                          v-model="singleData[field.ui_field_name]"
-                                                                          class="numStyle-none" rows="4"
-                                                                          :style="{width:field.width + 'px'}" style="resize: none;"
-                                                                          :required="field.requirable == 'Y'"
-                                                                          :maxlength="field.ui_field_length"
-                                                                          :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                <textarea
+                                                                        v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
+                                                                        v-model="singleData[field.ui_field_name]"
+                                                                        class="numStyle-none" rows="4"
+                                                                        :style="{width:field.width + 'px'}"
+                                                                        style="resize: none;"
+                                                                        :required="field.requirable == 'Y'"
+                                                                        :maxlength="field.ui_field_length"
+                                                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 </textarea>
 
                                                                 <!--select-->
-                                                                <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
-                                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                                            v-model="singleData[field.ui_field_name]" :data="field.selectData"
-                                                                            is-qry-src-before="Y" value-field="value" text-field="display"
-                                                                            @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                                            :default-val="singleData[field.ui_field_name]" :field="field"
-                                                                            :disabled="field.modificable == 'N'||(field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                <bac-select
+                                                                        v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                        v-model="singleData[field.ui_field_name]"
+                                                                        :data="field.selectData"
+                                                                        is-qry-src-before="Y" value-field="value"
+                                                                        text-field="display"
+                                                                        @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                        :default-val="singleData[field.ui_field_name]"
+                                                                        :field="field"
+                                                                        :disabled="field.modificable == 'N'||(field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 </bac-select>
 
-                                                                <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
-                                                                                v-model="singleData[field.ui_field_name]" type="datetime"
-                                                                                change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                                                                :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
-                                                                                size="small" format="yyyy/MM/dd HH:mm:ss"
-                                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                                                @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                                <el-date-picker
+                                                                        v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
+                                                                        v-model="singleData[field.ui_field_name]"
+                                                                        type="datetime"
+                                                                        change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
+                                                                        size="small" format="yyyy/MM/dd HH:mm:ss"
+                                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                                 </el-date-picker>
 
                                                             </div>
@@ -109,26 +122,34 @@
                                         <div class="right-menu-co">
                                             <ul>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                            v-if="isEditStatus" :disabled="BTN_action || isFirstData" @click="toFirstData">
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button"
+                                                            v-if="isEditStatus" :disabled="BTN_action || isFirstData"
+                                                            @click="toFirstData">
                                                         {{i18nLang.SystemCommon.First}}
                                                     </button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                            v-if="isEditStatus" :disabled="BTN_action || isFirstData" @click="toPreData">
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button"
+                                                            v-if="isEditStatus" :disabled="BTN_action || isFirstData"
+                                                            @click="toPreData">
                                                         {{i18nLang.SystemCommon.Previous}}
                                                     </button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                            v-if="isEditStatus" :disabled="BTN_action || isLastData" @click="toNextData">
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button"
+                                                            v-if="isEditStatus" :disabled="BTN_action || isLastData"
+                                                            @click="toNextData">
                                                         {{i18nLang.SystemCommon.Next}}
                                                     </button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                            v-if="isEditStatus" :disabled="BTN_action || isLastData" @click="toLastData">
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button"
+                                                            v-if="isEditStatus" :disabled="BTN_action || isLastData"
+                                                            @click="toLastData">
                                                         {{i18nLang.SystemCommon.Last}}
                                                     </button>
                                                 </li>
@@ -289,11 +310,11 @@
             },
             fetchDataGridFieldData() {
                 this.isLoading = true;
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 6,
                     searchCond: {cust_cod: this.$store.state.gs_custCod}
-                }).then(result => {
+                }, result => {
                     this.searchFields = result.searchFields;
                     this.dataGridFieldsData = result.dgFieldsData;
 
@@ -317,11 +338,11 @@
                 this.isLoading = false;
             },
             fetchGridSingleFieldData(val) {
-                $.post("/api/fetchOnlySinglePageFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0610020",
                     page_id: 2,
                     tab_page_id: 1120
-                }).then(result => {
+                }, result => {
                     this.oriGridSingleFieldsData = result.gsFieldsData;
                     this.gridSingleFieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
                     this.fetchGridSingleRowData(val);
@@ -425,7 +446,7 @@
                         singleRowData: JSON.parse(JSON.stringify(this.singleData)),
                         oriSingleData: this.oriSingleData
                     };
-                    $.post('/api/chkFieldRule', postData, function (result) {
+                    BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
 
                         if (result.success) {
                             //是否要show出訊息
@@ -440,7 +461,7 @@
                                 } else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
+                                        BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
 
                                             if (!result.success) {
                                                 alert(result.errorMsg);

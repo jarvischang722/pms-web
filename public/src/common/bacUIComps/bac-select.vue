@@ -130,7 +130,7 @@
                 if (ls_keyword == "") {
                     return false;
                 }
-                $.post('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
+                BacUtils.doHttpPostAgent('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
                     $(self.$el).combobox("loadData", items);
                 })
 
@@ -139,7 +139,7 @@
         beforeDestroy: function () {
             $(this.$el).combobox('destroy');
             $(this.$el).combobox('textbox').unbind('keyup')
-        },
+        }
     }
 </script>
 

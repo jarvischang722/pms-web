@@ -5173,15 +5173,12 @@ td div.act-box span.act-text {
 .el-select-ht .el-input__inner {
     height: 25px;
 }
-
 .el-select-ht .el-input__icon {
     width: 20px;
 }
-
 .el-select-ht .el-input__icon + .el-input__inner {
     padding-right: 0;
 }
-
 .el-select-ht input[readonly] {
     background: #fff !important;
 }

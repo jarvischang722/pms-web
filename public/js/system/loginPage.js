@@ -14,6 +14,7 @@ var loginVM = new Vue({
         locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", ""))
     },
     mounted: function () {
+
         this.getSysConfig();
         this.getDefaultAccount();
         this.getCompaonyData();
@@ -44,7 +45,7 @@ var loginVM = new Vue({
                 async: false,
                 type: 'json',
                 method: 'post'
-            }).done(function (result) {
+            }, function (result) {
                 self.sysConfig = result.sysConf;
             });
         },
@@ -53,7 +54,7 @@ var loginVM = new Vue({
             var self = this;
             if (!_.isUndefined(self.sysConfig.isDefaultUserID) && self.sysConfig.isDefaultUserID === "Y") {
                 $.get(self.sysConfig.api_url.dotnet + "/?getip=''", function (ip) {
-                    $.post("/api/getDefaultAccount", {ip: ip}, function (result) {
+                    BacUtils.doHttpPostAgent("/api/getDefaultAccount", {ip: ip}, function (result) {
                         self.username = result.account;
                     });
                 });
@@ -61,7 +62,7 @@ var loginVM = new Vue({
         },
         getCompaonyData: function () {
             this.loadingText = 'Loading...';
-            $.post("/api/getSelectCompany", function (result) {
+            BacUtils.doHttpPostAgent("/api/getSelectCompany", function (result) {
                 loginVM.isLoading = false;
                 if (result.success) {
                     loginVM.companyData = result.selectCompany;
@@ -90,7 +91,7 @@ var loginVM = new Vue({
                 dbname: this.dbname,
                 comp_id: this.comp_id
             };
-            $.post("/api/authLogin", params, function (result) {
+            BacUtils.doHttpPostAgent("/api/authLogin", params, function (result) {
 
                 if (result.success) {
 

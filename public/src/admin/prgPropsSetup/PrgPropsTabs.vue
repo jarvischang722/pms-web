@@ -91,7 +91,7 @@
             fetchProgramProsByPrgID() {
                 let _this = this;
                 return new Promise(function (resolve, reject) {
-                    $.post("/api/admin/getProgramPropsByPrgID", {
+                    BacUtils.doHttpPostAgent("/api/admin/getProgramPropsByPrgID", {
                         collName: _this.activeCollName,
                         prg_id: _this.activePrg,
                     }, function (response) {
@@ -295,7 +295,7 @@
                     alert('無修改的屬性資料需儲存！');
                     return;
                 }
-                $.post("/api/admin/handleCollSave", {
+                BacUtils.doHttpPostAgent("/api/admin/handleCollSave", {
                     collName: _this.activeCollName,
                     updateData: _this.tmpUpdateData,
                 }, function (response) {
