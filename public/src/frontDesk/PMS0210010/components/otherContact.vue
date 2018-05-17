@@ -23,9 +23,9 @@
                                                         <tr v-for="data in emailDataGridRows" class="css_tr">
                                                             <th class="css_th width-15">{{data['add_nam']}}</th>
                                                             <td class="css_td width-70">
-                                                                <input type="text" v-validate="'email'"
+                                                                <input type="text"
                                                                        class="input-medium medium-c1 width-100"
-                                                                       v-model="data['add_rmk']" name="email">
+                                                                       v-model="data['add_rmk']">
                                                             </td>
                                                         </tr>
                                                         </tbody>
@@ -164,7 +164,6 @@
 
 <script>
     import _ from 'underscore';
-
 
     export default {
         name: 'otherContact',
@@ -413,17 +412,8 @@
                 });
             },
             doCloseDialog() {
-                this.$validator.validate().then(result => {
-                    if (!result) {
-                        // do stuff if not valid.
-                        alert(this.$validator.errors.items[0].msg);
-                    }
-                    else {
-                        this.initData();
-                        $("#otherContact").dialog('close');
-                    }
-                });
-
+                this.initData();
+                $("#otherContact").dialog('close');
             }
         }
     }
