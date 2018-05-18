@@ -218,7 +218,7 @@
                 });
             },
             showDataGrid(dataGridRowsData) {
-                this.dgIns = this.isModificable ? new DatagridBaseClass() : new DatagridSingleGridClass();
+                this.dgIns = this.isModifiable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'contractContent_dg'), this.fieldsData);
                 this.dgIns.loadDgData(dataGridRowsData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);

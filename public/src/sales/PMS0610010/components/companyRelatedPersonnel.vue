@@ -175,7 +175,7 @@
                 });
             },
             showDataGrid(dataGridRowsData) {
-                this.dgIns = this.isModificable ? new DatagridBaseClass() : new DatagridSingleGridClass();
+                this.dgIns = this.isModifiable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "relatedPerson_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
                 this.dgIns.loadDgData(dataGridRowsData);
                 this.dgIns.updateMnRowData(this.$store.state.go_allData.go_mnSingleData);
