@@ -76,7 +76,7 @@
 
     export default {
         name: 'company-visit-record',
-        props: ["rowData", "isVisitRecord"],
+        props: ["rowData", "isVisitRecord", "isModifiable"],
         components: {visitRecord},
         created() {
             var self = this;

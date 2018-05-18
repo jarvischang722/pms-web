@@ -202,7 +202,7 @@
 
     export default {
         name: 'other-remark',
-        props: ["rowData", "isOtherRemark"],
+        props: ["rowData", "isOtherRemark", "isModifiable"],
         data() {
             return {
                 go_funcPurview: [],
