@@ -74,9 +74,6 @@
 .ml-3-percent
   margin-left: 3%
 
-.ml-3
-  margin-left: 10px
-
 .ml-90
   margin-left: 90px
 
@@ -406,11 +403,14 @@ a
   margin: 6px 0 5px
   border-bottom: 1px solid $border-color
 
-// custom
+// custom　必填欄位
 .input_sta_required
   background-color: rgb(198, 242, 217) !important
+  input.el-input__inner
+    background-color: rgb(198, 242, 217) !important
 /* (186, 242, 234) */
-
+.input-noEdit
+  background-color: #eee !important
 // 兩個間距 104
 $labelw: 104px
 $rmW: 23px
