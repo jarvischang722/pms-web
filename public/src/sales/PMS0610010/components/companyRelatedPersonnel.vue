@@ -16,6 +16,7 @@
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
                                         role="button" :disabled="BTN_action || !isModifiable" @click="appendRow"
+                                        v-if="$parent.prgEditionOptions.funcList['1040'] != undefined"
                                         data-purview_func_id="PMS0610020-1040">
                                     {{i18nLang.program.PMS0610020.append_contact_person}}
                                 </button>
@@ -23,6 +24,7 @@
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
                                         role="button" :disabled="BTN_action || !isModifiable" @click="removeRow"
+                                        v-if="$parent.prgEditionOptions.funcList['1050'] != undefined"
                                         data-purview_func_id="PMS0610020-1050">
                                     {{i18nLang.program.PMS0610020.remove_contact_person}}
                                 </button>
@@ -102,7 +104,6 @@
                         this.initData();
                     }
                     this.fetchFieldData();
-                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                 }
             },
             dataGridRowsData: {

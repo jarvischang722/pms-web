@@ -187,7 +187,8 @@
                                 <li>
                                     <button class="btn btn-primary btn-white btn-white btn-defaultWidth purview_btn"
                                             role="button" @click="doChangeCreditLimit" :disabled="!isModifiable"
-                                            data-purview_func_id="PMS0610020-1030">
+                                            data-purview_func_id="PMS0610020-1030"
+                                            v-if="$parent.prgEditionOptions.funcList['1030'] != undefined">
                                         {{i18nLang.program.PMS0610020.change_credit_limit}}
                                     </button>
                                 </li>
@@ -233,7 +234,6 @@
         watch: {
             isRelatedSetting(val) {
                 if (val) {
-                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                     this.initData();
                     this.fetchFieldData();
                 }

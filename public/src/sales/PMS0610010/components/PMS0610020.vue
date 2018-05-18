@@ -250,22 +250,25 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth sales_statusChg purview_btn"
-                                                role="button" :disabled="isCreateStatus || !isModifiable" @click="doSetCompanyStatus"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth sales_statusChg"
+                                                role="button" v-if="prgEditionOptions.funcList['1010'] != undefined"
+                                                :disabled="isCreateStatus || !isModifiable" @click="doSetCompanyStatus"
                                                 data-purview_func_id="PMS0610020-1010">
                                             {{i18nLang.program.PMS0610020.company_status}}
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth sales_stateChange purview_btn"
-                                                role="button" :disabled="isCreateStatus || !isModifiable" @click="doSetContractStatus"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth sales_stateChange"
+                                                role="button" v-if="prgEditionOptions.funcList['1030'] != undefined"
+                                                :disabled="isCreateStatus || !isModifiable" @click="doSetContractStatus"
                                                 data-purview_func_id="PMS0610020-1030">
                                             {{i18nLang.program.PMS0610020.contract_status}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales_changeRecord purview_btn"
-                                                role="button" :disabled="isOpenChangeLog || !isModifiable" @click="loadChangeLog"
+                                                role="button" v-if="prgEditionOptions.funcList['0800'] != undefined"
+                                                :disabled="isOpenChangeLog || !isModifiable" @click="loadChangeLog"
                                                 data-purview_func_id="PMS0610020-0800">
                                             {{i18nLang.SystemCommon.ChangeLog}}
                                         </button>
@@ -306,6 +309,10 @@
             historicalConsumption
         },
         created() {
+            //取得版本資料
+            BacchusMainVM.doGetVersionData("PMS0610020");
+            this.prgEditionOptions = BacchusMainVM.prgEditionOptions;
+
             var self = this;
             this.$eventHub.$on('setTabName', function (tabNameData) {
                 self.tabName = tabNameData.tabName;
@@ -349,6 +356,7 @@
         data() {
             return {
                 go_funcPurview: [],
+                prgEditionOptions: {}, //版本設定資料
                 i18nLang: go_i18nLang,
                 BTN_action: false,
                 isLoadingDialog: false,
@@ -385,7 +393,6 @@
                 if (!_.isEmpty(val)) {
                     this.initData();
                     this.fetchFieldData();
-                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                 }
             },
             singleData: {
