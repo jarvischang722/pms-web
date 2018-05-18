@@ -814,7 +814,10 @@ module.exports = {
         }
 
         function qryFitCod(cb) {
-            queryAgent.query("QRY_FIT_COD", {athena_id: session.user.athena_id}, function (err, getResult) {
+            queryAgent.query("QRY_FIT_COD", {
+                athena_id: session.user.athena_id,
+                cust_cod: postData.singleRowData.cust_cod
+            }, function (err, getResult) {
                 if (err) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
@@ -822,7 +825,7 @@ module.exports = {
                     cb(lo_error, lo_result);
                 }
                 else {
-                    if (getResult.fit_cod == postData.singleRowData.cust_cod) {
+                    if (getResult.fit_cod_count > 0) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
                         lo_error.errorMsg = commandRules.getMsgByCod("pms61msg5", session.locale);
@@ -836,19 +839,21 @@ module.exports = {
         }
 
         function qryOfficialCustCod(result, cb) {
-            queryAgent.query("QRY_OFFICIAL_WEB_CUST_COD", {athena_id: session.user.athena_id}, function (err, getResult) {
+            queryAgent.query("QRY_OFFICIAL_WEB_CUST_COD", {
+                athena_id: session.user.athena_id,
+                cust_cod: postData.singleRowData.cust_cod
+            }, function (err, getResult) {
                 if (err) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "sql err";
+                    lo_error.errorMsg = err;
                     cb(lo_error, lo_result);
                 }
                 else {
-                    if (getResult.cust_cod == postData.singleRowData.cust_cod) {
+                    if (getResult.web_cust_cod_count > 0) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
                         lo_error.errorMsg = commandRules.getMsgByCod("pms61msg6", session.locale);
-
                         cb(lo_error, lo_result);
                     }
                     else {

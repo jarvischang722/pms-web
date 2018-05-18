@@ -12,7 +12,7 @@
                                         <input style="margin-top: 5px;"
                                                v-model="singleData[field.ui_field_name]" type="checkbox"
                                                :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
-                                               :disabled="field.modificable == 'N'||
+                                               :disabled="field.modificable == 'N'|| !isModifiable ||
                                                 (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus) "
                                                @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                         <label style="width:auto" v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
@@ -33,7 +33,7 @@
                                            :required="field.requirable == 'Y'" min="0"
                                            :maxlength="field.ui_field_length"
                                            :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                           :disabled="field.modificable == 'N'||
+                                           :disabled="field.modificable == 'N'|| !isModifiable ||
                                             (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
                                     <!--  textarea -->
@@ -43,7 +43,7 @@
                                               :style="{width:field.width + 'px'}" style="resize: none;"
                                               :required="field.requirable == 'Y'"
                                               :maxlength="field.ui_field_length"
-                                              :disabled="field.modificable == 'N'||
+                                              :disabled="field.modificable == 'N'|| !isModifiable ||
                                               (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                               @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                     </textarea>
@@ -55,7 +55,7 @@
                                                 @update:v-model="val => singleData[field.ui_field_name] = val"
                                                 :default-val="singleData[field.ui_field_name] || field.defaultVal"
                                                 :field="field"
-                                                :disabled="field.modificable == 'N'||
+                                                :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                     </bac-select>
 
@@ -64,14 +64,14 @@
                                            v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                            :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
-                                           :disabled="field.modificable == 'N'||
+                                           :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
                                     <!-- 日期時間選擇器 -->
                                     <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
                                                     v-model="singleData[field.ui_field_name]" type="datetime"
                                                     change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                                    :disabled="field.modificable == 'N'||
+                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                     size="small" format="yyyy/MM/dd HH:mm:ss"
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
@@ -85,8 +85,10 @@
                                                 v-model="areaCodSelectedOption"
                                                 expand-trigger="hover"
                                                 :options="field.selectData"
-                                                class="numStyle-none"
-                                                size="small"></el-cascader>
+                                                class="numStyle-none" size="small"
+                                                :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                        ></el-cascader>
                                     </template>
 
                                 </div>
@@ -184,7 +186,9 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-white btn-defaultWidth purview_btn"
-                                            role="button" @click="doChangeCreditLimit" data-purview_func_id="PMS0610020-1030">
+                                            role="button" @click="doChangeCreditLimit" :disabled="!isModifiable"
+                                            data-purview_func_id="PMS0610020-1030"
+                                            v-if="$parent.prgEditionOptions.funcList['1030'] != undefined">
                                         {{i18nLang.program.PMS0610020.change_credit_limit}}
                                     </button>
                                 </li>
@@ -230,7 +234,6 @@
         watch: {
             isRelatedSetting(val) {
                 if (val) {
-                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                     this.initData();
                     this.fetchFieldData();
                 }

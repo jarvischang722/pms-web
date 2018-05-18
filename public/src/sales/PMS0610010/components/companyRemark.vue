@@ -17,21 +17,24 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark purview_btn"
-                                            role="button" :disabled="BTN_action" @click="appendRow"
+                                            role="button" :disabled="BTN_action || !isModifiable" @click="appendRow"
+                                            v-if="$parent.prgEditionOptions.funcList['1120'] != undefined"
                                             data-purview_func_id="PMS0610020-1120">
                                         {{i18nLang.program.PMS0610020.append_remark}}
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark purview_btn"
-                                            role="button" :disabled="BTN_action" @click="editRow"
+                                            role="button" :disabled="BTN_action || !isModifiable" @click="editRow"
+                                            v-if="$parent.prgEditionOptions.funcList['1130'] != undefined"
                                             data-purview_func_id="PMS0610020-1130">
                                         {{i18nLang.program.PMS0610020.update_remark}}
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
-                                            role="button" :disabled="BTN_action" @click="removeRow"
+                                            role="button" :disabled="BTN_action || !isModifiable" @click="removeRow"
+                                            v-if="$parent.prgEditionOptions.funcList['1140'] != undefined"
                                             data-purview_func_id="PMS0610020-1140">
                                         {{i18nLang.program.PMS0610020.remove_remark}}
                                     </button>
@@ -239,7 +242,6 @@
                         this.initTmpCUD();
                     }
                     this.fetchDataGridFieldData();
-                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                 }
             },
             editingRow(val) {

@@ -15,14 +15,16 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                        role="button" :disabled="BTN_action" @click="appendRow"
+                                        role="button" :disabled="BTN_action || !isModifiable" @click="appendRow"
+                                        v-if="$parent.prgEditionOptions.funcList['1040'] != undefined"
                                         data-purview_func_id="PMS0610020-1040">
                                     {{i18nLang.program.PMS0610020.append_contact_person}}
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
-                                        role="button" :disabled="BTN_action" @click="removeRow"
+                                        role="button" :disabled="BTN_action || !isModifiable" @click="removeRow"
+                                        v-if="$parent.prgEditionOptions.funcList['1050'] != undefined"
                                         data-purview_func_id="PMS0610020-1050">
                                     {{i18nLang.program.PMS0610020.remove_contact_person}}
                                 </button>
@@ -35,7 +37,7 @@
                             <li>
                                 <span class="checkbox">
                                   <label class="checkbox-width">
-                                      <input name="form-field-checkbox" type="checkbox"
+                                      <input name="form-field-checkbox" type="checkbox" :disabled="!isModifiable"
                                              class="ace" @click="doHideLeavingStaff" v-model="isHideLeavingStaff">
                                       <span class="lbl font-btn">{{i18nLang.program.PMS0610020.hide_leaving_staff}}</span>
                                   </label>
@@ -51,6 +53,16 @@
 </template>
 
 <script>
+    /** DatagridRmSingleGridClass **/
+    function DatagridSingleGridClass() {
+    }
+
+    DatagridSingleGridClass.prototype = new DatagridBaseClass();
+    DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    };
+    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    };
+    /*** Class End  ***/
 
     export default {
         name: 'related-personnel',
@@ -92,7 +104,6 @@
                         this.initData();
                     }
                     this.fetchFieldData();
-                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                 }
             },
             dataGridRowsData: {
@@ -164,7 +175,7 @@
                 });
             },
             showDataGrid(dataGridRowsData) {
-                this.dgIns = new DatagridBaseClass();
+                this.dgIns = this.isModificable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "relatedPerson_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
                 this.dgIns.loadDgData(dataGridRowsData);
                 this.dgIns.updateMnRowData(this.$store.state.go_allData.go_mnSingleData);

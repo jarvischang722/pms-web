@@ -77,6 +77,8 @@
             WHERE  RATECOD_MN.ATHENA_ID = RATESUPPLY_DT.ATHENA_ID
             AND  to_date(:end_dat, 'YYYY/MM/DD') <= RATESUPPLY_DT.END_DAT
             AND  to_date(:begin_dat, 'YYYY/MM/DD') >= RATESUPPLY_DT.BEGIN_DAT
+            AND  RATECOD_MN.USE_STA = 'Y'
+            AND  RATECOD_MN.CONTRACT_USE = 'Y'
             AND  RATECOD_MN.ATHENA_ID = :athena_id
             AND  trim(RATECOD_MN.HOTEL_COD) = trim(:hotel_cod)
         ]]></statement>

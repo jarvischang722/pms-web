@@ -59,6 +59,13 @@
                                             {{i18nLang.program.PMS0610010.visit_plan}}
                                         </button>
                                     </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                                role="button" @click="browsRow"
+                                                data-purview_func_id="PMS0610010-1020">
+                                            {{i18nLang.program.PMS0610010['1030']}}
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -519,7 +526,7 @@
                     self.showDataGrid();
                 });
             },
-            fetchDgRowData(){
+            fetchDgRowData() {
                 var lo_searchCond = _.clone(this.searchCond);
 
                 var lo_params = {
@@ -528,11 +535,11 @@
                     searchCond: lo_searchCond
                 };
 
-                $.post("/api/fetchDgRowData", lo_params).then(result=>{
+                $.post("/api/fetchDgRowData", lo_params).then(result => {
                     this.pageOneDataGridRows = result.dgRowData;
                     this.showDataGrid();
-                }, err=>{
-                    throw Error (err);
+                }, err => {
+                    throw Error(err);
                 })
             },
             showDataGrid() {
@@ -560,6 +567,7 @@
                 this.isEditStatus = false;
                 this.isEditSalesClerk = false;
                 this.isVisitPlan = false;
+                this.isModifiable = true;
                 this.editingRow = {cust_mn_cust_cod: ""};
 
                 this.showSingleGridDialog();
@@ -573,6 +581,31 @@
                 this.isEditStatus = true;
                 this.isEditSalesClerk = false;
                 this.isVisitPlan = false;
+                this.isModifiable = true;
+                this.editingRow = {};
+
+                var lo_editRow = $('#PMS0610010_dg').datagrid('getSelected');
+                var la_editRows = $('#PMS0610010_dg').datagrid('getSelections');
+
+                if (!lo_editRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectData);
+                }
+                else if (la_editRows.length > 1 || lo_editRow != la_editRows[0]) {
+                    alert(go_i18nLang["program"].PMS0610010.selectOneData);
+                }
+                else {
+                    this.editingRow = lo_editRow;
+                    this.showSingleGridDialog();
+                }
+                this.isLoading = false;
+            },
+            browsRow() {
+                this.isLoading = true;
+                this.isCreateStatus = false;
+                this.isEditStatus = true;
+                this.isEditSalesClerk = false;
+                this.isVisitPlan = false;
+                this.isModifiable = false;
                 this.editingRow = {};
 
                 var lo_editRow = $('#PMS0610010_dg').datagrid('getSelected');

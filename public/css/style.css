@@ -257,8 +257,8 @@
   width: auto;
 }
 .css_table .css_td .moreClick.moreAbso-t10 {
-    top: 7px;
-    bottom: auto;
+  top: 7px;
+  bottom: auto;
 }
 .css_table .icon-addDel i {
   margin-top: 5px;
@@ -347,8 +347,8 @@
   width: auto;
 }
 .horizTable-outer .css_table .css_td .moreClick.moreAbso-t10 {
-    top: 7px;
-    bottom: auto;
+  top: 7px;
+  bottom: auto;
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
@@ -682,8 +682,8 @@ label {
 }
 
 textarea[disabled] {
-    color: #848484 !important;
-    background-color: #EEE !important;
+  color: #848484 !important;
+  background-color: #EEE !important;
 }
 
 @media screen and (max-width: 992px) {
@@ -1968,7 +1968,7 @@ a {
   cursor: pointer;
   margin-left: 10px;
   font-weight: bold;
-    color: #f24;
+  color: #f24;
   line-height: 34px;
 }
 
@@ -2246,14 +2246,14 @@ a {
   position: relative;
 }
 .dialog-fixed .singleEditStatus {
-    position: fixed;
-    margin-left: -30px;
+  position: fixed;
+  margin-left: -30px;
 }
 .dialog-fixed .singleEditStatus.ml-spc1 {
-    margin-left: -5px;
+  margin-left: -5px;
 }
 .dialog-fixed .singleEditStatus .btn-defaultWidth {
-    padding: 3px 9px;
+  padding: 3px 9px;
 }
 .dialog-fixed .singleGridContent {
   padding-top: 5px;
@@ -3131,8 +3131,8 @@ ul.newVisitOther-btn {
   border: 2px solid #fff;
   position: relative;
   padding: 5px;
-    width: 140px;
-    height: 93px;
+  width: 140px;
+  height: 93px;
   line-height: 23px;
   box-sizing: border-box;
   background: #c0d6ee;
@@ -4282,7 +4282,7 @@ td div.act-box span.act-text {
   position: relative;
   padding: 5px;
   width: 85px;
-    height: 65px;
+  height: 65px;
   box-sizing: border-box;
   background: #a0563d;
   color: #ede3d1;
@@ -4825,12 +4825,12 @@ td div.act-box span.act-text {
 }
 
 .el-cascader-s1 .el-cascader__label {
-    line-height: 25px;
+  line-height: 25px;
 }
 
 #editPasswordDialog .el-dialog--small {
-    width: 400px;
-    max-width: 100%;
+  width: 400px;
+  max-width: 100%;
 }
 
 #prgPropsSetupVM .title {
@@ -4895,12 +4895,12 @@ td div.act-box span.act-text {
 
 .fixed-table-container table thead tr td, .fixed-table-container table thead tr th {
   background-clip: padding-box !important;
-    font-size: 13px;
-    font-weight: 700;
+  font-size: 13px;
+  font-weight: 700;
   z-index: 4;
   -moz-box-shadow: 1px 1px 1px 1px #778899;
   -webkit-box-shadow: 1px 1px 1px 1px #778899;
-    box-shadow: 1px 1px 1px 1px #778899;
+  box-shadow: 1px 1px 1px 1px #778899;
 }
 .fixed-table-container table thead tr th.td-first {
   z-index: 99 !important;
@@ -4909,7 +4909,7 @@ td div.act-box span.act-text {
   z-index: 99 !important;
   -moz-box-shadow: 0px 0px 0px 2px #778899;
   -webkit-box-shadow: 0px 0px 0px 2px #778899;
-    box-shadow: 0px 0px 0px 2px #778899;
+  box-shadow: 0px 0px 0px 2px #778899;
 }
 .fixed-table-container table tbody tr td {
   background-clip: padding-box;
@@ -4919,7 +4919,7 @@ td div.act-box span.act-text {
   z-index: 9;
   -moz-box-shadow: 1px 1px 0px 1px lightslategray;
   -webkit-box-shadow: 1px 1px 0px 1px lightslategray;
-    box-shadow: 1px 1px 0px 1px lightslategray;
+  box-shadow: 1px 1px 0px 1px lightslategray;
 }
 
 @-moz-document url-prefix() {
@@ -5171,16 +5171,16 @@ td div.act-box span.act-text {
 }
 
 .el-select-ht .el-input__inner {
-    height: 25px;
+  height: 25px;
 }
 .el-select-ht .el-input__icon {
-    width: 20px;
+  width: 20px;
 }
 .el-select-ht .el-input__icon + .el-input__inner {
-    padding-right: 0;
+  padding-right: 0;
 }
 .el-select-ht input[readonly] {
-    background: #fff !important;
+  background: #fff !important;
 }
 
 .custom-table th, .custom-table td {
@@ -5226,14 +5226,14 @@ td div.act-box span.act-text {
   cursor: pointer;
 }
 .custom-table .td-relative {
-    position: relative;
+  position: relative;
 }
 .custom-table .td-relative .moreAbso {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    height: 25px;
-    box-sizing: border-box;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 25px;
+  box-sizing: border-box;
 }
 
 td div.triangle-box.colspan-1 {
@@ -5997,11 +5997,11 @@ td div.triangle-box.colspan-28 {
 }
 
 .ml-3-percent {
-    margin-left: 3%;
+  margin-left: 3%;
 }
 
 .ml-3 {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .ml-90 {
@@ -6053,7 +6053,7 @@ td div.triangle-box.colspan-28 {
 }
 
 .defLineHt {
-    line-height: 25px !important;
+  line-height: 25px !important;
 }
 
 .selectHt {
@@ -6064,7 +6064,7 @@ td div.triangle-box.colspan-28 {
 }
 
 .iframeHt {
-    width: 100%;
+  width: 100%;
 }
 
 .v-easy-s1 .v-table-title-cell, .v-easy-s1 .v-table-body-cell {
@@ -6113,7 +6113,7 @@ td div.triangle-box.colspan-28 {
 }
 
 .notice {
-    color: #f24;
+  color: #f24;
   font-weight: bold;
 }
 
@@ -7246,8 +7246,8 @@ input[type=checkbox] {
   }
 }
 @media screen and (max-width: 768px) {
-    #editPasswordDialog .loginPage, #editPasswordDialog .login-container {
-        width: 100%;
-        padding: 0px 10px 0px 10px;
-    }
+  #editPasswordDialog .loginPage, #editPasswordDialog .login-container {
+    width: 100%;
+    padding: 0px 10px 0px 10px;
+  }
 }
