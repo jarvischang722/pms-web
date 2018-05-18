@@ -44,7 +44,7 @@
 
     export default {
         name: 'sales-clerk',
-        props: ["rowData", "isSalesClerk", "isCreateStatus", "isEditStatus"],
+        props: ["rowData", "isSalesClerk", "isCreateStatus", "isEditStatus", "isModifiable"],
         created() {
             var self = this;
             this.$eventHub.$on('completeEditSalesClerk', function (result) {

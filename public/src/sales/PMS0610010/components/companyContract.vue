@@ -79,7 +79,7 @@
 
     export default {
         name: 'contract-content',
-        props: ["rowData", "isContractContent"],
+        props: ["rowData", "isContractContent", "isModifiable"],
         created() {
             this.$eventHub.$on("endContractEdit", () => {
                 if (!_.isEmpty(this.dgIns)) {
