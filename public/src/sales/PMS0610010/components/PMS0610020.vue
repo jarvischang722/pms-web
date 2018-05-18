@@ -391,7 +391,6 @@
             },
             rowData(val) {
                 if (!_.isEmpty(val)) {
-                    console.log(this.isModifiable);
                     this.initData();
                     this.fetchFieldData();
                 }
