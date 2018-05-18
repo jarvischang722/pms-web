@@ -148,10 +148,10 @@ exports.authLogin = function (req, res) {
         if (!err && userInfo) {
             req.session.user = userInfo;
             req.session.athena_id = userInfo.athena_id;
-            req.cookies.athena_id = userInfo.athena_id;
-            req.cookies.comp_cod = userInfo.cmp_id.trim();
+            req.session.hotel_cod = userInfo.hotel_cod.trim();
             res.cookie("login_username", userInfo.usr_id, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
             res.cookie("login_comp_id", userInfo.cmp_id.trim(), {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
+            res.cookie("hotel_cod", req.session.hotel_cod, {signed: true});
         }
 
         res.json({
