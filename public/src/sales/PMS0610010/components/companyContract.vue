@@ -7,13 +7,13 @@
                         <div class="float-left">
                             <input type="text" v-model="searchCondOfRate"
                                    :placeholder="i18nLang.program.PMS0610020.rate"
-                                   @blur="doChangeRowData">
+                                   @keyup="doChangeRowData">
                         </div>
                         <div class="float-left">
                             <span class="checkbox">
                               <label class="checkbox-width">
                                   <input name="form-field-checkbox" type="checkbox"
-                                         class="ace" v-model="isHideExpire" @keyup="doHideExpire">
+                                         class="ace" v-model="isHideExpire">
                                   <span class="lbl"><span
                                           class="txt">{{i18nLang.program.PMS0610020.hide_expired}}</span></span>
                               </label>
@@ -34,14 +34,16 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                        role="button" :disabled="BTN_action" @click="appendRow"
+                                        role="button" :disabled="BTN_action || !isModifiable" @click="appendRow"
+                                        v-if="$parent.prgEditionOptions.funcList['1070'] != undefined"
                                         data-purview_func_id="PMS0610020-1070">
                                     {{i18nLang.program.PMS0610020.append_contract}}
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
-                                        role="button" :disabled="BTN_action" @click="removeRow"
+                                        role="button" :disabled="BTN_action || !isModifiable" @click="removeRow"
+                                        v-if="$parent.prgEditionOptions.funcList['1080'] != undefined"
                                         data-purview_func_id="PMS0610020-1080">
                                     {{i18nLang.program.PMS0610020.remove_contract}}
                                 </button>
@@ -61,12 +63,23 @@
 </template>
 
 <script>
+    /** DatagridRmSingleGridClass **/
+    function DatagridSingleGridClass() {
+    }
+
+    DatagridSingleGridClass.prototype = new DatagridBaseClass();
+    DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    };
+    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    };
+    /*** Class End  ***/
+
     import moment from 'moment';
     import alasql from 'alasql';
 
     export default {
         name: 'contract-content',
-        props: ["rowData", "isContractContent"],
+        props: ["rowData", "isContractContent", "isModifiable"],
         created() {
             this.$eventHub.$on("endContractEdit", () => {
                 if (!_.isEmpty(this.dgIns)) {
@@ -100,7 +113,6 @@
                         this.initData();
                     }
                     this.fetchDefaultData();
-                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                 }
             },
             dataGridRowsData: {
@@ -126,6 +138,14 @@
                     }
                 },
                 deep: true
+            },
+            isHideExpire(val) {
+                if (val) {
+                    this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
+                }
+                else {
+                    this.dgIns.loadDgData(this.dataGridRowsData);
+                }
             }
         },
         methods: {
@@ -150,13 +170,13 @@
                 });
             },
             fetchDefaultData() {
-                $.post("/api/fetchDefaultSingleRowData", {
+                BacUtils.doHttpPostAgent("/api/fetchDefaultSingleRowData", {
                     prg_id: "PMS0610020",
                     page_id: 1,
                     tab_page_id: 4,
                     template_id: "datagrid"
-                }).then(result => {
-                    this.rentDatHq = result.gsDefaultData.rent_dat_hq.toString();
+                }, result => {
+                    this.rentDatHq = moment(result.gsDefaultData.rent_dat_hq).format("YYYY/MM/DD").toString();
                     this.fetchFieldData();
                 });
             },
@@ -165,14 +185,16 @@
                 this.oriDataGridRowsData = [];
                 this.fieldsData = [];
                 this.oriFieldsData = [];
+                this.searchCondOfRate = "";
+                this.isHideExpire = true;
             },
             fetchFieldData() {
                 this.isLoading = true;
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 4,
                     searchCond: {cust_cod: this.$store.state.gs_custCod}
-                }).then(result => {
+                }, result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
                     //第一次載入合約內容
@@ -196,7 +218,7 @@
                 });
             },
             showDataGrid(dataGridRowsData) {
-                this.dgIns = new DatagridBaseClass();
+                this.dgIns = this.isModifiable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'contractContent_dg'), this.fieldsData);
                 this.dgIns.loadDgData(dataGridRowsData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
@@ -208,11 +230,11 @@
             doChangeRowData() {
                 if (this.isHideExpire) {
                     this.dataGridRowsDataOfRateCode =
-                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsData])
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsDataOfExpire])
                 }
                 else {
                     this.dataGridRowsDataOfRateCode =
-                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsDataOfExpire])
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsData])
                 }
                 this.showDataGrid(this.dataGridRowsDataOfRateCode);
             },
@@ -233,14 +255,6 @@
                 }
                 else {
                     this.dgIns.removeRow();
-                }
-            },
-            doHideExpire() {
-                if (this.isHideExpire) {
-                    this.dgIns.loadDgData(this.dataGridRowsData);
-                }
-                else {
-                    this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
                 }
             }
         }

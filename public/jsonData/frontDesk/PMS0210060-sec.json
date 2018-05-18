@@ -1,0 +1,36 @@
+{
+  "total": 28,
+  "rows": [
+    {
+      "no": "1",
+      "roomCode": "206",
+      "fullName": "陳Rick"
+    },
+    {
+      "no": "2",
+      "roomCode": "207",
+      "fullName": "黃大銘"
+    },
+    {
+      "no": "3",
+      "roomCode": "208",
+      "fullName": "李Peter"
+    },
+    {
+      "no": "4",
+      "roomCode": "209",
+      "fullName": "林強"
+    },
+    {
+      "no": "5",
+      "roomCode": "111",
+      "fullName": "王妃"
+    },
+    {
+      "no": "6",
+      "roomCode": "112",
+      "fullName": "岳飛"
+    }
+  ]
+}
+

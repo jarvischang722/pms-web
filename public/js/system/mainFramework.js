@@ -93,7 +93,7 @@ let BacchusMainVM = new Vue({
          * @param sys_id{string}: 系統別
          */
         selectSys: function (sys_id) {
-            $.post("/api/selectSystem", {sys_id: sys_id}, function (result) {
+            BacUtils.doHttpPostAgent("/api/selectSystem", {sys_id: sys_id}, function (result) {
                 if (result.success) {
                     location.href = result.subsysPage;
                 }
@@ -151,7 +151,7 @@ let BacchusMainVM = new Vue({
          * 取得此子系統的權限
          */
         getUserSubsys: function () {
-            $.post("/api/getUserSubsys").done(function (res) {
+            BacUtils.doHttpPostAgent("/api/getUserSubsys", function (res) {
                 BacchusMainVM.subsysMenu = res.subsysMenu;
                 BacchusMainVM.activeSystem = res.activeSystem;
                 BacchusMainVM.usingSubsysID = getCookie("usingSubsysID");
@@ -248,7 +248,7 @@ let BacchusMainVM = new Vue({
          * @return {string}
          */
         getSubsysIDOfPrgID: function (prg_id) {
-            let lao_allPrgs = [].concat(..._.pluck(this.subsysMenu, "quickMenu"));
+            let lao_allPrgs = [].concat(..._.pluck(this.subsysMenu, "quickMenu"), ..._.pluck(this.subsysMenu, "reportMenu"));
             let ls_newSubsysID = _.findIndex(lao_allPrgs, {pro_id: prg_id}) > -1
                 ? _.findWhere(lao_allPrgs, {pro_id: prg_id}).subsys_id : "";
             return ls_newSubsysID;
@@ -265,7 +265,7 @@ let BacchusMainVM = new Vue({
         updateExpiresTime: function () {
             let lastTimes = moment(this.gs_cookieExpires).diff(moment(), "seconds");
             if (_.isEmpty(this.gs_cookieExpires) || lastTimes > 0) {
-                $.post("/api/getSessionExpireTime", function (result) {
+                BacUtils.doHttpPostAgent("/api/getSessionExpireTime", function (result) {
                     if (result.session.cookie.expires !== BacchusMainVM.gs_cookieExpires) {
                         BacchusMainVM.gs_cookieExpires = result.session.cookie.expires;
                         BacchusMainVM.serverTime = result.serverTime;
@@ -321,7 +321,7 @@ let BacchusMainVM = new Vue({
             });
         },
         handleLogout: function (callback) {
-            $.post("/cas/logout", function (data) {
+            BacUtils.doHttpPostAgent("/cas/logout", function (data) {
                 callback();
             });
         },
@@ -358,7 +358,7 @@ let BacchusMainVM = new Vue({
                 alert(lo_chkResult.msg);
             }
             else {
-                $.post("/api/doEditPassword", this.pwdData, function (result) {
+                BacUtils.doHttpPostAgent("/api/doEditPassword", this.pwdData, function (result) {
                     if (result.success) {
                         alert("Edit success!");
                         self.openEditPasswordDialog = false;
@@ -390,7 +390,7 @@ let BacchusMainVM = new Vue({
          * 換館別
          */
         changeHotelCod: function (hotel_cod) {
-            $.post("/changeHotelCod", {hotel_cod: hotel_cod}, function (data) {
+            BacUtils.doHttpPostAgent("/changeHotelCod", {hotel_cod: hotel_cod}, function (data) {
                 if (data.success) {
                     location.reload();
                 }

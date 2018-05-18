@@ -24,7 +24,7 @@ var PMS0820030VM = new Vue({
     methods: {
         //抓取欄位顯示資料
         fetchDgFieldData: function () {
-            $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id, page_id: 1}, function (result) {
+            BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: gs_prg_id, page_id: 1}, function (result) {
                 PMS0820030VM.prgFieldDataAttr = result.fieldData;
                 PMS0820030VM.prgColumnsOption = DatagridFieldAdapter.combineFieldOption(result.fieldData, 'PMS0820030_prg_dg');
                 PMS0820030VM.createDatagrid();
@@ -160,23 +160,18 @@ var PMS0820030VM = new Vue({
                 console.log(this.dgIns.tmpCUD);
                 // console.log("===== 儲存資料 =====");
                 // console.log(params);
-                $.post('/api/execSQLProcess', params)
-                    .done(function (response) {
-                        PMS0820030VM.saving = false;
-                        waitingDialog.hide();
-                        if (response.success) {
-                            self.dgIns.initTmpCUD();
-                            $("#gridEdit").val(null);
-                            alert(go_i18nLang.SystemCommon.saveSuccess);
-                        } else {
-                            alert(response.errorMsg);
-                        }
-                    })
-                    .fail(function (error) {
-                        PMS0820030VM.saving = false;
-                        waitingDialog.hide();
-                        console.log(error);
-                    });
+                BacUtils.doHttpPostAgent('/api/execSQLProcess', params, function (response) {
+                    PMS0820030VM.saving = false;
+                    waitingDialog.hide();
+                    if (response.success) {
+                        self.dgIns.initTmpCUD();
+                        $("#gridEdit").val(null);
+                        alert(go_i18nLang.SystemCommon.saveSuccess);
+                    } else {
+                        alert(response.errorMsg);
+                    }
+                });
+
 
             }
         }

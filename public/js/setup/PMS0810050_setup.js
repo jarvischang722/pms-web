@@ -49,7 +49,7 @@ var vueMain = new Vue({
         //抓取欄位顯示資料
         fetchDgFieldData: function () {
             this.isLoading = true;
-            $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id, page_id: 1}, function (result) {
+            BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: gs_prg_id, page_id: 1}, function (result) {
                 vueMain.isLoading = false;
                 vueMain.prgFieldDataAttr = result.fieldData;
                 vueMain.combineFieldAttr(result.fieldData);
@@ -61,7 +61,7 @@ var vueMain = new Vue({
         //抓取資料
         fetchTrafficData: function () {
             this.isLoading = true;
-            $.post("/api/getTrafficData", {prg_id: gs_prg_id, page_id: 1}, function (result) {
+            BacUtils.doHttpPostAgent("/api/getTrafficData", {prg_id: gs_prg_id, page_id: 1}, function (result) {
                 vueMain.isLoading = false;
                 vueMain.trafficData = result.trafficData;
             });
@@ -113,19 +113,18 @@ var vueMain = new Vue({
                 waitingDialog.show('Saving...');
                 // console.log("===== 儲存資料 =====");
                 // console.log(params);
-                $.post('/api/execSQLProcess', params)
-                    .done(function (response) {
-                        vueMain.saving = false;
-                        waitingDialog.hide();
-                        if (response.success) {
-                            self.dgIns.initTmpCUD();
-                            self.fetchTrafficData();
-                            //self.fetchDgFieldData();
-                            alert(go_i18nLang.SystemCommon.saveSuccess);
-                        } else {
-                            alert(response.errorMsg);
-                        }
-                    })
+                BacUtils.doHttpPostAgent('/api/execSQLProcess', params, function (response) {
+                    vueMain.saving = false;
+                    waitingDialog.hide();
+                    if (response.success) {
+                        self.dgIns.initTmpCUD();
+                        self.fetchTrafficData();
+                        //self.fetchDgFieldData();
+                        alert(go_i18nLang.SystemCommon.saveSuccess);
+                    } else {
+                        alert(response.errorMsg);
+                    }
+                })
                     .fail(function (error) {
                         vueMain.saving = false;
                         waitingDialog.hide();

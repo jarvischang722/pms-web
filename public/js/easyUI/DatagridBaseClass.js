@@ -262,19 +262,20 @@ function DatagridBaseClass() {
                 allRows: $('#' + self.dgName).datagrid('getRows'),
                 mnRowData: self.mnRowData
             };
-
-            $.post("/api/handleDataGridAddEventRule", lo_param, function (result) {
+            BacUtils.doHttpPostAgent("/api/handleDataGridAddEventRule", lo_param, function (result) {
                 var prgDefaultObj = {createRow: 'Y'};
+                // TODO 取亂數之後會有共用function
+                var prgDefaultObj = {createRow: 'Y', uniKey: Math.floor(Math.random() * (99999999999999999999))};
                 if (result.success) {
-                    prgDefaultObj = result.prgDefaultObj;
+                    prgDefaultObj = _.extend(prgDefaultObj, result.prgDefaultObj);
                 }
                 $('#' + self.dgName).datagrid('appendRow', prgDefaultObj);
                 self.editIndex = $('#' + self.dgName).datagrid('getRows').length - 1;
                 $('#' + self.dgName).datagrid('selectRow', self.editIndex)
                     .datagrid('beginEdit', self.editIndex);
                 callback(true);
+                // $("#gridEdit").val(self.tmpCUD);
             });
-            // $("#gridEdit").val(self.tmpCUD);
         }
     };
     /**
@@ -316,7 +317,7 @@ function DatagridBaseClass() {
             deleteData: self.tmpCUD.deleteData
         };
 
-        $.post("/api/handleDataGridDeleteEventRule", lo_param, function (result) {
+        BacUtils.doHttpPostAgent("/api/handleDataGridDeleteEventRule", lo_param, function (result) {
             if (result.success) {
                 $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
             } else {
@@ -350,7 +351,7 @@ function DatagridBaseClass() {
             saveField.push(_.extend(currentColumOption));
         });
 
-        $.post("/api/saveFieldOptionByUser", {
+        BacUtils.doHttpPostAgent("/api/saveFieldOptionByUser", {
             prg_id: self.prg_id,
             page_id: self.page_id,
             fieldOptions: saveField
@@ -373,9 +374,14 @@ function DatagridBaseClass() {
 
         var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
         var condKey = {};
-        _.each(keyVals, function (field_name) {
-            condKey[field_name] = lo_chkKeyRowData[field_name] || "";
-        });
+        if (dataType == "updateData") {
+            _.each(keyVals, function (field_name) {
+                condKey[field_name] = lo_chkKeyRowData[field_name] || "";
+            });
+        }
+        else {
+            condKey = {uniKey: lo_chkKeyRowData.uniKey};
+        }
 
         //判斷資料有無在暫存裡, 如果有先刪掉
         var existIdx = _.findIndex(self.tmpCUD[dataType], condKey);

@@ -3,9 +3,11 @@
  */
 
 var gs_dgName = "PMS0810190_dg";
+
 /** DatagridRmSingleGridClass ***/
 function DatagridSingleGridClass() {
 }
+
 DatagridSingleGridClass.prototype = new DatagridBaseClass();
 DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     //
@@ -146,7 +148,7 @@ var vm = new Vue({
             this.initDataGrid();
             this.dgIns.loadDgData(this.pageOneDataGridRows);
         },
-        editingRow: function(editingRow){
+        editingRow: function (editingRow) {
             this.editIndex = $("#" + gs_dgName).datagrid('getRowIndex', editingRow);
         }
 
@@ -169,29 +171,24 @@ var vm = new Vue({
             var colOption = [{field: 'ck', checkbox: true}];
             colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810190_dg'));
             this.dgIns = new DatagridSingleGridClass();
-            this.dgIns.init(this.prg_id, gs_dgName, colOption,this.pageOneFieldData, {singleSelect: false});
+            this.dgIns.init(this.prg_id, gs_dgName, colOption, this.pageOneFieldData, {singleSelect: false});
         },
         getSingleGridPageField: function () {
-            $.post('/api/singleGridPageFieldQuery', {prg_id: this.prg_id, page_id: 2})
-                .done(function (response) {
-                    var result = response;
-                    vm.pageTwoFieldData = result.fieldData;
-                    vm.useCodList = _.findWhere(vm.pageTwoFieldData, {ui_field_name: 'use_cod'}).selectData;
-                })
-                .fail(function (error) {
-                    console.log(error);
-                });
+            BacUtils.doHttpPostAgent('/api/singleGridPageFieldQuery', {
+                prg_id: this.prg_id,
+                page_id: 2
+            }, function (response) {
+                var result = response;
+                vm.pageTwoFieldData = result.fieldData;
+                vm.useCodList = _.findWhere(vm.pageTwoFieldData, {ui_field_name: 'use_cod'}).selectData;
+            });
         },
         getOrderConfirm: function () {
-            $.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
-                .done(function (response) {
-                    var result = response;
-                    vm.pageOneDataGridRows = result.dataGridRows;
-                    vm.pageOneFieldData = result.fieldData;
-                })
-                .fail(function (error) {
-                    console.log(error);
-                });
+            BacUtils.doHttpPostAgent('/api/prgDataGridDataQuery', {prg_id: this.prg_id}, function (response) {
+                var result = response;
+                vm.pageOneDataGridRows = result.dataGridRows;
+                vm.pageOneFieldData = result.fieldData;
+            });
         },
 
         fetchSingleData: function () {
@@ -200,7 +197,7 @@ var vm = new Vue({
             vm.isCreateStatus = false;
             vm.isDeleteStatus = false;
             vm.editingRow["prg_id"] = gs_prg_id;
-            $.post('/api/singlePageRowDataQuery', vm.editingRow, function (result) {
+            BacUtils.doHttpPostAgent('/api/singlePageRowDataQuery', vm.editingRow, function (result) {
                 if (result.success) {
                     vm.showSingleGridDialog();
                     vm.singleData = result.rowData;
@@ -304,42 +301,41 @@ var vm = new Vue({
                 } else if (this.isEditStatus) {
                     this.tmpCUD.editData = [this.singleData];
                 }
-            } else{
+            } else {
                 this.isCreateStatus = false;
                 this.isEditStatus = false;
             }
 
 
-            $.post('/api/saveGridSingleData', _.extend({prg_id: this.prg_id}, this.tmpCUD))
-                .done(function (response) {
-                    if (response.success) {
-                        vm.getOrderConfirm();
-                        if (vm.isCreateStatus) {
-                            if (vm.isAddAfterSave) {
-                                vm.addData();
-                            } else {
-                                vm.isCreateStatus = false;
-                                vm.isEditStatus = true;
-                                vm.editingRow = vm.singleData;
-                                vm.fetchSingleData();
-                            }
-                        } else if (vm.isLeaveAfterSave) {
-                            vm.closeSingleGridDialog();
+            BacUtils.doHttpPostAgent('/api/saveGridSingleData', _.extend({prg_id: this.prg_id}, this.tmpCUD), function (response) {
+                if (response.success) {
+                    vm.getOrderConfirm();
+                    if (vm.isCreateStatus) {
+                        if (vm.isAddAfterSave) {
+                            vm.addData();
+                        } else {
+                            vm.isCreateStatus = false;
+                            vm.isEditStatus = true;
+                            vm.editingRow = vm.singleData;
+                            vm.fetchSingleData();
                         }
-                        //判斷刪除完下一筆要抓哪一筆顯示
-                        if (vm.isDeleteStatus) {
-
-                            vm.closeSingleGridDialog();
-                        }
-
-                        vm.getOrderConfirm();
-                        vm.initTmpCUD();
-                        alert(go_i18nLang.SystemCommon.saveSuccess);
-
-                    } else {
-                        alert(response.errorMsg);
+                    } else if (vm.isLeaveAfterSave) {
+                        vm.closeSingleGridDialog();
                     }
-                });
+                    //判斷刪除完下一筆要抓哪一筆顯示
+                    if (vm.isDeleteStatus) {
+
+                        vm.closeSingleGridDialog();
+                    }
+
+                    vm.getOrderConfirm();
+                    vm.initTmpCUD();
+                    alert(go_i18nLang.SystemCommon.saveSuccess);
+
+                } else {
+                    alert(response.errorMsg);
+                }
+            });
         },
         showSingleGridDialog: function () {
             this.isAddAfterSave = false;

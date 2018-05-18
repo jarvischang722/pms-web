@@ -1,11 +1,11 @@
-var authMW = require("../middlewares/authMiddleware");
-var userCrtl = require("../controllers/userController");
-var i18nMW = require("../middlewares/i18nMiddleware");
+let authMW = require("../middlewares/authMiddleware");
+let userCrtl = require("../controllers/userController");
+let i18nMW = require("../middlewares/i18nMiddleware");
 let permisCrtl = require("../controllers/permissionController");
+let middles = [authMW, i18nMW];
+let middles2 = [i18nMW];
+let apiMiddles = [authMW];
 
-var middles = [authMW, i18nMW];
-var middles2 = [i18nMW];
-var apiMiddles = [authMW];
 module.exports = function (app, passport) {
 
 
@@ -13,7 +13,6 @@ module.exports = function (app, passport) {
     app.get('/login', middles2, userCrtl.loginPage);
     app.get('/:athena_id/login', middles2, userCrtl.loginPage);
     app.get('/:athena_id/:comp_cod/login', middles2, userCrtl.loginPage);
-
     app.get('/casLogin', userCrtl.casLogin);
 
     /** API  **/
@@ -41,7 +40,6 @@ module.exports = function (app, passport) {
     app.get('/authorityStaff', userCrtl.getAuthorityStaff);
     //新增 功能權限(靜態)
     app.get('/authorityFeature', userCrtl.getAuthorityFeature);
-
     // 經由公司代號 cmp_id 取得部門資訊
     app.post('/api/getCompGrp', apiMiddles, userCrtl.getCompGrp);
     //取得全部角色
@@ -60,6 +58,7 @@ module.exports = function (app, passport) {
     app.post('/api/userSubsysPurviewBySysID', apiMiddles, userCrtl.userSubsysPurviewBySysID);
     //修改密碼
     app.post('/api/doEditPassword', apiMiddles, userCrtl.doEditPassword);
-
+    //記錄使用者動作func_id執行時間
+    app.post('/api/doSaveFuncExecTime', apiMiddles, userCrtl.saveFuncExecTime);
 };
 

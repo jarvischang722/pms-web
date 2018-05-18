@@ -15,8 +15,9 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                        role="button" @click="doEditSalesClerk" data-purview_func_id="PMS0610020-1060">
+                                <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" :disabled="!isModifiable"
+                                        role="button" v-if="$parent.prgEditionOptions.funcList['1060'] != undefined"
+                                        @click="doEditSalesClerk" data-purview_func_id="PMS0610020-1060">
                                     {{i18nLang.program.PMS0610010.edit_sales}}
                                 </button>
                             </li>
@@ -43,11 +44,11 @@
 
     export default {
         name: 'sales-clerk',
-        props: ["rowData", "isSalesClerk", "isCreateStatus", "isEditStatus"],
+        props: ["rowData", "isSalesClerk", "isCreateStatus", "isEditStatus", "isModifiable"],
         created() {
             var self = this;
             this.$eventHub.$on('completeEditSalesClerk', function (result) {
-                if(result.success){
+                if (result.success) {
                     self.fetchFieldData();
                 }
             });
@@ -70,7 +71,6 @@
         watch: {
             isSalesClerk(val) {
                 if (val) {
-                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                     this.initData();
                     this.fetchFieldData();
                 }
@@ -87,11 +87,11 @@
             },
             fetchFieldData() {
                 this.isLoading = true;
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 3,
                     searchCond: {cust_cod: this.$store.state.gs_custCod}
-                }).then(result => {
+                }, result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
                     this.dataGridRowsData = result.dgRowData;

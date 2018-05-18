@@ -8,7 +8,7 @@
                     <search-comp
                             :search-fields="searchFields"
                             :search-cond.sync="searchCond"
-                            :fetch-data="loadDataGridByPrgID"
+                            :fetch-data="fetchDgRowData"
                     ></search-comp>
                 </div>
                 <div class="clearfix"></div>
@@ -29,13 +29,15 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain purview_btn"
-                                                role="button" @click="appendRow" data-purview_func_id="PMS0610010-0200">
+                                                role="button" @click="appendRow" v-if="prgEditionOptions.funcList['0200'] != undefined"
+                                                data-purview_func_id="PMS0610010-0200">
                                             {{i18nLang.SystemCommon.Add}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain purview_btn"
-                                                role="button" @click="editRow" data-purview_func_id="PMS0610010-0400">
+                                                role="button" @click="editRow" v-if="prgEditionOptions.funcList['0400'] != undefined"
+                                                data-purview_func_id="PMS0610010-0400">
                                             {{i18nLang.SystemCommon.Modify}}
                                         </button>
                                     </li>
@@ -48,6 +50,7 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
                                                 role="button" @click="doEditSalesClerk"
+                                                v-if="prgEditionOptions.funcList['1010'] != undefined"
                                                 data-purview_func_id="PMS0610010-1010">
                                             {{i18nLang.program.PMS0610010.sales_assign}}
                                         </button>
@@ -55,8 +58,17 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
                                                 role="button" @click="addVisitPlan"
+                                                v-if="prgEditionOptions.funcList['1020'] != undefined"
                                                 data-purview_func_id="PMS0610010-1020">
                                             {{i18nLang.program.PMS0610010.visit_plan}}
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                                role="button" @click="browsRow"
+                                                v-if="prgEditionOptions.funcList['1030'] != undefined"
+                                                data-purview_func_id="PMS0610010-1030">
+                                            {{i18nLang.program.PMS0610010['1030']}}
                                         </button>
                                     </li>
                                 </ul>
@@ -327,6 +339,9 @@
         name: 'pms0610010',
         el: "#PMS0610010App",
         created() {
+            //取得版本資料
+            BacchusMainVM.doGetVersionData("PMS0610010");
+            this.prgEditionOptions = BacchusMainVM.prgEditionOptions;
 
             var self = this;
             vmHub.$on("doUnLock", function () {
@@ -368,7 +383,7 @@
             });
         },
         mounted() {
-            this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+//            this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
             this.isLoading = true;
             this.fetchUserInfo();
             this.setSearchCond();
@@ -379,6 +394,7 @@
             return {
                 i18nLang: go_i18nLang,
                 go_funcPurview: [],
+                prgEditionOptions: {},
                 userInfo: {},
                 pageOneDataGridRows: [],
                 pageOneFieldData: [],
@@ -416,22 +432,22 @@
             },
             isEditStatus(val) {
                 if (!val) {
-                    this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+//                    this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
                 }
             },
             isCreateStatus(val) {
                 if (!val) {
-                    this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+//                    this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
                 }
             },
             isVisitPlan(val) {
                 if (!val) {
-                    this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
+//                    this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
                 }
             },
             isOpenCompSta(val) {
                 if (val) {
-                    $.post("/api/fetchOnlySinglePageFieldData", {
+                    BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                         prg_id: "PMS0610020",
                         page_id: 2,
                         tab_page_id: 1010,
@@ -445,12 +461,12 @@
             },
             isOpenContractStatus(val) {
                 if (val) {
-                    $.post("/api/fetchDataGridFieldData", {
+                    BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                         prg_id: "PMS0610020",
                         page_id: 2,
                         tab_page_id: 1020,
                         searchCond: {cust_cod: this.contractStaMnSingleData.cust_cod}
-                    }).then(result => {
+                    }, result => {
                         this.contractStaDtFieldData = result.dgFieldsData;
                         this.contractStaDtRowsData = result.dgRowData;
                     });
@@ -470,7 +486,7 @@
         methods: {
             fetchUserInfo() {
                 var self = this;
-                $.post('/api/getUserInfo', function (result) {
+                BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
                     if (result.success) {
                         self.userInfo = result.userInfo;
                     }
@@ -495,7 +511,7 @@
                 };
             },
             fetchSearchFields() {
-                $.post('/api/fetchOnlySearchFieldsData', {prg_id: 'PMS0610010'}, (result) => {
+                BacUtils.doHttpPostAgent('/api/fetchOnlySearchFieldsData', {prg_id: 'PMS0610010'}, (result) => {
                     if (result.success) {
                         this.searchFields = result.searchFieldsData;
                     }
@@ -510,7 +526,7 @@
                     page_id: 1,
                     searchCond: lo_searchCond
                 };
-                $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", lo_params, function (result) {
                     if (self.searchFields.length <= 0) {
                         self.searchFields = result.searchFields;
                     }
@@ -518,6 +534,22 @@
                     self.pageOneDataGridRows = result.dgRowData;
                     self.showDataGrid();
                 });
+            },
+            fetchDgRowData() {
+                var lo_searchCond = _.clone(this.searchCond);
+
+                var lo_params = {
+                    prg_id: gs_prgId,
+                    page_id: 1,
+                    searchCond: lo_searchCond
+                };
+
+                $.post("/api/fetchDgRowData", lo_params).then(result => {
+                    this.pageOneDataGridRows = result.dgRowData;
+                    this.showDataGrid();
+                }, err => {
+                    throw Error(err);
+                })
             },
             showDataGrid() {
                 var colOption = [{field: 'ck', checkbox: true}];
@@ -544,6 +576,7 @@
                 this.isEditStatus = false;
                 this.isEditSalesClerk = false;
                 this.isVisitPlan = false;
+                this.isModifiable = true;
                 this.editingRow = {cust_mn_cust_cod: ""};
 
                 this.showSingleGridDialog();
@@ -557,6 +590,31 @@
                 this.isEditStatus = true;
                 this.isEditSalesClerk = false;
                 this.isVisitPlan = false;
+                this.isModifiable = true;
+                this.editingRow = {};
+
+                var lo_editRow = $('#PMS0610010_dg').datagrid('getSelected');
+                var la_editRows = $('#PMS0610010_dg').datagrid('getSelections');
+
+                if (!lo_editRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectData);
+                }
+                else if (la_editRows.length > 1 || lo_editRow != la_editRows[0]) {
+                    alert(go_i18nLang["program"].PMS0610010.selectOneData);
+                }
+                else {
+                    this.editingRow = lo_editRow;
+                    this.showSingleGridDialog();
+                }
+                this.isLoading = false;
+            },
+            browsRow() {
+                this.isLoading = true;
+                this.isCreateStatus = false;
+                this.isEditStatus = true;
+                this.isEditSalesClerk = false;
+                this.isVisitPlan = false;
+                this.isModifiable = false;
                 this.editingRow = {};
 
                 var lo_editRow = $('#PMS0610010_dg').datagrid('getSelected');
@@ -626,12 +684,12 @@
 
                 this.chkCompStat(function (result) {
                     if (result) {
-                        $.post('/api/sales/doCompState', postData, function (res) {
+                        BacUtils.doHttpPostAgent('/api/sales/doCompState', postData, function (res) {
                             if (res.success) {
                                 if (res.showConfirm) {
                                     if (confirm(res.confirmMsg)) {
                                         postData.isFirst = false;
-                                        $.post(res.ajaxURL, postData, function (res2) {
+                                        BacUtils.doHttpPostAgent(res.ajaxURL, postData, function (res2) {
                                             //傳公司狀態回商務公司資料編輯
                                             self.$eventHub.$emit("compStateData", {
                                                 singleData: self.compStaSingleData
@@ -672,7 +730,7 @@
                         oriSingleData: this.$store.state.go_allData.go_mnSingleData.status_cod
                     };
 
-                    $.post('/api/chkFieldRule', postData, function (result) {
+                    BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
                         if (result.success) {
                             callback(true);
                         }
@@ -704,7 +762,7 @@
                     oriSingleData: this.$store.state.go_allData.go_mnSingleData.contract_sta
                 };
 
-                $.post('/api/sales/doContractState', postData, function (result) {
+                BacUtils.doHttpPostAgent('/api/sales/doContractState', postData, function (result) {
                     if (result.success) {
                         self.$eventHub.$emit("contractStateData", {
                             singleData: self.contractStaMnSingleData

@@ -7,6 +7,7 @@ function rtnObject () {
     this.success = true;
     this.defaultValues = {};     //新增時預設用的值
     this.effectValues = {};      //連動的值
+    this.isEffectFromRule = true;   //是否要從規則繼續觸發其他規則
     this.showConfirm  = false;   //是否要顯示選擇視窗
     this.confirmMsg  = "";       //confirm 要顯示的文字訊息
     this.showAlert  = false;     //是否要顯示回傳訊息

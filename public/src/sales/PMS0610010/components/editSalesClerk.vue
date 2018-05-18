@@ -146,7 +146,7 @@
                     page_id: 1
                 };
 
-                $.post("/api/fetchOnlySinglePageFieldData", lo_params, function (result) {
+                BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", lo_params, function (result) {
                     self.oriFieldsData = result.gsFieldsData;
                     self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
                     self.fetchRowData();
@@ -176,7 +176,7 @@
                 };
 
                 if (this.isEditStatus) {
-                    $.post("/api/sales/doEditSalesClerk", lo_params, function (result) {
+                    BacUtils.doHttpPostAgent("/api/sales/doEditSalesClerk", lo_params, function (result) {
                         self.isLoadingDialog = false;
                         if (result.success) {
                             if (!_.isUndefined(self.editRows[0].isSalesClerk)) {

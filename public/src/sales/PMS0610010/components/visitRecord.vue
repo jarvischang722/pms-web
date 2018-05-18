@@ -33,7 +33,7 @@
                                             <!-- 日期選擇器 -->
                                             <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'date'"
                                                             v-model="singleData[field.ui_field_name]"
-                                                            type="date" size="small"
+                                                            type="date" size="small" :clearable="false" :editable="false"
                                                             :disabled="field.modificable == 'N' || (field.modificable == 'I') || (field.modificable == 'E')"
                                                             format="yyyy/MM/dd"
                                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
@@ -218,11 +218,11 @@
             },
             fetchFieldData() {
                 this.isLoadingDialog = true;
-                $.post("/api/fetchOnlySinglePageFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0610020",
                     page_id: 2,
                     tab_page_id: 1100
-                }).then(result => {
+                }, result => {
                     this.fieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
                     this.oriFieldsData = JSON.parse(JSON.stringify(result.gsFieldsData));
                     this.fetchRowData();
@@ -259,7 +259,7 @@
                         singleRowData: JSON.parse(JSON.stringify(this.singleData)),
                         oriSingleData: this.oriSingleData
                     };
-                    $.post('/api/chkFieldRule', postData, function (result) {
+                    BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
 
                         if (result.success) {
                             //是否要show出訊息
@@ -274,7 +274,7 @@
                                 } else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
+                                        BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
 
                                             if (!result.success) {
                                                 alert(result.errorMsg);

@@ -149,8 +149,8 @@ var DatagridFieldAdapter = {
                 return new Date();
             };
 
-            var notEditorFunc = function(date){
-                if(date != "" && !_.isUndefined(date) && !_.isNull(date)){
+            var notEditorFunc = function (date) {
+                if (date != "" && !_.isUndefined(date) && !_.isNull(date)) {
                     return moment(date).format("YYYY/MM/DD");
                 }
                 return "";
@@ -223,8 +223,22 @@ var DatagridFieldAdapter = {
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                    if (!_.isUndefined(newValue)) {
+                        if (fieldAttrObj.modificable == "I") {
+                            var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
+
+                            var rowData = $('#' + ls_dgName).datagrid('getRows')[li_rowIndex];
+                            var lo_editor = $('#' + ls_dgName).datagrid('getEditor', {
+                                index: li_rowIndex,
+                                field: fieldAttrObj.ui_field_name
+                            });
+                            if (!rowData.createRow) {
+                                $(lo_editor.target).textbox("readonly", true);
+                            }
+                        }
+                    }
+
                     if (isUserEdit) {
-                        oldValue = oldValue || undefined;
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 };
@@ -421,7 +435,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
         isUserEdit = false;
 
-        $.post('/api/chkFieldRule', postData, function (result) {
+        BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
             if (result.success) {
                 //是否要show出訊息
                 if (result.showAlert) {
@@ -433,7 +447,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     if (confirm(result.confirmMsg)) {
                         //有沒有要再打一次ajax到後端
                         if (result.isGoPostAjax) {
-                            $.post(result.ajaxURL, postData, function (ajaxResult) {
+                            BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (ajaxResult) {
                                 if (!ajaxResult.success) {
                                     alert(ajaxResult.errorMsg);
                                 }
@@ -449,11 +463,16 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
                 var effectValues = result.effectValues;
                 if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
-
                     $('#' + dgName).datagrid('updateRow', {
-                        index: indexRow,
+                        index: _.isUndefined(effectValues.effectIndex) ? indexRow : effectValues.effectIndex,
                         row: effectValues
                     });
+                    if (!_.isUndefined(effectValues.effectIndex)) {
+                        if (effectValues.effectIndex != indexRow) {
+                            $('#' + dgName).datagrid('beginEdit', effectValues.effectIndex);
+                            $('#' + dgName).datagrid('endEdit', effectValues.effectIndex);
+                        }
+                    }
 
                     if (!_.isUndefined(effectValues.day_sta_color)) {
                         var col = $("#" + dgName).datagrid('getColumnOption', 'day_sta');
@@ -514,7 +533,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             // 動態產生下拉資料
             if (result.selectField.length > 0) {
                 //單一欄位下拉資料
-                if(result.selectField.length == 1){
+                if (result.selectField.length == 1) {
                     var lo_editor = $('#' + dgName).datagrid('getEditor', {
                         index: indexRow,
                         field: result.selectField
@@ -522,8 +541,8 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     $(lo_editor.target).combobox("loadData", result.selectOptions);
                 }
                 //多個欄位
-                else{
-                    _.each(result.selectField, function(ls_field){
+                else {
+                    _.each(result.selectField, function (ls_field) {
                         var lo_editor = $('#' + dgName).datagrid('getEditor', {
                             index: indexRow,
                             field: ls_field

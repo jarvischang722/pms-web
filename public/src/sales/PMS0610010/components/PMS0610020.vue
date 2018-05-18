@@ -22,33 +22,36 @@
                                                    :required="field.requirable == 'Y'" min="0"
                                                    :maxlength="field.ui_field_length"
                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                   :disabled="field.modificable == 'N'||
+                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
 
                                             <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                         :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                        v-model="singleData[field.ui_field_name]" :data="field.selectData"
+                                                        v-model="singleData[field.ui_field_name]"
+                                                        :data="field.selectData"
                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
                                                         :default-val="singleData[field.ui_field_name]" :field="field"
                                                         :editable="field.ui_field_name == 'rank_nos' ? 'N' : 'Y'"
-                                                        :disabled="field.modificable == 'N'||
+                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
 
-                                            <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
-                                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                             :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                             v-model="singleData[field.ui_field_name]"
-                                                             :columns="field.selectData.columns"
-                                                             :data="field.selectData.selectData"
-                                                             :field="field"
-                                                             :is-qry-src-before="field.selectData.isQrySrcBefore"
-                                                             :id-field="field.selectData.value" :text-field="field.selectData.display"
-                                                             @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                             :default-val="singleData[field.ui_field_name]"
-                                                             :disabled="field.modificable == 'N'||
+                                            <bac-select-grid
+                                                    v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                    v-model="singleData[field.ui_field_name]"
+                                                    :columns="field.selectData.columns"
+                                                    :data="field.selectData.selectData"
+                                                    :field="field"
+                                                    :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                    :id-field="field.selectData.value"
+                                                    :text-field="field.selectData.display"
+                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                    :default-val="singleData[field.ui_field_name]"
+                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select-grid>
                                         </div>
@@ -72,9 +75,11 @@
                                 </el-tab-pane>
                                 <el-tab-pane :label="i18nLang.program.PMS0610020.other_remark" name="remark">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0610020.historical_consumption" name="historical">
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.historical_consumption"
+                                             name="historical">
                                 </el-tab-pane>
-                                <el-tab-pane :label="i18nLang.program.PMS0610020.contribution" name="contribution" disabled>
+                                <el-tab-pane :label="i18nLang.program.PMS0610020.contribution" name="contribution"
+                                             disabled>
                                 </el-tab-pane>
                             </el-tabs>
                             <div class="easyui-tabs easyUi-custom1 borderFrame"
@@ -83,12 +88,14 @@
                                     <related-setting
                                             :rowData="rowData"
                                             :is-related-setting="tabStatus.isSet"
+                                            :is-modifiable="isModifiable"
                                     ></related-setting>
                                 </div>
                                 <div id="personnelPanel" v-show="tabName=='personnel'" class="padding-tabs">
                                     <related-personnel
                                             :rowData="rowData"
                                             :is-related-personnel="tabStatus.isPersonnel"
+                                            :is-modifiable="isModifiable"
                                     ></related-personnel>
                                 </div>
                                 <div id="salesPanel" v-show="tabName=='sales'" class="padding-tabs">
@@ -97,30 +104,35 @@
                                             :is-sales-clerk="tabStatus.isSales"
                                             :is-create-status="isCreateStatus"
                                             :is-edit-status="isEditStatus"
+                                            :is-modifiable="isModifiable"
                                     ></sales-clerk>
                                 </div>
                                 <div id="contractPanel" v-show="tabName=='contract'" class="padding-tabs">
                                     <contract-content
                                             :row-data="rowData"
                                             :is-contract-content="tabStatus.isContract"
+                                            :is-modifiable="isModifiable"
                                     ></contract-content>
                                 </div>
                                 <div id="visitPanel" v-show="tabName=='visit'" class="padding-tabs">
                                     <company-visit-record
                                             :row-data="rowData"
                                             :is-visit-record="tabStatus.isVisit"
+                                            :is-modifiable="isModifiable"
                                     ></company-visit-record>
                                 </div>
                                 <div id="remarkPanel" v-show="tabName=='remark'" class="padding-tabs">
                                     <other-remark
                                             :row-data="rowData"
                                             :is-other-remark="tabStatus.isRemark"
+                                            :is-modifiable="isModifiable"
                                     ></other-remark>
                                 </div>
                                 <div id="historicalPanel" v-show="tabName=='historical'" class="padding-tabs">
                                     <historical-consumption
                                             :row-data="rowData"
                                             :is-historical-consumption="tabStatus.isHistorical"
+                                            :is-modifiable="isModifiable"
                                     ></historical-consumption>
                                 </div>
                                 <div id="contributionPanel" v-show="tabName=='contribution'" class="padding-tabs">
@@ -222,7 +234,8 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="doSaveGrid">{{i18nLang.SystemCommon.Save}}
+                                                role="button" :disabled="!isModifiable"
+                                                @click="doSaveGrid">{{i18nLang.SystemCommon.Save}}
                                         </button>
                                     </li>
                                     <li>
@@ -232,26 +245,30 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-gray btn-defaultWidth"
-                                                role="button">{{i18nLang.program.PMS0610020.company_related_diagram}}
+                                                role="button" :disabled="!isModifiable">
+                                            {{i18nLang.program.PMS0610020.company_related_diagram}}
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth sales_statusChg purview_btn"
-                                                role="button" :disabled="isCreateStatus" @click="doSetCompanyStatus"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth sales_statusChg"
+                                                role="button" v-if="prgEditionOptions.funcList['1010'] != undefined"
+                                                :disabled="isCreateStatus || !isModifiable" @click="doSetCompanyStatus"
                                                 data-purview_func_id="PMS0610020-1010">
                                             {{i18nLang.program.PMS0610020.company_status}}
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth sales_stateChange purview_btn"
-                                                role="button" :disabled="isCreateStatus" @click="doSetContractStatus"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth sales_stateChange"
+                                                role="button" v-if="prgEditionOptions.funcList['1030'] != undefined"
+                                                :disabled="isCreateStatus || !isModifiable" @click="doSetContractStatus"
                                                 data-purview_func_id="PMS0610020-1030">
                                             {{i18nLang.program.PMS0610020.contract_status}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales_changeRecord purview_btn"
-                                                role="button" :disabled="isOpenChangeLog" @click="loadChangeLog"
+                                                role="button" v-if="prgEditionOptions.funcList['0800'] != undefined"
+                                                :disabled="isOpenChangeLog || !isModifiable" @click="loadChangeLog"
                                                 data-purview_func_id="PMS0610020-0800">
                                             {{i18nLang.SystemCommon.ChangeLog}}
                                         </button>
@@ -292,6 +309,10 @@
             historicalConsumption
         },
         created() {
+            //取得版本資料
+            BacchusMainVM.doGetVersionData("PMS0610020");
+            this.prgEditionOptions = BacchusMainVM.prgEditionOptions;
+
             var self = this;
             this.$eventHub.$on('setTabName', function (tabNameData) {
                 self.tabName = tabNameData.tabName;
@@ -312,6 +333,14 @@
             this.$eventHub.$on('contractStateData', function (contractStateData) {
                 self.singleData = _.extend(self.singleData, contractStateData.singleData);
             });
+            //取得相關人員資料，並改變主檔資料(主要聯絡人)
+            this.$eventHub.$on('chgRelatedPersonData', function () {
+                _.each(self.$store.state.go_allData.ga_rpDataGridRowsData, (go_rpDataGridRowsData) => {
+                    if (go_rpDataGridRowsData.primary_pers == 'Y') {
+                        self.singleData.atten_cod = go_rpDataGridRowsData.seq_nos;
+                    }
+                })
+            });
             //儲存異動的資料
             this.$eventHub.$on('saveSingleData', function () {
                 self.doSaveGrid();
@@ -327,6 +356,7 @@
         data() {
             return {
                 go_funcPurview: [],
+                prgEditionOptions: {}, //版本設定資料
                 i18nLang: go_i18nLang,
                 BTN_action: false,
                 isLoadingDialog: false,
@@ -363,7 +393,6 @@
                 if (!_.isEmpty(val)) {
                     this.initData();
                     this.fetchFieldData();
-                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                 }
             },
             singleData: {
@@ -375,9 +404,9 @@
                         //取得合約狀態說明
                         if (!_.isNull(lo_singleData.contract_sta)) {
                             if (lo_singleData.contract_sta.trim() != "") {
-                                var lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'})
-                                var lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: lo_singleData.contract_sta});
-                                var ls_contractStaDesc = lo_contractSta.display.split(":")[1];
+                                let lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'})
+                                let lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: lo_singleData.contract_sta});
+                                let ls_contractStaDesc = _.isUndefined(lo_contractSta) ? [] : lo_contractSta.display.split(":")[1];
                                 lo_singleData = _.extend(lo_singleData, {status_desc: ls_contractStaDesc});
                                 lo_oriSingleData = _.extend(lo_oriSingleData, {status_desc: ls_contractStaDesc});
                             }
@@ -386,7 +415,7 @@
                         //自動將郵遞區號對應之地址資料帶至地址欄位
                         lo_singleData.cust_idx_zip_cod =
                             _.isUndefined(lo_singleData.cust_idx_zip_cod) || _.isNull(lo_singleData.cust_idx_zip_cod) ? "" : lo_singleData.cust_idx_zip_cod;
-                        if (lo_singleData.cust_idx_zip_cod != "" && (lo_singleData.cust_idx_add_rmk == "" || _.isNull(lo_singleData.cust_idx_add_rmk) )) {
+                        if (lo_singleData.cust_idx_zip_cod != "" && (lo_singleData.cust_idx_add_rmk == "" || _.isNull(lo_singleData.cust_idx_add_rmk))) {
                             var ln_zipCodIdx = _.findIndex(this.oriFieldsData, {ui_field_name: 'cust_idx_zip_cod'})
                             var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
                             this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
@@ -394,7 +423,7 @@
                         lo_oriSingleData.cust_idx_zip_cod = lo_singleData.cust_idx_zip_cod;
 
                         //若發票抬頭為空的，則將公司名稱帶入
-                        if( lo_singleData.cust_idx_uni_titile == "" || _.isNull(lo_singleData.cust_idx_uni_titile) || _.isUndefined(lo_singleData.cust_idx_uni_titile)){
+                        if (lo_singleData.cust_idx_uni_titile == "" || _.isNull(lo_singleData.cust_idx_uni_titile) || _.isUndefined(lo_singleData.cust_idx_uni_titile)) {
                             this.singleData.cust_idx_uni_titile = lo_singleData.cust_nam;
                         }
 
@@ -449,7 +478,7 @@
             fetchFieldData() {
                 this.isLoadingDialog = true;
                 var self = this;
-                $.post("/api/fetchOnlySinglePageFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0610020",
                     page_id: 1,
                     tab_page_id: 1,
@@ -462,11 +491,11 @@
             },
             fetchRowData() {
                 if (this.isCreateStatus) {
-                    $.post("/api/fetchDefaultSingleRowData", {
+                    BacUtils.doHttpPostAgent("/api/fetchDefaultSingleRowData", {
                         prg_id: "PMS0610020",
                         page_id: 1,
                         tab_page_id: 1
-                    }).then(result => {
+                    }, result => {
                         this.singleData = result.gsDefaultData;
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
                         this.isLoadingDialog = false;
@@ -475,13 +504,13 @@
                     });
                 }
                 else if (this.isEditStatus) {
-                    $.post("/api/fetchSinglePageFieldData", {
+                    BacUtils.doHttpPostAgent("/api/fetchSinglePageFieldData", {
                         prg_id: "PMS0610020",
                         page_id: 1,
                         tab_page_id: 1,
                         template_id: "gridsingle",
                         searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
-                    }).then(result => {
+                    }, result => {
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.isLoadingDialog = false;
@@ -618,7 +647,7 @@
             loadChangeLog() {
                 var self = this;
                 this.isOpenChangeLog = true;
-                $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0610020"}, function (result) {
+                BacUtils.doHttpPostAgent("/api/getSetupPrgChangeLog", {prg_id: "PMS0610020"}, function (result) {
                     if (result.success) {
                         self.$eventHub.$emit('getChangeLogData', {
                             openChangeLogDialog: self.isOpenChangeLog,

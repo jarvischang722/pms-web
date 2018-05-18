@@ -35,4 +35,34 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <!--檢查是否為一般散客代號-->
+    <dao name="QRY_FIT_COD">
+        <statement><![CDATA[
+            SELECT COUNT(*) as fit_cod_count
+            FROM HOTEL_SVAL_MN
+            WHERE ATHENA_ID = :athena_id
+            AND SYS_COD = 'HFD'
+            AND VAL_RMK = 'fit_cod'
+            AND VAL_NAM = :cust_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
+
+    <!--檢查是否為官網訂房公司代號-->
+    <dao name="QRY_OFFICIAL_WEB_CUST_COD">
+        <statement><![CDATA[
+            SELECT COUNT(*) as web_cust_cod_count
+            FROM HOTEL_SVAL_MN
+            WHERE ATHENA_ID = :athena_id
+            AND SYS_COD = 'WRS'
+            AND VAL_RMK =  'cust_cod'
+            AND VAL_NAM = :cust_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
 </root>

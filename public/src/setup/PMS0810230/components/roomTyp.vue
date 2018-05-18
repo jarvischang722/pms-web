@@ -487,7 +487,7 @@
         methods: {
             //取滾房租日
             fetchRentCalDat() {
-                $.post('/api/qryRentCalDat', {}, (result) => {
+                BacUtils.doHttpPostAgent('/api/qryRentCalDat', {}, (result) => {
                     this.rentCalDat = result.rent_cal_dat;
                 });
             },
@@ -504,7 +504,7 @@
                 this.roomTypDetailData = [];
             },
             fetchRoomTypSelectData() {
-                $.post('/api/chkFieldRule', {rule_func_name: 'get_room_typ_select'}, (result) => {
+                BacUtils.doHttpPostAgent('/api/chkFieldRule', {rule_func_name: 'get_room_typ_select'}, (result) => {
                     this.roomTypSelectColumns = [
                         {
                             width: 60,
@@ -559,7 +559,7 @@
                 };
                 let ls_apiUrl = lo_params.searchCond.rate_cod == "" ? "/api/fetchOnlyDataGridFieldData" : "/api/fetchDataGridFieldData";
 
-                $.post(ls_apiUrl, lo_params).then(result => {
+                BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, result => {
                     if (result.success) {
                         let la_dgRowData = result.dgRowData || []
                         this.roomTypFieldsData = result.dgFieldsData;
@@ -570,8 +570,6 @@
                     else {
                         alert(result.errorMsg);
                     }
-                }, err => {
-                    throw Error(err);
                 });
 
             },
@@ -583,7 +581,7 @@
                     searchCond: {rate_cod: this.$store.state.gs_oriRateCod}
                 };
                 let ls_apiUrl = lo_params.searchCond.rate_cod == "" ? "/api/fetchOnlyDataGridFieldData" : "/api/fetchDataGridFieldData";
-                $.post(ls_apiUrl, lo_params).then(result => {
+                BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, result => {
                     if (result.success) {
                         let la_dgRowData = result.dgRowData || [];
                         _.each(la_dgRowData, (lo_dgRowData, idx) => {
@@ -600,8 +598,6 @@
                     else {
                         alert(result.errorMsg);
                     }
-                }, (err) => {
-                    throw Error(err)
                 });
             },
             showRoomTypTable() {
@@ -780,7 +776,7 @@
                         searchCond: {rate_cod: this.$store.state.gs_oriRateCod}
                     };
                     let ls_apiUrl = lo_params.searchCond.rate_cod == "" ? "/api/fetchOnlyDataGridFieldData" : "/api/fetchDataGridFieldData";
-                    $.post(ls_apiUrl, lo_params).then(result => {
+                    BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, result => {
                         if (result.success) {
                             let la_dgRowData = result.dgRowData || [];
                             _.each(la_dgRowData, (lo_dgRowData, idx) => {
@@ -793,8 +789,6 @@
                         else {
                             alert(result.errorMsg);
                         }
-                    }, (err) => {
-                        throw Error(err)
                     });
                 }
             },

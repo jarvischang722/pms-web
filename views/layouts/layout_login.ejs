@@ -145,7 +145,7 @@
         };
 
 
-        $.post("/api/authLogin", params, function (result) {
+        BacUtils.doHttpPostAgent("/api/authLogin", params, function (result) {
             $("#login_btn").attr("disabled", false);
             if (result.success) {
 

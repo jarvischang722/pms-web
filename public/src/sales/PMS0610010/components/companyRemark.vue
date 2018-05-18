@@ -17,19 +17,25 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark purview_btn"
-                                            role="button" :disabled="BTN_action" @click="appendRow" data-purview_func_id="PMS0610020-1120">
+                                            role="button" :disabled="BTN_action || !isModifiable" @click="appendRow"
+                                            v-if="$parent.prgEditionOptions.funcList['1120'] != undefined"
+                                            data-purview_func_id="PMS0610020-1120">
                                         {{i18nLang.program.PMS0610020.append_remark}}
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark purview_btn"
-                                            role="button" :disabled="BTN_action" @click="editRow" data-purview_func_id="PMS0610020-1130">
+                                            role="button" :disabled="BTN_action || !isModifiable" @click="editRow"
+                                            v-if="$parent.prgEditionOptions.funcList['1130'] != undefined"
+                                            data-purview_func_id="PMS0610020-1130">
                                         {{i18nLang.program.PMS0610020.update_remark}}
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
-                                            role="button" :disabled="BTN_action" @click="removeRow" data-purview_func_id="PMS0610020-1140">
+                                            role="button" :disabled="BTN_action || !isModifiable" @click="removeRow"
+                                            v-if="$parent.prgEditionOptions.funcList['1140'] != undefined"
+                                            data-purview_func_id="PMS0610020-1140">
                                         {{i18nLang.program.PMS0610020.remove_remark}}
                                     </button>
                                 </li>
@@ -53,11 +59,13 @@
                                                         <div class="'grid">
                                                             <div class="grid-item" v-for="field in fields">
                                                                 <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
-                                                                    <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                                    <span v-if=" field.requirable == 'Y' "
+                                                                          style="color: red;">*</span>
                                                                     <span>{{ field.ui_display_name }}</span>
                                                                 </label>
 
-                                                                <input type="text" v-model="singleData[field.ui_field_name]"
+                                                                <input type="text"
+                                                                       v-model="singleData[field.ui_field_name]"
                                                                        v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
                                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                        :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
@@ -66,33 +74,40 @@
                                                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
                                                                 <!--  textarea -->
-                                                                <textarea v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
-                                                                          v-model="singleData[field.ui_field_name]"
-                                                                          class="numStyle-none" rows="4"
-                                                                          :style="{width:field.width + 'px'}" style="resize: none;"
-                                                                          :required="field.requirable == 'Y'"
-                                                                          :maxlength="field.ui_field_length"
-                                                                          :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                <textarea
+                                                                        v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
+                                                                        v-model="singleData[field.ui_field_name]"
+                                                                        class="numStyle-none" rows="4"
+                                                                        :style="{width:field.width + 'px'}"
+                                                                        style="resize: none;"
+                                                                        :required="field.requirable == 'Y'"
+                                                                        :maxlength="field.ui_field_length"
+                                                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 </textarea>
 
                                                                 <!--select-->
-                                                                <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
-                                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                                            v-model="singleData[field.ui_field_name]" :data="field.selectData"
-                                                                            is-qry-src-before="Y" value-field="value" text-field="display"
-                                                                            @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                                            :default-val="singleData[field.ui_field_name]"
-                                                                            :field="field"
-                                                                            :disabled="field.modificable == 'N'||(field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                <bac-select
+                                                                        v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                        v-model="singleData[field.ui_field_name]"
+                                                                        :data="field.selectData"
+                                                                        is-qry-src-before="Y" value-field="value"
+                                                                        text-field="display"
+                                                                        @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                        :default-val="singleData[field.ui_field_name]"
+                                                                        :field="field"
+                                                                        :disabled="field.modificable == 'N'||(field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 </bac-select>
 
-                                                                <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
-                                                                                v-model="singleData[field.ui_field_name]" type="datetime"
-                                                                                change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                                                                :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
-                                                                                size="small" format="yyyy/MM/dd HH:mm:ss"
-                                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                                                @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                                <el-date-picker
+                                                                        v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
+                                                                        v-model="singleData[field.ui_field_name]"
+                                                                        type="datetime"
+                                                                        change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')"
+                                                                        size="small" format="yyyy/MM/dd HH:mm:ss"
+                                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                                 </el-date-picker>
 
                                                             </div>
@@ -110,26 +125,34 @@
                                         <div class="right-menu-co">
                                             <ul>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                            v-if="isEditStatus" :disabled="BTN_action || isFirstData" @click="toFirstData">
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button"
+                                                            v-if="isEditStatus" :disabled="BTN_action || isFirstData"
+                                                            @click="toFirstData">
                                                         {{i18nLang.SystemCommon.First}}
                                                     </button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                            v-if="isEditStatus" :disabled="BTN_action || isFirstData" @click="toPreData">
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button"
+                                                            v-if="isEditStatus" :disabled="BTN_action || isFirstData"
+                                                            @click="toPreData">
                                                         {{i18nLang.SystemCommon.Previous}}
                                                     </button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                            v-if="isEditStatus" :disabled="BTN_action || isLastData" @click="toNextData">
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button"
+                                                            v-if="isEditStatus" :disabled="BTN_action || isLastData"
+                                                            @click="toNextData">
                                                         {{i18nLang.SystemCommon.Next}}
                                                     </button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                                            v-if="isEditStatus" :disabled="BTN_action || isLastData" @click="toLastData">
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button"
+                                                            v-if="isEditStatus" :disabled="BTN_action || isLastData"
+                                                            @click="toLastData">
                                                         {{i18nLang.SystemCommon.Last}}
                                                     </button>
                                                 </li>
@@ -164,6 +187,8 @@
 
 <script>
 
+    import _s from 'underscore.string';
+
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
@@ -177,7 +202,7 @@
 
     export default {
         name: 'other-remark',
-        props: ["rowData", "isOtherRemark"],
+        props: ["rowData", "isOtherRemark", "isModifiable"],
         data() {
             return {
                 go_funcPurview: [],
@@ -217,7 +242,6 @@
                         this.initTmpCUD();
                     }
                     this.fetchDataGridFieldData();
-                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                 }
             },
             editingRow(val) {
@@ -288,11 +312,11 @@
             },
             fetchDataGridFieldData() {
                 this.isLoading = true;
-                $.post("/api/fetchDataGridFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 6,
                     searchCond: {cust_cod: this.$store.state.gs_custCod}
-                }).then(result => {
+                }, result => {
                     this.searchFields = result.searchFields;
                     this.dataGridFieldsData = result.dgFieldsData;
 
@@ -316,11 +340,11 @@
                 this.isLoading = false;
             },
             fetchGridSingleFieldData(val) {
-                $.post("/api/fetchOnlySinglePageFieldData", {
+                BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0610020",
                     page_id: 2,
                     tab_page_id: 1120
-                }).then(result => {
+                }, result => {
                     this.oriGridSingleFieldsData = result.gsFieldsData;
                     this.gridSingleFieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
                     this.fetchGridSingleRowData(val);
@@ -424,7 +448,7 @@
                         singleRowData: JSON.parse(JSON.stringify(this.singleData)),
                         oriSingleData: this.oriSingleData
                     };
-                    $.post('/api/chkFieldRule', postData, function (result) {
+                    BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
 
                         if (result.success) {
                             //是否要show出訊息
@@ -439,7 +463,7 @@
                                 } else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
+                                        BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
 
                                             if (!result.success) {
                                                 alert(result.errorMsg);
@@ -473,12 +497,14 @@
                 this.editingRow = _.first(this.dataGridRowsData);
             },
             toPreData() {
-                let nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.rowData);
-                this.editingRow = this.dataGridRowsData[nowRowIndex - 1];
+                let ln_nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.editingRow);
+                this.editingRow = _.extend(this.dataGridRowsData[ln_nowRowIndex - 1], {index: ln_nowRowIndex - 1});
+                this.setNewDataGridRowsData();
             },
             toNextData() {
-                let nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.rowData);
-                this.editingRow = this.dataGridRowsData[nowRowIndex + 1];
+                let ln_nowRowIndex = $("#otherRemark_dg").datagrid('getRowIndex', this.editingRow);
+                this.editingRow = _.extend(this.dataGridRowsData[ln_nowRowIndex + 1], {index: ln_nowRowIndex + 1});
+                this.setNewDataGridRowsData();
             },
             toLastData() {
                 this.isFirstData = false;
@@ -516,10 +542,13 @@
                     alert(lo_chkResult.msg);
                 }
                 else {
+                    let la_remarkTypSelectData = _.findWhere(this.oriGridSingleFieldsData, {ui_field_name: 'remark_typ'}).selectData;
+                    let lo_remarkTypRmk = _.findWhere(la_remarkTypSelectData, {value: this.singleData.remark_typ});
                     this.singleData = _.extend(this.singleData, {
                         tab_page_id: 6,
                         event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
-                        cust_cod: this.$store.state.gs_custCod
+                        cust_cod: this.$store.state.gs_custCod,
+                        remark_typ_rmk: !_.isUndefined(lo_remarkTypRmk) ? lo_remarkTypRmk.display.split(":")[1].toString().trim() : ""
                     });
                     let ln_editIdx = _.isUndefined(this.singleData.index) ? -1 : this.singleData.index;
                     if (ln_editIdx > -1) {
@@ -528,14 +557,27 @@
                             this.tmpCUD.createData[createIndex] = this.singleData;
                         }
                         else {
-                            this.tmpCUD.updateData.push(this.singleData);
-                            this.tmpCUD.oriData.push(this.oriSingleData);
+                            let ln_updateIdx = _.findIndex(this.tmpCUD.updateData, {index: ln_editIdx});
+                            if (ln_updateIdx > -1) {
+                                this.tmpCUD.updateData[ln_updateIdx] = this.singleData;
+                            }
+                            else {
+                                this.tmpCUD.updateData.push(this.singleData);
+                                this.tmpCUD.oriData.push(this.oriSingleData);
+                            }
                         }
                         this.dataGridRowsData[ln_editIdx] = this.singleData;
                     }
                     else {
-                        this.tmpCUD.createData.push(this.singleData);
-                        this.dataGridRowsData.push(this.singleData);
+                        let lo_conKey = {remark_typ: this.singleData.remark_typ};
+                        var ln_existIdx = _.findIndex(this.tmpCUD.createData, lo_conKey);
+                        if (ln_existIdx > -1) {
+                            alert(_s.sprintf(go_i18nLang.ErrorMsg.pms61msg14, this.singleData.remark_typ_rmk));
+                        }
+                        else {
+                            this.tmpCUD.createData.push(this.singleData);
+                            this.dataGridRowsData.push(this.singleData);
+                        }
                     }
                     this.showDataGrid();
                     this.singleData = {};
