@@ -17,21 +17,21 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                            role="button" :disabled="BTN_action" @click="appendRow"
+                                            role="button" :disabled="BTN_action || !isModifiable" @click="appendRow"
                                             data-purview_func_id="PMS0610020-1090">
                                         {{i18nLang.program.PMS0620050.add_visit_mn}}
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                            role="button" :disabled="BTN_action" @click="editRow({}, -1)"
+                                            role="button" :disabled="BTN_action || !isModifiable" @click="editRow({}, -1)"
                                             data-purview_func_id="PMS0610020-1100">
                                         {{i18nLang.program.PMS0620050.edit_vist_mn}}
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
-                                            role="button" :disabled="BTN_action" @click="removeRow"
+                                            role="button" :disabled="BTN_action || !isModifiable" @click="removeRow"
                                             data-purview_func_id="PMS0610020-1110">
                                         {{i18nLang.program.PMS0620050.remove_visit_mn}}
                                     </button>

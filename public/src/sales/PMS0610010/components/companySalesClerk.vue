@@ -15,7 +15,7 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" :disabled="!isModifiable"
                                         role="button" @click="doEditSalesClerk" data-purview_func_id="PMS0610020-1060">
                                     {{i18nLang.program.PMS0610010.edit_sales}}
                                 </button>
