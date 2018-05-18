@@ -207,7 +207,7 @@
 
     export default {
         name: 'related-setting',
-        props: ["rowData", "isRelatedSetting"],
+        props: ["rowData", "isRelatedSetting", "isModifiable"],
         components: {Treeselect},
         data() {
             return {

@@ -66,7 +66,7 @@
 
     export default {
         name: 'related-personnel',
-        props: ["rowData", "isRelatedPersonnel"],
+        props: ["rowData", "isRelatedPersonnel", "isModifiable"],
         created() {
             this.$eventHub.$on("endRpEdit", () => {
                 if (!_.isEmpty(this.dgIns)) {
