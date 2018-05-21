@@ -14,7 +14,7 @@
                 <div class="col-sm-11 col-xs-11">
                     <div class="row no-margin-right">
                         <div>
-                            <table id="PMS0210010_dg" class=""></table>
+                            <table id="PMS0210010_dg" style="height:560px;"></table>
                             <!-- gProfile 多筆 dataGrid -->
                             <!--<table id="resv_gProfile-table" class="gridTableHt"></table>-->
                         </div>
@@ -190,7 +190,7 @@
             }
         },
         watch: {
-            openChangeLogDialog(val){
+            openChangeLogDialog(val) {
                 if (!val) {
                     this.$eventHub.$emit('getCloseChangeLogData', {isOpenChangeLog: val});
                 }
@@ -217,11 +217,10 @@
                 };
 
                 BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", lo_params, function (result) {
-                    if(self.searchFields.length <= 0){
+                    if (self.searchFields.length <= 0) {
                         self.searchFields = result.searchFields;
                     }
                     self.pageOneFieldData = result.dgFieldsData;
-                    self.pageOneDataGridRows = result.dgRowData;
                     self.showDataGrid();
                 });
             },

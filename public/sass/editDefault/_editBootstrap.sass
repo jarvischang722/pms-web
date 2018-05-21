@@ -205,6 +205,19 @@ label
 textarea[disabled]
   color: #848484 !important
   background-color: #EEE !important
+/* Firefox */
+input::placeholder,
+input[type="text"],
+input[readonly],
+input[readonly]::placeholder,
+select::placeholder,
+el-date-picker::placeholder,
+textarea::placeholder,
+.el-select .el-input .el-input__icon,
+.el-select-dropdown__item
+  color: #333
+  opacity: 1
+
 @media screen and (max-width: 992px)
   .top-sec-ul
     z-index: 1024
