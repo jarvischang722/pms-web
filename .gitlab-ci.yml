@@ -1,16 +1,20 @@
-# 定义 stages
+# defined stages
 stages:
   - build
   - test
-# 定义 job
+# defined job
 job1:
   stage: test
+  tags:
+    - bac-testing
   script:
     - echo "I am job1"
     - echo "I am in test stage"
-# 定义 job
+# defined job
 job2:
   stage: build
+  tags:
+    - bac-prod
   script:
     - echo "I am job2"
     - echo "I am in build stage"
