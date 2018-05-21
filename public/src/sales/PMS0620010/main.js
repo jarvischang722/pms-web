@@ -223,7 +223,10 @@ let PMS0620020App = Vue.extend({
 
             //新增的狀況
             if (Object.keys(this.singleData).length == 0) {
-                BacUtils.doHttpPostAgent("/api/sales/addFuncRule_PMS0620020", {prg_id: "PMS0620020", page_id: 1}, function (result) {
+                BacUtils.doHttpPostAgent("/api/sales/addFuncRule_PMS0620020", {
+                    prg_id: "PMS0620020",
+                    page_id: 1
+                }, function (result) {
                     if (result.success) {
                         delete result.defaultValues["status_cod1"];
                         self.rowData = result.defaultValues;
@@ -234,7 +237,10 @@ let PMS0620020App = Vue.extend({
                     self.showDtDataGrid();
 
                 });
-                BacUtils.doHttpPostAgent("/api/fetchDefaultSingleRowData", {prg_id: "PMS0620020", page_id: 1}, function (result) {
+                BacUtils.doHttpPostAgent("/api/fetchDefaultSingleRowData", {
+                    prg_id: "PMS0620020",
+                    page_id: 1
+                }, function (result) {
 
                 });
             }
@@ -588,19 +594,29 @@ let vm = new Vue({
             };
 
             BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", lo_params, function (result) {
+                vm.pageOneFieldData = result.dgFieldsData;
+
                 if (self.searchFields.length <= 0) {
                     vm.searchFields = result.searchFields;
                 }
-                vm.pageOneDataGridRows = result.dgRowData;
-                vm.pageOneFieldData = JSON.parse(JSON.stringify(result.dgFieldsData));
+                else {
+                    vm.pageOneDataGridRows = result.dgRowData;
+                }
                 vm.showDataGrid();
             });
         },
         showDataGrid: function () {
             this.isLoading = false;
-            vm.dgIns = new DatagridSingleGridClass();
-            vm.dgIns.init("PMS0620010", "PMS0620010_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0620010_dg'), this.pageOneFieldData);
-            vm.dgIns.loadDgData(this.pageOneDataGridRows);
+
+            this.dgIns = new DatagridSingleGridClass();
+            this.dgIns.init("PMS0620010", "PMS0620010_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0620010_dg'), this.pageOneFieldData, {
+                singleSelect: false,
+                pagination: true,
+                rownumbers: true,
+                pageSize: 20 //一開始只載入20筆資料
+            });
+
+            this.dgIns.loadPageDgData(this.pageOneDataGridRows);
         },
         appendRow: function () {
             this.initTmpCUD();
@@ -610,7 +626,10 @@ let vm = new Vue({
             this.isEditStatus = false;
             this.editingRow = {};
 
-            BacUtils.doHttpPostAgent("/api/sales/addFuncRule_PMS0620020", {prg_id: "PMS0620020", page_id: 1}, function (result) {
+            BacUtils.doHttpPostAgent("/api/sales/addFuncRule_PMS0620020", {
+                prg_id: "PMS0620020",
+                page_id: 1
+            }, function (result) {
                 if (result.success) {
                     vm.pageOneSingleGridRowData = result.defaultValues;
                     vm.showSingleGridDialog();

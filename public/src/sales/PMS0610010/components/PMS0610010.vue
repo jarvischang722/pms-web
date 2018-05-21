@@ -17,7 +17,7 @@
                     <div class="col-xs-11 col-sm-11">
                         <div class="row no-margin-right">
                             <div>
-                                <table id="PMS0610010_dg" class="gridTableHt"></table>
+                                <table id="PMS0610010_dg" class="gridTableHt" style="height: 560px;"></table>
                             </div>
                         </div>
                     </div>
@@ -396,6 +396,7 @@
                 go_funcPurview: [],
                 prgEditionOptions: {},
                 userInfo: {},
+                dataGridHeight: 60, //DataGrid 高度
                 pageOneDataGridRows: [],
                 pageOneFieldData: [],
                 searchFields: [],
@@ -527,11 +528,11 @@
                     searchCond: lo_searchCond
                 };
                 BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", lo_params, function (result) {
+                    self.pageOneFieldData = result.dgFieldsData;
                     if (self.searchFields.length <= 0) {
                         self.searchFields = result.searchFields;
                     }
-                    self.pageOneFieldData = result.dgFieldsData;
-                    self.pageOneDataGridRows = result.dgRowData;
+                    self.isLoading = false;
                     self.showDataGrid();
                 });
             },
@@ -555,15 +556,12 @@
                 var colOption = [{field: 'ck', checkbox: true}];
                 colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0610010_dg'));
 
-                //一開始只載入10筆資料
-                let ln_pageSize = 10;
-
                 this.dgIns = new DatagridSingleGridClass();
                 this.dgIns.init(gs_prgId, "PMS0610010_dg", colOption, this.pageOneFieldData, {
                     singleSelect: false,
                     pagination: true,
                     rownumbers: true,
-                    pageSize: ln_pageSize
+                    pageSize: 20 //一開始只載入20筆資料
                 });
 
                 this.dgIns.loadPageDgData(this.pageOneDataGridRows);

@@ -12,7 +12,7 @@
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div class="tableHt">
-                        <table id="PMS0810230_dg" class="prg_dgHt"></table>
+                        <table id="PMS0810230_dg" style="height:560px;"></table>
                     </div>
                 </div>
             </div>
@@ -104,73 +104,73 @@
                                                 </div>
                                             </el-tab-pane>
                                             <!--<el-tab-pane :label="i18nLang.program.PMS0810230.week" name="W">-->
-                                                <!--<div class="space-6"></div>-->
-                                                <!--<div class="grid ml-5">-->
-                                                    <!--<div class="grid-item">-->
-                                                            <!--<span class="checkbox no-margin">-->
-                                                              <!--<label class="checkbox-width">-->
-                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
-                                                                         <!--class="ace" v-model="commandVal" value="W2">-->
-                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.monday}}</span>-->
-                                                              <!--</label>-->
-                                                            <!--</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                            <!--<span class="checkbox no-margin">-->
-                                                              <!--<label class="checkbox-width">-->
-                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
-                                                                         <!--class="ace" v-model="commandVal" value="W3">-->
-                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.tuesday}}</span>-->
-                                                              <!--</label>-->
-                                                            <!--</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                            <!--<span class="checkbox no-margin">-->
-                                                              <!--<label class="checkbox-width">-->
-                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
-                                                                         <!--class="ace" v-model="commandVal" value="W4">-->
-                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.wednesday}}</span>-->
-                                                              <!--</label>-->
-                                                            <!--</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                            <!--<span class="checkbox no-margin">-->
-                                                              <!--<label class="checkbox-width">-->
-                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
-                                                                         <!--class="ace" v-model="commandVal" value="W5">-->
-                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.thursday}}</span>-->
-                                                              <!--</label>-->
-                                                            <!--</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                            <!--<span class="checkbox no-margin">-->
-                                                              <!--<label class="checkbox-width">-->
-                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
-                                                                         <!--class="ace" v-model="commandVal" value="W6">-->
-                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.friday}}</span>-->
-                                                              <!--</label>-->
-                                                            <!--</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                            <!--<span class="checkbox no-margin">-->
-                                                              <!--<label class="checkbox-width">-->
-                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
-                                                                         <!--class="ace" v-model="commandVal" value="W7">-->
-                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.saturday}}</span>-->
-                                                              <!--</label>-->
-                                                            <!--</span>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="grid-item">-->
-                                                            <!--<span class="checkbox no-margin">-->
-                                                              <!--<label class="checkbox-width">-->
-                                                                  <!--<input name="form-field-checkbox" type="checkbox"-->
-                                                                         <!--class="ace" v-model="commandVal" value="W1">-->
-                                                                  <!--<span class="lbl">{{i18nLang.program.PMS0810230.sunday}}</span>-->
-                                                              <!--</label>-->
-                                                            <!--</span>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="space-6"></div>-->
+                                            <!--<div class="space-6"></div>-->
+                                            <!--<div class="grid ml-5">-->
+                                            <!--<div class="grid-item">-->
+                                            <!--<span class="checkbox no-margin">-->
+                                            <!--<label class="checkbox-width">-->
+                                            <!--<input name="form-field-checkbox" type="checkbox"-->
+                                            <!--class="ace" v-model="commandVal" value="W2">-->
+                                            <!--<span class="lbl">{{i18nLang.program.PMS0810230.monday}}</span>-->
+                                            <!--</label>-->
+                                            <!--</span>-->
+                                            <!--</div>-->
+                                            <!--<div class="grid-item">-->
+                                            <!--<span class="checkbox no-margin">-->
+                                            <!--<label class="checkbox-width">-->
+                                            <!--<input name="form-field-checkbox" type="checkbox"-->
+                                            <!--class="ace" v-model="commandVal" value="W3">-->
+                                            <!--<span class="lbl">{{i18nLang.program.PMS0810230.tuesday}}</span>-->
+                                            <!--</label>-->
+                                            <!--</span>-->
+                                            <!--</div>-->
+                                            <!--<div class="grid-item">-->
+                                            <!--<span class="checkbox no-margin">-->
+                                            <!--<label class="checkbox-width">-->
+                                            <!--<input name="form-field-checkbox" type="checkbox"-->
+                                            <!--class="ace" v-model="commandVal" value="W4">-->
+                                            <!--<span class="lbl">{{i18nLang.program.PMS0810230.wednesday}}</span>-->
+                                            <!--</label>-->
+                                            <!--</span>-->
+                                            <!--</div>-->
+                                            <!--<div class="grid-item">-->
+                                            <!--<span class="checkbox no-margin">-->
+                                            <!--<label class="checkbox-width">-->
+                                            <!--<input name="form-field-checkbox" type="checkbox"-->
+                                            <!--class="ace" v-model="commandVal" value="W5">-->
+                                            <!--<span class="lbl">{{i18nLang.program.PMS0810230.thursday}}</span>-->
+                                            <!--</label>-->
+                                            <!--</span>-->
+                                            <!--</div>-->
+                                            <!--<div class="grid-item">-->
+                                            <!--<span class="checkbox no-margin">-->
+                                            <!--<label class="checkbox-width">-->
+                                            <!--<input name="form-field-checkbox" type="checkbox"-->
+                                            <!--class="ace" v-model="commandVal" value="W6">-->
+                                            <!--<span class="lbl">{{i18nLang.program.PMS0810230.friday}}</span>-->
+                                            <!--</label>-->
+                                            <!--</span>-->
+                                            <!--</div>-->
+                                            <!--<div class="grid-item">-->
+                                            <!--<span class="checkbox no-margin">-->
+                                            <!--<label class="checkbox-width">-->
+                                            <!--<input name="form-field-checkbox" type="checkbox"-->
+                                            <!--class="ace" v-model="commandVal" value="W7">-->
+                                            <!--<span class="lbl">{{i18nLang.program.PMS0810230.saturday}}</span>-->
+                                            <!--</label>-->
+                                            <!--</span>-->
+                                            <!--</div>-->
+                                            <!--<div class="grid-item">-->
+                                            <!--<span class="checkbox no-margin">-->
+                                            <!--<label class="checkbox-width">-->
+                                            <!--<input name="form-field-checkbox" type="checkbox"-->
+                                            <!--class="ace" v-model="commandVal" value="W1">-->
+                                            <!--<span class="lbl">{{i18nLang.program.PMS0810230.sunday}}</span>-->
+                                            <!--</label>-->
+                                            <!--</span>-->
+                                            <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="space-6"></div>-->
                                             <!--</el-tab-pane>-->
                                         </el-tabs>
                                         <!--/.tabPage-->
@@ -376,11 +376,14 @@
                 };
 
                 BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", lo_params, function (result) {
+                    self.pageOneFieldData = result.fieldData;
                     if (self.searchFields.length <= 0) {
                         self.searchFields = result.searchFields;
                     }
-                    self.pageOneDataGridRows = result.dataGridRows;
-                    self.pageOneFieldData = result.fieldData;
+                    else {
+                        console.log(self.pageOneDataGridRows);
+                        self.pageOneDataGridRows = result.dataGridRows;
+                    }
                     self.showDataGrid();
                 });
             },
@@ -389,8 +392,12 @@
                 let ln_pageSize = 20;
 
                 this.dgIns = new DatagridSingleGridClass();
-                this.dgIns.init("PMS0810230", "PMS0810230_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810230_dg'), this.pageOneFieldData);
-                this.dgIns.loadDgData(this.pageOneDataGridRows);
+                this.dgIns.init("PMS0810230", "PMS0810230_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810230_dg'), this.pageOneFieldData, {
+                    pagination: true,
+                    rownumbers: true,
+                    pageSize: ln_pageSize //一開始只載入20筆資料
+                });
+                this.dgIns.loadPageDgData(this.pageOneDataGridRows);
 
                 this.isLoading = false;
             },
