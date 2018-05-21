@@ -30,10 +30,9 @@
                         <div class="row">
                             <div class="right-menu-co">
                                 <ul>
-                                    <li v-if="$parent.$parent.prgEditionOptions.funcList['1010'] != 'LITE'">
-                                        <button
-                                                class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="editRow">{{i18nLang.program.PMS0810230.dateRule}}
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" @click="confirmData">{{i18nLang.program.PMS0810230.OK}}
                                         </button>
                                     </li>
                                     <li>
@@ -67,8 +66,8 @@
     let vmHub4EasyTable = new Vue();
 
     //起始日
-    Vue.component('table-start-date', {
-        template: '<el-date-picker v-model="rowData.startDat" type="date" format="yyyy/MM/dd"' +
+    Vue.component('table-begin-date', {
+        template: '<el-date-picker v-model="rowData.begin_dat" type="date" format="yyyy/MM/dd"' +
         'style="width: 135px; height: 35px;line-height: 25px;" editable="false"></el-date-picker>',
         props: {
             rowData: {
@@ -78,7 +77,7 @@
     });
     //結束日
     Vue.component('table-end-date', {
-        template: '<el-date-picker v-model="rowData.endDat" type="date" format="yyyy/MM/dd"' +
+        template: '<el-date-picker v-model="rowData.end_dat" type="date" format="yyyy/MM/dd"' +
         'style="width: 135px; height: 35px; line-height: 25px;" editable="false"></el-date-picker>',
         props: {
             rowData: {
@@ -87,26 +86,31 @@
         }
     });
     //計算方式
-    Vue.component('table-compute-method', {
-        template: '<bac-select v-model="rowData.compMethod" :field="rowData.cmFieldsData" :data="rowData.cmFieldsData.selectData" ' +
+    Vue.component('table-command-cod', {
+        template: '<bac-select v-model="rowData.command_cod" :field="rowData.cmFieldsData" :data="rowData.cmFieldsData.selectData" ' +
         ':data-display="rowData.cmFieldsData.selectData" style="width: 135px; height: 25px;"' +
-        ':default-val="rowData.compMethod" is-qry-src-before="Y" value-field="value" text-field="display"' +
-        '@update:v-model="val => rowData.compMethod = val"></bac-select>',
+        ':default-val="rowData.command_cod" is-qry-src-before="Y" value-field="value" text-field="display"' +
+        '@update:v-model="val => rowData.command_cod = val"></bac-select>',
         props: {
             rowData: {
                 type: Object
             },
             field: {
                 type: String
+            }
+        },
+        watch: {
+            "rowData.command_cod": function (val) {
+                vmHub4EasyTable.$emit('getTableRowData', {command_cod: val, index: this.$parent.$parent.clickRowIndex});
             }
         }
     });
     //日其規則
-    Vue.component('table-date-rule', {
-        template: '<bac-select v-model="rowData.datRule" :field="rowData.dtdFieldsData" :data="rowData.dtdFieldsData.selectData" ' +
-        ':data-display="rowData.dtdFieldsData.selectData" style="width: 135px; height: 25px;"' +
-        ':default-val="rowData.datRule" is-qry-src-before="Y" value-field="value" text-field="display"' +
-        '@update:v-model="val => rowData.datRule = val"></bac-select>',
+    Vue.component('table-command-option', {
+        template: '<bac-select v-model="rowData.command_option" :field="rowData.dtdFieldsData" :data="rowData.dtdFieldsData.selectData" ' +
+        ':data-display="rowData.dtdFieldsData.selectDataDisplay" style="width: 135px; height: 25px;" ' +
+        ':default-val="rowData.command_option" is-qry-src-before="Y" value-field="value" text-field="display"' +
+        '@update:v-model="val => rowData.command_option = val"></bac-select>',
         props: {
             rowData: {
                 type: Object
@@ -114,59 +118,14 @@
             field: {
                 type: String
             }
-        },
-        data() {
-            return {
-                selectData: []
-            }
-        },
-        watch: {
-            rowData: {
-                handler(data) {
-                    console.log(data);
-//                    let la_selectData = []
-//                    if (_.isEmpty(data)) {
-//                        la_selectData = _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay;
-//                        _.each(la_selectData, (lo_select, idx) => {
-//                            la_selectData[idx].value = 'H' + lo_select.value;
-//                        });
-//                        return la_selectData;
-//                    }
-//                    else {
-//                        //計算方式為D
-//                        if (data.compMethod == 'D') {
-//                            la_selectData = [{value: 'D1', display: '每一天'}];
-//                        }
-//                        //計算方式為H
-//                        else if (data.compMethod == 'H') {
-//                            la_selectData = _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay;
-//                        }
-//                        //計算方式為W
-//                        else {
-//                            la_selectData = [
-//                                {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
-//                                {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
-//                                {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
-//                                {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
-//                                {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
-//                                {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
-//                                {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
-//                            ];
-//                        }
-//
-//                        return la_selectData;
-//                    }
-                },
-                deep: true
-            }
         }
     });
     //房型
-    Vue.component('table-room-cod', {
-        template: '<bac-select v-model="rowData.roomCod" :field="rowData.rcFieldsData" :data="rowData.rcFieldsData.selectData" ' +
+    Vue.component('table-room-cods', {
+        template: '<bac-select v-model="rowData.room_cods" :field="rowData.rcFieldsData" :data="rowData.rcFieldsData.selectData" ' +
         ':data-display="rowData.rcFieldsData.selectData" style="width: 135px; height: 25px;"' +
-        ':default-val="rowData.roomCod" is-qry-src-before="Y" value-field="value" text-field="display"' +
-        '@update:v-model="val => rowData.roomCod = val"></bac-select>',
+        ':default-val="rowData.room_cods" is-qry-src-before="Y" value-field="value" text-field="display"' +
+        '@update:v-model="val => rowData.room_cods = val"></bac-select>',
         props: {
             rowData: {
                 type: Object
@@ -227,6 +186,13 @@
                     oriData: []
                 };
             });
+
+            vmHub4EasyTable.$on('getTableRowData', (data) => {
+                this.dataGridRowsData[data.index].command_cod = data.command_cod;
+                let lb_isChange = data.command_cod == this.dataGridRowsData[data.index].command_option.substring(0, 1) ? false : true;
+                this.dataGridRowsData[data.index].command_option = lb_isChange ? "" : data.command_cod;
+                this.showTable();
+            });
         },
         mounted() {
             this.fetchRentCalDat();
@@ -240,6 +206,7 @@
                 fieldsData: [],
                 dataGridRowsData: [],
                 oriDataGridRowsData: [],
+                dataGridRowsData4Table: [],
                 roomCodSelectData: [],
                 //v-table 顯示時所需資料(轉換過)
                 useTimeColumns: [],
@@ -270,6 +237,7 @@
                         this.fieldsData = this.$store.state.ga_utFieldsData;
                         this.dataGridRowsData = this.$store.state.go_allData.ga_utDataGridRowsData;
                         this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_utDataGridRowsData;
+                        console.log(this.dataGridRowsData);
                         this.showTable();
                     }
                 }
@@ -351,16 +319,16 @@
                         isResize: true
                     },
                     {
-                        field: 'startDat',
+                        field: 'begin_dat',
                         title: _.findWhere(this.fieldsData, {ui_field_name: 'begin_dat'}).ui_display_name,
                         width: 135,
                         titleAlign: 'center',
                         columnAlign: 'center',
                         isResize: true,
-                        componentName: 'table-start-date'
+                        componentName: 'table-begin-date'
                     },
                     {
-                        field: 'endDat',
+                        field: 'end_dat',
                         title: _.findWhere(this.fieldsData, {ui_field_name: 'end_dat'}).ui_display_name,
                         width: 135,
                         titleAlign: 'center',
@@ -369,57 +337,56 @@
                         componentName: 'table-end-date'
                     },
                     {
-                        field: 'datRule',
+                        field: 'command_option',
                         title: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).ui_display_name,
                         width: 135,
                         titleAlign: 'center',
                         columnAlign: 'center',
                         isResize: true,
-                        componentName: 'table-date-rule'
+                        componentName: 'table-command-option'
                     },
                     {
-                        field: 'roomCod',
+                        field: 'room_cods',
                         title: _.findWhere(this.fieldsData, {ui_field_name: 'room_cods'}).ui_display_name,
                         width: 135,
                         titleAlign: 'center',
                         columnAlign: 'center',
                         isResize: true,
-                        componentName: 'table-room-cod'
+                        componentName: 'table-room-cods'
                     }
                 ];
                 let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
                 if (lo_funcList['1010'] != 'LITE') {
                     let lo_commandCod = {
-                        field: 'datRule',
+                        field: 'command_cod',
                         title: _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}).ui_display_name,
                         width: 135,
                         titleAlign: 'center',
                         columnAlign: 'center',
                         isResize: true,
-                        componentName: 'table-compute-method'
+                        componentName: 'table-command-cod'
                     };
                     this.useTimeColumns.splice(3, 0, lo_commandCod);
                 }
                 this.useTimeData = [];
-
                 let la_displayDataGridRowsData = this.isShowExpire ?
                     this.dataGridRowsData : _.filter(this.dataGridRowsData, (lo_dataGridRowsData) => {
                         let lo_endDat = moment(lo_dataGridRowsData.end_dat);
                         let lo_rentCalDat = moment(this.rentCalDat);
                         return lo_endDat.diff(lo_rentCalDat, 'days') >= 1
                     });
-
+                console.log(this.dataGridRowsData);
                 if (la_displayDataGridRowsData.length > 0) {
                     _.each(la_displayDataGridRowsData, (lo_dataGridRowsData) => {
                         this.useTimeData.push({
-                            "startDat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
-                            "endDat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
-                            "compMethod": lo_dataGridRowsData.command_cod,
-                            "datRule": this.convertCommandOption(JSON.parse(JSON.stringify(lo_dataGridRowsData))),
-                            "roomCod": _.isUndefined(lo_dataGridRowsData.room_cods) ? "" : lo_dataGridRowsData.room_cods,
+                            "begin_dat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
+                            "end_dat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
+                            "command_cod": lo_dataGridRowsData.command_cod,
+                            "command_option": lo_dataGridRowsData.command_option,
+                            "room_cods": _.isUndefined(lo_dataGridRowsData.room_cods) ? "" : lo_dataGridRowsData.room_cods,
                             "supply_nos": lo_dataGridRowsData.supply_nos,
                             "cmFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}),
-                            "dtdFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}),
+                            "dtdFieldsData": this.convertCommandOption(lo_dataGridRowsData),
                             "rcFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'room_cods'}),
                         });
                     });
@@ -437,63 +404,42 @@
             },
             convertCommandOption(data) {
                 try {
-                    let la_commandOptionHSelect =
-                        JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay));
-                    _.each(la_commandOptionHSelect, (lo_select, idx) => {
-                        la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
-                    });
+                    //計算方式影響日期規則下拉資料
+                    let lo_commandOptionFieldData = JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'})));
+                    let la_selectData = [];
 
-                    let la_commandOptionWSelect = [
-                        {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
-                        {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
-                        {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
-                        {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
-                        {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
-                        {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
-                        {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
-                    ];
-
-                    let ls_commandOptionDisplay = '';
-                    if (data.command_cod == 'H') {
-                        let la_commandOption = data.command_option.split(',');
-                        if (la_commandOption.length > 1) {
-                            _.each(la_commandOption, (ls_commandOption) => {
-                                let lo_commandOptionSelected = _.findWhere(la_commandOptionHSelect, {value: ls_commandOption});
-                                ls_commandOptionDisplay = !_.isUndefined(lo_commandOptionSelected) ?
-                                    ls_commandOptionDisplay + _.findWhere(la_commandOptionHSelect, {value: ls_commandOption}).display + ', ' : ls_commandOptionDisplay;
-                            });
-                            ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
-                        }
-                        else {
-                            let lo_commandOptionSelected = _.findWhere(la_commandOptionHSelect, {value: data.command_option});
-                            ls_commandOptionDisplay = !_.isUndefined(lo_commandOptionSelected) ? _.findWhere(la_commandOptionHSelect, {value: data.command_option}).display : ls_commandOptionDisplay;
-                        }
+                    //依日
+                    if (data.command_cod == 'D') {
+                        la_selectData = [{value: 'D1', display: '每一天'}];
                     }
+                    //依星期
                     else if (data.command_cod == 'W') {
-                        let la_commandOption = data.command_option.split(',');
-                        if (la_commandOption.length > 1) {
-                            _.each(la_commandOption, (ls_commandOption) => {
-                                ls_commandOptionDisplay =
-                                    ls_commandOptionDisplay + _.findWhere(la_commandOptionWSelect, {value: ls_commandOption}).display + ', ';
-                            });
-                            ls_commandOptionDisplay = ls_commandOptionDisplay.substring(0, ls_commandOptionDisplay.length - 2);
-                        }
-                        else {
-                            ls_commandOptionDisplay = _.findWhere(la_commandOptionWSelect, {value: data.command_option}).display
-                        }
+                        la_selectData = [
+                            {value: 'W1', display: go_i18nLang.program.PMS0810230.sunday},
+                            {value: 'W2', display: go_i18nLang.program.PMS0810230.monday},
+                            {value: 'W3', display: go_i18nLang.program.PMS0810230.tuesday},
+                            {value: 'W4', display: go_i18nLang.program.PMS0810230.wednesday},
+                            {value: 'W5', display: go_i18nLang.program.PMS0810230.thursday},
+                            {value: 'W6', display: go_i18nLang.program.PMS0810230.friday},
+                            {value: 'W7', display: go_i18nLang.program.PMS0810230.saturday}
+                        ];
                     }
+                    //依假日對照檔
                     else {
-                        ls_commandOptionDisplay = "每一天";
+                        _.each(lo_commandOptionFieldData.selectDataDisplay, (lo_selectDataDisplay) => {
+                            let ls_value = 'H' + lo_selectDataDisplay.value;
+                            la_selectData.push({value: ls_value, display: lo_selectDataDisplay.display});
+                        });
                     }
-                    return ls_commandOptionDisplay;
+
+                    lo_commandOptionFieldData.selectData = la_selectData;
+                    lo_commandOptionFieldData.selectDataDisplay = la_selectData;
+
+                    return lo_commandOptionFieldData;
                 }
                 catch (err) {
                     alert(err);
                 }
-            },
-            //計算方式影響日期規則下拉資料
-            convertCommandOptionSelectData(data) {
-
             },
             //v-table function
             useTimeColumnCellClass(rowIndex, columnName, rowData) {
@@ -561,60 +507,38 @@
                 });
 
                 if (field == "control") {
-                    vmHub4EasyTable.$emit('getFieldsData', {
-                        fieldsData: this.fieldsData
-                    });
                     let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
                     this.timeRuleData = {};
-                    if (lo_funcList['1010'] == 'LITE') {
-                        let lo_createData = {
-                            athena_id: this.$store.state.go_userInfo.athena_id,
-                            hotel_cod: this.$store.state.go_userInfo.hotel_cod,
-                            rate_cod: this.$store.state.gs_rateCod,
-                            supply_nos: 1,
-                            begin_dat: moment().format("YYYY/MM/DD"),
-                            end_dat: moment().format("YYYY/MM/DD"),
-                            command_cod: "H",
-                            command_option: _.first(la_commandOptionHSelect).value,
-                            event_time: moment().format(),
-                            isCreate: true
-                        };
-                        this.dataGridRowsData.push(lo_createData);
-                        this.showTable();
-                    }
-                    else {
-                        this.showTimeRuleDialog();
-                    }
-//                    this.showTimeRuleDialog();
+                    let lo_createData = {
+                        athena_id: this.$store.state.go_userInfo.athena_id,
+                        hotel_cod: this.$store.state.go_userInfo.hotel_cod,
+                        rate_cod: this.$store.state.gs_rateCod,
+                        supply_nos: 1,
+                        begin_dat: moment().format("YYYY/MM/DD"),
+                        end_dat: moment().format("YYYY/MM/DD"),
+                        command_cod: "H",
+                        command_option: _.first(la_commandOptionHSelect).value,
+                        event_time: moment().format(),
+                        isCreate: true
+                    };
+                    this.dataGridRowsData.push(lo_createData);
+                    this.showTable();
                 }
             },
-            editRow() {
-                let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
-                if (lo_funcList['1010'] != 'LITE') {
-                    if (_.isEmpty(this.timeRuleData)) {
-                        alert(go_i18nLang["SystemCommon"].SelectData);
-                    }
-                    else {
-                        this.showTimeRuleDialog();
-                    }
-                }
-//                if (_.isEmpty(this.timeRuleData)) {
-//                    alert(go_i18nLang["SystemCommon"].SelectData);
-//                }
-//                else {
-//                    this.showTimeRuleDialog();
-//                }
-            },
-            //日期規則
-            showTimeRuleDialog() {
-                this.isOpenTimeRule = true;
-                this.$eventHub.$emit('getTimeRuleData', {
-                    openTimeRule: this.isOpenTimeRule,
-                    commandOptionSelectOption: _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}),
-                    singleData: this.timeRuleData
-                });
+            confirmData() {
+
             },
             closeDialog() {
+
+                this.dataGridRowsData = JSON.parse(JSON.stringify(this.oriDataGridRowsData));
+                console.log(this.oriDataGridRowsData);
+                //將資料放入Vuex
+//                this.$store.dispatch("setUseTimeData", {
+//                    ga_utFieldsData: this.fieldsData,
+//                    ga_utDataGridRowsData: this.dataGridRowsData,
+//                    ga_utOriDataGridRowsData: this.oriDataGridRowsData,
+//                    go_utTmpCUD: this.tmpCUD
+//                });
                 $("#useTimeDialog").dialog('close');
             }
         }
