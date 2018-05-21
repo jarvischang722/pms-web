@@ -99,7 +99,6 @@
     </dao>
 
 
-
     <!--參數: 取訂房中心滾租日-->
     <dao name="QRY_RENT_DAT_HQ">
         <statement><![CDATA[
@@ -114,24 +113,6 @@
     <dao name="QRY_AMT_FORMAT">
         <statement><![CDATA[
            select pg_ais2.sf_get_comp_sval('NULL', 'CM', 'mask_hfd', :athena_id) as format_val from dual
-        ]]>
-        </statement>
-        <parameter type="number" kind="3">athena_id</parameter>
-    </dao>
-
-    <!--參數: 一般散客代號-->
-    <dao name="QRY_FIT_COD">
-        <statement><![CDATA[
-           select pg_ais2.sf_get_comp_sval('NULL', 'HFD', 'fit_cod', :athena_id) as fit_cod from dual
-        ]]>
-        </statement>
-        <parameter type="number" kind="3">athena_id</parameter>
-    </dao>
-
-    <!--參數: 官網訂房公司代號-->
-    <dao name="QRY_OFFICIAL_WEB_CUST_COD">
-        <statement><![CDATA[
-           select pg_ais2.sf_get_comp_sval('NULL', 'WRS', 'cust_cod', :athena_id) as cust_cod from dual
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>

@@ -34,14 +34,16 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
-                                        role="button" :disabled="BTN_action" @click="appendRow"
+                                        role="button" :disabled="BTN_action || !isModifiable" @click="appendRow"
+                                        v-if="$parent.prgEditionOptions.funcList['1070'] != undefined"
                                         data-purview_func_id="PMS0610020-1070">
                                     {{i18nLang.program.PMS0610020.append_contract}}
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
-                                        role="button" :disabled="BTN_action" @click="removeRow"
+                                        role="button" :disabled="BTN_action || !isModifiable" @click="removeRow"
+                                        v-if="$parent.prgEditionOptions.funcList['1080'] != undefined"
                                         data-purview_func_id="PMS0610020-1080">
                                     {{i18nLang.program.PMS0610020.remove_contract}}
                                 </button>
@@ -61,12 +63,23 @@
 </template>
 
 <script>
+    /** DatagridRmSingleGridClass **/
+    function DatagridSingleGridClass() {
+    }
+
+    DatagridSingleGridClass.prototype = new DatagridBaseClass();
+    DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    };
+    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    };
+    /*** Class End  ***/
+
     import moment from 'moment';
     import alasql from 'alasql';
 
     export default {
         name: 'contract-content',
-        props: ["rowData", "isContractContent"],
+        props: ["rowData", "isContractContent", "isModifiable"],
         created() {
             this.$eventHub.$on("endContractEdit", () => {
                 if (!_.isEmpty(this.dgIns)) {
@@ -100,7 +113,6 @@
                         this.initData();
                     }
                     this.fetchDefaultData();
-                    this.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
                 }
             },
             dataGridRowsData: {
@@ -206,7 +218,7 @@
                 });
             },
             showDataGrid(dataGridRowsData) {
-                this.dgIns = new DatagridBaseClass();
+                this.dgIns = this.isModifiable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'contractContent_dg'), this.fieldsData);
                 this.dgIns.loadDgData(dataGridRowsData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
