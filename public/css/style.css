@@ -686,6 +686,20 @@ textarea[disabled] {
   background-color: #EEE !important;
 }
 
+/* Firefox */
+input::placeholder,
+input[type="text"],
+input[readonly],
+input[readonly]::placeholder,
+select::placeholder,
+el-date-picker::placeholder,
+textarea::placeholder,
+.el-select .el-input .el-input__icon,
+.el-select-dropdown__item {
+    color: #333;
+    opacity: 1;
+}
+
 @media screen and (max-width: 992px) {
   .top-sec-ul {
     z-index: 1024;
@@ -5211,7 +5225,7 @@ td div.act-box span.act-text {
   position: relative;
 }
 .custom-table .td-more .wt-input {
-  width: 68%;
+    width: 88%;
 }
 .custom-table .td-more .moreClick {
   position: absolute;
@@ -6000,10 +6014,6 @@ td div.triangle-box.colspan-28 {
   margin-left: 3%;
 }
 
-.ml-3 {
-  margin-left: 10px;
-}
-
 .ml-90 {
   margin-left: 90px;
 }
@@ -6442,10 +6452,18 @@ a {
 }
 
 .input_sta_required {
-  background-color: #c6f2d9 !important;
+    background-color: #c6f2d9 !important;
+}
+
+.input_sta_required input.el-input__inner {
+    background-color: #c6f2d9 !important;
 }
 
 /* (186, 242, 234) */
+.input-noEdit {
+    background-color: #eee !important;
+}
+
 .input-medium.medium-c1 {
   width: 165px;
   max-width: 100%;
