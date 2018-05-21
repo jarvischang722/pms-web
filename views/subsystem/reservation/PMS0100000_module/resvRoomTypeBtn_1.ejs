@@ -1,6 +1,6 @@
 <div>
     <!-- 訂房卡 彈出視窗 -->
-    <div id="reservationDialog-1-message" class="hide padding-5" style="top: 0 !important;">
+    <div id="reservationDialog-1-message" class="hide padding-5" style="top: 50px !important;">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
@@ -1873,6 +1873,34 @@
                                                 <div class="css_td text-right">1</div>
                                                 <div class="css_td text-right">1</div>
                                             </div>
+                                            <div class="css_tr">
+                                                <div class="css_td">正常</div>
+                                                <div class="css_td">2005/11/13(Su)</div>
+                                                <div class="css_td">2005/11/19(Mo)</div>
+                                                <div class="css_td">FIT2017:一般散客價</div>
+                                                <div class="css_td">STD</div>
+                                                <div class="css_td">STD</div>
+                                                <div class="css_td text-right">3</div>
+                                                <div class="css_td text-right">1,500</div>
+                                                <div class="css_td text-right">500</div>
+                                                <div class="css_td text-right">4</div>
+                                                <div class="css_td text-right">1</div>
+                                                <div class="css_td text-right">1</div>
+                                            </div>
+                                            <div class="css_tr">
+                                                <div class="css_td">正常</div>
+                                                <div class="css_td">2005/11/13(Su)</div>
+                                                <div class="css_td">2005/11/19(Mo)</div>
+                                                <div class="css_td">TRA:旅展價</div>
+                                                <div class="css_td">DXT</div>
+                                                <div class="css_td">DXT</div>
+                                                <div class="css_td text-right">2</div>
+                                                <div class="css_td text-right">1,500</div>
+                                                <div class="css_td text-right">500</div>
+                                                <div class="css_td text-right">4</div>
+                                                <div class="css_td text-right">1</div>
+                                                <div class="css_td text-right">1</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -2002,37 +2030,37 @@
                                                             <td class="text-center">
                                                                 <i class="fa fa-minus red"></i>
                                                             </td>
-                                                            <td class="text-left">1</td>
+                                                            <td class="text-left input-noEdit">1</td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker
                                                                             v-model="resvDetail_ciDate"
                                                                             type="date"
                                                                             placeholder=""
-                                                                            class="date-wt">
+                                                                            class="date-wt input_sta_required">
                                                                     </el-date-picker>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-left">日</td>
-                                                            <td class="text-left"><input type="text"
-                                                                                         class="selectHt"
-                                                                                         placeholder="2"/></td>
+                                                            <td class="text-left input-noEdit">日</td>
+                                                            <td class="text-left">
+                                                                <input type="text" class="selectHt" placeholder="2"/>
+                                                            </td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker
                                                                             v-model="resvDetail_coDate"
                                                                             type="date"
                                                                             placeholder=""
-                                                                            class="date-wt">
+                                                                            class="date-wt input_sta_required">
                                                                     </el-date-picker>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-left">日</td>
+                                                            <td class="text-left input-noEdit">日</td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-select v-model="roomCodes_val"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in roomCodes"
                                                                                 :key="item.value"
@@ -2047,7 +2075,7 @@
                                                                 <template>
                                                                     <el-select v-model="roomTypes_val"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in roomTypes"
                                                                                 :key="item.value"
@@ -2062,7 +2090,7 @@
                                                                 <template>
                                                                     <el-select v-model="useRmTypes_val"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in useRmTypes"
                                                                                 :key="item.value"
@@ -2072,8 +2100,8 @@
                                                                     </el-select>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-right">5,000</td>
-                                                            <td class="text-right">50</td>
+                                                            <td class="text-right input-noEdit">5,000</td>
+                                                            <td class="text-right input-noEdit">50</td>
                                                             <td class="text-right">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="20"/>
@@ -2095,7 +2123,7 @@
                                                                 <template>
                                                                     <el-select v-model="resv_sources_val"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in resv_sources"
                                                                                 :key="item.value"
@@ -2110,7 +2138,7 @@
                                                                 <template>
                                                                     <el-select v-model="marketCates_val"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in marketCates"
                                                                                 :key="item.value"
@@ -2120,46 +2148,46 @@
                                                                     </el-select>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-left">已排房</td>
-                                                            <td class="text-left">503</td>
-                                                            <td class="text-left">陳Rick,葉Peter</td>
+                                                            <td class="text-left input-noEdit">已排房</td>
+                                                            <td class="text-left input-noEdit">503</td>
+                                                            <td class="text-left input-noEdit">陳Rick,葉Peter</td>
                                                         </tr>
                                                         <!--2-->
                                                         <tr>
                                                             <td class="text-center">
                                                                 <i class="fa fa-minus red"></i>
                                                             </td>
-                                                            <td class="text-left">2</td>
+                                                            <td class="text-left input-noEdit">2</td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker
                                                                             v-model="resvDetail_ciDate_2"
                                                                             type="date"
                                                                             placeholder=""
-                                                                            class="date-wt">
+                                                                            class="date-wt input_sta_required">
                                                                     </el-date-picker>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-left">日</td>
-                                                            <td class="text-left"><input type="text"
-                                                                                         class="selectHt"
-                                                                                         placeholder="2"/></td>
+                                                            <td class="text-left input-noEdit">日</td>
+                                                            <td class="text-left">
+                                                                <input type="text" class="selectHt" placeholder="2"/>
+                                                            </td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker
                                                                             v-model="resvDetail_coDate_2"
                                                                             type="date"
                                                                             placeholder=""
-                                                                            class="date-wt">
+                                                                            class="date-wt input_sta_required">
                                                                     </el-date-picker>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-left">日</td>
+                                                            <td class="text-left input-noEdit">日</td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-select v-model="roomCodes_val_2"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in roomCodes"
                                                                                 :key="item.value"
@@ -2174,7 +2202,7 @@
                                                                 <template>
                                                                     <el-select v-model="roomTypes_val_2"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in roomTypes"
                                                                                 :key="item.value"
@@ -2189,7 +2217,7 @@
                                                                 <template>
                                                                     <el-select v-model="useRmTypes_val_2"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in useRmTypes"
                                                                                 :key="item.value"
@@ -2199,8 +2227,8 @@
                                                                     </el-select>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-right">5,000</td>
-                                                            <td class="text-right">50</td>
+                                                            <td class="text-right input-noEdit">5,000</td>
+                                                            <td class="text-right input-noEdit">50</td>
                                                             <td class="text-right">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="20"/>
@@ -2222,7 +2250,7 @@
                                                                 <template>
                                                                     <el-select v-model="resv_sources_val_2"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in resv_sources"
                                                                                 :key="item.value"
@@ -2237,7 +2265,7 @@
                                                                 <template>
                                                                     <el-select v-model="marketCates_val_2"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in marketCates"
                                                                                 :key="item.value"
@@ -2247,46 +2275,46 @@
                                                                     </el-select>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-left">未排房</td>
-                                                            <td class="text-left">503</td>
-                                                            <td class="text-left">陳Rick,葉Peter</td>
+                                                            <td class="text-left input-noEdit">已排房</td>
+                                                            <td class="text-left input-noEdit">601</td>
+                                                            <td class="text-left input-noEdit">黃Mike,葉Alice</td>
                                                         </tr>
                                                         <!--3-->
                                                         <tr>
                                                             <td class="text-center">
                                                                 <i class="fa fa-minus red"></i>
                                                             </td>
-                                                            <td class="text-left">3</td>
+                                                            <td class="text-left input-noEdit">3</td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker
                                                                             v-model="resvDetail_ciDate_3"
                                                                             type="date"
                                                                             placeholder=""
-                                                                            class="date-wt">
+                                                                            class="date-wt input_sta_required">
                                                                     </el-date-picker>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-left">日</td>
-                                                            <td class="text-left"><input type="text"
-                                                                                         class="selectHt"
-                                                                                         placeholder="2"/></td>
+                                                            <td class="text-left input-noEdit">日</td>
+                                                            <td class="text-left">
+                                                                <input type="text" class="selectHt" placeholder="2"/>
+                                                            </td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-date-picker
                                                                             v-model="resvDetail_coDate_3"
                                                                             type="date"
                                                                             placeholder=""
-                                                                            class="date-wt">
+                                                                            class="date-wt input_sta_required">
                                                                     </el-date-picker>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-left">日</td>
+                                                            <td class="text-left input-noEdit">日</td>
                                                             <td class="text-left">
                                                                 <template>
                                                                     <el-select v-model="roomCodes_val_3"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in roomCodes"
                                                                                 :key="item.value"
@@ -2301,7 +2329,7 @@
                                                                 <template>
                                                                     <el-select v-model="roomTypes_val_3"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in roomTypes"
                                                                                 :key="item.value"
@@ -2316,7 +2344,7 @@
                                                                 <template>
                                                                     <el-select v-model="useRmTypes_val_3"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in useRmTypes"
                                                                                 :key="item.value"
@@ -2326,8 +2354,8 @@
                                                                     </el-select>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-right">5,000</td>
-                                                            <td class="text-right">50</td>
+                                                            <td class="text-right input-noEdit">5,000</td>
+                                                            <td class="text-right input-noEdit">50</td>
                                                             <td class="text-right">
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="20"/>
@@ -2349,7 +2377,7 @@
                                                                 <template>
                                                                     <el-select v-model="resv_sources_val_3"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in resv_sources"
                                                                                 :key="item.value"
@@ -2364,7 +2392,7 @@
                                                                 <template>
                                                                     <el-select v-model="marketCates_val_3"
                                                                                placeholder="請選擇"
-                                                                               class="el-select-ht">
+                                                                               class="el-select-ht input_sta_required">
                                                                         <el-option
                                                                                 v-for="item in marketCates"
                                                                                 :key="item.value"
@@ -2374,9 +2402,9 @@
                                                                     </el-select>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-left">已排房</td>
-                                                            <td class="text-left">503</td>
-                                                            <td class="text-left">陳Rick,黃Mike</td>
+                                                            <td class="text-left input-noEdit">未排房</td>
+                                                            <td class="text-left input-noEdit">204</td>
+                                                            <td class="text-left input-noEdit">王Jim,李Bear</td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -2440,7 +2468,8 @@
                                                             </td>
                                                             <td class="text-left">無指定</td>
                                                             <td class="text-left td-relative">
-                                                                <input type="text" class="selectHt" placeholder="住客姓名"/>
+                                                                <input type="text" class="selectHt input_sta_required"
+                                                                       placeholder="住客姓名"/>
                                                                 <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
                                                                     Profile
                                                                 </button>
@@ -2461,8 +2490,9 @@
                                                             </td>
                                                             <td class="text-left">2</td>
                                                             <td class="text-left td-relative">
-                                                                <input type="text" class="selectHt" placeholder="住客姓名"/>
-                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 smoreAbso">
+                                                                <input type="text" class="selectHt input_sta_required"
+                                                                       placeholder="住客姓名"/>
+                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
                                                                     Profile
                                                                 </button>
                                                             </td>
@@ -2482,7 +2512,8 @@
                                                             </td>
                                                             <td class="text-left">3</td>
                                                             <td class="text-left td-relative">
-                                                                <input type="text" class="selectHt" placeholder="住客姓名"/>
+                                                                <input type="text" class="selectHt input_sta_required"
+                                                                       placeholder="住客姓名"/>
                                                                 <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
                                                                     Profile
                                                                 </button>
@@ -2503,7 +2534,8 @@
                                                             </td>
                                                             <td class="text-left">4</td>
                                                             <td class="text-left td-relative">
-                                                                <input type="text" class="selectHt" placeholder="住客姓名"/>
+                                                                <input type="text" class="selectHt input_sta_required"
+                                                                       placeholder="住客姓名"/>
                                                                 <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
                                                                     Profile
                                                                 </button>
@@ -2524,7 +2556,8 @@
                                                             </td>
                                                             <td class="text-left">5</td>
                                                             <td class="text-left td-relative">
-                                                                <input type="text" class="selectHt" placeholder="住客姓名"/>
+                                                                <input type="text" class="selectHt input_sta_required"
+                                                                       placeholder="住客姓名"/>
                                                                 <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
                                                                     Profile
                                                                 </button>
@@ -2738,6 +2771,34 @@
                                 </div>
                             </div>
                             <div class="css_tbody">
+                                <div class="css_tr">
+                                    <div class="css_td">正常</div>
+                                    <div class="css_td">2005/11/13(Su)</div>
+                                    <div class="css_td">2005/11/19(Mo)</div>
+                                    <div class="css_td">FIT2017:一般散客價</div>
+                                    <div class="css_td">STD</div>
+                                    <div class="css_td">STD</div>
+                                    <div class="css_td text-right">3</div>
+                                    <div class="css_td text-right">5,000</div>
+                                    <div class="css_td text-right">500</div>
+                                    <div class="css_td text-right">4</div>
+                                    <div class="css_td text-right">1</div>
+                                    <div class="css_td text-right">1</div>
+                                </div>
+                                <div class="css_tr">
+                                    <div class="css_td">正常</div>
+                                    <div class="css_td">2005/11/13(Su)</div>
+                                    <div class="css_td">2005/11/19(Mo)</div>
+                                    <div class="css_td">TRA:旅展價</div>
+                                    <div class="css_td">DXT</div>
+                                    <div class="css_td">DXT</div>
+                                    <div class="css_td text-right">2</div>
+                                    <div class="css_td text-right">5,000</div>
+                                    <div class="css_td text-right">500</div>
+                                    <div class="css_td text-right">4</div>
+                                    <div class="css_td text-right">1</div>
+                                    <div class="css_td text-right">1</div>
+                                </div>
                                 <div class="css_tr">
                                     <div class="css_td">正常</div>
                                     <div class="css_td">2005/11/13(Su)</div>
