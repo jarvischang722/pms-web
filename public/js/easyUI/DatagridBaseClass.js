@@ -50,7 +50,7 @@ function DatagridBaseClass() {
             checkOnSelect: !_.isUndefined(options.checkOnSelect) ? options.singleSelect : true,
             pagination: !_.isUndefined(options.pagination) ? options.pagination : false,//分頁參數
             rownumbers: !_.isUndefined(options.rownumbers) ? options.rownumbers : false,//分頁參數
-            pageSize: !_.isUndefined(options.pageSize) ? options.pageSize : 10,
+            pageSize: !_.isUndefined(options.pageSize) ? options.pageSize : 20,
             //width: "100%", // error:左側打開後table會擠壓到右側欄位
             onClickCell: this.onClickCell,
             onClickRow: this.onClickRow,
