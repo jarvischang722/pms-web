@@ -635,7 +635,8 @@
                         _.extend(this.tmpCUD[tmpCUDKey][idx], lo_param);
                     });
                 });
-                console.log(this.tmpCUD);
+
+
                 //將資料放入Vuex
                 this.$store.dispatch("setUseTimeData", {
                     ga_utFieldsData: this.fieldsData,
