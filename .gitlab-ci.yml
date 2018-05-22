@@ -12,6 +12,8 @@ cache:
 # 安装依赖
 install_deps:
   stage: install_deps
+  tags:
+    - bac-testing
   only:
     - develop
     - master
