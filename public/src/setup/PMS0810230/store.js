@@ -52,7 +52,6 @@ const mutations = {
     },
     //設定使用期間資料
     setUseTimeData(state, payload) {
-        console.log(payload);
         state.ga_utFieldsData = payload.ga_utFieldsData;
         state.go_allData.ga_utDataGridRowsData = payload.ga_utDataGridRowsData;
         state.go_allOriData.ga_utDataGridRowsData = payload.ga_utOriDataGridRowsData;

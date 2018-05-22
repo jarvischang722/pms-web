@@ -68,20 +68,42 @@
     //起始日
     Vue.component('table-begin-date', {
         template: '<el-date-picker v-model="rowData.begin_dat" type="date" format="yyyy/MM/dd"' +
-        'style="width: 135px; height: 35px;line-height: 25px;" editable="false"></el-date-picker>',
+        'style="width: 135px; height: 35px;line-height: 25px;" editable="false" @change="changeRowData(rowData, index)"' +
+        ':editable="false" :clearable="false"></el-date-picker>',
         props: {
             rowData: {
                 type: Object
+            },
+            index: {
+                type: Number
+            }
+        },
+        methods: {
+            changeRowData(rowData, index) {
+                rowData.begin_dat = moment(rowData.begin_dat).format("YYYY/MM/DD");
+                let lo_params = {type: 'begin_dat', index: index, rowData: rowData};
+                this.$emit('on-custom-comp', lo_params);
             }
         }
     });
     //結束日
     Vue.component('table-end-date', {
         template: '<el-date-picker v-model="rowData.end_dat" type="date" format="yyyy/MM/dd"' +
-        'style="width: 135px; height: 35px; line-height: 25px;" editable="false"></el-date-picker>',
+        'style="width: 135px; height: 35px; line-height: 25px;" editable="false" @change="changeRowData(rowData, index)"' +
+        ':editable="false" :clearable="false"></el-date-picker>',
         props: {
             rowData: {
                 type: Object
+            },
+            index: {
+                type: Number
+            }
+        },
+        methods: {
+            changeRowData(rowData, index) {
+                this.rowData.end_dat = moment(this.rowData.end_dat).format("YYYY/MM/DD");
+                let lo_params = {type: 'end_dat', index: this.index, rowData: this.rowData};
+                this.$emit('on-custom-comp', lo_params);
             }
         }
     });
@@ -90,48 +112,79 @@
         template: '<bac-select v-model="rowData.command_cod" :field="rowData.cmFieldsData" :data="rowData.cmFieldsData.selectData" ' +
         ':data-display="rowData.cmFieldsData.selectData" style="width: 135px; height: 25px;"' +
         ':default-val="rowData.command_cod" is-qry-src-before="Y" value-field="value" text-field="display"' +
-        '@update:v-model="val => rowData.command_cod = val"></bac-select>',
+        '@update:v-model="val => rowData.command_cod = val" @change="changeRowData(rowData, index)"></bac-select>',
         props: {
             rowData: {
                 type: Object
             },
             field: {
                 type: String
+            },
+            index: {
+                type: Number
             }
         },
         watch: {
             "rowData.command_cod": function (val) {
-                vmHub4EasyTable.$emit('getTableRowData', {command_cod: val, index: this.$parent.$parent.clickRowIndex});
+                vmHub4EasyTable.$emit('getTableRowData', {
+                    command_cod: val,
+                    index: this.index
+                });
+            }
+        },
+        methods: {
+            changeRowData(rowData, index) {
+                let lo_params = {type: 'command_cod', index: index, rowData: rowData};
+                this.$emit('on-custom-comp', lo_params);
             }
         }
     });
     //日其規則
     Vue.component('table-command-option', {
         template: '<bac-select v-model="rowData.command_option" :field="rowData.dtdFieldsData" :data="rowData.dtdFieldsData.selectData" ' +
-        ':data-display="rowData.dtdFieldsData.selectDataDisplay" style="width: 135px; height: 25px;" ' +
+        ':data-display="rowData.dtdFieldsData.selectDataDisplay" style="width: 135px; height: 25px;" :multiple="true"' +
         ':default-val="rowData.command_option" is-qry-src-before="Y" value-field="value" text-field="display"' +
-        '@update:v-model="val => rowData.command_option = val"></bac-select>',
+        '@update:v-model="val => rowData.command_option = val" @change="changeRowData(rowData, index)"></bac-select>',
         props: {
             rowData: {
                 type: Object
             },
             field: {
                 type: String
+            },
+            index: {
+                type: Number
+            }
+        },
+        methods: {
+            changeRowData(rowData, index) {
+                let lo_params = {type: 'command_option', index: index, rowData: rowData};
+                this.$emit('on-custom-comp', lo_params);
             }
         }
-    });
+    })
+    ;
     //房型
     Vue.component('table-room-cods', {
         template: '<bac-select v-model="rowData.room_cods" :field="rowData.rcFieldsData" :data="rowData.rcFieldsData.selectData" ' +
-        ':data-display="rowData.rcFieldsData.selectData" style="width: 135px; height: 25px;"' +
+        ':data-display="rowData.rcFieldsData.selectData" style="width: 135px; height: 25px;" :multiple="true"' +
         ':default-val="rowData.room_cods" is-qry-src-before="Y" value-field="value" text-field="display"' +
-        '@update:v-model="val => rowData.room_cods = val"></bac-select>',
+        '@update:v-model="val => rowData.room_cods = val" @change="changeRowData(rowData, index)"></bac-select>',
         props: {
             rowData: {
                 type: Object
             },
             field: {
                 type: String
+            },
+            index: {
+                type: Number
+            }
+        },
+        methods: {
+            changeRowData(rowData, index) {
+                let lo_params = {type: 'room_cods', index: index, rowData: rowData};
+                this.$emit('on-custom-comp', lo_params);
             }
         }
     });
@@ -175,7 +228,6 @@
                         //增加page_id、tab_page_id
                         _.extend(this.tmpCUD[tmpCUDKey][idx], lo_param);
                     });
-
                 });
             });
             this.$eventHub.$on('setClearData', () => {
@@ -205,6 +257,7 @@
                 rateCod: "",
                 fieldsData: [],
                 dataGridRowsData: [],
+                chgDataGridRowsData: [],
                 oriDataGridRowsData: [],
                 dataGridRowsData4Table: [],
                 roomCodSelectData: [],
@@ -235,9 +288,8 @@
                     else {
                         this.tmpCUD = this.$store.state.go_utTmpCUD;
                         this.fieldsData = this.$store.state.ga_utFieldsData;
-                        this.dataGridRowsData = this.$store.state.go_allData.ga_utDataGridRowsData;
+                        this.dataGridRowsData = JSON.parse(JSON.stringify(this.$store.state.go_allData.ga_utDataGridRowsData));
                         this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_utDataGridRowsData;
-                        console.log(this.dataGridRowsData);
                         this.showTable();
                     }
                 }
@@ -375,15 +427,14 @@
                         let lo_rentCalDat = moment(this.rentCalDat);
                         return lo_endDat.diff(lo_rentCalDat, 'days') >= 1
                     });
-                console.log(this.dataGridRowsData);
                 if (la_displayDataGridRowsData.length > 0) {
                     _.each(la_displayDataGridRowsData, (lo_dataGridRowsData) => {
                         this.useTimeData.push({
                             "begin_dat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
                             "end_dat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
                             "command_cod": lo_dataGridRowsData.command_cod,
-                            "command_option": lo_dataGridRowsData.command_option,
-                            "room_cods": _.isUndefined(lo_dataGridRowsData.room_cods) ? "" : lo_dataGridRowsData.room_cods,
+                            "command_option": this.convertSelectData(lo_dataGridRowsData.command_option),
+                            "room_cods": _.isUndefined(lo_dataGridRowsData.room_cods) ? "" : this.convertSelectData(lo_dataGridRowsData.room_cods),
                             "supply_nos": lo_dataGridRowsData.supply_nos,
                             "cmFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}),
                             "dtdFieldsData": this.convertCommandOption(lo_dataGridRowsData),
@@ -456,48 +507,58 @@
             customCompFunc(params) {
                 let self = this;
                 //將此筆被刪除的使用期間資料傳給房型資料
-                this.$eventHub.$emit('getDeleteUseTimeData', {
-                    delUseTimeData: JSON.parse(JSON.stringify(this.dataGridRowsData[params.index]))
-                });
+                if (params.type == 'delete') {
+                    this.$eventHub.$emit('getDeleteUseTimeData', {
+                        delUseTimeData: JSON.parse(JSON.stringify(this.dataGridRowsData[params.index]))
+                    });
 
-                //此筆為剛新增的
-                let ln_createIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: this.dataGridRowsData[params.index].supply_nos});
-                let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: this.dataGridRowsData[params.index].supply_nos});
-                if (ln_createIndex > -1) {
-                    this.tmpCUD.createData.splice(ln_createIndex, 1);
-                }
-                //此筆為剛編輯的
-                else if (ln_editIndex > -1) {
-                    this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                    this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                    this.tmpCUD.deleteData.push(_.extend(this.dataGridRowsData[ln_editIndex], {event_time: moment().format()}));
+                    //此筆為剛新增的
+                    let ln_createIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: this.dataGridRowsData[params.index].supply_nos});
+                    let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: this.dataGridRowsData[params.index].supply_nos});
+                    if (ln_createIndex > -1) {
+                        this.tmpCUD.createData.splice(ln_createIndex, 1);
+                    }
+                    //此筆為剛編輯的
+                    else if (ln_editIndex > -1) {
+                        this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                        this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                        this.tmpCUD.deleteData.push(_.extend(this.dataGridRowsData[ln_editIndex], {event_time: moment().format()}));
+                    }
+                    else {
+                        this.tmpCUD.deleteData.push(_.extend(this.dataGridRowsData[params.index], {event_time: moment().format()}));
+                    }
+                    //此筆為直接刪除的
+                    this.$delete(this.useTimeData, params.index);
+                    this.dataGridRowsData.splice(params.index, 1);
+
+                    //轉換tmpCUD資料
+                    let lo_param = {
+                        page_id: this.fieldsData[0].page_id,
+                        tab_page_id: this.fieldsData[0].tab_page_id
+                    };
+                    _.each(this.tmpCUD, (val, key) => {
+                        _.each(val, (lo_val, idx) => {
+                            //增加page_id、tab_page_id
+                            _.extend(self.tmpCUD[key][idx], lo_param);
+                        })
+                    });
+
+                    //將資料放入Vuex
+                    this.$store.dispatch("setUseTimeData", {
+                        ga_utFieldsData: this.fieldsData,
+                        ga_utDataGridRowsData: this.dataGridRowsData,
+                        ga_utOriDataGridRowsData: this.oriDataGridRowsData,
+                        go_utTmpCUD: this.tmpCUD
+                    });
                 }
                 else {
-                    this.tmpCUD.deleteData.push(_.extend(this.dataGridRowsData[params.index], {event_time: moment().format()}));
+                    _.each(this.dataGridRowsData[params.index], (ls_value, ls_key) => {
+                        let la_modifyKey = ["begin_dat", "end_dat", "command_cod", "command_option", "room_cods"];
+                        if (_.indexOf(la_modifyKey, ls_key) > -1) {
+                            this.dataGridRowsData[params.index][ls_key] = params.rowData[ls_key];
+                        }
+                    });
                 }
-                //此筆為直接刪除的
-                this.$delete(this.useTimeData, params.index);
-                this.dataGridRowsData.splice(params.index, 1);
-
-                //轉換tmpCUD資料
-                let lo_param = {
-                    page_id: this.fieldsData[0].page_id,
-                    tab_page_id: this.fieldsData[0].tab_page_id
-                };
-                _.each(this.tmpCUD, (val, key) => {
-                    _.each(val, (lo_val, idx) => {
-                        //增加page_id、tab_page_id
-                        _.extend(self.tmpCUD[key][idx], lo_param);
-                    })
-                });
-
-                //將資料放入Vuex
-                this.$store.dispatch("setUseTimeData", {
-                    ga_utFieldsData: this.fieldsData,
-                    ga_utDataGridRowsData: this.dataGridRowsData,
-                    ga_utOriDataGridRowsData: this.oriDataGridRowsData,
-                    go_utTmpCUD: this.tmpCUD
-                });
             },
             appendRow(title, field) {
                 let la_commandOptionHSelect =
@@ -506,18 +567,24 @@
                     la_commandOptionHSelect[idx].value = 'H' + lo_select.value;
                 });
 
+                let la_roomCosSelect = _.findWhere(this.fieldsData, {ui_field_name: 'room_cods'}).selectDataDisplay;
+
+
                 if (field == "control") {
-                    let lo_funcList = this.$parent.$parent.prgEditionOptions.funcList;
                     this.timeRuleData = {};
+                    let ln_maxSupplyNos = this.dataGridRowsData.length > 0 ? Number(_.max(this.dataGridRowsData, (lo_dataGridRowsData) => {
+                        return lo_dataGridRowsData.supply_nos
+                    }).supply_nos) : 0;
                     let lo_createData = {
                         athena_id: this.$store.state.go_userInfo.athena_id,
                         hotel_cod: this.$store.state.go_userInfo.hotel_cod,
                         rate_cod: this.$store.state.gs_rateCod,
-                        supply_nos: 1,
+                        supply_nos: Number(ln_maxSupplyNos) + 1,
                         begin_dat: moment().format("YYYY/MM/DD"),
                         end_dat: moment().format("YYYY/MM/DD"),
                         command_cod: "H",
-                        command_option: _.first(la_commandOptionHSelect).value,
+                        command_option: la_commandOptionHSelect.length > 0 ? _.first(la_commandOptionHSelect).value : "",
+                        room_cods: la_roomCosSelect.length > 0 ? _.first(la_roomCosSelect).value : "",
                         event_time: moment().format(),
                         isCreate: true
                     };
@@ -526,20 +593,97 @@
                 }
             },
             confirmData() {
+                _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
+                    lo_dataGridRowsData.command_option = this.convertMultiData(lo_dataGridRowsData.command_option);
+                    lo_dataGridRowsData.room_cods = this.convertMultiData(lo_dataGridRowsData.room_cods);
+
+                    if (lo_dataGridRowsData.isCreate) {
+                        this.tmpCUD.createData.push(lo_dataGridRowsData);
+                        this.tmpCUD.createData.splice(idx, 1);
+                    }
+                    else {
+                        let lo_compareParam = {
+                            begin_dat: lo_dataGridRowsData.begin_dat,
+                            end_dat: lo_dataGridRowsData.end_dat,
+                            command_cod: lo_dataGridRowsData.command_cod,
+                            command_option: lo_dataGridRowsData.command_option,
+                            room_cods: lo_dataGridRowsData.room_cods,
+                        };
+                        let lb_isChanged = _.findIndex(this.$store.state.go_allData.ga_utDataGridRowsData, lo_compareParam) > -1 ? false : true;
+                        if (lb_isChanged) {
+                            let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_dataGridRowsData.supply_nos});
+                            if (ln_editIndex > -1) {
+                                this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                                this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                            }
+                            this.tmpCUD.updateData.push(lo_dataGridRowsData);
+                            this.tmpCUD.oriData.push(this.oriDataGridRowsData[idx]);
+                        }
+                    }
+                    this.$eventHub.$emit("setUseTimeData", {
+                        data: this.tmpCUD
+                    });
+                });
+                //轉換tmpCUD資料
+                let lo_param = {
+                    page_id: this.fieldsData[0].page_id,
+                    tab_page_id: this.fieldsData[0].tab_page_id
+                };
+                _.each(this.tmpCUD, (tmpCUDVal, tmpCUDKey) => {
+                    _.each(tmpCUDVal, (lo_tmpCUDVal, idx) => {
+                        //增加page_id、tab_page_id
+                        _.extend(this.tmpCUD[tmpCUDKey][idx], lo_param);
+                    });
+                });
+                console.log(this.tmpCUD);
+                //將資料放入Vuex
+                this.$store.dispatch("setUseTimeData", {
+                    ga_utFieldsData: this.fieldsData,
+                    ga_utDataGridRowsData: this.dataGridRowsData,
+                    ga_utOriDataGridRowsData: this.oriDataGridRowsData,
+                    go_utTmpCUD: this.tmpCUD
+                });
+
+                $("#useTimeDialog").dialog('close');
 
             },
             closeDialog() {
-
-                this.dataGridRowsData = JSON.parse(JSON.stringify(this.oriDataGridRowsData));
-                console.log(this.oriDataGridRowsData);
                 //將資料放入Vuex
-//                this.$store.dispatch("setUseTimeData", {
-//                    ga_utFieldsData: this.fieldsData,
-//                    ga_utDataGridRowsData: this.dataGridRowsData,
-//                    ga_utOriDataGridRowsData: this.oriDataGridRowsData,
-//                    go_utTmpCUD: this.tmpCUD
-//                });
+                this.$store.dispatch("setUseTimeData", {
+                    ga_utFieldsData: this.fieldsData,
+                    ga_utDataGridRowsData: this.$store.state.go_allData.ga_utDataGridRowsData,
+                    ga_utOriDataGridRowsData: this.oriDataGridRowsData,
+                    go_utTmpCUD: this.tmpCUD
+                });
                 $("#useTimeDialog").dialog('close');
+            },
+            convertMultiData(data) {
+                let ls_returnData = "";
+
+                if (!Array.isArray(data)) {
+                    ls_returnData = data;
+                }
+                else {
+                    _.each(data, (ls_data) => {
+                        ls_returnData = ls_returnData + ls_data + ',';
+                    });
+                    ls_returnData = ls_returnData.substring(ls_returnData.length - 1, ls_returnData.length) == ',' ?
+                        ls_returnData.substring(0, ls_returnData.length - 1) : ls_returnData;
+                }
+                return ls_returnData;
+            },
+            convertSelectData(data) {
+                let la_returnData = [];
+
+                if (data.split(",").length > 0) {
+                    _.each(data.split(","), (ls_data) => {
+                        la_returnData.push(ls_data);
+                    })
+                }
+                else {
+                    la_returnData.push(data);
+                }
+                return la_returnData;
             }
         }
     }

@@ -381,7 +381,6 @@
                         self.searchFields = result.searchFields;
                     }
                     else {
-                        console.log(self.pageOneDataGridRows);
                         self.pageOneDataGridRows = result.dataGridRows;
                     }
                     self.showDataGrid();
