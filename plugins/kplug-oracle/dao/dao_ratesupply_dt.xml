@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 
+    <!--PMS0810230 RATE COD 使用期間-->
     <dao name="QRY_RATESUPPLY_DT">
         <statement><![CDATA[
             select * from ratesupply_dt
@@ -14,4 +15,23 @@
         <parameter type="string" kind="3">rate_cod</parameter>
         <orderBy>order by supply_nos</orderBy>
     </dao>
+
+    <!--PMS0810230 RATE COD 房價 取使用期間下拉資料-->
+    <dao name="QRY_RATESUPPLY_DT_FOR_SELECT">
+        <statement><![CDATA[
+            select to_char(begin_dat,'yyyy/mm/dd') || '~' || to_char(end_dat,'yyyy/mm/dd') as display ,
+            supply_nos as value, begin_dat, end_dat, room_cods, command_option
+            from ratesupply_dt
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <statement test="_v(param.rate_cod)"><![CDATA[and rate_cod = :rate_cod]]></statement>
+        <parameter type="string" kind="3">rate_cod</parameter>
+        <orderBy>order by begin_dat</orderBy>
+    </dao>
+
+
 </root>

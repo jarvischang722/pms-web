@@ -46,6 +46,36 @@ module.exports = {
     },
 
     /**
+     * 房型資料預設值設定
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    defaultratecod_dt(postData, session, callback) {
+        let lo_result = new ReturnClass;
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            supply_nos: postData.supply_nos,
+            rate_cod: postData.rate_cod
+        };
+
+        queryAgent.queryList("QRY_RATECOD_DT", lo_params, 0, 0, function (err, result) {
+            if (err) {
+                console.log(err);
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = err;
+            }
+            else {
+                lo_result.defaultValues = result;
+            }
+            callback(lo_error, lo_result);
+        })
+    },
+
+    /**
      * 取得可選擇的房型
      * @param postData
      * @param session
@@ -90,6 +120,45 @@ module.exports = {
             lo_result.success = false;
             lo_error.errorMsg = err;
         }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 取得可選擇的使用期間
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    async qry_ratesupplydt_for_select_data(postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            rate_cod: postData.rate_cod
+        };
+
+        try {
+            let la_ratesupplyData = await new Promise((resolve, reject) => {
+                queryAgent.queryList("QRY_RATESUPPLY_DT_FOR_SELECT", lo_params, 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            lo_result.selectOptions = la_ratesupplyData;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+
         callback(lo_error, lo_result);
     },
 

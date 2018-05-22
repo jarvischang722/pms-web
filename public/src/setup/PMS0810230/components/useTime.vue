@@ -304,8 +304,8 @@
             },
             //取房型下拉資料
             async fetchRoomCodSelectData() {
-                this.roomCodSelectData = await $.post('/api/chkFieldRule', {rule_func_name: 'qry_ratesupplydt_room_cod'}).then((result) => {
-                    return result.selectOptions;
+                BacUtils.doHttpPostAgent('/api/chkFieldRule', {rule_func_name: 'qry_ratesupplydt_room_cod'}, (result) => {
+                    this.roomCodSelectData = result.selectOptions;
                 });
             },
             initData() {
@@ -636,6 +636,7 @@
                     });
                 });
 
+                this.$eventHub.$emit("setUseTimeSelectData");
 
                 //將資料放入Vuex
                 this.$store.dispatch("setUseTimeData", {

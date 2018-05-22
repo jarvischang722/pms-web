@@ -52,9 +52,4 @@ module.exports = function (app) {
      * (作業)查詢預設單筆資料
      */
     app.post("/api/fetchDefaultSingleRowData", apiMiddles, operCtrl.fetchDefaultGsRowData);
-
-    /**
-     * (作業) 查詢多筆資料
-     */
-    app.post("/api/fetchDgRowData", apiMiddles, operCtrl.fetchDgRowData);
 };

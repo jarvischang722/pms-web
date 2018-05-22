@@ -3,7 +3,14 @@
         <div>
             <div class="grid">
                 <div class="grid-item">
-                    <label class="width-auto">使用期間</label>
+                    <label class="width-auto">{{i18nLang.program.PMS0810230.useTime}}</label>
+                    <bac-select v-model="selectedUseTimeData"
+                                :data-display="useTimeSelectData" :data="useTimeSelectData"
+                                is-qry-src-before="Y" value-field="value" text-field="display"
+                                @update:v-model="val => selectedUseTimeData = val"
+                                :default-val="selectedUseTimeData" :field="{}"
+                                @change="fetchRateCodDtData">
+                    </bac-select>
                     <select class="input-medium medium-c1">
                         <option value="-1">使用期間</option>
                         <option value="1">2018/04/17~2018/12/31</option>
@@ -11,11 +18,13 @@
                         <option value="2">2020/01/01~2020/12/31</option>
                     </select>
                 </div>
+                <div class="right-menu-co pull-right" style="width: 80px;">
+                    <button role="button" class="btn btn-danger btn-white btn-defaultWidth">停售</button>
+                </div>
             </div>
             <div class="clearfix"></div>
             <div class="container_12 divider">
-                <div class="grid_12 fixed-table-container cus-resvBlockSetting-table"
-                     width="100%">
+                <div class="grid_12 fixed-table-container cus-resvBlockSetting-table" width="100%">
                     <!--<div class="">-->
                     <table class="fancyTable themeTable treeControl themeTableTwo"
                            id="PMS0810230-table" cellpadding="0" cellspacing="0">
@@ -200,42 +209,16 @@
         name: 'roomTyp',
         props: ["rowData", "isRoomType"],
         created() {
-            this.$eventHub.$on("getUseTimeData", (data) => {
-                this.useTimeData = data.useTimeData;
-                if (this.roomTypData.length > 0) {
-                    _.each(this.roomTypData, (lo_roomTypData, idx) => {
-                        this.roomTypRowClick(idx, lo_roomTypData.roomCode, this.roomTypColumns[0]);
-                    });
-                    this.roomTypRowClick(0, this.roomTypData[0].roomCode, this.roomTypColumns[0]);
-                }
+            //取得使用期間資料(改變後未存檔)
+            this.$eventHub.$on("setUseTimeSelectData", () => {
+
             });
-            this.$eventHub.$on("getDeleteUseTimeData", (data) => {
-                this.deleteRoomTypData("useTime", data.delUseTimeData);
-            });
+
+            //rate cod 修改
             this.$eventHub.$on("setRoomTypRateCod", (data) => {
                 let self = this;
                 this.rateCod = data.rateCod;
                 //修改原始資料的 rate_cod
-                _.each(this.roomTypDetailRowsData, (lo_roomTypDetailRowsData, idx) => {
-                    lo_roomTypDetailRowsData.rate_cod = data.rateCod;
-                    if (lo_roomTypDetailRowsData.isCreate) {
-                        let ln_editIndex = _.findIndex(this.tmpCUD.createData, {room_cod: lo_roomTypDetailRowsData.room_cod});
-                        if (ln_editIndex > -1) {
-                            this.tmpCUD.createData.splice(ln_editIndex, 1);
-                            this.tmpCUD.createData.push(lo_roomTypDetailRowsData);
-                        }
-                    }
-                    else {
-                        let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_roomTypDetailRowsData.supply_nos});
-                        if (ln_editIndex > -1) {
-                            this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                            this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                        }
-                        this.tmpCUD.updateData.push(lo_roomTypDetailRowsData);
-                        this.tmpCUD.oriData.push(this.oriRoomTypDetailRowsData[idx]);
-                    }
-                });
-
                 //修改 tmpCUD 的 rate_cod
                 _.each(this.tmpCUD, (tmpCUDVal, tmpCUDKey) => {
                     if (tmpCUDKey != 'oriData') {
@@ -256,7 +239,6 @@
         },
         mounted() {
             this.fetchRentCalDat();
-            this.fetchRoomTypSelectData();
         },
         data() {
             return {
@@ -266,9 +248,8 @@
                 isLoading: true,
                 rateCod: '',
                 //房型原始資料
-                roomTypFieldsData: [],
-                roomTypRowsData: [],
-                oriRoomTypRowsData: [],
+                rateCodDtData: [],
+                oriRateCodDtData: [],
                 tmpCUD: {
                     createData: [],
                     updateData: [],
@@ -276,13 +257,16 @@
                     oriData: []
                 },
                 //使用期間資料
-                useTimeData: [], //使用期間資料
+                selectedUseTimeData: "",
+                //使用期間下拉資料
+                useTimeSelectData: [],
             }
         },
         watch: {
             isRoomType(val) {
                 if (val) {
-                    this.fetchRoomTypLeftData();//取房型資料
+                    //取使用期間資料
+                    this.fetchUseTime();
                 }
             }
         },
@@ -294,15 +278,100 @@
                 });
             },
             initData() {
-                this.roomTypFieldsData = [];
-                this.roomTypRowsData = [];
-                this.oriRoomTypRowsData = [];
-                this.tmpCUD = {};
-                this.useTimeData = [];
+                this.rateCodDtData = [];
+                this.oriRateCodDtData = [];
+                this.tmpCUD = {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                };
+                this.selectedUseTimeData = [];
+                this.useTimeSelectData = [];
             },
-            fetchRoomTypSelectData() {
-                BacUtils.doHttpPostAgent('/api/chkFieldRule', {rule_func_name: 'get_room_typ_select'}, (result) => {
+            //取使用期間資料
+            fetchUseTime() {
+                BacUtils.doHttpPostAgent('/api/chkFieldRule', {
+                    rule_func_name: 'qry_ratesupplydt_for_select_data',
+                    rate_cod: this.$store.gs_rateCod
+                }, (result) => {
+                    if (result.success) {
+                        this.useTimeSelectData = result.selectOptions;
+                        this.selectedUseTimeData = "";
+                    }
+                    else {
+                        alert(result.errorMsg.toString());
+                    }
                 });
+            },
+            //取得房價資料(改變使用期間)
+            fetchRateCodDtData() {
+                this.isLoading = true;
+
+                let lo_params = {
+                    prg_id: 'PMS0810230',
+                    page_id: 2,
+                    tab_page_id: 11,
+                    searchCond: {
+                        rate_cod: this.$store.state.gs_oriRateCod,
+                        supply_nos: this.selectedUseTimeData
+                    }
+                };
+
+                if (lo_params.searchCond.rate_cod != "" && lo_params.searchCond.supply_nos != "") {
+                    $.post("/api/fetchDgRowData", lo_params, result => {
+                        if (result.success) {
+                            this.rateCodDtData = result.dgRowData;
+                            this.oriRateCodDtData = JSON.parse(JSON.stringify(result.dgRowData));
+                            _.each(this.$store.state.go_allData.ga_utDataGridRowsData, (lo_useTimeData) => {
+                                let la_roomCod = lo_useTimeData.room_cods.split(",");
+                                let la_commandOption = lo_useTimeData.command_option.split(",");
+                                //日期規則、房型是否存在
+                                _.each(la_roomCod, (ls_roomCod) => {
+                                    _.each(la_commandOption, (ls_commandOption) => {
+                                        let lo_examParams = {
+                                            supply_nos: lo_useTimeData.supply_nos,
+                                            command_option: ls_commandOption,
+                                            room_cod: ls_roomCod
+                                        };
+                                        let lb_isExist = _.findIndex(this.rateCodDtData, lo_examParams) > -1 ? true : false;
+                                        if (!lb_isExist) {
+                                            let lo_appendData = {
+                                                add_adult: 0,
+                                                add_child: 0,
+                                                athena_id: lo_useTimeData.athena_id,
+                                                begin_dat: lo_useTimeData.begin_dat,
+                                                command_cod: lo_useTimeData.command_cod,
+                                                command_option: ls_commandOption,
+                                                day_nam: this.convertCommandOption(ls_commandOption),
+                                                del: 'N',
+                                                end_dat: lo_useTimeData.end_dat,
+                                                hotel_cod: lo_useTimeData.hotel_cod,
+                                                ins_upd: 'N',
+                                                rate_cod: lo_useTimeData.rate_cod,
+                                                rent_amt: 0,
+                                                room_cod: ls_roomCod,
+                                                supply_nos: lo_useTimeData.supply_nos,
+                                                use_sta: 'Y'
+                                            };
+                                            this.rateCodDtData.push(lo_appendData);
+                                        }
+                                    })
+                                });
+                            });
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+                    });
+                }
+            },
+            //轉換日期規則資料
+            convertCommandOption(command_option) {
+                let lo_coFieldData = _.findWhere(this.$store.state.ga_utFieldsData, {ui_field_name: 'command_option'});
+                let la_selectData = !_.isUndefined(lo_coFieldData) ? lo_coFieldData.selectData : [];
+                let ls_commandOption = la_selectData.length > 0 ? _.findWhere(la_selectData, {value: command_option.substring(1, 2)}).display : "";
+                return ls_commandOption;
             }
         }
     }
