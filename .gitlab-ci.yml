@@ -1,7 +1,18 @@
 # defined stages
 stages:
+  - install_deps
   - build
   - test
+  
+# 安装依赖
+install_deps:
+  stage: install_deps
+  only:
+    - develop
+    - master
+  script:
+    - npm install
+    
 # defined job
 job1:
   stage: test
