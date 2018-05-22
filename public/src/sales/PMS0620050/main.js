@@ -634,17 +634,20 @@ let vm = new Vue({
             };
 
             BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", lo_params, function (result) {
+                vm.pageOneFieldData = result.dgFieldsData;
                 if (vm.searchFields.length <= 0) {
                     vm.searchFields = result.searchFields;
                 }
-                vm.pageOneDataGridRows = result.dgRowData;
-                vm.pageOneFieldData = result.dgFieldsData;
+                else {
+                    vm.pageOneDataGridRows = result.dgRowData;
+                }
+
                 vm.showDataGrid();
             });
         },
         showDataGrid: function () {
             let la_colOption = DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0620050_dg');
-            let ln_pageSize = 10;//一開始只載入10筆資料
+            let ln_pageSize = 20;//一開始只載入10筆資料
 
             this.isLoading = false;
             this.dgIns = new DatagridSingleGridClass();
