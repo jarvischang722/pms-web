@@ -9,6 +9,10 @@ cache:
   paths:
     - node_modules/
     
+before_script:
+  - export PATH=$PATH:/usr/local/bin
+    
+    
 # 安装依赖
 install_deps:
   stage: install_deps
