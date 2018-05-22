@@ -4,6 +4,11 @@ stages:
   - build
   - test
   
+cache:
+  key: ${CI_BUILD_REF_NAME}
+  paths:
+    - node_modules/
+    
 # 安装依赖
 install_deps:
   stage: install_deps
