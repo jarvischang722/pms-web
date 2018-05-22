@@ -22,7 +22,7 @@ install_deps:
     - develop
     - master
   script:
-    - npm install
+    - ~/.nvm/versions/node/v8.8.0/bin/npm install
     
 # defined job
 job1:
