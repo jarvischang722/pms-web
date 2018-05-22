@@ -22,7 +22,8 @@ install_deps:
     - develop
     - master
   script:
-    - ~/.nvm/versions/node/v8.8.0/bin/npm install
+    - /root/.nvm/versions/node/v8.8.0/bin/npm install
+    - ifconfig
     
 # defined job
 job1:
