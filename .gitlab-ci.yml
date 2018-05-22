@@ -17,4 +17,4 @@ job2:
     - bac-prod
   script:
     - echo "I am job2"
-    - echo "I am in build stage"
+    - pwd
