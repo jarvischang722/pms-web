@@ -6,7 +6,10 @@ stages:
 cache:
   paths:
     - node_modules/
-    
+
+variables:
+  PM2: '/home/nodejs/.nvm/versions/node/v8.8.0/bin/pm2'
+   
     
 
 # defined build
@@ -24,6 +27,7 @@ job2:
     - /usr/bin/git --version
     - /usr/bin/npm -v
     - /usr/bin/node -v
+    - $PM2 l
     - /home/nodejs/.nvm/versions/node/v8.8.0/bin/pm2 l
 
     
