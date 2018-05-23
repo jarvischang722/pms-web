@@ -21,7 +21,7 @@ job1:
 job2:
   stage: test
   script:
-    - /usr/bin/git -v
+    - /usr/bin/git --version
     - which npm
     - npm -v
 
