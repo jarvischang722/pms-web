@@ -11,8 +11,6 @@ cache:
 # defined job
 job1:
   stage: test
-  tags:
-    - bac-testing
   script:
     - echo "I am job1"
     - echo "I am in test stage"
