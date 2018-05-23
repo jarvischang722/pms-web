@@ -63,8 +63,34 @@
 
 <script>
 
+    import {VTable} from 'vue-easytable';
+    import 'vue-easytable/libs/themes-base/index.css';
+    import moment from 'moment';
+
     let vmHub4EasyTable = new Vue();
 
+    //刪除按鈕
+    Vue.component('table-operation', {
+        template: '<span class="column-cell-class-delete" ' +
+        '@click.stop.prevent="deleteRow(rowData,index)">▬</span>',
+        props: {
+            rowData: {
+                type: Object
+            },
+            field: {
+                type: String
+            },
+            index: {
+                type: Number
+            }
+        },
+        methods: {
+            deleteRow() {
+                let params = {type: 'delete', index: this.index, rowData: this.rowData};
+                this.$emit('on-custom-comp', params);
+            }
+        }
+    });
     //起始日
     Vue.component('table-begin-date', {
         template: '<el-date-picker v-model="rowData.begin_dat" type="date" format="yyyy/MM/dd"' +
@@ -188,8 +214,6 @@
             }
         }
     });
-
-    import moment from 'moment';
 
     export default {
         name: 'useTime',
@@ -561,6 +585,7 @@
                 }
             },
             appendRow(title, field) {
+                console.log(title)
                 let la_commandOptionHSelect =
                     JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay));
                 _.each(la_commandOptionHSelect, (lo_select, idx) => {
@@ -568,7 +593,6 @@
                 });
 
                 let la_roomCosSelect = _.findWhere(this.fieldsData, {ui_field_name: 'room_cods'}).selectDataDisplay;
-
 
                 if (field == "control") {
                     this.timeRuleData = {};
