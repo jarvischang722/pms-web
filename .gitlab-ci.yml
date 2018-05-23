@@ -5,12 +5,10 @@ stages:
   - test
   
 cache:
-  key: ${CI_BUILD_REF_NAME}
   paths:
     - node_modules/
     
-before_script:
-  - export PATH=$PATH:/usr/local/bin
+
     
     
 # 安装依赖
@@ -23,7 +21,6 @@ install_deps:
     - master
   script:
     - whoami
-    - ifconfig
     - /root/.nvm/versions/node/v8.8.0/bin/npm install
     
 # defined job
