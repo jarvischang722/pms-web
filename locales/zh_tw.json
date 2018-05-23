@@ -144,7 +144,9 @@
       "start_placeholder": "開始日期",
       "end_placeholder": "结束日期",
       "selectDate": "請選擇日期",
-      "begBiggerEnd": "開始日要小於結束日"
+      "begBiggerEnd": "開始日要小於結束日",
+      "stopSell": "停售",
+      "revert": "還原"
     },
     "PMS0820030": {
       "load_default_color": "讀取預設顏色",
