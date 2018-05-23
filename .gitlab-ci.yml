@@ -21,7 +21,7 @@ job1:
 job2:
   stage: test
   script:
-    - ~/.nvm/versions/node/v8.8.0/bin/npm -v
-    - ~/.nvm/versions/node/v8.8.0/bin/pm2 l
-    - ~/.nvm/versions/node/v8.8.0/bin/node -v    
+    - /home/nodejs/.nvm/versions/node/v8.8.0/bin/npm -v
+    - /home/nodejs/.nvm/versions/node/v8.8.0/bin/pm2 l
+    - /home/nodejs/.nvm/versions/node/v8.8.0/bin/node -v    
     
