@@ -1,5 +1,6 @@
 # defined stages
 stages:
+  - install_deps
   - build
   - test
   
@@ -11,6 +12,14 @@ variables:
   PM2: '/home/nodejs/.nvm/versions/node/v8.8.0/bin/pm2'
    
     
+# 安装依赖
+install_deps:
+  stage: install_deps
+  only:
+    - develop
+    - master
+  script:
+    - npm install
 
 # defined build
 job1:
