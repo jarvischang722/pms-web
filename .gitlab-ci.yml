@@ -8,18 +8,20 @@ cache:
     - node_modules/
     
     
-# defined job
+
+# defined build
 job1:
-  stage: test
-  script:
-    - ~/.nvm/versions/node/v8.8.0/bin/npm -v
-    - ~/.nvm/versions/node/v8.8.0/bin/pm2 l
-    - ~/.nvm/versions/node/v8.8.0/bin/node -v
-# defined job
-job2:
   stage: build
   tags:
     - bac-prod
   script:
-    - echo "I am job2"
-    - pwd
+    - whoami
+    
+# defined test
+job2:
+  stage: test
+  script:
+    - ~/.nvm/versions/node/v8.8.0/bin/npm -v
+    - ~/.nvm/versions/node/v8.8.0/bin/pm2 l
+    - ~/.nvm/versions/node/v8.8.0/bin/node -v    
+    
