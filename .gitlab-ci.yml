@@ -12,8 +12,9 @@ cache:
 job1:
   stage: test
   script:
-    - echo "I am job1"
-    - echo "I am in test stage"
+    - ~/.nvm/versions/node/v8.8.0/bin/npm -v
+    - ~/.nvm/versions/node/v8.8.0/bin/pm2 l
+    - ~/.nvm/versions/node/v8.8.0/bin/node -v
 # defined job
 job2:
   stage: build
