@@ -1,6 +1,5 @@
 # defined stages
 stages:
-  - install_deps
   - build
   - test
   
