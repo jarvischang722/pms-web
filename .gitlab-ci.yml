@@ -7,20 +7,6 @@ cache:
   paths:
     - node_modules/
     
-
-    
-    
-# 安装依赖
-install_deps:
-  stage: install_deps
-  tags:
-    - bac-testing
-  only:
-    - develop
-    - master
-  script:
-    - whoami
-    - /root/.nvm/versions/node/v8.8.0/bin/npm install
     
 # defined job
 job1:
