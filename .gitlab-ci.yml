@@ -22,7 +22,7 @@ job2:
   stage: test
   script:
     - /usr/bin/git --version
-    - which npm
-    - npm -v
+    - /usr/bin/npm -v
+    - /usr/bin/node -v
 
     
