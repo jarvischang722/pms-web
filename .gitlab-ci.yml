@@ -24,5 +24,6 @@ job2:
     - /usr/bin/git --version
     - /usr/bin/npm -v
     - /usr/bin/node -v
+    - /home/nodejs/.nvm/versions/node/v8.8.0/bin/pm2 l
 
     
