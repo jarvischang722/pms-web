@@ -10,7 +10,11 @@ cache:
 
 variables:
   PM2: '/home/nodejs/.nvm/versions/node/v8.8.0/bin/pm2'
-   
+
+before_script:
+  - scl enable devtoolset-2 bash
+  - source /opt/rh/devtoolset-2/enable
+  - gcc --version
     
 # 安装依赖
 install_deps:
