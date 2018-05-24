@@ -23,7 +23,7 @@ install_deps:
     - develop
     - master
   script:
-    - npm install
+    - npm -E install
 
 # defined build
 job1:
