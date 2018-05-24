@@ -1,19 +1,24 @@
-# defined stages
+# 定義 stages
 stages:
   - install_deps
-  - build
   - test
+  - deploy_test
+  - deploy_production
+ 
   
 cache:
+  key: ${CI_BUILD_REF_NAME}
   paths:
     - node_modules/
 
 variables:
+  NODE: '/usr/bin/node'
+  GIT: '/usr/bin/git'
   PM2: '/home/nodejs/.nvm/versions/node/v8.8.0/bin/pm2'
+  NPM: '/usr/bin/npm'
 
 
-    
-# 安装依赖
+# 安装依賴套件
 install_deps:
   stage: install_deps
   before_script:
@@ -24,24 +29,39 @@ install_deps:
     - develop
     - master
   script:
+    - $NPM -v
+    - $NODE -v
     - npm -E install
 
-# defined build
-job1:
-  stage: build
-  tags:
-    - bac-prod
-  script:
-    - whoami
-    
-# defined test
-job2:
+# 程式測試
+test:
   stage: test
+  only:
+    - develop
+    - master
   script:
-    - /usr/bin/git --version
-    - /usr/bin/npm -v
-    - /usr/bin/node -v
+    - echo "Testing.."
+    - $GIT --version
     - $PM2 l
-    - /home/nodejs/.nvm/versions/node/v8.8.0/bin/pm2 l
+    - echo "Test successed."
+    
+
+# 部署測試機
+deploy_test:
+  stage: deploy_test
+  only:
+    - develop
+  script:
+    - pm2 delete bacchus4web || true
+    - pm2 start app.js --name bacchus4web
+    
+# 部署正式機
+deploy_production:
+  stage: deploy_production
+  only:
+    - master
+  script:
+    - $GIT branch    
+
 
     
