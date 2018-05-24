@@ -62,6 +62,8 @@ deploy_production:
   stage: deploy_production
   only:
     - master
+  tags:
+    - bac-prod     
   script:
     - $GIT branch    
 
