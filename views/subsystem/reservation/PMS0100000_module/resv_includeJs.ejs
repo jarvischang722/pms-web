@@ -311,6 +311,29 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            $('#resv-Detail-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resv_detail.json',
+                method: 'get',
+                columns: [[
+                    {field: 'status', title: '狀態', width: 60},
+                    {field: 'ciDate', title: '入住日期', width: 100},
+                    {field: 'coDate', title: '退房日期', width: 100},
+                    {field: 'roomPriceCode', title: '房價代號', width: 170},
+                    {field: 'roomKindAcc', title: '計價房型', width: 80},
+                    {field: 'useHousing', title: '使用房型', width: 80},
+                    {field: 'housingNum', title: '間數', width: 40},
+                    {field: 'unitPrice', title: '單價', width: 60, align: 'right'},
+                    {field: 'serPrice', title: '服務費', width: 60, align: 'right'},
+                    {field: 'adult', title: '大人', width: 40},
+                    {field: 'child', title: '小孩', width: 40},
+                    {field: 'baby', title: '嬰兒', width: 40}
+                ]]
+            });
+
         });
 
         // 彈出 訂房卡 住客明細 Guest Details btn1 交辦事項
@@ -369,7 +392,7 @@
         // 彈出 指定房組 AssignHouse
         $(document).on('click', ".resv_assignHouse", function (e) {
             e.preventDefault();
-            var dialog = $("#resvAssignHouse-message").removeClass('hide').dialog({
+            var dialog = $("#resv_assignHouse-msg").removeClass('hide').dialog({
                 modal: true,
                 title: "指定房組",
                 title_html: true,
@@ -380,6 +403,29 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            $('#resv_assignHouse-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resv_detail.json',
+                method: 'get',
+                columns: [[
+                    {field: 'status', title: '狀態', width: 40},
+                    {field: 'ciDate', title: '入住日期', width: 100},
+                    {field: 'coDate', title: '退房日期', width: 100},
+                    {field: 'roomPriceCode', title: '房價代號', width: 160},
+                    {field: 'roomKindAcc', title: '計價房型', width: 60},
+                    {field: 'useHousing', title: '使用房型', width: 60},
+                    {field: 'housingNum', title: '間數', width: 40},
+                    {field: 'unitPrice', title: '單價', width: 60, align: 'right'},
+                    {field: 'serPrice', title: '服務費', width: 40, align: 'right'},
+                    {field: 'adult', title: '大人', width: 35},
+                    {field: 'child', title: '小孩', width: 35},
+                    {field: 'baby', title: '嬰兒', width: 35}
+                ]]
+            });
+
         });
 
         // 彈出 櫃檯備品 Counter supplies
@@ -1955,6 +2001,7 @@
 //                {field: 'hall', title: '館別', width: 60},
             ]]
         });
+
 
         // 專案訂房 dataGrid
         $('#PMS0110030-dg').datagrid({
