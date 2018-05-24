@@ -51,6 +51,8 @@ deploy_test:
   stage: deploy_test
   only:
     - develop
+  tags:
+    - bac-dev     
   script:
     - pm2 delete bacchus4web || true
     - pm2 start app.js --name bacchus4web
