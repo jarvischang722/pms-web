@@ -10517,7 +10517,7 @@
 	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
+        hotAPI.install(require("public/js/base/vue/vue"), false)
 	  if (!hotAPI.compatible) return
 	  var id = "_v-fcccf328/date.vue"
 	  if (!module.hot.data) {
@@ -25047,7 +25047,7 @@
 	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
+        hotAPI.install(require("public/js/base/vue/vue"), false)
 	  if (!hotAPI.compatible) return
 	  var id = "_v-75938eb2/month.vue"
 	  if (!module.hot.data) {
@@ -25298,7 +25298,7 @@
 	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
+        hotAPI.install(require("public/js/base/vue/vue"), false)
 	  if (!hotAPI.compatible) return
 	  var id = "_v-1cb6b89c/week.vue"
 	  if (!module.hot.data) {

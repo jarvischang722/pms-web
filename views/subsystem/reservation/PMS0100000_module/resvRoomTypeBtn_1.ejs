@@ -1646,7 +1646,9 @@
                                     </thead>
                                     <tbody class="css_tbody">
                                     <tr class="css_tr">
-                                        <td class="css_td" colspan="9" style="color: #FCC5FB;">2015/11/13(日) 假日</td>
+                                        <td class="css_td" colspan="9" style="color: #FCC5FB; font-weight: 700;">
+                                            2015/11/13(日) 假日
+                                        </td>
                                     </tr>
                                     <tr class="css_tr">
                                         <td class="css_td">2015/11/13</td>
@@ -1676,7 +1678,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
                         </div><!--main-content-data-->
                     </div>
                     <div class="col-xs-1 col-sm-1">
@@ -1817,94 +1818,15 @@
     </div>
     <!-- /.選項 option -->
 
-
     <!-- 訂房資料 Guest details 彈出視窗 -->
     <div id="resvGuestDetail-message" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
-                        <div class="row no-marign-right">
-                            <div class="main-content-data">
-                                <div class="horizTable-outer">
-                                    <div class="css_table horizTable">
-                                        <div class="css_thead">
-                                            <div class="css_tr">
-                                                <div class="css_th" style="min-width:60px;">狀態</div>
-                                                <div class="css_th" style="min-width:100px;">入住日期</div>
-                                                <div class="css_th" style="min-width:100px;">退房日期</div>
-                                                <div class="css_th" style="min-width:180px;">房價代號</div>
-                                                <div class="css_th" style="min-width:80px;">計價房型</div>
-                                                <div class="css_th" style="min-width:80px;">使用房型</div>
-                                                <div class="css_th" style="min-width:40px;">間數</div>
-                                                <div class="css_th" style="min-width:60px;">單價</div>
-                                                <div class="css_th" style="min-width:60px;">服務費</div>
-                                                <div class="css_th" style="min-width:40px;">大人</div>
-                                                <div class="css_th" style="min-width:40px;">小孩</div>
-                                                <div class="css_th" style="min-width:40px;">嬰兒</div>
-                                            </div>
-                                        </div>
-                                        <div class="css_tbody">
-                                            <div class="css_tr">
-                                                <div class="css_td">正常</div>
-                                                <div class="css_td">2005/11/13(Su)</div>
-                                                <div class="css_td">2005/11/19(Mo)</div>
-                                                <div class="css_td">FIT2017:一般散客價</div>
-                                                <div class="css_td">STD</div>
-                                                <div class="css_td">STD</div>
-                                                <div class="css_td text-right">3</div>
-                                                <div class="css_td text-right">1,500</div>
-                                                <div class="css_td text-right">500</div>
-                                                <div class="css_td text-right">4</div>
-                                                <div class="css_td text-right">1</div>
-                                                <div class="css_td text-right">1</div>
-                                            </div>
-                                            <div class="css_tr">
-                                                <div class="css_td">正常</div>
-                                                <div class="css_td">2005/11/13(Su)</div>
-                                                <div class="css_td">2005/11/19(Mo)</div>
-                                                <div class="css_td">TRA:旅展價</div>
-                                                <div class="css_td">DXT</div>
-                                                <div class="css_td">DXT</div>
-                                                <div class="css_td text-right">2</div>
-                                                <div class="css_td text-right">1,500</div>
-                                                <div class="css_td text-right">500</div>
-                                                <div class="css_td text-right">4</div>
-                                                <div class="css_td text-right">1</div>
-                                                <div class="css_td text-right">1</div>
-                                            </div>
-                                            <div class="css_tr">
-                                                <div class="css_td">正常</div>
-                                                <div class="css_td">2005/11/13(Su)</div>
-                                                <div class="css_td">2005/11/19(Mo)</div>
-                                                <div class="css_td">FIT2017:一般散客價</div>
-                                                <div class="css_td">STD</div>
-                                                <div class="css_td">STD</div>
-                                                <div class="css_td text-right">3</div>
-                                                <div class="css_td text-right">1,500</div>
-                                                <div class="css_td text-right">500</div>
-                                                <div class="css_td text-right">4</div>
-                                                <div class="css_td text-right">1</div>
-                                                <div class="css_td text-right">1</div>
-                                            </div>
-                                            <div class="css_tr">
-                                                <div class="css_td">正常</div>
-                                                <div class="css_td">2005/11/13(Su)</div>
-                                                <div class="css_td">2005/11/19(Mo)</div>
-                                                <div class="css_td">TRA:旅展價</div>
-                                                <div class="css_td">DXT</div>
-                                                <div class="css_td">DXT</div>
-                                                <div class="css_td text-right">2</div>
-                                                <div class="css_td text-right">1,500</div>
-                                                <div class="css_td text-right">500</div>
-                                                <div class="css_td text-right">4</div>
-                                                <div class="css_td text-right">1</div>
-                                                <div class="css_td text-right">1</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--main-content-data-->
+                        <div class="row no-margin-right">
+                            <!-- 訂房資料 dataGrid -->
+                            <table id="resv-Detail-table"></table>
                         </div>
                     </div>
                     <div class="col-xs-1 col-sm-1">
@@ -1985,12 +1907,6 @@
                                                                 嬰兒
                                                             </th>
                                                             <th class="text-left" style="min-width: 80px;">
-                                                                訂房來源
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 80px;">
-                                                                市場類別
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 80px;">
                                                                 排房狀態
                                                             </th>
                                                             <th class="text-left" style="min-width: 40px;">
@@ -1998,6 +1914,12 @@
                                                             </th>
                                                             <th class="text-left" style="min-width: 120px;">
                                                                 住客姓名
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 80px;">
+                                                                訂房來源
+                                                            </th>
+                                                            <th class="text-left" style="min-width: 80px;">
+                                                                市場類別
                                                             </th>
                                                         </tr>
                                                         </thead>
@@ -2118,6 +2040,9 @@
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="0"/>
                                                             </td>
+                                                            <td class="text-left input-noEdit">已排房</td>
+                                                            <td class="text-left input-noEdit">503</td>
+                                                            <td class="text-left input-noEdit">陳Rick,葉Peter</td>
                                                             <td class="text-left">
                                                                 <!--訂房來源-->
                                                                 <template>
@@ -2148,9 +2073,6 @@
                                                                     </el-select>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-left input-noEdit">已排房</td>
-                                                            <td class="text-left input-noEdit">503</td>
-                                                            <td class="text-left input-noEdit">陳Rick,葉Peter</td>
                                                         </tr>
                                                         <!--2-->
                                                         <tr>
@@ -2245,6 +2167,9 @@
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="0"/>
                                                             </td>
+                                                            <td class="text-left input-noEdit">已排房</td>
+                                                            <td class="text-left input-noEdit">601</td>
+                                                            <td class="text-left input-noEdit">黃Mike,葉Alice</td>
                                                             <td class="text-left">
                                                                 <!--訂房來源-->
                                                                 <template>
@@ -2275,9 +2200,6 @@
                                                                     </el-select>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-left input-noEdit">已排房</td>
-                                                            <td class="text-left input-noEdit">601</td>
-                                                            <td class="text-left input-noEdit">黃Mike,葉Alice</td>
                                                         </tr>
                                                         <!--3-->
                                                         <tr>
@@ -2372,6 +2294,9 @@
                                                                 <input type="text" class="selectHt"
                                                                        placeholder="0"/>
                                                             </td>
+                                                            <td class="text-left input-noEdit">未排房</td>
+                                                            <td class="text-left input-noEdit">204</td>
+                                                            <td class="text-left input-noEdit">王Jim,李Bear</td>
                                                             <td class="text-left">
                                                                 <!--訂房來源-->
                                                                 <template>
@@ -2402,9 +2327,6 @@
                                                                     </el-select>
                                                                 </template>
                                                             </td>
-                                                            <td class="text-left input-noEdit">未排房</td>
-                                                            <td class="text-left input-noEdit">204</td>
-                                                            <td class="text-left input-noEdit">王Jim,李Bear</td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -2748,88 +2670,12 @@
 
 
     <!-- 指定房組 AssignHouse 彈出視窗 -->
-    <div id="resvAssignHouse-message" class="hide padding-5">
+    <div id="resv_assignHouse-msg" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
-                    <div class="horizTable-outer">
-                        <div class="css_table horizTable">
-                            <div class="css_thead">
-                                <div class="css_tr">
-                                    <div class="css_th" style="min-width:50px;">狀態</div>
-                                    <div class="css_th" style="min-width:80px;">入住日期</div>
-                                    <div class="css_th" style="min-width:80px;">退房日期</div>
-                                    <div class="css_th" style="min-width:130px;">房價代號</div>
-                                    <div class="css_th" style="min-width:65px;">計價房型</div>
-                                    <div class="css_th" style="min-width:70px;">使用房型</div>
-                                    <div class="css_th" style="min-width:40px;">間數</div>
-                                    <div class="css_th" style="min-width:40px;">單價</div>
-                                    <div class="css_th" style="min-width:50px;">服務費</div>
-                                    <div class="css_th" style="min-width:40px;">大人</div>
-                                    <div class="css_th" style="min-width:40px;">小孩</div>
-                                    <div class="css_th" style="min-width:40px;">嬰兒</div>
-                                </div>
-                            </div>
-                            <div class="css_tbody">
-                                <div class="css_tr">
-                                    <div class="css_td">正常</div>
-                                    <div class="css_td">2005/11/13(Su)</div>
-                                    <div class="css_td">2005/11/19(Mo)</div>
-                                    <div class="css_td">FIT2017:一般散客價</div>
-                                    <div class="css_td">STD</div>
-                                    <div class="css_td">STD</div>
-                                    <div class="css_td text-right">3</div>
-                                    <div class="css_td text-right">5,000</div>
-                                    <div class="css_td text-right">500</div>
-                                    <div class="css_td text-right">4</div>
-                                    <div class="css_td text-right">1</div>
-                                    <div class="css_td text-right">1</div>
-                                </div>
-                                <div class="css_tr">
-                                    <div class="css_td">正常</div>
-                                    <div class="css_td">2005/11/13(Su)</div>
-                                    <div class="css_td">2005/11/19(Mo)</div>
-                                    <div class="css_td">TRA:旅展價</div>
-                                    <div class="css_td">DXT</div>
-                                    <div class="css_td">DXT</div>
-                                    <div class="css_td text-right">2</div>
-                                    <div class="css_td text-right">5,000</div>
-                                    <div class="css_td text-right">500</div>
-                                    <div class="css_td text-right">4</div>
-                                    <div class="css_td text-right">1</div>
-                                    <div class="css_td text-right">1</div>
-                                </div>
-                                <div class="css_tr">
-                                    <div class="css_td">正常</div>
-                                    <div class="css_td">2005/11/13(Su)</div>
-                                    <div class="css_td">2005/11/19(Mo)</div>
-                                    <div class="css_td">FIT2017:一般散客價</div>
-                                    <div class="css_td">STD</div>
-                                    <div class="css_td">STD</div>
-                                    <div class="css_td text-right">3</div>
-                                    <div class="css_td text-right">5,000</div>
-                                    <div class="css_td text-right">500</div>
-                                    <div class="css_td text-right">4</div>
-                                    <div class="css_td text-right">1</div>
-                                    <div class="css_td text-right">1</div>
-                                </div>
-                                <div class="css_tr">
-                                    <div class="css_td">正常</div>
-                                    <div class="css_td">2005/11/13(Su)</div>
-                                    <div class="css_td">2005/11/19(Mo)</div>
-                                    <div class="css_td">TRA:旅展價</div>
-                                    <div class="css_td">DXT</div>
-                                    <div class="css_td">DXT</div>
-                                    <div class="css_td text-right">2</div>
-                                    <div class="css_td text-right">5,000</div>
-                                    <div class="css_td text-right">500</div>
-                                    <div class="css_td text-right">4</div>
-                                    <div class="css_td text-right">1</div>
-                                    <div class="css_td text-right">1</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- 指定房組 dataGrid -->
+                    <table id="resv_assignHouse-table"></table>
                 </div>
 
                 <div class="clearfix"></div>
@@ -4062,4 +3908,4 @@
 </div>
 
 <!-- dropzone 上傳圖片套件 -->
-<script src="/js/dropzone/dropzone.js"></script>
+<script src="/js/base/dropzone/dropzone.js"></script>
