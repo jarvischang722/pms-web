@@ -14,7 +14,7 @@
                 </div>
                 <div class="right-menu-co pull-right" style="width: 80px;">
                     <button role="button" class="btn btn-danger btn-white btn-defaultWidth" @click="setStopSell">
-                        {{stopSellText}}
+                        {{stopSellButton.text}}
                     </button>
                 </div>
             </div>
@@ -78,40 +78,228 @@
                 _.each(this.$store.state.go_allData.ga_utDataGridRowsData, (lo_useTimeSelectData, idx) => {
                     let lo_addData = {
                         begin_dat: moment(lo_useTimeSelectData["begin_dat"]).format(),
+                        command_cod: lo_useTimeSelectData["command_cod"],
                         command_option: lo_useTimeSelectData["command_option"],
                         display: lo_useTimeSelectData["begin_dat"] + "~" + lo_useTimeSelectData["end_dat"],
-                        end_dat: moment(lo_useTimeSelectData["begin_dat"]).format(),
+                        end_dat: moment(lo_useTimeSelectData["end_dat"]).format(),
                         room_cods: lo_useTimeSelectData["room_cods"],
-                        value: lo_useTimeSelectData["supply_nos"]
+                        value: lo_useTimeSelectData["supply_nos"],
+                        athena_id: lo_useTimeSelectData["athena_id"],
+                        hotel_cod: lo_useTimeSelectData["hotel_cod"],
+                        rate_cod: lo_useTimeSelectData["rate_cod"],
                     };
                     la_useTimeSelectData.push(lo_addData);
                 });
-                this.useTimeSelectData = la_useTimeSelectData;
-                this.selectedUseTimeData = _.first(la_useTimeSelectData).value;
                 _.each(la_oriUseTimeSelectData, (lo_useTimeSelectData, idx) => {
                     //使用期間被刪除
                     if (_.findIndex(la_useTimeSelectData, {value: lo_useTimeSelectData.value}) == -1) {
                         //刪除的使用期間supply_nos在新增的暫存衝
-                        let la_createData = _.where(this.tmpCUD.createData, {supply_nos: lo_useTimeSelectData.value});
-                        _.each(this.tmpCUD.createData, (lo_createData, idx) => {
-                            console.log(lo_createData);
-                            let ln_createIndex = _.findIndex(la_createData, {supply_nos: lo_createData.supply_nos});
-                            this.tmpCUD.createData.splice(ln_createIndex, 1);
+                        let la_delCreateData = _.where(this.tmpCUD.createData, {supply_nos: lo_useTimeSelectData.value});
+                        _.each(la_delCreateData, (lo_delCreateData) => {
+                            let ln_delIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: lo_delCreateData.supply_nos});
+                            if (ln_delIndex > -1) {
+                                this.tmpCUD.createData.splice(ln_delIndex, 1);
+                            }
                         });
-                        //刪除的使用期supply_nos在新增的暫存衝
-                        let la_updateData = _.where(this.tmpCUD.updateData, {supply_nos: lo_useTimeSelectData.value});
-                        _.each(this.tmpCUD.updateData, (lo_updateData, idx) => {
-                            let ln_editIndex = _.findIndex(la_updateData, {supply_nos: lo_updateData.supply_nos});
-                            this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                            this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                        //刪除的使用期期supply_nos在修改的暫存衝
+                        let la_delUpdateData = _.where(this.tmpCUD.updateData, {supply_nos: lo_useTimeSelectData.value});
+                        _.each(la_delUpdateData, (lo_delUpdateData, idx) => {
+                            let ln_delIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_delUpdateData.supply_nos});
+                            if (ln_delIndex > -1) {
+                                this.tmpCUD.updateData.splice(ln_delIndex, 1);
+                                this.tmpCUD.oriData.splice(ln_delIndex, 1);
+                                this.tmpCUD.deleteData.splice(ln_delIndex, 1);
+                            }
+                            this.tmpCUD.deleteData.push(_.extend(lo_delUpdateData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
                         });
-                        _.each(la_updateData, (lo_updateData) => {
-                            this.tmpCUD.deleteData.push(lo_updateData);
+                        //刪除的使用期期supply_nos在ratecodDtData&&將刪除的使用期supply_nos 相關房型資料放入刪除的暫存
+                        let la_delRateCodDtData = _.where(this.rateCodDtData, {supply_nos: lo_useTimeSelectData.value});
+                        _.each(la_delRateCodDtData, (lo_delRateCodDtData) => {
+                            let ln_delIndex = _.findIndex(this.rateCodDtData, lo_delRateCodDtData);
+                            if (ln_delIndex > -1) {
+                                this.rateCodDtData.splice(ln_delIndex, 1);
+                            }
+                            let ln_tmpDIndex = _.findIndex(this.tmpCUD.deleteData, lo_delRateCodDtData);
+                            if (ln_tmpDIndex > -1) {
+                                this.tmpCUD.deleteData.splice(ln_delIndex, 1);
+                            }
+                            this.tmpCUD.deleteData.push(_.extend(lo_delRateCodDtData, {
+                                event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")
+                            }));
                         });
                     }
+                    //使用期間資料改變
+                    else {
+                        let ln_editIndex = _.findIndex(la_useTimeSelectData, {value: lo_useTimeSelectData.value});
+                        let ln_oriEditIndex = idx;
+
+                        if (ln_editIndex > -1) {
+                            if (!_.isMatch(la_useTimeSelectData[ln_editIndex], lo_useTimeSelectData)) {
+                                //先將rateCodDtData資料清除
+                                let la_changeRateCodData = _.where(this.rateCodDtData, {supply_nos: la_useTimeSelectData[ln_editIndex].value});
+
+                                _.each(la_changeRateCodData, (lo_changeRateCodData) => {
+
+                                    let ln_delIndex = _.findIndex(this.rateCodDtData, {
+                                        supply_nos: lo_changeRateCodData.supply_nos,
+                                        command_option: lo_changeRateCodData.command_option,
+                                        room_cod: lo_changeRateCodData.room_cod,
+                                    });
+
+                                    if (ln_delIndex > -1) {
+                                        _.each(this.tmpCUD, (la_val, ls_dataType) => {
+                                            let ln_delTmpIndex = _.findIndex(la_val, {supply_nos: lo_changeRateCodData.supply_nos});
+                                            if (ln_delTmpIndex > -1) {
+                                                if (ls_dataType != 'deleteData') {
+                                                    this.tmpCUD[ls_dataType].splice(ln_delTmpIndex, 1);
+                                                }
+                                            }
+                                        });
+
+                                        //改變後的room_cods、command_option
+                                        let la_roomCod = la_useTimeSelectData[ln_editIndex].room_cods.split(",");
+                                        let la_commandOption = la_useTimeSelectData[ln_editIndex].command_option.split(",");
+                                        //原始的room_cods、command_option
+                                        let la_oriRoomCod = la_oriUseTimeSelectData[ln_oriEditIndex].room_cods.split(",");
+                                        let la_oriCommandOption = la_oriUseTimeSelectData[ln_oriEditIndex].command_option.split(",");
+                                        //改變後和原始不同的room_cods、command_option
+                                        let la_changeRoomCod = [];
+                                        let la_changeCommandOption = [];
+
+                                        _.each(la_oriRoomCod, (ls_roomCod) => {
+                                            let ln_roomCodIndex = la_roomCod.indexOf(ls_roomCod);
+                                            if (ln_roomCodIndex == -1) {
+                                                la_changeRoomCod.push(ls_roomCod);
+                                            }
+                                        });
+                                        _.each(la_oriCommandOption, (ls_commandOption) => {
+                                            let ln_commandOptionIndex = la_commandOption.indexOf(ls_commandOption);
+                                            if (ln_commandOptionIndex == -1) {
+                                                la_changeCommandOption.push(ls_commandOption);
+                                            }
+                                        });
+
+                                        //日期規則、房型是否新增
+                                        _.each(la_roomCod, (ls_roomCod) => {
+                                            _.each(la_commandOption, (ls_commandOption) => {
+                                                let lo_examParams = {
+                                                    supply_nos: la_useTimeSelectData[ln_editIndex].value,
+                                                    command_option: ls_commandOption,
+                                                    room_cod: ls_roomCod
+                                                };
+                                                let ln_tmpDIndex = _.findIndex(this.tmpCUD.deleteData, lo_examParams);
+                                                if (ln_tmpDIndex > -1) {
+                                                    this.tmpCUD.deleteData.splice(ln_tmpDIndex, 1);
+                                                }
+
+                                                let ln_existIndex = _.findIndex(this.rateCodDtData, lo_examParams);
+                                                if (ln_existIndex == -1) {
+                                                    let lo_appendData = {
+                                                        add_adult: 0,
+                                                        add_child: 0,
+                                                        athena_id: la_useTimeSelectData[ln_editIndex].athena_id,
+                                                        begin_dat: la_useTimeSelectData[ln_editIndex].begin_dat,
+                                                        command_cod: la_useTimeSelectData[ln_editIndex].command_cod,
+                                                        command_option: ls_commandOption,
+                                                        day_nam: this.convertCommandOption(ls_commandOption),
+                                                        del: 'N',
+                                                        end_dat: la_useTimeSelectData[ln_editIndex].end_dat,
+                                                        hotel_cod: la_useTimeSelectData[ln_editIndex].hotel_cod,
+                                                        ins_upd: 'N',
+                                                        rate_cod: la_useTimeSelectData[ln_editIndex].rate_cod,
+                                                        rent_amt: 0,
+                                                        room_cod: ls_roomCod,
+                                                        supply_nos: la_useTimeSelectData[ln_editIndex].value,
+                                                        use_sta: 'Y',
+                                                        isCreate: true,
+                                                        isEdit: false,
+                                                        uniKey: crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "")
+                                                    };
+                                                    this.rateCodDtData.push(_.extend(lo_appendData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                                                    let lo_oriExistData = _.findWhere(this.oriRateCodDtData, lo_examParams);
+                                                    if (!_.isUndefined(lo_oriExistData)) {
+                                                        let ln_oriExistIndex = _.findIndex(this.tmpCUD.deleteData, lo_oriExistData);
+                                                        if (ln_oriExistIndex > -1) {
+                                                            this.tmpCUD.deleteData.splice(ln_oriExistIndex, 1);
+                                                        }
+                                                    }
+                                                }
+                                                else {
+                                                    this.rateCodDtData[ln_existIndex] = _.extend(this.rateCodDtData[ln_existIndex], {
+                                                        end_dat: la_useTimeSelectData[ln_editIndex].end_dat,
+                                                        command_cod: la_useTimeSelectData[ln_editIndex].command_cod,
+                                                        command_option: ls_commandOption,
+                                                        room_cod: ls_roomCod,
+                                                    });
+                                                }
+                                            })
+                                        });
+
+                                        //日期規則、房型否刪除
+                                        _.each(la_changeRoomCod, (ls_roomCod) => {
+                                            let lo_examParams = {
+                                                supply_nos: la_useTimeSelectData[ln_editIndex].value,
+                                                room_cod: ls_roomCod
+                                            };
+                                            let la_delRatecodDtData = _.where(this.rateCodDtData, lo_examParams);
+
+                                            _.each(la_delRatecodDtData, (lo_delRateCodDtData) => {
+                                                let ln_existIndex = _.findIndex(this.rateCodDtData, lo_delRateCodDtData);
+                                                if (ln_existIndex > -1) {
+                                                    this.rateCodDtData.splice(ln_existIndex, 1);
+                                                }
+
+                                                let ln_tmpDIndex = _.findIndex(this.tmpCUD.deleteData, lo_delRateCodDtData);
+                                                if (ln_tmpDIndex > -1) {
+                                                    this.tmpCUD.deleteData.splice(ln_tmpDIndex, 1);
+                                                }
+                                                this.tmpCUD.deleteData.push(lo_delRateCodDtData);
+
+                                                let ln_tmpUIndex = _.findIndex(this.tmpCUD.updateData, lo_delRateCodDtData);
+                                                if (ln_tmpUIndex > -1) {
+                                                    this.tmpCUD.updateData.splice(ln_tmpDIndex, 1);
+                                                    this.tmpCUD.oriData.splice(ln_tmpDIndex, 1);
+                                                }
+                                            })
+
+                                        });
+                                        _.each(la_changeCommandOption, (ls_commandOption) => {
+                                            let lo_examParams = {
+                                                supply_nos: la_useTimeSelectData[ln_editIndex].value,
+                                                command_option: ls_commandOption
+                                            };
+                                            let la_delRatecodDtData = _.where(this.rateCodDtData, lo_examParams);
+
+                                            _.each(la_delRatecodDtData, (lo_delRateCodDtData) => {
+                                                let ln_existIndex = _.findIndex(this.rateCodDtData, lo_delRateCodDtData);
+                                                if (ln_existIndex > -1) {
+                                                    this.rateCodDtData.splice(ln_existIndex, 1);
+                                                }
+
+                                                let ln_tmpDIndex = _.findIndex(this.tmpCUD.deleteData, lo_delRateCodDtData);
+                                                if (ln_tmpDIndex > -1) {
+                                                    this.tmpCUD.deleteData.splice(ln_tmpDIndex, 1);
+                                                }
+                                                this.tmpCUD.deleteData.push(lo_delRateCodDtData);
+
+                                                let ln_tmpUIndex = _.findIndex(this.tmpCUD.updateData, lo_delRateCodDtData);
+                                                if (ln_tmpUIndex > -1) {
+                                                    this.tmpCUD.updateData.splice(ln_tmpDIndex, 1);
+                                                    this.tmpCUD.oriData.splice(ln_tmpDIndex, 1);
+                                                }
+                                            })
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    }
                 });
-                console.log(this.tmpCUD);
-            });
+
+                this.useTimeSelectData = la_useTimeSelectData;
+                this.selectedUseTimeData = "";
+            })
+            ;
 
             //rate cod 修改
             this.$eventHub.$on("setRoomTypRateCod", (data) => {
@@ -140,13 +328,17 @@
         mounted() {
             this.stopSellText = go_i18nLang.program.PMS0810230.stopSell;
             this.fetchRentCalDat();
-        },
+        }
+        ,
         data() {
             return {
                 i18nLang: go_i18nLang,
                 rentCalDat: '',             //滾房租日
                 isLoading: true,
-                stopSellText: "",
+                stopSellButton: {
+                    isStopSell: false,
+                    text: go_i18nLang.program.PMS0810230.stopSell
+                },
                 rateCod: '',
                 rentAmtFieldData: {},       //房租欄位資料
                 rateCodDtData: [],          //房型資料
@@ -164,43 +356,53 @@
                 editingCellData: {},        //正在編輯的資料
                 tableCellWidth: ""          //表格格子寬度
             }
-        },
+        }
+        ,
         watch: {
             isRoomType(val) {
                 if (val) {
                     this.initData();
-                    //取使用期間資料
+                    //取使用期間
                     this.fetchUseTime();
                 }
             },
             rateCodDtData: {
                 handler(val) {
                     _.each(val, (lo_val, ln_idx) => {
-                        if (!_.isMatch(lo_val, this.oriRateCodDtData[ln_idx])) {
+                        //修改新增的暫存
+                        if (_.isUndefined(this.oriRateCodDtData[ln_idx]) || !_.isUndefined(lo_val.isCreate)) {
+                            let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_val.uniKey});
+                            if (ln_createIndex > -1) {
+                                this.tmpCUD.createData.splice(ln_createIndex, 1);
+                            }
+                            this.tmpCUD.createData.push(_.extend(lo_val, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                        }
+                        else if (!_.isMatch(lo_val, this.oriRateCodDtData[ln_idx]) && lo_val.supply_nos == this.oriRateCodDtData[ln_idx].supply_nos) {
                             let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {uniKey: lo_val.uniKey});
                             if (ln_editIndex > -1) {
                                 this.tmpCUD.updateData.splice(ln_editIndex, 1);
                                 this.tmpCUD.oriData.splice(ln_editIndex, 1);
                             }
-                            this.tmpCUD.updateData.push(lo_val);
-                            this.tmpCUD.oriData.push(this.oriRateCodDtData[ln_idx]);
-                        }
-                        else if (_.isUndefined(this.oriRateCodDtData[ln_idx])) {
-                            let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_val.uniKey});
-                            if (ln_createIndex > -1) {
-                                this.tmpCUD.createData.splice(ln_createIndex, 1);
-                            }
-                            this.tmpCUD.createData.push(lo_val);
+                            this.tmpCUD.updateData.push(_.extend(lo_val, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                            this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[ln_idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
                         }
                     });
-                    console.log(this.tmpCUD);
-                },
+                }
+                ,
                 deep: true
-            },
+            }
+            ,
             dayNamData4Display: {
                 handler(val) {
-                    let lo_cloneData = JSON.parse(JSON.stringify(val))
-                    let la_allData = Object.values(lo_cloneData)[0];
+                    let lo_cloneData = JSON.parse(JSON.stringify(val));
+                    let la_allData = [];
+
+                    _.each(lo_cloneData, (val, key) => {
+                        _.each(val, (lo_val) => {
+                            la_allData.push(lo_val);
+                        })
+                    });
+
                     _.each(this.rateCodDtData, (lo_ratecodData, idx) => {
                         let ln_existIndex = _.findIndex(la_allData, {uniKey: lo_ratecodData.uniKey});
 
@@ -209,35 +411,64 @@
                             this.rateCodDtData[idx]["isEdit"] = false;
                         }
 
-                        if (!_.isMatch(lo_ratecodData, this.oriRateCodDtData[idx])) {
+                        if (_.isUndefined(this.oriRateCodDtData[idx]) || !_.isUndefined(lo_ratecodData.isCreate)) {
+                            let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_ratecodData.uniKey});
+                            if (ln_createIndex > -1) {
+                                this.tmpCUD.createData.splice(ln_createIndex, 1);
+                            }
+                            this.tmpCUD.createData.push(_.extend(lo_ratecodData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                        }
+                        else if (!_.isMatch(lo_ratecodData, this.oriRateCodDtData[idx]) && lo_ratecodData.supply_nos == this.oriRateCodDtData[idx].supply_nos) {
                             let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {uniKey: lo_ratecodData.uniKey});
                             if (ln_editIndex > -1) {
                                 this.tmpCUD.updateData.splice(ln_editIndex, 1);
                                 this.tmpCUD.oriData.splice(ln_editIndex, 1);
                             }
-                            this.tmpCUD.updateData.push(lo_ratecodData);
-                            this.tmpCUD.oriData.push(this.oriRateCodDtData[idx]);
-                        }
-                        else if (_.isUndefined(this.oriRateCodDtData[idx])) {
-                            let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_ratecodData.uniKey});
-                            if (ln_createIndex > -1) {
-                                this.tmpCUD.createData.splice(ln_createIndex, 1);
-                            }
-                            this.tmpCUD.createData.push(lo_ratecodData);
+                            this.tmpCUD.updateData.push(_.extend(lo_ratecodData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                            this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
                         }
                     });
-                    console.log(this.tmpCUD);
-                },
+                }
+                ,
                 deep: true
             }
-        },
+            ,
+            tmpCUD: {
+                handler(val) {
+                    //轉換tmpCUD資料
+                    let lo_param = {
+                        page_id: 2,
+                        tab_page_id: 12
+                    };
+                    _.each(val, (la_val, ls_key) => {
+                        _.each(la_val, (lo_val, ln_idx) => {
+                            if (!_.isUndefined(lo_val.rent_amt)) {
+                                lo_val.rent_amt = go_formatDisplayClass.removeAmtFormat(lo_val.rent_amt.toString());
+                                lo_val.begin_dat = moment(lo_val.begin_dat).format("YYYY/MM/DD");
+                                lo_val.end_dat = moment(lo_val.end_dat).format("YYYY/MM/DD");
+                            }
+                            val[ls_key][ln_idx] = _.extend(lo_val, lo_param);
+                        });
+                    });
+
+                    this.$store.dispatch("setRoomTypData", {
+                        go_rtTmpCUD: val
+                    });
+                    console.log(val);
+                }
+                ,
+                deep: true
+            }
+        }
+        ,
         methods: {
             //取滾房租日
             fetchRentCalDat() {
                 BacUtils.doHttpPostAgent('/api/qryRentCalDat', {}, (result) => {
                     this.rentCalDat = result.rent_cal_dat;
                 });
-            },
+            }
+            ,
             initData() {
                 this.rateCodDtData = [];
                 this.oriRateCodDtData = [];
@@ -249,22 +480,31 @@
                 };
                 this.selectedUseTimeData = [];
                 this.useTimeSelectData = [];
-            },
+            }
+            ,
             //取使用期間資料
             fetchUseTime() {
-                BacUtils.doHttpPostAgent('/api/chkFieldRule', {
-                    rule_func_name: 'qry_ratesupplydt_for_select_data',
-                    rate_cod: this.$store.gs_rateCod
-                }, (result) => {
-                    if (result.success) {
-                        this.useTimeSelectData = result.selectOptions;
-                        this.selectedUseTimeData = "";
-                    }
-                    else {
-                        alert(result.errorMsg.toString());
-                    }
-                });
-            },
+                if (this.$store.gs_rateCod != "") {
+                    BacUtils.doHttpPostAgent('/api/chkFieldRule', {
+                        rule_func_name: 'qry_ratesupplydt_for_select_data',
+                        rate_cod: this.$store.state.gs_rateCod
+                    }, (result) => {
+                        if (result.success) {
+                            //取得使用期間下拉資料
+                            this.useTimeSelectData = result.selectOptions;
+                            this.selectedUseTimeData = "";
+                            //取得使用期間資料
+                            setTimeout(() => {
+                                this.$eventHub.$emit("getUseTimeData4Ratecod");
+                            }, 500);
+                        }
+                        else {
+                            alert(result.errorMsg.toString());
+                        }
+                    });
+                }
+            }
+            ,
             //取得房價資料(改變使用期間)
             fetchRateCodDtData() {
                 this.isLoading = true;
@@ -291,60 +531,14 @@
                                 lo_dgRowData["uniKey"] =
                                     crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "");
                                 lo_dgRowData["isEdit"] = false;
+                                lo_dgRowData["event_time"] = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
+                                lo_dgRowData["rent_amt"] = go_formatDisplayClass.amtFormat(lo_dgRowData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
                                 this.rateCodDtData.push(lo_dgRowData);
                                 this.oriRateCodDtData.push(JSON.parse(JSON.stringify(lo_dgRowData)));
                             });
 
                             //剛新增的使用期間(未入到資料庫)
-                            let lo_useTimeData = _.findWhere(this.$store.state.go_allData.ga_utDataGridRowsData, {
-                                supply_nos: this.selectedUseTimeData
-                            });
-                            if (!_.isUndefined(lo_useTimeData)) {
-                                let la_roomCod = lo_useTimeData.room_cods.split(",");
-                                let la_commandOption = lo_useTimeData.command_option.split(",");
-                                //日期規則、房型是否存在
-                                _.each(la_roomCod, (ls_roomCod) => {
-                                    _.each(la_commandOption, (ls_commandOption) => {
-                                        let lo_examParams = {
-                                            supply_nos: lo_useTimeData.supply_nos,
-                                            command_option: ls_commandOption,
-                                            room_cod: ls_roomCod
-                                        };
-                                        let lb_isExist = _.findIndex(this.rateCodDtData, lo_examParams) > -1 ? true : false;
-                                        if (!lb_isExist) {
-                                            let lo_appendData = {
-                                                add_adult: 0,
-                                                add_child: 0,
-                                                athena_id: lo_useTimeData.athena_id,
-                                                begin_dat: lo_useTimeData.begin_dat,
-                                                command_cod: lo_useTimeData.command_cod,
-                                                command_option: ls_commandOption,
-                                                day_nam: this.convertCommandOption(ls_commandOption),
-                                                del: 'N',
-                                                end_dat: lo_useTimeData.end_dat,
-                                                hotel_cod: lo_useTimeData.hotel_cod,
-                                                ins_upd: 'N',
-                                                rate_cod: lo_useTimeData.rate_cod,
-                                                rent_amt: 0,
-                                                room_cod: ls_roomCod,
-                                                supply_nos: lo_useTimeData.supply_nos,
-                                                use_sta: 'Y',
-                                                isEdit: false,
-                                                uniKey: crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "")
-                                            };
-                                            this.rateCodDtData.push(lo_appendData);
-                                        }
-                                    })
-                                });
-                            }
-                            //依照room_cod、command_option轉換成頁面上呈現
-                            let la_rateCodDtData4RoomCod = JSON.parse(JSON.stringify(this.rateCodDtData));
-                            let la_rateCodDtData4DayNam = JSON.parse(JSON.stringify(this.rateCodDtData));
-                            this.roomCodData4Display =
-                                _.groupBy(_.where(la_rateCodDtData4RoomCod, {supply_nos: this.selectedUseTimeData}), "room_cod");
-                            this.dayNamData4Display =
-                                _.groupBy(_.where(la_rateCodDtData4DayNam, {supply_nos: this.selectedUseTimeData}), "day_nam");
-                            this.tableCellWidth = 85 / _.keys(this.roomCodData4Display).length;
+                            this.getAndConvertTmpUseTimeData();
                         }
                         else {
                             alert(result.errorMsg);
@@ -355,30 +549,41 @@
                     //依照room_cod、command_option轉換成頁面上呈現
                     let la_rateCodDtData4RoomCod = JSON.parse(JSON.stringify(this.rateCodDtData));
                     let la_rateCodDtData4DayNam = JSON.parse(JSON.stringify(this.rateCodDtData));
+                    _.each(la_rateCodDtData4RoomCod, (lo_rateCodDtData, idx) => {
+                        la_rateCodDtData4RoomCod[idx]["rent_amt"] = go_formatDisplayClass.amtFormat(lo_rateCodDtData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
+                    });
+                    _.each(la_rateCodDtData4DayNam, (lo_rateCodDtData, idx) => {
+                        la_rateCodDtData4DayNam[idx]["rent_amt"] = go_formatDisplayClass.amtFormat(lo_rateCodDtData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
+                    });
                     this.roomCodData4Display =
                         _.groupBy(_.where(la_rateCodDtData4RoomCod, {supply_nos: this.selectedUseTimeData}), "room_cod");
                     this.dayNamData4Display =
                         _.groupBy(_.where(la_rateCodDtData4DayNam, {supply_nos: this.selectedUseTimeData}), "day_nam");
                     this.tableCellWidth = 85 / _.keys(this.roomCodData4Display).length;
                 }
-            },
+            }
+            ,
             //轉換日期規則資料
             convertCommandOption(command_option) {
                 let lo_coFieldData = _.findWhere(this.$store.state.ga_utFieldsData, {ui_field_name: 'command_option'});
                 let la_selectData = !_.isUndefined(lo_coFieldData) ? lo_coFieldData.selectData : [];
                 let ls_commandOption = la_selectData.length > 0 ? _.findWhere(la_selectData, {value: command_option.substring(1, 2)}).display : "";
                 return ls_commandOption;
-            },
+            }
+            ,
             setStopSell() {
-                this.editingCellData.use_sta = this.editingCellData.use_sta == 'N' ? 'Y' : 'N';
+                this.stopSellButton.isStopSell = !this.stopSellButton.isStopSell;
+                this.editingCellData.use_sta = this.stopSellButton.isStopSell ? 'N' : 'Y';
                 let ln_editIndex = _.findIndex(this.dayNamData4Display[this.editingCellData.day_nam], {uniKey: this.editingCellData.uniKey});
 
                 if (ln_editIndex > -1) {
                     this.dayNamData4Display[this.editingCellData.day_nam][ln_editIndex]["use_sta"] = this.editingCellData.use_sta;
                 }
-            },
+            }
+            ,
             getData(ratecod_data) {
-                this.stopSellText = ratecod_data.use_sta == 'N' ?
+                this.stopSellButton.isStopSell = ratecod_data.use_sta == 'N' ? true : false;
+                this.stopSellButton.text = ratecod_data.use_sta == 'N' ?
                     go_i18nLang.program.PMS0810230.revert : go_i18nLang.program.PMS0810230.stopSell;
                 _.each(this.dayNamData4Display, (la_val, ls_key) => {
                     _.each(la_val, (lo_val, idx) => {
@@ -390,7 +595,8 @@
                     this.dayNamData4Display[ratecod_data.day_nam][ln_editIndex]["isEdit"] = true;
                 }
                 this.editingCellData = ratecod_data;
-            },
+            }
+            ,
             leaveCell() {
                 this.stopSellText = this.editingCellData.use_sta == 'N' ?
                     go_i18nLang.program.PMS0810230.revert : go_i18nLang.program.PMS0810230.stopSell;
@@ -404,7 +610,8 @@
                     this.dayNamData4Display[this.editingCellData.day_nam][ln_editIndex]["use_sta"] = this.editingCellData.use_sta;
                 }
                 this.editingCellData = {};
-            },
+            }
+            ,
             formatAmt(amount, field) {
                 let ls_amtValue = go_formatDisplayClass.removeAmtFormat(JSON.parse(JSON.stringify(amount)).toString());
                 let ls_ruleVal = field.format_func_name.rule_val;
@@ -438,6 +645,61 @@
 
                 }
 
+            }
+            ,
+            //剛新增的使用期間(未入到資料庫)
+            getAndConvertTmpUseTimeData() {
+                let lo_useTimeData = _.findWhere(this.$store.state.go_allData.ga_utDataGridRowsData, {
+                    supply_nos: this.selectedUseTimeData
+                });
+                if (!_.isUndefined(lo_useTimeData)) {
+                    let la_roomCod = lo_useTimeData.room_cods.split(",");
+                    let la_commandOption = lo_useTimeData.command_option.split(",");
+                    //日期規則、房型是否存在
+                    _.each(la_roomCod, (ls_roomCod) => {
+                        _.each(la_commandOption, (ls_commandOption) => {
+                            let lo_examParams = {
+                                supply_nos: lo_useTimeData.supply_nos,
+                                command_option: ls_commandOption,
+                                room_cod: ls_roomCod
+                            };
+                            let lb_isExist = _.findIndex(this.rateCodDtData, lo_examParams) > -1 ? true : false;
+                            if (!lb_isExist) {
+                                let lo_appendData = {
+                                    add_adult: 0,
+                                    add_child: 0,
+                                    athena_id: lo_useTimeData.athena_id,
+                                    begin_dat: lo_useTimeData.begin_dat,
+                                    command_cod: lo_useTimeData.command_cod,
+                                    command_option: ls_commandOption,
+                                    day_nam: this.convertCommandOption(ls_commandOption),
+                                    del: 'N',
+                                    end_dat: lo_useTimeData.end_dat,
+                                    hotel_cod: lo_useTimeData.hotel_cod,
+                                    ins_upd: 'N',
+                                    rate_cod: lo_useTimeData.rate_cod,
+                                    rent_amt: 0,
+                                    room_cod: ls_roomCod,
+                                    supply_nos: lo_useTimeData.supply_nos,
+                                    use_sta: 'Y',
+                                    isCreate: true,
+                                    isEdit: false,
+                                    uniKey: crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "")
+                                };
+                                this.rateCodDtData.push(lo_appendData);
+                            }
+                        })
+                    });
+                }
+                //依照room_cod、command_option轉換成頁面上呈現
+
+                let la_rateCodDtData4RoomCod = JSON.parse(JSON.stringify(this.rateCodDtData));
+                let la_rateCodDtData4DayNam = JSON.parse(JSON.stringify(this.rateCodDtData));
+                this.roomCodData4Display =
+                    _.groupBy(_.where(la_rateCodDtData4RoomCod, {supply_nos: this.selectedUseTimeData}), "room_cod");
+                this.dayNamData4Display =
+                    _.groupBy(_.where(la_rateCodDtData4DayNam, {supply_nos: this.selectedUseTimeData}), "day_nam");
+                this.tableCellWidth = 85 / _.keys(this.roomCodData4Display).length;
             }
         }
     }

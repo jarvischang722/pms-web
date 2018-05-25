@@ -182,6 +182,22 @@
                 type: Number
             }
         },
+        watch: {
+            "rowData.command_option"(val) {
+                if (!Array.isArray(val)) {
+                    let la_returnData = [];
+                    if (val.split(",").length > 0) {
+                        _.each(val.split(","), (ls_data) => {
+                            la_returnData.push(ls_data);
+                        })
+                    }
+                    else {
+                        la_returnData.push(val);
+                    }
+                    this.rowData.command_option = la_returnData;
+                }
+            }
+        },
         methods: {
             changeRowData(rowData, index) {
                 let lo_params = {type: 'command_option', index: index, rowData: rowData};
@@ -205,6 +221,22 @@
             },
             index: {
                 type: Number
+            }
+        },
+        watch: {
+            "rowData.room_cods"(val) {
+                if (!Array.isArray(val)) {
+                    let la_returnData = [];
+                    if (val.split(",").length > 0) {
+                        _.each(val.split(","), (ls_data) => {
+                            la_returnData.push(ls_data);
+                        })
+                    }
+                    else {
+                        la_returnData.push(val);
+                    }
+                    this.rowData.room_cods = la_returnData;
+                }
             }
         },
         methods: {
@@ -262,7 +294,9 @@
                     oriData: []
                 };
             });
-
+            this.$eventHub.$on("getUseTimeData4Ratecod", () => {
+                this.confirmData();
+            });
             vmHub4EasyTable.$on('getTableRowData', (data) => {
                 this.dataGridRowsData[data.index].command_cod = data.command_cod;
                 let lb_isChange = data.command_cod == this.dataGridRowsData[data.index].command_option.substring(0, 1) ? false : true;
@@ -375,6 +409,7 @@
                             ga_utOriDataGridRowsData: this.oriDataGridRowsData,
                             go_utTmpCUD: this.tmpCUD
                         });
+                        console.log(moment(new Date()).format("YYYY/MM/DD HH:mm:ss"));
                     }
                     else {
                         alert(result.errorMsg);
@@ -585,7 +620,6 @@
                 }
             },
             appendRow(title, field) {
-                console.log(title)
                 let la_commandOptionHSelect =
                     JSON.parse(JSON.stringify(_.findWhere(this.fieldsData, {ui_field_name: 'command_option'}).selectDataDisplay));
                 _.each(la_commandOptionHSelect, (lo_select, idx) => {
@@ -596,7 +630,9 @@
 
                 if (field == "control") {
                     this.timeRuleData = {};
-                    let ln_maxSupplyNos = this.dataGridRowsData.length > 0 ? Number(_.max(this.dataGridRowsData, (lo_dataGridRowsData) => {
+                    let la_RowData = this.dataGridRowsData.length >= this.oriDataGridRowsData.length ?
+                        this.dataGridRowsData : this.oriDataGridRowsData;
+                    let ln_maxSupplyNos = la_RowData.length > 0 ? Number(_.max(la_RowData, (lo_dataGridRowsData) => {
                         return lo_dataGridRowsData.supply_nos
                     }).supply_nos) : 0;
                     let lo_createData = {
@@ -620,10 +656,9 @@
                 _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
                     lo_dataGridRowsData.command_option = this.convertMultiData(lo_dataGridRowsData.command_option);
                     lo_dataGridRowsData.room_cods = this.convertMultiData(lo_dataGridRowsData.room_cods);
-
                     if (lo_dataGridRowsData.isCreate) {
-                        this.tmpCUD.createData.push(lo_dataGridRowsData);
                         this.tmpCUD.createData.splice(idx, 1);
+                        this.tmpCUD.createData.push(lo_dataGridRowsData);
                     }
                     else {
                         let lo_compareParam = {
@@ -650,8 +685,8 @@
                 });
                 //轉換tmpCUD資料
                 let lo_param = {
-                    page_id: this.fieldsData[0].page_id,
-                    tab_page_id: this.fieldsData[0].tab_page_id
+                    page_id: this.$store.state.ga_utFieldsData[0].page_id,
+                    tab_page_id: this.$store.state.ga_utFieldsData[0].tab_page_id
                 };
                 _.each(this.tmpCUD, (tmpCUDVal, tmpCUDKey) => {
                     _.each(tmpCUDVal, (lo_tmpCUDVal, idx) => {
@@ -659,9 +694,6 @@
                         _.extend(this.tmpCUD[tmpCUDKey][idx], lo_param);
                     });
                 });
-
-                this.$eventHub.$emit("setUseTimeSelectData");
-
                 //將資料放入Vuex
                 this.$store.dispatch("setUseTimeData", {
                     ga_utFieldsData: this.fieldsData,
@@ -669,6 +701,9 @@
                     ga_utOriDataGridRowsData: this.oriDataGridRowsData,
                     go_utTmpCUD: this.tmpCUD
                 });
+
+                //更新房型的使用期間資料
+                this.$eventHub.$emit("setUseTimeSelectData");
 
                 $("#useTimeDialog").dialog('close');
 
@@ -700,7 +735,6 @@
             },
             convertSelectData(data) {
                 let la_returnData = [];
-
                 if (data.split(",").length > 0) {
                     _.each(data.split(","), (ls_data) => {
                         la_returnData.push(ls_data);
