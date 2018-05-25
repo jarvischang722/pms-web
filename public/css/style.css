@@ -4303,6 +4303,10 @@ td div.act-box span.act-text {
 .townPage {
   height: 500px;
 }
+
+.townPage.town-grap {
+    overflow: auto;
+}
 .townPage .townRow .townBlock {
   float: left;
   margin: 0 1px 1px 0;
