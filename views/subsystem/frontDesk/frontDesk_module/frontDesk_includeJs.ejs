@@ -1159,7 +1159,7 @@
             method: 'get',
             columns: [[
                 {field: 'publicAccount', title: '公帳號', width: 80},
-                {field: 'groups', title: '團號', width: 150},
+                {field: 'serPrice', title: '團號', width: 150},
                 {field: 'touristGuide', title: '導遊', width: 80},
                 {field: 'publicAccName', title: '公帳號名稱', width: 80},
                 {field: 'publicAccStatus', title: '公帳狀態', width: 80},
@@ -1250,27 +1250,21 @@
             method: 'get',
             columns: [[
 //                {field: 'resvCardNum', title: '訂房卡號', width: 50},
-                {field: 'resvCardNum', title: '訂房卡號', width: 100},
+                {field: 'resvCardNum', title: '訂房卡號', width: 80},
                 {field: 'state', title: '狀態', width: 50},
                 {field: 'roomNum', title: '訂房數', width: 50},
                 {field: 'roomNum2', title: '排房數', width: 50},
                 {field: 'ciNum', title: 'C/I數', width: 50},
-                {field: 'groupNum', title: '團號', width: 60},
-                {field: 'ciDate', title: '入住日期', width: 100},
-                {field: 'coDate', title: '退房日期', width: 100},
-                {field: 'roomCode', title: '房價代號', width: 160},
-                {field: 'roomTypes', title: '計價房型', width: 80},
-                {field: 'useRmTypes', title: '使用房型', width: 80},
+                {field: 'groupNum', title: '團號', width: 50},
+                {field: 'ciDate', title: '入住日期', width: 80},
+                {field: 'coDate', title: '退房日期', width: 80},
+                {field: 'roomCode', title: '房價代號', width: 130},
+                {field: 'roomTypes', title: '計價房型', width: 60},
+                {field: 'useRmTypes', title: '使用房型', width: 60},
                 {field: 'uniPrice', title: '單價', width: 60, align: "right"},
                 {field: 'serPrice', title: '服務費', width: 60, align: "right"},
-                {field: 'bookingCompany', title: '訂房公司', width: 150},
-                {field: 'contact', title: '聯絡人', width: 100},
-                {field: 'booking', title: '訂房來源', width: 100},
-                {field: 'marketCates', title: '市場類別', width: 100},
-                {field: 'bookingRemark', title: '備註', width: 330},
-                {field: 'adult', title: '大人', width: 40},
-                {field: 'child', title: '小孩', width: 40},
-                {field: 'baby', title: '嬰兒', width: 40},
+                {field: 'bookingCompany', title: '訂房公司', width: 140},
+                {field: 'contact', title: '聯絡人', width: 80}
             ]]
         });
 
@@ -1284,7 +1278,8 @@
             columns: [[
                 {field: 'no', title: '序號', width: 40},
                 {field: 'roomCode', title: '房號', width: 50},
-                {field: 'fullName', title: '住客姓名', width: 120},
+                {field: 'fullName', title: '住客姓名', width: 200},
+                {field: 'status', title: '狀態', width: 50}
             ]]
         });
 

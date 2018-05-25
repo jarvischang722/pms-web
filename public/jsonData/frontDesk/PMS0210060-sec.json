@@ -4,32 +4,38 @@
     {
       "no": "1",
       "roomCode": "206",
-      "fullName": "陳Rick"
+      "fullName": "陳Rick",
+      "status": "開帳"
     },
     {
       "no": "2",
       "roomCode": "207",
-      "fullName": "黃大銘"
+      "fullName": "黃大銘",
+      "status": "關帳"
     },
     {
       "no": "3",
       "roomCode": "208",
-      "fullName": "李Peter"
+      "fullName": "李Peter",
+      "status": "未入住"
     },
     {
       "no": "4",
       "roomCode": "209",
-      "fullName": "林強"
+      "fullName": "林強",
+      "status": "關帳"
     },
     {
       "no": "5",
       "roomCode": "111",
-      "fullName": "王妃"
+      "fullName": "王妃",
+      "status": "開帳"
     },
     {
       "no": "6",
       "roomCode": "112",
-      "fullName": "岳飛"
+      "fullName": "岳飛",
+      "status": "未入住"
     }
   ]
 }
