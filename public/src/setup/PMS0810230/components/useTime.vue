@@ -94,7 +94,7 @@
     //起始日
     Vue.component('table-begin-date', {
         template: '<el-date-picker v-model="rowData.begin_dat" type="date" format="yyyy/MM/dd"' +
-        'style="width: 135px; height: 35px;line-height: 25px;" editable="false" @change="changeRowData(rowData, index)"' +
+        'style="width: 135px; height: 35px;line-height: 25px;" editable="false" @change="changeRowData(rowData, index)" :readonly="rowData.isEdit"' +
         ':editable="false" :clearable="false"></el-date-picker>',
         props: {
             rowData: {
@@ -123,6 +123,14 @@
             },
             index: {
                 type: Number
+            }
+        },
+        watch: {
+            "rowData.end_dat": function (val, oldVal) {
+                if (moment(val).diff(moment(this.rowData.begin_dat), "days") < 0) {
+                    alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
+                    this.rowData.end_dat = oldVal;
+                }
             }
         },
         methods: {
@@ -396,6 +404,7 @@
                         _.each(la_dgRowData, (lo_dgRowData, idx) => {
                             la_dgRowData[idx]["begin_dat"] = moment(lo_dgRowData["begin_dat"]).format("YYYY/MM/DD");
                             la_dgRowData[idx]["end_dat"] = moment(lo_dgRowData["end_dat"]).format("YYYY/MM/DD");
+                            la_dgRowData[idx]["isEdit"] = moment(lo_dgRowData["end_dat"]).format("YYYY/MM/DD");
                         });
 
                         this.fieldsData = result.dgFieldsData;
@@ -409,7 +418,6 @@
                             ga_utOriDataGridRowsData: this.oriDataGridRowsData,
                             go_utTmpCUD: this.tmpCUD
                         });
-                        console.log(moment(new Date()).format("YYYY/MM/DD HH:mm:ss"));
                     }
                     else {
                         alert(result.errorMsg);
@@ -498,6 +506,7 @@
                             "cmFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}),
                             "dtdFieldsData": this.convertCommandOption(lo_dataGridRowsData),
                             "rcFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'room_cods'}),
+                            "isEdit": _.isUndefined(lo_dataGridRowsData.isEdit) ? false : true
                         });
                     });
                 }
@@ -657,7 +666,9 @@
                     lo_dataGridRowsData.command_option = this.convertMultiData(lo_dataGridRowsData.command_option);
                     lo_dataGridRowsData.room_cods = this.convertMultiData(lo_dataGridRowsData.room_cods);
                     if (lo_dataGridRowsData.isCreate) {
-                        this.tmpCUD.createData.splice(idx, 1);
+                        if (_.findIndex(this.tmpCUD.createData, lo_dataGridRowsData) > -1) {
+                            this.tmpCUD.createData.splice(_.findIndex(this.tmpCUD.createData, lo_dataGridRowsData), 1);
+                        }
                         this.tmpCUD.createData.push(lo_dataGridRowsData);
                     }
                     else {

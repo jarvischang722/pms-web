@@ -454,7 +454,6 @@
                     this.$store.dispatch("setRoomTypData", {
                         go_rtTmpCUD: val
                     });
-                    console.log(val);
                 }
                 ,
                 deep: true
