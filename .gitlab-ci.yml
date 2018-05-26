@@ -22,7 +22,7 @@ build:
     - develop
     - master
   script:
-    - sh shells/build.sh
+   
 
 
 # 程式測試
@@ -46,6 +46,7 @@ deploy_test:
   tags:
     - bac-dev     
   script:
+    - sh shells/build.sh
     - pm2 delete bacchus4web || true
     - pm2 start app.js --name bacchus4web
     
