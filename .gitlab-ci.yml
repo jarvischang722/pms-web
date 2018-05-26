@@ -4,6 +4,7 @@ stages
   - test
   - deploy_test
   - deploy_production
+  
  #  - install_deps
   
 cache:
