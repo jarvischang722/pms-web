@@ -6,10 +6,7 @@ stages:
   - deploy_production
   
   
-cache:
-  key: ${CI_BUILD_REF_NAME}
-  paths:
-    - node_modules/
+
 
 variables:
   NODE: '/usr/bin/node'
