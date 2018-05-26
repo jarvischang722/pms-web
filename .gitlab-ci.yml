@@ -1,9 +1,6 @@
 # 全域變數設定
 variables:
-  NODE: '$HOME/.nvm/versions/node/v8.8.0/bin/node'
-  GIT: '/usr/bin/git'
-  PM2: '$HOME/.nvm/versions/node/v8.8.0/bin/pm2'
-  NPM: '$HOME/.nvm/versions/node/v8.8.0/bin/npm'
+
 
 cache:
   key: ${CI_BUILD_REF_NAME}
@@ -34,6 +31,7 @@ build:
     - npm -v
     - node -v
     - git --version
+    - pm2 -v
     - npm -E install
 
 
@@ -45,8 +43,6 @@ test:
     - master
   script:
     - echo "Testing.."
-    - $GIT --version
-    - $PM2 l
     - echo "Test successed."
     
 
