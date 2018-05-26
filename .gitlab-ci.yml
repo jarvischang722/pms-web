@@ -5,7 +5,6 @@ stages:
   - deploy_test
   - deploy_production
   
- #  - install_deps
   
 cache:
   key: ${CI_BUILD_REF_NAME}
@@ -28,20 +27,6 @@ build:
   script:
     - sh shell/build.sh
 
-# 安装依賴套件
-install_deps:
-  stage: install_deps
-  before_script:
-  - scl enable devtoolset-2 bash
-  - source /opt/rh/devtoolset-2/enable
-  - gcc --version
-  only:
-    - develop
-    - master
-  script:
-    - $NPM -v
-    - $NODE -v
-    - npm -E install
 
 # 程式測試
 test:
