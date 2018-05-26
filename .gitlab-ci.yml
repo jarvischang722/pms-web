@@ -5,6 +5,11 @@ variables:
   PM2: '/home/nodejs/.nvm/versions/node/v8.8.0/bin/pm2'
   NPM: '/usr/bin/npm'
 
+cache:
+  key: ${CI_BUILD_REF_NAME}
+  paths:
+    - node_modules/
+
 # 定義 stages
 stages:
   - build
@@ -12,13 +17,11 @@ stages:
   - deploy_test
   - deploy_production
 
+
+
 # 設定部署
 build:
   stage: build
-  cache:
-    key: ${CI_BUILD_REF_NAME}
-    paths:
-      - node_modules/
   before_script:
     - scl enable devtoolset-2 bash
     - source /opt/rh/devtoolset-2/enable
