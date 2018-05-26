@@ -1,6 +1,6 @@
 # 全域變數設定
 variables:
-
+  NPM: '/usr/bin/npm'
 
 # 定義 stages
 stages:
@@ -30,7 +30,7 @@ build:
     - node -v
     - git --version
     - pm2 -v
-    - npm -E install
+    - $NPM -E install
 
 
 # 程式測試
