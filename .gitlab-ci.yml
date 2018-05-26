@@ -31,9 +31,9 @@ build:
     - master
   script:
     - whoami
-    - $NPM -v
-    - $NODE -v
-    - $GIT --version
+    - npm -v
+    - node -v
+    - git --version
     - npm -E install
 
 
