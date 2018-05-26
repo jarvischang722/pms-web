@@ -2,11 +2,6 @@
 variables:
 
 
-cache:
-  key: ${CI_BUILD_REF_NAME}
-  paths:
-    - node_modules/
-
 # 定義 stages
 stages:
   - build
@@ -14,7 +9,10 @@ stages:
   - deploy_test
   - deploy_production
 
-
+cache:
+  key: ${CI_BUILD_REF_NAME}
+  paths:
+    - node_modules/
 
 # 設定部署
 build:
