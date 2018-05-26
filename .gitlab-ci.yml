@@ -1,9 +1,9 @@
 # 全域變數設定
 variables:
-  NODE: '/usr/bin/node'
+  NODE: '$HOME/.nvm/versions/node/v8.8.0/bin/node'
   GIT: '/usr/bin/git'
-  PM2: '/home/nodejs/.nvm/versions/node/v8.8.0/bin/pm2'
-  NPM: '/usr/bin/npm'
+  PM2: '$HOME/.nvm/versions/node/v8.8.0/bin/pm2'
+  NPM: '$HOME/.nvm/versions/node/v8.8.0/bin/npm'
 
 cache:
   key: ${CI_BUILD_REF_NAME}
@@ -30,8 +30,10 @@ build:
     - develop
     - master
   script:
+    - whoami
     - $NPM -v
     - $NODE -v
+    - $GIT --version
     - npm -E install
 
 
