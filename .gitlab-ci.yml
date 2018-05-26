@@ -1,5 +1,5 @@
 # 定義 stages
-stages
+stages:
   - build
   - test
   - deploy_test
