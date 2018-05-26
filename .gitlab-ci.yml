@@ -25,7 +25,7 @@ build:
     - develop
     - master
   script:
-    - sh shell/build.sh
+    - sh shells/build.sh
 
 
 # 程式測試
