@@ -3,7 +3,7 @@ variables:
 
 
 cache:
-  key: "$CI_PROJECT_ID"
+  key: ${CI_BUILD_REF_NAME}
   paths:
     - node_modules/
 
