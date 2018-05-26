@@ -1,10 +1,10 @@
 # 定義 stages
 stages:
-  - install_deps
+  - build
   - test
   - deploy_test
   - deploy_production
- 
+  
   
 cache:
   key: ${CI_BUILD_REF_NAME}
@@ -18,20 +18,15 @@ variables:
   NPM: '/usr/bin/npm'
 
 
-# 安装依賴套件
-install_deps:
-  stage: install_deps
-  before_script:
-  - scl enable devtoolset-2 bash
-  - source /opt/rh/devtoolset-2/enable
-  - gcc --version
+# 設定部署
+build:
+  stage: build
   only:
     - develop
     - master
   script:
-    - $NPM -v
-    - $NODE -v
-    - npm -E install
+    - sh shells/build.sh
+
 
 # 程式測試
 test:
