@@ -18,7 +18,7 @@ build:
   cache:
     key: ${CI_BUILD_REF_NAME}
     paths:
-      	- node_modules/
+      - node_modules/
   before_script:
     - scl enable devtoolset-2 bash
     - source /opt/rh/devtoolset-2/enable
