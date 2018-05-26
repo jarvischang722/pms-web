@@ -1,6 +1,5 @@
 # 定義 stages
 stages:
-  - build
   - test
   - deploy_test
   - deploy_production
@@ -14,15 +13,6 @@ variables:
   PM2: '/home/nodejs/.nvm/versions/node/v8.8.0/bin/pm2'
   NPM: '/usr/bin/npm'
 
-
-# 設定部署
-build:
-  stage: build
-  only:
-    - develop
-    - master
-  script:
-   
 
 
 # 程式測試
