@@ -179,7 +179,7 @@ const actions = {
             }
         }
 
-        // console.log(lo_tmpCUD);
+        console.log(lo_tmpCUD);
         // return {success: true};
         return await $.post('/api/doOperationSave', {
             prg_id: 'PMS0210011',

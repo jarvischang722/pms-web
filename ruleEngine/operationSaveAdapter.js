@@ -12,19 +12,20 @@ let commonTools = require("../utils/CommonTools");
 let langSvc = require("../services/LangService");
 
 function operationSaveAdapterClass(postData, session) {
+    let lo_trimData = trimPostData(postData.tmpCUD);
     let lo_params = {
         trans_cod: postData.trans_cod,
         prg_id: postData.prg_id,
         page_id: postData.page_id,
         func_id: postData.func_id,
-        oriData: postData.tmpCUD.oriData || [],
-        createData: postData.tmpCUD.createData || [],
-        updateData: postData.tmpCUD.updateData || [],
-        deleteData: postData.tmpCUD.deleteData || [],
-        dtOriData: postData.tmpCUD.dt_oriData || [],
-        dtCreateData: postData.tmpCUD.dt_createData || [],
-        dtUpdateData: postData.tmpCUD.dt_updateData || [],
-        dtDeleteData: postData.tmpCUD.dt_deleteData || [],
+        oriData: lo_trimData.oriData || [],
+        createData: lo_trimData.createData || [],
+        updateData: lo_trimData.updateData || [],
+        deleteData: lo_trimData.deleteData || [],
+        dtOriData: lo_trimData.dt_oriData || [],
+        dtCreateData: lo_trimData.dt_createData || [],
+        dtUpdateData: lo_trimData.dt_updateData || [],
+        dtDeleteData: lo_trimData.dt_deleteData || [],
         saveExecDatas: {},
         exec_seq: 1
     };
@@ -62,6 +63,24 @@ function operationSaveAdapterClass(postData, session) {
     this.getApiFormat = function () {
         return lo_apiFormat;
     };
+}
+
+/**
+ * 資料去空白
+ * @param tmpCUD {Object} postData資料
+ * @returns {*}
+ */
+function trimPostData(tmpCUD) {
+    _.each(tmpCUD, (la_postData, ls_tmpType) => {
+        _.each(la_postData, (lo_postData, ln_index) => {
+            _.each(lo_postData, (ls_data, ls_key) => {
+                if (typeof ls_data === "string") {
+                    tmpCUD[ls_tmpType][ln_index][ls_key] = ls_data.trim();
+                }
+            });
+        });
+    });
+    return tmpCUD;
 }
 
 /**
@@ -303,7 +322,7 @@ async function combineMainData(rfData, tmpIdType, params, session) {
                             });
                         });
                     }
-                    else{
+                    else {
 
                     }
 

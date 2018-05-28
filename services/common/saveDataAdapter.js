@@ -15,6 +15,7 @@ class saveDataAdapter {
         this.session = session;
         this.sys_locales = postData.sys_locales;
         this.locale = postData.locale;
+        this.trimData = this.trimPostData(postData.tmpCUD);
         this.params = {
             prg_id: postData.prg_id,
             func_id: postData.func_id,
@@ -23,6 +24,24 @@ class saveDataAdapter {
             deleteData: postData.tmpCUD.deleteData || [],
             oriData: postData.tmpCUD.oriData || []
         };
+    }
+
+    /**
+     * 資料去空白
+     * @param tmpCUD {Object} postData資料
+     * @returns {*}
+     */
+    trimPostData(tmpCUD) {
+        _.each(tmpCUD, (la_postData, ls_tmpType) => {
+            _.each(la_postData, (lo_postData, ln_index) => {
+                _.each(lo_postData, (ls_data, ls_key) => {
+                    if (typeof ls_data === "string") {
+                        tmpCUD[ls_tmpType][ln_index][ls_key] = ls_data.trim();
+                    }
+                });
+            });
+        });
+        return tmpCUD;
     }
 
     /**

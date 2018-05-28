@@ -557,6 +557,10 @@
                     //生日
                     val["cust_idx.birth_dat"] = val["cust_idx.birth_dat"] == "" ? "" : moment(val["cust_idx.birth_dat"]).format("YYYY/MM/DD");
                     val.birth_dat = val["cust_idx.birth_dat"];
+                    this.$store.dispatch("setProfileData", {
+                        go_profileSingleData: this.singleData,
+                        go_oriProfileSingleData: this.oriSingleData
+                    });
                 },
                 deep: true
             },
@@ -580,11 +584,6 @@
                         this.singleData["cust_idx.uni_title"] = this.singleData["cust_idx.uni_title"] == "" ? ls_uniTitle : this.singleData["cust_idx.uni_title"];
                     }
                 }
-
-                this.$store.dispatch("setProfileData", {
-                    go_profileSingleData: this.singleData,
-                    go_oriProfileSingleData: this.oriSingleData
-                });
             }
         },
         methods: {
@@ -755,6 +754,7 @@
 
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        console.log(this.singleData, this.oriSingleData);
                         this.setGlobalGcustCod();
                         this.isLoadingDialog = false;
                     });
@@ -801,6 +801,10 @@
             },
             //儲存資料
             async doSaveData() {
+
+                // console.log(this.rowData);
+                // return;
+
                 this.isLoadingDialog = true;
                 this.loadingText = "saving";
                 let lo_chkResult = this.dataValidate();
