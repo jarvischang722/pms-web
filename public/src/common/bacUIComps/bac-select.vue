@@ -74,7 +74,6 @@
         watch: {
             //塞入預設值
             defaultVal: function (val) {
-                console.log(this.defaultVal, this.dataDisplay, this.valueField, this.textField);
                 this.$emit('update:v-model', this.defaultVal);
                 $(this.$el).combobox('setValue', this.defaultVal);
             },
