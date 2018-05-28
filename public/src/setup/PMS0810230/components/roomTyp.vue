@@ -5,10 +5,10 @@
                 <div class="grid-item">
                     <label class="width-auto">{{i18nLang.program.PMS0810230.useTime}}</label>
                     <bac-select v-model="selectedUseTimeData"
-                                :data-display="useTimeSelectData" :data="useTimeSelectData"
+                                :data-display="useTimeSelectData"
                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                 @update:v-model="val => selectedUseTimeData = val"
-                                :default-val="selectedUseTimeData" :field="{}"
+                                :default-val="selectedUseTimeData" :field="useTimeFieldData"
                                 @change="fetchRateCodDtData">
                     </bac-select>
                 </div>
@@ -298,8 +298,7 @@
 
                 this.useTimeSelectData = la_useTimeSelectData;
                 this.selectedUseTimeData = "";
-            })
-            ;
+            });
 
             //rate cod 修改
             this.$eventHub.$on("setRoomTypRateCod", (data) => {
@@ -328,8 +327,7 @@
         mounted() {
             this.stopSellText = go_i18nLang.program.PMS0810230.stopSell;
             this.fetchRentCalDat();
-        }
-        ,
+        },
         data() {
             return {
                 i18nLang: go_i18nLang,
@@ -341,6 +339,7 @@
                 },
                 rateCod: '',
                 rentAmtFieldData: {},       //房租欄位資料
+                useTimeFieldData: {ui_field_name: 'use_time'},       //使用期間下拉欄位資料
                 rateCodDtData: [],          //房型資料
                 oriRateCodDtData: [],       //房型原始資料
                 roomCodData4Display: [],    //頁面上顯示房型資料
@@ -356,8 +355,7 @@
                 editingCellData: {},        //正在編輯的資料
                 tableCellWidth: ""          //表格格子寬度
             }
-        }
-        ,
+        },
         watch: {
             isRoomType(val) {
                 if (val) {
@@ -458,16 +456,14 @@
                 ,
                 deep: true
             }
-        }
-        ,
+        },
         methods: {
             //取滾房租日
             fetchRentCalDat() {
                 BacUtils.doHttpPostAgent('/api/qryRentCalDat', {}, (result) => {
                     this.rentCalDat = result.rent_cal_dat;
                 });
-            }
-            ,
+            },
             initData() {
                 this.rateCodDtData = [];
                 this.oriRateCodDtData = [];
@@ -479,8 +475,7 @@
                 };
                 this.selectedUseTimeData = [];
                 this.useTimeSelectData = [];
-            }
-            ,
+            },
             //取使用期間資料
             fetchUseTime() {
                 if (this.$store.gs_rateCod != "") {
@@ -491,19 +486,17 @@
                         if (result.success) {
                             //取得使用期間下拉資料
                             this.useTimeSelectData = result.selectOptions;
-                            this.selectedUseTimeData = "";
                             //取得使用期間資料
-                            setTimeout(() => {
-                                this.$eventHub.$emit("getUseTimeData4Ratecod");
-                            }, 500);
+                            this.selectedUseTimeData = _.first(this.useTimeSelectData).value;
+
+
                         }
                         else {
                             alert(result.errorMsg.toString());
                         }
                     });
                 }
-            }
-            ,
+            },
             //取得房價資料(改變使用期間)
             fetchRateCodDtData() {
                 this.isLoading = true;
@@ -560,16 +553,14 @@
                         _.groupBy(_.where(la_rateCodDtData4DayNam, {supply_nos: this.selectedUseTimeData}), "day_nam");
                     this.tableCellWidth = 85 / _.keys(this.roomCodData4Display).length;
                 }
-            }
-            ,
+            },
             //轉換日期規則資料
             convertCommandOption(command_option) {
                 let lo_coFieldData = _.findWhere(this.$store.state.ga_utFieldsData, {ui_field_name: 'command_option'});
                 let la_selectData = !_.isUndefined(lo_coFieldData) ? lo_coFieldData.selectData : [];
                 let ls_commandOption = la_selectData.length > 0 ? _.findWhere(la_selectData, {value: command_option.substring(1, 2)}).display : "";
                 return ls_commandOption;
-            }
-            ,
+            },
             setStopSell() {
                 this.stopSellButton.isStopSell = !this.stopSellButton.isStopSell;
                 this.editingCellData.use_sta = this.stopSellButton.isStopSell ? 'N' : 'Y';
@@ -578,8 +569,7 @@
                 if (ln_editIndex > -1) {
                     this.dayNamData4Display[this.editingCellData.day_nam][ln_editIndex]["use_sta"] = this.editingCellData.use_sta;
                 }
-            }
-            ,
+            },
             getData(ratecod_data) {
                 this.stopSellButton.isStopSell = ratecod_data.use_sta == 'N' ? true : false;
                 this.stopSellButton.text = ratecod_data.use_sta == 'N' ?
@@ -594,8 +584,7 @@
                     this.dayNamData4Display[ratecod_data.day_nam][ln_editIndex]["isEdit"] = true;
                 }
                 this.editingCellData = ratecod_data;
-            }
-            ,
+            },
             leaveCell() {
                 this.stopSellText = this.editingCellData.use_sta == 'N' ?
                     go_i18nLang.program.PMS0810230.revert : go_i18nLang.program.PMS0810230.stopSell;
@@ -609,8 +598,7 @@
                     this.dayNamData4Display[this.editingCellData.day_nam][ln_editIndex]["use_sta"] = this.editingCellData.use_sta;
                 }
                 this.editingCellData = {};
-            }
-            ,
+            },
             formatAmt(amount, field) {
                 let ls_amtValue = go_formatDisplayClass.removeAmtFormat(JSON.parse(JSON.stringify(amount)).toString());
                 let ls_ruleVal = field.format_func_name.rule_val;
@@ -644,8 +632,7 @@
 
                 }
 
-            }
-            ,
+            },
             //剛新增的使用期間(未入到資料庫)
             getAndConvertTmpUseTimeData() {
                 let lo_useTimeData = _.findWhere(this.$store.state.go_allData.ga_utDataGridRowsData, {
