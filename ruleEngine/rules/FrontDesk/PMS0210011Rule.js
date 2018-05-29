@@ -62,7 +62,7 @@ module.exports = {
             "REVE-CODE": "BAC0900805",
             "func_id": "0000",
             "athena_id": session.user.athena_id,
-            "comp_cod": session.user.cmp_id,
+            "comp_cod": "NULL",
             "hotel_cod": session.user.hotel_cod,
             "sys_cod": "HFD",
             "nos_nam": "CUST_COD",

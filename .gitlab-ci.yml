@@ -1,37 +1,37 @@
+# 全域變數設定
+variables:
+  NPM: '/usr/bin/npm'
+
 # 定義 stages
 stages:
-  - install_deps
+  - build
   - test
   - deploy_test
   - deploy_production
- 
-  
+
 cache:
   key: ${CI_BUILD_REF_NAME}
   paths:
     - node_modules/
 
-variables:
-  NODE: '/usr/bin/node'
-  GIT: '/usr/bin/git'
-  PM2: '/home/nodejs/.nvm/versions/node/v8.8.0/bin/pm2'
-  NPM: '/usr/bin/npm'
-
-
-# 安装依賴套件
-install_deps:
-  stage: install_deps
+# 設定部署
+build:
+  stage: build
   before_script:
-  - scl enable devtoolset-2 bash
-  - source /opt/rh/devtoolset-2/enable
-  - gcc --version
+    - scl enable devtoolset-2 bash
+    - source /opt/rh/devtoolset-2/enable
+    - gcc --version
   only:
     - develop
     - master
   script:
-    - $NPM -v
-    - $NODE -v
-    - npm -E install
+    - whoami
+    - npm -v
+    - node -v
+    - git --version
+    - pm2 -v
+    - $NPM -E install
+
 
 # 程式測試
 test:
@@ -41,8 +41,6 @@ test:
     - master
   script:
     - echo "Testing.."
-    - $GIT --version
-    - $PM2 l
     - echo "Test successed."
     
 
@@ -54,6 +52,7 @@ deploy_test:
   tags:
     - bac-dev     
   script:
+    - sh shells/build.sh
     - pm2 delete bacchus4web || true
     - pm2 start app.js --name bacchus4web
     
@@ -65,7 +64,9 @@ deploy_production:
   tags:
     - bac-prod     
   script:
-    - $GIT branch    
+   - sh shells/build.sh
+   - pm2 delete bacchus4web || true
+   - pm2 start app.js --name bacchus4web
 
 
     
