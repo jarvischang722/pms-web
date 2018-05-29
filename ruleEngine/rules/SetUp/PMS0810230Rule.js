@@ -163,6 +163,39 @@ module.exports = {
     },
 
     /**
+     * 檢查使用期間日期是否重疊
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    chk_ratesupply_dt_data(postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let la_examData = postData.rowsData;
+        for (let i = 0; i < la_examData.length; i++) {
+            for (let j = 0; j < i; j++) {
+                let lo_nowData = la_examData[i];
+                let lo_compareData = la_examData[j];
+
+                let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
+                let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
+                let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
+                let ls_compareEndDat = moment(new Date(lo_compareData.begin_dat));
+                let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+
+                if (lb_chkOverLap) {
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms81msg44", session.locale);
+                    break;
+                }
+            }
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
      * 房型下拉資料
      * @param postData
      * @param session

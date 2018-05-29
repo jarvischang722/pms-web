@@ -641,6 +641,7 @@
                     this.initData();
                     this.fetchFieldData();
                     this.loadingText = "Loading...";
+                    this.tabName = ""
                 }
             },
             isUseTime(val) {
@@ -679,6 +680,7 @@
                 this.oriSingleData = {};
                 this.fieldsData = [];
                 this.oriFieldsData = [];
+                this.isUseTime = false;
             },
             setGlobalStatus() {
                 this.$store.dispatch("setStatus", {

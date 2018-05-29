@@ -124,8 +124,6 @@ const actions = {
 
             _.each(state.go_rtTmpCUD, (value, key) => {
                 _.each(value, (lo_val) => {
-                    delete lo_val["ratesupply_dt.command_option"];
-                    delete lo_val["ratesupply_dt.between_dat"];
                     lo_tmpCUD[key].push(lo_val);
                 })
             });
@@ -135,7 +133,7 @@ const actions = {
                 })
             });
         }
-        console.log(lo_tmpCUD);
+        // console.log(lo_tmpCUD);
         // return {success: true};
         return await $.post('/api/execNewFormatSQL', {
             prg_id: 'PMS0810230',

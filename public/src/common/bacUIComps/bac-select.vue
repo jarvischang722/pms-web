@@ -72,10 +72,17 @@
             }
         },
         watch: {
+            data: {
+                handler: function (val) {
+                    this.dataDisplay = this.dataDisplay.length == 0 ? val : this.dataDisplay;
+                    $(this.$el).combobox("loadData", this.dataDisplay);
+                },
+                deep: true
+            },
             //塞入預設值
             defaultVal: function (val) {
                 this.$emit('update:v-model', this.defaultVal);
-                $(this.$el).combobox('setValue', this.defaultVal);
+                $(this.$el).combobox('setValue', val);
             },
             //設定是否唯讀
             disabled: function (val) {

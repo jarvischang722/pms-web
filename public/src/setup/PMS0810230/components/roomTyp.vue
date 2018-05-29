@@ -5,7 +5,7 @@
                 <div class="grid-item">
                     <label class="width-auto">{{i18nLang.program.PMS0810230.useTime}}</label>
                     <bac-select v-model="selectedUseTimeData"
-                                :data-display="useTimeSelectData"
+                                :data="useTimeSelectData" :data-display="useTimeSelectData"
                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                 @update:v-model="val => selectedUseTimeData = val"
                                 :default-val="selectedUseTimeData" :field="useTimeFieldData"
@@ -22,37 +22,40 @@
             <div class="container_12 divider">
                 <div class="grid_12 fixed-table-container cus-resvBlockSetting-table" width="100%">
                     <!--<div class="">-->
-                    <table class="fancyTable themeTable treeControl themeTableTwo" id="PMS0810230-table" cellpadding="0" cellspacing="0">
-                        <thead>
-                        <tr class="grayBg">
-                            <th class="ca-headerTitle grayBg defHt" style="width: 15%">
-                                {{i18nLang.program.PMS0810230.dateRule}}
-                            </th>
-                            <th class="defHt" v-for="(value, key, index) in roomCodData4Display">{{key}}</th>
-                        </tr>
-                        </thead>
-                        <tbody class="tbodyRight">
-                        <tr class="grayBg" v-for="(value, key, index) in dayNamData4Display">
-                            <td class="middle td-first defHt">{{key}}</td>
-                            <template v-for="ratecodData in value">
-                                <td class="numeric defHt" :style="{width: tableCellWidth + '%'}" style="background-color: white;"
-                                    @click="getData(ratecodData)" :id="ratecodData.uniKey" @blur="leaveCell(ratecodData)">
-                                    <template v-if="ratecodData.isEdit && ratecodData.use_sta == 'Y'">
-                                        <input type="text" class="defHt width-100"
-                                               @keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"
-                                               v-model="ratecodData.rent_amt">
-                                    </template>
-                                    <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
-                                        *
-                                    </template>
-                                    <template v-else style="width: 100%">
-                                        {{ratecodData.rent_amt}}
-                                    </template>
-                                </td>
-                            </template>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <template v-if="rateCodDtData.length > 0 ">
+                        <table class="fancyTable themeTable treeControl themeTableTwo" id="PMS0810230-table"
+                               cellpadding="0" cellspacing="0">
+                            <thead>
+                            <tr class="grayBg">
+                                <th class="ca-headerTitle grayBg defHt" style="width: 15%">
+                                    {{i18nLang.program.PMS0810230.dateRule}}
+                                </th>
+                                <th class="defHt" v-for="(value, key, index) in roomCodData4Display">{{key}}</th>
+                            </tr>
+                            </thead>
+                            <tbody class="tbodyRight">
+                            <tr class="grayBg" v-for="(value, key, index) in dayNamData4Display">
+                                <td class="middle td-first defHt">{{key}}</td>
+                                <template v-for="ratecodData in value">
+                                    <td class="numeric defHt" :style="{width: tableCellWidth + '%'}" style="background-color: white;"
+                                        @click="getData(ratecodData)" :id="ratecodData.uniKey" @blur="leaveCell(ratecodData)">
+                                        <template v-if="ratecodData.isEdit && ratecodData.use_sta == 'Y'">
+                                            <input type="text" class="defHt width-100"
+                                                   @keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"
+                                                   v-model="ratecodData.rent_amt">
+                                        </template>
+                                        <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
+                                            *
+                                        </template>
+                                        <template v-else style="width: 100%">
+                                            {{ratecodData.rent_amt}}
+                                        </template>
+                                    </td>
+                                </template>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </template>
                     <!--</div>-->
                 </div>
                 <div class="clear"></div>
@@ -298,6 +301,9 @@
 
                 this.useTimeSelectData = la_useTimeSelectData;
                 this.selectedUseTimeData = "";
+                setTimeout(() => {
+                    this.selectedUseTimeData = _.first(this.useTimeSelectData).value;
+                }, 100)
             });
 
             //rate cod 修改
@@ -350,7 +356,7 @@
                     deleteData: [],
                     oriData: []
                 },
-                selectedUseTimeData: "",    //使用期間資料
+                selectedUseTimeData: 0,    //使用期間資料
                 useTimeSelectData: [],      //使用期間下拉資料
                 editingCellData: {},        //正在編輯的資料
                 tableCellWidth: ""          //表格格子寬度
@@ -388,8 +394,7 @@
                 }
                 ,
                 deep: true
-            }
-            ,
+            },
             dayNamData4Display: {
                 handler(val) {
                     let lo_cloneData = JSON.parse(JSON.stringify(val));
@@ -429,8 +434,7 @@
                 }
                 ,
                 deep: true
-            }
-            ,
+            },
             tmpCUD: {
                 handler(val) {
                     //轉換tmpCUD資料
@@ -475,10 +479,12 @@
                 };
                 this.selectedUseTimeData = [];
                 this.useTimeSelectData = [];
+                this.roomCodData4Display = [];
+                this.dayNamData4Display = [];
             },
             //取使用期間資料
             fetchUseTime() {
-                if (this.$store.gs_rateCod != "") {
+                if (this.$store.state.gs_rateCod != "") {
                     BacUtils.doHttpPostAgent('/api/chkFieldRule', {
                         rule_func_name: 'qry_ratesupplydt_for_select_data',
                         rate_cod: this.$store.state.gs_rateCod
@@ -486,13 +492,46 @@
                         if (result.success) {
                             //取得使用期間下拉資料
                             this.useTimeSelectData = result.selectOptions;
-                            //取得使用期間資料
-                            this.selectedUseTimeData = _.first(this.useTimeSelectData).value;
-
-
+                            this.firstFetchRateCodDtData();
                         }
                         else {
                             alert(result.errorMsg.toString());
+                        }
+                    });
+                }
+            },
+            firstFetchRateCodDtData() {
+                let lo_params = {
+                    prg_id: 'PMS0810230',
+                    page_id: 2,
+                    tab_page_id: 11,
+                    searchCond: {
+                        rate_cod: this.$store.state.gs_oriRateCod
+                    }
+                };
+
+                if (lo_params.searchCond.rate_cod != "") {
+                    $.post("/api/fetchDataGridFieldData", lo_params, result => {
+                        if (result.success) {
+                            this.rateCodDtData = [];
+                            this.oriRateCodDtData = [];
+                            //取得房租欄位資料
+                            this.rentAmtFieldData = _.findWhere(result.dgFieldsData, {ui_field_name: "rent_amt"});
+                            //添加唯一值屬姓
+                            _.each(result.dgRowData, (lo_dgRowData, idx) => {
+                                lo_dgRowData["uniKey"] =
+                                    crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "");
+                                lo_dgRowData["isEdit"] = false;
+                                lo_dgRowData["event_time"] = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
+                                lo_dgRowData["rent_amt"] = go_formatDisplayClass.amtFormat(lo_dgRowData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
+                                this.rateCodDtData.push(lo_dgRowData);
+                                this.oriRateCodDtData.push(JSON.parse(JSON.stringify(lo_dgRowData)));
+
+                                this.selectedUseTimeData = this.useTimeSelectData.length > 0 ? _.first(this.useTimeSelectData).value : "";
+                            });
+                        }
+                        else {
+                            alert(result.errorMsg);
                         }
                     });
                 }
@@ -516,6 +555,8 @@
                 if (lo_params.searchCond.rate_cod != "" && lo_params.searchCond.supply_nos != "" && lb_isFirstFetch) {
                     $.post("/api/fetchDataGridFieldData", lo_params, result => {
                         if (result.success) {
+                            this.rateCodDtData = [];
+                            this.oriRateCodDtData = [];
                             //取得房租欄位資料
                             this.rentAmtFieldData = _.findWhere(result.dgFieldsData, {ui_field_name: "rent_amt"});
                             //添加唯一值屬姓
@@ -538,20 +579,8 @@
                     });
                 }
                 else {
-                    //依照room_cod、command_option轉換成頁面上呈現
-                    let la_rateCodDtData4RoomCod = JSON.parse(JSON.stringify(this.rateCodDtData));
-                    let la_rateCodDtData4DayNam = JSON.parse(JSON.stringify(this.rateCodDtData));
-                    _.each(la_rateCodDtData4RoomCod, (lo_rateCodDtData, idx) => {
-                        la_rateCodDtData4RoomCod[idx]["rent_amt"] = go_formatDisplayClass.amtFormat(lo_rateCodDtData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
-                    });
-                    _.each(la_rateCodDtData4DayNam, (lo_rateCodDtData, idx) => {
-                        la_rateCodDtData4DayNam[idx]["rent_amt"] = go_formatDisplayClass.amtFormat(lo_rateCodDtData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
-                    });
-                    this.roomCodData4Display =
-                        _.groupBy(_.where(la_rateCodDtData4RoomCod, {supply_nos: this.selectedUseTimeData}), "room_cod");
-                    this.dayNamData4Display =
-                        _.groupBy(_.where(la_rateCodDtData4DayNam, {supply_nos: this.selectedUseTimeData}), "day_nam");
-                    this.tableCellWidth = 85 / _.keys(this.roomCodData4Display).length;
+                    //剛新增的使用期間(未入到資料庫)
+                    this.getAndConvertTmpUseTimeData();
                 }
             },
             //轉換日期規則資料
@@ -649,8 +678,7 @@
                                 command_option: ls_commandOption,
                                 room_cod: ls_roomCod
                             };
-                            let lb_isExist = _.findIndex(this.rateCodDtData, lo_examParams) > -1 ? true : false;
-                            if (!lb_isExist) {
+                            if (_.findIndex(this.rateCodDtData, lo_examParams) == -1) {
                                 let lo_appendData = {
                                     add_adult: 0,
                                     add_child: 0,
@@ -678,13 +706,13 @@
                     });
                 }
                 //依照room_cod、command_option轉換成頁面上呈現
-
                 let la_rateCodDtData4RoomCod = JSON.parse(JSON.stringify(this.rateCodDtData));
                 let la_rateCodDtData4DayNam = JSON.parse(JSON.stringify(this.rateCodDtData));
                 this.roomCodData4Display =
                     _.groupBy(_.where(la_rateCodDtData4RoomCod, {supply_nos: this.selectedUseTimeData}), "room_cod");
                 this.dayNamData4Display =
                     _.groupBy(_.where(la_rateCodDtData4DayNam, {supply_nos: this.selectedUseTimeData}), "day_nam");
+
                 this.tableCellWidth = 85 / _.keys(this.roomCodData4Display).length;
             }
         }

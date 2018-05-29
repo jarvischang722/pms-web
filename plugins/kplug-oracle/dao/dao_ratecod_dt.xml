@@ -6,18 +6,17 @@
         d.command_cod, h.day_nam,d.command_option, d.room_cod, d.rent_amt, d.add_adult, d.add_child, d.use_sta
         from ratecod_dt d
         join holiday_kind_rf h on d.athena_id = h.athena_id and d.hotel_cod = h.hotel_cod and d.command_option = 'H' || h.day_sta
-        WHERE d.supply_nos = :supply_nos
-        and d.athena_id = :athena_id
+        WHERE d.athena_id = :athena_id
         and d.hotel_cod = :hotel_cod
         and d.rate_cod = :rate_cod
-        ORDER BY day_nam
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">rate_cod</parameter>
+        <statement test="_v(param.supply_nos)"><![CDATA[and d.supply_nos = :supply_nos]]></statement>
         <parameter type="number" kind="3">supply_nos</parameter>
-        <orderBy>order by view_seq, room_cod</orderBy>
+        <orderBy>order by view_seq, room_cod, day_nam</orderBy>
     </dao>
 
     <!--rateCode 取得房型的房型(左邊)-->

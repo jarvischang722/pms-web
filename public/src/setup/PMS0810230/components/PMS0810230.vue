@@ -281,33 +281,36 @@
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
-                    let lo_params = {
-                        page_id: this.pageOneFieldData[0].page_id,
-                        tab_page_id: this.pageOneFieldData[0].tab_page_id,
-                        event_time: moment().format()
-                    };
-                    lo_delRow = _.extend(lo_delRow, lo_params);
+                    let lb_chkDelRow = confirm(go_i18nLang["SystemCommon"].check_delete);
+                    if (lb_chkDelRow) {
+                        let lo_params = {
+                            page_id: this.pageOneFieldData[0].page_id,
+                            tab_page_id: this.pageOneFieldData[0].tab_page_id,
+                            event_time: moment().format()
+                        };
+                        lo_delRow = _.extend(lo_delRow, lo_params);
 
-                    await $.post('/api/execNewFormatSQL', {
-                        prg_id: 'PMS0810230',
-                        func_id: "0530",
-                        tmpCUD: {deleteData: [lo_delRow]}
-                    }).then(
-                        result => {
-                            if (result.success) {
-                                alert(go_i18nLang.program.PMS0810230.save_success);
-                                this.loadDataGridByPrgID();
+                        await $.post('/api/execNewFormatSQL', {
+                            prg_id: 'PMS0810230',
+                            func_id: "0530",
+                            tmpCUD: {deleteData: [lo_delRow]}
+                        }).then(
+                            result => {
+                                if (result.success) {
+                                    alert(go_i18nLang.program.PMS0810230.save_success);
+                                    this.loadDataGridByPrgID();
+                                }
+                                else {
+                                    alert(result.errorMsg);
+                                }
+                                this.isLoading = false;
+                                this.loadingText = "Loading...";
+                            },
+                            err => {
+                                throw Error(err);
                             }
-                            else {
-                                alert(result.errorMsg);
-                            }
-                            this.isLoading = false;
-                            this.loadingText = "Loading...";
-                        },
-                        err => {
-                            throw Error(err);
-                        }
-                    );
+                        );
+                    }
                 }
                 this.isLoading = false;
                 this.loadingText = "Loading...";

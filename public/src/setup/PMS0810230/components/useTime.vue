@@ -104,6 +104,14 @@
                 type: Number
             }
         },
+        watch: {
+            "rowData.begin_dat": function (val, oldVal) {
+                if (moment(val).diff(moment(this.rowData.end_dat), "days") > 0) {
+                    alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
+                    this.rowData.begin_dat = oldVal;
+                }
+            }
+        },
         methods: {
             changeRowData(rowData, index) {
                 rowData.begin_dat = moment(rowData.begin_dat).format("YYYY/MM/DD");
@@ -115,7 +123,7 @@
     //結束日
     Vue.component('table-end-date', {
         template: '<el-date-picker v-model="rowData.end_dat" type="date" format="yyyy/MM/dd"' +
-        'style="width: 135px; height: 35px; line-height: 25px;" editable="false" @change="changeRowData(rowData, index)"' +
+        'style="width: 135px; height: 35px; line-height: 25px;"  @change="changeRowData(rowData, index)"' +
         ':editable="false" :clearable="false"></el-date-picker>',
         props: {
             rowData: {
@@ -191,7 +199,7 @@
             }
         },
         watch: {
-            "rowData.command_option"(val) {
+            "rowData.command_option": function (val, oldVal) {
                 if (!Array.isArray(val)) {
                     let la_returnData = [];
                     if (val.split(",").length > 0) {
@@ -203,6 +211,11 @@
                         la_returnData.push(val);
                     }
                     this.rowData.command_option = la_returnData;
+                }
+                if (val.length <= 0) {
+                    let ls_mag = sprintf(go_i18nLang.Validation.Formatter.Required, this.rowData.dtdFieldsData.ui_display_name);
+                    alert(ls_mag);
+                    this.rowData.command_option = [oldVal];
                 }
             }
         },
@@ -232,7 +245,7 @@
             }
         },
         watch: {
-            "rowData.room_cods"(val) {
+            "rowData.room_cods": function (val, oldVal) {
                 if (!Array.isArray(val)) {
                     let la_returnData = [];
                     if (val.split(",").length > 0) {
@@ -244,6 +257,11 @@
                         la_returnData.push(val);
                     }
                     this.rowData.room_cods = la_returnData;
+                }
+                if (val.length <= 0) {
+                    let ls_mag = sprintf(go_i18nLang.Validation.Formatter.Required, this.rowData.rcFieldsData.ui_display_name);
+                    alert(ls_mag);
+                    this.rowData.room_cods = [oldVal];
                 }
             }
         },
@@ -650,7 +668,7 @@
                         rate_cod: this.$store.state.gs_rateCod,
                         supply_nos: Number(ln_maxSupplyNos) + 1,
                         begin_dat: moment().format("YYYY/MM/DD"),
-                        end_dat: moment().format("YYYY/MM/DD"),
+                        end_dat: moment().add(1, "day").format("YYYY/MM/DD"),
                         command_cod: "H",
                         command_option: la_commandOptionHSelect.length > 0 ? _.first(la_commandOptionHSelect).value : "",
                         room_cods: la_roomCosSelect.length > 0 ? _.first(la_roomCosSelect).value : "",
@@ -661,63 +679,93 @@
                     this.showTable();
                 }
             },
-            confirmData() {
-                _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
-                    lo_dataGridRowsData.command_option = this.convertMultiData(lo_dataGridRowsData.command_option);
-                    lo_dataGridRowsData.room_cods = this.convertMultiData(lo_dataGridRowsData.room_cods);
-                    if (lo_dataGridRowsData.isCreate) {
-                        if (_.findIndex(this.tmpCUD.createData, lo_dataGridRowsData) > -1) {
-                            this.tmpCUD.createData.splice(_.findIndex(this.tmpCUD.createData, lo_dataGridRowsData), 1);
-                        }
-                        this.tmpCUD.createData.push(lo_dataGridRowsData);
-                    }
-                    else {
-                        let lo_compareParam = {
-                            begin_dat: lo_dataGridRowsData.begin_dat,
-                            end_dat: lo_dataGridRowsData.end_dat,
-                            command_cod: lo_dataGridRowsData.command_cod,
-                            command_option: lo_dataGridRowsData.command_option,
-                            room_cods: lo_dataGridRowsData.room_cods,
-                        };
-                        let lb_isChanged = _.findIndex(this.$store.state.go_allData.ga_utDataGridRowsData, lo_compareParam) > -1 ? false : true;
-                        if (lb_isChanged) {
-                            let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_dataGridRowsData.supply_nos});
-                            if (ln_editIndex > -1) {
-                                this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                                this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                            }
-                            this.tmpCUD.updateData.push(lo_dataGridRowsData);
-                            this.tmpCUD.oriData.push(this.oriDataGridRowsData[idx]);
-                        }
-                    }
-                    this.$eventHub.$emit("setUseTimeData", {
-                        data: this.tmpCUD
-                    });
-                });
-                //轉換tmpCUD資料
-                let lo_param = {
-                    page_id: this.$store.state.ga_utFieldsData[0].page_id,
-                    tab_page_id: this.$store.state.ga_utFieldsData[0].tab_page_id
+            async doValidate() {
+                let lo_checkResult = {success: true, msg: ""};
+
+                if (this.chgDataGridRowsData.length == 0) {
+                    this.chgDataGridRowsData = this.oriDataGridRowsData;
+                }
+                let la_oriDataGridRowsData = this.chgDataGridRowsData;
+                let la_dataGridRowsData = this.dataGridRowsData;
+
+                let lo_postData = {
+                    prg_id: "PMS0810230",
+                    rule_func_name: "chk_ratesupply_dt_data",
+                    rowsData: la_dataGridRowsData,
+                    oriRowsData: la_oriDataGridRowsData
                 };
-                _.each(this.tmpCUD, (tmpCUDVal, tmpCUDKey) => {
-                    _.each(tmpCUDVal, (lo_tmpCUDVal, idx) => {
-                        //增加page_id、tab_page_id
-                        _.extend(this.tmpCUD[tmpCUDKey][idx], lo_param);
+
+                let lo_chkRule = await $.post('/api/chkFieldRule', lo_postData).then(result => {
+                    return result;
+                });
+
+                lo_checkResult.success = lo_chkRule.success;
+                lo_checkResult.msg = lo_chkRule.errorMsg;
+
+                return lo_checkResult;
+            },
+            async confirmData() {
+                let lo_chkResult = await this.doValidate();
+                if (lo_chkResult.success) {
+                    _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
+                        lo_dataGridRowsData.command_option = this.convertMultiData(lo_dataGridRowsData.command_option);
+                        lo_dataGridRowsData.room_cods = this.convertMultiData(lo_dataGridRowsData.room_cods);
+                        if (lo_dataGridRowsData.isCreate) {
+                            if (_.findIndex(this.tmpCUD.createData, lo_dataGridRowsData) > -1) {
+                                this.tmpCUD.createData.splice(_.findIndex(this.tmpCUD.createData, lo_dataGridRowsData), 1);
+                            }
+                            this.tmpCUD.createData.push(lo_dataGridRowsData);
+                        }
+                        else {
+                            let lo_compareParam = {
+                                begin_dat: lo_dataGridRowsData.begin_dat,
+                                end_dat: lo_dataGridRowsData.end_dat,
+                                command_cod: lo_dataGridRowsData.command_cod,
+                                command_option: lo_dataGridRowsData.command_option,
+                                room_cods: lo_dataGridRowsData.room_cods,
+                            };
+                            let lb_isChanged = _.findIndex(this.$store.state.go_allData.ga_utDataGridRowsData, lo_compareParam) > -1 ? false : true;
+                            if (lb_isChanged) {
+                                let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: lo_dataGridRowsData.supply_nos});
+                                if (ln_editIndex > -1) {
+                                    this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                                    this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                                }
+                                this.tmpCUD.updateData.push(lo_dataGridRowsData);
+                                this.tmpCUD.oriData.push(this.oriDataGridRowsData[idx]);
+                            }
+                        }
+                        this.$eventHub.$emit("setUseTimeData", {
+                            data: this.tmpCUD
+                        });
                     });
-                });
-                //將資料放入Vuex
-                this.$store.dispatch("setUseTimeData", {
-                    ga_utFieldsData: this.fieldsData,
-                    ga_utDataGridRowsData: this.dataGridRowsData,
-                    ga_utOriDataGridRowsData: this.oriDataGridRowsData,
-                    go_utTmpCUD: this.tmpCUD
-                });
+                    //轉換tmpCUD資料
+                    let lo_param = {
+                        page_id: this.$store.state.ga_utFieldsData[0].page_id,
+                        tab_page_id: this.$store.state.ga_utFieldsData[0].tab_page_id
+                    };
+                    _.each(this.tmpCUD, (tmpCUDVal, tmpCUDKey) => {
+                        _.each(tmpCUDVal, (lo_tmpCUDVal, idx) => {
+                            //增加page_id、tab_page_id
+                            _.extend(this.tmpCUD[tmpCUDKey][idx], lo_param);
+                        });
+                    });
+                    //將資料放入Vuex
+                    this.$store.dispatch("setUseTimeData", {
+                        ga_utFieldsData: this.fieldsData,
+                        ga_utDataGridRowsData: this.dataGridRowsData,
+                        ga_utOriDataGridRowsData: this.oriDataGridRowsData,
+                        go_utTmpCUD: this.tmpCUD
+                    });
 
-                //更新房型的使用期間資料
-                this.$eventHub.$emit("setUseTimeSelectData");
+                    //更新房型的使用期間資料
+                    this.$eventHub.$emit("setUseTimeSelectData");
 
-                $("#useTimeDialog").dialog('close');
-
+                    $("#useTimeDialog").dialog('close');
+                }
+                else {
+                    alert(lo_chkResult.msg);
+                }
             },
             closeDialog() {
                 //將資料放入Vuex
