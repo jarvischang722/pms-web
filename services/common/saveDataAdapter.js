@@ -15,7 +15,6 @@ class saveDataAdapter {
         this.session = session;
         this.sys_locales = postData.sys_locales;
         this.locale = postData.locale;
-        this.trimData = this.trimPostData(postData.tmpCUD);
         this.params = {
             prg_id: postData.prg_id,
             func_id: postData.func_id,
@@ -24,24 +23,6 @@ class saveDataAdapter {
             deleteData: postData.tmpCUD.deleteData || [],
             oriData: postData.tmpCUD.oriData || []
         };
-    }
-
-    /**
-     * 資料去空白
-     * @param tmpCUD {Object} postData資料
-     * @returns {*}
-     */
-    trimPostData(tmpCUD) {
-        _.each(tmpCUD, (la_postData, ls_tmpType) => {
-            _.each(la_postData, (lo_postData, ln_index) => {
-                _.each(lo_postData, (ls_data, ls_key) => {
-                    if (typeof ls_data === "string") {
-                        tmpCUD[ls_tmpType][ln_index][ls_key] = ls_data.trim();
-                    }
-                });
-            });
-        });
-        return tmpCUD;
     }
 
     /**
@@ -68,12 +49,29 @@ class saveDataAdapter {
             await this.insertCondIntoTmpCUD(la_tmpRf, la_dgKeyFields, la_gsKeyFields);
             let lo_page_data = await this.formatData(la_gsFields);
             let lo_apiFormat = this.apiFormat();
+            lo_page_data = this.trimPostData(lo_page_data);
             lo_apiFormat.page_data = lo_page_data;
             return lo_apiFormat;
         }
         catch (err) {
             throw err;
         }
+    }
+
+    /**
+     * 資料去空白
+     * @param tmpCUD {Object} postData資料
+     * @returns {*}
+     */
+    trimPostData(saveExecDatas) {
+        _.each(saveExecDatas, (lo_postData, ls_tmpType) => {
+            _.each(lo_postData, (ls_postData, ls_key) => {
+                if (typeof ls_postData === "string") {
+                    saveExecDatas[ls_tmpType][ls_key] = ls_postData.trim();
+                }
+            });
+        });
+        return saveExecDatas;
     }
 
     /**
