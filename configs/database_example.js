@@ -9,8 +9,7 @@ module.exports = {
         connectString: "192.168.60.79/WRS",
         user: "bacchus",
         password: "tomcat284362",
-        months: [1, 2, 3, 4, 5, 6],
-        debug: 1
+        months: [1, 2, 3, 4, 5, 6]
     }],
     // oracle 參數設定
     oracle_maxRows: 1000,
