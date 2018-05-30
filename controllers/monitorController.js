@@ -55,7 +55,7 @@ exports.checkServerSta = function (req, res) {
         async.series([
             function (cb) {
                 let ls_dbPath = path.resolve(__dirname, "../configs/database.js");
-                gas_outputMsg.push(`<br><b>===資料庫設定檔位置===</b> : ${ls_dbPath} `);
+                gas_outputMsg.push(`<br><b>資料庫設定檔位置</b> : ${ls_dbPath} `);
                 fs.exists(ls_dbPath, (exists) => {
                     if (exists) {
                         go_dbConf = require(ls_dbPath);
