@@ -2,9 +2,10 @@
  * Created by Jun on 2017/3/19.
  * 共用Rule
  */
-var moment = require("moment");
-var _ = require("underscore");
-var fs = require("fs");
+const moment = require("moment");
+const _ = require("underscore");
+const fs = require("fs");
+const saveExecDataTrimRule = require("./CommonRuleLib/SaveExecDataTrimRule");
 
 module.exports = {
     /**
@@ -158,5 +159,9 @@ module.exports = {
      */
     encryptByAes: function (text, key) {
 
+    },
+
+    trimSaveExecData: function (params, session) {
+        saveExecDataTrimRule(params, session);
     }
 };
