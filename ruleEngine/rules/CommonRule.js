@@ -5,7 +5,7 @@
 const moment = require("moment");
 const _ = require("underscore");
 const fs = require("fs");
-const saveExecDataTrimRule = require("./CommonRuleLib/SaveExecDataTrimRule");
+const SaveExecDataTrimRule = require("./CommonRuleLib/SaveExecDataTrimRule");
 
 module.exports = {
     /**
@@ -161,7 +161,12 @@ module.exports = {
 
     },
 
+    /**
+     * 檢查此作業是否有trim method
+     * @param params {object} API格式的儲存資料
+     * @param session {object}
+     */
     trimSaveExecData: function (params, session) {
-        saveExecDataTrimRule(params, session);
+        SaveExecDataTrimRule(params, session);
     }
 };
