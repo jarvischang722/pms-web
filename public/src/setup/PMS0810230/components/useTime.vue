@@ -122,7 +122,7 @@
     });
     //結束日
     Vue.component('table-end-date', {
-        template: '<el-date-picker v-model="rowData.end_dat" type="date" format="yyyy/MM/dd"' +
+        template: '<el-date-picker v-model="rowData.end_dat" type="date" format="yyyy/MM/dd" class="input_sta_required "' +
         'style="width: 135px; height: 35px; line-height: 25px;"  @change="changeRowData(rowData, index)"' +
         ':editable="false" :clearable="false"></el-date-picker>',
         props: {
