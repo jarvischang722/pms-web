@@ -1,0 +1,62 @@
+{
+  "total": 4,
+  "rows": [
+    {
+      "status": "正常",
+      "ciDate": "2005/11/13(Su)",
+      "coDate": "2005/11/19(Mo)",
+      "roomPriceCode": "FIT2017:一般散客價",
+      "roomKindAcc": "STD",
+      "useHousing": "STD",
+      "housingNum": "3",
+      "unitPrice": "1,500",
+      "serPrice": "500",
+      "adult": "4",
+      "child": "1",
+      "baby": "1"
+    },
+    {
+      "status": "正常",
+      "ciDate": "2005/11/13(Su)",
+      "coDate": "2005/11/19(Mo)",
+      "roomPriceCode": "TRA:旅展價",
+      "roomKindAcc": "DXT",
+      "useHousing": "DXT",
+      "housingNum": "2",
+      "unitPrice": "1,500",
+      "serPrice": "500",
+      "adult": "4",
+      "child": "1",
+      "baby": "1"
+    },
+    {
+      "status": "正常",
+      "ciDate": "2005/11/13(Su)",
+      "coDate": "2005/11/19(Mo)",
+      "roomPriceCode": "FIT2017:一般散客價",
+      "roomKindAcc": "STD",
+      "useHousing": "STD",
+      "housingNum": "3",
+      "unitPrice": "1,500",
+      "serPrice": "500",
+      "adult": "4",
+      "child": "1",
+      "baby": "1"
+    },
+    {
+      "status": "正常",
+      "ciDate": "2005/11/13(Su)",
+      "coDate": "2005/11/19(Mo)",
+      "roomPriceCode": "TRA:旅展價",
+      "roomKindAcc": "DXT",
+      "useHousing": "DXT",
+      "housingNum": "2",
+      "unitPrice": "1,500",
+      "serPrice": "500",
+      "adult": "4",
+      "child": "1",
+      "baby": "1"
+    }
+  ]
+}
+

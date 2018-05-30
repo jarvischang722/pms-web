@@ -1,0 +1,72 @@
+# 全域變數設定
+variables:
+  NPM: '/usr/bin/npm'
+
+# 定義 stages
+stages:
+  - build
+  - test
+  - deploy_test
+  - deploy_production
+
+cache:
+  key: ${CI_BUILD_REF_NAME}
+  paths:
+    - node_modules/
+
+# 設定部署
+build:
+  stage: build
+  before_script:
+    - scl enable devtoolset-2 bash
+    - source /opt/rh/devtoolset-2/enable
+    - gcc --version
+  only:
+    - develop
+    - master
+  script:
+    - whoami
+    - npm -v
+    - node -v
+    - git --version
+    - pm2 -v
+    - $NPM -E install
+
+
+# 程式測試
+test:
+  stage: test
+  only:
+    - develop
+    - master
+  script:
+    - echo "Testing.."
+    - echo "Test successed."
+    
+
+# 部署測試機
+deploy_test:
+  stage: deploy_test
+  only:
+    - develop
+  tags:
+    - bac-dev     
+  script:
+    - sh shells/build.sh
+    - pm2 delete bacchus4web || true
+    - pm2 start app.js --name bacchus4web
+    
+# 部署正式機
+deploy_production:
+  stage: deploy_production
+  only:
+    - master
+  tags:
+    - bac-prod     
+  script:
+   - sh shells/build.sh
+   - pm2 delete bacchus4web || true
+   - pm2 start app.js --name bacchus4web
+
+
+    
