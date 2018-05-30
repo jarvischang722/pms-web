@@ -343,6 +343,9 @@ module.exports = {
                 lo_error.errorMsg = commandRules.getMsgByCod("pms61msg15", session.locale);
                 cb(lo_error, lo_result);
             }
+            else {
+                cb(lo_error, lo_result);
+            }
         }
 
         function setRateCodSelectData(result, cb) {

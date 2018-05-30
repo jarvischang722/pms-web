@@ -72,6 +72,8 @@
     };
     DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     };
+    DatagridSingleGridClass.prototype.doSaveColumnFields = function () {
+    };
     /*** Class End  ***/
 
     import moment from 'moment';
@@ -164,7 +166,7 @@
                 // return;
                 //將合約內容資料放至Vuex
                 this.$store.dispatch("setCcDataGridRowsData", {
-                    ga_ccDataGridRowsData: rowData,
+                    ga_ccDataGridRowsData: this.dataGridRowsData,
                     go_ccOriDataGridRowsData: this.oriDataGridRowsData,
                     go_ccTmpCUD: this.dgIns.tmpCUD
                 });
@@ -212,7 +214,12 @@
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                         });
                         this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_ccDataGridRowsData;
-                        this.dgIns.loadDgData(this.dataGridRowsDataOfStaff);
+                        if (this.isHideExpire) {
+                            this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
+                        }
+                        else {
+                            this.dgIns.loadDgData(this.dataGridRowsDataOfStaff);
+                        }
                         this.isLoading = false;
                     }
                 });
