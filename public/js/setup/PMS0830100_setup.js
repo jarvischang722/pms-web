@@ -576,15 +576,21 @@ var PMS0830100VM = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
+            let self = this;
             if (_.isUndefined(callback) || _.isNull(callback)) {
                 callback = function () {
                 };
             }
             BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 waitingDialog.hide();
-                PMS0830100VM.searchFields = result.searchFields;
-                PMS0830100VM.pageOneDataGridRows = result.dataGridRows;
                 PMS0830100VM.pageOneFieldData = result.fieldData;
+
+                if (self.searchFields.length <= 0) {
+                    PMS0830100VM.searchFields = result.searchFields;
+                }
+                else {
+                    PMS0830100VM.pageOneDataGridRows = result.dataGridRows;
+                }
                 PMS0830100VM.showDataGrid();
                 callback(result.success);
             });

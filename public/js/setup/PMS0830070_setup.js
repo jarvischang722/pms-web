@@ -1,7 +1,7 @@
 /**
  * Created by a14020 on 2017/8/9.
  */
-var vmHub = new Vue;
+let vmHub = new Vue;
 waitingDialog.hide();
 
 function DatagridSingleGridClass() {
@@ -15,9 +15,9 @@ DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
     PMS0830070VM.isEditStatus = true;
 };
 
-var Pms0830070Comp = Vue.extend({
-    template: '#PMS0830070Tmp',
-    props: ['editingRow', 'singleData', "tmpCUD", 'singleDataDt', 'dt2ItemNosDataList'],
+let Pms0830070Comp = Vue.extend({
+    template: "#PMS0830070Tmp",
+    props: ["editingRow", "singleData", "tmpCUD", "singleDataDt", "dt2ItemNosDataList"],
     data: function () {
         return {
             dialogServiceItemVisible: false,
@@ -25,13 +25,13 @@ var Pms0830070Comp = Vue.extend({
             dt2ShowList: [],
             dtShowList: [],
             dtSelItemNosShowList: [],
-            dt2SelectedItemNos: [],              //dt2已選擇項目
-            dt2DisableItemNos: [],               //dt2禁用項目
-            itemNosCheckedTemp: []               //服務項目dtSelItemNosShowList勾選暫存(優先權高)
+            dt2SelectedItemNos: [], //dt2已選擇項目
+            dt2DisableItemNos: [], //dt2禁用項目
+            itemNosCheckedTemp: [] //服務項目dtSelItemNosShowList勾選暫存(優先權高)
         };
     },
     created: function () {
-        var self = this;
+        let self = this;
         vmHub.$on("clearItemNosCheckedTemp", function () {
             self.itemNosCheckedTemp = [];
             self.oriItemNosChecked = [];
@@ -41,18 +41,18 @@ var Pms0830070Comp = Vue.extend({
     methods: {
         //點擊明細跳窗
         openDt2: function (item) {
-            var ls_itemName = item.item_nam;
-            var ls_seq_nos = item.seq_nos;
+            let ls_itemName = item.item_nam;
+            let ls_seq_nos = item.seq_nos;
             if (ls_itemName == "" || _.isNull(ls_itemName)) {
                 alert("請輸入帳單明細");
                 return;
             }
 
-            var self = this;
-            var lo_singleData = PMS0830070VM.singleData;
+            let self = this;
+            let lo_singleData = PMS0830070VM.singleData;
             lo_singleData.seq_nos = ls_seq_nos;
             self.qrySelectedItemNos(item);
-            BacUtils.doHttpPostAgent('/api/qryDt2SelectedItemNos', lo_singleData, function (response) {
+            BacUtils.doHttpPostAgent("/api/qryDt2SelectedItemNos", lo_singleData, function (response) {
                 self.qryDt2DisableItemNos(lo_singleData, function (result) {
                     if (!_.isUndefined(item.createRow)) {
                         self.dt2SelectedItemNos = [];
@@ -69,7 +69,7 @@ var Pms0830070Comp = Vue.extend({
 
         //查詢dt2禁用項目
         qryDt2DisableItemNos: function (lo_singleData, callback) {
-            var self = this;
+            let self = this;
             BacUtils.doHttpPostAgent("/api/qryDt2DisableItemNos", lo_singleData, function (result) {
                 self.dt2DisableItemNos = result.dt2DisableItemNos;
                 callback(result.success);
@@ -78,18 +78,18 @@ var Pms0830070Comp = Vue.extend({
 
         //驗證此筆服務項目狀態
         chkItemNosStatus: function (item) {
-            var self = this;
+            let self = this;
             this.dt2ShowList = [];
             _.each(this.dt2ItemNosDataList, function (lo_data) {
                     //原始資料驗證
-                    var ln_sel_item_nos = _.findIndex(self.dt2SelectedItemNos, {item_nos: lo_data.item_nos});
-                    var ln_dis_item_nos = _.findIndex(self.dt2DisableItemNos, {item_nos: lo_data.item_nos});
+                    let ln_sel_item_nos = _.findIndex(self.dt2SelectedItemNos, {item_nos: lo_data.item_nos});
+                    let ln_dis_item_nos = _.findIndex(self.dt2DisableItemNos, {item_nos: lo_data.item_nos});
 
                     lo_data.checked = ln_sel_item_nos != -1 || ln_dis_item_nos != -1 ? true : false;
                     lo_data.disabled = ln_dis_item_nos != -1 ? true : false;
 
                     _.each(PMS0830070VM.tmpCUD.dt_deleteData, function (lo_dtDelData) {
-                        var ln_delNosItem = _.findIndex(self.dt2DisableItemNos, {
+                        let ln_delNosItem = _.findIndex(self.dt2DisableItemNos, {
                             seq_nos: lo_dtDelData.seq_nos,
                             item_nos: lo_data.item_nos
                         });
@@ -101,7 +101,7 @@ var Pms0830070Comp = Vue.extend({
 
                     //暂存驗證
                     if (self.itemNosCheckedTemp.length > 0) {
-                        var lo_temp = _.findWhere(self.itemNosCheckedTemp, {item_nos: lo_data.item_nos});
+                        let lo_temp = _.findWhere(self.itemNosCheckedTemp, {item_nos: lo_data.item_nos});
                         if (!_.isUndefined(lo_temp)) {
                             if (lo_temp.seq_nos != PMS0830070VM.singleData.seq_nos && lo_temp.checked == true) {
                                 lo_data.disabled = true;
@@ -129,7 +129,7 @@ var Pms0830070Comp = Vue.extend({
         //dt2服務項目資料暫存更新
         updateCheckData: function (item, index) {
             this.dt2ShowList[index].checked = this.dt2ShowList[index].checked ? false : true;
-            var lo_temp = _.findIndex(this.itemNosCheckedTemp, {item_nos: this.dt2ShowList[index].item_nos});
+            let lo_temp = _.findIndex(this.itemNosCheckedTemp, {item_nos: this.dt2ShowList[index].item_nos});
             if (lo_temp == -1) {
                 this.itemNosCheckedTemp.push({
                     seq_nos: PMS0830070VM.singleData.seq_nos,
@@ -154,12 +154,12 @@ var Pms0830070Comp = Vue.extend({
 
         // 新增資料進tmpCUD
         insertDt2TmpCUD: function (dt2ListIndex) {
-            var lo_itemNos = this.dt2ShowList[dt2ListIndex];
-            var ln_selIsExist = _.findIndex(this.dt2SelectedItemNos, {item_nos: lo_itemNos.item_nos});
-            var lo_singleData = PMS0830070VM.singleData;
-            var ls_tmpCUD_type = "";
-            var lo_tmpCUD = PMS0830070VM.tmpCUD;
-            var lo_params = {
+            let lo_itemNos = this.dt2ShowList[dt2ListIndex];
+            let ln_selIsExist = _.findIndex(this.dt2SelectedItemNos, {item_nos: lo_itemNos.item_nos});
+            let lo_singleData = PMS0830070VM.singleData;
+            let ls_tmpCUD_type = "";
+            let lo_tmpCUD = PMS0830070VM.tmpCUD;
+            let lo_params = {
                 seq_nos: lo_singleData.seq_nos,
                 item_nos: lo_itemNos.item_nos
             };
@@ -175,13 +175,13 @@ var Pms0830070Comp = Vue.extend({
                 }
             }
 
-            var ln_tmpCudDt2CreateIsExist = _.findIndex(PMS0830070VM.tmpCUD.dt2_createData, lo_params);
+            let ln_tmpCudDt2CreateIsExist = _.findIndex(PMS0830070VM.tmpCUD.dt2_createData, lo_params);
             // 清除dt2_createData重複
             if (ln_tmpCudDt2CreateIsExist != -1) {
                 PMS0830070VM.tmpCUD.dt2_createData = _.without(lo_tmpCUD.dt2_createData, PMS0830070VM.tmpCUD.dt2_createData[ln_tmpCudDt2CreateIsExist]);
             }
 
-            var ln_tmpCudDt2DeleteIsExist = _.findIndex(PMS0830070VM.tmpCUD.dt2_deleteData, lo_params);
+            let ln_tmpCudDt2DeleteIsExist = _.findIndex(PMS0830070VM.tmpCUD.dt2_deleteData, lo_params);
             // 清除dt2_deleteData重複
             if (ln_tmpCudDt2DeleteIsExist != -1) {
                 PMS0830070VM.tmpCUD.dt2_deleteData = _.without(lo_tmpCUD.dt2_deleteData, PMS0830070VM.tmpCUD.dt2_deleteData[ln_tmpCudDt2DeleteIsExist]);
@@ -198,13 +198,13 @@ var Pms0830070Comp = Vue.extend({
 
         //查詢此筆dt2資料
         qrySelectedItemNos: function (item) {
-            var self = this;
-            var params = {
+            let self = this;
+            let params = {
                 seq_nos: item.seq_nos,
                 adjfolio_cod: this.singleData.adjfolio_cod
             };
 
-            BacUtils.doHttpPostAgent('/api/qryDt2SelectedItemNos', params, function (response) {
+            BacUtils.doHttpPostAgent("/api/qryDt2SelectedItemNos", params, function (response) {
                 if (!_.isUndefined(item.createRow)) {
                     self.dt2SelectedItemNos = [];
                 }
@@ -217,15 +217,15 @@ var Pms0830070Comp = Vue.extend({
 
         //dt的服務項目顯示更新
         changeDtItemNosShowList: function (item) {
-            var self = this;
+            let self = this;
             if (!_.isUndefined(item.createRow)) {
                 this.dtSelItemNosShowList = [];
             }
             else {
                 this.dtSelItemNosShowList = _.clone(this.dt2SelectedItemNos);
-                var la_itemNosTemp = _.where(self.itemNosCheckedTemp, {seq_nos: item.seq_nos});
+                let la_itemNosTemp = _.where(self.itemNosCheckedTemp, {seq_nos: item.seq_nos});
                 _.each(la_itemNosTemp, function (lo_itemNosTemp) {
-                    var lo_selItemNos = _.findWhere(self.dtSelItemNosShowList, {item_nos: lo_itemNosTemp.item_nos});
+                    let lo_selItemNos = _.findWhere(self.dtSelItemNosShowList, {item_nos: lo_itemNosTemp.item_nos});
                     if (lo_itemNosTemp.checked == false) {
                         if (!_.isUndefined(lo_selItemNos)) {
                             self.dtSelItemNosShowList = _.without(self.dtSelItemNosShowList, lo_selItemNos);
@@ -247,15 +247,15 @@ var Pms0830070Comp = Vue.extend({
                 alert("請填入代號");
                 return;
             }
-            var singleData = PMS0830070VM.singleData;
-            var seqNosTmp = 1;
+            let singleData = PMS0830070VM.singleData;
+            let seqNosTmp = 1;
             if (PMS0830070VM.singleDataDt.length != 0) {
                 seqNosTmp = PMS0830070VM.singleDataDt[PMS0830070VM.singleDataDt.length - 1].seq_nos;
             }
             if (singleData.adjfolio_cod != "") {
-                var singleDataDtInfo = PMS0830070VM.singleDataDt;
+                let singleDataDtInfo = PMS0830070VM.singleDataDt;
 
-                var row = {
+                let row = {
                     createRow: "Y",
                     adjfolio_cod: singleData.adjfolio_cod,
                     athena_id: singleData.athena_id,
@@ -275,29 +275,29 @@ var Pms0830070Comp = Vue.extend({
 
         //刪除明細
         btnDeleteDtDetail: function (lo_delDtTmp) {
-            var self = this;
-            var lo_tmpCUD = PMS0830070VM.tmpCUD;
-            var lo_singleDataDt = _.findWhere(PMS0830070VM.singleDataDt, {seq_nos: lo_delDtTmp});
+            let self = this;
+            let lo_tmpCUD = PMS0830070VM.tmpCUD;
+            let lo_singleDataDt = _.findWhere(PMS0830070VM.singleDataDt, {seq_nos: lo_delDtTmp});
 
             //移除dt_createData重複資料
-            var ln_dtCreateIsExist = _.findIndex(lo_tmpCUD.dt_createData, {seq_nos: lo_delDtTmp});
+            let ln_dtCreateIsExist = _.findIndex(lo_tmpCUD.dt_createData, {seq_nos: lo_delDtTmp});
             if (ln_dtCreateIsExist != -1) {
                 lo_tmpCUD.dt_createData = _.without(lo_tmpCUD.dt_createData, lo_tmpCUD.dt_createData[ln_dtCreateIsExist]);
             }
 
             //移除dt_updateData重複資料
-            var ln_dtUpdateIsExist = _.findIndex(lo_tmpCUD.dt_updateData, {seq_nos: lo_delDtTmp});
+            let ln_dtUpdateIsExist = _.findIndex(lo_tmpCUD.dt_updateData, {seq_nos: lo_delDtTmp});
             if (ln_dtUpdateIsExist != -1) {
                 lo_tmpCUD.dt_updateData = _.without(lo_tmpCUD.dt_updateData, lo_tmpCUD.dt_updateData[ln_dtUpdateIsExist]);
             }
 
             //移除dt_deleteData重複資料
-            var ln_dtDeleteIsExist = _.findIndex(lo_tmpCUD.dt_deleteData, {seq_nos: lo_delDtTmp});
+            let ln_dtDeleteIsExist = _.findIndex(lo_tmpCUD.dt_deleteData, {seq_nos: lo_delDtTmp});
             if (ln_dtDeleteIsExist != -1) {
                 lo_tmpCUD.dt_deleteData = _.without(lo_tmpCUD.dt_deleteData, lo_tmpCUD.dt_deleteData[ln_dtDeleteIsExist]);
             }
 
-            var la_delData = _.where(self.itemNosCheckedTemp, {seq_nos: lo_delDtTmp});
+            let la_delData = _.where(self.itemNosCheckedTemp, {seq_nos: lo_delDtTmp});
             if (!_.isUndefined(lo_singleDataDt)) {
                 //刪除原始資料
                 if (_.isUndefined(lo_singleDataDt.createRow)) {
@@ -328,11 +328,11 @@ var Pms0830070Comp = Vue.extend({
         },
 
         updateDtData: function (item) {
-            var lo_seq_nos = item.seq_nos;
-            var lo_tmpCUD = PMS0830070VM.tmpCUD;
+            let lo_seq_nos = item.seq_nos;
+            let lo_tmpCUD = PMS0830070VM.tmpCUD;
 
             //移除dt_createData重複資料
-            var ln_dtCreateIsExist = _.findIndex(lo_tmpCUD.dt_createData, {seq_nos: lo_seq_nos});
+            let ln_dtCreateIsExist = _.findIndex(lo_tmpCUD.dt_createData, {seq_nos: lo_seq_nos});
             if (!_.isUndefined(item.createRow) && item.createRow == "Y") {
                 lo_tmpCUD.dt_createData[ln_dtCreateIsExist].item_nam = item.item_nam;
             }
@@ -341,7 +341,7 @@ var Pms0830070Comp = Vue.extend({
                     lo_tmpCUD.dt_createData = _.without(lo_tmpCUD.dt_createData, lo_tmpCUD.dt_createData[ln_dtCreateIsExist]);
                 }
                 //移除dt_updateData重複資料
-                var ln_dtUpdateIsExist = _.findIndex(lo_tmpCUD.dt_updateData, {seq_nos: lo_seq_nos});
+                let ln_dtUpdateIsExist = _.findIndex(lo_tmpCUD.dt_updateData, {seq_nos: lo_seq_nos});
                 if (ln_dtUpdateIsExist != -1) {
                     lo_tmpCUD.dt_updateData = _.without(lo_tmpCUD.dt_updateData, lo_tmpCUD.dt_updateData[ln_dtUpdateIsExist]);
                 }
@@ -350,7 +350,7 @@ var Pms0830070Comp = Vue.extend({
         },
 
         doSaveGrid: function () {
-            var self = this;
+            let self = this;
             if (PMS0830070VM.singleData.adjfolio_rmk.trim() == "") {
                 alert("請填入名稱");
                 return;
@@ -364,7 +364,7 @@ var Pms0830070Comp = Vue.extend({
 
             PMS0830070VM.doSave(function (result) {
                 PMS0830070VM.initTmpCUD();
-                BacUtils.doHttpPostAgent('/api/qryPMS0830070SingleData', self.singleData, function (response) {
+                BacUtils.doHttpPostAgent("/api/qryPMS0830070SingleData", self.singleData, function (response) {
                     PMS0830070VM.singleData = response.mnData;
                     PMS0830070VM.singleDataDt = response.dtData;
                     PMS0830070VM.oriSingleDataDt = _.clone(response.dtData);
@@ -378,7 +378,7 @@ var Pms0830070Comp = Vue.extend({
 });
 
 var PMS0830070VM = new Vue({
-    el: '#PMS0830070App',
+    el: "#PMS0830070App",
     components: {
         Pms0830070Comp,
         "search-comp": go_searchComp
@@ -392,7 +392,7 @@ var PMS0830070VM = new Vue({
         singleData: {},
         singleDataDt: {},
         oriSingleDataDt: {},
-        dt2ItemNosDataList: [],             //dt2所有服務項目
+        dt2ItemNosDataList: [], //dt2所有服務項目
         dgIns: {},
         tmpCUD: {
             createData: {},
@@ -406,7 +406,7 @@ var PMS0830070VM = new Vue({
             dt2_deleteData: []
         },
         searchFields: [], //搜尋的欄位
-        searchCond: {},   //搜尋條件
+        searchCond: {}, //搜尋條件
         isEditStatus: true
     },
     mounted: function () {
@@ -420,14 +420,15 @@ var PMS0830070VM = new Vue({
     },
     methods: {
         initDataGrid: function () {
-            var colOption = [{field: 'ck', checkbox: true}];
-            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0830070_dg'));
+            let colOption = [{field: "ck", checkbox: true}];
+            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, "PMS0830070_dg"));
             this.dgIns = new DatagridSingleGridClass();
             this.dgIns.init(this.p, "PMS0830070_dg", colOption, this.pageOneFieldData, {singleSelect: false});
         },
 
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
+            let self = this;
 
             if (_.isUndefined(callback)) {
                 callback = function () {
@@ -439,22 +440,27 @@ var PMS0830070VM = new Vue({
                 searchCond: this.searchCond
             }, function (result) {
                 waitingDialog.hide();
-                PMS0830070VM.searchFields = result.searchFields;
-                PMS0830070VM.pageOneDataGridRows = result.dataGridRows;
                 PMS0830070VM.pageOneFieldData = result.fieldData;
+
+                if (self.searchFields.length <= 0) {
+                    PMS0830070VM.searchFields = result.searchFields;
+                }
+                else {
+                    PMS0830070VM.pageOneDataGridRows = result.dataGridRows;
+                }
                 callback(result.success);
             });
         },
 
         //新增單筆
         addRoute: function () {
-            var self = this;
-            PMS0830070VM.singleData = {adjfolio_cod: '', adjfolio_rmk: '', createRow: "Y"};
+            let self = this;
+            PMS0830070VM.singleData = {adjfolio_cod: "", adjfolio_rmk: "", createRow: "Y"};
             PMS0830070VM.singleDataDt = [];
             PMS0830070VM.oriSingleDataDt = {};
             PMS0830070VM.isEditStatus = false;
 
-            BacUtils.doHttpPostAgent('/api/qryDt2ItemNosList', PMS0830070VM.singleData, function (response) {
+            BacUtils.doHttpPostAgent("/api/qryDt2ItemNosList", PMS0830070VM.singleData, function (response) {
                 PMS0830070VM.dt2ItemNosDataList = response.dt2ItemNosDataList;
                 self.openRouteDialog();
             });
@@ -481,8 +487,8 @@ var PMS0830070VM = new Vue({
 
         //取得單筆
         fetchSingleData: function (editingRow) {
-            var self = this;
-            BacUtils.doHttpPostAgent('/api/qryPMS0830070SingleData', editingRow, function (response) {
+            let self = this;
+            BacUtils.doHttpPostAgent("/api/qryPMS0830070SingleData", editingRow, function (response) {
                 PMS0830070VM.singleData = response.mnData;
                 PMS0830070VM.singleDataDt = response.dtData;
                 PMS0830070VM.oriSingleDataDt = _.clone(response.dtData);
@@ -495,7 +501,7 @@ var PMS0830070VM = new Vue({
         openRouteDialog: function () {
             this.initTmpCUD();
             this.activeAccount = 1;
-            var dialog = $("#PMS0830070Dialog").removeClass('hide').dialog({
+            let dialog = $("#PMS0830070Dialog").removeClass("hide").dialog({
                 modal: true,
                 title: "虛擬帳單",
                 title_html: true,
@@ -514,18 +520,18 @@ var PMS0830070VM = new Vue({
             PMS0830070VM.singleDataDt = {};
             PMS0830070VM.oriSingleDataDt = {};
             PMS0830070VM.initTmpCUD();
-            $("#PMS0830070Dialog").dialog('close');
+            $("#PMS0830070Dialog").dialog("close");
             this.dgIns.endEditing();
         },
 
         doSave: function (callback) {
-            var self = this;
+            let self = this;
             if (_.isUndefined(callback)) {
                 callback = function () {
                 };
             }
-            waitingDialog.show('Saving...');
-            var params = _.extend({prg_id: gs_prg_id}, this.tmpCUD);
+            waitingDialog.show("Saving...");
+            let params = _.extend({prg_id: gs_prg_id}, this.tmpCUD);
 
             BacUtils.doHttpPostAgent("/api/doSavePMS0830070", params, function (result) {
                 callback(result.success);
