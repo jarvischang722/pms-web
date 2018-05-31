@@ -52,17 +52,19 @@ exports.userAllowSystem = function (req, res) {
  * 換館別
  */
 exports.changeHotelCod = function (req, res) {
-    var hotel_cod = req.body["hotel_cod"].trim();
-    var hotelInfo = {};
+    let ls_hotel_cod = req.body["hotel_cod"].trim();
+    let lo_hotelInfo = {};
     _.each(req.session.user.hotels, function (hotel) {
-        if (hotel.hotel_cod.trim() == hotel_cod) {
-            hotelInfo = hotel;
+        if (hotel.hotel_cod.trim() == ls_hotel_cod) {
+            lo_hotelInfo = hotel;
         }
     });
-    req.session.user["hotel_cod"] = hotelInfo.hotel_cod.trim();
-    req.session.user["fun_hotel_cod"] = hotelInfo.hotel_cod.trim();
-    req.session.user["fun_hotel_name"] = hotelInfo.hotel_nam.trim();
-    req.session.user["athena_id"] = hotelInfo.athena_id;
+    req.session.hotel_cod = lo_hotelInfo.hotel_cod.trim();
+    req.session.user.hotel_cod = lo_hotelInfo.hotel_cod.trim();
+    res.cookie("hotel_cod", req.session.hotel_cod, {signed: true});
+    req.session.user.fun_hotel_cod = lo_hotelInfo.hotel_cod.trim();
+    req.session.user.fun_hotel_name = lo_hotelInfo.hotel_nam.trim();
+    req.session.user.athena_id = lo_hotelInfo.athena_id;
     roleFuncSvc.updateUserPurview(req, function (err) {
         res.json({success: err == null, errorMsg: err});
     });
