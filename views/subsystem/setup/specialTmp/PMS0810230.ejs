@@ -2,6 +2,11 @@
     <div class="page-header"></div>
     <!-- /.page-header -->
     <!-- (Rate Code) Page-->
+    <div class="col-xs-12">
+        <div class="row">
+            <%- include('../programInfoTheme', {prg_id: prg_id }) %>
+        </div>
+    </div>
     <div class="pageMain" id="PMS0810230App">
     </div>
     <script src="/js/setup/PMS0810230_setup.js"></script>
@@ -1586,6 +1591,20 @@
                                             <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
                                         </div>
                                     </div>
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>人數</label>
+                                            <input type="date" class="input-medium rateCode-s1" placeholder=""/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>加大人</label>
+                                            <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>加小孩</label>
+                                            <input type="text" class="input-medium rateCode-s1" placeholder="1"/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="clearfix"></div>
 
@@ -1601,19 +1620,19 @@
                             <thead class="css_thead">
                                 <tr class="css_tr">
                                     <th class="css_th" style="min-width:80px;">日期</th>
-                                    <th class="css_th" style="min-width:120px;">小分類</th>
-                                    <th class="css_th" style="min-width:444px;">項目</th>
+                                    <th class="css_th" style="min-width:80px;">小分類</th>
+                                    <th class="css_th" style="min-width:120px;">項目</th>
                                     <th class="css_th" style="min-width:100px;">單價</th>
-                                    <th class="css_th" style="min-width:50px;">數量</th>
+                                    <th class="css_th" style="min-width:100px;">數量</th>
                                     <th class="css_th" style="min-width:100px;">小計</th>
-                                    <th class="css_th" style="min-width:80px;">服務日期</th>
+                                    <th class="css_th" style="min-width:100px;">服務日期</th>
+                                    <th class="css_th" style="min-width:100px;">廳別</th>
+                                    <th class="css_th" style="min-width:80px;">服務方式</th>
+                                    <th class="css_th" style="min-width:80px;">收費方式</th>
                                 </tr>
                             </thead>
                             <tbody class="css_tbody">
                                 <tr class="css_tr">
-                                    <td class="css_td" colspan="7">2015/11/13(日) 平日</td>
-                                </tr>
-                                <tr class="css_tr">
                                     <td class="css_td">2017/06/06</td>
                                     <td class="css_td">PKG:Package</td>
                                     <td class="css_td">p022:2016歡樂一夏逍遙遊</td>
@@ -1621,6 +1640,9 @@
                                     <td class="css_td text-right">1</td>
                                     <td class="css_td text-right">3,520</td>
                                     <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">F02:客務櫃檯</td>
+                                    <td class="css_td">D:每天</td>
+                                    <td class="css_td">C:信用卡</td>
                                 </tr>
                                 <tr class="css_tr">
                                     <td class="css_td">2017/06/06</td>
@@ -1630,6 +1652,9 @@
                                     <td class="css_td text-right">1</td>
                                     <td class="css_td text-right">3,520</td>
                                     <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">F02:客務櫃檯</td>
+                                    <td class="css_td">D:每天</td>
+                                    <td class="css_td">C:信用卡</td>
                                 </tr>
                                 <tr class="css_tr">
                                     <td class="css_td">2017/06/06</td>
@@ -1639,11 +1664,21 @@
                                     <td class="css_td text-right">1</td>
                                     <td class="css_td text-right">3,520</td>
                                     <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">F02:客務櫃檯</td>
+                                    <td class="css_td">D:每天</td>
+                                    <td class="css_td">C:信用卡</td>
                                 </tr>
                                 <tr class="css_tr">
-                                    <td class="css_td" colspan="7" style="color: #FCC5FB; font-weight: 700;">
-                                        2015/11/13(日) 假日
-                                    </td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td bgLGreen">Tuesday</td>
+                                    <td class="css_td bgLGreen">06/06</td>
+                                    <td class="css_td text-right bgLGreen">3,920</td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
                                 </tr>
                                 <tr class="css_tr">
                                     <td class="css_td">2017/06/06</td>
@@ -1653,6 +1688,9 @@
                                     <td class="css_td text-right">1</td>
                                     <td class="css_td text-right">3,520</td>
                                     <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">F02:客務櫃檯</td>
+                                    <td class="css_td">D:每天</td>
+                                    <td class="css_td">C:信用卡</td>
                                 </tr>
                                 <tr class="css_tr">
                                     <td class="css_td">2017/06/06</td>
@@ -1662,6 +1700,9 @@
                                     <td class="css_td text-right">1</td>
                                     <td class="css_td text-right">3,520</td>
                                     <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">F02:客務櫃檯</td>
+                                    <td class="css_td">D:每天</td>
+                                    <td class="css_td">C:信用卡</td>
                                 </tr>
                                 <tr class="css_tr">
                                     <td class="css_td">2017/06/06</td>
@@ -1671,12 +1712,18 @@
                                     <td class="css_td text-right">1</td>
                                     <td class="css_td text-right">3,520</td>
                                     <td class="css_td">2017/06/06</td>
+                                    <td class="css_td">F02:客務櫃檯</td>
+                                    <td class="css_td">D:每天</td>
+                                    <td class="css_td">C:信用卡</td>
                                 </tr>
                                 <tr class="css_tr">
                                     <td class="css_td"></td>
                                     <td class="css_td"></td>
-                                    <td class="css_td bgLGreen">房租總額：</td>
-                                    <td class="css_td text-right font-lg-b">4,320</td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td bgLGreen">Wednesday</td>
+                                    <td class="css_td bgLGreen">06/06</td>
+                                    <td class="css_td text-right bgLGreen">400</td>
                                     <td class="css_td"></td>
                                     <td class="css_td"></td>
                                     <td class="css_td"></td>
@@ -1684,8 +1731,11 @@
                                 <tr class="css_tr">
                                     <td class="css_td"></td>
                                     <td class="css_td"></td>
-                                    <td class="css_td bgLGreen">外加稅：</td>
-                                    <td class="css_td text-right font-lg-b">205</td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td">房租總額：</td>
+                                    <td class="css_td text-right bgLGreen">4,320</td>
                                     <td class="css_td"></td>
                                     <td class="css_td"></td>
                                     <td class="css_td"></td>
@@ -1693,8 +1743,11 @@
                                 <tr class="css_tr">
                                     <td class="css_td"></td>
                                     <td class="css_td"></td>
-                                    <td class="css_td bgLGreen">佣金金額：</td>
-                                    <td class="css_td text-right font-lg-b"><b>90</b></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td"></td>
+                                    <td class="css_td">佣金金額：</td>
+                                    <td class="css_td text-right"><b>90</b></td>
                                     <td class="css_td"></td>
                                     <td class="css_td"></td>
                                     <td class="css_td"></td>

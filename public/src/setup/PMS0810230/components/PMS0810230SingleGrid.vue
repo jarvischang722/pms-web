@@ -108,202 +108,10 @@
                                  style="min-height: 0;!important; overflow-y: auto;">
                                 <div id="roomTypPanel" v-show="tabName=='roomTyp'" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
-                                        <template
-                                                v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') <= -1">
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label class="width-auto">使用期間</label>
-                                                    <select class="input-medium medium-c1">
-                                                        <option value="-1">使用期間</option>
-                                                        <option value="1">2018/04/17~2018/12/31</option>
-                                                        <option value="2">2019/01/01~2019/12/31</option>
-                                                        <option value="2">2020/01/01~2020/12/31</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <div class="container_12 divider">
-                                                <div class="grid_12 fixed-table-container cus-resvBlockSetting-table"
-                                                     width="100%">
-                                                    <!--<div class="">-->
-                                                    <table class="fancyTable themeTable treeControl themeTableTwo"
-                                                           id="PMS0810230-table" cellpadding="0" cellspacing="0">
-                                                        <thead>
-                                                        <tr class="grayBg">
-                                                            <th class="ca-headerTitle grayBg">
-                                                                日期規則
-                                                            </th>
-                                                            <th class="">STD</th>
-                                                            <th class="">SUP</th>
-                                                            <th class="">DXK</th>
-                                                            <th class="">DXT</th>
-                                                            <th class="">SUE</th>
-                                                            <th class="">ESD</th>
-                                                            <th class="">ESP</th>
-                                                            <th class="">EXK</th>
-                                                            <th class="">EXT</th>
-                                                            <th class="">ESU</th>
-                                                            <th class="">PDS</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody class="tbodyRight">
-                                                        <tr class="grayBg">
-                                                            <td class="middle td-first grayBg">每一天</td>
-                                                            <td class="numeric">20</td>
-                                                            <td class="numeric">20</td>
-                                                            <td class="numeric">22</td>
-                                                            <td class="numeric darkRedTxt">-1</td>
-                                                            <td class="numeric ">9</td>
-                                                            <td class="numeric ">8</td>
-                                                            <td class="numeric ">15</td>
-                                                            <td class="numeric ">10</td>
-                                                            <td class="numeric ">12</td>
-                                                            <td class="numeric ">6</td>
-                                                            <td class="numeric ">1</td>
-                                                        </tr>
-                                                        <tr class="grayBg">
-                                                            <td class="middle td-first grayBg">感恩節，假日</td>
-                                                            <td class="numeric ">20</td>
-                                                            <td class="numeric ">20</td>
-                                                            <td class="numeric ">22</td>
-                                                            <td class="numeric darkRedTxt">-1</td>
-                                                            <td class="numeric ">9</td>
-                                                            <td class="numeric ">8</td>
-                                                            <td class="numeric ">15</td>
-                                                            <td class="numeric ">10</td>
-                                                            <td class="numeric ">12</td>
-                                                            <td class="numeric ">6</td>
-                                                            <td class="numeric ">1</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="middle td-first ">國慶日</td>
-                                                            <td class="numeric">3800</td>
-                                                            <td class="numeric">4000</td>
-                                                            <td class="numeric ">4200</td>
-                                                            <td class="numeric">4500</td>
-                                                            <td class="numeric">1500</td>
-                                                            <td class="numeric ">3300</td>
-                                                            <td class="numeric">4500</td>
-                                                            <td class="numeric">4700</td>
-                                                            <td class="numeric">5000</td>
-                                                            <td class="numeric">4800</td>
-                                                            <td class="numeric">45000</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="middle td-first">中秋節</td>
-                                                            <td class="numeric">3100</td>
-                                                            <td class="numeric ">3300</td>
-                                                            <td class="numeric">3500</td>
-                                                            <td class="numeric">3800</td>
-                                                            <td class="numeric">4000</td>
-                                                            <td class="numeric">3600</td>
-                                                            <td class="numeric">3800</td>
-                                                            <td class="numeric">4100</td>
-                                                            <td class="numeric">4300</td>
-                                                            <td class="numeric">4300</td>
-                                                            <td class="numeric">40000</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="middle td-first">春節</td>
-                                                            <td class="numeric">3600</td>
-                                                            <td class="numeric">3800</td>
-                                                            <td class="numeric">4000</td>
-                                                            <td class="numeric">4300</td>
-                                                            <td class="numeric">4300</td>
-                                                            <td class="numeric">4100</td>
-                                                            <td class="numeric">4300</td>
-                                                            <td class="numeric">4500</td>
-                                                            <td class="numeric">4800</td>
-                                                            <td class="numeric">4600</td>
-                                                            <td class="numeric">4300</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="middle td-first">清明節</td>
-                                                            <td class="numeric">2800</td>
-                                                            <td class="numeric">3000</td>
-                                                            <td class="numeric">3200</td>
-                                                            <td class="numeric">3500</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="middle td-first">端午節</td>
-                                                            <td class="numeric">2750</td>
-                                                            <td class="numeric">2950</td>
-                                                            <td class="numeric">3150</td>
-                                                            <td class="numeric">3450</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="middle td-first">教師節</td>
-                                                            <td class="numeric">4200</td>
-                                                            <td class="numeric">4400</td>
-                                                            <td class="numeric">4600</td>
-                                                            <td class="numeric">4900</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="middle td-first">228紀念日</td>
-                                                            <td class="numeric">9800</td>
-                                                            <td class="numeric">10000</td>
-                                                            <td class="numeric">10200</td>
-                                                            <td class="numeric">10500</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="middle td-first">愚人節</td>
-                                                            <td class="numeric">3200</td>
-                                                            <td class="numeric">3400</td>
-                                                            <td class="numeric">3600</td>
-                                                            <td class="numeric">3900</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                            <td class="numeric">*</td>
-                                                        </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                    <!--</div>-->
-                                                </div>
-                                                <div class="clear"></div>
-                                                <div class="clear"></div>
-                                                date
-
-                                            </div> <!-- table -->
-                                        </template>
-                                        <template v-else>
-                                            <room-typ
-                                                    :row-data="rowData"
-                                                    :is-room-type="tabName=='roomTyp'"
-                                            ></room-typ>
-                                        </template>
+                                        <room-typ
+                                                :row-data="rowData"
+                                                :is-room-type="tabName=='roomTyp'"
+                                        ></room-typ>
                                         <div class="clearfix"></div>
                                         <div class="space-12"></div>
                                     </div>
@@ -554,14 +362,12 @@
                                             {{i18nLang.program.PMS0810230.rateList}}
                                         </button>
                                     </li>
-                                    <li class="depDateLi"
-                                        v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
+                                    <li class="depDateLi" v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_dependantRate"
                                                 role="button">{{i18nLang.program.PMS0810230.depRate}}
                                         </button>
                                     </li>
-                                    <li class="baseDateLi"
-                                        v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
+                                    <li class="baseDateLi" v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate"
                                                 role="button">{{i18nLang.program.PMS0810230.baseRate}}
                                         </button>
@@ -573,8 +379,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="doCloseDialog">
-                                            {{i18nLang.program.PMS0810230.leave}}
+                                                role="button" @click="doCloseDialog">{{i18nLang.program.PMS0810230.leave}}
                                         </button>
                                     </li>
                                 </ul>
@@ -836,6 +641,7 @@
                     this.initData();
                     this.fetchFieldData();
                     this.loadingText = "Loading...";
+                    this.tabName = ""
                 }
             },
             isUseTime(val) {
@@ -874,6 +680,7 @@
                 this.oriSingleData = {};
                 this.fieldsData = [];
                 this.oriFieldsData = [];
+                this.isUseTime = false;
             },
             setGlobalStatus() {
                 this.$store.dispatch("setStatus", {
@@ -913,7 +720,7 @@
             fetchFieldData() {
                 this.isLoadingDialog = true;
                 var self = this;
-                BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
+                $.post("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0810230",
                     page_id: 2,
                     tab_page_id: 1,
@@ -945,7 +752,7 @@
                         searchCond: {rate_cod: this.rowData.rate_cod}
                     };
                 }
-                BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, result => {
+                $.post(ls_apiUrl, lo_params).then(result => {
                     if (result.success) {
                         this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
                         this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
@@ -964,6 +771,9 @@
                         alert(result.errorMsg);
                     }
                     this.isLoadingDialog = false;
+                }, err => {
+                    this.isLoadingDialog = false;
+                    alert(err.statusText);
                 });
             },
             chkFieldRule(ui_field_name, rule_func_name) {
@@ -991,7 +801,7 @@
                         singleRowData: la_singleData,
                         oriSingleData: la_oriSingleData
                     };
-                    BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
+                    $.post('/api/chkFieldRule', postData, function (result) {
                         if (result.success) {
                             //是否要show出訊息
                             if (result.showAlert) {
@@ -1003,7 +813,7 @@
                                 } else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (result) {
+                                        $.post(result.ajaxURL, postData, function (result) {
                                             if (!result.success) {
                                                 alert(result.errorMsg);
                                             }
@@ -1118,9 +928,9 @@
                 this.isUseTime = true;
                 var dialog = $("#useTimeDialog").removeClass('hide').dialog({
                     modal: true,
-                    title: go_i18nLang.program.PMS0810230.useTime + "假日日期設定最大日期:2018/12/31",
+                    title: go_i18nLang.program.PMS0810230.useTime,
                     title_html: true,
-                    width: 700,
+                    width: 750,
                     maxwidth: 1920,
                     dialogClass: "test",
                     resizable: true,
