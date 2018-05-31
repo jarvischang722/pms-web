@@ -386,15 +386,35 @@ var DatagridFieldAdapter = {
             };
         }
         else if (dataType == "combogrid") {
+            var ln_panelWidth = 0;
+            if (!_.isUndefined(fieldAttrObj.selectData.columns)) {
+                _.each(fieldAttrObj.selectData.columns, function (lo_column) {
+                    ln_panelWidth = ln_panelWidth + Number(lo_column.width);
+                });
+            }
             //參數設定於各對照擋的Rule
-            tmpFieldObj.editor.options.panelWidth = fieldAttrObj.selectGridOptions.panelWidth;
-            tmpFieldObj.editor.options.idField = fieldAttrObj.selectGridOptions.idField;
-            tmpFieldObj.editor.options.textField = fieldAttrObj.selectGridOptions.textField;
-            tmpFieldObj.editor.options.columns = fieldAttrObj.selectGridOptions.columns;
-            tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
+            tmpFieldObj.editor.options.panelWidth = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
+                fieldAttrObj.selectGridOptions.panelWidth : ln_panelWidth;
+            tmpFieldObj.editor.options.idField = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
+                fieldAttrObj.selectGridOptions.idField : fieldAttrObj.selectData.value;
+            tmpFieldObj.editor.options.textField = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
+                fieldAttrObj.selectGridOptions.textField : fieldAttrObj.selectData.display;
+            tmpFieldObj.editor.options.columns = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
+                fieldAttrObj.selectGridOptions.columns : [fieldAttrObj.selectData.columns];
+            tmpFieldObj.editor.options.data = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
+                fieldAttrObj.selectData : (fieldAttrObj.selectData.selectData.length > 100 ?
+                    fieldAttrObj.selectData.selectData.slice(0, 100) : fieldAttrObj.selectData.selectData.length);
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                 var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                 onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+            };
+            tmpFieldObj.editor.options.keyHandler = {
+                enter: function (e) {
+                    var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                    onChangeAction(_.extend(fieldAttrObj, {isKeyHandler: true}), "", e.target.value, ls_dgName);
+                },
+                query: function () {
+                }
             };
         }
 
@@ -420,16 +440,18 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         var editRowData = $("#" + dgName).datagrid('getEditingRowData');
 
         var postData = {
-            prg_id: fieldAttrObj.prg_id,
-            rule_func_name: fieldAttrObj.rule_func_name.trim(),
-            validateField: fieldAttrObj.ui_field_name,
-            rowIndex: indexRow,
-            rowData: selectDataRow,
-            editRowData: editRowData,
-            allRowData: JSON.parse(JSON.stringify(allDataRow)),
-            newValue: newValue,
-            oldValue: oldValue
-        };
+                prg_id: fieldAttrObj.prg_id,
+                rule_func_name: fieldAttrObj.rule_func_name.trim(),
+                validateField: fieldAttrObj.ui_field_name,
+                rowIndex: indexRow,
+                rowData: selectDataRow,
+                editRowData: editRowData,
+                allRowData: JSON.parse(JSON.stringify(allDataRow)),
+                newValue: newValue,
+                oldValue: oldValue,
+                isKeyHandler: fieldAttrObj.isKeyHandler || false
+            }
+        ;
 
         isUserEdit = false;
 
@@ -529,7 +551,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             }
 
             // 動態產生下拉資料
-            if (result.selectField.length > 0) {
+            if (fieldAttrObj.ui_type == 'select' && result.selectField.length > 0) {
                 //單一欄位下拉資料
                 if (result.selectField.length == 1) {
                     var lo_editor = $('#' + dgName).datagrid('getEditor', {
@@ -547,6 +569,15 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         });
                         $(lo_editor.target).combobox("loadData", result.multiSelectOptions[ls_field]);
                     });
+                }
+            }
+            else if (fieldAttrObj.ui_type == 'selectgrid' && result.selectField.length > 0) {
+                if (result.selectField.length == 1) {
+                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                        index: indexRow,
+                        field: result.selectField
+                    });
+                    $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
                 }
             }
 

@@ -628,22 +628,63 @@ module.exports = {
      * @param session
      * @param callback
      */
-    sel_cust_idx_cust_mn_pers_dt: function (postData, session, callback) {
+    sel_cust_idx_cust_mn_pers_dt: async function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        if (postData.rowData.primary_pers == 'Y') {
-            let ln_clearIndex = Number(postData.rowIndex);
-            let la_otherRowData = JSON.parse(JSON.stringify(postData.allRowData));
-            la_otherRowData.splice(ln_clearIndex, 1);
-            let lo_effectRow = _.findWhere(la_otherRowData, {primary_pers: 'Y'});
+        try {
+            //姓名欄位下拉資料
+            let lo_params = {athena_id: session.user.athena_id};
+            let ls_altName = postData.newValue;
 
-            if (!_.isUndefined(lo_effectRow)) {
-                let ln_effectIndex = _.findIndex(postData.allRowData, {seq_nos: lo_effectRow.seq_nos});
-                if (ln_effectIndex > -1) {
-                    lo_result.effectValues = {effectIndex: ln_effectIndex, primary_pers: 'N'};
+            let la_altNameSelectData = await new Promise((resolve, reject) => {
+                if (ls_altName != "") {
+                    lo_params.alt_nam = ls_altName;
+                }
+                queryAgent.queryList("SEL_CUST_IDX_CUST_MN_PERS_DT", lo_params, 0, 0, function (err, getResult) {
+                    if (err) {
+                        reject(err)
+                    }
+                    else {
+                        resolve(getResult);
+                    }
+                });
+            });
+
+            lo_result.selectField.push("alt_nam");
+            lo_result.selectOptions = la_altNameSelectData;
+            lo_result.effectValues.alt_nam = ls_altName;
+
+            if (postData.isKeyHandler == 'false') {
+                lo_result.effectValues = _.extend(la_altNameSelectData[0]);
+                if (postData.oldValue != "") {
+                    lo_result.effectValues.dept_nam = "";
+                    lo_result.effectValues.role_cod = "";
+                    lo_result.effectValues.remark = "";
+                    lo_result.effectValues.quit_dat = "";
                 }
             }
+
+            //檢查主要聯絡人
+            if (postData.rowData.primary_pers == 'Y') {
+                let ln_clearIndex = Number(postData.rowIndex);
+                let la_otherRowData = JSON.parse(JSON.stringify(postData.allRowData));
+                la_otherRowData.splice(ln_clearIndex, 1);
+                let lo_effectRow = _.findWhere(la_otherRowData, {primary_pers: 'Y'});
+
+                if (!_.isUndefined(lo_effectRow)) {
+                    let ln_effectIndex = _.findIndex(postData.allRowData, {seq_nos: lo_effectRow.seq_nos});
+                    if (ln_effectIndex > -1) {
+                        lo_result.effectValues = {effectIndex: ln_effectIndex, primary_pers: 'N'};
+                    }
+                }
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
         }
         callback(lo_error, lo_result);
     },
