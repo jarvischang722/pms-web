@@ -168,11 +168,24 @@ module.exports = {
      */
     trimSaveExecData: function (params, session) {
         let lo_newSaveExecDatas = {};
-        if (!_.isUndefined(trimLibByPrgID[params.prg_id])) {
-            lo_newSaveExecDatas = trimLibByPrgID[params.prg_id](params.saveExecDatas, session);
+        let lo_saveExecDatas;
+        let ls_trimType = "newFormat";
+
+        if (_.isUndefined(params.saveExecDatas)) {
+            ls_trimType = "newFormat";
+            lo_saveExecDatas = params.page_data;
         }
         else {
-            lo_newSaveExecDatas = trimPostData(params.saveExecDatas);
+            ls_trimType = "oldFormat";
+            lo_saveExecDatas = params.saveExecDatas;
+        }
+
+
+        if (!_.isUndefined(trimLibByPrgID[params.prg_id])) {
+            lo_newSaveExecDatas = trimLibByPrgID[params.prg_id](lo_saveExecDatas, session);
+        }
+        else {
+            lo_newSaveExecDatas = trimPostData(lo_saveExecDatas, ls_trimType);
         }
         return lo_newSaveExecDatas;
     }
@@ -180,10 +193,14 @@ module.exports = {
 
 /**
  * 資料去空白
- * @param tmpCUD {Object} postData資料
+ * @param saveExecDatas {Object} postData資料
+ * @param trimType {string} 判斷要trim的格式
  * @returns {*}
  */
-function trimPostData(saveExecDatas) {
+function trimPostData(saveExecDatas, trimType) {
+    if(trimType == "oldFormat"){
+
+    }
     _.each(saveExecDatas, (lo_postData, ls_tmpType) => {
         _.each(lo_postData, (ls_postData, ls_key) => {
             if (typeof ls_postData === "string") {
