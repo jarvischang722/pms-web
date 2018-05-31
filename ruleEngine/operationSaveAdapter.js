@@ -10,7 +10,6 @@ const mongoAgent = require("../plugins/mongodb");
 const commonRule = require("../ruleEngine/rules/CommonRule");
 const commonTools = require("../utils/CommonTools");
 const langSvc = require("../services/LangService");
-const ruleAgent = require("../ruleEngine/ruleAgent");
 
 
 function operationSaveAdapterClass(postData, session) {
@@ -769,22 +768,6 @@ async function convertToApiFormat(params, tmpIdType, session) {
         "exec_data": lo_exec_data
     };
     return lo_apiParams;
-}
-
-/**
- * 資料去空白
- * @param tmpCUD {Object} postData資料
- * @returns {*}
- */
-function trimPostData(saveExecDatas) {
-    _.each(saveExecDatas, (lo_postData, ls_tmpType) => {
-        _.each(lo_postData, (ls_postData, ls_key) => {
-            if (typeof ls_postData === "string") {
-                saveExecDatas[ls_tmpType][ls_key] = ls_postData.trim();
-            }
-        });
-    });
-    return saveExecDatas;
 }
 
 //region //func area

@@ -5,6 +5,7 @@
 const moment = require("moment");
 const _ = require("underscore");
 const fs = require("fs");
+const trimLibByPrgID = require("./CommonRuleLib/SaveExecDataTrimRule");
 const saveExecDataTrimRule = require("./CommonRuleLib/SaveExecDataTrimRule");
 const selectClickRule = require("./CommonRuleLib/DgSelectClickRule");
 const ReturnClass = require('../returnClass');
@@ -163,7 +164,20 @@ module.exports = {
 
     },
 
+    /**
+     * 檢查此作業是否有trim method
+     * @param params {object} API格式的儲存資料
+     * @param session {object}
+     */
     trimSaveExecData: function (params, session) {
+        let lo_newSaveExecDatas = {};
+        if (!_.isUndefined(trimLibByPrgID[params.prg_id])) {
+            lo_newSaveExecDatas = trimLibByPrgID[params.prg_id](params.saveExecDatas, session);
+        }
+        else {
+            lo_newSaveExecDatas = trimPostData(params.saveExecDatas);
+        }
+        return lo_newSaveExecDatas;
         saveExecDataTrimRule(params, session);
     },
 
@@ -185,5 +199,20 @@ module.exports = {
 
         callback(lo_return)
     }
-
 };
+
+/**
+ * 資料去空白
+ * @param tmpCUD {Object} postData資料
+ * @returns {*}
+ */
+function trimPostData(saveExecDatas) {
+    _.each(saveExecDatas, (lo_postData, ls_tmpType) => {
+        _.each(lo_postData, (ls_postData, ls_key) => {
+            if (typeof ls_postData === "string") {
+                saveExecDatas[ls_tmpType][ls_key] = ls_postData.trim();
+            }
+        });
+    });
+    return saveExecDatas;
+}
