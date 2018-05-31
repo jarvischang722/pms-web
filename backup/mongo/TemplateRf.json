@@ -1345,7 +1345,7 @@
     "tab_page_id" : NumberInt(11), 
     "template_id" : "datagrid", 
     "table_name" : "ratecod_dt", 
-    "rule_func_name" : "qry_ratecod_dt_left", 
+    "rule_func_name" : "qry_ratecod_dt", 
     "lock_table" : "", 
     "lock_type" : "", 
     "hotel_cod" : "", 
