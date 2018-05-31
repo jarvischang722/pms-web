@@ -30,7 +30,7 @@
                                                             <span>{{ field.ui_display_name }}</span>
                                                         </label>
 
-                                                        <input type="text" v-model="singleData[field.ui_field_name]"
+                                                        <input type="text" v-model.trim="singleData[field.ui_field_name]"
                                                                v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :required="field.requirable == 'Y'" min="0"
@@ -70,7 +70,7 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                         </bac-select-grid>
 
-                                                        <input type="number" v-model="singleData[field.ui_field_name]"
+                                                        <input type="number" v-model.trim="singleData[field.ui_field_name]"
                                                                v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
@@ -557,6 +557,10 @@
                     //生日
                     val["cust_idx.birth_dat"] = val["cust_idx.birth_dat"] == "" ? "" : moment(val["cust_idx.birth_dat"]).format("YYYY/MM/DD");
                     val.birth_dat = val["cust_idx.birth_dat"];
+                    this.$store.dispatch("setProfileData", {
+                        go_profileSingleData: this.singleData,
+                        go_oriProfileSingleData: this.oriSingleData
+                    });
                 },
                 deep: true
             },
@@ -580,11 +584,6 @@
                         this.singleData["cust_idx.uni_title"] = this.singleData["cust_idx.uni_title"] == "" ? ls_uniTitle : this.singleData["cust_idx.uni_title"];
                     }
                 }
-
-                this.$store.dispatch("setProfileData", {
-                    go_profileSingleData: this.singleData,
-                    go_oriProfileSingleData: this.oriSingleData
-                });
             }
         },
         methods: {
@@ -755,6 +754,7 @@
 
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
+                        console.log(this.singleData, this.oriSingleData);
                         this.setGlobalGcustCod();
                         this.isLoadingDialog = false;
                     });
@@ -801,6 +801,10 @@
             },
             //儲存資料
             async doSaveData() {
+
+                // console.log(this.rowData);
+                // return;
+
                 this.isLoadingDialog = true;
                 this.loadingText = "saving";
                 let lo_chkResult = this.dataValidate();

@@ -710,14 +710,14 @@ module.exports = {
                 let ls_table_name = la_keySplit[0];
                 let ls_field_name = la_keySplit[1];
                 if (ls_table_name == "cust_idx") {
-                    lo_cust_idx[ls_field_name] = val;
+                    lo_cust_idx[ls_field_name] = val.trim();
                     delete lo_updateData[key];
                 }
                 else if (ls_table_name == "ghist_visit_dt") {
                     lo_ghist_visit_dt["athena_id"] = lo_updateData.athena_id;
                     lo_ghist_visit_dt["gcust_cod"] = lo_updateData.gcust_cod;
                     lo_ghist_visit_dt["hotel_cod"] = session.user.hotel_cod;
-                    lo_ghist_visit_dt[ls_field_name] = val;
+                    lo_ghist_visit_dt[ls_field_name] = val.trim();
                     delete lo_updateData[key];
                 }
             }
