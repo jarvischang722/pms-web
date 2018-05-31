@@ -4303,7 +4303,6 @@ td div.act-box span.act-text {
 .townPage {
   height: 500px;
 }
-
 .townPage.town-grap {
     overflow: auto;
 }
@@ -4371,6 +4370,26 @@ td div.act-box span.act-text {
 }
 .roomAssign .roomAssign-p {
   padding: 2px 1px;
+}
+
+.roomAssign .roomAsg-status-1 a, .roomAssign .roomAsg-status-2 a, .roomAssign .roomAsg-status-3 a, .roomAssign .roomAsg-status-4 a {
+    color: #fff;
+}
+
+.roomAssign .roomAsg-status-1 {
+    background-color: #ae8dc3;
+}
+
+.roomAssign .roomAsg-status-2 {
+    background-color: #008148;
+}
+
+.roomAssign .roomAsg-status-3 {
+    background-color: rgba(255, 33, 95, 0.77);
+}
+
+.roomAssign .roomAsg-status-4 {
+    background-color: #ffd45a;
 }
 
 .select-group .btn-group, .select-group .form-group {
