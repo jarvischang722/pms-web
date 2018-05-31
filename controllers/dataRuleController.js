@@ -30,6 +30,15 @@ exports.chkDtFieldRule = function (req, res) {
     });
 };
 
+/*
+*data grid select click 規則檢查
+ */
+exports.chkDgSelectClickRule = function (req, res) {
+    ruleSVC.chkSelectClickRule(req.body, req.session, function (err, result) {
+        res.json(commonTools.mergeRtnErrResultJson(err, result));
+    });
+};
+
 /**
  * 新增按鈕需要執行的規則
  */

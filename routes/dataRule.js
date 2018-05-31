@@ -16,6 +16,9 @@ module.exports = function (app) {
     //dt欄位規則檢查
     app.post('/api/chkDtFieldRule', apiMiddles, ruleCrtl.chkDtFieldRule);
 
+    //dg select click 規則檢查
+    app.post('/api/chkDgSelectClickRule', apiMiddles, ruleCrtl.chkDgSelectClickRule);
+
     //新增功能規則
     app.post('/api/addFuncRule', apiMiddles, ruleCrtl.addFuncRule);
 
@@ -33,6 +36,7 @@ module.exports = function (app) {
 
     app.post('/api/revertRoomSna', apiMiddles, ruleCrtl.revertRoomSna);
 
-    app.all("/api/getSelectOptions",  ruleCrtl.getSelectOptions);
+    app.all("/api/getSelectOptions", ruleCrtl.getSelectOptions);
+
 };
 

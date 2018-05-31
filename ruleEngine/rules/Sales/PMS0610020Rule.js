@@ -211,9 +211,7 @@ module.exports = {
                     }
                     else if (getResult.order_rate_count == 0) {
                         lo_result.success = false;
-                        lo_result.effectValues = {begin_dat: ls_oldValue};
-                        lo_error = new ErrorClass();
-                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
+                        lo_result.effectValues = {begin_dat: ls_oldValue, rate_cod: "", ratecod_nam: ""};
                         cb(lo_error, lo_result);
                     }
                     else {
@@ -320,9 +318,7 @@ module.exports = {
                     }
                     else if (getResult.order_rate_count == 0) {
                         lo_result.success = false;
-                        lo_result.effectValues = {end_dat: ls_oldValue};
-                        lo_error = new ErrorClass();
-                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
+                        lo_result.effectValues = {end_dat: ls_oldValue, rate_cod: "", ratecod_nam: ""};
                         cb(lo_error, lo_result);
                     }
                     else {
@@ -498,11 +494,9 @@ module.exports = {
                     }
                 });
                 if (lo_examineContract.order_rate_count == 0) {
+                    ls_rateCod = "";
                     lo_result.success = false;
-                    lo_result.effectValues = {rate_cod: ls_oldValue};
-                    lo_error = new ErrorClass();
-                    lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
-                    ls_rateCod = ls_oldValue;
+                    lo_result.effectValues = {rate_cod: ls_rateCod};
                 }
                 //參考房價代號下拉資料
                 la_rateCodSelectData = await new Promise((resolve, reject) => {
@@ -568,16 +562,19 @@ module.exports = {
             }
 
             //房價代號帶回房價名稱
-            let ls_ratecodNam = await new Promise((resolve, reject) => {
-                queryAgent.query("QRY_RATE_NAM", {rate_cod: ls_rateCod}, function (err, getResult) {
-                    if (err) {
-                        reject(err)
-                    }
-                    else {
-                        resolve(getResult);
-                    }
+            let ls_ratecodNam = "";
+            if (ls_rateCod != "") {
+                ls_ratecodNam = await new Promise((resolve, reject) => {
+                    queryAgent.query("QRY_RATE_NAM", {rate_cod: ls_rateCod}, function (err, getResult) {
+                        if (err) {
+                            reject(err)
+                        }
+                        else {
+                            resolve(getResult);
+                        }
+                    });
                 });
-            });
+            }
 
             lo_result.effectValues = _.extend(lo_result.effectValues, {ratecod_nam: _.isNull(ls_ratecodNam) ? "" : ls_ratecodNam.ratecod_nam});
             lo_result.selectField = ["rate_cod", "rsdisc_cod"];

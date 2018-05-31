@@ -30,7 +30,9 @@ function loadDirRules(rootPath) {
                 }
                 else if (stats.isDirectory()) {
                     // console.log("%s is a directory", file);
-                    loadDirRules(rootPath + file + "/");
+                    if (file != 'CommonRuleLib' || file != 'CommonRule') {
+                        loadDirRules(rootPath + file + "/");
+                    }
                 }
 
             });

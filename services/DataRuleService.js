@@ -6,6 +6,7 @@ let moment = require("moment");
 let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 let mongoAgent = require("../plugins/mongodb");
 let ruleAgent = require("../ruleEngine/ruleAgent");
+let commonRule = require("../ruleEngine/rules/CommonRule");
 let commonTools = require("../utils/CommonTools");
 let _ = require("underscore");
 let async = require("async");
@@ -499,6 +500,17 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
     });
 };
 
+/*
+ * dataGrid select click 規則檢查
+ * @param postData
+ * @param session
+ * @return callback
+ */
+exports.chkSelectClickRule = function (postData, session, callback) {
+    commonRule.chkSelectClickRule(postData, session, function (result) {
+        callback(result.error, result.return);
+    });
+};
 
 /**
  * 單檔儲存前資料驗證檢查

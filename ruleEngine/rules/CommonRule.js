@@ -6,6 +6,8 @@ const moment = require("moment");
 const _ = require("underscore");
 const fs = require("fs");
 const saveExecDataTrimRule = require("./CommonRuleLib/SaveExecDataTrimRule");
+const selectClickRule = require("./CommonRuleLib/DgSelectClickRule");
+const ReturnClass = require('../returnClass');
 
 module.exports = {
     /**
@@ -163,5 +165,25 @@ module.exports = {
 
     trimSaveExecData: function (params, session) {
         saveExecDataTrimRule(params, session);
+    },
+
+    /**
+     * dataGrid select click時歸檢查
+     * @param params {object} API格式的儲存資料
+     * @param session {object}
+     * @callback {*}
+     */
+    chkSelectClickRule: async function (params, session, callback) {
+        let lo_return = {};
+        if (!_.isUndefined(selectClickRule[params.rule_func_name])) {
+            lo_return = await selectClickRule[params.rule_func_name](params, session);
+        }
+        else {
+            lo_return.return = new ReturnClass();
+            lo_return.error = null;
+        }
+
+        callback(lo_return)
     }
+
 };

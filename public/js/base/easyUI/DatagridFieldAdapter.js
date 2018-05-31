@@ -198,7 +198,7 @@ var DatagridFieldAdapter = {
             tmpFieldObj.editor.options.valueField = 'value';
             tmpFieldObj.editor.options.textField = 'display';
             tmpFieldObj.editor.options.data = fieldAttrObj.selectDataDisplay;
-            tmpFieldObj.editor.options.editable = false;
+            tmpFieldObj.editor.options.editable = true;
             tmpFieldObj.formatter = function (val, row, index) {
                 if (val != null) {
                     var datas = val.split(",");
@@ -218,7 +218,6 @@ var DatagridFieldAdapter = {
                 tmpFieldObj.editor.options.multiple = true;
                 tmpFieldObj.editor.options.multiline = true;
             }
-
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
@@ -256,7 +255,6 @@ var DatagridFieldAdapter = {
                 }
                 return val == 'Y' ? lo_checkboxVal.Y : lo_checkboxVal.N;
             };
-
         }
         else if (dataType == "color") {
             var lf_colorFormatter = function (color_cod, row, index) {

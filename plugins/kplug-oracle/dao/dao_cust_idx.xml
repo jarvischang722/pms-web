@@ -11,4 +11,16 @@
         </statement>
     </dao>
 
+    <dao name="SEL_CUST_IDX_CUST_MN_PERS_DT">
+        <statement>
+            SELECT ALT_NAM as display, ALT_NAM as value, MOBILE_NOS, OFFICE_TEL, HOME_TEL,
+            FAX_NOS, E_MAIL, SEX_TYP, BIRTH_DAT
+            FROM CUST_IDX
+            WHERE ATHENA_ID = :athena_id
+            AND FROM_TABLE = 'CUST_MN_PERS_DT'
+            ORDER BY ALT_NAM
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
 </root>
