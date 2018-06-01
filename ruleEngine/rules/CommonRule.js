@@ -168,24 +168,24 @@ module.exports = {
      */
     trimSaveExecData: function (params, session) {
         let lo_newSaveExecDatas = {};
-        let lo_saveExecDatas;
-        let ls_trimType = "newFormat";
+        let lo_saveExecDatas = params.saveExecDatas || params.page_data;
+        // let ls_trimType = "newFormat";
 
-        if (_.isUndefined(params.saveExecDatas)) {
-            ls_trimType = "newFormat";
-            lo_saveExecDatas = params.page_data;
-        }
-        else {
-            ls_trimType = "oldFormat";
-            lo_saveExecDatas = params.saveExecDatas;
-        }
+        // if (_.isUndefined(params.saveExecDatas)) {
+        //     ls_trimType = "newFormat";
+        //     lo_saveExecDatas = params.page_data;
+        // }
+        // else {
+        //     ls_trimType = "oldFormat";
+        //     lo_saveExecDatas = params.saveExecDatas;
+        // }
 
 
         if (!_.isUndefined(trimLibByPrgID[params.prg_id])) {
             lo_newSaveExecDatas = trimLibByPrgID[params.prg_id](lo_saveExecDatas, session);
         }
         else {
-            lo_newSaveExecDatas = trimPostData(lo_saveExecDatas, ls_trimType);
+            lo_newSaveExecDatas = trimPostData(lo_saveExecDatas);
         }
         return lo_newSaveExecDatas;
     }
@@ -194,19 +194,17 @@ module.exports = {
 /**
  * 資料去空白
  * @param saveExecDatas {Object} postData資料
- * @param trimType {string} 判斷要trim的格式
  * @returns {*}
  */
-function trimPostData(saveExecDatas, trimType) {
-    if(trimType == "oldFormat"){
-
-    }
-    _.each(saveExecDatas, (lo_postData, ls_tmpType) => {
-        _.each(lo_postData, (ls_postData, ls_key) => {
-            if (typeof ls_postData === "string") {
-                saveExecDatas[ls_tmpType][ls_key] = ls_postData.trim();
-            }
-        });
-    });
-    return saveExecDatas;
+function trimPostData(saveExecDatas) {
+    if (!Array.isArray(saveExecDatas) && typeof saveExecDatas != 'object') return saveExecDatas;
+    return Object.keys(saveExecDatas).reduce(function (acc, key) {
+        if (key != "condition") {
+            acc[key.trim()] = typeof saveExecDatas[key] == 'string' ? saveExecDatas[key].trim() : trimPostData(saveExecDatas[key]);
+        }
+        else{
+            acc[key.trim()] = saveExecDatas[key];
+        }
+        return acc;
+    }, Array.isArray(saveExecDatas) ? [] : {});
 }
