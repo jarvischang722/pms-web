@@ -40,6 +40,17 @@ exports.chkDgSelectClickRule = function (req, res) {
 };
 
 /**
+ * data grid select grid 搜尋時規則檢查
+ * @param req
+ * @param res
+ */
+exports.chkDgSelectgridQryRule = function (req, res) {
+    ruleSVC.chkDgSelectgridQryRule(req.body, req.session, function (err, result) {
+        res.json(commonTools.mergeRtnErrResultJson(err, result));
+    });
+};
+
+/**
  * 新增按鈕需要執行的規則
  */
 exports.addFuncRule = function (req, res) {

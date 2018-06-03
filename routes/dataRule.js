@@ -19,6 +19,9 @@ module.exports = function (app) {
     //dg select click 規則檢查
     app.post('/api/chkDgSelectClickRule', apiMiddles, ruleCrtl.chkDgSelectClickRule);
 
+    //dg selectgrid 搜尋時規則檢查
+    app.post('/api/chkDgSelectgridQryRule', apiMiddles, ruleCrtl.chkDgSelectgridQryRule);
+
     //新增功能規則
     app.post('/api/addFuncRule', apiMiddles, ruleCrtl.addFuncRule);
 

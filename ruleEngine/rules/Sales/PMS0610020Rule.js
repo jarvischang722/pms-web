@@ -633,15 +633,15 @@ module.exports = {
         let lo_error = null;
 
         try {
-            //姓名欄位下拉資料
+            //帶入所選擇的人員資料
             let lo_params = {athena_id: session.user.athena_id};
             let ls_altName = postData.newValue;
 
-            let la_altNameSelectData = await new Promise((resolve, reject) => {
+            let lo_altNameSelectData = await new Promise((resolve, reject) => {
                 if (ls_altName != "") {
                     lo_params.alt_nam = ls_altName;
                 }
-                queryAgent.queryList("SEL_CUST_IDX_CUST_MN_PERS_DT", lo_params, 0, 0, function (err, getResult) {
+                queryAgent.query("SEL_CUST_IDX_CUST_MN_PERS_DT", lo_params, function (err, getResult) {
                     if (err) {
                         reject(err)
                     }
@@ -651,19 +651,11 @@ module.exports = {
                 });
             });
 
-            lo_result.selectField.push("alt_nam");
-            lo_result.selectOptions = la_altNameSelectData;
-            lo_result.effectValues.alt_nam = ls_altName;
-
-            if (postData.isKeyHandler == 'false') {
-                lo_result.effectValues = _.extend(la_altNameSelectData[0]);
-                if (postData.oldValue != "") {
-                    lo_result.effectValues.dept_nam = "";
-                    lo_result.effectValues.role_cod = "";
-                    lo_result.effectValues.remark = "";
-                    lo_result.effectValues.quit_dat = "";
-                }
-            }
+            lo_result.effectValues = _.extend(lo_altNameSelectData);
+            lo_result.effectValues.dept_nam = "";
+            lo_result.effectValues.role_cod = "";
+            lo_result.effectValues.remark = "";
+            lo_result.effectValues.quit_dat = "";
 
             //檢查主要聯絡人
             if (postData.rowData.primary_pers == 'Y') {

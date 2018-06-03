@@ -513,6 +513,18 @@ exports.chkSelectClickRule = function (postData, session, callback) {
 };
 
 /**
+ * dataGrid selectgrid 搜尋時規則檢查
+ * @param postData
+ * @param session
+ * @param callback
+ */
+exports.chkDgSelectgridQryRule = function (postData, session, callback) {
+    commonRule.chkDgSelectgridQryRule(postData, session, function (result) {
+        callback(result.error, result.return);
+    });
+};
+
+/**
  * 單檔儲存前資料驗證檢查
  * @param postData
  * @param session

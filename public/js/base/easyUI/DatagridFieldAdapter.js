@@ -411,7 +411,7 @@ var DatagridFieldAdapter = {
             tmpFieldObj.editor.options.keyHandler = {
                 enter: function (e) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
-                    onChangeAction(_.extend(fieldAttrObj, {isKeyHandler: true}), "", e.target.value, ls_dgName);
+                    onQryAction(fieldAttrObj, e.target.value, ls_dgName);
                 },
                 query: function () {
                 }
@@ -440,18 +440,16 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         var editRowData = $("#" + dgName).datagrid('getEditingRowData');
 
         var postData = {
-                prg_id: fieldAttrObj.prg_id,
-                rule_func_name: fieldAttrObj.rule_func_name.trim(),
-                validateField: fieldAttrObj.ui_field_name,
-                rowIndex: indexRow,
-                rowData: selectDataRow,
-                editRowData: editRowData,
-                allRowData: JSON.parse(JSON.stringify(allDataRow)),
-                newValue: newValue,
-                oldValue: oldValue,
-                isKeyHandler: fieldAttrObj.isKeyHandler || false
-            }
-        ;
+            prg_id: fieldAttrObj.prg_id,
+            rule_func_name: fieldAttrObj.rule_func_name.trim(),
+            validateField: fieldAttrObj.ui_field_name,
+            rowIndex: indexRow,
+            rowData: selectDataRow,
+            editRowData: editRowData,
+            allRowData: JSON.parse(JSON.stringify(allDataRow)),
+            newValue: newValue,
+            oldValue: oldValue
+        };
 
         isUserEdit = false;
 
@@ -571,21 +569,117 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     });
                 }
             }
-            else if (fieldAttrObj.ui_type == 'selectgrid' && result.selectField.length > 0) {
-                if (result.selectField.length == 1) {
-                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
-                        index: indexRow,
-                        field: result.selectField
-                    });
-                    $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
-                }
-            }
 
             isUserEdit = true;
         });
 
     }
 
+}
+
+function onQryAction(fieldAttrObj, qryValue, dgName) {
+    var la_allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
+    var lo_selectDataRow = $('#' + dgName).datagrid('getSelected');
+    var ln_indexRow = $('#' + dgName).datagrid('getRowIndex', lo_selectDataRow);
+    var lo_editRowData = $("#" + dgName).datagrid('getEditingRowData');
+
+    var lo_postData = {
+        prg_id: fieldAttrObj.prg_id,
+        rule_func_name: fieldAttrObj.rule_func_name.trim() + "_dgSelectgridQry",
+        validateField: fieldAttrObj.ui_field_name,
+        rowIndex: ln_indexRow,
+        rowData: lo_selectDataRow,
+        editRowData: lo_editRowData,
+        allRowData: JSON.parse(JSON.stringify(la_allDataRow)),
+        qryValue: qryValue
+    };
+
+    BacUtils.doHttpPostAgent('/api/chkDgSelectgridQryRule', lo_postData, function (result) {
+        if (result.success) {
+            //是否要show出訊息
+            if (result.showAlert) {
+                alert(result.alertMsg);
+            }
+
+            //是否要show出詢問視窗
+            if (result.showConfirm) {
+                if (confirm(result.confirmMsg)) {
+                    //有沒有要再打一次ajax到後端
+                    if (result.isGoPostAjax) {
+                        BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (ajaxResult) {
+                            if (!ajaxResult.success) {
+                                alert(ajaxResult.errorMsg);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        else {
+            alert(result.errorMsg);
+        }
+
+        //連動帶回的值
+        // if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
+        //     var effectValues = result.effectValues;
+        //     if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
+        //         $('#' + dgName).datagrid('updateRow', {
+        //             index: _.isUndefined(effectValues.effectIndex) ? ln_indexRow : effectValues.effectIndex,
+        //             row: effectValues
+        //         });
+        //         if (!_.isUndefined(effectValues.effectIndex)) {
+        //             if (effectValues.effectIndex != ln_indexRow) {
+        //                 $('#' + dgName).datagrid('beginEdit', effectValues.effectIndex);
+        //                 $('#' + dgName).datagrid('endEdit', effectValues.effectIndex);
+        //             }
+        //         }
+        //
+        //         if (!_.isUndefined(effectValues.day_sta_color)) {
+        //             var col = $("#" + dgName).datagrid('getColumnOption', 'day_sta');
+        //             col.styler = function () {
+        //                 return 'background-color:' + effectValues.day_sta_color;
+        //             };
+        //         }
+        //
+        //         //確認現在datagrid的editIndex為何
+        //         var lo_nowIndexRow = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
+        //         if (lo_nowIndexRow != ln_indexRow) {
+        //             $('#' + dgName).datagrid('unselectRow', lo_nowIndexRow);
+        //             $('#' + dgName).datagrid('endEdit', lo_nowIndexRow);
+        //         }
+        //
+        //         //現在datagrid的editIndex已經不是indexRow，切換editIndex為indexRow
+        //         $('#' + dgName).datagrid('beginEdit', ln_indexRow);
+        //         $('#' + dgName).datagrid('endEdit', ln_indexRow);
+        //
+        //         //將連動欄位的那列打開編輯
+        //         $('#' + dgName).datagrid('beginEdit', ln_indexRow);
+        //         $('#' + dgName).datagrid('selectRow', ln_indexRow);
+        //     }
+        //     else {
+        //         _.each(effectValues, function (item, index) {
+        //             var indexRow = $('#' + dgName).datagrid('getRowIndex', la_allDataRow[item.rowindex]);
+        //             $('#' + dgName).datagrid('updateRow', {
+        //                 index: indexRow,
+        //                 row: item
+        //             });
+        //         });
+        //
+        //     }
+        //
+        // }
+
+        //動態產生下拉資料
+        if (fieldAttrObj.ui_type == 'selectgrid' && result.selectField.length > 0) {
+            if (result.selectField.length == 1) {
+                var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                    index: ln_indexRow,
+                    field: result.selectField
+                });
+                $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
+            }
+        }
+    });
 }
 
 /** 組件事件綁定 **/
