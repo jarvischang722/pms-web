@@ -3,9 +3,6 @@
  * select grid 欄位名稱
  */
 
-const i18n = require("i18n");
-const fs = require("fs");
-const async = require("async");
 const commandRules = require('./CommonRule');
 
 exports.sel_business_rf_column = function (session, callback) {
@@ -293,6 +290,40 @@ exports.QRY_SEL_HFD_LIVE_COD_RF_Column = function (session, callback) {
     callback(null, lo_result);
 };
 
+exports.sel_ashowCodColumn = function (session, callback) {
+    let lo_result = {
+        columns: [
+            {
+                field: "show_cod",
+                title: commandRules.getColumnByNam("show_cod", session.locale),
+                width: 100
+            },
+            {
+                field: "cust_cod",
+                title: commandRules.getColumnByNam("cust_cod", session.locale),
+                width: 100
+            },
+            {
+                field: "cust_nam",
+                title: commandRules.getColumnByNam("cust_nam", session.locale),
+                width: 150
+            },
+            {
+                field: "contact1_rmk",
+                title: commandRules.getColumnByNam("contact_rmk", session.locale),
+                width: 100
+            },
+            {
+                field: "status_cod",
+                title: commandRules.getColumnByNam("status_cod", session.locale),
+                width: 50
+            }
+        ],
+        display: "show_cod",
+        value: "show_cod"
+    };
+    callback(null, lo_result);
+};
 
 exports.sel_alt_nam = function (session, callback) {
     let lo_result = {

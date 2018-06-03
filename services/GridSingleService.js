@@ -42,36 +42,51 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
         //2) 撈取屬性陣列裡有select的來源
         function (fields, callback) {
             let selectDSFunc = [];
-            _.each(la_fields, function (field, fIdx) {
-                if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
+            _.each(la_fields, function (lo_field, fIdx) {
+                if (lo_field.ui_type == 'select' || lo_field.ui_type == 'multiselect' || lo_field.ui_type == 'checkbox' || lo_field.ui_type == 'selectgrid') {
 
                     //讀取selectgrid的設定參數
-                    if (field.ui_type == 'selectgrid') {
-                        if (!_.isUndefined(ruleAgent[field.rule_func_name])) {
-                            ruleAgent[field.rule_func_name](session, function (err, result) {
-                                la_fields[fIdx].selectGridOptions = result;
-                            });
-                        }
-                    }
+                    // if (lo_field.ui_type == 'selectgrid') {
+                    //     if (!_.isUndefined(ruleAgent[lo_field.rule_func_name])) {
+                    //         ruleAgent[field.rule_func_name](session, function (err, result) {
+                    //             la_fields[fIdx].selectGridOptions = result;
+                    //         });
+                    //     }
+                    // }
 
                     selectDSFunc.push(
                         function (callback) {
                             mongoAgent.UITypeSelect.findOne({
                                 prg_id: prg_id,
-                                ui_field_name: field.ui_field_name
+                                ui_field_name: lo_field.ui_field_name
                             }).exec(function (err, selRow) {
                                 la_fields[fIdx].selectData = [];
                                 if (selRow) {
                                     selRow = selRow.toObject();
-                                    la_fields[fIdx].ds_from_sql = selRow.ds_from_sql || "";
-                                    la_fields[fIdx].referiable = selRow.referiable || "N";
-                                    la_fields[fIdx].defaultVal = selRow.defaultVal || "";
-                                    dataRuleSvc.getSelectOptions(session, selRow, field, function (selectData) {
-                                        la_fields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
-                                        la_fields[fIdx].selectData =
-                                            selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
-                                        callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
-                                    });
+                                    lo_field.ds_from_sql = selRow.ds_from_sql || "";
+                                    lo_field.referiable = selRow.referiable || "N";
+                                    lo_field.defaultVal = selRow.defaultVal || "";
+
+                                    if (lo_field.ui_type == "selectgrid" || lo_field.ui_type == "multiselectgrid") {
+                                        dataRuleSvc.getSelectGridOption(session, selRow, lo_field, function (err, selectData) {
+                                            la_fields[fIdx].selectData = selectData;
+                                            callback(err, {ui_field_idx: fIdx, ui_field_name: la_fields[fIdx].ui_field_name});
+                                        });
+                                    }
+                                    else {
+                                        dataRuleSvc.getSelectOptions(session, selRow, lo_field, function (selectData) {
+                                            la_fields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
+                                            la_fields[fIdx].selectData =
+                                                selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
+                                            callback(null, {ui_field_idx: fIdx, ui_field_name: la_fields[fIdx].ui_field_name});
+                                        });
+                                    }
+                                    // dataRuleSvc.getSelectOptions(session, selRow, lo_field, function (selectData) {
+                                    //     la_fields[fIdx].selectDataDisplay = selectData.selectDataDisplay;
+                                    //     la_fields[fIdx].selectData =
+                                    //         selectData.selectData.length == 0 ? selectData.selectDataDisplay : selectData.selectData;
+                                    //     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                                    // });
                                 } else {
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 }
@@ -82,18 +97,18 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                 }
 
                 //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
-                let attrName = field.attr_func_name;
-                if (!_.isEmpty(attrName) && (field.visiable == "C" || field.modificable == "C" || field.requirable == "C")) {
+                let attrName = lo_field.attr_func_name;
+                if (!_.isEmpty(attrName) && (lo_field.visiable == "C" || lo_field.modificable == "C" || lo_field.requirable == "C")) {
                     let lo_params = {
-                        field: field,
+                        field: lo_field,
                         singleRowData: singleRowData
                     };
 
                     selectDSFunc.push(
                         function (callback) {
-                            if (field.visiable == "C") {
+                            if (lo_field.visiable == "C") {
                                 if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
-                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                    ruleAgent[attrName](lo_field, userInfo, function (err, result) {
                                         if (result) {
                                             la_fields[fIdx] = result[0];
                                             callback(err, {ui_field_idx: fIdx, field: result});
@@ -102,9 +117,9 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                                         }
                                     });
                                 } else {
-                                    callback(null, {ui_field_idx: fIdx, field: field});
+                                    callback(null, {ui_field_idx: fIdx, field: lo_field});
                                 }
-                            } else if (field.modificable == "C") {
+                            } else if (lo_field.modificable == "C") {
                                 if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
                                     ruleAgent[attrName](lo_params, userInfo, function (err, result) {
                                         if (result) {
@@ -115,11 +130,11 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                                         }
                                     });
                                 } else {
-                                    callback(null, {ui_field_idx: fIdx, field: field});
+                                    callback(null, {ui_field_idx: fIdx, field: lo_field});
                                 }
-                            } else if (field.requirable == "C") {
+                            } else if (lo_field.requirable == "C") {
                                 if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
-                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                    ruleAgent[attrName](lo_field, userInfo, function (err, result) {
                                         if (result) {
                                             la_fields[fIdx] = result[0];
                                             callback(err, {ui_field_idx: fIdx, field: result});
@@ -128,7 +143,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                                         }
                                     });
                                 } else {
-                                    callback(null, {ui_field_idx: fIdx, field: field});
+                                    callback(null, {ui_field_idx: fIdx, field: lo_field});
                                 }
                             }
                         }
