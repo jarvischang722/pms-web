@@ -145,8 +145,6 @@
                     }
                     cb(null, "");
                 }, 100);
-
-
             },
 
             checkedTreeNodeByFuncsOfRole() {
@@ -156,10 +154,6 @@
                 if (this.$store.state.gs_permissionModel == "authByFunc" || la_allRoles.length <= 0 || this.treeIns == null) {
                     return;
                 }
-                // if(la_funcsOfRole.length == 0){
-                //     this.treeIns.uncheck_all();
-                    // return;
-                // }
 
                 this.isLoading = true;
                 setTimeout(function () {

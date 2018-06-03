@@ -3,7 +3,7 @@
     <!-- 撈取客戶授權全部功能-->
     <dao name="QRY_BAC_PROCESSMENU">
         <statement><![CDATA[
-            select pre_id, current_id, id_typ, level_nos from bac_processmenu
+            select pre_id, current_id, id_typ, level_nos, sort_cod, edition from bac_processmenu
             where trim(comp_cod) = trim(:comp_cod)
             and athena_id = :athena_id
             and trim(hotel_cod) = trim(:hotel_cod)

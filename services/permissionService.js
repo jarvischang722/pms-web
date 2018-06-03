@@ -175,7 +175,8 @@ function combinFuncExecData(postData, session, callback) {
                     tmpIns.current_id = lo_func.current_id;
                     tmpIns.id_typ = lo_func.id_typ;
                     tmpIns.level_nos = lo_func.level_nos;
-                    tmpIns.sort_cod = 0;
+                    tmpIns.sort_cod = lo_func.sort_cod || "";
+                    tmpIns.edition = lo_func.edition;
                     tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
 
                     lo_savaExecDatas[ln_exec_seq] = tmpIns;
@@ -349,7 +350,8 @@ exports.saveAuthByFunc = function (postData, session, callback) {
                         tmpIns.current_id = ls_current_id;
                         tmpIns.id_typ = lo_func.id_typ;
                         tmpIns.level_nos = lo_func.level_nos;
-                        tmpIns.sort_cod = 0;
+                        tmpIns.edition = lo_func.edition;
+                        tmpIns.sort_cod = lo_func.sort_cod || "";
 
                         tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
                         lo_saveExecDatas[ln_exec_seq] = tmpIns;
@@ -688,7 +690,7 @@ function genPermissionFuncTree(req, session, la_funcList, callback) {
     ], function (err, result) {
         let lo_rtn = {
             funcTreeData: result,
-            funnList: la_funcList
+            funcList: la_funcList
         };
         callback(err, lo_rtn);
     });
