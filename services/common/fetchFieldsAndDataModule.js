@@ -728,8 +728,8 @@ async function filterRowData(la_dgRowData, params, session) {
  */
 async function rowDataMultiLang(la_dgRowData, params, session) {
     return new Promise((resolve, reject) => {
-        if(la_dgRowData.length>0){
-            if(params.template_id == "datagrid"){
+        if (la_dgRowData.length > 0) {
+            if (params.template_id == "datagrid") {
                 langSvc.handleMultiDataLangConv(la_dgRowData, params.prg_id, params.page_id, session.locale, function (err, Rows) {
                     if (err) {
                         reject(err);
@@ -739,7 +739,7 @@ async function rowDataMultiLang(la_dgRowData, params, session) {
                     }
                 });
             }
-            else{
+            else {
                 langSvc["handleSingleDataLangConv"](la_dgRowData[0], params.prg_id, params.page_id, session.locale, function (err, Rows) {
                     if (err) {
                         reject(err);
@@ -750,7 +750,7 @@ async function rowDataMultiLang(la_dgRowData, params, session) {
                 });
             }
         }
-        else{
+        else {
             resolve(la_dgRowData)
         }
 

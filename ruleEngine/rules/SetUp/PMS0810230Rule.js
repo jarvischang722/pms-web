@@ -46,6 +46,36 @@ module.exports = {
     },
 
     /**
+     * 房型資料預設值設定
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    defaultratecod_dt(postData, session, callback) {
+        let lo_result = new ReturnClass;
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            supply_nos: postData.supply_nos,
+            rate_cod: postData.rate_cod
+        };
+
+        queryAgent.queryList("QRY_RATECOD_DT", lo_params, 0, 0, function (err, result) {
+            if (err) {
+                console.log(err);
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = err;
+            }
+            else {
+                lo_result.defaultValues = result;
+            }
+            callback(lo_error, lo_result);
+        })
+    },
+
+    /**
      * 取得可選擇的房型
      * @param postData
      * @param session
@@ -59,7 +89,7 @@ module.exports = {
         let lo_params = {
             athena_id: session.user.athena_id,
             hotel_cod: session.user.hotel_cod
-        }
+        };
 
         try {
             let lo_rentCalData = await new Promise((resolve, reject) => {
@@ -83,6 +113,128 @@ module.exports = {
                 });
             });
             lo_result.multiSelectOptions = la_roomTypeSelectData;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 取得可選擇的使用期間
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    async qry_ratesupplydt_for_select_data(postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            rate_cod: postData.rate_cod
+        };
+
+        try {
+            let la_ratesupplyData = await new Promise((resolve, reject) => {
+                queryAgent.queryList("QRY_RATESUPPLY_DT_FOR_SELECT", lo_params, 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            lo_result.selectOptions = la_ratesupplyData;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 檢查使用期間日期是否重疊
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    chk_ratesupply_dt_data(postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let la_examData = postData.rowsData;
+        for (let i = 0; i < la_examData.length; i++) {
+            for (let j = 0; j < i; j++) {
+                let lo_nowData = la_examData[i];
+                let lo_compareData = la_examData[j];
+
+                let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
+                let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
+                let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
+                let ls_compareEndDat = moment(new Date(lo_compareData.begin_dat));
+                let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+
+                if (lb_chkOverLap) {
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms81msg44", session.locale);
+                    break;
+                }
+            }
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 房型下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    async qry_ratesupplydt_room_cod(postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+
+        try {
+            let lo_rentCalData = await new Promise((resolve, reject) => {
+                queryAgent.query("QRY_RENT_CAL_DAT", lo_params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            let la_roomTypeSelectData = await new Promise((resolve, reject) => {
+                queryAgent.queryList("QRY_RVRMCOD_RF_FOR_RATESUPPLY_DT", _.extend(lo_params, {rent_cal_dat: lo_rentCalData.rent_cal_dat}), 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            _.each(la_roomTypeSelectData, (lo_roomTypeSelectData) => {
+                lo_roomTypeSelectData.display = lo_roomTypeSelectData.value + " : " + lo_roomTypeSelectData.display;
+            });
+            lo_result.selectOptions = la_roomTypeSelectData;
         }
         catch (err) {
             console.log(err);

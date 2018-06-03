@@ -7,6 +7,7 @@ const _ = require("underscore");
 const moment = require("moment");
 const mongoAgent = require("../../plugins/mongodb");
 const commonTools = require("../../utils/CommonTools");
+const commonRule = require("../../ruleEngine/rules/CommonRule");
 const ruleAgent = require("../../ruleEngine/ruleAgent");
 const langSvc = require("../../services/LangService");
 
@@ -49,29 +50,14 @@ class saveDataAdapter {
             await this.insertCondIntoTmpCUD(la_tmpRf, la_dgKeyFields, la_gsKeyFields);
             let lo_page_data = await this.formatData(la_gsFields);
             let lo_apiFormat = this.apiFormat();
-            lo_page_data = this.trimPostData(lo_page_data);
             lo_apiFormat.page_data = lo_page_data;
+            lo_apiFormat.lo_page_data = await commonRule.trimSaveExecData(lo_apiFormat, this.session);
+
             return lo_apiFormat;
         }
         catch (err) {
             throw err;
         }
-    }
-
-    /**
-     * 資料去空白
-     * @param tmpCUD {Object} postData資料
-     * @returns {*}
-     */
-    trimPostData(saveExecDatas) {
-        _.each(saveExecDatas, (lo_postData, ls_tmpType) => {
-            _.each(lo_postData, (ls_postData, ls_key) => {
-                if (typeof ls_postData === "string") {
-                    saveExecDatas[ls_tmpType][ls_key] = ls_postData.trim();
-                }
-            });
-        });
-        return saveExecDatas;
     }
 
     /**

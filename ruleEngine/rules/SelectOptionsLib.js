@@ -1086,6 +1086,29 @@ exports.getBaserateFlag = function () {
 };
 
 /**
+ * PMS0810230 使用期間 取得計算方式下拉資料
+ *  @returns {[null,null,null]}
+ */
+exports.getCommandCod = function () {
+    let la_optionList = [
+        {
+            display: "依日",
+            value: "D"
+        },
+        {
+            display: "依星期",
+            value: "W"
+        },
+        {
+            display: "依假日對照檔設定",
+            value: "H"
+        }
+
+    ];
+    return la_optionList;
+};
+
+/**
  * PMS0830110 平板作業區域設定
  * 搜尋AreapntSta下拉資料
  * @returns {[*,*]}
@@ -1785,6 +1808,17 @@ exports.lang_rate_prop = function (params, callback) {
 exports.lang_baserate_flag = function (params, callback) {
     let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getBaserateFlag();
+    callback(null, lo_result);
+};
+
+/**
+ * rate cod(PMS0810230) 使用期間 取得計算方式下拉資料
+ * @param params
+ * @param callback
+ */
+exports.lang_command_cod = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCommandCod();
     callback(null, lo_result);
 };
 

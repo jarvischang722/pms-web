@@ -2254,14 +2254,16 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "atten_nam", 
-    "ui_type" : "popupgrid", 
+    "ui_type" : "selectgrid", 
     "ui_display_name" : "", 
     "rule_func_name" : "sel_atten_nam", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
-    "multi_display_field" : ""
+    "multi_display_field" : "", 
+    "is_qry_src_before" : "", 
+    "column_func_name" : "sel_atten_nam_Column"
 }
 { 
     "_id" : ObjectId("5a17c1a8eaa54922546f990f"), 
@@ -2270,14 +2272,16 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "alt_nam", 
-    "ui_type" : "popupgrid", 
+    "ui_type" : "selectgrid", 
     "ui_display_name" : "", 
     "rule_func_name" : "sel_alt_nam", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
-    "multi_display_field" : ""
+    "multi_display_field" : "", 
+    "is_qry_src_before" : "", 
+    "column_func_name" : "sel_alt_nam_Column"
 }
 { 
     "_id" : ObjectId("5a1bc8df970a869768ab5adb"), 
@@ -5491,7 +5495,7 @@
     "ui_display_name" : "", 
     "rule_func_name" : "", 
     "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -5513,4 +5517,22 @@
     "multi_value_field" : "", 
     "multi_display_field" : "", 
     "is_qry_src_before" : ""
+}
+{ 
+    "_id" : ObjectId("5b0f6f69c9e9af24d4906b60"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "alt_nam", 
+    "ui_type" : "selectgrid", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_cust_idx_cust_mn_pers_dt", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : "", 
+    "column_func_name" : "sel_cust_idx_cust_mn_pers_dt_column"
 }

@@ -72,6 +72,13 @@
             }
         },
         watch: {
+            data: {
+                handler: function (val) {
+                    this.dataDisplay = this.dataDisplay.length == 0 ? val : this.dataDisplay;
+                    $(this.$el).combobox("loadData", this.dataDisplay);
+                },
+                deep: true
+            },
             //塞入預設值
             defaultVal: function (val) {
                 this.$emit('update:v-model', this.defaultVal);
@@ -130,7 +137,10 @@
                 if (ls_keyword == "") {
                     return false;
                 }
-                BacUtils.doHttpPostAgent('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
+                BacUtils.doHttpPostAgent('/api/getSelectOptions', {
+                    keyword: ls_keyword,
+                    field: this.field
+                }, function (items) {
                     $(self.$el).combobox("loadData", items);
                 })
 
