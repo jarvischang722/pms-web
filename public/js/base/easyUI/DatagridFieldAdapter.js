@@ -765,7 +765,7 @@ function onQryAction(fieldAttrObj, qryValue, dgName) {
                     field: result.selectField
                 });
                 $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
-                $(lo_editor.target).combogrid("setValue", qryValue);
+                $(lo_editor.target).combogrid("setText", qryValue);
             }
         }
     });
