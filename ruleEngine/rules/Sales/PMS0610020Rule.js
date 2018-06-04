@@ -651,7 +651,7 @@ module.exports = {
                 });
             });
 
-            lo_result.effectValues = _.extend(lo_altNameSelectData);
+            lo_result.effectValues = _.extend(lo_result.effectValues, lo_altNameSelectData);
             lo_result.effectValues.dept_nam = "";
             lo_result.effectValues.role_cod = "";
             lo_result.effectValues.remark = "";
