@@ -107,6 +107,62 @@ exports.sel_salesMnHotelStatusNColumn = function (session, callback) {
 };
 
 /**
+ * PMS0610020 商務公司資料編輯 相關人員姓名
+ * @param session
+ * @param callback
+ */
+exports.sel_cust_idx_cust_mn_pers_dt_column = function (session, callback) {
+    let lo_result = {
+        columns: [
+            {
+                field: "alt_nam",
+                title: commandRules.getColumnByNam("ALT_NAM", session.locale),
+                width: 100
+            },
+            {
+                field: "mobile_nos",
+                title: commandRules.getColumnByNam("MOBILE_NOS", session.locale),
+                width: 100
+            },
+            {
+                field: "office_tel",
+                title: commandRules.getColumnByNam("OFFICE_TEL", session.locale),
+                width: 100
+            },
+            {
+                field: "home_tel",
+                title: commandRules.getColumnByNam("HOME_TEL", session.locale),
+                width: 100
+            },
+            {
+                field: "fax_nos",
+                title: commandRules.getColumnByNam("FAX_NOS", session.locale),
+                width: 100
+            },
+            {
+                field: "e_mail",
+                title: commandRules.getColumnByNam("E_MAIL", session.locale),
+                width: 100
+            },
+            {
+                field: "sex_typ",
+                title: commandRules.getColumnByNam("SEX_TYP", session.locale),
+                width: 100
+            },
+            {
+                field: "birth_dat",
+                title: commandRules.getColumnByNam("BIRTH_DAT", session.locale),
+                width: 100
+            }
+
+        ],
+        display: "alt_nam",
+        value: "alt_nam"
+    };
+    callback(null, lo_result);
+};
+
+/**
  * PMS0620020 業務員資料編輯 欄位使用者代號
  * @param session
  * @param callback

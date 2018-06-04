@@ -63,7 +63,7 @@ class saveTemplate {
      * @returns {Promise<void>}
      */
     async callApi() {
-        await this.chkApiFormater();
+        // await this.chkApiFormater();
         return new Promise((resolve, reject) => {
             tools.requestApi(go_sysConf.api_url.common, this.lo_apiFormater, (apiErr, apiRes, data) => {
                 let log_id = moment().format("YYYYMMDDHHmmss");
