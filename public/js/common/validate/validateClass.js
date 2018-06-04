@@ -161,6 +161,7 @@ function validateClass() {
 
     // 判斷是否為整數
     this.chkInteger = function (ls_value) {
+        if(ls_value == null || _.isUndefined(ls_value)) return true;
         var lb_result;
         if (ls_value.toString().indexOf(".") > -1) {
             lb_result = false;
