@@ -1035,29 +1035,60 @@ module.exports = {
                 kindOfRel: 'dt'
             });
             //cust_mn_pers_dt 資料 儲存cust_idx
-            _.each(la_dtCreateData, function (lo_dtCreateData, idx) {
-                if (Number(lo_dtCreateData.tab_page_id) == 2) {
-                    lo_result.extendExecDataArrSet.push({
-                        function: '1',
-                        table_name: 'cust_idx',
-                        athena_id: userInfo.athena_id,
-                        cust_cod: lo_dtCreateData.per_cust_cod,
-                        alt_nam: lo_dtCreateData.alt_nam,
-                        from_table: 'CUST_MN_PERS_DT',
-                        cust_typ: 'H',
-                        office_tel: lo_dtCreateData.office_tel,
-                        fax_nos: lo_dtCreateData.fax_nos,
-                        mobile_nos: lo_dtCreateData.mobile_nos,
-                        home_tel: lo_dtCreateData.home_tel,
-                        e_mail: lo_dtCreateData.e_mail,
-                        birth_dat: lo_dtCreateData.birth_dat,
-                        sex_typ: lo_dtCreateData.sex_typ,
-                        show_cod: lo_dtCreateData.per_cust_cod
-                    });
-                }
-            });
+            if (la_dtCreateData.length > 0) {
+                let ln_dataCount = 0;
+                _.each(la_dtCreateData, function (lo_dtCreateData, idx) {
+                    ln_dataCount++;
 
-            cb(lo_error, lo_result);
+                    let ln_perCount = 0;
+                    let ln_relatedPerNum = _.where(la_dtCreateData, {tab_page_id: "2"}).length;
+                    if (Number(lo_dtCreateData.tab_page_id) == 2) {
+                        ln_perCount++;
+                        queryAgent.query("QRY_CUST_IDX_PER_IS_EXIST", {
+                            athena_id: userInfo.athena_id,
+                            cust_cod: lo_dtCreateData.per_cust_cod
+                        }, function (err, result) {
+                            if (err) {
+                                lo_result.success = false;
+                                lo_error = new ErrorClass();
+                                lo_error.errorMsg = err;
+                            }
+                            else {
+                                if (result.cust_mn_per_count == 0) {
+                                    lo_result.extendExecDataArrSet.push({
+                                        function: '1',
+                                        table_name: 'cust_idx',
+                                        athena_id: userInfo.athena_id,
+                                        cust_cod: lo_dtCreateData.per_cust_cod,
+                                        alt_nam: lo_dtCreateData.alt_nam,
+                                        from_table: 'CUST_MN_PERS_DT',
+                                        cust_typ: 'H',
+                                        office_tel: lo_dtCreateData.office_tel,
+                                        fax_nos: lo_dtCreateData.fax_nos,
+                                        mobile_nos: lo_dtCreateData.mobile_nos,
+                                        home_tel: lo_dtCreateData.home_tel,
+                                        e_mail: lo_dtCreateData.e_mail,
+                                        birth_dat: lo_dtCreateData.birth_dat,
+                                        sex_typ: lo_dtCreateData.sex_typ,
+                                        show_cod: lo_dtCreateData.per_cust_cod
+                                    });
+                                }
+                                if (ln_perCount == ln_relatedPerNum) {
+                                    cb(lo_error, lo_result);
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        if (ln_dataCount == la_dtCreateData.length) {
+                            cb(lo_error, lo_result);
+                        }
+                    }
+                });
+            }
+            else {
+                cb(lo_error, lo_result);
+            }
         }
     },
 
@@ -1324,27 +1355,6 @@ module.exports = {
                 kindOfRel: 'dt'
             });
             //cust_mn_pers_dt 資料 儲存cust_idx
-            _.each(la_dtCreateData, function (lo_dtCreateData) {
-                if (Number(lo_dtCreateData.tab_page_id) == 2) {
-                    lo_result.extendExecDataArrSet.push({
-                        function: '1',
-                        table_name: 'cust_idx',
-                        athena_id: userInfo.athena_id,
-                        cust_cod: lo_dtCreateData.per_cust_cod,
-                        alt_nam: lo_dtCreateData.alt_nam,
-                        from_table: 'CUST_MN_PERS_DT',
-                        cust_typ: 'H',
-                        office_tel: lo_dtCreateData.office_tel,
-                        fax_nos: lo_dtCreateData.fax_nos,
-                        mobile_nos: lo_dtCreateData.mobile_nos,
-                        home_tel: lo_dtCreateData.home_tel,
-                        e_mail: lo_dtCreateData.e_mail,
-                        birth_dat: lo_dtCreateData.birth_dat,
-                        sex_typ: lo_dtCreateData.sex_typ,
-                        show_cod: lo_dtCreateData.per_cust_cod
-                    });
-                }
-            });
             _.each(la_dtUpdateData, function (lo_dtUpdateData) {
                 if (Number(lo_dtUpdateData.tab_page_id) == 2) {
                     lo_result.extendExecDataArrSet.push({
@@ -1382,8 +1392,60 @@ module.exports = {
                     });
                 }
             });
+            if (la_dtCreateData.length > 0) {
+                let ln_dataCount = 0;
+                _.each(la_dtCreateData, function (lo_dtCreateData) {
+                    ln_dataCount++;
 
-            cb(lo_error, lo_result);
+                    let ln_perCount = 0;
+                    let ln_relatedPerNum = _.where(la_dtCreateData, {tab_page_id: "2"}).length;
+                    if (Number(lo_dtCreateData.tab_page_id) == 2) {
+                        ln_perCount++;
+                        queryAgent.query("QRY_CUST_IDX_PER_IS_EXIST", {
+                            athena_id: userInfo.athena_id,
+                            cust_cod: lo_dtCreateData.per_cust_cod
+                        }, function (err, result) {
+                            if (err) {
+                                lo_result.success = false;
+                                lo_error = new ErrorClass();
+                                lo_error.errorMsg = err;
+                            }
+                            else {
+                                if (result.cust_mn_per_count == 0) {
+                                    lo_result.extendExecDataArrSet.push({
+                                        function: '1',
+                                        table_name: 'cust_idx',
+                                        athena_id: userInfo.athena_id,
+                                        cust_cod: lo_dtCreateData.per_cust_cod,
+                                        alt_nam: lo_dtCreateData.alt_nam,
+                                        from_table: 'CUST_MN_PERS_DT',
+                                        cust_typ: 'H',
+                                        office_tel: lo_dtCreateData.office_tel,
+                                        fax_nos: lo_dtCreateData.fax_nos,
+                                        mobile_nos: lo_dtCreateData.mobile_nos,
+                                        home_tel: lo_dtCreateData.home_tel,
+                                        e_mail: lo_dtCreateData.e_mail,
+                                        birth_dat: lo_dtCreateData.birth_dat,
+                                        sex_typ: lo_dtCreateData.sex_typ,
+                                        show_cod: lo_dtCreateData.per_cust_cod
+                                    });
+                                }
+                                if (ln_perCount == ln_relatedPerNum) {
+                                    cb(lo_error, lo_result);
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        if (ln_dataCount == la_dtCreateData.length) {
+                            cb(lo_error, lo_result);
+                        }
+                    }
+                });
+            }
+            else {
+                cb(lo_error, lo_result);
+            }
         }
 
         function deleteCustIdx(data, cb) {

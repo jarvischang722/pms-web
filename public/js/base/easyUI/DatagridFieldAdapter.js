@@ -198,7 +198,7 @@ var DatagridFieldAdapter = {
             tmpFieldObj.editor.options.valueField = 'value';
             tmpFieldObj.editor.options.textField = 'display';
             tmpFieldObj.editor.options.data = fieldAttrObj.selectDataDisplay;
-            tmpFieldObj.editor.options.editable = true;
+            tmpFieldObj.editor.options.editable = false;
             tmpFieldObj.formatter = function (val, row, index) {
                 if (val != null) {
                     var datas = val.split(",");
@@ -240,6 +240,10 @@ var DatagridFieldAdapter = {
                     if (isUserEdit) {
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
+                };
+                tmpFieldObj.editor.options.onShowPanel = function () {
+                    var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                    onSelectClickAction(fieldAttrObj, ls_dgName);
                 };
             }
         }
@@ -432,6 +436,13 @@ var DatagridFieldAdapter = {
  */
 var ga_readonlyFields = [];
 
+/**
+ * onchange 事件
+ * @param fieldAttrObj
+ * @param oldValue
+ * @param newValue
+ * @param dgName
+ */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
     if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit) {
         var allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
@@ -577,6 +588,83 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
 }
 
+/**
+ * select click 事件
+ * @param fieldAttrObj
+ * @param dgName
+ */
+function onSelectClickAction(fieldAttrObj, dgName) {
+    var la_allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
+    var lo_selectDataRow = $('#' + dgName).datagrid('getSelected');
+    var ln_indexRow = $('#' + dgName).datagrid('getRowIndex', lo_selectDataRow);
+    var lo_editRowData = $("#" + dgName).datagrid('getEditingRowData');
+
+    var postData = {
+        prg_id: fieldAttrObj.prg_id,
+        rule_func_name: fieldAttrObj.rule_func_name.trim() + '_dgSelectClick',
+        validateField: fieldAttrObj.ui_field_name,
+        rowIndex: ln_indexRow,
+        rowData: lo_selectDataRow,
+        editRowData: lo_editRowData,
+        allRowData: JSON.parse(JSON.stringify(la_allDataRow))
+    };
+
+    BacUtils.doHttpPostAgent('/api/chkDgSelectClickRule', postData, function (result) {
+        console.log(result);
+        if (result.success) {
+            //是否要show出訊息
+            if (result.showAlert) {
+                alert(result.alertMsg);
+            }
+
+            //是否要show出詢問視窗
+            if (result.showConfirm) {
+                if (confirm(result.confirmMsg)) {
+                    //有沒有要再打一次ajax到後端
+                    if (result.isGoPostAjax) {
+                        BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (ajaxResult) {
+                            if (!ajaxResult.success) {
+                                alert(ajaxResult.errorMsg);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        else {
+            alert(result.errorMsg);
+        }
+
+        // 動態產生下拉資料
+        if (result.selectField.length > 0) {
+            //單一欄位下拉資料
+            if (result.selectField.length == 1) {
+                var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                    index: ln_indexRow,
+                    field: result.selectField
+                });
+                $(lo_editor.target).combobox("loadData", result.selectOptions);
+            }
+            //多個欄位
+            else {
+                _.each(result.selectField, function (ls_field) {
+                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                        index: ln_indexRow,
+                        field: ls_field
+                    });
+                    $(lo_editor.target).combobox("loadData", result.multiSelectOptions[ls_field]);
+                });
+            }
+        }
+    });
+};
+
+/**
+ * selectgrid 搜尋事件
+ * @param fieldAttrObj
+ * @param qryValue
+ * @param dgName
+ */
 function onQryAction(fieldAttrObj, qryValue, dgName) {
     var la_allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
     var lo_selectDataRow = $('#' + dgName).datagrid('getSelected');

@@ -8,7 +8,7 @@ module.exports = {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        try{
+        try {
             let ls_beginDat = params.rowData.begin_dat || "";
             let ls_endDat = params.rowData.end_dat || "";
             let ls_hotelCod = params.rowData.hotel_cod || "";
@@ -29,7 +29,7 @@ module.exports = {
                     });
                 });
                 lo_result.selectField = ["rate_cod"];
-                lo_result.multiSelectOptions.rate_cod = la_rateCodSelectData;
+                lo_result.selectOptions = la_rateCodSelectData;
             }
             else {
                 lo_result.success = false;
@@ -37,7 +37,7 @@ module.exports = {
                 lo_error.errorMsg = "請先設定試用期間";
             }
         }
-        catch(err){
+        catch (err) {
             console.log(err);
             lo_error = new ErrorClass();
             lo_result.success = false;
