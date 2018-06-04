@@ -1292,6 +1292,8 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 return callback(err, false);
             }
 
+            savaExecDatas.prg_id = prg_id;
+            savaExecDatas = commonRule.trimSaveExecData({saveExecDatas: savaExecDatas}, session);
             let apiParams = {
                 "REVE-CODE": transData ? transData.trans_code || "BAC03009010000" : "BAC03009010000",
                 "program_id": prg_id,
@@ -1300,8 +1302,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 "count": Object.keys(savaExecDatas).length,
                 "exec_data": savaExecDatas
             };
-            // console.dir(apiParams);
-            // callback(null, {success:true});
+
             tools.requestApi(sysConf.api_url.common, apiParams, function (apiErr, apiRes, data) {
                 let log_id = moment().format("YYYYMMDDHHmmss");
                 let err = null;
