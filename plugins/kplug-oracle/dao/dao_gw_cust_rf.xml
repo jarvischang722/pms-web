@@ -53,7 +53,7 @@
         <parameter type="string" kind="1">agent_no</parameter>
     </dao>
 
-    <!-- [PMS0810180] 單筆項目-->
+    <!-- [PMS0810180] 一個通路代號只能一筆，不可重複-->
     <dao name="QRY_GW_CUST_RF_COUNT">
         <statement><![CDATA[
              select count(*) as agentnocount
@@ -63,5 +63,14 @@
         </statement>
         <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">agent_no</parameter>
+    </dao>
+
+    <!-- [PMS0810180] 不可查到資料,訊息『一個訂房公司代號只能一筆，不可重複』-->
+    <dao name="QRY_ACUST_COD_IS_EXIST">
+        <statement><![CDATA[
+            select count(*) as acust_cod_count from gw_cust_rf where athena_id = :athena_id and acust_cod = :acust_cod
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">acust_cod</parameter>
     </dao>
 </root>

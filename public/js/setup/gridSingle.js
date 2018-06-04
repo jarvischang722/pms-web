@@ -922,7 +922,6 @@ Vue.component('sigle-grid-dialog-tmp', {
 var vm = new Vue({
     el: '#GSApp',
     mounted: function () {
-        console.log("test");
         this.initTmpCUD();
         this.fetchUserInfo();
         this.loadDataGridByPrgID();
