@@ -608,7 +608,10 @@
     "rule_func_name" : "qry_cust_mn_for_ashow_cod", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
-    "ui_display_name" : "ashow_cod"
+    "ui_display_name" : "ashow_cod", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : "", 
+    "column_func_name" : "sel_ashowCodColumn"
 }
 { 
     "_id" : ObjectId("59701cc12728081c8c820e41"), 
@@ -617,7 +620,10 @@
     "rule_func_name" : "qry_cust_mn_for_cshow_cod", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
-    "ui_display_name" : "cshow_cod"
+    "ui_display_name" : "cshow_cod", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : "", 
+    "column_func_name" : "sel_ashowCodColumn"
 }
 { 
     "_id" : ObjectId("5977690ed7826628c0a3ca62"), 
