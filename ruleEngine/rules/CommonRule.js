@@ -60,6 +60,7 @@ module.exports = {
         compar_end_dat = moment.isMoment(compar_end_dat) ? compar_end_dat : moment(new Date(compar_end_dat));
         now_begin_dat = moment.isMoment(now_begin_dat) ? now_begin_dat : moment(new Date(now_begin_dat));
         now_end_dat = moment.isMoment(now_end_dat) ? now_end_dat : moment(new Date(now_end_dat));
+        console.log(compar_begin_dat.diff(now_end_dat, "days"), compar_end_dat.diff(now_begin_dat, "days"));
         if (compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0) {
             return true;
         }
