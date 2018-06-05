@@ -116,6 +116,10 @@
                     }
                     this.fetchDefaultData();
                 }
+                else {
+                    this.searchCondOfRate = "";
+                    this.isHideExpire = true;
+                }
             },
             dataGridRowsData: {
                 handler(val) {
@@ -128,6 +132,19 @@
             dataGridRowsDataOfExpire: {
                 handler(val) {
                     if (!_.isEmpty(val)) {
+                        let la_addToDataGridRowsData = _.where(val, {createRow: 'Y'});
+                        _.each(la_addToDataGridRowsData, (lo_addToDataGridRowsData) => {
+                            if (_.findIndex(this.dataGridRowsData, {uniKey: lo_addToDataGridRowsData.uniKey}) == -1) {
+                                this.dataGridRowsData.push(lo_addToDataGridRowsData);
+                            }
+                        });
+
+                        _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
+                            if (_.findIndex(val, lo_dataGridRowsData) == -1) {
+                                this.dataGridRowsData.splice(idx, 1);
+                            }
+                        });
+
                         this.insertCustCodIntoTmpCUD(val);
                     }
                 },
