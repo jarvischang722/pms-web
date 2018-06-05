@@ -905,27 +905,75 @@
                 orderMnRowsData: {},        //order mn 資料
                 oriOrderMnRowsData: {},     //原始order mn 欄位資料
                 orderDtFieldsData: [],      //order dt 欄位資料
-                oriOrderDtFieldsData: [],
-                orderDtRowsData: [],
-                oriOrderMDtRowsData: [],
-                guestMnFieldsData: [],
-                oriGuestMnFieldsData: [],
-                guestMnRowsData: [],
-                oriGuestMnRowsData: [],
+                oriOrderDtFieldsData: [],   //原始order dt 欄位資料
+                orderDtRowsData: [],        //order dt 資料
+                oriOrderMDtRowsData: [],    //原始order dt 資料
+                guestMnFieldsData: [],      //guest mn 欄位資料//
+                oriGuestMnFieldsData: [],   //原始guest mn 欄位資料
+                guestMnRowsData: [],        //guest mn 資料
+                oriGuestMnRowsData: [],     //原始guest mn 欄位資料
+
             }
         },
         watch: {
             rowData(val) {
                 if (!_.isEmpty(val)) {
                     this.initTmpCUD();
-                    this.fetchOrderMnFieldsData();
+                    this.fetchFieldsData();
                 }
             }
         },
         methods: {
             initTmpCUD() {
+                this.orderMnFieldsData = [];
+                this.oriOrderMnFieldsData = [];
+                this.orderMnRowsData = {};
+                this.oriOrderMnRowsData = {};
+                this.orderDtFieldsData = [];
+                this.oriOrderDtFieldsData = [];
+                this.orderDtRowsData = [];
+                this.oriOrderMDtRowsData = [];
+                this.guestMnFieldsData = [];
+                this.oriGuestMnFieldsData = [];
+                this.guestMnRowsData = [];
+                this.oriGuestMnRowsData = [];
             },
-            fetchOrderMnFieldsData() {
+            async fetchFieldsData() {
+                this.isLoadingDialog = true;
+                let self = this;
+                try{
+                    let lo_orderMnFieldsData = await new Promise((resolve, reject)=>{
+                        BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
+                            prg_id: "PMS0110041",
+                            page_id: 1,
+                            tab_page_id: 1
+                        }, (result) => {
+                            resolve(result);
+                        });
+                    });
+                    let lo_orderDtFieldsData = await new Promise((resolve, reject)=>{
+                        BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
+                            prg_id: "PMS0110041",
+                            page_id: 1,
+                            tab_page_id: 2
+                        }, (result) => {
+                            resolve(result);
+                        });
+                    });
+                    let lo_guestMnFieldsData = await new Promise((resolve, reject)=>{
+                        BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
+                            prg_id: "PMS0110041",
+                            page_id: 1,
+                            tab_page_id: 3
+                        }, (result) => {
+                            resolve(result);
+                        });
+                    });
+                }
+                catch(err){
+                    console.log(err)
+                }
+
             }
         }
     }

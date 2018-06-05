@@ -270,8 +270,8 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                            role="button">新增
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" @click="appendRow">新增
                                     </button>
                                 </li>
                                 <li>
@@ -292,10 +292,17 @@
             <div class="clearfix"></div>
 
         </div>
+        <pms0110041-lite
+                :row-data="editingRow"
+                :is-modifiable="isModifiable"
+                :is-create-status="isCreateStatus"
+                :is-edit-status="isEditStatus"
+        ></pms0110041-lite>
     </div>
 </template>
 
 <script>
+    import pms0110041Lite from './PMS0110041_LITE.vue';
 
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
@@ -309,6 +316,7 @@
 
     export default {
         name: "p-m-s0110040",
+        components: {pms0110041Lite},
         data() {
             return {
                 /**
@@ -328,7 +336,11 @@
                 searchFields: [],           //搜尋欄位資料
                 searchCond: {},             //搜尋資料
                 pageOneDataGridRows: [],    //多筆資料
-                pageOneFieldData: []        //多筆欄位資料
+                pageOneFieldData: [],        //多筆欄位資料
+                editingRow: {},
+                isCreateStatus: false,
+                isEditStatus: false,
+                isModifiable: true,
             }
         },
         watch: {
@@ -418,7 +430,6 @@
              */
             handleClick(tab, event) {
             },
-
             fetchUserInfo() {
                 let self = this;
                 BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
@@ -465,6 +476,30 @@
                     this.pageOneDataGridRows = result.dgRowData;
                     this.dgIns.loadPageDgData(this.pageOneDataGridRows);
                 });
+            },
+            appendRow() {
+                this.isCreateStatus = true;
+                this.isEditStatus = false;
+                this.editingRow = {ikey: ""};
+
+                this.showSingleGridDialog();
+            },
+            showSingleGridDialog() {
+                let self = this;
+                let dialog = $('#PMS0110041Lite').removeClass('hide').dialog({
+                    autoOpen: false,
+                    modal: true,
+                    title: '訂房卡',
+                    width: 1000,
+                    maxHeight: 1920,
+                    resizable: true,
+                    onBeforeClose() {
+                        self.editingRow = {};
+                        self.isEditStatus = false;
+                        self.isCreateStatus = false;
+                    }
+                });
+                dialog.dialog('open');
             }
         }
     }
