@@ -211,7 +211,6 @@ module.exports = {
                         cb(lo_error, lo_result);
                     }
                     else if (getResult.order_rate_count == 0) {
-                        lo_result.success = false;
                         lo_result.effectValues = {begin_dat: ls_oldValue, rate_cod: "", ratecod_nam: ""};
                         cb(lo_error, lo_result);
                     }
@@ -345,12 +344,12 @@ module.exports = {
                         cb(lo_error, lo_result);
                     }
                     else if (getResult.order_rate_count == 0) {
-                        lo_result.success = false;
                         lo_result.effectValues = _.extend(lo_result.effectValues, {
                             end_dat: ls_oldValue,
                             rate_cod: "",
                             ratecod_nam: ""
                         });
+
                         cb(lo_error, lo_result);
                     }
                     else {
@@ -450,6 +449,7 @@ module.exports = {
 
         async.waterfall([
             setRateCodSelectData,
+            examineContract,
             setRsdiscCodSelectData,
             chkDateIsOverlap
         ], function (err, result) {
@@ -475,6 +475,35 @@ module.exports = {
             else {
                 lo_result.multiSelectOptions.rate_cod = [];
                 lo_result.selectField.push("rate_cod");
+                cb(lo_error, lo_result);
+            }
+        }
+
+        function examineContract(result, cb) {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "" ) {
+                lo_param.rate_cod = ls_rateCod;
+                queryAgent.query("QRY_CONTRACT_EXIST", lo_param, function (err, getResult) {
+                    if (err) {
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = err;
+                        cb(lo_error, lo_result);
+                    }
+                    else if (getResult.order_rate_count == 0) {
+                        lo_result.effectValues = _.extend(lo_result.effectValues, {
+                            end_dat: ls_endDat,
+                            rate_cod: "",
+                            ratecod_nam: ""
+                        });
+
+                        cb(lo_error, lo_result);
+                    }
+                    else {
+                        cb(lo_error, ls_beginDat);
+                    }
+                });
+            }
+            else {
                 cb(lo_error, lo_result);
             }
         }
@@ -580,7 +609,6 @@ module.exports = {
                 });
                 if (lo_examineContract.order_rate_count == 0) {
                     ls_rateCod = "";
-                    lo_result.success = false;
                     lo_result.effectValues = {rate_cod: ls_rateCod};
                 }
                 //參考房價代號下拉資料
