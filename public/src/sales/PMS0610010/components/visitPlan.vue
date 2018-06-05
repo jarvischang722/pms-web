@@ -282,8 +282,6 @@
                     this.initData();
                     this.setTmpRowData();
                     this.fetchSingleGridFieldData();
-                    this.go_funcPurview = (new FuncPurview("PMS0620050")).getFuncPurvs();
-                    this.initPurview();
                 }
             },
             rowData(val) {
@@ -297,14 +295,6 @@
             }
         },
         methods: {
-            initPurview() {
-                var purview = _.findIndex(this.go_funcPurview, function (value) {
-                    return value.func_id == "0500";
-                });
-                if (purview == -1) {
-                    this.isSaveEnable = true;
-                }
-            },
             initData() {
                 this.settingGridFieldsData = [];
                 this.settingGridRowData = {};

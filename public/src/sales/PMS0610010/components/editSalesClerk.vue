@@ -120,21 +120,10 @@
                 if (val) {
                     this.initData();
                     this.fetchSingleGridFieldData();
-                    this.go_funcPurview = (new FuncPurview("PMS0620030")).getFuncPurvs();
-                    this.initPurview();
                 }
             }
         },
         methods: {
-            initPurview() {
-                var purview = _.findIndex(this.go_funcPurview, function (value) {
-                    return value.func_id == "0500";
-                });
-
-                if (purview == -1) {
-                    this.isSaveEnable = true;
-                }
-            },
             initData() {
                 this.singleData = {};
                 this.fieldData = [];
