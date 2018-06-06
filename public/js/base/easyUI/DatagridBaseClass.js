@@ -374,7 +374,7 @@ function DatagridBaseClass() {
 
         var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
         var condKey = {};
-        if (dataType == "updateData") {
+        if (_.isUndefined(lo_chkKeyRowData.uniKey)) {
             _.each(keyVals, function (field_name) {
                 condKey[field_name] = lo_chkKeyRowData[field_name] || "";
             });
@@ -419,6 +419,7 @@ function DatagridBaseClass() {
             self.tmpCUD[dataType].push(lo_chkKeyRowData);
             $("#gridEdit").val(self.tmpCUD);
         }
+        console.log(self.tmpCUD);
     };
 
     this.insertKeyRowData = function (lo_chkKeyRowData) {

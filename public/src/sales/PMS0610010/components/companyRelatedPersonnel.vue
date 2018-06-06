@@ -151,6 +151,7 @@
                     //調整主要聯絡人值
                     _.each(result.dgRowData, (lo_dgRowData, idx) => {
                         result.dgRowData[idx].primary_pers = lo_dgRowData.primary_pers == 'n' ? 'N' : lo_dgRowData.primary_pers;
+                        result.dgRowData[idx].uniKey = Math.floor(Math.random() * (99999999999999999999));
                     });
 
                     this.fieldsData = result.dgFieldsData;
