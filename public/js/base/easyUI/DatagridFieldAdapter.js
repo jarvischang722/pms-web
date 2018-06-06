@@ -465,6 +465,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         isUserEdit = false;
 
         BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
+            console.log(result);
             if (result.success) {
                 //是否要show出訊息
                 if (result.showAlert) {

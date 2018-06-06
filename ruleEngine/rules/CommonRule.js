@@ -222,7 +222,7 @@ module.exports = {
      * @param callback
      * @returns {Promise<void>}
      */
-    chkDgSelectgridQryRule: async function(params, session, callback){
+    chkDgSelectgridQryRule: async function (params, session, callback) {
         let lo_return = {};
         if (!_.isUndefined(selectgridQryRule[params.rule_func_name])) {
             lo_return = await selectgridQryRule[params.rule_func_name](params, session);
@@ -244,10 +244,11 @@ module.exports = {
 function trimPostData(saveExecDatas) {
     if (!Array.isArray(saveExecDatas) && typeof saveExecDatas != 'object') return saveExecDatas;
     return Object.keys(saveExecDatas).reduce(function (acc, key) {
+        //TODO 之後condition 也要去空白
         if (key != "condition") {
             acc[key.trim()] = typeof saveExecDatas[key] == 'string' ? saveExecDatas[key].trim() : trimPostData(saveExecDatas[key]);
         }
-        else{
+        else {
             acc[key.trim()] = saveExecDatas[key];
         }
         return acc;

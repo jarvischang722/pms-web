@@ -553,7 +553,6 @@
                             let ls_nowEndDat = moment(lo_nowData.end_dat).format("YYYY/MM/DD");
                             let ls_compareBeginDat = moment(lo_compareData.begin_dat).format("YYYY/MM/DD");
                             let ls_compareEndDat = moment(lo_compareData.end_dat).format("YYYY/MM/DD");
-                            console.log(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
                             let lb_chkOverLap = this.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
 
                             if (lb_chkOverLap) {
@@ -573,7 +572,7 @@
                 compar_end_dat = moment.isMoment(compar_end_dat) ? compar_end_dat : moment(new Date(compar_end_dat));
                 now_begin_dat = moment.isMoment(now_begin_dat) ? now_begin_dat : moment(new Date(now_begin_dat));
                 now_end_dat = moment.isMoment(now_end_dat) ? now_end_dat : moment(new Date(now_end_dat));
-                console.log(compar_begin_dat, now_end_dat );
+                console.log(compar_begin_dat, now_end_dat);
                 if (compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0) {
                     return true;
                 }
@@ -650,7 +649,7 @@
                                 });
                             }
                             else {
-                                alert("請先儲存主檔資料及相關資料");
+                                alert(go_i18nLang.program.PMS0610020.saveMainAndRelatedDataFirst);
                             }
                         }
                     });
@@ -673,7 +672,7 @@
                                 });
                             }
                             else {
-                                alert("請先儲存主檔資料及相關資料");
+                                alert(go_i18nLang.program.PMS0610020.saveMainAndRelatedDataFirst);
                             }
                         }
                     });

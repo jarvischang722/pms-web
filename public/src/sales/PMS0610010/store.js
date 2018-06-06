@@ -198,18 +198,15 @@ const actions = {
             lo_tmpCUD.createData = [
                 _.extend(state.go_allData.go_mnSingleData, state.go_allData.go_rsSingleData)
             ];
-            _.each(state.go_rpTmpCUD.createData, function (lo_createData) {
-                lo_createData = _.extend(lo_createData, {cust_cod: state.gs_custCod});
-                lo_tmpCUD.dt_createData.push(lo_createData);
-            });
-            _.each(state.go_ccTmpCUD.createData, function (lo_createData) {
-                lo_tmpCUD.dt_createData.push(lo_createData);
-            });
-            _.each(state.go_vrTmpCUD.createData, function (lo_createData) {
-                lo_tmpCUD.dt_createData.push(lo_createData);
-            });
-            _.each(state.go_remarkTmpCUD.createData, function (lo_createData) {
-                lo_tmpCUD.dt_createData.push(lo_createData);
+
+            let la_tmpName = ["go_rpTmpCUD", "go_ccTmpCUD", "go_vrTmpCUD", "go_remarkTmpCUD"];
+            _.each(la_tmpName, (ls_tmpMame) => {
+                _.each(state[ls_tmpMame].createData, (lo_createData) => {
+                    if (ls_tmpMame == 'go_rpTmpCUD') {
+                        lo_createData = _.extend(lo_createData, {cust_cod: state.gs_custCod});
+                    }
+                    lo_tmpCUD.dt_createData.push(lo_createData);
+                })
             });
         }
         else if (state.gb_isEditStatus) {
@@ -220,63 +217,22 @@ const actions = {
                 _.extend(state.go_allOriData.go_mnSingleData, state.go_allData.go_rsSingleData)
             ];
 
-            _.each(state.go_rpTmpCUD.createData, function (lo_createData) {
-                lo_createData = _.extend(lo_createData, {cust_cod: state.gs_custCod});
-                lo_tmpCUD.dt_createData.push(lo_createData);
-            });
-            _.each(state.go_ccTmpCUD.createData, function (lo_createData) {
-                lo_createData = _.extend(lo_createData, {tab_page_id: 4});
-                lo_tmpCUD.dt_createData.push(lo_createData);
-            });
-            _.each(state.go_vrTmpCUD.createData, function (lo_createData) {
-                lo_tmpCUD.dt_createData.push(lo_createData);
-            });
-            _.each(state.go_remarkTmpCUD.createData, function (lo_createData) {
-                lo_tmpCUD.dt_createData.push(lo_createData);
-            });
+            let la_tmpName = ["go_rpTmpCUD", "go_ccTmpCUD", "go_vrTmpCUD", "go_remarkTmpCUD"];
+            let la_tmpAtt = ["createData", "updateData", "deleteData", "oriData"];
+            _.each(la_tmpAtt, (ls_tmpAtt) => {
+                _.each(la_tmpName, (ls_tmpName) => {
+                    _.each(state[ls_tmpName][ls_tmpAtt], (lo_tmpAttData) => {
+                        if (ls_tmpName == "go_rpTmpCUD") {
+                            lo_tmpAttData = _.extend(lo_tmpAttData, {cust_cod: state.gs_custCod});
+                        }
+                        else if (ls_tmpName == "go_ccTmpCUD") {
+                            lo_tmpAttData = _.extend(lo_tmpAttData, {tab_page_id: 4});
+                        }
+                        let ls_nowTmpAtt = "dt_" + ls_tmpAtt;
+                        lo_tmpCUD[ls_nowTmpAtt].push(lo_tmpAttData);
+                    });
+                });
 
-            _.each(state.go_rpTmpCUD.updateData, function (lo_updateData) {
-                lo_updateData = _.extend(lo_updateData, {cust_cod: state.gs_custCod});
-                lo_tmpCUD.dt_updateData.push(lo_updateData);
-            });
-            _.each(state.go_ccTmpCUD.updateData, function (lo_updateData) {
-                lo_updateData = _.extend(lo_updateData, {tab_page_id: 4});
-                lo_tmpCUD.dt_updateData.push(lo_updateData);
-            });
-            _.each(state.go_vrTmpCUD.updateData, function (lo_updateData) {
-                lo_tmpCUD.dt_updateData.push(lo_updateData);
-            });
-            _.each(state.go_remarkTmpCUD.updateData, function (lo_updateData) {
-                lo_tmpCUD.dt_updateData.push(lo_updateData);
-            });
-
-            _.each(state.go_rpTmpCUD.deleteData, function (lo_deleteData) {
-                lo_deleteData = _.extend(lo_deleteData, {cust_cod: state.gs_custCod});
-                lo_tmpCUD.dt_deleteData.push(lo_deleteData);
-            });
-            _.each(state.go_ccTmpCUD.deleteData, function (lo_deleteData) {
-                lo_deleteData = _.extend(lo_deleteData, {tab_page_id: 4});
-                lo_tmpCUD.dt_deleteData.push(lo_deleteData);
-            });
-            _.each(state.go_vrTmpCUD.deleteData, function (lo_deleteData) {
-                lo_tmpCUD.dt_deleteData.push(lo_deleteData);
-            });
-            _.each(state.go_remarkTmpCUD.deleteData, function (lo_deleteData) {
-                lo_tmpCUD.dt_deleteData.push(lo_deleteData);
-            });
-
-            _.each(state.go_rpTmpCUD.oriData, function (lo_oriData) {
-                lo_oriData = _.extend(lo_oriData, {cust_cod: state.gs_custCod});
-                lo_tmpCUD.dt_oriData.push(lo_oriData);
-            });
-            _.each(state.go_ccTmpCUD.oriData, function (lo_oriData) {
-                lo_tmpCUD.dt_oriData.push(lo_oriData);
-            });
-            _.each(state.go_vrTmpCUD.oriData, function (lo_oriData) {
-                lo_tmpCUD.dt_oriData.push(lo_oriData);
-            });
-            _.each(state.go_remarkTmpCUD.oriData, function (lo_oriData) {
-                lo_tmpCUD.dt_oriData.push(lo_oriData);
             });
         }
         //調整cust_mn 主檔的主要聯絡人
@@ -286,7 +242,8 @@ const actions = {
             if (_.indexOf(la_examType, key) > -1) {
                 _.each(value, (lo_value, idx) => {
                     let lo_primaryPerson = _.findWhere(lo_tmpCUD[key], {primary_pers: 'Y'});
-                    lo_tmpCUD[ls_dataTyp][0].atten_cod = _.isUndefined(lo_primaryPerson) ? 1 : lo_primaryPerson.seq_nos;
+                    lo_tmpCUD[ls_dataTyp][0].atten_cod = _.isUndefined(lo_primaryPerson) ?
+                        lo_tmpCUD[ls_dataTyp][0].atten_cod : lo_primaryPerson.seq_nos;
                     return;
                 });
             }

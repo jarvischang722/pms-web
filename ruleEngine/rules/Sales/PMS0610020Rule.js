@@ -224,7 +224,7 @@ module.exports = {
             }
         }
 
-        function compareDat(begin_dat, cb) {
+        function compareDat(result, cb) {
             queryAgent.query("QRY_RENT_DAT_HQ", lo_param, function (err, getResult) {
                 if (err) {
                     lo_result.success = false;
@@ -233,7 +233,7 @@ module.exports = {
                     cb(lo_error, lo_result);
                 }
                 else {
-                    if (moment(new Date(begin_dat)).diff(moment(new Date(getResult.rent_dat_hq)), "days") < 0) {
+                    if (moment(new Date(ls_beginDat)).diff(moment(new Date(getResult.rent_dat_hq)), "days") < 0) {
                         lo_result.showAlert = true;
                         lo_result.alertMsg = commandRules.getMsgByCod("pms61msg2", session.locale);
                         if (ls_beginDat != "" && ls_endDat != "" && moment(new Date(begin_dat)).diff(moment(new Date(ls_endDat)), "days") > 0) {
@@ -480,7 +480,7 @@ module.exports = {
         }
 
         function examineContract(result, cb) {
-            if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "" ) {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "") {
                 lo_param.rate_cod = ls_rateCod;
                 queryAgent.query("QRY_CONTRACT_EXIST", lo_param, function (err, getResult) {
                     if (err) {

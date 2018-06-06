@@ -140,8 +140,10 @@
                         });
 
                         _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
-                            if (_.findIndex(val, lo_dataGridRowsData) == -1) {
-                                this.dataGridRowsData.splice(idx, 1);
+                            if (!_.isUndefined(lo_dataGridRowsData.uniKey)) {
+                                if (_.findIndex(val, lo_dataGridRowsData) == -1) {
+                                    this.dataGridRowsData.splice(idx, 1);
+                                }
                             }
                         });
 
@@ -160,11 +162,14 @@
             },
             isHideExpire(val) {
                 if (val) {
-                    this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
+                    this.dataGridRowsDataOfRateCode =
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsDataOfExpire]);
                 }
                 else {
-                    this.dgIns.loadDgData(this.dataGridRowsData);
+                    this.dataGridRowsDataOfRateCode =
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsData]);
                 }
+                this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
             }
         },
         methods: {
@@ -219,6 +224,7 @@
                     //第一次載入合約內容
                     if (_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)) {
                         this.dataGridRowsData = result.dgRowData;
+                        console.log(this.dataGridRowsData);
                         this.dataGridRowsDataOfExpire = _.filter(JSON.parse(JSON.stringify(result.dgRowData)), lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                         });
