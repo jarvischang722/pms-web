@@ -900,19 +900,23 @@
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
         data() {
             return {
-                orderMnFieldsData: [],      //order mn 欄位資料
-                oriOrderMnFieldsData: [],   //原始order mn 欄位資料
-                orderMnRowsData: {},        //order mn 資料
-                oriOrderMnRowsData: {},     //原始order mn 欄位資料
-                orderDtFieldsData: [],      //order dt 欄位資料
-                oriOrderDtFieldsData: [],   //原始order dt 欄位資料
-                orderDtRowsData: [],        //order dt 資料
-                oriOrderMDtRowsData: [],    //原始order dt 資料
-                guestMnFieldsData: [],      //guest mn 欄位資料//
-                oriGuestMnFieldsData: [],   //原始guest mn 欄位資料
-                guestMnRowsData: [],        //guest mn 資料
-                oriGuestMnRowsData: [],     //原始guest mn 欄位資料
-
+                orderMnFieldsData: [],            //order mn 欄位資料
+                oriOrderMnFieldsData: [],         //原始order mn 欄位資料
+                orderMnRowsData: {},              //order mn 資料
+                oriOrderMnRowsData: {},           //單筆 原始order mn 欄位資料
+                orderDtFieldsData: [],            //單筆 order dt 欄位資料
+                oriOrderDtFieldsData: [],         //單筆 原始order dt 欄位資料
+                orderDtRowsData4Single: {},       //單筆 order dt 資料
+                orderDtFieldsData4table: [],      //多筆 order dt 欄位資料
+                oriOrderDtFieldsData4table: [],   //多筆 原始order dt 欄位資料
+                orderDtRowsData4table: [],        //多筆 order dt 資料
+                oriOrderMDtRowsData4table: [],    //多筆 原始order dt 資料
+                guestMnFieldsData: [],            //guest mn 欄位資料
+                oriGuestMnFieldsData: [],         //原始guest mn 欄位資料
+                guestMnRowsData: [],              //guest mn 資料
+                oriGuestMnRowsData: [],           //原始guest mn 欄位資料
+                guestMnRowsData4Single: {},       //單筆 guest mn 資料
+                isLoadingDialog: false,           //是否載入完畢
             }
         },
         watch: {
@@ -931,18 +935,21 @@
                 this.oriOrderMnRowsData = {};
                 this.orderDtFieldsData = [];
                 this.oriOrderDtFieldsData = [];
-                this.orderDtRowsData = [];
-                this.oriOrderMDtRowsData = [];
+                this.orderDtRowsData4Single = {};
+                this.orderDtFieldsData4table = [];
+                this.oriOrderDtFieldsData4table = [];
+                this.orderDtRowsData4table = [];
+                this.oriOrderMDtRowsData4table = [];
                 this.guestMnFieldsData = [];
                 this.oriGuestMnFieldsData = [];
                 this.guestMnRowsData = [];
                 this.oriGuestMnRowsData = [];
+                this.guestMnRowsData4Single = {};
             },
             async fetchFieldsData() {
                 this.isLoadingDialog = true;
-                let self = this;
-                try{
-                    let lo_orderMnFieldsData = await new Promise((resolve, reject)=>{
+                try {
+                    let lo_orderMnFieldsData = await new Promise((resolve, reject) => {
                         BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                             prg_id: "PMS0110041",
                             page_id: 1,
@@ -951,7 +958,7 @@
                             resolve(result);
                         });
                     });
-                    let lo_orderDtFieldsData = await new Promise((resolve, reject)=>{
+                    let lo_orderDtFieldsData = await new Promise((resolve, reject) => {
                         BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                             prg_id: "PMS0110041",
                             page_id: 1,
@@ -960,7 +967,7 @@
                             resolve(result);
                         });
                     });
-                    let lo_guestMnFieldsData = await new Promise((resolve, reject)=>{
+                    let lo_guestMnFieldsData = await new Promise((resolve, reject) => {
                         BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                             prg_id: "PMS0110041",
                             page_id: 1,
@@ -970,7 +977,7 @@
                         });
                     });
                 }
-                catch(err){
+                catch (err) {
                     console.log(err)
                 }
 
