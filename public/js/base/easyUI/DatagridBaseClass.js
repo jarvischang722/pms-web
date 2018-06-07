@@ -22,6 +22,7 @@ function DatagridBaseClass() {
     this.editIndex = undefined;
     this.mnRowData = {};
     this.dtOriRowData = [];
+    this.editingField = "";
 
     this.dgData = [];
     /**
@@ -140,6 +141,7 @@ function DatagridBaseClass() {
      * @param field
      */
     this.onClickCell = function (index, field) {
+        self.editingField = field;
         if (self.editIndex != index) {
             if (self.endEditing()) {
                 $('#' + self.dgName).datagrid('selectRow', index)
@@ -184,6 +186,46 @@ function DatagridBaseClass() {
             return true;
         }
         if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
+            var lo_selectgridData = _.findWhere(self.columns, {ui_field_name: self.editingField});
+            if (!_.isUndefined(lo_selectgridData)) {
+                if (lo_selectgridData.ui_type == 'selectgrid') {
+                    var lo_editor = $('#' + this.dgName).datagrid('getEditor', {
+                        index: this.editIndex,
+                        field: self.editingField
+                    });
+                    var lo_selectOptionData = _.findWhere(self.columns, {ui_field_name: self.editingField});
+                    var ls_selectValField = "";
+                    var ls_selectTextField = "";
+
+                    if (!_.isUndefined(lo_selectOptionData)) {
+                        if (!_.isUndefined(lo_selectOptionData.selectData)) {
+                            ls_selectValField = lo_selectOptionData.selectData.value;
+                            ls_selectTextField = lo_selectOptionData.selectData.display;
+
+                            // //將原本的下拉資料改為規則帶回的下拉資料
+                            var ls_newVal = $(lo_editor.target).combogrid("getValue");
+                            var ls_newText = $(lo_editor.target).combogrid("getText");
+                            var ls_oldVal = $(lo_editor.target).combogrid("getValue");
+                            var ls_oldText = "";
+                            var lo_param = {};
+                            lo_param[ls_selectValField] = ls_oldVal;
+                            //
+                            if (ls_oldVal == "") {
+                                ls_newVal = ls_newText;
+                            }
+                            else {
+                                ls_oldText = _.findWhere(lo_selectOptionData.selectData.selectData, lo_param)[ls_selectTextField];
+                                if (ls_newVal == ls_oldVal && ls_newText != ls_oldText) {
+                                    ls_newVal = ls_newText;
+                                }
+                            }
+                            console.log(lo_editor.target);
+                            // $(lo_editor.target).combogrid("setValue", ls_newVal);
+                        }
+                    }
+                }
+            }
+
             $('#' + this.dgName).datagrid('endEdit', this.editIndex);
             this.editIndex = undefined;
             return true;
@@ -419,7 +461,6 @@ function DatagridBaseClass() {
             self.tmpCUD[dataType].push(lo_chkKeyRowData);
             $("#gridEdit").val(self.tmpCUD);
         }
-        console.log(self.tmpCUD);
     };
 
     this.insertKeyRowData = function (lo_chkKeyRowData) {

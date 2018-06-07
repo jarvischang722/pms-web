@@ -406,8 +406,8 @@ var DatagridFieldAdapter = {
             tmpFieldObj.editor.options.columns = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
                 fieldAttrObj.selectGridOptions.columns : [fieldAttrObj.selectData.columns];
             tmpFieldObj.editor.options.data = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
-                fieldAttrObj.selectData : (fieldAttrObj.selectData.selectData.length > 100 ?
-                    fieldAttrObj.selectData.selectData.slice(0, 100) : fieldAttrObj.selectData.selectData.length);
+                fieldAttrObj.selectData : (fieldAttrObj.selectData.selectData.length > 200 ?
+                    fieldAttrObj.selectData.selectData.slice(0, 200) : fieldAttrObj.selectData.selectData.length);
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                 var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                 onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
@@ -444,6 +444,7 @@ var ga_readonlyFields = [];
  * @param dgName
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
+    console.log(oldValue, newValue);
     if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit) {
         var allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
@@ -465,7 +466,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         isUserEdit = false;
 
         BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
-            console.log(result);
             if (result.success) {
                 //是否要show出訊息
                 if (result.showAlert) {
@@ -611,7 +611,6 @@ function onSelectClickAction(fieldAttrObj, dgName) {
     };
 
     BacUtils.doHttpPostAgent('/api/chkDgSelectClickRule', postData, function (result) {
-        console.log(result);
         if (result.success) {
             //是否要show出訊息
             if (result.showAlert) {
@@ -644,7 +643,12 @@ function onSelectClickAction(fieldAttrObj, dgName) {
                     index: ln_indexRow,
                     field: result.selectField
                 });
-                $(lo_editor.target).combobox("loadData", result.selectOptions);
+                if (fieldAttrObj.ui_field_name == 'select') {
+                    $(lo_editor.target).combobox("loadData", result.selectOptions);
+                }
+                else if (fieldAttrObj.ui_field_name == 'selectgrid') {
+                    $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
+                }
             }
             //多個欄位
             else {
@@ -682,7 +686,6 @@ function onQryAction(fieldAttrObj, qryValue, dgName) {
         allRowData: JSON.parse(JSON.stringify(la_allDataRow)),
         qryValue: qryValue
     };
-
     BacUtils.doHttpPostAgent('/api/chkDgSelectgridQryRule', lo_postData, function (result) {
         if (result.success) {
             //是否要show出訊息
@@ -759,14 +762,24 @@ function onQryAction(fieldAttrObj, qryValue, dgName) {
         // }
 
         //動態產生下拉資料
-        if (fieldAttrObj.ui_type == 'selectgrid' && result.selectField.length > 0) {
-            if (result.selectField.length == 1) {
-                var lo_editor = $('#' + dgName).datagrid('getEditor', {
-                    index: ln_indexRow,
-                    field: result.selectField
-                });
-                $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
-                $(lo_editor.target).combogrid("setText", qryValue);
+        if (result.selectField.length == 1) {
+            var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                index: ln_indexRow,
+                field: fieldAttrObj.ui_field_name
+            });
+            //將原本的下拉資料改為規則帶回的下拉資料
+            $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
+            _.each(result.selectOptions, (lo_selectOption) => {
+                fieldAttrObj.selectData.selectData.push(lo_selectOption);
+            });
+
+            //將datagrid 的text 改為所查詢的值
+            $(lo_editor.target).combogrid("setText", qryValue);
+            //檢查茶璇的值是否存在在帶回的下拉資料
+            let lo_examData = {};
+            lo_examData[result.selectField] = qryValue;
+            if (result.selectOptions.length == 0) {
+                $(lo_editor.target).combogrid("setValue", qryValue);
             }
         }
     });
