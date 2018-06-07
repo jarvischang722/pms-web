@@ -693,6 +693,7 @@ input[readonly],
 input[readonly]::placeholder,
 select::placeholder,
 el-date-picker::placeholder,
+textarea, textarea:focus,
 textarea::placeholder,
 .el-select .el-input .el-input__icon,
 .el-select-dropdown__item {
@@ -4371,25 +4372,34 @@ td div.act-box span.act-text {
 .roomAssign .roomAssign-p {
   padding: 2px 1px;
 }
-
 .roomAssign .roomAsg-status-1 a, .roomAssign .roomAsg-status-2 a, .roomAssign .roomAsg-status-3 a, .roomAssign .roomAsg-status-4 a {
     color: #fff;
 }
-
 .roomAssign .roomAsg-status-1 {
     background-color: #ae8dc3;
 }
-
 .roomAssign .roomAsg-status-2 {
     background-color: #008148;
 }
-
 .roomAssign .roomAsg-status-3 {
     background-color: rgba(255, 33, 95, 0.77);
 }
-
 .roomAssign .roomAsg-status-4 {
     background-color: #ffd45a;
+}
+
+.roomAssign .roomAsg-status-5 {
+    background-color: #19647E;
+}
+
+.roomAssign .roomAsg-status-6 {
+    background-color: #556b2f;
+}
+
+.roomAssign .square-color {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
 }
 
 .select-group .btn-group, .select-group .form-group {
@@ -7283,6 +7293,45 @@ input[type=checkbox] {
   border: 2px solid #555 !important;
   padding-top: 0px !important;
   transition: 0.5s;
+}
+
+.tooltip-sp {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-sp .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    padding: 5px;
+    background-color: #fff;
+    border: 1px solid #c8c8c8;
+    box-shadow: 4px 4px 3px rgba(200, 200, 200, 0.5);
+    text-align: center;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip-sp .tooltip-text ul {
+    margin-left: 0;
+}
+
+.tooltip-sp .tooltip-text ul li {
+    list-style: none;
+}
+
+.tooltip-sp:hover .tooltip-text {
+    visibility: visible;
+}
+
+.tooltip-sp .color-desc {
+    line-height: 25px;
+    margin-right: 5px;
+}
+
+.tooltip-sp .color-desc i {
+    margin-right: 5px;
 }
 
 /*-------------- responsive -------------- */

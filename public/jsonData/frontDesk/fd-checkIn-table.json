@@ -3,63 +3,63 @@
   "rows": [
     {
       "checkbox": "<input type='checkbox'>",
-      "clean": "clean",
-      "housingGroup": "1",
+      "cleanStus": "Clean",
+      "no": "1",
       "roomNum": "203",
       "vip": "1",
       "name": "RICK",
       "inDate": "2017/05/12",
       "outDate": "2017/05/13",
-      "code": "13256",
-      "priceRoom": "豪華房",
-      "useRoom": "豪華房",
+      "code": "F1T01:一般散客價",
+      "priceRoom": "DXK",
+      "useRoom": "DXK",
       "roomPrice": "700",
-      "roomType": ""
+      "serPrice": ""
     },
     {
       "checkbox": "<input type='checkbox'>",
-      "clean": "clean",
-      "housingGroup": "1",
+      "cleanStus": "<span class='red'>Dirty</span>",
+      "no": "2",
       "roomNum": "203",
       "vip": "1",
       "name": "RICK",
       "inDate": "2017/05/12",
       "outDate": "2017/05/13",
-      "code": "13256",
-      "priceRoom": "豪華房",
-      "useRoom": "豪華房",
+      "code": "F1T01:一般散客價",
+      "priceRoom": "SUP",
+      "useRoom": "SUP",
       "roomPrice": "700",
-      "roomType": ""
+      "serPrice": ""
     },
     {
       "checkbox": "<input type='checkbox'>",
-      "clean": "clean",
-      "housingGroup": "3",
+      "cleanStus": "Clean",
+      "no": "3",
       "roomNum": "203",
       "vip": "1",
       "name": "RICK",
       "inDate": "2017/05/12",
       "outDate": "2017/05/13",
-      "code": "13256",
-      "priceRoom": "豪華房",
-      "useRoom": "豪華房",
+      "code": "F1T01:一般散客價",
+      "priceRoom": "STD",
+      "useRoom": "STD",
       "roomPrice": "700",
-      "roomType": ""
+      "serPrice": ""
     },
     {
       "checkbox": "<input type='checkbox'>",
-      "clean": "clean",
-      "housingGroup": "4",
+      "cleanStus": "<span class='red'>Dirty</span>",
+      "no": "4",
       "roomNum": "203",
       "vip": "1",
       "name": "RICK",
       "inDate": "2017/05/12",
       "outDate": "2017/05/13",
-      "code": "13256",
-      "priceRoom": "豪華房",
-      "useRoom": "豪華房",
+      "code": "F1T01:一般散客價",
+      "priceRoom": "ESD",
+      "useRoom": "ESD",
       "roomPrice": "700",
-      "roomType": ""
+      "serPrice": ""
     }
   ]
 }
