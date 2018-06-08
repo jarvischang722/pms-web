@@ -4,10 +4,10 @@
  * 程式名稱: 逾時計價相關設定
  */
 
-var prg_id = $("#prg_id").val();
-var vmHub = new Vue;
+let prg_id = $("#prg_id").val();
+let vmHub = new Vue;
 
-var go_Field_Data_Tmp;
+let go_Field_Data_Tmp;
 
 /** DatagridRmSingleGridClass ***/
 function DatagridRmSingleGridClass() {
@@ -30,11 +30,11 @@ DatagridRmSingleGridClass.prototype.onClickCell = function (idx, row) {
 
 /** 欄位多語系Dialog **/
 Vue.component("field-multi-lang-dialog-tmp", {
-    template: '#fieldMultiLangDialogTmp',
-    props: ['sys_locales', 'singleData'],
+    template: "#fieldMultiLangDialogTmp",
+    props: ["sys_locales", "singleData"],
     data: function () {
         return {
-            editingMultiLangFieldName: '',
+            editingMultiLangFieldName: "",
             showMultiLangDialog: false,
             editingLangField: "",
             multiLangContentList: [],
@@ -42,17 +42,17 @@ Vue.component("field-multi-lang-dialog-tmp", {
         };
     },
     created: function () {
-        var self = this;
-        vmHub.$on('editFieldMultiLang', function (fieldInfo) {
+        let self = this;
+        vmHub.$on("editFieldMultiLang", function (fieldInfo) {
             self.getFieldMultiLangContent(fieldInfo);
         });
     },
     methods: {
         getFieldMultiLangContent: function (fieldInfo) {
             this.editingLangField = fieldInfo.ui_field_name;
-            var self = this;
-            var params = {
-                dataType: 'gridsingle',
+            let self = this;
+            let params = {
+                dataType: "gridsingle",
                 rowData: this.singleData,
                 prg_id: fieldInfo.prg_id,
                 page_id: 2,
@@ -73,11 +73,11 @@ Vue.component("field-multi-lang-dialog-tmp", {
         },
         saveFieldMultiLang: function () {
 
-            var multiLang = [];
+            let multiLang = [];
             //TODO 暫時用jquery 取資料
             $(".multi_lang_input").each(function () {
-                var tmpObj = {};
-                tmpObj['locale'] = $(this).data("locale");
+                let tmpObj = {};
+                tmpObj["locale"] = $(this).data("locale");
                 tmpObj[$(this).attr("id")] = $(this).val();
                 if (!_.isEmpty($(this).val())) {
                     multiLang.push(tmpObj);
@@ -88,8 +88,8 @@ Vue.component("field-multi-lang-dialog-tmp", {
             this.closeFieldMultiLangDialog();
         },
         filterLocaleContent: function (langContent, locale, field_name) {
-            var m_lang_val = "";
-            var fIdx = _.findIndex(langContent, {locale: locale});
+            let m_lang_val = "";
+            let fIdx = _.findIndex(langContent, {locale: locale});
             if (fIdx > -1) {
                 m_lang_val = langContent[fIdx][field_name] || "";
             }
@@ -101,7 +101,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
 });
 
 //跳窗將資料選回去單筆欄位
-Vue.component('text-select-grid-dialog-tmp', {
+Vue.component("text-select-grid-dialog-tmp", {
     template: "#chooseDataDialogTmp",
     data: function () {
         return {
@@ -115,31 +115,31 @@ Vue.component('text-select-grid-dialog-tmp', {
         };
     },
     created: function () {
-        var self = this;
-        vmHub.$on('showPopUpDataGrid', function (result) {
+        let self = this;
+        vmHub.$on("showPopUpDataGrid", function (result) {
             self.showPopUpDataGrid(result);
         });
     },
     methods: {
         //顯示點選popupgrid跳出來的視窗
         showPopUpDataGrid: function (result) {
-            var self = this;
-            var textDataGrid = result.showDataGrid;
-            var updateFieldName = result.updateFieldNameTmp;
-            var fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
+            let self = this;
+            let textDataGrid = result.showDataGrid;
+            let updateFieldName = result.updateFieldNameTmp;
+            let fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
             this.fieldNameConditionTmp = [];
             this.fieldConditionTmp = [];
             this.gridData = [];
-            delete textDataGrid ['errorMsg'];
-            var columnsData = [];
-            var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
+            delete textDataGrid ["errorMsg"];
+            let columnsData = [];
+            let textDataGridArray = Object.keys(textDataGrid).map(function (key) {
                 return textDataGrid[key];
             });
             for (var col in textDataGrid[0]) {
                 _.each(fieldNameChangeLanguage, function (name, field) {
                     if (col == field) {
                         columnsData.push({
-                            type: 'textbox',
+                            type: "textbox",
                             field: col,
                             title: name,
                             width: 150,
@@ -152,23 +152,23 @@ Vue.component('text-select-grid-dialog-tmp', {
             }
 
             self.gridData = textDataGridArray;
-            var height = document.documentElement.clientHeight - 160;
-            var width = document.documentElement.clientWidth / 2 - 25;    //browser 寬度 - 200功能列
-            $('#chooseGrid').datagrid({
+            let height = document.documentElement.clientHeight - 160;
+            let width = document.documentElement.clientWidth / 2 - 25; //browser 寬度 - 200功能列
+            $("#chooseGrid").datagrid({
                 columns: [columnsData],
                 singleSelect: true,
                 data: textDataGridArray,
                 height: height,
                 width: width
-            }).datagrid('columnMoving');
+            }).datagrid("columnMoving");
             self.updateFieldNameTmp = updateFieldName;
         },
         //將選擇到的資料帶回Page2
         chooseDataBackGridSingle: function () {
-            var self = this;
-            var selectTable = $('#chooseGrid').datagrid('getSelected');
-            var chooseData = self.updateFieldNameTmp;
-            var updateFieldName = self.updateFieldNameTmp;
+            let self = this;
+            let selectTable = $("#chooseGrid").datagrid("getSelected");
+            let chooseData = self.updateFieldNameTmp;
+            let updateFieldName = self.updateFieldNameTmp;
 
             if (selectTable != null) {
                 _.each(selectTable, function (selectValue, selectField) {
@@ -180,32 +180,32 @@ Vue.component('text-select-grid-dialog-tmp', {
                 });
             } else {
                 _.each(chooseData, function (chooseValue, chooseField) {
-                    chooseData[chooseField] = "";  //SAM20170930
+                    chooseData[chooseField] = ""; //SAM20170930
                 });
             }
-            vmHub.$emit('updateBackSelectData', chooseData);
-            $("#dataPopUpGridDialog").dialog('close');
+            vmHub.$emit("updateBackSelectData", chooseData);
+            $("#dataPopUpGridDialog").dialog("close");
         },
         txtSearchChangeText: function (keyContent) {
-            var allData = this.gridData;
-            var selectFieldName = $('#cbSelect').val();
-            var selectCondition = $('#txtSelectCondition').val();
+            let allData = this.gridData;
+            let selectFieldName = $("#cbSelect").val();
+            let selectCondition = $("#txtSelectCondition").val();
 
-            var dataGrid = _.filter(allData, function (row) {
+            let dataGrid = _.filter(allData, function (row) {
                 if (row[selectFieldName].includes(selectCondition))
-                    return row;
+                    {return row;}
             });
-            $('#chooseGrid').datagrid('loadData', dataGrid);
+            $("#chooseGrid").datagrid("loadData", dataGrid);
 
         }
     }
 });
 
 /** 編輯新增Dialog Component **/
-Vue.component('single-grid-pms0820020-tmp', {
-    template: '#sigleGridPMS0820020Tmp',
-    props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'isModifiable', "updateBackSelectData", "roomListDialogVisiable"],
+Vue.component("single-grid-pms0820020-tmp", {
+    template: "#sigleGridPMS0820020Tmp",
+    props: ["editStatus", "createStatus", "deleteStatus", "editingRow", "pageOneDataGridRows", "pageTwoDataGridFieldData",
+        "singleData", "pageTwoFieldData", "tmpCud", "isModifiable", "updateBackSelectData", "roomListDialogVisiable"],
     data: function () {
         return {
             tmpCUD: {},
@@ -220,8 +220,8 @@ Vue.component('single-grid-pms0820020-tmp', {
         };
     },
     created: function () {
-        var self = this;
-        vmHub.$on('updateBackSelectData', function (chooseData) {
+        let self = this;
+        vmHub.$on("updateBackSelectData", function (chooseData) {
             self.singleData = _.extend(self.singleData, chooseData);
         });
     },
@@ -230,14 +230,14 @@ Vue.component('single-grid-pms0820020-tmp', {
         editingRow: function (newRow, oldRow) {
 
             this.$parent.editingRow = newRow;
-            var nowDatagridRowIndex = $("#PMS0820020_dg").datagrid('getRowIndex', newRow);
-            $("#PMS0820020_dg").datagrid('selectRow', nowDatagridRowIndex);
+            let nowDatagridRowIndex = $("#PMS0820020_dg").datagrid("getRowIndex", newRow);
+            $("#PMS0820020_dg").datagrid("selectRow", nowDatagridRowIndex);
 
-            if ($("#PMS0820020_dg").datagrid('getRowIndex', newRow) == 0) {
+            if ($("#PMS0820020_dg").datagrid("getRowIndex", newRow) == 0) {
                 //已經到第一筆
                 this.isFistData = true;
                 this.isLastData = false;
-            } else if ($("#PMS0820020_dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1) {
+            } else if ($("#PMS0820020_dg").datagrid("getRowIndex", newRow) == this.pageOneDataGridRows.length - 1) {
                 //已經到最後一筆
                 this.isFistData = false;
                 this.isLastData = true;
@@ -252,13 +252,13 @@ Vue.component('single-grid-pms0820020-tmp', {
     methods: {
         //到第一筆
         toFirstData: function () {
-            var self = this;
+            let self = this;
             this.doSaveModifyData(function (result) {
                 if (result) {
                     self.isFistData = true;
                     self.isLastData = false;
                     self.editingRow = _.first(self.pageOneDataGridRows);
-                    self.ln_editingIndex = $("#PMS0820020_dg").datagrid('getRowIndex', self.editingRow);
+                    self.ln_editingIndex = $("#PMS0820020_dg").datagrid("getRowIndex", self.editingRow);
                     self.emitFetchSingleData();
                 }
             });
@@ -266,11 +266,11 @@ Vue.component('single-grid-pms0820020-tmp', {
 
         //上一筆
         toPreData: function () {
-            var self = this;
+            let self = this;
             this.doSaveModifyData(function (result) {
                 if (result) {
                     self.ln_editingIndex = self.ln_editingIndex == -1 ? PMS0820020VM.editingIndex - 1 : self.ln_editingIndex - 1;
-                    self.editingRow = $("#PMS0820020_dg").datagrid('getRows')[self.ln_editingIndex];
+                    self.editingRow = $("#PMS0820020_dg").datagrid("getRows")[self.ln_editingIndex];
                     // var nowRowIndex = $("#PMS0820020_dg").datagrid('getRowIndex', self.editingRow);
                     // self.editingRow = self.pageOneDataGridRows[nowRowIndex - 1];
                 }
@@ -280,11 +280,11 @@ Vue.component('single-grid-pms0820020-tmp', {
 
         //下一筆
         toNextData: function () {
-            var self = this;
+            let self = this;
             this.doSaveModifyData(function (result) {
                 if (result) {
                     self.ln_editingIndex = self.ln_editingIndex == -1 ? PMS0820020VM.editingIndex + 1 : self.ln_editingIndex + 1;
-                    self.editingRow = $("#PMS0820020_dg").datagrid('getRows')[self.ln_editingIndex];
+                    self.editingRow = $("#PMS0820020_dg").datagrid("getRows")[self.ln_editingIndex];
                 }
                 self.emitFetchSingleData();
             });
@@ -292,24 +292,24 @@ Vue.component('single-grid-pms0820020-tmp', {
 
         //最後一筆
         toLastData: function () {
-            var self = this;
+            let self = this;
             this.doSaveModifyData(function (result) {
                 if (result) {
                     self.isFistData = false;
                     self.isLastData = true;
                     self.editingRow = _.last(self.pageOneDataGridRows);
-                    self.ln_editingIndex = $("#PMS0820020_dg").datagrid('getRowIndex', self.editingRow);
+                    self.ln_editingIndex = $("#PMS0820020_dg").datagrid("getRowIndex", self.editingRow);
                     self.emitFetchSingleData();
                 }
             });
         },
 
         doSaveModifyData(callback) {
-            var self = this;
-            var lb_isDataChang = !_.isEqual(PMS0820020VM.singleData, PMS0820020VM.originData);
+            let self = this;
+            let lb_isDataChang = !_.isEqual(PMS0820020VM.singleData, PMS0820020VM.originData);
 
             if (lb_isDataChang) {
-                var q = confirm(go_i18nLang["SystemCommon"].Save_changed_data);
+                let q = confirm(go_i18nLang["SystemCommon"].Save_changed_data);
 
                 if (q) {
                     PMS0820020VM.isSaving = true;
@@ -332,8 +332,8 @@ Vue.component('single-grid-pms0820020-tmp', {
 
         //刪除單筆EVENT
         handleDeleteSingleData: function () {
-            var self = this;
-            var q = confirm(go_i18nLang.SystemCommon.check_delete);
+            let self = this;
+            let q = confirm(go_i18nLang.SystemCommon.check_delete);
             if (q) {
                 //刪除前檢查
                 BacUtils.doHttpPostAgent("/api/deleteFuncRule", {
@@ -359,31 +359,31 @@ Vue.component('single-grid-pms0820020-tmp', {
 
         //關閉
         emitCloseGridDialog: function (isDataUpdate) {
-            var self = this;
+            let self = this;
             if (isDataUpdate) {
                 this.doSaveModifyData(function (result) {
                     if (result) {
                         self.dtEditIndex = undefined;
                         self.ln_editingIndex = -1;
-                        self.$emit('close-single-grid-dialog');
+                        self.$emit("close-single-grid-dialog");
                     }
                 });
             }
             else {
                 this.dtEditIndex = undefined;
                 this.ln_editingIndex = -1;
-                this.$emit('close-single-grid-dialog');
+                this.$emit("close-single-grid-dialog");
             }
 
         },
 
         //抓取單筆資料
         emitFetchSingleData: function () {
-            var params = this.editingRow;
-            var self = this;
+            let params = this.editingRow;
+            let self = this;
             this.isAction = true;
             PMS0820020VM.isSaving = true;
-            this.$emit('fetch-single-data', params, function (success) {
+            this.$emit("fetch-single-data", params, function (success) {
                 self.isAction = false;
                 PMS0820020VM.isSaving = false;
             });
@@ -391,7 +391,7 @@ Vue.component('single-grid-pms0820020-tmp', {
 
         //新增
         emitAppendRow: function () {
-            this.$emit('append-row');
+            this.$emit("append-row");
         },
 
         initRuleComplete: function (ui_field_name, rule_func_name) {
@@ -406,7 +406,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                 callback = function () {
                 };
             }
-            var self = this;
+            let self = this;
             if (this.isRuleComplete == false) {
                 if (this.timer == null) {
                     this.timer = setInterval(function () {
@@ -423,10 +423,10 @@ Vue.component('single-grid-pms0820020-tmp', {
                 }
             }
 
-            var targetRowAfterDelete = {}; //刪除後要指向的資料
+            let targetRowAfterDelete = {}; //刪除後要指向的資料
             if (this.deleteStatus) {
-                var rowsNum = $("#PMS0820020_dg").datagrid('getRows').length;
-                var currentRowIdx = $("#PMS0820020_dg").datagrid('getRowIndex', self.editingRow); //目前索引
+                let rowsNum = $("#PMS0820020_dg").datagrid("getRows").length;
+                let currentRowIdx = $("#PMS0820020_dg").datagrid("getRowIndex", self.editingRow); //目前索引
                 if (currentRowIdx == rowsNum - 1) {
                     //刪除的資料已經是最後一筆 就取datagrid最末筆
                     targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx - 1];
@@ -438,10 +438,10 @@ Vue.component('single-grid-pms0820020-tmp', {
             }
 
             if (this.createStatus) {
-                if (PMS0820020VM.isbatchAdd) {    //判斷是否為批次新增
-                    var lo_tmpCud = [];
-                    var li_room_nos_leng = !_.isUndefined(this.singleData.front_cod) && this.singleData.front_cod != "" ? Number(this.singleData.room_leng) - 1 : Number(this.singleData.room_leng);
-                    for (var i = Number(this.singleData.room_begin_nos); i <= Number(this.singleData.room_end_nos); i++) {
+                if (PMS0820020VM.isbatchAdd) { //判斷是否為批次新增
+                    let lo_tmpCud = [];
+                    let li_room_nos_leng = !_.isUndefined(this.singleData.front_cod) && this.singleData.front_cod != "" ? Number(this.singleData.room_leng) - 1 : Number(this.singleData.room_leng);
+                    for (let i = Number(this.singleData.room_begin_nos); i <= Number(this.singleData.room_end_nos); i++) {
 
                         if (this.singleData.room_nos_typ == 1) {
                             if (i % 2 == 0) {
@@ -455,11 +455,11 @@ Vue.component('single-grid-pms0820020-tmp', {
                         }
 
                         var li_room_nos = padLeft(i.toString(), li_room_nos_leng);
-                        var ls_front_cod = _.isUndefined(this.singleData.front_cod) && this.singleData.front_cod != "" ? "" : this.singleData.front_cod.trim();
+                        let ls_front_cod = _.isUndefined(this.singleData.front_cod) && this.singleData.front_cod != "" ? "" : this.singleData.front_cod.trim();
                         li_room_nos = ls_front_cod + li_room_nos;
 
                         //判斷是否已經存在
-                        var existIdx = _.findIndex(this.pageOneDataGridRows, function (lo_rows) {
+                        let existIdx = _.findIndex(this.pageOneDataGridRows, function (lo_rows) {
                             return lo_rows.room_nos.trim() == li_room_nos.trim();
                         });
 
@@ -482,7 +482,7 @@ Vue.component('single-grid-pms0820020-tmp', {
 
             //先驗證有無欄位沒驗證過的
             PMS0820020VM.isSaving = true;
-            this.$emit('do-save-cud', function (success) {
+            this.$emit("do-save-cud", function (success) {
                 self.isRuleComplete = true;
                 PMS0820020VM.isSaving = false;
                 if (success) {
@@ -513,7 +513,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                          * 2.無下一筆時取datagrid 最後一筆
                          * 3.連一筆都沒有關掉dialog 回多筆
                          **/
-                        if ($("#PMS0820020_dg").datagrid('getRows').length > 0) {
+                        if ($("#PMS0820020_dg").datagrid("getRows").length > 0) {
                             self.editingRow = targetRowAfterDelete;
                             self.emitFetchSingleData();
                         } else {
@@ -535,18 +535,18 @@ Vue.component('single-grid-pms0820020-tmp', {
 
         //檢查欄位規則，在離開欄位時
         chkFieldRule: function (ui_field_name, rule_func_name) {
-            var self = this;
-            var lo_singleData = this.singleData;
+            let self = this;
+            let lo_singleData = this.singleData;
 
             if (!_.isEmpty(rule_func_name.trim())) {
-                var postData = {
+                let postData = {
                     prg_id: prg_id,
                     rule_func_name: rule_func_name,
                     validateField: ui_field_name,
                     singleRowData: lo_singleData,
                     oriSingleRowData: PMS0820020VM.originData
                 };
-                BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
+                BacUtils.doHttpPostAgent("/api/chkFieldRule", postData, function (result) {
                     self.isRuleComplete = true;
                     if (result.success) {
                         self.isVerified = true;
@@ -601,7 +601,7 @@ Vue.component('single-grid-pms0820020-tmp', {
         chkClickPopUpGrid: function (field) {
             // this.changeEditingForFieldRule(field.rule_func_name);
             if (field.ui_type == "popupgrid") {
-                var params = {
+                let params = {
                     prg_id: prg_id,
                     fields: field,
                     singleRowData: JSON.parse(JSON.stringify(this.singleData))
@@ -609,7 +609,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                 BacUtils.doHttpPostAgent("/api/popUpGridData", params, function (result) {
                     if (result != null) {
                         PMS0820020VM.selectPopUpGridData = result.showDataGrid;
-                        vmHub.$emit('showPopUpDataGrid', result);
+                        vmHub.$emit("showPopUpDataGrid", result);
                         PMS0820020VM.showPopUpGridDialog();
                     }
                 });
@@ -623,7 +623,7 @@ Vue.component('single-grid-pms0820020-tmp', {
     }
 });
 
-var rmList = Vue.extend({
+let rmList = Vue.extend({
     template: "#PMS0820020RmListTmp",
     props: ["roomListData", "roomTotal"],
     data: function () {
@@ -631,9 +631,9 @@ var rmList = Vue.extend({
     },
     methods: {
         roomSubTotal: function (room_cod) {
-            var self = this;
-            var roomSubTotal = 0;
-            var roomNosData = _.filter(this.roomListData, function (value, key) {
+            let self = this;
+            let roomSubTotal = 0;
+            let roomNosData = _.filter(this.roomListData, function (value, key) {
                 return key == room_cod;
             });
             _.each(roomNosData, function (groupData) {
@@ -648,7 +648,7 @@ var rmList = Vue.extend({
 });
 
 var PMS0820020VM = new Vue({
-    el: '#GSApp',
+    el: "#GSApp",
     mounted: function () {
         this.isLoading = true;
         this.initTmpCUD();
@@ -664,36 +664,36 @@ var PMS0820020VM = new Vue({
     data: {
         isDatepickerInit: false,
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
-        createStatus: false,            //新增狀態
-        editStatus: false,              //編輯狀態
-        deleteStatus: false,            //刪除狀態
-        isbatchAdd: false,              //是否為批次新增
-        pageOneDataGridRows: [],        //page_id 1 的 datagrid資料
-        pageOneFieldData: [],           //page_id 1 datagird欄位
-        pageTwoFieldData: [],           //page_id 2 欄位
-        oriPageTwoFieldData: [],        //page_id 2 原始欄位資料
-        pageTwoDataGridFieldData: [],   //page_id 2 datagird欄位
-        editingRow: {},                 //編輯中的資料
+        createStatus: false, //新增狀態
+        editStatus: false, //編輯狀態
+        deleteStatus: false, //刪除狀態
+        isbatchAdd: false, //是否為批次新增
+        pageOneDataGridRows: [], //page_id 1 的 datagrid資料
+        pageOneFieldData: [], //page_id 1 datagird欄位
+        pageTwoFieldData: [], //page_id 2 欄位
+        oriPageTwoFieldData: [], //page_id 2 原始欄位資料
+        pageTwoDataGridFieldData: [], //page_id 2 datagird欄位
+        editingRow: {}, //編輯中的資料
         editingIndex: 0,
-        userInfo: {},                   //登入的使用者資料
-        tmpCud: {                       //新刪修暫存
+        userInfo: {}, //登入的使用者資料
+        tmpCud: { //新刪修暫存
             createData: [],
             editData: [],
             deleteData: []
         },
-        originData: {},                 //原始資料
-        singleData: {},                 //單檔資訊
+        originData: {}, //原始資料
+        singleData: {}, //單檔資訊
         dgIns: {},
-        labelPosition: 'right',
-        searchFields: [],               //搜尋的欄位
-        searchCond: {},                 //搜尋條件
-        isModifiable: true,             //決定是否可以修改資料
-        showRoomSortDialogVisiable: false,      //是否顯示房間排序dialog
-        roomSortData: [],               //房間排序資料
-        testData: '',                   //TODO: 排序，需有資料異動才會更新，暫時用此參數當作異動值
+        labelPosition: "right",
+        searchFields: [], //搜尋的欄位
+        searchCond: {}, //搜尋條件
+        isModifiable: true, //決定是否可以修改資料
+        showRoomSortDialogVisiable: false, //是否顯示房間排序dialog
+        roomSortData: [], //房間排序資料
+        testData: "", //TODO: 排序，需有資料異動才會更新，暫時用此參數當作異動值
         sort_typ: "",
         isAction: false,
-        roomListData: [],               //房間清單資料
+        roomListData: [], //房間清單資料
         roomTotal: 0,
         roomListDialogVisiable: false,
         isRuleComplete: true,
@@ -717,6 +717,7 @@ var PMS0820020VM = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
+            let self = this;
 
             if (_.isUndefined(callback)) {
                 callback = function () {
@@ -727,9 +728,13 @@ var PMS0820020VM = new Vue({
                 prg_id: prg_id,
                 searchCond: this.searchCond
             }, function (result) {
-                PMS0820020VM.searchFields = result.searchFields;
-                PMS0820020VM.pageOneDataGridRows = result.dataGridRows;
                 PMS0820020VM.pageOneFieldData = result.fieldData;
+
+                if (self.searchFields.length <= 0) {
+                    PMS0820020VM.searchFields = result.searchFields;
+                }else{
+                    PMS0820020VM.pageOneDataGridRows = result.dataGridRows;
+                }
                 PMS0820020VM.showDataGrid();
                 callback(result.success);
             });
@@ -738,10 +743,10 @@ var PMS0820020VM = new Vue({
         //顯示DataGrid
         showDataGrid: function () {
 
-            var colOption = [{field: 'ck', checkbox: true}];
-            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0820020_dg'));
+            let colOption = [{field: "ck", checkbox: true}];
+            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, "PMS0820020_dg"));
             this.dgIns = new DatagridRmSingleGridClass();
-            this.dgIns.init(prg_id, 'PMS0820020_dg', colOption, this.pageOneFieldData, {singleSelect: false});
+            this.dgIns.init(prg_id, "PMS0820020_dg", colOption, this.pageOneFieldData, {singleSelect: false});
             this.loadDgData();
             // PMS0820020VM.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },
@@ -751,7 +756,7 @@ var PMS0820020VM = new Vue({
 
         //取得使用者資料
         fetchUserInfo: function () {
-            BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
+            BacUtils.doHttpPostAgent("/api/getUserInfo", function (result) {
                 if (result.success) {
                     PMS0820020VM.userInfo = result.userInfo;
                 }
@@ -805,25 +810,25 @@ var PMS0820020VM = new Vue({
         },
 
         fetchBatchFieldData: function (callback) {
-            var self = this;
-            var lo_params = {
+            let self = this;
+            let lo_params = {
                 prg_id: prg_id,
                 func_id: "1009"
             };
             BacUtils.doHttpPostAgent("/api/specialDataGridBtnEventRule", lo_params, function (getResult) {
                 if (getResult.success) {
-                    var lo_fieldData = [];
-                    var la_ui_field_name = ["room_leng", "front_cod", "room_begin_nos", "build_nos", "room_end_nos", "floor_nos",
+                    let lo_fieldData = [];
+                    let la_ui_field_name = ["room_leng", "front_cod", "room_begin_nos", "build_nos", "room_end_nos", "floor_nos",
                         "room_cod", "room_nos_typ", "bed_sta"];
-                    var li_row_seq = 1;
-                    var li_col_seq = 1;
+                    let li_row_seq = 1;
+                    let li_col_seq = 1;
 
                     _.each(la_ui_field_name, function (ui_field_name, index) {
-                        var la_option_field_name = [];
-                        var ls_ui_type = "text";
-                        var li_width = 165;
-                        var ls_requirable = ui_field_name == "front_cod" ? "N" : "Y";
-                        var ls_keyable = "N";
+                        let la_option_field_name = [];
+                        let ls_ui_type = "text";
+                        let li_width = 165;
+                        let ls_requirable = ui_field_name == "front_cod" ? "N" : "Y";
+                        let ls_keyable = "N";
 
                         if (ui_field_name == "room_cod" || ui_field_name == "room_nos_typ" || ui_field_name == "bed_sta") {
                             li_col_seq = 1;
@@ -881,7 +886,7 @@ var PMS0820020VM = new Vue({
                             }
                         }
 
-                        var lo_fieldAttrObj = new fieldAttrClass(prg_id, ui_field_name, ls_ui_type, li_row_seq, li_col_seq);
+                        let lo_fieldAttrObj = new fieldAttrClass(prg_id, ui_field_name, ls_ui_type, li_row_seq, li_col_seq);
                         lo_fieldAttrObj.width = li_width;
                         lo_fieldAttrObj.ui_field_length = self.chkUiFieldLength(ui_field_name);
                         lo_fieldAttrObj.set_selectData(la_option_field_name);
@@ -900,7 +905,7 @@ var PMS0820020VM = new Vue({
 
         // 檢查欄位是否需要規則
         chkFieldHasRule: function (ui_field_name) {
-            var ls_rule_func_name = "";
+            let ls_rule_func_name = "";
             if (ui_field_name == "room_leng") {
                 ls_rule_func_name = "chkRoomLeng";
             }
@@ -912,13 +917,13 @@ var PMS0820020VM = new Vue({
 
         // 檢查欄位是否需要格式規則
         chkFieldHasFormat: function (ui_field_name) {
-            var ls_format_func_name = "";
+            let ls_format_func_name = "";
             return ls_format_func_name;
         },
 
         // 檢查欄位長度
         chkUiFieldLength: function (ui_field_name) {
-            var li_ui_field_length = 10;
+            let li_ui_field_length = 10;
             if (ui_field_name == "room_leng") {
                 li_ui_field_length = 1;
             }
@@ -937,8 +942,8 @@ var PMS0820020VM = new Vue({
 
         //顯示房間排序
         showRoomSortDialog: function (ls_sort_typ) {
-            var self = this;
-            var lo_params = {
+            let self = this;
+            let lo_params = {
                 prg_id: prg_id,
                 func_id: "1011",
                 sort_typ: ls_sort_typ
@@ -956,8 +961,8 @@ var PMS0820020VM = new Vue({
             this.testData = li_oldIndex;
             this.testData = "";
 
-            var data = this.roomSortData;
-            var temp = data[li_oldIndex];
+            let data = this.roomSortData;
+            let temp = data[li_oldIndex];
             data[li_oldIndex] = data[li_newIndex];
             data[li_newIndex] = temp;
         },
@@ -969,9 +974,9 @@ var PMS0820020VM = new Vue({
 
         // 房間排序儲存
         roomSortSave: function () {
-            var self = this;
+            let self = this;
             this.isAction = true;
-            var tmpCud = {
+            let tmpCud = {
                 updateData: []
             };
             _.each(this.roomSortData, function (lo_roomSortData, index) {
@@ -981,22 +986,22 @@ var PMS0820020VM = new Vue({
                     view_seq: index
                 });
             });
-            var fieldData = [
-                {ui_field_name: 'hotel_cod', keyable: 'Y'},
-                {ui_field_name: 'room_nos', keyable: 'Y'}
+            let fieldData = [
+                {ui_field_name: "hotel_cod", keyable: "Y"},
+                {ui_field_name: "room_nos", keyable: "Y"}
             ];
 
-            var params = {
+            let params = {
                 prg_id: prg_id,
                 tmpCUD: tmpCud,
                 fieldData: fieldData,
                 mainTableName: "room_mn"
             };
 
-            BacUtils.doHttpPostAgent('/api/execSQLProcess', params, function (response) {
+            BacUtils.doHttpPostAgent("/api/execSQLProcess", params, function (response) {
                 if (response.success) {
                     self.initTmpCUD();
-                    self.showRoomSortDialog('');
+                    self.showRoomSortDialog("");
                     self.loadDataGridByPrgID(function () {
                     });
                     alert(go_i18nLang.SystemCommon.saveSuccess);
@@ -1011,8 +1016,8 @@ var PMS0820020VM = new Vue({
 
         //查詢房間清單資料
         qryRoomListData: function (callback) {
-            var self = this;
-            var lo_params = {
+            let self = this;
+            let lo_params = {
                 prg_id: prg_id,
                 func_id: "1010"
             };
@@ -1044,9 +1049,9 @@ var PMS0820020VM = new Vue({
             this.roomListDialogVisiable = true;
             this.roomTotal = 0;
             this.qryRoomListData(function (la_roomListData) {
-                var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
-                var height = 10 * 50; // 預設一個row 高度
-                var dialog = $("#PMS0820020RmList").dialog({
+                let maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+                let height = 10 * 50; // 預設一個row 高度
+                let dialog = $("#PMS0820020RmList").dialog({
                     autoOpen: false,
                     modal: true,
                     title: prg_id,
@@ -1066,12 +1071,12 @@ var PMS0820020VM = new Vue({
         //dg row刪除
         removeRow: function () {
             PMS0820020VM.tmpCud.deleteData = [];
-            var checkRows = $('#PMS0820020_dg').datagrid('getChecked');
+            let checkRows = $("#PMS0820020_dg").datagrid("getChecked");
             if (checkRows == 0) {
                 alert(go_i18nLang.SystemCommon.SelectOneData);
                 return;
             }
-            var q = confirm(go_i18nLang.SystemCommon.check_delete);
+            let q = confirm(go_i18nLang.SystemCommon.check_delete);
             if (q) {
                 //刪除前檢查
 
@@ -1087,8 +1092,8 @@ var PMS0820020VM = new Vue({
                     if (result.success) {
                         //刪除Row
                         _.each(checkRows, function (row) {
-                            var DelIndex = $('#PMS0820020_dg').datagrid('getRowIndex', row);
-                            $('#PMS0820020_dg').datagrid('deleteRow', DelIndex);
+                            let DelIndex = $("#PMS0820020_dg").datagrid("getRowIndex", row);
+                            $("#PMS0820020_dg").datagrid("deleteRow", DelIndex);
                         });
                         PMS0820020VM.doSaveCUD();
                     } else {
@@ -1103,11 +1108,11 @@ var PMS0820020VM = new Vue({
 
         //資料驗證
         dataValidate: function () {
-            var self = this;
-            var lo_chkResult;
+            let self = this;
+            let lo_chkResult;
 
-            for (var i = 0; i < this.oriPageTwoFieldData.length; i++) {
-                var lo_field = this.oriPageTwoFieldData[i];
+            for (let i = 0; i < this.oriPageTwoFieldData.length; i++) {
+                let lo_field = this.oriPageTwoFieldData[i];
                 //必填
                 if (lo_field.requirable == "Y" && lo_field.modificable == "Y") {
                     lo_chkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
@@ -1135,14 +1140,14 @@ var PMS0820020VM = new Vue({
                 };
             }
 
-            var lo_chkResult = this.dataValidate();
+            let lo_chkResult = this.dataValidate();
             if (!_.isUndefined(lo_chkResult) && lo_chkResult.success == false && PMS0820020VM.tmpCud.deleteData.length == 0) {
                 alert(lo_chkResult.msg);
                 callback(false);
                 return;
             }
 
-            var params = _.extend({prg_id: prg_id}, PMS0820020VM.tmpCud);
+            let params = _.extend({prg_id: prg_id}, PMS0820020VM.tmpCud);
             BacUtils.doHttpPostAgent("/api/saveGridSingleData", params, function (result) {
                 if (result.success) {
                     PMS0820020VM.initTmpCUD();
@@ -1168,22 +1173,22 @@ var PMS0820020VM = new Vue({
 
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function () {
-            var self = this;
+            let self = this;
             BacUtils.doHttpPostAgent("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
-                var fieldData = _.clone(result.fieldData);
+                let fieldData = _.clone(result.fieldData);
                 go_Field_Data_Tmp = _.clone(result.fieldData);
 
                 self.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
 
                 // 算最小寬度 && 最大行數
-                var maxField = _.max(self.pageTwoFieldData, function (lo_pageTwoField) {
+                let maxField = _.max(self.pageTwoFieldData, function (lo_pageTwoField) {
                     return lo_pageTwoField.length;
                 });
                 _.each(maxField, function (lo_maxField, index) {
 
-                    var width = parseInt(lo_maxField.width) || 35; //90
-                    var label_width = parseInt(lo_maxField.label_width) || 50; //165
-                    self.maxWidth += (width + label_width + 14);
+                    let width = parseInt(lo_maxField.width) || 35; //90
+                    let label_width = parseInt(lo_maxField.label_width) || 50; //165
+                    self.maxWidth += width + label_width + 14;
                     //todo 此單筆最後一排有超過五個以上的grid-item 會錯誤
                     // if(index >= 2) return true;
                 });
@@ -1197,9 +1202,9 @@ var PMS0820020VM = new Vue({
             PMS0820020VM.deleteStatus = false;
             PMS0820020VM.editStatus = true;
             PMS0820020VM.editingRow = editingRow;
-            PMS0820020VM.editingIndex = $("#PMS0820020_dg").datagrid('getRowIndex', editingRow);
+            PMS0820020VM.editingIndex = $("#PMS0820020_dg").datagrid("getRowIndex", editingRow);
             editingRow["prg_id"] = prg_id;
-            BacUtils.doHttpPostAgent('/api/singlePageRowDataQuery', editingRow, function (result) {
+            BacUtils.doHttpPostAgent("/api/singlePageRowDataQuery", editingRow, function (result) {
                 if (result.success) {
                     if (result.rowData.character_rmk == null) {
                         result.rowData.character_rmk = [];
@@ -1222,24 +1227,24 @@ var PMS0820020VM = new Vue({
             try {
                 if (!this.isDatepickerInit) {
                     this.isDatepickerInit = true;
-                    $('.date_picker').datepicker({
+                    $(".date_picker").datepicker({
                         autoclose: true,
-                        format: 'yyyy/mm/dd'
+                        format: "yyyy/mm/dd"
                     }).on("changeDate", function (e) {
                     });
 
-                    $('.date_timepicker').datetimepicker({
-                        format: 'YYYY/MM/DD hh:mm:ss ',//use this option to display seconds
+                    $(".date_timepicker").datetimepicker({
+                        format: "YYYY/MM/DD hh:mm:ss ",//use this option to display seconds
                         icons: {
-                            time: 'fa fa-clock-o',
-                            date: 'fa fa-calendar',
-                            up: 'fa fa-chevron-up',
-                            down: 'fa fa-chevron-down',
-                            previous: 'fa fa-chevron-left',
-                            next: 'fa fa-chevron-right',
-                            today: 'fa fa-arrows ',
-                            clear: 'fa fa-trash',
-                            close: 'fa fa-times'
+                            time: "fa fa-clock-o",
+                            date: "fa fa-calendar",
+                            up: "fa fa-chevron-up",
+                            down: "fa fa-chevron-down",
+                            previous: "fa fa-chevron-left",
+                            next: "fa fa-chevron-right",
+                            today: "fa fa-arrows ",
+                            clear: "fa fa-trash",
+                            close: "fa fa-times"
                         }
 
                     });
@@ -1252,12 +1257,12 @@ var PMS0820020VM = new Vue({
         //打開單檔dialog
         showSingleGridDialog: function () {
             this.initDatePicker();
-            var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+            let maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
             // gridWt = $('.singleGridContent .grid-item label').width() + $('.singleGridContent .grid-item input').width() +14;
-            var btnWt = $('.right-menu-co').outerWidth();
-            var dialogWt = this.maxWidth + btnWt;
-            var height = 10 * 50; // 預設一個row 高度
-            var dialog = $("#sigleGridPMS0820020").dialog({
+            let btnWt = $(".right-menu-co").outerWidth();
+            let dialogWt = this.maxWidth + btnWt;
+            let height = 10 * 50; // 預設一個row 高度
+            let dialog = $("#sigleGridPMS0820020").dialog({
                 autoOpen: false,
                 modal: true,
                 title: prg_id,
@@ -1282,17 +1287,17 @@ var PMS0820020VM = new Vue({
             PMS0820020VM.createStatus = false;
             PMS0820020VM.initTmpCUD();
 
-            $("#sigleGridPMS0820020").dialog('close');
+            $("#sigleGridPMS0820020").dialog("close");
 
         },
 
         //顯示textgrid跳窗訊息
         showPopUpGridDialog: function () {
             this.dialogVisible = true;
-            var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
-            var width = document.documentElement.clientWidth / 2;    //browser 寬度 - 200功能列
+            let height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
+            let width = document.documentElement.clientWidth / 2; //browser 寬度 - 200功能列
 
-            var dialog = $("#dataPopUpGridDialog").dialog({
+            let dialog = $("#dataPopUpGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
                 height: height,
@@ -1309,16 +1314,16 @@ var PMS0820020VM = new Vue({
 });
 
 function editDtMultiLang(rowIdx) {
-    vmHub.$emit('editDtMultiLang', {rowIdx: rowIdx});
+    vmHub.$emit("editDtMultiLang", {rowIdx: rowIdx});
 }
 
 Vue.filter("showDropdownDisplayName", function (val) {
 });
 
-var adpterDg = new DatagridAdapter(PMS0820020VM);
+let adpterDg = new DatagridAdapter(PMS0820020VM);
 
 
 function padLeft(str, length) {
-    var ls_return = str.length >= length ? str : padLeft("0" + str, length);
+    let ls_return = str.length >= length ? str : padLeft("0" + str, length);
     return ls_return;
 }

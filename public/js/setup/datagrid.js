@@ -1,31 +1,31 @@
 /**
  * Created by Jun on 2017/2/23.
  */
-var prg_id = $("#prg_Id").data("prg_id");
-var vmHub = new Vue;
-var gb_isUserEdit4ClickCell = true;
-var gb_isUserEdit4EndEdit = true;
-var gb_isUserEdit4tempExecData = true;
-var go_FuncPur = new FuncPurview(prg_id);
+let prg_id = $("#prg_Id").data("prg_id");
+let vmHub = new Vue;
+let gb_isUserEdit4ClickCell = true;
+let gb_isUserEdit4EndEdit = true;
+let gb_isUserEdit4tempExecData = true;
+let go_FuncPur = new FuncPurview(prg_id);
 
 
 Vue.component("multi-lang-dialog-tmp", {
-    template: '#multiLangDialogTmp',
-    props: ['sys_locales', 'prgFieldDataAttr', 'updateMultiLangDG', 'endMultiLangEditing', 'tempExecData'],
+    template: "#multiLangDialogTmp",
+    props: ["sys_locales", "prgFieldDataAttr", "updateMultiLangDG", "endMultiLangEditing", "tempExecData"],
     data: function () {
         return {};
     },
     created: function () {
-        var self = this;
-        vmHub.$on('getRowMultiLangContent', function (data) {
+        let self = this;
+        vmHub.$on("getRowMultiLangContent", function (data) {
             self.getRowMultiLangContent(data.rowIdx);
         });
     },
     methods: {
         getRowMultiLangContent: function (rowIdx) {
-            var self = this;
-            var rowData = $('#prg_dg').datagrid("getRows")[rowIdx];
-            var params = {
+            let self = this;
+            let rowData = $("#prg_dg").datagrid("getRows")[rowIdx];
+            let params = {
                 rowData: rowData,
                 prg_id: prg_id,
                 page_id: 1
@@ -34,19 +34,19 @@ Vue.component("multi-lang-dialog-tmp", {
 
             //新增欄位，預設多語系欄位
             if (!_.isUndefined(rowData.createRow) && _.isEqual(rowData.createRow, "Y")) {
-                var multiLangContent = [];
+                let multiLangContent = [];
                 _.each(this.sys_locales, function (locale) {
                     multiLangContent.push({
                         locale: locale.lang,
                         display_locale: locale.name
                     });
                 });
-                self.$emit('update-multi-lang-dg', {multiLangContent: multiLangContent});
+                self.$emit("update-multi-lang-dg", {multiLangContent: multiLangContent});
                 return;
             }
 
-            var existIdx = this.$parent.chkTmpCudExistData(rowData, "updateData");
-            var lb_getFromAPI = true;
+            let existIdx = this.$parent.chkTmpCudExistData(rowData, "updateData");
+            let lb_getFromAPI = true;
             try {
                 if (_.isUndefined(vm.tmpCUD.updateData[existIdx].multiLang)) {
                     lb_getFromAPI = true;
@@ -61,12 +61,12 @@ Vue.component("multi-lang-dialog-tmp", {
             if (lb_getFromAPI) {
                 // 取多語系資料
                 BacUtils.doHttpPostAgent("/api/multiLangFieldContentByKey", params, function (result) {
-                    self.$emit('update-multi-lang-dg', result);
+                    self.$emit("update-multi-lang-dg", result);
                 });
             }
             // 有資料，顯示暫存資料
             else {
-                self.$emit('update-multi-lang-dg', {multiLangContent: self.$parent.tmpCUD.updateData[existIdx].multiLang});
+                self.$emit("update-multi-lang-dg", {multiLangContent: self.$parent.tmpCUD.updateData[existIdx].multiLang});
 
             }
         },
@@ -75,17 +75,17 @@ Vue.component("multi-lang-dialog-tmp", {
         },
         //寫入此筆編輯Row
         saveMultiLang: function () {
-            if (this.$emit('end-multi-lang-editing')) {
-                var selectIndex = $('#prg_dg').datagrid("getRowIndex", $('#prg_dg').datagrid("getSelected"));
-                var multiLang = $("#multiLangDG").datagrid("getRows");
-                var updateRow = $('#prg_dg').datagrid("getSelected");
+            if (this.$emit("end-multi-lang-editing")) {
+                let selectIndex = $("#prg_dg").datagrid("getRowIndex", $("#prg_dg").datagrid("getSelected"));
+                let multiLang = $("#multiLangDG").datagrid("getRows");
+                let updateRow = $("#prg_dg").datagrid("getSelected");
 
                 updateRow["multiLang"] = multiLang;
-                $('#prg_dg').datagrid('updateRow', {
+                $("#prg_dg").datagrid("updateRow", {
                     index: selectIndex,
                     row: updateRow
                 });
-                this.$emit('temp-exec-data', $('#prg_dg').datagrid("getSelected"));
+                this.$emit("temp-exec-data", $("#prg_dg").datagrid("getSelected"));
                 this.closeMultiLangDialog();
             }
         }
@@ -94,7 +94,7 @@ Vue.component("multi-lang-dialog-tmp", {
 });
 
 var vm = new Vue({
-    el: '#datagridApp',
+    el: "#datagridApp",
     mounted: function () {
         this.initTmpCUD();
         this.fetchDataGridData();
@@ -103,8 +103,8 @@ var vm = new Vue({
         "search-comp": go_searchComp
     },
     data: {
-        prgFieldDataAttr: [],   //這隻程式的欄位屬性
-        multiLangField: [],   //多語系欄位
+        prgFieldDataAttr: [], //這隻程式的欄位屬性
+        multiLangField: [], //多語系欄位
         isTableLock: false,
         tableLockMsg: "",
         editIndex: undefined,
@@ -114,7 +114,7 @@ var vm = new Vue({
         openChangeLogDialog: false,
         allChangeLogList: [],
         searchFields: [], //搜尋的欄位
-        searchCond: {},   //搜尋條件
+        searchCond: {}, //搜尋條件
         multiLangDialogVisible: false,
         isLoading: false,
         dataGridRows: []
@@ -138,16 +138,16 @@ var vm = new Vue({
         //儲存欄位屬性
         doSaveColumnFields: function () {
 
-            var saveField = [];
-            var allField = $('#prg_dg').datagrid("getColumnFields");
+            let saveField = [];
+            let allField = $("#prg_dg").datagrid("getColumnFields");
 
             //過濾不用存的欄位
             allField = _.filter(allField, function (field) {
-                return field != 'langAction';
+                return field != "langAction";
             });
 
             _.each(allField, function (field, fIdx) {
-                var currentColumOption = $('#prg_dg').datagrid("getColumnOption", field);
+                let currentColumOption = $("#prg_dg").datagrid("getColumnOption", field);
                 currentColumOption.col_seq = fIdx;
                 saveField.push(_.extend(currentColumOption));
             });
@@ -161,22 +161,28 @@ var vm = new Vue({
 
         //抓取顯示資料
         fetchDataGridData: function () {
+            let self = this;
             BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
-                vm.searchFields = result.searchFields;
                 vm.prgFieldDataAttr = result.fieldData;
-                vm.dataGridRows = JSON.parse(JSON.stringify(result.dataGridRows));
+
+                if (self.searchFields.length <= 0) {
+                    vm.searchFields = result.searchFields;
+                    result.dataGridRows = [];
+                } else {
+                    vm.dataGridRows = JSON.parse(JSON.stringify(result.dataGridRows));
+                }
                 vm.showDataGrid(result.fieldData, result.dataGridRows);
             });
         },
         //顯示資料
         showDataGrid: function (fieldData, dataGridRows) {
-            var columnsData = DatagridFieldAdapter.combineFieldOption(fieldData, 'prg_dg');
-            var hasMultiLangField = _.filter(fieldData, function (field) {
+            let columnsData = DatagridFieldAdapter.combineFieldOption(fieldData, "prg_dg");
+            let hasMultiLangField = _.filter(fieldData, function (field) {
                 return field.multi_lang_table != "";
             }).length > 0 ? true : false;
             if (hasMultiLangField) {
                 columnsData.unshift({
-                    type: 'textbox',
+                    type: "textbox",
                     title: "Multi Lang",
                     field: "langAction",
                     align: "center",
@@ -187,8 +193,8 @@ var vm = new Vue({
 
                 });
             }
-            var dgData = {total: dataGridRows.length, rows: dataGridRows};
-            $('#prg_dg').datagrid({
+            let dgData = {total: dataGridRows.length, rows: dataGridRows};
+            $("#prg_dg").datagrid({
                 columns: [columnsData],
                 remoteSort: false,
                 singleSelect: true,
@@ -199,12 +205,12 @@ var vm = new Vue({
                 onClickCell: vm.onClickCell,
                 onEndEdit: vm.onEndEdit,
                 onDropColumn: vm.doSaveColumnFields, //當移動順序欄位時
-                onResizeColumn: vm.doSaveColumnFields,  //當欄位時寬度異動時
+                onResizeColumn: vm.doSaveColumnFields, //當欄位時寬度異動時
                 onSortColumn: function () {
-                    $("#dgCheckbox").datagrid('uncheckAll');
+                    $("#dgCheckbox").datagrid("uncheckAll");
                 }
 
-            }).datagrid('columnMoving');
+            }).datagrid("columnMoving");
 
 
         },
@@ -218,10 +224,10 @@ var vm = new Vue({
                     gb_isUserEdit4EndEdit = true;
 
 
-                    $('#prg_dg').datagrid('selectRow', index).datagrid('beginEdit', index);
-                    var ed = $('#prg_dg').datagrid('getEditor', {index: index, field: field});
+                    $("#prg_dg").datagrid("selectRow", index).datagrid("beginEdit", index);
+                    let ed = $("#prg_dg").datagrid("getEditor", {index: index, field: field});
                     if (ed) {
-                        ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                        ($(ed.target).data("textbox") ? $(ed.target).textbox("textbox") : $(ed.target)).focus();
                     }
                     vm.editIndex = index;
                 } else {
@@ -229,7 +235,7 @@ var vm = new Vue({
                     gb_isUserEdit4EndEdit = true;
 
                     setTimeout(function () {
-                        $('#prg_dg').datagrid('selectRow', vm.editIndex);
+                        $("#prg_dg").datagrid("selectRow", vm.editIndex);
                     }, 0);
                 }
                 gb_isUserEdit4ClickCell = true;
@@ -237,21 +243,21 @@ var vm = new Vue({
         },
         //結束編輯
         onEndEdit: function (index, row, changes) {
-            var self = this;
-            var lb_chkIsChanged = this.dataValidate(row, this.dataGridRows[index]);
+            let self = this;
+            let lb_chkIsChanged = this.dataValidate(row, this.dataGridRows[index]);
 
             if (lb_chkIsChanged) {
                 if (gb_isUserEdit4EndEdit) {
                     gb_isUserEdit4EndEdit = false;
-                    var dataType = row.createRow == 'Y'
-                        ? "createData" : "updateData";  //判斷此筆是新增或更新
+                    let dataType = row.createRow == "Y"
+                        ? "createData" : "updateData"; //判斷此筆是新增或更新
                     if (dataType != "createData") {
-                        var tmpCUD_index = this.chkTmpCudExistData(row, dataType);  // 檢查是否有暫存
-                        var lb_multiLangExist = true;                               // 是否有多語系
-                        var la_multiLangTmp = [];
+                        let tmpCUD_index = this.chkTmpCudExistData(row, dataType); // 檢查是否有暫存
+                        let lb_multiLangExist = true; // 是否有多語系
+                        let la_multiLangTmp = [];
 
                         try {
-                            var chkMultiLang = this.tmpCUD[dataType][tmpCUD_index].multiLang;
+                            let chkMultiLang = this.tmpCUD[dataType][tmpCUD_index].multiLang;
                             lb_multiLangExist = true;
                         }
                         catch (err) {
@@ -290,8 +296,8 @@ var vm = new Vue({
             if (vm.editIndex == undefined) {
                 return true;
             }
-            if ($('#prg_dg').datagrid('validateRow', vm.editIndex)) {
-                $('#prg_dg').datagrid('endEdit', vm.editIndex);
+            if ($("#prg_dg").datagrid("validateRow", vm.editIndex)) {
+                $("#prg_dg").datagrid("endEdit", vm.editIndex);
                 vm.editIndex = undefined;
                 return true;
             }
@@ -299,35 +305,35 @@ var vm = new Vue({
         },
         //新增一個Row
         appendRow: function () {
-            var gridDataInfo = $("#prg_dg").datagrid("getData");    //SAM 20170418 因新增時可能需要帶預設值且是由目前資料來判斷取得值，所以需取得所有資料
+            let gridDataInfo = $("#prg_dg").datagrid("getData"); //SAM 20170418 因新增時可能需要帶預設值且是由目前資料來判斷取得值，所以需取得所有資料
             if (this.endEditing()) {
                 BacUtils.doHttpPostAgent("/api/handleDataGridAddEventRule", {
                     prg_id: prg_id,
                     gridDataInfo: gridDataInfo
                 }, function (result) {
-                    var prgDefaultObj = {};
+                    let prgDefaultObj = {};
                     if (result.success) {
                         prgDefaultObj = result.prgDefaultObj;
                     }
 
-                    $('#prg_dg').datagrid('appendRow', prgDefaultObj);
-                    vm.editIndex = $('#prg_dg').datagrid('getRows').length - 1;
-                    $('#prg_dg').datagrid('selectRow', vm.editIndex)
-                        .datagrid('beginEdit', vm.editIndex);
+                    $("#prg_dg").datagrid("appendRow", prgDefaultObj);
+                    vm.editIndex = $("#prg_dg").datagrid("getRows").length - 1;
+                    $("#prg_dg").datagrid("selectRow", vm.editIndex)
+                        .datagrid("beginEdit", vm.editIndex);
                 });
                 $("#gridEdit").val(vm.tmpCUD);
             }
         },
         //刪除選定的Row
         removeRow: function () {
-            var delRow = $('#prg_dg').datagrid('getSelected');
+            let delRow = $("#prg_dg").datagrid("getSelected");
             if (!delRow) {
                 alert("請選擇要刪除的資料");
             }
 
-            if (delRow.createRow == 'Y') {    //如果刪除此次新建的資料，則直接刪除即可。
-                $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow));
-                vm.tmpCUD.createData = _.without(vm.tmpCUD.createData, delRow);  //SAM 20170805刪除新增資料
+            if (delRow.createRow == "Y") { //如果刪除此次新建的資料，則直接刪除即可。
+                $("#prg_dg").datagrid("deleteRow", $("#prg_dg").datagrid("getRowIndex", delRow));
+                vm.tmpCUD.createData = _.without(vm.tmpCUD.createData, delRow); //SAM 20170805刪除新增資料
                 vm.endEditing();
                 vm.editIndex = undefined;
             }
@@ -340,10 +346,10 @@ var vm = new Vue({
                     deleteData: vm.tmpCUD.deleteData
                 }, function (result) {
                     if (result.success) {
-                        $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow));
+                        $("#prg_dg").datagrid("deleteRow", $("#prg_dg").datagrid("getRowIndex", delRow));
                         vm.editIndex = undefined;//SAM
                     } else {
-                        vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
+                        vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow); //刪除在裡面的暫存
                         vm.endEditing();
                         alert(result.errorMsg);
                     }
@@ -353,9 +359,9 @@ var vm = new Vue({
         },
         //儲存
         doSave: function () {
-            var self = this;
+            let self = this;
             if (this.endEditing()) {
-                var params = {
+                let params = {
                     prg_id: prg_id,
                     deleteData: vm.tmpCUD.deleteData,
                     createData: vm.tmpCUD.createData,
@@ -365,12 +371,12 @@ var vm = new Vue({
                 BacUtils.doHttpPostAgent("/api/saveDataRow", params, function (result) {
                     self.isLoading = false;
                     if (result.success) {
-                        $('#prg_dg').datagrid('acceptChanges');
+                        $("#prg_dg").datagrid("acceptChanges");
                         vm.initTmpCUD();
                         self.fetchDataGridData();
                         $("#gridEdit").val(null);
                         alert(go_i18nLang.SystemCommon.saveSuccess);
-                        $("#prgContentDiv").load('/mainSetUp/' + prg_id + "?_r=" + Math.floor((Math.random() * 10000000000) + 1));
+                        $("#prgContentDiv").load("/mainSetUp/" + prg_id + "?_r=" + Math.floor(Math.random() * 10000000000 + 1));
                     } else {
                         alert(result.errorMsg);
                     }
@@ -380,12 +386,12 @@ var vm = new Vue({
         },
         //回復
         reject: function () {
-            $('#prg_dg').datagrid('rejectChanges');
+            $("#prg_dg").datagrid("rejectChanges");
             this.editIndex = undefined;
         },
         //獲取改變的Row
         getChanges: function () {
-            var rows = $('#prg_dg').datagrid('getChanges');
+            let rows = $("#prg_dg").datagrid("getChanges");
         },
         //多語系編輯
         editFieldMultiLang: function (rowIdx) {
@@ -398,9 +404,9 @@ var vm = new Vue({
         },
         updateMultiLangDG: function (data) {
 
-            var multiLangDgData = _.uniq(data.multiLangContent);
-            var columnsData = [{
-                type: 'textbox',
+            let multiLangDgData = _.uniq(data.multiLangContent);
+            let columnsData = [{
+                type: "textbox",
                 title: "Locale",
                 field: "display_locale",
                 width: 70,
@@ -411,13 +417,13 @@ var vm = new Vue({
                 }
             }];
 
-            columnsData = _.union(columnsData, DatagridFieldAdapter.combineFieldOption(this.multiLangField, 'multiLangDG'));
+            columnsData = _.union(columnsData, DatagridFieldAdapter.combineFieldOption(this.multiLangField, "multiLangDG"));
 
-            var widtd = 10;
+            let widtd = 10;
             _.each(columnsData, function (column) {
                 widtd += Number(column.width);
             });
-            $('#multiLangDG').datagrid({
+            $("#multiLangDG").datagrid({
                 columns: [columnsData],
                 remoteSort: false,
                 singleSelect: true,
@@ -428,10 +434,10 @@ var vm = new Vue({
                 onClickCell: function (index, field) {
                     if (vm.multiLangEditIndex != index) {
                         if (vm.endMultiLangEditing()) {
-                            $('#multiLangDG').datagrid('selectRow', index).datagrid('beginEdit', index);
-                            var ed = $('#multiLangDG').datagrid('getEditor', {index: index, field: field});
+                            $("#multiLangDG").datagrid("selectRow", index).datagrid("beginEdit", index);
+                            let ed = $("#multiLangDG").datagrid("getEditor", {index: index, field: field});
                             if (ed) {
-                                ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                                ($(ed.target).data("textbox") ? $(ed.target).textbox("textbox") : $(ed.target)).focus();
                             }
                             vm.multiLangEditIndex = index;
                         }
@@ -444,8 +450,8 @@ var vm = new Vue({
             if (this.multiLangEditIndex == undefined) {
                 return true;
             }
-            if ($('#multiLangDG').datagrid('validateRow', vm.multiLangEditIndex)) {
-                $('#multiLangDG').datagrid('endEdit', vm.multiLangEditIndex);
+            if ($("#multiLangDG").datagrid("validateRow", vm.multiLangEditIndex)) {
+                $("#multiLangDG").datagrid("endEdit", vm.multiLangEditIndex);
                 vm.multiLangEditIndex = undefined;
                 return true;
             }
@@ -457,9 +463,9 @@ var vm = new Vue({
         tempExecData: function (rowData) {
             if (gb_isUserEdit4tempExecData) {
                 gb_isUserEdit4tempExecData = false;
-                var dataType = rowData.createRow == 'Y'
-                    ? "createData" : "updateData";  //判斷此筆是新增或更新
-                var existIdx = this.chkTmpCudExistData(rowData, dataType);
+                let dataType = rowData.createRow == "Y"
+                    ? "createData" : "updateData"; //判斷此筆是新增或更新
+                let existIdx = this.chkTmpCudExistData(rowData, dataType);
                 if (existIdx > -1) {
                     this.tmpCUD[dataType].splice(existIdx, 1);
                 }
@@ -476,13 +482,13 @@ var vm = new Vue({
 
 
             gb_isUserEdit4tempExecData = true;
-            var keyVals = _.pluck(_.where(this.prgFieldDataAttr, {keyable: 'Y'}), "ui_field_name");
-            var condKey = {};
+            let keyVals = _.pluck(_.where(this.prgFieldDataAttr, {keyable: "Y"}), "ui_field_name");
+            let condKey = {};
             _.each(keyVals, function (field_name) {
                 condKey[field_name] = rowData[field_name] || "";
             });
             //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
-            var existIdx = _.findIndex(this.tmpCUD[dataType], condKey);
+            let existIdx = _.findIndex(this.tmpCUD[dataType], condKey);
             return existIdx;
 
         },
@@ -494,7 +500,7 @@ var vm = new Vue({
         },
         // 檢查資料是否有改變
         dataValidate: function (data, oriData) {
-            var lb_chkIsChanged = false;
+            let lb_chkIsChanged = false;
 
             if (_.isUndefined(oriData)) {
                 lb_chkIsChanged = true;
@@ -516,13 +522,13 @@ function editFieldMultiLang(rowIdx) {
     vm.editFieldMultiLang(rowIdx);
 }
 
-var adpterDg = new DatagridAdapter(vm);
+let adpterDg = new DatagridAdapter(vm);
 
 /**
  * 某種情況下datagrid裡驗證格式錯誤的tip會卡住不動
  * 站無解決辦法，故寫一個interval每五秒去關掉所有tips
  */
-if (prg_id == 'PMS0810030') {
+if (prg_id == "PMS0810030") {
     setInterval(function () {
         $(".tooltip-right").remove();
     }, 5000);
