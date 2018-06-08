@@ -2,24 +2,17 @@
  * Created by Jun Chang on 2017/2/10.
  */
 
-let tools = require("../utils/CommonTools");
-let _ = require("underscore");
-let sysConfig = require("../configs/systemConfig");
-let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-let i18n = require("i18n");
-let logSvc = require("./LogService");
-let mailSvc = require("./MailService");
-let langSvc = require("./LangService");
-let ruleAgent = require("../ruleEngine/ruleAgent");
-let moment = require("moment");
-let go_sysConf = require("../configs/systemConfig");
-let commonRule = require("../ruleEngine/rules/CommonRule");
-let optSaveAdapter = require("../ruleEngine/operationSaveAdapter");
-let async = require("async");
-let mongoAgent = require("../plugins/mongodb");
-let dataRuleSvc = require('../services/DataRuleService');
-let ErrorClass = require("../ruleEngine/errorClass");
-let ReturnClass = require("../ruleEngine/returnClass");
+const tools = require("../utils/CommonTools");
+const _ = require("underscore");
+const sysConfig = require("../configs/systemConfig");
+const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const i18n = require("i18n");
+const logSvc = require("./LogService");
+const mailSvc = require("./MailService");
+const ruleAgent = require("../ruleEngine/ruleAgent");
+const moment = require("moment");
+const go_sysConf = require("../configs/systemConfig");
+const commonRule = require("../ruleEngine/rules/CommonRule");
 const saveDataModule = require("./common/saveDataModule");
 /**
  *
@@ -211,14 +204,22 @@ exports.handleExecSQLProcess = function (formData, session, callback) {
     this.execSQL(prg_id, saveExecDatas, session, callback);
 };
 
+/**
+ * 打API儲存
+ * @param prg_id {string} 程式編號
+ * @param saveExecDatas {object} 儲存資料
+ * @param session {object}
+ * @param callback
+ */
 exports.execSQL = function (prg_id, saveExecDatas, session, callback) {
-    let userInfo = session.user;
-    let apiParams = {
+    const userInfo = session.user;
+    const lo_trimExecDatas = commonRule.trimSaveExecData({saveExecDatas: saveExecDatas}, session);
+    const apiParams = {
         "REVE-CODE": "BAC03009010000",
         "program_id": prg_id,
         "user": userInfo.usr_id,
         "count": Object.keys(saveExecDatas).length,
-        "exec_data": saveExecDatas
+        "exec_data": lo_trimExecDatas
     };
     if (_.size(saveExecDatas) > 0) {
         tools.requestApi(sysConfig.api_url.common, apiParams, function (apiErr, apiRes, data) {
