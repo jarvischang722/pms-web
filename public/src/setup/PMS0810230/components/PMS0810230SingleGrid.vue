@@ -6,6 +6,146 @@
                     <div class="col-xs-11 col-sm-11">
                         <div class="row no-margin-right">
                             <!-------- 單筆 -------->
+
+                            <!--靜態Demo-->
+                            <div class="main-content-data borderFrame" style="display: none;">
+                                <!--1-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>房價代號</label>
+                                        <input type="text" class="input-medium rateCode-s1 input_sta_required"
+                                               style="width: 109px;"
+                                               placeholder="2016PKG001"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>房價名稱</label>
+                                        <input type="text" class="input-medium rateCode-s1 input_sta_required"
+                                               style="width: 109px;"
+                                               placeholder="2016歡樂一夏逍遙遊"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>屬性</label>
+                                        <select class="input-medium rateCode-s1" disabled style="width: 109px;">
+                                            <option>Base Rate</option>
+                                            <option value="">Dependant Rate</option>
+                                            <option>Independant Rate</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>合約價</label>
+                                        <select class="input-medium rateCode-s2 input_sta_required"
+                                                style="width: 109px;">
+                                            <option value="no">否</option>
+                                            <option value="yes">是</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--2-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>房價分類</label>
+                                        <select class="input-medium rateCode-s1" style="width: 109px;">
+                                            <option value="01">01:散客房價</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>Menu選單</label>
+                                        <input type="text" class="input-medium rateCode-s1 input_sta_required"
+                                               style="width: 109px;"
+                                               placeholder="Package"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>設定類別</label>
+                                        <select class="input-medium rateCode-s1 input_sta_required"
+                                                style="width: 109px;">
+                                            <option value="DR">DR:Daily</option>
+                                            <option value="PKG">PKG:Package</option>
+                                            <option value="HU">HU:House use</option>
+                                            <option value="ENT">CMP:Complimentary</option>
+                                            <!--<option value="HR">HR:Hourly</option>-->
+                                            <!--<option value="MR">MR:Monthly</option>-->
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--3-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>預設顯示</label>
+                                        <select class="input-medium rateCode-s2 input_sta_required"
+                                                style="width: 109px;">
+                                            <option>是</option>
+                                            <option>否</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label class="pull-left">佣金異動</label>
+                                        <select class="input-medium rateCode-s2 pull-left input_sta_required"
+                                                style="width: 109px;">
+                                            <option>是</option>
+                                            <option>否</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label class="pull-left">房價異動</label>
+                                        <select class="input-medium rateCode-s2 pull-left input_sta_required"
+                                                style="width: 109px;">
+                                            <option>是</option>
+                                            <option>否</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>訂房來源</label>
+                                        <select class="input-medium rateCode-s1 input_sta_required"
+                                                style="width: 109px;">
+                                            <option value="01">01:電話訂房</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--4-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label class="">顯示順序</label>
+                                        <input type="text" class="input-medium rateCode-s2 input_sta_required"
+                                               style="width: 109px;" placeholder="1"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label class="pull-left">佣金%</label>
+                                        <input type="text"
+                                               class="input-medium rateCode-xs pull-left input_sta_required"
+                                               style="width: 109px;"
+                                               placeholder="1"/>
+                                    </div>
+                                    <div class="grid-item">
+
+                                        <label>服務費%</label>
+                                        <input type="text" class="input-medium resvCard-2xs" placeholder="1"
+                                               style="width: 109px;"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>市場類別</label>
+                                        <select class="input-medium rateCode-s1 input_sta_required"
+                                                style="width: 109px;">
+                                            <option value="LOF">LOF:一般散客</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>使用說明</label>
+                                        <input type="text" class="input-medium rateCode-s1-col3Rm" style="width: 322px;"
+                                               placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>確認書說明</label>
+                                        <input type="text" class="input-medium rateCode-s1-col3Rm" style="width: 299px;"
+                                               placeholder=""/>
+                                        <i class="moreClick fa fa-ellipsis-h"></i>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                </div>
+                            </div><!--main-content-data-->
+
                             <div class="main-content-data borderFrame">
                                 <div v-for="fields in fieldsData">
                                     <div class="grid">
