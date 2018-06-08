@@ -473,7 +473,10 @@ Vue.component('single-grid-pms0830100-tmp', {
         appendDtRow: function () {
             var self = this;
             if (this.endDtEditing()) {
-                BacUtils.doHttpPostAgent("/api/handleDataGridAddEventRule", {prg_id: prg_id, page_id: 2}, function (result) {
+                BacUtils.doHttpPostAgent("/api/handleDataGridAddEventRule", {
+                    prg_id: prg_id,
+                    page_id: 2
+                }, function (result) {
                     var prgDefaultObj = {createRow: 'Y'};
                     if (result.success) {
                         prgDefaultObj = _.extend(prgDefaultObj, result.prgDefaultObj);
@@ -581,7 +584,10 @@ var PMS0830100VM = new Vue({
                 callback = function () {
                 };
             }
-            BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
+            BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {
+                prg_id: prg_id,
+                searchCond: this.searchCond
+            }, function (result) {
                 waitingDialog.hide();
                 PMS0830100VM.pageOneFieldData = result.fieldData;
 
@@ -763,28 +769,33 @@ var PMS0830100VM = new Vue({
         //init datepicker
         initDatePicker: function () {
             if (!this.isDatepickerInit) {
-                this.isDatepickerInit = true;
-                $('.date_picker').datepicker({
-                    autoclose: true,
-                    format: 'yyyy/mm/dd'
-                }).on("changeDate", function (e) {
-                });
+                try {
+                    this.isDatepickerInit = true;
+                    $('.date_picker').datepicker({
+                        autoclose: true,
+                        format: 'yyyy/mm/dd'
+                    }).on("changeDate", function (e) {
+                    });
 
-                $('.date_timepicker').datetimepicker({
-                    format: 'YYYY/MM/DD hh:mm:ss ',//use this option to display seconds
-                    icons: {
-                        time: 'fa fa-clock-o',
-                        date: 'fa fa-calendar',
-                        up: 'fa fa-chevron-up',
-                        down: 'fa fa-chevron-down',
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-arrows ',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-times'
-                    }
+                    $('.date_timepicker').datetimepicker({
+                        format: 'YYYY/MM/DD hh:mm:ss ',//use this option to display seconds
+                        icons: {
+                            time: 'fa fa-clock-o',
+                            date: 'fa fa-calendar',
+                            up: 'fa fa-chevron-up',
+                            down: 'fa fa-chevron-down',
+                            previous: 'fa fa-chevron-left',
+                            next: 'fa fa-chevron-right',
+                            today: 'fa fa-arrows ',
+                            clear: 'fa fa-trash',
+                            close: 'fa fa-times'
+                        }
 
-                });
+                    });
+                }
+                catch (ex) {
+
+                }
             }
         },
 
