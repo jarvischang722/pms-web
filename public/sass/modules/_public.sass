@@ -941,3 +941,31 @@ input[type=checkbox]
   border: 2px solid #555 !important
   padding-top: 0px !important
   transition: 0.5s
+
+// 多筆toottips 實作
+.tooltip-sp
+  position: relative
+  display: inline-block
+  .tooltip-text
+    visibility: hidden
+    width: 120px
+    padding: 5px
+    background-color: #fff
+    border: 1px solid #c8c8c8
+    box-shadow: 4px 4px 3px rgba(#c8c8c8, 0.5)
+    text-align: center
+    /* Position the tooltip */
+    position: absolute
+    z-index: 1
+    ul
+      margin-left: 0
+      li
+        list-style: none
+  &:hover
+    .tooltip-text
+      visibility: visible
+  .color-desc
+    line-height: 25px
+    margin-right: 5px
+    i
+      margin-right: 5px

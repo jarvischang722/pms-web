@@ -534,24 +534,23 @@
             $('#fd-checkIn-table').datagrid({
                 singleSelect: true,
                 collapsible: true,
-                // 從json 撈
                 url: '/jsonData/frontDesk/fd-checkIn-table.json',
                 method: 'get',
                 columns: [[
-                    {field: 'checkbox', title: '<input type="checkbox">', width: 28, align: "center"},
+                    {field: 'checkbox', title: '選擇', width: 40, align: "center"},
 //                    {field: 'scan', title: '掃描', width: 40},
-                    {field: 'clean', title: '清掃狀態', width: 70},
-                    {field: 'housingGroup', title: '房組', width: 50},
+                    {field: 'cleanStus', title: '清掃狀態', width: 70},
+                    {field: 'no', title: '序號', width: 40},
                     {field: 'roomNum', title: '房號', width: 70},
-                    {field: 'vip', title: 'VIP等級', width: 40},
+                    {field: 'vip', title: 'VIP等級', width: 60},
                     {field: 'name', title: '住客姓名', width: 100},
-                    {field: 'inDate', title: '入住日期', width: 100},
-                    {field: 'outDate', title: '退房日期', width: 100},
-                    {field: 'code', title: '房價代號', width: 70},
+                    {field: 'inDate', title: '入住日期', width: 80},
+                    {field: 'outDate', title: '退房日期', width: 80},
+                    {field: 'code', title: '房價代號', width: 140},
                     {field: 'priceRoom', title: '計價房型', width: 70},
                     {field: 'useRoom', title: '使用房型', width: 70},
-                    {field: 'roomPrice', title: '房價', width: 100, align: "right"},
-                    {field: 'roomType', title: '排房房種', width: 100}
+                    {field: 'roomPrice', title: '房價', width: 80, align: "right"},
+                    {field: 'serPrice', title: '服務費', width: 80, align: "right"}
                 ]]
             });
         });
@@ -578,9 +577,9 @@
                 url: '/jsonData/frontDesk/cal-fd-checkIn-table.json',
                 method: 'get',
                 columns: [[
-                    {field: 'checkbox', title: '<input type="checkbox">', width: 28, align: "center"},
+                    {field: 'checkbox', title: '選擇', width: 40, align: "center"},
                     {field: 'roomNum', title: '房號', width: 70},
-                    {field: 'name', title: '住客姓名', width: 100},
+                    {field: 'name', title: '住客姓名', width: 150},
                     {field: 'inDate', title: '入住日期', width: 100},
                     {field: 'outDate', title: '退房日期', width: 100},
                     {field: 'gstAccPrice', title: '住客帳餘額', width: 100, align: "right"}
@@ -743,7 +742,7 @@
                 modal: true,
                 title: "鎖定排房",
                 title_html: true,
-                width: 500,
+                width: 300,
                 maxwidth: 1920,
                 dialogClass: "test",
                 resizable: true
@@ -1252,20 +1251,20 @@
             columns: [[
 //                {field: 'resvCardNum', title: '訂房卡號', width: 50},
                 {field: 'resvCardNum', title: '訂房卡號', width: 80},
-                {field: 'state', title: '狀態', width: 50},
+                {field: 'state', title: '狀態', width: 45},
                 {field: 'roomNum', title: '訂房數', width: 50},
                 {field: 'roomNum2', title: '排房數', width: 50},
-                {field: 'ciNum', title: 'C/I數', width: 50},
-                {field: 'groupNum', title: '團號', width: 50},
-                {field: 'ciDate', title: '入住日期', width: 80},
-                {field: 'coDate', title: '退房日期', width: 80},
-                {field: 'roomCode', title: '房價代號', width: 130},
+                {field: 'ciNum', title: 'C/I數', width: 45},
+                {field: 'groupNum', title: '團號', width: 145},
+                {field: 'ciDate', title: '入住日期', width: 75},
+                {field: 'coDate', title: '退房日期', width: 75},
+                {field: 'roomCode', title: '房價代號', width: 125},
                 {field: 'roomTypes', title: '計價房型', width: 60},
                 {field: 'useRmTypes', title: '使用房型', width: 60},
                 {field: 'uniPrice', title: '單價', width: 60, align: "right"},
-                {field: 'serPrice', title: '服務費', width: 60, align: "right"},
-                {field: 'bookingCompany', title: '訂房公司', width: 140},
-                {field: 'contact', title: '聯絡人', width: 80}
+                {field: 'serPrice', title: '服務費', width: 50, align: "right"},
+                {field: 'bookingCompany', title: '訂房公司', width: 90},
+                {field: 'contact', title: '聯絡人', width: 70}
             ]]
         });
 
