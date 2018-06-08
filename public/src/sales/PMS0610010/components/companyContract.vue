@@ -224,7 +224,6 @@
                     //第一次載入合約內容
                     if (_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)) {
                         this.dataGridRowsData = result.dgRowData;
-                        console.log(this.dataGridRowsData);
                         this.dataGridRowsDataOfExpire = _.filter(JSON.parse(JSON.stringify(result.dgRowData)), lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                         });

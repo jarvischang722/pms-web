@@ -112,7 +112,6 @@
                 oriSingleData: {},
                 fieldsData: [],
                 oriFieldsData: [],
-                go_funcPurview: []
             };
         },
         watch: {

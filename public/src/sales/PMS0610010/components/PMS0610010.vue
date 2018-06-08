@@ -370,16 +370,14 @@
                 self.isCreateStatus = editSalesClerkData.isCreateStatus;
                 self.doEditSalesClerk();
             });
+            //關閉業務員指派dialog
             this.$eventHub.$on('doCloseEditSalesClerk', function (editSalesClerkData) {
-                if (!_.isUndefined(editSalesClerkData.editRowData.isSalesClerk)) {
-                    self.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
-                }
                 self.isEditSalesClerk = editSalesClerkData.isEditSalesClerk;
                 self.isEditStatus = editSalesClerkData.isEditStatus;
                 self.isCreateStatus = editSalesClerkData.isCreateStatus;
                 self.isLoading = false;
                 self.editRows = [];
-                self.loadDataGridByPrgID();
+                self.fetchDgRowData();
             });
         },
         mounted() {

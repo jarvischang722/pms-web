@@ -397,6 +397,7 @@
             singleData: {
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
+                        console.log(val);
                         var lo_singleData = JSON.parse(JSON.stringify(val));
                         var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
 
@@ -421,11 +422,6 @@
                         }
                         lo_oriSingleData.cust_idx_zip_cod = lo_singleData.cust_idx_zip_cod;
 
-                        //若發票抬頭為空的，則將公司名稱帶入
-                        if (lo_singleData.cust_idx_uni_titile == "" || _.isNull(lo_singleData.cust_idx_uni_titile) || _.isUndefined(lo_singleData.cust_idx_uni_titile)) {
-                            this.singleData.cust_idx_uni_titile = lo_singleData.cust_nam;
-                        }
-
                         //將主檔資料放至Vuex
                         this.$store.dispatch("setMnSingleData", {
                             go_mnSingleData: lo_singleData,
@@ -434,6 +430,14 @@
                     }
                 },
                 deep: true
+            },
+            "singleData.cust_nam": function (newVal, oldVal) {
+                //若發票抬頭為空的，則將公司名稱帶入
+                let ls_examData = JSON.parse(JSON.stringify(this.singleData.cust_idx_uni_titile));
+                if ((_.isNull(ls_examData) || _.isUndefined(ls_examData) || ls_examData == "") &&
+                    (!_.isNull(newVal) || !_.isUndefined(newVal) || newVal != "")) {
+                    this.singleData.cust_idx_uni_titile = newVal;
+                }
             }
         },
         methods: {
