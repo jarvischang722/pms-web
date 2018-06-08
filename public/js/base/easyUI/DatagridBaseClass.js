@@ -186,34 +186,35 @@ function DatagridBaseClass() {
             return true;
         }
         if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
+            //selectgrid 的處理
             var lo_editor = $('#' + this.dgName).datagrid('getEditor', {
                 index: this.editIndex,
                 field: self.editingField
             });
-            if (lo_editor.type == 'combogrid') {
+            if (!_.isNull(lo_editor)) {
+                if (lo_editor.type == 'combogrid') {
 
-                var lo_selectOptionData = _.findWhere(self.columns, {ui_field_name: self.editingField});
-                var ls_selectValField = "";
-                var ls_selectTextField = "";
+                    var lo_selectOptionData = _.findWhere(self.columns, {ui_field_name: self.editingField});
+                    var ls_selectValField = "";
+                    var ls_selectTextField = "";
 
-                if (!_.isUndefined(lo_selectOptionData)) {
-                    if (!_.isUndefined(lo_selectOptionData.selectData)) {
-                        ls_selectValField = lo_selectOptionData.selectData.value;
-                        ls_selectTextField = lo_selectOptionData.selectData.display;
+                    if (!_.isUndefined(lo_selectOptionData)) {
+                        if (!_.isUndefined(lo_selectOptionData.selectData)) {
+                            ls_selectValField = lo_selectOptionData.selectData.value;
+                            ls_selectTextField = lo_selectOptionData.selectData.display;
 
-                        // //將原本的下拉資料改為規則帶回的下拉資料
-                        var ls_newVal = $(lo_editor.target).combogrid("getValue");
-                        var ls_newText = $(lo_editor.target).combogrid("getText");
-                        var ls_oldVal = $(lo_editor.target).combogrid("getValue");
-                        var ls_oldText = "";
-                        var lo_param = {};
-                        lo_param[ls_selectValField] = ls_oldVal;
-                        //
-                        if (!_.isUndefined(_.findWhere(lo_selectOptionData.selectData.selectData, lo_param))) {
+                            // //將原本的下拉資料改為規則帶回的下拉資料
+                            var ls_newVal = $(lo_editor.target).combogrid("getValue");
+                            var ls_newText = $(lo_editor.target).combogrid("getText");
+                            var ls_oldVal = $(lo_editor.target).combogrid("getValue");
+                            var ls_oldText = "";
+                            var lo_param = {};
+                            lo_param[ls_selectValField] = ls_oldVal;
+                            //
                             if (ls_oldVal == "") {
                                 ls_newVal = ls_newText;
                             }
-                            else {
+                            else if (!_.isUndefined(_.findWhere(lo_selectOptionData.selectData.selectData, lo_param))) {
                                 ls_oldText = _.findWhere(lo_selectOptionData.selectData.selectData, lo_param)[ls_selectTextField];
                                 if (ls_newVal == ls_oldVal && ls_newText != ls_oldText) {
                                     ls_newVal = ls_newText;
