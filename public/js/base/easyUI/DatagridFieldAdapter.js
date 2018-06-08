@@ -5,6 +5,7 @@
  */
 var isUserEdit = true; //是否為修改或是連動修改
 var ga_colorAry = [];  //
+var isChange = true;
 
 /**
  * datagrid 轉接器與call
@@ -423,6 +424,9 @@ var DatagridFieldAdapter = {
         }
 
         return tmpFieldObj;
+    },
+    setIsChange: function () {
+        isChange = false;
     }
 };
 
@@ -436,6 +440,7 @@ var DatagridFieldAdapter = {
  */
 var ga_readonlyFields = [];
 
+
 /**
  * onchange 事件
  * @param fieldAttrObj
@@ -444,8 +449,7 @@ var ga_readonlyFields = [];
  * @param dgName
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
-    console.log(oldValue, newValue);
-    if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit) {
+    if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit && isChange) {
         var allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
@@ -518,7 +522,8 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         $('#' + dgName).datagrid('endEdit', lo_nowIndexRow);
                     }
 
-                    //現在datagrid的editIndex已經不是indexRow，切換editIndex為indexRow
+                    //現在datagrid的editIndex已經不是indexRow，切換editIndex為indexRow\
+                    $('#' + dgName).datagrid('selectRow', indexRow);
                     $('#' + dgName).datagrid('beginEdit', indexRow);
                     $('#' + dgName).datagrid('endEdit', indexRow);
 
@@ -561,7 +566,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             }
 
             // 動態產生下拉資料
-            if (fieldAttrObj.ui_type == 'select' && result.selectField.length > 0) {
+            if (result.selectField.length > 0) {
                 //單一欄位下拉資料
                 if (result.selectField.length == 1) {
                     var lo_editor = $('#' + dgName).datagrid('getEditor', {
@@ -586,6 +591,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         });
 
     }
+    isChange = true;
 
 }
 
@@ -874,6 +880,9 @@ $.extend($.fn.datagrid.defaults.editors, {
         init: function (container, options) {
             var ls_dgName = $(container).closest(".panel").find('.datagrid-f').attr('id');
             var li_index = $("#" + ls_dgName).datagrid("getRowIndex", $("#" + ls_dgName).datagrid("getSelected"));
+            if (li_index == -1) {
+                return;
+            }
             var lo_rowData = $("#" + ls_dgName).datagrid("getRows")[li_index];
             var ls_field_name = $(container.context.outerHTML).attr("field");
             var val = lo_rowData[ls_field_name];

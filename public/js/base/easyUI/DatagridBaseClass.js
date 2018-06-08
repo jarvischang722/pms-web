@@ -186,30 +186,30 @@ function DatagridBaseClass() {
             return true;
         }
         if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
-            var lo_selectgridData = _.findWhere(self.columns, {ui_field_name: self.editingField});
-            if (!_.isUndefined(lo_selectgridData)) {
-                if (lo_selectgridData.ui_type == 'selectgrid') {
-                    var lo_editor = $('#' + this.dgName).datagrid('getEditor', {
-                        index: this.editIndex,
-                        field: self.editingField
-                    });
-                    var lo_selectOptionData = _.findWhere(self.columns, {ui_field_name: self.editingField});
-                    var ls_selectValField = "";
-                    var ls_selectTextField = "";
+            var lo_editor = $('#' + this.dgName).datagrid('getEditor', {
+                index: this.editIndex,
+                field: self.editingField
+            });
+            if (lo_editor.type == 'combogrid') {
 
-                    if (!_.isUndefined(lo_selectOptionData)) {
-                        if (!_.isUndefined(lo_selectOptionData.selectData)) {
-                            ls_selectValField = lo_selectOptionData.selectData.value;
-                            ls_selectTextField = lo_selectOptionData.selectData.display;
+                var lo_selectOptionData = _.findWhere(self.columns, {ui_field_name: self.editingField});
+                var ls_selectValField = "";
+                var ls_selectTextField = "";
 
-                            // //將原本的下拉資料改為規則帶回的下拉資料
-                            var ls_newVal = $(lo_editor.target).combogrid("getValue");
-                            var ls_newText = $(lo_editor.target).combogrid("getText");
-                            var ls_oldVal = $(lo_editor.target).combogrid("getValue");
-                            var ls_oldText = "";
-                            var lo_param = {};
-                            lo_param[ls_selectValField] = ls_oldVal;
-                            //
+                if (!_.isUndefined(lo_selectOptionData)) {
+                    if (!_.isUndefined(lo_selectOptionData.selectData)) {
+                        ls_selectValField = lo_selectOptionData.selectData.value;
+                        ls_selectTextField = lo_selectOptionData.selectData.display;
+
+                        // //將原本的下拉資料改為規則帶回的下拉資料
+                        var ls_newVal = $(lo_editor.target).combogrid("getValue");
+                        var ls_newText = $(lo_editor.target).combogrid("getText");
+                        var ls_oldVal = $(lo_editor.target).combogrid("getValue");
+                        var ls_oldText = "";
+                        var lo_param = {};
+                        lo_param[ls_selectValField] = ls_oldVal;
+                        //
+                        if (!_.isUndefined(_.findWhere(lo_selectOptionData.selectData.selectData, lo_param))) {
                             if (ls_oldVal == "") {
                                 ls_newVal = ls_newText;
                             }
@@ -219,8 +219,8 @@ function DatagridBaseClass() {
                                     ls_newVal = ls_newText;
                                 }
                             }
-                            console.log(lo_editor.target);
-                            // $(lo_editor.target).combogrid("setValue", ls_newVal);
+                            DatagridFieldAdapter.setIsChange();
+                            $(lo_editor.target).combogrid("setValue", ls_newVal);
                         }
                     }
                 }
