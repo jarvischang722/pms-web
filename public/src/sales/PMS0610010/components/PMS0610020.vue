@@ -397,7 +397,6 @@
             singleData: {
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
-                        console.log(val);
                         var lo_singleData = JSON.parse(JSON.stringify(val));
                         var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
 
