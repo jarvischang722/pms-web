@@ -7,6 +7,7 @@ const _ = require("underscore");
 const moment = require("moment");
 const mongoAgent = require("../../plugins/mongodb");
 const commonTools = require("../../utils/CommonTools");
+const commonRule = require("../../ruleEngine/rules/CommonRule");
 const ruleAgent = require("../../ruleEngine/ruleAgent");
 const langSvc = require("../../services/LangService");
 
@@ -50,6 +51,8 @@ class saveDataAdapter {
             let lo_page_data = await this.formatData(la_gsFields);
             let lo_apiFormat = this.apiFormat();
             lo_apiFormat.page_data = lo_page_data;
+            lo_apiFormat.lo_page_data = await commonRule.trimSaveExecData(lo_apiFormat, this.session);
+
             return lo_apiFormat;
         }
         catch (err) {

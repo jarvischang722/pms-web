@@ -218,7 +218,6 @@ var DatagridFieldAdapter = {
                 tmpFieldObj.editor.options.multiple = true;
                 tmpFieldObj.editor.options.multiline = true;
             }
-
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
@@ -242,6 +241,10 @@ var DatagridFieldAdapter = {
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 };
+                tmpFieldObj.editor.options.onShowPanel = function () {
+                    var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                    onSelectClickAction(fieldAttrObj, ls_dgName);
+                };
             }
         }
         else if (dataType == "checkbox") {
@@ -256,7 +259,6 @@ var DatagridFieldAdapter = {
                 }
                 return val == 'Y' ? lo_checkboxVal.Y : lo_checkboxVal.N;
             };
-
         }
         else if (dataType == "color") {
             var lf_colorFormatter = function (color_cod, row, index) {
@@ -388,15 +390,35 @@ var DatagridFieldAdapter = {
             };
         }
         else if (dataType == "combogrid") {
+            var ln_panelWidth = 0;
+            if (!_.isUndefined(fieldAttrObj.selectData.columns)) {
+                _.each(fieldAttrObj.selectData.columns, function (lo_column) {
+                    ln_panelWidth = ln_panelWidth + Number(lo_column.width);
+                });
+            }
             //參數設定於各對照擋的Rule
-            tmpFieldObj.editor.options.panelWidth = fieldAttrObj.selectGridOptions.panelWidth;
-            tmpFieldObj.editor.options.idField = fieldAttrObj.selectGridOptions.idField;
-            tmpFieldObj.editor.options.textField = fieldAttrObj.selectGridOptions.textField;
-            tmpFieldObj.editor.options.columns = fieldAttrObj.selectGridOptions.columns;
-            tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
+            tmpFieldObj.editor.options.panelWidth = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
+                fieldAttrObj.selectGridOptions.panelWidth : ln_panelWidth;
+            tmpFieldObj.editor.options.idField = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
+                fieldAttrObj.selectGridOptions.idField : fieldAttrObj.selectData.value;
+            tmpFieldObj.editor.options.textField = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
+                fieldAttrObj.selectGridOptions.textField : fieldAttrObj.selectData.display;
+            tmpFieldObj.editor.options.columns = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
+                fieldAttrObj.selectGridOptions.columns : [fieldAttrObj.selectData.columns];
+            tmpFieldObj.editor.options.data = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
+                fieldAttrObj.selectData : (fieldAttrObj.selectData.selectData.length > 100 ?
+                    fieldAttrObj.selectData.selectData.slice(0, 100) : fieldAttrObj.selectData.selectData.length);
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                 var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                 onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+            };
+            tmpFieldObj.editor.options.keyHandler = {
+                enter: function (e) {
+                    var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                    onQryAction(fieldAttrObj, e.target.value, ls_dgName);
+                },
+                query: function () {
+                }
             };
         }
 
@@ -414,6 +436,13 @@ var DatagridFieldAdapter = {
  */
 var ga_readonlyFields = [];
 
+/**
+ * onchange 事件
+ * @param fieldAttrObj
+ * @param oldValue
+ * @param newValue
+ * @param dgName
+ */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
     if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit) {
         var allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
@@ -531,7 +560,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             }
 
             // 動態產生下拉資料
-            if (result.selectField.length > 0) {
+            if (fieldAttrObj.ui_type == 'select' && result.selectField.length > 0) {
                 //單一欄位下拉資料
                 if (result.selectField.length == 1) {
                     var lo_editor = $('#' + dgName).datagrid('getEditor', {
@@ -557,6 +586,189 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
     }
 
+}
+
+/**
+ * select click 事件
+ * @param fieldAttrObj
+ * @param dgName
+ */
+function onSelectClickAction(fieldAttrObj, dgName) {
+    var la_allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
+    var lo_selectDataRow = $('#' + dgName).datagrid('getSelected');
+    var ln_indexRow = $('#' + dgName).datagrid('getRowIndex', lo_selectDataRow);
+    var lo_editRowData = $("#" + dgName).datagrid('getEditingRowData');
+
+    var postData = {
+        prg_id: fieldAttrObj.prg_id,
+        rule_func_name: fieldAttrObj.rule_func_name.trim() + '_dgSelectClick',
+        validateField: fieldAttrObj.ui_field_name,
+        rowIndex: ln_indexRow,
+        rowData: lo_selectDataRow,
+        editRowData: lo_editRowData,
+        allRowData: JSON.parse(JSON.stringify(la_allDataRow))
+    };
+
+    BacUtils.doHttpPostAgent('/api/chkDgSelectClickRule', postData, function (result) {
+        console.log(result);
+        if (result.success) {
+            //是否要show出訊息
+            if (result.showAlert) {
+                alert(result.alertMsg);
+            }
+
+            //是否要show出詢問視窗
+            if (result.showConfirm) {
+                if (confirm(result.confirmMsg)) {
+                    //有沒有要再打一次ajax到後端
+                    if (result.isGoPostAjax) {
+                        BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (ajaxResult) {
+                            if (!ajaxResult.success) {
+                                alert(ajaxResult.errorMsg);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        else {
+            alert(result.errorMsg);
+        }
+
+        // 動態產生下拉資料
+        if (result.selectField.length > 0) {
+            //單一欄位下拉資料
+            if (result.selectField.length == 1) {
+                var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                    index: ln_indexRow,
+                    field: result.selectField
+                });
+                $(lo_editor.target).combobox("loadData", result.selectOptions);
+            }
+            //多個欄位
+            else {
+                _.each(result.selectField, function (ls_field) {
+                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                        index: ln_indexRow,
+                        field: ls_field
+                    });
+                    $(lo_editor.target).combobox("loadData", result.multiSelectOptions[ls_field]);
+                });
+            }
+        }
+    });
+};
+
+/**
+ * selectgrid 搜尋事件
+ * @param fieldAttrObj
+ * @param qryValue
+ * @param dgName
+ */
+function onQryAction(fieldAttrObj, qryValue, dgName) {
+    var la_allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
+    var lo_selectDataRow = $('#' + dgName).datagrid('getSelected');
+    var ln_indexRow = $('#' + dgName).datagrid('getRowIndex', lo_selectDataRow);
+    var lo_editRowData = $("#" + dgName).datagrid('getEditingRowData');
+
+    var lo_postData = {
+        prg_id: fieldAttrObj.prg_id,
+        rule_func_name: fieldAttrObj.rule_func_name.trim() + "_dgSelectgridQry",
+        validateField: fieldAttrObj.ui_field_name,
+        rowIndex: ln_indexRow,
+        rowData: lo_selectDataRow,
+        editRowData: lo_editRowData,
+        allRowData: JSON.parse(JSON.stringify(la_allDataRow)),
+        qryValue: qryValue
+    };
+
+    BacUtils.doHttpPostAgent('/api/chkDgSelectgridQryRule', lo_postData, function (result) {
+        if (result.success) {
+            //是否要show出訊息
+            if (result.showAlert) {
+                alert(result.alertMsg);
+            }
+
+            //是否要show出詢問視窗
+            if (result.showConfirm) {
+                if (confirm(result.confirmMsg)) {
+                    //有沒有要再打一次ajax到後端
+                    if (result.isGoPostAjax) {
+                        BacUtils.doHttpPostAgent(result.ajaxURL, postData, function (ajaxResult) {
+                            if (!ajaxResult.success) {
+                                alert(ajaxResult.errorMsg);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        else {
+            alert(result.errorMsg);
+        }
+
+        //連動帶回的值
+        // if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
+        //     var effectValues = result.effectValues;
+        //     if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
+        //         $('#' + dgName).datagrid('updateRow', {
+        //             index: _.isUndefined(effectValues.effectIndex) ? ln_indexRow : effectValues.effectIndex,
+        //             row: effectValues
+        //         });
+        //         if (!_.isUndefined(effectValues.effectIndex)) {
+        //             if (effectValues.effectIndex != ln_indexRow) {
+        //                 $('#' + dgName).datagrid('beginEdit', effectValues.effectIndex);
+        //                 $('#' + dgName).datagrid('endEdit', effectValues.effectIndex);
+        //             }
+        //         }
+        //
+        //         if (!_.isUndefined(effectValues.day_sta_color)) {
+        //             var col = $("#" + dgName).datagrid('getColumnOption', 'day_sta');
+        //             col.styler = function () {
+        //                 return 'background-color:' + effectValues.day_sta_color;
+        //             };
+        //         }
+        //
+        //         //確認現在datagrid的editIndex為何
+        //         var lo_nowIndexRow = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
+        //         if (lo_nowIndexRow != ln_indexRow) {
+        //             $('#' + dgName).datagrid('unselectRow', lo_nowIndexRow);
+        //             $('#' + dgName).datagrid('endEdit', lo_nowIndexRow);
+        //         }
+        //
+        //         //現在datagrid的editIndex已經不是indexRow，切換editIndex為indexRow
+        //         $('#' + dgName).datagrid('beginEdit', ln_indexRow);
+        //         $('#' + dgName).datagrid('endEdit', ln_indexRow);
+        //
+        //         //將連動欄位的那列打開編輯
+        //         $('#' + dgName).datagrid('beginEdit', ln_indexRow);
+        //         $('#' + dgName).datagrid('selectRow', ln_indexRow);
+        //     }
+        //     else {
+        //         _.each(effectValues, function (item, index) {
+        //             var indexRow = $('#' + dgName).datagrid('getRowIndex', la_allDataRow[item.rowindex]);
+        //             $('#' + dgName).datagrid('updateRow', {
+        //                 index: indexRow,
+        //                 row: item
+        //             });
+        //         });
+        //
+        //     }
+        //
+        // }
+
+        //動態產生下拉資料
+        if (fieldAttrObj.ui_type == 'selectgrid' && result.selectField.length > 0) {
+            if (result.selectField.length == 1) {
+                var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                    index: ln_indexRow,
+                    field: result.selectField
+                });
+                $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
+                $(lo_editor.target).combogrid("setText", qryValue);
+            }
+        }
+    });
 }
 
 /** 組件事件綁定 **/

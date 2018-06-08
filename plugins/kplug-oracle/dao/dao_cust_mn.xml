@@ -55,6 +55,7 @@
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="2" condition="trim(show_cod) = trim(:ashow_cod)">ashow_cod</parameter>
 
     </dao>
 

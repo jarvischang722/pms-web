@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+    <dao name="QRY_RATECOD_DT">
+        <statement><![CDATA[
+        select 'N' del, 'N' ins_upd, d.athena_id, d.hotel_cod, d.rate_cod, d.supply_nos, d.begin_dat, d.end_dat,
+        d.command_cod, h.day_nam,d.command_option, d.room_cod, d.rent_amt, d.add_adult, d.add_child, d.use_sta
+        from ratecod_dt d
+        join holiday_kind_rf h on d.athena_id = h.athena_id and d.hotel_cod = h.hotel_cod and d.command_option = 'H' || h.day_sta
+        WHERE d.athena_id = :athena_id
+        and d.hotel_cod = :hotel_cod
+        and d.rate_cod = :rate_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+        <statement test="_v(param.supply_nos)"><![CDATA[and d.supply_nos = :supply_nos]]></statement>
+        <parameter type="number" kind="3">supply_nos</parameter>
+        <orderBy>order by view_seq, room_cod, day_nam</orderBy>
+    </dao>
+
     <!--rateCode 取得房型的房型(左邊)-->
     <dao name="QRY_RATECOD_DT_LEFT">
         <statement><![CDATA[
@@ -39,6 +58,6 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
         <statement test="_v(param.rate_cod)"><![CDATA[and d.rate_cod =  :rate_cod]]></statement>
         <parameter type="string" kind="3">rate_cod</parameter>
-        <orderBy>order by  s.begin_dat</orderBy>
+        <orderBy>order by s.begin_dat</orderBy>
     </dao>
 </root>

@@ -22,51 +22,63 @@ module.exports = {
      * @param callback
      */
     chkGwcustrfAshowcod: function (postData, session, callback) {
-        let userInfo = session.user;
-        let prg_id = postData.prg_id;
-        let field = _.isUndefined(postData.fields) ? {} : postData.fields;
-        let ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
-        let params = postData.singleRowData.ashow_cod == "" ? session : _.extend(postData.singleRowData, session);
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        if (postData.singleRowData.ashow_cod == "") return callback(lo_error, lo_return);
 
-        let selectDSFunc = [];
-        let result = new ReturnClass();
-        let updateFieldName = {
-            ashow_cod: "show_cod",
-            acust_cod: "cust_cod",
-            acust_nam: "cust_nam"
-        };
-
-        let fieldNameChangeLanguage = {
-            show_cod: "客戶代號",
-            cust_cod: "客戶編號",
-            cust_nam: "客戶名稱",
-            contract1_rmk: "連絡電話",
-            status_cod: "狀態"
-        };
-
-        if (ui_field_name != "") {
-            selectDSFunc.push(
-                function (callback) {
-                    mongoAgent.UITypeSelect.findOne({
-                        prg_id: prg_id,
-                        ui_field_name: ui_field_name
-                    }).exec(function (err, selRow) {
-                        selRow = selRow.toObject();
-                        dataRuleSvc.getSelectOptions(params, selRow, field, function (selectData) {
-                            result.effectValues.showDataGrid = selectData.selectDataDisplay;
-                            result.effectValues.updateFieldNameTmp = updateFieldName;
-                            result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
-                            callback(null, result);
-                        });
-                    });
+        async.waterfall([
+            function (cb) {
+                let lo_params = {
+                    athena_id: session.user.athena_id,
+                    ashow_cod: postData.singleRowData.ashow_cod
+                };
+                queryAgent.query("QRY_CUST_MN_FOR_ASHOW_COD", lo_params, function (err, result) {
+                    if (err) {
+                        cb(err, null);
+                    }
+                    else {
+                        let lo_effectData = {
+                            ashow_cod: result.show_cod,
+                            acust_cod: result.cust_cod,
+                            acust_nam: result.cust_nam
+                        };
+                        cb(null, lo_effectData);
+                    }
+                });
+            },
+            function (effectData, cb) {
+                if (postData.singleRowData.ashow_cod == postData.oriSingleRowData.ashow_cod) {
+                    return cb(null, effectData);
                 }
-            );
-            async.parallel(selectDSFunc, function (err, result) {
-                callback(err, result);
-            });
-        } else {
-            callback(null, result);
-        }
+                let lo_params = {
+                    athena_id: session.user.athena_id,
+                    acust_cod: effectData.acust_cod
+                };
+                queryAgent.query("QRY_ACUST_COD_IS_EXIST", lo_params, function (err, result) {
+                    if (err) {
+                        cb(err, null);
+                    }
+                    else if (result.acust_cod_count > 0) {
+                        let ls_errorMsg = commandRules.getMsgByCod("pms81msg45", session.locale);
+                        cb(ls_errorMsg, null);
+                    }
+                    else {
+                        cb(null, effectData);
+                    }
+                });
+            }
+        ], function (err, result) {
+            if (err) {
+                lo_return.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = err;
+            }
+            else {
+                lo_return.effectValues = result;
+            }
+
+            callback(lo_error, lo_return);
+        });
     },
 
     /**
@@ -76,51 +88,28 @@ module.exports = {
      * @param callback
      */
     chkGwcustrfCshowcod: function (postData, session, callback) {
-        let userInfo = session.user;
-        let prg_id = postData.prg_id;
-        let field = _.isUndefined(postData.fields) ? {} : postData.fields;
-        let ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
-        let params = postData.singleRowData.ashow_cod == "" ? session : _.extend(postData.singleRowData, session);
-
-        let selectDSFunc = [];
-        let result = new ReturnClass();
-        let updateFieldName = {
-            cshow_cod: "show_cod",
-            ccust_cod: "cust_cod",
-            ccust_nam: "cust_nam"
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        if (postData.singleRowData.cshow_cod == "") return callback(lo_error, lo_return);
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            ashow_cod: postData.singleRowData.cshow_cod
         };
-
-        let fieldNameChangeLanguage = {
-            show_cod: "客戶代號",
-            cust_cod: "客戶編號",
-            cust_nam: "客戶名稱",
-            contract1_rmk: "連絡電話",
-            status_cod: "狀態"
-        };
-
-        if (ui_field_name != "") {
-            selectDSFunc.push(
-                function (callback) {
-                    mongoAgent.UITypeSelect.findOne({
-                        prg_id: prg_id,
-                        ui_field_name: ui_field_name
-                    }).exec(function (err, selRow) {
-                        selRow = selRow.toObject();
-                        dataRuleSvc.getSelectOptions(params, selRow, field, function (selectData) {
-                            result.effectValues.showDataGrid = selectData.selectDataDisplay;
-                            result.effectValues.updateFieldNameTmp = updateFieldName;
-                            result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
-                            callback(null, result);
-                        });
-                    });
-                }
-            );
-            async.parallel(selectDSFunc, function (err, result) {
-                callback(err, result);
-            });
-        } else {
-            callback(null, result);
-        }
+        queryAgent.query("QRY_CUST_MN_FOR_ASHOW_COD", lo_params, function (err, result) {
+            if (err) {
+                lo_return.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errMsg = err;
+            }
+            else {
+                lo_return.effectValues = {
+                    cshow_cod: result.show_cod,
+                    ccust_cod: result.cust_cod,
+                    ccust_nam: result.cust_nam
+                };
+            }
+            callback(lo_error, lo_return);
+        });
     },
 
     /**

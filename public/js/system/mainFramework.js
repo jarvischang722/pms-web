@@ -38,25 +38,29 @@ let BacchusMainVM = new Vue({
     },
     mounted: function () {
         let self = this;
-
-        //Trigger this method before leave page
-        window.onbeforeunload = function () {
-            BacchusMainVM.doLeavePageBeforePrgFuncs();
-        };
-
-        //Orverride the window alert  function
-        window.alert = function () {
-            self.$alert(arguments[0], arguments[1] || go_i18nLang.SystemCommon.notice, {
-                confirmButtonText: go_i18nLang.SystemCommon.OK
+        this.$nextTick(function () {
+            //Trigger this method when user foucs the page
+            window.addEventListener('focus', function () {
+               // alert("focus");
             });
-        };
-
-        //When click the #MainContentDiv's area , usingSubsysID changed back to current process's subsystem id
-        $("#MainContentDiv").click(function () {
-            if (!_.isEmpty(self.getSubsysIDOfPrgID(self.usingPrgID))) {
-                self.usingSubsysID = self.getSubsysIDOfPrgID(self.usingPrgID);
-            }
+            //Trigger this method before leave page
+            window.onbeforeunload = function () {
+                BacchusMainVM.doLeavePageBeforePrgFuncs();
+            };
+            //Orverride the window alert  function
+            window.alert = function () {
+                self.$alert(arguments[0], arguments[1] || go_i18nLang.SystemCommon.notice, {
+                    confirmButtonText: go_i18nLang.SystemCommon.OK
+                });
+            };
+            //When click the #MainContentDiv's area , usingSubsysID changed back to current process's subsystem id
+            $("#MainContentDiv").click(function () {
+                if (!_.isEmpty(self.getSubsysIDOfPrgID(self.usingPrgID))) {
+                    self.usingSubsysID = self.getSubsysIDOfPrgID(self.usingPrgID);
+                }
+            });
         });
+
 
         this.doCheckOnlineUser();
         this.getUserSubsys();

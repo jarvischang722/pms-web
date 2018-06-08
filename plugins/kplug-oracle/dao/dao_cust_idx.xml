@@ -11,4 +11,45 @@
         </statement>
     </dao>
 
+    <!--PMS0620010 商務公司資料編輯 相關人員 下拉資料-->
+    <dao name="SEL_CUST_IDX_CUST_MN_PERS_DT_FOR_SELECT_OPTION">
+        <statement>
+            SELECT ALT_NAM, MOBILE_NOS, OFFICE_TEL, HOME_TEL,
+            FAX_NOS, E_MAIL, SEX_TYP, BIRTH_DAT
+            FROM CUST_IDX
+            WHERE ATHENA_ID = :athena_id
+            AND FROM_TABLE = 'CUST_MN_PERS_DT'
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <statement test="_v(param.alt_nam)"><![CDATA[AND  alt_nam like :alt_nam]]></statement>
+        <parameter type="likestring" kind="3">alt_nam</parameter>
+        <ORDERBY>order by ALT_NAM</ORDERBY>
+    </dao>
+
+    <!--PMS0620010 商務公司資料編輯 相關人員 將選定的資料帶回來-->
+    <dao name="SEL_CUST_IDX_CUST_MN_PERS_DT">
+        <statement>
+            SELECT ALT_NAM, MOBILE_NOS, OFFICE_TEL, HOME_TEL,
+            FAX_NOS, E_MAIL, SEX_TYP, BIRTH_DAT, cust_cod as per_cust_cod
+            FROM CUST_IDX
+            WHERE ATHENA_ID = :athena_id
+            AND FROM_TABLE = 'CUST_MN_PERS_DT'
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <statement test="_v(param.alt_nam)"><![CDATA[AND  alt_nam = :alt_nam]]></statement>
+        <parameter type="string" kind="3">alt_nam</parameter>
+        <ORDERBY>order by ALT_NAM</ORDERBY>
+    </dao>
+
+    <dao name="QRY_CUST_IDX_PER_IS_EXIST">
+        <statement>
+            SELECT COUNT(*) AS cust_mn_per_count
+            FROM CUST_IDX
+            WHERE ATHENA_ID = :athena_id
+            AND CUST_COD = :cust_cod
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
+
 </root>

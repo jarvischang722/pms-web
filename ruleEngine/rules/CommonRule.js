@@ -2,9 +2,14 @@
  * Created by Jun on 2017/3/19.
  * 共用Rule
  */
-var moment = require("moment");
-var _ = require("underscore");
-var fs = require("fs");
+const moment = require("moment");
+const _ = require("underscore");
+const fs = require("fs");
+const trimLibByPrgID = require("./CommonRuleLib/SaveExecDataTrimRule");
+const saveExecDataTrimRule = require("./CommonRuleLib/SaveExecDataTrimRule");
+const selectClickRule = require("./CommonRuleLib/DgSelectClickRule");
+const selectgridQryRule = require("./CommonRuleLib/DgSelectgridQryRule");
+const ReturnClass = require('../returnClass');
 
 module.exports = {
     /**
@@ -55,6 +60,7 @@ module.exports = {
         compar_end_dat = moment.isMoment(compar_end_dat) ? compar_end_dat : moment(new Date(compar_end_dat));
         now_begin_dat = moment.isMoment(now_begin_dat) ? now_begin_dat : moment(new Date(now_begin_dat));
         now_end_dat = moment.isMoment(now_end_dat) ? now_end_dat : moment(new Date(now_end_dat));
+        console.log(compar_begin_dat.diff(now_end_dat, "days"), compar_end_dat.diff(now_begin_dat, "days"));
         if (compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0) {
             return true;
         }
@@ -158,5 +164,92 @@ module.exports = {
      */
     encryptByAes: function (text, key) {
 
+    },
+
+    /**
+     * 檢查此作業是否有trim method
+     * @param params {object} API格式的儲存資料
+     * @param session {object}
+     */
+    trimSaveExecData: function (params, session) {
+        let lo_newSaveExecDatas = {};
+        let lo_saveExecDatas = params.saveExecDatas || params.page_data;
+        // let ls_trimType = "newFormat";
+
+        // if (_.isUndefined(params.saveExecDatas)) {
+        //     ls_trimType = "newFormat";
+        //     lo_saveExecDatas = params.page_data;
+        // }
+        // else {
+        //     ls_trimType = "oldFormat";
+        //     lo_saveExecDatas = params.saveExecDatas;
+        // }
+
+
+        if (!_.isUndefined(trimLibByPrgID[params.prg_id])) {
+            lo_newSaveExecDatas = trimLibByPrgID[params.prg_id](lo_saveExecDatas, session);
+        }
+        else {
+            lo_newSaveExecDatas = trimPostData(lo_saveExecDatas);
+        }
+        return lo_newSaveExecDatas;
+        saveExecDataTrimRule(params, session);
+    },
+
+    /**
+     * dataGrid select click時歸檢查
+     * @param params {object} API格式的儲存資料
+     * @param session {object}
+     * @callback {*}
+     */
+    chkSelectClickRule: async function (params, session, callback) {
+        let lo_return = {};
+        if (!_.isUndefined(selectClickRule[params.rule_func_name])) {
+            lo_return = await selectClickRule[params.rule_func_name](params, session);
+        }
+        else {
+            lo_return.return = new ReturnClass();
+            lo_return.error = null;
+        }
+
+        callback(lo_return)
+    },
+
+    /**
+     * dataGrid selectgrid 搜尋時規則檢查
+     * @param params
+     * @param session
+     * @param callback
+     * @returns {Promise<void>}
+     */
+    chkDgSelectgridQryRule: async function(params, session, callback){
+        let lo_return = {};
+        if (!_.isUndefined(selectgridQryRule[params.rule_func_name])) {
+            lo_return = await selectgridQryRule[params.rule_func_name](params, session);
+        }
+        else {
+            lo_return.return = new ReturnClass();
+            lo_return.error = null;
+        }
+
+        callback(lo_return)
     }
 };
+
+/**
+ * 資料去空白
+ * @param saveExecDatas {Object} postData資料
+ * @returns {*}
+ */
+function trimPostData(saveExecDatas) {
+    if (!Array.isArray(saveExecDatas) && typeof saveExecDatas != 'object') return saveExecDatas;
+    return Object.keys(saveExecDatas).reduce(function (acc, key) {
+        if (key != "condition") {
+            acc[key.trim()] = typeof saveExecDatas[key] == 'string' ? saveExecDatas[key].trim() : trimPostData(saveExecDatas[key]);
+        }
+        else{
+            acc[key.trim()] = saveExecDatas[key];
+        }
+        return acc;
+    }, Array.isArray(saveExecDatas) ? [] : {});
+}

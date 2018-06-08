@@ -406,7 +406,6 @@ Vue.component("sigle-grid-dialog-tmp", {
             self.tempExecData(row);
         });
     },
-
     methods: {
         //打開單欄多語編輯
         editFieldMultiLang: function (fieldInfo) {
@@ -1009,7 +1008,10 @@ var vm = new Vue({
                 callback = function () {
                 };
             }
-            BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
+            BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {
+                prg_id: prg_id,
+                searchCond: this.searchCond
+            }, function (result) {
                 waitingDialog.hide();
                 vm.pageOneFieldData = result.fieldData;
                 if (vm.isInitShowGrid) {
@@ -1043,7 +1045,6 @@ var vm = new Vue({
                 let maxField = _.max(vm.pageTwoFieldData, function (lo_pageTwoField) {
                     return lo_pageTwoField.length;
                 });
-                console.log(maxField);
                 _.each(maxField, function (lo_maxField, index) {
                     let width = parseInt(lo_maxField.width) || 35; //90
                     let label_width = parseInt(lo_maxField.label_width) || 50; //165

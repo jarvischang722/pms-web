@@ -5,37 +5,43 @@
       "row": "<input type='checkbox' checked/>",
       "roomKind": "301",
       "rmGrpup": "1",
-      "fullName": "李大同, 陳小華"
+      "fullName": "李大同, 陳小華",
+      "msgRule": "房型:STD 在 2018/11/01 超訂數比允許的超訂數多 1 間"
     },
     {
       "row": "<input type='checkbox' checked/>",
       "roomKind": "302",
       "rmGrpup": "1",
-      "fullName": "李大同, 陳小華"
+      "fullName": "李大同, 陳小華",
+      "msgRule": "房型:STD 在 2018/11/01 超訂數比允許的超訂數多 1 間"
     },
     {
       "row": "<input type='checkbox' checked/>",
       "roomKind": "303",
       "rmGrpup": "1",
-      "fullName": "楊牧牧,王大明"
+      "fullName": "楊牧牧,王大明",
+      "msgRule": "房型:STD 在 2018/11/01 超訂數比允許的超訂數多 1 間"
     },
     {
       "row": "<input type='checkbox' checked/>",
       "roomKind": "304",
       "rmGrpup": "1",
-      "fullName": "楊牧牧,王大明"
+      "fullName": "楊牧牧,王大明",
+      "msgRule": "房型:STD 在 2018/11/01 超訂數比允許的超訂數多 1 間"
     },
     {
       "row": "<input type='checkbox' checked/>",
       "roomKind": "305",
       "rmGrpup": "1",
-      "fullName": "楊牧牧"
+      "fullName": "楊牧牧",
+      "msgRule": "房型:STD 在 2018/11/01 超訂數比允許的超訂數多 1 間"
     },
     {
       "row": "<input type='checkbox' checked/>",
       "roomKind": "306",
       "rmGrpup": "1",
-      "fullName": "王大明"
+      "fullName": "王大明",
+      "msgRule": "房型:STD 在 2018/11/01 超訂數比允許的超訂數多 1 間"
     }
   ]
 }

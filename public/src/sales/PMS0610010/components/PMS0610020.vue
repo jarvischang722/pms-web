@@ -38,20 +38,19 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
 
-                                            <bac-select-grid
-                                                    v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
-                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                    v-model="singleData[field.ui_field_name]"
-                                                    :columns="field.selectData.columns"
-                                                    :data="field.selectData.selectData"
-                                                    :field="field"
-                                                    :is-qry-src-before="field.selectData.isQrySrcBefore"
-                                                    :id-field="field.selectData.value"
-                                                    :text-field="field.selectData.display"
-                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                    :default-val="singleData[field.ui_field_name]"
-                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
+                                            <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                             :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                             v-model="singleData[field.ui_field_name]"
+                                                             :columns="field.selectData.columns"
+                                                             :data="field.selectData.selectData"
+                                                             :field="field"
+                                                             :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                             :id-field="field.selectData.value"
+                                                             :text-field="field.selectData.display"
+                                                             @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                             :default-val="singleData[field.ui_field_name]"
+                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select-grid>
                                         </div>
@@ -522,7 +521,7 @@
             dataValidate() {
                 var self = this;
                 var lo_checkResult;
-
+                //檢查資料是否必填但未填
                 for (var i = 0; i < this.oriFieldsData.length; i++) {
                     var lo_field = this.oriFieldsData[i];
                     //必填
@@ -543,7 +542,44 @@
 
                 }
 
+                //檢查合約資料區間是否有重疊
+                let la_examData = JSON.parse(JSON.stringify(this.$store.state.go_allData.ga_ccDataGridRowsData));
+                for (let i = 0; i < la_examData.length; i++) {
+                    for (let j = 0; j < i; j++) {
+                        let lo_nowData = la_examData[i];
+                        let lo_compareData = la_examData[j];
+                        if (lo_compareData.rate_cod == lo_nowData.rate_cod && lo_compareData.hotel_cod == lo_nowData.hotel_cod) {
+                            let ls_nowBeginDat = moment(lo_nowData.begin_dat).format("YYYY/MM/DD");
+                            let ls_nowEndDat = moment(lo_nowData.end_dat).format("YYYY/MM/DD");
+                            let ls_compareBeginDat = moment(lo_compareData.begin_dat).format("YYYY/MM/DD");
+                            let ls_compareEndDat = moment(lo_compareData.end_dat).format("YYYY/MM/DD");
+                            console.log(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+                            let lb_chkOverLap = this.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+
+                            if (lb_chkOverLap) {
+                                lo_checkResult.success = false;
+                                lo_checkResult.msg = go_i18nLang.ErrorMsg.pms61msg1;
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 return lo_checkResult;
+            },
+            //比較日期是否重疊
+            chkDateIsBetween(compar_begin_dat, compar_end_dat, now_begin_dat, now_end_dat) {
+                compar_begin_dat = moment.isMoment(compar_begin_dat) ? compar_begin_dat : moment(new Date(compar_begin_dat));
+                compar_end_dat = moment.isMoment(compar_end_dat) ? compar_end_dat : moment(new Date(compar_end_dat));
+                now_begin_dat = moment.isMoment(now_begin_dat) ? now_begin_dat : moment(new Date(now_begin_dat));
+                now_end_dat = moment.isMoment(now_end_dat) ? now_end_dat : moment(new Date(now_end_dat));
+                console.log(compar_begin_dat, now_end_dat );
+                if (compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
             },
             //轉換儲存資料的格式
             doConvertData() {

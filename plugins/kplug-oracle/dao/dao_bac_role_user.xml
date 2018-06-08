@@ -79,7 +79,6 @@
             and  trim(a.func_hotel_cod) = trim(:func_hotel_cod)
             and id_typ <> 'FUNCTION'
             and flag2_sta = 'Y'
-            and b.role_id = :role_id
 
         ]]>
         </statement>
@@ -88,7 +87,8 @@
         <parameter type="string" kind="3">user_id</parameter>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">func_hotel_cod</parameter>
-        <parameter type="string" kind="3">role_id</parameter>
+        <parameter type="instring" kind="3">role_id</parameter>
+        <statement test="_v(param.role_id)"><![CDATA[and b.role_id in(:role_id)]]></statement>
         <parameter type="string" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
         <parameter type="string" kind="2" condition="current_id = :current_id ">current_id</parameter>
         <parameter type="string" kind="2" condition="id_typ = :id_typ ">id_typ</parameter>

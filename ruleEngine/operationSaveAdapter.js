@@ -3,13 +3,14 @@
  * 作業儲存轉接器
  */
 
-let _ = require("underscore");
-let async = require("async");
-let moment = require("moment");
-let mongoAgent = require("../plugins/mongodb");
-let commonRule = require("../ruleEngine/rules/CommonRule");
-let commonTools = require("../utils/CommonTools");
-let langSvc = require("../services/LangService");
+const _ = require("underscore");
+const async = require("async");
+const moment = require("moment");
+const mongoAgent = require("../plugins/mongodb");
+const commonRule = require("../ruleEngine/rules/CommonRule");
+const commonTools = require("../utils/CommonTools");
+const langSvc = require("../services/LangService");
+
 
 function operationSaveAdapterClass(postData, session) {
     let lo_params = {
@@ -47,7 +48,7 @@ function operationSaveAdapterClass(postData, session) {
             lo_params = await combineMainData(lo_rfData, lo_tmpIdType, lo_params, session);
             lo_params = await combineDtCreateEditExecData(lo_rfData, lo_tmpIdType, lo_params, session);
             lo_params = sortByEventTime(lo_params);
-            lo_apiFormat = convertToApiFormat(lo_params, lo_tmpIdType, session);
+            lo_apiFormat = await convertToApiFormat(lo_params, lo_tmpIdType, session);
             return lo_apiFormat;
         }
         catch (err) {
@@ -303,7 +304,7 @@ async function combineMainData(rfData, tmpIdType, params, session) {
                             });
                         });
                     }
-                    else{
+                    else {
 
                     }
 
@@ -753,7 +754,8 @@ function sortByEventTime(params) {
  * @param session
  * @returns {{"REVE-CODE": string|*|string, program_id: string|string, func_id: string, athena_id: number, hotel_cod: string, user: *|string|usr_id|{type, trim, required}, table_name: *|string|string|string|string|string, count: number, exec_data: any | *}}
  */
-function convertToApiFormat(params, tmpIdType, session) {
+async function convertToApiFormat(params, tmpIdType, session) {
+    const lo_exec_data = await commonRule.trimSaveExecData(params, session);
     let lo_apiParams = {
         "REVE-CODE": params.trans_cod,
         "program_id": params.prg_id,
@@ -763,7 +765,7 @@ function convertToApiFormat(params, tmpIdType, session) {
         "user": session.user.usr_id,
         "table_name": tmpIdType.mainTableName,
         "count": Object.keys(params.saveExecDatas).length,
-        "exec_data": params.saveExecDatas
+        "exec_data": lo_exec_data
     };
     return lo_apiParams;
 }

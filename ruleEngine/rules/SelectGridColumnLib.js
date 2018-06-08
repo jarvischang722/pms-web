@@ -3,9 +3,6 @@
  * select grid 欄位名稱
  */
 
-const i18n = require("i18n");
-const fs = require("fs");
-const async = require("async");
 const commandRules = require('./CommonRule');
 
 exports.sel_business_rf_column = function (session, callback) {
@@ -105,6 +102,62 @@ exports.sel_salesMnHotelStatusNColumn = function (session, callback) {
         ],
         display: "sales_display",
         value: "sales_cod"
+    };
+    callback(null, lo_result);
+};
+
+/**
+ * PMS0610020 商務公司資料編輯 相關人員姓名
+ * @param session
+ * @param callback
+ */
+exports.sel_cust_idx_cust_mn_pers_dt_column = function (session, callback) {
+    let lo_result = {
+        columns: [
+            {
+                field: "alt_nam",
+                title: commandRules.getColumnByNam("ALT_NAM", session.locale),
+                width: 100
+            },
+            {
+                field: "mobile_nos",
+                title: commandRules.getColumnByNam("MOBILE_NOS", session.locale),
+                width: 100
+            },
+            {
+                field: "office_tel",
+                title: commandRules.getColumnByNam("OFFICE_TEL", session.locale),
+                width: 100
+            },
+            {
+                field: "home_tel",
+                title: commandRules.getColumnByNam("HOME_TEL", session.locale),
+                width: 100
+            },
+            {
+                field: "fax_nos",
+                title: commandRules.getColumnByNam("FAX_NOS", session.locale),
+                width: 100
+            },
+            {
+                field: "e_mail",
+                title: commandRules.getColumnByNam("E_MAIL", session.locale),
+                width: 100
+            },
+            {
+                field: "sex_typ",
+                title: commandRules.getColumnByNam("SEX_TYP", session.locale),
+                width: 100
+            },
+            {
+                field: "birth_dat",
+                title: commandRules.getColumnByNam("BIRTH_DAT", session.locale),
+                width: 100
+            }
+
+        ],
+        display: "alt_nam",
+        value: "alt_nam"
     };
     callback(null, lo_result);
 };
@@ -293,6 +346,40 @@ exports.QRY_SEL_HFD_LIVE_COD_RF_Column = function (session, callback) {
     callback(null, lo_result);
 };
 
+exports.sel_ashowCodColumn = function (session, callback) {
+    let lo_result = {
+        columns: [
+            {
+                field: "show_cod",
+                title: commandRules.getColumnByNam("show_cod", session.locale),
+                width: 100
+            },
+            {
+                field: "cust_cod",
+                title: commandRules.getColumnByNam("cust_cod", session.locale),
+                width: 100
+            },
+            {
+                field: "cust_nam",
+                title: commandRules.getColumnByNam("cust_nam", session.locale),
+                width: 150
+            },
+            {
+                field: "contact1_rmk",
+                title: commandRules.getColumnByNam("contact_rmk", session.locale),
+                width: 100
+            },
+            {
+                field: "status_cod",
+                title: commandRules.getColumnByNam("status_cod", session.locale),
+                width: 50
+            }
+        ],
+        display: "show_cod",
+        value: "show_cod"
+    };
+    callback(null, lo_result);
+};
 
 exports.sel_alt_nam = function (session, callback) {
     let lo_result = {

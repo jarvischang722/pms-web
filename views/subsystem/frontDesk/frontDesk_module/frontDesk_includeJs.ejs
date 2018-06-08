@@ -643,7 +643,7 @@
                 modal: true,
                 title: "[訂房卡號：00481901  使用房型:STD]",
                 title_html: true,
-                width: 500,
+                width: 700,
                 maxwidth: 1920,
                 dialogClass: "test",
                 resizable: true
@@ -658,9 +658,10 @@
                 method: 'get',
                 columns: [[
                     {field: 'row', title: '選擇', width: 40},
-                    {field: 'roomKind', title: '房號', width: 60},
-                    {field: 'rmGrpup', title: '序號', width: 60},
-                    {field: 'fullName', title: '住客姓名', width: 220}
+                    {field: 'roomKind', title: '房號', width: 50},
+                    {field: 'rmGrpup', title: '序號', width: 40},
+                    {field: 'fullName', title: '住客姓名', width: 130},
+                    {field: 'msgRule', title: '訊息說明', width: 285}
                 ]]
             });
 
@@ -1294,7 +1295,6 @@
                 {field: 'status', title: '狀態', width: 60},
                 {field: 'resv', title: '訂房', width: 40},
                 {field: 'assignRoom', title: '排房', width: 40},
-                {field: 'ciNum', title: 'C/I', width: 40},
                 {field: 'proxyCompanyName', title: '團號', width: 100},
                 {field: 'ciDate', title: '入住日期', width: 80},
                 {field: 'coDate', title: '退房日期', width: 80},
@@ -1322,7 +1322,6 @@
                 {field: 'name', title: '住客姓名', width: 100},
                 {field: 'roomAssignNum', title: '排房狀態', width: 60},
                 {field: 'roomNum', title: '房號', width: 40},
-                {field: 'roomAssignHousing', title: '排房房型', width: 60},
                 {field: 'useHousing', title: '使用房型', width: 60},
                 {field: 'lockRoomAssign', title: '鎖定排房', width: 60},
                 {field: 'adult', title: '大人', width: 35},
@@ -1349,27 +1348,6 @@
                 {field: 'rvNos', title: '訂房卡號', width: 70},
                 {field: 'nationality', title: '國籍', width: 100},
                 {field: 'license', title: '車號', width: 100}
-            ]]
-        });
-
-        // PMS0210030 排房明細 (多筆)
-        $('#townList-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/townList-table.json',
-            method: 'get',
-            columns: [[
-                {field: 'rmNo', title: 'Rm. No.', width: 70},
-                {field: 'rmType', title: 'Rm. Type', width: 70},
-                {field: 'rmSta', title: 'Rm. Sta.', width: 70},
-                {field: 'hkSta', title: 'HK Sta.', width: 70},
-                {field: 'oos', title: 'OOS', width: 70},
-                {field: 'assign', title: 'Assign', width: 70},
-                {field: 'name', title: 'Full Name', width: 100},
-                {field: 'ciDate', title: 'C/I Date', width: 100},
-                {field: 'coDate', title: 'C/O Date', width: 100},
-                {field: 'rmRemark', title: 'Rm. Remark', width: 150},
             ]]
         });
 
@@ -1479,19 +1457,43 @@
         });
         //排房切換
         $('.town-graphics-btn').hide();
-        $('.town-table').hide();
+//        $('.town-table').hide();
+//        $('#townList-table').hide();
         $('.roomAssign').on('click', ".town-list-btn", function (e) {
-            $('.town-list-btn').hide();
-            $('.town-graphics-btn').show();
-            $('.town-grap').hide();
-            $('.town-table').show();
-            $('#townList-table').datagrid('reload');
+            $(this).parents('.roomAssign').find('.town-list-btn').hide();
+            $(this).parents('.roomAssign').find('.town-graphics-btn').show();
+            $(this).parents('.roomAssign').find('.town-grap').hide();
+            $(this).parents('.roomAssign').find('.town-table').show();
+
+            // PMS0210030 排房明細 (多筆)
+            $(this).parents('.roomAssign').find('#townList-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/townList-table.json',
+                method: 'get',
+                columns: [[
+                    {field: 'rmNo', title: 'Rm. No.', width: 70},
+                    {field: 'rmType', title: 'Rm. Type', width: 70},
+                    {field: 'rmSta', title: 'Rm. Sta.', width: 70},
+                    {field: 'hkSta', title: 'HK Sta.', width: 70},
+                    {field: 'oos', title: 'OOS', width: 70},
+                    {field: 'assign', title: 'Assign', width: 70},
+                    {field: 'name', title: 'Full Name', width: 100},
+                    {field: 'ciDate', title: 'C/I Date', width: 100},
+                    {field: 'coDate', title: 'C/O Date', width: 100},
+                    {field: 'rmRemark', title: 'Rm. Remark', width: 150},
+                ]]
+            });
+
+//            $('#townList-table').css('display','block').datagrid('reload');
         });
         $('.roomAssign').on('click', ".town-graphics-btn", function (e) {
-            $('.town-graphics-btn').hide();
-            $('.town-table').hide();
-            $('.town-grap').show();
-            $('.town-list-btn').show();
+            $(this).parents('.roomAssign').find('.town-graphics-btn').hide();
+            $(this).parents('.roomAssign').find('.town-table').hide();
+            $(this).parents('.roomAssign').find('#townList-table').css('display', 'none');
+            $(this).parents('.roomAssign').find('.town-grap').show();
+            $(this).parents('.roomAssign').find('.town-list-btn').show();
         });
 
         // PMS0210020 綜合櫃檯 相關設定 & 全部設定切換

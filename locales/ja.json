@@ -108,7 +108,7 @@
       "allDay_nam": "全部"
     },
     "PMS0810230": {
-      "roomTyp": "房型",
+      "roomTyp": "房價",
       "limitSet": "限制設定",
       "promoteSet": "促銷設定",
       "add": "新增",
@@ -144,7 +144,9 @@
       "start_placeholder": "開始日期",
       "end_placeholder": "结束日期",
       "selectDate": "請選擇日期",
-      "begBiggerEnd": "開始日要小於結束日"
+      "begBiggerEnd": "開始日要小於結束日",
+      "stopSell": "停售",
+      "revert": "還原"
     },
     "PMS0820030": {
       "load_default_color": "讀取預設顏色",
@@ -497,6 +499,8 @@
     "pms81msg41": "產生房型庫存 資料錯誤",
     "pms81msg42": "已於房價主檔資料中使用，不可刪除",
     "pms81msg43": "房價分類代號: %s 已存在",
+    "pms81msg44": "使用席間資料日期重疊",
+    "pms81msg45": "一個訂房公司代號只能一筆，不可重複(日)",
     "pms82msg1": "房間設定已使用，不可刪除",
     "pms82msg2": "訂房卡已使用，不可刪除",
     "pms82msg3": "房號未填",
@@ -604,6 +608,7 @@
     "live_nam": "live nam(中文)",
     "live_sna": "live sna(中文)",
     "cust_show_cod": "客戶代號",
+    "status_cod": "狀態(日)",
     "alt_nam": "客戶姓名",
     "contact_rmk": "聯絡電話",
     "first_nam": "First Name",

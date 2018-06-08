@@ -84,7 +84,11 @@ exports.fetchDgRowData = function (req, res) {
         return res.json(lo_chkResult);
     }
     operSVC.fetchDgRowData(req.body, req.session, function (err, result) {
-        res.json({dgRowData: result});
+        res.json({
+            success: _.isNull(err),
+            errorMsg: err,
+            dgRowData: result
+        });
     })
 };
 
@@ -176,21 +180,6 @@ exports.fetchDefaultGsRowData = function (req, res) {
         res.json(lo_rtnData);
     });
 };
-
-/**
- * 取多筆oracle資料
- * @returns {*}
- */
-exports.fetchDgRowData = function(req, res) {
-    let lo_chkResult = chkPrgID(req);
-    if (lo_chkResult.success == false) {
-        return res.json(lo_chkResult);
-    }
-    operSVC.fetchDgRowData(req.body, req.session, function(err, result) {
-        res.json({ dgRowData: result });
-    })
-};
-
 
 // 驗證prg_id
 function chkPrgID(req) {

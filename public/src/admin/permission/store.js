@@ -138,6 +138,9 @@ const actions = {
     /**
      * 取全部功能權限
      * @param commit
+     * @param dispatch
+     * @param state
+     * @returns {Promise<*>}
      */
     async qryFuncList({commit, dispatch, state}) {
         return await $.post("/api/getAllFuncs").then(

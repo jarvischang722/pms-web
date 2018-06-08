@@ -13,6 +13,7 @@ let i18n = require("i18n");
 let tools = require("../utils/CommonTools");
 let dataRuleSvc = require("./DataRuleService");
 let ruleAgent = require("../ruleEngine/ruleAgent");
+let commonRule = require("../ruleEngine/rules/CommonRule");
 let logSvc = require("./LogService");
 let mailSvc = require("./MailService");
 let langSvc = require("./LangService");
@@ -622,7 +623,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                         tmpIns[objKey] = data[objKey];
                     });
 
-                    tmpIns = _.extend(tmpIns, ruleAgent.getCreateCommonDefaultDataRule(session));
+                    tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
 
                     savaExecDatas[exec_seq] = tmpIns;
                     exec_seq++;
@@ -676,7 +677,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                                 tmpEdit[objKey] = data[objKey];
                             });
 
-                            tmpEdit = _.extend(tmpEdit, ruleAgent.getEditDefaultDataRule(session));
+                            tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(session));
 
                             delete tmpEdit["ins_dat"];
                             delete tmpEdit["ins_usr"];
@@ -802,6 +803,8 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                 if (errTrans) {
                     return callback(errTrans, false);
                 }
+                savaExecDatas.prg_id = prg_id;
+                savaExecDatas = commonRule.trimSaveExecData({saveExecDatas: savaExecDatas}, session);
 
                 let apiParams = {
                     "REVE-CODE": transData ? transData.trans_code || "BAC03009010000" : "BAC03009010000",
