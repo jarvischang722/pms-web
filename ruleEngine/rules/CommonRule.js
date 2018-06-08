@@ -174,17 +174,6 @@ module.exports = {
     trimSaveExecData: function (params, session) {
         let lo_newSaveExecDatas = {};
         let lo_saveExecDatas = params.saveExecDatas || params.page_data;
-        // let ls_trimType = "newFormat";
-
-        // if (_.isUndefined(params.saveExecDatas)) {
-        //     ls_trimType = "newFormat";
-        //     lo_saveExecDatas = params.page_data;
-        // }
-        // else {
-        //     ls_trimType = "oldFormat";
-        //     lo_saveExecDatas = params.saveExecDatas;
-        // }
-
 
         if (!_.isUndefined(trimLibByPrgID[params.prg_id])) {
             lo_newSaveExecDatas = trimLibByPrgID[params.prg_id](lo_saveExecDatas, session);
@@ -193,7 +182,6 @@ module.exports = {
             lo_newSaveExecDatas = trimPostData(lo_saveExecDatas);
         }
         return lo_newSaveExecDatas;
-        saveExecDataTrimRule(params, session);
     },
 
     /**
