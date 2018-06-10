@@ -139,14 +139,6 @@
                             }
                         });
 
-                        _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
-                            if (!_.isUndefined(lo_dataGridRowsData.uniKey)) {
-                                if (_.findIndex(val, lo_dataGridRowsData) == -1) {
-                                    this.dataGridRowsData.splice(idx, 1);
-                                }
-                            }
-                        });
-
                         this.insertCustCodIntoTmpCUD(val);
                     }
                 },
@@ -155,6 +147,14 @@
             dataGridRowsDataOfRateCode: {
                 handler(val) {
                     if (!_.isEmpty(val)) {
+                        console.log(val);
+                        let la_addToDataGridRowsData = _.where(val, {createRow: 'Y'});
+                        _.each(la_addToDataGridRowsData, (lo_addToDataGridRowsData) => {
+                            if (_.findIndex(this.dataGridRowsData, {uniKey: lo_addToDataGridRowsData.uniKey}) == -1) {
+                                this.dataGridRowsData.push(lo_addToDataGridRowsData);
+                            }
+                        });
+
                         this.insertCustCodIntoTmpCUD(val);
                     }
                 },
@@ -223,6 +223,11 @@
                     this.fieldsData = result.dgFieldsData;
                     //第一次載入合約內容
                     if (_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)) {
+                        _.each(result.dgRowData, (lo_dgRowData) => {
+                            lo_dgRowData.begin_dat = moment(lo_dgRowData.begin_dat).format("YYYY/MM/DD");
+                            lo_dgRowData.end_dat = moment(lo_dgRowData.end_da).format("YYYY/MM/DD");
+                            lo_dgRowData.uniKey = Math.floor(Math.random() * (99999999999999999999));
+                        });
                         this.dataGridRowsData = result.dgRowData;
                         this.dataGridRowsDataOfExpire = _.filter(JSON.parse(JSON.stringify(result.dgRowData)), lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
@@ -232,7 +237,7 @@
                     }
                     else {
                         this.dataGridRowsData = this.$store.state.go_allData.ga_ccDataGridRowsData;
-                        this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify(this.dataGridRowsData)), lo_dgRowData => {
+                        this.dataGridRowsDataOfExpire = _.filter(JSON.parse(JSON.stringify(this.dataGridRowsData)), lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                         });
                         this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_ccDataGridRowsData;
@@ -240,7 +245,7 @@
                             this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
                         }
                         else {
-                            this.dgIns.loadDgData(this.dataGridRowsDataOfStaff);
+                            this.dgIns.loadDgData(this.dataGridRowsData);
                         }
                         this.isLoading = false;
                     }
@@ -265,7 +270,7 @@
                     this.dataGridRowsDataOfRateCode =
                         alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsData])
                 }
-                this.showDataGrid(this.dataGridRowsDataOfRateCode);
+                this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
             },
             appendRow() {
                 var self = this;
@@ -283,6 +288,10 @@
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
+                    let ln_delIndex = _.findIndex(this.dataGridRowsData, {uniKey: lo_delRow.uniKey});
+                    if (ln_delIndex > -1) {
+                        this.dataGridRowsData.splice(ln_delIndex, 1);
+                    }
                     this.dgIns.removeRow();
                 }
             }
