@@ -109,6 +109,7 @@
         },
         watch: {
             isContractContent(val) {
+
                 if (val) {
                     //第一次載入合約內容
                     if (_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)) {
@@ -129,25 +130,9 @@
                 },
                 deep: true
             },
-            dataGridRowsDataOfExpire: {
-                handler(val) {
-                    if (!_.isEmpty(val)) {
-                        let la_addToDataGridRowsData = _.where(val, {createRow: 'Y'});
-                        _.each(la_addToDataGridRowsData, (lo_addToDataGridRowsData) => {
-                            if (_.findIndex(this.dataGridRowsData, {uniKey: lo_addToDataGridRowsData.uniKey}) == -1) {
-                                this.dataGridRowsData.push(lo_addToDataGridRowsData);
-                            }
-                        });
-
-                        this.insertCustCodIntoTmpCUD(val);
-                    }
-                },
-                deep: true
-            },
             dataGridRowsDataOfRateCode: {
                 handler(val) {
                     if (!_.isEmpty(val)) {
-                        console.log(val);
                         let la_addToDataGridRowsData = _.where(val, {createRow: 'Y'});
                         _.each(la_addToDataGridRowsData, (lo_addToDataGridRowsData) => {
                             if (_.findIndex(this.dataGridRowsData, {uniKey: lo_addToDataGridRowsData.uniKey}) == -1) {
@@ -155,15 +140,27 @@
                             }
                         });
 
-                        this.insertCustCodIntoTmpCUD(val);
+                        _.each(val, (lo_val) => {
+                            let ln_editIndex = _.findIndex(this.dataGridRowsData, {uniKey: lo_val.uniKey});
+                            if (ln_editIndex > -1) {
+                                this.dataGridRowsData.splice(ln_editIndex, 1);
+                                this.dataGridRowsData.push(lo_val);
+                            }
+                        });
                     }
                 },
                 deep: true
             },
             isHideExpire(val) {
+                if (!_.isEmpty(this.dgIns)) {
+                    this.dgIns.endEditing();
+                }
+
                 if (val) {
                     this.dataGridRowsDataOfRateCode =
-                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsDataOfExpire]);
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
+                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                        })]);
                 }
                 else {
                     this.dataGridRowsDataOfRateCode =
@@ -229,32 +226,25 @@
                             lo_dgRowData.uniKey = Math.floor(Math.random() * (99999999999999999999));
                         });
                         this.dataGridRowsData = result.dgRowData;
-                        this.dataGridRowsDataOfExpire = _.filter(JSON.parse(JSON.stringify(result.dgRowData)), lo_dgRowData => {
-                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
-                        });
                         this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
-                        this.showDataGrid(this.dataGridRowsDataOfExpire);
+                        this.showDataGrid();
                     }
                     else {
                         this.dataGridRowsData = this.$store.state.go_allData.ga_ccDataGridRowsData;
-                        this.dataGridRowsDataOfExpire = _.filter(JSON.parse(JSON.stringify(this.dataGridRowsData)), lo_dgRowData => {
-                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
-                        });
                         this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_ccDataGridRowsData;
-                        if (this.isHideExpire) {
-                            this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
-                        }
-                        else {
-                            this.dgIns.loadDgData(this.dataGridRowsData);
-                        }
+                        this.dgIns.loadDgData(_.filter(this.dataGridRowsData, lo_dgRowData => {
+                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                        }));
                         this.isLoading = false;
                     }
                 });
             },
-            showDataGrid(dataGridRowsData) {
+            showDataGrid() {
                 this.dgIns = this.isModifiable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'contractContent_dg'), this.fieldsData);
-                this.dgIns.loadDgData(dataGridRowsData);
+                this.dgIns.loadDgData(_.filter(this.dataGridRowsData, lo_dgRowData => {
+                    return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                }));
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
                 this.dgIns.updateMnRowData(this.$store.state.go_allData.go_mnSingleData);
 
@@ -264,7 +254,9 @@
             doChangeRowData() {
                 if (this.isHideExpire) {
                     this.dataGridRowsDataOfRateCode =
-                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsDataOfExpire])
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
+                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                        })]);
                 }
                 else {
                     this.dataGridRowsDataOfRateCode =
