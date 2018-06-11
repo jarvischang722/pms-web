@@ -108,7 +108,6 @@
             },
             dataGridRowsData: {
                 handler: function (val) {
-                    console.log(val);
                     if (!_.isEmpty(val)) {
                         this.$eventHub.$emit("chgRelatedPersonData");
                         //將相關人員資料放至Vuex
@@ -127,7 +126,6 @@
             },
             dataGridRowsDataOfStaff: {
                 handler(val) {
-                    console.log(val);
                     if (this.isHideLeavingStaff) {
                         if (!_.isUndefined(this.dgIns.editIndex)) {
                             let ln_editStaffIndex = this.dgIns.editIndex;
