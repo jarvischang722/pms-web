@@ -118,7 +118,7 @@
                             go_rpTmpCUD: this.dgIns.tmpCUD
                         });
                         //更新dataGridRowsDataOfStaff
-                        this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify(val)), lo_dgRowData => {
+                        this.dataGridRowsDataOfStaff = _.filter((val), lo_dgRowData => {
                             return lo_dgRowData.job_sta != 'Q'
                         });
                     }
@@ -128,7 +128,7 @@
             dataGridRowsDataOfStaff: {
                 handler(val) {
                     console.log(val);
-                    if(this.isHideLeavingStaff){
+                    if (this.isHideLeavingStaff) {
                         if (!_.isUndefined(this.dgIns.editIndex)) {
                             let ln_editStaffIndex = this.dgIns.editIndex;
                             let ln_editIndex = _.findIndex(this.dataGridRowsData, {uniKey: val[ln_editStaffIndex].uniKey});
@@ -139,7 +139,8 @@
                     }
                 },
                 deep: true
-            },
+            }
+            ,
             isHideLeavingStaff(val) {
                 if (!_.isEmpty(this.dgIns)) {
                     this.dgIns.endEditing();
@@ -162,7 +163,8 @@
                 this.fieldsData = [];
                 this.oriFieldsData = [];
                 this.dgIns = {};
-            },
+            }
+            ,
             fetchFieldData() {
                 this.isLoading = true;
                 BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
@@ -202,7 +204,8 @@
                         this.isLoading = false;
                     }
                 });
-            },
+            }
+            ,
             showDataGrid(dataGridRowsData) {
                 this.dgIns = this.isModifiable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "relatedPerson_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
@@ -210,7 +213,8 @@
                 this.dgIns.updateMnRowData(this.$store.state.go_allData.go_mnSingleData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
                 this.isLoading = false;
-            },
+            }
+            ,
             appendRow() {
                 var self = this;
                 this.BTN_action = true;
@@ -219,7 +223,8 @@
                         self.BTN_action = false;
                     }
                 });
-            },
+            }
+            ,
             removeRow() {
                 var lo_delRow = $('#relatedPerson_dg').datagrid("getSelected");
 
