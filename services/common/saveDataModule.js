@@ -36,7 +36,7 @@ class saveTemplate {
 
     /**
      * 儲存前規則檢查
-     * @returns {Promise<*>}
+     * @returns {Promise<void>}
      */
     async chkRuleBeforeSave() {
         throw new Error("must implement chkRuleBeforeSave");

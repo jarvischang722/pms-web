@@ -45,8 +45,50 @@
                 <!-- #section:elements.tab.position -->
                 <div class="col-xs-12">
                     <div class="row">
-                        <div class="col-xs-8">
-                            <div class="row no-padding searchCheckbox">
+                        <div class="col-xs-10">
+                            <div class="row no-padding">
+                                <div class="tooltip-sp pull-left">
+                                    <span class=" color-desc">
+                                        <i class="fa fa-dashboard"></i>顏色說明
+                                    </span>
+                                    <span class="tooltip-text">
+                                        <ul>
+                                            <li>
+                                                <div class="roomAsg-status-1 square-color pull-left"></div>
+                                                <div class="pull-left">不可排房</div>
+                                                <div class="clearfix"></div>
+                                            </li>
+                                            <li>
+                                                <div class="roomAsg-status-2 square-color pull-left"></div>
+                                                <div class="pull-left">修理房間</div>
+                                                <div class="clearfix"></div>
+                                            </li>
+                                            <li>
+                                                <div class="roomAsg-status-3 square-color pull-left"></div>
+                                                <div class="pull-left">可排房間</div>
+                                                <div class="clearfix"></div>
+                                            </li>
+                                            <li>
+                                                <div class="roomAsg-status-4 square-color pull-left"></div>
+                                                <div class="pull-left">不可移動</div>
+                                                <div class="clearfix"></div>
+                                            </li>
+                                            <li>
+                                                <div class="roomAsg-status-5 square-color pull-left"></div>
+                                                <div class="pull-left">今日預定C/O</div>
+                                                <div class="clearfix"></div>
+                                            </li>
+                                            <li>
+                                                <div class="roomAsg-status-6 square-color pull-left"></div>
+                                                <div class="pull-left">參觀</div>
+                                                <div class="clearfix"></div>
+                                            </li>
+                                        </ul>
+                                        <!--<li class="divider"></li>-->
+
+                                </span>
+                                </div>
+                                <div class="searchCheckbox pull-left">
                                     <span class="checkbox">
                                           <label class="checkbox-width">
                                               <input name="form-field-checkbox"
@@ -57,6 +99,8 @@
                                               </span>
                                           </label>
                                     </span>
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
                         </div>
                         <!-- lite 版隱藏 -->
@@ -115,29 +159,6 @@
                                             <li><a href="#">ALL</a></li>
                                         </ul>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-2">
-                            <div class="row ml--13">
-                                <div class="select-group chgText-effect">
-                                    <button data-toggle="dropdown"
-                                            class="btn btn-primary btn-white btn-defaultWidth dropdown-toggle "
-                                            aria-expanded="false">
-                                        <span class="dpShowValue">狀態</span>
-                                        <span class="ace-icon fa fa-angle-down icon-on-right"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-info dropdown-menu-right dpUIList">
-                                        <li class="roomAsg-status-1"><a href="#">不可排房</a></li>
-
-                                        <li class="roomAsg-status-2"><a href="#">修理房間</a></li>
-
-                                        <li class="roomAsg-status-3"><a href="#">可排房間</a></li>
-                                        <li class="roomAsg-status-4"><a href="#">不可移動</a></li>
-
-                                        <!--<li class="divider"></li>-->
-
-                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -2185,5 +2206,7 @@
                 resizable: true
             });
         });
+
+
     });
 </script>

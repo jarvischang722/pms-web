@@ -60,6 +60,7 @@ module.exports = {
         compar_end_dat = moment.isMoment(compar_end_dat) ? compar_end_dat : moment(new Date(compar_end_dat));
         now_begin_dat = moment.isMoment(now_begin_dat) ? now_begin_dat : moment(new Date(now_begin_dat));
         now_end_dat = moment.isMoment(now_end_dat) ? now_end_dat : moment(new Date(now_end_dat));
+        console.log(compar_begin_dat.diff(now_end_dat, "days"), compar_end_dat.diff(now_begin_dat, "days"));
         if (compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0) {
             return true;
         }
@@ -173,17 +174,6 @@ module.exports = {
     trimSaveExecData: function (params, session) {
         let lo_newSaveExecDatas = {};
         let lo_saveExecDatas = params.saveExecDatas || params.page_data;
-        // let ls_trimType = "newFormat";
-
-        // if (_.isUndefined(params.saveExecDatas)) {
-        //     ls_trimType = "newFormat";
-        //     lo_saveExecDatas = params.page_data;
-        // }
-        // else {
-        //     ls_trimType = "oldFormat";
-        //     lo_saveExecDatas = params.saveExecDatas;
-        // }
-
 
         if (!_.isUndefined(trimLibByPrgID[params.prg_id])) {
             lo_newSaveExecDatas = trimLibByPrgID[params.prg_id](lo_saveExecDatas, session);
@@ -192,7 +182,6 @@ module.exports = {
             lo_newSaveExecDatas = trimPostData(lo_saveExecDatas);
         }
         return lo_newSaveExecDatas;
-        saveExecDataTrimRule(params, session);
     },
 
     /**

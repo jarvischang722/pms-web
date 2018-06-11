@@ -194,7 +194,8 @@ module.exports = {
         async.waterfall([
             examineContract,
             compareDat,
-            setRateCodSelectData
+            setRateCodSelectData,
+            chkDateIsOverlap
         ], function (err, result) {
             callback(err, result);
         });
@@ -210,7 +211,6 @@ module.exports = {
                         cb(lo_error, lo_result);
                     }
                     else if (getResult.order_rate_count == 0) {
-                        lo_result.success = false;
                         lo_result.effectValues = {begin_dat: ls_oldValue, rate_cod: "", ratecod_nam: ""};
                         cb(lo_error, lo_result);
                     }
@@ -271,6 +271,32 @@ module.exports = {
                 cb(lo_error, lo_result);
             }
         }
+
+        function chkDateIsOverlap(result, cb) {
+            // 檢查相同館別及房價代號之合約期間不可重覆
+            let la_examData = JSON.parse(JSON.stringify(postData.allRowData));
+            for (let i = 0; i < la_examData.length; i++) {
+                for (let j = 0; j < i; j++) {
+                    let lo_nowData = la_examData[i];
+                    let lo_compareData = la_examData[j];
+                    if (lo_compareData.rate_cod == lo_nowData.rate_cod && lo_compareData.hotel_cod == lo_nowData.hotel_cod) {
+                        let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
+                        let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
+                        let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
+                        let ls_compareEndDat = moment(new Date(lo_compareData.end_dat));
+                        let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+
+                        if (lb_chkOverLap) {
+                            lo_result.success = false;
+                            lo_error = new ErrorClass();
+                            lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
+                            break;
+                        }
+                    }
+                }
+            }
+            cb(lo_error, lo_result)
+        }
     },
 
     /**
@@ -301,7 +327,8 @@ module.exports = {
         async.waterfall([
             examineContract,
             compareDat,
-            setRateCodSelectData
+            setRateCodSelectData,
+            chkDateIsOverlap
         ], function (err, result) {
             callback(lo_error, lo_result);
         });
@@ -317,8 +344,12 @@ module.exports = {
                         cb(lo_error, lo_result);
                     }
                     else if (getResult.order_rate_count == 0) {
-                        lo_result.success = false;
-                        lo_result.effectValues = {end_dat: ls_oldValue, rate_cod: "", ratecod_nam: ""};
+                        lo_result.effectValues = _.extend(lo_result.effectValues, {
+                            end_dat: ls_oldValue,
+                            rate_cod: "",
+                            ratecod_nam: ""
+                        });
+
                         cb(lo_error, lo_result);
                     }
                     else {
@@ -334,7 +365,7 @@ module.exports = {
         function compareDat(result, cb) {
             if (ls_beginDat != "" && ls_endDat != "" && moment(new Date(ls_beginDat)).diff(moment(new Date(ls_endDat)), "days") > 0) {
                 lo_result.success = false;
-                lo_result.effectValues = {end_dat: ls_oldValue};
+                lo_result.effectValues = _.extend(lo_result.effectValues, {end_dat: ls_oldValue});
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = commandRules.getMsgByCod("pms61msg15", session.locale);
                 cb(lo_error, lo_result);
@@ -364,6 +395,32 @@ module.exports = {
                 cb(lo_error, lo_result);
             }
         }
+
+        function chkDateIsOverlap(result, cb) {
+            // 檢查相同館別及房價代號之合約期間不可重覆
+            let la_examData = JSON.parse(JSON.stringify(postData.allRowData));
+            for (let i = 0; i < la_examData.length; i++) {
+                for (let j = 0; j < i; j++) {
+                    let lo_nowData = la_examData[i];
+                    let lo_compareData = la_examData[j];
+                    if (lo_compareData.rate_cod == lo_nowData.rate_cod && lo_compareData.hotel_cod == lo_nowData.hotel_cod) {
+                        let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
+                        let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
+                        let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
+                        let ls_compareEndDat = moment(new Date(lo_compareData.end_dat));
+                        let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+
+                        if (lb_chkOverLap) {
+                            lo_result.success = false;
+                            lo_error = new ErrorClass();
+                            lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
+                            break;
+                        }
+                    }
+                }
+            }
+            cb(lo_error, lo_result)
+        }
     },
 
     /**
@@ -392,7 +449,9 @@ module.exports = {
 
         async.waterfall([
             setRateCodSelectData,
-            setRsdiscCodSelectData
+            examineContract,
+            setRsdiscCodSelectData,
+            chkDateIsOverlap
         ], function (err, result) {
             callback(err, result);
         });
@@ -420,6 +479,35 @@ module.exports = {
             }
         }
 
+        function examineContract(result, cb) {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "" ) {
+                lo_param.rate_cod = ls_rateCod;
+                queryAgent.query("QRY_CONTRACT_EXIST", lo_param, function (err, getResult) {
+                    if (err) {
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = err;
+                        cb(lo_error, lo_result);
+                    }
+                    else if (getResult.order_rate_count == 0) {
+                        lo_result.effectValues = _.extend(lo_result.effectValues, {
+                            end_dat: ls_endDat,
+                            rate_cod: "",
+                            ratecod_nam: ""
+                        });
+
+                        cb(lo_error, lo_result);
+                    }
+                    else {
+                        cb(lo_error, ls_beginDat);
+                    }
+                });
+            }
+            else {
+                cb(lo_error, lo_result);
+            }
+        }
+
         function setRsdiscCodSelectData(result, cb) {
             queryAgent.queryList("QRY_CONTRACT_DT_RSDISC_COD", lo_param, 0, 0, function (err, getResult) {
                 if (err) {
@@ -434,6 +522,32 @@ module.exports = {
                     cb(lo_error, lo_result);
                 }
             });
+        }
+
+        function chkDateIsOverlap(result, cb) {
+            // 檢查相同館別及房價代號之合約期間不可重覆
+            let la_examData = JSON.parse(JSON.stringify(postData.allRowData));
+            for (let i = 0; i < la_examData.length; i++) {
+                for (let j = 0; j < i; j++) {
+                    let lo_nowData = la_examData[i];
+                    let lo_compareData = la_examData[j];
+                    if (lo_compareData.rate_cod == lo_nowData.rate_cod && lo_compareData.hotel_cod == lo_nowData.hotel_cod) {
+                        let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
+                        let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
+                        let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
+                        let ls_compareEndDat = moment(new Date(lo_compareData.end_dat));
+                        let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+
+                        if (lb_chkOverLap) {
+                            lo_result.success = false;
+                            lo_error = new ErrorClass();
+                            lo_error.errorMsg = commandRules.getMsgByCod("pms61msg1", session.locale);
+                            break;
+                        }
+                    }
+                }
+            }
+            cb(lo_error, lo_result)
         }
     },
 
@@ -495,7 +609,6 @@ module.exports = {
                 });
                 if (lo_examineContract.order_rate_count == 0) {
                     ls_rateCod = "";
-                    lo_result.success = false;
                     lo_result.effectValues = {rate_cod: ls_rateCod};
                 }
                 //參考房價代號下拉資料
@@ -547,7 +660,7 @@ module.exports = {
                             let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
                             let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
                             let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
-                            let ls_compareEndDat = moment(new Date(lo_compareData.begin_dat));
+                            let ls_compareEndDat = moment(new Date(lo_compareData.end_dat));
                             let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
 
                             if (lb_chkOverLap) {
@@ -995,7 +1108,7 @@ module.exports = {
                         let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
                         let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
                         let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
-                        let ls_compareEndDat = moment(new Date(lo_compareData.begin_dat));
+                        let ls_compareEndDat = moment(new Date(lo_compareData.end_dat));
                         let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
 
                         if (lb_chkOverLap) {
@@ -1297,7 +1410,7 @@ module.exports = {
                         let ls_nowBeginDat = moment(lo_nowData.begin_dat).format("YYYY/MM/DD");
                         let ls_nowEndDat = moment(lo_nowData.end_dat).format("YYYY/MM/DD");
                         let ls_compareBeginDat = moment(lo_compareData.begin_dat).format("YYYY/MM/DD");
-                        let ls_compareEndDat = moment(lo_compareData.begin_dat).format("YYYY/MM/DD");
+                        let ls_compareEndDat = moment(lo_compareData.end_dat).format("YYYY/MM/DD");
                         let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
 
                         if (lb_chkOverLap) {

@@ -201,7 +201,10 @@
                 if (ls_keyword == "") {
                     return false;
                 }
-                BacUtils.doHttpPostAgent('/api/getSelectOptions', {keyword: ls_keyword, field: this.field}, function (items) {
+                BacUtils.doHttpPostAgent('/api/getSelectOptions', {
+                    keyword: ls_keyword,
+                    field: this.field
+                }, function (items) {
                     $(self.$el).combogrid("grid").datagrid("loadData", items);
                     $(self.$el).combogrid("setText", ls_keyword);
                 })
@@ -218,12 +221,14 @@
                         else {
                             return sum;
                         }
-                    }, 0)
+                    }, 0);
                 }
 
                 if (!_.isUndefined(this.field.width)) {
                     ln_panelWidth = ln_panelWidth > this.field.width ? ln_panelWidth : this.field.width;
                 }
+                //遞補scrollerbar跟序號寬度
+                ln_panelWidth += 50;
 
                 return ln_panelWidth;
             }
