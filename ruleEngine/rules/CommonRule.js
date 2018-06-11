@@ -4,6 +4,7 @@
  */
 const moment = require("moment");
 const _ = require("underscore");
+const _s = require("underscore.string");
 const fs = require("fs");
 const trimLibByPrgID = require("./CommonRuleLib/SaveExecDataTrimRule");
 const saveExecDataTrimRule = require("./CommonRuleLib/SaveExecDataTrimRule");
@@ -210,7 +211,7 @@ module.exports = {
      * @param callback
      * @returns {Promise<void>}
      */
-    chkDgSelectgridQryRule: async function(params, session, callback){
+    chkDgSelectgridQryRule: async function (params, session, callback) {
         let lo_return = {};
         if (!_.isUndefined(selectgridQryRule[params.rule_func_name])) {
             lo_return = await selectgridQryRule[params.rule_func_name](params, session);
@@ -233,10 +234,10 @@ function trimPostData(saveExecDatas) {
     if (!Array.isArray(saveExecDatas) && typeof saveExecDatas != 'object') return saveExecDatas;
     return Object.keys(saveExecDatas).reduce(function (acc, key) {
         if (key != "condition") {
-            acc[key.trim()] = typeof saveExecDatas[key] == 'string' ? saveExecDatas[key].trim() : trimPostData(saveExecDatas[key]);
+            acc[_s.rtrim(key)] = typeof saveExecDatas[key] == 'string' ? _s.rtrim(saveExecDatas[key]) : trimPostData(saveExecDatas[key]);
         }
-        else{
-            acc[key.trim()] = saveExecDatas[key];
+        else {
+            acc[_s.rtrim(key)] = saveExecDatas[key];
         }
         return acc;
     }, Array.isArray(saveExecDatas) ? [] : {});
