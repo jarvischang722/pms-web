@@ -38,7 +38,7 @@
                                 <span class="checkbox">
                                   <label class="checkbox-width">
                                       <input name="form-field-checkbox" type="checkbox" :disabled="!isModifiable"
-                                             class="ace" @click="doHideLeavingStaff" v-model="isHideLeavingStaff">
+                                             class="ace" v-model="isHideLeavingStaff">
                                       <span class="lbl font-btn">{{i18nLang.program.PMS0610020.hide_leaving_staff}}</span>
                                   </label>
                                 </span>
@@ -108,6 +108,7 @@
             },
             dataGridRowsData: {
                 handler: function (val) {
+                    console.log(val);
                     if (!_.isEmpty(val)) {
                         this.$eventHub.$emit("chgRelatedPersonData");
                         //將相關人員資料放至Vuex
@@ -123,6 +124,33 @@
                     }
                 },
                 deep: true
+            },
+            dataGridRowsDataOfStaff: {
+                handler(val) {
+                    console.log(val);
+                    if(this.isHideLeavingStaff){
+                        if (!_.isUndefined(this.dgIns.editIndex)) {
+                            let ln_editStaffIndex = this.dgIns.editIndex;
+                            let ln_editIndex = _.findIndex(this.dataGridRowsData, {uniKey: val[ln_editStaffIndex].uniKey});
+                            if (ln_editIndex > -1) {
+                                this.dataGridRowsData[ln_editIndex] = val[ln_editStaffIndex];
+                            }
+                        }
+                    }
+                },
+                deep: true
+            },
+            isHideLeavingStaff(val) {
+                if (!_.isEmpty(this.dgIns)) {
+                    this.dgIns.endEditing();
+                }
+
+                if (val) {
+                    this.dgIns.loadDgData(this.dataGridRowsDataOfStaff);
+                }
+                else {
+                    this.dgIns.loadDgData(this.dataGridRowsData);
+                }
             }
         },
         methods: {
@@ -149,9 +177,9 @@
                         result.dgRowData[ln_primaryIndex].primary_pers = 'Y';
                     }
                     //調整主要聯絡人值
-                    _.each(result.dgRowData, (lo_dgRowData, idx) => {
-                        result.dgRowData[idx].primary_pers = lo_dgRowData.primary_pers == 'n' ? 'N' : lo_dgRowData.primary_pers;
-                        result.dgRowData[idx].uniKey = Math.floor(Math.random() * (99999999999999999999));
+                    _.each(result.dgRowData, (lo_dgRowData) => {
+                        lo_dgRowData.primary_pers = lo_dgRowData.primary_pers == 'n' ? 'N' : lo_dgRowData.primary_pers;
+                        lo_dgRowData.uniKey = Math.floor(Math.random() * (99999999999999999999));
                     });
 
                     this.fieldsData = result.dgFieldsData;
@@ -200,15 +228,6 @@
                 }
                 else {
                     this.dgIns.removeRow();
-                }
-            },
-            doHideLeavingStaff() {
-                var lb_isHide = !this.isHideLeavingStaff;
-                if (lb_isHide) {
-                    this.showDataGrid(this.dataGridRowsDataOfStaff);
-                }
-                else {
-                    this.showDataGrid(this.dataGridRowsData);
                 }
             }
         }
