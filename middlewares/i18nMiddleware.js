@@ -15,10 +15,11 @@ const go_sysConf = require("../configs/systemConfig");
 module.exports = function (req, res, next) {
     let lao_localeInfo = [];
     let ls_locale = "";
+    const la_sys_locales = req.cookies.sys_locales || [];
     async.series([
         async function (cb) {
             //只有登入頁需要往下跑
-            if (req.originalUrl.toLocaleLowerCase().indexOf("/login") == -1 && req.cookies.sys_locales !== undefined) {
+            if (req.originalUrl.toLocaleLowerCase().indexOf("/login") == -1 && la_sys_locales.length != 0 && _.isArray(la_sys_locales)) {
                 res.cookie("sys_locales", req.cookies.sys_locales, {
                     maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3
                 });
