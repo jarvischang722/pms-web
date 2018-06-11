@@ -165,7 +165,7 @@ var vm = new Vue({
             BacUtils.doHttpPostAgent("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 vm.prgFieldDataAttr = result.fieldData;
 
-                if (self.searchFields.length <= 0) {
+                if (self.searchFields.length <= 0 && result.searchFields.length > 0) {
                     vm.searchFields = result.searchFields;
                     result.dataGridRows = [];
                 } else {
