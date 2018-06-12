@@ -204,7 +204,7 @@
                             <!-------- /.tabPage -------->
 
                             <div class="space-6"></div>
-                            <div id="resv-single-info">
+                            <div>
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="row">
                                         <div class="main-content-data">
@@ -702,13 +702,13 @@
                                             </div>
                                             <div class="resvCard-data">
                                                 <div class="pull-right">
-                                                    <span>房租:<span class="font-lg">10,000</span></span>
-                                                    <span>服務費:<span class="font-lg">1,000</span></span>
-                                                    <span>其他費用:<span class="font-lg">700</span></span>
-                                                    <span>總計:<span class="font-lg">11,700</span></span>
-                                                    <span>大人:<span class="font-lg">4</span></span>
-                                                    <span>小孩:<span class="font-lg">1</span></span>
-                                                    <span>嬰兒:<span class="font-lg">0</span></span>
+                                                    <template v-for="(fields, index) in orderDtFieldsData">
+                                                        <template v-if="index == 0">
+                                                            <template v-for="field in fields">
+                                                                <span>{{field.ui_display_name}}:<span class="font-lg">{{orderDtRowsData4Single[field.ui_field_name]}}</span></span>
+                                                            </template>
+                                                        </template>
+                                                    </template>
                                                 </div>
                                             </div>
                                         </div><!--main-content-data-->
@@ -720,6 +720,24 @@
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="row">
                                         <div class="main-content-data borderFrame">
+                                            <template v-for="(fields, index) in orderDtFieldsData">
+                                                <div v-if="index > 0" class="grid">
+                                                    <div v-for="field in fields" class="grid-item">
+                                                        <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
+                                                               :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
+                                                            <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                            <span>{{ field.ui_display_name }}</span>
+                                                        </label>
+
+                                                        <input type="text" v-model="orderDtRowsData4Single[field.ui_field_name]"
+                                                               v-if="field.visiable == 'Y'"
+                                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                               :required="field.requirable == 'Y'" min="0"
+                                                               :maxlength="field.ui_field_length"
+                                                               :class="{'input_sta_required' : field.requirable == 'Y'}">
+                                                    </div>
+                                                </div>
+                                            </template>
                                             <!--1-->
                                             <div class="grid">
                                                 <div class="grid-item">
@@ -894,13 +912,15 @@
         </div>
     </div>
 </template>
+
 <script>
     export default {
         name: 'pms0110041-lite',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
         data() {
             return {
-                orderMnFieldsData: [],            //order mn 欄位資料
+                fieldsDataLeft: [],               //頁面顯示欄位資料
+                fieldsDataRight: [],              //頁面顯示欄位資料
                 oriOrderMnFieldsData: [],         //原始order mn 欄位資料
                 orderMnRowsData: {},              //order mn 資料
                 oriOrderMnRowsData: {},           //單筆 原始order mn 欄位資料
@@ -908,10 +928,8 @@
                 oriOrderDtFieldsData: [],         //單筆 原始order dt 欄位資料
                 orderDtRowsData4Single: {},       //單筆 order dt 資料
                 orderDtFieldsData4table: [],      //多筆 order dt 欄位資料
-                oriOrderDtFieldsData4table: [],   //多筆 原始order dt 欄位資料
                 orderDtRowsData4table: [],        //多筆 order dt 資料
                 oriOrderMDtRowsData4table: [],    //多筆 原始order dt 資料
-                guestMnFieldsData: [],            //guest mn 欄位資料
                 oriGuestMnFieldsData: [],         //原始guest mn 欄位資料
                 guestMnRowsData: [],              //guest mn 資料
                 oriGuestMnRowsData: [],           //原始guest mn 欄位資料
@@ -923,13 +941,15 @@
             rowData(val) {
                 if (!_.isEmpty(val)) {
                     this.initTmpCUD();
+                    this.isLoadingDialog = true;
                     this.fetchFieldsData();
                 }
             }
         },
         methods: {
             initTmpCUD() {
-                this.orderMnFieldsData = [];
+                this.fieldsDataLeft = [];
+                this.fieldsDataRight = [];
                 this.oriOrderMnFieldsData = [];
                 this.orderMnRowsData = {};
                 this.oriOrderMnRowsData = {};
@@ -937,10 +957,8 @@
                 this.oriOrderDtFieldsData = [];
                 this.orderDtRowsData4Single = {};
                 this.orderDtFieldsData4table = [];
-                this.oriOrderDtFieldsData4table = [];
                 this.orderDtRowsData4table = [];
                 this.oriOrderMDtRowsData4table = [];
-                this.guestMnFieldsData = [];
                 this.oriGuestMnFieldsData = [];
                 this.guestMnRowsData = [];
                 this.oriGuestMnRowsData = [];
@@ -953,7 +971,7 @@
                         BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                             prg_id: "PMS0110041",
                             page_id: 1,
-                            tab_page_id: 1
+                            tab_page_id: 12
                         }, (result) => {
                             resolve(result);
                         });
@@ -962,7 +980,7 @@
                         BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                             prg_id: "PMS0110041",
                             page_id: 1,
-                            tab_page_id: 2
+                            tab_page_id: 13
                         }, (result) => {
                             resolve(result);
                         });
@@ -971,11 +989,45 @@
                         BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
                             prg_id: "PMS0110041",
                             page_id: 1,
-                            tab_page_id: 3
+                            tab_page_id: 11
                         }, (result) => {
                             resolve(result);
                         });
                     });
+                    let lo_orderDtDgFieldsData = await new Promise((resolve, reject) => {
+                        BacUtils.doHttpPostAgent("/api/fetchOnlyDataGridFieldData", {
+                            prg_id: "PMS0110041",
+                            page_id: 1,
+                            tab_page_id: 1
+                        }, (result) => {
+                            resolve(result);
+                        });
+                    });
+
+                    this.oriOrderMnFieldsData = lo_orderMnFieldsData.gsFieldsData;
+                    this.oriOrderDtFieldsData = lo_orderDtFieldsData.gsFieldsData;
+                    this.oriGuestMnFieldsData = lo_guestMnFieldsData.gsFieldsData;
+                    this.orderDtFieldsData4table = lo_orderDtDgFieldsData.dgFieldsData;
+
+                    this.fieldsDataLeft = _.values(_.groupBy(_.sortBy(_.filter(_.union(this.oriOrderMnFieldsData, this.oriGuestMnFieldsData), (lo_fieldsData) => {
+                        if (_.isUndefined(lo_fieldsData['col_seq'])) {
+                            return;
+                        }
+                        else {
+                            return lo_fieldsData['col_seq'].toString().substring(0, 1) == "1"
+                        }
+                    }), "col_seq"), "row_seq"));
+                    this.fieldsDataRight = _.values(_.groupBy(_.sortBy(_.filter(_.union(this.oriOrderMnFieldsData, this.oriGuestMnFieldsData), (lo_fieldsData) => {
+                        if (_.isUndefined(lo_fieldsData['col_seq'])) {
+                            return;
+                        }
+                        else {
+                            return lo_fieldsData['col_seq'].toString().substring(0, 1) == "2"
+                        }
+                    }), "col_seq"), "row_seq"));
+                    this.orderDtFieldsData = _.values(_.groupBy(_.sortBy(this.oriOrderDtFieldsData, "col_seq"), "row_seq"));
+
+                    this.isLoadingDialog = true;
                 }
                 catch (err) {
                     console.log(err)
