@@ -896,6 +896,146 @@ exports.HfdroomcolorrfProtyp = function () {
     ];
 };
 
+
+/**
+ * checkbox是否使用(PMS0860070)
+ * @returns
+ */
+exports.isPrtrent = function () {
+    let checkList = [{
+        on: 'Y',
+        off: 'N'
+    }, {
+        Y: '預設',
+        N: '非預設'
+    }];
+
+    return checkList;
+};
+
+exports.lang_OrdermnMastersta = function () {
+
+    let useList = [
+        {
+            display: '是',
+            value: 'Y'
+        },
+        {
+            display: '否',
+            value: 'N'
+        },
+        {
+            display: 'C/I',
+            value: 'I'
+        }
+    ];
+
+    return useList;
+};
+
+exports.lang_OrdermnAttenby = function () {
+
+    let useList = [
+        {
+            display: '訂房公司',
+            value: 'C'
+        },
+        {
+            display: '住客',
+            value: 'P'
+        }
+    ];
+
+    return useList;
+};
+
+exports.lang_OrdermnFixedorder = function () {
+
+    let useList = [
+        {
+            display: 'FIXED',
+            value: 'Y'
+        },
+        {
+            display: 'NO FIXED',
+            value: 'N'
+        }
+    ];
+
+    return useList;
+};
+
+exports.lang_OrdermnPrtconfirmsta = function () {
+
+    let useList = [
+        {
+            display: '已列印',
+            value: 'Y'
+        },
+        {
+            display: '未印',
+            value: 'N'
+        }
+    ];
+    return useList;
+};
+
+exports.lang_OrdermnMastersta = function () {
+
+    let useList = [
+        {
+            display: '已列印',
+            value: 'Y'
+        },
+        {
+            display: '未印',
+            value: 'N'
+        }
+    ];
+    return useList;
+};
+
+exports.langMastertyp = function () {
+    let useList = [
+        {
+            display: '指定使用',
+            value: 'N'
+        },
+        {
+            display: '系統自動給號',
+            value: 'A'
+        },
+        {
+            display: '現金帳',
+            value: 'C'
+        }
+    ];
+    return useList;
+};
+
+exports.langMastersta = function () {
+    let useList = [
+        {
+            display: '使用中',
+            value: 'Y'
+        },
+        {
+            display: '未使用',
+            value: 'N'
+        },
+        {
+            display: '暫停使用',
+            value: 'P'
+        },
+        {
+            display: '指定中',
+            value: 'T'
+        }
+    ];
+    return useList;
+};
+
+
 //房間狀況
 exports.roomMnRoomSta = function () {
     return [
@@ -1615,6 +1755,12 @@ exports.qry_address_rf_ghist_use = function (params, callback) {
     callback(null, lo_result);
 };
 
+exports.lang_YN = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsCanUse();
+    callback(null, lo_result);
+};
+
 /**
  * 住客歷史(PMS0210010) 取得狀況下拉資料
  */
@@ -2108,4 +2254,6 @@ exports.qryOrderSta = function (parans, callback) {
     lo_result.selectOptions = optionsLib.OrderSta();
     callback(null, lo_result);
 };
+
+
 //endregion

@@ -106,4 +106,15 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">gcust_cod</parameter>
     </dao>
+
+    <!-- ['PMS0110041'] ???????-->
+    <dao name="SEL_ACUST_NAM">
+        <statement><![CDATA[
+           select idx.show_cod,idx.cust_cod,idx.alt_nam,idx.uni_cod,idx.office_tel,mn.sales_cod
+           from cust_idx idx join cust_mn mn on idx.athena_id = mn.athena_id and idx.cust_cod  = mn.cust_cod
+           where from_table = 'CUST_MN' and cust_sta <> 'D'
+        ]]>
+        </statement>
+        <orderby>order by alt_nam</orderby>
+    </dao>
 </root>

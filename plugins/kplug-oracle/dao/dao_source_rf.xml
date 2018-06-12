@@ -51,7 +51,8 @@
         <statement><![CDATA[
             select source_typ value, source_nam display, use_sta
             from source_rf
-            where athena_id = :athena_id order by source_typ
+            where athena_id = :athena_id
+            order by source_typ
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
     </dao>
