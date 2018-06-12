@@ -21,6 +21,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--order mn&guest mn 單筆-->
                             <div class="easyui-tabs easyUi-custom1 guestHoliday" style="overflow-y: auto; width: 100%;">
                                 <div title="Reservation" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
@@ -201,17 +202,17 @@
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
+                            <!--/.order mn&guest mn 單筆-->
                             <!-------- /.tabPage -------->
-
                             <div class="space-6"></div>
+                            <!--order dt 多筆&單筆-->
                             <div>
+                                <!--多筆-->
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="row">
                                         <div class="main-content-data">
                                             <div>
                                                 <!--訂房卡資料table-->
-                                                <!--<table id="reservation_resvCard-table"-->
-                                                <!--style="height: 165px; width: 100%;"></table>-->
                                                 <div class="container_12 divider">
                                                     <div class="grid_12 fixed-table-container" style="height: 132px;">
                                                         <table class="fancyTable themeTable treeControl custom-table"
@@ -219,21 +220,27 @@
                                                             <thead>
                                                             <tr>
                                                                 <th class="text-center ca-headerTitle height-fntThead rp-first-th">
-                                                                    <i class="fa fa-plus green"></i>
+                                                                    <i class="fa fa-plus green" @click="appendRow"></i>
                                                                 </th>
-                                                                <th class="text-left" style="min-width: 40px;">狀態</th>
-                                                                <th class="text-left" style="min-width: 40px;">入住日期</th>
-                                                                <th class="text-left" style="min-width: 35px;">星期</th>
-                                                                <th class="text-left" style="min-width: 35px;">天數</th>
-                                                                <th class="text-left" style="min-width: 40px;">退房日期</th>
-                                                                <th class="text-left" style="min-width: 35px;">星期</th>
-                                                                <th class="text-left" style="min-width: 215px;">房價代號
-                                                                </th>
-                                                                <th class="text-left" style="min-width: 70px;">計價房型</th>
-                                                                <th class="text-left" style="min-width: 70px;">使用房型</th>
-                                                                <th class="text-right" style="min-width: 35px;">間數</th>
-                                                                <th class="text-right" style="min-width: 50px;">單價</th>
-                                                                <th class="text-right" style="min-width: 50px;">服務費</th>
+                                                                <template v-for="field in orderDtFieldsData4table">
+                                                                    <th v-if="field.visiable == 'Y'"
+                                                                        :style="{'min-width': field.width + 'px'}">
+                                                                        {{field.ui_display_name}}
+                                                                    </th>
+                                                                </template>
+                                                                <!--<th class="text-left" style="min-width: 40px;">狀態</th>-->
+                                                                <!--<th class="text-left" style="min-width: 40px;">入住日期</th>-->
+                                                                <!--<th class="text-left" style="min-width: 35px;">星期</th>-->
+                                                                <!--<th class="text-left" style="min-width: 35px;">天數</th>-->
+                                                                <!--<th class="text-left" style="min-width: 40px;">退房日期</th>-->
+                                                                <!--<th class="text-left" style="min-width: 35px;">星期</th>-->
+                                                                <!--<th class="text-left" style="min-width: 215px;">房價代號-->
+                                                                <!--</th>-->
+                                                                <!--<th class="text-left" style="min-width: 70px;">計價房型</th>-->
+                                                                <!--<th class="text-left" style="min-width: 70px;">使用房型</th>-->
+                                                                <!--<th class="text-right" style="min-width: 35px;">間數</th>-->
+                                                                <!--<th class="text-right" style="min-width: 50px;">單價</th>-->
+                                                                <!--<th class="text-right" style="min-width: 50px;">服務費</th>-->
                                                                 <!--<th class="text-left" style="min-width: 35px;">大人</th>-->
                                                                 <!--<th class="text-left" style="min-width: 35px;">小孩</th>-->
                                                                 <!--<th class="text-left" style="min-width: 35px;">嬰兒</th>-->
@@ -258,448 +265,78 @@
                                                                 <!--<td class=""></td>-->
                                                                 <!--<td class=""></td>-->
                                                             </tr>
-                                                            <!--1-->
-                                                            <tr>
-                                                                <td class="text-center">
-                                                                    <i class="fa fa-minus red"></i>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">正常</td>
-                                                                <td class="text-left">
-                                                                    <template>
-                                                                        <el-date-picker v-model="ciDate1" type="date"
-                                                                                        placeholder=""
-                                                                                        class="date-wt input_sta_required">
-                                                                        </el-date-picker>
+
+                                                            <template v-for="singleData in orderDtRowsData4table">
+                                                                <tr>
+                                                                    <td class="text-center">
+                                                                        <i class="fa fa-minus red" @click="removeRow"></i>
+                                                                    </td>
+                                                                    <template v-for="field in orderDtFieldsData4table">
+                                                                        <td class="text-left" v-if="field.visiable == 'Y'">
+
+                                                                            <label v-if="field.ui_type=='label'">{{singleData[field.ui_field_name]}}</label>
+
+                                                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                                                                   v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
+                                                                                   :style="{width:field.width + 'px'}"
+                                                                                   :required="field.requirable == 'Y'" min="0"
+                                                                                   :maxlength="field.ui_field_length"
+                                                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
+                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+
+                                                                            <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                                                        :style="{width:field.width + 'px'}"
+                                                                                        v-model="singleData[field.ui_field_name]" :data="field.selectData"
+                                                                                        is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                                        @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                                        :default-val="singleData[field.ui_field_name] || field.defaultVal"
+                                                                                        :field="field"
+                                                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                            </bac-select>
+
+                                                                            <!--number 金額顯示format-->
+                                                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                                                                   v-if="field.visiable == 'Y' && field.ui_type == 'number'"
+                                                                                   :style="{width:field.width + 'px'}"
+                                                                                   :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+
+                                                                            <!-- 日期時間選擇器 -->
+                                                                            <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'date'"
+                                                                                            v-model="singleData[field.ui_field_name]" type="date"
+                                                                                            :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                                                            size="small" format="yyyy/MM/dd"
+                                                                                            :style="{width:field.width + 'px'}"
+                                                                            >
+                                                                            </el-date-picker>
+
+                                                                            <input type="text" v-model="singleData[field.ui_field_name]"
+                                                                                   v-if="field.visiable == 'Y' && field.ui_type == 'button'"
+                                                                                   :style="{width:field.width + 'px'}"
+                                                                                   :required="field.requirable == 'Y'" min="0"
+                                                                                   :maxlength="field.ui_field_length"
+                                                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
+                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                                            >
+                                                                            <i v-if="field.ui_type == 'button'"
+                                                                               class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
+
+                                                                        </td>
                                                                     </template>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">日</td>
-                                                                <td class="text-left">
-                                                                    <input type="text" class="selectHt"
-                                                                           placeholder="2"/></td>
-                                                                <td class="text-left">
-                                                                    <template>
-                                                                        <el-date-picker v-model="coDate1" type="date"
-                                                                                        placeholder=""
-                                                                                        class="date-wt input_sta_required">
-                                                                        </el-date-picker>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">日</td>
-                                                                <td class="text-left td-more">
-                                                                    <input type="text"
-                                                                           class="selectHt pull-left wt-input input_sta_required"
-                                                                           placeholder="F1To1:一般散客價"/>
-                                                                    <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <!--計價房型-->
-                                                                    <template>
-                                                                        <el-select v-model="roomTypes_val_1"
-                                                                                   placeholder="請選擇"
-                                                                                   class="el-select-ht input_sta_required">
-                                                                            <el-option
-                                                                                    v-for="item in roomTypes"
-                                                                                    :key="item.value"
-                                                                                    :label="item.label"
-                                                                                    :value="item.value">
-                                                                            </el-option>
-                                                                        </el-select>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <!--使用房型-->
-                                                                    <template>
-                                                                        <el-select v-model="useRmTypes_val_1"
-                                                                                   placeholder="請選擇"
-                                                                                   class="el-select-ht input_sta_required">
-                                                                            <el-option
-                                                                                    v-for="item in useRmTypes"
-                                                                                    :key="item.value"
-                                                                                    :label="item.label"
-                                                                                    :value="item.value">
-                                                                            </el-option>
-                                                                        </el-select>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <input type="text"
-                                                                           class="selectHt input_sta_required"
-                                                                           placeholder="2"/>
-                                                                </td>
-                                                                <td class="text-right input-noEdit">5,000</td>
-                                                                <td class="text-right input-noEdit">500</td>
-                                                                <!--<td class="text-left"><input type="text"-->
-                                                                <!--class="selectHt"-->
-                                                                <!--placeholder="2"/></td>-->
-                                                                <!--<td class="text-left"><input type="text"-->
-                                                                <!--class="selectHt"-->
-                                                                <!--placeholder="1"/></td>-->
-                                                                <!--<td class="text-left"><input type="text"-->
-                                                                <!--class="selectHt"-->
-                                                                <!--placeholder="1"/></td>-->
-                                                            </tr>
-                                                            <!--2-->
-                                                            <tr>
-                                                                <td class="text-center">
-                                                                    <i class="fa fa-minus red"></i>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">正常</td>
-                                                                <td class="text-left">
-                                                                    <template>
-                                                                        <el-date-picker v-model="ciDate2" type="date"
-                                                                                        placeholder=""
-                                                                                        class="date-wt input_sta_required">
-                                                                        </el-date-picker>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">日</td>
-                                                                <td class="text-left">
-                                                                    <input type="text" class="selectHt"
-                                                                           placeholder="2"/>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <template>
-                                                                        <el-date-picker v-model="coDate2" type="date"
-                                                                                        placeholder=""
-                                                                                        class="date-wt input_sta_required">
-                                                                        </el-date-picker>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">日</td>
-                                                                <td class="text-left td-more">
-                                                                    <input type="text"
-                                                                           class="selectHt pull-left wt-input input_sta_required"
-                                                                           placeholder="F1To1:一般散客價"/>
-                                                                    <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <!--計價房型-->
-                                                                    <template>
-                                                                        <el-select v-model="roomTypes_val_2"
-                                                                                   placeholder="請選擇"
-                                                                                   class="el-select-ht input_sta_required">
-                                                                            <el-option
-                                                                                    v-for="item in roomTypes"
-                                                                                    :key="item.value"
-                                                                                    :label="item.label"
-                                                                                    :value="item.value">
-                                                                            </el-option>
-                                                                        </el-select>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <!--使用房型-->
-                                                                    <template>
-                                                                        <el-select v-model="useRmTypes_val_2"
-                                                                                   placeholder="請選擇"
-                                                                                   class="el-select-ht input_sta_required">
-                                                                            <el-option
-                                                                                    v-for="item in useRmTypes"
-                                                                                    :key="item.value"
-                                                                                    :label="item.label"
-                                                                                    :value="item.value">
-                                                                            </el-option>
-                                                                        </el-select>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <input type="text"
-                                                                           class="selectHt input_sta_required"
-                                                                           placeholder="2"/>
-                                                                </td>
-                                                                <td class="text-right input-noEdit">5,000</td>
-                                                                <td class="text-right input-noEdit">500</td>
-                                                            </tr>
-                                                            <!--3-->
-                                                            <tr>
-                                                                <td class="text-center">
-                                                                    <i class="fa fa-minus red"></i>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">正常</td>
-                                                                <td class="text-left">
-                                                                    <template>
-                                                                        <el-date-picker v-model="ciDate3" type="date"
-                                                                                        placeholder=""
-                                                                                        class="date-wt input_sta_required">
-                                                                        </el-date-picker>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">日</td>
-                                                                <td class="text-left">
-                                                                    <input type="text" class="selectHt"
-                                                                           placeholder="2"/></td>
-                                                                <td class="text-left">
-                                                                    <template>
-                                                                        <el-date-picker v-model="coDate3" type="date"
-                                                                                        placeholder=""
-                                                                                        class="date-wt input_sta_required">
-                                                                        </el-date-picker>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">日</td>
-                                                                <td class="text-left td-more">
-                                                                    <input type="text"
-                                                                           class="selectHt pull-left wt-input input_sta_required"
-                                                                           placeholder="F1To1:一般散客價"/>
-                                                                    <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <!--計價房型-->
-                                                                    <template>
-                                                                        <el-select v-model="roomTypes_val_3"
-                                                                                   placeholder="請選擇"
-                                                                                   class="el-select-ht input_sta_required">
-                                                                            <el-option
-                                                                                    v-for="item in roomTypes"
-                                                                                    :key="item.value"
-                                                                                    :label="item.label"
-                                                                                    :value="item.value">
-                                                                            </el-option>
-                                                                        </el-select>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <!--使用房型-->
-                                                                    <template>
-                                                                        <el-select v-model="useRmTypes_val_3"
-                                                                                   placeholder="請選擇"
-                                                                                   class="el-select-ht input_sta_required">
-                                                                            <el-option
-                                                                                    v-for="item in useRmTypes"
-                                                                                    :key="item.value"
-                                                                                    :label="item.label"
-                                                                                    :value="item.value">
-                                                                            </el-option>
-                                                                        </el-select>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <input type="text"
-                                                                           class="selectHt input_sta_required"
-                                                                           placeholder="2"/>
-                                                                </td>
-                                                                <td class="text-right input-noEdit">5,000</td>
-                                                                <td class="text-right input-noEdit">500</td>
-                                                            </tr>
-                                                            <!--4-->
-                                                            <tr>
-                                                                <td class="text-center">
-                                                                    <i class="fa fa-minus red"></i>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">正常</td>
-                                                                <td class="text-left">
-                                                                    <template>
-                                                                        <el-date-picker v-model="ciDate4" type="date"
-                                                                                        placeholder=""
-                                                                                        class="date-wt input_sta_required">
-                                                                        </el-date-picker>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">日</td>
-                                                                <td class="text-left">
-                                                                    <input type="text" class="selectHt"
-                                                                           placeholder="2"/></td>
-                                                                <td class="text-left">
-                                                                    <template>
-                                                                        <el-date-picker v-model="coDate4" type="date"
-                                                                                        placeholder=""
-                                                                                        class="date-wt input_sta_required">
-                                                                        </el-date-picker>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">日</td>
-                                                                <td class="text-left td-more">
-                                                                    <input type="text"
-                                                                           class="selectHt pull-left wt-input input_sta_required"
-                                                                           placeholder="F1To1:一般散客價"/>
-                                                                    <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <!--計價房型-->
-                                                                    <template>
-                                                                        <el-select v-model="roomTypes_val_4"
-                                                                                   placeholder="請選擇"
-                                                                                   class="el-select-ht input_sta_required">
-                                                                            <el-option
-                                                                                    v-for="item in roomTypes"
-                                                                                    :key="item.value"
-                                                                                    :label="item.label"
-                                                                                    :value="item.value">
-                                                                            </el-option>
-                                                                        </el-select>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <!--使用房型-->
-                                                                    <template>
-                                                                        <el-select v-model="useRmTypes_val_4"
-                                                                                   placeholder="請選擇"
-                                                                                   class="el-select-ht input_sta_required">
-                                                                            <el-option
-                                                                                    v-for="item in useRmTypes"
-                                                                                    :key="item.value"
-                                                                                    :label="item.label"
-                                                                                    :value="item.value">
-                                                                            </el-option>
-                                                                        </el-select>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <input type="text"
-                                                                           class="selectHt input_sta_required"
-                                                                           placeholder="2"/>
-                                                                </td>
-                                                                <td class="text-right input-noEdit">5,000</td>
-                                                                <td class="text-right input-noEdit">500</td>
-                                                            </tr>
-                                                            <!--5-->
-                                                            <tr>
-                                                                <td class="text-center">
-                                                                    <i class="fa fa-minus red"></i>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">正常</td>
-                                                                <td class="text-left">
-                                                                    <template>
-                                                                        <el-date-picker v-model="ciDate5" type="date"
-                                                                                        placeholder=""
-                                                                                        class="date-wt input_sta_required">
-                                                                        </el-date-picker>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">日</td>
-                                                                <td class="text-left">
-                                                                    <input type="text" class="selectHt"
-                                                                           placeholder="2"/></td>
-                                                                <td class="text-left">
-                                                                    <template>
-                                                                        <el-date-picker v-model="coDate5" type="date"
-                                                                                        placeholder=""
-                                                                                        class="date-wt input_sta_required">
-                                                                        </el-date-picker>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">日</td>
-                                                                <td class="text-left td-more">
-                                                                    <input type="text"
-                                                                           class="selectHt pull-left wt-input input_sta_required"
-                                                                           placeholder="F1To1:一般散客價"/>
-                                                                    <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <!--計價房型-->
-                                                                    <template>
-                                                                        <el-select v-model="roomTypes_val_5"
-                                                                                   placeholder="請選擇"
-                                                                                   class="el-select-ht input_sta_required">
-                                                                            <el-option
-                                                                                    v-for="item in roomTypes"
-                                                                                    :key="item.value"
-                                                                                    :label="item.label"
-                                                                                    :value="item.value">
-                                                                            </el-option>
-                                                                        </el-select>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <!--使用房型-->
-                                                                    <template>
-                                                                        <el-select v-model="useRmTypes_val_5"
-                                                                                   placeholder="請選擇"
-                                                                                   class="el-select-ht input_sta_required">
-                                                                            <el-option
-                                                                                    v-for="item in useRmTypes"
-                                                                                    :key="item.value"
-                                                                                    :label="item.label"
-                                                                                    :value="item.value">
-                                                                            </el-option>
-                                                                        </el-select>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <input type="text"
-                                                                           class="selectHt input_sta_required"
-                                                                           placeholder="2"/>
-                                                                </td>
-                                                                <td class="text-right input-noEdit">5,000</td>
-                                                                <td class="text-right input-noEdit">500</td>
-                                                            </tr>
-                                                            <!--6-->
-                                                            <tr>
-                                                                <td class="text-center">
-                                                                    <i class="fa fa-minus red"></i>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">正常</td>
-                                                                <td class="text-left">
-                                                                    <template>
-                                                                        <el-date-picker v-model="ciDate6" type="date"
-                                                                                        placeholder=""
-                                                                                        class="date-wt input_sta_required">
-                                                                        </el-date-picker>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">日</td>
-                                                                <td class="text-left">
-                                                                    <input type="text" class="selectHt"
-                                                                           placeholder="2"/></td>
-                                                                <td class="text-left">
-                                                                    <template>
-                                                                        <el-date-picker v-model="coDate6" type="date"
-                                                                                        placeholder=""
-                                                                                        class="date-wt input_sta_required">
-                                                                        </el-date-picker>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left input-noEdit">日</td>
-                                                                <td class="text-left td-more">
-                                                                    <input type="text"
-                                                                           class="selectHt pull-left wt-input input_sta_required"
-                                                                           placeholder="F1To1:一般散客價"/>
-                                                                    <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <!--計價房型-->
-                                                                    <template>
-                                                                        <el-select v-model="roomTypes_val_6"
-                                                                                   placeholder="請選擇"
-                                                                                   class="el-select-ht input_sta_required">
-                                                                            <el-option
-                                                                                    v-for="item in roomTypes"
-                                                                                    :key="item.value"
-                                                                                    :label="item.label"
-                                                                                    :value="item.value">
-                                                                            </el-option>
-                                                                        </el-select>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    <!--使用房型-->
-                                                                    <template>
-                                                                        <el-select v-model="useRmTypes_val_6"
-                                                                                   placeholder="請選擇"
-                                                                                   class="el-select-ht input_sta_required">
-                                                                            <el-option
-                                                                                    v-for="item in useRmTypes"
-                                                                                    :key="item.value"
-                                                                                    :label="item.label"
-                                                                                    :value="item.value">
-                                                                            </el-option>
-                                                                        </el-select>
-                                                                    </template>
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <input type="text"
-                                                                           class="selectHt input_sta_required"
-                                                                           placeholder="2"/>
-                                                                </td>
-                                                                <td class="text-right input-noEdit">5,000</td>
-                                                                <td class="text-right input-noEdit">500</td>
-                                                            </tr>
+                                                                </tr>
+                                                            </template>
                                                             </tbody>
                                                         </table>
-                                                        <!-- table -->
                                                     </div>
                                                 </div>
+                                                <!--/訂房卡資料table-->
                                             </div>
+                                            <!--房價總額-->
                                             <div class="resvCard-data">
                                                 <div class="pull-right">
                                                     <template v-for="(fields, index) in orderDtFieldsData">
@@ -711,119 +348,66 @@
                                                     </template>
                                                 </div>
                                             </div>
+                                            <!--/.房價總額-->
                                         </div><!--main-content-data-->
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
-
+                                <!--/.多筆-->
                                 <div class="space-4"></div>
+                                <!--單筆-->
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="row">
                                         <div class="main-content-data borderFrame">
                                             <template v-for="(fields, index) in orderDtFieldsData">
                                                 <div v-if="index > 0" class="grid">
                                                     <div v-for="field in fields" class="grid-item">
-                                                        <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
+                                                        <label v-if="field.visiable == 'Y'"
                                                                :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
                                                             <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                             <span>{{ field.ui_display_name }}</span>
                                                         </label>
 
                                                         <input type="text" v-model="orderDtRowsData4Single[field.ui_field_name]"
-                                                               v-if="field.visiable == 'Y'"
+                                                               v-if="field.visiable == 'Y' && field.label_width != 0 && field.ui_type == 'text'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :required="field.requirable == 'Y'" min="0"
                                                                :maxlength="field.ui_field_length"
-                                                               :class="{'input_sta_required' : field.requirable == 'Y'}">
+                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                        <input type="text" style="margin-left: -12px;"
+                                                               v-else-if="field.visiable == 'Y' && field.label_width == 0 && field.ui_type == 'text'"
+                                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                               :required="field.requirable == 'Y'" min="0"
+                                                               :maxlength="field.ui_field_length"
+                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+
+                                                        <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                    v-model="orderDtRowsData4Single[field.ui_field_name]"
+                                                                    :data="field.selectData"
+                                                                    is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                    @update:v-model="val => orderDtRowsData4Single[field.ui_field_name] = val"
+                                                                    :default-val="orderDtRowsData4Single[field.ui_field_name]" :field="field"
+                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                        </bac-select>
                                                     </div>
                                                 </div>
                                             </template>
-                                            <!--1-->
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>
-                                                    <span class="notice">
-                                                        <i class="fa fa-star"></i>
-                                                    </span>訂房來源
-                                                    </label>
-                                                    <template>
-                                                        <el-select v-model="resv_sources_val_4"
-                                                                   placeholder="請選擇"
-                                                                   class="el-select-ht input-medium resvCard input_sta_required">
-                                                            <el-option
-                                                                    v-for="item in resv_sources"
-                                                                    :key="item.value"
-                                                                    :label="item.label"
-                                                                    :value="item.value">
-                                                            </el-option>
-                                                        </el-select>
-                                                    </template>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>佣金</label>
-                                                    <input type="text" class="input-medium resvCard"
-                                                           placeholder=""/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>房租</label>
-                                                    <input type="text" class="input-medium resvCard text-right"
-                                                           placeholder="10,000" disabled/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>服務費</label>
-                                                    <input type="text" class="input-medium resvCard text-right"
-                                                           placeholder="1000" disabled/>
-                                                </div>
-                                            </div>
-                                            <!--2-->
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>市場類別</label>
-                                                    <template>
-                                                        <el-select v-model="marketCates_val_4"
-                                                                   placeholder="請選擇"
-                                                                   class="el-select-ht input-medium resvCard input_sta_required">
-                                                            <el-option
-                                                                    v-for="item in marketCates"
-                                                                    :key="item.value"
-                                                                    :label="item.label"
-                                                                    :value="item.value">
-                                                            </el-option>
-                                                        </el-select>
-                                                    </template>
-                                                </div>
-
-                                                <div class="grid-item">
-                                                    <label>大/小/嬰</label>
-                                                    <input type="text" class="input-medium resvCard-2xs text-right"
-                                                           placeholder="1" disabled/>
-                                                    <input type="text" class="input-medium resvCard-2xs text-right ml-2"
-                                                           placeholder="0" disabled/>
-                                                    <input type="text" class="input-medium resvCard-2xs text-right ml-2"
-                                                           placeholder="0" disabled/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>其他費用</label>
-                                                    <input type="text" class="input-medium resvCard text-right"
-                                                           placeholder="700" disabled/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>小計</label>
-                                                    <input type="text" class="input-medium resvCard text-right"
-                                                           placeholder="11,700" disabled/>
-                                                </div>
-                                            </div>
-                                        </div><!--main-content-data-->
-                                    </div>
-                                </div>
-                                <div class="resvCard-data">
-                                    <div class="pull-right">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
+                                <!--/.單筆-->
                             </div>
+                            <!--/.order dt 多筆&單筆-->
                         </div>
                     </div>
+                    <!--按鈕-->
                     <div class="col-xs-1 col-sm-1">
                         <div class="row">
                             <div class="right-menu-co">
@@ -906,6 +490,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--/.按鈕-->
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -917,6 +502,9 @@
     export default {
         name: 'pms0110041-lite',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
+        updated() {
+            $("#resvSingle-table").tableHeadFixer({"left": 1});
+        },
         data() {
             return {
                 fieldsDataLeft: [],               //頁面顯示欄位資料
@@ -1007,7 +595,7 @@
                     this.oriOrderMnFieldsData = lo_orderMnFieldsData.gsFieldsData;
                     this.oriOrderDtFieldsData = lo_orderDtFieldsData.gsFieldsData;
                     this.oriGuestMnFieldsData = lo_guestMnFieldsData.gsFieldsData;
-                    this.orderDtFieldsData4table = lo_orderDtDgFieldsData.dgFieldsData;
+                    this.orderDtFieldsData4table = _.sortBy(lo_orderDtDgFieldsData.dgFieldsData, "col_seq");
 
                     this.fieldsDataLeft = _.values(_.groupBy(_.sortBy(_.filter(_.union(this.oriOrderMnFieldsData, this.oriGuestMnFieldsData), (lo_fieldsData) => {
                         if (_.isUndefined(lo_fieldsData['col_seq'])) {
@@ -1028,15 +616,39 @@
                     this.orderDtFieldsData = _.values(_.groupBy(_.sortBy(this.oriOrderDtFieldsData, "col_seq"), "row_seq"));
 
                     this.isLoadingDialog = true;
+                    console.log(this.orderDtFieldsData4table);
+                    this.orderDtRowsData4table = [{
+                        athena_id: 1,
+                        hotel_cod: '02',
+                        ikey: 1,
+                        ikey_seq_nos: 1,
+                        order_sta: 1,
+                        ci_dat: '2018/06/12',
+                        ci_dat_week: '二',
+                        days: 2,
+                        co_dat: '2012/06/13',
+                        co_dat_week: '三',
+                        rate_cod: 'test',
+                        use_cod: 1,
+                        room_cod: 'test',
+                        order_qnt: 1,
+                        rent_amt: 1,
+                        serv_amt: 1
+                    }];
                 }
                 catch (err) {
                     console.log(err)
                 }
 
+            },
+            appendRow() {
+            },
+            removeRow() {
             }
         }
     }
 </script>
+
 <style>
 
 </style>
