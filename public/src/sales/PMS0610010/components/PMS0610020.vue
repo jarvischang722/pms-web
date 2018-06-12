@@ -38,19 +38,20 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
 
-                                            <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
-                                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                             :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                             v-model="singleData[field.ui_field_name]"
-                                                             :columns="field.selectData.columns"
-                                                             :data="field.selectData.selectData"
-                                                             :field="field"
-                                                             :is-qry-src-before="field.selectData.isQrySrcBefore"
-                                                             :id-field="field.selectData.value"
-                                                             :text-field="field.selectData.display"
-                                                             @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                             :default-val="singleData[field.ui_field_name]"
-                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
+                                            <bac-select-grid
+                                                    v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                    v-model="singleData[field.ui_field_name]"
+                                                    :columns="field.selectData.columns"
+                                                    :data="field.selectData.selectData"
+                                                    :field="field"
+                                                    :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                    :id-field="field.selectData.value"
+                                                    :text-field="field.selectData.display"
+                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                    :default-val="singleData[field.ui_field_name]"
+                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select-grid>
                                         </div>
@@ -430,12 +431,12 @@
                 },
                 deep: true
             },
+            //若發票抬頭為空的，則將公司名稱帶入
             "singleData.cust_nam": function (newVal, oldVal) {
-                //若發票抬頭為空的，則將公司名稱帶入
-                let ls_examData = JSON.parse(JSON.stringify(this.singleData.cust_idx_uni_titile));
-                if ((_.isNull(ls_examData) || _.isUndefined(ls_examData) || ls_examData == "") &&
-                    (!_.isNull(newVal) || !_.isUndefined(newVal) || newVal != "")) {
-                    this.singleData.cust_idx_uni_titile = newVal;
+                const ls_newVal = newVal || "";
+                const ls_uni_title = this.singleData.cust_idx_uni_titile || "";
+                if (ls_uni_title == "" && ls_newVal != "") {
+                    this.singleData.cust_idx_uni_titile = ls_newVal;
                 }
             }
         },

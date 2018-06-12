@@ -137,7 +137,6 @@
                 BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", lo_params, function (result) {
                     self.oriFieldsData = result.gsFieldsData;
                     self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
-                    console.log(self.fieldsData);
                     self.fetchRowData();
                 });
             },

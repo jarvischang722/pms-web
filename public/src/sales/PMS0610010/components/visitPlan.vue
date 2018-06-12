@@ -222,8 +222,6 @@
 
     var vmHub = new Vue();
 
-    var go_funcPurview;
-
     /** DatagridRmSingleGridClass **/
     function DataGridSingleGridClass() {
     }
