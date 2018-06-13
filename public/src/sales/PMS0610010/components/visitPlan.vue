@@ -238,9 +238,8 @@
         name: 'visit-plan',
         props: ["editRows", "isVisitPlan"],
         created() {
-            var self = this;
-            vmHub.$on("selectDataGridRow", function (data) {
-                self.rowData = data.row;
+            vmHub.$on("selectDataGridRow", (data) => {
+                this.rowData = data.row;
             });
         },
         mounted() {
@@ -285,6 +284,8 @@
             rowData(val) {
                 if (!_.isEmpty(val)) {
                     this.changedSingleData = JSON.parse(JSON.stringify(this.singleData));
+                    this.changedSingleData.visit_dat = this.chkDateValue(this.changedSingleData.visit_dat);
+                    this.changedSingleData.avisit_dat = this.chkDateValue(this.changedSingleData.avisit_dat);
                     if (!_.isEmpty(this.changedSingleData)) {
                         this.setEditRowsContent(this.changedSingleData);
                     }
@@ -303,12 +304,9 @@
                 this.oriFieldsData = [];
             },
             setTmpRowData() {
-                var self = this;
                 this.tmpRowsData = [];
-                var ln_count = 0;
-                _.each(this.editRows, function (lo_editRow) {
-                    ln_count++;
-                    var lo_editRowContent = {
+                _.each(this.editRows, lo_editRow => {
+                    let lo_editRowContent = {
                         show_cod: lo_editRow.cust_mn_show_cod,
                         cust_cod: lo_editRow.cust_mn_cust_cod,
                         cust_nam: lo_editRow.cust_mn_cust_nam,
@@ -323,11 +321,10 @@
                         remark: null
                     };
 
-                    self.tmpRowsData.push(lo_editRowContent);
+                    this.tmpRowsData.push(lo_editRowContent);
                 });
-                if (ln_count == this.editRows.length) {
-                    this.fetchSingleGridFieldData();
-                }
+                this.singleData = this.tmpRowsData[0];
+                this.fetchSingleGridFieldData();
             },
             fetchSingleGridFieldData() {
                 var self = this;
@@ -373,9 +370,11 @@
                 });
             },
             fetchRowDataContent(editingRow) {
-                var existIdx = _.findIndex(this.tmpRowsData, {cust_cod: editingRow.cust_mn_cust_cod});
-                if (existIdx > -1) {
-                    this.singleData = this.tmpRowsData[existIdx];
+                const ln_existIdx = _.findIndex(this.tmpRowsData, {cust_cod: editingRow.cust_mn_cust_cod});
+                if (ln_existIdx > -1) {
+                    this.tmpRowsData[ln_existIdx].visit_dat = this.chkDateValue(this.tmpRowsData[ln_existIdx].visit_dat);
+                    this.tmpRowsData[ln_existIdx].avisit_dat = this.chkDateValue(this.tmpRowsData[ln_existIdx].avisit_dat);
+                    this.singleData = this.tmpRowsData[ln_existIdx];
                 }
                 else {
                     this.singleData = {
@@ -396,18 +395,22 @@
 
                 this.showDataGrid(editingRow);
             },
+            /**
+             * 檢查日期格式
+             * @param dateVal {string} 日期
+             * @returns {string}
+             */
+            chkDateValue(dateVal) {
+                dateVal = dateVal || "";
+                return dateVal != "" ? moment(dateVal).format("YYYY/MM/DD") : "";
+            },
             setEditRowsContent(changedSingleData) {
-                changedSingleData.visit_dat =
-                    changedSingleData.visit_dat == "" || _.isUndefined(changedSingleData.visit_dat) ? "" : moment(new Date(changedSingleData.visit_dat)).format("YYYY/MM/DD");
-                changedSingleData.avisit_dat =
-                    changedSingleData.avisit_dat == "" || _.isUndefined(changedSingleData.avisit_dat) ? "" : moment(new Date(changedSingleData.avisit_dat)).format("YYYY/MM/DD");
-
                 //先將預設在tmpRowsData的先刪除，再改過的資料加回至原本的位置
-                var existIdx = _.findIndex(this.tmpRowsData, {cust_cod: changedSingleData.cust_cod});
-                if (existIdx > -1) {
-                    this.tmpRowsData.splice(existIdx, 1);
+                const ln_existIdx = _.findIndex(this.tmpRowsData, {cust_cod: changedSingleData.cust_cod});
+                if (ln_existIdx > -1) {
+                    this.tmpRowsData.splice(ln_existIdx, 1);
                 }
-                this.tmpRowsData.splice(existIdx, 0, changedSingleData);
+                this.tmpRowsData.splice(ln_existIdx, 0, changedSingleData);
             },
             showDataGrid(editingRow) {
                 var colOption = [{field: 'ck', checkbox: true}];
