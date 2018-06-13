@@ -216,7 +216,7 @@
                                                 <div class="container_12 divider">
                                                     <div class="grid_12 fixed-table-container" style="height: 132px;">
                                                         <table class="fancyTable themeTable treeControl custom-table"
-                                                               id="resvSingle-table" cellpadding="0" cellspacing="0">
+                                                               id="resvSingleTable" cellpadding="0" cellspacing="0">
                                                             <thead>
                                                             <tr>
                                                                 <th class="text-center ca-headerTitle height-fntThead rp-first-th">
@@ -228,104 +228,70 @@
                                                                         {{field.ui_display_name}}
                                                                     </th>
                                                                 </template>
-                                                                <!--<th class="text-left" style="min-width: 40px;">狀態</th>-->
-                                                                <!--<th class="text-left" style="min-width: 40px;">入住日期</th>-->
-                                                                <!--<th class="text-left" style="min-width: 35px;">星期</th>-->
-                                                                <!--<th class="text-left" style="min-width: 35px;">天數</th>-->
-                                                                <!--<th class="text-left" style="min-width: 40px;">退房日期</th>-->
-                                                                <!--<th class="text-left" style="min-width: 35px;">星期</th>-->
-                                                                <!--<th class="text-left" style="min-width: 215px;">房價代號-->
-                                                                <!--</th>-->
-                                                                <!--<th class="text-left" style="min-width: 70px;">計價房型</th>-->
-                                                                <!--<th class="text-left" style="min-width: 70px;">使用房型</th>-->
-                                                                <!--<th class="text-right" style="min-width: 35px;">間數</th>-->
-                                                                <!--<th class="text-right" style="min-width: 50px;">單價</th>-->
-                                                                <!--<th class="text-right" style="min-width: 50px;">服務費</th>-->
-                                                                <!--<th class="text-left" style="min-width: 35px;">大人</th>-->
-                                                                <!--<th class="text-left" style="min-width: 35px;">小孩</th>-->
-                                                                <!--<th class="text-left" style="min-width: 35px;">嬰兒</th>-->
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr class="hidden-firstTr">
-                                                                <td class="middle td-first hidden-firstTd"></td>
-                                                                <td class=""></td>
-                                                                <td class=""></td>
-                                                                <td class=""></td>
-                                                                <td class=""></td>
-                                                                <td class=""></td>
-                                                                <td class=""></td>
-                                                                <td class=""></td>
-                                                                <td class=""></td>
-                                                                <td class=""></td>
-                                                                <td class=""></td>
-                                                                <td class=""></td>
-                                                                <td class=""></td>
-                                                                <!--<td class=""></td>-->
-                                                                <!--<td class=""></td>-->
-                                                                <!--<td class=""></td>-->
-                                                            </tr>
-
-                                                            <template v-for="singleData in orderDtRowsData4table">
-                                                                <tr>
+                                                            <template v-for="values in orderDtRowsData4table">
+                                                                <tr v-for="singleData in values">
                                                                     <td class="text-center">
                                                                         <i class="fa fa-minus red" @click="removeRow"></i>
                                                                     </td>
                                                                     <template v-for="field in orderDtFieldsData4table">
-                                                                        <td class="text-left" v-if="field.visiable == 'Y'">
-
-                                                                            <label v-if="field.ui_type=='label'">{{singleData[field.ui_field_name]}}</label>
-
+                                                                        <td class="text-left input-noEdit" :style="{width:field.width + 'px'}"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='label'">
+                                                                            {{singleData[field.ui_field_name]}}
+                                                                        </td>
+                                                                        <td class="text-left" v-if="field.visiable == 'Y' && field.ui_type=='text'">
                                                                             <input type="text" v-model="singleData[field.ui_field_name]"
-                                                                                   v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
                                                                                    :style="{width:field.width + 'px'}"
                                                                                    :required="field.requirable == 'Y'" min="0"
-                                                                                   :maxlength="field.ui_field_length"
+                                                                                   :maxlength="field.ui_field_length" class="selectHt"
                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
-                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-
-                                                                            <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
-                                                                                        :style="{width:field.width + 'px'}"
+                                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                        </td>
+                                                                        <td class="text-left" v-if="field.visiable == 'Y' && field.ui_type=='select'">
+                                                                            <bac-select :field="field" :style="{width:field.width + 'px'}"
                                                                                         v-model="singleData[field.ui_field_name]" :data="field.selectData"
                                                                                         is-qry-src-before="Y" value-field="value" text-field="display"
                                                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
                                                                                         :default-val="singleData[field.ui_field_name] || field.defaultVal"
-                                                                                        :field="field"
+                                                                                        class="el-select-ht selectHt" style="height: 25px;"
                                                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                             </bac-select>
-
-                                                                            <!--number 金額顯示format-->
-                                                                            <input type="text" v-model="singleData[field.ui_field_name]"
-                                                                                   v-if="field.visiable == 'Y' && field.ui_type == 'number'"
-                                                                                   :style="{width:field.width + 'px'}"
-                                                                                   :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
-                                                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-
+                                                                        </td>
+                                                                        <td class="text-left" v-if="field.visiable == 'Y' && field.ui_type=='date'">
                                                                             <!-- 日期時間選擇器 -->
-                                                                            <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'date'"
-                                                                                            v-model="singleData[field.ui_field_name]" type="date"
+                                                                            <el-date-picker v-model="singleData[field.ui_field_name]" type="date"
                                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                                                            size="small" format="yyyy/MM/dd"
+                                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                                                            class="date-wt input_sta_required" format="yyyy/MM/dd"
                                                                                             :style="{width:field.width + 'px'}"
+                                                                                            :editable="false" :clearable="false"
                                                                             >
                                                                             </el-date-picker>
-
+                                                                        </td>
+                                                                        <td class="text-left" v-if="field.visiable == 'Y' && field.ui_type=='number'">
+                                                                            <!--number 金額顯示format-->
                                                                             <input type="text" v-model="singleData[field.ui_field_name]"
-                                                                                   v-if="field.visiable == 'Y' && field.ui_type == 'button'"
+                                                                                   :style="{width:field.width + 'px'}" class="text-right selectHt"
+                                                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                        </td>
+                                                                        <td class="text-left td-more" style="height: 26px;"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='button'">
+                                                                            <input type="text" v-model="singleData[field.ui_field_name]"
                                                                                    :style="{width:field.width + 'px'}"
                                                                                    :required="field.requirable == 'Y'" min="0"
                                                                                    :maxlength="field.ui_field_length"
                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                   class="selectHt pull-left wt-input"
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
-                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                                             >
-                                                                            <i v-if="field.ui_type == 'button'"
-                                                                               class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
-
+                                                                            <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
                                                                         </td>
                                                                     </template>
                                                                 </tr>
@@ -499,11 +465,13 @@
 </template>
 
 <script>
+    const gs_prgId = 'PMS0110041';
+
     export default {
         name: 'pms0110041-lite',
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
         updated() {
-            $("#resvSingle-table").tableHeadFixer({"left": 1});
+            $("#resvSingleTable").tableHeadFixer({"left": 1});
         },
         data() {
             return {
@@ -555,48 +523,52 @@
             async fetchFieldsData() {
                 this.isLoadingDialog = true;
                 try {
+                    //取單筆orderMn欄位資料
                     let lo_orderMnFieldsData = await new Promise((resolve, reject) => {
                         BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
-                            prg_id: "PMS0110041",
+                            prg_id: gs_prgId,
                             page_id: 1,
                             tab_page_id: 12
                         }, (result) => {
                             resolve(result);
                         });
                     });
+                    this.oriOrderMnFieldsData = lo_orderMnFieldsData.gsFieldsData;
+                    //取單筆orderDt欄位資料
                     let lo_orderDtFieldsData = await new Promise((resolve, reject) => {
                         BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
-                            prg_id: "PMS0110041",
+                            prg_id: gs_prgId,
                             page_id: 1,
                             tab_page_id: 13
                         }, (result) => {
                             resolve(result);
                         });
                     });
+                    this.oriOrderDtFieldsData = lo_orderDtFieldsData.gsFieldsData;
+                    //取單筆guestMn欄位資料
                     let lo_guestMnFieldsData = await new Promise((resolve, reject) => {
                         BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
-                            prg_id: "PMS0110041",
+                            prg_id: gs_prgId,
                             page_id: 1,
                             tab_page_id: 11
                         }, (result) => {
                             resolve(result);
                         });
                     });
+                    this.oriGuestMnFieldsData = lo_guestMnFieldsData.gsFieldsData;
+                    //取多筆orderDt欄位資料
                     let lo_orderDtDgFieldsData = await new Promise((resolve, reject) => {
                         BacUtils.doHttpPostAgent("/api/fetchOnlyDataGridFieldData", {
-                            prg_id: "PMS0110041",
+                            prg_id: gs_prgId,
                             page_id: 1,
                             tab_page_id: 1
                         }, (result) => {
                             resolve(result);
                         });
                     });
-
-                    this.oriOrderMnFieldsData = lo_orderMnFieldsData.gsFieldsData;
-                    this.oriOrderDtFieldsData = lo_orderDtFieldsData.gsFieldsData;
-                    this.oriGuestMnFieldsData = lo_guestMnFieldsData.gsFieldsData;
                     this.orderDtFieldsData4table = _.sortBy(lo_orderDtDgFieldsData.dgFieldsData, "col_seq");
 
+                    //將單筆orderMn、guestMn欄位資料組成頁面上顯示
                     this.fieldsDataLeft = _.values(_.groupBy(_.sortBy(_.filter(_.union(this.oriOrderMnFieldsData, this.oriGuestMnFieldsData), (lo_fieldsData) => {
                         if (_.isUndefined(lo_fieldsData['col_seq'])) {
                             return;
@@ -615,31 +587,85 @@
                     }), "col_seq"), "row_seq"));
                     this.orderDtFieldsData = _.values(_.groupBy(_.sortBy(this.oriOrderDtFieldsData, "col_seq"), "row_seq"));
 
-                    this.isLoadingDialog = true;
-                    console.log(this.orderDtFieldsData4table);
-                    this.orderDtRowsData4table = [{
-                        athena_id: 1,
-                        hotel_cod: '02',
-                        ikey: 1,
-                        ikey_seq_nos: 1,
-                        order_sta: 1,
-                        ci_dat: '2018/06/12',
-                        ci_dat_week: '二',
-                        days: 2,
-                        co_dat: '2012/06/13',
-                        co_dat_week: '三',
-                        rate_cod: 'test',
-                        use_cod: 1,
-                        room_cod: 'test',
-                        order_qnt: 1,
-                        rent_amt: 1,
-                        serv_amt: 1
-                    }];
+//                    this.orderDtRowsData4table = [{}];
+                    await this.fetchRowData();
                 }
                 catch (err) {
                     console.log(err)
                 }
+            },
+            async fetchRowData() {
+                let ls_apiUrl = "";
+                let lo_params = {};
+                let lo_fetchSingleData = {};
+                let lo_fetchOderDtData = {};
+                //取 order mn 資料
+                if (this.isCreateStatus) {
+                    ls_apiUrl = "/api/fetchDefaultSingleRowData";
+                    lo_params = {
+                        prg_id: gs_prgId,
+                        page_id: 1,
+                        tab_page_id: 12
+                    };
+                }
+                else if (this.isEditStatus) {
+                    ls_apiUrl = "/api/fetchSinglePageFieldData";
+                    lo_params = {
+                        prg_id: gs_prgId,
+                        page_id: 1,
+                        tab_page_id: 12,
+                        template_id: "gridsingle",
+                        searchCond: {ikey: this.rowData.ikey}
+                    };
+                }
 
+                lo_fetchSingleData = await new Promise((resolve, reject) => {
+                    BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, (result) => {
+                        resolve(result);
+                    });
+                });
+                if (lo_fetchSingleData.success) {
+                    this.orderMnRowsData = lo_fetchSingleData.gsMnData.rowData[0];
+                    this.oriOrderMnRowsData = JSON.parse(JSON.stringify(lo_fetchSingleData.gsMnData.rowData[0]));
+                }
+                else {
+                    alert(lo_fetchSingleData.errorMsg);
+                    return;
+                }
+
+                //取order dt 資料
+                if (this.isEditStatus) {
+                    ls_apiUrl = "/api/fetchDgRowData";
+                    lo_params = {
+                        prg_id: gs_prgId,
+                        page_id: 1,
+                        tab_page_id: 1,
+                        searchCond: {ikey: this.rowData.ikey}
+                    };
+                    lo_fetchOderDtData = await new Promise((resolve, reject) => {
+                        BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, (result) => {
+                            resolve(result);
+                        });
+                    });
+                    if (lo_fetchSingleData.success) {
+                        this.oriOrderMDtRowsData4table = JSON.parse(JSON.stringify(lo_fetchOderDtData.dgRowData));
+                        this.orderDtRowsData4table = _.groupBy(lo_fetchOderDtData.dgRowData, (lo_dgRowData) => {
+                            return lo_dgRowData.order_sta && lo_dgRowData.days && lo_dgRowData.ci_dat && lo_dgRowData.co_dat && lo_dgRowData.rate_cod && lo_dgRowData.use_cod && lo_dgRowData.room_cod && lo_dgRowData.order_qnt;
+                        });
+                    }
+                    else {
+                        alert(lo_fetchOderDtData.errorMsg);
+                    }
+
+//                    let lo_doDefault = await new Promise((resolve, reject) => {
+//                        BacUtils.doHttpPostAgent("/api/chkFieldRule", {
+//                            rule_func_name: 'convert_oder_appraise_to_tmp',
+//                            ikey: this.rowData.ikey
+//                        }, lo_params, (result) => {
+//                            resolve(result);
+//                        });
+//                    });
+                }
             },
             appendRow() {
             },

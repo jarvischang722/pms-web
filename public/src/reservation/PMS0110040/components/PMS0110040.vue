@@ -478,9 +478,9 @@
                 });
             },
             appendRow() {
-                this.isCreateStatus = true;
-                this.isEditStatus = false;
-                this.editingRow = {ikey: ""};
+                this.isEditStatus = true;
+                this.isCreateStatus = false;
+                this.editingRow = {ikey: "00053502"};
 
                 this.showSingleGridDialog();
             },

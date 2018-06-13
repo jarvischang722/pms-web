@@ -901,7 +901,14 @@ exports.HfdroomcolorrfProtyp = function () {
  * checkbox是否使用(PMS0860070)
  * @returns
  */
-exports.isPrtrent = function () {
+
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 order_dt.is_prtrent 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.getIsPrtrent = function () {
     let checkList = [{
         on: 'Y',
         off: 'N'
@@ -913,7 +920,13 @@ exports.isPrtrent = function () {
     return checkList;
 };
 
-exports.lang_OrdermnMastersta = function () {
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 fixed_order (fixed_order) 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.get_OrdermnMastersta = function () {
 
     let useList = [
         {
@@ -932,8 +945,13 @@ exports.lang_OrdermnMastersta = function () {
 
     return useList;
 };
-
-exports.lang_OrdermnAttenby = function () {
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 atten_by (From) 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.get_OrdermnAttenby = function () {
 
     let useList = [
         {
@@ -949,7 +967,13 @@ exports.lang_OrdermnAttenby = function () {
     return useList;
 };
 
-exports.lang_OrdermnFixedorder = function () {
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 fixed_order (fixed_order) 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.get_OrdermnFixedorder = function () {
 
     let useList = [
         {
@@ -965,7 +989,13 @@ exports.lang_OrdermnFixedorder = function () {
     return useList;
 };
 
-exports.lang_OrdermnPrtconfirmsta = function () {
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 prtconfirm_sta (旅客登記卡印房租) 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.get_OrdermnPrtconfirmsta = function () {
 
     let useList = [
         {
@@ -980,22 +1010,7 @@ exports.lang_OrdermnPrtconfirmsta = function () {
     return useList;
 };
 
-exports.lang_OrdermnMastersta = function () {
-
-    let useList = [
-        {
-            display: '已列印',
-            value: 'Y'
-        },
-        {
-            display: '未印',
-            value: 'N'
-        }
-    ];
-    return useList;
-};
-
-exports.langMastertyp = function () {
+exports.getMastertyp = function () {
     let useList = [
         {
             display: '指定使用',
@@ -1013,7 +1028,13 @@ exports.langMastertyp = function () {
     return useList;
 };
 
-exports.langMastersta = function () {
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 master_sta (公帳狀態) 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.getMastersta = function () {
     let useList = [
         {
             display: '使用中',
@@ -1755,11 +1776,114 @@ exports.qry_address_rf_ghist_use = function (params, callback) {
     callback(null, lo_result);
 };
 
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 confirm_sta (確認狀態) 下拉資料
+ * @param params
+ * @param callback
+ */
 exports.lang_YN = function (params, callback) {
     let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUse();
     callback(null, lo_result);
 };
+
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 atten_by (From) 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.lang_OrdermnAttenby = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.get_OrdermnAttenby();
+    callback(null, lo_result);
+};
+
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 fixed_order (fixed_order) 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.lang_OrdermnFixedorder = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.get_OrdermnFixedorder();
+    callback(null, lo_result);
+};
+
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 fixed_order (fixed_order) 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.lang_OrdermnMastersta = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.get_OrdermnMastersta();
+    callback(null, lo_result);
+};
+
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 order_sta (狀態) 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.langOrderdtOrdersta = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.qryLangOrderDtOrderSta();
+    callback(null, lo_result);
+};
+
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 prtconfirm_sta (旅客登記卡印房租) 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.lang_OrdermnPrtconfirmsta = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.get_OrdermnPrtconfirmsta();
+    callback(null, lo_result);
+};
+
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 master_sta (公帳狀態) 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.langMastersta = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getMastersta();
+    callback(null, lo_result);
+};
+
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 master_typ 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.langMastertyp = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getMastertyp();
+    callback(null, lo_result);
+};
+
+/**
+ * PS0110041 訂房卡單筆
+ * 欄位 order_dt.is_prtrent 下拉資料
+ * @param params
+ * @param callback
+ */
+exports.isPrtrent = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsPrtrent();
+    callback(null, lo_result);
+};
+
 
 /**
  * 住客歷史(PMS0210010) 取得狀況下拉資料
@@ -2226,7 +2350,7 @@ exports.langRategrpRfUseSta = function (params, callback) {
  * @param params
  * @param callback
  */
-exports.langOrderdtOrdersta = function (params, callback) {
+exports.getOrderdtOrdersta = function (params, callback) {
     let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.qryLangOrderDtOrderSta();
     callback(null, lo_result);
