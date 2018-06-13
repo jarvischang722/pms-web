@@ -9,15 +9,29 @@
                             <div style="position: relative;">
                                 <div class="resvTabs-topTxt">
                                     <div class="resvTabs-content">
-                                        <span class="subT">官網號碼:</span>
-                                        <span class="subCon">RMHTD17000121</span>
-                                        <span class="subT">訂房卡號:</span>
-                                        <span class="subCon">06587201</span>
-                                        <span class="subT">確認狀態:</span>
-                                        <select class="input-medium resvCard-xs">
-                                            <option value="y">Y</option>
-                                            <option value="n">N</option>
-                                        </select>
+                                        <template v-for="(fields,key) in fieldsDataLeft" v-if="key == 0">
+                                            <template v-for="field in fields">
+                                                <span class="subT">{{field.ui_display_name}}:</span>
+                                                <template v-if="field.ui_type=='select'">
+                                                    <!-- 下拉選單 -->
+                                                    <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                                class="input-medium resvCard-xs"
+                                                                :style="{width:field.width + 'px'}"
+                                                                v-model="orderMnSingleData[field.ui_field_name]"
+                                                                :data-display="field.selectDataDisplay "
+                                                                :data="field.selectData"
+                                                                is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
+                                                                :default-val="orderMnSingleData[field.ui_field_name]" :field="field"
+                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                    </bac-select>
+                                                </template>
+                                                <template v-else>
+                                                    <span class="subCon">{{orderMnSingleData[field.ui_field_name]}}</span>
+                                                </template>
+                                            </template>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -27,174 +41,164 @@
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
                                             <div class="main-content-data">
-                                                <!--1-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>住客姓名</label>
-                                                        <input type="text" class="input-medium resvCard-col2Spec1"
-                                                               placeholder="Simon Cowll"/>
-                                                        <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 btn-afterInput">
-                                                            Profile
-                                                        </button>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>訂房公司</label>
-                                                        <input type="text"
-                                                               class="input-medium resvCard-col2Rm input_sta_required"
-                                                               placeholder="agoda"/>
-                                                        <i class="moreClick fa fa-ellipsis-h sales-AccountMain"></i>
-                                                    </div>
-                                                </div>
-                                                <!--2-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>職稱</label>
-                                                        <input type="text" class="input-medium resvCard-sm"
-                                                               placeholder="Manager" disabled/>
-                                                        <!--<select class="input-medium resvCard-xs" disabled>-->
-                                                        <!--<option value="male">M</option>-->
-                                                        <!--<option value="female">F</option>-->
-                                                        <!--</select>-->
-                                                        <input type="text" class="input-medium resvCard-xs ml-4"
-                                                               placeholder=""
-                                                               disabled/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>VIP</label>
-                                                        <input type="text" class="input-medium resvCard-sm"
-                                                               placeholder="Normal" disabled/>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>團號</label>
-                                                        <input type="text" class="input-medium resvCard-col2"
-                                                               placeholder=""/>
-                                                    </div>
-                                                </div>
-                                                <!--3-->
-                                                <div class="grid">
-                                                    <div class="pull-left">
-                                                        <div class="grid-item">
-                                                            <label class="pull-left">歷史備註</label>
-                                                            <textarea
-                                                                    class="input-medium resvCard-col2 pull-left input-hCol2"
-                                                                    placeholder="pick guy" disabled></textarea>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                    <div class="pull-left">
+                                                <!-- left block -->
+                                                <div class="pull-left">
+                                                    <template v-for="(fields,key) in fieldsDataLeft" v-if="key > 0">
                                                         <div class="grid">
-                                                            <div class="grid-item">
-                                                                <label class="pull-left">公帳號</label>
-                                                                <input type="text"
-                                                                       class="input-medium resvCard-xs pull-left"
-                                                                       placeholder="Y" disabled>
-                                                                <input type="text"
-                                                                       class="input-medium resvCard-xs pull-left ml-3"
-                                                                       placeholder="G01" disabled/>
-                                                                <div class="pull-left">
-                                                                    <i class="moreClick fa fa-ellipsis-h publicAccount-btn"></i>
+                                                            <div class="grid-item" v-for="field in fields">
+                                                                <label v-if="field.visiable == 'Y' && field.ui_type != 'button'  && field.ui_type != 'checkbox'"
+                                                                       :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
+                                                                    <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                                    <span>{{ field.ui_display_name }}</span>
+                                                                </label>
+                                                                <template v-if="key <= 3">
+                                                                    <input type="text" v-model="guestMnRowsData4Single[field.ui_field_name]"
+                                                                           v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
+                                                                           :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                           :required="field.requirable == 'Y'" min="0"
+                                                                           :maxlength="field.ui_field_length"
+                                                                           :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                           :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+
+                                                                    <!-- 下拉選單 -->
+                                                                    <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                                                :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                                v-model="guestMnRowsData4Single[field.ui_field_name]"
+                                                                                :data-display="field.selectDataDisplay "
+                                                                                :data="field.selectData"
+                                                                                is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                                @update:v-model="val => guestMnRowsData4Single[field.ui_field_name] = val"
+                                                                                :default-val="guestMnRowsData4Single[field.ui_field_name]" :field="field"
+                                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                      (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                    </bac-select>
+
+                                                                    <!--selectgrid-->
+                                                                    <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                                     :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                     v-model="guestMnRowsData4Single[field.ui_field_name]"
+                                                                                     :columns="field.selectData.columns"
+                                                                                     :data="field.selectData.selectData" :field="field"
+                                                                                     :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                                                     :id-field="field.selectData.value"
+                                                                                     :text-field="field.selectData.display"
+                                                                                     @update:v-model="val => guestMnRowsData4Single[field.ui_field_name] = val"
+                                                                                     :default-val="guestMnRowsData4Single[field.ui_field_name]"
+                                                                                     :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                    </bac-select-grid>
+
+                                                                    <!--按鈕-->
+                                                                    <button @click="buttonFunction(field)"
+                                                                            class="btn btn-sm btn-primary btn-white btn-sm-font2"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type == 'button'">
+                                                                        {{field.ui_display_name}}
+                                                                    </button>
+                                                                </template>
+                                                                <template v-else>
+                                                                    <!--checkbox-->
+                                                                    <div v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'" style="margin-left: 87px;">
+                                                                        <input style="margin-top: 5px;"
+                                                                               v-model="orderMnSingleData[field.ui_field_name]" type="checkbox"
+                                                                               :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
+                                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus) ">
+                                                                        <label style="width:auto" v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
+                                                                            <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                                            <span>{{ field.ui_display_name }}</span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <!-- 下拉選單 -->
+                                                                    <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                                                :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                                v-model="orderMnSingleData[field.ui_field_name]"
+                                                                                :data-display="field.selectDataDisplay "
+                                                                                :data="field.selectData"
+                                                                                is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                                @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
+                                                                                :default-val="orderMnSingleData[field.ui_field_name]" :field="field"
+                                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                      (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                    </bac-select>
+
+                                                                    <!--  textarea -->
+                                                                    <textarea v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
+                                                                              v-model="orderMnSingleData[field.ui_field_name]"
+                                                                              class="numStyle-none" rows="4"
+                                                                              :style="{width:field.width + 'px'}" style="resize: none;"
+                                                                              :required="field.requirable == 'Y'"
+                                                                              :maxlength="field.ui_field_length"
+                                                                              :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                      (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                    </textarea>
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                        <div class="border-double1" v-if="key == 3"></div>
+                                                    </template>
+                                                </div>
+                                                <!-- right block -->
+                                                <div class="pull-left">
+                                                    <template v-for="(fields,key) in fieldsDataRight">
+                                                        <div class="grid">
+                                                            <div class="grid-item" v-for="field in fields">
+                                                                <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'"
+                                                                       :style="{width:field.label_width + 'px' , height:field.height + 'px'}">
+                                                                    <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                                                    <span>{{ field.ui_display_name }}</span>
+                                                                </label>
+
+                                                                <!-- 下拉選單 -->
+                                                                <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                                            :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                            v-model="orderMnSingleData[field.ui_field_name]"
+                                                                            :data-display="field.selectDataDisplay "
+                                                                            :data="field.selectData"
+                                                                            is-qry-src-before="Y" value-field="value" text-field="display"
+                                                                            @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
+                                                                            :default-val="orderMnSingleData[field.ui_field_name]" :field="field"
+                                                                            :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                      (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                </bac-select>
+
+                                                                <!--selectgrid-->
+                                                                <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                                 :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                 v-model="orderMnSingleData[field.ui_field_name]"
+                                                                                 :columns="field.selectData.columns"
+                                                                                 :data="field.selectData.selectData" :field="field"
+                                                                                 :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                                                 :id-field="field.selectData.value"
+                                                                                 :text-field="field.selectData.display"
+                                                                                 @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
+                                                                                 :default-val="orderMnSingleData[field.ui_field_name]"
+                                                                                 :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                </bac-select-grid>
+
+                                                                <!--按鈕-->
+                                                                <div class="pull-left" v-if="field.visiable == 'Y' && field.ui_type == 'button'">
+                                                                    <i class="moreClick fa fa-ellipsis-h"
+                                                                       @click="buttonFunction(field)"></i>
                                                                 </div>
-                                                                <div class="clearfix"></div>
-                                                            </div>
-                                                            <div class="grid-item">
-                                                                <label>業務員</label>
-                                                                <select class="input-medium resvCard">
-                                                                    <option value="1">Rick Chen</option>
-                                                                    <option value="2">Jing Chen</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid">
-                                                            <div class="grid-item">
-                                                                <label>公司名稱</label>
-                                                                <input type="text" class="input-medium resvCard-col2"
-                                                                       placeholder="Nokia company Ltd."/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                </div>
-                                                <div class="border-double1"></div>
-                                                <!--4-->
-                                                <div class="grid">
-                                                    <div class="grid-item">
-                                                        <label>Fixed Order</label>
-                                                        <select class="input-medium resvCard">
-                                                            <option value="y">Yes</option>
-                                                            <option value="n">No</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label class="pull-left">旅客登記卡</label>
-                                                        <div class="popCheckbox pull-left resvCk-1">
-                                                                                <span class="checkbox">
-                                                                                  <label class="checkbox-width">
-                                                                                      <input name="form-field-checkbox"
-                                                                                             type="checkbox"
-                                                                                             class="ace" checked>
-                                                                                      <span class="lbl">
-                                                                                        <span class="txt">印房租</span>
-                                                                                      </span>
-                                                                                  </label>
-                                                                                </span>
-                                                        </div>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                    <div class="grid-item">
-                                                        <label>From</label>
-                                                        <select class="input-medium resvCard-xs">
-                                                            <option value="c">C</option>
-                                                            <option value="p">P</option>
-                                                        </select>
-                                                    </div>
 
-                                                    <div class="grid-item">
-                                                        <label class="label-sm">聯絡人</label>
-                                                        <input type="text"
-                                                               class="input-medium rc-contact-man input_sta_required"
-                                                               placeholder="Gloria"/>
-                                                        <input type="text"
-                                                               class="input-medium resvCard-xs ml-4 input_sta_required"
-                                                               placeholder="Ms."/>
-                                                    </div>
-                                                </div>
-                                                <!--5-->
-                                                <div class="grid">
-                                                    <div class="pull-left">
-                                                        <div class="grid-item">
-                                                            <label class="pull-left">訂房備註</label>
-                                                            <textarea
-                                                                    class="input-medium resvCard-col2 pull-left input-hCol2"
-                                                                    placeholder="All = Co"></textarea>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                    <div class="pull-left">
-                                                        <div class="grid">
-                                                            <div class="grid-item">
-                                                                <label>手機</label>
-                                                                <input type="text" class="input-medium resvCard"
-                                                                       placeholder="932555656"/>
-                                                            </div>
-                                                            <div class="grid-item">
-                                                                <label>公司電話</label>
-                                                                <input type="text" class="input-medium resvCardRm"
-                                                                       placeholder="02-25175008"/>
-                                                                <i class="moreClick fa fa-ellipsis-h othContact"></i>
+                                                                <input type="text" v-model="orderMnSingleData[field.ui_field_name]"
+                                                                       v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
+                                                                       :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                       :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                                                       :required="field.requirable == 'Y'" min="0"
+                                                                       :maxlength="field.ui_field_length"
+                                                                       :disabled="field.modificable == 'N'|| (field.modificable == 'I') || (field.modificable == 'E')">
                                                             </div>
                                                         </div>
-
-                                                        <div class="grid">
-                                                            <div class="grid-item">
-                                                                <label>電子郵件</label>
-                                                                <input type="text" class="input-medium resvCard-col2"
-                                                                       placeholder="simonoowll@nokia.com"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div>
+                                                        <div class="border-double1" v-if="key == 3"></div>
+                                                    </template>
                                                 </div>
                                             </div><!--main-content-data-->
                                         </div>
@@ -478,7 +482,7 @@
                 fieldsDataLeft: [],               //頁面顯示欄位資料
                 fieldsDataRight: [],              //頁面顯示欄位資料
                 oriOrderMnFieldsData: [],         //原始order mn 欄位資料
-                orderMnRowsData: {},              //order mn 資料
+                orderMnSingleData: {},              //order mn 資料
                 oriOrderMnRowsData: {},           //單筆 原始order mn 欄位資料
                 orderDtFieldsData: [],            //單筆 order dt 欄位資料
                 oriOrderDtFieldsData: [],         //單筆 原始order dt 欄位資料
@@ -507,7 +511,7 @@
                 this.fieldsDataLeft = [];
                 this.fieldsDataRight = [];
                 this.oriOrderMnFieldsData = [];
-                this.orderMnRowsData = {};
+                this.orderMnSingleData = {};
                 this.oriOrderMnRowsData = {};
                 this.orderDtFieldsData = [];
                 this.oriOrderDtFieldsData = [];
@@ -586,8 +590,6 @@
                         }
                     }), "col_seq"), "row_seq"));
                     this.orderDtFieldsData = _.values(_.groupBy(_.sortBy(this.oriOrderDtFieldsData, "col_seq"), "row_seq"));
-
-//                    this.orderDtRowsData4table = [{}];
                     await this.fetchRowData();
                 }
                 catch (err) {
@@ -625,8 +627,10 @@
                     });
                 });
                 if (lo_fetchSingleData.success) {
-                    this.orderMnRowsData = lo_fetchSingleData.gsMnData.rowData[0];
-                    this.oriOrderMnRowsData = JSON.parse(JSON.stringify(lo_fetchSingleData.gsMnData.rowData[0]));
+                    if (lo_fetchSingleData.gsMnData.rowData.length > 0) {
+                        this.orderMnSingleData = lo_fetchSingleData.gsMnData.rowData[0];
+                        this.oriOrderMnRowsData = JSON.parse(JSON.stringify(lo_fetchSingleData.gsMnData.rowData[0]));
+                    }
                 }
                 else {
                     alert(lo_fetchSingleData.errorMsg);
@@ -635,6 +639,15 @@
 
                 //取order dt 資料
                 if (this.isEditStatus) {
+                    let lo_doDefault = await new Promise((resolve, reject) => {
+                        BacUtils.doHttpPostAgent("/api/chkFieldRule", {
+                            rule_func_name: 'convert_oder_appraise_to_tmp',
+                            ikey: this.rowData.ikey
+                        }, (result) => {
+                            resolve(result);
+                        });
+                    });
+
                     ls_apiUrl = "/api/fetchDgRowData";
                     lo_params = {
                         prg_id: gs_prgId,
@@ -652,20 +665,16 @@
                         this.orderDtRowsData4table = _.groupBy(lo_fetchOderDtData.dgRowData, (lo_dgRowData) => {
                             return lo_dgRowData.order_sta && lo_dgRowData.days && lo_dgRowData.ci_dat && lo_dgRowData.co_dat && lo_dgRowData.rate_cod && lo_dgRowData.use_cod && lo_dgRowData.room_cod && lo_dgRowData.order_qnt;
                         });
+                        this.orderDtRowsData4Single = _.first(this.orderDtRowsData4table[Object.keys(this.orderDtRowsData4table)[0]])
+                        console.log(this.orderDtRowsData4Single);
                     }
                     else {
                         alert(lo_fetchOderDtData.errorMsg);
                     }
-
-//                    let lo_doDefault = await new Promise((resolve, reject) => {
-//                        BacUtils.doHttpPostAgent("/api/chkFieldRule", {
-//                            rule_func_name: 'convert_oder_appraise_to_tmp',
-//                            ikey: this.rowData.ikey
-//                        }, lo_params, (result) => {
-//                            resolve(result);
-//                        });
-//                    });
                 }
+            },
+            buttonFunction(fieldData) {
+                console.log(fieldData);
             },
             appendRow() {
             },

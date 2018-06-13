@@ -34,21 +34,21 @@ module.exports = {
             "hotel_cod": session.user.hotel_cod,
             "ikey": postData.ikey
         };
-        // tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
-        //     if (apiErr || !data) {
-        //         lo_result.success = false;
-        //         lo_error = new ErrorClass();
-        //         lo_error.errorMsg = apiErr;
-        //     }
-        //     else if (data["RETN-CODE"] != "0000") {
-        //         lo_result.success = false;
-        //         lo_error = new ErrorClass();
-        //         console.error(data["RETN-CODE-DESC"]);
-        //         lo_error.errorMsg = data["RETN-CODE-DESC"];
-        //     }
-        //     callback(lo_error, lo_result);
-        // });
-        callback(lo_error, lo_result);
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+            if (apiErr || !data) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                console.error(data["RETN-CODE-DESC"]);
+                lo_error.errorMsg = data["RETN-CODE-DESC"];
+            }
+            callback(lo_error, lo_result);
+        });
+        // callback(lo_error, lo_result);
 
     }
 };

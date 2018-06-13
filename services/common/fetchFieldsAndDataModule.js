@@ -226,7 +226,12 @@ exports.GridSingleProc = function (postData, session) {
                 this.fetchGsMnFieldsData(),
                 this.fetchGsMnRowData()
             ]);
-            dataValueChange(la_pageField, la_rowData[0]);
+            if (la_rowData.length == 0) {
+                throw "data err";
+            }
+            else {
+                dataValueChange(la_pageField, la_rowData[0]);
+            }
             let lo_gsMnData = {
                 fieldsData: la_pageField,
                 rowData: la_rowData
