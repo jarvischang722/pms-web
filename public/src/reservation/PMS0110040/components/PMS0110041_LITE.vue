@@ -67,10 +67,12 @@
                                                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                                 v-model="guestMnRowsData4Single[field.ui_field_name]"
                                                                                 :data-display="field.selectDataDisplay "
-                                                                                :data="field.selectData"
+                                                                                :data="field.selectData" :field="field"
                                                                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                                                                 @update:v-model="val => guestMnRowsData4Single[field.ui_field_name] = val"
-                                                                                :default-val="guestMnRowsData4Single[field.ui_field_name]" :field="field"
+                                                                                :default-val="guestMnRowsData4Single[field.ui_field_name]"
+                                                                                :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                                     >
                                                                     </bac-select>
 
@@ -160,7 +162,9 @@
                                                                             :data="field.selectData"
                                                                             is-qry-src-before="Y" value-field="value" text-field="display"
                                                                             @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
-                                                                            :default-val="orderMnSingleData[field.ui_field_name]" :field="field">
+                                                                            :default-val="orderMnSingleData[field.ui_field_name]" :field="field"
+                                                                            :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 </bac-select>
 
                                                                 <!--selectgrid-->
