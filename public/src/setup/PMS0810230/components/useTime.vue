@@ -640,6 +640,7 @@
                 else {
                     _.each(this.dataGridRowsData[params.index], (ls_value, ls_key) => {
                         let la_modifyKey = ["begin_dat", "end_dat", "command_cod", "command_option", "room_cods"];
+                        console.log(_.indexOf(la_modifyKey, ls_key));
                         if (_.indexOf(la_modifyKey, ls_key) > -1) {
                             this.dataGridRowsData[params.index][ls_key] = params.rowData[ls_key];
                         }
@@ -711,8 +712,14 @@
                         lo_dataGridRowsData.command_option = this.convertMultiData(lo_dataGridRowsData.command_option);
                         lo_dataGridRowsData.room_cods = this.convertMultiData(lo_dataGridRowsData.room_cods);
                         if (lo_dataGridRowsData.isCreate) {
-                            if (_.findIndex(this.tmpCUD.createData, lo_dataGridRowsData) > -1) {
-                                this.tmpCUD.createData.splice(_.findIndex(this.tmpCUD.createData, lo_dataGridRowsData), 1);
+                            let ln_createIndex = _.findIndex(this.tmpCUD.createData, {
+                                athena_id: lo_dataGridRowsData.athena_id,
+                                hotel_cod: lo_dataGridRowsData.hotel_cod,
+                                rate_cod: lo_dataGridRowsData.rate_cod,
+                                supply_nos: lo_dataGridRowsData.supply_nos
+                            });
+                            if (ln_createIndex > -1) {
+                                this.tmpCUD.createData.splice(ln_createIndex, 1);
                             }
                             this.tmpCUD.createData.push(lo_dataGridRowsData);
                         }
@@ -762,6 +769,7 @@
                     this.$eventHub.$emit("setUseTimeSelectData");
 
                     $("#useTimeDialog").dialog('close');
+                    console.log(this.tmpCUD);
                 }
                 else {
                     alert(lo_chkResult.msg);
