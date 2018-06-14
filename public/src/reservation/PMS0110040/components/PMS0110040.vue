@@ -472,7 +472,6 @@
                     searchCond: this.searchCond
                 };
                 BacUtils.doHttpPostAgent("/api/fetchDgRowData", lo_params, result => {
-                    console.log(result);
                     this.pageOneDataGridRows = result.dgRowData;
                     this.dgIns.loadPageDgData(this.pageOneDataGridRows);
                 });
@@ -480,7 +479,7 @@
             appendRow() {
                 this.isEditStatus = true;
                 this.isCreateStatus = false;
-                this.editingRow = {ikey: "00053502"};
+                this.editingRow = {ikey: "00000050"};
 
                 this.showSingleGridDialog();
             },

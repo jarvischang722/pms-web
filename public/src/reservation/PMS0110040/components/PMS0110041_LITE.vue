@@ -219,7 +219,7 @@
                                             <div>
                                                 <!--訂房卡資料table-->
                                                 <div class="container_12 divider">
-                                                    <div class="grid_12 fixed-table-container" style="height: 132px;">
+                                                    <div class="grid_12 fixed-table-container" :style="{height: tableHeight + 'px'}">
                                                         <table class="fancyTable themeTable treeControl custom-table"
                                                                id="resvSingleTable" cellpadding="0" cellspacing="0">
                                                             <thead>
@@ -236,17 +236,20 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <template v-for="values in orderDtRowsData4table">
-                                                                <tr v-for="singleData in values">
+                                                            <template v-for="(values,key) in orderDtRowsData4table">
+                                                                <tr v-for="(singleData, idx) in values" v-if="idx == 0">
                                                                     <td class="text-center">
                                                                         <i class="fa fa-minus red" @click="removeRow"></i>
                                                                     </td>
                                                                     <template v-for="field in orderDtFieldsData4table">
                                                                         <td class="text-left input-noEdit" :style="{width:field.width + 'px'}"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='label'">
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='label'"
+                                                                            @click="selectedCell(key, field, singleData[field.ui_field_name])">
                                                                             {{singleData[field.ui_field_name]}}
                                                                         </td>
-                                                                        <td class="text-left" v-if="field.visiable == 'Y' && field.ui_type=='text'">
+                                                                        <td class="text-left"
+                                                                            @click="selectedCell(key, field, singleData[field.ui_field_name])"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='text'">
                                                                             <input type="text" v-model="singleData[field.ui_field_name]"
                                                                                    :style="{width:field.width + 'px'}"
                                                                                    :required="field.requirable == 'Y'" min="0"
@@ -255,7 +258,9 @@
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                             (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         </td>
-                                                                        <td class="text-left" v-if="field.visiable == 'Y' && field.ui_type=='select'">
+                                                                        <td class="text-left"
+                                                                            @click="selectedCell(key, field, singleData[field.ui_field_name])"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='select'">
                                                                             <bac-select :field="field" :style="{width:field.width + 'px'}"
                                                                                         v-model="singleData[field.ui_field_name]" :data="field.selectData"
                                                                                         is-qry-src-before="Y" value-field="value" text-field="display"
@@ -266,7 +271,9 @@
                                                             (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                             </bac-select>
                                                                         </td>
-                                                                        <td class="text-left" v-if="field.visiable == 'Y' && field.ui_type=='date'">
+                                                                        <td class="text-left"
+                                                                            @click="selectedCell(key, field, singleData[field.ui_field_name])"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='date'">
                                                                             <!-- 日期時間選擇器 -->
                                                                             <el-date-picker v-model="singleData[field.ui_field_name]" type="date"
                                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
@@ -277,7 +284,9 @@
                                                                             >
                                                                             </el-date-picker>
                                                                         </td>
-                                                                        <td class="text-left" v-if="field.visiable == 'Y' && field.ui_type=='number'">
+                                                                        <td class="text-left"
+                                                                            @click="selectedCell(key, field, singleData[field.ui_field_name])"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='number'">
                                                                             <!--number 金額顯示format-->
                                                                             <input type="text" v-model="singleData[field.ui_field_name]"
                                                                                    :style="{width:field.width + 'px'}" class="text-right selectHt"
@@ -286,6 +295,7 @@
                                                             (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         </td>
                                                                         <td class="text-left td-more" style="height: 26px;"
+                                                                            @click="selectedCell(key, field, singleData[field.ui_field_name])"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='button'">
                                                                             <input type="text" v-model="singleData[field.ui_field_name]"
                                                                                    :style="{width:field.width + 'px'}"
@@ -347,7 +357,7 @@
                                                                :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                        <input type="text" style="margin-left: -12px;"
+                                                        <input type="text" style="margin-left: -12px;" v-model="orderDtRowsData4Single[field.ui_field_name]"
                                                                v-else-if="field.visiable == 'Y' && field.label_width == 0 && field.ui_type == 'text'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :required="field.requirable == 'Y'" min="0"
@@ -470,6 +480,8 @@
 </template>
 
 <script>
+    import alasql from 'alasql';
+
     const gs_prgId = 'PMS0110041';
 
     export default {
@@ -489,13 +501,14 @@
                 oriOrderDtFieldsData: [],         //單筆 原始order dt 欄位資料
                 orderDtRowsData4Single: {},       //單筆 order dt 資料
                 orderDtFieldsData4table: [],      //多筆 order dt 欄位資料
-                orderDtRowsData4table: [],        //多筆 order dt 資料
+                orderDtRowsData4table: {},        //多筆 order dt 資料
                 oriOrderMDtRowsData4table: [],    //多筆 原始order dt 資料
                 oriGuestMnFieldsData: [],         //原始guest mn 欄位資料
                 guestMnRowsData: [],              //guest mn 資料
                 oriGuestMnRowsData: [],           //原始guest mn 欄位資料
                 guestMnRowsData4Single: {},       //單筆 guest mn 資料
                 isLoadingDialog: false,           //是否載入完畢
+                tableHeight: 34,                  //多筆table高度
             }
         },
         watch: {
@@ -504,6 +517,15 @@
                     this.initTmpCUD();
                     this.isLoadingDialog = true;
                     this.fetchFieldsData();
+                }
+            },
+            "orderDtRowsData4Single.ikey_seq_nos"(val) {
+                let lo_selectGuestMnData = _.findWhere(this.guestMnRowsData, {ikey_seq_nos: val});
+                if (!_.isUndefined(lo_selectGuestMnData)) {
+                    this.guestMnRowsData4Single = lo_selectGuestMnData;
+                }
+                else {
+                    this.guestMnRowsData4Single = {};
                 }
             }
         },
@@ -518,7 +540,7 @@
                 this.oriOrderDtFieldsData = [];
                 this.orderDtRowsData4Single = {};
                 this.orderDtFieldsData4table = [];
-                this.orderDtRowsData4table = [];
+                this.orderDtRowsData4table = {};
                 this.oriOrderMDtRowsData4table = [];
                 this.oriGuestMnFieldsData = [];
                 this.guestMnRowsData = [];
@@ -602,6 +624,7 @@
                 let lo_params = {};
                 let lo_fetchSingleData = {};
                 let lo_fetchOderDtData = {};
+                let lo_fetchGuestMnData = {};
                 //取 order mn 資料
                 if (this.isCreateStatus) {
                     ls_apiUrl = "/api/fetchDefaultSingleRowData";
@@ -612,6 +635,14 @@
                     };
                 }
                 else if (this.isEditStatus) {
+                    let lo_doDefault = await new Promise((resolve, reject) => {
+                        BacUtils.doHttpPostAgent("/api/chkFieldRule", {
+                            rule_func_name: 'convert_oder_appraise_to_tmp',
+                            ikey: this.rowData.ikey
+                        }, (result) => {
+                            resolve(result);
+                        });
+                    });
                     ls_apiUrl = "/api/fetchSinglePageFieldData";
                     lo_params = {
                         prg_id: gs_prgId,
@@ -621,7 +652,6 @@
                         searchCond: {ikey: this.rowData.ikey}
                     };
                 }
-
                 lo_fetchSingleData = await new Promise((resolve, reject) => {
                     BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, (result) => {
                         resolve(result);
@@ -638,44 +668,84 @@
                     return;
                 }
 
-                //取order dt 資料
+                //取所有此ikey的 guestMn、orderDt資料
                 if (this.isEditStatus) {
-                    let lo_doDefault = await new Promise((resolve, reject) => {
-                        BacUtils.doHttpPostAgent("/api/chkFieldRule", {
-                            rule_func_name: 'convert_oder_appraise_to_tmp',
-                            ikey: this.rowData.ikey
-                        }, (result) => {
-                            resolve(result);
-                        });
-                    });
-
                     ls_apiUrl = "/api/fetchDgRowData";
                     lo_params = {
                         prg_id: gs_prgId,
                         page_id: 1,
-                        tab_page_id: 1,
                         searchCond: {ikey: this.rowData.ikey}
                     };
+                    //取guest mn資料
+                    lo_params.tab_page_id = 11;
+                    lo_fetchGuestMnData = await new Promise((resolve, reject) => {
+                        BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, (result) => {
+                            resolve(result);
+                        });
+                    });
+                    if (lo_fetchGuestMnData.success) {
+                        this.guestMnRowsData = lo_fetchGuestMnData.dgRowData;
+                        this.oriGuestMnRowsData = JSON.parse(JSON.stringify(lo_fetchGuestMnData.dgRowData));
+                    }
+                    else {
+                        alert(lo_fetchOderDtData.errorMsg);
+                    }
+
+                    //取order dt 資料
+                    lo_params.tab_page_id = 1;
                     lo_fetchOderDtData = await new Promise((resolve, reject) => {
                         BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, (result) => {
                             resolve(result);
                         });
                     });
-                    if (lo_fetchSingleData.success) {
-                        this.oriOrderMDtRowsData4table = JSON.parse(JSON.stringify(lo_fetchOderDtData.dgRowData));
-                        this.orderDtRowsData4table = _.groupBy(lo_fetchOderDtData.dgRowData, (lo_dgRowData) => {
-                            return lo_dgRowData.order_sta && lo_dgRowData.days && lo_dgRowData.ci_dat && lo_dgRowData.co_dat && lo_dgRowData.rate_cod && lo_dgRowData.use_cod && lo_dgRowData.room_cod && lo_dgRowData.order_qnt;
+                    if (lo_fetchOderDtData.success) {
+                        _.each(lo_fetchOderDtData.dgRowData, (lo_dgRowData) => {
+                            lo_dgRowData.ci_dat_week = moment(lo_dgRowData.ci_dat).format('dd');
+                            lo_dgRowData.co_dat_week = moment(lo_dgRowData.co_dat).format('dd');
                         });
-                        this.orderDtRowsData4Single = _.first(this.orderDtRowsData4table[Object.keys(this.orderDtRowsData4table)[0]])
-                        console.log(this.orderDtRowsData4Single);
+                        this.oriOrderMDtRowsData4table = JSON.parse(JSON.stringify(lo_fetchOderDtData.dgRowData));
+                        let ls_groupStatement = "select * from ? group by rate_cod, order_sta, days, ci_dat, co_dat, use_cod, room_cod, order_qnt";
+                        this.orderDtRowsData4table = alasql(ls_groupStatement, [lo_fetchOderDtData.dgRowData]);
+                        console.log(this.orderDtRowsData4table);
+                        this.orderDtRowsData4Single = _.first(_.sortBy(this.orderDtRowsData4table[Object.keys(this.orderDtRowsData4table)[0]]));
+                        this.orderDtRowsData4Single.sub_tot =
+                            Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
+
+                        let lo_params = {
+                            sum_adult_qnt: 0,
+                            sum_baby_qnt: 0,
+                            sum_child_qnt: 0,
+                            sum_other_tot: 0,
+                            sum_rent_tot: 0,
+                            sum_serv_tot: 0,
+                            general_tot: 0
+                        };
+                        _.each(this.orderDtRowsData4table, (la_value, ls_key) => {
+                            _.each(la_value, (lo_value, ln_idx) => {
+                                lo_params.sum_adult_qnt += Number(lo_value.adult_qnt * lo_value.order_qnt);
+                                lo_params.sum_baby_qnt += Number(lo_value.baby_qnt * lo_value.order_qnt);
+                                lo_params.sum_child_qnt += Number(lo_value.child_qnt * lo_value.order_qnt);
+                                lo_params.sum_other_tot += Number(lo_value.other_tot);
+                                lo_params.sum_rent_tot += Number(lo_value.rent_tot);
+                                lo_params.sum_serv_tot += Number(lo_value.serv_tot);
+                            });
+                        });
+                        lo_params.general_tot = lo_params.sum_other_tot + lo_params.sum_serv_tot + lo_params.sum_rent_tot;
+                        this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, lo_params);
+
+                        this.tableHeight = _.size(this.orderDtRowsData4table) > 5 ? 132 : 34 + 30 * _.size(this.orderDtRowsData4table);
                     }
                     else {
                         alert(lo_fetchOderDtData.errorMsg);
                     }
+
                 }
             },
             buttonFunction(fieldData) {
                 console.log(fieldData);
+            },
+            selectedCell(key) {
+                this.orderDtRowsData4Single.ikey_seq_nos = this.orderDtRowsData4table[key][0].ikey_seq_nos;
             },
             appendRow() {
             },
