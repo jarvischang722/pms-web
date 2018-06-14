@@ -71,8 +71,7 @@
                                                                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                                                                 @update:v-model="val => guestMnRowsData4Single[field.ui_field_name] = val"
                                                                                 :default-val="guestMnRowsData4Single[field.ui_field_name]" :field="field"
-                                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                      (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                    >
                                                                     </bac-select>
 
                                                                     <!--selectgrid-->
@@ -161,9 +160,7 @@
                                                                             :data="field.selectData"
                                                                             is-qry-src-before="Y" value-field="value" text-field="display"
                                                                             @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
-                                                                            :default-val="orderMnSingleData[field.ui_field_name]" :field="field"
-                                                                            :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                      (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                            :default-val="orderMnSingleData[field.ui_field_name]" :field="field">
                                                                 </bac-select>
 
                                                                 <!--selectgrid-->
@@ -228,7 +225,7 @@
                                                                 </th>
                                                                 <template v-for="field in orderDtFieldsData4table">
                                                                     <th v-if="field.visiable == 'Y'"
-                                                                        :style="{'min-width': field.width + 'px'}">
+                                                                        :style="{width: field.width + 'px'}">
                                                                         {{field.ui_display_name}}
                                                                     </th>
                                                                 </template>
