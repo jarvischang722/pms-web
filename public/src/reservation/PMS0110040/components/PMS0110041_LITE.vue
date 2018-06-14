@@ -219,7 +219,7 @@
                                             <div>
                                                 <!--訂房卡資料table-->
                                                 <div class="container_12 divider">
-                                                    <div class="grid_12 fixed-table-container" :style="{height: tableHeight + 'px'}">
+                                                    <div class="grid_12 fixed-table-container" :style="{height: tableHeight+'px'}">
                                                         <table class="fancyTable themeTable treeControl custom-table"
                                                                id="resvSingleTable" cellpadding="0" cellspacing="0">
                                                             <thead>
@@ -236,19 +236,19 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <template v-for="(values,key) in orderDtRowsData4table">
-                                                                <tr v-for="(singleData, idx) in values" v-if="idx == 0">
+                                                            <template v-for="(singleData, idx) in orderDtRowsData4table">
+                                                                <tr>
                                                                     <td class="text-center">
                                                                         <i class="fa fa-minus red" @click="removeRow"></i>
                                                                     </td>
                                                                     <template v-for="field in orderDtFieldsData4table">
                                                                         <td class="text-left input-noEdit" :style="{width:field.width + 'px'}"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='label'"
-                                                                            @click="selectedCell(key, field, singleData[field.ui_field_name])">
+                                                                            @click="selectedCell(idx, field, singleData[field.ui_field_name])">
                                                                             {{singleData[field.ui_field_name]}}
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(key, field, singleData[field.ui_field_name])"
+                                                                            @click="selectedCell(idx, field, singleData[field.ui_field_name])"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='text'">
                                                                             <input type="text" v-model="singleData[field.ui_field_name]"
                                                                                    :style="{width:field.width + 'px'}"
@@ -256,10 +256,10 @@
                                                                                    :maxlength="field.ui_field_length" class="selectHt"
                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(key, field, singleData[field.ui_field_name])"
+                                                                            @click="selectedCell(idx, field, singleData[field.ui_field_name])"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='select'">
                                                                             <bac-select :field="field" :style="{width:field.width + 'px'}"
                                                                                         v-model="singleData[field.ui_field_name]" :data="field.selectData"
@@ -268,16 +268,16 @@
                                                                                         :default-val="singleData[field.ui_field_name] || field.defaultVal"
                                                                                         class="el-select-ht selectHt" style="height: 25px;"
                                                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                             </bac-select>
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(key, field, singleData[field.ui_field_name])"
+                                                                            @click="selectedCell(idx, field, singleData[field.ui_field_name])"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='date'">
                                                                             <!-- 日期時間選擇器 -->
                                                                             <el-date-picker v-model="singleData[field.ui_field_name]" type="date"
                                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                                                             class="date-wt input_sta_required" format="yyyy/MM/dd"
                                                                                             :style="{width:field.width + 'px'}"
                                                                                             :editable="false" :clearable="false"
@@ -285,17 +285,17 @@
                                                                             </el-date-picker>
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(key, field, singleData[field.ui_field_name])"
+                                                                            @click="selectedCell(idx, field, singleData[field.ui_field_name])"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='number'">
                                                                             <!--number 金額顯示format-->
                                                                             <input type="text" v-model="singleData[field.ui_field_name]"
                                                                                    :style="{width:field.width + 'px'}" class="text-right selectHt"
                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         </td>
                                                                         <td class="text-left td-more" style="height: 26px;"
-                                                                            @click="selectedCell(key, field, singleData[field.ui_field_name])"
+                                                                            @click="selectedCell(idx, field, singleData[field.ui_field_name])"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='button'">
                                                                             <input type="text" v-model="singleData[field.ui_field_name]"
                                                                                    :style="{width:field.width + 'px'}"
@@ -304,7 +304,7 @@
                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                                    class="selectHt pull-left wt-input"
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                            (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                                             >
                                                                             <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
                                                                         </td>
@@ -501,7 +501,7 @@
                 oriOrderDtFieldsData: [],         //單筆 原始order dt 欄位資料
                 orderDtRowsData4Single: {},       //單筆 order dt 資料
                 orderDtFieldsData4table: [],      //多筆 order dt 欄位資料
-                orderDtRowsData4table: {},        //多筆 order dt 資料
+                orderDtRowsData4table: [],        //多筆 order dt 資料
                 oriOrderMDtRowsData4table: [],    //多筆 原始order dt 資料
                 oriGuestMnFieldsData: [],         //原始guest mn 欄位資料
                 guestMnRowsData: [],              //guest mn 資料
@@ -540,8 +540,9 @@
                 this.oriOrderDtFieldsData = [];
                 this.orderDtRowsData4Single = {};
                 this.orderDtFieldsData4table = [];
-                this.orderDtRowsData4table = {};
-                this.oriOrderMDtRowsData4table = [];
+                this.orderDtRowsData4table = [];
+                this.oriOrderDtRowsData = [];
+                this.orderDtRowsData = [];
                 this.oriGuestMnFieldsData = [];
                 this.guestMnRowsData = [];
                 this.oriGuestMnRowsData = [];
@@ -703,11 +704,24 @@
                             lo_dgRowData.ci_dat_week = moment(lo_dgRowData.ci_dat).format('dd');
                             lo_dgRowData.co_dat_week = moment(lo_dgRowData.co_dat).format('dd');
                         });
-                        this.oriOrderMDtRowsData4table = JSON.parse(JSON.stringify(lo_fetchOderDtData.dgRowData));
+                        this.oriOrderDtRowsData = JSON.parse(JSON.stringify(lo_fetchOderDtData.dgRowData));
+
+                        this.orderDtRowsData = lo_fetchOderDtData.dgRowData;
                         let ls_groupStatement = "select * from ? group by rate_cod, order_sta, days, ci_dat, co_dat, use_cod, room_cod, order_qnt";
-                        this.orderDtRowsData4table = alasql(ls_groupStatement, [lo_fetchOderDtData.dgRowData]);
-                        console.log(this.orderDtRowsData4table);
-                        this.orderDtRowsData4Single = _.first(_.sortBy(this.orderDtRowsData4table[Object.keys(this.orderDtRowsData4table)[0]]));
+                        this.orderDtRowsData4table = alasql(ls_groupStatement, [this.orderDtRowsData]);
+                        this.orderDtRowsData4Single = _.first(this.orderDtRowsData4table);
+                        let lo_orderParams = {
+                            rate_cod: this.orderDtRowsData4Single.rate_cod,
+                            order_sta: this.orderDtRowsData4Single.order_sta,
+                            days: this.orderDtRowsData4Single.days,
+                            ci_dat: this.orderDtRowsData4Single.ci_dat,
+                            co_dat: this.orderDtRowsData4Single.co_dat,
+                            use_cod: this.orderDtRowsData4Single.use_cod,
+                            room_cod: this.orderDtRowsData4Single.room_cod,
+                            order_qnt: this.orderDtRowsData4Single.order_qnt
+                        };
+                        let la_selectOrderDtRows = _.where(this.orderDtRowsData, lo_orderParams);
+//                        console.log(la_selectOrderDtRows);
                         this.orderDtRowsData4Single.sub_tot =
                             Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
 
@@ -720,19 +734,17 @@
                             sum_serv_tot: 0,
                             general_tot: 0
                         };
-                        _.each(this.orderDtRowsData4table, (la_value, ls_key) => {
-                            _.each(la_value, (lo_value, ln_idx) => {
-                                lo_params.sum_adult_qnt += Number(lo_value.adult_qnt * lo_value.order_qnt);
-                                lo_params.sum_baby_qnt += Number(lo_value.baby_qnt * lo_value.order_qnt);
-                                lo_params.sum_child_qnt += Number(lo_value.child_qnt * lo_value.order_qnt);
-                                lo_params.sum_other_tot += Number(lo_value.other_tot);
-                                lo_params.sum_rent_tot += Number(lo_value.rent_tot);
-                                lo_params.sum_serv_tot += Number(lo_value.serv_tot);
-                            });
+                        _.each(this.orderDtRowsData, (lo_value, ln_idx) => {
+                            lo_params.sum_adult_qnt += Number(lo_value.adult_qnt * lo_value.order_qnt);
+                            lo_params.sum_baby_qnt += Number(lo_value.baby_qnt * lo_value.order_qnt);
+                            lo_params.sum_child_qnt += Number(lo_value.child_qnt * lo_value.order_qnt);
+                            lo_params.sum_other_tot += Number(lo_value.other_tot);
+                            lo_params.sum_rent_tot += Number(lo_value.rent_tot);
+                            lo_params.sum_serv_tot += Number(lo_value.serv_tot);
                         });
                         lo_params.general_tot = lo_params.sum_other_tot + lo_params.sum_serv_tot + lo_params.sum_rent_tot;
                         this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, lo_params);
-
+//
                         this.tableHeight = _.size(this.orderDtRowsData4table) > 5 ? 132 : 34 + 30 * _.size(this.orderDtRowsData4table);
                     }
                     else {
@@ -744,8 +756,8 @@
             buttonFunction(fieldData) {
                 console.log(fieldData);
             },
-            selectedCell(key) {
-                this.orderDtRowsData4Single.ikey_seq_nos = this.orderDtRowsData4table[key][0].ikey_seq_nos;
+            selectedCell(idx) {
+                this.orderDtRowsData4Single.ikey_seq_nos = this.orderDtRowsData4table[idx].ikey_seq_nos;
             },
             appendRow() {
             },
