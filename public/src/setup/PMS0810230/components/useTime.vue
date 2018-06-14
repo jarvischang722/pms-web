@@ -768,7 +768,6 @@
                     this.$eventHub.$emit("setUseTimeSelectData");
 
                     $("#useTimeDialog").dialog('close');
-                    console.log(this.tmpCUD);
                 }
                 else {
                     alert(lo_chkResult.msg);
