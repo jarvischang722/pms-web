@@ -640,7 +640,6 @@
                 else {
                     _.each(this.dataGridRowsData[params.index], (ls_value, ls_key) => {
                         let la_modifyKey = ["begin_dat", "end_dat", "command_cod", "command_option", "room_cods"];
-                        console.log(_.indexOf(la_modifyKey, ls_key));
                         if (_.indexOf(la_modifyKey, ls_key) > -1) {
                             this.dataGridRowsData[params.index][ls_key] = params.rowData[ls_key];
                         }
