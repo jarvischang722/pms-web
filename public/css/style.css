@@ -833,6 +833,10 @@ textarea::placeholder,
   overflow: auto;
 }
 
+.datagrid-header td, .datagrid-body td, .datagrid-footer td {
+    border-style: solid;
+}
+
 .divider .fancyTable thead tr td, .divider .fancyTable thead tr th {
   min-width: 30px;
 }
@@ -4387,15 +4391,12 @@ td div.act-box span.act-text {
 .roomAssign .roomAsg-status-4 {
     background-color: #ffd45a;
 }
-
 .roomAssign .roomAsg-status-5 {
     background-color: #19647E;
 }
-
 .roomAssign .roomAsg-status-6 {
     background-color: #556b2f;
 }
-
 .roomAssign .square-color {
     width: 16px;
     height: 16px;
@@ -7299,7 +7300,6 @@ input[type=checkbox] {
     position: relative;
     display: inline-block;
 }
-
 .tooltip-sp .tooltip-text {
     visibility: hidden;
     width: 120px;
@@ -7312,24 +7312,19 @@ input[type=checkbox] {
     position: absolute;
     z-index: 1;
 }
-
 .tooltip-sp .tooltip-text ul {
     margin-left: 0;
 }
-
 .tooltip-sp .tooltip-text ul li {
     list-style: none;
 }
-
 .tooltip-sp:hover .tooltip-text {
     visibility: visible;
 }
-
 .tooltip-sp .color-desc {
     line-height: 25px;
     margin-right: 5px;
 }
-
 .tooltip-sp .color-desc i {
     margin-right: 5px;
 }
