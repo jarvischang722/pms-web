@@ -1,7 +1,7 @@
-Vue.use(Vuex);
-
 import PMS0210010 from './components/PMS0210010.vue';
 import Vuex from 'vuex';
+
+Vue.use(Vuex);
 
 import {ghistMnModule} from './store';
 

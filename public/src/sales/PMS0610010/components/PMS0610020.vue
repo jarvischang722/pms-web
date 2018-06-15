@@ -334,7 +334,7 @@
             });
             //取得相關人員資料，並改變主檔資料(主要聯絡人)
             this.$eventHub.$on('chgRelatedPersonData', function () {
-                _.each(self.$store.state.go_allData.ga_rpDataGridRowsData, (go_rpDataGridRowsData) => {
+                _.each(self.$store.state.custMnModule.go_allData.ga_rpDataGridRowsData, (go_rpDataGridRowsData) => {
                     if (go_rpDataGridRowsData.primary_pers == 'Y') {
                         self.singleData.atten_cod = go_rpDataGridRowsData.seq_nos;
                     }
@@ -427,7 +427,7 @@
                         }
 
                         //將主檔資料放至Vuex
-                        this.$store.dispatch("setMnSingleData", {
+                        this.$store.dispatch("custMnModule/setMnSingleData", {
                             go_mnSingleData: lo_singleData,
                             go_mnOriSingleData: lo_oriSingleData
                         });
@@ -445,13 +445,13 @@
                 this.setGlobalStatus();
             },
             setGlobalStatus() {
-                this.$store.dispatch("setStatus", {
+                this.$store.dispatch("custMnModule/setStatus", {
                     gb_isCreateStatus: this.isCreateStatus,
                     gb_isEditStatus: this.isEditStatus
                 });
             },
             setGlobalCustCod() {
-                this.$store.dispatch("setCustCod", this.singleData.cust_cod);
+                this.$store.dispatch("custMnModule/setCustCod", this.singleData.cust_cod);
             },
             setTabStatus(tabName) {
                 var self = this;
@@ -543,7 +543,7 @@
                 }
 
                 //檢查合約資料區間是否有重疊
-                let la_examData = JSON.parse(JSON.stringify(this.$store.state.go_allData.ga_ccDataGridRowsData));
+                let la_examData = JSON.parse(JSON.stringify(this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData));
                 for (let i = 0; i < la_examData.length; i++) {
                     for (let j = 0; j < i; j++) {
                         let lo_nowData = la_examData[i];
@@ -599,7 +599,7 @@
                 lo_oriSingleData.sales_cod = this.oriSingleData.sales_cod.split(":")[0];
 
                 //將主檔資料放至Vuex
-                this.$store.dispatch("setMnSingleData", {
+                this.$store.dispatch("custMnModule/setMnSingleData", {
                     go_mnSingleData: lo_singleData,
                     go_mnOriSingleData: lo_oriSingleData
                 });
@@ -618,10 +618,10 @@
                     this.isLoadingDialog = false;
                 }
                 else {
-                    this.$store.dispatch("doSaveAllData").then(result => {
+                    this.$store.dispatch("custMnModule/doSaveAllData").then(result => {
                         if (result.success) {
                             alert(go_i18nLang.program.PMS0610020.save_success);
-                            this.$store.dispatch("setAllDataClear");
+                            this.$store.dispatch("custMnModule/setAllDataClear");
                             let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
                             this.rowData = {};
                             this.tabName = "";
@@ -641,7 +641,7 @@
             doSetCompanyStatus() {
                 var self = this;
                 if (this.isEditStatus) {
-                    this.$store.dispatch("qryAllDataIsChange").then(result => {
+                    this.$store.dispatch("custMnModule/qryAllDataIsChange").then(result => {
                         if (result.success) {
                             if (!result.isChange) {
                                 this.isOpenCompanyStatus = true;
@@ -662,7 +662,7 @@
                 var la_contractStaFieldData = JSON.parse(JSON.stringify(_.findWhere(self.oriFieldsData, {ui_field_name: "contract_sta"})));
                 la_contractStaFieldData.modificable = 'Y';
                 if (this.isEditStatus) {
-                    this.$store.dispatch("qryAllDataIsChange").then(result => {
+                    this.$store.dispatch("custMnModule/qryAllDataIsChange").then(result => {
                         if (result.success) {
                             if (!result.isChange) {
                                 this.isOpenContractStatus = true;

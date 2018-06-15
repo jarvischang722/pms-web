@@ -237,7 +237,7 @@
             isOtherRemark(val) {
                 if (val) {
                     //第一次載入業務備註
-                    if (_.isEmpty(this.$store.state.go_allData.ga_remarkDataGridRowsData)) {
+                    if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_remarkDataGridRowsData)) {
                         this.initDataGridData();
                         this.initTmpCUD();
                     }
@@ -278,7 +278,7 @@
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
                         //將業務備註資料放至Vuex
-                        this.$store.dispatch("setRemarkDataGridRowsData", {
+                        this.$store.dispatch("custMnModule/setRemarkDataGridRowsData", {
                             ga_remarkDataGridRowsData: val,
                             ga_remarkOriDataGridRowsData: this.oriDataGridRowsData,
                             go_remarkTmpCUD: this.tmpCUD
@@ -315,18 +315,18 @@
                 BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 6,
-                    searchCond: {cust_cod: this.$store.state.gs_custCod}
+                    searchCond: {cust_cod: this.$store.state.custMnModule.gs_custCod}
                 }, result => {
                     this.searchFields = result.searchFields;
                     this.dataGridFieldsData = result.dgFieldsData;
 
-                    if (_.isEmpty(this.$store.state.go_allData.ga_remarkDataGridRowsData)) {
+                    if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_remarkDataGridRowsData)) {
                         this.dataGridRowsData = result.dgRowData;
                         this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                     }
                     else {
-                        this.dataGridRowsData = this.$store.state.go_allData.ga_remarkDataGridRowsData;
-                        this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_remarkDataGridRowsData;
+                        this.dataGridRowsData = this.$store.state.custMnModule.go_allData.ga_remarkDataGridRowsData;
+                        this.oriDataGridRowsData = this.$store.state.custMnModule.go_allOriData.ga_remarkDataGridRowsData;
                     }
 
                     this.showDataGrid();
@@ -547,7 +547,7 @@
                     this.singleData = _.extend(this.singleData, {
                         tab_page_id: 6,
                         event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
-                        cust_cod: this.$store.state.gs_custCod,
+                        cust_cod: this.$store.state.custMnModule.gs_custCod,
                         remark_typ_rmk: !_.isUndefined(lo_remarkTypRmk) ? lo_remarkTypRmk.display.split(":")[1].toString().trim() : ""
                     });
                     let ln_editIdx = _.isUndefined(this.singleData.index) ? -1 : this.singleData.index;
