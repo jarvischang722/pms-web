@@ -194,18 +194,18 @@
         watch: {
             isOtherContact(val) {
                 if (val) {
-                    if (this.$store.state.ga_emailDataGridRowsData.length != 0) {
-                        this.emailFieldsData = this.$store.state.ga_emailFieldsData;
-                        this.contactFieldsData = this.$store.state.ga_contactFieldsData;
+                    if (this.$store.state.ghistMnModule.ga_emailDataGridRowsData.length != 0) {
+                        this.emailFieldsData = this.$store.state.ghistMnModule.ga_emailFieldsData;
+                        this.contactFieldsData = this.$store.state.ghistMnModule.ga_contactFieldsData;
                         this.contactFieldOneData = _.findWhere(this.contactFieldsData, {ui_field_name: 'contact_dt.contact_nam'});
                         this.contactFieldTwoData = _.findWhere(this.contactFieldsData, {ui_field_name: 'contact_dt.contact_rmk'});
-                        this.addressFieldsData = this.$store.state.ga_addressFieldsData;
-                        this.emailDataGridRows = this.$store.state.ga_emailDataGridRowsData;
-                        this.oriEmailDataGridRows = this.$store.state.ga_oriEmailDataGridRowsData;
-                        this.contactDataGridRows = this.$store.state.ga_contactDataGridRowsData;
-                        this.oriContactDataGridRows = this.$store.state.ga_oriContactDataGridRowsData;
-                        this.addressDataGridRows = this.$store.state.ga_addressDataGridRowsData;
-                        this.oriAddressDataGridRows = this.$store.state.ga_oriAddressDataGridRowsData;
+                        this.addressFieldsData = this.$store.state.ghistMnModule.ga_addressFieldsData;
+                        this.emailDataGridRows = this.$store.state.ghistMnModule.ga_emailDataGridRowsData;
+                        this.oriEmailDataGridRows = this.$store.state.ghistMnModule.ga_oriEmailDataGridRowsData;
+                        this.contactDataGridRows = this.$store.state.ghistMnModule.ga_contactDataGridRowsData;
+                        this.oriContactDataGridRows = this.$store.state.ghistMnModule.ga_oriContactDataGridRowsData;
+                        this.addressDataGridRows = this.$store.state.ghistMnModule.ga_addressDataGridRowsData;
+                        this.oriAddressDataGridRows = this.$store.state.ghistMnModule.ga_oriAddressDataGridRowsData;
                     }
                     else {
                         this.isLoadingDialog = true;
@@ -234,7 +234,7 @@
                         });
 
                         //將email資料放至Vuex
-                        this.$store.dispatch("setEmailDataGridRowsData", {
+                        this.$store.dispatch("ghistMnModule/setEmailDataGridRowsData", {
                             ga_emailDataGridRowsData: val,
                             ga_oriEmailDataGridRowsData: this.oriEmailDataGridRows,
                             go_emailTmpCUD: lo_emailTmpCUD
@@ -263,7 +263,7 @@
                         });
 
                         //將聯絡資料放至Vuex
-                        this.$store.dispatch("setContactDataGridRowsData", {
+                        this.$store.dispatch("ghistMnModule/setContactDataGridRowsData", {
                             ga_contactDataGridRowsData: val,
                             ga_oriContactDataGridRowsData: this.oriContactDataGridRows,
                             go_contactTmpCUD: lo_contactTmpCUD
@@ -304,7 +304,7 @@
                             }
                         });
                         //將聯絡資料放至Vuex
-                        this.$store.dispatch("setAddressDataGridRowsData", {
+                        this.$store.dispatch("ghistMnModule/setAddressDataGridRowsData", {
                             ga_addressDataGridRowsData: val,
                             ga_oriAddressDataGridRowsData: this.oriAddressDataGridRows,
                             go_addressTmpCUD: lo_addressTmpCUD
@@ -333,13 +333,13 @@
                     prg_id: "PMS0210011",
                     page_id: 1040,
                     tab_page_id: 1,
-                    searchCond: {cust_cod: this.$store.state.gs_gcustCod}
+                    searchCond: {cust_cod: this.$store.state.ghistMnModule.gs_gcustCod}
                 }, result => {
                     this.emailFieldsData = result.dgFieldsData;
                     this.emailDataGridRows = result.dgRowData;
                     this.oriEmailDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
                     _.each(this.emailDataGridRows, (lo_emailDataGridRows, idx) => {
-                        this.emailDataGridRows[idx]["cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.emailDataGridRows[idx]["cust_cod"] = this.$store.state.ghistMnModule.gs_gcustCod;
                         this.emailDataGridRows[idx]["athena_id"] = getCookie("athena_id");
                         this.emailDataGridRows[idx] = _.extend(lo_emailDataGridRows, {tab_page_id: 1,});
                     });
@@ -354,7 +354,7 @@
                     prg_id: "PMS0210011",
                     page_id: 1040,
                     tab_page_id: 2,
-                    searchCond: {cust_cod: this.$store.state.gs_gcustCod}
+                    searchCond: {cust_cod: this.$store.state.ghistMnModule.gs_gcustCod}
                 }, result => {
                     this.contactFieldsData = result.dgFieldsData;
                     this.contactFieldOneData = _.findWhere(this.contactFieldsData, {ui_field_name: 'contact_dt.contact_nam'});
@@ -363,7 +363,7 @@
                     this.oriContactDataGridRows = JSON.parse(JSON.stringify(result.dgRowData));
                     _.each(this.contactDataGridRows, (lo_contactDataGridRows, idx) => {
                         this.contactDataGridRows[idx]["contact_dt.athena_id"] = getCookie("athena_id");
-                        this.contactDataGridRows[idx]["contact_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.contactDataGridRows[idx]["contact_dt.cust_cod"] = this.$store.state.ghistMnModule.gs_gcustCod;
                         this.contactDataGridRows[idx] = _.extend(lo_contactDataGridRows, {tab_page_id: 2});
                     });
                     _.each(this.oriContactDataGridRows, (lo_contactDataGridRows, idx) => {
@@ -377,7 +377,7 @@
                     prg_id: "PMS0210011",
                     page_id: 1040,
                     tab_page_id: 3,
-                    searchCond: {cust_cod: this.$store.state.gs_gcustCod}
+                    searchCond: {cust_cod: this.$store.state.ghistMnModule.gs_gcustCod}
                 }, result => {
                     this.addressFieldsData = result.dgFieldsData;
                     this.addressDataGridRows = result.dgRowData;
@@ -392,7 +392,7 @@
 
                     _.each(this.addressDataGridRows, (lo_addressDataGridRows, idx) => {
                         this.addressDataGridRows[idx]["address_dt.athena_id"] = getCookie("athena_id");
-                        this.addressDataGridRows[idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                        this.addressDataGridRows[idx]["address_dt.cust_cod"] = this.$store.state.ghistMnModule.gs_gcustCod;
                         this.addressDataGridRows[idx] = _.extend(lo_addressDataGridRows, {tab_page_id: 3});
                     });
                     _.each(this.oriAddressDataGridRows, (lo_addressDataGridRows, idx) => {
@@ -405,7 +405,7 @@
             },
             setFieldsData() {
                 //將其他聯絡欄位資料放至Vuex
-                this.$store.dispatch("setOtherContactFieldsData", {
+                this.$store.dispatch("ghistMnModule/setOtherContactFieldsData", {
                     ga_emailFieldsData: this.emailFieldsData,
                     ga_contactFieldsData: this.contactFieldsData,
                     ga_addressFieldsData: this.addressFieldsData

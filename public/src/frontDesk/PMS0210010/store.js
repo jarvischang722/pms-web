@@ -61,6 +61,7 @@ const mutations = {
     },
     //設定狀態(新增或編輯)
     setStatus(state, payload) {
+        console.log(payload);
         state.gb_isCreateStatus = payload.gb_isCreateStatus;
         state.gb_isEditStatus = payload.gb_isEditStatus;
     },
@@ -340,9 +341,17 @@ const actions = {
 
 const getters = {};
 
-export default new Vuex.Store({
-    state,
-    getters,
-    actions,
-    mutations
-});
+export const ghistMnModule = {
+    namespaced: true,
+    state: state,
+    mutations: mutations,
+    actions: actions,
+    getters: getters
+};
+
+// export default new Vuex.Store({
+//     state,
+//     getters,
+//     actions,
+//     mutations
+// });
