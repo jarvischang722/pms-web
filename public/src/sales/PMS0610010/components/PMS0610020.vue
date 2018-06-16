@@ -38,19 +38,20 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
 
-                                            <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
-                                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                             :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                             v-model="singleData[field.ui_field_name]"
-                                                             :columns="field.selectData.columns"
-                                                             :data="field.selectData.selectData"
-                                                             :field="field"
-                                                             :is-qry-src-before="field.selectData.isQrySrcBefore"
-                                                             :id-field="field.selectData.value"
-                                                             :text-field="field.selectData.display"
-                                                             @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                             :default-val="singleData[field.ui_field_name]"
-                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
+                                            <bac-select-grid
+                                                    v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                    v-model="singleData[field.ui_field_name]"
+                                                    :columns="field.selectData.columns"
+                                                    :data="field.selectData.selectData"
+                                                    :field="field"
+                                                    :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                    :id-field="field.selectData.value"
+                                                    :text-field="field.selectData.display"
+                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                    :default-val="singleData[field.ui_field_name]"
+                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select-grid>
                                         </div>
@@ -390,6 +391,7 @@
             },
             rowData(val) {
                 if (!_.isEmpty(val)) {
+                    console.log(val);
                     this.initData();
                     this.fetchFieldData();
                 }
@@ -503,6 +505,7 @@
                     });
                 }
                 else if (this.isEditStatus) {
+                    console.log(this.rowData.cust_mn_cust_cod);
                     BacUtils.doHttpPostAgent("/api/fetchSinglePageFieldData", {
                         prg_id: "PMS0610020",
                         page_id: 1,
@@ -510,6 +513,7 @@
                         template_id: "gridsingle",
                         searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
                     }, result => {
+                        console.log(result);
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.isLoadingDialog = false;
@@ -573,7 +577,7 @@
                 compar_end_dat = moment.isMoment(compar_end_dat) ? compar_end_dat : moment(new Date(compar_end_dat));
                 now_begin_dat = moment.isMoment(now_begin_dat) ? now_begin_dat : moment(new Date(now_begin_dat));
                 now_end_dat = moment.isMoment(now_end_dat) ? now_end_dat : moment(new Date(now_end_dat));
-                console.log(compar_begin_dat, now_end_dat );
+                console.log(compar_begin_dat, now_end_dat);
                 if (compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0) {
                     return true;
                 }
