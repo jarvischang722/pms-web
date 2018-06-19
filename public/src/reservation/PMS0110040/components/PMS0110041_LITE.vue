@@ -269,7 +269,7 @@
                                                                 <tr>
                                                                     <td class="text-center">
                                                                         <i class="fa fa-minus red"
-                                                                           @click="removeRow"></i>
+                                                                           @click="removeRow(idx)"></i>
                                                                     </td>
                                                                     <template v-for="field in orderDtFieldsData4table">
                                                                         <td class="text-left input-noEdit"
@@ -353,7 +353,8 @@
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                                             >
-                                                                            <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"></i>
+                                                                            <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"
+                                                                               @click="showRateCodDialog"></i>
                                                                         </td>
                                                                     </template>
                                                                 </tr>
@@ -648,6 +649,7 @@
                         };
                         this.groupOrderDtData = _.where(this.orderDtRowsData, lo_orderParams);
                     }
+                    this.tableHeight = _.size(this.orderDtRowsData4table) > 4 ? 132 : 34 + 30 * _.size(this.orderDtRowsData4table);
                 },
                 deep: true
             }
@@ -961,7 +963,7 @@
                 });
             },
             showTelDetailDialog() {
-                var dialog = $("#othContact_dialog").removeClass('hide').dialog({
+                var dialog = $("#telDetail_dialog").removeClass('hide').dialog({
                     modal: true,
                     title: "其他聯絡方式",
                     title_html: true,
@@ -971,7 +973,31 @@
                     resizable: true
                 });
             },
-            selectedCell(idx) {
+            showRateCodDialog() {
+                // var dialog = $("#selectRateCod_dialog").removeClass('hide').dialog({
+                //     modal: true,
+                //     title: "選擇房價",
+                //     title_html: true,
+                //     width: 450,
+                //     maxwidth: 1920,
+                //     dialogClass: "test",
+                //     resizable: true
+                // });
+            },
+            async selectedCell(idx) {
+                //多筆order dt的設定
+                let lo_postData = {
+                    rule_func_name: 'select_cod_data',
+                    rowData: this.orderDtRowsData4table[idx],
+                    allRowData: this.orderDtRowsData4table
+                };
+                let lo_fetchSelectData = await new Promise((resolve, reject) => {
+                    BacUtils.doHttpPostAgent('/api/chkFieldRule', lo_postData, (result) => {
+                        resolve(result);
+                    });
+                });
+
+                //單筆order dt的設定
                 this.editingOrderDtIdx = idx;
                 this.orderDtRowsData4Single = this.orderDtRowsData4table[idx];
                 this.orderDtRowsData4Single.sub_tot =
@@ -997,8 +1023,11 @@
                 this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, lo_params);
             },
             appendRow() {
+                this.orderDtRowsData4table.push({});
             },
-            removeRow() {
+            removeRow(index) {
+                this.orderDtRowsData4table.splice(index, 1);
+
             }
         }
     }

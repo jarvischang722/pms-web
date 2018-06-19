@@ -50,5 +50,23 @@ module.exports = {
         });
         // callback(lo_error, lo_result);
 
+    },
+
+    /**
+     * order dt 中使用房型及計價房型的下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    select_cod_data: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let ls_ciDat = postData.rowData.ci_dat;
+        let ls_coDat = postData.rowData.co_dat;
+        let ls_days = postData.rowData.days;
+
+
+        callback(lo_result, lo_error);
     }
 };
