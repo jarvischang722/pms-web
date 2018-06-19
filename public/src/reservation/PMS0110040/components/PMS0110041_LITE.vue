@@ -579,6 +579,7 @@
         },
         data() {
             return {
+                i18n_Lang: go_i18nLang,           //多語系
                 fieldsDataLeft: [],               //頁面顯示欄位資料
                 fieldsDataRight: [],              //頁面顯示欄位資料
                 oriOrderMnFieldsData: [],         //原始order mn 欄位資料
@@ -834,53 +835,58 @@
                         //所有的order dt 資料
                         this.orderDtRowsData = lo_fetchOderDtData.dgRowData;
 
-                        //顯示在多筆的order dt資料
-                        let ls_groupStatement =
-                            "select * from ? group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
-                        this.orderDtRowsData4table = alasql(ls_groupStatement, [this.orderDtRowsData]);
-
-                        //顯示在單筆的order dt資料
-                        this.orderDtRowsData4Single = _.first(JSON.parse(JSON.stringify(this.orderDtRowsData4table)));
-                        this.orderDtRowsData4Single.sub_tot =
-                            Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
-                        let lo_params = {
-                            sum_adult_qnt: 0,
-                            sum_baby_qnt: 0,
-                            sum_child_qnt: 0,
-                            sum_other_tot: 0,
-                            sum_rent_tot: 0,
-                            sum_serv_tot: 0,
-                            general_tot: 0
-                        };
-                        _.each(this.orderDtRowsData, (lo_value, ln_idx) => {
-                            lo_params.sum_adult_qnt += Number(lo_value.adult_qnt * lo_value.order_qnt);
-                            lo_params.sum_baby_qnt += Number(lo_value.baby_qnt * lo_value.order_qnt);
-                            lo_params.sum_child_qnt += Number(lo_value.child_qnt * lo_value.order_qnt);
-                            lo_params.sum_other_tot += Number(lo_value.other_tot);
-                            lo_params.sum_rent_tot += Number(lo_value.rent_tot);
-                            lo_params.sum_serv_tot += Number(lo_value.serv_tot);
-                        });
-                        lo_params.general_tot = lo_params.sum_other_tot + lo_params.sum_serv_tot + lo_params.sum_rent_tot;
-                        this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, lo_params);
-                        this.tableHeight = _.size(this.orderDtRowsData4table) > 5 ? 132 : 34 + 30 * _.size(this.orderDtRowsData4table);
-
-                        //所group 的資料
-                        let lo_orderParams = {
-                            rate_cod: this.orderDtRowsData4Single.rate_cod,
-                            order_sta: this.orderDtRowsData4Single.order_sta,
-                            days: this.orderDtRowsData4Single.days,
-                            ci_dat: this.orderDtRowsData4Single.ci_dat,
-                            co_dat: this.orderDtRowsData4Single.co_dat,
-                            use_cod: this.orderDtRowsData4Single.use_cod,
-                            room_cod: this.orderDtRowsData4Single.room_cod,
-                            order_qnt: this.orderDtRowsData4Single.order_qnt
-                        };
-                        this.groupOrderDtData = _.where(this.orderDtRowsData, lo_orderParams);
+                        //將資料轉換成多筆和單筆的格式
+                        if (this.orderDtRowsData.length > 0)
+                            this.convertDtDataToSingleAndTable(0);
                     }
                     else {
                         alert(lo_fetchOderDtData.errorMsg);
                     }
                 }
+            },
+            convertDtDataToSingleAndTable(index) {
+                //顯示在多筆的order dt資料
+                let ls_groupStatement =
+                    "select * from ? group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
+                this.orderDtRowsData4table = alasql(ls_groupStatement, [this.orderDtRowsData]);
+
+                //顯示在單筆的order dt資料
+                let la_orderDtRowsData4table = JSON.parse(JSON.stringify(this.orderDtRowsData4table));
+                this.orderDtRowsData4Single = la_orderDtRowsData4table[index];
+                this.orderDtRowsData4Single.sub_tot =
+                    Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
+                let lo_params = {
+                    sum_adult_qnt: 0,
+                    sum_baby_qnt: 0,
+                    sum_child_qnt: 0,
+                    sum_other_tot: 0,
+                    sum_rent_tot: 0,
+                    sum_serv_tot: 0,
+                    general_tot: 0
+                };
+                _.each(this.orderDtRowsData, (lo_value, ln_idx) => {
+                    lo_params.sum_adult_qnt += Number(lo_value.adult_qnt * lo_value.order_qnt);
+                    lo_params.sum_baby_qnt += Number(lo_value.baby_qnt * lo_value.order_qnt);
+                    lo_params.sum_child_qnt += Number(lo_value.child_qnt * lo_value.order_qnt);
+                    lo_params.sum_other_tot += Number(lo_value.other_tot);
+                    lo_params.sum_rent_tot += Number(lo_value.rent_tot);
+                    lo_params.sum_serv_tot += Number(lo_value.serv_tot);
+                });
+                lo_params.general_tot = lo_params.sum_other_tot + lo_params.sum_serv_tot + lo_params.sum_rent_tot;
+                this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, lo_params);
+
+                //所group 的資料
+                let lo_orderParams = {
+                    rate_cod: this.orderDtRowsData4Single.rate_cod,
+                    order_sta: this.orderDtRowsData4Single.order_sta,
+                    days: this.orderDtRowsData4Single.days,
+                    ci_dat: this.orderDtRowsData4Single.ci_dat,
+                    co_dat: this.orderDtRowsData4Single.co_dat,
+                    use_cod: this.orderDtRowsData4Single.use_cod,
+                    room_cod: this.orderDtRowsData4Single.room_cod,
+                    order_qnt: this.orderDtRowsData4Single.order_qnt
+                };
+                this.groupOrderDtData = _.where(this.orderDtRowsData, lo_orderParams);
             },
             searchGuestMnAltName() {
                 if (!_.isEmpty(this.guestMnRowsData4Single)) {
@@ -1023,7 +1029,23 @@
                 this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, lo_params);
             },
             appendRow() {
-                this.orderDtRowsData4table.push({});
+                let lo_addData = {};
+                lo_addData.ikey_seq_nos = this.orderDtRowsData.length > 0 ? _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
+                    return lo_orderDtRowsData.ikey_seq_nos;
+                }).ikey_seq_nos + 1 : 1;
+                
+                if (this.orderDtRowsData4table.length > 0) {
+                    let lo_lastData = this.orderDtRowsData4table[this.orderDtRowsData4table.length - 1];
+                    lo_addData.ci_dat = lo_lastData.ci_dat;
+                    lo_addData.co_dat = lo_lastData.co_dat;
+                    lo_addData.days = lo_lastData.days;
+                    lo_addData.rate_cod = lo_lastData.rate_cod;
+                }
+                else {
+
+                }
+                this.orderDtRowsData.push(lo_addData);
+                convertDtDataToSingleAndTable(this.orderDtRowsData4table.length);
             },
             removeRow(index) {
                 this.orderDtRowsData4table.splice(index, 1);
