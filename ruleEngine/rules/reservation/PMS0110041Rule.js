@@ -62,11 +62,64 @@ module.exports = {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        let ls_ciDat = postData.rowData.ci_dat;
-        let ls_coDat = postData.rowData.co_dat;
-        let ls_days = postData.rowData.days;
+        let ls_ciDat = postData.rowData.ci_dat || "";
+        let ls_coDat = postData.rowData.co_dat || "";
+        let ls_rateCod = postData.rowData.rate_cod || "";
+        try {
+            if (ls_ciDat != "" && ls_coDat != "" && ls_rateCod != "") {
+                let lo_params = {
+                    athena_id: session.user.athena_id,
+                    hotel_cod: session.user.hotel_cod,
+                    co_dat: moment(postData.rowData.co_dat).format("YYYY/MM/DD"),
+                    ci_dat: moment(postData.rowData.ci_dat).format("YYYY/MM/DD"),
+                    rate_cod: ls_rateCod
+                };
 
+                let la_roomCodSelectData = await new Promise((resolve, reject) => {
+                    queryAgent.queryList("SEL_ORDERDTROOMCOD", lo_params, 0, 0, (err, result) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                });
+                _.each(la_roomCodSelectData, (lo_roomCodSelectData, idx) => {
+                    la_roomCodSelectData[idx].display = lo_roomCodSelectData.value + ':' + lo_roomCodSelectData.display;
+                });
 
+                lo_params.days = postData.rowData.days;
+                let la_useCodSelectData = await new Promise((resolve, reject) => {
+                    queryAgent.queryList("SEL_ORDERDTUSECOD", lo_params, 0, 0, (err, result) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                });
+                _.each(la_useCodSelectData, (lo_useCodSelectData, idx) => {
+                    lo_useCodSelectData[idx].display = lo_useCodSelectData.value + ':' + lo_useCodSelectData.display;
+                });
+
+                lo_result.selectField = ["room_cod", "use_cod"];
+                lo_result.multiSelectOptions.room_cod = la_roomCodSelectData;
+                lo_result.multiSelectOptions.use_cod = la_useCodSelectData;
+            }
+            else {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = "請輸入c/i日期";
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
         callback(lo_result, lo_error);
     }
 };
