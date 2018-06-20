@@ -111,8 +111,117 @@ module.exports = {
             else {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
-                lo_error.errorMsg = "請輸入c/i日期";
+                lo_error.errorMsg = commandRules.getMsgByCod('pms14msg1', session.locale);
             }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_result, lo_error);
+    },
+
+    /**
+     * order dt 中 rate cod 的樹狀下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    sel_order_dt_rate_cod_data_for_tree_select: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                days: postData.rowData.days,
+                ci_dat: moment(postData.rowData.ci_dat).format("YYYY/MM/DD"),
+                acust_cod: postData.rowData.acust_cod
+            };
+
+            let la_selectData = await new Promise((resolve, reject) => {
+                queryAgent.queryList("SEL_ORDERDT_RATECOD_SELECT_TREE", lo_params, 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            //組成tree的 資料結構
+            let la_treeData = [];
+            _.each(la_selectData, (lo_selectData) => {
+                //先判斷下拉資料是否有此兩分類
+                let ln_classIdx = _.findIndex(la_treeData, {value: lo_selectData.parent_cod});
+                if (ln_classIdx == -1) {
+                    let lo_addClass = {parent_cod: 'root'};
+                    lo_addClass.value = lo_selectData.parent_cod;
+                    lo_addClass.label = lo_selectData.parent_cod;
+                    lo_addClass.children = [];
+                    la_treeData.push(lo_addClass);
+                }
+                //將搜尋到的資料份配進此兩分類中
+                let ln_index = _.findIndex(la_treeData, {value: lo_selectData.parent_cod});
+                if (ln_index > -1) {
+                    la_treeData[ln_index].children.push(lo_selectData);
+                }
+            });
+
+            lo_result.selectOptions = la_treeData;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_result, lo_error);
+    },
+
+    /**
+     * order dt 中 rate cod 的下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    sel_order_dt_rate_cod_data: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                days: postData.rowData.days,
+                rate_grp: postData.selectedData[1]
+            };
+            let ls_class = postData.selectedData[0];
+            let ls_queryName = "";
+            if (ls_class == '合約') {
+                ls_queryName = "SEL_ORDERDT_RATECOD_SELECT_DATA_CONTRACT";
+                lo_params.ci_dat = postData.rowData.ci_dat;
+                lo_params.acust_cod = postData.rowData.acust_cod;
+            }
+            else {
+                ls_queryName = "SEL_ORDERDT_RATECOD_SELECT_DATA_COMMON";
+            }
+
+            let la_selectData = await new Promise((resolve, reject) => {
+                queryAgent.queryList(ls_queryName, lo_params, 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            lo_result.selectOptions = la_selectData;
         }
         catch (err) {
             console.log(err);

@@ -158,4 +158,81 @@
         <parameter type="string" kind="3">rate_grp</parameter>
     </dao>
 
+    <!--[PMS0110041 訂房卡單筆] ORDER DT 中房價的分類下拉資料-->
+    <dao name="SEL_ORDERDT_RATECOD_SELECT_TREE">
+        <statement><![CDATA[
+            select distinct '合約' parent_cod, m.rate_grp value, rf.rategrp_nam label, rf.view_seq, 'C' typ
+            from ratecod_mn m
+            join rategrp_rf rf on rf.athena_id = m.athena_id and rf.hotel_cod = m.hotel_cod and rf.rate_grp = m.rate_grp
+            join contract_dt c on c.athena_id = m.athena_id and c.hotel_cod = m.hotel_cod and m.rate_cod = c.rate_cod
+            where m.use_sta = 'Y'
+            and rf.use_sta = 'Y'
+            and m.contract_use = 'Y'
+            and to_date(:ci_dat, 'YYYY/MM/DD') between c.begin_dat and c.end_dat
+            and min_stay_day <= :days
+            and c.cust_cod = :acust_cod
+            and m.athena_id = :athena_id
+            and m.hotel_cod = :hotel_cod
+            union all
+            select distinct '一般' parent_cod, m.rate_grp value, rf.rategrp_nam label, rf.view_seq, 'F' typ
+            from ratecod_mn m
+            join rategrp_rf rf on rf.athena_id = m.athena_id and rf.hotel_cod = m.hotel_cod and rf.rate_grp = m.rate_grp
+            where m.use_sta = 'Y'
+            and rf.use_sta = 'Y'
+            and m.contract_use = 'N'
+            and min_stay_day <= :days
+            and m.athena_id = :athena_id
+            and m.hotel_cod = :hotel_cod
+            order by typ, view_seq
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">acust_cod</parameter>
+        <parameter type="number" kind="3">days</parameter>
+        <parameter type="string" kind="3">ci_dat</parameter>
+    </dao>
+
+    <!--[PMS0110041 訂房卡單筆] ORDER DT 中房價的下拉資料(分類為合約)-->
+    <dao name="SEL_ORDERDT_RATECOD_SELECT_DATA_CONTRACT">
+        <statement><![CDATA[
+           select c.rate_cod, m.ratecod_nam, m.remark1
+            from ratecod_mn m
+            join contract_dt c on c.athena_id = m.athena_id and c.hotel_cod = m.hotel_cod and m.rate_cod = c.rate_cod
+            where m.use_sta = 'Y'
+            and m.contract_use = 'Y'
+            and to_date(:ci_dat, 'YYYY/MM/DD') between c.begin_dat and c.end_dat
+            and min_stay_day <= :days
+            and c.cust_cod = :acust_cod
+            and m.athena_id = :athena_id
+            and m.hotel_cod = :hotel_cod
+            and m.rate_grp = :rate_grp
+            order by m.view_seq, m.rate_cod
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_grp</parameter>
+        <parameter type="string" kind="3">acust_cod</parameter>
+        <parameter type="string" kind="3">ci_dat</parameter>
+        <parameter type="number" kind="3">days</parameter>
+    </dao>
+
+    <!--[PMS0110041 訂房卡單筆] ORDER DT 中房價的下拉資料(分類為一般)-->
+    <dao name="SEL_ORDERDT_RATECOD_SELECT_DATA_COMMON">
+        <statement><![CDATA[
+            select m.rate_cod, m.ratecod_nam, m.remark1
+            from ratecod_mn m
+            where m.use_sta = 'Y'
+            and m.contract_use = 'N'
+            and min_stay_day <= :days
+            and m.athena_id = :athena_id
+            and m.hotel_cod = :hotel_cod
+            and m.rate_grp = :rate_grp
+            order by m.view_seq, m.rate_cod
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_grp</parameter>
+        <parameter type="number" kind="3">days</parameter>
+    </dao>
+
 </root>

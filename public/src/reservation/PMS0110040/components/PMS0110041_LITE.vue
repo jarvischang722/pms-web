@@ -345,15 +345,13 @@
                                                                             <input type="text"
                                                                                    v-model="singleData[field.ui_field_name]"
                                                                                    :style="{width:field.width + 'px'}"
-                                                                                   :required="field.requirable == 'Y'"
-                                                                                   min="0"
+                                                                                   :required="field.requirable == 'Y'" min="0"
                                                                                    :maxlength="field.ui_field_length"
                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                                    class="selectHt pull-left wt-input"
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                                            >
-                                                                            <i class="moreClick fa fa-ellipsis-h choiceRmPrice pull-left"
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                            <i class="moreClick fa fa-ellipsis-h pull-left"
                                                                                @click="showRateCodDialog"></i>
                                                                         </td>
                                                                     </template>
@@ -556,6 +554,9 @@
                 :row-data="orderMnSingleData"
         ></tel-detail>
         <!-- /.其他聯絡方式 -->
+        <select-rate-cod
+                :row-data="editingGroupOrderDtData"
+        ></select-rate-cod>
     </div>
 </template>
 
@@ -565,6 +566,7 @@
     import pms0610020 from '../../../sales/PMS0610010/components/PMS0610020';
     import publicAccount from './publicAccount';
     import telDetail from './telDetail';
+    import selectRateCod from './selectRateCod.vue';
 
     Vue.prototype.$eventHub = new Vue();
 
@@ -572,8 +574,13 @@
 
     export default {
         name: 'pms0110041-lite',
-        components: {pms0210011, pms0610020, publicAccount, telDetail},
+        components: {pms0210011, pms0610020, publicAccount, telDetail, selectRateCod},
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
+        created() {
+            this.$eventHub.$on('getOrderDtRateCod', (data) => {
+                console.log(data)
+            });
+        },
         updated() {
             $("#resvSingleTable").tableHeadFixer({"left": 1});
         },
@@ -607,6 +614,7 @@
                 isCreate4CustMn: false,           //guest mn 中的alt name 是否為新增
                 isEdit4CustMn: false,             //guest mn 中的alt name 是否為修改
                 isModifiable4CustMn: false,       //guest mn 中的alt name 是否可修改
+                editingGroupOrderDtData: {}       //正在編輯的多筆order dt 資料
             }
         },
         watch: {
@@ -990,15 +998,20 @@
                 });
             },
             showRateCodDialog() {
-                // var dialog = $("#selectRateCod_dialog").removeClass('hide').dialog({
-                //     modal: true,
-                //     title: "選擇房價",
-                //     title_html: true,
-                //     width: 450,
-                //     maxwidth: 1920,
-                //     dialogClass: "test",
-                //     resizable: true
-                // });
+                let self = this;
+                this.editingGroupOrderDtData = _.extend(this.orderDtRowsData4Single, this.orderMnSingleData);
+                var dialog = $("#selectRateCod_dialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "選擇房價",
+                    title_html: true,
+                    width: 450,
+                    maxwidth: 1920,
+                    dialogClass: "test",
+                    resizable: true,
+                    onBeforeClose() {
+                        self.editingCustMnData = {};
+                    }
+                });
             },
             async selectedCell(idx) {
                 //多筆order dt的設定

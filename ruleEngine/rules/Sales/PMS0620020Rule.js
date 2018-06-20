@@ -87,7 +87,8 @@ module.exports = {
     },
 
 
-    /** 館別狀態為X:停用時，停用年月必填
+    /**
+     * 館別狀態為X:停用時，停用年月必填
      * 1.status_cod欄位=N  ->nouse_dat欄位不可輸入
      *(1)清空nouse_dat欄位
      *(2)訊息「非停用,停用年月不可輸入」pms62msg4
@@ -123,7 +124,8 @@ module.exports = {
     },
 
 
-    /**館別狀態為N:正常，清空停用年月
+    /**
+     * 館別狀態為N:正常，清空停用年月
      *status_cod值=N  ->清空nouse_dat欄位
      */
     chkSaleshoteldtStatuscod: function (postData, session, callback) {

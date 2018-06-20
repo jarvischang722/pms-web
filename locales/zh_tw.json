@@ -333,6 +333,11 @@
       "Rate_Plan": "Rate Plan(中文)",
       "Amenities_Iny": "Amenities Iny.(中文)"
     },
+    "PMS0110041": {
+      "rate_cod": "房價代號",
+      "rate_nam": "房價名稱",
+      "remark": "使用說明"
+    },
     "PMS0110050": {
       "roomTyp": "房型",
       "roomNos": "房號",
@@ -584,7 +589,8 @@
     "pms61msg15": "結束日必須大於開始日(英文)",
     "pms21msg1": "此住客資料已存在",
     "pms21msg2": "%s(%s)此筆資料已為訂房使用(%s:%s)，不可刪除",
-    "pms21msg3": "狀態改為黑名單，等級變為0，是否確認修改?"
+    "pms21msg3": "狀態改為黑名單，等級變為0，是否確認修改?",
+    "pms14msg1": "請輸入c/i日期、c/o日期和房價代號"
   },
   "Columns": {
     "show_cod": "公司編號",
