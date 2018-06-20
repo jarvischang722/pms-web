@@ -1,4 +1,118 @@
 <script type="text/javascript">
+    /***
+     * PMS0210020 綜合櫃檯
+     */
+    var vm = new Vue({
+        el: '#PMS0210020-info',
+        data: {
+            gridData: [
+                {status: 'Walk In'},
+                {status: '清掃'},
+                {status: '待檢查'},
+                {status: '房間備註'}
+            ],
+            roomNum_status: '相關房號'
+        },
+        updated() {
+        },
+
+        // js 無法彈跳出來，使用method可以但會有階層問題
+        methods: {
+            foCnt_details() {
+                var dialog = $("#foCnt_details-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "Details",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            foCnt_rateChg() {
+                var dialog = $("#foCnt_rateChg-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "Rate Chg",
+                    title_html: true,
+                    width: 910,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            foCnt_rmChg() {
+                var dialog = $("#foCnt_rmChg-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "Rm Chg",
+                    title_html: true,
+                    width: 600,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            clean_btn() {
+                var dialog = $("#clean-Dialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "清掃房間",
+                    title_html: true,
+                    width: 500,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            reservationDialog_1() {
+                var dialog = $("#reservationDialog-1-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "訂房卡",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+                    height: 600,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            publiceAccountSetting_btn() {
+                var dialog = $("#publiceAccountSetting-Dialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "設定公帳號",
+                    title_html: true,
+                    width: 700,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            related_set1(self) {
+                if (this.roomNum_status == '相關房號') {
+                    this.roomNum_status = '全部房號'
+                    $('#PMS0210020-info').find('.counterBlock').fadeOut('800');
+                    $('#PMS0210020-info').find('.resultCount').css('min-width', '95%');
+                    $('#PMS0210020-info').find('.related-set-block').fadeIn('800');
+                }
+                else {
+                    this.roomNum_status = '相關房號'
+                    $('#PMS0210020-info').find('.counterBlock').fadeIn('800');
+                    $('#PMS0210020-info').find('.resultCount').css('min-width', '');
+                }
+            }
+        }
+    });
+
     jQuery(function () {
 
         /***
