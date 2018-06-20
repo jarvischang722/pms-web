@@ -579,6 +579,7 @@
         created() {
             this.$eventHub.$on('getOrderDtRateCod', (data) => {
                 console.log(data)
+                console.log(this.orderDtRowsData4table[this.editingOrderDtIdx]);
             });
         },
         updated() {
