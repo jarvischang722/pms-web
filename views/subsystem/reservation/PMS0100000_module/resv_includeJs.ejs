@@ -1141,6 +1141,20 @@
             });
         });
 
+        // 彈出 訂房備註
+        $(document).on('click', ".resvMoreRmks", function (e) {
+            e.preventDefault();
+            var dialog = $("#resvMoreRmks-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "訂房備註",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 彈出 其他聯絡方式
         $(document).on('click', ".othContact", function (e) {
             e.preventDefault();

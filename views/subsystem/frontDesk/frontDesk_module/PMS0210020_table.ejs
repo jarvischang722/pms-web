@@ -112,10 +112,8 @@
                         <!--style="background: #fff; width: 124px;"-->
                     </div>
                 </el-popover>
-                <el-popover placement="bottom" trigger="click">
-                    <el-table :data="gridData">
-                        <el-table-column width="150" property="status" label="功能選單"></el-table-column>
-                    </el-table>
+                <el-popover placement="bottom" trigger="click" width="150">
+                    <%- include PMS0210020_popInfo_func.ejs %>
                     <div class="counterBlock cb-vc-vd" slot="reference">
                         <div class="head">
                             <span class="left txt-lg">202</span>
@@ -131,10 +129,8 @@
                         <div class="clearfix"></div>
                     </div>
                 </el-popover>
-                <el-popover placement="bottom" trigger="click">
-                    <el-table :data="gridData">
-                        <el-table-column width="150" property="status" label="功能選單"></el-table-column>
-                    </el-table>
+                <el-popover placement="bottom" trigger="click" width="150">
+                    <%- include PMS0210020_popInfo_func.ejs %>
                     <div class="counterBlock cb-vc-vd active" slot="reference">
                         <div class="head">
                             <span class="left txt-lg">203</span>
