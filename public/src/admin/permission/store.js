@@ -143,7 +143,8 @@ const actions = {
      * @returns {Promise<*>}
      */
     async qryFuncList({commit, dispatch, state}) {
-        return await $.post("/api/getAllFuncs").then(
+        // return await $.post("/api/getAllFuncs").then(
+        return await BacUtils.doHttpPostProxy("/api/getAllFuncs").then(
             (result) => {
                 if (result.success) {
                     commit("setOriFuncList", result.funcList);

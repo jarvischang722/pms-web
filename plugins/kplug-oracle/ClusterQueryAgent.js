@@ -1,10 +1,6 @@
-let config = require("../config.js");
 let DB = require('./DB.js');
 let async = require('async');
-let QueryAgent = require('./QueryAgent.js');
 let _ = require("underscore");
-let _s = require("underscore.string");
-let moment = require('moment');
 
 exports.query = function (dao, param, cb) {
     if (_.isObject(dao)) {
@@ -93,7 +89,8 @@ function queryData(mode, cb, ddObj, param) {
                     }
                 });
             });
-        } else {
+        }
+        else {
             async.each(DB.clusters, function (id, callback) {
                 DB.getConnection(id, function (err, connection) {
                     if (err) {
