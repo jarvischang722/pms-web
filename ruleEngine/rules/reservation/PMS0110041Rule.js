@@ -46,6 +46,9 @@ module.exports = {
                 console.error(data["RETN-CODE-DESC"]);
                 lo_error.errorMsg = data["RETN-CODE-DESC"];
             }
+            else {
+                lo_result.defaultValues.key_nos = data["returnNos"];
+            }
             callback(lo_error, lo_result);
         });
         // callback(lo_error, lo_result);
@@ -230,5 +233,44 @@ module.exports = {
             lo_error.errorMsg = err;
         }
         callback(lo_result, lo_error);
+    },
+
+    /**
+     * 計算 order dt 價錢
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    compute_oder_dt_price: function (postData, session, callback) {
+
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        // let apiParams = {
+        //     "REVE-CODE": "PMS0110041",
+        //     "prg_id": "PMS0110041",
+        //     "func_id": "0900",
+        //     "athena_id": session.user.athena_id,
+        //     "hotel_cod": session.user.hotel_cod,
+        //     "ikey": postData.ikey
+        // };
+        // tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+        //     if (apiErr || !data) {
+        //         lo_result.success = false;
+        //         lo_error = new ErrorClass();
+        //         lo_error.errorMsg = apiErr;
+        //     }
+        //     else if (data["RETN-CODE"] != "0000") {
+        //         lo_result.success = false;
+        //         lo_error = new ErrorClass();
+        //         console.error(data["RETN-CODE-DESC"]);
+        //         lo_error.errorMsg = data["RETN-CODE-DESC"];
+        //     }
+        //     else {
+        //         lo_result.defaultValues.key_nos = data["returnNos"];
+        //     }
+        //     callback(lo_error, lo_result);
+        // });
+        callback(lo_error, lo_result);
     }
 };

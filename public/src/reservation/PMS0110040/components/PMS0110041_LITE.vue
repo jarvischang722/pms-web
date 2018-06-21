@@ -589,17 +589,19 @@
         data() {
             return {
                 i18n_Lang: go_i18nLang,           //多語系
+                keyNos: '',                       //tmp_order_appraise key值
                 fieldsDataLeft: [],               //頁面顯示欄位資料
                 fieldsDataRight: [],              //頁面顯示欄位資料
                 oriOrderMnFieldsData: [],         //原始order mn 欄位資料
-                orderMnSingleData: {},              //order mn 資料
-                oriOrderMnRowsData: {},           //單筆 原始order mn 欄位資料
+                orderMnSingleData: {},            //單筆order mn 資料
+                oriOrderMnSingleData: {},         //單筆 原始order mn 資料
                 orderDtFieldsData: [],            //單筆 order dt 欄位資料
                 oriOrderDtFieldsData: [],         //單筆 原始order dt 欄位資料
                 orderDtRowsData4Single: {},       //單筆 order dt 資料
+                orderDtRowsData: [],              //多筆 order dt 資料
+                oriOrderDtRowsData: [],           //多筆 原始order dt 資料
                 orderDtFieldsData4table: [],      //多筆 order dt 欄位資料
-                orderDtRowsData4table: [],        //多筆 order dt 資料
-                oriOrderMDtRowsData4table: [],    //多筆 原始order dt 資料
+                orderDtRowsData4table: [],        //多筆 order dt 資料(顯示)
                 groupOrderDtData: [],             //group 的order dt 資料
                 oriGuestMnFieldsData: [],         //原始guest mn 欄位資料
                 guestMnRowsData: [],              //guest mn 資料
@@ -644,14 +646,25 @@
                 }
             },
             orderDtRowsData: {
-                handler(val) {
-                    console.log(val);
-                    _.each(this.groupOrderDtData, (lo_groupData) => {
-                        let ln_groupIdx = _.findIndex(val, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
-                        if (ln_groupIdx > -1) {
-                            console.log(lo_groupData, val[ln_groupIdx]);
-                        }
-                    });
+                async handler(val) {
+                    if (this.groupOrderDtData.length > 0) {
+                        let lo_params = {
+                            rule_func_name: 'compute_oder_dt_price',
+                            rate_cod: '',
+                            ikey_seq_nos: [],
+                            key_nos: this.keyNos
+                        };
+                        lo_params.rate_cod = this.groupOrderDtData[0].rate_cod;
+                        _.each(this.groupOrderDtData, (lo_groupData) => {
+                            lo_params.ikey_seq_nos.push(lo_groupData.ikey_seq_nos);
+                        });
+                        let lo_doComputePrice = await $.post("/api/chkFieldRule", lo_params).then(result => {
+                            return result;
+                        }, err => {
+                            throw Error(err);
+                        })
+                    }
+
                 },
                 deep: true
             },
@@ -712,7 +725,7 @@
                 this.fieldsDataRight = [];
                 this.oriOrderMnFieldsData = [];
                 this.orderMnSingleData = {};
-                this.oriOrderMnRowsData = {};
+                this.oriOrderMnSingleData = {};
                 this.orderDtFieldsData = [];
                 this.oriOrderDtFieldsData = [];
                 this.orderDtRowsData4Single = {};
@@ -821,6 +834,8 @@
                             resolve(result);
                         });
                     });
+                    console.log(lo_doDefault);
+                    this.keyNos = lo_doDefault.defaultValues.key_nos;
                     ls_apiUrl = "/api/fetchSinglePageFieldData";
                     lo_params = {
                         prg_id: gs_prgId,
@@ -839,7 +854,7 @@
                     if (lo_fetchSingleData.gsMnData.rowData.length > 0) {
                         lo_fetchSingleData.gsMnData.rowData[0].acust_nam = lo_fetchSingleData.gsMnData.rowData[0].acust_cod;
                         this.orderMnSingleData = lo_fetchSingleData.gsMnData.rowData[0];
-                        this.oriOrderMnRowsData = JSON.parse(JSON.stringify(lo_fetchSingleData.gsMnData.rowData[0]));
+                        this.oriOrderMnSingleData = JSON.parse(JSON.stringify(lo_fetchSingleData.gsMnData.rowData[0]));
                     }
                 }
                 else {
