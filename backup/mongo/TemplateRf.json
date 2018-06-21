@@ -1403,54 +1403,72 @@
     "lock_type" : "table"
 }
 { 
-    "_id" : ObjectId("5ae991c40bf3d9702088049e"), 
+    "_id" : ObjectId("5b164af80bf3d95bf887d768"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(12), 
     "template_id" : "gridsingle", 
     "table_name" : "order_mn", 
-    "rule_func_name" : "qry_order_mn_gs", 
+    "rule_func_name" : "QRY_CARD_ORDER_MN", 
     "lock_table" : "order_mn", 
     "lock_type" : "row", 
     "hotel_cod" : "hotel_cod", 
-    "lock_key" : "ikey"
+    "lock_key" : "ikey", 
+    "rule_extend_func_name" : "lock改到多筆按button時"
 }
 { 
-    "_id" : ObjectId("5ae991c40bf3d9702088049f"), 
+    "_id" : ObjectId("5b164af80bf3d95bf887d769"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "table_name" : "order_dt", 
-    "rule_func_name" : "qry_order_dt", 
-    "lock_table" : "", 
-    "lock_type" : "", 
-    "hotel_cod" : "", 
-    "lock_key" : ""
+    "rule_func_name" : "QRY_CARD_ORDER_DT", 
+    "lock_table" : null, 
+    "lock_type" : null, 
+    "hotel_cod" : null, 
+    "lock_key" : null, 
+    "rule_extend_func_name" : null
 }
 { 
-    "_id" : ObjectId("5ae991c40bf3d970208804a0"), 
+    "_id" : ObjectId("5b164af80bf3d95bf887d76a"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(13), 
     "template_id" : "gridsingle", 
     "table_name" : "order_dt", 
-    "rule_func_name" : "qry_order_dt(這個與第1頁的多筆是連動的)", 
-    "lock_table" : "", 
-    "lock_type" : "", 
-    "hotel_cod" : "", 
-    "lock_key" : ""
+    "rule_func_name" : "qry_order_dt_gs", 
+    "lock_table" : null, 
+    "lock_type" : null, 
+    "hotel_cod" : null, 
+    "lock_key" : null, 
+    "rule_extend_func_name" : null
 }
 { 
-    "_id" : ObjectId("5ae991c40bf3d970208804a1"), 
+    "_id" : ObjectId("5b164af80bf3d95bf887d76b"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(11), 
+    "template_id" : "datagrid", 
+    "table_name" : "guest_mn", 
+    "rule_func_name" : "qry_guest_mn_for_order", 
+    "lock_table" : "guest_mn", 
+    "lock_type" : null, 
+    "hotel_cod" : null, 
+    "lock_key" : null, 
+    "rule_extend_func_name" : null
+}
+{ 
+    "_id" : ObjectId("5b164af80bf3d95bf887d76c"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1142), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "table_name" : "masfter_rf", 
     "rule_func_name" : "qry_master_rf", 
-    "lock_table" : "", 
-    "lock_type" : "", 
-    "hotel_cod" : "", 
-    "lock_key" : ""
+    "lock_table" : null, 
+    "lock_type" : null, 
+    "hotel_cod" : null, 
+    "lock_key" : null, 
+    "rule_extend_func_name" : null
 }
