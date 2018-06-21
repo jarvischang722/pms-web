@@ -1161,6 +1161,22 @@
             });
         });
 
+        // 彈出 排房明細 option
+        $(document).on('click', ".roomAss_detail", function (e) {
+            e.preventDefault();
+            var dialog = $("#roomAss_detail_msg").removeClass('hide').dialog({
+                modal: true,
+                title: "未來用房清單",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         /***
          * PMS0210070 Departures
          */
@@ -1730,10 +1746,10 @@
             method: 'get',
             columns: [[
                 {field: 'bookingNum', title: '序號', width: 35},
-                {field: 'name', title: '住客姓名', width: 100},
+                {field: 'name', title: '住客姓名', width: 200},
                 {field: 'roomAssignNum', title: '排房狀態', width: 60},
                 {field: 'roomNum', title: '房號', width: 40},
-                {field: 'useHousing', title: '使用房型', width: 60},
+                {field: 'useHousing', title: '使用房型', width: 100},
                 {field: 'lockRoomAssign', title: '鎖定排房', width: 60},
                 {field: 'adult', title: '大人', width: 35},
                 {field: 'child', title: '小孩', width: 35},

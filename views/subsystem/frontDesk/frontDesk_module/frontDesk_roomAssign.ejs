@@ -13,13 +13,13 @@
             <!--</div>-->
 
             <!-- 控制面板(panel)隱藏dataGrid class="cardDetail-table" -->
-            <div class="roomDetail-table2 easyui-panel">
+            <div class="roomDetail-table2 easyui-panel dataGrid-s1">
                 <table id="roomDetail-table" style="height: 250px;"></table>
             </div>
             <div class="clearfix"></div>
             <br>
 
-            <div class="space-6"></div>
+            <div class="space-12"></div>
             <!--<div class="popCheckbox">-->
             <!--<span class="checkbox rm-assign-ck">-->
             <!--<label class="checkbox-width">-->
@@ -32,16 +32,15 @@
             <!--</label>-->
             <!--</span>-->
             <!--</div>-->
-            <div class="clearfix"></div>
 
-            <div class="jqGridEdit-table roomDetail-table2 cardDetail_margin easyui-panel">
+            <div class="jqGridEdit-table roomDetail-table2 cardDetail_margin easyui-panel dataGrid-s1">
                 <!--class="roomAssTableHt" 控制高度隨著螢幕預設變化-->
                 <table id="roomDetail-table2" style="height: 400px;"></table>
             </div>
             <br>
         </div>
-        <div class="col-xs-7">
-            <div class="row">
+        <div class="col-xs-7 right-info">
+            <div class="">
                 <!-- #section:elements.tab.position -->
                 <div class="col-xs-12">
                     <div class="row">
@@ -194,7 +193,7 @@
                 <div class="tabbable tabs-left">
                     <div class="horizTable-outer pull-left chooseCount"
                          style="min-width: 49px; max-width:5%;">
-                        <table class="css_table horizTable center table-lg width-100 rm-table-s">
+                        <table class="css_table horizTable center table-lg width-100 rm-table-s ">
                             <tbody class="css_tbody">
                             <tr class="css_tr">
                                 <td class="css_td active">All</td>
@@ -262,14 +261,17 @@
                                         </div>
                                         <div class="clearfix"></div>
                                         <div class="content">
-                                            <span>科蝌蚪</span>
+                                            <span>陳先生</span>
+                                        </div>
+                                        <div class="content">
+                                            <span>拆床</span>
                                         </div>
                                         <div class="clearfix"></div>
                                         <!--<div class="content-sub">-->
                                         <!--<span class="left">拆床</span>-->
                                         <!--</div>-->
                                         <!--<div class="clearfix"></div>-->
-                                        <div class="foot pull-right">
+                                        <div class="foot">
                                             <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
                                             <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
                                             <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
@@ -2177,8 +2179,6 @@
                             <td class="css_td">2</td>
                             <td class="css_td">天花板漏水</td>
                         </tr>
-
-
                         </tbody>
                     </table>
                 </div>
@@ -2188,25 +2188,3 @@
     </div>
 </div>
 <!-- /.end 彈出 排房明細視窗 -->
-
-<script type="text/javascript">
-    jQuery(function () {
-        // 彈出 排房明細 option
-        $(document).on('click', ".roomAss_detail", function (e) {
-            e.preventDefault();
-            var dialog = $("#roomAss_detail_msg").removeClass('hide').dialog({
-                modal: true,
-                title: "未來用房清單",
-                title_html: true,
-                width: 600,
-                maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-
-    });
-</script>
