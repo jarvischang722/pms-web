@@ -135,7 +135,7 @@ const actions = {
         }
         // console.log(lo_tmpCUD);
         // return {success: true};
-        return await $.post('/api/execNewFormatSQL', {
+        return await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
             prg_id: 'PMS0810230',
             func_id: state.gb_isCreateStatus ? "0520" : "0540",
             tmpCUD: lo_tmpCUD

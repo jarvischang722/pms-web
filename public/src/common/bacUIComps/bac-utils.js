@@ -30,7 +30,13 @@ const bacUtils = {
             console.error(ex);
         }
     },
-    doHttpPostProxy: (url, params) => {
+    /**
+     * Promise 格式 Post代理氣
+     * @param url {string} api url
+     * @param params {object} 參數
+     * @returns {Promise<any>}
+     */
+    doHttpPromisePostProxy: (url, params) => {
         return new Promise(function (resolve, reject) {
             let ln_starttime = new Date().getTime();
             let lo_params = typeof params === "object" ? params : {};
@@ -38,9 +44,8 @@ const bacUtils = {
                 $.post(url, lo_params).then(res => {
                     let ln_endtime = new Date().getTime();
                     let ln_execTimeSec = (ln_endtime - ln_starttime) / 1000;
-                    console.log(ln_execTimeSec, lo_params.func_id);
                     if (lo_params.func_id) {
-                        alert(lo_params.func_id);
+                        // alert(lo_params.func_id);
                         $.post("/api/doSaveFuncExecTime", {
                             req_data: lo_params,
                             res_data: 'e',

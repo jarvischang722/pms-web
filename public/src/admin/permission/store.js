@@ -143,8 +143,7 @@ const actions = {
      * @returns {Promise<*>}
      */
     async qryFuncList({commit, dispatch, state}) {
-        // return await $.post("/api/getAllFuncs").then(
-        return await BacUtils.doHttpPostProxy("/api/getAllFuncs").then(
+        return await BacUtils.doHttpPromisePostProxy("/api/getAllFuncs").then(
             (result) => {
                 if (result.success) {
                     commit("setOriFuncList", result.funcList);
@@ -174,21 +173,21 @@ const actions = {
 
     //取得角色對應之全部帳號
     async qryRoleOfAccounts({commit}, role_id) {
-        await $.post("/api/getRoleOfAccounts", {role_id: role_id}).then((result) => {
+        await BacUtils.doHttpPromisePostProxy("/api/getRoleOfAccounts", {role_id: role_id}).then((result) => {
             commit("setStaffOfRole", result.accounts);
         });
     },
 
     //抓取單一角色對應的功能權限
     async qryRoleOfFuncs({commit}, role_id) {
-        await $.post("/api/getFuncsOfRole", {role_id: role_id}).then((result) => {
+        await BacUtils.doHttpPromisePostProxy("/api/getFuncsOfRole", {role_id: role_id}).then((result) => {
             commit("setFuncsOfRole", result.funcsOfRole);
         })
     },
 
     //撈取公司組別
     async qryCompGrp({dispatch, commit, state}) {
-        await $.post("/api/getCompGrp").then((result) => {
+        await BacUtils.doHttpPromisePostProxy("/api/getCompGrp").then((result) => {
             commit("setCompGrpList", result.compGrpList);
         });
         dispatch("combineCompGrpTree");
@@ -196,7 +195,7 @@ const actions = {
     },
 
     qryRoleByUserID({commit, state}, user_id) {
-        $.post("/api/qryRoleByUserID", {user_id: user_id}).then(
+        BacUtils.doHttpPromisePostProxy("/api/qryRoleByUserID", {user_id: user_id}).then(
             result => {
                 let la_checkedRole = [];
                 _.each(result.roleList, function (lo_roleList) {
@@ -209,7 +208,10 @@ const actions = {
     },
 
     qryRoleByCurrentID({commit}, lo_selectedNode) {
-        $.post("/api/qryRoleByCurrentID", {current_id: lo_selectedNode.id, pre_id: lo_selectedNode.parent}).then(
+        BacUtils.doHttpPromisePostProxy("/api/qryRoleByCurrentID", {
+            current_id: lo_selectedNode.id,
+            pre_id: lo_selectedNode.parent
+        }).then(
             result => {
                 commit("checkedRoleList", result.roleList);
                 commit("checkedOriRoleList", result.roleList);
@@ -291,10 +293,10 @@ const actions = {
         _.each(la_func, function (lo_func) {
             let ls_id = lo_func.pre_id + "_" + lo_func.current_id;
             let ls_treeTxt;
-            if(!_.isUndefined(go_i18nLang["program"][lo_func.pre_id]) && !_.isUndefined(go_i18nLang["program"][lo_func.pre_id][lo_func.current_id])){
+            if (!_.isUndefined(go_i18nLang["program"][lo_func.pre_id]) && !_.isUndefined(go_i18nLang["program"][lo_func.pre_id][lo_func.current_id])) {
                 ls_treeTxt = go_i18nLang["program"][lo_func.pre_id][lo_func.current_id];
             }
-            else{
+            else {
                 ls_treeTxt = go_i18nLang["SystemCommon"][lo_func.current_id] || lo_func.current_id;
             }
             la_funcList4Tree.push(treeDataObj(ls_id, lo_func.pre_id, ls_treeTxt));
@@ -422,10 +424,8 @@ const actions = {
             selRole: state.gs_selRole
         };
 
-        // console.log(la_funcChecked, la_funcUnChecked);
-        // return;
         commit("setIsLoading", true);
-        $.post("/api/saveAuthByRole", lo_params).then(
+        BacUtils.doHttpPromisePostProxy("/api/saveAuthByRole", lo_params).then(
             result => {
                 commit("setIsLoading", false);
                 if (result.success) {
@@ -450,7 +450,7 @@ const actions = {
             oriCheckedRoleList: state.ga_oriCheckedRoleList,
             staffList: state.ga_compGrpList
         };
-        $.post("/api/saveAuthByStaff", lo_params).then(
+        BacUtils.doHttpPromisePostProxy("/api/saveAuthByStaff", lo_params).then(
             result => {
                 if (result.success) {
                     state.ga_oriCheckedRoleList = state.ga_checkedRoleList;
@@ -475,7 +475,7 @@ const actions = {
             oriCheckedRoleList: state.ga_oriCheckedRoleList
         };
 
-        $.post("/api/saveAuthByFunc", lo_params).then(
+        BacUtils.doHttpPromisePostProxy("/api/saveAuthByFunc", lo_params).then(
             result => {
                 if (result.success) {
                     state.ga_oriCheckedRoleList = _.clone(state.ga_checkedRoleList);
