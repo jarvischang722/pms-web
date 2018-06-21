@@ -12,7 +12,7 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="likestring" kind="2" condition="rate_cod like ?">rate_cod</parameter>
         <parameter type="likestring" kind="2" condition="ratecod_nam like ?">ratecod_nam</parameter>
-        <parameter type="likestring" kind="2" condition="mena_nam like ?">mena_nam</parameter>
+        <parameter type="likestring" kind="2" condition="menu_nam like ?">menu_nam</parameter>
         <parameter type="likestring" kind="2" condition="remark1 like ?">remark1</parameter>
         <parameter type="instring" kind="3">rate_prop</parameter>
         <statement test="_v(param.rate_prop)"><![CDATA[and rate_prop in(:rate_prop)]]></statement>

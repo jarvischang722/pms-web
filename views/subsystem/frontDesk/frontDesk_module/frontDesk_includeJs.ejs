@@ -1,4 +1,416 @@
 <script type="text/javascript">
+    /***
+     * PMS0210020 綜合櫃檯
+     */
+    var vm = new Vue({
+        el: '#PMS0210020-info',
+        data: {
+            roomNum_status: '相關房號'
+        },
+        updated() {
+        },
+        /**
+         * js 無法彈跳出來，使用method可以但會有階層問題
+         */
+        methods: {
+            foCnt_walkIn() {
+                var dialog = $("#foCnt_walkIn-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "Walk In",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            foCnt_editCoDate() {
+                var dialog = $("#foCnt_editCoDate-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "更改C/O日期",
+                    title_html: true,
+                    width: 650,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+                // 綜合櫃檯-c/o日期 foCnt_editCoDate dataGrid
+                $('#foCnt_editCoDate-table').datagrid({
+                    singleSelect: true,
+                    collapsible: true,
+                    // 從json 撈
+                    url: '/jsonData/frontDesk/foCnt_editCoDate.json',
+                    method: 'get',
+                    columns: [[
+                        {field: 'checkbox', title: '<input type="checkbox">', width: 28, align: "center"},
+                        {field: 'roomNum', title: '房號', width: 60},
+                        {field: 'sort', title: '序號', width: 40},
+                        {field: 'fullName', title: 'Full Name', width: 150},
+                        {field: 'ciDate', title: 'C/I日期', width: 80},
+                        {field: 'expectCo', title: '預計C/O', width: 80},
+                        {field: 'resvCardNum', title: '訂房卡號', width: 100}
+                    ]]
+                });
+            },
+            foCnt_details() {
+                var dialog = $("#foCnt_details-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "Details",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            foCnt_rateChg() {
+                var dialog = $("#foCnt_rateChg-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "Rate Chg",
+                    title_html: true,
+                    width: 910,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            foCnt_rmChg() {
+                var dialog = $("#foCnt_rmChg-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "Rm Chg",
+                    title_html: true,
+                    width: 600,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            clean_btn() {
+                var dialog = $("#clean-Dialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "清掃房間",
+                    title_html: true,
+                    width: 500,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            reservationDialog_1() {
+                var dialog = $("#reservationDialog-1-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "訂房卡",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+                    height: 600,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            publiceAccountSetting_btn() {
+                var dialog = $("#publiceAccountSetting-Dialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "設定公帳號",
+                    title_html: true,
+                    width: 700,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            cashierGstLedger_Single() {
+                var dialog = $("#cashierGstLedger_Single-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "住客帳維護單筆",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+                    height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+                // 住客帳維護_單筆_分帳夾01 cashier_GstLedgerSgl01 dataGrid
+                $('#cashier_GstLedgerSgl01-table').datagrid({
+                    singleSelect: true,
+                    collapsible: true,
+                    // 從json 撈
+                    url: '/jsonData/cashier/cashier_GstLedgerSgl01.json',
+                    method: 'get',
+                    columns: [[
+                        {field: 'consumeDate', title: '1.消費日期', width: 100},
+                        {field: 'consumeItem', title: '消費項目', width: 100},
+                        {field: 'quantity', title: '數量', width: 40, align: 'right'},
+                        {field: 'consumeSum', title: '消費總額', width: 80, align: 'right'},
+                        {field: 'billingDate', title: '帳單日期', width: 80},
+                        {field: 'recordOffice', title: '入帳廳別', width: 80},
+                        {field: 'addBy', title: '入帳者', width: 80},
+                        {field: 'addShift', title: '入帳班', width: 60},
+                        {field: 'consumeRoom', title: '消費房號', width: 60, align: 'right'},
+                        {field: 'liveTransferRm', title: '住掛轉帳備註', width: 160},
+                        {field: 'adjustRm', title: '調整備註', width: 160},
+                        {field: 'cashierRm', title: '出納備註', width: 160},
+                        {field: 'billingRm', title: '帳單備註', width: 160},
+                        {field: 'consumeNum', title: '消費單號', width: 120},
+                        {field: 'billingNum', title: '帳單編號', width: 100},
+                        {field: 'tax', title: '稅別', width: 100, align: 'right'}
+                    ]]
+                });
+                // 住客帳維護_單筆_分帳夾02 cashier_GstLedgerSgl02 dataGrid
+                $('#cashier_GstLedgerSgl02-table').datagrid({
+                    singleSelect: true,
+                    collapsible: true,
+                    // 從json 撈
+                    url: '/jsonData/cashier/cashier_GstLedgerSgl02.json',
+                    method: 'get',
+                    columns: [[
+                        {field: 'consumeDate', title: '2.消費日期', width: 100},
+                        {field: 'consumeItem', title: '消費項目', width: 100},
+                        {field: 'quantity', title: '數量', width: 40, align: 'right'},
+                        {field: 'consumeSum', title: '消費總額', width: 80, align: 'right'},
+                        {field: 'billingDate', title: '帳單日期', width: 80},
+                        {field: 'recordOffice', title: '入帳廳別', width: 80},
+                        {field: 'addBy', title: '入帳者', width: 80},
+                        {field: 'addShift', title: '入帳班', width: 60},
+                        {field: 'consumeRoom', title: '消費房號', width: 60, align: 'right'},
+                        {field: 'liveTransferRm', title: '住掛轉帳備註', width: 160},
+                        {field: 'adjustRm', title: '調整備註', width: 160},
+                        {field: 'cashierRm', title: '出納備註', width: 160},
+                        {field: 'billingRm', title: '帳單備註', width: 160},
+                        {field: 'consumeNum', title: '消費單號', width: 120},
+                        {field: 'billingNum', title: '帳單編號', width: 100},
+                        {field: 'tax', title: '稅別', width: 100, align: 'right'}
+                    ]]
+                });
+            },
+            message_btn() {
+                var dialog = $("#message-dialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "留言明細",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+                    height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+                // profile messages (同PMS0210130 多筆) dataGrid
+                $('#resvProfile_message-table').datagrid({
+                    singleSelect: true,
+                    collapsible: true,
+                    // 從json 撈
+                    url: '/jsonData/frontDesk/front_message.json',
+                    method: 'get',
+                    columns: [[
+                        {field: 'room', title: 'Room', width: 80, align: "right"},
+                        {field: 'fullName', title: 'Full Name', width: 150},
+                        {field: 'date', title: 'Date', width: 80},
+                        {field: 'time', title: 'Time', width: 80},
+                        {field: 'from', title: 'From', width: 80},
+                        {field: 'at', title: 'At', width: 80},
+                        {field: 'replyTo', title: 'Reply to', width: 100},
+                        {field: 'message', title: 'Message', width: 150},
+                        {field: 'status', title: 'Status', width: 80},
+                        {field: 'addBy', title: 'Added By', width: 80},
+                        {field: 'addDate', title: 'Added Date', width: 80},
+                        {field: 'updby', title: 'Upd by', width: 80},
+                        {field: 'updDate', title: 'Upd Date', width: 80}
+                    ]]
+                });
+            },
+            resvLostFound() {
+                var dialog = $("#resvLostFound-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "Lost&Found",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+                    height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+                // profile resvProfile_lostFound (同綜合櫃檯 profile 多筆) dataGrid
+                $('#resvProfile_lostFound-table').datagrid({
+                    singleSelect: true,
+                    collapsible: true,
+                    // 從json 撈
+                    url: '/jsonData/reservation/reservation_lostFound.json',
+                    method: 'get',
+                    columns: [[
+                        {field: 'checkbox', title: '<input type="checkbox"/>', width: 28, align: 'center'},
+                        {field: 'LfCode', title: '編號', width: 50},
+                        {field: 'LfState', title: '狀態', width: 100},
+                        {field: 'LfDate', title: '遺失日期', width: 100},
+                        {field: 'LfTime', title: '遺失時間', width: 100},
+                        {field: 'LfThings', title: '遺失物品', width: 240},
+                        {field: 'LfName', title: '遺失者', width: 100},
+                        {field: 'LfPlace', title: '遺失處', width: 100},
+                    ]]
+                });
+            },
+            resv_guestDetailBtn1() {
+                var dialog = $("#resvGuestDetail-btn1-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "交辦事項",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+                // PMS0210020 trace Button
+                $('#resv_guestDetail-table').datagrid({
+                    singleSelect: true,
+                    collapsible: true,
+                    // 從json 撈
+                    url: '/jsonData/reservation/resv_guestDetail.json',
+                    method: 'get',
+                    columns: [[
+                        {field: 'checkbox', title: '<input type="checkbox" />', width: 28, align: 'center'},
+                        {field: 'status', title: '狀態', width: 80},
+                        {field: 'startDate', title: '開始日期', width: 100},
+                        {field: 'endDate', title: '結束日期', width: 100},
+                        {field: 'bookingsNum', title: '訂房卡號', width: 100},
+                        {field: 'roomNum', title: '房號', width: 60},
+                        {field: 'tracesCon', title: '交辦事項內容', width: 300},
+                        {field: 'processDepartment', title: '處理部門', width: 100}
+                    ]]
+
+                });
+            },
+            resvPickUp() {
+                var dialog = $("#reservationDialog-pickUp").removeClass('hide').dialog({
+                    modal: true,
+                    title: "接送機資料輸入",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+                // 訂房卡-接機 dataGrid
+                $('#resvPickUp-table').datagrid({
+                    singleSelect: true,
+                    collapsible: true,
+                    // 從json 撈
+                    url: '/jsonData/reservation/resvPickUp.json',
+                    method: 'get',
+                    columns: [[
+                        {field: 'resvNo', title: '序號', width: 50},
+                        {field: 'resvCo', title: '連絡人', width: 80},
+                        {field: 'resvP1', title: '電話一', width: 100},
+                        {field: 'resvP2', title: '電話二', width: 100},
+                        {field: 'resvDate', title: '日期', width: 80},
+                        {field: 'resvNum', title: '班次', width: 80},
+                        {field: 'resvTime', title: '時間', width: 80},
+                        {field: 'resvAdult', title: '大人數', width: 50, align: 'right'},
+                        {field: 'resvChild', title: '小孩數', width: 50, align: 'right'},
+                        {field: 'resvBaby', title: '嬰兒數', width: 50, align: 'right'},
+                        {field: 'resvPoint', title: '指定住客', width: 80},
+                        {field: 'resvMark', title: '備註', width: 150}
+                    ]]
+                });
+                // 訂房卡-送機 dataGrid
+                $('#resvDropOff-table').datagrid({
+                    singleSelect: true,
+                    collapsible: true,
+                    // 從json 撈
+                    url: '/jsonData/reservation/resvDropOff.json',
+                    method: 'get',
+                    columns: [[
+                        {field: 'resvNo', title: '序號', width: 50},
+                        {field: 'resvCo', title: '連絡人', width: 80},
+                        {field: 'resvP1', title: '電話一', width: 100},
+                        {field: 'resvP2', title: '電話二', width: 100},
+                        {field: 'resvDate', title: '日期', width: 80},
+                        {field: 'resvNum', title: '班次', width: 80},
+                        {field: 'resvTime', title: '時間', width: 80},
+                        {field: 'resvAdult', title: '大人數', width: 50},
+                        {field: 'resvChild', title: '小孩數', width: 50},
+                        {field: 'resvBaby', title: '嬰兒數', width: 50},
+                        {field: 'resvPoint', title: '指定住客', width: 80},
+                        {field: 'resvMark', title: '備註', width: 150}
+                    ]]
+                });
+            },
+            resv_amenitiesIny() {
+                var dialog = $("#resv_amenitiesIny-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "櫃檯用品可用數",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            pax_btn() {
+                var dialog = $("#pbx-Dialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "單筆開啟電話",
+                    title_html: true,
+                    width: 700,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            foCnt_bedSetting() {
+                var dialog = $("#foCnt_bedSetting-message").removeClass('hide').dialog({
+                    modal: true,
+                    title: "拆併床設定",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            related_set1(self) {
+                if (this.roomNum_status == '相關房號') {
+                    this.roomNum_status = '全部房號'
+                    $('#PMS0210020-info').find('.counterBlock').fadeOut('800');
+                    $('#PMS0210020-info').find('.resultCount').css('min-width', '95%');
+                    $('#PMS0210020-info').find('.related-set-block').fadeIn('800');
+                }
+                else {
+                    this.roomNum_status = '相關房號'
+                    $('#PMS0210020-info').find('.counterBlock').fadeIn('800');
+                    $('#PMS0210020-info').find('.resultCount').css('min-width', '');
+                }
+            }
+        }
+    });
+
     jQuery(function () {
 
         /***
@@ -539,7 +951,7 @@
                 columns: [[
                     {field: 'checkbox', title: '選擇', width: 40, align: "center"},
 //                    {field: 'scan', title: '掃描', width: 40},
-                    {field: 'cleanStus', title: '清掃狀態', width: 70},
+                    {field: 'cleanStus', title: '清掃狀況', width: 70},
                     {field: 'no', title: '序號', width: 40},
                     {field: 'roomNum', title: '房號', width: 70},
                     {field: 'vip', title: 'VIP等級', width: 60},
@@ -744,6 +1156,22 @@
                 title_html: true,
                 width: 300,
                 maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 排房明細 option
+        $(document).on('click', ".roomAss_detail", function (e) {
+            e.preventDefault();
+            var dialog = $("#roomAss_detail_msg").removeClass('hide').dialog({
+                modal: true,
+                title: "未來用房清單",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
             });
@@ -1318,10 +1746,10 @@
             method: 'get',
             columns: [[
                 {field: 'bookingNum', title: '序號', width: 35},
-                {field: 'name', title: '住客姓名', width: 100},
+                {field: 'name', title: '住客姓名', width: 200},
                 {field: 'roomAssignNum', title: '排房狀態', width: 60},
                 {field: 'roomNum', title: '房號', width: 40},
-                {field: 'useHousing', title: '使用房型', width: 60},
+                {field: 'useHousing', title: '使用房型', width: 100},
                 {field: 'lockRoomAssign', title: '鎖定排房', width: 60},
                 {field: 'adult', title: '大人', width: 35},
                 {field: 'child', title: '小孩', width: 35},

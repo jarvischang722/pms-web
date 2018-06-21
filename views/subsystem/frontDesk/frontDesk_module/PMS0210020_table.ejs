@@ -1,4 +1,4 @@
-<div>
+<div id="PMS0210020-info">
     <div class="horizTable-outer pull-left chooseCount" style="min-width: 30px; max-width:5%;">
         <table class="css_table horizTable center table-lg width-100">
             <!--<thead class="css_thead">-->
@@ -48,93 +48,104 @@
 
         <div class="counterPage frontTableHt">
             <div class="counterRow">
-                <div class="counterBlock cb-vc-vd">
-                    <div class="head">
-                        <span class="left txt-lg">201223</span>
-                        <span class="right content-ico">
-                            <img src="/images/intCounter/do-not-disturb.png" class="float-left foCnt_icon"/>
-                            <img src="/images/intCounter/broom.png" class="float-left foCnt_icon"/>
-                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
-                        </span>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="content" style="top: 23px;">
-                        <div class="left">
-                            <span class="counterRmType">DxT</span>
+                <el-popover placement="bottom" trigger="click" width="400">
+                    <%- include PMS0210020_popInfo.ejs %>
+                    <div class="counterBlock cb-vc-vd" slot="reference">
+                        <div class="head">
+                            <span class="left txt-lg">203223</span>
+                            <span class="right content-ico">
+                                <img src="/images/intCounter/do-not-disturb.png" class="float-left foCnt_icon"/>
+                                <img src="/images/intCounter/broom.png" class="float-left foCnt_icon"/>
+                                <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
+                            </span>
                         </div>
-                        <div class="right">
-                            04/29-04/30
+                        <div class="clearfix"></div>
+                        <div class="content" style="top: 23px;">
+                            <div class="left">
+                                <span class="counterRmType">DxT</span>
+                            </div>
+                            <div class="right">
+                                04/29-04/30
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="content-sub">
+                            <span class="left" style="top: 48px;">木村拓哉,nakamura</span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <!--style="background: #fff; width: 124px;"-->
+                        <div class="content-ico" style="right: 6px; top: 66px;">
+                            <!--<div class="float-left">-->
+                            <!--<img src="/images/intCounter/do-not-disturb.png" class="float-left foCnt_icon"/>-->
+                            <!--<img src="/images/intCounter/broom.png" class="float-left foCnt_icon"/>-->
+                            <!--<img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>-->
+                            <!--</div>-->
+                            <div class="float-left">
+                                <span class="counterPrice">$133,600</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="clearfix"></div>
-                    <div class="content-sub">
-                        <span class="left" style="top: 48px;">木村拓哉,nakamura</span>
-                    </div>
-                    <div class="clearfix"></div>
-                    <!--style="background: #fff; width: 124px;"-->
-                    <div class="content-ico" style="right: 6px; top: 66px;">
-                        <!--<div class="float-left">-->
-                        <!--<img src="/images/intCounter/do-not-disturb.png" class="float-left foCnt_icon"/>-->
-                        <!--<img src="/images/intCounter/broom.png" class="float-left foCnt_icon"/>-->
-                        <!--<img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>-->
-                        <!--</div>-->
-                        <div class="float-left">
+                </el-popover>
+                <el-popover placement="bottom" trigger="click" width="400">
+                    <%- include PMS0210020_popInfo.ejs %>
+                    <div class="counterBlock cb-vc-vd" slot="reference">
+                        <div class="head">
+                            <span class="left txt-lg">201223</span>
+                            <span class="right content-ico">
                             <span class="counterPrice">$133,600</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="counterBlock cb-vc-vd">
-                    <div class="head">
-                        <span class="left txt-lg">201223</span>
-                        <span class="right content-ico">
-                            <span class="counterPrice">$133,600</span>
                         </span>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="content" style="top: 23px;">
-                        <div class="left">
-                            <span class="counterRmType">DxT</span>
                         </div>
-                        <div class="right">
-                            04/29-04/30
+                        <div class="clearfix"></div>
+                        <div class="content" style="top: 23px;">
+                            <div class="left">
+                                <span class="counterRmType">DxT</span>
+                            </div>
+                            <div class="right">
+                                04/29-04/30
+                            </div>
                         </div>
+                        <div class="clearfix"></div>
+                        <div class="content-sub">
+                            <span class="left" style="top: 48px;">木村拓哉,nakamura</span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <!--style="background: #fff; width: 124px;"-->
                     </div>
-                    <div class="clearfix"></div>
-                    <div class="content-sub">
-                        <span class="left" style="top: 48px;">木村拓哉,nakamura</span>
+                </el-popover>
+                <el-popover placement="bottom" trigger="click" width="150">
+                    <%- include PMS0210020_popInfo_func.ejs %>
+                    <div class="counterBlock cb-vc-vd" slot="reference">
+                        <div class="head">
+                            <span class="left txt-lg">202</span>
+                            <span class="right">DxT</span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="content">
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="content-sub">
+                            <span class="left"></span>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div class="clearfix"></div>
-                    <!--style="background: #fff; width: 124px;"-->
-
-                </div>
-                <div class="counterBlock cb-vc-vd active">
-                    <div class="head">
-                        <span class="left txt-lg">202</span>
-                        <span class="right">DxT</span>
+                </el-popover>
+                <el-popover placement="bottom" trigger="click" width="150">
+                    <%- include PMS0210020_popInfo_func.ejs %>
+                    <div class="counterBlock cb-vc-vd active" slot="reference">
+                        <div class="head">
+                            <span class="left txt-lg">203</span>
+                            <span class="right">DxT</span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="content">
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="content-sub">
+                            <span class="left"></span>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div class="clearfix"></div>
-                    <div class="content">
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="content-sub">
-                        <span class="left"></span>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="counterBlock cb-vc-vd">
-                    <div class="head">
-                        <span class="left txt-lg">203</span>
-                        <span class="right">DxT</span>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="content">
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="content-sub">
-                        <span class="left"></span>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
+                </el-popover>
                 <div class="counterBlock cb-vc-vd">
                     <div class="head">
                         <span class="left txt-lg">204</span>
@@ -191,6 +202,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+
                 <div class="counterBlock cb-ob">
                     <div class="head">
                         <span class="left txt-lg">303</span>
@@ -205,6 +217,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+
                 <div class="counterBlock cb-vc-vd">
                     <div class="head">
                         <span class="left txt-lg">304</span>
