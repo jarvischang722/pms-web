@@ -643,40 +643,65 @@
                     //舊值小於新值，將group的order dt資料，將最大ikey_seq_nos的資料oder_sta改為N
                 }
             },
-            orderDtRowsData4Single: {
+            orderDtRowsData: {
                 handler(val) {
                     console.log(val);
+                    _.each(this.groupOrderDtData, (lo_groupData) => {
+                        let ln_groupIdx = _.findIndex(val, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
+                        if (ln_groupIdx > -1) {
+                            console.log(lo_groupData, val[ln_groupIdx]);
+                        }
+                    });
                 },
                 deep: true
             },
             orderDtRowsData4table: {
                 handler(val) {
                     if (!_.isUndefined(this.editingOrderDtIdx)) {
-                        val[this.editingOrderDtIdx].ci_dat = moment(val[this.editingOrderDtIdx].ci_dat).format("YYYY/MM/DD");
-                        val[this.editingOrderDtIdx].co_dat = moment(val[this.editingOrderDtIdx].co_dat).format("YYYY/MM/DD");
+                        if (!_.isUndefined(val[this.editingOrderDtIdx])) {
+                            val[this.editingOrderDtIdx].ci_dat = moment(val[this.editingOrderDtIdx].ci_dat).format("YYYY/MM/DD");
+                            val[this.editingOrderDtIdx].co_dat = moment(val[this.editingOrderDtIdx].co_dat).format("YYYY/MM/DD");
 
-                        //改變orderDtRowsData資料
-                        let lo_editingRow = val[this.editingOrderDtIdx];
-                        let lo_orderParams = {
-                            rate_cod: lo_editingRow.rate_cod,
-                            order_sta: lo_editingRow.order_sta,
-                            days: lo_editingRow.days,
-                            ci_dat: lo_editingRow.ci_dat,
-                            co_dat: lo_editingRow.co_dat,
-                            use_cod: lo_editingRow.use_cod,
-                            room_cod: lo_editingRow.room_cod,
-                            rent_amt: lo_editingRow.rent_amt,
-                            serv_amt: lo_editingRow.serv_amt,
-                            block_cod: lo_editingRow.block_cod
-                        };
-                        _.each(this.groupOrderDtData, (lo_orderDtData) => {
-                            let ln_editIdx = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_orderDtData.ikey_seq_nos});
-                            if (ln_editIdx > -1) {
-                                this.orderDtRowsData[ln_editIdx] = _.extend(this.orderDtRowsData[ln_editIdx], lo_orderParams);
+                            //轉換資料
+                            let la_examData = JSON.parse(JSON.stringify(val[this.editingOrderDtIdx]));
+                            if (moment(new Date(la_examData.ci_dat)).diff(moment(new Date(la_examData.co_dat)), "days") >= 1) {
+                                alert("c/i 日期要小於 c/o日期");
+                                let ln_groupIdx = _.findIndex(this.groupOrderDtData, {ikey_seq_nos: la_examData.ikey_seq_nos});
+                                if (ln_groupIdx > -1) {
+                                    val[this.editingOrderDtIdx].ci_dat = moment(this.groupOrderDtData[ln_groupIdx].ci_dat).format("YYYY/MM/DD");
+                                    val[this.editingOrderDtIdx].co_dat = moment(this.groupOrderDtData[ln_groupIdx].co_dat).format("YYYY/MM/DD");
+                                }
                             }
-                        });
+                            else {
+                                let ln_days = moment(new Date(la_examData.co_dat)).diff(moment(new Date(la_examData.ci_dat)), "days");
+                                val[this.editingOrderDtIdx].days = ln_days;
+                                val[this.editingOrderDtIdx].ci_dat_week = moment(la_examData.ci_dat).format("ddd");
+                                val[this.editingOrderDtIdx].co_dat_week = moment(la_examData.co_dat).format("ddd");
+                            }
+                            //改變orderDtRowsData資料
+                            let lo_editingRow = val[this.editingOrderDtIdx];
+                            let lo_orderParams = {
+                                rate_cod: lo_editingRow.rate_cod,
+                                order_sta: lo_editingRow.order_sta,
+                                days: lo_editingRow.days,
+                                ci_dat: lo_editingRow.ci_dat,
+                                co_dat: lo_editingRow.co_dat,
+                                use_cod: lo_editingRow.use_cod,
+                                room_cod: lo_editingRow.room_cod,
+                                rent_amt: lo_editingRow.rent_amt,
+                                serv_amt: lo_editingRow.serv_amt,
+                                block_cod: lo_editingRow.block_cod
+                            };
+                            _.each(this.groupOrderDtData, (lo_orderDtData, idx) => {
+
+                                let ln_editIdx = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_orderDtData.ikey_seq_nos});
+                                if (ln_editIdx > -1) {
+                                    this.orderDtRowsData[ln_editIdx] = _.extend(this.orderDtRowsData[ln_editIdx], lo_orderParams);
+                                }
+                            });
+                        }
                     }
-                    this.tableHeight = _.size(this.orderDtRowsData4table) > 4 ? 132 : 34 + 30 * _.size(this.orderDtRowsData4table);
+                    this.tableHeight = _.size(this.orderDtRowsData4table) > 4 ? 132 : 38 + 30 * _.size(this.orderDtRowsData4table);
                 },
                 deep: true
             },
@@ -856,8 +881,8 @@
                         _.each(lo_fetchOderDtData.dgRowData, (lo_dgRowData) => {
                             lo_dgRowData.ci_dat = moment(lo_dgRowData.ci_dat).format("YYYY/MM/DD");
                             lo_dgRowData.co_dat = moment(lo_dgRowData.co_dat).format("YYYY/MM/DD");
-                            lo_dgRowData.ci_dat_week = moment(lo_dgRowData.ci_dat).format('dd');
-                            lo_dgRowData.co_dat_week = moment(lo_dgRowData.co_dat).format('dd');
+                            lo_dgRowData.ci_dat_week = moment(lo_dgRowData.ci_dat).format('ddd');
+                            lo_dgRowData.co_dat_week = moment(lo_dgRowData.co_dat).format('ddd');
                         });
                         this.oriOrderDtRowsData = JSON.parse(JSON.stringify(lo_fetchOderDtData.dgRowData));
                         //所有的order dt 資料
@@ -1068,9 +1093,9 @@
                     child_qnt: 0,
                     ci_qnt: 0,
                     ci_dat: moment().format("YYYY/MM/DD"),
-                    ci_dat_week: moment().format('dd'),
+                    ci_dat_week: moment().format('ddd'),
                     co_dat: moment().add(1, 'days').format("YYYY/MM/DD"),
-                    co_dat_week: moment().add(1, 'days').format('dd'),
+                    co_dat_week: moment().add(1, 'days').format('ddd'),
                     days: 1,
                     ikey: this.orderMnSingleData.ikey,
                     order_qnt: 1,
@@ -1097,8 +1122,8 @@
                         lo_addData.co_dat = moment(lo_lastData.co_dat).format("YYYY/MM/DD");
                         lo_addData.days = lo_lastData.days;
                         lo_addData.rate_cod = lo_lastData.rate_cod;
-                        lo_addData.ci_dat_week = moment(lo_addData.ci_dat).format('dd');
-                        lo_addData.co_dat_week = moment(lo_addData.co_dat).format('dd');
+                        lo_addData.ci_dat_week = moment(lo_addData.ci_dat).format('ddd');
+                        lo_addData.co_dat_week = moment(lo_addData.co_dat).format('ddd');
                     }
                     else {
                         let lo_examFieldData = {};
