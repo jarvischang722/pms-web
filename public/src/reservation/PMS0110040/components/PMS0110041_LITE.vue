@@ -275,11 +275,11 @@
                                                                         <td class="text-left input-noEdit"
                                                                             :style="{width:field.width + 'px'}"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='label'"
-                                                                            @click="selectedCell(idx, field, singleData[field.ui_field_name])">
+                                                                            @click="selectedCell(idx)">
                                                                             {{singleData[field.ui_field_name]}}
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(idx, field, singleData[field.ui_field_name])"
+                                                                            @click="selectedCell(idx)"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='text'">
                                                                             <input type="text"
                                                                                    v-model="singleData[field.ui_field_name]"
@@ -293,7 +293,7 @@
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(idx, field, singleData[field.ui_field_name])"
+                                                                            @click="selectedCell(idx)"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='select'">
                                                                             <bac-select :field="field"
                                                                                         :style="{width:field.width + 'px'}"
@@ -311,7 +311,7 @@
                                                                             </bac-select>
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(idx, field, singleData[field.ui_field_name])"
+                                                                            @click="selectedCell(idx)"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='date'">
                                                                             <!-- 日期時間選擇器 -->
                                                                             <el-date-picker
@@ -327,7 +327,7 @@
                                                                             </el-date-picker>
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(idx, field, singleData[field.ui_field_name])"
+                                                                            @click="selectedCell(idx)"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='number'">
                                                                             <!--number 金額顯示format-->
                                                                             <input type="text"
@@ -562,6 +562,8 @@
 
 <script>
     import alasql from 'alasql';
+    import _s from 'underscore.string';
+
     import pms0210011 from '../../../frontDesk/PMS0210010/components/PMS0210011.vue';
     import pms0610020 from '../../../sales/PMS0610010/components/PMS0610020';
     import publicAccount from './publicAccount';
@@ -578,8 +580,7 @@
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
         created() {
             this.$eventHub.$on('getOrderDtRateCod', (data) => {
-                console.log(data)
-                console.log(this.orderDtRowsData4table[this.editingOrderDtIdx]);
+                this.orderDtRowsData4table[this.editingOrderDtIdx].rate_cod = data.rateCodData.rate_cod;
             });
         },
         updated() {
@@ -642,23 +643,32 @@
                     //舊值小於新值，將group的order dt資料，將最大ikey_seq_nos的資料oder_sta改為N
                 }
             },
+            orderDtRowsData4Single: {
+                handler(val) {
+                    console.log(val);
+                },
+                deep: true
+            },
             orderDtRowsData4table: {
                 handler(val) {
                     if (!_.isUndefined(this.editingOrderDtIdx)) {
+                        val[this.editingOrderDtIdx].ci_dat = moment(val[this.editingOrderDtIdx].ci_dat).format("YYYY/MM/DD");
+                        val[this.editingOrderDtIdx].co_dat = moment(val[this.editingOrderDtIdx].co_dat).format("YYYY/MM/DD");
+
+                        //改變orderDtRowsData資料
                         let lo_editingRow = val[this.editingOrderDtIdx];
                         let lo_orderParams = {
                             rate_cod: lo_editingRow.rate_cod,
                             order_sta: lo_editingRow.order_sta,
                             days: lo_editingRow.days,
-                            ci_dat: moment(lo_editingRow.ci_dat).format("YYYY/MM/DD"),
-                            co_dat: moment(lo_editingRow.co_dat).format("YYYY/MM/DD"),
+                            ci_dat: lo_editingRow.ci_dat,
+                            co_dat: lo_editingRow.co_dat,
                             use_cod: lo_editingRow.use_cod,
                             room_cod: lo_editingRow.room_cod,
                             rent_amt: lo_editingRow.rent_amt,
                             serv_amt: lo_editingRow.serv_amt,
                             block_cod: lo_editingRow.block_cod
                         };
-
                         _.each(this.groupOrderDtData, (lo_orderDtData) => {
                             let ln_editIdx = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_orderDtData.ikey_seq_nos});
                             if (ln_editIdx > -1) {
@@ -855,7 +865,7 @@
 
                         //將資料轉換成多筆和單筆的格式
                         if (this.orderDtRowsData.length > 0)
-                            this.convertDtDataToSingleAndTable();
+                            this.selectedCell(0);
                     }
                     else {
                         alert(lo_fetchOderDtData.errorMsg);
@@ -867,13 +877,12 @@
                 let ls_groupStatement =
                     "select * from ? group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
                 this.orderDtRowsData4table = alasql(ls_groupStatement, [this.orderDtRowsData]);
-                console.log(this.orderDtRowsData4table);
+
                 //顯示在單筆的order dt資料
-                let la_orderDtRowsData4table = JSON.parse(JSON.stringify(this.orderDtRowsData4table));
-                this.orderDtRowsData4Single = _.isUndefined(this.editingOrderDtIdx) ? _.first(la_orderDtRowsData4table) : la_orderDtRowsData4table[this.editingOrderDtIdx];
+                this.orderDtRowsData4Single = _.isUndefined(this.editingOrderDtIdx) ? _.first(this.orderDtRowsData4table) : this.orderDtRowsData4table[this.editingOrderDtIdx];
                 this.orderDtRowsData4Single.sub_tot =
                     Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
-                let lo_params = {
+                let lo_qutParams = {
                     sum_adult_qnt: 0,
                     sum_baby_qnt: 0,
                     sum_child_qnt: 0,
@@ -883,18 +892,18 @@
                     general_tot: 0
                 };
                 _.each(this.orderDtRowsData, (lo_value, ln_idx) => {
-                    lo_params.sum_adult_qnt += Number(lo_value.adult_qnt * lo_value.order_qnt);
-                    lo_params.sum_baby_qnt += Number(lo_value.baby_qnt * lo_value.order_qnt);
-                    lo_params.sum_child_qnt += Number(lo_value.child_qnt * lo_value.order_qnt);
-                    lo_params.sum_other_tot += Number(lo_value.other_tot);
-                    lo_params.sum_rent_tot += Number(lo_value.rent_tot);
-                    lo_params.sum_serv_tot += Number(lo_value.serv_tot);
+                    lo_qutParams.sum_adult_qnt += Number(lo_value.adult_qnt * lo_value.order_qnt);
+                    lo_qutParams.sum_baby_qnt += Number(lo_value.baby_qnt * lo_value.order_qnt);
+                    lo_qutParams.sum_child_qnt += Number(lo_value.child_qnt * lo_value.order_qnt);
+                    lo_qutParams.sum_other_tot += Number(lo_value.other_tot);
+                    lo_qutParams.sum_rent_tot += Number(lo_value.rent_tot);
+                    lo_qutParams.sum_serv_tot += Number(lo_value.serv_tot);
                 });
-                lo_params.general_tot = lo_params.sum_other_tot + lo_params.sum_serv_tot + lo_params.sum_rent_tot;
-                this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, lo_params);
+                lo_qutParams.general_tot = lo_qutParams.sum_other_tot + lo_qutParams.sum_serv_tot + lo_qutParams.sum_rent_tot;
+                this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, lo_qutParams);
 
                 //所group 的資料
-                let lo_orderParams = {
+                let lo_groupParams = {
                     rate_cod: this.orderDtRowsData4Single.rate_cod,
                     order_sta: this.orderDtRowsData4Single.order_sta,
                     days: this.orderDtRowsData4Single.days,
@@ -902,10 +911,11 @@
                     co_dat: this.orderDtRowsData4Single.co_dat,
                     use_cod: this.orderDtRowsData4Single.use_cod,
                     room_cod: this.orderDtRowsData4Single.room_cod,
-                    order_qnt: this.orderDtRowsData4Single.order_qnt
+                    rent_amt: this.orderDtRowsData4Single.rent_amt,
+                    serv_amt: this.orderDtRowsData4Single.serv_amt,
+                    block_cod: this.orderDtRowsData4Single.block_cod
                 };
-                this.groupOrderDtData = _.where(this.orderDtRowsData, lo_orderParams);
-                console.log(this.orderDtRowsData);
+                this.groupOrderDtData = _.where(this.orderDtRowsData, lo_groupParams);
             },
             searchGuestMnAltName() {
                 if (!_.isEmpty(this.guestMnRowsData4Single)) {
@@ -1015,6 +1025,10 @@
                 });
             },
             async selectedCell(idx) {
+                //單筆order dt的設定
+                this.editingOrderDtIdx = idx;
+                this.convertDtDataToSingleAndTable();
+
                 //多筆order dt的設定
                 let lo_postData = {
                     rule_func_name: 'select_cod_data',
@@ -1037,57 +1051,86 @@
                     lo_roomCodFieldData.selectData = lo_fetchSelectData.multiSelectOptions.room_cod;
                     lo_roomCodFieldData.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.room_cod;
                 }
-
-                //單筆order dt的設定
-                this.editingOrderDtIdx = idx;
-                this.convertDtDataToSingleAndTable();
             },
             appendRow() {
                 let lo_addData = {
-                    ikey: this.orderMnSingleData.ikey,
-                    order_sta: this.orderStatus,
-                    rent_amt: 0,
-                    serv_amt: 0,
-                    adult_qnt: 0,
-                    child_qnt: 0,
-                    baby_qnt: 0,
-                    rent_tot: 0,
-                    serv_tot: 0,
-                    other_tot: 0,
-                    assign_qnt: 0,
-                    ci_qnt: 0,
-                    add_man: 0,
-                    add_child: 0,
                     add_baby: 0,
-                    arrivl_nos: 0,
-                    order_qnt: 1,
+                    add_child: 0,
+                    add_man: 0,
                     addroom_sta: 'N',
-                    assign_sta: 'N',
+                    adult_qnt: 0,
+                    arrivl_nos: 0,
                     asi_lock: 'N',
-                    use_cod: null,
-                    room_cod: null
+                    assign_qnt: 0,
+                    assign_sta: 'N',
+                    baby_qnt: 0,
+                    block_cod: undefined,
+                    child_qnt: 0,
+                    ci_qnt: 0,
+                    ci_dat: moment().format("YYYY/MM/DD"),
+                    ci_dat_week: moment().format('dd'),
+                    co_dat: moment().add(1, 'days').format("YYYY/MM/DD"),
+                    co_dat_week: moment().add(1, 'days').format('dd'),
+                    days: 1,
+                    ikey: this.orderMnSingleData.ikey,
+                    order_qnt: 1,
+                    order_sta: this.orderStatus,
+                    other_tot: 0,
+                    rate_cod: "",
+                    rent_amt: 0,
+                    rent_tot: 0,
+                    room_cod: null,
+                    serv_amt: 0,
+                    serv_tot: 0,
+                    use_cod: null
                 };
                 lo_addData.ikey_seq_nos = this.orderDtRowsData.length > 0 ?
                     _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
                         return lo_orderDtRowsData.ikey_seq_nos;
                     }).ikey_seq_nos + 1 : 1;
-
                 if (this.orderDtRowsData4table.length > 0) {
                     let lo_lastData = this.orderDtRowsData4table[this.orderDtRowsData4table.length - 1];
-                    lo_addData.ci_dat = lo_lastData.ci_dat;
-                    lo_addData.co_dat = lo_lastData.co_dat;
-                    lo_addData.days = lo_lastData.days;
-                    lo_addData.rate_cod = lo_lastData.rate_cod;
-                    lo_addData.ci_dat_week = moment(lo_addData.ci_dat).format('dd');
-                    lo_addData.co_dat_week = moment(lo_addData.co_dat).format('dd');
+                    let ls_useCod = lo_lastData.use_cod || "";
+                    let ls_roomCod = lo_lastData.room_cod || "";
+                    if (ls_roomCod != "" || ls_useCod != "") {
+                        lo_addData.ci_dat = moment(lo_lastData.ci_dat).format("YYYY/MM/DD");
+                        lo_addData.co_dat = moment(lo_lastData.co_dat).format("YYYY/MM/DD");
+                        lo_addData.days = lo_lastData.days;
+                        lo_addData.rate_cod = lo_lastData.rate_cod;
+                        lo_addData.ci_dat_week = moment(lo_addData.ci_dat).format('dd');
+                        lo_addData.co_dat_week = moment(lo_addData.co_dat).format('dd');
+                    }
+                    else {
+                        let lo_examFieldData = {};
+                        if (ls_roomCod == "") {
+                            lo_examFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'room_cod'});
+                        }
+                        else {
+                            lo_examFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'use_cod'});
+                        }
+
+                        if (!_.isUndefined(lo_examFieldData)) {
+                            let ls_alertMsg = _s.sprintf(go_i18nLang.Validation.Formatter.Required, lo_examFieldData.ui_display_name);
+                            alert(ls_alertMsg)
+                        }
+                        return;
+                    }
                 }
 
+                this.editingOrderDtIdx = this.orderDtRowsData4table.length > 0 ? this.orderDtRowsData4table.length : 0;
                 this.orderDtRowsData.push(lo_addData);
                 this.convertDtDataToSingleAndTable();
             },
-            removeRow(index) {
+            async removeRow(index) {
+                await this.selectedCell(index);
+                _.each(this.groupOrderDtData, (lo_groupData) => {
+                    let ln_delIndex = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
+                    if (ln_delIndex > -1) {
+                        this.orderDtRowsData.splice(ln_delIndex, 1);
+                    }
+                });
+                this.groupOrderDtData = [];
                 this.orderDtRowsData4table.splice(index, 1);
-
             }
         }
     }
