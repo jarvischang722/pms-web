@@ -104,7 +104,7 @@ module.exports = {
                     });
                 });
                 _.each(la_useCodSelectData, (lo_useCodSelectData, idx) => {
-                    lo_useCodSelectData[idx].display = lo_useCodSelectData.value + ':' + lo_useCodSelectData.display;
+                    la_useCodSelectData[idx].display = lo_useCodSelectData.value + ':' + lo_useCodSelectData.display;
                 });
 
                 lo_result.selectField = ["room_cod", "use_cod"];
@@ -241,36 +241,77 @@ module.exports = {
      * @param session
      * @param callback
      */
-    compute_oder_dt_price: function (postData, session, callback) {
+    compute_oder_dt_price: async function (postData, session, callback) {
 
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        // let apiParams = {
-        //     "REVE-CODE": "PMS0110041",
-        //     "prg_id": "PMS0110041",
-        //     "func_id": "0900",
-        //     "athena_id": session.user.athena_id,
-        //     "hotel_cod": session.user.hotel_cod,
-        //     "ikey": postData.ikey
-        // };
-        // tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
-        //     if (apiErr || !data) {
-        //         lo_result.success = false;
-        //         lo_error = new ErrorClass();
-        //         lo_error.errorMsg = apiErr;
-        //     }
-        //     else if (data["RETN-CODE"] != "0000") {
-        //         lo_result.success = false;
-        //         lo_error = new ErrorClass();
-        //         console.error(data["RETN-CODE-DESC"]);
-        //         lo_error.errorMsg = data["RETN-CODE-DESC"];
-        //     }
-        //     else {
-        //         lo_result.defaultValues.key_nos = data["returnNos"];
-        //     }
-        //     callback(lo_error, lo_result);
-        // });
+        try {
+            let lo_rowData = postData.allRowData[0];
+            let la_ikey_seq_nos = [];
+            _.each(postData.allRowData, (lo_rowData) => {
+                la_ikey_seq_nos.push(lo_rowData.ikey_seq_nos);
+            });
+
+            let apiParams = {
+                "REVE-CODE": "PMS0110041",
+                "prg_id": "PMS0110041",
+                "func_id": "0700",
+                "athena_id": session.user.athena_id,
+                "hotel_cod": session.user.hotel_cod,
+                "key_nos": postData.key_nos,
+                "rate_cod": lo_rowData.rate_cod,
+                "room_cod": lo_rowData.room_cod,
+                "acust_cod": postData.acust_cod,
+                "ci_dat": lo_rowData.ci_dat,
+                "stay_night": lo_rowData.days,
+                "order_sta": lo_rowData.order_sta,
+                "add_man_qnt": 0,
+                "add_child_qnt": 0,
+                "ikey": lo_rowData.ikey,
+                "ikey_seq_nos": la_ikey_seq_nos,
+                "upd_usr": session.user.usr_id,
+            };
+
+            let lo_computePrice = await new Promise((resolve, reject) => {
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                    if (apiErr || !data) {
+                        reject(apiErr)
+                    }
+                    else {
+                        resolve(data)
+                    }
+                });
+            });
+
+            if (lo_computePrice["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                console.error(lo_computePrice["RETN-CODE-DESC"]);
+                lo_error.errorMsg = lo_computePrice["RETN-CODE-DESC"];
+            }
+            else {
+                let lo_fetchPrice = await new Promise((resolve, reject) => {
+                    queryAgent.query("QUY_ORDER_APPRAISE_FOR_ORDER_DT", lo_params, 0, 0, (err, result) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                });
+                lo_result.defaultValues.rent_amt = lo_fetchPrice.rent_amt;
+                lo_result.defaultValues.serv_amt = lo_fetchPrice.serv_amt;
+                lo_result.defaultValues.rent_amt = lo_fetchPrice.other_tot;
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
         callback(lo_error, lo_result);
     }
 };
