@@ -45,19 +45,20 @@ const bacUtils = {
                     let ln_endtime = new Date().getTime();
                     let ln_execTimeSec = (ln_endtime - ln_starttime) / 1000;
                     if (lo_params.func_id) {
-                        // alert(lo_params.func_id);
                         $.post("/api/doSaveFuncExecTime", {
                             req_data: lo_params,
-                            res_data: 'e',
+                            res_data: _.pick(res || {}, "success", "errorMsg"),
                             func_id: lo_params.func_id,
                             prg_id: lo_params.prg_id,
                             exec_time_sec: ln_execTimeSec
                         });
                     }
                     resolve(res);
+                }).fail(err => {
+                    reject(`${err.status} ${err.statusText}`);
                 });
             } catch (ex) {
-                reject(ex);
+                reject(ex.message);
             }
         });
     }

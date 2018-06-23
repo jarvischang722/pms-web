@@ -62,12 +62,15 @@ var loginVM = new Vue({
         },
         getCompaonyData: function () {
             this.loadingText = 'Loading...';
-            BacUtils.doHttpPostAgent("/api/getSelectCompany", function (result) {
+            BacUtils.doHttpPromisePostProxy("/api/getSelectCompany").then(function (result) {
                 loginVM.isLoading = false;
                 if (result.success) {
                     loginVM.companyData = result.selectCompany;
                     loginVM.comp_id = result.selectCompany.length > 0 ? result.selectCompany[0].cmp_id.trim() : "";
                 }
+            }).catch(function (err) {
+                loginVM.isLoading = false;
+                console.log(err);
             });
         },
         //帶入cookie記住我資料

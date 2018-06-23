@@ -61,10 +61,12 @@
         },
         methods: {
             getUserSubsys() {
-                BacUtils.doHttpPostAgent("/api/getUserSubsys", function (res) {
+                BacUtils.doHttpPromisePostProxy("/api/getUserSubsys").then(function (res) {
                     mainVue.subsysMenu = res.subsysMenu;
                     mainVue.usingSubsysID = getCookie('usingSubsysID');
-                })
+                }).catch(function (err) {
+                    console.log(err);
+                });
             },
 //切換子系統
             toSubsys(subsys_id) {
