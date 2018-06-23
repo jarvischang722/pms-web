@@ -275,13 +275,13 @@
                                                                         <td class="text-left input-noEdit"
                                                                             :style="{width:field.width + 'px'}"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='label'"
-                                                                            @click="selectedCell(idx, field)">
+                                                                            @click="editingOrderDtIdx = idx">
                                                                             {{singleData[field.ui_field_name]}}
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(idx, field)"
+                                                                            @click="editingOrderDtIdx = idx"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='text'">
-                                                                            <input type="text"
+                                                                            <input type="number"
                                                                                    v-model="singleData[field.ui_field_name]"
                                                                                    :style="{width:field.width + 'px'}"
                                                                                    :required="field.requirable == 'Y'"
@@ -292,7 +292,7 @@
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(idx, field)"
+                                                                            @click="editingOrderDtIdx = idx"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='select'">
                                                                             <bac-select :field="field"
                                                                                         :style="{width:field.width + 'px'}"
@@ -310,7 +310,7 @@
                                                                             </bac-select>
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(idx, field)"
+                                                                            @click="editingOrderDtIdx = idx"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='date'">
                                                                             <!-- 日期時間選擇器 -->
                                                                             <el-date-picker
@@ -326,7 +326,7 @@
                                                                             </el-date-picker>
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(idx, field)"
+                                                                            @click="editingOrderDtIdx = idx"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='number'">
                                                                             <!--number 金額顯示format-->
                                                                             <input type="text"
@@ -339,7 +339,7 @@
                                                                         </td>
                                                                         <td class="text-left td-more"
                                                                             style="height: 26px;"
-                                                                            @click="selectedCell(idx, field)"
+                                                                            @click="editingOrderDtIdx = idx"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='button'">
                                                                             <input type="text"
                                                                                    v-model="singleData[field.ui_field_name]"
@@ -611,6 +611,7 @@
                 isLoadingDialog: false,           //是否載入完畢
                 tableHeight: 34,                  //多筆table高度
                 orderStatus: 'N',                 //訂房狀態
+                editingOrderDtIdx: undefined,     //現在正在編輯的orderDt index
                 isCreate4GuestMn: false,          //guest mn 中的alt name 是否為新增
                 isEdit4GuestMn: false,            //guest mn 中的alt name 是否為修改
                 isModifiable4GuestMn: false,      //guest mn 中的alt name 是否可修改
@@ -645,36 +646,108 @@
                     this.guestMnRowsData4Single = {};
                 }
             },
-            "orderDtRowsData4Single.order_qnt"(newVal, oldVal) {
-                let ls_old_order_qnt = oldVal || "";
-                if (ls_old_order_qnt != "") {
-                    console.log(newVal)
-                    console.log(this.orderDtRowsData4table[this.editingOrderDtIdx].order_qnt);
-                    //舊值大於新值，增加一筆order dt 資料
-                    //舊值小於新值，將group的order dt資料，將最大ikey_seq_nos的資料oder_sta改為N
+            async editingOrderDtIdx(newVal, oldVal) {
+                if (!_.isUndefined(newVal)) {
+                    //取得使用房型及計價房型下拉
+                    let lo_postData = {
+                        rule_func_name: 'select_cod_data',
+                        rowData: this.orderDtRowsData4table[newVal],
+                        allRowData: this.orderDtRowsData4table
+                    };
+                    let lo_fetchSelectData = await new Promise((resolve, reject) => {
+                        BacUtils.doHttpPostAgent('/api/chkFieldRule', lo_postData, (result) => {
+                            resolve(result);
+                        });
+                    });
+
+                    let lo_useCodFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'use_cod'});
+                    if (!_.isUndefined(lo_useCodFieldData)) {
+                        lo_useCodFieldData.selectData = lo_fetchSelectData.multiSelectOptions.use_cod;
+                        lo_useCodFieldData.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.use_cod;
+                    }
+                    let lo_roomCodFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'room_cod'});
+                    if (!_.isUndefined(lo_roomCodFieldData)) {
+                        lo_roomCodFieldData.selectData = lo_fetchSelectData.multiSelectOptions.room_cod;
+                        lo_roomCodFieldData.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.room_cod;
+                    }
+                }
+                if (newVal != oldVal && !_.isUndefined(oldVal)) {
+                    //間數改變，增加或減少orderDtRowsData
+                    let lo_editingRow = JSON.parse(JSON.stringify(this.orderDtRowsData4table[oldVal]));
+                    if (lo_editingRow.order_qnt != this.orderDtRowsData4Single.order_qnt) {
+                        if (lo_editingRow.order_qnt != "") {
+                            let ln_orderQnt = Number(lo_editingRow.order_qnt) - Number(this.orderDtRowsData4Single.order_qnt);
+                            if (ln_orderQnt > 0) {
+                                //增加orderDtRowsData
+                                let ln_ikeySeqNos = _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
+                                    return lo_orderDtRowsData.ikey_seq_nos;
+                                }).ikey_seq_nos + 1;
+                                for (let i = 0; i < ln_orderQnt; i++) {
+                                    let lo_addParams = {};
+                                    lo_addParams = _.extend(lo_addParams, lo_editingRow);
+                                    lo_addParams.order_qnt = 1;
+                                    lo_addParams.ikey_seq_nos = Number(ln_ikeySeqNos) + i;
+
+                                    this.orderDtRowsData.push(lo_addParams);
+                                }
+                            }
+                            else {
+                                //減少orderDtRowsData
+                                let lo_delParam = {};
+                                lo_delParam = _.extend(lo_delParam, lo_editingRow);
+                                delete lo_delParam.ikey_seq_nos;
+                                delete lo_delParam.order_qnt;
+                                let la_delOrderDtRowsData = _.where(this.orderDtRowsData, lo_delParam);
+
+                                for (let i = 0; i < Math.abs(ln_orderQnt); i++) {
+                                    let lo_delData = la_delOrderDtRowsData[la_delOrderDtRowsData.length - 1 - i];
+                                    //原本就在資料庫裡的資料
+                                    let ln_delIndex = _.findLastIndex(this.oriOrderDtRowsData, lo_delData);
+                                    if (ln_delIndex > -1) {
+                                        this.orderDtRowsData[ln_delIndex].order_sta = 'X';
+                                    }
+                                    else {
+                                        //此次新增的
+                                        let ln_delTmpIndex = _.findLastIndex(this.tmpCUD.createData, lo_delData);
+                                        if (ln_delTmpIndex > -1) {
+                                            this.tmpCUD.createData.splice(ln_delTmpIndex, 1);
+                                            let ln_delOrderDtIndex = _.findLastIndex(this.oriOrderDtRowsData, lo_delData);
+                                            if (ln_delOrderDtIndex > -1) {
+                                                this.orderDtRowsData.splice(ln_delOrderDtIndex, 1);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    //重新group orderDtRowsData
+                    this.convertDtDataToSingleAndTable();
                 }
             },
             orderDtRowsData: {
                 async handler(val) {
                     console.log(val);
+                    //todo 計算房價要寫在orderDtRowsDataTable
                     //計算房價
-                    if (this.groupOrderDtData.length > 0) {
-                        let lo_params = {
-                            rule_func_name: 'compute_oder_dt_price',
-                            allRowData: [],
-                            key_nos: this.keyNos,
-                            acust_cod: this.orderMnSingleData.acust_cod
-                        };
-                        lo_params.allRowData = this.groupOrderDtData;
-
-                        // let lo_doComputePrice = await $.post("/api/chkFieldRule", lo_params).then(result => {
-                        //     return result;
-                        // }, err => {
-                        //     throw Error(err);
-                        // });
-                        //
-                        // console.log(lo_doComputePrice);
-                    }
+                    // if (this.groupOrderDtData.length > 0) {
+                    //     let lo_params = {
+                    //         rule_func_name: 'compute_oder_dt_price',
+                    //         allRowData: [],
+                    //         key_nos: this.keyNos,
+                    //         acust_cod: this.orderMnSingleData.acust_cod
+                    //     };
+                    //     lo_params.allRowData = this.groupOrderDtData;
+                    //
+                    //     // let lo_doComputePrice = await $.post("/api/chkFieldRule", lo_params).then(result => {
+                    //     //     return result;
+                    //     // }, err => {
+                    //     //     throw Error(err);
+                    //     // });
+                    //     //
+                    //     // console.log(lo_doComputePrice);
+                    // }
 
                     //處理暫存資料
                     _.each(val, (lo_orderDtRowData) => {
@@ -688,6 +761,7 @@
                                 this.tmpCUD.createData.splice(ln_addIndex, 1);
                             }
                             this.tmpCUD.createData.push(lo_orderDtRowData);
+                            console.log(this.tmpCUD.createData);
                         }
                         //修改狀態
                         else {
@@ -715,40 +789,38 @@
                             val[this.editingOrderDtIdx].co_dat = moment(val[this.editingOrderDtIdx].co_dat).format("YYYY/MM/DD");
 
                             //轉換資料
-                            let la_examData = JSON.parse(JSON.stringify(val[this.editingOrderDtIdx]));
-                            if (moment(new Date(la_examData.ci_dat)).diff(moment(new Date(la_examData.co_dat)), "days") >= 1) {
+                            let lo_editingRow = JSON.parse(JSON.stringify(val[this.editingOrderDtIdx]));
+                            //c/i日期和 c/o日期的判斷
+                            if (moment(new Date(lo_editingRow.ci_dat)).diff(moment(new Date(lo_editingRow.co_dat)), "days") >= 1) {
                                 alert("c/i 日期要小於 c/o日期");
-                                let ln_groupIdx = _.findIndex(this.groupOrderDtData, {ikey_seq_nos: la_examData.ikey_seq_nos});
+                                let ln_groupIdx = _.findIndex(this.groupOrderDtData, {ikey_seq_nos: lo_editingRow.ikey_seq_nos});
                                 if (ln_groupIdx > -1) {
                                     val[this.editingOrderDtIdx].ci_dat = moment(this.groupOrderDtData[ln_groupIdx].ci_dat).format("YYYY/MM/DD");
                                     val[this.editingOrderDtIdx].co_dat = moment(this.groupOrderDtData[ln_groupIdx].co_dat).format("YYYY/MM/DD");
                                 }
                             }
                             else {
-                                let ln_days = moment(new Date(la_examData.co_dat)).diff(moment(new Date(la_examData.ci_dat)), "days");
+                                let ln_days = moment(new Date(lo_editingRow.co_dat)).diff(moment(new Date(lo_editingRow.ci_dat)), "days");
                                 val[this.editingOrderDtIdx].days = ln_days;
-                                val[this.editingOrderDtIdx].ci_dat_week = moment(la_examData.ci_dat).format("ddd");
-                                val[this.editingOrderDtIdx].co_dat_week = moment(la_examData.co_dat).format("ddd");
+                                val[this.editingOrderDtIdx].ci_dat_week = moment(lo_editingRow.ci_dat).format("ddd");
+                                val[this.editingOrderDtIdx].co_dat_week = moment(lo_editingRow.co_dat).format("ddd");
                             }
 
                             //改變orderDtRowsData資料
-                            console.log(val[this.editingOrderDtIdx].order_qnt);
-
-                            let lo_editingRow = val[this.editingOrderDtIdx];
                             let lo_orderParams = {
-                                rate_cod: lo_editingRow.rate_cod,
-                                order_sta: lo_editingRow.order_sta,
-                                days: lo_editingRow.days,
+                                block_cod: lo_editingRow.block_cod,
                                 ci_dat: lo_editingRow.ci_dat,
                                 co_dat: lo_editingRow.co_dat,
-                                use_cod: lo_editingRow.use_cod,
-                                room_cod: lo_editingRow.room_cod,
+                                days: lo_editingRow.days,
+                                order_qnt: lo_editingRow.order_qnt,
+                                order_sta: lo_editingRow.order_sta,
+                                rate_cod: lo_editingRow.rate_cod,
                                 rent_amt: lo_editingRow.rent_amt,
+                                room_cod: lo_editingRow.room_cod,
                                 serv_amt: lo_editingRow.serv_amt,
-                                block_cod: lo_editingRow.block_cod
+                                use_cod: lo_editingRow.use_cod
                             };
                             _.each(this.groupOrderDtData, (lo_orderDtData, idx) => {
-
                                 let ln_editIdx = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_orderDtData.ikey_seq_nos});
                                 if (ln_editIdx > -1) {
                                     this.orderDtRowsData[ln_editIdx] = _.extend(this.orderDtRowsData[ln_editIdx], lo_orderParams);
@@ -1133,31 +1205,6 @@
             async selectedCell(idx, field) {
                 //單筆order dt的設定
                 this.editingOrderDtIdx = idx;
-
-                if (field.ui_field_name != 'order_qnt') {
-                    //多筆order dt的設定
-                    let lo_postData = {
-                        rule_func_name: 'select_cod_data',
-                        rowData: this.orderDtRowsData4table[idx],
-                        allRowData: this.orderDtRowsData4table
-                    };
-                    let lo_fetchSelectData = await new Promise((resolve, reject) => {
-                        BacUtils.doHttpPostAgent('/api/chkFieldRule', lo_postData, (result) => {
-                            resolve(result);
-                        });
-                    });
-
-                    let lo_useCodFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'use_cod'});
-                    if (!_.isUndefined(lo_useCodFieldData)) {
-                        lo_useCodFieldData.selectData = lo_fetchSelectData.multiSelectOptions.use_cod;
-                        lo_useCodFieldData.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.use_cod;
-                    }
-                    let lo_roomCodFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'room_cod'});
-                    if (!_.isUndefined(lo_roomCodFieldData)) {
-                        lo_roomCodFieldData.selectData = lo_fetchSelectData.multiSelectOptions.room_cod;
-                        lo_roomCodFieldData.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.room_cod;
-                    }
-                }
             },
             appendRow() {
                 let lo_addData = {
