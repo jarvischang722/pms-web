@@ -157,6 +157,10 @@
                             }
                         }
 
+                    },
+                    onHidePanel: function () {
+                        //todo 關掉下拉時，可以做提示
+                        console.log("test");
                     }
                 }, lo_options));
 

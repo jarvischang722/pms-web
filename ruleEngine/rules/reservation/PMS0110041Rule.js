@@ -273,38 +273,42 @@ module.exports = {
                 "upd_usr": session.user.usr_id,
             };
 
-            let lo_computePrice = await new Promise((resolve, reject) => {
-                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
-                    if (apiErr || !data) {
-                        reject(apiErr)
-                    }
-                    else {
-                        resolve(data)
-                    }
-                });
-            });
+            // let lo_computePrice = await new Promise((resolve, reject) => {
+            //     tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+            //         if (apiErr || !data) {
+            //             reject(apiErr)
+            //         }
+            //         else {
+            //             resolve(data)
+            //         }
+            //     });
+            // });
+            //
+            // if (lo_computePrice["RETN-CODE"] != "0000") {
+            //     lo_result.success = false;
+            //     lo_error = new ErrorClass();
+            //     console.error(lo_computePrice["RETN-CODE-DESC"]);
+            //     lo_error.errorMsg = lo_computePrice["RETN-CODE-DESC"];
+            // }
+            // else {
+            //     let lo_fetchPrice = await new Promise((resolve, reject) => {
+            //         queryAgent.query("QUY_ORDER_APPRAISE_FOR_ORDER_DT", lo_params, 0, 0, (err, result) => {
+            //             if (err) {
+            //                 reject(err);
+            //             }
+            //             else {
+            //                 resolve(result);
+            //             }
+            //         });
+            //     });
+            //     lo_result.defaultValues.rent_amt = lo_fetchPrice.rent_amt;
+            //     lo_result.defaultValues.serv_amt = lo_fetchPrice.serv_amt;
+            //     lo_result.defaultValues.rent_amt = lo_fetchPrice.other_tot;
+            // }
 
-            if (lo_computePrice["RETN-CODE"] != "0000") {
-                lo_result.success = false;
-                lo_error = new ErrorClass();
-                console.error(lo_computePrice["RETN-CODE-DESC"]);
-                lo_error.errorMsg = lo_computePrice["RETN-CODE-DESC"];
-            }
-            else {
-                let lo_fetchPrice = await new Promise((resolve, reject) => {
-                    queryAgent.query("QUY_ORDER_APPRAISE_FOR_ORDER_DT", lo_params, 0, 0, (err, result) => {
-                        if (err) {
-                            reject(err);
-                        }
-                        else {
-                            resolve(result);
-                        }
-                    });
-                });
-                lo_result.defaultValues.rent_amt = lo_fetchPrice.rent_amt;
-                lo_result.defaultValues.serv_amt = lo_fetchPrice.serv_amt;
-                lo_result.defaultValues.rent_amt = lo_fetchPrice.other_tot;
-            }
+            lo_result.effectValues.rent_amt = 0;
+            lo_result.effectValues.serv_amt = 0;
+            lo_result.effectValues.rent_amt = 0;
         }
         catch (err) {
             console.log(err);
