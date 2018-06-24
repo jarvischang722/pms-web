@@ -317,5 +317,125 @@ module.exports = {
             lo_error.errorMsg = err;
         }
         callback(lo_error, lo_result);
+    },
+
+    /**
+     * 公帳號 自動選取
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise<void>}
+     */
+    r_1141: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            //取得公帳號
+            let lo_fetchPublicAccount = await new Promise((resolve, reject) => {
+                queryAgent.query("QUY_MASTER_RF_FOR_AUTO_SELECT", {}, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+
+            //todo 在問勝擁api參數為何
+            //卡住公帳號
+            // let lo_doLockMaster = await new Promise((resolve, reject) => {
+            //     tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+            //         if (apiErr || !data) {
+            //             reject(apiErr)
+            //         }
+            //         else {
+            //             resolve(data)
+            //         }
+            //     });
+            // });
+            lo_result.effectValues.master_nos = lo_fetchPublicAccount.master_nos;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 公帳號 手動選取
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise<void>}
+     */
+    r_1142: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            //todo 在問勝擁api參數為何
+            //卡住公帳號
+            // let lo_doLockMaster = await new Promise((resolve, reject) => {
+            //     tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+            //         if (apiErr || !data) {
+            //             reject(apiErr)
+            //         }
+            //         else {
+            //             resolve(data)
+            //         }
+            //     });
+            // });
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 公帳號手動選取下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    fetchMasterNosSelectData: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let lo_param = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            acust_cod: postData.rowData.acust_cod
+        };
+
+        try {
+            //取得公帳號 下拉資料
+            let lo_fetchSelectData = await new Promise((resolve, reject) => {
+                queryAgent.queryList("QUY_MASTER_RF_FOR_MANUAL_SELECT", lo_param, 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            lo_result.selectOptions = lo_fetchSelectData;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
     }
 };
