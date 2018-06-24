@@ -333,6 +333,9 @@
       "Rate_Plan": "Rate Plan(中文)",
       "Amenities_Iny": "Amenities Iny.(中文)"
     },
+    "PMS0110040": {
+      "1010": "瀏覽"
+    },
     "PMS0110050": {
       "roomTyp": "房型",
       "roomNos": "房號",
