@@ -759,6 +759,9 @@
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.setGlobalGcustCod();
                         this.isLoadingDialog = false;
+                        this.$eventHub.$emit("getGhistMnDataToOrder", {
+                            ghistMnData: this.singleData
+                        });
                     });
                 }
             },

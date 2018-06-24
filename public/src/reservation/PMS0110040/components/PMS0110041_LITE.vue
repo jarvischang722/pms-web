@@ -468,7 +468,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth is-save"
-                                                role="button">儲存
+                                                role="button" @click="doSave">儲存
                                         </button>
                                     </li>
                                     <li>
@@ -496,7 +496,6 @@
                                                 role="button">費用列表
                                         </button>
                                     </li>
-
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth foCnt_roomAssign"
                                                 role="button">排房
@@ -507,7 +506,6 @@
                                                 role="button">訂房資料
                                         </button>
                                     </li>
-
                                     <li>
                                         <button class="btn btn-primary btn-defaultWidth resvPickUp-btn border-width-1"
                                                 role="button">接送機
@@ -585,7 +583,6 @@
             });
             //取得guest mn 資料
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
-                console.log(data.ghistMnData);
                 let lo_ghistMnData = data.ghistMnData;
                 let lo_extendParam = {};
                 if (this.isCreate4GuestMn) {
@@ -601,7 +598,7 @@
                         master_sta: 'G',
                         gcust_cod: lo_ghistMnData.gcust_cod,
                         ccust_nam: lo_ghistMnData.ccust_nam,
-                        alt_nam: lo_ghistMnData.alt_nam,
+                        alt_nam: lo_ghistMnData.gcust_cod + ":" + lo_ghistMnData.alt_nam,
                         first_nam: lo_ghistMnData.first_nam,
                         last_nam: lo_ghistMnData.last_nam,
                         car_nos: lo_ghistMnData.car_nos,
@@ -613,12 +610,11 @@
                         contry_cod: lo_ghistMnData.contry_cod,
                         system_typ: 'HFD'
                     };
-                    console.log("create", lo_extendParam);
                 }
                 else {
                     lo_extendParam = {
                         ccust_nam: lo_ghistMnData.ccust_nam,
-                        alt_nam: lo_ghistMnData.alt_nam,
+                        alt_nam: lo_ghistMnData.gcust_cod + ":" + lo_ghistMnData.alt_nam,
                         first_nam: lo_ghistMnData.first_nam,
                         last_nam: lo_ghistMnData.last_nam,
                         car_nos: lo_ghistMnData.car_nos,
@@ -626,8 +622,8 @@
                         airmb_nos: lo_ghistMnData.airmb_nos,
                         contry_cod: lo_ghistMnData.contry_cod,
                     };
-                    console.log("edit", lo_extendParam);
                 }
+                //todo guestMnRowsData4Single watch 不到
                 this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, lo_extendParam);
             });
         },
@@ -823,12 +819,16 @@
                     this.guestMnRowsData4Single = lo_selectGuestMnData;
                 }
                 else {
-                    this.guestMnRowsData4Single = {ikey_seq_nos: val};
-                    this.guestMnRowsData.push({ikey_seq_nos: val});
+                    this.guestMnRowsData4Single = {ikey_seq_nos: val, alt_nam: "", gcust_cod: ""};
                 }
             },
             "guestMnRowsData4Single.alt_nam"(newVal, oldVal) {
-                console.log(newVal, oldVal);
+                if (!_.isUndefined(newVal)) {
+                    let la_convertData = newVal.toString().split(":");
+                    if (la_convertData.length > 1) {
+                        this.guestMnRowsData4Single["gcust_cod"] = la_convertData[0];
+                    }
+                }
             },
             orderDtRowsData: {
                 handler(val) {
@@ -915,13 +915,63 @@
             },
             guestMnRowsData4Single: {
                 handler(val) {
-                    console.log(val);
+                    if (!_.isEmpty(val)) {
+                        if (val["gcust_cod"] != "") {
+                            let ln_editIndex = _.findIndex(this.guestMnRowsData, {
+                                ikey_seq_nos: val["ikey_seq_nos"],
+                                gcust_cod: val["gcust_cod"]
+                            });
+                            if (ln_editIndex > -1) {
+                                this.guestMnRowsData[ln_editIndex] = _.extend(this.guestMnRowsData[ln_editIndex], val);
+                            }
+                            else {
+                                this.guestMnRowsData.push(val);
+                            }
+                        }
+                    }
                 },
                 deep: true
             },
             guestMnRowsData: {
                 handler(val) {
-                    console.log(val);
+                    //處理暫存資料
+                    let la_guestMnRowsData = JSON.parse(JSON.stringify(val));
+                    _.each(la_guestMnRowsData, (lo_guestMnData) => {
+                        if (lo_guestMnData.gcust_cod != "") {
+                            //轉換姓名
+                            if (!_.isUndefined(lo_guestMnData["alt_nam"])) {
+                                let la_convertAltNam = lo_guestMnData["alt_nam"].split(":");
+                                if (la_convertAltNam.length > 1) {
+                                    lo_guestMnData["alt_nam"] = la_convertAltNam[1];
+                                }
+                            }
+
+                            lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
+                            let lo_params = {
+                                ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
+                                gcust_cod: lo_guestMnData.gcust_cod
+                            };
+                            let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
+                            //新增狀況
+                            if (ln_Index == -1) {
+                                let ln_addIndex = _.findIndex(this.tmpCUD.createData, lo_params);
+                                if (ln_addIndex > -1) {
+                                    this.tmpCUD.createData.splice(ln_addIndex, 1);
+                                }
+                                this.tmpCUD.createData.push(lo_guestMnData);
+                            }
+                            //修改狀況
+                            else {
+                                let ln_editIndex = _.findIndex(this.tmpCUD.updateData, lo_params);
+                                if (ln_editIndex > -1) {
+                                    this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                                    this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                                }
+                                this.tmpCUD.updateData.push(lo_guestMnData);
+                                this.tmpCUD.oriData.push(lo_guestMnData);
+                            }
+                        }
+                    });
                 },
                 deep: true
             },
@@ -1402,6 +1452,9 @@
                 });
                 this.groupOrderDtData = [];
                 this.orderDtRowsData4table.splice(index, 1);
+            },
+            async doSave() {
+                console.log(this.tmpCUD);
             }
         }
     }

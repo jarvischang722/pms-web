@@ -632,7 +632,7 @@
             },
             showSingleGridDialog() {
                 var self = this;
-                this.$store.dispatch("custMnModule/custMnModule/setAllDataClear");
+                this.$store.dispatch("custMnModule/setAllDataClear");
 
                 var dialog = $('#PMS0610020').removeClass('hide').dialog({
                     autoOpen: false,
