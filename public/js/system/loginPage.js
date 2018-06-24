@@ -70,7 +70,7 @@ var loginVM = new Vue({
                 }
             }).catch(function (err) {
                 loginVM.isLoading = false;
-                console.log(err);
+                console.error(err);
             });
         },
         //帶入cookie記住我資料

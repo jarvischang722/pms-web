@@ -127,7 +127,7 @@ const mutations = {
 const actions = {
     //取全部角色
     qryAllRoles({dispatch, commit}) {
-        BacUtils.doHttpPostAgent("/api/getAllRoles", function (result) {
+        BacUtils.doHttpPromisePostProxy("/api/getAllRoles").then((result) => {
             commit("setAllRoles", result.roles);
             commit("setSelRole", result.roles[0].role_id);
             dispatch("qryRoleOfAccounts", result.roles[0].role_id);
@@ -143,21 +143,19 @@ const actions = {
      * @returns {Promise<*>}
      */
     async qryFuncList({commit, dispatch, state}) {
-        return await BacUtils.doHttpPromisePostProxy("/api/getAllFuncs").then(
-            (result) => {
-                if (result.success) {
-                    commit("setOriFuncList", result.funcList);
-                    commit("setAllModules", result.funcTreeData);
-                    dispatch("combineFuncListTree");
-                    return {success: true, funcList4Tree: state.ga_funcList4Tree};
-                }
-                else {
-                    return {success: false, errMsg: result.errMsg};
-                }
-            },
-            (err) => {
-                return {success: false, errMsg: err};
-            });
+        return await BacUtils.doHttpPromisePostProxy("/api/getAllFuncs").then((result) => {
+            if (result.success) {
+                commit("setOriFuncList", result.funcList);
+                commit("setAllModules", result.funcTreeData);
+                dispatch("combineFuncListTree");
+                return {success: true, funcList4Tree: state.ga_funcList4Tree};
+            }
+            else {
+                return {success: false, errMsg: result.errMsg};
+            }
+        }).catch(err => {
+            return {success: false, errMsg: err};
+        });
     },
 
     //選擇角色觸發Event
@@ -187,40 +185,37 @@ const actions = {
 
     //撈取公司組別
     async qryCompGrp({dispatch, commit, state}) {
-        await BacUtils.doHttpPromisePostProxy("/api/getCompGrp").then((result) => {
-            commit("setCompGrpList", result.compGrpList);
-        });
+        await BacUtils.doHttpPromisePostProxy("/api/getCompGrp")
+            .then((result) => {
+                commit("setCompGrpList", result.compGrpList);
+            });
         dispatch("combineCompGrpTree");
         return state.ga_compGrpList4Tree;
     },
 
     qryRoleByUserID({commit, state}, user_id) {
-        BacUtils.doHttpPromisePostProxy("/api/qryRoleByUserID", {user_id: user_id}).then(
-            result => {
+        BacUtils.doHttpPromisePostProxy("/api/qryRoleByUserID", {user_id: user_id})
+            .then(result => {
                 let la_checkedRole = [];
                 _.each(result.roleList, function (lo_roleList) {
                     la_checkedRole.push(lo_roleList.role_id);
                 });
                 commit("checkedRoleList", la_checkedRole);
                 commit("checkedOriRoleList", la_checkedRole);
-            }
-        )
+            });
     },
 
     qryRoleByCurrentID({commit}, lo_selectedNode) {
         BacUtils.doHttpPromisePostProxy("/api/qryRoleByCurrentID", {
             current_id: lo_selectedNode.id,
             pre_id: lo_selectedNode.parent
-        }).then(
-            result => {
-                commit("checkedRoleList", result.roleList);
-                commit("checkedOriRoleList", result.roleList);
-            },
-            err => {
-                alert(err);
-                console.log(err);
-            }
-        )
+        }).then(result => {
+            commit("checkedRoleList", result.roleList);
+            commit("checkedOriRoleList", result.roleList);
+        }).catch(err => {
+            alert(err);
+            console.error(err);
+        });
     },
 
     //組合tree的格式給compGrpList4Tree
@@ -425,8 +420,8 @@ const actions = {
         };
 
         commit("setIsLoading", true);
-        BacUtils.doHttpPromisePostProxy("/api/saveAuthByRole", lo_params).then(
-            result => {
+        BacUtils.doHttpPromisePostProxy("/api/saveAuthByRole", lo_params)
+            .then(result => {
                 commit("setIsLoading", false);
                 if (result.success) {
                     dispatch("changeRoleEvent", state.gs_selRole);
@@ -435,12 +430,11 @@ const actions = {
                 else {
                     alert(result.errMsg);
                 }
-            },
-            err => {
+            })
+            .catch(err => {
                 commit("setIsLoading", false);
                 console.log(err);
-            }
-        );
+            });
     },
 
     doSaveByStaff({state, commit}) {
@@ -450,8 +444,8 @@ const actions = {
             oriCheckedRoleList: state.ga_oriCheckedRoleList,
             staffList: state.ga_compGrpList
         };
-        BacUtils.doHttpPromisePostProxy("/api/saveAuthByStaff", lo_params).then(
-            result => {
+        BacUtils.doHttpPromisePostProxy("/api/saveAuthByStaff", lo_params)
+            .then(result => {
                 if (result.success) {
                     state.ga_oriCheckedRoleList = state.ga_checkedRoleList;
                     alert("save success");
@@ -459,11 +453,10 @@ const actions = {
                 else {
                     alert(result.errMsg);
                 }
-            },
-            err => {
+            })
+            .catch(err => {
                 alert(err);
-            }
-        )
+            });
     },
 
     doSaveByFunc({state, commit}) {
@@ -475,8 +468,8 @@ const actions = {
             oriCheckedRoleList: state.ga_oriCheckedRoleList
         };
 
-        BacUtils.doHttpPromisePostProxy("/api/saveAuthByFunc", lo_params).then(
-            result => {
+        BacUtils.doHttpPromisePostProxy("/api/saveAuthByFunc", lo_params)
+            .then(result => {
                 if (result.success) {
                     state.ga_oriCheckedRoleList = _.clone(state.ga_checkedRoleList);
                     alert("save success");
@@ -484,11 +477,10 @@ const actions = {
                 else {
                     alert(result.errMsg);
                 }
-            },
-            err => {
+            })
+            .catch(err => {
                 alert(err);
-            }
-        )
+            });
     }
 };
 
