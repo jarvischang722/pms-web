@@ -277,7 +277,7 @@
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1 resv-view"
+                                    <button class="btn btn-primary btn-white btn-defaultWidth  resv-view"
                                             role="button" @click="browsRow">瀏覽
                                     </button>
                                 </li>
@@ -286,7 +286,6 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-
             </div>
             <pms0110041-lite
                     :row-data="editingRow"
@@ -379,7 +378,6 @@
                     if (result.success) {
                         if (this.searchFields.length <= 0) {
                             this.searchFields = result.searchFields;
-                            console.log(_.findWhere(this.searchFields, {ui_type: "multiselectgrid"}));
                         }
 
                         if (tab_page_id == 1) {
@@ -444,6 +442,7 @@
                 this.isLoading = true;
                 this.isCreateStatus = false;
                 this.isEditStatus = true;
+                this.isModifiable = true;
                 this.editingRow = {};
 
                 let ls_dgName = this.activeName == 'mnDg' ? "PMS0110040_mnDg" : "PMS0110040_dtDg";
