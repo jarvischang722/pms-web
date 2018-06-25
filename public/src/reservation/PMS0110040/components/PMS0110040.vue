@@ -246,21 +246,18 @@
                 <!--<div class="blockSetting-heading">查詢結果</div>-->
                 <div class="col-sm-11 col-xs-11">
                     <div class="row no-margin-right">
-
-                        <!--<table id="PMS0110040_dg" class=""></table>-->
-
                         <template>
                             <el-tabs v-model="activeName" type="card">
-                                <el-tab-pane label="訂房多筆" name="first"></el-tab-pane>
-                                <el-tab-pane label="訂房明細" name="second"></el-tab-pane>
+                                <el-tab-pane label="訂房多筆" name="mnDg"></el-tab-pane>
+                                <el-tab-pane label="訂房明細" name="dtDg"></el-tab-pane>
                             </el-tabs>
                         </template>
                         <div>
-                            <div id="bookings01" class="easyui-panel" v-show="activeName=='first'">
-                                <table id="resv_bookings01-table" class="gridTableHt"></table>
+                            <div class="easyui-panel" v-show="activeName=='mnDg'">
+                                <table id="PMS0110040_mnDg" class="gridTableHt"></table>
                             </div>
-                            <div id="bookings02" class="easyui-panel" v-show="activeName=='second'">
-                                <table id="resv_bookings02-table" class="gridTableHt"></table>
+                            <div class="easyui-panel" v-show="activeName=='dtDg'">
+                                <table id="PMS0110040_dtDg" class="gridTableHt"></table>
                             </div>
                         </div>
                     </div>
@@ -270,38 +267,39 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                            role="button">新增
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" @click="appendRow">新增
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                            role="button">修改
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" @click="editRow">修改
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1 resv-view"
-                                            role="button">瀏覽
+                                            role="button" @click="browsRow">瀏覽
                                     </button>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div> <!-- /.col-sm-12 -->
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
+            </div>
+            <pms0110041-lite
+                    :row-data="editingRow"
+                    :is-modifiable="isModifiable"
+                    :is-create-status="isCreateStatus"
+                    :is-edit-status="isEditStatus"
+            ></pms0110041-lite>
         </div>
-        <pms0110041-lite
-                :row-data="editingRow"
-                :is-modifiable="isModifiable"
-                :is-create-status="isCreateStatus"
-                :is-edit-status="isEditStatus"
-        ></pms0110041-lite>
     </div>
 </template>
 
 <script>
+    import pms0110041Lite from './PMS0110041_LITE.vue';
 
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
@@ -315,6 +313,7 @@
 
     export default {
         name: "p-m-s0110040",
+        components: {pms0110041Lite},
         data() {
             return {
                 /**
@@ -330,7 +329,6 @@
                 activeName: 'mnDg',
                 dtIns: null,
                 mnIns: null,
-
                 prg_id: "PMS0110040",
                 userInfo: {},               //使用者資訊
                 searchFields: [],           //搜尋欄位資料
@@ -340,9 +338,6 @@
                 dtDgRowsData: [],           //訂房明細資料
                 dtDgFieldsData: [],         //訂房明細欄位資料
                 dgIns: null,
-
-                pageOneDataGridRows: [],    //多筆資料
-                pageOneFieldData: [],        //多筆欄位資料
                 editingRow: {},
                 isCreateStatus: false,
                 isEditStatus: false,
@@ -368,7 +363,6 @@
                     }
                 });
             },
-
             /**
              * 透過tab_page_id取多筆欄位資訊和資料
              * @param tab_page_id {number} 分頁
@@ -428,23 +422,58 @@
                 this.dgIns.loadPageDgData(la_dgRowsData);
             },
             fetchDgRowData() {
-                let lo_params = {
-                    prg_id: this.prg_id,
-                    page_id: 1,
-                    searchCond: this.searchCond
-                };
-                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params).then(result => {
-                    console.log(result);
-                    this.mnDgRowsData = result.dgRowData;
-                    this.dgIns.loadPageDgData(this.mnDgRowsData);
-                });
+//                let lo_params = {
+//                    prg_id: this.prg_id,
+//                    page_id: 1,
+//                    searchCond: this.searchCond
+//                };
+//                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params).then(result => {
+//                    console.log(result);
+//                    this.mnDgRowsData = result.dgRowData;
+//                    this.dgIns.loadPageDgData(this.mnDgRowsData);
+//                });
             },
             appendRow() {
-                this.isEditStatus = true;
-                this.isCreateStatus = false;
-                this.editingRow = {ikey: "00000050"};
+                this.isEditStatus = false;
+                this.isCreateStatus = true;
+                this.editingRow = {ikey: ""};
 
                 this.showSingleGridDialog();
+            },
+            editRow() {
+                this.isLoading = true;
+                this.isCreateStatus = false;
+                this.isEditStatus = true;
+                this.editingRow = {};
+
+                let ls_dgName = this.activeName == 'mnDg' ? "PMS0110040_mnDg" : "PMS0110040_dtDg";
+                let lo_editRow = $('#' + ls_dgName).datagrid('getSelected');
+                if (!lo_editRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectData);
+                }
+                else {
+                    this.editingRow = lo_editRow;
+                    this.showSingleGridDialog();
+                }
+                this.isLoading = false;
+            },
+            browsRow() {
+                this.isLoading = true;
+                this.isCreateStatus = false;
+                this.isEditStatus = true;
+                this.isModifiable = false;
+                this.editingRow = {};
+
+                let ls_dgName = this.activeName == 'mnDg' ? "PMS0110040_mnDg" : "PMS0110040_dtDg";
+                let lo_editRow = $('#' + ls_dgName).datagrid('getSelected');
+                if (!lo_editRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectData);
+                }
+                else {
+                    this.editingRow = lo_editRow;
+                    this.showSingleGridDialog();
+                }
+                this.isLoading = false;
             },
             showSingleGridDialog() {
                 let self = this;
