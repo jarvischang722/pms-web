@@ -255,7 +255,8 @@
                                                             <tr>
                                                                 <th class="text-center ca-headerTitle height-fntThead rp-first-th">
                                                                     <i class="fa fa-plus green"
-                                                                       :class="{'pointer': isModifiable}" @click="appendRow"></i>
+                                                                       :class="{'pointer': isModifiable}"
+                                                                       @click="appendRow"></i>
                                                                 </th>
                                                                 <template v-for="field in orderDtFieldsData4table">
                                                                     <th v-if="field.visiable == 'Y'"
@@ -270,7 +271,8 @@
                                                                     v-for="(singleData, idx) in orderDtRowsData4table">
                                                                 <tr>
                                                                     <td class="text-center">
-                                                                        <i class="fa fa-minus red" :class="{'pointer': isModifiable}"
+                                                                        <i class="fa fa-minus red"
+                                                                           :class="{'pointer': isModifiable}"
                                                                            @click="removeRow(idx)"></i>
                                                                     </td>
                                                                     <template v-for="field in orderDtFieldsData4table">
@@ -741,10 +743,13 @@
                                     };
 
                                     //order_sta 為'x'的改為現在的訂房狀況
-                                    let ln_editIndex = _.findIndex(_.where(this.orderDtRowsData, lo_editParam), {order_sta: 'x'});
-                                    console.log(this.orderDtRowsData, lo_editParam, _.where(this.orderDtRowsData, lo_editParam));
+                                    let la_editData = _.where(this.orderDtRowsData, lo_editParam);
+                                    let ln_editIndex = _.findIndex(la_editData, {order_sta: 'X'});
                                     if (ln_editIndex > -1) {
-                                        this.orderDtRowsData[ln_editIndex].order_sta = this.orderStatus;
+                                        let ln_orderDtIndex = _.findIndex(this.orderDtRowsData, la_editData[ln_editIndex]);
+                                        if (ln_orderDtIndex > -1) {
+                                            this.orderDtRowsData[ln_orderDtIndex].order_sta = this.orderStatus;
+                                        }
                                     }
                                     else {
                                         let lo_addParams = {};
@@ -855,6 +860,7 @@
             },
             orderDtRowsData: {
                 handler(val) {
+                    console.log(val);
                     //處理暫存資料
                     _.each(val, (lo_orderDtRowData) => {
                         lo_orderDtRowData = _.extend(lo_orderDtRowData, {page_id: 1, tab_page_id: 13});
@@ -880,6 +886,14 @@
                                 }
                                 this.tmpCUD.updateData.push(lo_orderDtRowData);
                                 this.tmpCUD.oriData.push(lo_orderDtRowData);
+                            }
+                            else {
+                                //是否已在暫存中
+                                let ln_editIndex = _.findIndex(this.tmpCUD.updateData, lo_param);
+                                if (ln_editIndex > -1) {
+                                    this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                                    this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                                }
                             }
                         }
                     });
@@ -952,43 +966,43 @@
                             }
 
                             //todo guestMnRows watch 不到，直接修改tmpCUD資料
-                            let la_guestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
-                            _.each(la_guestMnRowsData, (lo_guestMnData) => {
-                                if (lo_guestMnData.gcust_cod != "") {
-                                    //轉換姓名
-                                    if (!_.isUndefined(lo_guestMnData["alt_nam"])) {
-                                        let la_convertAltNam = lo_guestMnData["alt_nam"].split(":");
-                                        if (la_convertAltNam.length > 1) {
-                                            lo_guestMnData["alt_nam"] = la_convertAltNam[1];
-                                        }
-                                    }
-
-                                    lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
-                                    let lo_params = {
-                                        ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
-                                        gcust_cod: lo_guestMnData.gcust_cod
-                                    };
-                                    let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
-                                    //新增狀況
-                                    if (ln_Index == -1) {
-                                        let ln_addIndex = _.findIndex(this.tmpCUD.createData, lo_params);
-                                        if (ln_addIndex > -1) {
-                                            this.tmpCUD.createData.splice(ln_addIndex, 1);
-                                        }
-                                        this.tmpCUD.createData.push(lo_guestMnData);
-                                    }
-                                    //修改狀況
-                                    else {
-                                        let ln_editIndex = _.findIndex(this.tmpCUD.updateData, lo_params);
-                                        if (ln_editIndex > -1) {
-                                            this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                                            this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                                        }
-                                        this.tmpCUD.updateData.push(lo_guestMnData);
-                                        this.tmpCUD.oriData.push(lo_guestMnData);
-                                    }
-                                }
-                            });
+                            // let la_guestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
+                            // _.each(la_guestMnRowsData, (lo_guestMnData) => {
+                            //     if (lo_guestMnData.gcust_cod != "") {
+                            //         //轉換姓名
+                            //         if (!_.isUndefined(lo_guestMnData["alt_nam"])) {
+                            //             let la_convertAltNam = lo_guestMnData["alt_nam"].split(":");
+                            //             if (la_convertAltNam.length > 1) {
+                            //                 lo_guestMnData["alt_nam"] = la_convertAltNam[1];
+                            //             }
+                            //         }
+                            //
+                            //         lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
+                            //         let lo_params = {
+                            //             ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
+                            //             gcust_cod: lo_guestMnData.gcust_cod
+                            //         };
+                            //         let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
+                            //         //新增狀況
+                            //         if (ln_Index == -1) {
+                            //             let ln_addIndex = _.findIndex(this.tmpCUD.createData, lo_params);
+                            //             if (ln_addIndex > -1) {
+                            //                 this.tmpCUD.createData.splice(ln_addIndex, 1);
+                            //             }
+                            //             this.tmpCUD.createData.push(lo_guestMnData);
+                            //         }
+                            //         //修改狀況
+                            //         else {
+                            //             let ln_editIndex = _.findIndex(this.tmpCUD.updateData, lo_params);
+                            //             if (ln_editIndex > -1) {
+                            //                 this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                            //                 this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                            //             }
+                            //             this.tmpCUD.updateData.push(lo_guestMnData);
+                            //             this.tmpCUD.oriData.push(lo_guestMnData);
+                            //         }
+                            //     }
+                            // });
                         }
                     }
                 },
@@ -1014,24 +1028,24 @@
                                 gcust_cod: lo_guestMnData.gcust_cod
                             };
                             let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
-                            //新增狀況
-                            if (ln_Index == -1) {
-                                let ln_addIndex = _.findIndex(this.tmpCUD.createData, lo_params);
-                                if (ln_addIndex > -1) {
-                                    this.tmpCUD.createData.splice(ln_addIndex, 1);
-                                }
-                                this.tmpCUD.createData.push(lo_guestMnData);
-                            }
-                            //修改狀況
-                            else {
-                                let ln_editIndex = _.findIndex(this.tmpCUD.updateData, lo_params);
-                                if (ln_editIndex > -1) {
-                                    this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                                    this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                                }
-                                this.tmpCUD.updateData.push(lo_guestMnData);
-                                this.tmpCUD.oriData.push(lo_guestMnData);
-                            }
+                            // //新增狀況
+                            // if (ln_Index == -1) {
+                            //     let ln_addIndex = _.findIndex(this.tmpCUD.createData, lo_params);
+                            //     if (ln_addIndex > -1) {
+                            //         this.tmpCUD.createData.splice(ln_addIndex, 1);
+                            //     }
+                            //     this.tmpCUD.createData.push(lo_guestMnData);
+                            // }
+                            // //修改狀況
+                            // else {
+                            //     let ln_editIndex = _.findIndex(this.tmpCUD.updateData, lo_params);
+                            //     if (ln_editIndex > -1) {
+                            //         this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                            //         this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                            //     }
+                            //     this.tmpCUD.updateData.push(lo_guestMnData);
+                            //     this.tmpCUD.oriData.push(lo_guestMnData);
+                            // }
                         }
                     });
                 },
