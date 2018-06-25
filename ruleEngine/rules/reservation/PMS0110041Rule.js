@@ -78,6 +78,7 @@ module.exports = {
                     rate_cod: ls_rateCod
                 };
 
+
                 let la_roomCodSelectData = await new Promise((resolve, reject) => {
                     queryAgent.queryList("SEL_ORDERDTROOMCOD", lo_params, 0, 0, (err, result) => {
                         if (err) {
