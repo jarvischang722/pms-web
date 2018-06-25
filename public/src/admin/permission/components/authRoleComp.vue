@@ -136,7 +136,7 @@
                 let self = this;
                 if (this.$store.state.gb_isAuthCreate && this.gs_permissionModel == "authByRole") {
                     this.$store.commit("setIsLoading", true);
-                    $.post("/api/addRole", {role_id: this.role_id, role_name: this.role_name}).then(
+                    BacUtils.doHttpPromisePostProxy("/api/addRole", {role_id: this.role_id, role_name: this.role_name}).then(
                         result => {
                             if (result.success) {
                                 self.qryAllRoles();
@@ -157,10 +157,12 @@
                 }
                 else if (this.$store.state.gb_isAuthUpdate && this.gs_permissionModel == "authByRole") {
                     this.$store.commit("setIsLoading", true);
-                    $.post("/api/updRole", {
+                    BacUtils.doHttpPromisePostProxy("/api/updRole", {
                         role_id: this.role_id,
                         role_name: this.role_name,
-                        ori_role_id: this.ori_role_id
+                        ori_role_id: this.ori_role_id,
+                        func_id: "0400",
+                        prg_id: "SYS0110010"
                     }).then(
                         result => {
                             if (result.success) {
@@ -170,15 +172,17 @@
                             else {
                                 alert(result.errorMsg);
                             }
+                            this.$store.commit("setIsLoading", false);
+                            this.$store.commit("setIsAuthUpdate", false);
+                            this.$store.commit("setIsDialogShow", false);
                         },
                         err => {
                             console.error(err.responseText);
+                            this.$store.commit("setIsLoading", false);
+                            this.$store.commit("setIsAuthUpdate", false);
+                            this.$store.commit("setIsDialogShow", false);
                         }
-                    ).always(() => {
-                        this.$store.commit("setIsLoading", false);
-                        this.$store.commit("setIsAuthUpdate", false);
-                        this.$store.commit("setIsDialogShow", false);
-                    });
+                    );
                 }
 
             },

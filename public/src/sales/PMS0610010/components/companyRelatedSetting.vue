@@ -492,7 +492,7 @@
             //信用額度變更
             async doChangeCreditLimit() {
                 if (this.oriPageTwoFieldsData.length <= 0) {
-                    await $.post("/api/fetchOnlySinglePageFieldData", {
+                    await BacUtils.doHttpPromisePostProxy("/api/fetchOnlySinglePageFieldData", {
                         prg_id: "PMS0610020",
                         page_id: 2,
                         tab_page_id: 1030

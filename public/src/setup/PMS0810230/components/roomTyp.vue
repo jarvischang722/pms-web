@@ -510,7 +510,7 @@
                 };
 
                 if (lo_params.searchCond.rate_cod != "") {
-                    $.post("/api/fetchDataGridFieldData", lo_params, result => {
+                    BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params, result => {
                         if (result.success) {
                             this.rateCodDtData = [];
                             this.oriRateCodDtData = [];
@@ -552,7 +552,7 @@
                 let lb_isFirstFetch = _.findIndex(this.rateCodDtData, {supply_nos: this.selectedUseTimeData}) > -1 ? false : true;
 
                 if (lo_params.searchCond.rate_cod != "" && lo_params.searchCond.supply_nos != "" && lb_isFirstFetch) {
-                    $.post("/api/fetchDataGridFieldData", lo_params, result => {
+                    BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params, result => {
                         if (result.success) {
                             this.rateCodDtData = [];
                             this.oriRateCodDtData = [];
