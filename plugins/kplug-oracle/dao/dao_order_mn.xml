@@ -117,28 +117,37 @@
     -->
     <dao name="QRY_ORDER_MN">
         <statement><![CDATA[
-            select g.guest_way "guest_rf.guest_way", dt.order_sta "order_dt.order_sta", dt.ikey, substr(dt.ikey, 3, 4) ikey_qry, dt.ci_dat "order_dt.ci_dat",
-            dt.co_dat "order_dt.co_dat", dt.days "order_dt.days", dt.room_cod "order_dt.room_cod", dt.room_cod "order_dt.room_sna", dt.order_qnt "order_dt.order_qnt",
-            dt.assign_qnt "order_dt.assign_qnt", dt.ci_qnt "order_dt.ci_qnt",
-            pg_hfd_get_nam2.sf_hfd_get_psngr_list(dt.ikey, dt.ikey_seq_nos, 0, '#1####', mn.athena_id, mn.hotel_cod) full_nam,
-            mn.group_nos, mn.cust_nam, mn.atten_nam, dt.rate_cod "order_dt.rate_cod", dt.source_typ "order_dt.source_typ",
-            (select deposit_nos || ':' || deposit_mn.alt_nam from deposit_mn where deposit_nos = nvl(mn.deposit_nos, '!!!')) deposit_nos,
-            mn.confirm_sta, mn.confirm_dat, dt.use_cod "order_dt.use_cod", dt.use_cod "order_dt.use_sna", dt.guest_typ "order_dt.guest_typ", mn.master_nos,
-            mn.rvreserve_nos, dt.ins_dat "order_dt.ins_dat", dt.ins_usr "order_dt.ins_usr", dt.upd_dat "order_dt.upd_dat", dt.upd_usr "order_dt.upd_usr",
-            mn.sales_cod, mn.hotel_cod, mn.acust_nam
-            from order_mn mn
-            join order_dt dt on mn.athena_id = dt.athena_id
-            and mn.hotel_cod = dt.hotel_cod
-            and mn.ikey = dt.ikey
-            left join guest_rf g on dt.athena_id = g.athena_id and dt.guest_typ = g.guest_typ
+            select order_dt.ikey, order_dt.order_sta "order_dt.order_sta", order_dt.ci_dat "order_dt.ci_dat",
+            order_dt.co_dat "order_dt.co_dat", order_dt.days "order_dt.days",
+            order_dt.rate_cod "order_dt.rate_cod", order_dt.use_cod "order_dt.use_cod", order_dt.use_cod "order_dt.use_sna",
+            order_dt.room_cod "order_dt.room_cod", order_dt.room_cod "order_dt.room_sna",
+            sum(order_dt.order_qnt) "order_dt.order_qnt", sum(order_dt.assign_qnt) "order_dt.assign_qnt", sum(order_dt.ci_qnt) "order_dt.ci_qnt",
+            order_dt.rent_amt, order_dt.serv_amt, order_mn.group_nos, order_mn.acust_nam, order_mn.atten_nam, order_mn.sales_cod,
+            order_mn.rvreserve_nos
+            from order_dt, order_mn, guest_rf g
+            where order_dt.athena_id = g.athena_id(+)
+            and order_dt.guest_typ = g.guest_typ(+)
+            and order_dt.athena_id = order_mn.athena_id
+            and order_dt.hotel_cod = order_mn.hotel_cod
+            and order_dt.ikey = order_mn.ikey
+            and order_dt.athena_id = :athena_id
+            and order_dt.hotel_cod = :hotel_cod
+            and order_dt.ikey = order_mn.ikey
+            and order_dt.order_sta <> 'X'
+            group by order_dt.ikey, order_dt.order_sta, order_dt.ci_dat, order_dt.co_dat, order_dt.days,
+            order_dt.rate_cod, order_dt.use_cod, order_dt.room_cod, order_dt.rent_amt, order_dt.serv_amt,
+            order_dt.block_cod, order_mn.group_nos, order_mn.acust_nam, order_mn.atten_nam,
+            order_mn.sales_cod, order_mn.rvreserve_nos
+            order by order_dt.ikey,decode (order_sta,'N','1','I','2','O','3','S','4','5') ,ci_dat, co_dat,rate_cod,use_cod,
+            room_cod,rent_amt,serv_amt,block_cod
         ]]>
         </statement>
 
-        <statement test="_d(param.full_nam) == ''"><![CDATA[
-            where dt.athena_id = :athena_id
-            and dt.hotel_cod = :hotel_cod
-            and dt.order_sta <> 'X'
-        ]]></statement>
+        <!--<statement test="_d(param.full_nam) == ''"><![CDATA[-->
+            <!--where dt.athena_id = :athena_id-->
+            <!--and dt.hotel_cod = :hotel_cod-->
+            <!--and dt.order_sta <> 'X'-->
+        <!--]]></statement>-->
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <!-- full_nam -->
