@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+    <!-- ['PMS0110040'] 訂房卡明細-->
+    <dao name="QRY_ORDER_DT">
+        <statement><![CDATA[
+            select order_dt.ikey, order_dt.ikey_seq_nos "order_dt.ikey_seq_nos", order_dt.room_nos "order_dt.room_nos",
+            pg_hfd_get_nam2.sf_hfd_get_guest_list( order_mn.athena_id,order_mn.hotel_cod,order_dt.ikey, order_dt.ikey_seq_nos,'#1####' ) full_nam,
+            order_dt.order_sta "order_dt.order_sta", order_dt.ci_dat "order_dt.ci_dat", order_dt.co_dat "order_dt.co_dat",
+            order_dt.days "order_dt.days", order_dt.rate_cod "order_dt.rate_cod",
+            order_dt.use_cod "order_dt.use_cod", order_dt.use_cod "order_dt.use_sna", order_dt.room_cod "order_dt.room_cod",
+            order_dt.room_cod "order_dt.room_sna", order_dt.order_qnt "order_dt.order_qnt", order_dt.assign_qnt "order_dt.assign_qnt",
+            order_dt.ci_qnt "order_dt.ci_qnt",
+            order_dt.rent_amt,
+            order_dt.serv_amt,
+            order_mn.group_nos,
+            order_mn.acust_nam,
+            order_mn.atten_nam,
+            order_mn.sales_cod,
+            order_dt.source_typ "order_dt.source_typ",
+            order_dt.guest_typ "order_dt.guest_typ",
+            order_mn.rvreserve_nos
+            from order_dt, order_mn, guest_rf g
+            where order_dt.athena_id = g.athena_id(+)
+            and order_dt.guest_typ = g.guest_typ(+)
+            and order_dt.athena_id = order_mn.athena_id
+            and order_dt.hotel_cod = order_mn.hotel_cod
+            and order_dt.ikey = order_mn.ikey
+            and order_dt.athena_id = :athena_id
+            and order_dt.hotel_cod = :hotel_cod
+            and order_dt.ikey = order_mn.ikey
+            and order_dt.order_sta <> 'X'
+            order by ikey,ikey_seq_nos
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
     <!-- ['PMS0820010'] 未來入住之訂房卡明細-->
     <dao name="CHK_ORDER_DT_ISEXIST">
         <statement><![CDATA[
