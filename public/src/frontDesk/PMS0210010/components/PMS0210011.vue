@@ -30,7 +30,8 @@
                                                             <span>{{ field.ui_display_name }}</span>
                                                         </label>
 
-                                                        <input type="text" v-model.trim="singleData[field.ui_field_name]"
+                                                        <input type="text"
+                                                               v-model.trim="singleData[field.ui_field_name]"
                                                                v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :required="field.requirable == 'Y'" min="0"
@@ -70,7 +71,8 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                         </bac-select-grid>
 
-                                                        <input type="number" v-model.trim="singleData[field.ui_field_name]"
+                                                        <input type="number"
+                                                               v-model.trim="singleData[field.ui_field_name]"
                                                                v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
@@ -757,6 +759,9 @@
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.setGlobalGcustCod();
                         this.isLoadingDialog = false;
+                        this.$eventHub.$emit("getGhistMnDataToOrder", {
+                            ghistMnData: this.singleData
+                        });
                     });
                 }
             },
@@ -820,6 +825,9 @@
                             let lo_saveOtherContactDataRes = await this.$store.dispatch("ghistMnModule/doSaveOtherContactData");
 
                             if (lo_saveOtherContactDataRes.success) {
+                                this.$eventHub.$emit("getGhistMnDataToOrder", {
+                                    ghistMnData: this.singleData
+                                });
                                 alert(go_i18nLang.SystemCommon.saveSuccess);
 
                                 let lo_cloneRowData = _.extend(JSON.parse(JSON.stringify(this.rowData)),);

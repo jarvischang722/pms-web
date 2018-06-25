@@ -82,7 +82,7 @@
                                              disabled>
                                 </el-tab-pane>
                             </el-tabs>
-                            <div class="easyui-tabs easyUi-custom1 borderFrame"
+                            <div class="easyui-tabs borderFrame"
                                  style="min-height: 0; height: 380px !important; overflow-y: auto;">
                                 <div id="setPanel" v-show="tabName=='set'" class="padding-tabs">
                                     <related-setting
@@ -391,7 +391,6 @@
             },
             rowData(val) {
                 if (!_.isEmpty(val)) {
-                    console.log(val);
                     this.initData();
                     this.fetchFieldData();
                 }
@@ -473,7 +472,6 @@
                 _.each(la_panelName, function (ls_panelName) {
                     $("#" + ls_panelName).hide();
                 });
-
                 $("#" + ls_showPanelName).show();
             },
             fetchFieldData() {
@@ -505,7 +503,6 @@
                     });
                 }
                 else if (this.isEditStatus) {
-                    console.log(this.rowData.cust_mn_cust_cod);
                     BacUtils.doHttpPostAgent("/api/fetchSinglePageFieldData", {
                         prg_id: "PMS0610020",
                         page_id: 1,
@@ -513,7 +510,6 @@
                         template_id: "gridsingle",
                         searchCond: {cust_cod: this.rowData.cust_mn_cust_cod}
                     }, result => {
-                        console.log(result);
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
                         this.isLoadingDialog = false;

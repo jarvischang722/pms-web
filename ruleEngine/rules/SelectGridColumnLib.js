@@ -552,10 +552,14 @@ exports.sel_alt_nam_for_order_column = function (session, callback) {
             {
                 field: "guest_display",
                 hidden: true
+            },
+            {
+                field: "guest_value",
+                hidden: true
             }
         ],
         display: "guest_display",
-        value: "cust_cod"
+        value: "guest_value"
     };
     callback(null, lo_result);
 };
