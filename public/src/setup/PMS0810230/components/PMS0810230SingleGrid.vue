@@ -860,12 +860,12 @@
             fetchFieldData() {
                 this.isLoadingDialog = true;
                 var self = this;
-                $.post("/api/fetchOnlySinglePageFieldData", {
+                BacUtils.doHttpPromisePostProxy("/api/fetchOnlySinglePageFieldData", {
                     prg_id: "PMS0810230",
                     page_id: 2,
                     tab_page_id: 1,
                     template_id: 'gridsingle'
-                }, function (result) {
+                }).then((result) => {
                     self.oriFieldsData = result.gsFieldsData;
                     self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
                     self.fetchRowData();
@@ -892,7 +892,7 @@
                         searchCond: {rate_cod: this.rowData.rate_cod}
                     };
                 }
-                $.post(ls_apiUrl, lo_params).then(result => {
+                BacUtils.doHttpPromisePostProxy(ls_apiUrl, lo_params).then(result => {
                     if (result.success) {
                         this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
                         this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
@@ -941,7 +941,7 @@
                         singleRowData: la_singleData,
                         oriSingleData: la_oriSingleData
                     };
-                    $.post('/api/chkFieldRule', postData, function (result) {
+                    BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', postData).then((result) => {
                         if (result.success) {
                             //是否要show出訊息
                             if (result.showAlert) {
@@ -953,7 +953,7 @@
                                 } else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
+                                        BacUtils.doHttpPromisePostProxy(result.ajaxURL, postData).then( (result) => {
                                             if (!result.success) {
                                                 alert(result.errorMsg);
                                             }

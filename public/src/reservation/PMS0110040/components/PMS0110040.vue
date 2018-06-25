@@ -421,7 +421,7 @@
 
             fetchUserInfo() {
                 let self = this;
-                BacUtils.doHttpPostAgent('/api/getUserInfo', function (result) {
+                BacUtils.doHttpPromisePostProxy('/api/getUserInfo').then(function (result) {
                     if (result.success) {
                         self.userInfo = result.userInfo;
                     }
@@ -436,7 +436,7 @@
                     searchCond: lo_searchCond
                 };
                 // this.isLoading = true;
-                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", lo_params, result => {
+                BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params).then(result => {
                     if (this.searchFields.length <= 0) {
                         this.searchFields = result.searchFields;
                     }
@@ -460,7 +460,7 @@
                     page_id: 1,
                     searchCond: this.searchCond
                 };
-                BacUtils.doHttpPostAgent("/api/fetchDgRowData", lo_params, result => {
+                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params).then( result => {
                     console.log(result);
                     this.pageOneDataGridRows = result.dgRowData;
                     this.dgIns.loadPageDgData(this.pageOneDataGridRows);

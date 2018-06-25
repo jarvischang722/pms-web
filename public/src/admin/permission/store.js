@@ -127,7 +127,7 @@ const mutations = {
 const actions = {
     //取全部角色
     qryAllRoles({dispatch, commit}) {
-        BacUtils.doHttpPostAgent("/api/getAllRoles", function (result) {
+        BacUtils.doHttpPromisePostProxy("/api/getAllRoles").then((result) => {
             commit("setAllRoles", result.roles);
             commit("setSelRole", result.roles[0].role_id);
             dispatch("qryRoleOfAccounts", result.roles[0].role_id);
@@ -143,22 +143,19 @@ const actions = {
      * @returns {Promise<*>}
      */
     async qryFuncList({commit, dispatch, state}) {
-        // return await $.post("/api/getAllFuncs").then(
-        return await BacUtils.doHttpPostProxy("/api/getAllFuncs").then(
-            (result) => {
-                if (result.success) {
-                    commit("setOriFuncList", result.funcList);
-                    commit("setAllModules", result.funcTreeData);
-                    dispatch("combineFuncListTree");
-                    return {success: true, funcList4Tree: state.ga_funcList4Tree};
-                }
-                else {
-                    return {success: false, errMsg: result.errMsg};
-                }
-            },
-            (err) => {
-                return {success: false, errMsg: err};
-            });
+        return await BacUtils.doHttpPromisePostProxy("/api/getAllFuncs").then((result) => {
+            if (result.success) {
+                commit("setOriFuncList", result.funcList);
+                commit("setAllModules", result.funcTreeData);
+                dispatch("combineFuncListTree");
+                return {success: true, funcList4Tree: state.ga_funcList4Tree};
+            }
+            else {
+                return {success: false, errMsg: result.errMsg};
+            }
+        }).catch(err => {
+            return {success: false, errMsg: err};
+        });
     },
 
     //選擇角色觸發Event
@@ -174,51 +171,51 @@ const actions = {
 
     //取得角色對應之全部帳號
     async qryRoleOfAccounts({commit}, role_id) {
-        await $.post("/api/getRoleOfAccounts", {role_id: role_id}).then((result) => {
+        await BacUtils.doHttpPromisePostProxy("/api/getRoleOfAccounts", {role_id: role_id}).then((result) => {
             commit("setStaffOfRole", result.accounts);
         });
     },
 
     //抓取單一角色對應的功能權限
     async qryRoleOfFuncs({commit}, role_id) {
-        await $.post("/api/getFuncsOfRole", {role_id: role_id}).then((result) => {
+        await BacUtils.doHttpPromisePostProxy("/api/getFuncsOfRole", {role_id: role_id}).then((result) => {
             commit("setFuncsOfRole", result.funcsOfRole);
         })
     },
 
     //撈取公司組別
     async qryCompGrp({dispatch, commit, state}) {
-        await $.post("/api/getCompGrp").then((result) => {
-            commit("setCompGrpList", result.compGrpList);
-        });
+        await BacUtils.doHttpPromisePostProxy("/api/getCompGrp")
+            .then((result) => {
+                commit("setCompGrpList", result.compGrpList);
+            });
         dispatch("combineCompGrpTree");
         return state.ga_compGrpList4Tree;
     },
 
     qryRoleByUserID({commit, state}, user_id) {
-        $.post("/api/qryRoleByUserID", {user_id: user_id}).then(
-            result => {
+        BacUtils.doHttpPromisePostProxy("/api/qryRoleByUserID", {user_id: user_id})
+            .then(result => {
                 let la_checkedRole = [];
                 _.each(result.roleList, function (lo_roleList) {
                     la_checkedRole.push(lo_roleList.role_id);
                 });
                 commit("checkedRoleList", la_checkedRole);
                 commit("checkedOriRoleList", la_checkedRole);
-            }
-        )
+            });
     },
 
     qryRoleByCurrentID({commit}, lo_selectedNode) {
-        $.post("/api/qryRoleByCurrentID", {current_id: lo_selectedNode.id, pre_id: lo_selectedNode.parent}).then(
-            result => {
-                commit("checkedRoleList", result.roleList);
-                commit("checkedOriRoleList", result.roleList);
-            },
-            err => {
-                alert(err);
-                console.log(err);
-            }
-        )
+        BacUtils.doHttpPromisePostProxy("/api/qryRoleByCurrentID", {
+            current_id: lo_selectedNode.id,
+            pre_id: lo_selectedNode.parent
+        }).then(result => {
+            commit("checkedRoleList", result.roleList);
+            commit("checkedOriRoleList", result.roleList);
+        }).catch(err => {
+            alert(err);
+            console.error(err);
+        });
     },
 
     //組合tree的格式給compGrpList4Tree
@@ -291,10 +288,10 @@ const actions = {
         _.each(la_func, function (lo_func) {
             let ls_id = lo_func.pre_id + "_" + lo_func.current_id;
             let ls_treeTxt;
-            if(!_.isUndefined(go_i18nLang["program"][lo_func.pre_id]) && !_.isUndefined(go_i18nLang["program"][lo_func.pre_id][lo_func.current_id])){
+            if (!_.isUndefined(go_i18nLang["program"][lo_func.pre_id]) && !_.isUndefined(go_i18nLang["program"][lo_func.pre_id][lo_func.current_id])) {
                 ls_treeTxt = go_i18nLang["program"][lo_func.pre_id][lo_func.current_id];
             }
-            else{
+            else {
                 ls_treeTxt = go_i18nLang["SystemCommon"][lo_func.current_id] || lo_func.current_id;
             }
             la_funcList4Tree.push(treeDataObj(ls_id, lo_func.pre_id, ls_treeTxt));
@@ -422,11 +419,9 @@ const actions = {
             selRole: state.gs_selRole
         };
 
-        // console.log(la_funcChecked, la_funcUnChecked);
-        // return;
         commit("setIsLoading", true);
-        $.post("/api/saveAuthByRole", lo_params).then(
-            result => {
+        BacUtils.doHttpPromisePostProxy("/api/saveAuthByRole", lo_params)
+            .then(result => {
                 commit("setIsLoading", false);
                 if (result.success) {
                     dispatch("changeRoleEvent", state.gs_selRole);
@@ -435,12 +430,11 @@ const actions = {
                 else {
                     alert(result.errMsg);
                 }
-            },
-            err => {
+            })
+            .catch(err => {
                 commit("setIsLoading", false);
                 console.log(err);
-            }
-        );
+            });
     },
 
     doSaveByStaff({state, commit}) {
@@ -450,8 +444,8 @@ const actions = {
             oriCheckedRoleList: state.ga_oriCheckedRoleList,
             staffList: state.ga_compGrpList
         };
-        $.post("/api/saveAuthByStaff", lo_params).then(
-            result => {
+        BacUtils.doHttpPromisePostProxy("/api/saveAuthByStaff", lo_params)
+            .then(result => {
                 if (result.success) {
                     state.ga_oriCheckedRoleList = state.ga_checkedRoleList;
                     alert("save success");
@@ -459,11 +453,10 @@ const actions = {
                 else {
                     alert(result.errMsg);
                 }
-            },
-            err => {
+            })
+            .catch(err => {
                 alert(err);
-            }
-        )
+            });
     },
 
     doSaveByFunc({state, commit}) {
@@ -475,8 +468,8 @@ const actions = {
             oriCheckedRoleList: state.ga_oriCheckedRoleList
         };
 
-        $.post("/api/saveAuthByFunc", lo_params).then(
-            result => {
+        BacUtils.doHttpPromisePostProxy("/api/saveAuthByFunc", lo_params)
+            .then(result => {
                 if (result.success) {
                     state.ga_oriCheckedRoleList = _.clone(state.ga_checkedRoleList);
                     alert("save success");
@@ -484,11 +477,10 @@ const actions = {
                 else {
                     alert(result.errMsg);
                 }
-            },
-            err => {
+            })
+            .catch(err => {
                 alert(err);
-            }
-        )
+            });
     }
 };
 

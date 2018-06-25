@@ -545,7 +545,7 @@
                     searchCond: lo_searchCond
                 };
 
-                $.post("/api/fetchDgRowData", lo_params).then(result => {
+                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params).then(result => {
                     this.pageOneDataGridRows = result.dgRowData;
                     this.showDataGrid();
                 }, err => {

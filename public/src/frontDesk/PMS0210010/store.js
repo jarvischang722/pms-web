@@ -181,7 +181,7 @@ const actions = {
 
         console.log(lo_tmpCUD);
         // return {success: true};
-        return await $.post('/api/doOperationSave', {
+        return await BacUtils.doHttpPromisePostProxy('/api/doOperationSave', {
             prg_id: 'PMS0210011',
             page_id: 1,
             func_id: ls_funcId,
@@ -322,7 +322,7 @@ const actions = {
 
         // console.log(lo_tmpCUD);
         // return {success: true};
-        return await $.post('/api/doOperationSave', {
+        return await BacUtils.doHttpPromisePostProxy('/api/doOperationSave', {
             prg_id: 'PMS0210011',
             page_id: 1040,
             func_id: ls_funcId,

@@ -74,7 +74,7 @@
             //讀取此Module 所有對照檔
             loadProcess: function () {
                 this.prosList = [];
-                BacUtils.doHttpPostAgent("/api/getGroupMdlPros", {mdl_id: gs_mdl_id}, function (result) {
+                BacUtils.doHttpPromisePostProxy("/api/getGroupMdlPros", {mdl_id: gs_mdl_id}).then( function (result) {
                     if (result.success) {
                         vmMain.prosList = result.prosList;
                         vmMain.doFirstPrg();

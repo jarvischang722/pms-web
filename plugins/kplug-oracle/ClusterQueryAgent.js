@@ -49,7 +49,7 @@ function queryData(mode, cb, ddObj, param) {
             return;
         }
         let results = [];
-        if (_.isUndefined(ddObj.id)) {
+        if (!_.isUndefined(ddObj.id)) {
             DB.getConnection(ddObj.id, function (err, connection) {
                 if (err) {
                     if (mode == 1) {
