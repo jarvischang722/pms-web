@@ -1558,6 +1558,16 @@ table.treetable span.indenter {
   height: 0 !important;
 }
 
+#amenities-table .roomPlan-Num1 {
+    text-align: left;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#amenities-table .td-first {
+    width: 200px;
+}
+
 /*-------- login.html -------- */
 .login-bg {
   background: #DFE0E2 url("../css/images/pattern.jpg") repeat;

@@ -49,9 +49,6 @@ module.exports = function (app) {
     //櫃檯備品iframe(靜態)
     app.get('/resv_ratePlanTable', middles, reservationCrtl.getResv_ratePlanTable);
 
-    //amenitiesIny. 櫃檯備品iframe(靜態)
-    app.get('/resv_amenitiesIframe', middles, reservationCrtl.getResv_amenitiesIframe);
-
     //交辦事項(靜態)
     app.get('/PMS0120070', middles, reservationCrtl.getPMS0120070);
 
