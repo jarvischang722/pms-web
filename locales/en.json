@@ -344,7 +344,11 @@
       "master_sta": "目前狀態(英文)",
       "master_typ": "類別(英文)",
       "show_cod": "客戶代號(英文)",
-      "cust_nam": "客戶名稱(英文)"
+      "cust_nam": "客戶名稱(英文)",
+      "orderStaN": "Reservation",
+      "orderStaW": "Waiting",
+      "orderStaD": "Cancel",
+      "orderStaT": "Tentative"
     },
     "PMS0110050": {
       "roomTyp": "房型(英文)",
