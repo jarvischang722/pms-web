@@ -679,6 +679,12 @@
                     updateData: [],
                     deleteData: [],
                     oriData: []
+                },
+                guestMnTmpCUD: {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
                 }
             }
         },
@@ -762,7 +768,7 @@
                                 }
                             }
                             else {
-                                //減少orderDtRowsData
+                                //減少orderDtRowsData和guestMnRowsData
                                 let lo_delParam = {};
                                 lo_delParam = _.extend(lo_delParam, lo_editingRow);
                                 delete lo_delParam.ikey_seq_nos;
@@ -771,10 +777,10 @@
                                 let la_delOrderDtRowsData = _.where(this.orderDtRowsData, lo_delParam);
                                 for (let i = 0; i < Math.abs(ln_orderQnt); i++) {
                                     let lo_delData = la_delOrderDtRowsData[la_delOrderDtRowsData.length - 1 - i];
-                                    //原本就在資料庫裡的資料
-                                    let ln_delIndex = _.findLastIndex(this.oriOrderDtRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
-                                    if (ln_delIndex > -1) {
-                                        this.orderDtRowsData[ln_delIndex].order_sta = 'X';
+                                    //order dt 原本就在資料庫裡的資料
+                                    let ln_delOrderIndex = _.findLastIndex(this.oriOrderDtRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
+                                    if (ln_delOrderIndex > -1) {
+                                        this.orderDtRowsData[ln_delOrderIndex].order_sta = 'X';
                                     }
                                     else {
                                         //此次新增的
@@ -787,6 +793,22 @@
                                             }
                                         }
                                     }
+
+                                    let ln_delGuestIndex = _.findIndex(this.oriGuestMnRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
+                                    if (ln_delGuestIndex > -1) {
+                                        this.guestMnRowsData[ln_delOrderIndex].guest_sta = 'X';
+                                    }
+                                    else {
+                                        //此次新增的
+                                        let ln_delTmpIndex = _.findLastIndex(this.guestMnTmpCUD.createData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
+                                        if (ln_delTmpIndex > -1) {
+                                            this.guestMnTmpCUD.createData.splice(ln_delTmpIndex, 1);
+                                            let ln_delOrderDtIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
+                                            if (ln_delOrderDtIndex > -1) {
+                                                this.guestMnRowsData.splice(ln_delOrderDtIndex, 1);
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -796,49 +818,49 @@
                     }
 
                     //計算房價
-//                    let lo_groupParam = {
-//                        rate_cod: lo_editingRow.rate_cod,
-//                        order_sta: lo_editingRow.order_sta,
-//                        days: lo_editingRow.days,
-//                        ci_dat: lo_editingRow.ci_dat,
-//                        co_dat: lo_editingRow.co_dat,
-//                        use_cod: lo_editingRow.use_cod,
-//                        room_cod: lo_editingRow.room_cod,
-//                        rent_amt: lo_editingRow.rent_amt,
-//                        serv_amt: lo_editingRow.serv_amt
-//                    };
-//                    let la_groupData = _.where(this.orderDtRowsData, lo_groupParam);
-//                    if (la_groupData.length > 0) {
-//                        let lo_params = {
-//                            rule_func_name: 'compute_oder_dt_price',
-//                            allRowData: [],
-//                            key_nos: this.keyNos,
-//                            acust_cod: this.orderMnSingleData.acust_cod
-//                        };
-//                        lo_params.allRowData = la_groupData;
-//
-//                        let lo_doComputePrice = await $.post("/api/chkFieldRule", lo_params).then(result => {
-//                            return result;
-//                        }, err => {
-//                            throw Error(err);
-//                        });
-//
-//                        if (lo_doComputePrice.success) {
-//                            _.each(la_groupData, (lo_groupData) => {
-//                                let ln_editIndex = _.findIndex(this.orderDtRowsData, lo_groupData);
-//                                if (ln_editIndex > -1) {
-//                                    this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_doComputePrice.effectValues);
-//                                }
-//                            });
-//                        }
-//                        else {
-//                            alert(lo_doComputePrice.errorMsg);
-//                            return;
-//                        }
-//                    }
+                    let lo_groupParam = {
+                        rate_cod: lo_editingRow.rate_cod,
+                        order_sta: lo_editingRow.order_sta,
+                        days: lo_editingRow.days,
+                        ci_dat: lo_editingRow.ci_dat,
+                        co_dat: lo_editingRow.co_dat,
+                        use_cod: lo_editingRow.use_cod,
+                        room_cod: lo_editingRow.room_cod,
+                        rent_amt: lo_editingRow.rent_amt,
+                        serv_amt: lo_editingRow.serv_amt
+                    };
+                    let la_groupData = _.where(this.orderDtRowsData, lo_groupParam);
+                    if (la_groupData.length > 0) {
+                        let lo_params = {
+                            rule_func_name: 'compute_oder_dt_price',
+                            allRowData: [],
+                            key_nos: this.keyNos,
+                            acust_cod: this.orderMnSingleData.acust_cod
+                        };
+                        lo_params.allRowData = la_groupData;
+
+                        let lo_doComputePrice = await $.post("/api/chkFieldRule", lo_params).then(result => {
+                            return result;
+                        }, err => {
+                            throw Error(err);
+                        });
+
+                        if (lo_doComputePrice.success) {
+                            _.each(la_groupData, (lo_groupData) => {
+                                let ln_editIndex = _.findIndex(this.orderDtRowsData, lo_groupData);
+                                if (ln_editIndex > -1) {
+                                    this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_doComputePrice.effectValues);
+                                }
+                            });
+                        }
+                        else {
+                            alert(lo_doComputePrice.errorMsg);
+                            return;
+                        }
+                    }
 
                     //重新group orderDtRowsData
-                    this.convertDtDataToSingleAndTable();
+                    this.convertDtDataToSingleAndTable(newVal, oldVal);
                 }
             },
             "orderDtRowsData4Single.ikey_seq_nos"(val) {
@@ -965,44 +987,44 @@
                                 this.guestMnRowsData.push(val);
                             }
 
-                            //todo guestMnRows watch 不到，直接修改tmpCUD資料
-                            // let la_guestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
-                            // _.each(la_guestMnRowsData, (lo_guestMnData) => {
-                            //     if (lo_guestMnData.gcust_cod != "") {
-                            //         //轉換姓名
-                            //         if (!_.isUndefined(lo_guestMnData["alt_nam"])) {
-                            //             let la_convertAltNam = lo_guestMnData["alt_nam"].split(":");
-                            //             if (la_convertAltNam.length > 1) {
-                            //                 lo_guestMnData["alt_nam"] = la_convertAltNam[1];
-                            //             }
-                            //         }
-                            //
-                            //         lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
-                            //         let lo_params = {
-                            //             ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
-                            //             gcust_cod: lo_guestMnData.gcust_cod
-                            //         };
-                            //         let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
-                            //         //新增狀況
-                            //         if (ln_Index == -1) {
-                            //             let ln_addIndex = _.findIndex(this.tmpCUD.createData, lo_params);
-                            //             if (ln_addIndex > -1) {
-                            //                 this.tmpCUD.createData.splice(ln_addIndex, 1);
-                            //             }
-                            //             this.tmpCUD.createData.push(lo_guestMnData);
-                            //         }
-                            //         //修改狀況
-                            //         else {
-                            //             let ln_editIndex = _.findIndex(this.tmpCUD.updateData, lo_params);
-                            //             if (ln_editIndex > -1) {
-                            //                 this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                            //                 this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                            //             }
-                            //             this.tmpCUD.updateData.push(lo_guestMnData);
-                            //             this.tmpCUD.oriData.push(lo_guestMnData);
-                            //         }
-                            //     }
-                            // });
+                            //guestMnRows watch 不到，直接修改tmpCUD資料
+                            let la_guestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
+                            _.each(la_guestMnRowsData, (lo_guestMnData) => {
+                                if (lo_guestMnData.gcust_cod != "") {
+                                    //轉換姓名
+                                    if (!_.isUndefined(lo_guestMnData["alt_nam"])) {
+                                        let la_convertAltNam = lo_guestMnData["alt_nam"].split(":");
+                                        if (la_convertAltNam.length > 1) {
+                                            lo_guestMnData["alt_nam"] = la_convertAltNam[1];
+                                        }
+                                    }
+
+                                    lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
+                                    let lo_params = {
+                                        ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
+                                        gcust_cod: lo_guestMnData.gcust_cod
+                                    };
+                                    let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
+                                    //新增狀況
+                                    if (ln_Index == -1) {
+                                        let ln_addIndex = _.findIndex(this.guestMnTmpCUD.createData, lo_params);
+                                        if (ln_addIndex > -1) {
+                                            this.guestMnTmpCUD.createData.splice(ln_addIndex, 1);
+                                        }
+                                        this.guestMnTmpCUD.createData.push(lo_guestMnData);
+                                    }
+                                    //修改狀況
+                                    else {
+                                        let ln_editIndex = _.findIndex(this.guestMnTmpCUD.updateData, lo_params);
+                                        if (ln_editIndex > -1) {
+                                            this.guestMnTmpCUD.updateData.splice(ln_editIndex, 1);
+                                            this.guestMnTmpCUD.oriData.splice(ln_editIndex, 1);
+                                        }
+                                        this.guestMnTmpCUD.updateData.push(lo_guestMnData);
+                                        this.guestMnTmpCUD.oriData.push(lo_guestMnData);
+                                    }
+                                }
+                            });
                         }
                     }
                 },
@@ -1028,30 +1050,36 @@
                                 gcust_cod: lo_guestMnData.gcust_cod
                             };
                             let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
-                            // //新增狀況
-                            // if (ln_Index == -1) {
-                            //     let ln_addIndex = _.findIndex(this.tmpCUD.createData, lo_params);
-                            //     if (ln_addIndex > -1) {
-                            //         this.tmpCUD.createData.splice(ln_addIndex, 1);
-                            //     }
-                            //     this.tmpCUD.createData.push(lo_guestMnData);
-                            // }
-                            // //修改狀況
-                            // else {
-                            //     let ln_editIndex = _.findIndex(this.tmpCUD.updateData, lo_params);
-                            //     if (ln_editIndex > -1) {
-                            //         this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                            //         this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                            //     }
-                            //     this.tmpCUD.updateData.push(lo_guestMnData);
-                            //     this.tmpCUD.oriData.push(lo_guestMnData);
-                            // }
+                            //新增狀況
+                            if (ln_Index == -1) {
+                                let ln_addIndex = _.findIndex(this.guestMnTmpCUD.createData, lo_params);
+                                if (ln_addIndex > -1) {
+                                    this.guestMnTmpCUD.createData.splice(ln_addIndex, 1);
+                                }
+                                this.guestMnTmpCUD.createData.push(lo_guestMnData);
+                            }
+                            //修改狀況
+                            else {
+                                let ln_editIndex = _.findIndex(this.guestMnTmpCUD.updateData, lo_params);
+                                if (ln_editIndex > -1) {
+                                    this.guestMnTmpCUD.updateData.splice(ln_editIndex, 1);
+                                    this.guestMnTmpCUD.oriData.splice(ln_editIndex, 1);
+                                }
+                                this.guestMnTmpCUD.updateData.push(lo_guestMnData);
+                                this.guestMnTmpCUD.oriData.push(lo_guestMnData);
+                            }
                         }
                     });
                 },
                 deep: true
             },
             tmpCUD: {
+                handler(val) {
+                    console.log(val);
+                },
+                deep: true
+            },
+            guestMnTmpCUD: {
                 handler(val) {
                     console.log(val);
                 },
@@ -1090,7 +1118,13 @@
                     updateData: [],
                     deleteData: [],
                     oriData: []
-                }
+                };
+                this.guestMnTmpCUD = {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                };
             },
             async fetchFieldsData() {
                 this.isLoadingDialog = true;
@@ -1272,7 +1306,7 @@
                         //將資料轉換成多筆和單筆的格式
                         if (this.orderDtRowsData.length > 0) {
                             this.editingOrderDtIdx = 0;
-                            this.convertDtDataToSingleAndTable();
+                            this.convertDtDataToSingleAndTable(this.editingOrderDtIdx, undefined);
                         }
 
                     }
@@ -1281,7 +1315,7 @@
                     }
                 }
             },
-            convertDtDataToSingleAndTable() {
+            convertDtDataToSingleAndTable(newIndex, oldIndex) {
                 //顯示在多筆的order dt資料
                 let ls_groupStatement =
                     "select * from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
@@ -1309,7 +1343,7 @@
 
                 //顯示在單筆的order dt資料
                 let la_orderDtRowsData4table = JSON.parse(JSON.stringify(this.orderDtRowsData4table));
-                this.orderDtRowsData4Single = _.isUndefined(this.editingOrderDtIdx) ? _.first(la_orderDtRowsData4table) : la_orderDtRowsData4table[this.editingOrderDtIdx];
+                this.orderDtRowsData4Single = _.isUndefined(newIndex) ? _.first(la_orderDtRowsData4table) : la_orderDtRowsData4table[newIndex];
                 this.orderDtRowsData4Single.sub_tot =
                     Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
                 let lo_qutParams = {
@@ -1526,19 +1560,20 @@
                         }
                     }
 
+                    let ln_oldIndex = JSON.parse(JSON.stringify(this.editingOrderDtIdx));
                     this.editingOrderDtIdx = this.orderDtRowsData4table.length > 0 ? this.orderDtRowsData4table.length : 0;
                     this.orderDtRowsData.push(lo_addData);
-                    this.convertDtDataToSingleAndTable();
+                    this.convertDtDataToSingleAndTable(this.editingOrderDtIdx, ln_oldIndex);
                 }
             },
             async removeRow(index) {
                 if (this.isModifiable) {
-                    await this.selectedCell(index);
                     _.each(this.groupOrderDtData, (lo_groupData) => {
-                        let ln_delIndex = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
-                        if (ln_delIndex > -1) {
-                            this.orderDtRowsData[ln_delIndex].order_sta = 'X';
+                        let ln_delOrderIndex = _.findIndex(this.oriOrderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
+                        if (ln_delOrderIndex > -1) {
+                            this.orderDtRowsData[ln_delOrderIndex].order_sta = 'X';
                         }
+
                     });
                     this.groupOrderDtData = [];
                     this.orderDtRowsData4table.splice(index, 1);
