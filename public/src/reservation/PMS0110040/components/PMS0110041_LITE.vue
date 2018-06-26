@@ -751,10 +751,16 @@
                                     //order_sta 為'x'的改為現在的訂房狀況
                                     let la_editData = _.where(this.orderDtRowsData, lo_editParam);
                                     let ln_editIndex = _.findIndex(la_editData, {order_sta: 'X'});
+                                    console.log(this.orderDtRowsData, ln_editIndex, lo_editParam);
                                     if (ln_editIndex > -1) {
                                         let ln_orderDtIndex = _.findIndex(this.orderDtRowsData, la_editData[ln_editIndex]);
                                         if (ln_orderDtIndex > -1) {
                                             this.orderDtRowsData[ln_orderDtIndex].order_sta = this.orderStatus;
+                                        }
+
+                                        let ln_guestMnIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: la_editData[ln_editIndex].ikey_seq_nos});
+                                        if (ln_guestMnIndex > -1) {
+                                            this.guestMnRowsData[ln_guestMnIndex].guest_sta = 'E';
                                         }
                                     }
                                     else {
@@ -796,16 +802,16 @@
 
                                     let ln_delGuestIndex = _.findIndex(this.oriGuestMnRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
                                     if (ln_delGuestIndex > -1) {
-                                        this.guestMnRowsData[ln_delOrderIndex].guest_sta = 'X';
+                                        this.guestMnRowsData[ln_delGuestIndex].guest_sta = 'X';
                                     }
                                     else {
                                         //此次新增的
                                         let ln_delTmpIndex = _.findLastIndex(this.guestMnTmpCUD.createData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
                                         if (ln_delTmpIndex > -1) {
                                             this.guestMnTmpCUD.createData.splice(ln_delTmpIndex, 1);
-                                            let ln_delOrderDtIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
-                                            if (ln_delOrderDtIndex > -1) {
-                                                this.guestMnRowsData.splice(ln_delOrderDtIndex, 1);
+                                            let ln_delGuestMnIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
+                                            if (ln_delGuestMnIndex > -1) {
+                                                this.guestMnRowsData.splice(ln_delGuestMnIndex, 1);
                                             }
                                         }
                                     }
@@ -846,8 +852,9 @@
                         });
 
                         if (lo_doComputePrice.success) {
-                            _.each(la_groupData, (lo_groupData) => {
-                                let ln_editIndex = _.findIndex(this.orderDtRowsData, lo_groupData);
+                            _.each(la_groupData, () => {
+                                let ln_editIndex = _.findIndex(this.orderDtRowsData, lo_groupParam);
+                                console.log(ln_editIndex);
                                 if (ln_editIndex > -1) {
                                     this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_doComputePrice.effectValues);
                                 }
@@ -882,7 +889,6 @@
             },
             orderDtRowsData: {
                 handler(val) {
-                    console.log(val);
                     //處理暫存資料
                     _.each(val, (lo_orderDtRowData) => {
                         lo_orderDtRowData = _.extend(lo_orderDtRowData, {page_id: 1, tab_page_id: 13});
@@ -1490,7 +1496,7 @@
                     });
                 }
             },
-            async selectedCell(idx, field) {
+            selectedCell(idx, field) {
                 //單筆order dt的設定
                 this.editingOrderDtIdx = idx;
             },
@@ -1566,18 +1572,62 @@
                     this.convertDtDataToSingleAndTable(this.editingOrderDtIdx, ln_oldIndex);
                 }
             },
-            async removeRow(index) {
+            removeRow(index) {
                 if (this.isModifiable) {
-                    _.each(this.groupOrderDtData, (lo_groupData) => {
+                    let lo_deletingData = this.orderDtRowsData4table[index];
+                    let lo_groupParam = {
+                        rate_cod: lo_deletingData.rate_cod,
+                        order_sta: lo_deletingData.order_sta,
+                        days: lo_deletingData.days,
+                        ci_dat: lo_deletingData.ci_dat,
+                        co_dat: lo_deletingData.co_dat,
+                        use_cod: lo_deletingData.use_cod,
+                        room_cod: lo_deletingData.room_cod,
+                        rent_amt: lo_deletingData.rent_amt,
+                        serv_amt: lo_deletingData.serv_amt,
+                        block_cod: lo_deletingData.block_cod
+                    };
+                    let la_groupOrderDtData = _.where(this.orderDtRowsData, lo_groupParam);
+                    _.each(la_groupOrderDtData, (lo_groupData) => {
+                        //刪除order dt資料
                         let ln_delOrderIndex = _.findIndex(this.oriOrderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
                         if (ln_delOrderIndex > -1) {
                             this.orderDtRowsData[ln_delOrderIndex].order_sta = 'X';
                         }
+                        else {
+                            //此次新增的
+                            let ln_delTmpIndex = _.findLastIndex(this.tmpCUD.createData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
+                            if (ln_delTmpIndex > -1) {
+                                this.tmpCUD.createData.splice(ln_delTmpIndex, 1);
+                                let ln_delOrderDtIndex = _.findLastIndex(this.orderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
+                                if (ln_delOrderDtIndex > -1) {
+                                    this.orderDtRowsData.splice(ln_delOrderDtIndex, 1);
+                                }
+                            }
+                        }
 
+                        //刪除guest mn 資料
+                        let ln_delGuestMnIndex = _.findIndex(this.oriGuestMnRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
+                        if (ln_delGuestMnIndex > -1) {
+                            this.guestMnRowsData[ln_delGuestMnIndex].guest_sta = 'X';
+                        }
+                        else {
+                            //此次新增的
+                            let ln_delTmpIndex = _.findLastIndex(this.guestMnTmpCUD.createData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
+                            if (ln_delTmpIndex > -1) {
+                                this.guestMnTmpCUD.createData.splice(ln_delTmpIndex, 1);
+                                let ln_delGuestMnIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
+                                if (ln_delGuestMnIndex > -1) {
+                                    this.guestMnRowsData.splice(ln_delGuestMnIndex, 1);
+                                }
+                            }
+                        }
                     });
                     this.groupOrderDtData = [];
                     this.orderDtRowsData4table.splice(index, 1);
                 }
+
+                this.editingOrderDtIdx = undefined;
             },
             async doSave() {
                 console.log(this.tmpCUD);
