@@ -300,6 +300,8 @@
 <script>
     import pms0110041Lite from './PMS0110041_LITE.vue';
 
+    Vue.prototype.$eventHub = new Vue();
+
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
@@ -487,6 +489,7 @@
                         self.editingRow = {};
                         self.isEditStatus = false;
                         self.isCreateStatus = false;
+                        self.$eventHub.$emit("clearData");
                     }
                 });
                 dialog.dialog('open');
