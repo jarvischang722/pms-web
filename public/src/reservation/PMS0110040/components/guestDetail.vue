@@ -6,7 +6,7 @@
                     <div class="col-xs-11 col-sm-11">
                         <div class="row no-margin-right">
                             <!-- 訂房資料 dataGrid -->
-                            <table id="resv-Detail-table"></table>
+                            <table id="orderDtTable"></table>
                         </div>
                     </div>
                     <div class="col-xs-1 col-sm-1">
@@ -732,31 +732,21 @@
 </template>
 
 <script>
+
+    /** DatagridRmSingleGridClass **/
+    function DatagridSingleGridClass() {
+    }
+
+    DatagridSingleGridClass.prototype = new DatagridBaseClass();
+    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    };
+    DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    };
+
     export default {
         name: "guestDetail",
         props: ["rowData"],
         mounted() {
-            $('#resv-Detail-table').datagrid({
-                singleSelect: true,
-                collapsible: true,
-                // 從json 撈
-                url: '/jsonData/reservation/resv_detail.json',
-                method: 'get',
-                columns: [[
-                    {field: 'status', title: '狀態', width: 60},
-                    {field: 'ciDate', title: '入住日期', width: 100},
-                    {field: 'coDate', title: '退房日期', width: 100},
-                    {field: 'roomPriceCode', title: '房價代號', width: 170},
-                    {field: 'roomKindAcc', title: '計價房型', width: 80},
-                    {field: 'useHousing', title: '使用房型', width: 80},
-                    {field: 'housingNum', title: '間數', width: 40},
-                    {field: 'unitPrice', title: '單價', width: 60, align: 'right'},
-                    {field: 'serPrice', title: '服務費', width: 60, align: 'right'},
-                    {field: 'adult', title: '大人', width: 40},
-                    {field: 'child', title: '小孩', width: 40},
-                    {field: 'baby', title: '嬰兒', width: 40}
-                ]]
-            });
             this.fetchAllFieldsData();
         },
         data() {
@@ -770,9 +760,16 @@
                 guestMnFieldData: [],           //所group 到的所有 guest mn 欄位資料
                 guestMnRowsData: [],            //所group 到的所有 guest mn 原始資料
                 oriGuestMnRowsData: [],         //所group 到的所有 guest mn 資料
+                dgIns: {}
             }
         },
-        watch: {},
+        watch: {
+            rowData(val) {
+                if (!_.isEmpty(val)) {
+                    this.fetchOrderDtRowData();
+                }
+            }
+        },
         methods: {
             async fetchFieldsData(param) {
                 return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param).then((result) => {
@@ -788,11 +785,37 @@
                         this.fetchFieldsData({prg_id: 'PMS0110042', page_id: 1, tab_page_id: 2}),
                         this.fetchFieldsData({prg_id: 'PMS0110042', page_id: 1, tab_page_id: 3})
                     ]);
+                    this.orderDtGroupFieldData = lo_fetchGroupOrderDtFieldsData.dgFieldsData;
+                    this.orderDtFieldData = lo_fetchOrderDtFieldsData.dgFieldsData;
+                    this.guestMnFieldData = lo_fetchGuestMnFieldsData.dgFieldsData;
                     console.log(lo_fetchGroupOrderDtFieldsData, lo_fetchOrderDtFieldsData, lo_fetchGuestMnFieldsData)
                 }
                 catch (err) {
                     console.log(err);
                 }
+            },
+            fetchOrderDtRowData() {
+                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
+                    prg_id: 'PMS0110042',
+                    page_id: 1,
+                    tab_page_id: 1,
+                    searchCond: {ikey: this.rowData.ikey}
+                }).then((result) => {
+                    if (result.success) {
+                        this.orderDtGroupRowsData = result.dgRowData;
+                        this.showDataGrid();
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })
+            },
+            showDataGrid() {
+                this.dgIns = new DatagridSingleGridClass();
+                this.dgIns.init("PMS0110042", "orderDtTable", DatagridFieldAdapter.combineFieldOption(this.orderDtGroupFieldData, "orderDtTable"), this.orderDtGroupFieldData, {
+                    pagination: true,
+                    rownumbers: true
+                });
+                this.dgIns.loadPageDgData(this.orderDtGroupRowsData);
             }
         }
     }

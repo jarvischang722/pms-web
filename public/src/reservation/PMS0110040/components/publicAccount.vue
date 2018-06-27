@@ -169,6 +169,7 @@
 </template>
 
 <script>
+
     export default {
         name: "publicAccount",
         props: ["rowData"],
