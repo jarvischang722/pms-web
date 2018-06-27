@@ -2,10 +2,10 @@
     <div id="resvGuestDetail_dialog" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
+                <!--訂房資料 dataGrid-->
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
                         <div class="row no-margin-right">
-                            <!-- 訂房資料 dataGrid -->
                             <table id="orderDtTable"></table>
                         </div>
                     </div>
@@ -13,14 +13,15 @@
                         <div class="row"></div>
                     </div>
                 </div>
+                <!--/.訂房資料 dataGrid-->
 
                 <div class="clearfix"></div>
                 <div class="space-6"></div>
 
                 <div class="row">
+                    <!-------- tabPage -------->
                     <div class="col-xs-11 col-sm-11">
                         <div class="row no-margin-right">
-                            <!-------- tabPage -------->
                             <div style="position: relative;">
                                 <div class="resvTabs-topTxt" style="bottom: -28px;">
                                         <span class="">
@@ -35,8 +36,12 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="easyui-tabs easyUi-custom1 guestHoliday" style="overflow-y: auto; width: 100%;">
-                                <div title="訂房明細" class="padding-tabs">
+                            <el-tabs v-model="activeName" type="card">
+                                <el-tab-pane label="訂房多筆" name="orderDetail"></el-tab-pane>
+                                <el-tab-pane label="訂房明細" name="guestDetail"></el-tab-pane>
+                            </el-tabs>
+                            <div>
+                                <div class="easyui-panel" v-show="activeName=='orderDetail'">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
                                             <div class="container_12 divider">
@@ -48,59 +53,12 @@
                                                             <th class="text-center ca-headerTitle height-fntThead rp-first-th">
                                                                 <i class="fa fa-plus green"></i>
                                                             </th>
-                                                            <th class="text-left" style="min-width: 40px;">
-                                                                序號
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 40px;">
-                                                                入住日期
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 35px;">星期</th>
-                                                            <th class="text-left" style="min-width: 35px;">天數</th>
-                                                            <th class="text-left" style="min-width: 40px;">
-                                                                退房日期
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 35px;">星期</th>
-                                                            <th class="text-left" style="min-width: 150px;">
-                                                                房價代號
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 80px;">
-                                                                計價房型
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 80px;">使用房型
-                                                            </th>
-                                                            <th class="text-right" style="min-width: 50px;">
-                                                                單價
-                                                            </th>
-                                                            <th class="text-right" style="min-width: 50px;">
-                                                                服務費
-                                                            </th>
-                                                            <th class="text-right" style="min-width: 35px;">
-                                                                佣金
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 35px;">
-                                                                大人
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 35px;">
-                                                                小孩
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 35px;">
-                                                                嬰兒
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 80px;">
-                                                                排房狀態
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 40px;">
-                                                                房號
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 120px;">
-                                                                住客姓名
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 80px;">
-                                                                訂房來源
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 80px;">
-                                                                市場類別
-                                                            </th>
+                                                            <template v-for="field in orderDtFieldData">
+                                                                <th v-if="field.visiable == 'Y'" class="text-left"
+                                                                    :style="{'min-width': field.width+'px'}">
+                                                                    {{field.ui_display_name}}
+                                                                </th>
+                                                            </template>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -128,386 +86,97 @@
                                                             <td class=""></td>
                                                         </tr>
                                                         <!--1-->
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <i class="fa fa-minus red"></i>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">1</td>
-                                                            <td class="text-left">
-                                                                <template>
-                                                                    <el-date-picker
-                                                                            v-model="resvDetail_ciDate"
-                                                                            type="date"
-                                                                            placeholder=""
-                                                                            class="date-wt input_sta_required">
-                                                                    </el-date-picker>
+                                                        <template v-for="singleData in orderDtRowsData">
+                                                            <tr>
+                                                                <td class="text-center">
+                                                                    <i class="fa fa-minus red"></i>
+                                                                </td>
+                                                                <template v-for="field in orderDtFieldData">
+                                                                    <td class="text-left input-noEdit"
+                                                                        :style="{width:field.width + 'px'}"
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='label'"
+                                                                        @click="editingOrderDtIdx = idx">
+                                                                        {{singleData[field.ui_field_name]}}
+                                                                    </td>
+                                                                    <td class="text-left"
+                                                                        @click="editingOrderDtIdx = idx"
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='text'">
+                                                                        <input type="number"
+                                                                               v-model="singleData[field.ui_field_name]"
+                                                                               :style="{width:field.width + 'px'}"
+                                                                               :required="field.requirable == 'Y'"
+                                                                               :maxlength="field.ui_field_length"
+                                                                               class="selectHt"
+                                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                    </td>
+                                                                    <td class="text-left"
+                                                                        @click="selectedCell(idx, field)"
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='select'">
+                                                                        <bac-select :field="field"
+                                                                                    :style="{width:field.width + 'px'}"
+                                                                                    v-model="singleData[field.ui_field_name]"
+                                                                                    :data="field.selectData"
+                                                                                    is-qry-src-before="Y"
+                                                                                    value-field="value"
+                                                                                    text-field="display"
+                                                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                                    :default-val="singleData[field.ui_field_name] || field.defaultVal"
+                                                                                    class="el-select-ht selectHt"
+                                                                                    style="height: 25px;"
+                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                        </bac-select>
+                                                                    </td>
+                                                                    <td class="text-left"
+                                                                        @click="editingOrderDtIdx = idx"
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='date'">
+                                                                        <!-- 日期時間選擇器 -->
+                                                                        <el-date-picker
+                                                                                v-model="singleData[field.ui_field_name]"
+                                                                                type="date"
+                                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                                                class="date-wt input_sta_required"
+                                                                                format="yyyy/MM/dd"
+                                                                                :style="{width:field.width + 'px'}"
+                                                                                :editable="false" :clearable="false"
+                                                                        >
+                                                                        </el-date-picker>
+                                                                    </td>
+                                                                    <td class="text-left"
+                                                                        @click="editingOrderDtIdx = idx"
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='number'">
+                                                                        <!--number 金額顯示format-->
+                                                                        <input type="text"
+                                                                               v-model="singleData[field.ui_field_name]"
+                                                                               :style="{width:field.width + 'px'}"
+                                                                               class="text-right selectHt"
+                                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                    </td>
+                                                                    <td class="text-left td-more"
+                                                                        style="height: 26px;"
+                                                                        @click="editingOrderDtIdx = idx"
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='button'">
+                                                                        <input type="text"
+                                                                               v-model="singleData[field.ui_field_name]"
+                                                                               :style="{width:field.width + 'px'}"
+                                                                               :required="field.requirable == 'Y'"
+                                                                               min="0"
+                                                                               :maxlength="field.ui_field_length"
+                                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                               class="selectHt pull-left wt-input"
+                                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                        <i class="moreClick fa fa-ellipsis-h pull-left"
+                                                                           @click="showRateCodDialog"></i>
+                                                                    </td>
                                                                 </template>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">日</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt" placeholder="2"/>
-                                                            </td>
-                                                            <td class="text-left">
-                                                                <template>
-                                                                    <el-date-picker
-                                                                            v-model="resvDetail_coDate"
-                                                                            type="date"
-                                                                            placeholder=""
-                                                                            class="date-wt input_sta_required">
-                                                                    </el-date-picker>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">日</td>
-                                                            <td class="text-left">
-                                                                <template>
-                                                                    <el-select v-model="roomCodes_val"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in roomCodes"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left">
-                                                                <!--計價房型-->
-                                                                <template>
-                                                                    <el-select v-model="roomTypes_val"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in roomTypes"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left">
-                                                                <!--使用房型-->
-                                                                <template>
-                                                                    <el-select v-model="useRmTypes_val"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in useRmTypes"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-right input-noEdit">5,000</td>
-                                                            <td class="text-right input-noEdit">50</td>
-                                                            <td class="text-right">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="20"/>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="2"/>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="0"/>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">已排房</td>
-                                                            <td class="text-left input-noEdit">503</td>
-                                                            <td class="text-left input-noEdit">陳Rick,葉Peter</td>
-                                                            <td class="text-left">
-                                                                <!--訂房來源-->
-                                                                <template>
-                                                                    <el-select v-model="resv_sources_val"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in resv_sources"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left">
-                                                                <!--市場類別-->
-                                                                <template>
-                                                                    <el-select v-model="marketCates_val"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in marketCates"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                        </tr>
-                                                        <!--2-->
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <i class="fa fa-minus red"></i>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">2</td>
-                                                            <td class="text-left">
-                                                                <template>
-                                                                    <el-date-picker
-                                                                            v-model="resvDetail_ciDate_2"
-                                                                            type="date"
-                                                                            placeholder=""
-                                                                            class="date-wt input_sta_required">
-                                                                    </el-date-picker>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">日</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt" placeholder="2"/>
-                                                            </td>
-                                                            <td class="text-left">
-                                                                <template>
-                                                                    <el-date-picker
-                                                                            v-model="resvDetail_coDate_2"
-                                                                            type="date"
-                                                                            placeholder=""
-                                                                            class="date-wt input_sta_required">
-                                                                    </el-date-picker>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">日</td>
-                                                            <td class="text-left">
-                                                                <template>
-                                                                    <el-select v-model="roomCodes_val_2"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in roomCodes"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left">
-                                                                <!--計價房型-->
-                                                                <template>
-                                                                    <el-select v-model="roomTypes_val_2"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in roomTypes"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left">
-                                                                <!--使用房型-->
-                                                                <template>
-                                                                    <el-select v-model="useRmTypes_val_2"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in useRmTypes"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-right input-noEdit">5,000</td>
-                                                            <td class="text-right input-noEdit">50</td>
-                                                            <td class="text-right">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="20"/>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="2"/>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="0"/>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">已排房</td>
-                                                            <td class="text-left input-noEdit">601</td>
-                                                            <td class="text-left input-noEdit">黃Mike,葉Alice</td>
-                                                            <td class="text-left">
-                                                                <!--訂房來源-->
-                                                                <template>
-                                                                    <el-select v-model="resv_sources_val_2"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in resv_sources"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left">
-                                                                <!--市場類別-->
-                                                                <template>
-                                                                    <el-select v-model="marketCates_val_2"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in marketCates"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                        </tr>
-                                                        <!--3-->
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <i class="fa fa-minus red"></i>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">3</td>
-                                                            <td class="text-left">
-                                                                <template>
-                                                                    <el-date-picker
-                                                                            v-model="resvDetail_ciDate_3"
-                                                                            type="date"
-                                                                            placeholder=""
-                                                                            class="date-wt input_sta_required">
-                                                                    </el-date-picker>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">日</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt" placeholder="2"/>
-                                                            </td>
-                                                            <td class="text-left">
-                                                                <template>
-                                                                    <el-date-picker
-                                                                            v-model="resvDetail_coDate_3"
-                                                                            type="date"
-                                                                            placeholder=""
-                                                                            class="date-wt input_sta_required">
-                                                                    </el-date-picker>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">日</td>
-                                                            <td class="text-left">
-                                                                <template>
-                                                                    <el-select v-model="roomCodes_val_3"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in roomCodes"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left">
-                                                                <!--計價房型-->
-                                                                <template>
-                                                                    <el-select v-model="roomTypes_val_3"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in roomTypes"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left">
-                                                                <!--使用房型-->
-                                                                <template>
-                                                                    <el-select v-model="useRmTypes_val_3"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in useRmTypes"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-right input-noEdit">5,000</td>
-                                                            <td class="text-right input-noEdit">50</td>
-                                                            <td class="text-right">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="20"/>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="2"/>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="1"/>
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="0"/>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">未排房</td>
-                                                            <td class="text-left input-noEdit">204</td>
-                                                            <td class="text-left input-noEdit">王Jim,李Bear</td>
-                                                            <td class="text-left">
-                                                                <!--訂房來源-->
-                                                                <template>
-                                                                    <el-select v-model="resv_sources_val_3"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in resv_sources"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                            <td class="text-left">
-                                                                <!--市場類別-->
-                                                                <template>
-                                                                    <el-select v-model="marketCates_val_3"
-                                                                               placeholder="請選擇"
-                                                                               class="el-select-ht input_sta_required">
-                                                                        <el-option
-                                                                                v-for="item in marketCates"
-                                                                                :key="item.value"
-                                                                                :label="item.label"
-                                                                                :value="item.value">
-                                                                        </el-option>
-                                                                    </el-select>
-                                                                </template>
-                                                            </td>
-                                                        </tr>
+                                                            </tr>
+                                                        </template>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -516,40 +185,25 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div title="住客名單" class="padding-tabs">
+                                <div class="easyui-panel" v-show="activeName=='guestDetail'">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
                                             <div class="container_12 divider">
                                                 <div class="grid_12 fixed-table-container">
                                                     <table class="fancyTable themeTable treeControl custom-table"
-                                                           id="resvDetail-table" cellpadding="0"
+                                                           cellpadding="0"
                                                            cellspacing="0">
                                                         <thead>
                                                         <tr>
                                                             <th class="text-center ca-headerTitle height-fntThead rp-first-th">
                                                                 <i class="fa fa-plus green"></i>
                                                             </th>
-                                                            <th class="text-left" style="min-width: 60px;">
-                                                                序號
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 250px;">
-                                                                住客姓名
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 80px;">
-                                                                排房狀態
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 100px;">
-                                                                房號
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 130px;">
-                                                                國籍
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 100px;">
-                                                                喜好房號
-                                                            </th>
-                                                            <th class="text-left" style="min-width: 80px;">
-                                                                車號
-                                                            </th>
+                                                            <template v-for="field in guestMnFieldData">
+                                                                <th v-if="field.visiable == 'Y'" class="text-left"
+                                                                    :style="{'min-width': field.width+'px'}">
+                                                                    {{field.ui_display_name}}
+                                                                </th>
+                                                            </template>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -563,116 +217,99 @@
                                                             <td class=""></td>
                                                             <td class=""></td>
                                                         </tr>
+                                                        <template v-for="singleData in guestMnRowsData">
+                                                            <tr>
+                                                                <td class="text-center">
+                                                                    <i class="fa fa-minus red"></i>
+                                                                </td>
+                                                                <template v-for="field in guestMnFieldData">
+                                                                    <td class="text-left input-noEdit"
+                                                                        :style="{width:field.width + 'px'}"
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='label'"
+                                                                        @click="editingOrderDtIdx = idx">
+                                                                        {{singleData[field.ui_field_name]}}
+                                                                    </td>
+                                                                    <td class="text-left"
+                                                                        @click="editingOrderDtIdx = idx"
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='text'">
+                                                                        <input type="number"
+                                                                               v-model="singleData[field.ui_field_name]"
+                                                                               :style="{width:field.width + 'px'}"
+                                                                               :required="field.requirable == 'Y'"
+                                                                               :maxlength="field.ui_field_length"
+                                                                               class="selectHt"
+                                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                    </td>
+                                                                    <td class="text-left"
+                                                                        @click="selectedCell(idx, field)"
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='select'">
+                                                                        <bac-select :field="field"
+                                                                                    :style="{width:field.width + 'px'}"
+                                                                                    v-model="singleData[field.ui_field_name]"
+                                                                                    :data="field.selectData"
+                                                                                    is-qry-src-before="Y"
+                                                                                    value-field="value"
+                                                                                    text-field="display"
+                                                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                                    :default-val="singleData[field.ui_field_name] || field.defaultVal"
+                                                                                    class="el-select-ht selectHt"
+                                                                                    style="height: 25px;"
+                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                        </bac-select>
+                                                                    </td>
+                                                                    <td class="text-left"
+                                                                        @click="editingOrderDtIdx = idx"
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='date'">
+                                                                        <!-- 日期時間選擇器 -->
+                                                                        <el-date-picker
+                                                                                v-model="singleData[field.ui_field_name]"
+                                                                                type="date"
+                                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                                                class="date-wt input_sta_required"
+                                                                                format="yyyy/MM/dd"
+                                                                                :style="{width:field.width + 'px'}"
+                                                                                :editable="false" :clearable="false"
+                                                                        >
+                                                                        </el-date-picker>
+                                                                    </td>
+                                                                    <td class="text-left"
+                                                                        @click="editingOrderDtIdx = idx"
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='number'">
+                                                                        <!--number 金額顯示format-->
+                                                                        <input type="text"
+                                                                               v-model="singleData[field.ui_field_name]"
+                                                                               :style="{width:field.width + 'px'}"
+                                                                               class="text-right selectHt"
+                                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                    </td>
+                                                                    <td class="text-left td-more"
+                                                                        style="height: 26px;"
+                                                                        @click="editingOrderDtIdx = idx"
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='button'">
+                                                                        <input type="text"
+                                                                               v-model="singleData[field.ui_field_name]"
+                                                                               :style="{width:field.width + 'px'}"
+                                                                               :required="field.requirable == 'Y'"
+                                                                               min="0"
+                                                                               :maxlength="field.ui_field_length"
+                                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                               class="selectHt pull-left wt-input"
+                                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                        <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
+                                                                            Profile
+                                                                        </button>
+                                                                    </td>
+                                                                </template>
+                                                            </tr>
+                                                        </template>
                                                         <!--1-->
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <i class="fa fa-minus red"></i>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">無指定</td>
-                                                            <td class="text-left td-relative">
-                                                                <input type="text" class="selectHt input_sta_required"
-                                                                       placeholder="住客姓名"/>
-                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
-                                                                    Profile
-                                                                </button>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">已排房</td>
-                                                            <td class="text-left input-noEdit">801</td>
-                                                            <td class="text-left input-noEdit">Taiwan</td>
-                                                            <td class="text-left input-noEdit">801</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="001234585"/>
-                                                            </td>
-                                                        </tr>
-                                                        <!--2-->
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <i class="fa fa-minus red"></i>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">2</td>
-                                                            <td class="text-left td-relative">
-                                                                <input type="text" class="selectHt input_sta_required"
-                                                                       placeholder="住客姓名"/>
-                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
-                                                                    Profile
-                                                                </button>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">未排房</td>
-                                                            <td class="text-left input-noEdit">802</td>
-                                                            <td class="text-left input-noEdit">Taiwan</td>
-                                                            <td class="text-left input-noEdit">802</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="12345678"/>
-                                                            </td>
-                                                        </tr>
-                                                        <!--3-->
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <i class="fa fa-minus red"></i>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">3</td>
-                                                            <td class="text-left td-relative">
-                                                                <input type="text" class="selectHt input_sta_required"
-                                                                       placeholder="住客姓名"/>
-                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
-                                                                    Profile
-                                                                </button>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">已排房</td>
-                                                            <td class="text-left input-noEdit">803</td>
-                                                            <td class="text-left input-noEdit">Taiwan</td>
-                                                            <td class="text-left input-noEdit">803</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="12345678"/>
-                                                            </td>
-                                                        </tr>
-                                                        <!--4-->
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <i class="fa fa-minus red"></i>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">4</td>
-                                                            <td class="text-left td-relative">
-                                                                <input type="text" class="selectHt input_sta_required"
-                                                                       placeholder="住客姓名"/>
-                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
-                                                                    Profile
-                                                                </button>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">已排房</td>
-                                                            <td class="text-left input-noEdit">804</td>
-                                                            <td class="text-left input-noEdit">Taiwan</td>
-                                                            <td class="text-left input-noEdit">804</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="12345678"/>
-                                                            </td>
-                                                        </tr>
-                                                        <!--5-->
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <i class="fa fa-minus red"></i>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">5</td>
-                                                            <td class="text-left td-relative">
-                                                                <input type="text" class="selectHt input_sta_required"
-                                                                       placeholder="住客姓名"/>
-                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
-                                                                    Profile
-                                                                </button>
-                                                            </td>
-                                                            <td class="text-left input-noEdit">已排房</td>
-                                                            <td class="text-left input-noEdit">805</td>
-                                                            <td class="text-left input-noEdit">Taiwan</td>
-                                                            <td class="text-left input-noEdit">805</td>
-                                                            <td class="text-left">
-                                                                <input type="text" class="selectHt"
-                                                                       placeholder="12345678"/>
-                                                            </td>
-                                                        </tr>
                                                         </tbody>
                                                     </table>
                                                     <!-- table -->
@@ -683,9 +320,10 @@
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
-                            <!-------- /.tabPage -------->
                         </div>
                     </div>
+                    <!-------- /.tabPage -------->
+                    <!--按鈕-->
                     <div class="col-xs-1 col-sm-1">
                         <div class="row">
                             <div class="right-menu-co">
@@ -724,6 +362,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--/.按鈕-->
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -733,12 +372,17 @@
 
 <script>
 
+    import alasql from 'alasql';
+
+    var vmHub = new Vue();
+
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
 
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
     DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+        vmHub.$emit("selectDataGridRow", {row: row, index: idx});
     };
     DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
     };
@@ -746,11 +390,18 @@
     export default {
         name: "guestDetail",
         props: ["rowData"],
+        created() {
+            vmHub.$on("selectDataGridRow", (data) => {
+                this.editingGroupDataIndex = data.index;
+            })
+        },
         mounted() {
-            this.fetchAllFieldsData();
+            this.activeName = 'orderDetail'
         },
         data() {
             return {
+                allOrderDtRowsData: [],         //所有的order dt資料
+                oriAllOrderDtRowsData: [],          //所有的原始order dt資料
                 orderDtGroupFieldData: [],      //group order dt 的欄位資料
                 orderDtGroupRowsData: [],       //group order dt 的資料
                 oriOrderDtGroupRowsData: [],    //group order dt 的原始資料
@@ -760,13 +411,37 @@
                 guestMnFieldData: [],           //所group 到的所有 guest mn 欄位資料
                 guestMnRowsData: [],            //所group 到的所有 guest mn 原始資料
                 oriGuestMnRowsData: [],         //所group 到的所有 guest mn 資料
-                dgIns: {}
+                dgIns: {},
+                editingGroupDataIndex: undefined,
+                editingGroupData: {},           //現在所選group order dt 的資料
+                activeName: ''
             }
         },
         watch: {
-            rowData(val) {
+            async rowData(val) {
                 if (!_.isEmpty(val)) {
-                    this.fetchOrderDtRowData();
+                    await this.fetchAllFieldsData();
+                }
+            },
+            async editingGroupDataIndex(newVal, oldVal) {
+                if (!_.isUndefined(newVal)) {
+                    $("#orderDtTable").datagrid('selectRow', newVal);
+                    this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
+                    let lo_groupParam = {
+                        rate_cod: this.editingGroupData.rate_cod,
+                        order_sta: this.editingGroupData.order_sta,
+                        days: this.editingGroupData.days,
+                        ci_dat: this.editingGroupData.ci_dat,
+                        co_dat: this.editingGroupData.co_dat,
+                        use_cod: this.editingGroupData.use_cod,
+                        room_cod: this.editingGroupData.room_cod,
+                        rent_amt: this.editingGroupData.rent_amt,
+                        serv_amt: this.editingGroupData.serv_amt,
+                        block_cod: this.editingGroupData.block_cod
+                    };
+                    let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
+                    await this.fetchDetailRowsData(la_detailOrderDtData);
+                    await this.fetchGuestRowsData(la_detailOrderDtData);
                 }
             }
         },
@@ -786,9 +461,10 @@
                         this.fetchFieldsData({prg_id: 'PMS0110042', page_id: 1, tab_page_id: 3})
                     ]);
                     this.orderDtGroupFieldData = lo_fetchGroupOrderDtFieldsData.dgFieldsData;
-                    this.orderDtFieldData = lo_fetchOrderDtFieldsData.dgFieldsData;
-                    this.guestMnFieldData = lo_fetchGuestMnFieldsData.dgFieldsData;
-                    console.log(lo_fetchGroupOrderDtFieldsData, lo_fetchOrderDtFieldsData, lo_fetchGuestMnFieldsData)
+                    this.orderDtFieldData = _.sortBy(lo_fetchOrderDtFieldsData.dgFieldsData, "col_seq");
+                    this.guestMnFieldData = _.sortBy(lo_fetchGuestMnFieldsData.dgFieldsData, "col_seq");
+                    console.log(this.guestMnFieldData);
+                    this.fetchOrderDtRowData();
                 }
                 catch (err) {
                     console.log(err);
@@ -802,7 +478,11 @@
                     searchCond: {ikey: this.rowData.ikey}
                 }).then((result) => {
                     if (result.success) {
-                        this.orderDtGroupRowsData = result.dgRowData;
+                        this.allOrderDtRowsData = result.dgRowData;
+                        this.oriAllOrderDtRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        let ls_groupStatement =
+                            "select * from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
+                        this.orderDtGroupRowsData = alasql(ls_groupStatement, [this.allOrderDtRowsData]);
                         this.showDataGrid();
                     }
                 }).catch(err => {
@@ -811,11 +491,61 @@
             },
             showDataGrid() {
                 this.dgIns = new DatagridSingleGridClass();
-                this.dgIns.init("PMS0110042", "orderDtTable", DatagridFieldAdapter.combineFieldOption(this.orderDtGroupFieldData, "orderDtTable"), this.orderDtGroupFieldData, {
-                    pagination: true,
-                    rownumbers: true
+                this.dgIns.init("PMS0110042", "orderDtTable", DatagridFieldAdapter.combineFieldOption(this.orderDtGroupFieldData, "orderDtTable"), this.orderDtGroupFieldData);
+                this.dgIns.loadDgData(this.orderDtGroupRowsData);
+                this.editingGroupDataIndex = 0;
+            },
+            async fetchDetailRowsData(detailRowsData) {
+                let la_ikeySeqNos = [];
+                _.each(detailRowsData, (lo_detailData) => {
+                    la_ikeySeqNos.push(lo_detailData.ikey_seq_nos);
                 });
-                this.dgIns.loadPageDgData(this.orderDtGroupRowsData);
+                await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
+                    prg_id: 'PMS0110042',
+                    page_id: 1,
+                    tab_page_id: 2,
+                    searchCond: {ikey_seq_nos: la_ikeySeqNos, ikey: detailRowsData[0].ikey}
+                }).then((result) => {
+                    if (result.success) {
+                        _.each(result.dgRowData, (lo_dgRowData) => {
+                            lo_dgRowData.ci_dat = moment(lo_dgRowData.ci_dat).format("YYYY/MM/DD");
+                            lo_dgRowData.co_dat = moment(lo_dgRowData.co_dat).format("YYYY/MM/DD");
+                            lo_dgRowData.ci_dat_week = moment(lo_dgRowData.ci_dat).format("ddd");
+                            lo_dgRowData.co_dat_week = moment(lo_dgRowData.co_dat).format("ddd");
+                        });
+                        this.orderDtRowsData = result.dgRowData;
+                        this.oriOrderDtRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                    }
+                    else {
+                        alert(result.errorMsg);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })
+            },
+            async fetchGuestRowsData(detailRowsData) {
+                let la_ikeySeqNos = [];
+                _.each(detailRowsData, (lo_detailData) => {
+                    la_ikeySeqNos.push(lo_detailData.ikey_seq_nos);
+                });
+                la_ikeySeqNos.push(0);
+                await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
+                    prg_id: 'PMS0110042',
+                    page_id: 1,
+                    tab_page_id: 3,
+                    searchCond: {ikey_seq_nos: la_ikeySeqNos, ikey: detailRowsData[0].ikey}
+                }).then((result) => {
+                    if (result.success) {
+                        console.log(result.dgRowData);
+                        this.guestMnRowsData = result.dgRowData;
+                        this.oriGuestMnRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                    }
+                    else {
+                        alert(result.errorMsg);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })
             }
         }
     }

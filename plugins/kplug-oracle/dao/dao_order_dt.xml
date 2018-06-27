@@ -55,6 +55,27 @@
         <parameter type="string" kind="3">ikey</parameter>
     </dao>
 
+    <dao name="QRY_DETAIL_ORDER_DT">
+        <statement><![CDATA[
+            select ikey_seq_nos, ci_dat, days, co_dat,rate_cod, use_cod, room_cod,
+            rent_amt, serv_amt, order_dt.commis_rat, order_dt.adult_qnt, order_dt.child_qnt,
+            order_dt.baby_qnt, order_dt.source_typ, order_dt.guest_typ, order_dt.assign_sta, order_dt.room_nos,
+            pg_hfd_get_nam2.sf_hfd_get_guest_list(:athena_id, :hotel_cod, ikey, ikey_seq_nos, '#1####') guest_list
+            from order_dt
+            where athena_id = :athena_id
+            and hotel_cod = :hotel_cod
+            and ikey = :ikey
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="instring" kind="3">ikey_seq_nos</parameter>
+        <statement test="_v(param.ikey_seq_nos)">
+            <![CDATA[and ikey_seq_nos in(:ikey_seq_nos)]]></statement>
+        <orderby>order by ikey_seq_nos</orderby>
+    </dao>
+
     <!-- ['PMS0820010'] 未來入住之訂房卡明細-->
     <dao name="CHK_ORDER_DT_ISEXIST">
         <statement><![CDATA[
