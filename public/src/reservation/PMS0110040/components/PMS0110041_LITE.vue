@@ -453,19 +453,21 @@
                                         <!-- id ="resv_changeTxt" 訂房卡button 文字轉換 -->
                                         <!--<button id ="resv_changeTxt" class="btn btn-primary btn-white padding-lg btn-defaultWidth"-->
                                         <!--role="button">Waiting</button>-->
+                                        <!--todo 詢問晉偉如何使用-->
                                         <div class="btn-group btn-defaultWidth  chgText-effect">
                                             <button data-toggle="dropdown"
                                                     class="btn btn-primary btn-white btn-defaultWidth dropdown-toggle"
                                                     aria-expanded="false">
                                                 <span class="dpShowValue" style="font-weight: normal;">
-                                                   {{selectedStatus}}
+                                                   {{selectedOrderStatus}}
                                                 </span>
                                                 <span class="ace-icon fa fa-angle-down icon-on-right"></span>
                                             </button>
 
                                             <ul class="dropdown-menu dropdown-info dropdown-menu-right dpUIList">
                                                 <li v-for="data in orderStatusSelectData">
-                                                    <a @click="cancelOrder" v-if="data.value == 'D'">{{data.display}}</a>
+                                                    <a @click="cancelOrder"
+                                                       v-if="data.value == 'D'">{{data.display}}</a>
                                                     <a @click="oderStatus = data.value" v-else>{{data.display}}</a>
                                                 </li>
                                             </ul>
@@ -507,8 +509,8 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth resv_guestDetail"
-                                                role="button">訂房資料
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" @click="doShowGuestDetail">訂房資料
                                         </button>
                                     </li>
                                     <li>
@@ -519,7 +521,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">離開
+                                                role="button" @click="doCloseDialog">離開
                                         </button>
                                     </li>
                                 </ul>
@@ -557,9 +559,16 @@
                 :row-data="orderMnSingleData"
         ></tel-detail>
         <!-- /.其他聯絡方式 -->
+        <!--選擇房價-->
         <select-rate-cod
                 :row-data="editingGroupOrderDtData"
         ></select-rate-cod>
+        <!--/.選擇房價-->
+        <!--訂房資料-->
+        <guest-detail
+                :row-data="rowData"
+        ></guest-detail>
+        <!--/.訂房資料-->
     </div>
 </template>
 
@@ -572,6 +581,7 @@
     import publicAccount from './publicAccount';
     import telDetail from './telDetail';
     import selectRateCod from './selectRateCod.vue';
+    import guestDetail from './guestDetail';
 
     Vue.prototype.$eventHub = new Vue();
 
@@ -579,7 +589,7 @@
 
     export default {
         name: 'pms0110041-lite',
-        components: {pms0210011, pms0610020, publicAccount, telDetail, selectRateCod},
+        components: {pms0210011, pms0610020, publicAccount, telDetail, selectRateCod, guestDetail},
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
         created() {
             //取得order dt 房價資料
@@ -637,6 +647,7 @@
         mounted() {
             this.fetchUserInfo();
             this.loadingText = "Loading...";
+            this.selectedOrderStatus = go_i18nLang.program.PMS0110041.orderStaN;
             this.orderStatusSelectData = [
                 {display: go_i18nLang.program.PMS0110041.orderStaN, value: 'N'},
                 {display: go_i18nLang.program.PMS0110041.orderStaW, value: 'W'},
@@ -674,6 +685,7 @@
                 editingGuestMnData: {},           //正在編輯的 guest mn 資料
                 tableHeight: 34,                  //多筆table高度
                 orderStatus: 'N',                 //訂房狀態
+                selectedOrderStatus: '',           //選定的訂房狀態
                 orderStatusSelectData: [],        //訂房狀態選項
                 editingOrderDtIdx: undefined,     //現在正在編輯的orderDt index
                 isCreate4GuestMn: false,          //guest mn 中的alt name 是否為新增
@@ -698,12 +710,13 @@
                 }
             }
         },
-        computed: {
-            selectedStatus() {
-                return _.findWhere(this.orderStatusSelectData, {value: this.orderStatus}).display;
-            }
-        },
         watch: {
+            oderStatus(val) {
+                let lo_selectOrderStatus = _.findWhere(this.orderStatusSelectData, {value: val});
+                if (!_.isUndefined(lo_selectOrderStatus)) {
+                    this.selectedOrderStatus = lo_selectOrderStatus.value;
+                }
+            },
             rowData(val) {
                 if (!_.isEmpty(val)) {
                     this.initData();
@@ -1684,6 +1697,41 @@
                     alert(lo_saveData.errorMsg);
                 }
                 this.isLoadingDialog = false;
+            },
+            doChkDataIsChange() {
+                let lo_oriData = {};
+                let lo_nowData = {};
+
+                lo_oriData["orderMnData"] = JSON.parse(JSON.stringify(this.oriOrderMnSingleData));
+                lo_nowData["orderMnData"] = JSON.parse(JSON.stringify(this.orderMnSingleData));
+                lo_oriData["orderDtData"] = JSON.parse(JSON.stringify(this.oriOrderDtRowsData));
+                lo_nowData["orderDtData"] = JSON.parse(JSON.stringify(this.orderDtRowsData));
+                lo_oriData["guestMnData"] = JSON.parse(JSON.stringify(this.oriGuestMnRowsData));
+                lo_nowData["guestMnData"] = JSON.parse(JSON.stringify(this.guestMnRowsData));
+
+                return go_validateClass.chkDataChang(lo_nowData, lo_oriData);
+            },
+            doShowGuestDetail() {
+                let lo_isModify = this.doChkDataIsChange();
+                if (!lo_isModify.success) {
+                    alert("請先儲存訂房卡資料")
+                }
+                else {
+                    var dialog = $("#resvGuestDetail_dialog").removeClass('hide').dialog({
+                        modal: true,
+                        title: "訂房資料",
+                        title_html: true,
+                        width: 1000,
+                        maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                        dialogClass: "test",
+                        resizable: true
+                    });
+                }
+            },
+            doCloseDialog() {
+                $("#PMS0110041Lite").dialog('close');
             }
         }
     }
