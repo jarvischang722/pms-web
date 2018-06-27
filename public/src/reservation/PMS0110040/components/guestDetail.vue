@@ -757,12 +757,44 @@
                     {field: 'baby', title: '嬰兒', width: 40}
                 ]]
             });
+            this.fetchAllFieldsData();
         },
         data() {
-            return {}
+            return {
+                orderDtGroupFieldData: [],      //group order dt 的欄位資料
+                orderDtGroupRowsData: [],       //group order dt 的資料
+                oriOrderDtGroupRowsData: [],    //group order dt 的原始資料
+                orderDtFieldData: [],           //所group 到的所有 order dt 欄位資料
+                orderDtRowsData: [],            //所group 到的所有 order dt 資料
+                oriOrderDtRowsData: [],         //所group 到的所有 order dt 原始資料
+                guestMnFieldData: [],           //所group 到的所有 guest mn 欄位資料
+                guestMnRowsData: [],            //所group 到的所有 guest mn 原始資料
+                oriGuestMnRowsData: [],         //所group 到的所有 guest mn 資料
+            }
         },
         watch: {},
-        methods: {}
+        methods: {
+            async fetchFieldsData(param) {
+                return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param).then((result) => {
+                    return result;
+                }).catch(err => {
+                    return {success: false, errMsg: err};
+                })
+            },
+            async fetchAllFieldsData() {
+                try {
+                    let [lo_fetchGroupOrderDtFieldsData, lo_fetchOrderDtFieldsData, lo_fetchGuestMnFieldsData] = await Promise.all([
+                        this.fetchFieldsData({prg_id: 'PMS0110042', page_id: 1, tab_page_id: 1}),
+                        this.fetchFieldsData({prg_id: 'PMS0110042', page_id: 1, tab_page_id: 2}),
+                        this.fetchFieldsData({prg_id: 'PMS0110042', page_id: 1, tab_page_id: 3})
+                    ]);
+                    console.log(lo_fetchGroupOrderDtFieldsData, lo_fetchOrderDtFieldsData, lo_fetchGuestMnFieldsData)
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            }
+        }
     }
 </script>
 

@@ -345,10 +345,11 @@
       "master_typ": "類別",
       "show_cod": "客戶代號",
       "cust_nam": "客戶名稱",
-      "orderStaN": "一般",
+      "orderStaN": "正常",
       "orderStaW": "等待",
       "orderStaD": "取消",
-      "orderStaT": "暫定"
+      "orderStaT": "詢價",
+      "changeOrderStatus": "狀態變更"
     },
     "PMS0110050": {
       "roomTyp": "房型",

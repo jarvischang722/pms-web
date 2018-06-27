@@ -260,6 +260,7 @@
                     title_html: true,
                     width: 450,
                     maxwidth: 1920,
+                    height: $(window).height() - 200,
                     dialogClass: "test",
                     resizable: true
                 });

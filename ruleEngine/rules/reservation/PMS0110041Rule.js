@@ -17,6 +17,88 @@ const sysConf = require("../../../configs/systemConfig");
 
 module.exports = {
     /**
+     * 取order_mn ikey 和 tmp_orde_appraise key_nos
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    dfaultOrderMn: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            //取order_mn tmp ikey
+            let lo_fetchTmpIkey = await new Promise((resolve, reject) => {
+                let apiParams = {
+                    "REVE-CODE": "BAC0900805",
+                    "func_id": "0000",
+                    "athena_id": session.user.athena_id,
+                    "comp_cod": "NULL",
+                    "hotel_cod": session.user.hotel_cod,
+                    "sys_cod": "CS",
+                    "nos_nam": "TMP_IKEY",
+                    "link_dat": "2000/01/01"
+                };
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                    if (apiErr || !data) {
+                        reject(apiErr)
+                    }
+                    else {
+                        resolve(data)
+                    }
+                });
+            });
+            if (lo_fetchTmpIkey["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                console.error(lo_fetchTmpIkey["RETN-CODE-DESC"]);
+                lo_error.errorMsg = lo_fetchTmpIkey["RETN-CODE-DESC"];
+            }
+            else {
+                let ls_ikey = `!tmp${lo_fetchTmpIkey["SERIES_NOS"]}`;
+
+                //取 tmp_order_appraise key_nos
+                let lo_fetchKeyNos = await new Promise((resolve, reject) => {
+                    let apiParams = {
+                        "REVE-CODE": "PMS0110041",
+                        "prg_id": "PMS0110041",
+                        "func_id": "0900",
+                        "athena_id": session.user.athena_id,
+                        "hotel_cod": session.user.hotel_cod,
+                        "ikey": ls_ikey
+                    };
+                    tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                        if (apiErr || !data) {
+                            reject(apiErr)
+                        }
+                        else {
+                            resolve(data)
+                        }
+                    });
+                });
+                if (lo_fetchKeyNos["RETN-CODE"] != "0000") {
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    console.error(lo_fetchKeyNos["RETN-CODE-DESC"]);
+                    lo_error.errorMsg = lo_fetchKeyNos["RETN-CODE-DESC"];
+                }
+                else {
+                    lo_result.defaultValues.key_nos = lo_fetchKeyNos["returnNos"];
+                    lo_result.defaultValues.ikey = ls_ikey;
+                }
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+
+        callback(lo_error, lo_result);
+    },
+
+    /**
      * 編輯單筆訂房卡時，將order_appraise轉到tmp_order_appraise
      * @param postData
      * @param session

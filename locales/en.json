@@ -348,7 +348,8 @@
       "orderStaN": "Reservation",
       "orderStaW": "Waiting",
       "orderStaD": "Cancel",
-      "orderStaT": "Tentative"
+      "orderStaT": "Tentative",
+      "changeOrderStatus": "狀態變更"
     },
     "PMS0110050": {
       "roomTyp": "房型(英文)",

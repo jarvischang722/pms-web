@@ -32,12 +32,12 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">確定
+                                                role="button" @click="confirmData">確定
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">離開
+                                                role="button" @click="closeDialog">離開
                                         </button>
                                     </li>
                                 </ul>
@@ -97,6 +97,12 @@
             fetchRowData() {
                 this.singleData = this.rowData;
                 this.oriSingleData = JSON.parse(JSON.stringify(this.rowData));
+            },
+            confirmData() {
+                $('#telDetail_dialog').dialog("close");
+            },
+            closeDialog() {
+                $('#telDetail_dialog').dialog("close");
             }
         }
     }

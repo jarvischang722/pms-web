@@ -1470,7 +1470,7 @@ exports.qryLangOrderDtOrderSta = function () {
             value: "I"
         },
         {
-            display: "暫訂",
+            display: "詢價",
             value: "T"
         }
     ];
