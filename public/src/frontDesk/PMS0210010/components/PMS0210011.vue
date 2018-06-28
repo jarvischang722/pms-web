@@ -651,7 +651,7 @@
                         singleRowData: la_singleData,
                         oriSingleData: la_oriSingleData
                     };
-                    $.post('/api/chkFieldRule', postData, function (result) {
+                    BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', postData).then( (result) => {
 
                         if (result.success) {
 
@@ -676,7 +676,7 @@
                                 else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
+                                        BacUtils.doHttpPromisePostProxy(result.ajaxURL, postData).then( (result) => {
                                             if (!result.success) {
                                                 alert(result.errorMsg);
                                             }

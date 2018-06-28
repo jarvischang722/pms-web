@@ -3,7 +3,6 @@ const path = require('path');
 const moment = require('moment');
 const async = require('async');
 const _ = require("underscore");
-const _s = require("underscore.string");
 const exprjs = require('exprjs');
 const parser = new exprjs();
 const XMLUtil = require('./XMLUtil.js');
@@ -26,7 +25,7 @@ const kplugFun = {
 };
 
 let prefix = ':';
-let pools = [];
+let pools = {};
 let daoList = [];
 let months = {};
 let daoPool = {};
@@ -80,7 +79,6 @@ DB.prototype.create = function (opt) {
                     console.error(err);
                     process.exit(1);
                 }
-                // console.log(p._createdDate)
                 pools[option.id] = p;
                 p.id = option.id;
                 if (pools['default'] == null) {
@@ -163,14 +161,14 @@ DB.prototype.loadDao = function (dao) {
     }
     let dNode;
     if (_.isUndefined(dao.xml) == false) {
-        var doc = XMLUtil.createDocumentFromString('<?xml version="1.0" encoding="UTF-8"?>\r\n' + dao.xml);
+        let doc = XMLUtil.createDocumentFromString('<?xml version="1.0" encoding="UTF-8"?>\r\n' + dao.xml);
         dNode = XMLUtil.getNode(doc, "dao");
     } else {
         //console.log('-----------------------------------------------------');
         //console.log(dao.dao + ',daoList:' + daoList.length);
         for (let idx = 0; idx < daoList.length; idx++) {
             //console.log('idx:' + idx);
-            var doc = daoList[idx];
+            let doc = daoList[idx];
             let daoNode = XMLUtil.getNode(doc, "*//dao[@name='" + dao.dao + "']");
             if (daoNode != null) {
                 dNode = daoNode;

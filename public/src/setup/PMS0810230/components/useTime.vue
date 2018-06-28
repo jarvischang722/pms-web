@@ -382,7 +382,7 @@
         methods: {
             //取滾房租日
             async fetchRentCalDat() {
-                this.rentCalDat = await $.post('/api/qryRentCalDat', {}).then((result) => {
+                this.rentCalDat = await BacUtils.doHttpPromisePostProxy('/api/qryRentCalDat', {}).then((result) => {
                     return result.rent_cal_dat;
                 });
             },
@@ -409,7 +409,7 @@
                 };
                 let ls_apiUrl = lo_params.searchCond.rate_cod == "" ? "/api/fetchOnlyDataGridFieldData" : "/api/fetchDataGridFieldData";
 
-                $.post(ls_apiUrl, lo_params).then(result => {
+                BacUtils.doHttpPromisePostProxy(ls_apiUrl, lo_params).then(result => {
                     if (result.success) {
                         //房型下拉資料動態產生
                         let ln_roomCodIdx = _.findIndex(result.dgFieldsData, {ui_field_name: 'room_cods'});
@@ -695,7 +695,7 @@
                     oriRowsData: la_oriDataGridRowsData
                 };
 
-                let lo_chkRule = await $.post('/api/chkFieldRule', lo_postData).then(result => {
+                let lo_chkRule = await BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', lo_postData).then(result => {
                     return result;
                 });
 

@@ -33,11 +33,11 @@ function queryData(agent, mode, cb, ddObj, param, start, size) {
         }
         if (agent == null) {
             //TODO 因為達美樂首頁公司別撈不出來問題，需要設debug 計算執行時間有無卡住
-            let start = new Date().getTime();
+            let ld_start = new Date().getTime();
             DB.getConnection(ddObj.id, function (err, connection) {
                 let end = new Date().getTime();
-                if ((end - start) / 1000 > 1) {
-                    console.error(`Oracle DB 連線異常: ${(end - start) / 1000} sec`);
+                if ((end - ld_start) / 1000 > 1) {
+                    console.error(`Oracle DB 連線異常: ${(end - ld_start) / 1000} sec`);
                     console.error(`異常SQL: ${ddObj.dao || ""}`);
                     console.error(`異常params : ${JSON.stringify(param)}`);
                 }

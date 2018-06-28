@@ -1940,7 +1940,7 @@
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
-                height: $(window).height(),
+//                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
@@ -2104,19 +2104,12 @@
         $("#PMS0120020-table").tableHeadFixer({"left": 1});
 
 //      專案訂房 PMS0110030
-        $('#PMS0110030-table').fixedHeaderTable({
-            cloneHeadToFoot: false,
-            fixedColumns: 1,
-            addPxForFixedColumnsWidth: 10,
-            everyColumnsAddWith: 0
-        });
+        $('#PMS0110030-table').tableHeadFixer({"left": 1,});
 
 //      櫃檯備品
-        $('#amenities-table').fixedHeaderTable({
-            cloneHeadToFoot: false,
-            fixedColumns: 1,
-            addPxForFixedColumnsWidth: 60,
-            everyColumnsAddWith: 0
+        $('#amenities-table').tableHeadFixer({
+            "left": 1,
+            "z-index": 9999
         });
 
 
