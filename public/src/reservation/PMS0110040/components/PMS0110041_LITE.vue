@@ -1045,28 +1045,28 @@
                             val[this.editingOrderDtIdx].room_cod = lo_editingRow.use_cod;
 
                             //計算房價
-                            if (!_.isNull(val[this.editingOrderDtIdx].room_cod)) {
-                                let lo_params = {
-                                    rule_func_name: 'compute_oder_dt_price',
-                                    allRowData: [val[this.editingOrderDtIdx]],
-                                    key_nos: this.keyNos,
-                                    acust_cod: this.orderMnSingleData.acust_cod
-                                };
-//
-                                $.post("/api/chkFieldRule", lo_params).then(result => {
-                                    if (result.success) {
-                                        val[this.editingOrderDtIdx] = _.extend(val[this.editingOrderDtIdx], result.effectValues);
-                                        this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, val[this.editingOrderDtIdx]);
-                                        this.orderDtRowsData4Single.serv_tot = Number(val[this.editingOrderDtIdx].serv_amt) * val[this.editingOrderDtIdx].order_qnt;
-                                        this.orderDtRowsData4Single.rent_tot = Number(val[this.editingOrderDtIdx].rent_amt) * val[this.editingOrderDtIdx].order_qnt;
-                                        this.orderDtRowsData4Single.other_tot = Number(val[this.editingOrderDtIdx].other_tot) * val[this.editingOrderDtIdx].order_qnt;
-                                        this.orderDtRowsData4Single.sub_tot = Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
-                                    }
-                                    else {
-                                        alert(result.errorMsg);
-                                    }
-                                });
-                            }
+//                            if (!_.isNull(val[this.editingOrderDtIdx].room_cod)) {
+//                                let lo_params = {
+//                                    rule_func_name: 'compute_oder_dt_price',
+//                                    allRowData: [val[this.editingOrderDtIdx]],
+//                                    key_nos: this.keyNos,
+//                                    acust_cod: this.orderMnSingleData.acust_cod
+//                                };
+////
+//                                $.post("/api/chkFieldRule", lo_params).then(result => {
+//                                    if (result.success) {
+//                                        val[this.editingOrderDtIdx] = _.extend(val[this.editingOrderDtIdx], result.effectValues);
+//                                        this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, val[this.editingOrderDtIdx]);
+//                                        this.orderDtRowsData4Single.serv_tot = Number(val[this.editingOrderDtIdx].serv_amt) * val[this.editingOrderDtIdx].order_qnt;
+//                                        this.orderDtRowsData4Single.rent_tot = Number(val[this.editingOrderDtIdx].rent_amt) * val[this.editingOrderDtIdx].order_qnt;
+//                                        this.orderDtRowsData4Single.other_tot = Number(val[this.editingOrderDtIdx].other_tot) * val[this.editingOrderDtIdx].order_qnt;
+//                                        this.orderDtRowsData4Single.sub_tot = Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
+//                                    }
+//                                    else {
+//                                        alert(result.errorMsg);
+//                                    }
+//                                });
+//                            }
                         }
                     }
                     this.tableHeight = _.size(this.orderDtRowsData4table) > 4 ? 132 : 38 + 30 * _.size(this.orderDtRowsData4table);

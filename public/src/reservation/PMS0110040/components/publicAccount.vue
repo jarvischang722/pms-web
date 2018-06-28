@@ -108,38 +108,40 @@
                 <div class="row">
                     <div class="col-xs-10 col-sm-10">
                         <div class="row no-margin-right main-content-data">
-                            <table class="fancyTable themeTable treeControl custom-table"
-                                   id="masterNosTable" cellpadding="0" cellspacing="0"
-                                   style="width: 100%; height: 150px;">
-                                <thead>
-                                <tr>
-                                    <th class="ca-headerTitle height-fntThead rp-first-th">
-                                        {{i18n_Lang.program.PMS0110041.master_nos}}
-                                    </th>
-                                    <th class="ca-headerTitle height-fntThead">
-                                        {{i18n_Lang.program.PMS0110041.master_sta}}
-                                    </th>
-                                    <th class="ca-headerTitle height-fntThead">
-                                        {{i18n_Lang.program.PMS0110041.master_typ}}
-                                    </th>
-                                    <th class="ca-headerTitle height-fntThead">
-                                        {{i18n_Lang.program.PMS0110041.show_cod}}
-                                    </th>
-                                    <th class="ca-headerTitle height-fntThead">
-                                        {{i18n_Lang.program.PMS0110041.cust_nam}}
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="data in tableRowsData" class="defHt" @click="selectedData = data">
-                                    <td>{{data.master_nos}}</td>
-                                    <td>{{data.master_sta}}</td>
-                                    <td>{{data.master_typ}}</td>
-                                    <td>{{data.show_cod}}</td>
-                                    <td>{{data.cust_nam}}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <div style="width: 100%; height: 150px;">
+                                <table class="fancyTable themeTable treeControl custom-table"
+                                       id="masterNosTable" cellpadding="0" cellspacing="0"
+                                >
+                                    <thead>
+                                    <tr>
+                                        <th class="ca-headerTitle height-fntThead rp-first-th">
+                                            {{i18n_Lang.program.PMS0110041.master_nos}}
+                                        </th>
+                                        <th class="ca-headerTitle height-fntThead">
+                                            {{i18n_Lang.program.PMS0110041.master_sta}}
+                                        </th>
+                                        <th class="ca-headerTitle height-fntThead">
+                                            {{i18n_Lang.program.PMS0110041.master_typ}}
+                                        </th>
+                                        <th class="ca-headerTitle height-fntThead">
+                                            {{i18n_Lang.program.PMS0110041.show_cod}}
+                                        </th>
+                                        <th class="ca-headerTitle height-fntThead">
+                                            {{i18n_Lang.program.PMS0110041.cust_nam}}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="data in tableRowsData" class="defHt" @click="selectedData = data">
+                                        <td>{{data.master_nos}}</td>
+                                        <td>{{data.master_sta}}</td>
+                                        <td>{{data.master_typ}}</td>
+                                        <td>{{data.show_cod}}</td>
+                                        <td>{{data.cust_nam}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div><!--main-content-data-->
                         <div class="clearfix"></div>
                     </div>
