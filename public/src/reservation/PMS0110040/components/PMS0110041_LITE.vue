@@ -980,7 +980,12 @@
                 handler(val) {
                     //處理暫存資料
                     _.each(val, (lo_orderDtRowData) => {
-                        lo_orderDtRowData = _.extend(lo_orderDtRowData, {page_id: 1, tab_page_id: 13});
+                        lo_orderDtRowData = _.extend(lo_orderDtRowData, {
+                            page_id: 1,
+                            tab_page_id: 13,
+                            athena_id: this.userInfo.athena_id,
+                            hotel_cod: this.userInfo.hotel_cod
+                        });
                         let lo_param = {ikey_seq_nos: lo_orderDtRowData.ikey_seq_nos};
                         let ln_index = _.findIndex(this.oriOrderDtRowsData, lo_param);
                         //新增狀態
@@ -1070,6 +1075,22 @@
                         }
                     }
                     this.tableHeight = _.size(this.orderDtRowsData4table) > 4 ? 132 : 38 + 30 * _.size(this.orderDtRowsData4table);
+                },
+                deep: true
+            },
+            orderDtRowsData4Single: {
+                handler(val) {
+                    console.log(val.source_typ);
+                    _.each(this.groupOrderDtData, (lo_groupData) => {
+                        let ln_editIndex = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
+                        if (ln_editIndex > -1) {
+                            this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], {
+                                source_typ: val.source_typ,
+                                guest_typ: val.guest_typ,
+                                noshow_qnt: val.noshow_qnt,
+                            });
+                        }
+                    });
                 },
                 deep: true
             },
@@ -1194,6 +1215,7 @@
                 BacUtils.doHttpPostAgent('/api/getUserInfo', (result) => {
                     if (result.success) {
                         this.userInfo = result.userInfo;
+                        console.log(this.userInfo);
                     }
                 });
             },
@@ -1455,6 +1477,11 @@
                     //顯示在單筆的order dt資料
                     let la_orderDtRowsData4table = JSON.parse(JSON.stringify(this.orderDtRowsData4table));
                     this.orderDtRowsData4Single = _.isUndefined(newIndex) ? _.first(la_orderDtRowsData4table) : la_orderDtRowsData4table[newIndex];
+                    this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, {
+                        source_typ: 1,
+                        guest_typ: 1,
+                        noshow_qnt: 1
+                    });
                     this.orderDtRowsData4Single.sub_tot =
                         Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
                     let lo_qutParams = {
@@ -1647,15 +1674,18 @@
                         assign_qnt: 0,
                         assign_sta: 'N',
                         baby_qnt: 0,
-                        block_cod: undefined,
+                        block_cod: 1,
+                        block_qnt: 1,
                         child_qnt: 0,
                         ci_qnt: 0,
                         ci_dat: moment().format("YYYY/MM/DD"),
                         ci_dat_week: moment().format('ddd'),
                         co_dat: moment().add(1, 'days').format("YYYY/MM/DD"),
                         co_dat_week: moment().add(1, 'days').format('ddd'),
+                        commis_rat: 1,
                         days: 1,
                         ikey: this.orderMnSingleData.ikey,
+                        noshow_qnt: 1,
                         order_qnt: 1,
                         order_sta: this.orderStatus,
                         other_tot: 0,

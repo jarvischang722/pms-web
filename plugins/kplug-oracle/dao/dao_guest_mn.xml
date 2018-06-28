@@ -110,7 +110,8 @@
     <!-- ['PMS0110041'] ???????-->
     <dao name="SEL_ACUST_NAM">
         <statement><![CDATA[
-           select idx.show_cod,idx.cust_cod,idx.alt_nam,idx.uni_cod,idx.office_tel,mn.sales_cod
+           select idx.show_cod,idx.cust_cod,idx.alt_nam,idx.uni_cod,idx.office_tel,mn.sales_cod,
+           (trim(idx.cust_cod ||':'|| mn.cust_nam)) guest_display
            from cust_idx idx join cust_mn mn on idx.athena_id = mn.athena_id and idx.cust_cod  = mn.cust_cod
            where from_table = 'CUST_MN' and cust_sta <> 'D'
         ]]>

@@ -83,8 +83,18 @@ module.exports = {
                     lo_error.errorMsg = lo_fetchKeyNos["RETN-CODE-DESC"];
                 }
                 else {
-                    lo_result.defaultValues.key_nos = lo_fetchKeyNos["returnNos"];
-                    lo_result.defaultValues.ikey = ls_ikey;
+                    lo_result.defaultValues = {
+                        key_nos: lo_fetchKeyNos["returnNos"],
+                        ikey: ls_ikey,
+                        fixed_order: 'Y',
+                        master_sta: 'N',
+                        order_deposit: 0,
+                        lang_cod: 'ENG',
+                        ins_hotel: session.user.hotel_cod,
+                        open_web: 'N',
+                        is_prtconfirm: 'N',
+                    };
+
                 }
             }
         }
