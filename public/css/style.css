@@ -1563,7 +1563,6 @@ table.treetable span.indenter {
     padding-left: 0;
     padding-right: 0;
 }
-
 #amenities-table .td-first {
     width: 200px;
 }
@@ -1725,6 +1724,7 @@ table.treetable span.indenter {
   color: #579;
 }
 
+/* 排房作業 */
 .dataGrid-s1 {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
