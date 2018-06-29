@@ -1,3 +1,4 @@
+
 <template>
     <div class="pageMain" v-loading="isLoading" element-loading-text="Loading...">
         <div class="col-xs-12">
@@ -228,6 +229,11 @@
                             <li>
                                 <button class="btn btn-skin btn-defaultWidth resv_amenitiesIny"
                                         role="button">{{i18nLang.program.PMS0110010.Amenities_Iny}}
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth resvDialog-ui"
+                                        role="button">訂房卡(新UI)
                                 </button>
                             </li>
                         </ul>
