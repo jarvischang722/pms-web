@@ -119,7 +119,7 @@
         watch: {
             isVisitRecord(val) {
                 if (val) {
-                    if (_.isEmpty(this.$store.state.go_allData.ga_vrDataGridRowsData)) {
+                    if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_vrDataGridRowsData)) {
                         this.initTmpCUD();
                         this.initData();
                     }
@@ -150,8 +150,8 @@
                 }
             },
             initData() {
-                this.isCreateStatus = this.$store.state.gb_isCreateStatus;
-                this.isEditStatus = this.$store.state.gb_isEditStatus;
+                this.isCreateStatus = this.$store.state.custMnModule.gb_isCreateStatus;
+                this.isEditStatus = this.$store.state.custMnModule.gb_isEditStatus;
                 this.dataGridRowsData = [];
                 this.oriDataGridRowsData = [];
                 this.fieldsData = [];
@@ -164,17 +164,17 @@
                 BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 5,
-                    searchCond: {cust_cod: this.$store.state.gs_custCod}
+                    searchCond: {cust_cod: this.$store.state.custMnModule.gs_custCod}
                 }, result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
-                    if (_.isEmpty(this.$store.state.go_allData.ga_vrDataGridRowsData)) {
+                    if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_vrDataGridRowsData)) {
                         this.dataGridRowsData = result.dgRowData;
                         this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                     }
                     else {
-                        this.dataGridRowsData = this.$store.state.go_allData.ga_vrDataGridRowsData;
-                        this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_vrDataGridRowsData;
+                        this.dataGridRowsData = this.$store.state.custMnModule.go_allData.ga_vrDataGridRowsData;
+                        this.oriDataGridRowsData = this.$store.state.custMnModule.go_allOriData.ga_vrDataGridRowsData;
                     }
 
                     this.showDataGrid();
@@ -313,7 +313,7 @@
                     this.visitRecordSingleData = _.extend(this.visitRecordSingleData, {
                         tab_page_id: 5,
                         event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
-                        cust_cod: this.$store.state.gs_custCod
+                        cust_cod: this.$store.state.custMnModule.gs_custCod
                     });
                     //轉換資料時間格式
                     this.visitRecordSingleData["avisit_dat"] = this.visitRecordSingleData["avisit_dat"] || "";

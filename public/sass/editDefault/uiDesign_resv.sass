@@ -1,0 +1,168 @@
+@charset "UTF-8"
+@import compass/css3
+@mixin gradient-color
+  +background(linear-gradient(360deg, rgba(8, 123, 254, 1) 100%, rgba(5, 167, 234, 1) 100%))
+
+/* 訂房卡 */
+.window
+  background: #087bfe
+  //background: linear-gradient(to bottom,#087BFE 0,#05A7EA 20%)
+  color: #fff
+  .window-body
+    border-width: 0
+
+.panel-title
+  height: 35px
+  font-size: 18px
+  color: #fff
+  padding-top: 17px
+//padding-left: 6%
+.panel-header-noborder
+  border-width: 0
+
+.panel-tool a
+  opacity: 1
+  &:hover
+    background-color: transparent
+    background: transparent url('../../../images/icon/cancel-hover.svg') no-repeat 0 0
+
+.panel-tool-close
+  background: url('../../../images/icon/cancel.svg') no-repeat 0px 0px
+
+#resvDialog-ui-msg
+  background: #eee
+
+#resvDialog-Vue
+  .el-tabs__header
+    +gradient-color
+  .el-tabs__item
+    color: #fff
+    &.is-active
+      color: #fff
+      font-weight: 700
+  .el-tabs__active-bar
+    +background(linear-gradient(-152deg, #FB9A49 0%, #F56023 100%) !important)
+
+  .grid-item
+    margin: auto 10px 12px auto
+    label
+      display: block
+      text-align: left
+      width: auto
+      margin-bottom: 5px
+    .input-medium
+      height: 30px
+    &.more-info
+      position: relative
+      .moreClick
+        position: absolute
+        top: 36px
+        right: 10px
+        border-radius: 100%
+        padding: 1px
+        width: 15px
+        height: 15px
+        border: 1px solid #555
+        background: #555
+        color: #fff
+    //&:after
+    //  display: block
+    //  content: '...'
+    .btn-afterInput
+      +background(linear-gradient(360deg, rgba(8, 123, 254, 1) 100%, rgba(5, 167, 234, 1) 100%) !important)
+      color: #FFFFFF !important
+  .right-info
+    margin-left: 20px
+    float: left
+  .fixed-table-container
+    box-shadow: 0 2px 6px 1px rgba(104, 104, 104, 0.45)
+  .custom-table
+    thead
+      background-color: #fff
+      th
+        background-color: #fff
+        box-shadow: none
+        &:first-child
+          box-shadow: none
+    th, td
+      border: 0
+      border-bottom: 1px solid #cac3c3
+      height: 27px
+    tbody
+      tr
+        //&:nth-child(even)
+        //  background: #eee
+        td:first-child
+          box-shadow: none
+          background-color: transparent !important
+
+    .td-more
+      .moreClick
+        top: 4px
+        height: 16px
+        width: 16px
+        border: 0
+        background: #888
+        border-radius: 100%
+        padding: 2px
+        color: #fff
+    .height-fntThead
+      border-bottom: 2px solid #cac3c3 !important
+    .plusMinus-sty
+      cursor: pointer
+      +gradient-color
+      border-radius: 100%
+      color: #fff
+      width: 16px
+      height: 16px
+      font-size: .1em
+      padding: 3px
+    .plus-sty
+      +gradient-color
+      margin-top: 5px
+    .minus-sty
+      background: #D0021B
+  .resvPrice-info
+    margin-right: 36px
+    .price-lg
+      font-size: 20px !important
+    .info-top
+      margin-top: 3px
+    .info-person
+      margin-right: 18px
+  .resvDia-footer
+    .btn-custom-sty
+      width: 120px
+      height: 40px
+      margin-top: 6px
+      +background(linear-gradient(-152deg, #087BFE 0%, #05A7EA 100%) !important)
+      border: 0
+      &:hover
+        +background(linear-gradient(-152deg, #264efe 0%, #05A7EA 100%) !important)
+        transition: 2s
+      &.btn-mr
+        margin-right: 18px
+    .resvDia-footer-left
+      float: left
+    .resvDia-footer-right
+      float: right
+  .chg-relative
+    position: relative
+    .chg-status
+      position: absolute
+      right: 10px
+      top: 12px
+      z-index: 1
+      .chg-title
+        color: #fff
+        margin-right: 5px
+      .chg-option
+        .btn.btn-white
+          color: #fff !important
+          background-color: transparent !important
+          border-color: transparent
+          border-width: 0
+          &:focus, &:active
+            box-shadow: none !important
+
+

@@ -11388,9 +11388,9 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(22), 
     "template_id" : "datagrid", 
-    "ui_field_name" : "ghist_dt.ratecod_cod", 
-    "ui_display_name_zh_TW" : "房價代號", 
-    "hint_zh_TW" : "房價代號", 
+    "ui_field_name" : "ghist_dt.ratecod_nam", 
+    "ui_display_name_zh_TW" : "房價名稱", 
+    "hint_zh_TW" : "房價名稱", 
     "ui_display_name_en" : "", 
     "hint_en" : ""
 }
@@ -12668,750 +12668,6 @@
     "hint_en" : ""
 }
 { 
-    "_id" : ObjectId("5acad6bb6108240cf8c108ad"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "guest_rf.guest_way", 
-    "ui_display_name_zh_TW" : "種類", 
-    "hint_zh_TW" : "種類", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108ae"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.order_sta", 
-    "ui_display_name_zh_TW" : "狀態", 
-    "hint_zh_TW" : "狀態", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108af"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "ikey", 
-    "ui_display_name_zh_TW" : "訂房卡號", 
-    "hint_zh_TW" : "訂房卡號", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108b0"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "ikey_qry", 
-    "ui_display_name_zh_TW" : "速查卡號", 
-    "hint_zh_TW" : "速查卡號", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108b1"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.ci_dat", 
-    "ui_display_name_zh_TW" : "c/i日期", 
-    "hint_zh_TW" : "c/i日期", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108b2"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.co_dat", 
-    "ui_display_name_zh_TW" : "c/o日期", 
-    "hint_zh_TW" : "c/o日期", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108b3"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.days", 
-    "ui_display_name_zh_TW" : "天數", 
-    "hint_zh_TW" : "天數", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108b4"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.room_cod", 
-    "ui_display_name_zh_TW" : "使用房型", 
-    "hint_zh_TW" : "使用房型", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108b5"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.room_sna", 
-    "ui_display_name_zh_TW" : "使用房型名稱", 
-    "hint_zh_TW" : "使用房型名稱", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108b6"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.order_qnt", 
-    "ui_display_name_zh_TW" : "間數", 
-    "hint_zh_TW" : "間數", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108b7"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.assign_qnt", 
-    "ui_display_name_zh_TW" : "排房數", 
-    "hint_zh_TW" : "排房數", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108b8"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.ci_qnt", 
-    "ui_display_name_zh_TW" : "c/i數", 
-    "hint_zh_TW" : "c/i數", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108b9"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "full_nam", 
-    "ui_display_name_zh_TW" : "full name", 
-    "hint_zh_TW" : "full name", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108ba"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "group_nos", 
-    "ui_display_name_zh_TW" : "團號", 
-    "hint_zh_TW" : "團號", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108bb"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "cust_nam", 
-    "ui_display_name_zh_TW" : "公司名稱", 
-    "hint_zh_TW" : "公司名稱", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108bc"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "atten_nam", 
-    "ui_display_name_zh_TW" : "聯絡人", 
-    "hint_zh_TW" : "聯絡人", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108bd"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.rate_cod", 
-    "ui_display_name_zh_TW" : "房價代號", 
-    "hint_zh_TW" : "房價代號", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108be"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.source_typ", 
-    "ui_display_name_zh_TW" : "訂房來源", 
-    "hint_zh_TW" : "訂房來源", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108bf"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "deposit_nos", 
-    "ui_display_name_zh_TW" : "訂金編號", 
-    "hint_zh_TW" : "訂金編號", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108c0"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "confirm_sta", 
-    "ui_display_name_zh_TW" : "確認狀態", 
-    "hint_zh_TW" : "確認狀態", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108c1"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "confirm_dat", 
-    "ui_display_name_zh_TW" : "確認日期", 
-    "hint_zh_TW" : "確認日期", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108c2"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.use_cod", 
-    "ui_display_name_zh_TW" : "計價房型", 
-    "hint_zh_TW" : "計價房型", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108c3"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.use_sna", 
-    "ui_display_name_zh_TW" : "計價房型名稱", 
-    "hint_zh_TW" : "計價房型名稱", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108c4"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.guest_typ", 
-    "ui_display_name_zh_TW" : "市場類別", 
-    "hint_zh_TW" : "市場類別", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108c5"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "master_nos", 
-    "ui_display_name_zh_TW" : "公帳號", 
-    "hint_zh_TW" : "公帳號", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108c6"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "rvreserve_nos", 
-    "ui_display_name_zh_TW" : "官網卡號", 
-    "hint_zh_TW" : "官網卡號", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108c7"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.ins_dat", 
-    "ui_display_name_zh_TW" : "新增日", 
-    "hint_zh_TW" : "新增日", 
-    "ui_display_name_en" : "Add Date", 
-    "hint_en" : "Add Date"
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108c8"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.ins_usr", 
-    "ui_display_name_zh_TW" : "新增者", 
-    "hint_zh_TW" : "新增者", 
-    "ui_display_name_en" : "Add By", 
-    "hint_en" : "Add By"
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108c9"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.upd_dat", 
-    "ui_display_name_zh_TW" : "修改日", 
-    "hint_zh_TW" : "修改日", 
-    "ui_display_name_en" : "Upd Date", 
-    "hint_en" : "Upd Date"
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108ca"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "order_dt.upd_usr", 
-    "ui_display_name_zh_TW" : "修改者", 
-    "hint_zh_TW" : "修改者", 
-    "ui_display_name_en" : "Upd By", 
-    "hint_en" : "Upd By"
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108cb"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "sales_cod", 
-    "ui_display_name_zh_TW" : "業務員", 
-    "hint_zh_TW" : "業務員", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108cc"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "acust_nam", 
-    "ui_display_name_zh_TW" : "訂房公司", 
-    "hint_zh_TW" : "訂房公司", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108cd"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "ikey_qry", 
-    "ui_display_name_zh_TW" : "速查", 
-    "hint_zh_TW" : "速查", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108ce"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "ikey", 
-    "ui_display_name_zh_TW" : "訂房卡號", 
-    "hint_zh_TW" : "訂房卡號", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108cf"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "rvreserve_nos", 
-    "ui_display_name_zh_TW" : "官網/聯訂中心", 
-    "hint_zh_TW" : "官網/聯訂中心", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108d0"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_dt.ci_dat", 
-    "ui_display_name_zh_TW" : "C/I日期", 
-    "hint_zh_TW" : "C/I日期", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108d1"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_dt.co_dat", 
-    "ui_display_name_zh_TW" : "C/O日期", 
-    "hint_zh_TW" : "C/O日期", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108d2"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_dt.order_sta", 
-    "ui_display_name_zh_TW" : "訂房卡狀態", 
-    "hint_zh_TW" : "訂房卡狀態", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108d3"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "guest_rf. guest_way", 
-    "ui_display_name_zh_TW" : "種類", 
-    "hint_zh_TW" : "種類", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108d4"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_dt.rate_cod", 
-    "ui_display_name_zh_TW" : "房價代號", 
-    "hint_zh_TW" : "房價代號", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108d5"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_dt.use_cod", 
-    "ui_display_name_zh_TW" : "計價房型", 
-    "hint_zh_TW" : "計價房型", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108d6"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_dt.room_cod", 
-    "ui_display_name_zh_TW" : "使用房型", 
-    "hint_zh_TW" : "使用房型", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108d7"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "master_nos", 
-    "ui_display_name_zh_TW" : "公帳號", 
-    "hint_zh_TW" : "公帳號", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108d8"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "full_nam", 
-    "ui_display_name_zh_TW" : "Full name", 
-    "hint_zh_TW" : "Full name", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108d9"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "group_nos", 
-    "ui_display_name_zh_TW" : "團號", 
-    "hint_zh_TW" : "團號", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108da"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "acust_nam", 
-    "ui_display_name_zh_TW" : "訂房公司", 
-    "hint_zh_TW" : "訂房公司", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108db"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_nam", 
-    "ui_display_name_zh_TW" : "公司名稱", 
-    "hint_zh_TW" : "公司名稱", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108dc"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "atten_nam", 
-    "ui_display_name_zh_TW" : "聯絡人", 
-    "hint_zh_TW" : "聯絡人", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108dd"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "block_cod", 
-    "ui_display_name_zh_TW" : "鎖控代號", 
-    "hint_zh_TW" : "鎖控代號", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108de"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_dt.source_typ", 
-    "ui_display_name_zh_TW" : "訂房來源", 
-    "hint_zh_TW" : "訂房來源", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108df"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_dt.guest_typ", 
-    "ui_display_name_zh_TW" : "市場類別", 
-    "hint_zh_TW" : "市場類別", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108e0"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_rmk", 
-    "ui_display_name_zh_TW" : "訂房備註", 
-    "hint_zh_TW" : "訂房備註", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108e1"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "tel_nos", 
-    "ui_display_name_zh_TW" : "聯絡電話", 
-    "hint_zh_TW" : "聯絡電話", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108e2"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "keep_dat", 
-    "ui_display_name_zh_TW" : "保留日期", 
-    "hint_zh_TW" : "保留日期", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108e3"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "confirm_sta", 
-    "ui_display_name_zh_TW" : "是否確認", 
-    "hint_zh_TW" : "是否確認", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108e4"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "confirm_dat", 
-    "ui_display_name_zh_TW" : "確認日期", 
-    "hint_zh_TW" : "確認日期", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108e5"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "confirm_usr", 
-    "ui_display_name_zh_TW" : "確認者", 
-    "hint_zh_TW" : "確認者", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108e6"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "cancel_usr", 
-    "ui_display_name_zh_TW" : "取消者", 
-    "hint_zh_TW" : "取消者", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108e7"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "cancel_dat", 
-    "ui_display_name_zh_TW" : "取消日期", 
-    "hint_zh_TW" : "取消日期", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108e8"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_dt.upd_usr", 
-    "ui_display_name_zh_TW" : "新增/修改者", 
-    "hint_zh_TW" : "新增/修改者", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108e9"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_dt.ins_dat", 
-    "ui_display_name_zh_TW" : "新增日期", 
-    "hint_zh_TW" : "新增日期", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("5acad6bb6108240cf8c108ea"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_dt.upd_dat", 
-    "ui_display_name_zh_TW" : "修改日期", 
-    "hint_zh_TW" : "修改日期", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
     "_id" : ObjectId("5ad80c606108243890b19b9d"), 
     "prg_id" : "PMS0810240", 
     "page_id" : NumberInt(1), 
@@ -14368,6 +13624,1544 @@
     "ui_field_name" : "search_guest_mn.alt_nam", 
     "ui_display_name_zh_TW" : "Profile", 
     "hint_zh_TW" : "Profile", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cda"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ikey", 
+    "ui_display_name_zh_TW" : "訂房卡號", 
+    "hint_zh_TW" : "訂房卡號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cdb"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.order_sta", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cdc"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.ci_dat", 
+    "ui_display_name_zh_TW" : "入住日期", 
+    "hint_zh_TW" : "入住日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cdd"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.co_dat", 
+    "ui_display_name_zh_TW" : "退房日期", 
+    "hint_zh_TW" : "退房日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cde"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.days", 
+    "ui_display_name_zh_TW" : "天數", 
+    "hint_zh_TW" : "天數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cdf"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.rate_cod", 
+    "ui_display_name_zh_TW" : "房價代號", 
+    "hint_zh_TW" : "房價代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19ce0"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.use_cod", 
+    "ui_display_name_zh_TW" : "計價房型", 
+    "hint_zh_TW" : "計價房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19ce1"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.use_sna", 
+    "ui_display_name_zh_TW" : "計價房型", 
+    "hint_zh_TW" : "計價房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19ce2"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.room_cod", 
+    "ui_display_name_zh_TW" : "使用房型", 
+    "hint_zh_TW" : "使用房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19ce3"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.room_sna", 
+    "ui_display_name_zh_TW" : "使用房型名稱", 
+    "hint_zh_TW" : "使用房型名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19ce4"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.order_qnt", 
+    "ui_display_name_zh_TW" : "訂房", 
+    "hint_zh_TW" : "訂房", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19ce5"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.assign_qnt", 
+    "ui_display_name_zh_TW" : "排房", 
+    "hint_zh_TW" : "排房", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19ce6"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.ci_qnt", 
+    "ui_display_name_zh_TW" : "C/I", 
+    "hint_zh_TW" : "C/I", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19ce7"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "rent_amt", 
+    "ui_display_name_zh_TW" : "單價", 
+    "hint_zh_TW" : "單價", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19ce8"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "serv_amt", 
+    "ui_display_name_zh_TW" : "服務費", 
+    "hint_zh_TW" : "服務費", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19ce9"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "group_nos", 
+    "ui_display_name_zh_TW" : "團號", 
+    "hint_zh_TW" : "團號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cea"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "acust_nam", 
+    "ui_display_name_zh_TW" : "訂房公司", 
+    "hint_zh_TW" : "訂房公司", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19ceb"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "atten_nam", 
+    "ui_display_name_zh_TW" : "聯絡人", 
+    "hint_zh_TW" : "聯絡人", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cec"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sales_cod", 
+    "ui_display_name_zh_TW" : "業務員", 
+    "hint_zh_TW" : "業務員", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19ced"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "rvreserve_nos", 
+    "ui_display_name_zh_TW" : "網訂編號", 
+    "hint_zh_TW" : "網訂編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cee"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ikey", 
+    "ui_display_name_zh_TW" : "訂房卡號", 
+    "hint_zh_TW" : "訂房卡號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cef"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.ikey_seq_nos", 
+    "ui_display_name_zh_TW" : "序號", 
+    "hint_zh_TW" : "序號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cf0"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.room_nos", 
+    "ui_display_name_zh_TW" : "房號", 
+    "hint_zh_TW" : "房號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cf1"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "full_nam", 
+    "ui_display_name_zh_TW" : "住客姓名", 
+    "hint_zh_TW" : "住客姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cf2"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.order_sta", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cf3"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.ci_dat", 
+    "ui_display_name_zh_TW" : "入住日期", 
+    "hint_zh_TW" : "入住日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cf4"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.co_dat", 
+    "ui_display_name_zh_TW" : "退房日期", 
+    "hint_zh_TW" : "退房日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cf5"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.days", 
+    "ui_display_name_zh_TW" : "天數", 
+    "hint_zh_TW" : "天數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cf6"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.rate_cod", 
+    "ui_display_name_zh_TW" : "房價代號", 
+    "hint_zh_TW" : "房價代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cf7"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.use_cod", 
+    "ui_display_name_zh_TW" : "計價房型", 
+    "hint_zh_TW" : "計價房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cf8"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.use_sna", 
+    "ui_display_name_zh_TW" : "計價房型", 
+    "hint_zh_TW" : "計價房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cf9"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.room_cod", 
+    "ui_display_name_zh_TW" : "使用房型", 
+    "hint_zh_TW" : "使用房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cfa"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.room_sna", 
+    "ui_display_name_zh_TW" : "使用房型名稱", 
+    "hint_zh_TW" : "使用房型名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cfb"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.order_qnt", 
+    "ui_display_name_zh_TW" : "訂房", 
+    "hint_zh_TW" : "訂房", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cfc"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.assign_qnt", 
+    "ui_display_name_zh_TW" : "排房", 
+    "hint_zh_TW" : "排房", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cfd"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.ci_qnt", 
+    "ui_display_name_zh_TW" : "C/I", 
+    "hint_zh_TW" : "C/I", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cfe"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "rent_amt", 
+    "ui_display_name_zh_TW" : "單價", 
+    "hint_zh_TW" : "單價", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19cff"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "serv_amt", 
+    "ui_display_name_zh_TW" : "服務費", 
+    "hint_zh_TW" : "服務費", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d00"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "group_nos", 
+    "ui_display_name_zh_TW" : "團號", 
+    "hint_zh_TW" : "團號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d01"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "acust_nam", 
+    "ui_display_name_zh_TW" : "訂房公司", 
+    "hint_zh_TW" : "訂房公司", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d02"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "atten_nam", 
+    "ui_display_name_zh_TW" : "聯絡人", 
+    "hint_zh_TW" : "聯絡人", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d03"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sales_cod", 
+    "ui_display_name_zh_TW" : "業務員", 
+    "hint_zh_TW" : "業務員", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d04"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.source_typ", 
+    "ui_display_name_zh_TW" : "訂房來源", 
+    "hint_zh_TW" : "訂房來源", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d05"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_dt.guest_typ", 
+    "ui_display_name_zh_TW" : "市場類別", 
+    "hint_zh_TW" : "市場類別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d06"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "rvreserve_nos", 
+    "ui_display_name_zh_TW" : "網訂編號", 
+    "hint_zh_TW" : "網訂編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d07"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ikey_qry", 
+    "ui_display_name_zh_TW" : "速查", 
+    "hint_zh_TW" : "速查", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d08"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ikey", 
+    "ui_display_name_zh_TW" : "訂房卡號", 
+    "hint_zh_TW" : "訂房卡號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d09"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "rvreserve_nos", 
+    "ui_display_name_zh_TW" : "網訂編號", 
+    "hint_zh_TW" : "網訂編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d0a"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.ci_dat", 
+    "ui_display_name_zh_TW" : "入住日期", 
+    "hint_zh_TW" : "入住日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d0b"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.co_dat", 
+    "ui_display_name_zh_TW" : "退房日期", 
+    "hint_zh_TW" : "退房日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d0c"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.order_sta", 
+    "ui_display_name_zh_TW" : "訂房卡狀態", 
+    "hint_zh_TW" : "訂房卡狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d0d"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "guest_rf. guest_way", 
+    "ui_display_name_zh_TW" : "種類", 
+    "hint_zh_TW" : "種類", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d0e"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.rate_cod", 
+    "ui_display_name_zh_TW" : "房價代號", 
+    "hint_zh_TW" : "房價代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d0f"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.use_cod", 
+    "ui_display_name_zh_TW" : "計價房型", 
+    "hint_zh_TW" : "計價房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d10"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.room_cod", 
+    "ui_display_name_zh_TW" : "使用房型", 
+    "hint_zh_TW" : "使用房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d11"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "master_nos", 
+    "ui_display_name_zh_TW" : "公帳號", 
+    "hint_zh_TW" : "公帳號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d12"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "full_nam", 
+    "ui_display_name_zh_TW" : "住客姓名", 
+    "hint_zh_TW" : "住客姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d13"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "group_nos", 
+    "ui_display_name_zh_TW" : "團號", 
+    "hint_zh_TW" : "團號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d14"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "acust_nam", 
+    "ui_display_name_zh_TW" : "訂房公司", 
+    "hint_zh_TW" : "訂房公司", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d15"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_nam", 
+    "ui_display_name_zh_TW" : "公司名稱", 
+    "hint_zh_TW" : "公司名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d16"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "atten_nam", 
+    "ui_display_name_zh_TW" : "聯絡人", 
+    "hint_zh_TW" : "聯絡人", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d17"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "block_cod", 
+    "ui_display_name_zh_TW" : "鎖控代號", 
+    "hint_zh_TW" : "鎖控代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d18"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.source_typ", 
+    "ui_display_name_zh_TW" : "訂房來源", 
+    "hint_zh_TW" : "訂房來源", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d19"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.guest_typ", 
+    "ui_display_name_zh_TW" : "市場類別", 
+    "hint_zh_TW" : "市場類別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d1a"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_rmk", 
+    "ui_display_name_zh_TW" : "訂房備註", 
+    "hint_zh_TW" : "訂房備註", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d1b"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "tel_nos", 
+    "ui_display_name_zh_TW" : "聯絡電話", 
+    "hint_zh_TW" : "聯絡電話", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d1c"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "keep_dat", 
+    "ui_display_name_zh_TW" : "保留日期", 
+    "hint_zh_TW" : "保留日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d1d"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "confirm_sta", 
+    "ui_display_name_zh_TW" : "是否確認", 
+    "hint_zh_TW" : "是否確認", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d1e"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "confirm_dat", 
+    "ui_display_name_zh_TW" : "確認日期", 
+    "hint_zh_TW" : "確認日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d1f"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "confirm_usr", 
+    "ui_display_name_zh_TW" : "確認者", 
+    "hint_zh_TW" : "確認者", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d20"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cancel_usr", 
+    "ui_display_name_zh_TW" : "取消者", 
+    "hint_zh_TW" : "取消者", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d21"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cancel_dat", 
+    "ui_display_name_zh_TW" : "取消日期", 
+    "hint_zh_TW" : "取消日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d22"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.upd_usr", 
+    "ui_display_name_zh_TW" : "新增/修改者", 
+    "hint_zh_TW" : "新增/修改者", 
+    "ui_display_name_en" : "AddBy/Upd By", 
+    "hint_en" : "Add By/Upd By"
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d23"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.ins_dat", 
+    "ui_display_name_zh_TW" : "新增日期", 
+    "hint_zh_TW" : "新增日期", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
+}
+{ 
+    "_id" : ObjectId("5b2ef5a74fc2249529c19d24"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.upd_dat", 
+    "ui_display_name_zh_TW" : "修改日期", 
+    "hint_zh_TW" : "修改日期", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8635"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "order_sta", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8636"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "ci_dat", 
+    "ui_display_name_zh_TW" : "C/I日期", 
+    "hint_zh_TW" : "C/I日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8637"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "co_dat", 
+    "ui_display_name_zh_TW" : "C/O日期", 
+    "hint_zh_TW" : "C/O日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8638"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "rate_cod", 
+    "ui_display_name_zh_TW" : "房價代號", 
+    "hint_zh_TW" : "房價代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8639"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "use_cod", 
+    "ui_display_name_zh_TW" : "計價房型", 
+    "hint_zh_TW" : "計價房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c863a"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "room_cod", 
+    "ui_display_name_zh_TW" : "使用房型", 
+    "hint_zh_TW" : "使用房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c863b"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "order_qnt", 
+    "ui_display_name_zh_TW" : "間數", 
+    "hint_zh_TW" : "間數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c863c"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "rent_amt", 
+    "ui_display_name_zh_TW" : "單價", 
+    "hint_zh_TW" : "單價", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c863d"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "serv_amt", 
+    "ui_display_name_zh_TW" : "服務費", 
+    "hint_zh_TW" : "服務費", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c863e"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "adult_qnt", 
+    "ui_display_name_zh_TW" : "大人", 
+    "hint_zh_TW" : "大人", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c863f"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "child_qnt", 
+    "ui_display_name_zh_TW" : "小孩", 
+    "hint_zh_TW" : "小孩", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8640"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "baby_qnt", 
+    "ui_display_name_zh_TW" : "嬰兒", 
+    "hint_zh_TW" : "嬰兒", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8641"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "ikey_seq_nos", 
+    "ui_display_name_zh_TW" : "序號", 
+    "hint_zh_TW" : "序號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8642"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "ci_dat", 
+    "ui_display_name_zh_TW" : "C/I日期", 
+    "hint_zh_TW" : "C/I日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8643"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "ci_dat_week", 
+    "ui_display_name_zh_TW" : "星期", 
+    "hint_zh_TW" : "星期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8644"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "days", 
+    "ui_display_name_zh_TW" : "天數", 
+    "hint_zh_TW" : "天數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8645"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "co_dat", 
+    "ui_display_name_zh_TW" : "C/O日期", 
+    "hint_zh_TW" : "C/O日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8646"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "co_dat_week", 
+    "ui_display_name_zh_TW" : "星期", 
+    "hint_zh_TW" : "星期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8647"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "rate_cod", 
+    "ui_display_name_zh_TW" : "房價代號", 
+    "hint_zh_TW" : "房價代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8648"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "use_cod", 
+    "ui_display_name_zh_TW" : "計價房型", 
+    "hint_zh_TW" : "計價房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8649"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "room_cod", 
+    "ui_display_name_zh_TW" : "使用房型", 
+    "hint_zh_TW" : "使用房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c864a"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "rent_amt", 
+    "ui_display_name_zh_TW" : "單價", 
+    "hint_zh_TW" : "單價", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c864b"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "serv_amt", 
+    "ui_display_name_zh_TW" : "服務費", 
+    "hint_zh_TW" : "服務費", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c864c"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "commis_rat", 
+    "ui_display_name_zh_TW" : "佣金", 
+    "hint_zh_TW" : "佣金", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c864d"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "adult_qnt", 
+    "ui_display_name_zh_TW" : "大人", 
+    "hint_zh_TW" : "大人", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c864e"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "child_qnt", 
+    "ui_display_name_zh_TW" : "小孩", 
+    "hint_zh_TW" : "小孩", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c864f"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "baby_qnt", 
+    "ui_display_name_zh_TW" : "嬰兒", 
+    "hint_zh_TW" : "嬰兒", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8650"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "source_typ", 
+    "ui_display_name_zh_TW" : "訂房來源", 
+    "hint_zh_TW" : "訂房來源", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8651"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "guest_typ", 
+    "ui_display_name_zh_TW" : "市場類別", 
+    "hint_zh_TW" : "市場類別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8652"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "assign_sta", 
+    "ui_display_name_zh_TW" : "排房狀態", 
+    "hint_zh_TW" : "排房狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8653"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "room_nos", 
+    "ui_display_name_zh_TW" : "房號", 
+    "hint_zh_TW" : "房號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8654"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "alt_nam", 
+    "ui_display_name_zh_TW" : "住客姓名", 
+    "hint_zh_TW" : "住客姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8655"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "ui_field_name" : "ikey_seq_nos", 
+    "ui_display_name_zh_TW" : "序號", 
+    "hint_zh_TW" : "序號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8656"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "ui_field_name" : "alt_nam", 
+    "ui_display_name_zh_TW" : "住客姓名", 
+    "hint_zh_TW" : "住客姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8657"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "ui_field_name" : "assign_sta", 
+    "ui_display_name_zh_TW" : "排房狀態", 
+    "hint_zh_TW" : "排房狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8658"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "ui_field_name" : "room_nos", 
+    "ui_display_name_zh_TW" : "房號", 
+    "hint_zh_TW" : "房號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8659"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "ui_field_name" : "contry_cod", 
+    "ui_display_name_zh_TW" : "國籍", 
+    "hint_zh_TW" : "國籍", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c865a"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "ui_field_name" : "pref_room", 
+    "ui_display_name_zh_TW" : "喜好房號", 
+    "hint_zh_TW" : "喜好房號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c865b"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "ui_field_name" : "car_nos", 
+    "ui_display_name_zh_TW" : "車號", 
+    "hint_zh_TW" : "車號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c865c"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "order_sta", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c865d"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "ci_dat", 
+    "ui_display_name_zh_TW" : "C/I日期", 
+    "hint_zh_TW" : "C/I日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c865e"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "co_dat", 
+    "ui_display_name_zh_TW" : "C/O日期", 
+    "hint_zh_TW" : "C/O日期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c865f"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "rate_cod", 
+    "ui_display_name_zh_TW" : "房價代號", 
+    "hint_zh_TW" : "房價代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8660"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "use_cod", 
+    "ui_display_name_zh_TW" : "計價房型", 
+    "hint_zh_TW" : "計價房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8661"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "room_cod", 
+    "ui_display_name_zh_TW" : "使用房型", 
+    "hint_zh_TW" : "使用房型", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8662"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "order_qnt", 
+    "ui_display_name_zh_TW" : "間數", 
+    "hint_zh_TW" : "間數", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8663"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "rent_amt", 
+    "ui_display_name_zh_TW" : "單價", 
+    "hint_zh_TW" : "單價", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8664"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "serv_amt", 
+    "ui_display_name_zh_TW" : "服務費", 
+    "hint_zh_TW" : "服務費", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8665"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "adult_qnt", 
+    "ui_display_name_zh_TW" : "大人", 
+    "hint_zh_TW" : "大人", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8666"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "child_qnt", 
+    "ui_display_name_zh_TW" : "小孩", 
+    "hint_zh_TW" : "小孩", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8667"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "baby_qnt", 
+    "ui_display_name_zh_TW" : "嬰兒", 
+    "hint_zh_TW" : "嬰兒", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8668"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "ikey_seq_nos", 
+    "ui_display_name_zh_TW" : "序號", 
+    "hint_zh_TW" : "序號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c8669"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "room_nos", 
+    "ui_display_name_zh_TW" : "房號", 
+    "hint_zh_TW" : "房號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c866a"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "guest_nam", 
+    "ui_display_name_zh_TW" : "住客姓名", 
+    "hint_zh_TW" : "住客姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b332108da036919d42c866b"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(3), 
+    "ui_field_name" : "alt_nam", 
+    "ui_display_name_zh_TW" : "住客姓名", 
+    "hint_zh_TW" : "住客姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b33c37e239a0c4f07e60242"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "ci_dat_week", 
+    "ui_display_name_zh_TW" : "星期", 
+    "hint_zh_TW" : "星期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b33c41a239a0c4f07e60247"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "co_dat_week", 
+    "ui_display_name_zh_TW" : "星期", 
+    "hint_zh_TW" : "星期", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5b33c433239a0c4f07e60248"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "days", 
+    "ui_display_name_zh_TW" : "天數", 
+    "hint_zh_TW" : "天數", 
     "ui_display_name_en" : "", 
     "hint_en" : ""
 }

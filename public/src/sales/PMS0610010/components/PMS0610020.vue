@@ -38,19 +38,20 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select>
 
-                                            <bac-select-grid v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
-                                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                             :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                             v-model="singleData[field.ui_field_name]"
-                                                             :columns="field.selectData.columns"
-                                                             :data="field.selectData.selectData"
-                                                             :field="field"
-                                                             :is-qry-src-before="field.selectData.isQrySrcBefore"
-                                                             :id-field="field.selectData.value"
-                                                             :text-field="field.selectData.display"
-                                                             @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                             :default-val="singleData[field.ui_field_name]"
-                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
+                                            <bac-select-grid
+                                                    v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                    v-model="singleData[field.ui_field_name]"
+                                                    :columns="field.selectData.columns"
+                                                    :data="field.selectData.selectData"
+                                                    :field="field"
+                                                    :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                    :id-field="field.selectData.value"
+                                                    :text-field="field.selectData.display"
+                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                    :default-val="singleData[field.ui_field_name]"
+                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                             </bac-select-grid>
                                         </div>
@@ -81,7 +82,7 @@
                                              disabled>
                                 </el-tab-pane>
                             </el-tabs>
-                            <div class="easyui-tabs easyUi-custom1 borderFrame"
+                            <div class="easyui-tabs borderFrame"
                                  style="min-height: 0; height: 380px !important; overflow-y: auto;">
                                 <div id="setPanel" v-show="tabName=='set'" class="padding-tabs">
                                     <related-setting
@@ -334,7 +335,7 @@
             });
             //取得相關人員資料，並改變主檔資料(主要聯絡人)
             this.$eventHub.$on('chgRelatedPersonData', function () {
-                _.each(self.$store.state.go_allData.ga_rpDataGridRowsData, (go_rpDataGridRowsData) => {
+                _.each(self.$store.state.custMnModule.go_allData.ga_rpDataGridRowsData, (go_rpDataGridRowsData) => {
                     if (go_rpDataGridRowsData.primary_pers == 'Y') {
                         self.singleData.atten_cod = go_rpDataGridRowsData.seq_nos;
                     }
@@ -427,7 +428,7 @@
                         }
 
                         //將主檔資料放至Vuex
-                        this.$store.dispatch("setMnSingleData", {
+                        this.$store.dispatch("custMnModule/setMnSingleData", {
                             go_mnSingleData: lo_singleData,
                             go_mnOriSingleData: lo_oriSingleData
                         });
@@ -445,13 +446,13 @@
                 this.setGlobalStatus();
             },
             setGlobalStatus() {
-                this.$store.dispatch("setStatus", {
+                this.$store.dispatch("custMnModule/setStatus", {
                     gb_isCreateStatus: this.isCreateStatus,
                     gb_isEditStatus: this.isEditStatus
                 });
             },
             setGlobalCustCod() {
-                this.$store.dispatch("setCustCod", this.singleData.cust_cod);
+                this.$store.dispatch("custMnModule/setCustCod", this.singleData.cust_cod);
             },
             setTabStatus(tabName) {
                 var self = this;
@@ -471,7 +472,6 @@
                 _.each(la_panelName, function (ls_panelName) {
                     $("#" + ls_panelName).hide();
                 });
-
                 $("#" + ls_showPanelName).show();
             },
             fetchFieldData() {
@@ -543,7 +543,7 @@
                 }
 
                 //檢查合約資料區間是否有重疊
-                let la_examData = JSON.parse(JSON.stringify(this.$store.state.go_allData.ga_ccDataGridRowsData));
+                let la_examData = JSON.parse(JSON.stringify(this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData));
                 for (let i = 0; i < la_examData.length; i++) {
                     for (let j = 0; j < i; j++) {
                         let lo_nowData = la_examData[i];
@@ -573,7 +573,7 @@
                 compar_end_dat = moment.isMoment(compar_end_dat) ? compar_end_dat : moment(new Date(compar_end_dat));
                 now_begin_dat = moment.isMoment(now_begin_dat) ? now_begin_dat : moment(new Date(now_begin_dat));
                 now_end_dat = moment.isMoment(now_end_dat) ? now_end_dat : moment(new Date(now_end_dat));
-                console.log(compar_begin_dat, now_end_dat );
+                console.log(compar_begin_dat, now_end_dat);
                 if (compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0) {
                     return true;
                 }
@@ -599,7 +599,7 @@
                 lo_oriSingleData.sales_cod = this.oriSingleData.sales_cod.split(":")[0];
 
                 //將主檔資料放至Vuex
-                this.$store.dispatch("setMnSingleData", {
+                this.$store.dispatch("custMnModule/setMnSingleData", {
                     go_mnSingleData: lo_singleData,
                     go_mnOriSingleData: lo_oriSingleData
                 });
@@ -618,10 +618,10 @@
                     this.isLoadingDialog = false;
                 }
                 else {
-                    this.$store.dispatch("doSaveAllData").then(result => {
+                    this.$store.dispatch("custMnModule/doSaveAllData").then(result => {
                         if (result.success) {
                             alert(go_i18nLang.program.PMS0610020.save_success);
-                            this.$store.dispatch("setAllDataClear");
+                            this.$store.dispatch("custMnModule/setAllDataClear");
                             let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
                             this.rowData = {};
                             this.tabName = "";
@@ -641,7 +641,7 @@
             doSetCompanyStatus() {
                 var self = this;
                 if (this.isEditStatus) {
-                    this.$store.dispatch("qryAllDataIsChange").then(result => {
+                    this.$store.dispatch("custMnModule/qryAllDataIsChange").then(result => {
                         if (result.success) {
                             if (!result.isChange) {
                                 this.isOpenCompanyStatus = true;
@@ -662,7 +662,7 @@
                 var la_contractStaFieldData = JSON.parse(JSON.stringify(_.findWhere(self.oriFieldsData, {ui_field_name: "contract_sta"})));
                 la_contractStaFieldData.modificable = 'Y';
                 if (this.isEditStatus) {
-                    this.$store.dispatch("qryAllDataIsChange").then(result => {
+                    this.$store.dispatch("custMnModule/qryAllDataIsChange").then(result => {
                         if (result.success) {
                             if (!result.isChange) {
                                 this.isOpenContractStatus = true;
