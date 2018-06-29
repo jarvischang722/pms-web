@@ -5,7 +5,7 @@
         <statement><![CDATA[
             select SUM(DECODE(FEE_TYP, 'R', ITEM_AMT)) rent_amt,
             SUM(DECODE(FEE_TYP, 'S', ITEM_AMT)) serv_amt,
-            SUM(ITEM_AMT) other_tot
+            SUM(ITEM_AMT) total
             from TMP_ORDER_APPRAISE
             WHERE  ikey = :ikey
             AND key_nos = :key_nos

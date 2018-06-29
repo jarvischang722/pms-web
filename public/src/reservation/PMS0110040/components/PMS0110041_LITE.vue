@@ -940,6 +940,12 @@
                                         let ln_editIndex = _.findIndex(this.orderDtRowsData, lo_param);
                                         if (ln_editIndex > -1) {
                                             this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_doComputePrice.effectValues);
+                                            let lo_editParam = {
+                                                other_tot: lo_doComputePrice.effectValues.other_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
+                                                rent_tot: lo_doComputePrice.effectValues.rent_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
+                                                serv_tot: lo_doComputePrice.effectValues.serv_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
+                                            };
+                                            this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_editParam);
                                         }
                                     });
                                 }
@@ -974,7 +980,9 @@
                 }
             },
             "orderMnSingleData.acust_nam"(val) {
-                this.orderMnSingleData.acust_cod = val;
+                if (val != "") {
+                    this.orderMnSingleData.acust_cod = val;
+                }
             },
             orderDtRowsData: {
                 handler(val) {
@@ -1080,7 +1088,7 @@
             },
             orderDtRowsData4Single: {
                 handler(val) {
-                    console.log(val.source_typ);
+                    console.log(val);
                     _.each(this.groupOrderDtData, (lo_groupData) => {
                         let ln_editIndex = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
                         if (ln_editIndex > -1) {
@@ -1477,11 +1485,6 @@
                     //顯示在單筆的order dt資料
                     let la_orderDtRowsData4table = JSON.parse(JSON.stringify(this.orderDtRowsData4table));
                     this.orderDtRowsData4Single = _.isUndefined(newIndex) ? _.first(la_orderDtRowsData4table) : la_orderDtRowsData4table[newIndex];
-                    this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, {
-                        source_typ: 1,
-                        guest_typ: 1,
-                        noshow_qnt: 1
-                    });
                     this.orderDtRowsData4Single.sub_tot =
                         Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
                     let lo_qutParams = {
@@ -1662,6 +1665,9 @@
                 }
             },
             appendRow() {
+                let lo_sourceTypField = _.isUndefined(_.findWhere(this.orderDtFieldsData, {ui_field_name: 'source_typ'})) ? {} : _.findWhere(this.orderDtFieldsData, {ui_field_name: 'source_typ'});
+                let lo_guestTypField = _.isUndefined(_.findWhere(this.orderDtFieldsData, {ui_field_name: 'guest_typ'})) ? {} : _.findWhere(this.orderDtFieldsData, {ui_field_name: 'guest_typ'});
+
                 if (this.isModifiable) {
                     let lo_addData = {
                         add_baby: 0,
@@ -1684,6 +1690,7 @@
                         co_dat_week: moment().add(1, 'days').format('ddd'),
                         commis_rat: 1,
                         days: 1,
+                        guest_typ: "",
                         ikey: this.orderMnSingleData.ikey,
                         noshow_qnt: 1,
                         order_qnt: 1,
@@ -1695,6 +1702,7 @@
                         room_cod: null,
                         serv_amt: 0,
                         serv_tot: 0,
+                        source_typ: "",
                         use_cod: null
                     };
                     lo_addData.ikey_seq_nos = this.orderDtRowsData.length > 0 ?
@@ -1815,7 +1823,16 @@
             },
             doConvertData() {
                 let lo_saveSingleData = JSON.parse(JSON.stringify(this.orderMnSingleData));
+                //旅客登記卡印房租
                 this.orderMnSingleData.prtconfirm_sta = lo_saveSingleData.prtconfirm_sta ? 'Y' : 'N';
+
+                //訂房公司
+                let lo_acustField = _.findWhere(this.oriOrderMnFieldsData, {ui_field_name: 'acust_nam'});
+                if (!_.isUndefined(lo_acustField)) {
+                    let la_acustSelectData = _.isUndefined(lo_acustField.selectData) ? [] : lo_acustField.selectData.selectData;
+                    let lo_selectedData = _.findWhere(la_acustSelectData, {cust_cod: lo_saveSingleData.acust_cod});
+                    this.orderMnSingleData.acust_nam = _.isUndefined(lo_selectedData) ? lo_saveSingleData.acust_nam : lo_selectedData.alt_nam;
+                }
             },
             async doSave() {
                 this.isLoadingDialog = true;
@@ -1839,7 +1856,6 @@
                         this.tmpCUD[ls_key].push(this.guestMnTmpCUD[ls_key][ln_idx]);
                     });
                 });
-
                 let lo_saveData = await
                     BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
                         prg_id: 'PMS0110041',

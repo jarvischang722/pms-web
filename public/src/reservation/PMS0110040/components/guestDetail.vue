@@ -17,7 +17,6 @@
 
                 <div class="clearfix"></div>
                 <div class="space-6"></div>
-
                 <div class="row">
                     <!-------- tabPage -------->
                     <div class="col-xs-11 col-sm-11">
@@ -37,8 +36,8 @@
                                 </div>
                             </div>
                             <el-tabs v-model="activeName" type="card">
-                                <el-tab-pane label="訂房多筆" name="orderDetail"></el-tab-pane>
-                                <el-tab-pane label="訂房明細" name="guestDetail"></el-tab-pane>
+                                <el-tab-pane label="訂房明細" name="orderDetail"></el-tab-pane>
+                                <el-tab-pane label="住客名單" name="guestDetail"></el-tab-pane>
                             </el-tabs>
                             <div>
                                 <div class="easyui-panel" v-show="activeName=='orderDetail'">

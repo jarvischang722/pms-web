@@ -403,7 +403,7 @@ module.exports = {
                 });
                 lo_result.effectValues.rent_amt = lo_fetchPrice.rent_amt;
                 lo_result.effectValues.serv_amt = lo_fetchPrice.serv_amt;
-                lo_result.effectValues.other_tot = lo_fetchPrice.other_tot;
+                lo_result.effectValues.other_amt = Number(lo_fetchPrice.total) - Number(lo_fetchPrice.serv_amt) - Number(lo_fetchPrice.rent_amt);
             }
             //
             // lo_result.effectValues.rent_amt = 0;
