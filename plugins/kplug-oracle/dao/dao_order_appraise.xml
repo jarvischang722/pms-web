@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0830010] 查詢OPEN_RF數量-->
+    <dao name="QUY_ORDER_APPRAISE_FOR_ORDER_DT">
+        <statement><![CDATA[
+            select SUM(DECODE(FEE_TYP, 'R', ITEM_AMT)) rent_amt,
+            SUM(DECODE(FEE_TYP, 'S', ITEM_AMT)) serv_amt,
+            SUM(ITEM_AMT) total
+            from TMP_ORDER_APPRAISE
+            WHERE  ikey = :ikey
+            AND key_nos = :key_nos
+            AND ikey_seq_nos = :ikey_seq_nos
+            AND SEQ_NOS = PARENT_SEQ_NOS
+            AND ATHENA_ID = :athena_id
+            AND HOTEL_COD = :hotel_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="String" kind="3">hotel_cod</parameter>
+        <parameter type="String" kind="3">ikey_seq_nos</parameter>
+        <parameter type="String" kind="3">ikey</parameter>
+        <parameter type="String" kind="3">key_nos</parameter>
+    </dao>
+</root>

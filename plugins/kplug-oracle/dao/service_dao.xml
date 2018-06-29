@@ -65,6 +65,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_lang_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_msggtrmk_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_open_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_order_appraise.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_order_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_order_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_pg_ais.xml"/>

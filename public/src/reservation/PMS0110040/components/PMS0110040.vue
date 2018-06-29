@@ -246,21 +246,18 @@
                 <!--<div class="blockSetting-heading">查詢結果</div>-->
                 <div class="col-sm-11 col-xs-11">
                     <div class="row no-margin-right">
-
-                        <!--<table id="PMS0110040_dg" class=""></table>-->
-
                         <template>
                             <el-tabs v-model="activeName" type="card">
-                                <el-tab-pane label="訂房多筆" name="first"></el-tab-pane>
-                                <el-tab-pane label="訂房明細" name="second"></el-tab-pane>
+                                <el-tab-pane label="訂房多筆" name="mnDg"></el-tab-pane>
+                                <el-tab-pane label="訂房明細" name="dtDg"></el-tab-pane>
                             </el-tabs>
                         </template>
                         <div>
-                            <div id="bookings01" class="easyui-panel" v-show="activeName=='first'">
-                                <table id="resv_bookings01-table" class="gridTableHt"></table>
+                            <div class="easyui-panel" v-show="activeName=='mnDg'">
+                                <table id="PMS0110040_mnDg" class="gridTableHt"></table>
                             </div>
-                            <div id="bookings02" class="easyui-panel" v-show="activeName=='second'">
-                                <table id="resv_bookings02-table" class="gridTableHt"></table>
+                            <div class="easyui-panel" v-show="activeName=='dtDg'">
+                                <table id="PMS0110040_dtDg" class="gridTableHt"></table>
                             </div>
                         </div>
                     </div>
@@ -270,32 +267,40 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                            role="button">新增
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" @click="appendRow">新增
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                            role="button">修改
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" @click="editRow">修改
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1 resv-view"
-                                            role="button">瀏覽
+                                    <button class="btn btn-primary btn-white btn-defaultWidth  resv-view"
+                                            role="button" @click="browsRow">瀏覽
                                     </button>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div> <!-- /.col-sm-12 -->
-            <div class="clearfix"></div>
-
+                <div class="clearfix"></div>
+            </div>
+            <pms0110041-lite
+                    :row-data="editingRow"
+                    :is-modifiable="isModifiable"
+                    :is-create-status="isCreateStatus"
+                    :is-edit-status="isEditStatus"
+            ></pms0110041-lite>
         </div>
     </div>
 </template>
 
 <script>
+    import pms0110041Lite from './PMS0110041_LITE.vue';
+
+    Vue.prototype.$eventHub = new Vue();
 
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
@@ -309,6 +314,7 @@
 
     export default {
         name: "p-m-s0110040",
+        components: {pms0110041Lite},
         data() {
             return {
                 /**
@@ -321,150 +327,172 @@
                 checkDate: new Date(),
                 cancelDate: new Date(),
                 editDate: new Date(),
-                activeName: '',
-
+                activeName: 'mnDg',
+                dtIns: null,
+                mnIns: null,
                 prg_id: "PMS0110040",
                 userInfo: {},               //使用者資訊
                 searchFields: [],           //搜尋欄位資料
                 searchCond: {},             //搜尋資料
-                pageOneDataGridRows: [],    //多筆資料
-                pageOneFieldData: []        //多筆欄位資料
+                mnDgRowsData: [],           //多筆資料
+                mnDgFieldsData: [],         //多筆欄位資料
+                dtDgRowsData: [],           //訂房明細資料
+                dtDgFieldsData: [],         //訂房明細欄位資料
+                dgIns: null,
+                editingRow: {},
+                isCreateStatus: false,
+                isEditStatus: false,
+                isModifiable: true,
             }
         },
         watch: {
-            /**
-             * 靜態所綁的資料
-             */
             activeName(val) {
-                if (val == 'first') {
-                    $('#bookings02').hide();
-                    $('#bookings01').show();
-                    $('#resv_bookings01-table').datagrid({
-                        singleSelect: true,
-                        collapsible: true,
-                        url: '/jsonData/reservation/resv_bookings01.json',
-                        method: 'get',
-                        columns: [[
-                            {field: 'resvCardNum', title: '訂房卡號', width: 80},
-                            {field: 'status', title: '狀態', width: 60},
-                            {field: 'ciDate', title: '入住日期', width: 80},
-                            {field: 'coDate', title: '退房日期', width: 80},
-                            {field: 'dateNum', title: '天數', width: 40},
-                            {field: 'roomPriceCode', title: '房價代號', width: 150},
-                            {field: 'roomKindAcc', title: '計價房型', width: 65},
-                            {field: 'useHousing', title: '使用房型', width: 65},
-                            {field: 'resv', title: '訂房', width: 50, align: "right"},
-                            {field: 'assignRoom', title: '排房', width: 50, align: "right"},
-                            {field: 'ci', title: 'C/I', width: 50, align: "right"},
-                            {field: 'uniPrice', title: '單價', width: 70, align: "right"},
-                            {field: 'serPrice', title: '服務費', width: 70, align: "right"},
-                            {field: 'groupNum', title: '團號', width: 60},
-                            {field: 'companyName', title: '訂房公司', width: 130},
-                            {field: 'connection', title: '聯絡人', width: 110},
-                            {field: 'sales', title: '業務員', width: 110},
-                            {field: 'onlineBookNum', title: '網訂編號', width: 90}
-                        ]]
-                    });
-                }
-                else {
-                    $('#bookings01').hide();
-                    $('#bookings02').show();
-                    $('#resv_bookings02-table').datagrid({
-                        singleSelect: true,
-                        reload: true,
-                        collapsible: true,
-                        url: '/jsonData/reservation/resv_bookings02.json',
-                        method: 'get',
-                        columns: [[
-                            {field: 'resvCardNum', title: '訂房卡號', width: 80},
-                            {field: 'sort', title: '序號', width: 40},
-                            {field: 'room', title: '房號', width: 40},
-                            {field: 'name', title: '住客姓名', width: 80},
-                            {field: 'status', title: '狀態', width: 60},
-                            {field: 'ciDate', title: '入住日期', width: 80},
-                            {field: 'coDate', title: '退房日期', width: 80},
-                            {field: 'dateNum', title: '天數', width: 40},
-                            {field: 'roomPriceCode', title: '房價代號', width: 150},
-                            {field: 'roomKindAcc', title: '計價房型', width: 65},
-                            {field: 'useHousing', title: '使用房型', width: 65},
-                            {field: 'resv', title: '訂房', width: 50, align: "right"},
-                            {field: 'assignRoom', title: '排房', width: 50, align: "right"},
-                            {field: 'ci', title: 'C/I', width: 50, align: "right"},
-                            {field: 'uniPrice', title: '單價', width: 60, align: "right"},
-                            {field: 'serPrice', title: '服務費', width: 60, align: "right"},
-                            {field: 'groupNum', title: '團號', width: 40},
-                            {field: 'companyName', title: '訂房公司', width: 100},
-                            {field: 'connection', title: '聯絡人', width: 80},
-                            {field: 'sales', title: '業務員', width: 80},
-                            {field: 'resvSource', title: '訂房來源', width: 80},
-                            {field: 'marketCategory', title: '市場類別', width: 100},
-                            {field: 'onlineBookNum', title: '網訂編號', width: 80}
-                        ]]
-                    });
-
+                if (val == "dtDg" && this.dtIns == null) {
+                    this.fetchDgFieldsRowDataByTabPageId(2);
                 }
             }
         },
         mounted() {
             this.fetchUserInfo();
-
-            this.activeName = 'first';
-
-//            this.fetchDgFieldsRowData();
+            this.fetchDgFieldsRowDataByTabPageId(1);
         },
         methods: {
-            /**
-             * 靜態所綁的資料
-             */
-            handleClick(tab, event) {
-            },
-
             fetchUserInfo() {
-                let self = this;
-                BacUtils.doHttpPromisePostProxy('/api/getUserInfo').then(function (result) {
+                BacUtils.doHttpPromisePostProxy('/api/getUserInfo').then((result) => {
                     if (result.success) {
-                        self.userInfo = result.userInfo;
+                        this.userInfo = result.userInfo;
                     }
                 });
             },
-            fetchDgFieldsRowData() {
-                let lo_searchCond = _.clone(this.searchCond);
-
+            /**
+             * 透過tab_page_id取多筆欄位資訊和資料
+             * @param tab_page_id {number} 分頁
+             */
+            fetchDgFieldsRowDataByTabPageId(tab_page_id) {
                 let lo_params = {
                     prg_id: this.prg_id,
                     page_id: 1,
-                    searchCond: lo_searchCond
+                    tab_page_id: tab_page_id,
+                    searchCond: this.searchCond
                 };
-                // this.isLoading = true;
+
                 BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params).then(result => {
-                    if (this.searchFields.length <= 0) {
-                        this.searchFields = result.searchFields;
+                    if (result.success) {
+                        if (this.searchFields.length <= 0) {
+                            this.searchFields = result.searchFields;
+                        }
+
+                        if (tab_page_id == 1) {
+                            this.mnDgFieldsData = result.dgFieldsData;
+                            this.mnDgRowsData = result.dgRowData;
+                        }
+                        else {
+                            this.dtDgFieldsData = result.dgFieldsData;
+                            this.dtDgRowsData = result.dgRowData;
+                        }
+
+                        this.showDataGrid(tab_page_id);
                     }
-                    this.pageOneFieldData = result.dgFieldsData;
-                    this.pageOneDataGridRows = result.dgRowData;
-                    this.showDataGrid();
-                    // this.isLoading = false;
+                    else {
+                        console.error(result.errorMsg);
+                    }
+
                 });
             },
-            showDataGrid() {
+            showDataGrid(tab_page_id) {
+                let ls_dgId;
+                let la_dgFieldsData;
+                let la_dgRowsData;
+                if (tab_page_id == 1) {
+                    ls_dgId = "PMS0110040_mnDg";
+                    la_dgFieldsData = this.mnDgFieldsData;
+                    la_dgRowsData = this.mnDgRowsData;
+                }
+                else {
+                    ls_dgId = "PMS0110040_dtDg";
+                    la_dgFieldsData = this.dtDgFieldsData;
+                    la_dgRowsData = this.dtDgRowsData;
+                }
+
                 this.dgIns = new DatagridSingleGridClass();
-                this.dgIns.init(this.prg_id, "PMS0110040_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0110040_dg'), this.pageOneFieldData, {
+                this.dgIns.init(this.prg_id, ls_dgId, DatagridFieldAdapter.combineFieldOption(la_dgFieldsData, ls_dgId), la_dgFieldsData, {
                     pagination: true,
                     rownumbers: true
                 });
-                this.dgIns.loadPageDgData(this.pageOneDataGridRows);
+                this.dgIns.loadPageDgData(la_dgRowsData);
             },
             fetchDgRowData() {
-                let lo_params = {
-                    prg_id: this.prg_id,
-                    page_id: 1,
-                    searchCond: this.searchCond
-                };
-                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params).then( result => {
-                    console.log(result);
-                    this.pageOneDataGridRows = result.dgRowData;
-                    this.dgIns.loadPageDgData(this.pageOneDataGridRows);
+//                let lo_params = {
+//                    prg_id: this.prg_id,
+//                    page_id: 1,
+//                    searchCond: this.searchCond
+//                };
+//                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params).then(result => {
+//                    console.log(result);
+//                    this.mnDgRowsData = result.dgRowData;
+//                    this.dgIns.loadPageDgData(this.mnDgRowsData);
+//                });
+            },
+            appendRow() {
+                this.isEditStatus = false;
+                this.isCreateStatus = true;
+                this.editingRow = {ikey: ""};
+
+                this.showSingleGridDialog();
+            },
+            editRow() {
+                this.isLoading = true;
+                this.isCreateStatus = false;
+                this.isEditStatus = true;
+                this.isModifiable = true;
+                this.editingRow = {};
+
+                let ls_dgName = this.activeName == 'mnDg' ? "PMS0110040_mnDg" : "PMS0110040_dtDg";
+                let lo_editRow = $('#' + ls_dgName).datagrid('getSelected');
+                if (!lo_editRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectData);
+                }
+                else {
+                    this.editingRow = lo_editRow;
+                    this.showSingleGridDialog();
+                }
+                this.isLoading = false;
+            },
+            browsRow() {
+                this.isLoading = true;
+                this.isCreateStatus = false;
+                this.isEditStatus = true;
+                this.isModifiable = false;
+                this.editingRow = {};
+
+                let ls_dgName = this.activeName == 'mnDg' ? "PMS0110040_mnDg" : "PMS0110040_dtDg";
+                let lo_editRow = $('#' + ls_dgName).datagrid('getSelected');
+                if (!lo_editRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectData);
+                }
+                else {
+                    this.editingRow = lo_editRow;
+                    this.showSingleGridDialog();
+                }
+                this.isLoading = false;
+            },
+            showSingleGridDialog() {
+                let self = this;
+                let dialog = $('#PMS0110041Lite').removeClass('hide').dialog({
+                    autoOpen: false,
+                    modal: true,
+                    title: '訂房卡',
+                    width: 1000,
+                    maxHeight: 1920,
+                    resizable: true,
+                    onBeforeClose() {
+                        self.editingRow = {};
+                        self.isEditStatus = false;
+                        self.isCreateStatus = false;
+                        self.$eventHub.$emit("clearData");
+                    }
                 });
+                dialog.dialog('open');
             }
         }
     }

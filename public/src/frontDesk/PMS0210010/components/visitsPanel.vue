@@ -47,11 +47,11 @@
         watch: {
             isVisitsPanel(val) {
                 if (val) {
-                    if (this.$store.state.ga_shopInfoFieldsData.length != 0) {
-                        this.shopInfoFieldsData = this.$store.state.ga_shopInfoFieldsData;
-                        this.shopInfoRows = this.$store.state.ga_shopInfoRows;
-                        this.visitHistoryFieldsData = this.$store.state.ga_visitHistoryFieldsData;
-                        this.visitHistoryRows = this.$store.state.ga_visitHistoryRows;
+                    if (this.$store.state.ghistMnModule.ga_shopInfoFieldsData.length != 0) {
+                        this.shopInfoFieldsData = this.$store.state.ghistMnModule.ga_shopInfoFieldsData;
+                        this.shopInfoRows = this.$store.state.ghistMnModule.ga_shopInfoRows;
+                        this.visitHistoryFieldsData = this.$store.state.ghistMnModule.ga_visitHistoryFieldsData;
+                        this.visitHistoryRows = this.$store.state.ghistMnModule.ga_visitHistoryRows;
                     }
                     else {
                         this.isLoadingDialog = true;
@@ -80,7 +80,7 @@
                     prg_id: "PMS0210011",
                     page_id: 1,
                     tab_page_id: 21,
-                    searchCond: {gcust_cod: this.$store.state.gs_gcustCod, rent_cal_dat: this.rentCalDat}
+                    searchCond: {gcust_cod: this.$store.state.ghistMnModule.gs_gcustCod, rent_cal_dat: this.rentCalDat}
                 }, result => {
                     if (result.success) {
                         this.shopInfoFieldsData = result.dgFieldsData;
@@ -98,7 +98,7 @@
                     prg_id: "PMS0210011",
                     page_id: 1,
                     tab_page_id: 22,
-                    searchCond: {gcust_cod: this.$store.state.gs_gcustCod}
+                    searchCond: {gcust_cod: this.$store.state.ghistMnModule.gs_gcustCod}
                 }, result => {
                     if (result.success) {
                         this.visitHistoryFieldsData = result.dgFieldsData;
@@ -114,7 +114,7 @@
             },
             //將來管資料放進vuex
             setVisitsData() {
-                this.$store.dispatch("setVisitsData", {
+                this.$store.dispatch("ghistMnModule/setVisitsData", {
                     ga_shopInfoFieldsData: this.shopInfoFieldsData,
                     ga_shopInfoRows: this.shopInfoRows,
                     ga_visitHistoryFieldsData: this.visitHistoryFieldsData,

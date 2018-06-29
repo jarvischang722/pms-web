@@ -16,4 +16,29 @@
         <parameter type="string" kind="3">begin_dat</parameter>
         <parameter type="string" kind="3">end_dat</parameter>
     </dao>
+
+    <!--訂房卡單筆中的 ORDER DT 使用房型下拉資料-->
+    <dao name="SEL_ORDERDTUSECOD">
+        <statement><![CDATA[
+        select distinct room_cod value, sf_hfd_get_rvrmcod_rf2(hotel_cod, room_cod, rent_dat, 'ROOM_SNA', athena_id) display,
+        PG_HFD_OTHER2.PF_GET_ROOM_COD_ORDER(athena_id,hotel_cod, room_cod) view_seq
+        from rent_dt t
+        where rent_dat between to_date(:ci_dat, 'YYYY/MM/DD') and decode( :days, 0, to_date(:co_dat, 'YYYY/MM/DD'), to_date(:co_dat, 'YYYY/MM/DD') -1 )
+        and rate_cod = :rate_cod
+        and athena_id = :athena_id
+        and trim(hotel_cod) = trim(:hotel_cod)
+        group by room_cod,
+        sf_hfd_get_rvrmcod_rf2(hotel_cod, room_cod, rent_dat, 'ROOM_SNA', athena_id),
+        PG_HFD_OTHER2.PF_GET_ROOM_COD_ORDER(athena_id,hotel_cod, room_cod)
+        having count(*) = decode(:days,0, 1, :days)
+        order by PG_HFD_OTHER2.PF_GET_ROOM_COD_ORDER(athena_id,hotel_cod, room_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">ci_dat</parameter>
+        <parameter type="string" kind="3">co_dat</parameter>
+        <parameter type="number" kind="3">days</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>
