@@ -112,7 +112,7 @@
 
                 if (val) {
                     //第一次載入合約內容
-                    if (_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)) {
+                    if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData)) {
                         this.initData();
                     }
                     this.fetchDefaultData();
@@ -133,6 +133,7 @@
             dataGridRowsDataOfRateCode: {
                 handler(val) {
                     if (!_.isEmpty(val)) {
+                        console.log(val);
                         let la_addToDataGridRowsData = _.where(val, {createRow: 'Y'});
                         _.each(la_addToDataGridRowsData, (lo_addToDataGridRowsData) => {
                             if (_.findIndex(this.dataGridRowsData, {uniKey: lo_addToDataGridRowsData.uniKey}) == -1) {
@@ -181,7 +182,6 @@
                         la_cudData[key] = _.extend(lo_data, lo_extendData);
                     })
                 });
-
                 // return;
                 //將合約內容資料放至Vuex
                 this.$store.dispatch("custMnModule/setCcDataGridRowsData", {
@@ -219,25 +219,24 @@
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
                     //第一次載入合約內容
+
                     if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData)) {
-                        if (_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)) {
-                            _.each(result.dgRowData, (lo_dgRowData) => {
-                                lo_dgRowData.begin_dat = moment(lo_dgRowData.begin_dat).format("YYYY/MM/DD");
-                                lo_dgRowData.end_dat = moment(lo_dgRowData.end_da).format("YYYY/MM/DD");
-                                lo_dgRowData.uniKey = Math.floor(Math.random() * (99999999999999999999));
-                            });
-                            this.dataGridRowsData = result.dgRowData;
-                            this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        _.each(result.dgRowData, (lo_dgRowData) => {
+                            lo_dgRowData.begin_dat = moment(lo_dgRowData.begin_dat).format("YYYY/MM/DD");
+                            lo_dgRowData.end_dat = moment(lo_dgRowData.end_da).format("YYYY/MM/DD");
+                            lo_dgRowData.uniKey = Math.floor(Math.random() * (99999999999999999999));
+                        });
+                        this.dataGridRowsData = result.dgRowData;
+                        this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                         this.showDataGrid();
-                        }
-                        else {
-                        this.dataGridRowsData = this.$store.state.go_allData.ga_ccDataGridRowsData;
-                        this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_ccDataGridRowsData;
+                    }
+                    else {
+                        this.dataGridRowsData = this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData;
+                        this.oriDataGridRowsData = this.$store.state.custMnModule.go_allOriData.ga_ccDataGridRowsData;
                         this.dgIns.loadDgData(_.filter(this.dataGridRowsData, lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                         }));
-                            this.isLoading = false;
-                        }
+                        this.isLoading = false;
                     }
                 });
             },
@@ -248,7 +247,7 @@
                     return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                 }));
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
-                this.dgIns.updateMnRowData(this.$store.state.go_allData.go_mnSingleData);
+                this.dgIns.updateMnRowData(this.$store.state.custMnModule.go_allData.go_mnSingleData);
 
                 this.isLoading = false;
 

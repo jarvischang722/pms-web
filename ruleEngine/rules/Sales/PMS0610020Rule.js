@@ -689,7 +689,7 @@ module.exports = {
                 });
             }
 
-            lo_result.effectValues = _.extend(lo_result.effectValues, {ratecod_nam: _.isNull(ls_ratecodNam) ? "" : ls_ratecodNam.ratecod_nam});
+            lo_result.effectValues = _.extend(lo_result.effectValues, {ratecod_nam: _.isNull(ls_ratecodNam) || _.isUndefined(ls_ratecodNam) || ls_ratecodNam == "" ? "" : ls_ratecodNam.ratecod_nam});
             lo_result.selectField = ["rate_cod", "rsdisc_cod"];
             lo_result.multiSelectOptions.rate_cod = la_rateCodSelectData;
             lo_result.multiSelectOptions.rsdisc_cod = la_rsdiscCodSelectData;
