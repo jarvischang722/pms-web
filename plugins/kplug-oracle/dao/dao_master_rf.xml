@@ -44,4 +44,38 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <!--[PMS0110041 訂房卡單筆] 自動選取公帳號-->
+    <dao name="QUY_MASTER_RF_FOR_AUTO_SELECT">
+        <statement><![CDATA[
+            select min(master_nos) master_nos
+            from master_rf
+            where master_typ = 'A'
+            and master_sta = 'N'
+            and last_use_dat = (select min(last_use_dat)
+                from master_rf
+                where master_typ = 'A'
+                and master_sta = 'N')
+        ]]>
+        </statement>
+    </dao>
+
+    <!--[PMS0110041 訂房卡單筆] 手動選取公帳號 下拉資料-->
+    <dao name="QUY_MASTER_RF_FOR_MANUAL_SELECT">
+        <statement><![CDATA[
+            select  master_nos, master_typ, master_sta, SF_HFD_GET_SHOW_COD2(cust_cod, 1) show_cod, sf_hfd_get_nam2(MASTER_RF.CUST_COD, 1, master_rf.Athena_Id) cust_nam
+            from master_rf
+            where athena_id = :athena_id
+            and hotel_cod = :hotel_cod
+            and ("MASTER_RF"."MASTER_TYP" <> 'C')
+            and ("MASTER_RF"."MASTER_STA" <> 'P')
+            and (master_typ = 'M' and cust_cod = :acust_cod)
+            or (master_typ = 'A' and master_sta = 'N')
+            order by master_nos
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">acust_cod</parameter>
+    </dao>
 </root>

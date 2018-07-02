@@ -632,7 +632,7 @@
             },
             showSingleGridDialog() {
                 var self = this;
-                this.$store.dispatch("setAllDataClear");
+                this.$store.dispatch("custMnModule/setAllDataClear");
 
                 var dialog = $('#PMS0610020').removeClass('hide').dialog({
                     autoOpen: false,
@@ -650,7 +650,7 @@
                         });
 
                         //資料是否有異動
-                        self.$store.dispatch("qryAllDataIsChange").then(result => {
+                        self.$store.dispatch("custMnModule/qryAllDataIsChange").then(result => {
                             if (result.success) {
                                 if (result.isChange) {
                                     let lb_confirm = confirm(go_i18nLang.Validation.Formatter.chkDataChang);
@@ -670,13 +670,13 @@
                 var self = this;
                 this.isLoadingDialog = true;
                 var rule_func_name = this.compStaFieldData[0][0].rule_func_name;
-                this.compStaSingleData = _.extend(this.compStaSingleData, {cust_cod: this.$store.state.gs_custCod});
+                this.compStaSingleData = _.extend(this.compStaSingleData, {cust_cod: this.$store.state.custMnModule.gs_custCod});
                 var postData = {
                     prg_id: "PMS0610020",
                     rule_func_name: rule_func_name,
                     validateField: this.compStaFieldData[0][0].ui_field_name,
                     singleRowData: JSON.parse(JSON.stringify(this.compStaSingleData)),
-                    oriSingleData: this.$store.state.go_allData.go_mnSingleData.status_cod,
+                    oriSingleData: this.$store.state.custMnModule.go_allData.go_mnSingleData.status_cod,
                     isFirst: true
                 };
 
@@ -718,14 +718,14 @@
             chkCompStat(callback) {
                 var self = this;
                 var rule_func_name = this.compStaFieldData[0][0].rule_func_name;
-                this.compStaSingleData = _.extend(this.compStaSingleData, {cust_cod: this.$store.state.gs_custCod});
+                this.compStaSingleData = _.extend(this.compStaSingleData, {cust_cod: this.$store.state.custMnModule.gs_custCod});
 
                 if (!_.isEmpty(rule_func_name.trim())) {
                     var postData = {
                         prg_id: "PMS0610020",
                         validateField: this.compStaFieldData[0][0].ui_field_name,
                         singleRowData: JSON.parse(JSON.stringify(this.compStaSingleData)),
-                        oriSingleData: this.$store.state.go_allData.go_mnSingleData.status_cod
+                        oriSingleData: this.$store.state.custMnModule.go_allData.go_mnSingleData.status_cod
                     };
 
                     BacUtils.doHttpPostAgent('/api/chkFieldRule', postData, function (result) {
@@ -757,7 +757,7 @@
                     prg_id: "PMS0610020",
                     validateField: this.contractStaMnFieldData.ui_field_name,
                     singleRowData: JSON.parse(JSON.stringify(this.contractStaMnSingleData)),
-                    oriSingleData: this.$store.state.go_allData.go_mnSingleData.contract_sta
+                    oriSingleData: this.$store.state.custMnModule.go_allData.go_mnSingleData.contract_sta
                 };
 
                 BacUtils.doHttpPostAgent('/api/sales/doContractState', postData, function (result) {

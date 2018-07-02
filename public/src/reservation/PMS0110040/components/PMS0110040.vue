@@ -4,11 +4,242 @@
         <!-- 訂房卡(Bookings) Page-->
         <div class="pageMain" v-loading="isLoading">
             <div class="col-xs-12">
-                <search-comp
-                        :search-fields="searchFields"
-                        :search-cond.sync="searchCond"
-                        :fetch-data="fetchDgFieldsRowDataByTabPageId"
-                ></search-comp>
+                <!--<search-comp-->
+                <!--:search-fields="searchFields"-->
+                <!--:search-cond.sync="searchCond"-->
+                <!--:fetch-data="fetchDgRowData"-->
+                <!--&gt;</search-comp>-->
+
+                <!--靜態-->
+                <div class="search-content" id="search-con">
+                    <div class="search-co">
+                        <div class="row">
+                            <div class="search-co-content col-xs-12 search-S2">
+                                <div class="width-95 searchMain-S2">
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>住客姓名</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>入住日期</label>
+                                            <template>
+                                                <el-date-picker v-model="ciDate1" type="date"
+                                                                placeholder="入住日期"
+                                                                class="date-wt input-medium medium-c1">
+                                                </el-date-picker>
+                                            </template>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>速查</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row search-footer-btn">
+                                    <div class="footer-btn-menu-co">
+                                        <ul>
+                                            <li>
+                                                <div class="" data-rel="tooltip" data-placement="bottom"
+                                                     title="查詢">
+                                                    <div class="icon-reStyle icon-co-14"></div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="" data-rel="tooltip" data-placement="bottom"
+                                                     title="清除">
+                                                    <div class="icon-reStyle icon-co-11"></div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="icon-moreSearch show-search-detail">
+                                                    <i class="fa fa-chevron-down"></i>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>  <!-- /.footer-btn-menu-co -->
+                                </div> <!-- /.search-footer-btn -->
+                            </div>
+
+                            <div class="search-co-content col-xs-12 search-S2-con rece-search-detail"
+                                 style="display: none;">
+                                <div class="width-95">
+                                    <!--1-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>訂房卡號</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>退房日期</label>
+                                            <template>
+                                                <el-date-picker v-model="coDate1" type="date"
+                                                                placeholder="退房日期"
+                                                                class="date-wt input-medium medium-c1">
+                                                </el-date-picker>
+                                            </template>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>訂房卡狀態</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--2-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>網訂編號</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+
+                                        <div class="grid-item">
+                                            <label>房價代號</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+
+                                        <div class="grid-item">
+                                            <label>種類</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--3-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>團號</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>計價房型</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>訂房來源</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--4-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>訂房公司</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>使用房型</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>市場類別</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--5-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>公司名稱</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>聯絡人</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--6-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>業務員</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>聯絡電話</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--7-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>公帳號</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>訂房備註</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--8-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>是否確認</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>保留日期</label>
+                                            <template>
+                                                <el-date-picker v-model="retentionDate" type="date"
+                                                                placeholder="保留日期"
+                                                                class="date-wt input-medium medium-c1">
+                                                </el-date-picker>
+                                            </template>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>新增/修改者</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--9-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>確認者</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>取消者</label>
+                                            <input type="text" class="input-medium medium-c1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>新增日期</label>
+                                            <template>
+                                                <el-date-picker v-model="newDate" type="date"
+                                                                placeholder="新增日期"
+                                                                class="date-wt input-medium medium-c1">
+                                                </el-date-picker>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <!--10-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>確認日期</label>
+                                            <template>
+                                                <el-date-picker v-model="checkDate" type="date"
+                                                                placeholder="確認日期"
+                                                                class="date-wt input-medium medium-c1">
+                                                </el-date-picker>
+                                            </template>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>取消日期</label>
+                                            <template>
+                                                <el-date-picker v-model="cancelDate" type="date"
+                                                                placeholder="取消日期"
+                                                                class="date-wt input-medium medium-c1">
+                                                </el-date-picker>
+                                            </template>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>修改日期</label>
+                                            <template>
+                                                <el-date-picker v-model="editDate" type="date"
+                                                                placeholder="修改日期"
+                                                                class="date-wt input-medium medium-c1">
+                                                </el-date-picker>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div> <!-- row-->
+                    </div> <!-- /.search-co -->
+                </div> <!-- /.row  search-content-->
             </div>
             <div class="clearfix"></div>
             <div class="col-xs-12">
@@ -36,32 +267,40 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                            role="button">新增
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" @click="appendRow">新增
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                            role="button">修改
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" @click="editRow">修改
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1 resv-view"
-                                            role="button">瀏覽
+                                    <button class="btn btn-primary btn-white btn-defaultWidth  resv-view"
+                                            role="button" @click="browsRow">瀏覽
                                     </button>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div> <!-- /.col-sm-12 -->
-            <div class="clearfix"></div>
-
+                <div class="clearfix"></div>
+            </div>
+            <pms0110041-lite
+                    :row-data="editingRow"
+                    :is-modifiable="isModifiable"
+                    :is-create-status="isCreateStatus"
+                    :is-edit-status="isEditStatus"
+            ></pms0110041-lite>
         </div>
     </div>
 </template>
 
 <script>
+    import pms0110041Lite from './PMS0110041_LITE.vue';
+
+    Vue.prototype.$eventHub = new Vue();
 
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
@@ -75,6 +314,7 @@
 
     export default {
         name: "p-m-s0110040",
+        components: {pms0110041Lite},
         data() {
             return {
                 /**
@@ -90,7 +330,6 @@
                 activeName: 'mnDg',
                 dtIns: null,
                 mnIns: null,
-
                 prg_id: "PMS0110040",
                 userInfo: {},               //使用者資訊
                 searchFields: [],           //搜尋欄位資料
@@ -99,8 +338,11 @@
                 mnDgFieldsData: [],         //多筆欄位資料
                 dtDgRowsData: [],           //訂房明細資料
                 dtDgFieldsData: [],         //訂房明細欄位資料
-                dgIns: null
-
+                dgIns: null,
+                editingRow: {},
+                isCreateStatus: false,
+                isEditStatus: false,
+                isModifiable: true,
             }
         },
         watch: {
@@ -122,7 +364,6 @@
                     }
                 });
             },
-
             /**
              * 透過tab_page_id取多筆欄位資訊和資料
              * @param tab_page_id {number} 分頁
@@ -139,7 +380,6 @@
                     if (result.success) {
                         if (this.searchFields.length <= 0) {
                             this.searchFields = result.searchFields;
-                            console.log(_.findWhere(this.searchFields, {ui_type: "multiselectgrid"}));
                         }
 
                         if (tab_page_id == 1) {
@@ -182,16 +422,77 @@
                 this.dgIns.loadPageDgData(la_dgRowsData);
             },
             fetchDgRowData() {
-                let lo_params = {
-                    prg_id: this.prg_id,
-                    page_id: 1,
-                    searchCond: this.searchCond
-                };
-                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params).then(result => {
-                    console.log(result);
-                    this.mnDgRowsData = result.dgRowData;
-                    this.dgIns.loadPageDgData(this.mnDgRowsData);
+//                let lo_params = {
+//                    prg_id: this.prg_id,
+//                    page_id: 1,
+//                    searchCond: this.searchCond
+//                };
+//                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params).then(result => {
+//                    console.log(result);
+//                    this.mnDgRowsData = result.dgRowData;
+//                    this.dgIns.loadPageDgData(this.mnDgRowsData);
+//                });
+            },
+            appendRow() {
+                this.isEditStatus = false;
+                this.isCreateStatus = true;
+                this.editingRow = {ikey: ""};
+
+                this.showSingleGridDialog();
+            },
+            editRow() {
+                this.isLoading = true;
+                this.isCreateStatus = false;
+                this.isEditStatus = true;
+                this.isModifiable = true;
+                this.editingRow = {};
+
+                let ls_dgName = this.activeName == 'mnDg' ? "PMS0110040_mnDg" : "PMS0110040_dtDg";
+                let lo_editRow = $('#' + ls_dgName).datagrid('getSelected');
+                if (!lo_editRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectData);
+                }
+                else {
+                    this.editingRow = lo_editRow;
+                    this.showSingleGridDialog();
+                }
+                this.isLoading = false;
+            },
+            browsRow() {
+                this.isLoading = true;
+                this.isCreateStatus = false;
+                this.isEditStatus = true;
+                this.isModifiable = false;
+                this.editingRow = {};
+
+                let ls_dgName = this.activeName == 'mnDg' ? "PMS0110040_mnDg" : "PMS0110040_dtDg";
+                let lo_editRow = $('#' + ls_dgName).datagrid('getSelected');
+                if (!lo_editRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectData);
+                }
+                else {
+                    this.editingRow = lo_editRow;
+                    this.showSingleGridDialog();
+                }
+                this.isLoading = false;
+            },
+            showSingleGridDialog() {
+                let self = this;
+                let dialog = $('#PMS0110041Lite').removeClass('hide').dialog({
+                    autoOpen: false,
+                    modal: true,
+                    title: '訂房卡',
+                    width: 1000,
+                    maxHeight: 1920,
+                    resizable: true,
+                    onBeforeClose() {
+                        self.editingRow = {};
+                        self.isEditStatus = false;
+                        self.isCreateStatus = false;
+                        self.$eventHub.$emit("clearData");
+                    }
                 });
+                dialog.dialog('open');
             }
         }
     }

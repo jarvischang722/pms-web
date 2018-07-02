@@ -1,6 +1,19 @@
 import PMS0110040 from './components/PMS0110040.vue';
+import Vuex from 'vuex';
 
+import {ghistMnModule} from '../../frontDesk/PMS0210010/store';
+import {custMnModule} from '../../sales/PMS0610010/store';
+
+const store = new Vuex.Store({
+    modules: {
+        ghistMnModule,
+        custMnModule
+    }
+});
+
+Vue.use(Vuex);
 new Vue({
     el: "#PMS0110040App",
-    render: h=> h(PMS0110040)
+    store,
+    render: h => h(PMS0110040)
 });

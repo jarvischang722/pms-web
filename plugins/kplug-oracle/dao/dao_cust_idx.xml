@@ -52,4 +52,21 @@
         <parameter type="string" kind="3">cust_cod</parameter>
     </dao>
 
+    <dao name="SEL_ALT_NAM_FOR_ORDER">
+        <statement>
+            select c.cust_cod, c.alt_nam, c.first_nam, c.last_nam, c.cust_typ, c.cust_sta, c.show_cod, c.id_cod,
+            c.birth_dat, c.comp_nam, nvl(v.visit_nos,0) visit_nos,
+            (trim(c.cust_cod) ||':'|| c.alt_nam) as guest_display, (trim(c.cust_cod) ||':'|| c.alt_nam) as guest_value
+            from cust_idx c
+            left join ghist_visit_dt v on c.athena_id = v.athena_id and v.hotel_cod = :hotel_cod and c.cust_cod =
+            v.gcust_cod
+            where c.cust_typ in ('H', 'M', 'Q')
+            and c.cust_sta in ('N', 'B', 'V')
+            and c.athena_id = :athena_id
+            order by c.alt_nam
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
 </root>

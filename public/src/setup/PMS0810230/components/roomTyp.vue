@@ -391,8 +391,7 @@
                             this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[ln_idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
                         }
                     });
-                }
-                ,
+                },
                 deep: true
             },
             dayNamData4Display: {

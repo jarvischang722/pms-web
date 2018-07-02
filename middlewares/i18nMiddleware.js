@@ -117,7 +117,7 @@ function _v(value) {
 async function getUseLangsByAthenaID(lo_cond) {
     let lo_langRf = require("../configs/LangNameRf.json");
     return new Promise((resolve, reject) => {
-        clusterQueryAgent.queryList({id: "BACCHUS", dao: "QRY_UI_LANG_BY_ATHENA_ID"}, lo_cond, function (err, langs) {
+        clusterQueryAgent.queryList({id: "IDC_TEST_ORACLE", dao: "QRY_UI_LANG_BY_ATHENA_ID"}, lo_cond, function (err, langs) {
             if (err) {
                 console.error(err);
             }

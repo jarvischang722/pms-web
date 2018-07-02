@@ -1,0 +1,541 @@
+/**
+ * Created by a17007 on 2018/6/7.
+ */
+const _ = require("underscore");
+const _s = require("underscore.string");
+const moment = require("moment");
+const async = require("async");
+const path = require('path');
+const appRootDir = path.dirname(require.main.filename);
+const ruleRootPath = appRootDir + "/ruleEngine/";
+const queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
+const commandRules = require("./../CommonRule");
+const ReturnClass = require(ruleRootPath + "/returnClass");
+const ErrorClass = require(ruleRootPath + "/errorClass");
+const tools = require(appRootDir + "/utils/CommonTools");
+const sysConf = require("../../../configs/systemConfig");
+
+module.exports = {
+    /**
+     * 取order_mn ikey 和 tmp_orde_appraise key_nos
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    dfaultOrderMn: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            //取order_mn tmp ikey
+            let lo_fetchTmpIkey = await new Promise((resolve, reject) => {
+                let apiParams = {
+                    "REVE-CODE": "BAC0900805",
+                    "func_id": "0000",
+                    "athena_id": session.user.athena_id,
+                    "comp_cod": "NULL",
+                    "hotel_cod": session.user.hotel_cod,
+                    "sys_cod": "CS",
+                    "nos_nam": "TMP_IKEY",
+                    "link_dat": "2000/01/01"
+                };
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                    if (apiErr || !data) {
+                        reject(apiErr)
+                    }
+                    else {
+                        resolve(data)
+                    }
+                });
+            });
+            if (lo_fetchTmpIkey["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                console.error(lo_fetchTmpIkey["RETN-CODE-DESC"]);
+                lo_error.errorMsg = lo_fetchTmpIkey["RETN-CODE-DESC"];
+            }
+            else {
+                let ls_ikey = `!tmp${lo_fetchTmpIkey["SERIES_NOS"]}`;
+
+                //取 tmp_order_appraise key_nos
+                let lo_fetchKeyNos = await new Promise((resolve, reject) => {
+                    let apiParams = {
+                        "REVE-CODE": "PMS0110041",
+                        "prg_id": "PMS0110041",
+                        "func_id": "0900",
+                        "athena_id": session.user.athena_id,
+                        "hotel_cod": session.user.hotel_cod,
+                        "ikey": ls_ikey
+                    };
+                    tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                        if (apiErr || !data) {
+                            reject(apiErr)
+                        }
+                        else {
+                            resolve(data)
+                        }
+                    });
+                });
+                if (lo_fetchKeyNos["RETN-CODE"] != "0000") {
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    console.error(lo_fetchKeyNos["RETN-CODE-DESC"]);
+                    lo_error.errorMsg = lo_fetchKeyNos["RETN-CODE-DESC"];
+                }
+                else {
+                    lo_result.defaultValues = {
+                        key_nos: lo_fetchKeyNos["returnNos"],
+                        ikey: ls_ikey,
+                        fixed_order: 'Y',
+                        master_sta: 'N',
+                        order_deposit: 0,
+                        lang_cod: 'ENG',
+                        ins_hotel: session.user.hotel_cod,
+                        open_web: 'N',
+                        is_prtconfirm: 'N',
+                    };
+
+                }
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 編輯單筆訂房卡時，將order_appraise轉到tmp_order_appraise
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    convert_oder_appraise_to_tmp: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let apiParams = {
+            "REVE-CODE": "PMS0110041",
+            "prg_id": "PMS0110041",
+            "func_id": "0900",
+            "athena_id": session.user.athena_id,
+            "hotel_cod": session.user.hotel_cod,
+            "ikey": postData.ikey
+        };
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+            if (apiErr || !data) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                console.error(data["RETN-CODE-DESC"]);
+                lo_error.errorMsg = data["RETN-CODE-DESC"];
+            }
+            else {
+                lo_result.defaultValues.key_nos = data["returnNos"];
+            }
+            callback(lo_error, lo_result);
+        });
+        // callback(lo_error, lo_result);
+
+    },
+
+    /**
+     * order dt 中使用房型及計價房型的下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    select_cod_data: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let ls_ciDat = postData.rowData.ci_dat || "";
+        let ls_coDat = postData.rowData.co_dat || "";
+        let ls_rateCod = postData.rowData.rate_cod || "";
+        try {
+            if (ls_ciDat != "" && ls_coDat != "" && ls_rateCod != "") {
+                let lo_params = {
+                    athena_id: session.user.athena_id,
+                    hotel_cod: session.user.hotel_cod,
+                    co_dat: moment(postData.rowData.co_dat).format("YYYY/MM/DD"),
+                    ci_dat: moment(postData.rowData.ci_dat).format("YYYY/MM/DD"),
+                    rate_cod: ls_rateCod
+                };
+
+
+                let la_roomCodSelectData = await new Promise((resolve, reject) => {
+                    queryAgent.queryList("SEL_ORDERDTROOMCOD", lo_params, 0, 0, (err, result) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                });
+                _.each(la_roomCodSelectData, (lo_roomCodSelectData, idx) => {
+                    la_roomCodSelectData[idx].display = lo_roomCodSelectData.value + ':' + lo_roomCodSelectData.display;
+                });
+
+                lo_params.days = postData.rowData.days;
+                let la_useCodSelectData = await new Promise((resolve, reject) => {
+                    queryAgent.queryList("SEL_ORDERDTUSECOD", lo_params, 0, 0, (err, result) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                });
+                _.each(la_useCodSelectData, (lo_useCodSelectData, idx) => {
+                    la_useCodSelectData[idx].display = lo_useCodSelectData.value + ':' + lo_useCodSelectData.display;
+                });
+
+                lo_result.selectField = ["room_cod", "use_cod"];
+                lo_result.multiSelectOptions.room_cod = la_roomCodSelectData;
+                lo_result.multiSelectOptions.use_cod = la_useCodSelectData;
+            }
+            else {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = commandRules.getMsgByCod('pms14msg1', session.locale);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_result, lo_error);
+    },
+
+    /**
+     * order dt 中 rate cod 的樹狀下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    sel_order_dt_rate_cod_data_for_tree_select: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                days: postData.rowData.days,
+                ci_dat: moment(postData.rowData.ci_dat).format("YYYY/MM/DD"),
+                acust_cod: postData.rowData.acust_cod
+            };
+
+            let la_selectData = await new Promise((resolve, reject) => {
+                queryAgent.queryList("SEL_ORDERDT_RATECOD_SELECT_TREE", lo_params, 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            //組成tree的 資料結構
+            let la_treeData = [];
+            _.each(la_selectData, (lo_selectData) => {
+                //先判斷下拉資料是否有此兩分類
+                let ln_classIdx = _.findIndex(la_treeData, {value: lo_selectData.parent_cod});
+                if (ln_classIdx == -1) {
+                    let lo_addClass = {parent_cod: 'root'};
+                    lo_addClass.value = lo_selectData.parent_cod;
+                    lo_addClass.label = lo_selectData.parent_cod;
+                    lo_addClass.children = [];
+                    la_treeData.push(lo_addClass);
+                }
+                //將搜尋到的資料份配進此兩分類中
+                let ln_index = _.findIndex(la_treeData, {value: lo_selectData.parent_cod});
+                if (ln_index > -1) {
+                    la_treeData[ln_index].children.push(lo_selectData);
+                }
+            });
+
+            lo_result.selectOptions = la_treeData;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_result, lo_error);
+    },
+
+    /**
+     * order dt 中 rate cod 的下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    sel_order_dt_rate_cod_data: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                days: postData.rowData.days,
+                rate_grp: postData.selectedData[1]
+            };
+            let ls_class = postData.selectedData[0];
+            let ls_queryName = "";
+            if (ls_class == '合約') {
+                ls_queryName = "SEL_ORDERDT_RATECOD_SELECT_DATA_CONTRACT";
+                lo_params.ci_dat = postData.rowData.ci_dat;
+                lo_params.acust_cod = postData.rowData.acust_cod;
+            }
+            else {
+                ls_queryName = "SEL_ORDERDT_RATECOD_SELECT_DATA_COMMON";
+            }
+
+            let la_selectData = await new Promise((resolve, reject) => {
+                queryAgent.queryList(ls_queryName, lo_params, 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            lo_result.selectOptions = la_selectData;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_result, lo_error);
+    },
+
+    /**
+     * 計算 order dt 價錢
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    compute_oder_dt_price: async function (postData, session, callback) {
+
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            let lo_rowData = postData.allRowData[0];
+            let la_ikey_seq_nos = [];
+            _.each(postData.allRowData, (lo_rowData) => {
+                la_ikey_seq_nos.push(lo_rowData.ikey_seq_nos);
+            });
+
+            let apiParams = {
+                "REVE-CODE": "PMS0110041",
+                "prg_id": "PMS0110041",
+                "func_id": "0700",
+                "athena_id": session.user.athena_id,
+                "hotel_cod": session.user.hotel_cod,
+                "key_nos": postData.key_nos,
+                "rate_cod": lo_rowData.rate_cod,
+                "room_cod": lo_rowData.room_cod,
+                "acust_cod": postData.acust_cod,
+                "ci_dat": lo_rowData.ci_dat,
+                "stay_night": lo_rowData.days,
+                "order_sta": lo_rowData.order_sta,
+                "add_man_qnt": 0,
+                "add_child_qnt": 0,
+                "ikey": lo_rowData.ikey,
+                "ikey_seq_nos": la_ikey_seq_nos,
+                "upd_usr": session.user.usr_id,
+            };
+
+            let lo_computePrice = await new Promise((resolve, reject) => {
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                    if (apiErr || !data) {
+                        reject(apiErr)
+                    }
+                    else {
+                        resolve(data)
+                    }
+                });
+            });
+
+            if (lo_computePrice["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                console.error(lo_computePrice["RETN-CODE-DESC"]);
+                lo_error.errorMsg = lo_computePrice["RETN-CODE-DESC"];
+            }
+            else {
+                let lo_params = {
+                    athena_id: session.user.athena_id,
+                    hotel_cod: session.user.hotel_cod,
+                    ikey_seq_nos: la_ikey_seq_nos[0],
+                    ikey: lo_rowData.ikey,
+                    key_nos: postData.key_nos
+                };
+                let lo_fetchPrice = await new Promise((resolve, reject) => {
+                    queryAgent.query("QUY_ORDER_APPRAISE_FOR_ORDER_DT", lo_params, (err, result) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                });
+                lo_result.effectValues.rent_amt = lo_fetchPrice.rent_amt;
+                lo_result.effectValues.serv_amt = lo_fetchPrice.serv_amt;
+                lo_result.effectValues.other_amt = Number(lo_fetchPrice.total) - Number(lo_fetchPrice.serv_amt) - Number(lo_fetchPrice.rent_amt);
+            }
+            //
+            // lo_result.effectValues.rent_amt = 0;
+            // lo_result.effectValues.serv_amt = 0;
+            // lo_result.effectValues.rent_amt = 0;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 公帳號 自動選取
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise<void>}
+     */
+    r_1141: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            //取得公帳號
+            let lo_fetchPublicAccount = await new Promise((resolve, reject) => {
+                queryAgent.query("QUY_MASTER_RF_FOR_AUTO_SELECT", {}, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+
+            //todo 在問勝擁api參數為何
+            //卡住公帳號
+            // let lo_doLockMaster = await new Promise((resolve, reject) => {
+            //     tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+            //         if (apiErr || !data) {
+            //             reject(apiErr)
+            //         }
+            //         else {
+            //             resolve(data)
+            //         }
+            //     });
+            // });
+            lo_result.effectValues.master_nos = lo_fetchPublicAccount.master_nos;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 公帳號 手動選取
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise<void>}
+     */
+    r_1142: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            //todo 在問勝擁api參數為何
+            //卡住公帳號
+            // let lo_doLockMaster = await new Promise((resolve, reject) => {
+            //     tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+            //         if (apiErr || !data) {
+            //             reject(apiErr)
+            //         }
+            //         else {
+            //             resolve(data)
+            //         }
+            //     });
+            // });
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 公帳號手動選取下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    fetchMasterNosSelectData: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let lo_param = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            acust_cod: postData.rowData.acust_cod
+        };
+
+        try {
+            //取得公帳號 下拉資料
+            let lo_fetchSelectData = await new Promise((resolve, reject) => {
+                queryAgent.queryList("QUY_MASTER_RF_FOR_MANUAL_SELECT", lo_param, 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            lo_result.selectOptions = lo_fetchSelectData;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    }
+};
