@@ -109,6 +109,66 @@ module.exports = {
     },
 
     /**
+     * 取guest_mn ci_ser
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    get_guest_mn_default_data: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            //取order_mn tmp ikey
+            let lo_fetchCiSer = await new Promise((resolve, reject) => {
+                let apiParams = {
+                    "REVE-CODE": "BAC0900805",
+                    "func_id": "0000",
+                    "athena_id": session.user.athena_id,
+                    "comp_cod": "NULL",
+                    "hotel_cod": session.user.hotel_cod,
+                    "sys_cod": "HFD",
+                    "nos_nam": "CI_SER",
+                    "link_dat": "2000/01/01"
+                };
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                    if (apiErr || !data) {
+                        reject(apiErr)
+                    }
+                    else {
+                        resolve(data)
+                    }
+                });
+            });
+            if (lo_fetchCiSer["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                console.error(lo_fetchCiSer["RETN-CODE-DESC"]);
+                lo_error.errorMsg = lo_fetchCiSer["RETN-CODE-DESC"];
+            }
+            else {
+                lo_result.defaultValues = {
+                    athena_id: session.user.athena_id,
+                    hotel_cod: session.user.hotel_cod,
+                    ci_ser: lo_fetchCiSer["SERIES_NOS"],
+                    assign_sta: 'N',
+                    guest_sta: 'E',
+                    master_sta: 'G',
+                    system_typ: 'HFD'
+                };
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
      * 編輯單筆訂房卡時，將order_appraise轉到tmp_order_appraise
      * @param postData
      * @param session
