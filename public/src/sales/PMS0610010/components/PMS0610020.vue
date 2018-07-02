@@ -335,7 +335,7 @@
             });
             //取得相關人員資料，並改變主檔資料(主要聯絡人)
             this.$eventHub.$on('chgRelatedPersonData', function () {
-                _.each(self.$store.state.go_allData.ga_rpDataGridRowsData, (go_rpDataGridRowsData) => {
+                _.each(self.$store.state.custMnModule.go_allData.ga_rpDataGridRowsData, (go_rpDataGridRowsData) => {
                     if (go_rpDataGridRowsData.primary_pers == 'Y') {
                         self.singleData.atten_cod = go_rpDataGridRowsData.seq_nos;
                     }
@@ -423,7 +423,7 @@
                         lo_oriSingleData.cust_idx_zip_cod = lo_singleData.cust_idx_zip_cod;
 
                         //將主檔資料放至Vuex
-                        this.$store.dispatch("setMnSingleData", {
+                        this.$store.dispatch("custMnModule/setMnSingleData", {
                             go_mnSingleData: lo_singleData,
                             go_mnOriSingleData: lo_oriSingleData
                         });
