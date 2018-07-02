@@ -1,0 +1,117 @@
+$fz-14: 14px
+@mixin gradient-color
+  +background(linear-gradient(360deg, rgba(8, 123, 254, 1) 100%, rgba(5, 167, 234, 1) 100%))
+/* 排房作業 */
+.dataGrid-s1
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)
+  .panel-header, .panel-body
+    border-color: #EDEEEF
+  tr
+    height: 40px
+  .datagrid-header td, .datagrid-body td, .datagrid-footer td
+    border: 0
+  .datagrid-header-row
+    background: #EDEEEF
+  tr
+    &:nth-child(even)
+      background: #EDEEEF
+    &.datagrid-row-selected
+      background: #3D70B2
+      color: #fff
+      transition: 1s
+  .datagrid-cell span, .datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber
+    font-size: $fz-14 !important
+
+.roomAssign
+  .right-info
+    background: #EDEEEF
+    padding-top: 10px
+    padding-bottom: 10px
+    box-sizing: border-box
+  .tooltip-sp
+    font-size: $fz-14 !important
+    padding-top: 2px
+    padding-bottom: 2px
+    margin-right: 10px
+  .searchCheckbox
+    font-size: $fz-14 !important
+    +gradient-color
+    border-radius: 65px
+    color: #fff
+    padding: 2px 10px
+    //width: 100px
+    //height: 31px
+    box-shadow: 0 2px 6px 1px rgba(104, 104, 104, 0.45)
+    input[type=checkbox].ace:checked + .lbl::before, input[type=radio].ace:checked + .lbl::before
+      background-color: transparent
+      color: #fff
+    input[type=checkbox].ace + .lbl::before, input[type=radio].ace + .lbl::before
+      border: 0
+      background-color: transparent
+    .checkbox label .lbl:before
+      margin-right: 0
+  .select-group
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)
+    .dropdown-toggle
+      font-size: $fz-14 !important
+      border-radius: 24px
+      padding-top: 4px
+      padding-bottom: 4px
+
+  .tab-content
+    border: 0
+  .townPage .townRow .townBlock
+    width: 120px
+    height: 120px
+    margin: 10px
+    border: 2px solid transparent
+    background: #fff
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)
+    &.no-show
+      background: #fff
+      border-color: #ae8dc3
+    .content
+      margin-top: 5px
+      font-size: $fz-14 !important
+    .foot
+      margin-top: 20px
+  .right-menu-co
+    .btn
+      height: 40px
+      font-size: 15px
+      margin-bottom: 10px
+    .btn-primary
+      +background(linear-gradient(180deg, rgba(8, 123, 254, 1) 100%, rgba(5, 167, 234, 1) 100%) !important)
+      color: #FFFFFF !important
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important
+      &:hover
+        +background(linear-gradient(180deg, rgba(8, 123, 254, .7) 100%, rgba(5, 167, 234, .7) 100%) !important)
+        color: #FFFFFF !important
+    .btn-danger
+      +background(linear-gradient(180deg, rgba(242, 94, 73, 1) 100%, rgba(213, 20, 20, 1) 100%) !important)
+      color: #FFFFFF !important
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important
+      &:hover
+        +background(linear-gradient(180deg, rgba(242, 94, 73, .7) 100%, rgba(213, 20, 20, .7) 100%) !important)
+        color: #FFFFFF !important
+
+.chooseCount
+  .css_table
+    &.rm-table-s
+      //border: 0
+      td, th
+        //border: 0
+        height: 36px
+        font-weight: 700
+      td
+        cursor: pointer
+        color: rgba(54, 71, 96, 1)
+      .css_td.active
+        // 文字漸層方法
+        background: transparent
+        background: linear-gradient(135deg, rgba(8, 97, 199, 1) 35%, rgba(1, 188, 255, 1) 60%)
+        -webkit-background-clip: text
+        -webkit-text-fill-color: transparent
+//background: -moz-linear-gradient(45deg, rgba(8,97,199,1) 35%, rgba(1,188,255,1) 60%)
+//background: -webkit-linear-gradient(45deg, rgba(8,97,199,1) 35%, rgba(1,188,255,1) 60%)
+//background: -o-linear-gradient(45deg, rgba(8,97,199,1) 35%, rgba(1,188,255,1) 60%)

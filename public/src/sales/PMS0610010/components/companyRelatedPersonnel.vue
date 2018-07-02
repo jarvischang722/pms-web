@@ -74,7 +74,7 @@
                     //確認tmpCUD 的cust_cod
                     _.each(this.dgIns.tmpCUD, (value, key) => {
                         _.each(value, (lo_value, idx) => {
-                            this.dgIns.tmpCUD[key][idx] = _.extend(lo_value, {cust_cod: this.$store.state.gs_custCod});
+                            this.dgIns.tmpCUD[key][idx] = _.extend(lo_value, {cust_cod: this.$store.state.custMnModule.gs_custCod});
                         });
                     });
                 }
@@ -100,7 +100,7 @@
             isRelatedPersonnel(val) {
                 if (val) {
                     //第一次載入相關人員
-                    if (_.isEmpty(this.$store.state.go_allData.ga_rpDataGridRowsData)) {
+                    if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_rpDataGridRowsData)) {
                         this.initData();
                     }
                     this.fetchFieldData();
@@ -111,7 +111,7 @@
                     if (!_.isEmpty(val)) {
                         this.$eventHub.$emit("chgRelatedPersonData");
                         //將相關人員資料放至Vuex
-                        this.$store.dispatch("setRpDataGridRowsData", {
+                        this.$store.dispatch("custMnModule/setRpDataGridRowsData", {
                             ga_rpDataGridRowsData: val,
                             ga_rpOriDataGridRowsData: this.oriDataGridRowsData,
                             go_rpTmpCUD: this.dgIns.tmpCUD
@@ -168,10 +168,10 @@
                 BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 2,
-                    searchCond: {cust_cod: this.$store.state.gs_custCod}
+                    searchCond: {cust_cod: this.$store.state.custMnModule.gs_custCod}
                 }, result => {
                     //取得主要聯絡人資料
-                    var lo_mnSingleData = this.$store.state.go_allData.go_mnSingleData;
+                    var lo_mnSingleData = this.$store.state.custMnModule.go_allData.go_mnSingleData;
                     var ln_primaryIndex = _.findIndex(result.dgRowData, {seq_nos: lo_mnSingleData.atten_cod});
                     if (ln_primaryIndex > -1) {
                         result.dgRowData[ln_primaryIndex].primary_pers = 'Y';
@@ -184,7 +184,7 @@
 
                     this.fieldsData = result.dgFieldsData;
                     //第一次載入此頁面
-                    if (_.isEmpty(this.$store.state.go_allData.ga_rpDataGridRowsData)) {
+                    if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_rpDataGridRowsData)) {
                         this.dataGridRowsData = result.dgRowData;
                         this.dataGridRowsDataOfStaff = _.filter(result.dgRowData, lo_dgRowData => {
                             return lo_dgRowData.job_sta != 'Q'
@@ -193,11 +193,11 @@
                         this.showDataGrid(this.dataGridRowsData);
                     }
                     else {
-                        this.dataGridRowsData = this.$store.state.go_allData.ga_rpDataGridRowsData;
-                        this.dataGridRowsDataOfStaff = _.filter(this.$store.state.go_allData.ga_rpDataGridRowsData, lo_dgRowData => {
+                        this.dataGridRowsData = this.$store.state.custMnModule.go_allData.ga_rpDataGridRowsData;
+                        this.dataGridRowsDataOfStaff = _.filter(this.$store.state.custMnModule.go_allData.ga_rpDataGridRowsData, lo_dgRowData => {
                             return lo_dgRowData.job_sta != 'Q'
                         });
-                        this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_rpDataGridRowsData;
+                        this.oriDataGridRowsData = this.$store.state.custMnModule.go_allOriData.ga_rpDataGridRowsData;
                         this.dgIns.loadDgData(this.dataGridRowsData);
                         this.isLoading = false;
                     }
@@ -208,7 +208,7 @@
                 this.dgIns = this.isModifiable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "relatedPerson_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'relatedPerson_dg'), this.fieldsData);
                 this.dgIns.loadDgData(dataGridRowsData);
-                this.dgIns.updateMnRowData(this.$store.state.go_allData.go_mnSingleData);
+                this.dgIns.updateMnRowData(this.$store.state.custMnModule.go_allData.go_mnSingleData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
                 this.isLoading = false;
             }

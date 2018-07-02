@@ -290,7 +290,7 @@
                         };
                         lo_delRow = _.extend(lo_delRow, lo_params);
 
-                        await $.post('/api/execNewFormatSQL', {
+                        await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
                             prg_id: 'PMS0810230',
                             func_id: "0530",
                             tmpCUD: {deleteData: [lo_delRow]}

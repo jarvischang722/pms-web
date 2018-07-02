@@ -4,6 +4,7 @@
  */
 const moment = require("moment");
 const _ = require("underscore");
+const _s = require("underscore.string");
 const fs = require("fs");
 const trimLibByPrgID = require("./CommonRuleLib/SaveExecDataTrimRule");
 const saveExecDataTrimRule = require("./CommonRuleLib/SaveExecDataTrimRule");
@@ -232,12 +233,11 @@ module.exports = {
 function trimPostData(saveExecDatas) {
     if (!Array.isArray(saveExecDatas) && typeof saveExecDatas != 'object') return saveExecDatas;
     return Object.keys(saveExecDatas).reduce(function (acc, key) {
-        //TODO 之後condition 也要去空白
         if (key != "condition") {
-            acc[key.trim()] = typeof saveExecDatas[key] == 'string' ? saveExecDatas[key].trim() : trimPostData(saveExecDatas[key]);
+            acc[_s.rtrim(key)] = typeof saveExecDatas[key] == 'string' ? _s.rtrim(saveExecDatas[key]) : trimPostData(saveExecDatas[key]);
         }
         else {
-            acc[key.trim()] = saveExecDatas[key];
+            acc[_s.rtrim(key)] = saveExecDatas[key];
         }
         return acc;
     }, Array.isArray(saveExecDatas) ? [] : {});

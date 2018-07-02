@@ -172,7 +172,7 @@
         methods: {
             insertCustCodIntoTmpCUD(rowData) {
                 let lo_extendData = {
-                    cust_cod: this.$store.state.gs_custCod,
+                    cust_cod: this.$store.state.custMnModule.gs_custCod,
                     tab_page_id: 4
                 };
                 //將cust_cod放置tmpCUD中
@@ -184,7 +184,7 @@
 
                 // return;
                 //將合約內容資料放至Vuex
-                this.$store.dispatch("setCcDataGridRowsData", {
+                this.$store.dispatch("custMnModule/setCcDataGridRowsData", {
                     ga_ccDataGridRowsData: this.dataGridRowsData,
                     go_ccOriDataGridRowsData: this.oriDataGridRowsData,
                     go_ccTmpCUD: this.dgIns.tmpCUD
@@ -214,28 +214,30 @@
                 BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 4,
-                    searchCond: {cust_cod: this.$store.state.gs_custCod}
+                    searchCond: {cust_cod: this.$store.state.custMnModule.gs_custCod}
                 }, result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
                     //第一次載入合約內容
-                    if (_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)) {
-                        _.each(result.dgRowData, (lo_dgRowData) => {
-                            lo_dgRowData.begin_dat = moment(lo_dgRowData.begin_dat).format("YYYY/MM/DD");
-                            lo_dgRowData.end_dat = moment(lo_dgRowData.end_da).format("YYYY/MM/DD");
-                            lo_dgRowData.uniKey = Math.floor(Math.random() * (99999999999999999999));
-                        });
-                        this.dataGridRowsData = result.dgRowData;
-                        this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                    if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData)) {
+                        if (_.isEmpty(this.$store.state.go_allData.ga_ccDataGridRowsData)) {
+                            _.each(result.dgRowData, (lo_dgRowData) => {
+                                lo_dgRowData.begin_dat = moment(lo_dgRowData.begin_dat).format("YYYY/MM/DD");
+                                lo_dgRowData.end_dat = moment(lo_dgRowData.end_da).format("YYYY/MM/DD");
+                                lo_dgRowData.uniKey = Math.floor(Math.random() * (99999999999999999999));
+                            });
+                            this.dataGridRowsData = result.dgRowData;
+                            this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                         this.showDataGrid();
-                    }
-                    else {
+                        }
+                        else {
                         this.dataGridRowsData = this.$store.state.go_allData.ga_ccDataGridRowsData;
                         this.oriDataGridRowsData = this.$store.state.go_allOriData.ga_ccDataGridRowsData;
                         this.dgIns.loadDgData(_.filter(this.dataGridRowsData, lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                         }));
-                        this.isLoading = false;
+                            this.isLoading = false;
+                        }
                     }
                 });
             },

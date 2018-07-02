@@ -489,3 +489,228 @@ exports.sel_guest_typ_column = function (session, callback) {
     };
     callback(null, lo_result);
 };
+
+exports.sel_alt_nam_for_order_column = function (session, callback) {
+
+    let lo_result = {
+        columns: [
+            {
+                field: 'cust_cod',
+                title: commandRules.getColumnByNam("cust_cod", session.locale),
+                width: 100
+            },
+            {
+                field: 'alt_nam',
+                title: commandRules.getColumnByNam("alt_nam", session.locale),
+                width: 100
+            },
+            {
+                field: 'first_nam',
+                title: commandRules.getColumnByNam("first_nam", session.locale),
+                width: 100
+            },
+            {
+                field: 'last_nam',
+                title: commandRules.getColumnByNam("last_nam", session.locale),
+                width: 100
+            },
+            {
+                field: 'cust_typ',
+                title: commandRules.getColumnByNam("cust_typ", session.locale),
+                width: 100
+            },
+            {
+                field: 'cust_sta',
+                title: commandRules.getColumnByNam("cust_sta", session.locale),
+                width: 100
+            },
+            {
+                field: 'show_cod',
+                title: commandRules.getColumnByNam("show_cod", session.locale),
+                width: 100
+            },
+            {
+                field: 'id_cod',
+                title: commandRules.getColumnByNam("id_cod", session.locale),
+                width: 100
+            },
+            {
+                field: 'birth_dat',
+                title: commandRules.getColumnByNam("birth_dat", session.locale),
+                width: 100
+            },
+            {
+                field: 'comp_nam',
+                title: commandRules.getColumnByNam("comp_nam", session.locale),
+                width: 100
+            },
+            {
+                field: 'visit_nos',
+                title: commandRules.getColumnByNam("visit_nos", session.locale),
+                width: 100
+            },
+            {
+                field: "guest_display",
+                hidden: true
+            },
+            {
+                field: "guest_value",
+                hidden: true
+            }
+        ],
+        display: "guest_display",
+        value: "guest_value"
+    };
+    callback(null, lo_result);
+};
+
+exports.sel_acust_nam_for_order_column = function (session, callback) {
+
+    let lo_result = {
+        columns: [
+            {
+                field: 'cust_cod',
+                title: commandRules.getColumnByNam("cust_cod", session.locale),
+                width: 100
+            },
+            {
+                field: 'alt_nam',
+                title: commandRules.getColumnByNam("alt_nam", session.locale),
+                width: 100
+            },
+            {
+                field: 'uni_cod',
+                title: commandRules.getColumnByNam("uni_cod", session.locale),
+                width: 100
+            },
+            {
+                field: 'office_tel',
+                title: commandRules.getColumnByNam("office_tel", session.locale),
+                width: 100
+            },
+            {
+                field: 'sales_cod',
+                title: commandRules.getColumnByNam("sales_cod", session.locale),
+                width: 100
+            },
+            {
+                field: "guest_display",
+                hidden: true
+            }
+        ],
+        display: "guest_display",
+        value: "cust_cod"
+    };
+    callback(null, lo_result);
+};
+
+exports.sel_hfdguarenteerfguarenteetyp_y_for_column = function (session, callback) {
+
+    let lo_result = {
+        columns: [
+            {
+                field: 'guarentee_typ',
+                title: commandRules.getColumnByNam("guarentee_typ", session.locale),
+                width: 100
+            },
+            {
+                field: 'guarentee_nam',
+                title: commandRules.getColumnByNam("guarentee_nam", session.locale),
+                width: 100
+            },
+            {
+                field: 'guarentee_rmk',
+                title: commandRules.getColumnByNam("guarentee_rmk", session.locale),
+                width: 100
+            },
+            {
+                field: 'dp_req',
+                title: commandRules.getColumnByNam("dp_req", session.locale),
+                width: 100
+            },
+            {
+                field: 'cc_req',
+                title: commandRules.getColumnByNam("cc_req", session.locale),
+                width: 100
+            },
+            {
+                field: 'keep_way',
+                title: commandRules.getColumnByNam("keep_way", session.locale),
+                width: 100
+            },
+            {
+                field: 'keep_day',
+                title: commandRules.getColumnByNam("keep_day", session.locale),
+                width: 100
+            },
+            {
+                field: 'keep_tim',
+                title: commandRules.getColumnByNam("keep_tim", session.locale),
+                width: 100
+            },
+            {
+                field: "guest_display",
+                hidden: true
+            }
+        ],
+        display: "guest_display",
+        value: "cust_cod"
+    };
+    callback(null, lo_result);
+};
+
+exports.sel_orderdtusecod_for_column = function (session, callback) {
+    let lo_result = {
+        columns: [
+            {
+                field: 'room_cod',
+                title: commandRules.getColumnByNam("room_cod", session.locale),
+                width: 100
+            },
+            {
+                field: 'room_sna',
+                title: commandRules.getColumnByNam("room_sna", session.locale),
+                width: 100
+            },
+            {
+                field: 'view_seq',
+                hidden: true
+            },
+            {
+                field: "guest_display",
+                hidden: true
+            }
+        ],
+        display: "guest_display",
+        value: "cust_cod"
+    };
+    callback(null, lo_result);
+};
+
+exports.sel_orderdtroomcod_for_column = function (session, callback) {
+    let lo_result = {
+        columns: [
+            {
+                field: 'room_cod',
+                title: commandRules.getColumnByNam("room_cod", session.locale),
+                width: 100
+            },
+            {
+                field: 'room_sna',
+                title: commandRules.getColumnByNam("room_sna", session.locale),
+                width: 100
+            },
+            {
+                field: 'view_seq',
+                hidden: true
+            },
+            {
+                field: "guest_display",
+                hidden: true
+            }
+        ],
+        display: "guest_display",
+        value: "cust_cod"
+    };
+    callback(null, lo_result);
+};

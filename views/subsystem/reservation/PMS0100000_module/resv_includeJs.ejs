@@ -1,4 +1,4 @@
-<%- include ../../../common/jsFile/groupJs_fixTable %>
+<%- include ../../../common/jsFile/groupJs_fixTable.ejs %>
 
 <script type="text/javascript">
     //    var vm = new Vue({
@@ -60,14 +60,33 @@
                     {field: 'baby', title: '嬰兒', width: 50, align: 'right'}
                 ]]
             });
-
             // 訂房卡單筆　table 顯示
             $("#resvSingle-table").tableHeadFixer({"left": 1});
 
             // 訂房明細　table 顯示
             $("#resvDetail-table").tableHeadFixer({"left": 1});
+            $("#guestList-table").tableHeadFixer({"left": 1});
 
         });
+
+        // 彈出 訂房卡-ui-new
+        $(document).on('click', ".resvDialog-ui", function (e) {
+            e.preventDefault();
+            var dialog = $("#resvDialog-ui-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "訂房卡",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: 600,
+                dialogClass: "test",
+                resizable: true
+            });
+
+            // 訂房卡新版UI
+            $("#resvSingle-table-ui").tableHeadFixer({"left": 1});
+        });
+
         // 彈出 住客歷史
         $(document).on('click', ".reservationDialog-2", function (e) {
             e.preventDefault();
@@ -1141,6 +1160,20 @@
             });
         });
 
+        // 彈出 訂房備註
+        $(document).on('click', ".resvMoreRmks", function (e) {
+            e.preventDefault();
+            var dialog = $("#resvMoreRmks-msg").removeClass('hide').dialog({
+                modal: true,
+                title: "訂房備註",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 彈出 其他聯絡方式
         $(document).on('click', ".othContact", function (e) {
             e.preventDefault();
@@ -1926,7 +1959,7 @@
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
-                height: $(window).height(),
+//                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
@@ -2082,27 +2115,20 @@
 
         });
 
-
-    });
-    $(function () {
-
         // 超訂overBooking PMS0120020
         $("#PMS0120020-table").tableHeadFixer({"left": 1});
 
 //      專案訂房 PMS0110030
-        $('#PMS0110030-table').fixedHeaderTable({
-            cloneHeadToFoot: false,
-            fixedColumns: 1,
-            addPxForFixedColumnsWidth: 10,
-            everyColumnsAddWith: 0
-        });
+        $('#PMS0110030-table').tableHeadFixer({"left": 1});
 
+
+        $("#resRoomPlan-table").tableHeadFixer({"left": 1});
+
+        $("#resRoomType-table").tableHeadFixer({"left": 1});
 //      櫃檯備品
-        $('#amenities-table').fixedHeaderTable({
-            cloneHeadToFoot: false,
-            fixedColumns: 1,
-            addPxForFixedColumnsWidth: 60,
-            everyColumnsAddWith: 0
+        $('#amenities-table').tableHeadFixer({
+            "left": 1,
+            "z-index": 9999
         });
 
 
@@ -2224,6 +2250,17 @@
             });
         }
 
+
+        // resv_deposits 切換Radio 顯示不同按鈕
+        $('.resv_depositsStep3B').hide();
+        $(document).on('click', ".deposits_One", function (e) {
+            $('.depositsBtn').removeClass('resv_depositsStep3B').addClass('resv_depositsStep3A');
+        });
+
+        $(document).on('click', ".deposits_Two", function (e) {
+            $('.depositsBtn').removeClass('resv_depositsStep3A').addClass('resv_depositsStep3B');
+        });
+
     });
 
     //dropzone 圖片上傳套件選項
@@ -2303,35 +2340,6 @@
     } catch (e) {
 //        alert('Dropzone.js does not support older browsers!');
     }
-
-
-    // 訂房卡button 文字轉換
-    $("#resv_changeTxt").click(function () {
-        var textName = $(this).text();
-        if (textName == "Waiting")
-            $(this).text("Cancel")
-        else if (textName == "Cancel")
-            $(this).text("Reservation");
-        else
-            $(this).text("Waiting");
-    });
-
-    // resv_deposits 切換Radio 顯示不同按鈕
-    $('.resv_depositsStep3B').hide();
-    $(document).on('click', ".deposits_One", function (e) {
-        $('.depositsBtn').removeClass('resv_depositsStep3B').addClass('resv_depositsStep3A');
-    });
-
-    $(document).on('click', ".deposits_Two", function (e) {
-        $('.depositsBtn').removeClass('resv_depositsStep3A').addClass('resv_depositsStep3B');
-    });
-
-    $(document).ready(function () {
-        $("#resRoomPlan-table").tableHeadFixer({"left": 1});
-    });
-    $(document).ready(function () {
-        $("#resRoomType-table").tableHeadFixer({"left": 1});
-    });
 
 
     // 訂房明細 vue
@@ -2672,4 +2680,170 @@
             marketCates_val_4: '',
         }
     });
+
+    var resvDialog_ui = new Vue({
+        el: "#resvDialog-Vue",
+        data: {
+            ciDate1: new Date(),
+            coDate1: new Date(),
+            ciDate2: new Date(),
+            coDate2: new Date(),
+            ciDate3: new Date(),
+            coDate3: new Date(),
+            ciDate4: new Date(),
+            coDate4: new Date(),
+            ciDate5: new Date(),
+            coDate5: new Date(),
+            ciDate6: new Date(),
+            coDate6: new Date(),
+            ciTime1: new Date(),
+            coTime1: new Date(),
+
+            roomTypes: [
+                {
+                    value: '1',
+                    label: 'DXK'
+                },
+                {
+                    value: '2',
+                    label: 'SUP'
+                },
+                {
+                    value: '3',
+                    label: 'STD'
+                },
+                {
+                    value: '4',
+                    label: 'DXT'
+                },
+                {
+                    value: '5',
+                    label: 'SUE'
+                },
+                {
+                    value: '6',
+                    label: 'ESD'
+                },
+                {
+                    value: '7',
+                    label: 'ESP'
+                },
+                {
+                    value: '8',
+                    label: 'EXK'
+                },
+                {
+                    value: '9',
+                    label: 'ESP'
+                },
+                {
+                    value: '10',
+                    label: 'ESU'
+                }
+            ],
+            useRmTypes: [
+                {
+                    value: '1',
+                    label: 'DXK'
+                },
+                {
+                    value: '2',
+                    label: 'SUP'
+                },
+                {
+                    value: '3',
+                    label: 'STD'
+                },
+                {
+                    value: '4',
+                    label: 'DXT'
+                },
+                {
+                    value: '5',
+                    label: 'SUE'
+                },
+                {
+                    value: '6',
+                    label: 'ESD'
+                },
+                {
+                    value: '7',
+                    label: 'ESP'
+                },
+                {
+                    value: '8',
+                    label: 'EXK'
+                },
+                {
+                    value: '9',
+                    label: 'ESP'
+                },
+                {
+                    value: '10',
+                    label: 'ESU'
+                }
+            ],
+
+            resv_sources: [
+                {
+                    value: '1',
+                    label: '1.電話訂房'
+                },
+                {
+                    value: '2',
+                    label: '2.官網訂房'
+                },
+                {
+                    value: '3',
+                    label: '3.app訂房'
+                }],
+
+            marketCates: [
+                {
+                    value: '1',
+                    label: '1.OTA-AGODA'
+                },
+                {
+                    value: '2',
+                    label: '2.套裝行程'
+                },
+                {
+                    value: '3',
+                    label: '3.專案促銷'
+                },
+                {
+                    value: '4',
+                    label: '4.票券銷售'
+                },
+                {
+                    value: '5',
+                    label: '5.員工訂房'
+                },
+                {
+                    value: '6',
+                    label: '6.純訂房'
+                }],
+
+            roomTypes_val_1: '',
+            useRmTypes_val_1: '',
+            roomTypes_val_2: '',
+            useRmTypes_val_2: '',
+            roomTypes_val_3: '',
+            useRmTypes_val_3: '',
+            roomTypes_val_4: '',
+            useRmTypes_val_4: '',
+            roomTypes_val_5: '',
+            useRmTypes_val_5: '',
+            roomTypes_val_6: '',
+            useRmTypes_val_6: '',
+
+            resv_sources_val_4: '',
+            marketCates_val_4: '',
+            activeName: 'reservation'
+        },
+        methods: {
+            handleClick(tab, event) {
+            }
+        }
+    })
 </script>

@@ -103,7 +103,6 @@
         });
 
 
-
         /* 點選右上箭頭選擇觀看右邊表格 */
         function foCounterMain(colRemove, colAdd, maxW, disToggle1, disToggle2) {
             $('.intCounterLeft').removeClass(colRemove).addClass(colAdd);
@@ -130,13 +129,14 @@
             $('.counterBlock > .content-sub').css('display', disToggle1);
             $('.zoomOut').css('display', disToggle1);
             $('.zoomIn').css('display', disToggle2);
+            $('.content-ico').css('display', disToggle1);
         }
 
         $(document).on('click', ".zoomOut", function () {
             zoomInOut('70px', '33px', 'none', 'inline-block');
         });
         $(document).on('click', ".zoomIn", function () {
-            zoomInOut('127px', '74px', 'inline-block', 'none');
+            zoomInOut('140px', '93px', 'block', 'none');
         });
         /* 點選左上放大鏡選擇觀看內容多寡 End */
 
@@ -144,7 +144,7 @@
         //房務管理切換
         $('.hk-graphics-btn').hide();
         $('.hk-dataList-container').hide();
-        $('.hk-PMS0410010').panel({closed:true});
+        $('.hk-PMS0410010').panel({closed: true});
 
         $('.foCounter').on('click', ".hk-list-btn", function (e) {
             $('.hk-list-btn').hide();
@@ -153,16 +153,16 @@
             $('.hk-dataList-container').show();
             // 解決datagrid 原本隱藏，按了click顯示後資料回不見問題
             $('#hk-PMS0410010-table').datagrid('reload');
-            $('.hk-PMS0410010').panel({closed:false}).removeClass('panel-body');
+            $('.hk-PMS0410010').panel({closed: false}).removeClass('panel-body');
 
         });
         $('.foCounter').on('click', ".hk-graphics-btn", function (e) {
-                $('.hk-graphics-btn').hide();
-                $('.hk-dataList-container').hide();
-                $('.hk-table-container').show();
-                $('.hk-list-btn').show();
-                $('.hk-PMS0410010').panel({closed:true});
-            });
+            $('.hk-graphics-btn').hide();
+            $('.hk-dataList-container').hide();
+            $('.hk-table-container').show();
+            $('.hk-list-btn').show();
+            $('.hk-PMS0410010').panel({closed: true});
+        });
         //.End房務管理切換
 
         /***
@@ -228,15 +228,14 @@
                 {field: 'coDate', title: 'C/O Date', width: 100},
                 {field: 'ciDate', title: 'C/I Date', width: 100},
                 {field: 'ciTime', title: 'C/I Time', width: 70},
-                {field: 'mini', title: 'Mini Bar Amt.',align:'right', width: 100},
+                {field: 'mini', title: 'Mini Bar Amt.', align: 'right', width: 100},
             ]]
         });
 
 
-
         // ** 房務入帳主檔 **
         //選中的增加active
-        $(".hk-MidBoxsBlock").click(function() {
+        $(".hk-MidBoxsBlock").click(function () {
             $(this).siblings('.hk-MidBoxsBlock').removeClass('active');
             $(this).addClass('active');
         });
@@ -246,19 +245,19 @@
         $(".hk-mian-content-2").hide();
         $(".hk-midNav-2").hide();
 
-        $(".hk-mid-1").click(function() {
+        $(".hk-mid-1").click(function () {
             $(".hk-mian-content").show();
             $(".hk-mian-content-2").hide();
         });
-        $(".hk-mid-2").click(function() {
+        $(".hk-mid-2").click(function () {
             $(".hk-mian-content").hide();
             $(".hk-midNav-1").hide();
             $(".hk-midNav-2").show();
         });
-        $(".hk-mid2-1").click(function() {
+        $(".hk-mid2-1").click(function () {
             $(".hk-mian-content-2").show();
         });
-        $(".hk-back-nav").click(function() {
+        $(".hk-back-nav").click(function () {
             $(".hk-midNav-2").hide();
             $(".hk-midNav-1").show();
         });
@@ -290,9 +289,9 @@
                     {field: 'check', title: '', width: 22},
                     {field: 'thing', title: '消費項目', width: 70},
                     {field: 'num', title: '數量', width: 40},
-                    {field: 'price', title: '單價',align:'right', width: 50},
-                    {field: 'pay', title: '消費金額',align:'right', width: 60},
-                    {field: 'se', title: '服務費',align:'right', width: 50}
+                    {field: 'price', title: '單價', align: 'right', width: 50},
+                    {field: 'pay', title: '消費金額', align: 'right', width: 60},
+                    {field: 'se', title: '服務費', align: 'right', width: 50}
                 ]]
             });
 
@@ -322,11 +321,11 @@
                 columns: [[
                     {field: 'thing', title: '消費項目', width: 100},
                     {field: 'num', title: '數量', width: 70},
-                    {field: 'price', title: '單價',align:'right', width: 70},
-                    {field: 'originMoney', title: '原銷售金額',align:'right', width: 100},
-                    {field: 'realityseMoney', title: '實際銷售金額',align:'right', width: 100},
-                    {field: 'originService', title: '原服務費',align:'right', width: 100},
-                    {field: 'realityseService', title: '實際服務費',align:'right', width: 70}
+                    {field: 'price', title: '單價', align: 'right', width: 70},
+                    {field: 'originMoney', title: '原銷售金額', align: 'right', width: 100},
+                    {field: 'realityseMoney', title: '實際銷售金額', align: 'right', width: 100},
+                    {field: 'originService', title: '原服務費', align: 'right', width: 100},
+                    {field: 'realityseService', title: '實際服務費', align: 'right', width: 70}
                 ]]
             });
 
@@ -339,11 +338,11 @@
                 columns: [[
                     {field: 'consumeDate', title: '消費日期', width: 100},
                     {field: 'enterTime', title: '入帳時間', width: 70},
-                    {field: 'enterMan', title: '入帳者',align:'right', width: 70},
-                    {field: 'smallClassify', title: '小分類',align:'right', width: 100},
-                    {field: 'consumeMoney', title: '消費金額',align:'right', width: 70},
-                    {field: 'serviceMoney', title: '服務費',align:'right', width: 70},
-                    {field: 'total', title: '小計',align:'right', width: 70},
+                    {field: 'enterMan', title: '入帳者', align: 'right', width: 70},
+                    {field: 'smallClassify', title: '小分類', align: 'right', width: 100},
+                    {field: 'consumeMoney', title: '消費金額', align: 'right', width: 70},
+                    {field: 'serviceMoney', title: '服務費', align: 'right', width: 70},
+                    {field: 'total', title: '小計', align: 'right', width: 70},
                     {field: 'consumeCode', title: '消費單號', width: 70},
                     {field: 'serviceCode', title: '服務費單號', width: 100},
                     {field: 'rmk', title: '備註', width: 100},

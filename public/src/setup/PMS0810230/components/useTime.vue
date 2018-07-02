@@ -382,7 +382,7 @@
         methods: {
             //取滾房租日
             async fetchRentCalDat() {
-                this.rentCalDat = await $.post('/api/qryRentCalDat', {}).then((result) => {
+                this.rentCalDat = await BacUtils.doHttpPromisePostProxy('/api/qryRentCalDat', {}).then((result) => {
                     return result.rent_cal_dat;
                 });
             },
@@ -409,7 +409,7 @@
                 };
                 let ls_apiUrl = lo_params.searchCond.rate_cod == "" ? "/api/fetchOnlyDataGridFieldData" : "/api/fetchDataGridFieldData";
 
-                $.post(ls_apiUrl, lo_params).then(result => {
+                BacUtils.doHttpPromisePostProxy(ls_apiUrl, lo_params).then(result => {
                     if (result.success) {
                         //房型下拉資料動態產生
                         let ln_roomCodIdx = _.findIndex(result.dgFieldsData, {ui_field_name: 'room_cods'});
@@ -640,6 +640,7 @@
                 else {
                     _.each(this.dataGridRowsData[params.index], (ls_value, ls_key) => {
                         let la_modifyKey = ["begin_dat", "end_dat", "command_cod", "command_option", "room_cods"];
+                        console.log(_.indexOf(la_modifyKey, ls_key));
                         if (_.indexOf(la_modifyKey, ls_key) > -1) {
                             this.dataGridRowsData[params.index][ls_key] = params.rowData[ls_key];
                         }
@@ -695,7 +696,7 @@
                     oriRowsData: la_oriDataGridRowsData
                 };
 
-                let lo_chkRule = await $.post('/api/chkFieldRule', lo_postData).then(result => {
+                let lo_chkRule = await BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', lo_postData).then(result => {
                     return result;
                 });
 
@@ -711,8 +712,14 @@
                         lo_dataGridRowsData.command_option = this.convertMultiData(lo_dataGridRowsData.command_option);
                         lo_dataGridRowsData.room_cods = this.convertMultiData(lo_dataGridRowsData.room_cods);
                         if (lo_dataGridRowsData.isCreate) {
-                            if (_.findIndex(this.tmpCUD.createData, lo_dataGridRowsData) > -1) {
-                                this.tmpCUD.createData.splice(_.findIndex(this.tmpCUD.createData, lo_dataGridRowsData), 1);
+                            let ln_createIndex = _.findIndex(this.tmpCUD.createData, {
+                                athena_id: lo_dataGridRowsData.athena_id,
+                                hotel_cod: lo_dataGridRowsData.hotel_cod,
+                                rate_cod: lo_dataGridRowsData.rate_cod,
+                                supply_nos: lo_dataGridRowsData.supply_nos
+                            });
+                            if (ln_createIndex > -1) {
+                                this.tmpCUD.createData.splice(ln_createIndex, 1);
                             }
                             this.tmpCUD.createData.push(lo_dataGridRowsData);
                         }
@@ -762,6 +769,7 @@
                     this.$eventHub.$emit("setUseTimeSelectData");
 
                     $("#useTimeDialog").dialog('close');
+                    console.log(this.tmpCUD);
                 }
                 else {
                     alert(lo_chkResult.msg);

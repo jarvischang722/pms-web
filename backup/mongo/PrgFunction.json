@@ -637,7 +637,7 @@
     "link_prg_id" : "PMS0110041"
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880511"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7a8"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -647,7 +647,7 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880512"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7a9"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -657,7 +657,7 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880513"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7aa"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
@@ -667,27 +667,27 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880514"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7ab"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "func_id" : "1020", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "r_1020", 
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880515"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7ac"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "func_id" : "1030", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "r_1030", 
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880516"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7ad"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -697,7 +697,7 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880517"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7ae"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -707,17 +707,17 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880518"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7af"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "func_id" : "1060", 
-    "rule_func_name" : "r_1060", 
+    "rule_func_name" : "r_1060(5/29星光說先不做,等後來確認後再做)", 
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880519"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7b0"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -727,7 +727,7 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d9702088051a"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7b1"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -737,7 +737,7 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d9702088051b"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7b2"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -747,7 +747,7 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d9702088051c"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7b3"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -757,7 +757,7 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d9702088051d"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7b4"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -767,7 +767,7 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d9702088051e"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7b5"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -777,7 +777,7 @@
     "link_prg_id" : "PMS0210011"
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d9702088051f"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7b6"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -787,7 +787,7 @@
     "link_prg_id" : "PMS0610020(唯讀開啟)"
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880520"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7b7"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -797,7 +797,7 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880521"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7b8"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -807,7 +807,7 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880522"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7b9"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
@@ -817,7 +817,7 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880523"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7ba"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1140), 
     "tab_page_id" : NumberInt(1), 
@@ -827,7 +827,7 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880524"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7bb"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1140), 
     "tab_page_id" : NumberInt(1), 
@@ -837,12 +837,162 @@
     "link_prg_id" : ""
 }
 { 
-    "_id" : ObjectId("5ae993240bf3d97020880525"), 
+    "_id" : ObjectId("5b164b320bf3d95bf887d7bc"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1140), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "func_id" : "1143", 
     "rule_func_name" : "r_1143", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c85ff"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1010", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c8600"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1030", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c8601"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1040", 
+    "rule_func_name" : "等排房", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c8602"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1050", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c8603"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1060", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c8604"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1070", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c8605"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1080", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c8606"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1090", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c8607"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1011", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c8608"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1012", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c8609"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1013", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c860a"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1014", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c860b"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1015", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b331f46da036919d42c860c"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "1016", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("5b333547aeaa04566c92c232"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(12), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0200", 
+    "rule_func_name" : "dfaultOrderMn", 
     "link_prg_id" : ""
 }
