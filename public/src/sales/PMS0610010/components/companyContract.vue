@@ -133,11 +133,14 @@
             dataGridRowsDataOfRateCode: {
                 handler(val) {
                     if (!_.isEmpty(val)) {
-                        console.log(val);
                         let la_addToDataGridRowsData = _.where(val, {createRow: 'Y'});
+                        let lo_extendData = {
+                            cust_cod: this.$store.state.custMnModule.gs_custCod,
+                            tab_page_id: 4
+                        };
                         _.each(la_addToDataGridRowsData, (lo_addToDataGridRowsData) => {
                             if (_.findIndex(this.dataGridRowsData, {uniKey: lo_addToDataGridRowsData.uniKey}) == -1) {
-                                this.dataGridRowsData.push(lo_addToDataGridRowsData);
+                                this.dataGridRowsData.push(_.extend(lo_addToDataGridRowsData, lo_extendData));
                             }
                         });
 
@@ -172,17 +175,6 @@
         },
         methods: {
             insertCustCodIntoTmpCUD(rowData) {
-                let lo_extendData = {
-                    cust_cod: this.$store.state.custMnModule.gs_custCod,
-                    tab_page_id: 4
-                };
-                //將cust_cod放置tmpCUD中
-                _.each(this.dgIns.tmpCUD, (la_cudData, key) => {
-                    _.each(la_cudData, lo_data => {
-                        la_cudData[key] = _.extend(lo_data, lo_extendData);
-                    })
-                });
-                // return;
                 //將合約內容資料放至Vuex
                 this.$store.dispatch("custMnModule/setCcDataGridRowsData", {
                     ga_ccDataGridRowsData: this.dataGridRowsData,
@@ -228,24 +220,27 @@
                         });
                         this.dataGridRowsData = result.dgRowData;
                         this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        this.dataGridRowsDataOfRateCode = alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
+                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                        })]);
                         this.showDataGrid();
                     }
                     else {
                         this.dataGridRowsData = this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData;
                         this.oriDataGridRowsData = this.$store.state.custMnModule.go_allOriData.ga_ccDataGridRowsData;
-                        this.dgIns.loadDgData(_.filter(this.dataGridRowsData, lo_dgRowData => {
+                        this.dataGridRowsDataOfRateCode = alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
-                        }));
+                        })]);
+                        this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
                         this.isLoading = false;
                     }
+//                    this.isHideExpire = true;
                 });
             },
             showDataGrid() {
                 this.dgIns = this.isModifiable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'contractContent_dg'), this.fieldsData);
-                this.dgIns.loadDgData(_.filter(this.dataGridRowsData, lo_dgRowData => {
-                    return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
-                }));
+                this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
                 this.dgIns.updateMnRowData(this.$store.state.custMnModule.go_allData.go_mnSingleData);
 
