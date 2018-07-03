@@ -1,16 +1,36 @@
 /**
  * Created by Jun on 2016/12/26.
  * 資料庫設定檔
+ *
+ * 為了因應分散式架構考量
  */
 module.exports = {
     //oracle 設定檔{Array}
-    oracle: [{
-        id: "IDC_BACCHUS_1",
-        connectString: "192.168.60.79/WRS",
-        user: "bacchus",
-        password: "sql",
-        months: [1, 2, 3, 4, 5, 6]
-    }],
+    oracle: [
+        {
+            id: "default",
+            connectString: "192.168.60.79/WRS",
+            user: "bacchus",
+            password: "sql",
+            months: [1, 2, 3, 4, 5, 6]
+        },
+        {
+            //id組合方式: IDC_BACCHUS_ + athena_id
+            id: "IDC_BACCHUS_1",
+            connectString: "192.168.60.79/WRS",
+            user: "bacchus",
+            password: "sql",
+            months: [1, 2, 3, 4, 5, 6]
+        // },
+        // {
+        //     id: 'CAS',
+        //     connectString: "192.168.60.79/WRS",
+        //     user: "cas",
+        //     password: "tomcat284362",
+        //     months: [1, 2, 3, 4, 5, 6],
+        //     debug: 1
+        }
+    ],
     // oracle 參數設定
     oracle_maxRows: 1000,
     oracle_poolMin: 5,
