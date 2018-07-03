@@ -227,12 +227,12 @@ module.exports = {
 
     /**
      * 轉換成DAO格式
-     * @param athena_id {number} 公司別
+     * @param athena_id {number} 集團別
      * @param dao {string} dao名稱
      * @returns {{id: string, dao: *}}
      */
     ConvertToQueryParams: function (athena_id, dao) {
-        const la_oracleIdList = _.pluck(go_config.oracle, "id");
+        const la_oracleIdList = ["IDC_BACCHUS"];
         let ls_oracle_id = "";
         let ln_idIsExist;
         _.each(la_oracleIdList, ls_oracleId => {
@@ -240,9 +240,6 @@ module.exports = {
             ln_idIsExist = _.findIndex(go_config.oracle, {id: ls_oracle_id});
             if (ln_idIsExist == -1) ls_oracle_id = "default";
         });
-
-
-
 
         return {
             id: ls_oracle_id,
