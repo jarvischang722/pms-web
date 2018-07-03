@@ -3567,7 +3567,7 @@ ul.newVisitOther-btn {
 }
 .foCounter .floorPlan-table table th, .foCounter .floorPlan-table table td {
   border: 1px solid #a0a8b4;
-  padding-left: 2px;
+    padding: 5px;
 }
 .foCounter .floorPlan-table table tr th {
   background: #c0d6ee;
@@ -3604,6 +3604,19 @@ ul.newVisitOther-btn {
 .foCounter .floorPlan-table table tr td.btn-center {
   margin: 0 auto;
   text-align: center;
+}
+
+.foCounter .floorPlan-table table .gap {
+    line-height: 20px;
+}
+
+.foCounter .floorPlan-table table .ico-wt {
+    padding: 5px;
+}
+
+.foCounter .floorPlan-table table .ico-wt img {
+    width: 20px;
+    height: 20px;
 }
 .foCounter .floorPlan-table .customInfo-table {
   width: 100%;
@@ -3677,6 +3690,11 @@ ul.newVisitOther-btn {
 .foCounter table.foCounter-table.additional-chg-1 th, .foCounter table.foCounter-table.additional-chg-1 td {
     padding-left: 20px;
     padding-right: 20px;
+}
+
+.popInfo-title {
+    font-weight: 600;
+    letter-spacing: 3px;
 }
 
 .bloch-btn-single {
