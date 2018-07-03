@@ -799,9 +799,20 @@
                                 let ln_orderQnt = Number(lo_editingRow.order_qnt) - Number(this.orderDtRowsData4Single.order_qnt);
                                 if (ln_orderQnt > 0) {
                                     //增加orderDtRowsData
-                                    let ln_ikeySeqNos = _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
+                                    let lo_ikeySeqNos = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {
+                                        rule_func_name: 'get_order_dt_default_data',
+                                        allRowData: this.orderDtRowsData
+                                    }).then((result) => {
+                                        return result;
+                                    }).catch(err => {
+                                        return {success: false, errorMsg: err}
+                                    });
+
+                                    let ln_ikeySeqNos = lo_ikeySeqNos.success ?
+                                        lo_ikeySeqNos.defaultValues.ikey_seq_nos : _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
                                         return lo_orderDtRowsData.ikey_seq_nos;
                                     }).ikey_seq_nos + 1;
+
                                     for (let i = 0; i < ln_orderQnt; i++) {
                                         let lo_editParam = {
                                             rate_cod: lo_editingRow.rate_cod,
@@ -1002,6 +1013,19 @@
                     let la_convertData = newVal.toString().split(":");
                     if (la_convertData.length > 1) {
                         this.guestMnRowsData4Single["gcust_cod"] = la_convertData[0];
+                        BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {
+                            rule_func_name: 'set_guest_mn_data',
+                            rowData: this.guestMnRowsData4Single
+                        }).then((result) => {
+                            console.log(result);
+                            if (result.success) {
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                        }).catch(err => {
+                            console.log(err);
+                        });
                     }
                 }
             },

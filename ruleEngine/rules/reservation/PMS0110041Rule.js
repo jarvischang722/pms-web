@@ -109,6 +109,45 @@ module.exports = {
     },
 
     /**
+     * 編輯單筆訂房卡時，將order_appraise轉到tmp_order_appraise
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    convert_oder_appraise_to_tmp: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let apiParams = {
+            "REVE-CODE": "PMS0110041",
+            "prg_id": "PMS0110041",
+            "func_id": "0900",
+            "athena_id": session.user.athena_id,
+            "hotel_cod": session.user.hotel_cod,
+            "ikey": postData.ikey
+        };
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+            if (apiErr || !data) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                console.error(data["RETN-CODE-DESC"]);
+                lo_error.errorMsg = data["RETN-CODE-DESC"];
+            }
+            else {
+                lo_result.defaultValues.key_nos = data["returnNos"];
+            }
+            callback(lo_error, lo_result);
+        });
+        // callback(lo_error, lo_result);
+
+    },
+
+    /**
      * 取guest_mn ci_ser
      * @param postData
      * @param session
@@ -169,22 +208,67 @@ module.exports = {
     },
 
     /**
-     * 編輯單筆訂房卡時，將order_appraise轉到tmp_order_appraise
+     * 取order dt ikey_seq_nos
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    get_order_dt_default_data: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                ikey: postData.allRowData[0].ikey
+            };
+
+            //取order_dt max ikey_seq_nos
+            let lo_fetchMaxIkeySeqNos = await new Promise((resolve, reject) => {
+                queryAgent.query("SEL_ORDER_DT_MAX_IKEY_SEQ_NOS", lo_params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            let lo_nowMaxIkeySeqNos = _.max(postData.allRowData, (lo_orderDtRowsData) => {
+                return lo_orderDtRowsData.ikey_seq_nos;
+            });
+            let ln_ikeySeqNos = Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) > Number(lo_nowMaxIkeySeqNos.ikey_seq_nos) ? Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) : Number(lo_nowMaxIkeySeqNos.ikey_seq_nos);
+            lo_result.defaultValues.ikey_seq_nos = ln_ikeySeqNos + 1;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 選定guest mn 資料後要打 procedure
      * @param postData
      * @param session
      * @param callback
      */
-    convert_oder_appraise_to_tmp: function (postData, session, callback) {
+    set_guest_mn_data: function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
         let apiParams = {
             "REVE-CODE": "PMS0110041",
             "prg_id": "PMS0110041",
-            "func_id": "0900",
+            "func_id": "0000",
             "athena_id": session.user.athena_id,
             "hotel_cod": session.user.hotel_cod,
-            "ikey": postData.ikey
+            "cust_cod": postData.rowData.gcust_cod,
+            "usr_id": session.user.usr_id
         };
         tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
             if (apiErr || !data) {
@@ -198,13 +282,8 @@ module.exports = {
                 console.error(data["RETN-CODE-DESC"]);
                 lo_error.errorMsg = data["RETN-CODE-DESC"];
             }
-            else {
-                lo_result.defaultValues.key_nos = data["returnNos"];
-            }
             callback(lo_error, lo_result);
         });
-        // callback(lo_error, lo_result);
-
     },
 
     /**
