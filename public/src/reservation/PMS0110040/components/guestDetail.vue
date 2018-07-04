@@ -535,7 +535,6 @@
                     searchCond: {ikey_seq_nos: la_ikeySeqNos, ikey: detailRowsData[0].ikey}
                 }).then((result) => {
                     if (result.success) {
-                        console.log(result.dgRowData);
                         this.guestMnRowsData = result.dgRowData;
                         this.oriGuestMnRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                     }

@@ -648,23 +648,23 @@
                     let lo_extendParam = {};
                     if (this.isCreate4GuestMn) {
                         lo_extendParam = {
+                            airline_cod: lo_ghistMnData.airline_cod,
+                            airmb_nos: lo_ghistMnData.airmb_nos,
+                            alt_nam: lo_ghistMnData.gcust_cod + ":" + lo_ghistMnData.alt_nam,
                             athena_id: lo_ghistMnData.athena_id,
-                            hotel_cod: userInfo.hotel_cod,
+                            assign_sta: 'N',
+                            car_nos: lo_ghistMnData.car_nos,
+                            ccust_nam: lo_ghistMnData.ccust_nam,
                             ci_ser: 0,//todo  資料檔取得系統編號程式=>get_ci_ser
+                            hotel_cod: userInfo.hotel_cod,
                             ikey: this.orderDtRowsData4Single.ikey,
                             ikey_seq_nos: this.orderDtRowsData4Single.ikey_seq_nos,
                             psngr_nos: 0,//todo 訂房時依訂房卡+psngr_nos捉最大值，由1開始
-                            assign_sta: 'N',
                             guest_sta: 'E',
                             master_sta: 'G',
                             gcust_cod: lo_ghistMnData.gcust_cod,
-                            ccust_nam: lo_ghistMnData.ccust_nam,
-                            alt_nam: lo_ghistMnData.gcust_cod + ":" + lo_ghistMnData.alt_nam,
                             first_nam: lo_ghistMnData.first_nam,
                             last_nam: lo_ghistMnData.last_nam,
-                            car_nos: lo_ghistMnData.car_nos,
-                            airline_cod: lo_ghistMnData.airline_cod,
-                            airmb_nos: lo_ghistMnData.airmb_nos,
                             rent_amt: 0,
                             serv_amt: 0,
                             precredit_amt: 0,
@@ -799,9 +799,20 @@
                                 let ln_orderQnt = Number(lo_editingRow.order_qnt) - Number(this.orderDtRowsData4Single.order_qnt);
                                 if (ln_orderQnt > 0) {
                                     //增加orderDtRowsData
-                                    let ln_ikeySeqNos = _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
+                                    let lo_ikeySeqNos = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {
+                                        rule_func_name: 'get_order_dt_default_data',
+                                        allRowData: this.orderDtRowsData
+                                    }).then((result) => {
+                                        return result;
+                                    }).catch(err => {
+                                        return {success: false, errorMsg: err}
+                                    });
+
+                                    let ln_ikeySeqNos = lo_ikeySeqNos.success ?
+                                        lo_ikeySeqNos.defaultValues.ikey_seq_nos : _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
                                         return lo_orderDtRowsData.ikey_seq_nos;
                                     }).ikey_seq_nos + 1;
+
                                     for (let i = 0; i < ln_orderQnt; i++) {
                                         let lo_editParam = {
                                             rate_cod: lo_editingRow.rate_cod,
@@ -841,14 +852,8 @@
                                 }
                                 else {
                                     //減少orderDtRowsData和guestMnRowsData
-                                    let lo_delParam = {};
-                                    lo_delParam = _.extend(lo_delParam, lo_editingRow);
-                                    delete lo_delParam.ikey_seq_nos;
-                                    delete lo_delParam.order_qnt;
-
-                                    let la_delOrderDtRowsData = _.where(this.orderDtRowsData, lo_delParam);
                                     for (let i = 0; i < Math.abs(ln_orderQnt); i++) {
-                                        let lo_delData = la_delOrderDtRowsData[la_delOrderDtRowsData.length - 1 - i];
+                                        let lo_delData = this.groupOrderDtData[this.groupOrderDtData.length - 1 - i];
                                         //order dt 原本就在資料庫裡的資料
                                         let ln_delOrderIndex = _.findLastIndex(this.oriOrderDtRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
                                         if (ln_delOrderIndex > -1) {
@@ -889,7 +894,7 @@
                             }
                         }
 
-                        //改變orderDtRowsData資料，除了間數以外的屬性
+                        //改變orderDtRowsData資料，除了間數以外的屬性，並重新group資料
                         let lo_orderParams = {
                             block_cod: lo_editingRow.block_cod,
                             ci_dat: lo_editingRow.ci_dat,
@@ -902,13 +907,27 @@
                             serv_amt: lo_editingRow.serv_amt,
                             use_cod: lo_editingRow.use_cod
                         };
-                        _.each(this.groupOrderDtData, (lo_orderDtData, idx) => {
-                            let ln_editIdx = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_orderDtData.ikey_seq_nos});
+                        let lo_groupingData = this.groupOrderDtData[0];
+                        let lo_groupParams = {
+                            block_cod: lo_groupingData.block_cod,
+                            ci_dat: lo_groupingData.ci_dat,
+                            co_dat: lo_groupingData.co_dat,
+                            days: lo_groupingData.days,
+                            order_sta: lo_groupingData.order_sta,
+                            rate_cod: lo_groupingData.rate_cod,
+                            rent_amt: lo_groupingData.rent_amt,
+                            room_cod: lo_groupingData.room_cod,
+                            serv_amt: lo_groupingData.serv_amt,
+                            use_cod: lo_groupingData.use_cod
+                        };
+                        _.each(this.orderDtRowsData, () => {
+                            let ln_editIdx = _.findIndex(this.orderDtRowsData, lo_groupParams);
                             if (ln_editIdx > -1) {
                                 this.orderDtRowsData[ln_editIdx] = _.extend(this.orderDtRowsData[ln_editIdx], lo_orderParams);
                             }
-                            this.groupOrderDtData[idx] = _.extend(this.groupOrderDtData[idx], lo_orderParams);
                         });
+                        this.groupOrderDtData = _.where(this.orderDtRowsData, lo_groupParams);
+
                         //計算房價
                         if (this.groupOrderDtData.length > 0) {
                             if (this.groupOrderDtData[0].rate_cod != "") {
@@ -968,7 +987,24 @@
                     this.guestMnRowsData4Single = lo_selectGuestMnData;
                 }
                 else {
-                    this.guestMnRowsData4Single = {ikey_seq_nos: val, alt_nam: "", gcust_cod: ""};
+                    this.guestMnRowsData4Single = {
+                        ikey_seq_nos: val,
+                        alt_nam: "",
+                        gcust_cod: "",
+                        ikey: this.orderMnSingleData.ikey
+                    };
+                    BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', {
+                        rule_func_name: 'get_guest_mn_default_data'
+                    }).then(result => {
+                        if (result.success) {
+                            this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, result.defaultValues);
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+                    }).catch(err => {
+                        alert(err);
+                    });
                 }
             },
             "guestMnRowsData4Single.alt_nam"(newVal, oldVal) {
@@ -976,6 +1012,19 @@
                     let la_convertData = newVal.toString().split(":");
                     if (la_convertData.length > 1) {
                         this.guestMnRowsData4Single["gcust_cod"] = la_convertData[0];
+                        BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {
+                            rule_func_name: 'set_guest_mn_data',
+                            rowData: this.guestMnRowsData4Single
+                        }).then((result) => {
+                            console.log(result);
+                            if (result.success) {
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                        }).catch(err => {
+                            console.log(err);
+                        });
                     }
                 }
             },
@@ -1015,7 +1064,7 @@
                                     this.tmpCUD.oriData.splice(ln_editIndex, 1);
                                 }
                                 this.tmpCUD.updateData.push(lo_orderDtRowData);
-                                this.tmpCUD.oriData.push(lo_orderDtRowData);
+                                this.tmpCUD.oriData.push(this.oriOrderDtRowsData[ln_index]);
                             }
                             else {
                                 //是否已在暫存中
@@ -1031,44 +1080,48 @@
                 deep: true
             },
             orderDtRowsData4table: {
-                handler(val) {
+                async handler(val) {
                     if (!_.isUndefined(this.editingOrderDtIdx)) {
                         if (!_.isUndefined(val[this.editingOrderDtIdx])) {
                             val[this.editingOrderDtIdx].ci_dat = moment(val[this.editingOrderDtIdx].ci_dat).format("YYYY/MM/DD");
                             val[this.editingOrderDtIdx].co_dat = moment(val[this.editingOrderDtIdx].co_dat).format("YYYY/MM/DD");
 
-                            //轉換資料
-                            let lo_editingRow = JSON.parse(JSON.stringify(val[this.editingOrderDtIdx]));
-                            //c/i日期和 c/o日期的判斷
-                            if (moment(new Date(lo_editingRow.ci_dat)).diff(moment(new Date(lo_editingRow.co_dat)), "days") >= 1) {
-                                alert("c/i 日期要小於 c/o日期");
-                                let ln_groupIdx = _.findIndex(this.groupOrderDtData, {ikey_seq_nos: lo_editingRow.ikey_seq_nos});
-                                if (ln_groupIdx > -1) {
-                                    val[this.editingOrderDtIdx].ci_dat = moment(this.groupOrderDtData[ln_groupIdx].ci_dat).format("YYYY/MM/DD");
-                                    val[this.editingOrderDtIdx].co_dat = moment(this.groupOrderDtData[ln_groupIdx].co_dat).format("YYYY/MM/DD");
+                            try {
+                                //轉換資料
+                                let lo_editingRow = JSON.parse(JSON.stringify(val[this.editingOrderDtIdx]));
+                                //c/i日期和 c/o日期的判斷
+                                if (moment(new Date(lo_editingRow.ci_dat)).diff(moment(new Date(lo_editingRow.co_dat)), "days") >= 1) {
+                                    alert("c/i 日期要小於 c/o日期");
+                                    let ln_groupIdx = _.findIndex(this.groupOrderDtData, {ikey_seq_nos: lo_editingRow.ikey_seq_nos});
+                                    if (ln_groupIdx > -1) {
+                                        val[this.editingOrderDtIdx].ci_dat = moment(this.groupOrderDtData[ln_groupIdx].ci_dat).format("YYYY/MM/DD");
+                                        val[this.editingOrderDtIdx].co_dat = moment(this.groupOrderDtData[ln_groupIdx].co_dat).format("YYYY/MM/DD");
+                                    }
                                 }
-                            }
-                            else {
-                                let ln_days = moment(new Date(lo_editingRow.co_dat)).diff(moment(new Date(lo_editingRow.ci_dat)), "days");
-                                val[this.editingOrderDtIdx].days = ln_days;
-                                val[this.editingOrderDtIdx].ci_dat_week = moment(lo_editingRow.ci_dat).format("ddd");
-                                val[this.editingOrderDtIdx].co_dat_week = moment(lo_editingRow.co_dat).format("ddd");
-                            }
-                            //使用房型和計價房型
-                            val[this.editingOrderDtIdx].room_cod = lo_editingRow.use_cod;
+                                else {
+                                    let ln_days = moment(new Date(lo_editingRow.co_dat)).diff(moment(new Date(lo_editingRow.ci_dat)), "days");
+                                    val[this.editingOrderDtIdx].days = ln_days;
+                                    val[this.editingOrderDtIdx].ci_dat_week = moment(lo_editingRow.ci_dat).format("ddd");
+                                    val[this.editingOrderDtIdx].co_dat_week = moment(lo_editingRow.co_dat).format("ddd");
+                                }
+                                //使用房型和計價房型
+                                val[this.editingOrderDtIdx].room_cod = lo_editingRow.use_cod;
 
-                            //計算房價
-//                            if (!_.isNull(val[this.editingOrderDtIdx].room_cod)) {
-//                                let lo_params = {
-//                                    rule_func_name: 'compute_oder_dt_price',
-//                                    allRowData: [val[this.editingOrderDtIdx]],
-//                                    key_nos: this.keyNos,
-//                                    acust_cod: this.orderMnSingleData.acust_cod
-//                                };
-////
-//                                $.post("/api/chkFieldRule", lo_params).then(result => {
-//                                    if (result.success) {
-//                                        val[this.editingOrderDtIdx] = _.extend(val[this.editingOrderDtIdx], result.effectValues);
+                                //計算房價
+//                                if (!_.isNull(val[this.editingOrderDtIdx].room_cod) && val[this.editingOrderDtIdx].room_cod != this.orderDtRowsData4Single.room_cod) {
+//                                    let lo_params = {
+//                                        rule_func_name: 'compute_oder_dt_price',
+//                                        allRowData: [val[this.editingOrderDtIdx]],
+//                                        key_nos: this.keyNos,
+//                                        acust_cod: this.orderMnSingleData.acust_cod
+//                                    };
+//                                    let lo_doComputePrice = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_params).then((result) => {
+//                                        return result;
+//                                    }).catch(err => {
+//                                        return {success: false, errorMsg: err}
+//                                    });
+//                                    if (lo_doComputePrice.success) {
+//                                        val[this.editingOrderDtIdx] = _.extend(val[this.editingOrderDtIdx], lo_doComputePrice.effectValues);
 //                                        this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, val[this.editingOrderDtIdx]);
 //                                        this.orderDtRowsData4Single.serv_tot = Number(val[this.editingOrderDtIdx].serv_amt) * val[this.editingOrderDtIdx].order_qnt;
 //                                        this.orderDtRowsData4Single.rent_tot = Number(val[this.editingOrderDtIdx].rent_amt) * val[this.editingOrderDtIdx].order_qnt;
@@ -1076,10 +1129,13 @@
 //                                        this.orderDtRowsData4Single.sub_tot = Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
 //                                    }
 //                                    else {
-//                                        alert(result.errorMsg);
+//                                        alert(lo_doComputePrice.errorMsg);
 //                                    }
-//                                });
-//                            }
+//                                }
+                            }
+                            catch (err) {
+                                console.log(err);
+                            }
                         }
                     }
                     this.tableHeight = _.size(this.orderDtRowsData4table) > 4 ? 132 : 38 + 30 * _.size(this.orderDtRowsData4table);
@@ -1088,14 +1144,13 @@
             },
             orderDtRowsData4Single: {
                 handler(val) {
-                    console.log(val);
                     _.each(this.groupOrderDtData, (lo_groupData) => {
                         let ln_editIndex = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
                         if (ln_editIndex > -1) {
                             this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], {
                                 source_typ: val.source_typ,
                                 guest_typ: val.guest_typ,
-                                noshow_qnt: val.noshow_qnt,
+                                commis_rat: val.commis_rat
                             });
                         }
                     });
@@ -1104,7 +1159,12 @@
             },
             guestMnRowsData4Single: {
                 handler(val) {
+                    console.log(val);
                     if (!_.isEmpty(val)) {
+                        //設定ikey_seq_nos
+//                        if(val[""])
+
+                        //轉換姓名
                         if (val["gcust_cod"] != "") {
                             let ln_editIndex = _.findIndex(this.guestMnRowsData, {
                                 ikey_seq_nos: val["ikey_seq_nos"],
@@ -1223,7 +1283,6 @@
                 BacUtils.doHttpPostAgent('/api/getUserInfo', (result) => {
                     if (result.success) {
                         this.userInfo = result.userInfo;
-                        console.log(this.userInfo);
                     }
                 });
             },

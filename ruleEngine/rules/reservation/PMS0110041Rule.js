@@ -148,6 +148,145 @@ module.exports = {
     },
 
     /**
+     * 取guest_mn ci_ser
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    get_guest_mn_default_data: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            //取order_mn tmp ikey
+            let lo_fetchCiSer = await new Promise((resolve, reject) => {
+                let apiParams = {
+                    "REVE-CODE": "BAC0900805",
+                    "func_id": "0000",
+                    "athena_id": session.user.athena_id,
+                    "comp_cod": "NULL",
+                    "hotel_cod": session.user.hotel_cod,
+                    "sys_cod": "HFD",
+                    "nos_nam": "CI_SER",
+                    "link_dat": "2000/01/01"
+                };
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                    if (apiErr || !data) {
+                        reject(apiErr)
+                    }
+                    else {
+                        resolve(data)
+                    }
+                });
+            });
+            if (lo_fetchCiSer["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                console.error(lo_fetchCiSer["RETN-CODE-DESC"]);
+                lo_error.errorMsg = lo_fetchCiSer["RETN-CODE-DESC"];
+            }
+            else {
+                lo_result.defaultValues = {
+                    athena_id: session.user.athena_id,
+                    hotel_cod: session.user.hotel_cod,
+                    ci_ser: lo_fetchCiSer["SERIES_NOS"],
+                    assign_sta: 'N',
+                    guest_sta: 'E',
+                    master_sta: 'G',
+                    system_typ: 'HFD'
+                };
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 取order dt ikey_seq_nos
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    get_order_dt_default_data: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                ikey: postData.allRowData[0].ikey
+            };
+
+            //取order_dt max ikey_seq_nos
+            let lo_fetchMaxIkeySeqNos = await new Promise((resolve, reject) => {
+                queryAgent.query("SEL_ORDER_DT_MAX_IKEY_SEQ_NOS", lo_params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            let lo_nowMaxIkeySeqNos = _.max(postData.allRowData, (lo_orderDtRowsData) => {
+                return lo_orderDtRowsData.ikey_seq_nos;
+            });
+            let ln_ikeySeqNos = Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) > Number(lo_nowMaxIkeySeqNos.ikey_seq_nos) ? Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) : Number(lo_nowMaxIkeySeqNos.ikey_seq_nos);
+            lo_result.defaultValues.ikey_seq_nos = ln_ikeySeqNos + 1;
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 選定guest mn 資料後要打 procedure
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    set_guest_mn_data: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let apiParams = {
+            "REVE-CODE": "PMS0110041",
+            "prg_id": "PMS0110041",
+            "func_id": "0000",
+            "athena_id": session.user.athena_id,
+            "hotel_cod": session.user.hotel_cod,
+            "cust_cod": postData.rowData.gcust_cod,
+            "usr_id": session.user.usr_id
+        };
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+            if (apiErr || !data) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = apiErr;
+            }
+            else if (data["RETN-CODE"] != "0000") {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                console.error(data["RETN-CODE-DESC"]);
+                lo_error.errorMsg = data["RETN-CODE-DESC"];
+            }
+            callback(lo_error, lo_result);
+        });
+    },
+
+    /**
      * order dt 中使用房型及計價房型的下拉資料
      * @param postData
      * @param session
