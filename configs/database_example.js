@@ -12,17 +12,19 @@ module.exports = {
     oracle: [
         {
             id: "default",
-            connectString: "192.168.60.79/WRS",
-            user: "bacchus",
+            connectString: "192.168.60.79/WRS",              //IDC測試
+            user: "bacchus",                                 //IDC測試
             password: "sql",
             months: [1, 2, 3, 4, 5, 6]
         },
         {
-            id: "IDC_BACCHUS_1",
-            connectString: "192.168.60.79/WRS",
-            user: "bacchus",
+            //id組合方式: IDC_BACCHUS_ + athena_id
+            id: 'IDC_BACCHUS_1',
+            connectString: "192.168.60.79/WRS",              //IDC測試
+            user: "bacchus",                                 //IDC測試
             password: "sql",
-            months: [1, 2, 3, 4, 5, 6]
+            months: [1, 2, 3, 4, 5, 6],
+            debug: 1
         // },
         // {
         //     id: 'CAS',
