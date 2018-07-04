@@ -1558,6 +1558,15 @@ table.treetable span.indenter {
   height: 0 !important;
 }
 
+#amenities-table .roomPlan-Num1 {
+    text-align: left;
+    padding-left: 0;
+    padding-right: 0;
+}
+#amenities-table .td-first {
+    width: 200px;
+}
+
 /*-------- login.html -------- */
 .login-bg {
   background: #DFE0E2 url("../css/images/pattern.jpg") repeat;
@@ -1715,36 +1724,30 @@ table.treetable span.indenter {
   color: #579;
 }
 
+/* 排房作業 */
 .dataGrid-s1 {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
-
 .dataGrid-s1 .panel-header, .dataGrid-s1 .panel-body {
     border-color: #EDEEEF;
 }
-
 .dataGrid-s1 tr {
     height: 40px;
 }
-
 .dataGrid-s1 .datagrid-header td, .dataGrid-s1 .datagrid-body td, .dataGrid-s1 .datagrid-footer td {
     border: 0;
 }
-
 .dataGrid-s1 .datagrid-header-row {
     background: #EDEEEF;
 }
-
 .dataGrid-s1 tr:nth-child(even) {
     background: #EDEEEF;
 }
-
 .dataGrid-s1 tr.datagrid-row-selected {
     background: #3D70B2;
     color: #fff;
     transition: 1s;
 }
-
 .dataGrid-s1 .datagrid-cell span, .dataGrid-s1 .datagrid-cell, .dataGrid-s1 .datagrid-cell-group, .dataGrid-s1 .datagrid-header-rownumber, .dataGrid-s1 .datagrid-cell-rownumber {
     font-size: 14px !important;
 }
@@ -1755,14 +1758,12 @@ table.treetable span.indenter {
     padding-bottom: 10px;
     box-sizing: border-box;
 }
-
 .roomAssign .tooltip-sp {
     font-size: 14px !important;
     padding-top: 2px;
     padding-bottom: 2px;
     margin-right: 10px;
 }
-
 .roomAssign .searchCheckbox {
     font-size: 14px !important;
     background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjEuMCIgeDI9IjAuNSIgeTI9IjAuMCI+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDg3YmZlIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDVhN2VhIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g');
@@ -1774,36 +1775,29 @@ table.treetable span.indenter {
     padding: 2px 10px;
     box-shadow: 0 2px 6px 1px rgba(104, 104, 104, 0.45);
 }
-
 .roomAssign .searchCheckbox input[type=checkbox].ace:checked + .lbl::before, .roomAssign .searchCheckbox input[type=radio].ace:checked + .lbl::before {
     background-color: transparent;
     color: #fff;
 }
-
 .roomAssign .searchCheckbox input[type=checkbox].ace + .lbl::before, .roomAssign .searchCheckbox input[type=radio].ace + .lbl::before {
     border: 0;
     background-color: transparent;
 }
-
 .roomAssign .searchCheckbox .checkbox label .lbl:before {
     margin-right: 0;
 }
-
 .roomAssign .select-group {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
-
 .roomAssign .select-group .dropdown-toggle {
     font-size: 14px !important;
     border-radius: 24px;
     padding-top: 4px;
     padding-bottom: 4px;
 }
-
 .roomAssign .tab-content {
     border: 0;
 }
-
 .roomAssign .townPage .townRow .townBlock {
     width: 120px;
     height: 120px;
@@ -1812,27 +1806,22 @@ table.treetable span.indenter {
     background: #fff;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
-
 .roomAssign .townPage .townRow .townBlock.no-show {
     background: #fff;
     border-color: #ae8dc3;
 }
-
 .roomAssign .townPage .townRow .townBlock .content {
     margin-top: 5px;
     font-size: 14px !important;
 }
-
 .roomAssign .townPage .townRow .townBlock .foot {
     margin-top: 20px;
 }
-
 .roomAssign .right-menu-co .btn {
     height: 40px;
     font-size: 15px;
     margin-bottom: 10px;
 }
-
 .roomAssign .right-menu-co .btn-primary {
     background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDg3YmZlIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDVhN2VhIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g') !important;
     background: -moz-linear-gradient(270deg, #087bfe 100%, #05a7ea 100%) !important;
@@ -1841,7 +1830,6 @@ table.treetable span.indenter {
     color: #FFFFFF !important;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important;
 }
-
 .roomAssign .right-menu-co .btn-primary:hover {
     background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDg3YmZlIiBzdG9wLW9wYWNpdHk9IjAuNyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzA1YTdlYSIgc3RvcC1vcGFjaXR5PSIwLjciLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyYWQpIiAvPjwvc3ZnPiA=') !important;
     background: -moz-linear-gradient(270deg, rgba(8, 123, 254, 0.7) 100%, rgba(5, 167, 234, 0.7) 100%) !important;
@@ -1849,7 +1837,6 @@ table.treetable span.indenter {
     background: linear-gradient(180deg, rgba(8, 123, 254, 0.7) 100%, rgba(5, 167, 234, 0.7) 100%) !important;
     color: #FFFFFF !important;
 }
-
 .roomAssign .right-menu-co .btn-danger {
     background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZjI1ZTQ5Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZDUxNDE0Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g') !important;
     background: -moz-linear-gradient(270deg, #f25e49 100%, #d51414 100%) !important;
@@ -1858,7 +1845,6 @@ table.treetable span.indenter {
     color: #FFFFFF !important;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important;
 }
-
 .roomAssign .right-menu-co .btn-danger:hover {
     background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZjI1ZTQ5IiBzdG9wLW9wYWNpdHk9IjAuNyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2Q1MTQxNCIgc3RvcC1vcGFjaXR5PSIwLjciLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyYWQpIiAvPjwvc3ZnPiA=') !important;
     background: -moz-linear-gradient(270deg, rgba(242, 94, 73, 0.7) 100%, rgba(213, 20, 20, 0.7) 100%) !important;
@@ -1867,20 +1853,14 @@ table.treetable span.indenter {
     color: #FFFFFF !important;
 }
 
-.chooseCount .css_table.rm-table-s {
-    border: 0;
-}
-
 .chooseCount .css_table.rm-table-s td, .chooseCount .css_table.rm-table-s th {
-    border: 0;
     height: 36px;
+    font-weight: 700;
 }
-
 .chooseCount .css_table.rm-table-s td {
     cursor: pointer;
     color: #364760;
 }
-
 .chooseCount .css_table.rm-table-s .css_td.active {
     background: transparent;
     background: linear-gradient(135deg, #0861c7 35%, #01bcff 60%);
@@ -3317,7 +3297,7 @@ ul.newVisitOther-btn {
   background: #4B3F72 !important;
 }
 .rulesOfSeparation .counterRow .counterBlock.active {
-  border: 2px solid #ff0000;
+    border-color: #ff0000;
 }
 .rulesOfSeparation .counterRow .counterBlock:hover {
   opacity: 0.6;
@@ -3382,7 +3362,6 @@ ul.newVisitOther-btn {
 .foCounter .counterPage .counterRow .counterBlock {
   float: left;
     margin: 0 15px 15px 0;
-  border: 2px solid #fff;
   position: relative;
   padding: 5px;
   width: 140px;
@@ -3390,7 +3369,7 @@ ul.newVisitOther-btn {
   line-height: 23px;
   box-sizing: border-box;
     background: #FFFFFF;
-    border: 2px solid;
+    border: 4px solid;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   color: #000;
   font-size: 11px;
@@ -3487,7 +3466,7 @@ ul.newVisitOther-btn {
   background: #4B3F72 !important;
 }
 .foCounter .counterPage .counterRow .counterBlock.active {
-  border: 2px solid #ff0000;
+    border-color: #ff0000;
 }
 .foCounter .counterPage .counterRow .counterBlock:hover {
   opacity: 0.6;
@@ -4608,7 +4587,7 @@ td div.act-box span.act-text {
 }
 
 .townPage {
-  height: 500px;
+    height: 620px;
 }
 .townPage.town-grap {
     overflow: auto;
@@ -4815,7 +4794,7 @@ td div.act-box span.act-text {
   background: #4B3F72 !important;
 }
 .select-group .status-view div.status-tip.active {
-  border: 2px solid #ff0000;
+    border-color: #ff0000;
 }
 .select-group .status-btn {
   float: left;

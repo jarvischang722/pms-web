@@ -25,7 +25,8 @@ exports.monitor = function (req, res) {
         },
         function (callback) {
             request.get({
-                url: `http://${req.headers.host}/checkServerSta`,
+                // url: `http://${req.headers.host}/checkServerSta`,
+                url: "http://localhost:8888/checkServerSta",
                 timeout: 20000
             }, function (err, response, body) {
                 callback(err, body);
