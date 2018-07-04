@@ -232,14 +232,9 @@ module.exports = {
      * @returns {{id: string, dao: *}}
      */
     ConvertToQueryParams: function (athena_id, dao) {
-        const la_oracleIdList = ["IDC_BACCHUS"];
-        let ls_oracle_id = "";
-        let ln_idIsExist;
-        _.each(la_oracleIdList, ls_oracleId => {
-            ls_oracle_id = `${ls_oracleId}_${athena_id}`;
-            ln_idIsExist = _.findIndex(go_config.oracle, {id: ls_oracle_id});
-            if (ln_idIsExist == -1) ls_oracle_id = "default";
-        });
+        let ls_oracle_id = `IDC_BACCHUS_${athena_id}`;
+        const ln_idIsExist = _.findIndex(go_config.oracle, {id: ls_oracle_id});
+        if (ln_idIsExist == -1) ls_oracle_id = "default";
 
         return {
             id: ls_oracle_id,
