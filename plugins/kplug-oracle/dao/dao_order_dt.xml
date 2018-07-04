@@ -36,9 +36,7 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
-    <!--
-    [PMS0110041] 取得qry_order_dt
-    -->
+    <!--[PMS0110041] 取得qry_order_dt-->
     <dao name="QRY_CARD_ORDER_DT">
         <statement><![CDATA[
             select * from order_dt where athena_id = :athena_id and hotel_cod = :hotel_cod and ikey = :ikey and order_sta <> 'X'

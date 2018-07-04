@@ -565,6 +565,9 @@
         <!--訂房資料-->
         <guest-detail
                 :row-data="rowData"
+                :is-modifiable="isModifiable"
+                :is-create-status="isCreateStatus"
+                :is-edit-status="isEditStatus"
         ></guest-detail>
         <!--/.訂房資料-->
         <!--取消訂房原因-->
@@ -725,7 +728,7 @@
                 oriGuestMnFieldsData: [],         //原始guest mn 欄位資料
                 guestMnRowsData: [],              //guest mn 資料
                 oriGuestMnRowsData: [],           //原始guest mn 欄位資料
-                guestMnRowsData4Single: {},       //單筆 guest mn 資料
+                guestMnRowsData4Single: {alt_nam: ""},       //單筆 guest mn 資料
                 editingGuestMnData: {},           //正在編輯的 guest mn 資料
                 tableHeight: 34,                  //多筆table高度
                 orderStatus: 'N',                 //訂房狀態
@@ -789,9 +792,7 @@
                         }
                     }
                     if (newVal != oldVal && !_.isUndefined(oldVal) && !_.isUndefined(newVal)) {
-
                         let lo_editingRow = JSON.parse(JSON.stringify(this.orderDtRowsData4table[oldVal]));
-
                         //間數改變，增加或減少orderDtRowsData
                         if (lo_editingRow.order_qnt != this.orderDtRowsData4Single.order_qnt) {
                             //間數不得小於0
@@ -926,7 +927,7 @@
                                 this.orderDtRowsData[ln_editIdx] = _.extend(this.orderDtRowsData[ln_editIdx], lo_orderParams);
                             }
                         });
-                        this.groupOrderDtData = _.where(this.orderDtRowsData, lo_groupParams);
+                        this.groupOrderDtData = _.where(this.orderDtRowsData, lo_orderParams);
 
                         //計算房價
                         if (this.groupOrderDtData.length > 0) {
@@ -984,27 +985,78 @@
             "orderDtRowsData4Single.ikey_seq_nos"(val) {
                 let lo_selectGuestMnData = _.findWhere(this.guestMnRowsData, {ikey_seq_nos: val});
                 if (!_.isUndefined(lo_selectGuestMnData)) {
-                    this.guestMnRowsData4Single = lo_selectGuestMnData;
+                    let ls_altNam = JSON.parse(JSON.stringify(lo_selectGuestMnData.gcust_cod)) + ":" + JSON.parse(JSON.stringify(lo_selectGuestMnData.alt_nam));
+                    this.guestMnRowsData4Single = _.extend(lo_selectGuestMnData, {alt_nam: ls_altNam});
                 }
                 else {
-                    this.guestMnRowsData4Single = {
-                        ikey_seq_nos: val,
-                        alt_nam: "",
-                        gcust_cod: "",
-                        ikey: this.orderMnSingleData.ikey
-                    };
-                    BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', {
-                        rule_func_name: 'get_guest_mn_default_data'
-                    }).then(result => {
-                        if (result.success) {
-                            this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, result.defaultValues);
+                    //先新增order dt 再設定guest mn 資料
+                    if (_.isEmpty(this.guestMnRowsData4Single)) {
+                        this.guestMnRowsData4Single = {
+                            ikey_seq_nos: val,
+                            alt_nam: "",
+                            gcust_cod: "",
+                            ikey: this.orderMnSingleData.ikey
+                        };
+                        BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', {
+                            rule_func_name: 'get_guest_mn_default_data'
+                        }).then(result => {
+                            if (result.success) {
+                                this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, result.defaultValues);
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                        }).catch(err => {
+                            alert(err);
+                        });
+                    }
+                    else {
+                        //先設定guest mn 資料，再新增order mn 資料
+                        if (_.isUndefined(this.guestMnRowsData4Single.ikey_seq_nos)) {
+                            this.guestMnRowsData4Single.ikey_seq_nos = val;
+                            BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', {
+                                rule_func_name: 'get_guest_mn_default_data'
+                            }).then(result => {
+                                if (result.success) {
+                                    this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, result.defaultValues);
+                                }
+                                else {
+                                    alert(result.errorMsg);
+                                }
+                            }).catch(err => {
+                                alert(err);
+                            });
+                            let ln_editIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: val});
+                            if (ln_editIndex > -1) {
+                                this.guestMnRowsData[ln_editIndex] = _.extend(this.guestMnRowsData[ln_editIndex], this.guestMnRowsData4Single);
+                            }
+                            else {
+                                this.guestMnRowsData.push(this.guestMnRowsData4Single);
+                            }
                         }
-                        else {
-                            alert(result.errorMsg);
+                        //增加order
+                        else if (this.guestMnRowsData4Single.ikey_seq_nos != val) {
+                            this.guestMnRowsData4Single = {
+                                ikey_seq_nos: val,
+                                alt_nam: "",
+                                gcust_cod: "",
+                                ikey: this.orderMnSingleData.ikey
+                            };
+                            BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', {
+                                rule_func_name: 'get_guest_mn_default_data'
+                            }).then(result => {
+                                if (result.success) {
+                                    this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, result.defaultValues);
+                                }
+                                else {
+                                    alert(result.errorMsg);
+                                }
+                            }).catch(err => {
+                                alert(err);
+                            });
                         }
-                    }).catch(err => {
-                        alert(err);
-                    });
+                    }
+
                 }
             },
             "guestMnRowsData4Single.alt_nam"(newVal, oldVal) {
@@ -1016,7 +1068,6 @@
                             rule_func_name: 'set_guest_mn_data',
                             rowData: this.guestMnRowsData4Single
                         }).then((result) => {
-                            console.log(result);
                             if (result.success) {
                             }
                             else {
@@ -1159,13 +1210,9 @@
             },
             guestMnRowsData4Single: {
                 handler(val) {
-                    console.log(val);
                     if (!_.isEmpty(val)) {
-                        //設定ikey_seq_nos
-//                        if(val[""])
-
                         //轉換姓名
-                        if (val["gcust_cod"] != "") {
+                        if (val["gcust_cod"] != "" && !_.isUndefined(val["gcust_cod"])) {
                             let ln_editIndex = _.findIndex(this.guestMnRowsData, {
                                 ikey_seq_nos: val["ikey_seq_nos"],
                                 gcust_cod: val["gcust_cod"]
@@ -1182,14 +1229,6 @@
                                 let lo_guestMnData = _.findWhere(this.guestMnRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
                                 if (!_.isUndefined(lo_guestMnData)) {
                                     if (lo_guestMnData.gcust_cod != "") {
-                                        //轉換姓名
-                                        if (!_.isUndefined(lo_guestMnData["alt_nam"])) {
-                                            let la_convertAltNam = lo_guestMnData["alt_nam"].split(":");
-                                            if (la_convertAltNam.length > 1) {
-                                                lo_guestMnData["alt_nam"] = la_convertAltNam[1];
-                                            }
-                                        }
-
                                         lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
                                         let lo_params = {
                                             ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
@@ -1227,15 +1266,7 @@
                     //處理暫存資料
                     let la_guestMnRowsData = JSON.parse(JSON.stringify(val));
                     _.each(la_guestMnRowsData, (lo_guestMnData) => {
-                        if (lo_guestMnData.gcust_cod != "") {
-                            //轉換姓名
-                            if (!_.isUndefined(lo_guestMnData["alt_nam"])) {
-                                let la_convertAltNam = lo_guestMnData["alt_nam"].split(":");
-                                if (la_convertAltNam.length > 1) {
-                                    lo_guestMnData["alt_nam"] = la_convertAltNam[1];
-                                }
-                            }
-
+                        if (lo_guestMnData.gcust_cod != "" && _.isUndefined(lo_guestMnData.gcust_cod)) {
                             lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
                             let lo_params = {
                                 ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
@@ -1273,6 +1304,9 @@
             },
             guestMnTmpCUD: {
                 handler(val) {
+                    //處理姓名
+
+
                     console.log("guestMnTmpCUD", val);
                 },
                 deep: true
@@ -1303,7 +1337,7 @@
                 this.oriGuestMnFieldsData = [];
                 this.guestMnRowsData = [];
                 this.oriGuestMnRowsData = [];
-                this.guestMnRowsData4Single = {};
+                this.guestMnRowsData4Single = {alt_nam: ""};
             },
             initTmpCUD() {
                 this.tmpCUD = {
