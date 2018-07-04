@@ -1006,7 +1006,6 @@
                         alert(err);
                     });
                 }
-                console.log(this.guestMnRowsData4Single);
             },
             "guestMnRowsData4Single.alt_nam"(newVal, oldVal) {
                 if (!_.isUndefined(newVal)) {
@@ -1160,7 +1159,12 @@
             },
             guestMnRowsData4Single: {
                 handler(val) {
+                    console.log(val);
                     if (!_.isEmpty(val)) {
+                        //設定ikey_seq_nos
+//                        if(val[""])
+
+                        //轉換姓名
                         if (val["gcust_cod"] != "") {
                             let ln_editIndex = _.findIndex(this.guestMnRowsData, {
                                 ikey_seq_nos: val["ikey_seq_nos"],
@@ -1279,7 +1283,6 @@
                 BacUtils.doHttpPostAgent('/api/getUserInfo', (result) => {
                     if (result.success) {
                         this.userInfo = result.userInfo;
-                        console.log(this.userInfo);
                     }
                 });
             },
