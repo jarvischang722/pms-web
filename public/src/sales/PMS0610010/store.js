@@ -116,16 +116,29 @@ const actions = {
     },
     //取得所有資料是否有改變
     qryAllDataIsChange({state}) {
+
         var lb_isDataChanged = false;
+        console.log(state.go_allData['ga_rpDataGridRowsData'])
+        // console.log(state.go_allOriData['ga_rpDataGridRowsData'])
         _.each(state.go_allData, function (val, key) {
             if (_.isArray(val)) {
                 if (val.length != state.go_allOriData[key].length) {
+
                     lb_isDataChanged = true;
                     return;
                 }
                 else {
+
                     _.each(val, function (lo_val, idx) {
+                        console.log(state.go_allOriData['ga_rpDataGridRowsData'][2]);
                         if (!_.isMatch(lo_val, state.go_allOriData[key][idx])) {
+                                // console.log('XXX' + key);
+                                // console.log('iii' + idx);
+                                // _.each(lo_val, (ls_val, ls_key) => {
+                                //     console.log('*****')
+                                //     console.log(ls_val)
+                                //     console.log(state.go_allOriData[key][idx][ls_key])
+                                // });
                             lb_isDataChanged = true;
                             return;
                         }
@@ -249,16 +262,16 @@ const actions = {
             }
         });
         console.log(lo_tmpCUD);
-        // return {success: false, errorMsg: 'test'};
-        return await BacUtils.doHttpPromisePostProxy('/api/doOperationSave', {
-            prg_id: 'PMS0610020',
-            page_id: 1,
-            func_id: lo_tmpCUD.createData.length > 0 ? "0200" : "0400",
-            trans_cod: 'PMS0610020',
-            tmpCUD: lo_tmpCUD
-        }).then(result => {
-            return (result);
-        });
+        return {success: false, errorMsg: 'test'};
+        // return await BacUtils.doHttpPromisePostProxy('/api/doOperationSave', {
+        //     prg_id: 'PMS0610020',
+        //     page_id: 1,
+        //     func_id: lo_tmpCUD.createData.length > 0 ? "0200" : "0400",
+        //     trans_cod: 'PMS0610020',
+        //     tmpCUD: lo_tmpCUD
+        // }).then(result => {
+        //     return (result);
+        // });
 
     }
 };

@@ -126,6 +126,9 @@
             },
             dataGridRowsDataOfStaff: {
                 handler(val) {
+                    if (this.dgIns.endEditing()) {
+                        this.BTN_action = false;
+                    }
                     if (this.isHideLeavingStaff) {
                         if (!_.isUndefined(this.dgIns.editIndex)) {
                             let ln_editStaffIndex = this.dgIns.editIndex;

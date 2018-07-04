@@ -38,6 +38,10 @@
                                         v-if="$parent.prgEditionOptions.funcList['1070'] != undefined"
                                         data-purview_func_id="PMS0610020-1070">
                                     {{i18nLang.program.PMS0610020.append_contract}}
+
+
+
+
                                 </button>
                             </li>
                             <li>
@@ -46,11 +50,19 @@
                                         v-if="$parent.prgEditionOptions.funcList['1080'] != undefined"
                                         data-purview_func_id="PMS0610020-1080">
                                     {{i18nLang.program.PMS0610020.remove_contract}}
+
+
+
+
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-gray btn-defaultWidth"
                                         role="button">{{i18nLang.program.PMS0610020.special_contract}}
+
+
+
+
                                 </button>
                             </li>
                         </ul>
@@ -133,6 +145,9 @@
             dataGridRowsDataOfRateCode: {
                 handler(val) {
                     if (!_.isEmpty(val)) {
+                        if (this.dgIns.endEditing()) {
+                            this.BTN_action = false;
+                        }
                         let la_addToDataGridRowsData = _.where(val, {createRow: 'Y'});
                         let lo_extendData = {
                             cust_cod: this.$store.state.custMnModule.gs_custCod,
@@ -175,6 +190,18 @@
         },
         methods: {
             insertCustCodIntoTmpCUD(rowData) {
+                let lo_extendData = {
+                    cust_cod: this.$store.state.gs_custCod,
+                    tab_page_id: 4
+                };
+                //將cust_cod放置tmpCUD中
+                _.each(this.dgIns.tmpCUD, (la_cudData, key) => {
+                    _.each(la_cudData, lo_data => {
+                        la_cudData[key] = _.extend(lo_data, lo_extendData);
+                    })
+                });
+
+                // return;
                 //將合約內容資料放至Vuex
                 this.$store.dispatch("custMnModule/setCcDataGridRowsData", {
                     ga_ccDataGridRowsData: this.dataGridRowsData,
@@ -211,7 +238,6 @@
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
                     //第一次載入合約內容
-
                     if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData)) {
                         _.each(result.dgRowData, (lo_dgRowData) => {
                             lo_dgRowData.begin_dat = moment(lo_dgRowData.begin_dat).format("YYYY/MM/DD");
@@ -231,13 +257,18 @@
                         this.dataGridRowsDataOfRateCode = alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                         })]);
-                        this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
+                        this.oriDataGridRowsData = this.$store.state.custMnModule.go_allOriData.ga_ccDataGridRowsData;
+                        if (this.isHideExpire) {
+                            this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
+                        }
+                        else {
+                            this.dgIns.loadDgData(this.dataGridRowsDataOfStaff);
+                        }
                         this.isLoading = false;
                     }
-//                    this.isHideExpire = true;
                 });
             },
-            showDataGrid() {
+            showDataGrid(dataGridRowsData) {
                 this.dgIns = this.isModifiable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'contractContent_dg'), this.fieldsData);
                 this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);

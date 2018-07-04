@@ -598,7 +598,8 @@
                 else if (la_editRows.length > 1 || lo_editRow != la_editRows[0]) {
                     alert(go_i18nLang["program"].PMS0610010.selectOneData);
                 }
-                else {
+                else
+                    {
                     this.editingRow = lo_editRow;
                     this.showSingleGridDialog();
                 }
@@ -646,7 +647,6 @@
                         self.$eventHub.$emit('setTabName', {
                             tabName: ""
                         });
-
                         //資料是否有異動
                         self.$store.dispatch("custMnModule/qryAllDataIsChange").then(result => {
                             if (result.success) {
@@ -658,6 +658,7 @@
                                 }
                             }
                         });
+
                         self.fetchSearchFields();
                         // self.doRowUnLock();
                     }
