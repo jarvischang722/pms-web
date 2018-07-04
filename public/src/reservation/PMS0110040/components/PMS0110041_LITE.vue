@@ -1081,44 +1081,48 @@
                 deep: true
             },
             orderDtRowsData4table: {
-                handler(val) {
+                async handler(val) {
                     if (!_.isUndefined(this.editingOrderDtIdx)) {
                         if (!_.isUndefined(val[this.editingOrderDtIdx])) {
                             val[this.editingOrderDtIdx].ci_dat = moment(val[this.editingOrderDtIdx].ci_dat).format("YYYY/MM/DD");
                             val[this.editingOrderDtIdx].co_dat = moment(val[this.editingOrderDtIdx].co_dat).format("YYYY/MM/DD");
 
-                            //轉換資料
-                            let lo_editingRow = JSON.parse(JSON.stringify(val[this.editingOrderDtIdx]));
-                            //c/i日期和 c/o日期的判斷
-                            if (moment(new Date(lo_editingRow.ci_dat)).diff(moment(new Date(lo_editingRow.co_dat)), "days") >= 1) {
-                                alert("c/i 日期要小於 c/o日期");
-                                let ln_groupIdx = _.findIndex(this.groupOrderDtData, {ikey_seq_nos: lo_editingRow.ikey_seq_nos});
-                                if (ln_groupIdx > -1) {
-                                    val[this.editingOrderDtIdx].ci_dat = moment(this.groupOrderDtData[ln_groupIdx].ci_dat).format("YYYY/MM/DD");
-                                    val[this.editingOrderDtIdx].co_dat = moment(this.groupOrderDtData[ln_groupIdx].co_dat).format("YYYY/MM/DD");
+                            try {
+                                //轉換資料
+                                let lo_editingRow = JSON.parse(JSON.stringify(val[this.editingOrderDtIdx]));
+                                //c/i日期和 c/o日期的判斷
+                                if (moment(new Date(lo_editingRow.ci_dat)).diff(moment(new Date(lo_editingRow.co_dat)), "days") >= 1) {
+                                    alert("c/i 日期要小於 c/o日期");
+                                    let ln_groupIdx = _.findIndex(this.groupOrderDtData, {ikey_seq_nos: lo_editingRow.ikey_seq_nos});
+                                    if (ln_groupIdx > -1) {
+                                        val[this.editingOrderDtIdx].ci_dat = moment(this.groupOrderDtData[ln_groupIdx].ci_dat).format("YYYY/MM/DD");
+                                        val[this.editingOrderDtIdx].co_dat = moment(this.groupOrderDtData[ln_groupIdx].co_dat).format("YYYY/MM/DD");
+                                    }
                                 }
-                            }
-                            else {
-                                let ln_days = moment(new Date(lo_editingRow.co_dat)).diff(moment(new Date(lo_editingRow.ci_dat)), "days");
-                                val[this.editingOrderDtIdx].days = ln_days;
-                                val[this.editingOrderDtIdx].ci_dat_week = moment(lo_editingRow.ci_dat).format("ddd");
-                                val[this.editingOrderDtIdx].co_dat_week = moment(lo_editingRow.co_dat).format("ddd");
-                            }
-                            //使用房型和計價房型
-                            val[this.editingOrderDtIdx].room_cod = lo_editingRow.use_cod;
+                                else {
+                                    let ln_days = moment(new Date(lo_editingRow.co_dat)).diff(moment(new Date(lo_editingRow.ci_dat)), "days");
+                                    val[this.editingOrderDtIdx].days = ln_days;
+                                    val[this.editingOrderDtIdx].ci_dat_week = moment(lo_editingRow.ci_dat).format("ddd");
+                                    val[this.editingOrderDtIdx].co_dat_week = moment(lo_editingRow.co_dat).format("ddd");
+                                }
+                                //使用房型和計價房型
+                                val[this.editingOrderDtIdx].room_cod = lo_editingRow.use_cod;
 
-                            //計算房價
-//                            if (!_.isNull(val[this.editingOrderDtIdx].room_cod)) {
-//                                let lo_params = {
-//                                    rule_func_name: 'compute_oder_dt_price',
-//                                    allRowData: [val[this.editingOrderDtIdx]],
-//                                    key_nos: this.keyNos,
-//                                    acust_cod: this.orderMnSingleData.acust_cod
-//                                };
-////
-//                                $.post("/api/chkFieldRule", lo_params).then(result => {
-//                                    if (result.success) {
-//                                        val[this.editingOrderDtIdx] = _.extend(val[this.editingOrderDtIdx], result.effectValues);
+                                //計算房價
+//                                if (!_.isNull(val[this.editingOrderDtIdx].room_cod) && val[this.editingOrderDtIdx].room_cod != this.orderDtRowsData4Single.room_cod) {
+//                                    let lo_params = {
+//                                        rule_func_name: 'compute_oder_dt_price',
+//                                        allRowData: [val[this.editingOrderDtIdx]],
+//                                        key_nos: this.keyNos,
+//                                        acust_cod: this.orderMnSingleData.acust_cod
+//                                    };
+//                                    let lo_doComputePrice = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_params).then((result) => {
+//                                        return result;
+//                                    }).catch(err => {
+//                                        return {success: false, errorMsg: err}
+//                                    });
+//                                    if (lo_doComputePrice.success) {
+//                                        val[this.editingOrderDtIdx] = _.extend(val[this.editingOrderDtIdx], lo_doComputePrice.effectValues);
 //                                        this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, val[this.editingOrderDtIdx]);
 //                                        this.orderDtRowsData4Single.serv_tot = Number(val[this.editingOrderDtIdx].serv_amt) * val[this.editingOrderDtIdx].order_qnt;
 //                                        this.orderDtRowsData4Single.rent_tot = Number(val[this.editingOrderDtIdx].rent_amt) * val[this.editingOrderDtIdx].order_qnt;
@@ -1126,10 +1130,13 @@
 //                                        this.orderDtRowsData4Single.sub_tot = Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
 //                                    }
 //                                    else {
-//                                        alert(result.errorMsg);
+//                                        alert(lo_doComputePrice.errorMsg);
 //                                    }
-//                                });
-//                            }
+//                                }
+                            }
+                            catch (err) {
+                                console.log(err);
+                            }
                         }
                     }
                     this.tableHeight = _.size(this.orderDtRowsData4table) > 4 ? 132 : 38 + 30 * _.size(this.orderDtRowsData4table);
