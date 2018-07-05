@@ -1,4 +1,7 @@
 $fz-14: 14px
+@mixin gradient-color
+  +background(linear-gradient(360deg, rgba(8, 123, 254, 1) 100%, rgba(5, 167, 234, 1) 100%))
+/* 排房作業 */
 .dataGrid-s1
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)
   .panel-header, .panel-body
@@ -32,7 +35,7 @@ $fz-14: 14px
     margin-right: 10px
   .searchCheckbox
     font-size: $fz-14 !important
-    +background(linear-gradient(360deg, rgba(8, 123, 254, 1) 100%, rgba(5, 167, 234, 1) 100%))
+    +gradient-color
     border-radius: 65px
     color: #fff
     padding: 2px 10px
@@ -95,10 +98,11 @@ $fz-14: 14px
 .chooseCount
   .css_table
     &.rm-table-s
-      border: 0
+      //border: 0
       td, th
-        border: 0
+        //border: 0
         height: 36px
+        font-weight: 700
       td
         cursor: pointer
         color: rgba(54, 71, 96, 1)

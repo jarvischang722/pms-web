@@ -2888,26 +2888,8 @@
 <div id="resv_amenitiesIny-message" class="hide padding-5" style="top: 0 !important;">
     <div class="col-xs-12">
         <div class="row">
-            <div class="col-sm-11 col-xs-11">
-                <div class="row no-margin-right">
-                    <iframe src="./../resv_amenitiesIframe" style="width: 100%; min-height: 450px;" frameborder="0"
-                            scrolling="0"></iframe>
-                </div>
-            </div>
-            <div class="col-xs-1 col-sm-1">
-                <div class="row">
-                    <div class="right-menu-co">
-                        <ul>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_amenitiesDetail"
-                                        role="button">Details
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- /.col-sm-12 -->
+            <%- include resv_amenitiesTable.ejs %>
+        </div>
         <div class="clearfix"></div>
     </div>
 </div>

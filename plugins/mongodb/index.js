@@ -4,18 +4,19 @@
 let _ = require("underscore");
 let dbConfig = require("../../configs/database");
 let mongoose = require('mongoose');
-let dbconn = ["mongodb://", dbConfig.mongo.username, ":", dbConfig.mongo.password, "@", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
+let dbconn = ["mongodb://", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
 let options = {
-    useMongoClient: true
+	useMongoClient: true,//poolSize: 5
+	server: {poolSize: 2, reconnectTries: Number.MAX_VALUE, reconnectInterval: 1000}
 };
 
 mongoose.Promise = global.Promise;
 
 mongoose.connect(dbconn, options, function (err) {
-    if (err) {
-        console.error('connect to %s error: ', dbconn, err.message);
-        process.exit(1);
-    }
+	if (err) {
+		console.error('connect to %s error: ', dbconn, err.message);
+		process.exit(1);
+	}
 });
 
 require("./models/mongoose/SetupDatagridFunction");

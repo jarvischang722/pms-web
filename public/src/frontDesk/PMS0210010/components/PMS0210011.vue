@@ -30,7 +30,8 @@
                                                             <span>{{ field.ui_display_name }}</span>
                                                         </label>
 
-                                                        <input type="text" v-model.trim="singleData[field.ui_field_name]"
+                                                        <input type="text"
+                                                               v-model.trim="singleData[field.ui_field_name]"
                                                                v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :required="field.requirable == 'Y'" min="0"
@@ -70,7 +71,8 @@
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                         </bac-select-grid>
 
-                                                        <input type="number" v-model.trim="singleData[field.ui_field_name]"
+                                                        <input type="number"
+                                                               v-model.trim="singleData[field.ui_field_name]"
                                                                v-if="field.visiable == 'Y' && field.ui_type == 'number'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
@@ -448,41 +450,42 @@
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
         components: {otherContact, lostAndFound, visitsPanel},
         created() {
+            let store = this.$store.state.ghistMnModule.ghistMnModule;
             this.$eventHub.$on("doSaveModifyData", () => {
                 if (!this.isDeleteStatus) {
-                    _.each(this.$store.state.go_profileSingleData, (val, key) => {
-                        if (_.isUndefined(val) || _.isUndefined(this.$store.state.go_oriProfileSingleData[key])) {
-                            this.$store.state.go_profileSingleData[key] = null;
-                            this.$store.state.go_oriProfileSingleData[key] = null;
+                    _.each(this.$store.state.ghistMnModule.go_profileSingleData, (val, key) => {
+                        if (_.isUndefined(val) || _.isUndefined(this.$store.state.ghistMnModule.go_oriProfileSingleData[key])) {
+                            this.$store.state.ghistMnModule.go_profileSingleData[key] = null;
+                            this.$store.state.ghistMnModule.go_oriProfileSingleData[key] = null;
                         }
                     });
                     let lo_allData = {
-                        singleData: this.$store.state.go_profileSingleData,
-                        emailData: this.$store.state.ga_emailDataGridRowsData,
-                        contactData: this.$store.state.ga_contactDataGridRowsData,
-                        addressData: this.$store.state.ga_addressDataGridRowsData
+                        singleData: this.$store.state.ghistMnModule.go_profileSingleData,
+                        emailData: this.$store.state.ghistMnModule.ga_emailDataGridRowsData,
+                        contactData: this.$store.state.ghistMnModule.ga_contactDataGridRowsData,
+                        addressData: this.$store.state.ghistMnModule.ga_addressDataGridRowsData
                     };
                     let lo_oriAllData = {
-                        singleData: this.$store.state.go_oriProfileSingleData,
-                        emailData: this.$store.state.ga_oriEmailDataGridRowsData,
-                        contactData: this.$store.state.ga_oriContactDataGridRowsData,
-                        addressData: this.$store.state.ga_oriAddressDataGridRowsData
+                        singleData: this.$store.state.ghistMnModule.go_oriProfileSingleData,
+                        emailData: this.$store.state.ghistMnModule.ga_oriEmailDataGridRowsData,
+                        contactData: this.$store.state.ghistMnModule.ga_oriContactDataGridRowsData,
+                        addressData: this.$store.state.ghistMnModule.ga_oriAddressDataGridRowsData
                     };
 
                     _.each(lo_oriAllData["emailData"], (lo_emailData, idx) => {
                         lo_oriAllData["emailData"][idx] = _.extend(lo_emailData, {
-                            cust_cod: this.$store.state.gs_gcustCod,
+                            cust_cod: this.$store.state.ghistMnModule.gs_gcustCod,
                             athena_id: lo_allData["emailData"][idx]["athena_id"]
                         });
                     });
                     _.each(lo_oriAllData["contactData"], (lo_contactData, idx) => {
                         lo_oriAllData["contactData"][idx]["contact_dt.athena_id"] = lo_allData["contactData"][idx]["contact_dt.athena_id"];
-                        lo_oriAllData["contactData"][idx]["contact_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                        lo_oriAllData["contactData"][idx]["contact_dt.cust_cod"] = this.$store.state.ghistMnModule.gs_gcustCod;
 
                     });
                     _.each(lo_oriAllData["addressData"], (lo_addressData, idx) => {
                         lo_oriAllData["addressData"][idx]["address_dt.athena_id"] = lo_allData["addressData"][idx]["address_dt.athena_id"];
-                        lo_oriAllData["addressData"][idx]["address_dt.cust_cod"] = this.$store.state.gs_gcustCod;
+                        lo_oriAllData["addressData"][idx]["address_dt.cust_cod"] = this.$store.state.ghistMnModule.gs_gcustCod;
                     });
 
                     let lo_isModify = go_validateClass.chkDataChang(lo_allData, lo_oriAllData);
@@ -557,7 +560,7 @@
                     //生日
                     val["cust_idx.birth_dat"] = val["cust_idx.birth_dat"] == "" ? "" : moment(val["cust_idx.birth_dat"]).format("YYYY/MM/DD");
                     val.birth_dat = val["cust_idx.birth_dat"];
-                    this.$store.dispatch("setProfileData", {
+                    this.$store.dispatch("ghistMnModule/setProfileData", {
                         go_profileSingleData: this.singleData,
                         go_oriProfileSingleData: this.oriSingleData
                     });
@@ -596,7 +599,7 @@
                 this.chgSingleData = {};
             },
             setGlobalStatus() {
-                this.$store.dispatch("setStatus", {
+                this.$store.dispatch("ghistMnModule/setStatus", {
                     gb_isCreateStatus: this.isCreateStatus,
                     gb_isEditStatus: this.isEditStatus
                 });
@@ -614,7 +617,7 @@
                 this.showTabContent(tabName);
             },
             setGlobalGcustCod() {
-                this.$store.dispatch("setGcustCod", this.singleData.gcust_cod);
+                this.$store.dispatch("ghistMnModule/setGcustCod", this.singleData.gcust_cod);
             },
             showTabContent(tabName) {
                 var la_panelName = this.panelName;
@@ -651,7 +654,7 @@
                         singleRowData: la_singleData,
                         oriSingleData: la_oriSingleData
                     };
-                    $.post('/api/chkFieldRule', postData, function (result) {
+                    BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', postData).then( (result) => {
 
                         if (result.success) {
 
@@ -676,7 +679,7 @@
                                 else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        $.post(result.ajaxURL, postData, function (result) {
+                                        BacUtils.doHttpPromisePostProxy(result.ajaxURL, postData).then( (result) => {
                                             if (!result.success) {
                                                 alert(result.errorMsg);
                                             }
@@ -754,15 +757,17 @@
 
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        console.log(this.singleData, this.oriSingleData);
                         this.setGlobalGcustCod();
                         this.isLoadingDialog = false;
+                        this.$eventHub.$emit("getGhistMnDataToOrder", {
+                            ghistMnData: this.singleData
+                        });
                     });
                 }
             },
             setFieldsData() {
                 //將業務備註資料放至Vuex
-                this.$store.dispatch("setOtherContactFieldsData", {
+                this.$store.dispatch("ghistMnModule/setOtherContactFieldsData", {
                     ga_emailFieldsData: this.emailFieldsData,
                     ga_contactFieldsData: this.contactFieldsData,
                     ga_addressFieldsData: this.addressFieldsData
@@ -815,22 +820,25 @@
                 }
                 else {
                     try {
-                        let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
+                        let lo_saveProfileDataRes = await this.$store.dispatch("ghistMnModule/doSaveProfileData");
                         if (lo_saveProfileDataRes.success) {
-                            let lo_saveOtherContactDataRes = await this.$store.dispatch("doSaveOtherContactData");
+                            let lo_saveOtherContactDataRes = await this.$store.dispatch("ghistMnModule/doSaveOtherContactData");
 
                             if (lo_saveOtherContactDataRes.success) {
+                                this.$eventHub.$emit("getGhistMnDataToOrder", {
+                                    ghistMnData: this.singleData
+                                });
                                 alert(go_i18nLang.SystemCommon.saveSuccess);
 
                                 let lo_cloneRowData = _.extend(JSON.parse(JSON.stringify(this.rowData)),);
-                                lo_cloneRowData = _.extend(lo_cloneRowData, {gcust_cod: this.$store.state.gs_gcustCod});
+                                lo_cloneRowData = _.extend(lo_cloneRowData, {gcust_cod: this.$store.state.ghistMnModule.gs_gcustCod});
 
                                 this.isEditStatus = true;
                                 this.isCreateStatus = false;
 
                                 this.rowData = {};
                                 this.rowData = lo_cloneRowData;
-                                this.$store.dispatch("setAllDataClear");
+                                this.$store.dispatch("ghistMnModule/setAllDataClear");
                             }
                             else {
                                 alert(lo_saveOtherContactDataRes.errorMsg)
@@ -851,12 +859,12 @@
                 this.isDeleteStatus = true;
                 this.isLoadingDialog = true;
 
-                if (this.$store.state.gb_isEditStatus) {
-                    this.$store.dispatch("setDeleteStatus", {
+                if (this.$store.state.ghistMnModule.gb_isEditStatus) {
+                    this.$store.dispatch("ghistMnModule/setDeleteStatus", {
                         gb_isDeleteStatus: this.isDeleteStatus
                     });
 
-                    let lo_saveProfileDataRes = await this.$store.dispatch("doSaveProfileData");
+                    let lo_saveProfileDataRes = await this.$store.dispatch("ghistMnModule/doSaveProfileData");
                     if (lo_saveProfileDataRes.success) {
                         alert(go_i18nLang.SystemCommon.delSuccess);
                         this.doCloseDialog();

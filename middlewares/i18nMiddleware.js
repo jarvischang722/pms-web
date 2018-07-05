@@ -10,6 +10,7 @@ const _ = require("underscore");
 const i18n = require("i18n");
 const async = require("async");
 const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const clusterQueryAgent = require("../plugins/kplug-oracle/ClusterQueryAgent");
 const go_sysConf = require("../configs/systemConfig");
 
 module.exports = function (req, res, next) {
@@ -116,7 +117,7 @@ function _v(value) {
 async function getUseLangsByAthenaID(lo_cond) {
     let lo_langRf = require("../configs/LangNameRf.json");
     return new Promise((resolve, reject) => {
-        queryAgent.queryList("QRY_UI_LANG_BY_ATHENA_ID", lo_cond, 0, 0, function (err, langs) {
+        clusterQueryAgent.queryList({id: "IDC_TEST_ORACLE", dao: "QRY_UI_LANG_BY_ATHENA_ID"}, lo_cond, function (err, langs) {
             if (err) {
                 console.error(err);
             }

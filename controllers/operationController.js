@@ -65,7 +65,7 @@ exports.fetchDgFieldData = function (req, res) {
     operSVC.fetchDgFieldData(req.body, req.session, function (err, result) {
         let lo_rtnData = {
             success: _.isNull(err),
-            errorMsg: err,
+            errorMsg: _.isNull(err) ? "" : err.message,
             dgFieldsData: result.dgFieldsData,
             dgRowData: result.dgRowData,
             searchFields: result.searchFields

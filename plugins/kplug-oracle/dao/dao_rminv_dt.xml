@@ -45,4 +45,5 @@
         <parameter type="date" kind="1">batch_dat</parameter>
         <parameter type="string" kind="1">room_nos</parameter>
     </dao>
+
 </root>

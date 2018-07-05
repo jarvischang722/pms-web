@@ -293,7 +293,7 @@ const actions = {
         });
         // console.log(lo_tmpCUD);
         // return {success: false, errorMsg: 'test'};
-        return await $.post('/api/doOperationSave', {
+        return await BacUtils.doHttpPromisePostProxy('/api/doOperationSave', {
             prg_id: 'PMS0610020',
             page_id: 1,
             func_id: lo_tmpCUD.createData.length > 0 ? "0200" : "0400",
@@ -308,11 +308,19 @@ const actions = {
 
 const getters = {};
 
-export default new Vuex.Store({
-    state,
-    getters,
-    actions,
-    mutations
-});
+export const custMnModule = {
+    namespaced: true,
+    state: state,
+    mutations: mutations,
+    actions: actions,
+    getters: getters
+};
+
+// export default new Vuex.Store({
+//     state,
+//     getters,
+//     actions,
+//     mutations
+// });
 
 
