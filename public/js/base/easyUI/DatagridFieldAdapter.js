@@ -773,19 +773,24 @@ function onQryAction(fieldAttrObj, qryValue, dgName) {
                 index: ln_indexRow,
                 field: fieldAttrObj.ui_field_name
             });
-            //將原本的下拉資料改為規則帶回的下拉資料
-            $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
-            _.each(result.selectOptions, (lo_selectOption) => {
-                fieldAttrObj.selectData.selectData.push(lo_selectOption);
-            });
-
-            //將datagrid 的text 改為所查詢的值
-            $(lo_editor.target).combogrid("setText", qryValue);
-            //檢查茶璇的值是否存在在帶回的下拉資料
-            let lo_examData = {};
-            lo_examData[result.selectField] = qryValue;
-            if (result.selectOptions.length == 0) {
+            if (result.selectOptions.length > 0) {
+                //將原本的下拉資料改為規則帶回的下拉資料 result.selectOptions ==> 過濾過的資料結果
+                $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
+                _.each(result.selectOptions, (lo_selectOption) => {
+                    fieldAttrObj.selectData.selectData.push(lo_selectOption);
+                });
+            }
+            else {
+                console.log(qryValue);
+                //將datagrid 的text 改為所查詢的值
+                $(lo_editor.target).combogrid("grid").datagrid("loadData", []);
                 $(lo_editor.target).combogrid("setValue", qryValue);
+                //檢查查詢的值是否存在在帶回的下拉資料
+                // let lo_examData = {};
+                // lo_examData[result.selectField] = qryValue;
+                // if (result.selectOptions.length == 0) {
+                //     $(lo_editor.target).combogrid("setValue", qryValue);
+                // }
             }
         }
     });

@@ -236,6 +236,7 @@
                     searchCond: {cust_cod: this.$store.state.custMnModule.gs_custCod}
                 }, result => {
                     this.searchFields = result.searchFields;
+                    //TODO 欄位排序 => 改資料庫的 col_seq
                     this.fieldsData = result.dgFieldsData;
                     //第一次載入合約內容
                     if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData)) {
