@@ -5,10 +5,10 @@
 module.exports = {
     //oracle 設定檔{Array}
     oracle: [{
-        id: "IDC_TEST_ORACLE",
+        id: "IDC_BACCHUS_1",
         connectString: "192.168.60.79/WRS",
         user: "bacchus",
-        password: "tomcat284362",
+        password: "sql",
         months: [1, 2, 3, 4, 5, 6]
     }],
     // oracle 參數設定

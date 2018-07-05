@@ -10,4 +10,15 @@
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <dao name="SEL_RVCANCEL_RF">
+        <statement><![CDATA[
+			select cancel_cod as value, cancel_rmk as display, flag1_sta from rvcancel_rf
+			where athena_id = :athena_id
+			and hotel_cod = :hotel_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>

@@ -28,7 +28,7 @@ var params = {
 test1();
 
 function test1() {
-    queryAgent.queryList("QRY_RATECOD_DT_LEFT", {athena_id: 1, hotel_cod:'01'}, 0, 0, function (err, data) {
+    queryAgent.queryList("QUY_MASTER_RF_FOR_MANUAL_SELECT", {athena_id: 1, hotel_cod:'02', acust_cod: 'CS 000000000144302'}, 0, 0, function (err, data) {
         console.error(err);
         console.log(data);
     });
