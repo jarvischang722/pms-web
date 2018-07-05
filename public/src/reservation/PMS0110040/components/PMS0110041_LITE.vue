@@ -929,7 +929,7 @@
                         });
                         this.groupOrderDtData = _.where(this.orderDtRowsData, lo_orderParams);
 
-                        //計算房價
+                        //計算所有group data的房價
                         if (this.groupOrderDtData.length > 0) {
                             if (this.groupOrderDtData[0].rate_cod != "") {
                                 let lo_params = {
@@ -1132,6 +1132,7 @@
             },
             orderDtRowsData4table: {
                 async handler(val) {
+                    console.log(val);
                     if (!_.isUndefined(this.editingOrderDtIdx)) {
                         if (!_.isUndefined(val[this.editingOrderDtIdx])) {
                             val[this.editingOrderDtIdx].ci_dat = moment(val[this.editingOrderDtIdx].ci_dat).format("YYYY/MM/DD");
@@ -1140,49 +1141,63 @@
                             try {
                                 //轉換資料
                                 let lo_editingRow = JSON.parse(JSON.stringify(val[this.editingOrderDtIdx]));
-                                //c/i日期和 c/o日期的判斷
+                                //ci日期和 co日期的判斷
                                 if (moment(new Date(lo_editingRow.ci_dat)).diff(moment(new Date(lo_editingRow.co_dat)), "days") >= 1) {
                                     alert("c/i 日期要小於 c/o日期");
-                                    let ln_groupIdx = _.findIndex(this.groupOrderDtData, {ikey_seq_nos: lo_editingRow.ikey_seq_nos});
-                                    if (ln_groupIdx > -1) {
-                                        val[this.editingOrderDtIdx].ci_dat = moment(this.groupOrderDtData[ln_groupIdx].ci_dat).format("YYYY/MM/DD");
-                                        val[this.editingOrderDtIdx].co_dat = moment(this.groupOrderDtData[ln_groupIdx].co_dat).format("YYYY/MM/DD");
-                                    }
+                                    lo_editingRow.ci_dat = moment(this.orderDtRowsData4Single.ci_dat).format("YYYY/MM/DD");
+                                    lo_editingRow.co_dat = moment(this.orderDtRowsData4Single.co_dat).format("YYYY/MM/DD");
                                 }
                                 else {
-                                    let ln_days = moment(new Date(lo_editingRow.co_dat)).diff(moment(new Date(lo_editingRow.ci_dat)), "days");
-                                    val[this.editingOrderDtIdx].days = ln_days;
-                                    val[this.editingOrderDtIdx].ci_dat_week = moment(lo_editingRow.ci_dat).format("ddd");
-                                    val[this.editingOrderDtIdx].co_dat_week = moment(lo_editingRow.co_dat).format("ddd");
+                                    let ls_days = moment(new Date(lo_editingRow.co_dat)).diff(moment(new Date(lo_editingRow.ci_dat)), "days");
+                                    lo_editingRow.days = Number(ls_days);
+                                    lo_editingRow.ci_dat_week = moment(lo_editingRow.ci_dat).format("ddd");
+                                    lo_editingRow.co_dat_week = moment(lo_editingRow.co_dat).format("ddd");
                                 }
                                 //使用房型和計價房型
-                                val[this.editingOrderDtIdx].room_cod = lo_editingRow.use_cod;
+                                lo_editingRow.room_cod = lo_editingRow.use_cod;
 
-                                //計算房價
-//                                if (!_.isNull(val[this.editingOrderDtIdx].room_cod) && val[this.editingOrderDtIdx].room_cod != this.orderDtRowsData4Single.room_cod) {
-//                                    let lo_params = {
-//                                        rule_func_name: 'compute_oder_dt_price',
-//                                        allRowData: [val[this.editingOrderDtIdx]],
-//                                        key_nos: this.keyNos,
-//                                        acust_cod: this.orderMnSingleData.acust_cod
-//                                    };
-//                                    let lo_doComputePrice = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_params).then((result) => {
-//                                        return result;
-//                                    }).catch(err => {
-//                                        return {success: false, errorMsg: err}
-//                                    });
-//                                    if (lo_doComputePrice.success) {
-//                                        val[this.editingOrderDtIdx] = _.extend(val[this.editingOrderDtIdx], lo_doComputePrice.effectValues);
-//                                        this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, val[this.editingOrderDtIdx]);
-//                                        this.orderDtRowsData4Single.serv_tot = Number(val[this.editingOrderDtIdx].serv_amt) * val[this.editingOrderDtIdx].order_qnt;
-//                                        this.orderDtRowsData4Single.rent_tot = Number(val[this.editingOrderDtIdx].rent_amt) * val[this.editingOrderDtIdx].order_qnt;
-//                                        this.orderDtRowsData4Single.other_tot = Number(val[this.editingOrderDtIdx].other_tot) * val[this.editingOrderDtIdx].order_qnt;
-//                                        this.orderDtRowsData4Single.sub_tot = Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
-//                                    }
-//                                    else {
-//                                        alert(lo_doComputePrice.errorMsg);
-//                                    }
-//                                }
+                                //資料是否有異動
+                                let lb_dataIsChanged = false;
+                                let la_chkFields = ["days", "rate_cod", "room_cod", "use_cod"];
+                                _.each(lo_editingRow, (ls_val, ls_key) => {
+                                    let ln_editFieldIndex = la_chkFields.indexOf(ls_key);
+                                    if (ln_editFieldIndex > -1 && ls_val != this.orderDtRowsData4Single[ls_key]) {
+                                        lb_dataIsChanged = true;
+                                    }
+                                });
+
+                                //計算此筆顯示資料的房價
+                                if (!_.isNull(lo_editingRow.room_cod) && lb_dataIsChanged) {
+                                    this.orderDtRowsData4Single.days = lo_editingRow.days;
+
+                                    let lo_params = {
+                                        rule_func_name: 'compute_oder_dt_price',
+                                        allRowData: [lo_editingRow],
+                                        key_nos: this.keyNos,
+                                        acust_cod: this.orderMnSingleData.acust_cod
+                                    };
+                                    let lo_doComputePrice = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_params).then((result) => {
+                                        return result;
+                                    }).catch(err => {
+                                        return {success: false, errorMsg: err}
+                                    });
+                                    if (lo_doComputePrice.success) {
+                                        let lo_changData = _.extend(lo_editingRow, lo_doComputePrice.effectValues);
+                                        val[this.editingOrderDtIdx] = _.extend(val[this.editingOrderDtIdx], lo_changData);
+                                        this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, val[this.editingOrderDtIdx]);
+                                        this.orderDtRowsData4Single.serv_tot = Number(val[this.editingOrderDtIdx].serv_amt) * val[this.editingOrderDtIdx].order_qnt;
+                                        this.orderDtRowsData4Single.rent_tot = Number(val[this.editingOrderDtIdx].rent_amt) * val[this.editingOrderDtIdx].order_qnt;
+                                        this.orderDtRowsData4Single.other_tot = Number(val[this.editingOrderDtIdx].other_tot) * val[this.editingOrderDtIdx].order_qnt;
+                                        this.orderDtRowsData4Single.sub_tot = Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
+                                    }
+                                    else {
+                                        let ln_editData = _.findIndex(this.groupOrderDtData, {ikey_seq_nos: lo_editingRow.ikey_seq_nos});
+                                        if (ln_editData > -1) {
+                                            val[this.editingOrderDtIdx] = _.extend(val[this.editingOrderDtIdx], this.groupOrderDtData[ln_editData]);
+                                        }
+                                        alert(lo_doComputePrice.errorMsg);
+                                    }
+                                }
                             }
                             catch (err) {
                                 console.log(err);
@@ -1195,16 +1210,16 @@
             },
             orderDtRowsData4Single: {
                 handler(val) {
-                    _.each(this.groupOrderDtData, (lo_groupData) => {
-                        let ln_editIndex = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
-                        if (ln_editIndex > -1) {
-                            this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], {
-                                source_typ: val.source_typ,
-                                guest_typ: val.guest_typ,
-                                commis_rat: val.commis_rat
-                            });
-                        }
-                    });
+//                    _.each(this.groupOrderDtData, (lo_groupData) => {
+//                        let ln_editIndex = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
+//                        if (ln_editIndex > -1) {
+//                            this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], {
+//                                source_typ: val.source_typ,
+//                                guest_typ: val.guest_typ,
+//                                commis_rat: val.commis_rat
+//                            });
+//                        }
+//                    });
                 },
                 deep: true
             },
@@ -1304,9 +1319,6 @@
             },
             guestMnTmpCUD: {
                 handler(val) {
-                    //處理姓名
-
-
                     console.log("guestMnTmpCUD", val);
                 },
                 deep: true
@@ -1926,6 +1938,8 @@
                     let lo_selectedData = _.findWhere(la_acustSelectData, {cust_cod: lo_saveSingleData.acust_cod});
                     this.orderMnSingleData.acust_nam = _.isUndefined(lo_selectedData) ? lo_saveSingleData.acust_nam : lo_selectedData.alt_nam;
                 }
+
+                //住客姓名轉換
             },
             async doSave() {
                 this.isLoadingDialog = true;
