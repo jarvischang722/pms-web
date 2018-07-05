@@ -131,4 +131,22 @@
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">guest_typ</parameter>
     </dao>
+
+
+
+    <!-- [prg_id: PMS0110042 ]  取得住客清單-->
+    <dao name="QRY_HOUSES_INFO_DETAIL">
+        <statement><![CDATA[
+        select ikey_seq_nos,room_nos,
+        pg_hfd_get_nam2.sf_hfd_get_guest_list(athena_id, hotel_cod, ikey, ikey_seq_nos, '#1####') guest_list from order_dt
+        where order_sta <> 'X'
+        and athena_id = :athena_id
+        and hotel_cod = :hotel_cod
+        and ikey = :ikey
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+    </dao>
 </root>
