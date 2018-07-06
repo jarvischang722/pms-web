@@ -495,6 +495,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             }
             //連動帶回的值
             if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
+
                 var effectValues = result.effectValues;
                 if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
                     $('#' + dgName).datagrid('updateRow', {
@@ -773,24 +774,20 @@ function onQryAction(fieldAttrObj, qryValue, dgName) {
                 index: ln_indexRow,
                 field: fieldAttrObj.ui_field_name
             });
-            if (result.selectOptions.length > 0) {
-                //將原本的下拉資料改為規則帶回的下拉資料 result.selectOptions ==> 過濾過的資料結果
+            //動態產生下拉資料
+            if (result.selectField.length == 1) {
+                var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                    index: ln_indexRow,
+                    field: fieldAttrObj.ui_field_name
+                });
+                // $(lo_editor.target).combogrid("hidePanel");
+                //將原本的下拉資料改為規則帶回的下拉資料
                 $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
                 _.each(result.selectOptions, (lo_selectOption) => {
                     fieldAttrObj.selectData.selectData.push(lo_selectOption);
                 });
-            }
-            else {
-                console.log(qryValue);
                 //將datagrid 的text 改為所查詢的值
-                $(lo_editor.target).combogrid("grid").datagrid("loadData", []);
-                $(lo_editor.target).combogrid("setValue", qryValue);
-                //檢查查詢的值是否存在在帶回的下拉資料
-                // let lo_examData = {};
-                // lo_examData[result.selectField] = qryValue;
-                // if (result.selectOptions.length == 0) {
-                //     $(lo_editor.target).combogrid("setValue", qryValue);
-                // }
+                $(lo_editor.target).combogrid("setText", qryValue);
             }
         }
     });
