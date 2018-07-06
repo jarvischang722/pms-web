@@ -281,6 +281,11 @@ function validateClass() {
                     }
                     else {
                         if (!_.isMatch(arrayVal, lo_oriSingleData[key][idx])) {
+                            _.each(arrayVal, function(objVal, objKey){
+                                if(objVal != lo_oriSingleData[key][idx][objKey]){
+                                    console.log(objKey, objVal, lo_oriSingleData[key][idx][objKey]);
+                                }
+                            });
                             lb_result = false;
                             return;
                         }

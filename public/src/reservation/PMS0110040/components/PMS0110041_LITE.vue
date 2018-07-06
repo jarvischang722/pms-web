@@ -659,32 +659,39 @@
                             car_nos: lo_ghistMnData.car_nos,
                             ccust_nam: lo_ghistMnData.ccust_nam,
                             ci_ser: 0,//todo  資料檔取得系統編號程式=>get_ci_ser
+                            contry_cod: lo_ghistMnData.contry_cod,
+                            first_nam: lo_ghistMnData.first_nam,
+                            gcust_cod: lo_ghistMnData.gcust_cod,
+                            guest_sta: 'E',
                             hotel_cod: userInfo.hotel_cod,
                             ikey: this.orderDtRowsData4Single.ikey,
                             ikey_seq_nos: this.orderDtRowsData4Single.ikey_seq_nos,
-                            psngr_nos: 0,//todo 訂房時依訂房卡+psngr_nos捉最大值，由1開始
-                            guest_sta: 'E',
-                            master_sta: 'G',
-                            gcust_cod: lo_ghistMnData.gcust_cod,
-                            first_nam: lo_ghistMnData.first_nam,
                             last_nam: lo_ghistMnData.last_nam,
-                            rent_amt: 0,
-                            serv_amt: 0,
+                            master_sta: 'G',
                             precredit_amt: 0,
-                            contry_cod: lo_ghistMnData.contry_cod,
+                            psngr_nos: 0,//todo 訂房時依訂房卡+psngr_nos捉最大值，由1開始
+                            rent_amt: 0,
+                            requst_rmk: lo_ghistMnData.requst_rmk,
+                            role_cod: lo_ghistMnData.role_cod,
+                            salute_cod: lo_ghistMnData.salute_cod,
+                            serv_amt: 0,
                             system_typ: 'HFD'
                         };
                     }
                     else {
                         lo_extendParam = {
-                            ccust_nam: lo_ghistMnData.ccust_nam,
+                            airmb_nos: lo_ghistMnData.airmb_nos,
+                            airline_cod: lo_ghistMnData.airline_cod,
                             alt_nam: lo_ghistMnData.gcust_cod + ":" + lo_ghistMnData.alt_nam,
+                            car_nos: lo_ghistMnData.car_nos,
+                            ccust_nam: lo_ghistMnData.ccust_nam,
+                            contry_cod: lo_ghistMnData.contry_cod,
                             first_nam: lo_ghistMnData.first_nam,
                             last_nam: lo_ghistMnData.last_nam,
-                            car_nos: lo_ghistMnData.car_nos,
-                            airline_cod: lo_ghistMnData.airline_cod,
-                            airmb_nos: lo_ghistMnData.airmb_nos,
-                            contry_cod: lo_ghistMnData.contry_cod,
+                            requst_rmk: lo_ghistMnData.requst_rmk,
+                            role_cod: lo_ghistMnData.role_cod,
+                            salute_cod: lo_ghistMnData.salute_cod,
+                            vip_sta: lo_ghistMnData.vip_sta
                         };
                     }
                     this.guestMnRowsData4Single = _.extend(lo_cloneGuestMnData, lo_extendParam);
@@ -767,6 +774,7 @@
             },
             async editingOrderDtIdx(newVal, oldVal) {
                 try {
+                    this.orderDtRowsData4table[newVal] = this.orderDtRowsData4table[newVal] || {};
                     if (!_.isUndefined(newVal) && !_.isEmpty(this.orderDtRowsData4table[newVal])) {
                         ////取得使用房型及計價房型下拉
                         let lo_postData = {
@@ -985,12 +993,12 @@
             "orderDtRowsData4Single.ikey_seq_nos"(val) {
                 let lo_selectGuestMnData = _.findWhere(this.guestMnRowsData, {ikey_seq_nos: val});
                 if (!_.isUndefined(lo_selectGuestMnData)) {
-                    let ls_altNam = JSON.parse(JSON.stringify(lo_selectGuestMnData.gcust_cod)) + ":" + JSON.parse(JSON.stringify(lo_selectGuestMnData.alt_nam));
-                    this.guestMnRowsData4Single = _.extend(lo_selectGuestMnData, {alt_nam: ls_altNam});
+                    this.guestMnRowsData4Single = lo_selectGuestMnData;
                 }
                 else {
                     //先新增order dt 再設定guest mn 資料
-                    if (_.isEmpty(this.guestMnRowsData4Single)) {
+                    if (this.guestMnRowsData4Single.alt_nam == "") {
+                        console.log(this.guestMnRowsData4Single.alt_nam);
                         this.guestMnRowsData4Single = {
                             ikey_seq_nos: val,
                             alt_nam: "",
@@ -1014,6 +1022,7 @@
                         //先設定guest mn 資料，再新增order mn 資料
                         if (_.isUndefined(this.guestMnRowsData4Single.ikey_seq_nos)) {
                             this.guestMnRowsData4Single.ikey_seq_nos = val;
+                            this.guestMnRowsData4Single.ikey = this.orderMnSingleData.ikey;
                             BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', {
                                 rule_func_name: 'get_guest_mn_default_data'
                             }).then(result => {
@@ -1034,7 +1043,7 @@
                                 this.guestMnRowsData.push(this.guestMnRowsData4Single);
                             }
                         }
-                        //增加order
+                        //增加order dt
                         else if (this.guestMnRowsData4Single.ikey_seq_nos != val) {
                             this.guestMnRowsData4Single = {
                                 ikey_seq_nos: val,
@@ -1069,6 +1078,8 @@
                             rowData: this.guestMnRowsData4Single
                         }).then((result) => {
                             if (result.success) {
+                                let lo_cloneGuestMnData = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
+                                this.guestMnRowsData4Single = _.extend(lo_cloneGuestMnData, result.defaultValues);
                             }
                             else {
                                 alert(result.errorMsg);
@@ -1132,7 +1143,6 @@
             },
             orderDtRowsData4table: {
                 async handler(val) {
-                    console.log(val);
                     if (!_.isUndefined(this.editingOrderDtIdx)) {
                         if (!_.isUndefined(val[this.editingOrderDtIdx])) {
                             val[this.editingOrderDtIdx].ci_dat = moment(val[this.editingOrderDtIdx].ci_dat).format("YYYY/MM/DD");
@@ -1210,23 +1220,23 @@
             },
             orderDtRowsData4Single: {
                 handler(val) {
-//                    _.each(this.groupOrderDtData, (lo_groupData) => {
-//                        let ln_editIndex = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
-//                        if (ln_editIndex > -1) {
-//                            this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], {
-//                                source_typ: val.source_typ,
-//                                guest_typ: val.guest_typ,
-//                                commis_rat: val.commis_rat
-//                            });
-//                        }
-//                    });
+                    _.each(this.groupOrderDtData, (lo_groupData) => {
+                        let ln_editIndex = _.findIndex(this.orderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
+                        if (ln_editIndex > -1) {
+                            this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], {
+                                source_typ: val.source_typ,
+                                guest_typ: val.guest_typ,
+                                commis_rat: val.commis_rat
+                            });
+                        }
+                    });
                 },
                 deep: true
             },
             guestMnRowsData4Single: {
                 handler(val) {
                     if (!_.isEmpty(val)) {
-                        //轉換姓名
+                        console.log(val);
                         if (val["gcust_cod"] != "" && !_.isUndefined(val["gcust_cod"])) {
                             let ln_editIndex = _.findIndex(this.guestMnRowsData, {
                                 ikey_seq_nos: val["ikey_seq_nos"],
@@ -1243,7 +1253,7 @@
                             _.each(this.groupOrderDtData, (lo_groupData) => {
                                 let lo_guestMnData = _.findWhere(this.guestMnRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
                                 if (!_.isUndefined(lo_guestMnData)) {
-                                    if (lo_guestMnData.gcust_cod != "") {
+                                    if (lo_guestMnData.gcust_cod != "" && !_.isUndefined(lo_guestMnData.gcust_cod)) {
                                         lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
                                         let lo_params = {
                                             ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
@@ -1281,7 +1291,7 @@
                     //處理暫存資料
                     let la_guestMnRowsData = JSON.parse(JSON.stringify(val));
                     _.each(la_guestMnRowsData, (lo_guestMnData) => {
-                        if (lo_guestMnData.gcust_cod != "" && _.isUndefined(lo_guestMnData.gcust_cod)) {
+                        if (lo_guestMnData.gcust_cod != "" && !_.isUndefined(lo_guestMnData.gcust_cod)) {
                             lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
                             let lo_params = {
                                 ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
@@ -1519,6 +1529,13 @@
                             });
                         });
                         if (lo_fetchGuestMnData.success) {
+                            _.each(lo_fetchGuestMnData.dgRowData, (lo_dgRowData, ln_idx) => {
+                                let ls_altNam = JSON.parse(JSON.stringify(lo_dgRowData.alt_nam));
+                                let ls_gcustCod = JSON.parse(JSON.stringify(lo_dgRowData.gcust_cod));
+                                lo_fetchGuestMnData.dgRowData[ln_idx].alt_nam = ls_gcustCod + ":" + ls_altNam;
+                                lo_fetchGuestMnData.dgRowData[ln_idx].page_id = 1;
+                                lo_fetchGuestMnData.dgRowData[ln_idx].tab_page_id = 11;
+                            });
                             this.guestMnRowsData = lo_fetchGuestMnData.dgRowData;
                             this.oriGuestMnRowsData = JSON.parse(JSON.stringify(lo_fetchGuestMnData.dgRowData));
                         }
@@ -1588,44 +1605,46 @@
                     });
 
                     //顯示在單筆的order dt資料
-                    let la_orderDtRowsData4table = JSON.parse(JSON.stringify(this.orderDtRowsData4table));
-                    this.orderDtRowsData4Single = _.isUndefined(newIndex) ? _.first(la_orderDtRowsData4table) : la_orderDtRowsData4table[newIndex];
-                    this.orderDtRowsData4Single.sub_tot =
-                        Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
-                    let lo_qutParams = {
-                        sum_adult_qnt: 0,
-                        sum_baby_qnt: 0,
-                        sum_child_qnt: 0,
-                        sum_other_tot: 0,
-                        sum_rent_tot: 0,
-                        sum_serv_tot: 0,
-                        general_tot: 0
-                    };
-                    _.each(this.orderDtRowsData, (lo_value, ln_idx) => {
-                        lo_qutParams.sum_adult_qnt += Number(lo_value.adult_qnt * lo_value.order_qnt);
-                        lo_qutParams.sum_baby_qnt += Number(lo_value.baby_qnt * lo_value.order_qnt);
-                        lo_qutParams.sum_child_qnt += Number(lo_value.child_qnt * lo_value.order_qnt);
-                        lo_qutParams.sum_other_tot += Number(lo_value.other_tot);
-                        lo_qutParams.sum_rent_tot += Number(lo_value.rent_tot);
-                        lo_qutParams.sum_serv_tot += Number(lo_value.serv_tot);
-                    });
-                    lo_qutParams.general_tot = lo_qutParams.sum_other_tot + lo_qutParams.sum_serv_tot + lo_qutParams.sum_rent_tot;
-                    this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, lo_qutParams);
+                    if (newIndex < this.orderDtRowsData4table.length) {
+                        let la_orderDtRowsData4table = JSON.parse(JSON.stringify(this.orderDtRowsData4table));
+                        this.orderDtRowsData4Single = _.isUndefined(newIndex) ? _.first(la_orderDtRowsData4table) : la_orderDtRowsData4table[newIndex];
+                        this.orderDtRowsData4Single.sub_tot =
+                            Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
+                        let lo_qutParams = {
+                            sum_adult_qnt: 0,
+                            sum_baby_qnt: 0,
+                            sum_child_qnt: 0,
+                            sum_other_tot: 0,
+                            sum_rent_tot: 0,
+                            sum_serv_tot: 0,
+                            general_tot: 0
+                        };
+                        _.each(this.orderDtRowsData, (lo_value, ln_idx) => {
+                            lo_qutParams.sum_adult_qnt += Number(lo_value.adult_qnt * lo_value.order_qnt);
+                            lo_qutParams.sum_baby_qnt += Number(lo_value.baby_qnt * lo_value.order_qnt);
+                            lo_qutParams.sum_child_qnt += Number(lo_value.child_qnt * lo_value.order_qnt);
+                            lo_qutParams.sum_other_tot += Number(lo_value.other_tot);
+                            lo_qutParams.sum_rent_tot += Number(lo_value.rent_tot);
+                            lo_qutParams.sum_serv_tot += Number(lo_value.serv_tot);
+                        });
+                        lo_qutParams.general_tot = lo_qutParams.sum_other_tot + lo_qutParams.sum_serv_tot + lo_qutParams.sum_rent_tot;
+                        this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, lo_qutParams);
 
-                    //所group 的資料
-                    let lo_groupParams = {
-                        rate_cod: this.orderDtRowsData4Single.rate_cod,
-                        order_sta: this.orderDtRowsData4Single.order_sta,
-                        days: this.orderDtRowsData4Single.days,
-                        ci_dat: this.orderDtRowsData4Single.ci_dat,
-                        co_dat: this.orderDtRowsData4Single.co_dat,
-                        use_cod: this.orderDtRowsData4Single.use_cod,
-                        room_cod: this.orderDtRowsData4Single.room_cod,
-                        rent_amt: this.orderDtRowsData4Single.rent_amt,
-                        serv_amt: this.orderDtRowsData4Single.serv_amt,
-                        block_cod: this.orderDtRowsData4Single.block_cod
-                    };
-                    this.groupOrderDtData = _.where(this.orderDtRowsData, lo_groupParams);
+                        //所group 的資料
+                        let lo_groupParams = {
+                            rate_cod: this.orderDtRowsData4Single.rate_cod,
+                            order_sta: this.orderDtRowsData4Single.order_sta,
+                            days: this.orderDtRowsData4Single.days,
+                            ci_dat: this.orderDtRowsData4Single.ci_dat,
+                            co_dat: this.orderDtRowsData4Single.co_dat,
+                            use_cod: this.orderDtRowsData4Single.use_cod,
+                            room_cod: this.orderDtRowsData4Single.room_cod,
+                            rent_amt: this.orderDtRowsData4Single.rent_amt,
+                            serv_amt: this.orderDtRowsData4Single.serv_amt,
+                            block_cod: this.orderDtRowsData4Single.block_cod
+                        };
+                        this.groupOrderDtData = _.where(this.orderDtRowsData, lo_groupParams);
+                    }
                 }
             },
             searchGuestMnAltName() {
@@ -1926,7 +1945,7 @@
                 });
                 this.convertDtDataToSingleAndTable();
             },
-            doConvertData() {
+            async doConvertData() {
                 let lo_saveSingleData = JSON.parse(JSON.stringify(this.orderMnSingleData));
                 //旅客登記卡印房租
                 this.orderMnSingleData.prtconfirm_sta = lo_saveSingleData.prtconfirm_sta ? 'Y' : 'N';
@@ -1940,10 +1959,206 @@
                 }
 
                 //住客姓名轉換
+                _.each(this.guestMnTmpCUD, (la_tmpCUD, ls_dataType) => {
+                    _.each(la_tmpCUD, (lo_tmpData, ln_idx) => {
+                        let ls_altName = JSON.parse(JSON.stringify(lo_tmpData.alt_nam));
+                        if (ls_altName.split(":").length > 1) {
+                            lo_tmpData.alt_nam = ls_altName.split(":")[1];
+                        }
+                        this.guestMnTmpCUD[ls_dataType][ln_idx] = _.extend(lo_tmpData, {page_id: 1, tab_page_id: 11});
+                        this.tmpCUD[ls_dataType].push(this.guestMnTmpCUD[ls_dataType][ln_idx]);
+                    });
+                });
+
+                //確認order dt 資料
+                let lo_editingRow = JSON.parse(JSON.stringify(this.orderDtRowsData4table[this.editingOrderDtIdx]));
+                //間數改變，增加或減少orderDtRowsData
+                if (lo_editingRow.order_qnt != this.orderDtRowsData4Single.order_qnt) {
+                    //間數不得小於0
+                    if (lo_editingRow.order_qnt != "" && lo_editingRow.order_qnt > 0) {
+                        let ln_orderQnt = Number(lo_editingRow.order_qnt) - Number(this.orderDtRowsData4Single.order_qnt);
+                        if (ln_orderQnt > 0) {
+                            //增加orderDtRowsData
+                            let lo_ikeySeqNos = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {
+                                rule_func_name: 'get_order_dt_default_data',
+                                allRowData: this.orderDtRowsData
+                            }).then((result) => {
+                                return result;
+                            }).catch(err => {
+                                return {success: false, errorMsg: err}
+                            });
+
+                            let ln_ikeySeqNos = lo_ikeySeqNos.success ?
+                                lo_ikeySeqNos.defaultValues.ikey_seq_nos : _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
+                                return lo_orderDtRowsData.ikey_seq_nos;
+                            }).ikey_seq_nos + 1;
+
+                            for (let i = 0; i < ln_orderQnt; i++) {
+                                let lo_editParam = {
+                                    rate_cod: lo_editingRow.rate_cod,
+                                    days: lo_editingRow.days,
+                                    ci_dat: lo_editingRow.ci_dat,
+                                    co_dat: lo_editingRow.co_dat,
+                                    use_cod: lo_editingRow.use_cod,
+                                    room_cod: lo_editingRow.room_cod,
+                                    block_cod: lo_editingRow.block_cod,
+                                    rent_amt: lo_editingRow.rent_amt,
+                                    serv_amt: lo_editingRow.serv_amt
+                                };
+
+                                //order_sta 為'x'的改為現在的訂房狀況
+                                let la_editData = _.where(this.orderDtRowsData, lo_editParam);
+                                let ln_editIndex = _.findIndex(la_editData, {order_sta: 'X'});
+                                if (ln_editIndex > -1) {
+                                    let ln_orderDtIndex = _.findIndex(this.orderDtRowsData, la_editData[ln_editIndex]);
+                                    if (ln_orderDtIndex > -1) {
+                                        this.orderDtRowsData[ln_orderDtIndex].order_sta = this.orderStatus;
+                                    }
+
+                                    let ln_guestMnIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: la_editData[ln_editIndex].ikey_seq_nos});
+                                    if (ln_guestMnIndex > -1) {
+                                        this.guestMnRowsData[ln_guestMnIndex].guest_sta = 'E';
+                                    }
+                                }
+                                else {
+                                    let lo_addParams = {};
+                                    lo_addParams = _.extend(lo_addParams, lo_editingRow);
+                                    lo_addParams.order_qnt = 1;
+                                    lo_addParams.ikey_seq_nos = Number(ln_ikeySeqNos) + i;
+
+                                    this.orderDtRowsData.push(lo_addParams);
+                                }
+                            }
+                        }
+                        else {
+                            //減少orderDtRowsData和guestMnRowsData
+                            for (let i = 0; i < Math.abs(ln_orderQnt); i++) {
+                                let lo_delData = this.groupOrderDtData[this.groupOrderDtData.length - 1 - i];
+                                //order dt 原本就在資料庫裡的資料
+                                let ln_delOrderIndex = _.findLastIndex(this.oriOrderDtRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
+                                if (ln_delOrderIndex > -1) {
+                                    this.orderDtRowsData[ln_delOrderIndex].order_sta = 'X';
+                                }
+                                else {
+                                    //此次新增的
+                                    let ln_delTmpIndex = _.findLastIndex(this.tmpCUD.createData, lo_delData);
+                                    if (ln_delTmpIndex > -1) {
+                                        this.tmpCUD.createData.splice(ln_delTmpIndex, 1);
+                                        let ln_delOrderDtIndex = _.findLastIndex(this.orderDtRowsData, lo_delData);
+                                        if (ln_delOrderDtIndex > -1) {
+                                            this.orderDtRowsData.splice(ln_delOrderDtIndex, 1);
+                                        }
+                                    }
+                                }
+
+                                let ln_delGuestIndex = _.findIndex(this.oriGuestMnRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
+                                if (ln_delGuestIndex > -1) {
+                                    this.guestMnRowsData[ln_delGuestIndex].guest_sta = 'X';
+                                }
+                                else {
+                                    //此次新增的
+                                    let ln_delTmpIndex = _.findLastIndex(this.guestMnTmpCUD.createData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
+                                    if (ln_delTmpIndex > -1) {
+                                        this.guestMnTmpCUD.createData.splice(ln_delTmpIndex, 1);
+                                        let ln_delGuestMnIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
+                                        if (ln_delGuestMnIndex > -1) {
+                                            this.guestMnRowsData.splice(ln_delGuestMnIndex, 1);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        this.orderDtRowsData4table[oldVal].order_qnt = this.orderDtRowsData4Single.order_qnt;
+                    }
+                }
+
+                //改變orderDtRowsData資料，除了間數以外的屬性，並重新group資料
+                let lo_orderParams = {
+                    block_cod: lo_editingRow.block_cod,
+                    ci_dat: lo_editingRow.ci_dat,
+                    co_dat: lo_editingRow.co_dat,
+                    days: lo_editingRow.days,
+                    order_sta: lo_editingRow.order_sta,
+                    rate_cod: lo_editingRow.rate_cod,
+                    rent_amt: lo_editingRow.rent_amt,
+                    room_cod: lo_editingRow.room_cod,
+                    serv_amt: lo_editingRow.serv_amt,
+                    use_cod: lo_editingRow.use_cod
+                };
+                let lo_groupingData = this.groupOrderDtData[0];
+                let lo_groupParams = {
+                    block_cod: lo_groupingData.block_cod,
+                    ci_dat: lo_groupingData.ci_dat,
+                    co_dat: lo_groupingData.co_dat,
+                    days: lo_groupingData.days,
+                    order_sta: lo_groupingData.order_sta,
+                    rate_cod: lo_groupingData.rate_cod,
+                    rent_amt: lo_groupingData.rent_amt,
+                    room_cod: lo_groupingData.room_cod,
+                    serv_amt: lo_groupingData.serv_amt,
+                    use_cod: lo_groupingData.use_cod
+                };
+                _.each(this.orderDtRowsData, () => {
+                    let ln_editIdx = _.findIndex(this.orderDtRowsData, lo_groupParams);
+                    if (ln_editIdx > -1) {
+                        this.orderDtRowsData[ln_editIdx] = _.extend(this.orderDtRowsData[ln_editIdx], lo_orderParams);
+                    }
+                });
+                this.groupOrderDtData = _.where(this.orderDtRowsData, lo_orderParams);
+
+                //計算所有group data的房價
+                if (this.groupOrderDtData.length > 0) {
+                    if (this.groupOrderDtData[0].rate_cod != "") {
+                        let lo_params = {
+                            rule_func_name: 'compute_oder_dt_price',
+                            allRowData: this.groupOrderDtData,
+                            key_nos: this.keyNos,
+                            acust_cod: this.orderMnSingleData.acust_cod
+                        };
+//
+                        let lo_doComputePrice = await $.post("/api/chkFieldRule", lo_params).then(result => {
+                            return result;
+                        }, err => {
+                            throw Error(err);
+                        });
+//
+                        if (lo_doComputePrice.success) {
+                            _.each(this.groupOrderDtData, () => {
+                                let lo_param = {
+                                    rate_cod: lo_editingRow.rate_cod,
+                                    days: lo_editingRow.days,
+                                    ci_dat: lo_editingRow.ci_dat,
+                                    co_dat: lo_editingRow.co_dat,
+                                    use_cod: lo_editingRow.use_cod,
+                                    room_cod: lo_editingRow.room_cod,
+                                    rent_amt: lo_editingRow.rent_amt,
+                                    serv_amt: lo_editingRow.serv_amt
+                                };
+                                let ln_editIndex = _.findIndex(this.orderDtRowsData, lo_param);
+                                if (ln_editIndex > -1) {
+                                    this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_doComputePrice.effectValues);
+                                    let lo_editParam = {
+                                        other_tot: lo_doComputePrice.effectValues.other_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
+                                        rent_tot: lo_doComputePrice.effectValues.rent_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
+                                        serv_tot: lo_doComputePrice.effectValues.serv_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
+                                    };
+                                    this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_editParam);
+                                }
+                            });
+                        }
+                        else {
+                            alert(lo_doComputePrice.errorMsg);
+                        }
+                    }
+                }
             },
             async doSave() {
                 this.isLoadingDialog = true;
-                this.doConvertData();
+
+                await this.doConvertData();
+
                 this.orderMnSingleData = _.extend(this.orderMnSingleData, {
                     page_id: 1,
                     tab_page_id: 12,
@@ -1956,24 +2171,18 @@
                     this.tmpCUD.updateData.splice(0, 0, this.orderMnSingleData);
                     this.tmpCUD.oriData.splice(0, 0, this.oriOrderMnSingleData);
                 }
-
-                _.each(this.guestMnTmpCUD, (la_val, ls_key) => {
-                    _.each(la_val, (lo_val, ln_idx) => {
-                        this.guestMnTmpCUD[ls_key][ln_idx] = _.extend(lo_val, {page_id: 1, tab_page_id: 11});
-                        this.tmpCUD[ls_key].push(this.guestMnTmpCUD[ls_key][ln_idx]);
-                    });
+                let lo_saveData = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                    prg_id: 'PMS0110041',
+                    func_id: this.isCreateStatus ? "0520" : "0540",
+                    tmpCUD: this.tmpCUD
+                }).then(
+                    result => {
+                        return result;
+                    }).catch(err => {
+                    return {success: false, errorMsg: err};
                 });
-                let lo_saveData = await
-                    BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                        prg_id: 'PMS0110041',
-                        func_id: this.isCreateStatus ? "0520" : "0540",
-                        tmpCUD: this.tmpCUD
-                    }).then(
-                        result => {
-                            return result;
-                        }).catch(err => {
-                        return {success: false, errorMsg: err};
-                    });
+
+
                 if (lo_saveData.success) {
                     alert(go_i18nLang.program.PMS0810230.save_success);
                 }

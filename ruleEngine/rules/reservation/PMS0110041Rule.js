@@ -9,6 +9,7 @@ const path = require('path');
 const appRootDir = path.dirname(require.main.filename);
 const ruleRootPath = appRootDir + "/ruleEngine/";
 const queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
+const clusterQueryAgent = require("../../../plugins/kplug-oracle/ClusterQueryAgent");
 const commandRules = require("./../CommonRule");
 const ReturnClass = require(ruleRootPath + "/returnClass");
 const ErrorClass = require(ruleRootPath + "/errorClass");
@@ -257,33 +258,82 @@ module.exports = {
      * @param session
      * @param callback
      */
-    set_guest_mn_data: function (postData, session, callback) {
+    set_guest_mn_data: async function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        let apiParams = {
-            "REVE-CODE": "PMS0110041",
-            "prg_id": "PMS0110041",
-            "func_id": "0000",
-            "athena_id": session.user.athena_id,
-            "hotel_cod": session.user.hotel_cod,
-            "cust_cod": postData.rowData.gcust_cod,
-            "usr_id": session.user.usr_id
-        };
-        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
-            if (apiErr || !data) {
+        try {
+            let lo_doSetGhistMn = await new Promise((resolve, reject) => {
+                let apiParams = {
+                    "REVE-CODE": "PMS0110041",
+                    "prg_id": "PMS0110041",
+                    "func_id": "0000",
+                    "athena_id": session.user.athena_id,
+                    "hotel_cod": session.user.hotel_cod,
+                    "cust_cod": postData.rowData.gcust_cod,
+                    "usr_id": session.user.usr_id
+                };
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                    if (apiErr || !data) {
+                        reject(apiErr)
+                    }
+                    else {
+                        resolve(data)
+                    }
+                });
+            });
+            if (lo_doSetGhistMn["RETN-CODE"] != "0000") {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
-                lo_error.errorMsg = apiErr;
+                console.error(lo_doSetGhistMn["RETN-CODE-DESC"]);
+                lo_error.errorMsg = lo_doSetGhistMn["RETN-CODE-DESC"];
             }
-            else if (data["RETN-CODE"] != "0000") {
-                lo_result.success = false;
-                lo_error = new ErrorClass();
-                console.error(data["RETN-CODE-DESC"]);
-                lo_error.errorMsg = data["RETN-CODE-DESC"];
+            else {
+                let lo_daoParam = {
+                    id: "IDC_BACCHUS_1",
+                    dao: "QRY_GHIST_MN"
+                };
+                let lo_params = {
+                    athena_id: session.athena_id,
+                    hotel_cod: session.hotel_cod,
+                    gcust_cod: postData.rowData.gcust_cod
+                };
+                let lo_ghistMnData = await new Promise((resolve, reject) => {
+                    clusterQueryAgent.query(lo_daoParam, lo_params, function (err, result) {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                });
+                lo_result.defaultValues = {
+                    airline_cod: lo_ghistMnData.airline_cod,
+                    airmb_nos: lo_ghistMnData.airmb_nos,
+                    car_nos: lo_ghistMnData.car_nos,
+                    ccust_nam: lo_ghistMnData.ccust_nam,
+                    contry_cod: lo_ghistMnData.contry_cod,
+                    first_nam: lo_ghistMnData.first_nam,
+                    psngr_nos: 0,//todo 訂房時依訂房卡+psngr_nos捉最大值，由1開始
+                    last_nam: lo_ghistMnData.last_nam,
+                    precredit_amt: 0,
+                    rent_amt: 0,
+                    requst_rmk: lo_ghistMnData.requst_rmk,
+                    role_cod: lo_ghistMnData.role_cod,
+                    salute_cod: lo_ghistMnData.salute_cod,
+                    serv_amt: 0,
+                    vip_sta: lo_ghistMnData.vip_sta
+                };
             }
-            callback(lo_error, lo_result);
-        });
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+        callback(lo_error, lo_result);
     },
 
     /**
