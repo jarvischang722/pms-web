@@ -41,7 +41,7 @@ let BacchusMainVM = new Vue({
         this.$nextTick(function () {
             //Trigger this method when user foucs the page
             window.addEventListener('focus', function () {
-               // alert("focus");
+                // alert("focus");
             });
             //Trigger this method before leave page
             window.onbeforeunload = function () {
@@ -224,7 +224,6 @@ let BacchusMainVM = new Vue({
 
             if (!_.isEmpty(ls_pro_url)) {
                 this.usingPrgID = prg_id;
-                console.log(ls_pro_url);
                 $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
             }
 

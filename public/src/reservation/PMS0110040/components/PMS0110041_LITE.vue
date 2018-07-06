@@ -2182,29 +2182,91 @@
                     }
                 }
             },
+            async dataValidate(chkData, chkFields) {
+
+                return await new Promise((resolve, reject) => {
+                    let lo_checkResult = {success: true, msg: ""};
+                    let la_chkData = Array.isArray(chkData) ? chkData : [chkData];
+                    //檢查資料
+                    for (let lo_chkData of la_chkData) {
+                        for (let lo_field of chkFields) {
+                            console.log(lo_chkData[lo_field.ui_field_name], lo_field, lo_field.requirable);
+                            //必填
+                            if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
+                                lo_checkResult = go_validateClass.required(lo_chkData[lo_field.ui_field_name], lo_field.ui_display_name);
+                                if (lo_checkResult.success == false) {
+                                    break;
+                                }
+                            }
+                            //有format
+                            if (lo_field.format_func_name.validate != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name.validate]) && lo_chkData[lo_field.ui_field_name] != '') {
+                                lo_checkResult = go_validateClass[lo_field.format_func_name.validate](lo_chkData[lo_field.ui_field_name], lo_field.ui_display_name);
+                                if (lo_checkResult.success == false) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    resolve(lo_checkResult)
+                });
+            },
             async doSave() {
                 this.isLoadingDialog = true;
-
+                //將資料轉換成tmpCUD格式
                 await this.doConvertData();
-
-                let lo_saveData = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                    prg_id: 'PMS0110041',
-                    func_id: this.isCreateStatus ? "0520" : "0540",
-                    tmpCUD: this.tmpCUD
-                }).then(
-                    result => {
-                        return result;
-                    }).catch(err => {
-                    return {success: false, errorMsg: err};
-                });
-
-                if (lo_saveData.success) {
-                    alert(go_i18nLang.program.PMS0810230.save_success);
+                //檢驗資料
+                let lo_chkOrderMnData = this.isCreateStatus ? this.tmpCUD.createData[0] : this.tmpCUD.updateData[0];
+                let lo_orderDtParam = {page_id: 1, tab_page_id: 13};
+                let la_chkOrderDtData = this.isCreateStatus ?
+                    _.where(this.tmpCUD.createData, lo_orderDtParam) : _.where(this.tmpCUD.createData, lo_orderDtParam).concat(_.where(this.tmpCUD.updateData, lo_orderDtParam));
+                let lo_guestMnParam = {page_id: 1, tab_page_id: 11};
+                let la_chkGuestMnData = this.isCreateStatus ?
+                    _.where(this.tmpCUD.createData, lo_guestMnParam) : _.where(this.tmpCUD.createData, lo_guestMnParam).concat(_.where(this.tmpCUD.updateData, lo_guestMnParam));
+                let la_chkData = await Promise.all([
+                    this.dataValidate(lo_chkOrderMnData, this.oriOrderMnFieldsData),
+                    this.dataValidate(la_chkOrderDtData, this.orderDtFieldsData4table.concat(this.oriOrderDtFieldsData)),
+                    this.dataValidate(la_chkGuestMnData, this.oriGuestMnFieldsData)
+                ]);
+                //儲存資料
+                let ln_chkIndex = _.findIndex(la_chkData, {success: false});
+                if (ln_chkIndex > -1) {
+                    alert(la_chkData[ln_chkIndex].msg);
+                    this.isLoadingDialog = false;
                 }
                 else {
-                    alert(lo_saveData.errorMsg);
+                    let lo_saveData = await
+//                        new Promise((resolve, reject) => {
+//                            setTimeout(() => {
+//                                resolve({success: true, errorMsg: ""});
+//                            }, 500);
+//                        });
+                        BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                            prg_id: 'PMS0110041',
+                            func_id: this.isCreateStatus ? "0520" : "0540",
+                            tmpCUD: this.tmpCUD
+                        }).then(
+                            result => {
+                                return result;
+                            }).catch(err => {
+                            return {success: false, errorMsg: err};
+                        });
+
+                    if (lo_saveData.success) {
+                        alert(go_i18nLang.program.PMS0810230.save_success);
+                        this.initData();
+                        this.initTmpCUD();
+                        let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
+
+                        this.isEditStatus = true;
+                        this.isCreateStatus = false;
+                        this.rowData = {};
+                        this.rowData = lo_cloneRowData;
+                    }
+                    else {
+                        alert(lo_saveData.errorMsg);
+                    }
+                    this.isLoadingDialog = false;
                 }
-                this.isLoadingDialog = false;
             },
             doChkDataIsChange() {
                 let lo_oriData = {};

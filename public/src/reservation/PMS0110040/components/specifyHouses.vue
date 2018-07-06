@@ -212,7 +212,6 @@
             }
         },
         methods: {
-
             async fetchFieldsData(param) {
                 return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param).then((result) => {
                     return result;
@@ -220,7 +219,6 @@
                     return {success: false, errMsg: err};
                 })
             },
-
             // 撈回所有欄位名稱
             async fetchAllFieldsData() {
                 try {
@@ -241,7 +239,6 @@
                     console.log(err);
                 }
             },
-
             // 撈回OrderDt資料
             fetchOrderDtRowData() {
                 BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
@@ -264,7 +261,6 @@
                     console.log(err);
                 })
             },
-
             // 初始化一個版
             showDataGrid() {
                 this.dgIns = new DatagridSingleGridClass();
@@ -281,9 +277,6 @@
                     // 附加判斷條件
                     searchCond: {ikey: this.rowData.ikey}
                 }).then((result) => {
-                    console.log('===================');
-                    console.log(result);
-                    console.log('===================');
                     if (result.success) {
 
 

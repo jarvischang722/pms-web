@@ -14,7 +14,7 @@ function validateClass() {
     this.required = function () {
         var ls_value = arguments[0];
         var ls_ui_display_name = arguments[1];
-        var lb_result = !_.isUndefined(ls_value) && ls_value !== "";
+        var lb_result = !_.isUndefined(ls_value) && ls_value !== "" && !_.isNull(ls_value);
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.Required, ls_ui_display_name) : sprintf(this.ls_msg.Required, "");
 
         return {success: lb_result, msg: ls_msg};
@@ -161,7 +161,7 @@ function validateClass() {
 
     // 判斷是否為整數
     this.chkInteger = function (ls_value) {
-        if(ls_value == null || _.isUndefined(ls_value)) return true;
+        if (ls_value == null || _.isUndefined(ls_value)) return true;
         var lb_result;
         if (ls_value.toString().indexOf(".") > -1) {
             lb_result = false;
@@ -263,8 +263,8 @@ function validateClass() {
         var lb_result = true;
         _.each(lo_singleData, function (val, key) {
             if (!Array.isArray(val)) {
-                _.each(val, function(objVal, objKey){
-                    if(objVal != lo_oriSingleData[key][objKey]){
+                _.each(val, function (objVal, objKey) {
+                    if (objVal != lo_oriSingleData[key][objKey]) {
                         console.log(objKey, objVal, lo_oriSingleData[key][objKey]);
                     }
                 });
@@ -281,8 +281,8 @@ function validateClass() {
                     }
                     else {
                         if (!_.isMatch(arrayVal, lo_oriSingleData[key][idx])) {
-                            _.each(arrayVal, function(objVal, objKey){
-                                if(objVal != lo_oriSingleData[key][idx][objKey]){
+                            _.each(arrayVal, function (objVal, objKey) {
+                                if (objVal != lo_oriSingleData[key][idx][objKey]) {
                                     console.log(objKey, objVal, lo_oriSingleData[key][idx][objKey]);
                                 }
                             });
