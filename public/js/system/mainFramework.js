@@ -41,7 +41,7 @@ let BacchusMainVM = new Vue({
         this.$nextTick(function () {
             //Trigger this method when user foucs the page
             window.addEventListener('focus', function () {
-               // alert("focus");
+                // alert("focus");
             });
             //Trigger this method before leave page
             window.onbeforeunload = function () {

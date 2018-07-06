@@ -486,6 +486,8 @@
                     maxHeight: 1920,
                     resizable: true,
                     onBeforeClose() {
+                        let ln_fetchParam = this.activeName == 'dtDg' ? 2 : 1;
+                        self.fetchDgFieldsRowDataByTabPageId(ln_fetchParam);
                         self.editingRow = {};
                         self.isEditStatus = false;
                         self.isCreateStatus = false;

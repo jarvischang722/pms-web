@@ -390,7 +390,7 @@
 
     export default {
         name: "guestDetail",
-        props: ["rowData"],
+        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
         components: {
             specifyHouses
         },
@@ -418,13 +418,15 @@
                 dgIns: {},
                 editingGroupDataIndex: undefined,
                 editingGroupData: {},           //現在所選group order dt 的資料
-                activeName: '',
+                activeName: ''
             }
         },
         watch: {
             async rowData(val) {
                 if (!_.isEmpty(val)) {
+                    this.initData();
                     await this.fetchAllFieldsData();
+                    this.activeName = 'orderDetail'
                 }
             },
             async editingGroupDataIndex(newVal, oldVal) {
@@ -450,6 +452,23 @@
             }
         },
         methods: {
+            initData() {
+                this.allOrderDtRowsData = [];
+                this.oriAllOrderDtRowsData = [];
+                this.orderDtGroupFieldData = [];
+                this.orderDtGroupRowsData = [];
+                this.oriOrderDtGroupRowsData = [];
+                this.orderDtFieldData = [];
+                this.orderDtRowsData = [];
+                this.oriOrderDtRowsData = [];
+                this.guestMnFieldData = [];
+                this.guestMnRowsData = [];
+                this.oriGuestMnRowsData = [];
+                this.dgIns = {};
+                this.editingGroupDataIndex = undefined;
+                this.editingGroupData = {};
+                this.activeName = '';
+            },
             async fetchFieldsData(param) {
                 return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param).then((result) => {
                     return result;
@@ -467,8 +486,13 @@
                     this.orderDtGroupFieldData = lo_fetchGroupOrderDtFieldsData.dgFieldsData;
                     this.orderDtFieldData = _.sortBy(lo_fetchOrderDtFieldsData.dgFieldsData, "col_seq");
                     this.guestMnFieldData = _.sortBy(lo_fetchGuestMnFieldsData.dgFieldsData, "col_seq");
-                    console.log(this.guestMnFieldData);
-                    this.fetchOrderDtRowData();
+
+                    if (this.isEditStatus) {
+                        this.fetchOrderDtRowData();
+                    }
+                    else {
+                        this.showDataGrid();
+                    }
                 }
                 catch (err) {
                     console.log(err);
@@ -497,7 +521,7 @@
                 this.dgIns = new DatagridSingleGridClass();
                 this.dgIns.init("PMS0110042", "orderDtTable", DatagridFieldAdapter.combineFieldOption(this.orderDtGroupFieldData, "orderDtTable"), this.orderDtGroupFieldData);
                 this.dgIns.loadDgData(this.orderDtGroupRowsData);
-                this.editingGroupDataIndex = 0;
+                this.editingGroupDataIndex = this.orderDtGroupRowsData.length > 0 ? 0 : undefined;
             },
             async fetchDetailRowsData(detailRowsData) {
                 let la_ikeySeqNos = [];
@@ -561,7 +585,6 @@
                     resizable: true
                 });
             }
-
         }
     }
 </script>
