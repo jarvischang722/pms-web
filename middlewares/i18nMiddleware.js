@@ -9,9 +9,9 @@
 const _ = require("underscore");
 const i18n = require("i18n");
 const async = require("async");
-const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 const clusterQueryAgent = require("../plugins/kplug-oracle/ClusterQueryAgent");
 const go_sysConf = require("../configs/systemConfig");
+const commonRule = require("../ruleEngine/rules/CommonRule");
 
 module.exports = function (req, res, next) {
     let lao_localeInfo = [];
@@ -117,7 +117,8 @@ function _v(value) {
 async function getUseLangsByAthenaID(lo_cond) {
     let lo_langRf = require("../configs/LangNameRf.json");
     return new Promise((resolve, reject) => {
-        clusterQueryAgent.queryList({id: "IDC_BACCHUS_1", dao: "QRY_UI_LANG_BY_ATHENA_ID"}, lo_cond, function (err, langs) {
+        let lo_daoParams = commonRule.ConvertToQueryParams(lo_cond.athena_id, "QRY_UI_LANG_BY_ATHENA_ID");
+        clusterQueryAgent.queryList(lo_daoParams, lo_cond, function (err, langs) {
             if (err) {
                 console.error(err);
             }
