@@ -224,7 +224,6 @@ let BacchusMainVM = new Vue({
 
             if (!_.isEmpty(ls_pro_url)) {
                 this.usingPrgID = prg_id;
-                console.log(ls_pro_url);
                 $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
             }
 

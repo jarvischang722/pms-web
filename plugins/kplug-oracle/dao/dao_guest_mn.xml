@@ -143,4 +143,24 @@
             <![CDATA[and a.ikey_seq_nos in(:ikey_seq_nos)]]></statement>
         <orderby>order by decode(a.ikey_seq_nos,0,9999)</orderby>
     </dao>
+
+    <!-- PMS0110042 查詢尚未指定房組的住客-->
+    <dao name="QRY_HOUSES_INFO_DETAIL_GUEST">
+        <statement><![CDATA[
+            select a.alt_nam from guest_mn a
+            where a.guest_sta <> 'X'
+            and a.athena_id = :athena_id
+            and a.hotel_cod = :hotel_cod
+            and a.ikey = :ikey
+            and master_sta = 'G'
+            and a.ikey_seq_nos = 0
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <orderby>order by ci_ser</orderby>
+    </dao>
+
+
 </root>
