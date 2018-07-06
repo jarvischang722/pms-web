@@ -328,8 +328,8 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth resv_assignHouse"
-                                                role="button">指定房組
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" @click="toggle">指定房組
                                         </button>
                                     </li>
                                     <li>
@@ -366,12 +366,14 @@
             </div>
             <div class="clearfix"></div>
         </div>
+        <specify-houses :row-data="rowData"></specify-houses>
     </div>
 </template>
 
 <script>
 
     import alasql from 'alasql';
+    import specifyHouses from './specifyHouses';
 
     var vmHub = new Vue();
 
@@ -388,13 +390,17 @@
 
     export default {
         name: "guestDetail",
-        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
+        props: ["rowData"],
+        components: {
+            specifyHouses
+        },
         created() {
             vmHub.$on("selectDataGridRow", (data) => {
                 this.editingGroupDataIndex = data.index;
             })
         },
         mounted() {
+            this.activeName = 'orderDetail'
         },
         data() {
             return {
