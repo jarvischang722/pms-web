@@ -190,7 +190,7 @@ exports.GridSingleProc = function (postData, session) {
                                     result.defaultValues[value.ui_field_name] = value.defaultVal;
                                 }
                             });
-
+                            //FENG LOOK PART
                             result.defaultValues = _.extend(lo_initField, result.defaultValues);
                             resolve(result);
                         });

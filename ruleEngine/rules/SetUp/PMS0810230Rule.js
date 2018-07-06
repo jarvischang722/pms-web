@@ -14,7 +14,7 @@ let ErrorClass = require(ruleRootPath + "/errorClass");
 let permissionSvc = require("./../../../services/permissionService");
 
 module.exports = {
-
+    //FENG LOOK PART
     /**
      * 單筆主檔各欄位預設值
      * @param postData

@@ -681,6 +681,7 @@
                 }
             },
             async doValidate() {
+                //FENG LOOK PART
                 let lo_checkResult = {success: true, msg: ""};
 
                 if (this.chgDataGridRowsData.length == 0) {

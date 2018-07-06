@@ -371,7 +371,9 @@
                 }
             },
             rateCodDtData: {
+                //FENG LOOK PART
                 handler(val) {
+                    console.log(val);
                     _.each(val, (lo_val, ln_idx) => {
                         //修改新增的暫存
                         if (_.isUndefined(this.oriRateCodDtData[ln_idx]) || !_.isUndefined(lo_val.isCreate)) {
