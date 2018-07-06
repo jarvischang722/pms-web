@@ -390,7 +390,7 @@
 
     export default {
         name: "guestDetail",
-        props: ["rowData"],
+        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
         components: {
             specifyHouses
         },
@@ -486,6 +486,7 @@
                     this.orderDtGroupFieldData = lo_fetchGroupOrderDtFieldsData.dgFieldsData;
                     this.orderDtFieldData = _.sortBy(lo_fetchOrderDtFieldsData.dgFieldsData, "col_seq");
                     this.guestMnFieldData = _.sortBy(lo_fetchGuestMnFieldsData.dgFieldsData, "col_seq");
+
                     if (this.isEditStatus) {
                         this.fetchOrderDtRowData();
                     }
@@ -572,6 +573,17 @@
                 }).catch(err => {
                     console.log(err);
                 })
+            },
+            toggle() {
+                var dialog = $("#resv_assignHouse_dialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "指定房組",
+                    title_html: true,
+                    width: 800,
+                    maxwidth: 1920,
+                    dialogClass: "test",
+                    resizable: true
+                });
             }
         }
     }
