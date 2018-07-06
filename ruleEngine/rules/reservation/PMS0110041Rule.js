@@ -237,10 +237,13 @@ module.exports = {
                     }
                 });
             });
-            let lo_nowMaxIkeySeqNos = _.max(postData.allRowData, (lo_orderDtRowsData) => {
+            let lo_nowMaxIkeySeqNos = _.isUndefined(postData.allRowData[0].ikey_seq_nos) ? 0 : _.max(postData.allRowData, (lo_orderDtRowsData) => {
                 return lo_orderDtRowsData.ikey_seq_nos;
             });
-            let ln_ikeySeqNos = Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) > Number(lo_nowMaxIkeySeqNos.ikey_seq_nos) ? Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) : Number(lo_nowMaxIkeySeqNos.ikey_seq_nos);
+            let ln_ikeySeqNos = 0;
+            if (!_.isNull(lo_fetchMaxIkeySeqNos.ikey_seq_nos)) {
+                ln_ikeySeqNos = Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) > Number(lo_nowMaxIkeySeqNos.ikey_seq_nos) ? Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) : Number(lo_nowMaxIkeySeqNos.ikey_seq_nos);
+            }
             lo_result.defaultValues.ikey_seq_nos = ln_ikeySeqNos + 1;
         }
         catch (err) {
