@@ -717,7 +717,7 @@ exports.execNewFormatSQL = async function (postData, session) {
     lo_saveProc.setParams(postData, session);
     try {
         let lo_result = await lo_saveProc.execSaveProc();
-        return {success: true, errorMsg: ""};
+        return _.extend(lo_result, {success: true, errorMsg: ""});
     }
     catch (err) {
         let ls_errorMsg = err.errorMsg || err.message;

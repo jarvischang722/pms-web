@@ -2250,7 +2250,7 @@
                             }).catch(err => {
                             return {success: false, errorMsg: err};
                         });
-
+                    console.log(lo_saveData);
                     if (lo_saveData.success) {
                         alert(go_i18nLang.program.PMS0810230.save_success);
                         this.initData();
