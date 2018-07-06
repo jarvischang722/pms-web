@@ -25,9 +25,8 @@
                                     </tr>
                                     </thead>
                                     <tbody class="css_tbody">
-                                    <tr class="css_tr" v-for="(data, index) in orderDtRowsData"
-                                        v-if="!(data.room_nos === null && data.guest_list === null)">
-                                        <td class="css_td">{{ index + 1 }}</td>
+                                    <tr class="css_tr" v-for="(data, index) in orderDtRowsData">
+                                        <td class="css_td">{{ data.ikey_seq_nos }}</td>
                                         <td class="css_td">{{ data.room_nos }}</td>
                                         <td class="css_td">{{ data.guest_list }}</td>
                                     </tr>
@@ -127,10 +126,11 @@
     }
 
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
-    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
-        vmHub.$emit("selectDataGridRow", {row: row, index: idx});
+    DatagridSingleGridClass.prototype.onClickCell = function (index, row) {
+        vmHub.$emit("selectDataGridRow", {row: row, index: index});
     };
-    DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
+
     };
 
     export default {
@@ -150,8 +150,13 @@
                 oriGuestMnRowsData: [],         //所group 到的所有 guest mn 原始資料
                 editingGroupDataIndex: undefined,
                 editingGroupData: {},
-                dgIns: {}
+                dgIns: {},
             }
+        },
+        created() {
+            vmHub.$on("selectDataGridRow", (data) => {
+                this.editingGroupDataIndex = data.index;
+            })
         },
         watch: {
             async rowData(val) {
@@ -160,25 +165,25 @@
                 }
             },
             async editingGroupDataIndex(newVal, oldVal) {
-                // if (!_.isUndefined(newVal)) {
-                //     $("#resv_assignHouseTable").datagrid('selectRow', newVal);
-                //     this.editingGroupData = $("#resv_assignHouseTable").datagrid('getSelected');
-                //     let lo_groupParam = {
-                //         rate_cod: this.editingGroupData.rate_cod,
-                //         order_sta: this.editingGroupData.order_sta,
-                //         days: this.editingGroupData.days,
-                //         ci_dat: this.editingGroupData.ci_dat,
-                //         co_dat: this.editingGroupData.co_dat,
-                //         use_cod: this.editingGroupData.use_cod,
-                //         room_cod: this.editingGroupData.room_cod,
-                //         rent_amt: this.editingGroupData.rent_amt,
-                //         serv_amt: this.editingGroupData.serv_amt,
-                //         block_cod: this.editingGroupData.block_cod
-                //     };
-                //     // let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
-                //     // await this.fetchDetailRowsData(la_detailOrderDtData);
-                //     // await this.fetchGuestRowsData(la_detailOrderDtData);
-                // }
+                if (!_.isUndefined(newVal)) {
+                    $("#resv_assignHouseTable").datagrid('selectRow', newVal);
+                    this.editingGroupData = $("#resv_assignHouseTable").datagrid('getSelected');
+                    let lo_groupParam = {
+                        rate_cod: this.editingGroupData.rate_cod,
+                        order_sta: this.editingGroupData.order_sta,
+                        days: this.editingGroupData.days,
+                        ci_dat: this.editingGroupData.ci_dat,
+                        co_dat: this.editingGroupData.co_dat,
+                        use_cod: this.editingGroupData.use_cod,
+                        room_cod: this.editingGroupData.room_cod,
+                        rent_amt: this.editingGroupData.rent_amt,
+                        serv_amt: this.editingGroupData.serv_amt,
+                        block_cod: this.editingGroupData.block_cod
+                    };
+                    let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
+                    await this.fetchDetailRowsData(la_detailOrderDtData);
+                    // await this.fetchGuestRowsData(la_detailOrderDtData);
+                }
             }
         },
         methods: {
@@ -203,7 +208,7 @@
                     this.guestMnFieldData = _.sortBy(lo_fetchGuestMnFieldsData.dgFieldsData, "col_seq");
 
                     await this.fetchOrderDtRowData();
-                    await this.fetchDetailRowsData();
+                    // await this.fetchDetailRowsData();
                     await this.fetchGuestRowsData();
                 }
                 catch (err) {
@@ -235,7 +240,7 @@
                 this.dgIns = new DatagridSingleGridClass();
                 this.dgIns.init("PMS0110042", "resv_assignHouseTable", DatagridFieldAdapter.combineFieldOption(this.orderDtGroupFieldData, "resv_assignHouseTable"), this.orderDtGroupFieldData);
                 this.dgIns.loadDgData(this.orderDtGroupRowsData);
-                // this.editingGroupDataIndex = 0;
+                this.editingGroupDataIndex = 0;
             },
             fetchDetailRowsData() {
                 BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
