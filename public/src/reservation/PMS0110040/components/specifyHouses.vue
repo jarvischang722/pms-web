@@ -25,7 +25,8 @@
                                     </tr>
                                     </thead>
                                     <tbody class="css_tbody">
-                                    <tr class="css_tr" v-for="(data, index) in orderDtRowsData">
+                                    <tr class="css_tr" v-for="data in orderDtRowsData"
+                                        @click="selectOrderDtRowsData(data.ikey_seq_nos)">
                                         <td class="css_td">{{ data.ikey_seq_nos }}</td>
                                         <td class="css_td">{{ data.room_nos }}</td>
                                         <td class="css_td">{{ data.guest_list }}</td>
@@ -52,8 +53,9 @@
                                                             <span class="checkbox">
                                                                   <label class="checkbox-width">
                                                                       <input name="form-field-checkbox"
-                                                                             type="checkbox"
-                                                                             class="ace">
+                                                                             type="checkbox" :value="data.alt_nam"
+                                                                             class="ace"
+                                                                             v-model="guestMnRowDataChecked">
                                                                       <span class="lbl"></span>
                                                                   </label>
                                                             </span>
@@ -77,7 +79,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">指定
+                                                role="button" @click="specify">指定
                                         </button>
                                     </li>
                                     <li>
@@ -153,6 +155,8 @@
                 editingGroupDataIndex: undefined,
                 editingGroupData: {},
                 dgIns: {},
+                selectOrderDtRowsDataIkeySeqNos: '',
+                guestMnRowDataChecked: [],
             }
         },
         created() {
@@ -284,11 +288,45 @@
                 }).catch(err => {
                     console.log(err);
                 })
+            },
+            selectOrderDtRowsData(ikeySeqNos) {
+                this.selectOrderDtRowsDataIkeySeqNos = ikeySeqNos;
+            },
+            specify() {
+                if (this.selectOrderDtRowsDataIkeySeqNos !== '' && this.guestMnRowDataChecked.length > 0) {
+                    // orderDtRowsData和selectOrderDtRowsDataIkeySeqNos(當下點擊儲存的ikeySeqNos)進行資料比對
+                    _.each(this.orderDtRowsData, (data) => {
+                        if (data.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
+                            data.guest_list += ',' + this.guestMnRowDataChecked;
+                        }
+                    });
+
+                    // guestMnRowsData和guestMnRowDataChecked資料比對，條件符合紀錄當下在guestMnRowsData裡index
+                    let la_recordIndex = [];
+                    _.each(this.guestMnRowsData, (rowData, rowDataIndex) => {
+                        _.each(this.guestMnRowDataChecked, (checkedData) => {
+                            if (rowData.alt_nam === checkedData) {
+                                la_recordIndex.push(rowDataIndex);
+                            }
+                        });
+                    });
+
+                    // 移除顧客資料
+                    _.each(la_recordIndex, (data, rowDataIndex) => {
+                        this.guestMnRowsData.splice(data, 1);
+                    });
+
+                    // console.log('===========目前========');
+                    // console.log(this.orderDtRowsData);
+                    // console.log('===========目前========');
+
+                }
             }
         }
     }
 </script>
 
 <style scoped>
+
 
 </style>
