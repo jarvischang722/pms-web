@@ -1,6 +1,8 @@
 <!-- /***
     * PMS0210020 綜合櫃檯-彈窗內容
 */ -->
+
+<h4 class="popInfo-title">住人房間選單</h4>
 <div class="col-xs-12">
     <div class="row">
         <div class="col-xs-10 foCounter">
@@ -8,26 +10,47 @@
                 <div class="floorPlan-table">
                     <table>
                         <tr>
-                            <td class="roomNum text-center" rowspan="2">
+                            <td class="roomNum text-center width-30" rowspan="2">
                                 201
                             </td>
-                            <td>
-                                <span style="line-height: 20px;">勿擾</span>&nbsp;
-                                <img src="/images/intCounter/do-not-disturb.png"
-                                     style="width: 20px;height: 20px;"/>
+                            <td class="gap">
+                                <span>髒房</span>&nbsp;
                             </td>
-                            <td>
-                                <span style="line-height: 20px;">髒房</span>&nbsp;
-                                <img src="/images/intCounter/broom.png"
-                                     style="width: 20px;height: 20px;"/>
+                            <td class="gap">
+                                <span>排房</span>&nbsp;
                             </td>
-                            <td>
-                                <span style="line-height: 20px;">排房</span>&nbsp;
-                                <img src="/images/intCounter/assign.png"
-                                     style="width: 20px;height: 20px;"/>
+                            <td class="gap">
+                                <span>拆併床</span>&nbsp;
+                            </td>
+                            <td class="gap">
+                                <span>瑕疵</span>
+                            </td>
+                            <td class="gap">
+                                <span>勿擾</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ico-wt">
+                                <img src="/images/intCounter/broom.png"/>
+                            </td>
+                            <td class="ico-wt">
+                                <img src="/images/intCounter/assign.png"/>
+                            </td>
+                            <td class="ico-wt">
+                                <img src="/images/intCounter/bed.png"/>
+                            </td>
+                            <td class="ico-wt">
+                                <img src="/images/intCounter/wrench.png"/>
+                            </td>
+                            <td class="ico-wt">
+                                <img src="/images/intCounter/do-not-disturb.png"/>
                             </td>
                         </tr>
                     </table>
+                    <div class="grid-item-rk">
+                        <label>清掃人員</label>
+                        <input type="text" class="selectHt" placeholder="E001:王大明"/>
+                    </div>
                     <div class="grid-item-rk">
                         <label>房間備註</label>
                         <input type="text" class="selectHt"/>
@@ -36,6 +59,69 @@
                         <label>瑕疵原因</label>
                         <input type="text" class="selectHt"/>
                     </div>
+                    <div class="space-6"></div>
+                    <table class="foCounter-table">
+                        <thead>
+                        <tr>
+                            <th style="width: 30%;">住客姓名</th>
+                            <th style="width: 25%;">住客帳餘額</th>
+                            <th class="center" style="width: 9%;">
+                                <div class="tooltip-sp">
+                                    <img src="/images/intCounter/billing-blue.png" class="icon-sz1"/>
+                                    <span class="tooltip-text sty-1">住客帳</span>
+                                </div>
+                            </th>
+                            <th class="center" style="width: 9%;">
+                                <div class="tooltip-sp">
+                                    <img src="/images/intCounter/msg-blue.png" class="icon-sz1"/>
+                                    <span class="tooltip-text sty-1">留言</span>
+                                </div>
+                            </th>
+                            <th class="center" style="width: 9%;">
+                                <div class="tooltip-sp">
+                                    <img src="/images/intCounter/lost-blue.png" class="icon-sz1"/>
+                                    <span class="tooltip-text sty-1">失物</span>
+                                </div>
+                            </th>
+                            <th class="center" style="width: 9%;">
+                                <div class="tooltip-sp">
+                                    <img src="/images/intCounter/trace-blue.png" class="icon-sz1"/>
+                                    <span class="tooltip-text sty-1">交辦</span>
+                                </div>
+                            </th>
+                            <th class="center" style="width: 9%;">
+                                <div class="tooltip-sp">
+                                    <img src="/images/intCounter/plane-blue.png" class="icon-sz1"/>
+                                    <span class="tooltip-text sty-1">接送機</span>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Rick Chen</td>
+                            <td class="text-right">5,300</td>
+                            <td class="center"><i class="fa fa-check green pointer"
+                                                  @click="cashierGstLedger_Single"></i></td>
+                            <td class="center"><i class="fa fa-check green pointer" @click="message_btn"></i></td>
+                            <td class="center"><i class="fa fa-check green pointer" @click="resvLostFound"></i></td>
+                            <td class="center"><i class="fa fa-check green pointer" @click="resv_guestDetailBtn1"></i>
+                            </td>
+                            <td class="center"><i class="fa fa-check green pointer" @click="resvPickUp"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Janet Jackson</td>
+                            <td class="text-right">0</td>
+                            <td class="center"><i class="fa fa-check green pointer"
+                                                  @click="cashierGstLedger_Single"></i></td>
+                            <td class="center"><i class="fa fa-check green pointer" @click="message_btn"></i></td>
+                            <td class="center"></td>
+                            <td class="center"></td>
+                            <td class="center"><i class="fa fa-check green pointer" @click="resvPickUp"></i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="space-6"></div>
                     <div class="grid-item-rk">
                         <label>退房提醒</label>
                         <input type="text" class="selectHt" placeholder="GUI:23598233"/>
@@ -44,68 +130,6 @@
                         <label>客房備註</label>
                         <input type="text" class="selectHt" placeholder="separate bill"/>
                     </div>
-                    <div class="space-6"></div>
-                    <table class="foCounter-table">
-                        <thead>
-                        <tr>
-                            <th style="width: 30%;">住客姓名</th>
-                            <th style="width: 25%;">住客帳餘額</th>
-                            <th class="center" style="width: 9%;">帳</th>
-                            <th class="center" style="width: 9%;">留</th>
-                            <th class="center" style="width: 9%;">失</th>
-                            <th class="center" style="width: 9%;">交</th>
-                            <th class="center" style="width: 9%;">辦</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Rick Chen</td>
-                            <td class="text-right">5,300</td>
-                            <td>
-                                <img src="/images/intCounter/billing.png" @click="cashierGstLedger_Single"
-                                     class=" pointer icon-sz1"/>
-                            </td>
-                            <td>
-                                <img src="/images/intCounter/msg.png" class="pointer icon-sz1" @click="message_btn"/>
-                            </td>
-                            <td>
-                                <img src="/images/intCounter/lost.png" class=" pointer icon-sz1"
-                                     @click="resvLostFound"/>
-                            </td>
-                            <td>
-                                <img src="/images/intCounter/trace.png" class="resv_guestDetail-btn1 pointer icon-sz1"
-                                     @click="resv_guestDetailBtn1"/>
-                            </td>
-                            <td>
-                                <img src="/images/intCounter/plane.png" class="resv_guestDetail-btn1 pointer icon-sz1"
-                                     @click="resvPickUp"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Janet Jackson</td>
-                            <td class="text-right">0</td>
-                            <td>
-                                <img src="/images/intCounter/billing.png" class="pointer icon-sz1"
-                                     @click="cashierGstLedger_Single"/>
-                            </td>
-                            <td>
-                                <img src="/images/intCounter/msg.png" class="pointer icon-sz1" @click="message_btn"/>
-                            </td>
-                            <td>
-                                <img src="/images/intCounter/lost.png" class=" pointer icon-sz1"
-                                     @click="resvLostFound"/>
-                            </td>
-                            <td>
-                                <img src="/images/intCounter/trace.png" class="resv_guestDetail-btn1 pointer icon-sz1"
-                                     @click="resv_guestDetailBtn1"/>
-                            </td>
-                            <td>
-                                <img src="/images/intCounter/plane.png" class="resv_guestDetail-btn1 pointer icon-sz1"
-                                     @click="resvPickUp"/>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -125,27 +149,12 @@
                         </li>
                         <li>
                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                    role="button" @click="cashierGstLedger_Single">住客帳維護
-                            </button>
-                        </li>
-                        <li>
-                            <button class="btn btn-primary btn-white btn-defaultWidth"
                                     role="button" @click="foCnt_rateChg">改房價
                             </button>
                         </li>
                         <li>
                             <button class="btn btn-primary btn-white btn-defaultWidth"
                                     role="button" @click="foCnt_rmChg">換房
-                            </button>
-                        </li>
-                        <li>
-                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                    role="button" @click="clean_btn">清掃
-                            </button>
-                        </li>
-                        <li>
-                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                    role="button">勿擾設定
                             </button>
                         </li>
                         <li>
@@ -159,13 +168,23 @@
                             </button>
                         </li>
                         <li>
-                            <button class="btn btn-skin btn-defaultWidth"
-                                    role="button" @click="resv_amenitiesIny">櫃台備品
+                            <button class="btn btn-primary btn-white btn-defaultWidth related-set1"
+                                    role="button" @click="related_set1(this)">{{roomNum_status}}
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                    role="button" @click="clean_btn">清掃
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                    role="button" @click="resvPickUp">接送機
                             </button>
                         </li>
                         <li>
                             <button class="btn btn-skin btn-defaultWidth"
-                                    role="button" @click="pax_btn">電話開關
+                                    role="button" @click="resv_amenitiesIny">櫃台備品
                             </button>
                         </li>
                         <li>
@@ -173,9 +192,20 @@
                                     role="button" @click="foCnt_bedSetting">拆併床
                             </button>
                         </li>
+
                         <li>
-                            <button class="btn btn-primary btn-white btn-defaultWidth related-set1"
-                                    role="button" @click="related_set1(this)">{{roomNum_status}}
+                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                    role="button" @click="resv_guestDetailBtn1">交辦事項
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-skin btn-defaultWidth"
+                                    role="button" @click="addMorning_btn">晨呼
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-skin btn-defaultWidth"
+                                    role="button" @click="pax_btn">電話開關
                             </button>
                         </li>
                     </ul>
