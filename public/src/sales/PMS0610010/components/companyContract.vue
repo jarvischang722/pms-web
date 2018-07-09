@@ -38,6 +38,8 @@
                                         v-if="$parent.prgEditionOptions.funcList['1070'] != undefined"
                                         data-purview_func_id="PMS0610020-1070">
                                     {{i18nLang.program.PMS0610020.append_contract}}
+
+
                                 </button>
                             </li>
                             <li>
@@ -46,11 +48,15 @@
                                         v-if="$parent.prgEditionOptions.funcList['1080'] != undefined"
                                         data-purview_func_id="PMS0610020-1080">
                                     {{i18nLang.program.PMS0610020.remove_contract}}
+
+
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-gray btn-defaultWidth"
                                         role="button">{{i18nLang.program.PMS0610020.special_contract}}
+
+
                                 </button>
                             </li>
                         </ul>
@@ -109,6 +115,7 @@
         },
         watch: {
             isContractContent(val) {
+
                 if (val) {
                     //第一次載入合約內容
                     if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData)) {
@@ -129,48 +136,53 @@
                 },
                 deep: true
             },
-            dataGridRowsDataOfExpire: {
-                handler(val) {
-                    if (!_.isEmpty(val)) {
-                        let la_addToDataGridRowsData = _.where(val, {createRow: 'Y'});
-                        _.each(la_addToDataGridRowsData, (lo_addToDataGridRowsData) => {
-                            if (_.findIndex(this.dataGridRowsData, {uniKey: lo_addToDataGridRowsData.uniKey}) == -1) {
-                                this.dataGridRowsData.push(lo_addToDataGridRowsData);
-                            }
-                        });
-
-                        _.each(this.dataGridRowsData, (lo_dataGridRowsData, idx) => {
-                            if (_.findIndex(val, lo_dataGridRowsData) == -1) {
-                                this.dataGridRowsData.splice(idx, 1);
-                            }
-                        });
-
-                        this.insertCustCodIntoTmpCUD(val);
-                    }
-                },
-                deep: true
-            },
             dataGridRowsDataOfRateCode: {
                 handler(val) {
                     if (!_.isEmpty(val)) {
-                        this.insertCustCodIntoTmpCUD(val);
+                        let la_addToDataGridRowsData = _.where(val, {createRow: 'Y'});
+                        let lo_extendData = {
+                            cust_cod: this.$store.state.custMnModule.gs_custCod,
+                            tab_page_id: 4
+                        };
+                        _.each(la_addToDataGridRowsData, (lo_addToDataGridRowsData) => {
+                            if (_.findIndex(this.dataGridRowsData, {uniKey: lo_addToDataGridRowsData.uniKey}) == -1) {
+                                this.dataGridRowsData.push(_.extend(lo_addToDataGridRowsData, lo_extendData));
+                            }
+                        });
+
+                        _.each(val, (lo_val) => {
+                            let ln_editIndex = _.findIndex(this.dataGridRowsData, {uniKey: lo_val.uniKey});
+                            if (ln_editIndex > -1) {
+                                this.dataGridRowsData.splice(ln_editIndex, 1);
+                                this.dataGridRowsData.push(lo_val);
+                            }
+                        });
                     }
                 },
                 deep: true
             },
             isHideExpire(val) {
+                if (!_.isEmpty(this.dgIns)) {
+                    this.dgIns.endEditing();
+                }
+
                 if (val) {
-                    this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
+                    this.dataGridRowsDataOfRateCode =
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
+                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                        })]);
                 }
                 else {
-                    this.dgIns.loadDgData(this.dataGridRowsData);
+                    this.dataGridRowsDataOfRateCode =
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsData]);
                 }
+                this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
             }
         },
         methods: {
             insertCustCodIntoTmpCUD(rowData) {
                 let lo_extendData = {
-                    cust_cod: this.$store.state.custMnModule.gs_custCod,
+                    cust_cod: this.$store.state.gs_custCod,
                     tab_page_id: 4
                 };
                 //將cust_cod放置tmpCUD中
@@ -215,21 +227,28 @@
                     searchCond: {cust_cod: this.$store.state.custMnModule.gs_custCod}
                 }, result => {
                     this.searchFields = result.searchFields;
+                    //TODO 欄位排序 => 改資料庫的 col_seq
                     this.fieldsData = result.dgFieldsData;
                     //第一次載入合約內容
                     if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData)) {
-                        this.dataGridRowsData = result.dgRowData;
-                        this.dataGridRowsDataOfExpire = _.filter(JSON.parse(JSON.stringify(result.dgRowData)), lo_dgRowData => {
-                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                        _.each(result.dgRowData, (lo_dgRowData) => {
+                            lo_dgRowData.begin_dat = moment(lo_dgRowData.begin_dat).format("YYYY/MM/DD");
+                            lo_dgRowData.end_dat = moment(lo_dgRowData.end_da).format("YYYY/MM/DD");
+                            lo_dgRowData.uniKey = Math.floor(Math.random() * (99999999999999999999));
                         });
+                        this.dataGridRowsData = result.dgRowData;
                         this.oriDataGridRowsData = JSON.parse(JSON.stringify(result.dgRowData));
-                        this.showDataGrid(this.dataGridRowsDataOfExpire);
+                        this.dataGridRowsDataOfRateCode = alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
+                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                        })]);
+                        this.showDataGrid();
                     }
                     else {
                         this.dataGridRowsData = this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData;
-                        this.dataGridRowsDataOfStaff = _.filter(JSON.parse(JSON.stringify(this.dataGridRowsData)), lo_dgRowData => {
+                        this.oriDataGridRowsData = this.$store.state.custMnModule.go_allOriData.ga_ccDataGridRowsData;
+                        this.dataGridRowsDataOfRateCode = alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
-                        });
+                        })]);
                         this.oriDataGridRowsData = this.$store.state.custMnModule.go_allOriData.ga_ccDataGridRowsData;
                         if (this.isHideExpire) {
                             this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
@@ -244,7 +263,7 @@
             showDataGrid(dataGridRowsData) {
                 this.dgIns = this.isModifiable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'contractContent_dg'), this.fieldsData);
-                this.dgIns.loadDgData(dataGridRowsData);
+                this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
                 this.dgIns.updateMnRowData(this.$store.state.custMnModule.go_allData.go_mnSingleData);
 
@@ -254,21 +273,21 @@
             doChangeRowData() {
                 if (this.isHideExpire) {
                     this.dataGridRowsDataOfRateCode =
-                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsDataOfExpire])
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
+                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                        })]);
                 }
                 else {
                     this.dataGridRowsDataOfRateCode =
                         alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsData])
                 }
-                this.showDataGrid(this.dataGridRowsDataOfRateCode);
+                this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
             },
             appendRow() {
                 var self = this;
                 this.BTN_action = true;
                 this.dgIns.appendRow(function (result) {
-                    if (result) {
-                        self.BTN_action = false;
-                    }
+                    self.BTN_action = false;
                 });
             },
             removeRow() {
@@ -278,6 +297,10 @@
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
+                    let ln_delIndex = _.findIndex(this.dataGridRowsData, {uniKey: lo_delRow.uniKey});
+                    if (ln_delIndex > -1) {
+                        this.dataGridRowsData.splice(ln_delIndex, 1);
+                    }
                     this.dgIns.removeRow();
                 }
             }

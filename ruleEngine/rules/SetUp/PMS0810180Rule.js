@@ -133,7 +133,7 @@ module.exports = {
                     lo_result.effectValues = postData.singleRowData;
 
                     lo_result.showAlert = true;
-                    lo_error.alertMsg = commandRules.getMsgByCod("pms81msg31", session.locale);
+                    lo_result.alertMsg = commandRules.getMsgByCod("pms81msg31", session.locale);
                 }
                 callback(lo_error, lo_result);
             }

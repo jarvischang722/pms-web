@@ -11,6 +11,7 @@ const saveExecDataTrimRule = require("./CommonRuleLib/SaveExecDataTrimRule");
 const selectClickRule = require("./CommonRuleLib/DgSelectClickRule");
 const selectgridQryRule = require("./CommonRuleLib/DgSelectgridQryRule");
 const ReturnClass = require('../returnClass');
+const go_config = require("../../configs/database");
 
 module.exports = {
     /**
@@ -222,6 +223,23 @@ module.exports = {
         }
 
         callback(lo_return)
+    },
+
+    /**
+     * 轉換成DAO格式
+     * @param athena_id {number} 集團別
+     * @param dao {string} dao名稱
+     * @returns {{id: string, dao: *}}
+     */
+    ConvertToQueryParams: function (athena_id, dao) {
+        let ls_oracle_id = `IDC_BACCHUS_${athena_id}`;
+        const ln_idIsExist = _.findIndex(go_config.oracle, {id: ls_oracle_id});
+        if (ln_idIsExist == -1) ls_oracle_id = "default";
+
+        return {
+            id: ls_oracle_id,
+            dao: dao
+        };
     }
 };
 
