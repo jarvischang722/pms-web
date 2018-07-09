@@ -214,7 +214,8 @@ exports.getSelectGridOption = function (session, typeSelectField, field, callbac
         }
         else {
             lo_selectData = result;
-            lo_selectData.isQrySrcBefore = typeSelectField.is_qry_src_before == "" ? "Y" : typeSelectField.is_qry_src_before;
+            lo_selectData.isQrySrcBefore = typeSelectField.is_qry_src_before == "" || _.isUndefined(typeSelectField.is_qry_src_before) ?
+                "Y" : typeSelectField.is_qry_src_before;
             callback(err, lo_selectData);
         }
     });
