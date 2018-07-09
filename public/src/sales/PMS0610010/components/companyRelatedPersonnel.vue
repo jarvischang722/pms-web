@@ -126,9 +126,9 @@
             },
             dataGridRowsDataOfStaff: {
                 handler(val) {
-                    if (this.dgIns.endEditing()) {
-                        this.BTN_action = false;
-                    }
+                    // if (this.dgIns.endEditing()) {
+                    //     this.BTN_action = false;
+                    // }
                     if (this.isHideLeavingStaff) {
                         if (!_.isUndefined(this.dgIns.editIndex)) {
                             let ln_editStaffIndex = this.dgIns.editIndex;
@@ -216,9 +216,9 @@
                 var self = this;
                 this.BTN_action = true;
                 this.dgIns.appendRow(function (result) {
-                    if (result) {
+                    // if (result) {
                         self.BTN_action = false;
-                    }
+                    // }
                 });
             },
             removeRow() {

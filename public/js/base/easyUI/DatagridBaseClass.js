@@ -171,7 +171,12 @@ function DatagridBaseClass() {
     this.onSelect = function (index, field) {
     };
 
-    //結束編輯
+    /**
+     * 結束編輯
+     * @param index
+     * @param row
+     * @param changes
+     */
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
         self.editIndex = index;
@@ -189,52 +194,6 @@ function DatagridBaseClass() {
         }
         //validateRow 判斷require的資訊
         if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
-            //selectgrid 的處理
-            var lo_editor = $('#' + this.dgName).datagrid('getEditor', {
-                index: this.editIndex,
-                field: self.editingField
-            });
-            console.log(lo_editor);
-            if (!_.isNull(lo_editor)) {
-                console.log("111111")
-                if (lo_editor.type == 'combogrid') {
-                    console.log("222222")
-                    var lo_selectOptionData = _.findWhere(self.columns, {ui_field_name: self.editingField});
-                    var ls_selectValField = "";
-                    var ls_selectTextField = "";
-
-                    if (!_.isUndefined(lo_selectOptionData)) {
-                        console.log("3333333")
-                        if (!_.isUndefined(lo_selectOptionData.selectData)) {
-                            console.log("4444444")
-                            ls_selectValField = lo_selectOptionData.selectData.value;
-                            ls_selectTextField = lo_selectOptionData.selectData.display;
-
-                            // //將原本的下拉資料改為規則帶回的下拉資料
-                            var ls_newVal = $(lo_editor.target).combogrid("getValue");
-                            var ls_newText = $(lo_editor.target).combogrid("getText");
-                            var ls_oldVal = $(lo_editor.target).combogrid("getValue");
-                            var ls_oldText = "";
-                            var lo_param = {};
-                            lo_param[ls_selectValField] = ls_oldVal;
-                            //
-                            if (ls_oldVal == "") {
-                                ls_newVal = ls_newText;
-                            }
-                            else if (!_.isUndefined(_.findWhere(lo_selectOptionData.selectData.selectData, lo_param))) {
-                                console.log("5555555")
-                                ls_oldText = _.findWhere(lo_selectOptionData.selectData.selectData, lo_param)[ls_selectTextField];
-                                if (ls_newVal == ls_oldVal && ls_newText != ls_oldText) {
-                                    ls_newVal = ls_newText;
-                                }
-                            }
-                            DatagridFieldAdapter.setIsChange();
-                            console.log(ls_newVal);
-                            $(lo_editor.target).combogrid("setValue", ls_newVal);
-                        }
-                    }
-                }
-            }
 
             $('#' + this.dgName).datagrid('endEdit', this.editIndex);
             this.editIndex = undefined;
@@ -328,6 +287,10 @@ function DatagridBaseClass() {
                 callback(true);
                 // $("#gridEdit").val(self.tmpCUD);
             });
+
+        }
+        else{
+            callback(false);
         }
     };
     /**

@@ -40,8 +40,6 @@
                                     {{i18nLang.program.PMS0610020.append_contract}}
 
 
-
-
                                 </button>
                             </li>
                             <li>
@@ -52,15 +50,11 @@
                                     {{i18nLang.program.PMS0610020.remove_contract}}
 
 
-
-
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-gray btn-defaultWidth"
                                         role="button">{{i18nLang.program.PMS0610020.special_contract}}
-
-
 
 
                                 </button>
@@ -145,9 +139,6 @@
             dataGridRowsDataOfRateCode: {
                 handler(val) {
                     if (!_.isEmpty(val)) {
-                        if (this.dgIns.endEditing()) {
-                            this.BTN_action = false;
-                        }
                         let la_addToDataGridRowsData = _.where(val, {createRow: 'Y'});
                         let lo_extendData = {
                             cust_cod: this.$store.state.custMnModule.gs_custCod,
@@ -296,9 +287,7 @@
                 var self = this;
                 this.BTN_action = true;
                 this.dgIns.appendRow(function (result) {
-                    if (result) {
-                        self.BTN_action = false;
-                    }
+                    self.BTN_action = false;
                 });
             },
             removeRow() {

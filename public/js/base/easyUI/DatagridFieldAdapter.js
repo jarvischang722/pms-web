@@ -787,7 +787,10 @@ function onQryAction(fieldAttrObj, qryValue, dgName) {
                     fieldAttrObj.selectData.selectData.push(lo_selectOption);
                 });
                 //將datagrid 的text 改為所查詢的值
+                isChange = false;
                 $(lo_editor.target).combogrid("setText", qryValue);
+                $(lo_editor.target).combogrid("setValue", qryValue);
+
             }
         }
     });
