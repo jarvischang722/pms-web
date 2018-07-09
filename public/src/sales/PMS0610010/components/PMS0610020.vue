@@ -422,11 +422,6 @@
                         }
                         lo_oriSingleData.cust_idx_zip_cod = lo_singleData.cust_idx_zip_cod;
 
-                        //若發票抬頭為空的，則將公司名稱帶入
-                        if (lo_singleData.cust_idx_uni_titile == "" || _.isNull(lo_singleData.cust_idx_uni_titile) || _.isUndefined(lo_singleData.cust_idx_uni_titile)) {
-                            this.singleData.cust_idx_uni_titile = lo_singleData.cust_nam;
-                        }
-
                         //將主檔資料放至Vuex
                         this.$store.dispatch("custMnModule/setMnSingleData", {
                             go_mnSingleData: lo_singleData,
@@ -437,13 +432,13 @@
                 deep: true
             },
             //若發票抬頭為空的，則將公司名稱帶入
-//            "singleData.cust_nam": function (newVal, oldVal) {
-//                const ls_newVal = newVal || "";
-//                const ls_uni_title = this.singleData.cust_idx_uni_titile || "";
-//                if (ls_uni_title == "" && ls_newVal != "") {
-//                    this.singleData.cust_idx_uni_titile = ls_newVal;
-//                }
-//            }
+           "singleData.cust_nam": function (newVal, oldVal) {
+               const ls_newVal = newVal || "";
+               const ls_uni_title = this.singleData.cust_idx_uni_titile || "";
+               if (ls_uni_title == "" && ls_newVal != "") {
+                   this.singleData.cust_idx_uni_titile = ls_newVal;
+               }
+           }
         },
         methods: {
             initData() {

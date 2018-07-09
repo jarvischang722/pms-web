@@ -233,7 +233,7 @@
                     if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData)) {
                         _.each(result.dgRowData, (lo_dgRowData) => {
                             lo_dgRowData.begin_dat = moment(lo_dgRowData.begin_dat).format("YYYY/MM/DD");
-                            lo_dgRowData.end_dat = moment(lo_dgRowData.end_da).format("YYYY/MM/DD");
+                            lo_dgRowData.end_dat = moment(lo_dgRowData.end_dat).format("YYYY/MM/DD");
                             lo_dgRowData.uniKey = Math.floor(Math.random() * (99999999999999999999));
                         });
                         this.dataGridRowsData = result.dgRowData;
