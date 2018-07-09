@@ -182,8 +182,10 @@
                         serv_amt: this.editingGroupData.serv_amt,
                         block_cod: this.editingGroupData.block_cod
                     };
+                    //把group後order_dt資料和一開始order_dt資料進行資料比對，使用where抓出所有符合資料
                     let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
                     await this.fetchDetailRowsData(la_detailOrderDtData);
+
                     // await this.fetchGuestRowsData(la_detailOrderDtData);
                     // console.log('=================');
                     // console.log(this.editingGroupDataIndex);
@@ -213,7 +215,6 @@
                     this.guestMnFieldData = _.sortBy(lo_fetchGuestMnFieldsData.dgFieldsData, "col_seq");
 
                     await this.fetchOrderDtRowData();
-                    // await this.fetchDetailRowsData();
                     await this.fetchGuestRowsData();
                 }
                 catch (err) {
