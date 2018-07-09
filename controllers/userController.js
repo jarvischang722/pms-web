@@ -14,6 +14,7 @@ const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
 const go_permissionSvc = require("../services/permissionService");
 const go_userActionSvc = require("../services/userActionService");
 const go_sysConf = require("../configs/systemConfig");
+const passport = require('passport');
 /**
  * 登入頁面
  */

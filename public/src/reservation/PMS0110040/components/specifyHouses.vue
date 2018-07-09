@@ -14,7 +14,7 @@
                     <div class="col-xs-11 col-sm-11">
                         <div class="row">
                             <div class="horizTable-outer pull-left">
-                                <table class="css_table horizTable">
+                                <table class="css_table horizTable click-effect">
                                     <thead class="css_thead">
                                     <tr class="css_tr">
                                         <th class="css_th" v-for="field in orderDtFieldData"

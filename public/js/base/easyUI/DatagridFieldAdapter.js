@@ -5,6 +5,7 @@
  */
 var isUserEdit = true; //是否為修改或是連動修改
 var ga_colorAry = [];  //
+var isChange = true;
 
 /**
  * datagrid 轉接器與call
@@ -406,8 +407,8 @@ var DatagridFieldAdapter = {
             tmpFieldObj.editor.options.columns = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
                 fieldAttrObj.selectGridOptions.columns : [fieldAttrObj.selectData.columns];
             tmpFieldObj.editor.options.data = !_.isUndefined(fieldAttrObj.selectGridOptions) ?
-                fieldAttrObj.selectData : (fieldAttrObj.selectData.selectData.length > 100 ?
-                    fieldAttrObj.selectData.selectData.slice(0, 100) : fieldAttrObj.selectData.selectData.length);
+                fieldAttrObj.selectData : (fieldAttrObj.selectData.selectData.length > 200 ?
+                    fieldAttrObj.selectData.selectData.slice(0, 200) : fieldAttrObj.selectData.selectData.length);
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                 var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                 onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
@@ -423,6 +424,9 @@ var DatagridFieldAdapter = {
         }
 
         return tmpFieldObj;
+    },
+    setIsChange: function () {
+        isChange = false;
     }
 };
 
@@ -436,6 +440,7 @@ var DatagridFieldAdapter = {
  */
 var ga_readonlyFields = [];
 
+
 /**
  * onchange 事件
  * @param fieldAttrObj
@@ -444,7 +449,7 @@ var ga_readonlyFields = [];
  * @param dgName
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
-    if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit) {
+    if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit && isChange) {
         var allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
@@ -490,6 +495,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             }
             //連動帶回的值
             if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
+
                 var effectValues = result.effectValues;
                 if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
                     $('#' + dgName).datagrid('updateRow', {
@@ -517,7 +523,8 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         $('#' + dgName).datagrid('endEdit', lo_nowIndexRow);
                     }
 
-                    //現在datagrid的editIndex已經不是indexRow，切換editIndex為indexRow
+                    //現在datagrid的editIndex已經不是indexRow，切換editIndex為indexRow\
+                    $('#' + dgName).datagrid('selectRow', indexRow);
                     $('#' + dgName).datagrid('beginEdit', indexRow);
                     $('#' + dgName).datagrid('endEdit', indexRow);
 
@@ -560,7 +567,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             }
 
             // 動態產生下拉資料
-            if (fieldAttrObj.ui_type == 'select' && result.selectField.length > 0) {
+            if (result.selectField.length > 0) {
                 //單一欄位下拉資料
                 if (result.selectField.length == 1) {
                     var lo_editor = $('#' + dgName).datagrid('getEditor', {
@@ -585,6 +592,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         });
 
     }
+    isChange = true;
 
 }
 
@@ -610,7 +618,6 @@ function onSelectClickAction(fieldAttrObj, dgName) {
     };
 
     BacUtils.doHttpPostAgent('/api/chkDgSelectClickRule', postData, function (result) {
-        console.log(result);
         if (result.success) {
             //是否要show出訊息
             if (result.showAlert) {
@@ -643,7 +650,12 @@ function onSelectClickAction(fieldAttrObj, dgName) {
                     index: ln_indexRow,
                     field: result.selectField
                 });
-                $(lo_editor.target).combobox("loadData", result.selectOptions);
+                if (fieldAttrObj.ui_field_name == 'select') {
+                    $(lo_editor.target).combobox("loadData", result.selectOptions);
+                }
+                else if (fieldAttrObj.ui_field_name == 'selectgrid') {
+                    $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
+                }
             }
             //多個欄位
             else {
@@ -681,7 +693,6 @@ function onQryAction(fieldAttrObj, qryValue, dgName) {
         allRowData: JSON.parse(JSON.stringify(la_allDataRow)),
         qryValue: qryValue
     };
-
     BacUtils.doHttpPostAgent('/api/chkDgSelectgridQryRule', lo_postData, function (result) {
         if (result.success) {
             //是否要show出訊息
@@ -758,14 +769,28 @@ function onQryAction(fieldAttrObj, qryValue, dgName) {
         // }
 
         //動態產生下拉資料
-        if (fieldAttrObj.ui_type == 'selectgrid' && result.selectField.length > 0) {
+        if (result.selectField.length == 1) {
+            var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                index: ln_indexRow,
+                field: fieldAttrObj.ui_field_name
+            });
+            //動態產生下拉資料
             if (result.selectField.length == 1) {
                 var lo_editor = $('#' + dgName).datagrid('getEditor', {
                     index: ln_indexRow,
-                    field: result.selectField
+                    field: fieldAttrObj.ui_field_name
                 });
+                // $(lo_editor.target).combogrid("hidePanel");
+                //將原本的下拉資料改為規則帶回的下拉資料
                 $(lo_editor.target).combogrid("grid").datagrid("loadData", result.selectOptions);
+                _.each(result.selectOptions, (lo_selectOption) => {
+                    fieldAttrObj.selectData.selectData.push(lo_selectOption);
+                });
+                //將datagrid 的text 改為所查詢的值
+                isChange = false;
                 $(lo_editor.target).combogrid("setText", qryValue);
+                $(lo_editor.target).combogrid("setValue", qryValue);
+
             }
         }
     });
@@ -860,6 +885,9 @@ $.extend($.fn.datagrid.defaults.editors, {
         init: function (container, options) {
             var ls_dgName = $(container).closest(".panel").find('.datagrid-f').attr('id');
             var li_index = $("#" + ls_dgName).datagrid("getRowIndex", $("#" + ls_dgName).datagrid("getSelected"));
+            if (li_index == -1) {
+                return;
+            }
             var lo_rowData = $("#" + ls_dgName).datagrid("getRows")[li_index];
             var ls_field_name = $(container.context.outerHTML).attr("field");
             var val = lo_rowData[ls_field_name];
