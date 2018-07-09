@@ -1567,6 +1567,16 @@ table.treetable span.indenter {
     width: 200px;
 }
 
+.click-effect tbody tr td.active {
+    background: #FFE48D !important;
+    transition: 0.5s;
+}
+
+.click-effect tbody tr td.un-active {
+    background: #fff !important;
+    transition: 0.5s;
+}
+
 /*-------- login.html -------- */
 .login-bg {
   background: #DFE0E2 url("../css/images/pattern.jpg") repeat;
