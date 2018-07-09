@@ -289,14 +289,14 @@ function DatagridBaseClass() {
             });
 
         }
-        else{
+        else {
             callback(false);
         }
     };
     /**
      * 刪除選定的Row
      */
-    this.removeRow = function removeRow() {
+    this.removeRow = function () {
         var delRow = $('#' + this.dgName).datagrid('getSelected');
         if (!delRow) {
             alert(go_i18nLang["SystemCommon"].SelectData);
