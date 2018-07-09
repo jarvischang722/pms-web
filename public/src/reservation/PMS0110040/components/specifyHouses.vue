@@ -128,6 +128,8 @@
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
     DatagridSingleGridClass.prototype.onClickCell = function (index, row) {
         vmHub.$emit("selectDataGridRow", {row: row, index: index});
+        // console.log('我是row'+' '+row);
+        // console.log('我是index'+' '+index);
     };
     DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
 
@@ -183,6 +185,9 @@
                     let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
                     await this.fetchDetailRowsData(la_detailOrderDtData);
                     // await this.fetchGuestRowsData(la_detailOrderDtData);
+                    // console.log('=================');
+                    // console.log(this.editingGroupDataIndex);
+                    // console.log('=================');
                 }
             }
         },
@@ -242,13 +247,18 @@
                 this.dgIns.loadDgData(this.orderDtGroupRowsData);
                 this.editingGroupDataIndex = 0;
             },
-            fetchDetailRowsData() {
-                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
+            async fetchDetailRowsData(detailRowsData) {
+                // 找出每一筆資料的ikey_seq_nos
+                let la_ikeySeqNos = [];
+                _.each(detailRowsData, (lo_detailData) => {
+                    la_ikeySeqNos.push(lo_detailData.ikey_seq_nos);
+                });
+                await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
                     prg_id: 'PMS0110042',
                     page_id: 1010,
                     tab_page_id: 2,
                     // 附加判斷條件
-                    searchCond: {ikey: this.rowData.ikey}
+                    searchCond: {ikey_seq_nos: la_ikeySeqNos, ikey: detailRowsData[0].ikey}
                 }).then((result) => {
                     if (result.success) {
                         this.orderDtRowsData = result.dgRowData;
