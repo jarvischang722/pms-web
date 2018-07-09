@@ -16,7 +16,7 @@
                         </div>
                         <div class="container_12 divider">
                             <div class="grid_12 fixed-table-container">
-                                <table class="fancyTable themeTable treeControl custom-table"
+                                <table class="fancyTable themeTable treeControl custom-table click-effect"
                                        id="rateCodTable" cellpadding="0" cellspacing="0" style="width: 100%;">
                                     <thead>
                                     <tr>

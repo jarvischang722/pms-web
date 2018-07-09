@@ -108,8 +108,8 @@
                 <div class="row">
                     <div class="col-xs-10 col-sm-10">
                         <div class="row no-margin-right main-content-data">
-                            <div style="width: 100%; height: 150px;">
-                                <table class="fancyTable themeTable treeControl custom-table"
+                            <div style="width: 100%; height: 250px;">
+                                <table class="fancyTable themeTable custom-table click-effect"
                                        id="masterNosTable" cellpadding="0" cellspacing="0"
                                 >
                                     <thead>
@@ -263,7 +263,7 @@
                     title_html: true,
                     width: 450,
                     maxwidth: 1920,
-                    height: $(window).height() - 200,
+                    height: 300,
                     dialogClass: "test",
                     resizable: true
                 });
