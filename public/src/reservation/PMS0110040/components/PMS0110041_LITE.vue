@@ -1163,7 +1163,7 @@
                                     val[this.editingOrderDtIdx].co_dat_week = moment(lo_editingRow.co_dat).format("ddd");
                                 }
                                 //使用房型和計價房型
-                                val[this.editingOrderDtIdx].room_cod = lo_editingRow.use_cod;
+                                lo_editingRow.room_cod = lo_editingRow.use_cod;
 
                                 //資料是否有異動
                                 let lb_dataIsChanged = false;
@@ -1172,13 +1172,12 @@
                                     let ln_editFieldIndex = la_chkFields.indexOf(ls_key);
                                     if (ln_editFieldIndex > -1 && ls_val != this.orderDtRowsData4Single[ls_key]) {
                                         lb_dataIsChanged = true;
+                                        this.orderDtRowsData4Single[ls_key] = ls_val;
                                     }
                                 });
 
                                 //計算此筆顯示資料的房價
                                 if (!_.isNull(lo_editingRow.room_cod) && lb_dataIsChanged) {
-                                    this.orderDtRowsData4Single.days = lo_editingRow.days;
-
                                     let lo_params = {
                                         rule_func_name: 'compute_oder_dt_price',
                                         allRowData: [lo_editingRow],
@@ -1200,13 +1199,12 @@
                                         this.orderDtRowsData4Single.sub_tot = Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
                                     }
                                     else {
-                                        let ln_editData = _.findIndex(this.groupOrderDtData, {ikey_seq_nos: lo_editingRow.ikey_seq_nos});
-                                        if (ln_editData > -1) {
-                                            val[this.editingOrderDtIdx] = _.extend(val[this.editingOrderDtIdx], this.groupOrderDtData[ln_editData]);
-                                        }
                                         alert(lo_doComputePrice.errorMsg);
                                     }
                                 }
+
+                                //此筆使用房型和計價房型
+                                val[this.editingOrderDtIdx].room_cod = lo_editingRow.use_cod;
                             }
                             catch (err) {
                                 console.log(err);
@@ -1509,6 +1507,11 @@
                     else {
                         alert(lo_fetchSingleData.errorMsg);
                         return;
+                    }
+
+                    //預設一筆order dt
+                    if (this.isCreateStatus) {
+                        this.appendRow();
                     }
 
                     //取所有此ikey的 guestMn、orderDt資料
@@ -2190,7 +2193,6 @@
                     //檢查資料
                     for (let lo_chkData of la_chkData) {
                         for (let lo_field of chkFields) {
-                            console.log(lo_chkData[lo_field.ui_field_name], lo_field, lo_field.requirable);
                             //必填
                             if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
                                 lo_checkResult = go_validateClass.required(lo_chkData[lo_field.ui_field_name], lo_field.ui_display_name);
