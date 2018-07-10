@@ -82,7 +82,7 @@
                                              disabled>
                                 </el-tab-pane>
                             </el-tabs>
-                            <div class="easyui-tabs borderFrame"
+                            <div class="easyui-tabs easyUi-custom1 borderFrame"
                                  style="min-height: 0; height: 380px !important; overflow-y: auto;">
                                 <div id="setPanel" v-show="tabName=='set'" class="padding-tabs">
                                     <related-setting
@@ -422,11 +422,6 @@
                         }
                         lo_oriSingleData.cust_idx_zip_cod = lo_singleData.cust_idx_zip_cod;
 
-                        //若發票抬頭為空的，則將公司名稱帶入
-                        if (lo_singleData.cust_idx_uni_titile == "" || _.isNull(lo_singleData.cust_idx_uni_titile) || _.isUndefined(lo_singleData.cust_idx_uni_titile)) {
-                            this.singleData.cust_idx_uni_titile = lo_singleData.cust_nam;
-                        }
-
                         //將主檔資料放至Vuex
                         this.$store.dispatch("custMnModule/setMnSingleData", {
                             go_mnSingleData: lo_singleData,
@@ -435,7 +430,15 @@
                     }
                 },
                 deep: true
-            }
+            },
+            //若發票抬頭為空的，則將公司名稱帶入
+           "singleData.cust_nam": function (newVal, oldVal) {
+               const ls_newVal = newVal || "";
+               const ls_uni_title = this.singleData.cust_idx_uni_titile || "";
+               if (ls_uni_title == "" && ls_newVal != "") {
+                   this.singleData.cust_idx_uni_titile = ls_newVal;
+               }
+           }
         },
         methods: {
             initData() {
@@ -573,7 +576,6 @@
                 compar_end_dat = moment.isMoment(compar_end_dat) ? compar_end_dat : moment(new Date(compar_end_dat));
                 now_begin_dat = moment.isMoment(now_begin_dat) ? now_begin_dat : moment(new Date(now_begin_dat));
                 now_end_dat = moment.isMoment(now_end_dat) ? now_end_dat : moment(new Date(now_end_dat));
-                console.log(compar_begin_dat, now_end_dat);
                 if (compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0) {
                     return true;
                 }
@@ -650,7 +652,7 @@
                                 });
                             }
                             else {
-                                alert("請先儲存主檔資料及相關資料");
+                                alert(go_i18nLang.program.PMS0610020.saveMainAndRelatedDataFirst);
                             }
                         }
                     });
@@ -673,7 +675,7 @@
                                 });
                             }
                             else {
-                                alert("請先儲存主檔資料及相關資料");
+                                alert(go_i18nLang.program.PMS0610020.saveMainAndRelatedDataFirst);
                             }
                         }
                     });

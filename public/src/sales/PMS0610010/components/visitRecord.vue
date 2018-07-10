@@ -232,7 +232,6 @@
                 let lo_taFieldData = _.findWhere(this.oriFieldsData, {ui_field_name: 'traffic_amt'});
                 this.rowData["traffic_amt"] = !_.isUndefined(this.rowData["traffic_amt"]) ?
                     go_formatDisplayClass.amtFormat(this.rowData["traffic_amt"].toString(), lo_taFieldData.format_func_name.rule_val) : '0';
-
                 this.singleData = JSON.parse(JSON.stringify(this.rowData));
                 this.oriSingleData = JSON.parse(JSON.stringify(this.singleData));
                 this.isLoadingDialog = false;
@@ -334,7 +333,7 @@
                 this.isFirstData = true;
                 this.isLastData = false;
                 this.rowData = _.first(this.pageOneDataGridRows);
-                $("#visitRecord").dialog('close');
+                this.doConfirmData();
                 this.$eventHub.$emit("getOtherRowData", {
                     rowData: _.first(this.pageOneDataGridRows),
                     rowIndex: 0
@@ -343,7 +342,7 @@
             toPreData() {
                 var nowRowIndex = $("#companyVisitRecord_dg").datagrid('getRowIndex', this.rowData);
                 this.rowData = this.pageOneDataGridRows[nowRowIndex - 1];
-                $("#visitRecord").dialog('close');
+                this.doConfirmData();
                 this.$eventHub.$emit("getOtherRowData", {
                     rowData: this.pageOneDataGridRows[nowRowIndex - 1],
                     rowIndex: nowRowIndex - 1
@@ -352,7 +351,7 @@
             toNextData() {
                 var nowRowIndex = $("#companyVisitRecord_dg").datagrid('getRowIndex', this.rowData);
                 this.rowData = this.pageOneDataGridRows[nowRowIndex + 1];
-                $("#visitRecord").dialog('close');
+                this.doConfirmData();
                 this.$eventHub.$emit("getOtherRowData", {
                     rowData: this.pageOneDataGridRows[nowRowIndex + 1],
                     rowIndex: nowRowIndex + 1
@@ -362,7 +361,7 @@
                 this.isFirstData = false;
                 this.isLastData = true;
                 this.rowData = _.last(this.pageOneDataGridRows);
-                $("#visitRecord").dialog('close');
+                this.doConfirmData();
                 this.$eventHub.$emit("getOtherRowData", {
                     rowData: _.last(this.pageOneDataGridRows),
                     rowIndex: this.pageOneDataGridRows.length - 1

@@ -1,4 +1,7 @@
-//mixin
+/*
+ * @description: mixin
+ * @author: m15009
+ */
 @charset "UTF-8"
 // bacchus
 //input-spc-1 width             : 439px
@@ -6,72 +9,74 @@
 //medium-c1 width (768-1030)    : 349px
 @mixin input-s1($spc-width: 434px)
   width: $spc-width
-  //defalut: 439px
   max-width: 100%
   height: $defHt
-// 綜合櫃台 顏色
-@mixin color-bk
+
+/*
+ * @description:  綜合櫃台 顏色
+ * @author: m15009
+ */
+@mixin color-bk($cb-oc-od: #ffd45a, $cb-ob: #ae8dc3, $cb-doc-dod: #7cbd64, $cb-dod: #ffddb3, $cb-vc-vd: #bfbfbf, $cb-all: #dcbe88, $cb-ooo: #06eed5, $cb-vc-vdGreen: #008148, $cb-sexyBlue: #19647E, $cb-darkGreen: #19647E, $cb-darkGreen: #00542f, $cb-sexyYellow: #848009, $cb-sexyGreen: #556b2f, $cb-oos: rgba(255, 33, 95, 0.77), $cb-s: #c0d6ee, $cd-sexyPurple: #4B3F72)
   &.cb-oc-od
-    //background: #fffba1
-    border-color: #ffd45a
+    border-color: $cb-oc-od
   &.cb-oc-od-tip
-    background: #ffd45a
+    background: $cb-oc-od
   &.cb-ob
-    border-color: #ae8dc3
+    border-color: $cb-ob
   &.cb-ob-tip
-    background: #ae8dc3
+    background: $cb-ob
   &.cb-doc-dod
-    border-color: #7cbd64
+    border-color: $cb-doc-dod
   &.cb-doc-dod-tip
-    background: #7cbd64
+    background: $cb-doc-dod
   &.cb-dod
-    border-color: #ffddb3
+    border-color: $cb-dod
   &.cb-dod-tip
-    background: #ffddb3
+    background: $cb-dod
   &.cb-vc-vd
-    border-color: #bfbfbf
+    border-color: $cb-vc-vd
   &.cb-vc-vd-tip
-    background: #bfbfbf
+    background: $cb-vc-vd
   &.cb-all
-    border-color: #dcbe88
+    border-color: $cb-all
   &.cb-all-tip
-    background: #dcbe88
+    background: $cb-all
   &.cb-ooo
-    border-color: #06eed5
+    border-color: $cb-ooo
   &.cb-ooo-tip
-    background: #06eed5
+    background: $cb-ooo
   &.cb-vc-vdGreen
-    border-color: #008148
+    border-color: $cb-vc-vdGreen
   &.cb-vc-vdGreen-tip
-    background: #008148
+    background: $cb-vc-vdGreen
   &.cb-sexyBlue
-    border-color: #19647E
+    border-color: $cb-sexyBlue
   &.cb-sexyBlue-tip
-    background: #19647E
+    background: $cb-sexyBlue
   &.cb-darkGreen
-    border-color: #00542f
+    border-color: $cb-darkGreen
   &.cb-darkGreen-tip
-    background: #00542f
+    background: $cb-darkGreen
   &.cb-sexyYellow
-    border-color: #848009
+    border-color: $cb-sexyYellow
   &.cb-sexyYellow-tip
-    background: #848009
+    background: $cb-sexyYellow
   &.cb-sexyGreen
-    border-color: #556b2f
+    border-color: $cb-sexyGreen
   &.cb-sexyGreen-tip
-    background: #556b2f
+    background: $cb-sexyGreen
   &.cb-oos
-    border-color: rgba(255, 33, 95, 0.77)
+    border-color: $cb-oos
   &.cb-oos-tip
-    background: rgba(255, 33, 95, 0.77)
+    background: $cb-oos
   &.cb-s
-    border-color: #c0d6ee
+    border-color: $cb-s
   &.cb-s-tip
-    background: #c0d6ee
+    background: $cb-s
   &.cd-sexyPurple
-    border-color: #4B3F72 !important
+    border-color: $cd-sexyPurple !important
   &.cd-sexyPurple-tip
-    background: #4B3F72 !important
+    background: $cd-sexyPurple !important
   &.active
     border-color: #ff0000
 //text-decoration: underline
@@ -142,6 +147,7 @@
 
 
 @mixin el-date-ht($defHt)
+
 .el-date-editor
   height: $defHt !important
   .el-input__inner, .el-input__icon
@@ -156,6 +162,7 @@
     +transform(rotate(-135deg))
   100%
     +transform(rotate(180deg))
+
 @-webkit-keyframes outAnimation
   0%
     +transform(rotate(45deg))
@@ -220,7 +227,6 @@
             min-width: $w
             max-width: $w
             div
-
 
               &.triangle-box
                 &.colspan-0

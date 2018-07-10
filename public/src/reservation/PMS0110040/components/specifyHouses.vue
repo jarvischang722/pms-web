@@ -25,7 +25,8 @@
                                     </tr>
                                     </thead>
                                     <tbody class="css_tbody">
-                                    <tr class="css_tr" v-for="(data, index) in orderDtRowsData">
+                                    <tr class="css_tr" v-for="data in orderDtRowsData"
+                                        @click="selectOrderDtRowsData(data.ikey_seq_nos)">
                                         <td class="css_td">{{ data.ikey_seq_nos }}</td>
                                         <td class="css_td">{{ data.room_nos }}</td>
                                         <td class="css_td">{{ data.guest_list }}</td>
@@ -52,8 +53,9 @@
                                                             <span class="checkbox">
                                                                   <label class="checkbox-width">
                                                                       <input name="form-field-checkbox"
-                                                                             type="checkbox"
-                                                                             class="ace">
+                                                                             type="checkbox" :value="data.alt_nam"
+                                                                             class="ace"
+                                                                             v-model="guestMnRowDataChecked">
                                                                       <span class="lbl"></span>
                                                                   </label>
                                                             </span>
@@ -77,7 +79,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">指定
+                                                role="button" @click="specify">指定
                                         </button>
                                     </li>
                                     <li>
@@ -128,6 +130,8 @@
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
     DatagridSingleGridClass.prototype.onClickCell = function (index, row) {
         vmHub.$emit("selectDataGridRow", {row: row, index: index});
+        // console.log('我是row'+' '+row);
+        // console.log('我是index'+' '+index);
     };
     DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
 
@@ -151,6 +155,8 @@
                 editingGroupDataIndex: undefined,
                 editingGroupData: {},
                 dgIns: {},
+                selectOrderDtRowsDataIkeySeqNos: '',
+                guestMnRowDataChecked: [],
             }
         },
         created() {
@@ -180,9 +186,14 @@
                         serv_amt: this.editingGroupData.serv_amt,
                         block_cod: this.editingGroupData.block_cod
                     };
+                    //把group後order_dt資料和一開始order_dt資料進行資料比對，使用where抓出所有符合資料
                     let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
                     await this.fetchDetailRowsData(la_detailOrderDtData);
+
                     // await this.fetchGuestRowsData(la_detailOrderDtData);
+                    // console.log('=================');
+                    // console.log(this.editingGroupDataIndex);
+                    // console.log('=================');
                 }
             }
         },
@@ -208,7 +219,6 @@
                     this.guestMnFieldData = _.sortBy(lo_fetchGuestMnFieldsData.dgFieldsData, "col_seq");
 
                     await this.fetchOrderDtRowData();
-                    // await this.fetchDetailRowsData();
                     await this.fetchGuestRowsData();
                 }
                 catch (err) {
@@ -242,13 +252,18 @@
                 this.dgIns.loadDgData(this.orderDtGroupRowsData);
                 this.editingGroupDataIndex = 0;
             },
-            fetchDetailRowsData() {
-                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
+            async fetchDetailRowsData(detailRowsData) {
+                // 找出每一筆資料的ikey_seq_nos
+                let la_ikeySeqNos = [];
+                _.each(detailRowsData, (lo_detailData) => {
+                    la_ikeySeqNos.push(lo_detailData.ikey_seq_nos);
+                });
+                await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
                     prg_id: 'PMS0110042',
                     page_id: 1010,
                     tab_page_id: 2,
                     // 附加判斷條件
-                    searchCond: {ikey: this.rowData.ikey}
+                    searchCond: {ikey_seq_nos: la_ikeySeqNos, ikey: detailRowsData[0].ikey}
                 }).then((result) => {
                     if (result.success) {
                         this.orderDtRowsData = result.dgRowData;
@@ -273,11 +288,45 @@
                 }).catch(err => {
                     console.log(err);
                 })
+            },
+            selectOrderDtRowsData(ikeySeqNos) {
+                this.selectOrderDtRowsDataIkeySeqNos = ikeySeqNos;
+            },
+            specify() {
+                if (this.selectOrderDtRowsDataIkeySeqNos !== '' && this.guestMnRowDataChecked.length > 0) {
+                    // orderDtRowsData和selectOrderDtRowsDataIkeySeqNos(當下點擊儲存的ikeySeqNos)進行資料比對
+                    _.each(this.orderDtRowsData, (data) => {
+                        if (data.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
+                            data.guest_list += ',' + this.guestMnRowDataChecked;
+                        }
+                    });
+
+                    // guestMnRowsData和guestMnRowDataChecked資料比對，條件符合紀錄當下在guestMnRowsData裡index
+                    let la_recordIndex = [];
+                    _.each(this.guestMnRowsData, (rowData, rowDataIndex) => {
+                        _.each(this.guestMnRowDataChecked, (checkedData) => {
+                            if (rowData.alt_nam === checkedData) {
+                                la_recordIndex.push(rowDataIndex);
+                            }
+                        });
+                    });
+
+                    // 移除顧客資料
+                    _.each(la_recordIndex, (data, rowDataIndex) => {
+                        this.guestMnRowsData.splice(data, 1);
+                    });
+
+                    // console.log('===========目前========');
+                    // console.log(this.orderDtRowsData);
+                    // console.log('===========目前========');
+
+                }
             }
         }
     }
 </script>
 
 <style scoped>
+
 
 </style>

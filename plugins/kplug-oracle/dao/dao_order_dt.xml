@@ -141,12 +141,13 @@
         and athena_id = :athena_id
         and hotel_cod = :hotel_cod
         and ikey = :ikey
-        and ikey_seq_nos = :ikey_seq_nos
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">ikey</parameter>
-        <parameter type="string" kind="3">ikey_seq_nos</parameter>
+        <parameter type="instring" kind="3">ikey_seq_nos</parameter>
+        <statement test="_v(param.ikey_seq_nos)"><![CDATA[and ikey_seq_nos in(:ikey_seq_nos)]]></statement>
+        <orderby>order by ikey_seq_nos</orderby>
     </dao>
 </root>
