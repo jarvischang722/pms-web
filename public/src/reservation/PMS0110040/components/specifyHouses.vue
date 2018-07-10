@@ -84,7 +84,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">自動指定
+                                                role="button" @click="automaticSpecify">自動指定
                                         </button>
                                     </li>
                                     <li>
@@ -321,6 +321,17 @@
                                 this.guestMnRowsData.splice(rowDataIndex, 1);
                             }
                         });
+                    });
+                }
+            },
+            automaticSpecify() {
+                if (this.guestMnRowsData.length > 0) {
+                    let ln_index = 0;
+                    _.each(this.orderDtRowsData, (rowsData) => {
+                        if (this.guestMnRowsData[ln_index].alt_nam !== undefined) {
+                            rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
+                        }
+                        ln_index++;
                     });
                 }
             }
