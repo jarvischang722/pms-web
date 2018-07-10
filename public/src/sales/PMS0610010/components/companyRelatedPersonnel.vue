@@ -68,15 +68,12 @@
         name: 'related-personnel',
         props: ["rowData", "isRelatedPersonnel", "isModifiable"],
         created() {
-            this.$eventHub.$on("endRpEdit", () => {
+            this.$eventHub.$on("endRpEdit", (data) => {
                 if (!_.isEmpty(this.dgIns)) {
-                    this.dgIns.endEditing();
-                    //確認tmpCUD 的cust_cod
-                    _.each(this.dgIns.tmpCUD, (value, key) => {
-                        _.each(value, (lo_value, idx) => {
-                            this.dgIns.tmpCUD[key][idx] = _.extend(lo_value, {cust_cod: this.$store.state.custMnModule.gs_custCod});
-                        });
-                    });
+                    data.doValidate(this.dgIns.endEditing());
+                }
+                else {
+                    data.doValidate(true);
                 }
             });
         },
@@ -110,6 +107,14 @@
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
                         this.$eventHub.$emit("chgRelatedPersonData");
+
+                        //確認tmpCUD 的cust_cod
+                        _.each(this.dgIns.tmpCUD, (value, key) => {
+                            _.each(value, (lo_value, idx) => {
+                                this.dgIns.tmpCUD[key][idx] = _.extend(lo_value, {cust_cod: this.$store.state.custMnModule.gs_custCod});
+                            });
+                        });
+
                         //將相關人員資料放至Vuex
                         this.$store.dispatch("custMnModule/setRpDataGridRowsData", {
                             ga_rpDataGridRowsData: val,
@@ -126,9 +131,6 @@
             },
             dataGridRowsDataOfStaff: {
                 handler(val) {
-                    // if (this.dgIns.endEditing()) {
-                    //     this.BTN_action = false;
-                    // }
                     if (this.isHideLeavingStaff) {
                         if (!_.isUndefined(this.dgIns.editIndex)) {
                             let ln_editStaffIndex = this.dgIns.editIndex;
@@ -217,7 +219,7 @@
                 this.BTN_action = true;
                 this.dgIns.appendRow(function (result) {
                     // if (result) {
-                        self.BTN_action = false;
+                    self.BTN_action = false;
                     // }
                 });
             },

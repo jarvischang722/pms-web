@@ -307,10 +307,19 @@ function validateClass() {
         if (lo_compar_begin_dat.diff(lo_now_end_dat, "days") <= 0 && lo_compar_end_dat.diff(lo_now_begin_dat, "days") >= 0) {
             lb_result = false;
         }
-        else {
-            lb_result = true;
-        }
         return {success: lb_result, msg: this.ls_msg.chkDateIsBetween};
+    };
+
+    this.chkBeginDatAndEndDat = function () {
+        var lo_begin_dat = arguments[0];
+        var lo_end_dat = arguments[1];
+        var lb_result = true;
+        lo_begin_dat = moment.isMoment(lo_begin_dat) ? lo_begin_dat : moment(new Date(lo_begin_dat));
+        lo_end_dat = moment.isMoment(lo_end_dat) ? lo_end_dat : moment(new Date(lo_end_dat));
+        if (lo_begin_dat.diff(lo_end_dat, "days") > 0) {
+            lb_result = false;
+        }
+        return {success: lb_result, msg: this.ls_msg.chkBeginDatAndEndDat};
     };
 
 }

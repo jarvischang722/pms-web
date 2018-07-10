@@ -270,7 +270,9 @@
       "1130": "修改備註(英)",
       "1140": "刪除備註(英)",
       "saveMainAndRelatedDataFirst": "請先儲存主檔資料及相關資料(英)",
-      "salesCodIsNull": "請選擇指定業務員(英)"
+      "salesCodIsNull": "請選擇指定業務員(英)",
+      "chkRpData": "請完成相關人員資料設定(英)",
+      "chkCcData": "請完成合約內容資料設定(英)"
     },
     "PMS0620020": {
       "sales_cod": "Sales Id",
@@ -472,7 +474,8 @@
       "ChkEmail": "%s 格式不正確(英文)",
       "ChkUniCod": "%s 格式不正確(英文)",
       "chkDataChang": "資料異動，是否要修改?(英文)",
-      "chkDateIsBetween": "日期區間重疊"
+      "chkDateIsBetween": "日期區間重疊",
+      "chkBeginDatAndEndDat": "起始日大於結束日"
     }
   },
   "ErrorMsg": {

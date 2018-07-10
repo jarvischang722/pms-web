@@ -89,9 +89,12 @@
         name: 'contract-content',
         props: ["rowData", "isContractContent", "isModifiable"],
         created() {
-            this.$eventHub.$on("endContractEdit", () => {
+            this.$eventHub.$on("endContractEdit", (data) => {
                 if (!_.isEmpty(this.dgIns)) {
-                    this.dgIns.endEditing();
+                    data.doValidate(this.dgIns.endEditing());
+                }
+                else {
+                    data.doValidate(true);
                 }
             });
         },
