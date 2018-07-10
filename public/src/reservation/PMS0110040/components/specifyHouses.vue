@@ -53,7 +53,7 @@
                                                             <span class="checkbox">
                                                                   <label class="checkbox-width">
                                                                       <input name="form-field-checkbox"
-                                                                             type="checkbox" :value="data.alt_nam"
+                                                                             type="checkbox" :value="data"
                                                                              class="ace"
                                                                              v-model="guestMnRowDataChecked">
                                                                       <span class="lbl"></span>
@@ -139,7 +139,7 @@
 
     export default {
         name: "specifyHouses",
-        props: ["rowData"],
+        props: ["rowData", "isEditStatus"],
         data() {
             return {
                 orderDtGroupFieldData: [],      //order dt 欄位
@@ -157,6 +157,12 @@
                 dgIns: {},
                 selectOrderDtRowsDataIkeySeqNos: '',
                 guestMnRowDataChecked: [],
+                tmpCUD: {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                }
             }
         },
         created() {
@@ -166,7 +172,7 @@
         },
         watch: {
             async rowData(val) {
-                if (!_.isEmpty(val)) {
+                if (!_.isEmpty(val) && this.isEditStatus) {
                     await this.fetchAllFieldsData();
                 }
             },
@@ -295,31 +301,27 @@
             specify() {
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '' && this.guestMnRowDataChecked.length > 0) {
                     // orderDtRowsData和selectOrderDtRowsDataIkeySeqNos(當下點擊儲存的ikeySeqNos)進行資料比對
-                    _.each(this.orderDtRowsData, (data) => {
-                        if (data.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
-                            data.guest_list += ',' + this.guestMnRowDataChecked;
+                    // 並進行顧客資料移動和異動guest_mns ikey_seq_nos狀態
+                    _.each(this.orderDtRowsData, (rowsData) => {
+                        if (rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
+                            _.each(this.guestMnRowDataChecked, (checkedData) => {
+                                let lo_oriCheckedData = JSON.parse(JSON.stringify(checkedData));
+                                checkedData.ikey_seq_nos = rowsData.ikey_seq_nos;
+                                rowsData.guest_list += ',' + checkedData.alt_nam;
+                                this.tmpCUD.oriData.push(lo_oriCheckedData);
+                                this.tmpCUD.updateData.push(checkedData);
+                            });
                         }
                     });
-
                     // guestMnRowsData和guestMnRowDataChecked資料比對，條件符合紀錄當下在guestMnRowsData裡index
-                    let la_recordIndex = [];
+                    // 並移除顧客資料
                     _.each(this.guestMnRowsData, (rowData, rowDataIndex) => {
                         _.each(this.guestMnRowDataChecked, (checkedData) => {
-                            if (rowData.alt_nam === checkedData) {
-                                la_recordIndex.push(rowDataIndex);
+                            if (rowData.alt_nam === checkedData.alt_nam) {
+                                this.guestMnRowsData.splice(rowDataIndex, 1);
                             }
                         });
                     });
-
-                    // 移除顧客資料
-                    _.each(la_recordIndex, (data, rowDataIndex) => {
-                        this.guestMnRowsData.splice(data, 1);
-                    });
-
-                    // console.log('===========目前========');
-                    // console.log(this.orderDtRowsData);
-                    // console.log('===========目前========');
-
                 }
             }
         }
