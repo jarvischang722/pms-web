@@ -157,6 +157,12 @@
                 dgIns: {},
                 selectOrderDtRowsDataIkeySeqNos: '',
                 guestMnRowDataChecked: [],
+                tmpCUD: {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                }
             }
         },
         created() {
@@ -295,31 +301,27 @@
             specify() {
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '' && this.guestMnRowDataChecked.length > 0) {
                     // orderDtRowsData和selectOrderDtRowsDataIkeySeqNos(當下點擊儲存的ikeySeqNos)進行資料比對
+
+                    let la_updateData = [];
                     _.each(this.orderDtRowsData, (data) => {
                         if (data.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
+                            la_updateData.push(data);
                             data.guest_list += ',' + this.guestMnRowDataChecked;
                         }
                     });
+                    // console.log('============目前===============');
+                    // console.log(la_updateData);
+                    // console.log('=============目前===========');
 
                     // guestMnRowsData和guestMnRowDataChecked資料比對，條件符合紀錄當下在guestMnRowsData裡index
-                    let la_recordIndex = [];
+                    // 並移除顧客資料
                     _.each(this.guestMnRowsData, (rowData, rowDataIndex) => {
                         _.each(this.guestMnRowDataChecked, (checkedData) => {
                             if (rowData.alt_nam === checkedData) {
-                                la_recordIndex.push(rowDataIndex);
+                                this.guestMnRowsData.splice(rowDataIndex, 1);
                             }
                         });
                     });
-
-                    // 移除顧客資料
-                    _.each(la_recordIndex, (data, rowDataIndex) => {
-                        this.guestMnRowsData.splice(data, 1);
-                    });
-
-                    // console.log('===========目前========');
-                    // console.log(this.orderDtRowsData);
-                    // console.log('===========目前========');
-
                 }
             }
         }
