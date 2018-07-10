@@ -139,7 +139,7 @@
 
     export default {
         name: "specifyHouses",
-        props: ["rowData"],
+        props: ["rowData", "isEditStatus"],
         data() {
             return {
                 orderDtGroupFieldData: [],      //order dt 欄位
@@ -172,7 +172,7 @@
         },
         watch: {
             async rowData(val) {
-                if (!_.isEmpty(val)) {
+                if (!_.isEmpty(val) && this.isEditStatus) {
                     await this.fetchAllFieldsData();
                 }
             },

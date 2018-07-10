@@ -368,7 +368,7 @@
         </div>
         <!--指定房組-->
         <specify-houses
-                :row-data="rowData"
+                :row-data="rowData" :is-edit-status="isEditStatus"
         ></specify-houses>
         <!--/.指定房組-->
     </div>
@@ -592,15 +592,17 @@
                 });
             },
             toggle() {
-                var dialog = $("#resv_assignHouse_dialog").removeClass('hide').dialog({
-                    modal: true,
-                    title: "指定房組",
-                    title_html: true,
-                    width: 800,
-                    maxwidth: 1920,
-                    dialogClass: "test",
-                    resizable: true
-                });
+                if (JSON.stringify(this.oriOrderDtRowsData) === JSON.stringify(this.orderDtRowsData) && JSON.stringify(this.oriGuestMnRowsData) === JSON.stringify(this.guestMnRowsData)) {
+                    var dialog = $("#resv_assignHouse_dialog").removeClass('hide').dialog({
+                        modal: true,
+                        title: "指定房組",
+                        title_html: true,
+                        width: 800,
+                        maxwidth: 1920,
+                        dialogClass: "test",
+                        resizable: true
+                    });
+                }
             }
         }
     }
