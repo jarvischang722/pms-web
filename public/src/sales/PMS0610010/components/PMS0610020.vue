@@ -420,7 +420,6 @@
                             var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
                             this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
                         }
-                        lo_oriSingleData.cust_idx_zip_cod = lo_singleData.cust_idx_zip_cod;
 
                         //將主檔資料放至Vuex
                         this.$store.dispatch("custMnModule/setMnSingleData", {
@@ -432,13 +431,13 @@
                 deep: true
             },
             //若發票抬頭為空的，則將公司名稱帶入
-           "singleData.cust_nam": function (newVal, oldVal) {
-               const ls_newVal = newVal || "";
-               const ls_uni_title = this.singleData.cust_idx_uni_titile || "";
-               if (ls_uni_title == "" && ls_newVal != "") {
-                   this.singleData.cust_idx_uni_titile = ls_newVal;
-               }
-           }
+            "singleData.cust_nam": function (newVal, oldVal) {
+                const ls_newVal = newVal || "";
+                const ls_uni_title = this.singleData.cust_idx_uni_titile || "";
+                if (ls_uni_title == "" && ls_newVal != "") {
+                    this.singleData.cust_idx_uni_titile = ls_newVal;
+                }
+            }
         },
         methods: {
             initData() {
@@ -623,8 +622,12 @@
                     this.$store.dispatch("custMnModule/doSaveAllData").then(result => {
                         if (result.success) {
                             alert(go_i18nLang.program.PMS0610020.save_success);
-                            this.$store.dispatch("custMnModule/setAllDataClear");
                             let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
+                            lo_cloneRowData = _.extend(lo_cloneRowData, {cust_mn_cust_cod: this.$store.state.custMnModule.gs_custCod});
+                            this.$store.dispatch("custMnModule/setAllDataClear");
+
+                            this.isCreateStatus = false;
+                            this.isEditStatus = true;
                             this.rowData = {};
                             this.tabName = "";
                             this.rowData = lo_cloneRowData;
