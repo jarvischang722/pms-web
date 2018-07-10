@@ -73,9 +73,7 @@
 <script>
     export default {
         name: "selectRateCod",
-        props: ["rowData"],
-        mounted() {
-        },
+        props: ["rowData", "openModule"],
         updated() {
             $("#rateCodTable").tableHeadFixer({"left": 1});
         },
@@ -91,6 +89,7 @@
         watch: {
             rowData(val) {
                 if (!_.isEmpty(val)) {
+                    console.log(val);
                     this.initData();
                     this.fetchSelectData();
                 }
@@ -131,7 +130,6 @@
                     selectedData: this.selectedOption
                 }, (result) => {
                     if (result.success) {
-                        console.log(result.selectOptions);
                         this.tableRowsData = result.selectOptions;
                     }
                     else {
@@ -140,7 +138,8 @@
                 });
             },
             confirmData() {
-                this.$eventHub.$emit('getOrderDtRateCod', {
+                let ls_returnFunc = this.openModule == 'guestDetail' ? "getGuestDetailRateCod" : "getOrderDtRateCod";
+                this.$eventHub.$emit(ls_returnFunc, {
                     rowData: this.rowData,
                     rateCodData: this.selectedData
                 });

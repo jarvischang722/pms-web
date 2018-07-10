@@ -85,7 +85,7 @@
                                                             <td class=""></td>
                                                         </tr>
                                                         <!--1-->
-                                                        <template v-for="singleData in orderDtRowsData">
+                                                        <template v-for="(singleData, idx) in orderDtRowsData">
                                                             <tr>
                                                                 <td class="text-center">
                                                                     <i class="fa fa-minus red"></i>
@@ -99,7 +99,7 @@
                                                                     </td>
                                                                     <td class="text-left"
                                                                         @click="editingOrderDtIdx = idx"
-                                                                        v-if="field.visiable == 'Y' && field.ui_type=='text'">
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='number'">
                                                                         <input type="number"
                                                                                v-model="singleData[field.ui_field_name]"
                                                                                :style="{width:field.width + 'px'}"
@@ -111,7 +111,7 @@
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                     </td>
                                                                     <td class="text-left"
-                                                                        @click="selectedCell(idx, field)"
+                                                                        @click="editingOrderDtIdx = idx"
                                                                         v-if="field.visiable == 'Y' && field.ui_type=='select'">
                                                                         <bac-select :field="field"
                                                                                     :style="{width:field.width + 'px'}"
@@ -146,7 +146,7 @@
                                                                     </td>
                                                                     <td class="text-left"
                                                                         @click="editingOrderDtIdx = idx"
-                                                                        v-if="field.visiable == 'Y' && field.ui_type=='number'">
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='text'">
                                                                         <!--number 金額顯示format-->
                                                                         <input type="text"
                                                                                v-model="singleData[field.ui_field_name]"
@@ -171,7 +171,7 @@
                                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         <i class="moreClick fa fa-ellipsis-h pull-left"
-                                                                           @click="showRateCodDialog"></i>
+                                                                           @click="showRateCodDialog(idx)"></i>
                                                                     </td>
                                                                 </template>
                                                             </tr>
@@ -366,7 +366,11 @@
             </div>
             <div class="clearfix"></div>
         </div>
-        <specify-houses :row-data="rowData"></specify-houses>
+        <!--指定房組-->
+        <specify-houses
+                :row-data="rowData"
+        ></specify-houses>
+        <!--/.指定房組-->
     </div>
 </template>
 
@@ -374,6 +378,7 @@
 
     import alasql from 'alasql';
     import specifyHouses from './specifyHouses';
+    import selectRateCod from './selectRateCod';
 
     var vmHub = new Vue();
 
@@ -391,34 +396,37 @@
     export default {
         name: "guestDetail",
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
-        components: {
-            specifyHouses
-        },
+        components: {specifyHouses},
         created() {
             vmHub.$on("selectDataGridRow", (data) => {
                 this.editingGroupDataIndex = data.index;
             })
+            this.$eventHub.$on("getGuestDetailRateCod", (data) => {
+                this.orderDtRowsData[this.editingOrderDtIdx].rate_cod = data.rateCodData.rate_cod;
+            });
         },
         mounted() {
             this.activeName = 'orderDetail'
         },
         data() {
             return {
-                allOrderDtRowsData: [],         //所有的order dt資料
-                oriAllOrderDtRowsData: [],          //所有的原始order dt資料
-                orderDtGroupFieldData: [],      //group order dt 的欄位資料
-                orderDtGroupRowsData: [],       //group order dt 的資料
-                oriOrderDtGroupRowsData: [],    //group order dt 的原始資料
-                orderDtFieldData: [],           //所group 到的所有 order dt 欄位資料
-                orderDtRowsData: [],            //所group 到的所有 order dt 資料
-                oriOrderDtRowsData: [],         //所group 到的所有 order dt 原始資料
-                guestMnFieldData: [],           //所group 到的所有 guest mn 欄位資料
-                guestMnRowsData: [],            //所group 到的所有 guest mn 原始資料
-                oriGuestMnRowsData: [],         //所group 到的所有 guest mn 資料
+                activeName: '',
                 dgIns: {},
-                editingGroupDataIndex: undefined,
-                editingGroupData: {},           //現在所選group order dt 的資料
-                activeName: ''
+                allOrderDtRowsData: [],             //所有的order dt資料
+                oriAllOrderDtRowsData: [],          //所有的原始order dt資料
+                orderDtGroupFieldData: [],          //group order dt 的欄位資料
+                orderDtGroupRowsData: [],           //group order dt 的資料
+                oriOrderDtGroupRowsData: [],        //group order dt 的原始資料
+                orderDtFieldData: [],               //所group 到的所有 order dt 欄位資料
+                orderDtRowsData: [],                //所group 到的所有 order dt 資料
+                oriOrderDtRowsData: [],             //所group 到的所有 order dt 原始資料
+                guestMnFieldData: [],               //所group 到的所有 guest mn 欄位資料
+                guestMnRowsData: [],                //所group 到的所有 guest mn 原始資料
+                oriGuestMnRowsData: [],             //所group 到的所有 guest mn 資料
+                editingGroupDataIndex: undefined,   //現在所選group order dt 的index
+                editingGroupData: {},               //現在所選group order dt 的資料
+                editingOrderDtIdx: undefined,       //現在所選明細order dt 的index
+                editingOrderDtData: {},             //現在所選明細order dt 的資料
             }
         },
         watch: {
@@ -509,7 +517,7 @@
                         this.allOrderDtRowsData = result.dgRowData;
                         this.oriAllOrderDtRowsData = JSON.parse(JSON.stringify(result.dgRowData));
                         let ls_groupStatement =
-                            "select * from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
+                            "select *, count(*) as order_qnt from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
                         this.orderDtGroupRowsData = alasql(ls_groupStatement, [this.allOrderDtRowsData]);
                         this.showDataGrid();
                     }
@@ -573,6 +581,15 @@
                 }).catch(err => {
                     console.log(err);
                 })
+            },
+            showRateCodDialog(index) {
+                let self = this;
+                this.editingOrderDtIdx = index;
+                this.editingOrderDtData = _.extend(this.rowData, this.orderDtRowsData[this.editingOrderDtIdx]);
+                this.$eventHub.$emit("setSelectRateCodData", {
+                    rowData: this.editingOrderDtData,
+                    openModule: "guestDetail"
+                });
             },
             toggle() {
                 var dialog = $("#resv_assignHouse_dialog").removeClass('hide').dialog({
