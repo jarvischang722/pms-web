@@ -356,7 +356,7 @@
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                             <i class="moreClick fa fa-ellipsis-h pull-left"
-                                                                               @click="showRateCodDialog"></i>
+                                                                               @click="setSelectRateCodData"></i>
                                                                         </td>
                                                                     </template>
                                                                 </tr>
@@ -560,11 +560,12 @@
         <!--選擇房價-->
         <select-rate-cod
                 :row-data="editingGroupOrderDtData"
+                :open-module="openModule"
         ></select-rate-cod>
         <!--/.選擇房價-->
         <!--訂房資料-->
         <guest-detail
-                :row-data="rowData"
+                :row-data="orderMnSingleData"
                 :is-modifiable="isModifiable"
                 :is-create-status="isCreateStatus"
                 :is-edit-status="isEditStatus"
@@ -697,6 +698,12 @@
                     this.guestMnRowsData4Single = _.extend(lo_cloneGuestMnData, lo_extendParam);
                 }
             });
+            //訂房明細開啟選擇rate cod頁面
+            this.$eventHub.$on("setSelectRateCodData", (data) => {
+                this.editingGroupOrderDtData = data.rowData;
+                this.openModule = data.openModule;
+                this.showRateCodDialog();
+            });
         },
         mounted() {
             this.fetchUserInfo();
@@ -760,7 +767,8 @@
                     updateData: [],
                     deleteData: [],
                     oriData: []
-                }
+                },
+                openModule: ""                    //開啟選擇
             }
         },
         watch: {
@@ -1584,27 +1592,8 @@
                     //顯示在多筆的order dt資料
                     if (alasql("select * from ? where order_sta <> 'X'", [this.orderDtRowsData]).length != 0) {
                         let ls_groupStatement =
-                            "select * from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
+                            "select *, count(*) as order_qnt from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
                         this.orderDtRowsData4table = alasql(ls_groupStatement, [this.orderDtRowsData]);
-                        _.each(this.orderDtRowsData4table, (lo_tableData, ln_idx) => {
-                            let lo_param = {
-                                rate_cod: lo_tableData.rate_cod,
-                                order_sta: lo_tableData.order_sta,
-                                days: lo_tableData.days,
-                                ci_dat: lo_tableData.ci_dat,
-                                co_dat: lo_tableData.co_dat,
-                                use_cod: lo_tableData.use_cod,
-                                room_cod: lo_tableData.room_cod,
-                                rent_amt: lo_tableData.rent_amt,
-                                serv_amt: lo_tableData.serv_amt
-                            };
-                            let la_groupData = _.where(this.orderDtRowsData, lo_param);
-                            let ln_orderQnt = 0;
-                            _.each(la_groupData, (lo_groupData) => {
-                                ln_orderQnt = ln_orderQnt + Number(lo_groupData.order_qnt);
-                            });
-                            this.orderDtRowsData4table[ln_idx].order_qnt = ln_orderQnt;
-                        });
 
                         //顯示在單筆的order dt資料
                         if (newIndex < this.orderDtRowsData4table.length) {
@@ -1743,10 +1732,13 @@
                     resizable: true
                 });
             },
+            setSelectRateCodData() {
+                this.editingGroupOrderDtData = _.extend(this.orderDtRowsData4Single, this.orderMnSingleData);
+                this.openModule = "pms0110041_lite";
+                this.showRateCodDialog();
+            },
             showRateCodDialog() {
                 if (this.isModifiable) {
-                    let self = this;
-                    this.editingGroupOrderDtData = _.extend(this.orderDtRowsData4Single, this.orderMnSingleData);
                     var dialog = $("#selectRateCod_dialog").removeClass('hide').dialog({
                         modal: true,
                         title: "選擇房價",
@@ -1754,10 +1746,7 @@
                         width: 450,
                         maxwidth: 1920,
                         dialogClass: "test",
-                        resizable: true,
-                        onBeforeClose() {
-                            self.editingCustMnData = {};
-                        }
+                        resizable: true
                     });
                 }
             },
@@ -2252,11 +2241,8 @@
                             }).catch(err => {
                             return {success: false, errorMsg: err};
                         });
-                    console.log(lo_saveData);
                     if (lo_saveData.success) {
                         alert(go_i18nLang.program.PMS0810230.save_success);
-                        this.initData();
-                        this.initTmpCUD();
                         let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
 
                         this.isEditStatus = true;
