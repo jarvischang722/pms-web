@@ -47,7 +47,7 @@ module.exports = {
                 });
             },
             function (effectData, cb) {
-                if (postData.singleRowData.ashow_cod == postData.oriSingleRowData.ashow_cod) {
+                if (_.isUndefined(postData.oriSingleRowData) || postData.singleRowData.ashow_cod == postData.oriSingleRowData.ashow_cod) {
                     return cb(null, effectData);
                 }
                 let lo_params = {
