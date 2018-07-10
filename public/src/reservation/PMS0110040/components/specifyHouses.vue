@@ -299,16 +299,17 @@
                 this.selectOrderDtRowsDataIkeySeqNos = ikeySeqNos;
             },
             specify() {
-                // console.log('============目前===============');
-                // console.log(this.guestMnRowDataChecked);
-                // console.log('=============目前===========');
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '' && this.guestMnRowDataChecked.length > 0) {
                     // orderDtRowsData和selectOrderDtRowsDataIkeySeqNos(當下點擊儲存的ikeySeqNos)進行資料比對
-                    // 並進行顧客資料移動
+                    // 並進行顧客資料移動和異動guest_mns ikey_seq_nos狀態
                     _.each(this.orderDtRowsData, (rowsData) => {
                         if (rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
                             _.each(this.guestMnRowDataChecked, (checkedData) => {
+                                let lo_oriCheckedData = JSON.parse(JSON.stringify(checkedData));
+                                checkedData.ikey_seq_nos = rowsData.ikey_seq_nos;
                                 rowsData.guest_list += ',' + checkedData.alt_nam;
+                                this.tmpCUD.oriData.push(lo_oriCheckedData);
+                                this.tmpCUD.updateData.push(checkedData);
                             });
                         }
                     });
