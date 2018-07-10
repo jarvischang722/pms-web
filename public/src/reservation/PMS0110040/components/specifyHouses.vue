@@ -53,7 +53,7 @@
                                                             <span class="checkbox">
                                                                   <label class="checkbox-width">
                                                                       <input name="form-field-checkbox"
-                                                                             type="checkbox" :value="data.alt_nam"
+                                                                             type="checkbox" :value="data"
                                                                              class="ace"
                                                                              v-model="guestMnRowDataChecked">
                                                                       <span class="lbl"></span>
@@ -299,25 +299,24 @@
                 this.selectOrderDtRowsDataIkeySeqNos = ikeySeqNos;
             },
             specify() {
+                // console.log('============目前===============');
+                // console.log(this.guestMnRowDataChecked);
+                // console.log('=============目前===========');
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '' && this.guestMnRowDataChecked.length > 0) {
                     // orderDtRowsData和selectOrderDtRowsDataIkeySeqNos(當下點擊儲存的ikeySeqNos)進行資料比對
-
-                    let la_updateData = [];
-                    _.each(this.orderDtRowsData, (data) => {
-                        if (data.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
-                            la_updateData.push(data);
-                            data.guest_list += ',' + this.guestMnRowDataChecked;
+                    // 並進行顧客資料移動
+                    _.each(this.orderDtRowsData, (rowsData) => {
+                        if (rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
+                            _.each(this.guestMnRowDataChecked, (checkedData) => {
+                                rowsData.guest_list += ',' + checkedData.alt_nam;
+                            });
                         }
                     });
-                    // console.log('============目前===============');
-                    // console.log(la_updateData);
-                    // console.log('=============目前===========');
-
                     // guestMnRowsData和guestMnRowDataChecked資料比對，條件符合紀錄當下在guestMnRowsData裡index
                     // 並移除顧客資料
                     _.each(this.guestMnRowsData, (rowData, rowDataIndex) => {
                         _.each(this.guestMnRowDataChecked, (checkedData) => {
-                            if (rowData.alt_nam === checkedData) {
+                            if (rowData.alt_nam === checkedData.alt_nam) {
                                 this.guestMnRowsData.splice(rowDataIndex, 1);
                             }
                         });
