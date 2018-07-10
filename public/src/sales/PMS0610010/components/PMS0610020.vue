@@ -420,7 +420,6 @@
                             var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
                             this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
                         }
-                        lo_oriSingleData.cust_idx_zip_cod = lo_singleData.cust_idx_zip_cod;
 
                         //將主檔資料放至Vuex
                         this.$store.dispatch("custMnModule/setMnSingleData", {
