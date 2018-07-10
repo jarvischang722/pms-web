@@ -555,12 +555,9 @@
                             let ls_nowEndDat = moment(lo_nowData.end_dat).format("YYYY/MM/DD");
                             let ls_compareBeginDat = moment(lo_compareData.begin_dat).format("YYYY/MM/DD");
                             let ls_compareEndDat = moment(lo_compareData.end_dat).format("YYYY/MM/DD");
-                            console.log(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
-                            let lb_chkOverLap = this.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+                            lo_checkResult = go_validateClass.chkDateIsNotBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
 
-                            if (lb_chkOverLap) {
-                                lo_checkResult.success = false;
-                                lo_checkResult.msg = go_i18nLang.ErrorMsg.pms61msg1;
+                            if (lo_checkResult.success == false) {
                                 break;
                             }
                         }
@@ -568,19 +565,6 @@
                 }
 
                 return lo_checkResult;
-            },
-            //比較日期是否重疊
-            chkDateIsBetween(compar_begin_dat, compar_end_dat, now_begin_dat, now_end_dat) {
-                compar_begin_dat = moment.isMoment(compar_begin_dat) ? compar_begin_dat : moment(new Date(compar_begin_dat));
-                compar_end_dat = moment.isMoment(compar_end_dat) ? compar_end_dat : moment(new Date(compar_end_dat));
-                now_begin_dat = moment.isMoment(now_begin_dat) ? now_begin_dat : moment(new Date(now_begin_dat));
-                now_end_dat = moment.isMoment(now_end_dat) ? now_end_dat : moment(new Date(now_end_dat));
-                if (compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
             },
             //轉換儲存資料的格式
             doConvertData() {
@@ -611,7 +595,6 @@
                 this.isLoadingDialog = true;
                 this.loadingText = "saving";
                 this.doConvertData();
-
                 var lo_chkResult = this.dataValidate();
 
                 if (lo_chkResult.success == false) {

@@ -161,7 +161,7 @@ function validateClass() {
 
     // 判斷是否為整數
     this.chkInteger = function (ls_value) {
-        if(ls_value == null || _.isUndefined(ls_value)) return true;
+        if (ls_value == null || _.isUndefined(ls_value)) return true;
         var lb_result;
         if (ls_value.toString().indexOf(".") > -1) {
             lb_result = false;
@@ -263,8 +263,8 @@ function validateClass() {
         var lb_result = true;
         _.each(lo_singleData, function (val, key) {
             if (!Array.isArray(val)) {
-                _.each(val, function(objVal, objKey){
-                    if(objVal != lo_oriSingleData[key][objKey]){
+                _.each(val, function (objVal, objKey) {
+                    if (objVal != lo_oriSingleData[key][objKey]) {
                         console.log(objKey, objVal, lo_oriSingleData[key][objKey]);
                     }
                 });
@@ -290,6 +290,29 @@ function validateClass() {
         });
         return {success: lb_result, msg: this.ls_msg.chkDataChang};
     };
+
+    //確認日期區間是否重疊
+    this.chkDateIsNotBetween = function () {
+        var lo_compar_begin_dat = arguments[0];
+        var lo_compar_end_dat = arguments[1];
+        var lo_now_begin_dat = arguments[2];
+        var lo_now_end_dat = arguments[3];
+        var lb_result = true;
+
+        lo_compar_begin_dat = moment.isMoment(lo_compar_begin_dat) ? lo_compar_begin_dat : moment(new Date(lo_compar_begin_dat));
+        lo_compar_end_dat = moment.isMoment(lo_compar_end_dat) ? lo_compar_end_dat : moment(new Date(lo_compar_end_dat));
+        lo_now_begin_dat = moment.isMoment(lo_now_begin_dat) ? lo_now_begin_dat : moment(new Date(lo_now_begin_dat));
+        lo_now_end_dat = moment.isMoment(lo_now_end_dat) ? lo_now_end_dat : moment(new Date(lo_now_end_dat));
+
+        if (lo_compar_begin_dat.diff(lo_now_end_dat, "days") <= 0 && lo_compar_end_dat.diff(lo_now_begin_dat, "days") >= 0) {
+            lb_result = false;
+        }
+        else {
+            lb_result = true;
+        }
+        return {success: lb_result, msg: this.ls_msg.chkDateIsBetween};
+    };
+
 }
 
 //計算統一編號

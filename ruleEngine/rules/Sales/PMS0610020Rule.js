@@ -236,17 +236,15 @@ module.exports = {
                     if (moment(new Date(ls_beginDat)).diff(moment(new Date(getResult.rent_dat_hq)), "days") < 0) {
                         lo_result.showAlert = true;
                         lo_result.alertMsg = commandRules.getMsgByCod("pms61msg2", session.locale);
-                        if (ls_beginDat != "" && ls_endDat != "" && moment(new Date(ls_beginDat)).diff(moment(new Date(ls_endDat)), "days") > 0) {
-                            lo_result.success = false;
-                            lo_result.effectValues = {begin_dat: ls_oldValue};
-                            lo_error = new ErrorClass();
-                            lo_error.errorMsg = commandRules.getMsgByCod("pms61msg15", session.locale);
-                        }
-                        cb(lo_error, lo_result);
+
                     }
-                    else {
-                        cb(lo_error, lo_result);
+                    else if (ls_beginDat != "" && ls_endDat != "" && moment(new Date(ls_beginDat)).diff(moment(new Date(ls_endDat)), "days") > 0) {
+                        lo_result.success = false;
+                        lo_result.effectValues = {begin_dat: ls_oldValue};
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms61msg15", session.locale);
                     }
+                    cb(lo_error, lo_result);
                 }
             });
         }
