@@ -565,6 +565,7 @@
         <!--/.選擇房價-->
         <!--訂房資料-->
         <guest-detail
+                :is-guest-detail="isOpenGuestDetail"
                 :row-data="orderMnSingleData"
                 :is-modifiable="isModifiable"
                 :is-create-status="isCreateStatus"
@@ -768,7 +769,8 @@
                     deleteData: [],
                     oriData: []
                 },
-                openModule: ""                    //開啟選擇
+                openModule: "",                   //rate cod開啟選擇
+                isOpenGuestDetail: false          //是否開啟訂房明細
             }
         },
         watch: {
@@ -1364,6 +1366,7 @@
                 this.guestMnRowsData = [];
                 this.oriGuestMnRowsData = [];
                 this.guestMnRowsData4Single = {alt_nam: ""};
+                this.isOpenGuestDetail = false;
             },
             initTmpCUD() {
                 this.tmpCUD = {
@@ -2203,6 +2206,7 @@
             },
             async doSave() {
                 this.isLoadingDialog = true;
+                this.loadingText = "saving...";
                 //將資料轉換成tmpCUD格式
                 await this.doConvertData();
                 //檢驗資料
@@ -2275,6 +2279,7 @@
                     alert("請先儲存訂房卡資料")
                 }
                 else {
+                    this.isOpenGuestDetail = true;
                     var dialog = $("#resvGuestDetail_dialog").removeClass('hide').dialog({
                         modal: true,
                         title: "訂房資料",

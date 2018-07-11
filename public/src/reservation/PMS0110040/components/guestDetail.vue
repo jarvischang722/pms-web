@@ -1,6 +1,6 @@
 <template>
     <div id="resvGuestDetail_dialog" class="hide padding-5">
-        <div class="businessCompanyData">
+        <div class="businessCompanyData" v-loading="isLoading" :element-loading-text="loadingText">
             <div class="col-xs-12 col-sm-12">
                 <!--訂房資料 dataGrid-->
                 <div class="row">
@@ -242,7 +242,7 @@
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                     </td>
                                                                     <td class="text-left"
-                                                                        @click="selectedCell(idx, field)"
+                                                                        @click="editingOrderDtIdx = idx"
                                                                         v-if="field.visiable == 'Y' && field.ui_type=='select'">
                                                                         <bac-select :field="field"
                                                                                     :style="{width:field.width + 'px'}"
@@ -290,17 +290,23 @@
                                                                     <td class="text-left td-more"
                                                                         style="height: 26px;"
                                                                         @click="editingOrderDtIdx = idx"
-                                                                        v-if="field.visiable == 'Y' && field.ui_type=='button'">
-                                                                        <input type="text"
-                                                                               v-model="singleData[field.ui_field_name]"
-                                                                               :style="{width:field.width + 'px'}"
-                                                                               :required="field.requirable == 'Y'"
-                                                                               min="0"
-                                                                               :maxlength="field.ui_field_length"
-                                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                               class="selectHt pull-left wt-input"
-                                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                        v-if="field.visiable == 'Y' && field.ui_type=='selectgrid'">
+                                                                        <bac-select-grid
+                                                                                v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                                :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                v-model="singleData[field.ui_field_name]"
+                                                                                :columns="field.selectData.columns"
+                                                                                :data="field.selectData.selectData"
+                                                                                :field="field"
+                                                                                :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                                                :id-field="field.selectData.value"
+                                                                                :text-field="field.selectData.display"
+                                                                                @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                                :default-val="singleData[field.ui_field_name]"
+                                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                        </bac-select-grid>
                                                                         <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
                                                                             Profile
                                                                         </button>
@@ -395,7 +401,7 @@
 
     export default {
         name: "guestDetail",
-        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
+        props: ["isGuestDetail", "rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
         components: {specifyHouses},
         created() {
             vmHub.$on("selectDataGridRow", (data) => {
@@ -412,8 +418,12 @@
             return {
                 activeName: '',
                 dgIns: {},
+                isLoading: false,
+                loadingText: "loading...",
                 allOrderDtRowsData: [],             //所有的order dt資料
                 oriAllOrderDtRowsData: [],          //所有的原始order dt資料
+                allGuestMnRowsData: [],             //所有的原始guest mn資料
+                oriAllGuestMnRowsData: [],          //所有guest mn資料
                 orderDtGroupFieldData: [],          //group order dt 的欄位資料
                 orderDtGroupRowsData: [],           //group order dt 的資料
                 oriOrderDtGroupRowsData: [],        //group order dt 的原始資料
@@ -430,15 +440,22 @@
             }
         },
         watch: {
-            async rowData(val) {
-                if (!_.isEmpty(val)) {
+            async isGuestDetail(val) {
+                if (val && !_.isEmpty(this.rowData)) {
+                    //是否第一次開起
+                    if (this.orderDtGroupFieldData.length == 0) {
+                        this.initData();
+                        await this.fetchAllFieldsData();
+                        this.activeName = 'orderDetail'
+                    }
+                }
+                else {
                     this.initData();
-                    await this.fetchAllFieldsData();
-                    this.activeName = 'orderDetail'
                 }
             },
             async editingGroupDataIndex(newVal, oldVal) {
                 if (!_.isUndefined(newVal)) {
+                    this.isLoading = true;
                     $("#orderDtTable").datagrid('selectRow', newVal);
                     this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
                     let lo_groupParam = {
@@ -454,8 +471,9 @@
                         block_cod: this.editingGroupData.block_cod
                     };
                     let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
+                    this.fetchGuestRowsData(la_detailOrderDtData);
                     await this.fetchDetailRowsData(la_detailOrderDtData);
-                    await this.fetchGuestRowsData(la_detailOrderDtData);
+                    this.isLoading = false;
                 }
             }
         },
@@ -463,6 +481,8 @@
             initData() {
                 this.allOrderDtRowsData = [];
                 this.oriAllOrderDtRowsData = [];
+                this.allGuestMnRowsData = [];
+                this.oriAllGuestMnRowsData = [];
                 this.orderDtGroupFieldData = [];
                 this.orderDtGroupRowsData = [];
                 this.oriOrderDtGroupRowsData = [];
@@ -486,6 +506,7 @@
             },
             async fetchAllFieldsData() {
                 try {
+                    this.isLoading = true;
                     let [lo_fetchGroupOrderDtFieldsData, lo_fetchOrderDtFieldsData, lo_fetchGuestMnFieldsData] = await Promise.all([
                         this.fetchFieldsData({prg_id: 'PMS0110042', page_id: 1, tab_page_id: 1}),
                         this.fetchFieldsData({prg_id: 'PMS0110042', page_id: 1, tab_page_id: 2}),
@@ -496,40 +517,66 @@
                     this.guestMnFieldData = _.sortBy(lo_fetchGuestMnFieldsData.dgFieldsData, "col_seq");
 
                     if (this.isEditStatus) {
-                        this.fetchOrderDtRowData();
+                        await this.fetchAllGuestRowsData();
+                        await this.fetchAllOrderDtRowData();
+                        this.showDataGrid();
                     }
                     else {
                         this.showDataGrid();
                     }
+                    this.editingGroupDataIndex = this.orderDtGroupRowsData.length > 0 ? 0 : undefined;
+                    this.isLoading = false;
                 }
                 catch (err) {
                     console.log(err);
                 }
             },
-            fetchOrderDtRowData() {
-                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
+            async fetchAllOrderDtRowData() {
+                let lo_fetchOrderDtData = await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
                     prg_id: 'PMS0110042',
                     page_id: 1,
                     tab_page_id: 1,
                     searchCond: {ikey: this.rowData.ikey}
                 }).then((result) => {
-                    if (result.success) {
-                        this.allOrderDtRowsData = result.dgRowData;
-                        this.oriAllOrderDtRowsData = JSON.parse(JSON.stringify(result.dgRowData));
-                        let ls_groupStatement =
-                            "select *, count(*) as order_qnt from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
-                        this.orderDtGroupRowsData = alasql(ls_groupStatement, [this.allOrderDtRowsData]);
-                        this.showDataGrid();
-                    }
+                    return result;
                 }).catch(err => {
-                    console.log(err);
-                })
+                    return {success: false, errorMsg: err};
+                });
+
+                if (lo_fetchOrderDtData.success) {
+                    this.allOrderDtRowsData = lo_fetchOrderDtData.dgRowData;
+                    this.oriAllOrderDtRowsData = JSON.parse(JSON.stringify(lo_fetchOrderDtData.dgRowData));
+                    let ls_groupStatement =
+                        "select *, count(*) as order_qnt from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
+                    this.orderDtGroupRowsData = alasql(ls_groupStatement, [this.allOrderDtRowsData]);
+                }
+                else {
+                    alert(lo_fetchOrderDtData.errorMsg);
+                }
+            },
+            async fetchAllGuestRowsData() {
+                let lo_fetchGuestMnData = await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
+                    prg_id: 'PMS0110042',
+                    page_id: 1,
+                    tab_page_id: 3,
+                    searchCond: {ikey: this.rowData.ikey}
+                }).then((result) => {
+                    return result;
+                }).catch(err => {
+                    return {success: false, errorMsg: err};
+                });
+                if (lo_fetchGuestMnData.success) {
+                    this.allGuestMnRowsData = lo_fetchGuestMnData.dgRowData;
+                    this.oriAllGuestMnRowsData = JSON.parse(JSON.stringify(lo_fetchGuestMnData.dgRowData));
+                }
+                else {
+                    alert(lo_fetchGuestMnData.errorMsg);
+                }
             },
             showDataGrid() {
                 this.dgIns = new DatagridSingleGridClass();
                 this.dgIns.init("PMS0110042", "orderDtTable", DatagridFieldAdapter.combineFieldOption(this.orderDtGroupFieldData, "orderDtTable"), this.orderDtGroupFieldData);
                 this.dgIns.loadDgData(this.orderDtGroupRowsData);
-                this.editingGroupDataIndex = this.orderDtGroupRowsData.length > 0 ? 0 : undefined;
             },
             async fetchDetailRowsData(detailRowsData) {
                 let la_ikeySeqNos = [];
@@ -559,28 +606,14 @@
                     console.log(err);
                 })
             },
-            async fetchGuestRowsData(detailRowsData) {
-                let la_ikeySeqNos = [];
+            fetchGuestRowsData(detailRowsData) {
+                let ls_ikeySeqNos = "0";
                 _.each(detailRowsData, (lo_detailData) => {
-                    la_ikeySeqNos.push(lo_detailData.ikey_seq_nos);
+                    ls_ikeySeqNos += `,${lo_detailData.ikey_seq_nos}`;
                 });
-                la_ikeySeqNos.push(0);
-                await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
-                    prg_id: 'PMS0110042',
-                    page_id: 1,
-                    tab_page_id: 3,
-                    searchCond: {ikey_seq_nos: la_ikeySeqNos, ikey: detailRowsData[0].ikey}
-                }).then((result) => {
-                    if (result.success) {
-                        this.guestMnRowsData = result.dgRowData;
-                        this.oriGuestMnRowsData = JSON.parse(JSON.stringify(result.dgRowData));
-                    }
-                    else {
-                        alert(result.errorMsg);
-                    }
-                }).catch(err => {
-                    console.log(err);
-                })
+                let ls_selectParams = `select * from ? where ikey_seq_nos in (${ls_ikeySeqNos})`;
+                this.guestMnRowsData = alasql(ls_selectParams, [this.allGuestMnRowsData]);
+                console.log(this.guestMnRowsData);
             },
             showRateCodDialog(index) {
                 let self = this;
