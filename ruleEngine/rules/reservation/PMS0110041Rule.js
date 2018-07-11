@@ -4,7 +4,6 @@
 const _ = require("underscore");
 const _s = require("underscore.string");
 const moment = require("moment");
-const async = require("async");
 const path = require('path');
 const appRootDir = path.dirname(require.main.filename);
 const ruleRootPath = appRootDir + "/ruleEngine/";
@@ -729,5 +728,13 @@ module.exports = {
             lo_error.errorMsg = err;
         }
         callback(lo_error, lo_result);
+    },
+
+    ins_order_dt(postData, session, callback) {
+        callback(null, true);
+    },
+
+    r_1140: (postData, session, callback) => {
+        const ls_master_sta = postData.singleRowData.master_sta;
     }
 };
