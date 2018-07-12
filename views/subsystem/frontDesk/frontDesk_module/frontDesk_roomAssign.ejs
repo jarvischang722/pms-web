@@ -1,4 +1,4 @@
-<div class="col-xs-11">
+<div id="roomDetail-all-container" class="col-xs-12">
     <div class="row no-margin-right">
         <div class="col-xs-5 no-padding-left">
             <!--<div class="grid">-->
@@ -12,13 +12,13 @@
             <!--</div> &lt;!&ndash; /.room-special &ndash;&gt;-->
             <!--</div>-->
 
+
             <!-- 控制面板(panel)隱藏dataGrid class="cardDetail-table" -->
-            <div class="roomDetail-table2 easyui-panel dataGrid-s1">
+            <div id="roomDetail-table-first" class="roomDetail-table2 easyui-panel dataGrid-s1">
                 <table id="roomDetail-table" style="height: 250px;"></table>
             </div>
             <div class="clearfix"></div>
             <br>
-
             <div class="space-12"></div>
             <!--<div class="popCheckbox">-->
             <!--<span class="checkbox rm-assign-ck">-->
@@ -98,6 +98,14 @@
                                               </span>
                                           </label>
                                     </span>
+                                </div>
+                                <div class="listImage-btn pull-left">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth town-list-btn">
+                                            清單模式
+                                        </button>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth town-graphics-btn">
+                                            圖形模式
+                                        </button>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -254,6 +262,175 @@
                             </div>
                             <div class="townPage town-grap" id="townPage">
                                 <div class="townRow">
+                                    <el-popover placement="bottom" trigger="click" width="520">
+                                        <div id="roomAss_detail_msg" class="padding-5" style="">
+                                            <div class="businessCompanyData">
+                                                <div class="col-xs-9 col-sm-9">
+                                                    <div class="row">
+                                                        <div class="horizTable-outer">
+                                                            <table class="css_table horizTable" style="min-width:100%">
+                                                                <thead class="css_thead">
+                                                                <tr class="css_tr">
+                                                                    <th class="css_th" style="min-width:40px;">開始日期</th>
+                                                                    <th class="css_th" style="min-width:60px;">結束日期</th>
+                                                                    <th class="css_th" style="min-width:40px;">狀態</th>
+                                                                    <th class="css_th" style="min-width:70px;">訂房卡號</th>
+                                                                    <th class="css_th" style="min-width:30px;">序號</th>
+                                                                    <th class="css_th" style="min-width:60px;">住客姓名</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody class="css_tbody">
+                                                                <tr class="css_tr">
+                                                                    <td class="css_td">2017/04/08</td>
+                                                                    <td class="css_td">2017/04/12</td>
+                                                                    <td class="css_td">C/I</td>
+                                                                    <td class="css_td">00477401</td>
+                                                                    <td class="css_td">1</td>
+                                                                    <td class="css_td">夏洛克</td>
+                                                                </tr>
+                                                                <tr class="css_tr">
+                                                                    <td class="css_td">2017/04/08</td>
+                                                                    <td class="css_td">2017/04/12</td>
+                                                                    <td class="css_td">C/I</td>
+                                                                    <td class="css_td">00477401</td>
+                                                                    <td class="css_td">2</td>
+                                                                    <td class="css_td">天花板漏水</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="col-xs-3 col-sm-3">
+                                                    <div class="roomAssign">
+                                                        <div class="right-menu-co">
+                                                            <ul>
+                                                                <li>
+                                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                            role="button">排房
+                                                                    </button>
+                                                                </li>
+                                                                <li>
+                                                                    <button class="btn btn-primary btn-white btn-defaultWidth foCnt_autoAssignSGL"
+                                                                            role="button">批次排房
+                                                                    </button>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="townBlock" slot="reference">
+                                            <div class="head">
+                                                <span class="left txt-lg">0301</span>
+                                                <span class="right">DDT</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <!--<div class="content">DDT</div>-->
+                                            <div class="content">
+                                                <span>陳先生</span>
+                                            </div>
+                                            <div class="content">
+                                                <span>拆床</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <!--<div class="content-sub">-->
+                                            <!--<span class="left">拆床</span>-->
+                                            <!--</div>-->
+                                            <!--<div class="clearfix"></div>-->
+                                            <div class="foot">
+                                                <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
+                                                <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
+                                                <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </el-popover>
+                                    <el-popover placement="bottom" trigger="click" width="520">
+                                        <div id="roomAss_detail_msg" class="padding-5" style="">
+                                            <div class="businessCompanyData">
+                                                <div class="col-xs-9 col-sm-9">
+                                                    <div class="row">
+                                                        <div class="horizTable-outer">
+                                                            <table class="css_table horizTable" style="min-width:100%">
+                                                                <thead class="css_thead">
+                                                                <tr class="css_tr">
+                                                                    <th class="css_th" style="min-width:40px;">開始日期</th>
+                                                                    <th class="css_th" style="min-width:60px;">結束日期</th>
+                                                                    <th class="css_th" style="min-width:40px;">狀態</th>
+                                                                    <th class="css_th" style="min-width:70px;">訂房卡號</th>
+                                                                    <th class="css_th" style="min-width:30px;">序號</th>
+                                                                    <th class="css_th" style="min-width:60px;">住客姓名</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody class="css_tbody">
+                                                                <tr class="css_tr">
+                                                                    <td class="css_td">2017/04/08</td>
+                                                                    <td class="css_td">2017/04/12</td>
+                                                                    <td class="css_td">C/I</td>
+                                                                    <td class="css_td">00477401</td>
+                                                                    <td class="css_td">1</td>
+                                                                    <td class="css_td">夏洛克</td>
+                                                                </tr>
+                                                                <tr class="css_tr">
+                                                                    <td class="css_td">2017/04/08</td>
+                                                                    <td class="css_td">2017/04/12</td>
+                                                                    <td class="css_td">C/I</td>
+                                                                    <td class="css_td">00477401</td>
+                                                                    <td class="css_td">2</td>
+                                                                    <td class="css_td">天花板漏水</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="col-xs-3 col-sm-3">
+                                                    <div class="roomAssign">
+                                                        <div class="right-menu-co">
+                                                            <ul>
+                                                                <li>
+                                                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                                            role="button">取消排房
+                                                                    </button>
+                                                                </li>
+                                                                <li>
+                                                                    <button class="btn btn-danger btn-white btn-defaultWidth foCnt_batch_cal"
+                                                                            role="button">批次取消
+                                                                    </button>
+                                                                </li>
+                                                                <li>
+                                                                    <button class="btn  btn-primary btn-white btn-defaultWidth focnt_lockRoom"
+                                                                            role="button">鎖定排房
+                                                                    </button>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="townBlock no-show" slot="reference">
+                                            <div class="head">
+                                                <span class="left txt-lg">0301</span>
+                                                <span class="right">DDT</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>科蝌蚪</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="foot pull-right">
+                                                <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
+                                                <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
+                                                <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </el-popover>
                                     <div class="townBlock">
                                         <div class="head">
                                             <span class="left txt-lg">0301</span>
@@ -261,17 +438,112 @@
                                         </div>
                                         <div class="clearfix"></div>
                                         <div class="content">
-                                            <span>陳先生</span>
-                                        </div>
-                                        <div class="content">
-                                            <span>拆床</span>
+                                            <span>科蝌蚪</span>
                                         </div>
                                         <div class="clearfix"></div>
-                                        <!--<div class="content-sub">-->
-                                        <!--<span class="left">拆床</span>-->
-                                        <!--</div>-->
-                                        <!--<div class="clearfix"></div>-->
-                                        <div class="foot">
+                                        <div class="foot pull-right">
+                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
+                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
+                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="townBlock">
+                                        <div class="head">
+                                            <span class="left txt-lg">0301</span>
+                                            <span class="right">DDT</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="content">
+                                            <span>科蝌蚪</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="foot pull-right">
+                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
+                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
+                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="townBlock">
+                                        <div class="head">
+                                            <span class="left txt-lg">0301</span>
+                                            <span class="right">DDT</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="content">
+                                            <span>科蝌蚪</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="foot pull-right">
+                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
+                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
+                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="townBlock">
+                                        <div class="head">
+                                            <span class="left txt-lg">0301</span>
+                                            <span class="right">DDT</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="content">
+                                            <span>科蝌蚪</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="foot pull-right">
+                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
+                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
+                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="townBlock">
+                                        <div class="head">
+                                            <span class="left txt-lg">0301</span>
+                                            <span class="right">DDT</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="content">
+                                            <span>科蝌蚪</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="foot pull-right">
+                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
+                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
+                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="townBlock">
+                                        <div class="head">
+                                            <span class="left txt-lg">0301</span>
+                                            <span class="right">DDT</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="content">
+                                            <span>科蝌蚪</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="foot pull-right">
+                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
+                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
+                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="townBlock">
+                                        <div class="head">
+                                            <span class="left txt-lg">0301</span>
+                                            <span class="right">DDT</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="content">
+                                            <span>科蝌蚪</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="foot pull-right">
                                             <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
                                             <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
                                             <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
@@ -414,142 +686,6 @@
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
-                                    <div class="townBlock no-show">
-                                        <div class="head">
-                                            <span class="left txt-lg">0301</span>
-                                            <span class="right">DDT</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="content">
-                                            <span>科蝌蚪</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="foot pull-right">
-                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="townBlock">
-                                        <div class="head">
-                                            <span class="left txt-lg">0301</span>
-                                            <span class="right">DDT</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="content">
-                                            <span>科蝌蚪</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="foot pull-right">
-                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="townBlock">
-                                        <div class="head">
-                                            <span class="left txt-lg">0301</span>
-                                            <span class="right">DDT</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="content">
-                                            <span>科蝌蚪</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="foot pull-right">
-                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="townBlock">
-                                        <div class="head">
-                                            <span class="left txt-lg">0301</span>
-                                            <span class="right">DDT</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="content">
-                                            <span>科蝌蚪</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="foot pull-right">
-                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="townBlock">
-                                        <div class="head">
-                                            <span class="left txt-lg">0301</span>
-                                            <span class="right">DDT</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="content">
-                                            <span>科蝌蚪</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="foot pull-right">
-                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="townBlock">
-                                        <div class="head">
-                                            <span class="left txt-lg">0301</span>
-                                            <span class="right">DDT</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="content">
-                                            <span>科蝌蚪</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="foot pull-right">
-                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="townBlock">
-                                        <div class="head">
-                                            <span class="left txt-lg">0301</span>
-                                            <span class="right">DDT</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="content">
-                                            <span>科蝌蚪</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="foot pull-right">
-                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="townBlock">
-                                        <div class="head">
-                                            <span class="left txt-lg">0301</span>
-                                            <span class="right">DDT</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="content">
-                                            <span>科蝌蚪</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="foot pull-right">
-                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
                                     <div class="townBlock">
                                         <div class="head">
                                             <span class="left txt-lg">0301</span>
@@ -2097,24 +2233,66 @@
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
-                                    <div class="townBlock">
-                                        <div class="head">
-                                            <span class="left txt-lg">0301</span>
-                                            <span class="right">DDT</span>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="content">
-                                            <span>科蝌蚪</span>
+                                    <el-popover placement="bottom" trigger="click" width="400">
+                                        <div id="roomAss_detail_msg" class="padding-5" style="">
+                                            <div class="businessCompanyData">
+                                                <div class="col-xs-12 col-sm-12">
+                                                    <div class="row">
+                                                        <div class="horizTable-outer">
+                                                            <table class="css_table horizTable" style="min-width:100%">
+                                                                <thead class="css_thead">
+                                                                <tr class="css_tr">
+                                                                    <th class="css_th" style="min-width:40px;">開始日期</th>
+                                                                    <th class="css_th" style="min-width:60px;">結束日期</th>
+                                                                    <th class="css_th" style="min-width:40px;">狀態</th>
+                                                                    <th class="css_th" style="min-width:70px;">訂房卡號</th>
+                                                                    <th class="css_th" style="min-width:30px;">序號</th>
+                                                                    <th class="css_th" style="min-width:60px;">住客姓名</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody class="css_tbody">
+                                                                <tr class="css_tr">
+                                                                    <td class="css_td">2017/04/08</td>
+                                                                    <td class="css_td">2017/04/12</td>
+                                                                    <td class="css_td">C/I</td>
+                                                                    <td class="css_td">00477401</td>
+                                                                    <td class="css_td">1</td>
+                                                                    <td class="css_td">夏洛克</td>
+                                                                </tr>
+                                                                <tr class="css_tr">
+                                                                    <td class="css_td">2017/04/08</td>
+                                                                    <td class="css_td">2017/04/12</td>
+                                                                    <td class="css_td">C/I</td>
+                                                                    <td class="css_td">00477401</td>
+                                                                    <td class="css_td">2</td>
+                                                                    <td class="css_td">天花板漏水</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="clearfix"></div>
-                                        <div class="foot pull-right">
-                                            <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
-                                            <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
+                                        <div class="townBlock" slot="reference">
+                                            <div class="head">
+                                                <span class="left txt-lg">0301</span>
+                                                <span class="right">DDT</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>科蝌蚪</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="foot pull-right">
+                                                <img src="/images/intCounter/clean.png" class="float-left foCnt_icon"/>
+                                                <img src="/images/intCounter/wrench.png" class="float-left foCnt_icon"/>
+                                                <img src="/images/intCounter/assign.png" class="float-left foCnt_icon"/>
+                                            </div>
+                                            <div class="clearfix"></div>
                                         </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-
+                                    </el-popover>
 
                                 </div>
                                 <div class="clearfix"></div>
@@ -2188,3 +2366,7 @@
     </div>
 </div>
 <!-- /.end 彈出 排房明細視窗 -->
+
+<script type="text/javascript">
+
+</script>
