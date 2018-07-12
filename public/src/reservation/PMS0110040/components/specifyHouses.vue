@@ -342,31 +342,42 @@
                             });
                         }
                     });
-                    // guestMnRowsData和guestMnRowDataChecked資料比對，並移除顧客資料
+                    // guestMnRowsData和guestMnRowDataChecked資料比對，抓出要移除資料index
+                    let la_removeIndex = [];
                     _.each(this.guestMnRowsData, (rowData, rowDataIndex) => {
                         _.each(this.guestMnRowDataChecked, (checkedData) => {
                             if (rowData.athena_id === checkedData.athena_id && rowData.ci_ser === checkedData.ci_ser && rowData.hotel_cod === checkedData.hotel_cod) {
-                                this.guestMnRowsData.splice(rowDataIndex, 1);
+                                la_removeIndex.push(rowDataIndex);
                             }
                         });
+                    });
+                    // 移除guest_mn資料
+                    this.guestMnRowsData = _.filter(this.guestMnRowsData, (rowsData, rowsDataIndex) => {
+                        // 回傳沒有在la_removeIndex移除清單內最後結果資料
+                        return la_removeIndex.indexOf(rowsDataIndex) === -1;
                     });
                 }
             },
             automaticSpecify() {
                 if (this.guestMnRowsData.length > 0) {
                     let ln_index = 0;
+                    let la_removeIndex = [];
                     _.each(this.orderDtRowsData, (rowsData) => {
                         if (ln_index < this.guestMnRowsData.length) {
                             let lo_oriCheckedData = this.findOriData(this.oriGuestMnRowsData, this.guestMnRowsData[ln_index]);
                             this.guestMnRowsData[ln_index].ikey_seq_nos = rowsData.ikey_seq_nos;
                             rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
+                            la_removeIndex.push(ln_index);
                             this.tmpCUD.oriData.push(lo_oriCheckedData);
                             this.tmpCUD.updateData.push(this.guestMnRowsData[ln_index]);
                             ln_index++;
                         }
                     });
-                    console.log(this.tmpCUD.oriData);
-                    console.log(this.tmpCUD.updateData);
+                    // 移除guest_mn資料
+                    this.guestMnRowsData = _.filter(this.guestMnRowsData, (rowsData, rowsDataIndex) => {
+                        // 回傳沒有在la_removeIndex移除清單內最後結果資料
+                        return la_removeIndex.indexOf(rowsDataIndex) === -1;
+                    });
                 }
             },
             // 共用，比對原始資料，並找出原始資料的那一筆(找尋單筆)
@@ -379,16 +390,6 @@
                 });
                 return lo_result;
             },
-            // 共用，移除guest_mn住客資料
-            // removeGuestMnData() {
-            //     _.each(this.guestMnRowsData, (rowData, rowDataIndex) => {
-            //         _.each(this.guestMnRowDataChecked, (checkedData) => {
-            //             if (rowData.athena_id === checkedData.athena_id && rowData.ci_ser === checkedData.ci_ser && rowData.hotel_cod === checkedData.hotel_cod) {
-            //                 this.guestMnRowsData.splice(rowDataIndex, 1);
-            //             }
-            //         });
-            //     });
-            // }
         }
     }
 </script>
