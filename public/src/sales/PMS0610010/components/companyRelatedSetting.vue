@@ -244,7 +244,7 @@
                         let lo_singleData = JSON.parse(JSON.stringify(val));
                         let lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
 
-                        if (this.$store.state.gb_isCreateStatus) {
+                        if (this.$store.state.custMnModule.gb_isCreateStatus) {
                             val.ins_dat = moment(new Date(val.ins_dat)).format("YYYY/MM/DD HH:mm:ss");
                             val.ins_usr = this.userInfo.usr_id
                         }
@@ -258,7 +258,7 @@
                         });
 
                         //將相關設定資料放至Vuex
-                        this.$store.dispatch("setRsSingleData", {
+                        this.$store.dispatch("custMnModule/setRsSingleData", {
                             go_rsSingleData: val,
                             go_rsOriSingleData: this.oriSingleData
                         });
@@ -283,8 +283,8 @@
                 });
             },
             initData() {
-                this.isCreateStatus = this.$store.state.gb_isCreateStatus;
-                this.isEditStatus = this.$store.state.gb_isEditStatus;
+                this.isCreateStatus = this.$store.state.custMnModule.gb_isCreateStatus;
+                this.isEditStatus = this.$store.state.custMnModule.gb_isEditStatus;
                 this.singleData = {};
                 this.oriSingleData = {};
                 this.fieldsData = [];
@@ -308,7 +308,7 @@
             fetchRowData() {
                 var self = this;
                 //第一次載入相關設定
-                if (_.isEmpty(this.$store.state.go_allData.go_rsSingleData)) {
+                if (_.isEmpty(this.$store.state.custMnModule.go_allData.go_rsSingleData)) {
                     if (this.isCreateStatus) {
                         let la_typeCodSelectData = _.findWhere(self.oriFieldsData, {ui_field_name: 'type_cod'});
                         la_typeCodSelectData = _.isUndefined(la_typeCodSelectData) ? [] : la_typeCodSelectData.selectData;
@@ -316,7 +316,7 @@
                         la_businessCodSelectData = _.isUndefined(la_businessCodSelectData) ? [] : la_businessCodSelectData.selectData;
 
                         this.singleData = {
-                            hoffice_cod: self.$store.state.gs_custCod,
+                            hoffice_cod: self.$store.state.custMnModule.gs_custCod,
                             dm_flag: 'Y',
                             cust_idx_ar_amt: 0,
                             cust_idx_credit_amt: 0,
@@ -373,8 +373,8 @@
                     }
                 }
                 else {
-                    this.singleData = this.$store.state.go_allData.go_rsSingleData;
-                    this.oriSingleData = this.$store.state.go_allOriData.go_rsSingleData;
+                    this.singleData = this.$store.state.custMnModule.go_allData.go_rsSingleData;
+                    this.oriSingleData = this.$store.state.custMnModule.go_allOriData.go_rsSingleData;
                     this.isLoading = false;
                 }
             },

@@ -410,281 +410,7 @@ a
   margin: 6px 0 5px
   border-bottom: 1px solid $border-color
 
-// custom　必填欄位
-.input_sta_required
-  background-color: rgb(198, 242, 217) !important
-  input.el-input__inner
-    background-color: rgb(198, 242, 217) !important
-/* (186, 242, 234) */
-.input-noEdit
-  background-color: #eee !important
-// 兩個間距 104
-$labelw: 104px
-$rmW: 23px
 
-$medium-c1: 165px
-$medium-c3-col2: 255px
-$medium-c3-card: 212px
-$medium-c1-col2v2: 434px
-$medium-c1-sc2: 299.5px
-$medium-c1-sc2-col2: (($medium-c1-sc2) *2)+$labelw
-$popWindow-s1v2-col2: 227px
-$popWindow-s1-col2: 414px
-$rateCode-s1: 180px
-$rateCode-s1-col2: (($rateCode-s1) *2)+$labelw
-$rateCode-s1-col3: (($rateCode-s1) *3)+(($labelw) *2)
-
-$resvCard: 106px
-$resvCard-col2: 316px
-$resvCard-date: 135px
-$resvCard-dateCol2: (($resvCard-date) *2)+$labelw
-$resvCard-dateSpec1: (($resvCard-date) *2)-60
-.input-medium
-  &.medium-c1
-    +input-s1($medium-c1)
-  //@media screen and (min-width: 768px) and (max-width: 1030px)
-  //  +input-s1(120px)
-  &.medium-c1Rm
-    +input-s1($medium-c1 -$rmW)
-  //&.medium-c1-col2
-  //  +input-s1(488px)
-  &.medium-c1-col2v2
-    +input-s1($medium-c1-col2v2)
-  //彈出視窗內會多一px(?)
-  &.medium-c1-col2v2Rm
-    +input-s1(($medium-c1-col2v2)-$rmW)
-  &.medium-c1-col2v3
-    +input-s1(438px)
-  &.medium-c1-col2v3Rm
-    +input-s1(416px)
-  &.medium-c1-Full
-    +input-s1($medium-c1*3 + $labelw*2 -$rmW)
-  &.medium-c1-sc2
-    +input-s1($medium-c1-sc2)
-  &.medium-c1-sc3
-    +input-s1(703px)
-  &.medium-c1-sc2-col2
-    +input-s1($medium-c1-sc2-col2)
-  &.medium-c1-sc2-col2Rm
-    +input-s1($medium-c1-sc2-col2 -$rmW)
-  &.medium-c1-sc2Rm
-    +input-s1($medium-c1-sc2 -$rmW)
-  &.medium-c1-sc3Key
-    +input-s1(623px)
-  &.medium-c2
-    +input-s1(179px)
-  //@media screen and (min-width: 768px) and (max-width: 1030px)
-  //  +input-s1(134px)
-  &.medium-c3-sm
-    +input-s1(104px)
-  &.medium-c3-smFullRm
-    +input-s1(498px)
-  &.medium-c3-smSpec1
-    +input-s1(255px)
-  &.medium-c3
-    +input-s1(134px)
-  &.medium-skyNo
-    +input-s1(150px)
-  &.medium-c3-col2Spc
-    +input-s1(272px)
-  &.medium-c3-col2
-    +input-s1($medium-c3-col2)
-  &.medium-c3-col2Rm
-    +input-s1(($medium-c3-col2)-$rmW)
-  &.medium-c3-col2_3
-    +input-s1(291px)
-  &.medium-search-col2
-    // PMS0620040 || PMS0620050
-    +input-s1(304px)
-  &.medium-c3-col3
-    +input-s1(493px)
-  &.medium-c3-col3Rm
-    +input-s1(548px)
-  &.medium-c3-col4
-    +input-s1(634px)
-  &.medium-c3-col1-5
-    +input-s1(372px)
-  &.medium-c3-card
-    +input-s1($medium-c3-card)
-  &.medium-c3-card-2
-    +input-s1(56px)
-  &.medium-c3-cardRm
-    +input-s1(($medium-c3-card)-$rmW)
-  &.addedBy
-    +input-s1(74px)
-  &.addedDate
-    +input-s1(140px)
-  &.bill-input-s1
-    +input-s1(120px)
-  &.bill-input-s2
-    +input-s1(245px)
-  &.bill-input-full
-    +input-s1(568px)
-  &.resvCard-s1Half2
-    +input-s1((($rateCode-s1) /2)-1)
-  &.rateCode-xs
-    +input-s1(31px)
-  &.rateCode-s1
-    +input-s1($rateCode-s1)
-  &.rateCode-s1Rm
-    +input-s1($rateCode-s1 -$rmW)
-  //464px
-  &.rateCode-s1-col2
-    +input-s1($rateCode-s1-col2)
-  &.rateCode-s1-col2Rm
-    +input-s1($rateCode-s1-col2 -$rmW)
-  &.rateCode-s1-col3
-    +input-s1($rateCode-s1-col3)
-  &.rateCode-s1-col3Rm
-    +input-s1($rateCode-s1-col3 -$rmW)
-  &.rateCode-s1-col3Bring
-    +input-s1(699px)
-  &.rateCode-s2
-    +input-s1(43px)
-  &.rateCode-s3
-    +input-s1(135px)
-  &.rateCode-125
-    +input-s1(125px)
-  &.rateCode-s4
-    +input-s1(695px)
-  &.popWindow-s1
-    +input-s1(155px)
-  //popWindow-s1拆成兩個
-  &.consumeCode-g1-s
-    +input-s1(50px)
-  &.consumeCode-g1-m
-    +input-s1(102px)
-
-  &.popWindow-s1Remark
-    +input-s1(128px)
-  &.popWindow-s1-col3
-    +input-s1(673px)
-  // resv_gProfile
-  &.popWindow-s2
-    +input-s1(138px)
-  &.popWindow-s1-col2
-    +input-s1($popWindow-s1-col2)
-  &.popWindow-s1-col2Rm
-    +input-s1($popWindow-s1-col2 -$rmW)
-  &.popWindow-s1v2
-    +input-s1(116.5px)
-  &.popWindow-s1v2-col2
-    +input-s1($popWindow-s1v2-col2)
-  &.popWindow-s1v2-lg
-    +input-s1(339px)
-  &.popWindow-s1v2-col2Rm
-    +input-s1($popWindow-s1v2-col2 -$rmW)
-  &.popWindow-s1v2-keyword
-    +input-s1(460px)
-  &.popWindow-s1v2-col4
-    +input-s1(562px)
-  &.popWindow-s1v2-col4Key
-    +input-s1(485px)
-  &.popWindow-s1v2-col4RM
-    +input-s1(535px)
-
-  &.resvCard
-    +input-s1($resvCard)
-  //106px
-  &.resvCardHalf
-    +input-s1($resvCard /2)
-  //53px
-  //住客帳維護 單筆
-  &.resvCardSpec1
-    +input-s1(203px)
-  &.resvCard-date
-    +input-s1($resvCard-date)
-  &.resvCard-dateCol2
-    +input-s1($resvCard-dateCol2)
-  &.resvCard-dateSpec1
-    +input-s1($resvCard-dateSpec1)
-  &.resvCardRm
-    +input-s1(83px)
-  &.resvCard-m
-    +input-s1(70px)
-  &.rc-contact-man
-    +input-s1(148px)
-  &.resvCard-col2
-    +input-s1($resvCard-col2)
-  &.resvCard-col2Rm
-    +input-s1($resvCard-col2 - $rmW)
-  &.resvCard-col3
-    +input-s1(736px)
-  &.resvCard-col2Spec1
-    +input-s1(258px)
-  &.resvCard-col2Spec2
-    +input-s1(214px)
-  &.resvCard-col2Rm2
-    +input-s1(278px)
-  &.resvCard-full
-    +input-s1(736px)
-  &.resvCard-fullRm
-    +input-s1(713px)
-  &.resvCard-col3-fullRm
-    +input-s1(504px)
-  &.resvCard-xs
-    +input-s1(40px)
-  &.resvCard-2xs
-    +input-s1(34px)
-  &.resvCard-xlxl
-    +input-s1(140px)
-  &.resvCard-sm
-    +input-s1(84px)
-  &.resvCard-sm-col2Rm
-    +input-s1(84px + 84px + $labelw -$rmW)
-  &.resvCard-2sm
-    +input-s1(102.5px)
-  &.ca-select
-    +input-s1(65px)
-  &.ca-select-l
-    +input-s1(93px)
-  &.checkMail
-    +input-s1(530px)
-  &.large-c1
-    +input-s1(210px)
-  &.w253px
-    +input-s1(253px)
-  &.w510px
-    +input-s1(510px)
-  &.w388px
-    +input-s1(388px)
-  &.w304px
-    +input-s1(304px)
-  &.w118px
-    +input-s1(118px)
-  &.input-spc-2
-    +input-s1(456px)
-  // suggestion Page
-  &.input-spc-3
-    +input-s1(348px)
-  // suggestion Page
-  &.input-spc-3Rm
-    +input-s1(325px)
-  // -23px
-  &.postalCode
-    +input-s1(60px)
-  &.postaladdress
-    +input-s1(349px)
-  &.postaladdress2
-    +input-s1(464px)
-
-.input-hMedium
-  height: $defHt !important
-
-.input-hCol2
-  resize: none
-  height: ($defHt*2)+5 !important
-
-.input-spc-1
-  +input-s1
-//@media screen and (min-width: 768px) and (max-width: 1030px)
-//  +input-s1(349px)
-.input-spc-key
-  +input-s1(466px)
-//@media screen and (min-width: 768px) and (max-width: 1030px)
-//  +input-s1(376px)
-.input-mLeft-1
-  margin-left: 28px
 
 //.dateBox-custom1
 //  .textbox
@@ -784,17 +510,6 @@ input.numStyle-none
       padding-left: 10px
 
 .rzNone
-  resize: none
-
-.remarkInput
-  width: 85%
-
-.remarkInput2
-  width: 748px
-  resize: none
-// 訂房確認書
-.remarkInput3
-  width: 414px
   resize: none
 
 .btn-spc-sm
@@ -942,7 +657,7 @@ input[type=checkbox]
   padding-top: 0px !important
   transition: 0.5s
 
-// 多筆toottips 實作
+/** 多筆tooltips 實作 **/
 .tooltip-sp
   position: relative
   display: inline-block
@@ -961,6 +676,12 @@ input[type=checkbox]
       margin-left: 0
       li
         list-style: none
+    &.sty-1
+      width: 60px
+      background-color: #1a73e7
+      box-shadow: 4px 4px 3px rgba(#3D70B2, 0.5)
+      border: 0
+      //color: #333
   &:hover
     .tooltip-text
       visibility: visible
@@ -969,3 +690,10 @@ input[type=checkbox]
     margin-right: 5px
     i
       margin-right: 5px
+
+.datagrid-row-selected
+  transition: .5s
+
+.datagrid-body
+  td
+    cursor: pointer

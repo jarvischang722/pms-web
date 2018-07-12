@@ -106,4 +106,41 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">gcust_cod</parameter>
     </dao>
+
+    <!-- ['PMS0110041'] ???????-->
+    <dao name="SEL_ACUST_NAM">
+        <statement><![CDATA[
+           select idx.show_cod,idx.cust_cod,idx.alt_nam,idx.uni_cod,idx.office_tel,mn.sales_cod,
+           (trim(idx.cust_cod ||':'|| mn.cust_nam)) guest_display
+           from cust_idx idx join cust_mn mn on idx.athena_id = mn.athena_id and idx.cust_cod  = mn.cust_cod
+           where from_table = 'CUST_MN' and cust_sta <> 'D'
+        ]]>
+        </statement>
+        <orderby>order by alt_nam</orderby>
+    </dao>
+
+
+    <dao name="QRY_DETAIL_GUEST_MN">
+        <statement><![CDATA[
+           select A.GCUST_COD, a.ikey_seq_nos,a.alt_nam,a.assign_sta,a.room_nos,b.contry_cod,
+            (select pref_room
+            from Ghist_visit_dt
+            where athena_id = :athena_id
+            and hotel_cod = :hotel_cod
+            and gcust_cod = a.gcust_cod) pref_room,
+            B.CAR_NOS
+           from guest_mn a, ghist_mn b
+           where a.athena_id = b.athena_id
+           and a.gcust_cod = b.gcust_cod
+           and a.ikey = :ikey
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="instring" kind="3">ikey_seq_nos</parameter>
+        <statement test="_v(param.ikey_seq_nos)">
+            <![CDATA[and a.ikey_seq_nos in(:ikey_seq_nos)]]></statement>
+        <orderby>order by decode(a.ikey_seq_nos,0,9999)</orderby>
+    </dao>
 </root>

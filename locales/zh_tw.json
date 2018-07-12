@@ -268,7 +268,9 @@
       "1110": "刪除拜訪記錄",
       "1120": "新增備註",
       "1130": "修改備註",
-      "1140": "刪除備註"
+      "1140": "刪除備註",
+      "saveMainAndRelatedDataFirst": "請先儲存主檔資料及相關資料",
+      "salesCodIsNull": "請選擇指定業務員"
     },
     "PMS0620020": {
       "sales_cod": "業務員代號",
@@ -332,6 +334,24 @@
       "phyAvailable": "phyAvailable(中文)",
       "Rate_Plan": "Rate Plan(中文)",
       "Amenities_Iny": "Amenities Iny.(中文)"
+    },
+    "PMS0110040": {
+      "1010": "瀏覽"
+    },
+    "PMS0110041": {
+      "rate_cod": "房價代號",
+      "rate_nam": "房價名稱",
+      "remark": "使用說明",
+      "master_nos": "公帳號",
+      "master_sta": "目前狀態",
+      "master_typ": "類別",
+      "show_cod": "客戶代號",
+      "cust_nam": "客戶名稱",
+      "orderStaN": "正常",
+      "orderStaW": "等待",
+      "orderStaD": "取消",
+      "orderStaT": "詢價",
+      "changeOrderStatus": "狀態變更"
     },
     "PMS0110050": {
       "roomTyp": "房型",

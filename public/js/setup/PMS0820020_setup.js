@@ -237,16 +237,17 @@ Vue.component("single-grid-pms0820020-tmp", {
                 //已經到第一筆
                 this.isFistData = true;
                 this.isLastData = false;
-            } else if ($("#PMS0820020_dg").datagrid("getRowIndex", newRow) == this.pageOneDataGridRows.length - 1) {
+            }
+            else if ($("#PMS0820020_dg").datagrid("getRowIndex", newRow) == this.pageOneDataGridRows.length - 1) {
                 //已經到最後一筆
                 this.isFistData = false;
                 this.isLastData = true;
-            } else {
+            }
+            else {
 
                 this.isFistData = false;
                 this.isLastData = false;
             }
-
         }
     },
     methods: {

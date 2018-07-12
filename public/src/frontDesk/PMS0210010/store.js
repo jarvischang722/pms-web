@@ -340,9 +340,17 @@ const actions = {
 
 const getters = {};
 
-export default new Vuex.Store({
-    state,
-    getters,
-    actions,
-    mutations
-});
+export const ghistMnModule = {
+    namespaced: true,
+    state: state,
+    mutations: mutations,
+    actions: actions,
+    getters: getters
+};
+
+// export default new Vuex.Store({
+//     state,
+//     getters,
+//     actions,
+//     mutations
+// });

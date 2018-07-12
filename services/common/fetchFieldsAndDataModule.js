@@ -226,7 +226,12 @@ exports.GridSingleProc = function (postData, session) {
                 this.fetchGsMnFieldsData(),
                 this.fetchGsMnRowData()
             ]);
-            dataValueChange(la_pageField, la_rowData[0]);
+            if (la_rowData.length == 0) {
+                throw "data err";
+            }
+            else {
+                dataValueChange(la_pageField, la_rowData[0]);
+            }
             let lo_gsMnData = {
                 fieldsData: la_pageField,
                 rowData: la_rowData
@@ -339,8 +344,8 @@ async function qryGsTemplateRf(params, session) {
  * 查詢多筆資料
  */
 async function qryRowData(lo_rfData, params, session) {
-    let lo_params = filterSearchCond(params, session);
-    let ls_rule_func_name = lo_rfData.rule_func_name;
+    let lo_params = filterSearchCond(params, session);;
+    let ls_rule_func_name = lo_rfData.rule_func_name
 
     return new Promise((resolve, reject) => {
         queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {

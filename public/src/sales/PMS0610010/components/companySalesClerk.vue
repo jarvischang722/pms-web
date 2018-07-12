@@ -90,7 +90,7 @@
                 BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 3,
-                    searchCond: {cust_cod: this.$store.state.gs_custCod}
+                    searchCond: {cust_cod: this.$store.state.custMnModule.gs_custCod}
                 }, result => {
                     this.searchFields = result.searchFields;
                     this.fieldsData = result.dgFieldsData;
@@ -108,9 +108,9 @@
             },
             doEditSalesClerk() {
                 var self = this;
-                var lo_singleData = this.$store.state.go_allData.go_mnSingleData;
-                var lo_oriSingleData = this.$store.state.go_allOriData.go_mnSingleData;
-                var lb_isEditStatus = this.$store.state.gb_isEditStatus;
+                var lo_singleData = this.$store.state.custMnModule.go_allData.go_mnSingleData;
+                var lo_oriSingleData = this.$store.state.custMnModule.go_allOriData.go_mnSingleData;
+                var lb_isEditStatus = this.$store.state.custMnModule.gb_isEditStatus;
                 this.rowData = _.extend(this.rowData, {isSalesClerk: self.isSalesClerk});
 
                 if (lb_isEditStatus) {
@@ -123,7 +123,7 @@
                         });
                     }
                     else {
-                        alert("請先儲存主檔資料");
+                        alert(go_i18nLang.program.PMS0610020.saveMainAndRelatedDataFirst);
                     }
                 }
                 else {

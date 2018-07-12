@@ -32,5 +32,19 @@
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">guarentee_typ</parameter>
     </dao>
+
+    <!-- ['PMS0810150'] 訂房類別設定(單筆mn)-->
+    <dao name="SEL_HFDGUARENTEERFGUARENTEETYP_Y">
+        <statement><![CDATA[
+                select guarentee_typ, guarentee_nam, guarentee_rmk, dp_req, cc_req, keep_way, keep_day, keep_tim
+                from hfd_guarentee_rf
+                where athena_id = ? and trim(hotel_cod) = trim(?) and trim(guarentee_typ) = ? and use_sta = 'Y'
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">guarentee_typ</parameter>
+        <orderby>ORDER BY VIEW_SEQ</orderby>
+    </dao>
 </root>
 

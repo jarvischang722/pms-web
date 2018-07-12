@@ -481,3 +481,16 @@ table.treetable span.indenter
   //TODO 暫時使用找不到更好方法讓寬度變大
   .td-first
     width: 200px
+
+// 點選出現顏色
+.click-effect
+  tbody
+    tr
+      td
+        cursor: pointer
+        &.active
+          background: #FFE48D !important
+          transition: .5s
+        &.un-active
+          background: #fff !important
+          transition: .5s
