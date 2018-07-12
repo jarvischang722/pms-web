@@ -492,7 +492,7 @@ module.exports = {
             let ls_queryName = "";
             if (ls_class == '合約') {
                 ls_queryName = "SEL_ORDERDT_RATECOD_SELECT_DATA_CONTRACT";
-                lo_params.ci_dat = postData.rowData.ci_dat;
+                lo_params.ci_dat = moment(postData.rowData.ci_dat).format("YYYY/MM/DD");
                 lo_params.acust_cod = postData.rowData.acust_cod;
             }
             else {

@@ -647,7 +647,7 @@
             });
             //取得guest mn 資料
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
-                if (!_.isUndefined(this.guestMnRowsData4Single)) {
+                if (!_.isUndefined(this.guestMnRowsData4Single) && this.$store.state.orderMnModule.gs_openModule == "pms0110041_lite") {
                     let lo_cloneGuestMnData = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
                     let lo_ghistMnData = data.ghistMnData;
                     let lo_extendParam = {};
@@ -704,6 +704,22 @@
                 this.editingGroupOrderDtData = data.rowData;
                 this.openModule = data.openModule;
                 this.showRateCodDialog();
+            });
+
+            this.$eventHub.$on("setSelectGuestMnAltData", (data) => {
+                let ls_gcustCod = data.rowData.gcust_cod || "";
+                if (ls_gcustCod != "") {
+                    this.editingGuestMnData = JSON.parse(JSON.stringify(data.rowData));
+                    this.isCreate4GuestMn = false;
+                    this.isEdit4GuestMn = true;
+                }
+                else {
+                    this.editingGuestMnData = JSON.parse(JSON.stringify(data.rowData));
+                    this.editingGuestMnData.gcust_cod = "";
+                    this.isCreate4GuestMn = true;
+                    this.isEdit4GuestMn = false;
+                }
+                this.showGhistMnDialog();
             });
         },
         mounted() {
@@ -1246,7 +1262,6 @@
                         if (val["gcust_cod"] != "" && !_.isUndefined(val["gcust_cod"])) {
                             let ln_editIndex = _.findIndex(this.guestMnRowsData, {
                                 ikey_seq_nos: val["ikey_seq_nos"],
-                                gcust_cod: val["gcust_cod"]
                             });
                             if (ln_editIndex > -1) {
                                 this.guestMnRowsData[ln_editIndex] = val;
@@ -1263,7 +1278,6 @@
                                         lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
                                         let lo_params = {
                                             ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
-                                            gcust_cod: lo_guestMnData.gcust_cod
                                         };
                                         let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
                                         //新增狀況
@@ -1300,8 +1314,7 @@
                         if (lo_guestMnData.gcust_cod != "" && !_.isUndefined(lo_guestMnData.gcust_cod)) {
                             lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
                             let lo_params = {
-                                ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
-                                gcust_cod: lo_guestMnData.gcust_cod
+                                ikey_seq_nos: lo_guestMnData.ikey_seq_nos
                             };
                             let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
                             //新增狀況
@@ -1643,6 +1656,7 @@
                 }
             },
             searchGuestMnAltName() {
+                this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "pms0110041_lite"});
                 if (!_.isEmpty(this.guestMnRowsData4Single) && this.isModifiable) {
                     let ls_gcustCod = this.guestMnRowsData4Single.gcust_cod || "";
                     if (ls_gcustCod != "") {
@@ -1675,6 +1689,7 @@
                         self.editingGuestMnData = {};
                         self.isEdit4GuestMn = false;
                         self.isCreate4GuestMn = false;
+                        self.$store.dispatch("orderMnModule/setOpenModule", {openModule: ""});
                         self.$eventHub.$emit("doSaveModifyData");
                     }
                 }).dialog('open');
@@ -2170,9 +2185,6 @@
                             lo_tmpData.alt_nam = ls_altName.split(":")[1];
                         }
                         lo_tmpData = _.extend(lo_tmpData, {page_id: 1, tab_page_id: 11});
-                        if (ls_dataType == "createData") {
-                            console.log(lo_tmpData);
-                        }
                         this.tmpCUD[ls_dataType].push(lo_tmpData);
                     });
                 });
