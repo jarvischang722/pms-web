@@ -224,7 +224,7 @@ module.exports = {
             }
         }
 
-        function compareDat(begin_dat, cb) {
+        function compareDat(result, cb) {
             queryAgent.query("QRY_RENT_DAT_HQ", lo_param, function (err, getResult) {
                 if (err) {
                     lo_result.success = false;
@@ -233,10 +233,10 @@ module.exports = {
                     cb(lo_error, lo_result);
                 }
                 else {
-                    if (moment(new Date(begin_dat)).diff(moment(new Date(getResult.rent_dat_hq)), "days") < 0) {
+                    if (moment(new Date(ls_beginDat)).diff(moment(new Date(getResult.rent_dat_hq)), "days") < 0) {
                         lo_result.showAlert = true;
                         lo_result.alertMsg = commandRules.getMsgByCod("pms61msg2", session.locale);
-                        if (ls_beginDat != "" && ls_endDat != "" && moment(new Date(begin_dat)).diff(moment(new Date(ls_endDat)), "days") > 0) {
+                        if (ls_beginDat != "" && ls_endDat != "" && moment(new Date(ls_beginDat)).diff(moment(new Date(ls_endDat)), "days") > 0) {
                             lo_result.success = false;
                             lo_result.effectValues = {begin_dat: ls_oldValue};
                             lo_error = new ErrorClass();
@@ -480,7 +480,7 @@ module.exports = {
         }
 
         function examineContract(result, cb) {
-            if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "" ) {
+            if (ls_beginDat != "" && ls_endDat != "" && ls_rateCod != "") {
                 lo_param.rate_cod = ls_rateCod;
                 queryAgent.query("QRY_CONTRACT_EXIST", lo_param, function (err, getResult) {
                     if (err) {
@@ -689,7 +689,7 @@ module.exports = {
                 });
             }
 
-            lo_result.effectValues = _.extend(lo_result.effectValues, {ratecod_nam: _.isNull(ls_ratecodNam) ? "" : ls_ratecodNam.ratecod_nam});
+            lo_result.effectValues = _.extend(lo_result.effectValues, {ratecod_nam: _.isNull(ls_ratecodNam) || _.isUndefined(ls_ratecodNam) || ls_ratecodNam == "" ? "" : ls_ratecodNam.ratecod_nam});
             lo_result.selectField = ["rate_cod", "rsdisc_cod"];
             lo_result.multiSelectOptions.rate_cod = la_rateCodSelectData;
             lo_result.multiSelectOptions.rsdisc_cod = la_rsdiscCodSelectData;
@@ -784,6 +784,8 @@ module.exports = {
                     }
                 }
             }
+
+            lo_result.isEffectFromRule = false;
         }
         catch (err) {
             console.log(err);

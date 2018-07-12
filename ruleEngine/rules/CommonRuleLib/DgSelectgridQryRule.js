@@ -19,7 +19,7 @@ module.exports = {
                 }
                 queryAgent.queryList("SEL_CUST_IDX_CUST_MN_PERS_DT_FOR_SELECT_OPTION", lo_params, 0, 0, function (err, getResult) {
                     if (err) {
-                        reject(err)
+                        reject(err);
                     }
                     else {
                         resolve(getResult);
