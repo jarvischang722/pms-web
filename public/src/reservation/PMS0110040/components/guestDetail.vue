@@ -374,7 +374,9 @@
         </div>
         <!--指定房組-->
         <specify-houses
-                :row-data="rowData" :is-edit-status="isEditStatus"
+                :is-specify-house="isOpenSpecifyHouse"
+                :row-data="rowData"
+                :is-edit-status="isEditStatus"
         ></specify-houses>
         <!--/.指定房組-->
     </div>
@@ -420,6 +422,7 @@
                 dgIns: {},
                 isLoading: false,
                 loadingText: "loading...",
+                isOpenSpecifyHouse: false,
                 allOrderDtRowsData: [],             //所有的order dt資料
                 oriAllOrderDtRowsData: [],          //所有的原始order dt資料
                 allGuestMnRowsData: [],             //所有的原始guest mn資料
@@ -441,7 +444,7 @@
         },
         watch: {
             async isGuestDetail(val) {
-                if (val && !_.isEmpty(this.rowData)) {
+                if (val && !_.isUndefined(this.rowData.ikey)) {
                     //是否第一次開起
                     if (this.orderDtGroupFieldData.length == 0) {
                         this.initData();
@@ -496,6 +499,7 @@
                 this.editingGroupDataIndex = undefined;
                 this.editingGroupData = {};
                 this.activeName = '';
+                this.isOpenSpecifyHouse = false;
             },
             async fetchFieldsData(param) {
                 return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param).then((result) => {
@@ -625,17 +629,17 @@
                 });
             },
             toggle() {
-                if (JSON.stringify(this.oriOrderDtRowsData) === JSON.stringify(this.orderDtRowsData) && JSON.stringify(this.oriGuestMnRowsData) === JSON.stringify(this.guestMnRowsData)) {
-                    var dialog = $("#resv_assignHouse_dialog").removeClass('hide').dialog({
-                        modal: true,
-                        title: "指定房組",
-                        title_html: true,
-                        width: 800,
-                        maxwidth: 1920,
-                        dialogClass: "test",
-                        resizable: true
-                    });
-                }
+                //TODO 檢查資料是否有異動之後做
+                this.isOpenSpecifyHouse = true;
+                var dialog = $("#resv_assignHouse_dialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "指定房組",
+                    title_html: true,
+                    width: 800,
+                    maxwidth: 1920,
+                    dialogClass: "test",
+                    resizable: true
+                });
             }
         }
     }

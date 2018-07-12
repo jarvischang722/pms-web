@@ -194,7 +194,7 @@
         },
         watch: {
             rowData(val) {
-                if (!_.isEmpty(val)) {
+                if (!_.isEmpty(val) && !_.isUndefined(val.ikey)) {
                     this.initData();
                     this.fetchMaterNosSelectData();
                     this.fetchRowData();
