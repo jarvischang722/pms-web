@@ -13,11 +13,15 @@
                                     <input type="text" class="input-medium medium-c1" placeholder="">
                                 </div>
                                 <div class="grid-item">
-                                    <label>房號</label>
+                                    <label>訂房公司</label>
                                     <input type="text" class="input-medium medium-c1" placeholder="">
                                 </div>
                                 <div class="grid-item">
                                     <label>訂房卡號</label>
+                                    <input type="text" class="input-medium medium-c1" placeholder="">
+                                </div>
+                                <div class="grid-item">
+                                    <label>房號</label>
                                     <input type="text" class="input-medium medium-c1" placeholder="">
                                 </div>
                             </div>
@@ -62,12 +66,24 @@
                                     </template>
                                 </div>
                                 <div class="grid-item">
-                                    <label>團號</label>
+                                    <label>公司名稱</label>
                                     <input type="text" class="input-medium medium-c1" placeholder="">
                                 </div>
                                 <div class="grid-item">
-                                    <label>訂房公司</label>
-                                    <input type="text" class="input-medium medium-c1" placeholder="">
+                                    <label>訂房來源</label>
+                                    <select class="input-medium medium-c1">
+                                        <option value="1">01:電話訂房</option>
+                                        <option value="2">02:飯店櫃台</option>
+                                        <option value="3">02:官網訂房</option>
+                                    </select>
+                                </div>
+                                <div class="grid-item">
+                                    <label>國籍</label>
+                                    <select class="input-medium medium-c1">
+                                        <option value="TWN">TWN:中華民國台灣</option>
+                                        <option value="USA">USA:美國</option>
+                                        <option value="JP">JP:日本</option>
+                                    </select>
                                 </div>
                             </div>
                             <!--2-->
@@ -82,6 +98,10 @@
                                     </template>
                                 </div>
                                 <div class="grid-item">
+                                    <label>團號</label>
+                                    <input type="text" class="input-medium medium-c1" placeholder="">
+                                </div>
+                                <div class="grid-item">
                                     <label>市場類別</label>
                                     <select class="input-medium medium-c1">
                                         <option value="1">1.純訂房</option>
@@ -92,46 +112,18 @@
                                     </select>
                                 </div>
                                 <div class="grid-item">
-                                    <label>公司名稱</label>
+                                    <label>車號</label>
                                     <input type="text" class="input-medium medium-c1" placeholder="">
                                 </div>
                             </div>
                             <!--3-->
                             <div class="grid">
                                 <div class="grid-item">
-                                    <label>國籍</label>
+                                    <label>過濾條件</label>
                                     <select class="input-medium medium-c1">
-                                        <option value="TWN">TWN:中華民國台灣</option>
-                                        <option value="USA">USA:美國</option>
-                                        <option value="JP">JP:日本</option>
+                                        <option value="1">IN HOUSE+今日C/I</option>
+                                        <option value="2">全部</option>
                                     </select>
-                                </div>
-                                <div class="grid-item">
-                                    <label>車號</label>
-                                    <input type="text" class="input-medium medium-c1" placeholder="">
-                                </div>
-                            </div>
-
-                            <div class="grid">
-                                <div class="grid-item foCntRadio">
-                                    <label class="pull-left"></label>
-                                    <div class="searchRadio pull-left lineHt24">
-                                                    <span class="radio">
-                                                      <label class="checkbox-width" style="width: auto;">
-                                                          <input name="form-field-checkbox" type="radio" class="ace"
-                                                                 checked>
-                                                          <span class="lbl">IN HOUSE+今日C/I</span>
-                                                      </label>
-                                                    </span>
-                                    </div>
-                                    <div class="searchRadio pull-left lineHt24">
-                                        <span class="radio">
-                                          <label class="checkbox-width" style="width: auto;">
-                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
-                                              <span class="lbl">全部</span>
-                                          </label>
-                                        </span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
