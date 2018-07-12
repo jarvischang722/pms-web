@@ -216,7 +216,7 @@
                                                             <td class=""></td>
                                                             <td class=""></td>
                                                         </tr>
-                                                        <template v-for="singleData in guestMnRowsData">
+                                                        <template v-for="(singleData, idx) in guestMnRowsData">
                                                             <tr>
                                                                 <td class="text-center">
                                                                     <i class="fa fa-minus red"></i>
@@ -225,13 +225,13 @@
                                                                     <td class="text-left input-noEdit"
                                                                         :style="{width:field.width + 'px'}"
                                                                         v-if="field.visiable == 'Y' && field.ui_type=='label'"
-                                                                        @click="editingOrderDtIdx = idx">
+                                                                        @click="editingGuestMnIdx = idx">
                                                                         {{singleData[field.ui_field_name]}}
                                                                     </td>
                                                                     <td class="text-left"
-                                                                        @click="editingOrderDtIdx = idx"
+                                                                        @click="editingGuestMnIdx = idx"
                                                                         v-if="field.visiable == 'Y' && field.ui_type=='text'">
-                                                                        <input type="number"
+                                                                        <input type="text"
                                                                                v-model="singleData[field.ui_field_name]"
                                                                                :style="{width:field.width + 'px'}"
                                                                                :required="field.requirable == 'Y'"
@@ -242,7 +242,7 @@
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                     </td>
                                                                     <td class="text-left"
-                                                                        @click="editingOrderDtIdx = idx"
+                                                                        @click="editingGuestMnIdx = idx"
                                                                         v-if="field.visiable == 'Y' && field.ui_type=='select'">
                                                                         <bac-select :field="field"
                                                                                     :style="{width:field.width + 'px'}"
@@ -260,7 +260,7 @@
                                                                         </bac-select>
                                                                     </td>
                                                                     <td class="text-left"
-                                                                        @click="editingOrderDtIdx = idx"
+                                                                        @click="editingGuestMnIdx = idx"
                                                                         v-if="field.visiable == 'Y' && field.ui_type=='date'">
                                                                         <!-- 日期時間選擇器 -->
                                                                         <el-date-picker
@@ -276,7 +276,7 @@
                                                                         </el-date-picker>
                                                                     </td>
                                                                     <td class="text-left"
-                                                                        @click="editingOrderDtIdx = idx"
+                                                                        @click="editingGuestMnIdx = idx"
                                                                         v-if="field.visiable == 'Y' && field.ui_type=='number'">
                                                                         <!--number 金額顯示format-->
                                                                         <input type="text"
@@ -289,7 +289,7 @@
                                                                     </td>
                                                                     <td class="text-left td-more"
                                                                         style="height: 26px;"
-                                                                        @click="editingOrderDtIdx = idx"
+                                                                        @click="editingGuestMnIdx = idx"
                                                                         v-if="field.visiable == 'Y' && field.ui_type=='selectgrid'">
                                                                         <bac-select-grid
                                                                                 v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
@@ -307,7 +307,8 @@
                                                                                 :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         </bac-select-grid>
-                                                                        <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2 moreAbso">
+                                                                        <button @click="searchGuestMnAltName(idx)"
+                                                                                class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
                                                                             Profile
                                                                         </button>
                                                                     </td>
@@ -408,9 +409,16 @@
         created() {
             vmHub.$on("selectDataGridRow", (data) => {
                 this.editingGroupDataIndex = data.index;
-            })
+            });
+            //取得rate cod 資料
             this.$eventHub.$on("getGuestDetailRateCod", (data) => {
                 this.orderDtRowsData[this.editingOrderDtIdx].rate_cod = data.rateCodData.rate_cod;
+            });
+            //取得guest mn 資料
+            this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
+                if (this.$store.state.orderMnModule.gs_openModule == "guestDetail") {
+                    alert("guestDetail");
+                }
             });
         },
         mounted() {
@@ -440,6 +448,8 @@
                 editingGroupData: {},               //現在所選group order dt 的資料
                 editingOrderDtIdx: undefined,       //現在所選明細order dt 的index
                 editingOrderDtData: {},             //現在所選明細order dt 的資料
+                editingGuestMnIdx: undefined,       //現在所選明細guest mn 的index
+                editingGuestMnData: {}              //現在所選明細guest mn 的資料
             }
         },
         watch: {
@@ -478,6 +488,11 @@
                     this.fetchDetailRowsData(la_detailOrderDtData);
                     this.isLoading = false;
                 }
+            },
+            guestMnRowsData: {
+                handler(val) {
+                },
+                deep: true
             }
         },
         methods: {
@@ -600,12 +615,19 @@
                 this.guestMnRowsData = alasql(ls_selectParams, [this.allGuestMnRowsData]);
             },
             showRateCodDialog(index) {
-                let self = this;
                 this.editingOrderDtIdx = index;
                 this.editingOrderDtData = _.extend(this.rowData, this.orderDtRowsData[this.editingOrderDtIdx]);
                 this.$eventHub.$emit("setSelectRateCodData", {
                     rowData: this.editingOrderDtData,
                     openModule: "guestDetail"
+                });
+            },
+            searchGuestMnAltName(index) {
+                this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "guestDetail"});
+                this.editingGuestMnIdx = index;
+                this.editingGuestMnData = _.extend(this.rowData, this.guestMnRowsData[this.editingGuestMnIdx]);
+                this.$eventHub.$emit("setSelectGuestMnAltData", {
+                    rowData: this.editingGuestMnData
                 });
             },
             toggle() {

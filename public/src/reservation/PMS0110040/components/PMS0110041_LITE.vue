@@ -647,56 +647,57 @@
             });
             //取得guest mn 資料
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
-                if (!_.isUndefined(this.guestMnRowsData4Single)) {
-                    let lo_cloneGuestMnData = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
-                    let lo_ghistMnData = data.ghistMnData;
-                    let lo_extendParam = {};
-                    if (this.isCreate4GuestMn) {
-                        lo_extendParam = {
-                            airline_cod: lo_ghistMnData.airline_cod,
-                            airmb_nos: lo_ghistMnData.airmb_nos,
-                            alt_nam: lo_ghistMnData.gcust_cod + ":" + lo_ghistMnData.alt_nam,
-                            athena_id: lo_ghistMnData.athena_id,
-                            assign_sta: 'N',
-                            car_nos: lo_ghistMnData.car_nos,
-                            ccust_nam: lo_ghistMnData.ccust_nam,
-                            ci_ser: 0,//todo  資料檔取得系統編號程式=>get_ci_ser
-                            contry_cod: lo_ghistMnData.contry_cod,
-                            first_nam: lo_ghistMnData.first_nam,
-                            gcust_cod: lo_ghistMnData.gcust_cod,
-                            guest_sta: 'E',
-                            hotel_cod: userInfo.hotel_cod,
-                            ikey: this.orderDtRowsData4Single.ikey,
-                            ikey_seq_nos: this.orderDtRowsData4Single.ikey_seq_nos,
-                            last_nam: lo_ghistMnData.last_nam,
-                            master_sta: 'G',
-                            precredit_amt: 0,
-                            psngr_nos: 0,//todo 訂房時依訂房卡+psngr_nos捉最大值，由1開始
-                            rent_amt: 0,
-                            requst_rmk: lo_ghistMnData.requst_rmk,
-                            role_cod: lo_ghistMnData.role_cod,
-                            salute_cod: lo_ghistMnData.salute_cod,
-                            serv_amt: 0,
-                            system_typ: 'HFD'
-                        };
-                    }
-                    else {
-                        lo_extendParam = {
-                            airmb_nos: lo_ghistMnData.airmb_nos,
-                            airline_cod: lo_ghistMnData.airline_cod,
-                            alt_nam: lo_ghistMnData.gcust_cod + ":" + lo_ghistMnData.alt_nam,
-                            car_nos: lo_ghistMnData.car_nos,
-                            ccust_nam: lo_ghistMnData.ccust_nam,
-                            contry_cod: lo_ghistMnData.contry_cod,
-                            first_nam: lo_ghistMnData.first_nam,
-                            last_nam: lo_ghistMnData.last_nam,
-                            requst_rmk: lo_ghistMnData.requst_rmk,
-                            role_cod: lo_ghistMnData.role_cod,
-                            salute_cod: lo_ghistMnData.salute_cod,
-                            vip_sta: lo_ghistMnData.vip_sta
-                        };
-                    }
-                    this.guestMnRowsData4Single = _.extend(lo_cloneGuestMnData, lo_extendParam);
+                if (!_.isUndefined(this.guestMnRowsData4Single) && this.$store.state.orderMnModule.gs_openModule == "pms0110041_lite") {
+                    alert("pms0110041_lite");
+//                    let lo_cloneGuestMnData = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
+//                    let lo_ghistMnData = data.ghistMnData;
+//                    let lo_extendParam = {};
+//                    if (this.isCreate4GuestMn) {
+//                        lo_extendParam = {
+//                            airline_cod: lo_ghistMnData.airline_cod,
+//                            airmb_nos: lo_ghistMnData.airmb_nos,
+//                            alt_nam: lo_ghistMnData.gcust_cod + ":" + lo_ghistMnData.alt_nam,
+//                            athena_id: lo_ghistMnData.athena_id,
+//                            assign_sta: 'N',
+//                            car_nos: lo_ghistMnData.car_nos,
+//                            ccust_nam: lo_ghistMnData.ccust_nam,
+//                            ci_ser: 0,//todo  資料檔取得系統編號程式=>get_ci_ser
+//                            contry_cod: lo_ghistMnData.contry_cod,
+//                            first_nam: lo_ghistMnData.first_nam,
+//                            gcust_cod: lo_ghistMnData.gcust_cod,
+//                            guest_sta: 'E',
+//                            hotel_cod: userInfo.hotel_cod,
+//                            ikey: this.orderDtRowsData4Single.ikey,
+//                            ikey_seq_nos: this.orderDtRowsData4Single.ikey_seq_nos,
+//                            last_nam: lo_ghistMnData.last_nam,
+//                            master_sta: 'G',
+//                            precredit_amt: 0,
+//                            psngr_nos: 0,//todo 訂房時依訂房卡+psngr_nos捉最大值，由1開始
+//                            rent_amt: 0,
+//                            requst_rmk: lo_ghistMnData.requst_rmk,
+//                            role_cod: lo_ghistMnData.role_cod,
+//                            salute_cod: lo_ghistMnData.salute_cod,
+//                            serv_amt: 0,
+//                            system_typ: 'HFD'
+//                        };
+//                    }
+//                    else {
+//                        lo_extendParam = {
+//                            airmb_nos: lo_ghistMnData.airmb_nos,
+//                            airline_cod: lo_ghistMnData.airline_cod,
+//                            alt_nam: lo_ghistMnData.gcust_cod + ":" + lo_ghistMnData.alt_nam,
+//                            car_nos: lo_ghistMnData.car_nos,
+//                            ccust_nam: lo_ghistMnData.ccust_nam,
+//                            contry_cod: lo_ghistMnData.contry_cod,
+//                            first_nam: lo_ghistMnData.first_nam,
+//                            last_nam: lo_ghistMnData.last_nam,
+//                            requst_rmk: lo_ghistMnData.requst_rmk,
+//                            role_cod: lo_ghistMnData.role_cod,
+//                            salute_cod: lo_ghistMnData.salute_cod,
+//                            vip_sta: lo_ghistMnData.vip_sta
+//                        };
+//                    }
+//                    this.guestMnRowsData4Single = _.extend(lo_cloneGuestMnData, lo_extendParam);
                 }
             });
             //訂房明細開啟選擇rate cod頁面
@@ -704,6 +705,22 @@
                 this.editingGroupOrderDtData = data.rowData;
                 this.openModule = data.openModule;
                 this.showRateCodDialog();
+            });
+
+            this.$eventHub.$on("setSelectGuestMnAltData", (data) => {
+                let ls_gcustCod = data.rowData.gcust_cod || "";
+                if (ls_gcustCod != "") {
+                    this.editingGuestMnData = JSON.parse(JSON.stringify(data.rowData));
+                    this.isCreate4GuestMn = false;
+                    this.isEdit4GuestMn = true;
+                }
+                else {
+                    this.editingGuestMnData = JSON.parse(JSON.stringify(data.rowData));
+                    this.editingGuestMnData.gcust_cod = "";
+                    this.isCreate4GuestMn = true;
+                    this.isEdit4GuestMn = false;
+                }
+                this.showGhistMnDialog();
             });
         },
         mounted() {
@@ -1640,6 +1657,7 @@
                 }
             },
             searchGuestMnAltName() {
+                this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "pms0110041_lite"});
                 if (!_.isEmpty(this.guestMnRowsData4Single) && this.isModifiable) {
                     let ls_gcustCod = this.guestMnRowsData4Single.gcust_cod || "";
                     if (ls_gcustCod != "") {
@@ -1672,6 +1690,7 @@
                         self.editingGuestMnData = {};
                         self.isEdit4GuestMn = false;
                         self.isCreate4GuestMn = false;
+                        self.$store.dispatch("orderMnModule/setOpenModule", {openModule: ""});
                         self.$eventHub.$emit("doSaveModifyData");
                     }
                 }).dialog('open');
@@ -2167,9 +2186,6 @@
                             lo_tmpData.alt_nam = ls_altName.split(":")[1];
                         }
                         lo_tmpData = _.extend(lo_tmpData, {page_id: 1, tab_page_id: 11});
-                        if (ls_dataType == "createData") {
-                            console.log(lo_tmpData);
-                        }
                         this.tmpCUD[ls_dataType].push(lo_tmpData);
                     });
                 });
