@@ -1246,7 +1246,6 @@
                         if (val["gcust_cod"] != "" && !_.isUndefined(val["gcust_cod"])) {
                             let ln_editIndex = _.findIndex(this.guestMnRowsData, {
                                 ikey_seq_nos: val["ikey_seq_nos"],
-                                gcust_cod: val["gcust_cod"]
                             });
                             if (ln_editIndex > -1) {
                                 this.guestMnRowsData[ln_editIndex] = val;
@@ -1263,7 +1262,6 @@
                                         lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
                                         let lo_params = {
                                             ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
-                                            gcust_cod: lo_guestMnData.gcust_cod
                                         };
                                         let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
                                         //新增狀況
@@ -1300,8 +1298,7 @@
                         if (lo_guestMnData.gcust_cod != "" && !_.isUndefined(lo_guestMnData.gcust_cod)) {
                             lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
                             let lo_params = {
-                                ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
-                                gcust_cod: lo_guestMnData.gcust_cod
+                                ikey_seq_nos: lo_guestMnData.ikey_seq_nos
                             };
                             let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
                             //新增狀況
