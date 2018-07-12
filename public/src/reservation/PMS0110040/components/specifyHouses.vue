@@ -139,7 +139,7 @@
 
     export default {
         name: "specifyHouses",
-        props: ["rowData", "isEditStatus"],
+        props: ["isSpecifyHouse", "rowData", "isEditStatus"],
         data() {
             return {
                 orderDtGroupFieldData: [],      //order dt 欄位
@@ -171,9 +171,17 @@
             })
         },
         watch: {
-            async rowData(val) {
-                if (!_.isEmpty(val) && this.isEditStatus) {
-                    await this.fetchAllFieldsData();
+            async isSpecifyHouse(val) {
+                if (val && !_.isUndefined(this.rowData.ikey)) {
+                    //是否第一次開起
+                    if (this.orderDtGroupFieldData.length == 0) {
+                        this.initData();
+                        await this.fetchAllFieldsData();
+                    }
+                }
+                else {
+                    this.initData();
+                    this.initTmpCUD();
                 }
             },
             async editingGroupDataIndex(newVal, oldVal) {
@@ -195,15 +203,36 @@
                     //把group後order_dt資料和一開始order_dt資料進行資料比對，使用where抓出所有符合資料
                     let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
                     await this.fetchDetailRowsData(la_detailOrderDtData);
-
-                    // await this.fetchGuestRowsData(la_detailOrderDtData);
-                    // console.log('=================');
-                    // console.log(this.editingGroupDataIndex);
-                    // console.log('=================');
                 }
             }
         },
         methods: {
+            initData() {
+                this.orderDtGroupFieldData = [];
+                this.orderDtFieldData = [];
+                this.guestMnFieldData = [];
+                this.allOrderDtRowsData = [];
+                this.oriAllOrderDtRowsData = [];
+                this.orderDtGroupRowsData = [];
+                this.orderDtRowsData = [];
+                this.oriOrderDtRowsData = [];
+                this.guestMnRowsData = [];
+                this.oriGuestMnRowsData = [];
+                this.editingGroupDataIndex = undefined;
+                this.editingGroupData = {};
+                this.dgIns = {};
+                this.selectOrderDtRowsDataIkeySeqNos = "";
+                this.guestMnRowDataChecked = [];
+
+            },
+            initTmpCUD() {
+                this.tmpCUD = {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                }
+            },
             async fetchFieldsData(param) {
                 return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param).then((result) => {
                     return result;

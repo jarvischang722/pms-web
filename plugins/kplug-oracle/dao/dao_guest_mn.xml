@@ -122,7 +122,7 @@
 
     <dao name="QRY_DETAIL_GUEST_MN">
         <statement><![CDATA[
-           select A.GCUST_COD, a.ikey_seq_nos,a.alt_nam,a.assign_sta,a.room_nos,b.contry_cod,
+           select A.GCUST_COD, a.ikey_seq_nos,(a.gcust_cod||':'||a.alt_nam) as alt_nam,a.assign_sta,a.room_nos,b.contry_cod,a.ikey_seq_nos,
             (select pref_room
             from Ghist_visit_dt
             where athena_id = :athena_id
@@ -138,9 +138,6 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">ikey</parameter>
-        <parameter type="instring" kind="3">ikey_seq_nos</parameter>
-        <statement test="_v(param.ikey_seq_nos)">
-            <![CDATA[and a.ikey_seq_nos in(:ikey_seq_nos)]]></statement>
         <orderby>order by decode(a.ikey_seq_nos,0,9999)</orderby>
     </dao>
 
