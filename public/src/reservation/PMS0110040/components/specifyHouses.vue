@@ -26,7 +26,7 @@
                                     </thead>
                                     <tbody class="css_tbody">
                                     <tr class="css_tr" v-for="data in orderDtRowsData"
-                                        @click="selectOrderDtRowsData(data.ikey_seq_nos)">
+                                        @click="selectOrderDtRowsData(data)">
                                         <td class="css_td">{{ data.ikey_seq_nos }}</td>
                                         <td class="css_td">{{ data.room_nos }}</td>
                                         <td class="css_td">{{ data.guest_list }}</td>
@@ -335,8 +335,8 @@
                     console.log(err);
                 })
             },
-            selectOrderDtRowsData(ikeySeqNos) {
-                this.selectOrderDtRowsDataIkeySeqNos = ikeySeqNos;
+            selectOrderDtRowsData(rowsData) {
+                this.selectOrderDtRowsDataIkeySeqNos = rowsData.ikey_seq_nos;
             },
             specify() {
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '' && this.guestMnRowDataChecked.length > 0) {
@@ -394,7 +394,9 @@
                 }
             },
             cancelSpecify() {
-
+                if (this.selectOrderDtRowsDataIkeySeqNos !== '') {
+                    // console.log('is here');
+                }
             },
             // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
             findOriData(oriData, searchData) {
