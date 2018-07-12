@@ -1872,7 +1872,6 @@
                         this.groupOrderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData))
                     }
                     this.editingOrderDtIdx = _.isUndefined(this.editingOrderDtIdx) ? 0 : this.editingOrderDtIdx + 1;
-//                    this.convertDtDataToSingleAndTable(this.editingOrderDtIdx, ln_oldIndex);
                 }
             },
             removeRow(index) {
@@ -1978,18 +1977,6 @@
                         this.tmpCUD.oriData.splice(0, 0, this.oriOrderMnSingleData);
                     }
                 }
-
-                //住客姓名轉換
-                _.each(this.guestMnTmpCUD, (la_tmpCUD, ls_dataType) => {
-                    _.each(la_tmpCUD, (lo_tmpData, ln_idx) => {
-                        let ls_altName = JSON.parse(JSON.stringify(lo_tmpData.alt_nam));
-                        if (ls_altName.split(":").length > 1) {
-                            lo_tmpData.alt_nam = ls_altName.split(":")[1];
-                        }
-                        this.guestMnTmpCUD[ls_dataType][ln_idx] = _.extend(lo_tmpData, {page_id: 1, tab_page_id: 11});
-                        this.tmpCUD[ls_dataType].push(this.guestMnTmpCUD[ls_dataType][ln_idx]);
-                    });
-                });
 
                 //order dt 資料
                 if (!_.isEmpty(this.orderDtRowsData4table[this.editingOrderDtIdx])) {
@@ -2139,13 +2126,11 @@
                                 key_nos: this.keyNos,
                                 acust_cod: this.orderMnSingleData.acust_cod
                             };
-//
                             let lo_doComputePrice = await $.post("/api/chkFieldRule", lo_params).then(result => {
                                 return result;
                             }, err => {
                                 throw Error(err);
                             });
-//
                             if (lo_doComputePrice.success) {
                                 _.each(this.groupOrderDtData, () => {
                                     let lo_param = {
@@ -2176,6 +2161,21 @@
                         }
                     }
                 }
+
+                //住客姓名轉換
+                _.each(this.guestMnTmpCUD, (la_tmpCUD, ls_dataType) => {
+                    _.each(la_tmpCUD, (lo_tmpData, ln_idx) => {
+                        let ls_altName = JSON.parse(JSON.stringify(lo_tmpData.alt_nam));
+                        if (ls_altName.split(":").length > 1) {
+                            lo_tmpData.alt_nam = ls_altName.split(":")[1];
+                        }
+                        lo_tmpData = _.extend(lo_tmpData, {page_id: 1, tab_page_id: 11});
+                        if (ls_dataType == "createData") {
+                            console.log(lo_tmpData);
+                        }
+                        this.tmpCUD[ls_dataType].push(lo_tmpData);
+                    });
+                });
             },
             async dataValidate(chkData, chkFields) {
 
