@@ -28,19 +28,20 @@ module.exports = {
         lo_result.defaultValues = {
             base_carry: 'RND',
             base_unit: 0,
-            rent_cal_rul: 'RM',
-            min_stay_day: 0,
-            serv_rat: 10,
-            view_seq: 0,
             commis_rat: 0,
             eb_ctl: 'N',
             eb_from_day: 0,
             eb_to_day: 0,
-            sell_ctl: 'N',
+            gen_from: 'H',//此欄位文件沒有，宏興大哥給的問題單有
+            min_stay_day: 0,
+            min_occupy_rat: 0,
+            max_occupy_rat: 1,
             occupy_rate_ctl: 'N',
             occupy_rate_rul: 'ROM',
-            min_occupy_rat: 0,
-            max_occupy_rat: 1
+            rent_cal_rul: 'RM',
+            sell_ctl: 'N',
+            serv_rat: 0.1,
+            view_seq: 0,
         };
         callback(lo_error, lo_result);
     },

@@ -15,6 +15,10 @@
                 <div class="right-menu-co pull-right" style="width: 80px;">
                     <button role="button" class="btn btn-danger btn-white btn-defaultWidth" @click="setStopSell">
                         {{stopSellButton.text}}
+
+
+
+
                     </button>
                 </div>
             </div>
@@ -29,6 +33,10 @@
                             <tr class="grayBg">
                                 <th class="ca-headerTitle grayBg defHt" style="width: 15%">
                                     {{i18nLang.program.PMS0810230.dateRule}}
+
+
+
+
                                 </th>
                                 <th class="defHt" v-for="(value, key, index) in roomCodData4Display">{{key}}</th>
                             </tr>
@@ -37,8 +45,10 @@
                             <tr class="grayBg" v-for="(value, key, index) in dayNamData4Display">
                                 <td class="middle td-first defHt">{{key}}</td>
                                 <template v-for="ratecodData in value">
-                                    <td class="numeric defHt" :style="{width: tableCellWidth + '%'}" style="background-color: white;"
-                                        @click="getData(ratecodData)" :id="ratecodData.uniKey" @blur="leaveCell(ratecodData)">
+                                    <td class="numeric defHt" :style="{width: tableCellWidth + '%'}"
+                                        style="background-color: white;"
+                                        @click="getData(ratecodData)" :id="ratecodData.uniKey"
+                                        @blur="leaveCell(ratecodData)">
                                         <template v-if="ratecodData.isEdit && ratecodData.use_sta == 'Y'">
                                             <input type="text" class="defHt width-100"
                                                    @keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"
@@ -46,9 +56,17 @@
                                         </template>
                                         <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
                                             *
+
+
+
+
                                         </template>
                                         <template v-else style="width: 100%">
                                             {{ratecodData.rent_amt}}
+
+
+
+
                                         </template>
                                     </td>
                                 </template>
@@ -373,7 +391,7 @@
             rateCodDtData: {
                 //FENG LOOK PART
                 handler(val) {
-                    console.log(val);
+                    console.log("change");
                     _.each(val, (lo_val, ln_idx) => {
                         //修改新增的暫存
                         if (_.isUndefined(this.oriRateCodDtData[ln_idx]) || !_.isUndefined(lo_val.isCreate)) {
@@ -393,11 +411,15 @@
                             this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[ln_idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
                         }
                     });
+                    console.log("tmpCUD");
+                    console.log(this.tmpCUD)
                 },
                 deep: true
             },
             dayNamData4Display: {
                 handler(val) {
+                    console.log("dayNamData4Display");
+                    console.log(val);
                     let lo_cloneData = JSON.parse(JSON.stringify(val));
                     let la_allData = [];
 
@@ -432,33 +454,17 @@
                             this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
                         }
                     });
-                }
-                ,
+                    console.log("rateCodDtData")
+                    console.log(this.rateCodDtData);
+                },
                 deep: true
             },
             tmpCUD: {
                 handler(val) {
-                    //轉換tmpCUD資料
-                    let lo_param = {
-                        page_id: 2,
-                        tab_page_id: 12
-                    };
-                    _.each(val, (la_val, ls_key) => {
-                        _.each(la_val, (lo_val, ln_idx) => {
-                            if (!_.isUndefined(lo_val.rent_amt)) {
-                                lo_val.rent_amt = go_formatDisplayClass.removeAmtFormat(lo_val.rent_amt.toString());
-                                lo_val.begin_dat = moment(lo_val.begin_dat).format("YYYY/MM/DD");
-                                lo_val.end_dat = moment(lo_val.end_dat).format("YYYY/MM/DD");
-                            }
-                            val[ls_key][ln_idx] = _.extend(lo_val, lo_param);
-                        });
-                    });
-
                     this.$store.dispatch("setRoomTypData", {
                         go_rtTmpCUD: val
                     });
-                }
-                ,
+                },
                 deep: true
             }
         },
@@ -512,7 +518,7 @@
                 };
 
                 if (lo_params.searchCond.rate_cod != "") {
-                    BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params, result => {
+                    BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params).then(result => {
                         if (result.success) {
                             this.rateCodDtData = [];
                             this.oriRateCodDtData = [];
@@ -554,7 +560,7 @@
                 let lb_isFirstFetch = _.findIndex(this.rateCodDtData, {supply_nos: this.selectedUseTimeData}) > -1 ? false : true;
 
                 if (lo_params.searchCond.rate_cod != "" && lo_params.searchCond.supply_nos != "" && lb_isFirstFetch) {
-                    BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params, result => {
+                    BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params).then(result => {
                         if (result.success) {
                             this.rateCodDtData = [];
                             this.oriRateCodDtData = [];

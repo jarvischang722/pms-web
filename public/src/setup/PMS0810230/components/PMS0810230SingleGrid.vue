@@ -482,44 +482,54 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doSaveGrid">{{i18nLang.program.PMS0810230.save}}
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doOpenUseTime">
                                             {{i18nLang.program.PMS0810230.useTime}}
+
                                         </button>
                                     </li>
                                     <li>
                                         <!--等SA-->
                                         <button class="btn btn-primary btn-white btn-defaultWidth resv_priceTrial"
                                                 role="button">{{i18nLang.program.PMS0810230.priceTrial}}(等SA)
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doOpenRateList">
                                             {{i18nLang.program.PMS0810230.rateList}}
+
                                         </button>
                                     </li>
-                                    <li class="depDateLi" v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
+                                    <li class="depDateLi"
+                                        v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_dependantRate"
                                                 role="button">{{i18nLang.program.PMS0810230.depRate}}
+
                                         </button>
                                     </li>
-                                    <li class="baseDateLi" v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
+                                    <li class="baseDateLi"
+                                        v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate"
                                                 role="button">{{i18nLang.program.PMS0810230.baseRate}}
+
                                         </button>
                                     </li>
                                     <li v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_addPpl"
                                                 role="button">{{i18nLang.program.PMS0810230.addPol}}
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doCloseDialog">{{i18nLang.program.PMS0810230.leave}}
+
                                         </button>
                                     </li>
                                 </ul>
@@ -702,6 +712,7 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_duplicate"
                                                 role="button">複製
+
                                         </button>
                                     </li>
                                 </ul>
@@ -896,10 +907,12 @@
                     if (result.success) {
                         this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
                         this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.singleData.commis_rat = this.singleData.commis_rat * 100;
-                        this.oriSingleData.commis_rat = this.singleData.commis_rat * 100;
-                        this.singleData.serv_rat = this.singleData.serv_rat * 100;
-                        this.oriSingleData.serv_rat = this.singleData.serv_rat * 100;
+                        let ln_commis_rat = this.singleData.commis_rat * 100;
+                        let ln_serv_rat = this.singleData.serv_rat * 100;
+                        this.singleData.commis_rat = ln_commis_rat;
+                        this.oriSingleData.commis_rat = ln_commis_rat;
+                        this.singleData.serv_rat = ln_serv_rat;
+                        this.oriSingleData.serv_rat = ln_serv_rat;
                         this.setGlobalRateCod();
                         this.tabName = "roomTyp";
                         this.isUseTime = true;
@@ -953,7 +966,7 @@
                                 } else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        BacUtils.doHttpPromisePostProxy(result.ajaxURL, postData).then( (result) => {
+                                        BacUtils.doHttpPromisePostProxy(result.ajaxURL, postData).then((result) => {
                                             if (!result.success) {
                                                 alert(result.errorMsg);
                                             }
@@ -1066,6 +1079,7 @@
             doOpenUseTime() {
                 let self = this;
                 this.isUseTime = true;
+//                chkFieldRule
                 var dialog = $("#useTimeDialog").removeClass('hide').dialog({
                     modal: true,
                     title: go_i18nLang.program.PMS0810230.useTime,
