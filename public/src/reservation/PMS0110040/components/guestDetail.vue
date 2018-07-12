@@ -414,15 +414,13 @@
             this.$eventHub.$on("getGuestDetailRateCod", (data) => {
                 this.orderDtRowsData[this.editingOrderDtIdx].rate_cod = data.rateCodData.rate_cod;
             });
-            //取得guest mn 資料
+            //取得ghist mn 資料
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
                 if (this.$store.state.orderMnModule.gs_openModule == "guestDetail") {
-                    alert("guestDetail");
+                    let lo_ghistMnData = JSON.parse(JSON.stringify(data.ghistMnData));
+                    this.guestMnRowsData[this.editingGuestMnIdx] = _.extend(lo_ghistMnData, this.guestMnRowsData[this.editingGuestMnIdx]);
                 }
             });
-        },
-        mounted() {
-            this.activeName = 'orderDetail'
         },
         data() {
             return {
@@ -449,7 +447,14 @@
                 editingOrderDtIdx: undefined,       //現在所選明細order dt 的index
                 editingOrderDtData: {},             //現在所選明細order dt 的資料
                 editingGuestMnIdx: undefined,       //現在所選明細guest mn 的index
-                editingGuestMnData: {}              //現在所選明細guest mn 的資料
+                editingGuestMnData: {},             //現在所選明細guest mn 的資料
+                guestMnTmpCUD: {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                },
+                orderDtGroupData: {}
             }
         },
         watch: {
@@ -459,7 +464,7 @@
                     if (this.orderDtGroupFieldData.length == 0) {
                         this.initData();
                         await this.fetchAllFieldsData();
-                        this.activeName = 'orderDetail'
+                        this.activeName = 'guestDetail'
                     }
                 }
                 else {
@@ -491,6 +496,22 @@
             },
             guestMnRowsData: {
                 handler(val) {
+                    let lo_editData = val[this.editingGuestMnIdx];
+                    let ln_editIndex = _.findIndex(this.allGuestMnRowsData, {ci_ser: lo_editData.ci_ser});
+                    //修改住客資料
+                    if (ln_editIndex > -1) {
+                        this.allGuestMnRowsData[ln_editIndex] = lo_editData;
+                    }
+                    //新增修改資料
+                    else {
+                        this.allGuestMnRowsData.push(lo_editData);
+                    }
+                },
+                deep: true
+            },
+            allGuestMnRowsData: {
+                handler(val) {
+
                 },
                 deep: true
             }
@@ -536,8 +557,8 @@
                     this.guestMnFieldData = _.sortBy(lo_fetchGuestMnFieldsData.dgFieldsData, "col_seq");
 
                     if (this.isEditStatus) {
-                        await this.fetchAllGuestRowsData();
                         await this.fetchAllOrderDtRowData();
+                        await this.fetchAllGuestRowsData();
                         this.showDataGrid();
                     }
                     else {
@@ -568,6 +589,24 @@
                     let ls_groupStatement =
                         "select *, count(*) as order_qnt from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
                     this.orderDtGroupRowsData = alasql(ls_groupStatement, [this.allOrderDtRowsData]);
+
+
+                    _.each(this.orderDtGroupRowsData, (lo_groupData, idx) => {
+                        let lo_groupParam = {
+                            rate_cod: lo_groupData.rate_cod,
+                            order_sta: lo_groupData.order_sta,
+                            days: lo_groupData.days,
+                            ci_dat: lo_groupData.ci_dat,
+                            co_dat: lo_groupData.co_dat,
+                            use_cod: lo_groupData.use_cod,
+                            room_cod: lo_groupData.room_cod,
+                            rent_amt: lo_groupData.rent_amt,
+                            serv_amt: lo_groupData.serv_amt,
+                            block_cod: lo_groupData.block_cod
+                        };
+                        this.orderDtGroupData[idx] = _.where(this.allOrderDtRowsData, lo_groupParam);
+                    });
+
                 }
                 else {
                     alert(lo_fetchOrderDtData.errorMsg);
@@ -587,6 +626,17 @@
                 if (lo_fetchGuestMnData.success) {
                     this.allGuestMnRowsData = lo_fetchGuestMnData.dgRowData;
                     this.oriAllGuestMnRowsData = JSON.parse(JSON.stringify(lo_fetchGuestMnData.dgRowData));
+
+                    let lo_guestMnData = {};
+                    _.each(this.orderDtGroupData, (la_ikey_seq_nos, idx) => {
+                        lo_guestMnData[idx] = [];
+                        _.each(la_ikey_seq_nos, (lo_data) => {
+                            let lo_guestMnRowData = _.findWhere(this.allGuestMnRowsData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                            if (!_.isUndefined(lo_guestMnRowData)) {
+                                lo_guestMnData[idx].push(lo_guestMnRowData);
+                            }
+                        });
+                    });
                 }
                 else {
                     alert(lo_fetchGuestMnData.errorMsg);
@@ -619,7 +669,7 @@
                 this.editingOrderDtData = _.extend(this.rowData, this.orderDtRowsData[this.editingOrderDtIdx]);
                 this.$eventHub.$emit("setSelectRateCodData", {
                     rowData: this.editingOrderDtData,
-                    openModule: "guestDetail"
+                    openModule: "orderDetail"
                 });
             },
             searchGuestMnAltName(index) {
