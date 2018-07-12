@@ -21,6 +21,12 @@ $(function () {
     });
 
 
+    $(document).on('click', ".click-effect td", function (e) {
+        $(".click-effect td").removeClass("active").addClass('un-active');
+        $(this).parent().find('td').removeClass('un-active').addClass("active");
+    });
+
+
     //抓取瀏覽器&OS資訊
     var nVer = navigator.appVersion;
     var nAgt = navigator.userAgent;
