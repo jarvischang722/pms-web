@@ -334,7 +334,7 @@
                     _.each(this.orderDtRowsData, (rowsData) => {
                         if (rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
                             _.each(this.guestMnRowDataChecked, (checkedData) => {
-                                let lo_oriCheckedData = JSON.parse(JSON.stringify(checkedData));
+                                let lo_oriCheckedData = this.findOriData(this.oriGuestMnRowsData, checkedData);
                                 checkedData.ikey_seq_nos = rowsData.ikey_seq_nos;
                                 rowsData.guest_list += ',' + checkedData.alt_nam;
                                 this.tmpCUD.oriData.push(lo_oriCheckedData);
@@ -342,11 +342,10 @@
                             });
                         }
                     });
-                    // guestMnRowsData和guestMnRowDataChecked資料比對，條件符合紀錄當下在guestMnRowsData裡index
-                    // 並移除顧客資料
+                    // guestMnRowsData和guestMnRowDataChecked資料比對，並移除顧客資料
                     _.each(this.guestMnRowsData, (rowData, rowDataIndex) => {
                         _.each(this.guestMnRowDataChecked, (checkedData) => {
-                            if (rowData.alt_nam === checkedData.alt_nam) {
+                            if (rowData.athena_id === checkedData.athena_id && rowData.ci_ser === checkedData.ci_ser && rowData.hotel_cod === checkedData.hotel_cod) {
                                 this.guestMnRowsData.splice(rowDataIndex, 1);
                             }
                         });
@@ -357,13 +356,39 @@
                 if (this.guestMnRowsData.length > 0) {
                     let ln_index = 0;
                     _.each(this.orderDtRowsData, (rowsData) => {
-                        if (this.guestMnRowsData[ln_index].alt_nam !== undefined) {
+                        if (ln_index < this.guestMnRowsData.length) {
+                            let lo_oriCheckedData = this.findOriData(this.oriGuestMnRowsData, this.guestMnRowsData[ln_index]);
+                            this.guestMnRowsData[ln_index].ikey_seq_nos = rowsData.ikey_seq_nos;
                             rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
+                            this.tmpCUD.oriData.push(lo_oriCheckedData);
+                            this.tmpCUD.updateData.push(this.guestMnRowsData[ln_index]);
+                            ln_index++;
                         }
-                        ln_index++;
                     });
+                    console.log(this.tmpCUD.oriData);
+                    console.log(this.tmpCUD.updateData);
                 }
-            }
+            },
+            // 共用，比對原始資料，並找出原始資料的那一筆(找尋單筆)
+            findOriData(oriData, searchData) {
+                let lo_result;
+                _.each(oriData, (item) => {
+                    if (item.athena_id === searchData.athena_id && item.ci_ser === searchData.ci_ser && item.hotel_cod === searchData.hotel_cod) {
+                        lo_result = item;
+                    }
+                });
+                return lo_result;
+            },
+            // 共用，移除guest_mn住客資料
+            // removeGuestMnData() {
+            //     _.each(this.guestMnRowsData, (rowData, rowDataIndex) => {
+            //         _.each(this.guestMnRowDataChecked, (checkedData) => {
+            //             if (rowData.athena_id === checkedData.athena_id && rowData.ci_ser === checkedData.ci_ser && rowData.hotel_cod === checkedData.hotel_cod) {
+            //                 this.guestMnRowsData.splice(rowDataIndex, 1);
+            //             }
+            //         });
+            //     });
+            // }
         }
     }
 </script>
