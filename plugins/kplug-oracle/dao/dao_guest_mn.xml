@@ -150,7 +150,6 @@
             and a.hotel_cod = :hotel_cod
             and a.ikey = :ikey
             and master_sta = 'G'
-            and a.ikey_seq_nos = 0
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>

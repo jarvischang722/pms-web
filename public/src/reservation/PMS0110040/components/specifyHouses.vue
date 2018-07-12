@@ -89,7 +89,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button">取消指定
+                                                role="button" @click="cancelSpecify">取消指定
                                         </button>
                                     </li>
                                     <li>
@@ -150,8 +150,10 @@
                 orderDtGroupRowsData: [],       //order dt group 後資料
                 orderDtRowsData: [],            //所group 到的所有 order dt 資料
                 oriOrderDtRowsData: [],         //所group 到的所有 order dt 原始資料
-                guestMnRowsData: [],            //所group 到的所有 guest mn 資料
-                oriGuestMnRowsData: [],         //所group 到的所有 guest mn 原始資料
+                guestMnRowsData: [],            //所group 到的所有 guest mn ikey_seq_nos = 0 資料
+                oriGuestMnRowsData: [],         //所group 到的所有 guest mn ikey_seq_nos = 0 原始資料
+                allGuestMnRowsData: [],         //所group 到的所有 guest mn 全部資料
+                oriAllGuestMnRowsData: [],       //所group 到的所有 guest mn 全部原始資料
                 editingGroupDataIndex: undefined,
                 editingGroupData: {},
                 dgIns: {},
@@ -218,6 +220,8 @@
                 this.oriOrderDtRowsData = [];
                 this.guestMnRowsData = [];
                 this.oriGuestMnRowsData = [];
+                this.allGuestMnRowsData = [];
+                this.oriAllGuestMnRowsData = [];
                 this.editingGroupDataIndex = undefined;
                 this.editingGroupData = {};
                 this.dgIns = {};
@@ -317,8 +321,15 @@
                     searchCond: {ikey: this.rowData.ikey}
                 }).then((result) => {
                     if (result.success) {
-                        this.guestMnRowsData = result.dgRowData;
-                        this.oriGuestMnRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        this.allGuestMnRowsData = result.dgRowData;
+                        this.oriAllGuestMnRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        // 篩選只要ikey_seq_nos = 0 資料
+                        let la_filterIkeySeqNos = _.filter(this.allGuestMnRowsData, (rowsData) => {
+                            return rowsData.ikey_seq_nos === 0;
+                        });
+
+                        this.guestMnRowsData = la_filterIkeySeqNos;
+                        this.oriGuestMnRowsData = JSON.parse(JSON.stringify(la_filterIkeySeqNos));
                     }
                 }).catch(err => {
                     console.log(err);
@@ -378,9 +389,14 @@
                         // 回傳沒有在la_removeIndex移除清單內最後結果資料
                         return la_removeIndex.indexOf(rowsDataIndex) === -1;
                     });
+
+
                 }
             },
-            // 共用，比對原始資料，並找出原始資料的那一筆(找尋單筆)
+            cancelSpecify() {
+
+            },
+            // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
             findOriData(oriData, searchData) {
                 let lo_result;
                 _.each(oriData, (item) => {

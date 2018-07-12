@@ -134,7 +134,7 @@
     <!-- [prg_id: PMS0110042 ]  取得住客清單-->
     <dao name="QRY_HOUSES_INFO_DETAIL">
         <statement><![CDATA[
-        select ikey_seq_nos,room_nos,
+        select athena_id, hotel_cod, ikey, ikey_seq_nos, room_nos,
         pg_hfd_get_nam2.sf_hfd_get_guest_list(athena_id, hotel_cod, ikey, ikey_seq_nos, '#1####') guest_list from order_dt
         where order_sta <> 'X'
         and athena_id = :athena_id
