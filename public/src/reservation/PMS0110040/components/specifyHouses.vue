@@ -395,7 +395,18 @@
             },
             cancelSpecify() {
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '') {
-                    // console.log('is here');
+
+                    // 點擊當下orderDtRowsData，並和guest_mn比對，撈出guest_mn的資料
+                    _.each(this.orderDtRowsData, (rowsData) => {
+                        if(rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos){
+                            let lo_guestMnFilter =  _.filter(this.allGuestMnRowsData, (guestMnRowsData) => {
+                                return  rowsData.athena_id === guestMnRowsData.athena_id && rowsData.hotel_cod === guestMnRowsData.hotel_cod
+                                    && rowsData.ikey === guestMnRowsData.ikey && rowsData.ikey_seq_nos === guestMnRowsData.ikey_seq_nos;
+                            });
+                            this.guestMnRowsData.push(lo_guestMnFilter);
+                        }
+                    });
+                    // console.log(this.guestMnRowsData);
                 }
             },
             // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
