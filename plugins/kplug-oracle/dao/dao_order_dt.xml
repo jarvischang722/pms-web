@@ -50,16 +50,16 @@
 
     <dao name="QRY_ORDER_DT_FOR_DETAIL_GROUP">
         <statement><![CDATA[
-            select d.ikey_seq_nos, d.order_sta, d.ci_dat, d.co_dat, d.rate_cod, m.ratecod_nam, d.use_cod, d.rent_amt, d.serv_amt,
-            d.order_qnt, d.rent_tot, d.room_cod, d.adult_qnt, d.child_qnt, d.baby_qnt
-            from order_dt d
-            join ratecod_mn m on d.athena_id = m.athena_id and d.hotel_cod = m.hotel_cod
-            and d.rate_cod = m.rate_cod
-            where d.order_sta <> 'X'
-            and d.athena_id = :athena_id
-            and d.hotel_cod = :hotel_cod
-            and d.ikey = :ikey
-            order by ikey_seq_nos
+           select d.*,
+           pg_hfd_get_nam2.sf_hfd_get_guest_list(:athena_id, :hotel_cod, ikey, ikey_seq_nos, '#1####') guest_list
+           from order_dt d
+           join ratecod_mn m on d.athena_id = m.athena_id and d.hotel_cod = m.hotel_cod
+           and d.rate_cod = m.rate_cod
+           where d.order_sta <> 'X'
+           and d.athena_id = :athena_id
+           and d.hotel_cod = :hotel_cod
+           and d.ikey = :ikey
+           order by ikey_seq_nos
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
@@ -129,7 +129,6 @@
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">guest_typ</parameter>
     </dao>
-
 
 
     <!-- [prg_id: PMS0110042 ]  取得住客清單-->

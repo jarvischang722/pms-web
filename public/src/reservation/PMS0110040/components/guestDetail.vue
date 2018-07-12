@@ -475,7 +475,7 @@
                     };
                     let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
                     this.fetchGuestRowsData(la_detailOrderDtData);
-                    await this.fetchDetailRowsData(la_detailOrderDtData);
+                    this.fetchDetailRowsData(la_detailOrderDtData);
                     this.isLoading = false;
                 }
             }
@@ -582,33 +582,14 @@
                 this.dgIns.init("PMS0110042", "orderDtTable", DatagridFieldAdapter.combineFieldOption(this.orderDtGroupFieldData, "orderDtTable"), this.orderDtGroupFieldData);
                 this.dgIns.loadDgData(this.orderDtGroupRowsData);
             },
-            async fetchDetailRowsData(detailRowsData) {
-                let la_ikeySeqNos = [];
+            fetchDetailRowsData(detailRowsData) {
+                let ls_ikeySeqNos = "";
                 _.each(detailRowsData, (lo_detailData) => {
-                    la_ikeySeqNos.push(lo_detailData.ikey_seq_nos);
+                    ls_ikeySeqNos += `,${lo_detailData.ikey_seq_nos}`;
                 });
-                await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
-                    prg_id: 'PMS0110042',
-                    page_id: 1,
-                    tab_page_id: 2,
-                    searchCond: {ikey_seq_nos: la_ikeySeqNos, ikey: detailRowsData[0].ikey}
-                }).then((result) => {
-                    if (result.success) {
-                        _.each(result.dgRowData, (lo_dgRowData) => {
-                            lo_dgRowData.ci_dat = moment(lo_dgRowData.ci_dat).format("YYYY/MM/DD");
-                            lo_dgRowData.co_dat = moment(lo_dgRowData.co_dat).format("YYYY/MM/DD");
-                            lo_dgRowData.ci_dat_week = moment(lo_dgRowData.ci_dat).format("ddd");
-                            lo_dgRowData.co_dat_week = moment(lo_dgRowData.co_dat).format("ddd");
-                        });
-                        this.orderDtRowsData = result.dgRowData;
-                        this.oriOrderDtRowsData = JSON.parse(JSON.stringify(result.dgRowData));
-                    }
-                    else {
-                        alert(result.errorMsg);
-                    }
-                }).catch(err => {
-                    console.log(err);
-                })
+                ls_ikeySeqNos = ls_ikeySeqNos.substring(1, ls_ikeySeqNos.length);
+                let ls_selectParams = `select * from ? where ikey_seq_nos in (${ls_ikeySeqNos})`;
+                this.orderDtRowsData = alasql(ls_selectParams, [this.allOrderDtRowsData]);
             },
             fetchGuestRowsData(detailRowsData) {
                 let ls_ikeySeqNos = "0";
@@ -617,7 +598,6 @@
                 });
                 let ls_selectParams = `select * from ? where ikey_seq_nos in (${ls_ikeySeqNos})`;
                 this.guestMnRowsData = alasql(ls_selectParams, [this.allGuestMnRowsData]);
-                console.log(this.guestMnRowsData);
             },
             showRateCodDialog(index) {
                 let self = this;
