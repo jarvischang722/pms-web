@@ -418,7 +418,7 @@
             });
             //取得rate cod 資料
             this.$eventHub.$on("getGuestDetailRateCod", (data) => {
-                this.orderDtRowsData[this.editingOrderDtIdx].rate_cod = data.rateCodData.rate_cod;
+                this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx].rate_cod = data.rateCodData.rate_cod;
             });
             //取得ghist mn 資料
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
@@ -638,7 +638,7 @@
             },
             showRateCodDialog(index) {
                 this.editingOrderDtIdx = index;
-                this.editingOrderDtData = _.extend(this.rowData, this.orderDtRowsData[this.editingOrderDtIdx]);
+                this.editingOrderDtData = _.extend(this.rowData, this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx]);
                 this.$eventHub.$emit("setSelectRateCodData", {
                     rowData: this.editingOrderDtData,
                     openModule: "orderDetail"
