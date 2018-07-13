@@ -171,7 +171,7 @@
 </template>
 
 <script>
-
+    //r_1140
     export default {
         name: "publicAccount",
         props: ["rowData"],
@@ -200,6 +200,7 @@
                     this.fetchRowData();
                 }
             },
+            //chkMastersta
             "singleData.master_sta"(val) {
                 if (val == 'N') {
                     this.singleData.master_nos = "";
@@ -255,6 +256,7 @@
                     });
                 }
             },
+            //r_1142
             manualSelect() {
                 //todo 高度在問晉瑋
                 let dialog = $("#selectManually_dialog").removeClass('hide').dialog({
@@ -271,10 +273,12 @@
             doCloseDialog() {
                 $("#publicAccount_dialog").dialog('close');
             },
+            //r_1142
             doConfirmSelectData() {
                 this.singleData.master_nos = this.selectedData.master_nos;
                 this.doCloseSelectDataDialog();
             },
+            //r_1144
             doCloseSelectDataDialog() {
                 $("#selectManually_dialog").dialog('close');
             }

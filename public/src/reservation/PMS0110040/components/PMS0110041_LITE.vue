@@ -1340,18 +1340,6 @@
                 },
                 deep: true
             },
-            tmpCUD: {
-                handler(val) {
-                    console.log("tmpCUD", val);
-                },
-                deep: true
-            },
-            guestMnTmpCUD: {
-                handler(val) {
-                    console.log("guestMnTmpCUD", val);
-                },
-                deep: true
-            }
         },
         methods: {
             fetchUserInfo() {
@@ -2251,15 +2239,19 @@
                             prg_id: 'PMS0110041',
                             func_id: this.isCreateStatus ? "0520" : "0540",
                             tmpCUD: this.tmpCUD
-                        }).then(
-                            result => {
+                        })
+                            .then(result => {
                                 return result;
-                            }).catch(err => {
+                            })
+                            .catch(err => {
                             return {success: false, errorMsg: err};
                         });
                     if (lo_saveData.success) {
                         alert(go_i18nLang.program.PMS0810230.save_success);
                         let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
+                        if (!_.isEmpty(lo_saveData.apiReturnData)) {
+                            lo_cloneRowData = _.extend(lo_cloneRowData, lo_saveData.apiReturnData);
+                        }
 
                         this.isEditStatus = true;
                         this.isCreateStatus = false;
@@ -2311,7 +2303,3 @@
         }
     }
 </script>
-
-<style>
-
-</style>
