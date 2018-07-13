@@ -94,7 +94,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button">全部取消
+                                                role="button" @click="allCancelSpecify">全部取消
                                         </button>
                                     </li>
                                     <li>
@@ -429,6 +429,36 @@
                     }
                 } else {
                     alert('請選項目');
+                }
+            },
+            allCancelSpecify() {
+                // orderDtRowsData和allGuestMnRowsData資料比對，撈符合資料
+                let la_guestInfo = [];
+                _.each(this.orderDtRowsData, (orderDtRowsData) => {
+                    _.each(this.allGuestMnRowsData, (guestMnRowsData) => {
+                        if (orderDtRowsData.ikey === guestMnRowsData.ikey && orderDtRowsData.ikey_seq_nos === guestMnRowsData.ikey_seq_nos) {
+                            la_guestInfo.push(guestMnRowsData);
+                        }
+                    });
+                });
+                // la_guestInfo 有資料才做，更新狀態、資料
+                if (la_guestInfo.length > 0) {
+                    let lo_oriGuestMnData = this.findOriDataMul(this.oriAllGuestMnRowsData, la_guestInfo);
+                    _.each(la_guestInfo, (guestInfo) => {
+                        guestInfo.ikey_seq_nos = 0;
+                        this.guestMnRowsData.push(guestInfo);
+                        this.tmpCUD.updateData.push(guestInfo);
+                    });
+                    //更新原始資料
+                    _.each(lo_oriGuestMnData, (oriGuestMnData) => {
+                        this.tmpCUD.oriData.push(oriGuestMnData);
+                    });
+                    // 移除order_dt顧客資料
+                    _.each(this.orderDtRowsData, (orderDtRowsData) => {
+                        orderDtRowsData.guest_list = '';
+                    });
+                } else {
+                    alert('無須取消的住客資料')
                 }
             },
             // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
