@@ -107,7 +107,7 @@
         <parameter type="string" kind="3">gcust_cod</parameter>
     </dao>
 
-    <!-- ['PMS0110041'] ???????-->
+    <!-- ['PMS0110041'] 訂房公司選單 -->
     <dao name="SEL_ACUST_NAM">
         <statement><![CDATA[
            select idx.show_cod,idx.cust_cod,idx.alt_nam,idx.uni_cod,idx.office_tel,mn.sales_cod,

@@ -2239,10 +2239,11 @@
                             prg_id: 'PMS0110041',
                             func_id: this.isCreateStatus ? "0520" : "0540",
                             tmpCUD: this.tmpCUD
-                        }).then(
-                            result => {
+                        })
+                            .then(result => {
                                 return result;
-                            }).catch(err => {
+                            })
+                            .catch(err => {
                             return {success: false, errorMsg: err};
                         });
                     if (lo_saveData.success) {
@@ -2302,7 +2303,3 @@
         }
     }
 </script>
-
-<style>
-
-</style>
