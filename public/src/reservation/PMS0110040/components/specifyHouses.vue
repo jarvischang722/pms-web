@@ -26,7 +26,7 @@
                                     </thead>
                                     <tbody class="css_tbody">
                                     <tr class="css_tr" v-for="data in orderDtRowsData"
-                                        @click="selectOrderDtRowsData(data.ikey_seq_nos)">
+                                        @click="selectOrderDtRowsData(data)">
                                         <td class="css_td">{{ data.ikey_seq_nos }}</td>
                                         <td class="css_td">{{ data.room_nos }}</td>
                                         <td class="css_td">{{ data.guest_list }}</td>
@@ -84,12 +84,12 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">自動指定
+                                                role="button" @click="automaticSpecify">自動指定
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button">取消指定
+                                                role="button" @click="cancelSpecify">取消指定
                                         </button>
                                     </li>
                                     <li>
@@ -150,8 +150,10 @@
                 orderDtGroupRowsData: [],       //order dt group 後資料
                 orderDtRowsData: [],            //所group 到的所有 order dt 資料
                 oriOrderDtRowsData: [],         //所group 到的所有 order dt 原始資料
-                guestMnRowsData: [],            //所group 到的所有 guest mn 資料
-                oriGuestMnRowsData: [],         //所group 到的所有 guest mn 原始資料
+                guestMnRowsData: [],            //所group 到的所有 guest mn ikey_seq_nos = 0 資料
+                oriGuestMnRowsData: [],         //所group 到的所有 guest mn ikey_seq_nos = 0 原始資料
+                allGuestMnRowsData: [],         //所group 到的所有 guest mn 全部資料
+                oriAllGuestMnRowsData: [],       //所group 到的所有 guest mn 全部原始資料
                 editingGroupDataIndex: undefined,
                 editingGroupData: {},
                 dgIns: {},
@@ -218,6 +220,8 @@
                 this.oriOrderDtRowsData = [];
                 this.guestMnRowsData = [];
                 this.oriGuestMnRowsData = [];
+                this.allGuestMnRowsData = [];
+                this.oriAllGuestMnRowsData = [];
                 this.editingGroupDataIndex = undefined;
                 this.editingGroupData = {};
                 this.dgIns = {};
@@ -317,15 +321,22 @@
                     searchCond: {ikey: this.rowData.ikey}
                 }).then((result) => {
                     if (result.success) {
-                        this.guestMnRowsData = result.dgRowData;
-                        this.oriGuestMnRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        this.allGuestMnRowsData = result.dgRowData;
+                        this.oriAllGuestMnRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        // 篩選只要ikey_seq_nos = 0 資料
+                        let la_filterIkeySeqNos = _.filter(this.allGuestMnRowsData, (rowsData) => {
+                            return rowsData.ikey_seq_nos === 0;
+                        });
+
+                        this.guestMnRowsData = la_filterIkeySeqNos;
+                        this.oriGuestMnRowsData = JSON.parse(JSON.stringify(la_filterIkeySeqNos));
                     }
                 }).catch(err => {
                     console.log(err);
                 })
             },
-            selectOrderDtRowsData(ikeySeqNos) {
-                this.selectOrderDtRowsDataIkeySeqNos = ikeySeqNos;
+            selectOrderDtRowsData(rowsData) {
+                this.selectOrderDtRowsDataIkeySeqNos = rowsData.ikey_seq_nos;
             },
             specify() {
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '' && this.guestMnRowDataChecked.length > 0) {
@@ -334,7 +345,7 @@
                     _.each(this.orderDtRowsData, (rowsData) => {
                         if (rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
                             _.each(this.guestMnRowDataChecked, (checkedData) => {
-                                let lo_oriCheckedData = JSON.parse(JSON.stringify(checkedData));
+                                let lo_oriCheckedData = this.findOriData(this.oriGuestMnRowsData, checkedData);
                                 checkedData.ikey_seq_nos = rowsData.ikey_seq_nos;
                                 rowsData.guest_list += ',' + checkedData.alt_nam;
                                 this.tmpCUD.oriData.push(lo_oriCheckedData);
@@ -342,17 +353,72 @@
                             });
                         }
                     });
-                    // guestMnRowsData和guestMnRowDataChecked資料比對，條件符合紀錄當下在guestMnRowsData裡index
-                    // 並移除顧客資料
+                    // guestMnRowsData和guestMnRowDataChecked資料比對，抓出要移除資料index
+                    let la_removeIndex = [];
                     _.each(this.guestMnRowsData, (rowData, rowDataIndex) => {
                         _.each(this.guestMnRowDataChecked, (checkedData) => {
-                            if (rowData.alt_nam === checkedData.alt_nam) {
-                                this.guestMnRowsData.splice(rowDataIndex, 1);
+                            if (rowData.athena_id === checkedData.athena_id && rowData.ci_ser === checkedData.ci_ser && rowData.hotel_cod === checkedData.hotel_cod) {
+                                la_removeIndex.push(rowDataIndex);
                             }
                         });
                     });
+                    // 移除guest_mn資料
+                    this.guestMnRowsData = _.filter(this.guestMnRowsData, (rowsData, rowsDataIndex) => {
+                        // 回傳沒有在la_removeIndex移除清單內最後結果資料
+                        return la_removeIndex.indexOf(rowsDataIndex) === -1;
+                    });
                 }
-            }
+            },
+            automaticSpecify() {
+                if (this.guestMnRowsData.length > 0) {
+                    let ln_index = 0;
+                    let la_removeIndex = [];
+                    _.each(this.orderDtRowsData, (rowsData) => {
+                        if (ln_index < this.guestMnRowsData.length) {
+                            let lo_oriCheckedData = this.findOriData(this.oriGuestMnRowsData, this.guestMnRowsData[ln_index]);
+                            this.guestMnRowsData[ln_index].ikey_seq_nos = rowsData.ikey_seq_nos;
+                            rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
+                            la_removeIndex.push(ln_index);
+                            this.tmpCUD.oriData.push(lo_oriCheckedData);
+                            this.tmpCUD.updateData.push(this.guestMnRowsData[ln_index]);
+                            ln_index++;
+                        }
+                    });
+                    // 移除guest_mn資料
+                    this.guestMnRowsData = _.filter(this.guestMnRowsData, (rowsData, rowsDataIndex) => {
+                        // 回傳沒有在la_removeIndex移除清單內最後結果資料
+                        return la_removeIndex.indexOf(rowsDataIndex) === -1;
+                    });
+
+
+                }
+            },
+            cancelSpecify() {
+                if (this.selectOrderDtRowsDataIkeySeqNos !== '') {
+
+                    // 點擊當下orderDtRowsData，並和guest_mn比對，撈出guest_mn的資料
+                    _.each(this.orderDtRowsData, (rowsData) => {
+                        if(rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos){
+                            let lo_guestMnFilter =  _.filter(this.allGuestMnRowsData, (guestMnRowsData) => {
+                                return  rowsData.athena_id === guestMnRowsData.athena_id && rowsData.hotel_cod === guestMnRowsData.hotel_cod
+                                    && rowsData.ikey === guestMnRowsData.ikey && rowsData.ikey_seq_nos === guestMnRowsData.ikey_seq_nos;
+                            });
+                            this.guestMnRowsData.push(lo_guestMnFilter);
+                        }
+                    });
+                    // console.log(this.guestMnRowsData);
+                }
+            },
+            // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
+            findOriData(oriData, searchData) {
+                let lo_result;
+                _.each(oriData, (item) => {
+                    if (item.athena_id === searchData.athena_id && item.ci_ser === searchData.ci_ser && item.hotel_cod === searchData.hotel_cod) {
+                        lo_result = item;
+                    }
+                });
+                return lo_result;
+            },
         }
     }
 </script>

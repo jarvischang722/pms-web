@@ -134,12 +134,8 @@
             and order_dt.hotel_cod = :hotel_cod
             and order_dt.ikey = order_mn.ikey
             and order_dt.order_sta <> 'X'
-            group by order_dt.ikey, order_dt.order_sta, order_dt.ci_dat, order_dt.co_dat, order_dt.days,
-            order_dt.rate_cod, order_dt.use_cod, order_dt.room_cod, order_dt.rent_amt, order_dt.serv_amt,
-            order_dt.block_cod, order_mn.group_nos, order_mn.acust_nam, order_mn.atten_nam,
-            order_mn.sales_cod, order_mn.rvreserve_nos
-            order by order_dt.ikey,decode (order_sta,'N','1','I','2','O','3','S','4','5') ,ci_dat, co_dat,rate_cod,use_cod,
-            room_cod,rent_amt,serv_amt,block_cod
+
+
         ]]>
         </statement>
 
@@ -148,6 +144,14 @@
             <!--and dt.hotel_cod = :hotel_cod-->
             <!--and dt.order_sta <> 'X'-->
         <!--]]></statement>-->
+        <orderby>order by order_dt.ikey,decode (order_sta,'N','1','I','2','O','3','S','4','5') ,ci_dat, co_dat,rate_cod,use_cod,
+            room_cod,rent_amt,serv_amt,block_cod</orderby>
+
+        <groupby>group by order_dt.ikey, order_dt.order_sta, order_dt.ci_dat, order_dt.co_dat, order_dt.days,
+            order_dt.rate_cod, order_dt.use_cod, order_dt.room_cod, order_dt.rent_amt, order_dt.serv_amt,
+            order_dt.block_cod, order_mn.group_nos, order_mn.acust_nam, order_mn.atten_nam,
+            order_mn.sales_cod, order_mn.rvreserve_nos</groupby>
+
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <!-- full_nam -->
@@ -167,159 +171,159 @@
         <parameter type="likestring" kind="3">full_nam</parameter>
         <!-- 訂房卡號 -->
         <statement test="_v(param.ikey)"><![CDATA[
-            and dt.ikey like :ikey
+            and order_dt.ikey like :ikey
         ]]></statement>
         <parameter type="likestring" kind="3">ikey</parameter>
         <!-- 官網/聯訂中心 -->
         <statement test="_v(param.rvreserve_nos)"><![CDATA[
-            and mn.rvreserve_nos like :rvreserve_nos
+            and order_mn.rvreserve_nos like :rvreserve_nos
         ]]></statement>
         <parameter type="likestring" kind="3">rvreserve_nos</parameter>
         <!-- C/I日期 -->
         <statement test="_v(param['order_dt.ci_dat'])"><![CDATA[
-            and dt.ci_dat = to_date(:order_dt.ci_dat, 'YYYY/MM/DD')
+            and order_dt.ci_dat = to_date(:order_dt.ci_dat, 'YYYY/MM/DD')
         ]]></statement>
         <parameter type="string" kind="3">order_dt.ci_dat</parameter>
         <!-- C/O日期 -->
         <statement test="_v(param['order_dt.co_dat'])"><![CDATA[
-            and dt.co_dat = to_date(:order_dt.co_dat, 'YYYY/MM/DD')
+            and order_dt.co_dat = to_date(:order_dt.co_dat, 'YYYY/MM/DD')
         ]]></statement>
         <parameter type="string" kind="3">order_dt.co_dat</parameter>
         <!-- 訂房卡狀態 -->
         <statement test="_v(param['order_dt.order_sta'])"><![CDATA[
-            and dt.order_sta in(:order_dt.order_sta)
+            and order_dt.order_sta in(:order_dt.order_sta)
         ]]></statement>
         <parameter type="instring" kind="3">order_dt.order_sta</parameter>
         <!-- 種類 -->
         <statement test="_v(param['guest_rf.guest_way'])"><![CDATA[
-            and g.guest_way in(:guest_rf.guest_way)
+            and guest_rf.guest_way in(:guest_rf.guest_way)
         ]]></statement>
         <parameter type="instring" kind="3">guest_rf.guest_way</parameter>
         <!-- 房價代號 -->
         <statement test="_v(param['order_dt.rate_cod'])"><![CDATA[
-            and dt.rate_cod in(:order_dt.rate_cod)
+            and order_dt.rate_cod in(:order_dt.rate_cod)
         ]]></statement>
         <parameter type="instring" kind="3">order_dt.rate_cod</parameter>
         <!-- 計價房型 -->
         <statement test="_v(param['order_dt.use_cod'])"><![CDATA[
-            and dt.use_cod in(:order_dt.use_cod)
+            and order_dt.use_cod in(:order_dt.use_cod)
         ]]></statement>
         <parameter type="instring" kind="3">order_dt.use_cod</parameter>
         <!-- 使用房型 -->
         <statement test="_v(param['order_dt.room_cod'])"><![CDATA[
-            and dt.room_cod in(:order_dt.room_cod)
+            and order_dt.room_cod in(:order_dt.room_cod)
         ]]></statement>
         <parameter type="instring" kind="3">order_dt.room_cod</parameter>
         <!-- 公帳號 -->
         <statement test="_v(param.master_nos)"><![CDATA[
-            and mn.master_nos in(:master_nos)
+            and order_mn.master_nos in(:master_nos)
         ]]></statement>
         <parameter type="instring" kind="3">master_nos</parameter>
         <!-- 團號 -->
         <statement test="_v(param.group_nos)"><![CDATA[
-            and mn.group_nos like :group_nos
+            and order_mn.group_nos like :group_nos
         ]]></statement>
         <parameter type="likestring" kind="3">group_nos</parameter>
         <!-- 訂房公司 -->
         <statement test="_v(param.acust_nam)"><![CDATA[
-            and mn.acust_nam like :acust_nam
+            and order_mn.acust_nam like :acust_nam
         ]]></statement>
         <parameter type="likestring" kind="3">acust_nam</parameter>
         <!-- 公司名稱 -->
         <statement test="_v(param.cust_nam)"><![CDATA[
-            and mn.cust_nam like :cust_nam
+            and order_mn.cust_nam like :cust_nam
         ]]></statement>
         <parameter type="likestring" kind="3">cust_nam</parameter>
         <!-- 聯絡人 -->
         <statement test="_v(param.atten_nam)"><![CDATA[
-            and mn.atten_nam like :atten_nam
+            and order_mn.atten_nam like :atten_nam
         ]]></statement>
         <parameter type="likestring" kind="3">atten_nam</parameter>
         <!-- 鎖控代號 -->
         <statement test="_v(param.block_cod)"><![CDATA[
-            and mn.block_cod in(:block_cod)
+            and order_mn.block_cod in(:block_cod)
         ]]></statement>
         <parameter type="instring" kind="3">block_cod</parameter>
         <!-- 訂房來源 -->
         <statement test="_v(param['order_dt.source_typ'])"><![CDATA[
-            and dt.source_typ in(:order_dt.source_typ)
+            and order_dt.source_typ in(:order_dt.source_typ)
         ]]></statement>
         <parameter type="instring" kind="3">order_dt.source_typ</parameter>
         <!-- 市場類別 -->
         <statement test="_v(param['order_dt.guest_typ'])"><![CDATA[
-            and dt.guest_typ in(:order_dt.guest_typ)
+            and order_dt.guest_typ in(:order_dt.guest_typ)
         ]]></statement>
         <parameter type="instring" kind="3">order_dt.guest_typ</parameter>
         <!-- 訂房備註 -->
         <statement test="_v(param.order_rmk)"><![CDATA[
-            and mn.order_rmk like :order_rmk
+            and order_mn.order_rmk like :order_rmk
         ]]></statement>
         <parameter type="likestring" kind="3">order_rmk</parameter>
         <!-- 保留日期 -->
         <statement test="_v(param.keep_dat)"><![CDATA[
-            and mn.keep_dat = to_date(:keep_dat, 'YYYY/MM/DD')
+            and order_mn.keep_dat = to_date(:keep_dat, 'YYYY/MM/DD')
         ]]></statement>
         <parameter type="string" kind="3">keep_dat</parameter>
         <!-- 是否確認 -->
         <statement test="_v(param.confirm_sta)"><![CDATA[
-            and mn.confirm_sta in(:confirm_sta)
+            and order_mn.confirm_sta in(:confirm_sta)
         ]]></statement>
         <parameter type="instring" kind="3">confirm_sta</parameter>
         <!-- 確認日期 -->
         <statement test="_v(param.confirm_dat)"><![CDATA[
-            and mn.confirm_dat = to_date(:confirm_dat, 'YYYY/MM/DD')
+            and order_mn.confirm_dat = to_date(:confirm_dat, 'YYYY/MM/DD')
         ]]></statement>
         <parameter type="string" kind="3">confirm_dat</parameter>
         <!-- 確認者 -->
         <statement test="_v(param.confirm_usr)"><![CDATA[
-            and mn.confirm_usr like :confirm_usr
+            and order_mn.confirm_usr like :confirm_usr
         ]]></statement>
         <parameter type="likestring" kind="3">confirm_usr</parameter>
         <!-- 取消者 -->
         <statement test="_v(param.cancel_usr)"><![CDATA[
-            and mn.cancel_usr like :cancel_usr
+            and order_mn.cancel_usr like :cancel_usr
         ]]></statement>
         <parameter type="likestring" kind="3">cancel_usr</parameter>
         <!-- 取消日期 -->
         <statement test="_v(param.cancel_dat)"><![CDATA[
-            and mn.cancel_dat = to_date(:cancel_dat, 'YYYY/MM/DD')
+            and order_mn.cancel_dat = to_date(:cancel_dat, 'YYYY/MM/DD')
         ]]></statement>
         <parameter type="string" kind="3">cancel_dat</parameter>
 
         <!-- 速查 -->
         <statement test="_v(param.ikey_qry)"><![CDATA[
             and
-            (mn.acust_nam like :ikey_qry
-            or mn.atten_nam like :ikey_qry
-            or mn.cust_nam like :ikey_qry
-            or mn.ikey like :ikey_qry
-            or mn.group_nos like :ikey_qry
-            or mn.rvreserve_nos like :ikey_qry)
+            (order_mn.acust_nam like :ikey_qry
+            or order_mn.atten_nam like :ikey_qry
+            or order_mn.cust_nam like :ikey_qry
+            or order_mn.ikey like :ikey_qry
+            or order_mn.group_nos like :ikey_qry
+            or order_mn.rvreserve_nos like :ikey_qry)
         ]]></statement>
         <parameter type="likestring" kind="3">ikey_qry</parameter>
         <!-- 連絡電話 -->
         <statement test="_v(param.tel_nos)"><![CDATA[
-            and (mn.mobile_nos like :tel_nos
-            or mn.office_tel like :tel_nos
-            or mn.home_tel like :tel_nos
-            or mn.fax_nos like :tel_nos
-            or mn.e_mail like :tel_nos)
+            and (order_mn.mobile_nos like :tel_nos
+            or order_mn.office_tel like :tel_nos
+            or order_mn.home_tel like :tel_nos
+            or order_mn.fax_nos like :tel_nos
+            or order_mn.e_mail like :tel_nos)
         ]]></statement>
         <parameter type="likestring" kind="3">tel_nos</parameter>
         <!-- 新增/修改者 -->
         <statement test="_v(param['order_dt.upd_usr'])"><![CDATA[
-            and (dt.ins_usr like :order_dt.upd_usr
-            or dt.upd_usr like :order_dt.upd_usr)
+            and (order_dt.ins_usr like :order_dt.upd_usr
+            or order_dt.upd_usr like :order_dt.upd_usr)
         ]]></statement>
         <parameter type="likestring" kind="3">order_dt.upd_usr</parameter>
         <!-- 新增日 -->
         <statement test="_v(param['order_dt.ins_dat'])"><![CDATA[
-            and trunc(dt.ins_dat) = to_date(:order_dt.ins_dat, 'YYYY/MM/DD')
+            and trunc(order_dt.ins_dat) = to_date(:order_dt.ins_dat, 'YYYY/MM/DD')
         ]]></statement>
         <parameter type="string" kind="3">order_dt.ins_dat</parameter>
         <!-- 修改日 -->
         <statement test="_v(param['order_dt.upd_dat'])"><![CDATA[
-            and trunc(dt.upd_dat) = to_date(:order_dt.upd_dat, 'YYYY/MM/DD')
+            and trunc(order_dt.upd_dat) = to_date(:order_dt.upd_dat, 'YYYY/MM/DD')
         ]]></statement>
         <parameter type="string" kind="3">order_dt.upd_dat</parameter>
     </dao>
