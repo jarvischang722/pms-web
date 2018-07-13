@@ -16,13 +16,13 @@
     <!-- ['PMS0210010'] 取得國籍下拉資料-->
     <dao name="SEL_GHISTMNCONTRYCOD">
         <statement>
-            SELECT  CNTRY_RF.CONTRY_COD, CNTRY_RF.CONTRY_NAM, CNTRY_RF.CONTRY_SNA, LANG_RF.LANG_NAM,
+            SELECT CNTRY_RF.CONTRY_COD, CNTRY_RF.CONTRY_NAM, CNTRY_RF.CONTRY_SNA, LANG_RF.LANG_NAM,
             CNTRY_RF.CONTRY_COD||':'||CNTRY_RF.CONTRY_NAM CONTRY_DISPLAY
-            FROM  CNTRY_RF, LANG_RF
-            WHERE  CNTRY_RF.ATHENA_ID = LANG_RF.ATHENA_ID(+)
-            AND  CNTRY_RF.LANG_COD = LANG_RF.LANG_COD(+)
-            AND  CNTRY_RF.ATHENA_ID = :athena_id
-            ORDER  BY  CNTRY_RF.VIEW_SEQ,
+            FROM CNTRY_RF, LANG_RF
+            WHERE CNTRY_RF.ATHENA_ID = LANG_RF.ATHENA_ID(+)
+            AND CNTRY_RF.LANG_COD = LANG_RF.LANG_COD(+)
+            AND CNTRY_RF.ATHENA_ID = :athena_id
+            ORDER BY CNTRY_RF.VIEW_SEQ,
             CNTRY_RF.CONTRY_COD
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>

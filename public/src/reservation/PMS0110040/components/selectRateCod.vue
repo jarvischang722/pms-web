@@ -138,7 +138,7 @@
                 });
             },
             confirmData() {
-                let ls_returnFunc = this.openModule == 'guestDetail' ? "getGuestDetailRateCod" : "getOrderDtRateCod";
+                let ls_returnFunc = this.openModule == 'orderDetail' ? "getGuestDetailRateCod" : "getOrderDtRateCod";
                 this.$eventHub.$emit(ls_returnFunc, {
                     rowData: this.rowData,
                     rateCodData: this.selectedData

@@ -119,7 +119,6 @@
         <orderby>order by alt_nam</orderby>
     </dao>
 
-
     <dao name="QRY_DETAIL_GUEST_MN">
         <statement><![CDATA[
            select A.GCUST_COD, a.ikey_seq_nos,(a.gcust_cod||':'||a.alt_nam) as alt_nam,a.assign_sta,a.room_nos,b.contry_cod,a.ikey_seq_nos,
@@ -128,7 +127,7 @@
             where athena_id = :athena_id
             and hotel_cod = :hotel_cod
             and gcust_cod = a.gcust_cod) pref_room,
-            B.CAR_NOS
+            B.CAR_NOS, a.athena_id, a.hotel_cod, a.ci_ser
            from guest_mn a, ghist_mn b
            where a.athena_id = b.athena_id
            and a.gcust_cod = b.gcust_cod
@@ -144,13 +143,12 @@
     <!-- PMS0110042 查詢尚未指定房組的住客-->
     <dao name="QRY_HOUSES_INFO_DETAIL_GUEST">
         <statement><![CDATA[
-            select a.athena_id, a.hotel_cod, a.ci_ser, a.ikey_seq_nos, a.alt_nam from guest_mn a
+            select a.athena_id, a.hotel_cod, a.ci_ser, a.ikey, a.ikey_seq_nos, a.alt_nam from guest_mn a
             where a.guest_sta <> 'X'
             and a.athena_id = :athena_id
             and a.hotel_cod = :hotel_cod
             and a.ikey = :ikey
             and master_sta = 'G'
-            and a.ikey_seq_nos = 0
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
