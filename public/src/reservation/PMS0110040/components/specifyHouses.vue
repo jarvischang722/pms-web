@@ -227,7 +227,6 @@
                 this.dgIns = {};
                 this.selectOrderDtRowsDataIkeySeqNos = "";
                 this.guestMnRowDataChecked = [];
-
             },
             initTmpCUD() {
                 this.tmpCUD = {
@@ -416,6 +415,12 @@
                             _.each(lo_oriGuestInfo, (data) => {
                                 this.tmpCUD.oriData.push(data);
                             });
+                            // 移除order_dt顧客資料
+                            _.each(this.orderDtRowsData, (data) => {
+                                if (data.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
+                                    data.guest_list = '';
+                                }
+                            });
                         } else {
                             alert('此行無住客資料');
                         }
@@ -439,7 +444,7 @@
             //比對原始資料，並找出原始資料的那一筆(找尋多筆)
             findOriDataMul(oriData, searchData) {
                 let la_result;
-                la_result =  _.where(oriData, {
+                la_result = _.where(oriData, {
                     ikey: searchData[0].ikey,
                     ikey_seq_nos: searchData[0].ikey_seq_nos,
                 });
