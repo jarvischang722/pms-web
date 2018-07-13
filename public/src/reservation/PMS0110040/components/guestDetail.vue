@@ -216,104 +216,107 @@
                                                             <td class=""></td>
                                                             <td class=""></td>
                                                         </tr>
-                                                        <template v-for="(singleData, idx) in guestMnRowsData">
-                                                            <tr>
-                                                                <td class="text-center">
-                                                                    <i class="fa fa-minus red"></i>
-                                                                </td>
-                                                                <template v-for="field in guestMnFieldData">
-                                                                    <td class="text-left input-noEdit"
-                                                                        :style="{width:field.width + 'px'}"
-                                                                        v-if="field.visiable == 'Y' && field.ui_type=='label'"
-                                                                        @click="editingGuestMnIdx = idx">
-                                                                        {{singleData[field.ui_field_name]}}
+                                                        <template v-for="(rowsData, key) in guestMnRowsData">
+                                                            <template v-if="key == editingGroupDataIndex"
+                                                                      v-for="(singleData, idx) in rowsData.concat(guestMnRowsData['unspecified'])">
+                                                                <tr>
+                                                                    <td class="text-center">
+                                                                        <i class="fa fa-minus red"></i>
                                                                     </td>
-                                                                    <td class="text-left"
-                                                                        @click="editingGuestMnIdx = idx"
-                                                                        v-if="field.visiable == 'Y' && field.ui_type=='text'">
-                                                                        <input type="text"
-                                                                               v-model="singleData[field.ui_field_name]"
-                                                                               :style="{width:field.width + 'px'}"
-                                                                               :required="field.requirable == 'Y'"
-                                                                               :maxlength="field.ui_field_length"
-                                                                               class="selectHt"
-                                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    <template v-for="field in guestMnFieldData">
+                                                                        <td class="text-left input-noEdit"
+                                                                            :style="{width:field.width + 'px'}"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='label'"
+                                                                            @click="editingGuestMnIdx = idx">
+                                                                            {{singleData[field.ui_field_name]}}
+                                                                        </td>
+                                                                        <td class="text-left"
+                                                                            @click="editingGuestMnIdx = idx"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='text'">
+                                                                            <input type="text"
+                                                                                   v-model="singleData[field.ui_field_name]"
+                                                                                   :style="{width:field.width + 'px'}"
+                                                                                   :required="field.requirable == 'Y'"
+                                                                                   :maxlength="field.ui_field_length"
+                                                                                   class="selectHt"
+                                                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                                    </td>
-                                                                    <td class="text-left"
-                                                                        @click="editingGuestMnIdx = idx"
-                                                                        v-if="field.visiable == 'Y' && field.ui_type=='select'">
-                                                                        <bac-select :field="field"
-                                                                                    :style="{width:field.width + 'px'}"
+                                                                        </td>
+                                                                        <td class="text-left"
+                                                                            @click="editingGuestMnIdx = idx"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='select'">
+                                                                            <bac-select :field="field"
+                                                                                        :style="{width:field.width + 'px'}"
+                                                                                        v-model="singleData[field.ui_field_name]"
+                                                                                        :data="field.selectData"
+                                                                                        is-qry-src-before="Y"
+                                                                                        value-field="value"
+                                                                                        text-field="display"
+                                                                                        @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                                        :default-val="singleData[field.ui_field_name] || field.defaultVal"
+                                                                                        class="el-select-ht selectHt"
+                                                                                        style="height: 25px;"
+                                                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                            </bac-select>
+                                                                        </td>
+                                                                        <td class="text-left"
+                                                                            @click="editingGuestMnIdx = idx"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='date'">
+                                                                            <!-- 日期時間選擇器 -->
+                                                                            <el-date-picker
                                                                                     v-model="singleData[field.ui_field_name]"
-                                                                                    :data="field.selectData"
-                                                                                    is-qry-src-before="Y"
-                                                                                    value-field="value"
-                                                                                    text-field="display"
-                                                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                                                    :default-val="singleData[field.ui_field_name] || field.defaultVal"
-                                                                                    class="el-select-ht selectHt"
-                                                                                    style="height: 25px;"
+                                                                                    type="date"
                                                                                     :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                                        </bac-select>
-                                                                    </td>
-                                                                    <td class="text-left"
-                                                                        @click="editingGuestMnIdx = idx"
-                                                                        v-if="field.visiable == 'Y' && field.ui_type=='date'">
-                                                                        <!-- 日期時間選擇器 -->
-                                                                        <el-date-picker
-                                                                                v-model="singleData[field.ui_field_name]"
-                                                                                type="date"
-                                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                                                class="date-wt input_sta_required"
-                                                                                format="yyyy/MM/dd"
-                                                                                :style="{width:field.width + 'px'}"
-                                                                                :editable="false" :clearable="false"
-                                                                        >
-                                                                        </el-date-picker>
-                                                                    </td>
-                                                                    <td class="text-left"
-                                                                        @click="editingGuestMnIdx = idx"
-                                                                        v-if="field.visiable == 'Y' && field.ui_type=='number'">
-                                                                        <!--number 金額顯示format-->
-                                                                        <input type="text"
-                                                                               v-model="singleData[field.ui_field_name]"
-                                                                               :style="{width:field.width + 'px'}"
-                                                                               class="text-right selectHt"
-                                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                                    class="date-wt input_sta_required"
+                                                                                    format="yyyy/MM/dd"
+                                                                                    :style="{width:field.width + 'px'}"
+                                                                                    :editable="false" :clearable="false"
+                                                                            >
+                                                                            </el-date-picker>
+                                                                        </td>
+                                                                        <td class="text-left"
+                                                                            @click="editingGuestMnIdx = idx"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='number'">
+                                                                            <!--number 金額顯示format-->
+                                                                            <input type="text"
+                                                                                   v-model="singleData[field.ui_field_name]"
+                                                                                   :style="{width:field.width + 'px'}"
+                                                                                   class="text-right selectHt"
+                                                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                                    </td>
-                                                                    <td class="text-left td-more"
-                                                                        style="height: 26px;"
-                                                                        @click="editingGuestMnIdx = idx"
-                                                                        v-if="field.visiable == 'Y' && field.ui_type=='selectgrid'">
-                                                                        <bac-select-grid
-                                                                                v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
-                                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                                                :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                                v-model="singleData[field.ui_field_name]"
-                                                                                :columns="field.selectData.columns"
-                                                                                :data="field.selectData.selectData"
-                                                                                :field="field"
-                                                                                :is-qry-src-before="field.selectData.isQrySrcBefore"
-                                                                                :id-field="field.selectData.value"
-                                                                                :text-field="field.selectData.display"
-                                                                                @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                                                :default-val="singleData[field.ui_field_name]"
-                                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                        </td>
+                                                                        <td class="text-left td-more"
+                                                                            style="height: 26px;"
+                                                                            @click="editingGuestMnIdx = idx"
+                                                                            v-if="field.visiable == 'Y' && field.ui_type=='selectgrid'">
+                                                                            <bac-select-grid
+                                                                                    v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                    v-model="singleData[field.ui_field_name]"
+                                                                                    :columns="field.selectData.columns"
+                                                                                    :data="field.selectData.selectData"
+                                                                                    :field="field"
+                                                                                    :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                                                    :id-field="field.selectData.value"
+                                                                                    :text-field="field.selectData.display"
+                                                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                                    :default-val="singleData[field.ui_field_name]"
+                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                                        </bac-select-grid>
-                                                                        <button @click="searchGuestMnAltName(idx)"
-                                                                                class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
-                                                                            Profile
-                                                                        </button>
-                                                                    </td>
-                                                                </template>
-                                                            </tr>
+                                                                            </bac-select-grid>
+                                                                            <button @click="searchGuestMnAltName(singleData, idx)"
+                                                                                    class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
+                                                                                Profile
+                                                                            </button>
+                                                                        </td>
+                                                                    </template>
+                                                                </tr>
+                                                            </template>
                                                         </template>
                                                         <!--1-->
                                                         </tbody>
@@ -418,7 +421,17 @@
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
                 if (this.$store.state.orderMnModule.gs_openModule == "guestDetail") {
                     let lo_ghistMnData = JSON.parse(JSON.stringify(data.ghistMnData));
-                    this.guestMnRowsData[this.editingGuestMnIdx] = _.extend(lo_ghistMnData, this.guestMnRowsData[this.editingGuestMnIdx]);
+                    if (this.editingGuestMnData.ikey_seq_nos == 0) {
+                        let ln_editIdx = _.findIndex(this.guestMnRowsData["unspecified"], {ci_ser: this.editingGuestMnData.ci_ser});
+                        if (ln_editIdx > -1) {
+                            this.guestMnRowsData["unspecified"][ln_editIdx] =
+                                _.extend(lo_ghistMnData, this.guestMnRowsData["unspecified"][ln_editIdx]);
+                        }
+                    }
+                    else {
+                        this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx] =
+                            _.extend(lo_ghistMnData, this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx]);
+                    }
                 }
             });
         },
@@ -429,23 +442,28 @@
                 isLoading: false,
                 loadingText: "loading...",
                 isOpenSpecifyHouse: false,
+
                 allOrderDtRowsData: [],             //所有的order dt資料
                 oriAllOrderDtRowsData: [],          //所有的原始order dt資料
-                allGuestMnRowsData: [],             //所有的原始guest mn資料
-                oriAllGuestMnRowsData: [],          //所有guest mn資料
                 orderDtGroupFieldData: [],          //group order dt 的欄位資料
-                orderDtGroupRowsData: [],           //group order dt 的資料
-                oriOrderDtGroupRowsData: [],        //group order dt 的原始資料
+                orderDtGroupRowsData: [],           //group order dt 的資料(顯示用)
+                oriOrderDtGroupRowsData: [],        //group order dt 的原始資料(顯示用)
+                orderDtGroupData: {},               //分組後的order dt資料
+
                 orderDtFieldData: [],               //所group 到的所有 order dt 欄位資料
                 orderDtRowsData: [],                //所group 到的所有 order dt 資料
                 oriOrderDtRowsData: [],             //所group 到的所有 order dt 原始資料
+
                 guestMnFieldData: [],               //所group 到的所有 guest mn 欄位資料
-                guestMnRowsData: [],                //所group 到的所有 guest mn 原始資料
-                oriGuestMnRowsData: [],             //所group 到的所有 guest mn 資料
+                guestMnRowsData: {},                //所group 到的所有 guest mn 原始資料
+                oriGuestMnRowsData: {},             //所group 到的所有 guest mn 資料
+
                 editingGroupDataIndex: undefined,   //現在所選group order dt 的index
                 editingGroupData: {},               //現在所選group order dt 的資料
+
                 editingOrderDtIdx: undefined,       //現在所選明細order dt 的index
                 editingOrderDtData: {},             //現在所選明細order dt 的資料
+
                 editingGuestMnIdx: undefined,       //現在所選明細guest mn 的index
                 editingGuestMnData: {},             //現在所選明細guest mn 的資料
                 guestMnTmpCUD: {
@@ -453,8 +471,7 @@
                     updateData: [],
                     deleteData: [],
                     oriData: []
-                },
-                orderDtGroupData: {}
+                }
             }
         },
         watch: {
@@ -489,31 +506,9 @@
                         block_cod: this.editingGroupData.block_cod
                     };
                     let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
-                    this.fetchGuestRowsData(la_detailOrderDtData);
                     this.fetchDetailRowsData(la_detailOrderDtData);
                     this.isLoading = false;
                 }
-            },
-            guestMnRowsData: {
-                handler(val) {
-                    let lo_editData = val[this.editingGuestMnIdx];
-                    let ln_editIndex = _.findIndex(this.allGuestMnRowsData, {ci_ser: lo_editData.ci_ser});
-                    //修改住客資料
-                    if (ln_editIndex > -1) {
-                        this.allGuestMnRowsData[ln_editIndex] = lo_editData;
-                    }
-                    //新增修改資料
-                    else {
-                        this.allGuestMnRowsData.push(lo_editData);
-                    }
-                },
-                deep: true
-            },
-            allGuestMnRowsData: {
-                handler(val) {
-
-                },
-                deep: true
             }
         },
         methods: {
@@ -590,7 +585,7 @@
                         "select *, count(*) as order_qnt from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
                     this.orderDtGroupRowsData = alasql(ls_groupStatement, [this.allOrderDtRowsData]);
 
-
+                    //組分組後的order dt 資料
                     _.each(this.orderDtGroupRowsData, (lo_groupData, idx) => {
                         let lo_groupParam = {
                             rate_cod: lo_groupData.rate_cod,
@@ -606,7 +601,6 @@
                         };
                         this.orderDtGroupData[idx] = _.where(this.allOrderDtRowsData, lo_groupParam);
                     });
-
                 }
                 else {
                     alert(lo_fetchOrderDtData.errorMsg);
@@ -624,19 +618,21 @@
                     return {success: false, errorMsg: err};
                 });
                 if (lo_fetchGuestMnData.success) {
-                    this.allGuestMnRowsData = lo_fetchGuestMnData.dgRowData;
-                    this.oriAllGuestMnRowsData = JSON.parse(JSON.stringify(lo_fetchGuestMnData.dgRowData));
+                    let la_unGroupGuestMnData = lo_fetchGuestMnData.dgRowData;
 
-                    let lo_guestMnData = {};
+                    //利用分組後的order dt 資料將guest mn 資料做分組
                     _.each(this.orderDtGroupData, (la_ikey_seq_nos, idx) => {
-                        lo_guestMnData[idx] = [];
+                        this.guestMnRowsData[idx] = [];
                         _.each(la_ikey_seq_nos, (lo_data) => {
-                            let lo_guestMnRowData = _.findWhere(this.allGuestMnRowsData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                            let lo_guestMnRowData = _.findWhere(la_unGroupGuestMnData, {ikey_seq_nos: lo_data.ikey_seq_nos});
                             if (!_.isUndefined(lo_guestMnRowData)) {
-                                lo_guestMnData[idx].push(lo_guestMnRowData);
+                                this.guestMnRowsData[idx].push(lo_guestMnRowData);
                             }
                         });
                     });
+                    //未指定的guest mn 資料
+                    this.guestMnRowsData["unspecified"] = _.where(la_unGroupGuestMnData, {ikey_seq_nos: 0});
+                    this.oriGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
                 }
                 else {
                     alert(lo_fetchGuestMnData.errorMsg);
@@ -656,14 +652,6 @@
                 let ls_selectParams = `select * from ? where ikey_seq_nos in (${ls_ikeySeqNos})`;
                 this.orderDtRowsData = alasql(ls_selectParams, [this.allOrderDtRowsData]);
             },
-            fetchGuestRowsData(detailRowsData) {
-                let ls_ikeySeqNos = "0";
-                _.each(detailRowsData, (lo_detailData) => {
-                    ls_ikeySeqNos += `,${lo_detailData.ikey_seq_nos}`;
-                });
-                let ls_selectParams = `select * from ? where ikey_seq_nos in (${ls_ikeySeqNos})`;
-                this.guestMnRowsData = alasql(ls_selectParams, [this.allGuestMnRowsData]);
-            },
             showRateCodDialog(index) {
                 this.editingOrderDtIdx = index;
                 this.editingOrderDtData = _.extend(this.rowData, this.orderDtRowsData[this.editingOrderDtIdx]);
@@ -672,10 +660,10 @@
                     openModule: "orderDetail"
                 });
             },
-            searchGuestMnAltName(index) {
+            searchGuestMnAltName(guestMnData, index) {
                 this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "guestDetail"});
                 this.editingGuestMnIdx = index;
-                this.editingGuestMnData = _.extend(this.rowData, this.guestMnRowsData[this.editingGuestMnIdx]);
+                this.editingGuestMnData = _.extend(this.rowData, guestMnData);
                 this.$eventHub.$emit("setSelectGuestMnAltData", {
                     rowData: this.editingGuestMnData
                 });
