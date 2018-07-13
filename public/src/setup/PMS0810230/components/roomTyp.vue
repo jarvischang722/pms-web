@@ -338,6 +338,7 @@
         },
         data() {
             return {
+                dollar: 123456789,
                 i18nLang: go_i18nLang,
                 rentCalDat: '',             //滾房租日
                 isLoading: true,
@@ -372,20 +373,24 @@
                     this.fetchUseTime();
                 }
             },
+
             dayNamData4Display: {
                 handler(val) {
                     let lo_cloneData = JSON.parse(JSON.stringify(val));
                     let la_allData = [];
                     _.each(lo_cloneData, (val, key) => {
                         _.each(val, (lo_val) => {
-                            lo_val.rent_amt = go_formatDisplayClass.removeAmtFormat(JSON.parse(JSON.stringify(lo_val.rent_amt)).toString());
                             la_allData.push(lo_val);
                         })
                     });
-
+//                    console.log(this.tmpCUD)
                     _.each(this.rateCodDtData, (lo_ratecodData, idx) => {
-                        let ln_existIndex = _.findIndex(la_allData, {uniKey: lo_ratecodData.uniKey});
+                        lo_ratecodData.rent_amt = go_formatDisplayClass.removeAmtFormat(JSON.parse(JSON.stringify(lo_ratecodData.rent_amt)).toString());
+                        lo_ratecodData.begin_dat = moment(lo_ratecodData.begin_dat).format("YYYY/MM/DD");
+                        lo_ratecodData.end_dat = moment(lo_ratecodData.end_dat).format("YYYY/MM/DD");
 
+
+                        let ln_existIndex = _.findIndex(la_allData, {uniKey: lo_ratecodData.uniKey});
                         if (ln_existIndex > -1) {
                             this.rateCodDtData[idx] = la_allData[ln_existIndex];
                             this.rateCodDtData[idx]["isEdit"] = false;
@@ -408,6 +413,7 @@
                             this.tmpCUD.updateData.push(_.extend(lo_ratecodData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
                             this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
                         }
+                        console.log(idx + "==>" + this.rateCodDtData[idx].rent_amt)
                     });
                 },
                 deep: true
@@ -620,7 +626,9 @@
                     }
 
                 }
-
+                console.log(this.editingCellData.day_nam);
+                console.log(ln_editIndex);
+                console.log(this.dayNamData4Display[this.editingCellData.day_nam][ln_editIndex]);
             },
             //剛新增的使用期間(未入到資料庫)
             getAndConvertTmpUseTimeData() {

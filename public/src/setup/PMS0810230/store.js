@@ -110,7 +110,7 @@ const actions = {
         };
         let lo_rt = {
             page_id: 2,
-            tab_page_id: 11
+            tab_page_id: 12
         }
         let lo_ut = {
             page_id: 1010,
