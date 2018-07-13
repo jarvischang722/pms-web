@@ -395,25 +395,31 @@
             },
             cancelSpecify() {
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '') {
+                    let lo_currentClick = _.findWhere(this.orderDtRowsData, {ikey_seq_nos: this.selectOrderDtRowsDataIkeySeqNos});
+                    if (lo_currentClick !== undefined) {
+                        // console.log(lo_currentClick);
+                        let lo_guestMnData = _.findWhere(this.allGuestMnRowsData, {
+                            ikey_seq_nos: lo_currentClick.ikey_seq_nos,
+                            ikey: lo_currentClick.ikey
+                        });
 
-                    // 點擊當下orderDtRowsData，並和guest_mn比對，撈出guest_mn的資料
-                    _.each(this.orderDtRowsData, (rowsData) => {
-                        if(rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos){
-                            let lo_guestMnFilter =  _.filter(this.allGuestMnRowsData, (guestMnRowsData) => {
-                                return  rowsData.athena_id === guestMnRowsData.athena_id && rowsData.hotel_cod === guestMnRowsData.hotel_cod
-                                    && rowsData.ikey === guestMnRowsData.ikey && rowsData.ikey_seq_nos === guestMnRowsData.ikey_seq_nos;
-                            });
-                            this.guestMnRowsData.push(lo_guestMnFilter);
-                        }
-                    });
-                    // console.log(this.guestMnRowsData);
+                        // 這邊要和oriAllGuestMnRowsData資料比對，撈出原始資料
+                        let lo_oriGuestInfo = this.findOriData(this.oriAllGuestMnRowsData, lo_guestMnData);
+                        lo_guestMnData.ikey_seq_nos = 0;
+                        this.guestMnRowsData.push(lo_guestMnData);
+                        this.tmpCUD.oriData.push(lo_oriGuestInfo);
+                        this.tmpCUD.updateData.push(lo_guestMnData);
+
+                    } else {
+                        alert('無效資料');
+                    }
                 }
             },
             // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
             findOriData(oriData, searchData) {
                 let lo_result;
                 _.each(oriData, (item) => {
-                    if (item.athena_id === searchData.athena_id && item.ci_ser === searchData.ci_ser && item.hotel_cod === searchData.hotel_cod) {
+                    if (item.ikey_seq_nos === searchData.ikey_seq_nos && item.ci_ser === searchData.ci_ser) {
                         lo_result = item;
                     }
                 });
