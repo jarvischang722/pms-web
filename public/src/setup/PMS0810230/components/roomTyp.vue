@@ -15,10 +15,6 @@
                 <div class="right-menu-co pull-right" style="width: 80px;">
                     <button role="button" class="btn btn-danger btn-white btn-defaultWidth" @click="setStopSell">
                         {{stopSellButton.text}}
-
-
-
-
                     </button>
                 </div>
             </div>
@@ -33,10 +29,6 @@
                             <tr class="grayBg">
                                 <th class="ca-headerTitle grayBg defHt" style="width: 15%">
                                     {{i18nLang.program.PMS0810230.dateRule}}
-
-
-
-
                                 </th>
                                 <th class="defHt" v-for="(value, key, index) in roomCodData4Display">{{key}}</th>
                             </tr>
@@ -56,17 +48,9 @@
                                         </template>
                                         <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
                                             *
-
-
-
-
                                         </template>
                                         <template v-else style="width: 100%">
                                             {{ratecodData.rent_amt}}
-
-
-
-
                                         </template>
                                     </td>
                                 </template>
@@ -388,43 +372,13 @@
                     this.fetchUseTime();
                 }
             },
-            rateCodDtData: {
-                //FENG LOOK PART
-                handler(val) {
-                    console.log("change");
-                    _.each(val, (lo_val, ln_idx) => {
-                        //修改新增的暫存
-                        if (_.isUndefined(this.oriRateCodDtData[ln_idx]) || !_.isUndefined(lo_val.isCreate)) {
-                            let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_val.uniKey});
-                            if (ln_createIndex > -1) {
-                                this.tmpCUD.createData.splice(ln_createIndex, 1);
-                            }
-                            this.tmpCUD.createData.push(_.extend(lo_val, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                        }
-                        else if (!_.isMatch(lo_val, this.oriRateCodDtData[ln_idx]) && lo_val.supply_nos == this.oriRateCodDtData[ln_idx].supply_nos) {
-                            let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {uniKey: lo_val.uniKey});
-                            if (ln_editIndex > -1) {
-                                this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                                this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                            }
-                            this.tmpCUD.updateData.push(_.extend(lo_val, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                            this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[ln_idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                        }
-                    });
-                    console.log("tmpCUD");
-                    console.log(this.tmpCUD)
-                },
-                deep: true
-            },
             dayNamData4Display: {
                 handler(val) {
-                    console.log("dayNamData4Display");
-                    console.log(val);
                     let lo_cloneData = JSON.parse(JSON.stringify(val));
                     let la_allData = [];
-
                     _.each(lo_cloneData, (val, key) => {
                         _.each(val, (lo_val) => {
+                            lo_val.rent_amt = go_formatDisplayClass.removeAmtFormat(JSON.parse(JSON.stringify(lo_val.rent_amt)).toString());
                             la_allData.push(lo_val);
                         })
                     });
@@ -436,7 +390,7 @@
                             this.rateCodDtData[idx] = la_allData[ln_existIndex];
                             this.rateCodDtData[idx]["isEdit"] = false;
                         }
-
+                        //原始資料找不到  && isCreate一定要存在 ==> 新增過後修改
                         if (_.isUndefined(this.oriRateCodDtData[idx]) || !_.isUndefined(lo_ratecodData.isCreate)) {
                             let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_ratecodData.uniKey});
                             if (ln_createIndex > -1) {
@@ -444,6 +398,7 @@
                             }
                             this.tmpCUD.createData.push(_.extend(lo_ratecodData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
                         }
+                        // if ratecode的原始資料和 此筆資料一模一樣 ==> 表示原始資料要修改的
                         else if (!_.isMatch(lo_ratecodData, this.oriRateCodDtData[idx]) && lo_ratecodData.supply_nos == this.oriRateCodDtData[idx].supply_nos) {
                             let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {uniKey: lo_ratecodData.uniKey});
                             if (ln_editIndex > -1) {
@@ -454,8 +409,6 @@
                             this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
                         }
                     });
-                    console.log("rateCodDtData")
-                    console.log(this.rateCodDtData);
                 },
                 deep: true
             },

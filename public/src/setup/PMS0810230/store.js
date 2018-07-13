@@ -110,7 +110,15 @@ const actions = {
         };
         let lo_rt = {
             page_id: 2,
-            tab_page_id: 12
+            tab_page_id: 11
+        }
+        let lo_ut = {
+            page_id: 1010,
+            tab_page_id: 1
+        }
+        let lo_mn = {
+            page_id: 2,
+            tab_page_id: 1
         }
         if (state.gb_isCreateStatus) {
             lo_tmpCUD.createData.push(state.go_allData.go_mnSingleData);
@@ -119,26 +127,21 @@ const actions = {
             });
 
             _.each(state.go_utTmpCUD.createData, function (lo_createData) {
-                lo_tmpCUD.createData.push(lo_createData);
+                lo_tmpCUD.createData.push(_.extend(lo_createData, lo_ut));
             });
         }
         else if (state.gb_isEditStatus) {
-            lo_tmpCUD.updateData.push(state.go_allData.go_mnSingleData);
-            lo_tmpCUD.oriData.push(state.go_allOriData.go_mnSingleData);
+            lo_tmpCUD.updateData.push(_.extend(state.go_allData.go_mnSingleData, lo_mn));
+            lo_tmpCUD.oriData.push(_.extend(state.go_allOriData.go_mnSingleData, lo_mn));
 
             _.each(state.go_rtTmpCUD, (value, key) => {
                 _.each(value, (lo_val) => {
-                    // if (lo_val == 'createData') {
-                    //     lo_tmpCUD[key].push(_.extend(lo_val, lo_rt));
-                    // } else {
-                        lo_tmpCUD[key].push(lo_val);
-                    // }
-
+                    lo_tmpCUD[key].push(_.extend(lo_val, lo_rt));
                 })
             });
             _.each(state.go_utTmpCUD, (value, key) => {
                 _.each(value, (lo_val) => {
-                    lo_tmpCUD[key].push(lo_val);
+                    lo_tmpCUD[key].push(_.extend(lo_val, lo_ut));
                 })
             });
         }
