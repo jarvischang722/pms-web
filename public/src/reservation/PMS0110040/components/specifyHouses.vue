@@ -164,7 +164,8 @@
                     updateData: [],
                     deleteData: [],
                     oriData: []
-                }
+                },
+                monitor: []  //監聽tmpCUD的異動
             }
         },
         created() {
@@ -237,11 +238,13 @@
                 }
             },
             async fetchFieldsData(param) {
-                return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param).then((result) => {
-                    return result;
-                }).catch(err => {
-                    return {success: false, errMsg: err};
-                })
+                return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param)
+                    .then((result) => {
+                        return result;
+                    })
+                    .catch(err => {
+                        return {success: false, errMsg: err};
+                    })
             },
             // 撈回所有欄位名稱
             async fetchAllFieldsData() {
@@ -283,13 +286,18 @@
                     console.log(err);
                 })
             },
-            // 初始化一個版
+
             showDataGrid() {
                 this.dgIns = new DatagridSingleGridClass();
                 this.dgIns.init("PMS0110042", "resv_assignHouseTable", DatagridFieldAdapter.combineFieldOption(this.orderDtGroupFieldData, "resv_assignHouseTable"), this.orderDtGroupFieldData);
                 this.dgIns.loadDgData(this.orderDtGroupRowsData);
                 this.editingGroupDataIndex = 0;
             },
+            /**
+             * 取名系資料
+             * @param detailRowsData {array} 明細資料
+             * @returns {Promise<void>}
+             */
             async fetchDetailRowsData(detailRowsData) {
                 // 找出每一筆資料的ikey_seq_nos
                 let la_ikeySeqNos = [];
@@ -334,6 +342,7 @@
                     console.log(err);
                 })
             },
+
             selectOrderDtRowsData(rowsData) {
                 this.selectOrderDtRowsDataIkeySeqNos = rowsData.ikey_seq_nos;
             },
@@ -367,7 +376,8 @@
                         return la_removeIndex.indexOf(rowsDataIndex) === -1;
                     });
                 } else {
-                    alert('請選項目');
+
+                    alert(go_i18nLang["program"]["PMS0110042"]["isSelected"]);
                 }
             },
             automaticSpecify() {
@@ -460,6 +470,9 @@
                 } else {
                     alert('無須取消的住客資料')
                 }
+            },
+            monitor() {
+
             },
             // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
             findOriData(oriData, searchData) {
