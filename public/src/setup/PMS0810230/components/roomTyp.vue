@@ -15,6 +15,9 @@
                 <div class="right-menu-co pull-right" style="width: 80px;">
                     <button role="button" class="btn btn-danger btn-white btn-defaultWidth" @click="setStopSell">
                         {{stopSellButton.text}}
+
+
+
                     </button>
                 </div>
             </div>
@@ -29,6 +32,9 @@
                             <tr class="grayBg">
                                 <th class="ca-headerTitle grayBg defHt" style="width: 15%">
                                     {{i18nLang.program.PMS0810230.dateRule}}
+
+
+
                                 </th>
                                 <th class="defHt" v-for="(value, key, index) in roomCodData4Display">{{key}}</th>
                             </tr>
@@ -48,9 +54,15 @@
                                         </template>
                                         <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
                                             *
+
+
+
                                         </template>
                                         <template v-else style="width: 100%">
                                             {{ratecodData.rent_amt}}
+
+
+
                                         </template>
                                     </td>
                                 </template>
@@ -373,47 +385,55 @@
                     this.fetchUseTime();
                 }
             },
+            rateCodDtData: {
+                handler(val) {
+                    console.log("reatCOd")
+                    console.log(val)
+                    _.each(val, (lo_val, ln_idx) => {
+                        console.log(ln_idx + "==>" + val[ln_idx].rent_amt)
+                        //原始資料找不到  && isCreate一定要存在 ==> 新增過後修改
+                        if (_.isUndefined(this.oriRateCodDtData[ln_idx]) || !_.isUndefined(lo_val.isCreate)) {
+                            let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_val.uniKey});
+                            if (ln_createIndex > -1) {
+                                this.tmpCUD.createData.splice(ln_createIndex, 1);
+                            }
+                            this.tmpCUD.createData.push(_.extend(lo_val, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                        }
+                        // if ratecode的原始資料和 此筆資料一模一樣 ==> 表示原始資料要修改的
+                        else if (!_.isMatch(lo_val, this.oriRateCodDtData[ln_idx]) && lo_val.supply_nos == this.oriRateCodDtData[ln_idx].supply_nos) {
+                            let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {uniKey: lo_val.uniKey});
+                            if (ln_editIndex > -1) {
+                                this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                                this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                            }
+                            this.tmpCUD.updateData.push(_.extend(lo_val, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                            this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[ln_idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                        }
 
+                    });
+
+                },
+                deep: true
+            },
             dayNamData4Display: {
                 handler(val) {
                     let lo_cloneData = JSON.parse(JSON.stringify(val));
                     let la_allData = [];
                     _.each(lo_cloneData, (val, key) => {
                         _.each(val, (lo_val) => {
+                            lo_val.rent_amt = go_formatDisplayClass.removeAmtFormat(JSON.parse(JSON.stringify(lo_val.rent_amt)).toString());
+                            lo_val.begin_dat = moment(lo_val.begin_dat).format("YYYY/MM/DD");
+                            lo_val.end_dat = moment(lo_val.end_dat).format("YYYY/MM/DD");
                             la_allData.push(lo_val);
                         })
                     });
-//                    console.log(this.tmpCUD)
+
                     _.each(this.rateCodDtData, (lo_ratecodData, idx) => {
-                        lo_ratecodData.rent_amt = go_formatDisplayClass.removeAmtFormat(JSON.parse(JSON.stringify(lo_ratecodData.rent_amt)).toString());
-                        lo_ratecodData.begin_dat = moment(lo_ratecodData.begin_dat).format("YYYY/MM/DD");
-                        lo_ratecodData.end_dat = moment(lo_ratecodData.end_dat).format("YYYY/MM/DD");
-
-
                         let ln_existIndex = _.findIndex(la_allData, {uniKey: lo_ratecodData.uniKey});
                         if (ln_existIndex > -1) {
                             this.rateCodDtData[idx] = la_allData[ln_existIndex];
                             this.rateCodDtData[idx]["isEdit"] = false;
                         }
-                        //原始資料找不到  && isCreate一定要存在 ==> 新增過後修改
-                        if (_.isUndefined(this.oriRateCodDtData[idx]) || !_.isUndefined(lo_ratecodData.isCreate)) {
-                            let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_ratecodData.uniKey});
-                            if (ln_createIndex > -1) {
-                                this.tmpCUD.createData.splice(ln_createIndex, 1);
-                            }
-                            this.tmpCUD.createData.push(_.extend(lo_ratecodData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                        }
-                        // if ratecode的原始資料和 此筆資料一模一樣 ==> 表示原始資料要修改的
-                        else if (!_.isMatch(lo_ratecodData, this.oriRateCodDtData[idx]) && lo_ratecodData.supply_nos == this.oriRateCodDtData[idx].supply_nos) {
-                            let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {uniKey: lo_ratecodData.uniKey});
-                            if (ln_editIndex > -1) {
-                                this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                                this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                            }
-                            this.tmpCUD.updateData.push(_.extend(lo_ratecodData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                            this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                        }
-                        console.log(idx + "==>" + this.rateCodDtData[idx].rent_amt)
                     });
                 },
                 deep: true
@@ -626,9 +646,6 @@
                     }
 
                 }
-                console.log(this.editingCellData.day_nam);
-                console.log(ln_editIndex);
-                console.log(this.dayNamData4Display[this.editingCellData.day_nam][ln_editIndex]);
             },
             //剛新增的使用期間(未入到資料庫)
             getAndConvertTmpUseTimeData() {

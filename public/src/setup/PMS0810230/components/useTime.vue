@@ -803,7 +803,7 @@
             },
             convertSelectData(data) {
                 let la_returnData = [];
-                console.log(data);
+//                console.log(data);
                 if (data.split(",").length > 0) {
                     _.each(data.split(","), (ls_data) => {
                         la_returnData.push(ls_data);
