@@ -445,6 +445,8 @@
 
                 allOrderDtRowsData: [],             //所有的order dt資料
                 oriAllOrderDtRowsData: [],          //所有的原始order dt資料
+                allGuestMnRowsData: [],             //所有的guest mn資料
+
                 orderDtGroupFieldData: [],          //group order dt 的欄位資料
                 orderDtGroupRowsData: [],           //group order dt 的資料(顯示用)
                 oriOrderDtGroupRowsData: [],        //group order dt 的原始資料(顯示用)
@@ -555,6 +557,7 @@
                         await this.fetchAllOrderDtRowData();
                         await this.fetchAllGuestRowsData();
                         this.showDataGrid();
+                        this.groupGuestMnData();
                     }
                     else {
                         this.showDataGrid();
@@ -618,21 +621,7 @@
                     return {success: false, errorMsg: err};
                 });
                 if (lo_fetchGuestMnData.success) {
-                    let la_unGroupGuestMnData = lo_fetchGuestMnData.dgRowData;
-
-                    //利用分組後的order dt 資料將guest mn 資料做分組
-                    _.each(this.orderDtGroupData, (la_ikey_seq_nos, idx) => {
-                        this.guestMnRowsData[idx] = [];
-                        _.each(la_ikey_seq_nos, (lo_data) => {
-                            let lo_guestMnRowData = _.findWhere(la_unGroupGuestMnData, {ikey_seq_nos: lo_data.ikey_seq_nos});
-                            if (!_.isUndefined(lo_guestMnRowData)) {
-                                this.guestMnRowsData[idx].push(lo_guestMnRowData);
-                            }
-                        });
-                    });
-                    //未指定的guest mn 資料
-                    this.guestMnRowsData["unspecified"] = _.where(la_unGroupGuestMnData, {ikey_seq_nos: 0});
-                    this.oriGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
+                    this.allGuestMnRowsData = lo_fetchGuestMnData.dgRowData;
                 }
                 else {
                     alert(lo_fetchGuestMnData.errorMsg);
@@ -642,6 +631,22 @@
                 this.dgIns = new DatagridSingleGridClass();
                 this.dgIns.init("PMS0110042", "orderDtTable", DatagridFieldAdapter.combineFieldOption(this.orderDtGroupFieldData, "orderDtTable"), this.orderDtGroupFieldData);
                 this.dgIns.loadDgData(this.orderDtGroupRowsData);
+            },
+            groupGuestMnData() {
+                //利用分組後的order dt 資料將guest mn 資料做分組
+                _.each(this.orderDtGroupData, (la_ikey_seq_nos, idx) => {
+                    this.guestMnRowsData[idx] = [];
+                    _.each(la_ikey_seq_nos, (lo_data) => {
+                        let lo_guestMnRowData = _.findWhere(this.allGuestMnRowsData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                        if (!_.isUndefined(lo_guestMnRowData)) {
+                            this.guestMnRowsData[idx].push(lo_guestMnRowData);
+                        }
+                    });
+                });
+                //未指定的guest mn 資料
+                this.guestMnRowsData["unspecified"] = _.where(this.allGuestMnRowsData, {ikey_seq_nos: 0});
+
+                this.oriGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
             },
             fetchDetailRowsData(detailRowsData) {
                 let ls_ikeySeqNos = "";
