@@ -367,6 +367,8 @@
                         // 回傳沒有在la_removeIndex移除清單內最後結果資料
                         return la_removeIndex.indexOf(rowsDataIndex) === -1;
                     });
+                } else {
+                    alert('請選項目');
                 }
             },
             automaticSpecify() {
@@ -389,42 +391,60 @@
                         // 回傳沒有在la_removeIndex移除清單內最後結果資料
                         return la_removeIndex.indexOf(rowsDataIndex) === -1;
                     });
-
-
+                } else {
+                    alert('無住客資料');
                 }
             },
             cancelSpecify() {
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '') {
                     let lo_currentClick = _.findWhere(this.orderDtRowsData, {ikey_seq_nos: this.selectOrderDtRowsDataIkeySeqNos});
                     if (lo_currentClick !== undefined) {
-                        // console.log(lo_currentClick);
-                        let lo_guestMnData = _.findWhere(this.allGuestMnRowsData, {
+                        let lo_guestMnData = _.where(this.allGuestMnRowsData, {
+                            ikey: lo_currentClick.ikey,
                             ikey_seq_nos: lo_currentClick.ikey_seq_nos,
-                            ikey: lo_currentClick.ikey
                         });
-
-                        // 這邊要和oriAllGuestMnRowsData資料比對，撈出原始資料
-                        let lo_oriGuestInfo = this.findOriData(this.oriAllGuestMnRowsData, lo_guestMnData);
-                        lo_guestMnData.ikey_seq_nos = 0;
-                        this.guestMnRowsData.push(lo_guestMnData);
-                        this.tmpCUD.oriData.push(lo_oriGuestInfo);
-                        this.tmpCUD.updateData.push(lo_guestMnData);
-
+                        if (lo_guestMnData.length > 0) {
+                            // 這邊要和oriAllGuestMnRowsData資料比對，撈出原始資料
+                            let lo_oriGuestInfo = this.findOriDataMul(this.oriAllGuestMnRowsData, lo_guestMnData);
+                            //變更資料狀態，並更新資料
+                            _.each(lo_guestMnData, (data) => {
+                                data.ikey_seq_nos = 0;
+                                this.guestMnRowsData.push(data);
+                                this.tmpCUD.updateData.push(data);
+                            });
+                            //更新原始資料，lo_oriGuestInfo是一個陣列可能有多筆的情況
+                            _.each(lo_oriGuestInfo, (data) => {
+                                this.tmpCUD.oriData.push(data);
+                            });
+                        } else {
+                            alert('此行無住客資料');
+                        }
                     } else {
-                        alert('無效資料');
+                        alert('找不到此資料');
                     }
+                } else {
+                    alert('請選項目');
                 }
             },
             // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
             findOriData(oriData, searchData) {
                 let lo_result;
                 _.each(oriData, (item) => {
-                    if (item.ikey_seq_nos === searchData.ikey_seq_nos && item.ci_ser === searchData.ci_ser) {
+                    if (item.ikey === searchData.ikey && item.ikey_seq_nos === searchData.ikey_seq_nos && item.ci_ser === searchData.ci_ser) {
                         lo_result = item;
                     }
                 });
                 return lo_result;
             },
+            //比對原始資料，並找出原始資料的那一筆(找尋多筆)
+            findOriDataMul(oriData, searchData) {
+                let la_result;
+                la_result =  _.where(oriData, {
+                    ikey: searchData[0].ikey,
+                    ikey_seq_nos: searchData[0].ikey_seq_nos,
+                });
+                return la_result;
+            }
         }
     }
 </script>
