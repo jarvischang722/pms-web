@@ -732,6 +732,7 @@ module.exports = {
         callback(lo_error, lo_result);
     },
 
+    //TODO 一開始在抓欄位資料的時候就會因為modificable 為C而跑此rule, 但因為一開始沒有rate cod資料,所以會壞掉, 所以先將modificable改為N
     /**
      * 佣金欄位可不可以修改
      * @param postData
