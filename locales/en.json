@@ -353,6 +353,9 @@
       "orderStaT": "Tentative",
       "changeOrderStatus": "狀態變更"
     },
+    "PMS0110042": {
+      "isSelected": "請選項目(英)"
+    },
     "PMS0110050": {
       "roomTyp": "房型(英文)",
       "roomNos": "房號(英文)",

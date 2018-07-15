@@ -3,11 +3,13 @@ import Vuex from 'vuex';
 
 import {ghistMnModule} from '../../frontDesk/PMS0210010/store';
 import {custMnModule} from '../../sales/PMS0610010/store';
+import {orderMnModule} from './store';
 
 const store = new Vuex.Store({
     modules: {
         ghistMnModule,
-        custMnModule
+        custMnModule,
+        orderMnModule
     }
 });
 

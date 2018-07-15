@@ -2,12 +2,10 @@
  * Created by a17007 on 2018/6/7.
  */
 const _ = require("underscore");
-const _s = require("underscore.string");
 const moment = require("moment");
 const path = require('path');
 const appRootDir = path.dirname(require.main.filename);
 const ruleRootPath = appRootDir + "/ruleEngine/";
-const queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
 const clusterQueryAgent = require("../../../plugins/kplug-oracle/ClusterQueryAgent");
 const commandRules = require("./../CommonRule");
 const ReturnClass = require(ruleRootPath + "/returnClass");
@@ -227,7 +225,8 @@ module.exports = {
 
             //取order_dt max ikey_seq_nos
             let lo_fetchMaxIkeySeqNos = await new Promise((resolve, reject) => {
-                queryAgent.query("SEL_ORDER_DT_MAX_IKEY_SEQ_NOS", lo_params, (err, result) => {
+                const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDER_DT_MAX_IKEY_SEQ_NOS");
+                clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
                     if (err) {
                         reject(err);
                     }
@@ -363,7 +362,8 @@ module.exports = {
 
 
                 let la_roomCodSelectData = await new Promise((resolve, reject) => {
-                    queryAgent.queryList("SEL_ORDERDTROOMCOD", lo_params, 0, 0, (err, result) => {
+                    const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDERDTROOMCOD");
+                    clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
                         if (err) {
                             reject(err);
                         }
@@ -378,7 +378,8 @@ module.exports = {
 
                 lo_params.days = postData.rowData.days;
                 let la_useCodSelectData = await new Promise((resolve, reject) => {
-                    queryAgent.queryList("SEL_ORDERDTUSECOD", lo_params, 0, 0, (err, result) => {
+                    const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDERDTUSECOD");
+                    clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
                         if (err) {
                             reject(err);
                         }
@@ -430,7 +431,8 @@ module.exports = {
             };
 
             let la_selectData = await new Promise((resolve, reject) => {
-                queryAgent.queryList("SEL_ORDERDT_RATECOD_SELECT_TREE", lo_params, 0, 0, (err, result) => {
+                const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDERDT_RATECOD_SELECT_TREE");
+                clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
                     if (err) {
                         reject(err);
                     }
@@ -491,7 +493,7 @@ module.exports = {
             let ls_queryName = "";
             if (ls_class == '合約') {
                 ls_queryName = "SEL_ORDERDT_RATECOD_SELECT_DATA_CONTRACT";
-                lo_params.ci_dat = postData.rowData.ci_dat;
+                lo_params.ci_dat = moment(postData.rowData.ci_dat).format("YYYY/MM/DD");
                 lo_params.acust_cod = postData.rowData.acust_cod;
             }
             else {
@@ -499,7 +501,8 @@ module.exports = {
             }
 
             let la_selectData = await new Promise((resolve, reject) => {
-                queryAgent.queryList(ls_queryName, lo_params, 0, 0, (err, result) => {
+                const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, ls_queryName);
+                clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
                     if (err) {
                         reject(err);
                     }
@@ -583,7 +586,8 @@ module.exports = {
                     key_nos: postData.key_nos
                 };
                 let lo_fetchPrice = await new Promise((resolve, reject) => {
-                    queryAgent.query("QUY_ORDER_APPRAISE_FOR_ORDER_DT", lo_params, (err, result) => {
+                    const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "QUY_ORDER_APPRAISE_FOR_ORDER_DT");
+                    clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
                         if (err) {
                             reject(err);
                         }
@@ -596,10 +600,6 @@ module.exports = {
                 lo_result.effectValues.serv_amt = lo_fetchPrice.serv_amt;
                 lo_result.effectValues.other_amt = Number(lo_fetchPrice.total) - Number(lo_fetchPrice.serv_amt) - Number(lo_fetchPrice.rent_amt);
             }
-            //
-            // lo_result.effectValues.rent_amt = 0;
-            // lo_result.effectValues.serv_amt = 0;
-            // lo_result.effectValues.rent_amt = 0;
         }
         catch (err) {
             console.log(err);
@@ -624,7 +624,8 @@ module.exports = {
         try {
             //取得公帳號
             let lo_fetchPublicAccount = await new Promise((resolve, reject) => {
-                queryAgent.query("QUY_MASTER_RF_FOR_AUTO_SELECT", {}, (err, result) => {
+                const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "QUY_MASTER_RF_FOR_AUTO_SELECT");
+                clusterQueryAgent.query(lo_daoParams, {}, (err, result) => {
                     if (err) {
                         reject(err);
                     }
@@ -710,7 +711,8 @@ module.exports = {
         try {
             //取得公帳號 下拉資料
             let lo_fetchSelectData = await new Promise((resolve, reject) => {
-                queryAgent.queryList("QUY_MASTER_RF_FOR_MANUAL_SELECT", lo_param, 0, 0, (err, result) => {
+                const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "QUY_MASTER_RF_FOR_MANUAL_SELECT");
+                clusterQueryAgent.queryList(lo_daoParams, lo_param, (err, result) => {
                     if (err) {
                         reject(err);
                     }
@@ -730,11 +732,36 @@ module.exports = {
         callback(lo_error, lo_result);
     },
 
-    ins_order_dt(postData, session, callback) {
-        callback(null, true);
-    },
-
-    r_1140: (postData, session, callback) => {
-        const ls_master_sta = postData.singleRowData.master_sta;
+    /**
+     * 佣金欄位可不可以修改
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    r_commis_rat_modify: (postData, session, callback) => {
+        const lo_return = new ReturnClass();
+        let lo_error = null;
+        const lo_params = {
+            athena_id: session.athena_id,
+            hotel_cod: session.hotel_cod,
+            rate_cod: postData.singleRowData.rate_cod
+        };
+        const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "QRY_COMMIS_CHG_BY_RATE_COD");
+        clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
+            if (err) {
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = err;
+            }
+            else {
+                if (result.commis_chg == "N") {
+                    lo_return.isModifiable = false;
+                    lo_return.readonlyFields.push("order_dt.commis_rat");
+                }
+                else {
+                    lo_return.isModifiable = true;
+                }
+            }
+            callback(lo_error, lo_return);
+        });
     }
 };

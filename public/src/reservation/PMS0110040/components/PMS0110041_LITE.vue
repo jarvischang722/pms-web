@@ -565,6 +565,7 @@
         <!--/.選擇房價-->
         <!--訂房資料-->
         <guest-detail
+                :is-guest-detail="isOpenGuestDetail"
                 :row-data="orderMnSingleData"
                 :is-modifiable="isModifiable"
                 :is-create-status="isCreateStatus"
@@ -646,7 +647,7 @@
             });
             //取得guest mn 資料
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
-                if (!_.isUndefined(this.guestMnRowsData4Single)) {
+                if (!_.isUndefined(this.guestMnRowsData4Single) && this.$store.state.orderMnModule.gs_openModule == "pms0110041_lite") {
                     let lo_cloneGuestMnData = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
                     let lo_ghistMnData = data.ghistMnData;
                     let lo_extendParam = {};
@@ -703,6 +704,22 @@
                 this.editingGroupOrderDtData = data.rowData;
                 this.openModule = data.openModule;
                 this.showRateCodDialog();
+            });
+
+            this.$eventHub.$on("setSelectGuestMnAltData", (data) => {
+                let ls_gcustCod = data.rowData.gcust_cod || "";
+                if (ls_gcustCod != "") {
+                    this.editingGuestMnData = JSON.parse(JSON.stringify(data.rowData));
+                    this.isCreate4GuestMn = false;
+                    this.isEdit4GuestMn = true;
+                }
+                else {
+                    this.editingGuestMnData = JSON.parse(JSON.stringify(data.rowData));
+                    this.editingGuestMnData.gcust_cod = "";
+                    this.isCreate4GuestMn = true;
+                    this.isEdit4GuestMn = false;
+                }
+                this.showGhistMnDialog();
             });
         },
         mounted() {
@@ -768,12 +785,13 @@
                     deleteData: [],
                     oriData: []
                 },
-                openModule: ""                    //開啟選擇
+                openModule: "",                   //rate cod開啟選擇
+                isOpenGuestDetail: false          //是否開啟訂房明細
             }
         },
         watch: {
             rowData(val) {
-                if (!_.isEmpty(val)) {
+                if (!_.isEmpty(val) && !_.isUndefined(val.ikey)) {
                     this.initData();
                     this.initTmpCUD();
                     this.isLoadingDialog = true;
@@ -1244,7 +1262,6 @@
                         if (val["gcust_cod"] != "" && !_.isUndefined(val["gcust_cod"])) {
                             let ln_editIndex = _.findIndex(this.guestMnRowsData, {
                                 ikey_seq_nos: val["ikey_seq_nos"],
-                                gcust_cod: val["gcust_cod"]
                             });
                             if (ln_editIndex > -1) {
                                 this.guestMnRowsData[ln_editIndex] = val;
@@ -1261,7 +1278,6 @@
                                         lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
                                         let lo_params = {
                                             ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
-                                            gcust_cod: lo_guestMnData.gcust_cod
                                         };
                                         let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
                                         //新增狀況
@@ -1298,8 +1314,7 @@
                         if (lo_guestMnData.gcust_cod != "" && !_.isUndefined(lo_guestMnData.gcust_cod)) {
                             lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
                             let lo_params = {
-                                ikey_seq_nos: lo_guestMnData.ikey_seq_nos,
-                                gcust_cod: lo_guestMnData.gcust_cod
+                                ikey_seq_nos: lo_guestMnData.ikey_seq_nos
                             };
                             let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
                             //新增狀況
@@ -1325,18 +1340,6 @@
                 },
                 deep: true
             },
-            tmpCUD: {
-                handler(val) {
-                    console.log("tmpCUD", val);
-                },
-                deep: true
-            },
-            guestMnTmpCUD: {
-                handler(val) {
-                    console.log("guestMnTmpCUD", val);
-                },
-                deep: true
-            }
         },
         methods: {
             fetchUserInfo() {
@@ -1364,6 +1367,7 @@
                 this.guestMnRowsData = [];
                 this.oriGuestMnRowsData = [];
                 this.guestMnRowsData4Single = {alt_nam: ""};
+                this.isOpenGuestDetail = false;
             },
             initTmpCUD() {
                 this.tmpCUD = {
@@ -1640,6 +1644,7 @@
                 }
             },
             searchGuestMnAltName() {
+                this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "pms0110041_lite"});
                 if (!_.isEmpty(this.guestMnRowsData4Single) && this.isModifiable) {
                     let ls_gcustCod = this.guestMnRowsData4Single.gcust_cod || "";
                     if (ls_gcustCod != "") {
@@ -1672,6 +1677,7 @@
                         self.editingGuestMnData = {};
                         self.isEdit4GuestMn = false;
                         self.isCreate4GuestMn = false;
+                        self.$store.dispatch("orderMnModule/setOpenModule", {openModule: ""});
                         self.$eventHub.$emit("doSaveModifyData");
                     }
                 }).dialog('open');
@@ -1870,7 +1876,6 @@
                         this.groupOrderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData))
                     }
                     this.editingOrderDtIdx = _.isUndefined(this.editingOrderDtIdx) ? 0 : this.editingOrderDtIdx + 1;
-//                    this.convertDtDataToSingleAndTable(this.editingOrderDtIdx, ln_oldIndex);
                 }
             },
             removeRow(index) {
@@ -1976,18 +1981,6 @@
                         this.tmpCUD.oriData.splice(0, 0, this.oriOrderMnSingleData);
                     }
                 }
-
-                //住客姓名轉換
-                _.each(this.guestMnTmpCUD, (la_tmpCUD, ls_dataType) => {
-                    _.each(la_tmpCUD, (lo_tmpData, ln_idx) => {
-                        let ls_altName = JSON.parse(JSON.stringify(lo_tmpData.alt_nam));
-                        if (ls_altName.split(":").length > 1) {
-                            lo_tmpData.alt_nam = ls_altName.split(":")[1];
-                        }
-                        this.guestMnTmpCUD[ls_dataType][ln_idx] = _.extend(lo_tmpData, {page_id: 1, tab_page_id: 11});
-                        this.tmpCUD[ls_dataType].push(this.guestMnTmpCUD[ls_dataType][ln_idx]);
-                    });
-                });
 
                 //order dt 資料
                 if (!_.isEmpty(this.orderDtRowsData4table[this.editingOrderDtIdx])) {
@@ -2137,13 +2130,11 @@
                                 key_nos: this.keyNos,
                                 acust_cod: this.orderMnSingleData.acust_cod
                             };
-//
                             let lo_doComputePrice = await $.post("/api/chkFieldRule", lo_params).then(result => {
                                 return result;
                             }, err => {
                                 throw Error(err);
                             });
-//
                             if (lo_doComputePrice.success) {
                                 _.each(this.groupOrderDtData, () => {
                                     let lo_param = {
@@ -2174,6 +2165,18 @@
                         }
                     }
                 }
+
+                //住客姓名轉換
+                _.each(this.guestMnTmpCUD, (la_tmpCUD, ls_dataType) => {
+                    _.each(la_tmpCUD, (lo_tmpData, ln_idx) => {
+                        let ls_altName = JSON.parse(JSON.stringify(lo_tmpData.alt_nam));
+                        if (ls_altName.split(":").length > 1) {
+                            lo_tmpData.alt_nam = ls_altName.split(":")[1];
+                        }
+                        lo_tmpData = _.extend(lo_tmpData, {page_id: 1, tab_page_id: 11});
+                        this.tmpCUD[ls_dataType].push(lo_tmpData);
+                    });
+                });
             },
             async dataValidate(chkData, chkFields) {
 
@@ -2204,6 +2207,7 @@
             },
             async doSave() {
                 this.isLoadingDialog = true;
+                this.loadingText = "saving...";
                 //將資料轉換成tmpCUD格式
                 await this.doConvertData();
                 //檢驗資料
@@ -2236,15 +2240,19 @@
                             prg_id: 'PMS0110041',
                             func_id: this.isCreateStatus ? "0520" : "0540",
                             tmpCUD: this.tmpCUD
-                        }).then(
-                            result => {
+                        })
+                            .then(result => {
                                 return result;
-                            }).catch(err => {
+                            })
+                            .catch(err => {
                             return {success: false, errorMsg: err};
                         });
                     if (lo_saveData.success) {
                         alert(go_i18nLang.program.PMS0810230.save_success);
                         let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
+                        if (!_.isEmpty(lo_saveData.apiReturnData)) {
+                            lo_cloneRowData = _.extend(lo_cloneRowData, lo_saveData.apiReturnData);
+                        }
 
                         this.isEditStatus = true;
                         this.isCreateStatus = false;
@@ -2276,6 +2284,7 @@
                     alert("請先儲存訂房卡資料")
                 }
                 else {
+                    this.isOpenGuestDetail = true;
                     var dialog = $("#resvGuestDetail_dialog").removeClass('hide').dialog({
                         modal: true,
                         title: "訂房資料",
@@ -2295,7 +2304,3 @@
         }
     }
 </script>
-
-<style>
-
-</style>

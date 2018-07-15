@@ -235,4 +235,14 @@
         <parameter type="number" kind="3">days</parameter>
     </dao>
 
+    <!--[PMS0110041 訂房卡單筆] 查詢佣金欄位可不可以修改 -->
+    <dao name="QRY_COMMIS_CHG_BY_RATE_COD">
+        <statement><![CDATA[
+            select t.commis_chg from RATECOD_MN t where t.athena_id = :athena_id and t.hotel_cod = :hotel_cod
+            and t.rate_cod = :rate_cod
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+    </dao>
 </root>

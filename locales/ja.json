@@ -353,6 +353,9 @@
       "orderStaT": "詢價",
       "changeOrderStatus": "狀態變更"
     },
+    "PMS0110042": {
+      "isSelected": "請選項目(日)"
+    },
     "PMS0110050": {
       "roomTyp": "房型",
       "roomNos": "房號",

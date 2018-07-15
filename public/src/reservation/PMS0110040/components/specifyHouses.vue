@@ -26,7 +26,7 @@
                                     </thead>
                                     <tbody class="css_tbody">
                                     <tr class="css_tr" v-for="data in orderDtRowsData"
-                                        @click="selectOrderDtRowsData(data.ikey_seq_nos)">
+                                        @click="selectOrderDtRowsData(data)">
                                         <td class="css_td">{{ data.ikey_seq_nos }}</td>
                                         <td class="css_td">{{ data.room_nos }}</td>
                                         <td class="css_td">{{ data.guest_list }}</td>
@@ -84,17 +84,17 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">自動指定
+                                                role="button" @click="automaticSpecify">自動指定
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button">取消指定
+                                                role="button" @click="cancelSpecify">取消指定
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button">全部取消
+                                                role="button" @click="allCancelSpecify">全部取消
                                         </button>
                                     </li>
                                     <li>
@@ -139,7 +139,7 @@
 
     export default {
         name: "specifyHouses",
-        props: ["rowData", "isEditStatus"],
+        props: ["isSpecifyHouse", "rowData", "isEditStatus"],
         data() {
             return {
                 orderDtGroupFieldData: [],      //order dt 欄位
@@ -150,8 +150,10 @@
                 orderDtGroupRowsData: [],       //order dt group 後資料
                 orderDtRowsData: [],            //所group 到的所有 order dt 資料
                 oriOrderDtRowsData: [],         //所group 到的所有 order dt 原始資料
-                guestMnRowsData: [],            //所group 到的所有 guest mn 資料
-                oriGuestMnRowsData: [],         //所group 到的所有 guest mn 原始資料
+                guestMnRowsData: [],            //所group 到的所有 guest mn ikey_seq_nos = 0 資料
+                oriGuestMnRowsData: [],         //所group 到的所有 guest mn ikey_seq_nos = 0 原始資料
+                allGuestMnRowsData: [],         //所group 到的所有 guest mn 全部資料
+                oriAllGuestMnRowsData: [],       //所group 到的所有 guest mn 全部原始資料
                 editingGroupDataIndex: undefined,
                 editingGroupData: {},
                 dgIns: {},
@@ -162,7 +164,8 @@
                     updateData: [],
                     deleteData: [],
                     oriData: []
-                }
+                },
+                monitor: []  //監聽tmpCUD的異動
             }
         },
         created() {
@@ -171,9 +174,17 @@
             })
         },
         watch: {
-            async rowData(val) {
-                if (!_.isEmpty(val) && this.isEditStatus) {
-                    await this.fetchAllFieldsData();
+            async isSpecifyHouse(val) {
+                if (val && !_.isUndefined(this.rowData.ikey)) {
+                    //是否第一次開起
+                    if (this.orderDtGroupFieldData.length == 0) {
+                        this.initData();
+                        await this.fetchAllFieldsData();
+                    }
+                }
+                else {
+                    this.initData();
+                    this.initTmpCUD();
                 }
             },
             async editingGroupDataIndex(newVal, oldVal) {
@@ -195,21 +206,45 @@
                     //把group後order_dt資料和一開始order_dt資料進行資料比對，使用where抓出所有符合資料
                     let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
                     await this.fetchDetailRowsData(la_detailOrderDtData);
-
-                    // await this.fetchGuestRowsData(la_detailOrderDtData);
-                    // console.log('=================');
-                    // console.log(this.editingGroupDataIndex);
-                    // console.log('=================');
                 }
             }
         },
         methods: {
+            initData() {
+                this.orderDtGroupFieldData = [];
+                this.orderDtFieldData = [];
+                this.guestMnFieldData = [];
+                this.allOrderDtRowsData = [];
+                this.oriAllOrderDtRowsData = [];
+                this.orderDtGroupRowsData = [];
+                this.orderDtRowsData = [];
+                this.oriOrderDtRowsData = [];
+                this.guestMnRowsData = [];
+                this.oriGuestMnRowsData = [];
+                this.allGuestMnRowsData = [];
+                this.oriAllGuestMnRowsData = [];
+                this.editingGroupDataIndex = undefined;
+                this.editingGroupData = {};
+                this.dgIns = {};
+                this.selectOrderDtRowsDataIkeySeqNos = "";
+                this.guestMnRowDataChecked = [];
+            },
+            initTmpCUD() {
+                this.tmpCUD = {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                }
+            },
             async fetchFieldsData(param) {
-                return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param).then((result) => {
-                    return result;
-                }).catch(err => {
-                    return {success: false, errMsg: err};
-                })
+                return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param)
+                    .then((result) => {
+                        return result;
+                    })
+                    .catch(err => {
+                        return {success: false, errMsg: err};
+                    })
             },
             // 撈回所有欄位名稱
             async fetchAllFieldsData() {
@@ -251,13 +286,18 @@
                     console.log(err);
                 })
             },
-            // 初始化一個版
+
             showDataGrid() {
                 this.dgIns = new DatagridSingleGridClass();
                 this.dgIns.init("PMS0110042", "resv_assignHouseTable", DatagridFieldAdapter.combineFieldOption(this.orderDtGroupFieldData, "resv_assignHouseTable"), this.orderDtGroupFieldData);
                 this.dgIns.loadDgData(this.orderDtGroupRowsData);
                 this.editingGroupDataIndex = 0;
             },
+            /**
+             * 取名系資料
+             * @param detailRowsData {array} 明細資料
+             * @returns {Promise<void>}
+             */
             async fetchDetailRowsData(detailRowsData) {
                 // 找出每一筆資料的ikey_seq_nos
                 let la_ikeySeqNos = [];
@@ -288,15 +328,23 @@
                     searchCond: {ikey: this.rowData.ikey}
                 }).then((result) => {
                     if (result.success) {
-                        this.guestMnRowsData = result.dgRowData;
-                        this.oriGuestMnRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        this.allGuestMnRowsData = result.dgRowData;
+                        this.oriAllGuestMnRowsData = JSON.parse(JSON.stringify(result.dgRowData));
+                        // 篩選只要ikey_seq_nos = 0 資料
+                        let la_filterIkeySeqNos = _.filter(this.allGuestMnRowsData, (rowsData) => {
+                            return rowsData.ikey_seq_nos === 0;
+                        });
+
+                        this.guestMnRowsData = la_filterIkeySeqNos;
+                        this.oriGuestMnRowsData = JSON.parse(JSON.stringify(la_filterIkeySeqNos));
                     }
                 }).catch(err => {
                     console.log(err);
                 })
             },
-            selectOrderDtRowsData(ikeySeqNos) {
-                this.selectOrderDtRowsDataIkeySeqNos = ikeySeqNos;
+
+            selectOrderDtRowsData(rowsData) {
+                this.selectOrderDtRowsDataIkeySeqNos = rowsData.ikey_seq_nos;
             },
             specify() {
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '' && this.guestMnRowDataChecked.length > 0) {
@@ -305,7 +353,7 @@
                     _.each(this.orderDtRowsData, (rowsData) => {
                         if (rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
                             _.each(this.guestMnRowDataChecked, (checkedData) => {
-                                let lo_oriCheckedData = JSON.parse(JSON.stringify(checkedData));
+                                let lo_oriCheckedData = this.findOriData(this.oriGuestMnRowsData, checkedData);
                                 checkedData.ikey_seq_nos = rowsData.ikey_seq_nos;
                                 rowsData.guest_list += ',' + checkedData.alt_nam;
                                 this.tmpCUD.oriData.push(lo_oriCheckedData);
@@ -313,16 +361,137 @@
                             });
                         }
                     });
-                    // guestMnRowsData和guestMnRowDataChecked資料比對，條件符合紀錄當下在guestMnRowsData裡index
-                    // 並移除顧客資料
+                    // guestMnRowsData和guestMnRowDataChecked資料比對，抓出要移除資料index
+                    let la_removeIndex = [];
                     _.each(this.guestMnRowsData, (rowData, rowDataIndex) => {
                         _.each(this.guestMnRowDataChecked, (checkedData) => {
-                            if (rowData.alt_nam === checkedData.alt_nam) {
-                                this.guestMnRowsData.splice(rowDataIndex, 1);
+                            if (rowData.athena_id === checkedData.athena_id && rowData.ci_ser === checkedData.ci_ser && rowData.hotel_cod === checkedData.hotel_cod) {
+                                la_removeIndex.push(rowDataIndex);
                             }
                         });
                     });
+                    // 移除guest_mn資料
+                    this.guestMnRowsData = _.filter(this.guestMnRowsData, (rowsData, rowsDataIndex) => {
+                        // 回傳沒有在la_removeIndex移除清單內最後結果資料
+                        return la_removeIndex.indexOf(rowsDataIndex) === -1;
+                    });
+                } else {
+
+                    alert(go_i18nLang["program"]["PMS0110042"]["isSelected"]);
                 }
+            },
+            automaticSpecify() {
+                if (this.guestMnRowsData.length > 0) {
+                    let ln_index = 0;
+                    let la_removeIndex = [];
+                    _.each(this.orderDtRowsData, (rowsData) => {
+                        if (ln_index < this.guestMnRowsData.length) {
+                            let lo_oriCheckedData = this.findOriData(this.oriGuestMnRowsData, this.guestMnRowsData[ln_index]);
+                            this.guestMnRowsData[ln_index].ikey_seq_nos = rowsData.ikey_seq_nos;
+                            rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
+                            la_removeIndex.push(ln_index);
+                            this.tmpCUD.oriData.push(lo_oriCheckedData);
+                            this.tmpCUD.updateData.push(this.guestMnRowsData[ln_index]);
+                            ln_index++;
+                        }
+                    });
+                    // 移除guest_mn資料
+                    this.guestMnRowsData = _.filter(this.guestMnRowsData, (rowsData, rowsDataIndex) => {
+                        // 回傳沒有在la_removeIndex移除清單內最後結果資料
+                        return la_removeIndex.indexOf(rowsDataIndex) === -1;
+                    });
+                } else {
+                    alert('無住客資料');
+                }
+            },
+            cancelSpecify() {
+                if (this.selectOrderDtRowsDataIkeySeqNos !== '') {
+                    let lo_currentClick = _.findWhere(this.orderDtRowsData, {ikey_seq_nos: this.selectOrderDtRowsDataIkeySeqNos});
+                    if (lo_currentClick !== undefined) {
+                        let lo_guestMnData = _.where(this.allGuestMnRowsData, {
+                            ikey: lo_currentClick.ikey,
+                            ikey_seq_nos: lo_currentClick.ikey_seq_nos,
+                        });
+                        if (lo_guestMnData.length > 0) {
+                            // 這邊要和oriAllGuestMnRowsData資料比對，撈出原始資料
+                            let lo_oriGuestInfo = this.findOriDataMul(this.oriAllGuestMnRowsData, lo_guestMnData);
+                            //變更資料狀態，並更新資料
+                            _.each(lo_guestMnData, (data) => {
+                                data.ikey_seq_nos = 0;
+                                this.guestMnRowsData.push(data);
+                                this.tmpCUD.updateData.push(data);
+                            });
+                            //更新原始資料，lo_oriGuestInfo是一個陣列可能有多筆的情況
+                            _.each(lo_oriGuestInfo, (data) => {
+                                this.tmpCUD.oriData.push(data);
+                            });
+                            // 移除order_dt顧客資料
+                            _.each(this.orderDtRowsData, (data) => {
+                                if (data.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
+                                    data.guest_list = '';
+                                }
+                            });
+                        } else {
+                            alert('此行無住客資料');
+                        }
+                    } else {
+                        alert('找不到此資料');
+                    }
+                } else {
+                    alert('請選項目');
+                }
+            },
+            allCancelSpecify() {
+                // orderDtRowsData和allGuestMnRowsData資料比對，撈符合資料
+                let la_guestInfo = [];
+                _.each(this.orderDtRowsData, (orderDtRowsData) => {
+                    _.each(this.allGuestMnRowsData, (guestMnRowsData) => {
+                        if (orderDtRowsData.ikey === guestMnRowsData.ikey && orderDtRowsData.ikey_seq_nos === guestMnRowsData.ikey_seq_nos) {
+                            la_guestInfo.push(guestMnRowsData);
+                        }
+                    });
+                });
+                // la_guestInfo 有資料才做，更新狀態、資料
+                if (la_guestInfo.length > 0) {
+                    let lo_oriGuestMnData = this.findOriDataMul(this.oriAllGuestMnRowsData, la_guestInfo);
+                    _.each(la_guestInfo, (guestInfo) => {
+                        guestInfo.ikey_seq_nos = 0;
+                        this.guestMnRowsData.push(guestInfo);
+                        this.tmpCUD.updateData.push(guestInfo);
+                    });
+                    //更新原始資料
+                    _.each(lo_oriGuestMnData, (oriGuestMnData) => {
+                        this.tmpCUD.oriData.push(oriGuestMnData);
+                    });
+                    // 移除order_dt顧客資料
+                    _.each(this.orderDtRowsData, (orderDtRowsData) => {
+                        orderDtRowsData.guest_list = '';
+                    });
+                } else {
+                    alert('無須取消的住客資料')
+                }
+            },
+            monitor() {
+
+            },
+            // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
+            findOriData(oriData, searchData) {
+                let lo_result;
+                _.each(oriData, (item) => {
+                    if (item.ikey === searchData.ikey && item.ikey_seq_nos === searchData.ikey_seq_nos && item.ci_ser === searchData.ci_ser) {
+                        lo_result = item;
+                    }
+                });
+                return lo_result;
+            },
+            //比對原始資料，並找出原始資料的那一筆(找尋多筆)
+            findOriDataMul(oriData, searchData) {
+                let la_result;
+                la_result = _.where(oriData, {
+                    ikey: searchData[0].ikey,
+                    ikey_seq_nos: searchData[0].ikey_seq_nos,
+                });
+                return la_result;
             }
         }
     }
