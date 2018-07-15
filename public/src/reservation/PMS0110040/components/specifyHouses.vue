@@ -164,8 +164,7 @@
                     updateData: [],
                     deleteData: [],
                     oriData: []
-                },
-                monitor: []  //監聽tmpCUD的異動
+                }
             }
         },
         created() {
@@ -293,11 +292,6 @@
                 this.dgIns.loadDgData(this.orderDtGroupRowsData);
                 this.editingGroupDataIndex = 0;
             },
-            /**
-             * 取名系資料
-             * @param detailRowsData {array} 明細資料
-             * @returns {Promise<void>}
-             */
             async fetchDetailRowsData(detailRowsData) {
                 // 找出每一筆資料的ikey_seq_nos
                 let la_ikeySeqNos = [];
@@ -350,17 +344,23 @@
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '' && this.guestMnRowDataChecked.length > 0) {
                     // orderDtRowsData和selectOrderDtRowsDataIkeySeqNos(當下點擊儲存的ikeySeqNos)進行資料比對
                     // 並進行顧客資料移動和異動guest_mns ikey_seq_nos狀態
+                    let la_oriData = [];
+                    let la_changeData = [];
                     _.each(this.orderDtRowsData, (lo_rowsData) => {
                         if (lo_rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
                             _.each(this.guestMnRowDataChecked, (lo_checkedData) => {
                                 let lo_oriCheckedData = this.findOriData(this.oriGuestMnRowsData, lo_checkedData);
                                 lo_checkedData.ikey_seq_nos = lo_rowsData.ikey_seq_nos;
                                 lo_rowsData.guest_list += ',' + lo_checkedData.alt_nam;
-                                this.tmpCUD.oriData.push(lo_oriCheckedData);
-                                this.tmpCUD.updateData.push(lo_checkedData);
+                                la_oriData.push(lo_oriCheckedData);
+                                la_changeData.push(lo_checkedData);
                             });
                         }
                     });
+
+                    // 更新資料
+                    this.changeTmpCUD(la_oriData, la_changeData);
+
                     // guestMnRowsData和guestMnRowDataChecked資料比對，抓出要移除資料index
                     let la_removeIndex = [];
                     _.each(this.guestMnRowsData, (lo_rowData, ln_rowDataIndex) => {
@@ -384,17 +384,23 @@
                 if (this.guestMnRowsData.length > 0) {
                     let ln_index = 0;
                     let la_removeIndex = [];
+                    let la_oriData = [];
+                    let la_changeData = [];
                     _.each(this.orderDtRowsData, (lo_rowsData) => {
                         if (ln_index < this.guestMnRowsData.length) {
                             let lo_oriCheckedData = this.findOriData(this.oriGuestMnRowsData, this.guestMnRowsData[ln_index]);
                             this.guestMnRowsData[ln_index].ikey_seq_nos = lo_rowsData.ikey_seq_nos;
                             lo_rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
                             la_removeIndex.push(ln_index);
-                            this.tmpCUD.oriData.push(lo_oriCheckedData);
-                            this.tmpCUD.updateData.push(this.guestMnRowsData[ln_index]);
+                            la_oriData.push(lo_oriCheckedData);
+                            la_changeData.push(this.guestMnRowsData[ln_index]);
                             ln_index++;
                         }
                     });
+
+                    // 更新資料
+                    this.changeTmpCUD(la_oriData, la_changeData);
+
                     // 移除guest_mn資料
                     this.guestMnRowsData = _.filter(this.guestMnRowsData, (rowsData, ln_rowsDataIndex) => {
                         // 回傳沒有在la_removeIndex移除清單內最後結果資料
@@ -413,18 +419,24 @@
                             ikey_seq_nos: lo_currentClick.ikey_seq_nos,
                         });
                         if (lo_guestMnData.length > 0) {
+                            let la_oriData = [];
+                            let la_changeData = [];
                             // 這邊要和oriAllGuestMnRowsData資料比對，撈出原始資料
-                            let lo_oriGuestInfo = this.findOriDataMul(this.oriAllGuestMnRowsData, lo_guestMnData);
+                            let la_oriGuestInfo = this.findOriDataMul(this.oriAllGuestMnRowsData, lo_guestMnData);
                             //變更資料狀態，並更新資料
                             _.each(lo_guestMnData, (lo_data) => {
                                 lo_data.ikey_seq_nos = 0;
                                 this.guestMnRowsData.push(lo_data);
-                                this.tmpCUD.updateData.push(lo_data);
+                                la_changeData.push(lo_data);
                             });
                             //更新原始資料，lo_oriGuestInfo是一個陣列可能有多筆的情況
-                            _.each(lo_oriGuestInfo, (lo_data) => {
-                                this.tmpCUD.oriData.push(lo_data);
+                            _.each(la_oriGuestInfo, (lo_data) => {
+                                la_oriData.push(lo_data);
                             });
+
+                            // 更新資料
+                            this.changeTmpCUD(la_oriData, la_changeData);
+
                             // 移除order_dt顧客資料
                             _.each(this.orderDtRowsData, (lo_data) => {
                                 if (lo_data.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
@@ -453,16 +465,21 @@
                 });
                 // la_guestInfo 有資料才做，更新狀態、資料
                 if (la_guestInfo.length > 0) {
-                    let lo_oriGuestMnData = this.findOriDataMul(this.oriAllGuestMnRowsData, la_guestInfo);
+                    let la_oriData = [];
+                    let la_changeData = [];
+                    let la_oriGuestMnData = this.findOriDataMul(this.oriAllGuestMnRowsData, la_guestInfo);
                     _.each(la_guestInfo, (lo_guestInfo) => {
                         lo_guestInfo.ikey_seq_nos = 0;
                         this.guestMnRowsData.push(lo_guestInfo);
-                        this.tmpCUD.updateData.push(lo_guestInfo);
+                        la_changeData.push(lo_guestInfo);
                     });
-                    //更新原始資料
-                    _.each(lo_oriGuestMnData, (lo_oriGuestMnData) => {
-                        this.tmpCUD.oriData.push(lo_oriGuestMnData);
+                    // 更新原始資料
+                    _.each(la_oriGuestMnData, (lo_oriGuestMnData) => {
+                        la_oriData.push(lo_oriGuestMnData);
                     });
+                    // 更新資料
+                    this.changeTmpCUD(la_oriData, la_changeData);
+
                     // 移除order_dt顧客資料
                     _.each(this.orderDtRowsData, (lo_orderDtRowsData) => {
                         lo_orderDtRowsData.guest_list = '';
@@ -471,8 +488,41 @@
                     alert('無須取消的住客資料')
                 }
             },
-            monitor() {
+            changeTmpCUD(oriData, changeData) {
 
+
+                _.each(oriData, (lo_item) => {
+                    let lo_oriData = _.findWhere(this.tmpCUD.oriData, {
+                        ikey: lo_item.ikey, alt_nam: lo_item.alt_nam, ci_ser: lo_item.ci_ser
+                    });
+
+                    if (lo_oriData !== undefined) {
+                        let ln_oriDataIndex = _.findIndex(this.tmpCUD.oriData, {
+                            ikey: lo_oriData.ikey, alt_nam: lo_oriData.alt_nam, ci_ser: lo_oriData.ci_ser
+                        });
+                        this.tmpCUD.oriData.splice(ln_oriDataIndex, 1);
+                        this.tmpCUD.oriData.push(oriData);
+                    } else {
+                        this.tmpCUD.oriData.push(oriData);
+                    }
+                });
+
+
+                _.each(changeData, (lo_item) => {
+                    let lo_changeData = _.findWhere(this.tmpCUD.updateData, {
+                        ikey: lo_item.ikey, alt_nam: lo_item.alt_nam, ci_ser: lo_item.ci_ser
+                    });
+
+                    if (lo_changeData !== undefined) {
+                        let ln_oriDataIndex = _.findIndex(this.tmpCUD.updateData, {
+                            ikey: lo_changeData.ikey, alt_nam: lo_changeData.alt_nam, ci_ser: lo_changeData.ci_ser
+                        });
+                        this.tmpCUD.updateData.splice(ln_oriDataIndex, 1);
+                        this.tmpCUD.updateData.push(changeData);
+                    } else {
+                        this.tmpCUD.updateData.push(changeData);
+                    }
+                });
             },
             // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
             findOriData(oriData, searchData) {
