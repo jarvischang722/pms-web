@@ -6,6 +6,7 @@
                     <div class="col-xs-11 col-sm-11">
                         <div class="row no-margin-right">
                             <!-------- tabPage -------->
+                            <!--欄位官網號碼, 訂房卡號, 確認狀態-->
                             <div style="position: relative;">
                                 <div class="resvTabs-topTxt">
                                     <div class="resvTabs-content">
@@ -38,6 +39,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--/.欄位官網號碼, 訂房卡號, 確認狀態-->
                             <!--order mn&guest mn 單筆-->
                             <div class="easyui-tabs easyUi-custom1 guestHoliday" style="overflow-y: auto; width: 100%;">
                                 <div title="Reservation" class="padding-tabs">
@@ -102,7 +104,7 @@
                                                                     </bac-select-grid>
 
                                                                     <!--按鈕-->
-                                                                    <button @click="searchGuestMnAltName()"
+                                                                    <button @click="buttonFunction(field)"
                                                                             class="btn btn-sm btn-primary btn-white btn-sm-font2"
                                                                             v-if="field.visiable == 'Y' && field.ui_type == 'button'">
                                                                         {{field.ui_display_name}}
@@ -229,7 +231,7 @@
                                                         <div class="border-double1" v-if="key == 3"></div>
                                                     </template>
                                                 </div>
-                                            </div><!--main-content-data-->
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
@@ -1628,6 +1630,22 @@
                     }
                 }
             },
+            buttonFunction(fieldData) {
+                if (this.isModifiable) {
+                    if (fieldData.ui_field_name == 'search_guest_mn.alt_nam') {
+                        this.searchGuestMnAltName();
+                    }
+                    else if (fieldData.ui_field_name == 'search_acust_nam') {
+                        this.showCustMnDialog();
+                    }
+                    else if (fieldData.ui_field_name == 'search_master_sta') {
+                        this.showMasterStaDialog();
+                    }
+                    else if (fieldData.ui_field_name == 'tel_detail') {
+                        this.showTelDetailDialog();
+                    }
+                }
+            },
             searchGuestMnAltName() {
                 this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "pms0110041_lite"});
                 if (!_.isEmpty(this.guestMnRowsData4Single) && this.isModifiable) {
@@ -1666,19 +1684,6 @@
                         self.$eventHub.$emit("doSaveModifyData");
                     }
                 }).dialog('open');
-            },
-            buttonFunction(fieldData) {
-                if (this.isModifiable) {
-                    if (fieldData.ui_field_name == 'search_acust_nam') {
-                        this.showCustMnDialog();
-                    }
-                    else if (fieldData.ui_field_name == 'search_master_sta') {
-                        this.showMasterStaDialog();
-                    }
-                    else if (fieldData.ui_field_name == 'tel_detail') {
-                        this.showTelDetailDialog();
-                    }
-                }
             },
             showCustMnDialog() {
                 if (this.orderMnSingleData.acust_cod != "") {

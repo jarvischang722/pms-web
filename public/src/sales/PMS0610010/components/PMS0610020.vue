@@ -82,7 +82,7 @@
                                              disabled>
                                 </el-tab-pane>
                             </el-tabs>
-                            <div class="easyui-tabs easyUi-custom1 borderFrame"
+                            <div class="easyui-tabs borderFrame"
                                  style="min-height: 0; height: 380px !important; overflow-y: auto;">
                                 <div id="setPanel" v-show="tabName=='set'" class="padding-tabs">
                                     <related-setting
