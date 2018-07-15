@@ -741,6 +741,9 @@ module.exports = {
     r_commis_rat_modify: (postData, session, callback) => {
         const lo_return = new ReturnClass();
         let lo_error = null;
+        if(_.isUndefined(postData.singleRowData)){
+            return callback(null, lo_return);
+        }
         const lo_params = {
             athena_id: session.athena_id,
             hotel_cod: session.hotel_cod,
